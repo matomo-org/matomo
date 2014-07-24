@@ -77,6 +77,10 @@ matrix:
 
 script: ./travis.sh
 
+before_install:
+  - # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
+  - '[[ "$TRAVIS_PHP_VERSION" == "5.3" ]] && export USE_ZEND_ALLOC=0 || true'
+
 before_script:
   - mysql --version
   - mysql -e "SELECT VERSION();"
@@ -84,10 +88,12 @@ before_script:
   # Uncomment to enable sql_mode STRICT_TRANS_TABLES (new default in Mysql 5.6)
   #- mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'"
   - mysql -e "SELECT @@sql_mode;"
+  - mysql -e "SHOW GLOBAL VARIABLES;"
   # Setup Piwik stack
   - ./tests/travis/initiate_ui_tests.sh
-  - composer self-update
-  - composer install
+  # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
+  # - travis_retry composer self-update
+  - travis_retry composer install
   - uname -a
   - date
   - php -r "var_dump(gd_info());"
@@ -111,6 +117,7 @@ after_script:
   - cat /var/log/nginx/error.log
   - cat $TRAVIS_BUILD_DIR/tmp/php-fpm.log
   - cat $TRAVIS_BUILD_DIR/tmp/logs/piwik.log
+  - cat $TRAVIS_BUILD_DIR/config/config.ini.php
   - cd $TRAVIS_BUILD_DIR
   - ./tests/travis/upload_artifacts.sh
 

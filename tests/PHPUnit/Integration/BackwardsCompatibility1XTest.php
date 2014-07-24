@@ -5,17 +5,22 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
-use Piwik\Updater;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SqlDump;
+use Piwik\Tests\Fixture;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
+ *
+ * @group BackwardsCompatibility1XTest
+ * @group Integration
  */
-class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTestCase
+class BackwardsCompatibility1XTest extends IntegrationTestCase
 {
     const FIXTURE_LOCATION = '/tests/resources/piwik-1.13-dump.sql';
 
@@ -25,7 +30,10 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
     {
         parent::setUpBeforeClass();
 
-        self::updateDatabase();
+        $result = Fixture::updateDatabase();
+        if ($result === false) {
+            throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
+        }
 
         // truncate log tables so old data won't be re-archived
         foreach (array('log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item') as $table) {
@@ -47,23 +55,6 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
         VisitFrequencyApi::getInstance()->get(1, 'year', '2012-12-29');
     }
 
-    private static function updateDatabase()
-    {
-        $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
-        if (empty($componentsWithUpdateFile)) {
-            throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
-        }
-
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
-        if (!empty($result['coreError'])
-            && !empty($result['warnings'])
-            && !empty($result['errors'])
-        ) {
-            throw new \Exception("Failed to update pre-2.0 database (errors or warnings found): " . print_r($result, true));
-        }
-    }
-
     public function setUp()
     {
         parent::setUp();
@@ -79,7 +70,6 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -116,7 +106,6 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
     }
 }
 
-Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture = new Piwik_Test_Fixture_SqlDump();
-Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture->dumpUrl =
-    PIWIK_INCLUDE_PATH . Test_Piwik_Integration_BackwardsCompatibility1XTest::FIXTURE_LOCATION;
-Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture->tablesPrefix = 'piwiktests_';
+BackwardsCompatibility1XTest::$fixture = new SqlDump();
+BackwardsCompatibility1XTest::$fixture->dumpUrl = PIWIK_INCLUDE_PATH . BackwardsCompatibility1XTest::FIXTURE_LOCATION;
+BackwardsCompatibility1XTest::$fixture->tablesPrefix = '';

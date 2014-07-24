@@ -215,7 +215,6 @@
         "Edit": "Redaguoti",
         "EnglishLanguageName": "Lithuanian",
         "Error": "Klaida",
-        "ErrorRequest": "Oops… atsirado nesklandumų vykdant užklausą. Prašome pabandyti dar kartą.",
         "EvolutionOverPeriod": "Raida periodu",
         "ExceptionConfigurationFileNotFound": "{%s} konfigūracijos failas nerastas.",
         "ExceptionDatabaseVersion": "Jūsų %1$s versija yra %2$s, tačiau Piwik reikalinga bent jau %3$s.",

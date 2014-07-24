@@ -211,7 +211,6 @@
         "EncryptedSmtpTransport": "ჩაწერეთ ტრანსპორტის დონის დაშიფრვა, რომელსაც თქვენი SMTP სერვერი მოითხოვს.",
         "EnglishLanguageName": "Georgian",
         "Error": "შეცდომა",
-        "ErrorRequest": "უი… მოთხოვნის დროს წარმოიშვა პრობლემა, კიდევ ცადეთ.",
         "EvolutionOverPeriod": "ევოლუცია პერიოდის განმავლობაში",
         "ExceptionConfigurationFileNotFound": "კონფიგურაციის ფაილი {%s} ვერ მოიძებნა.",
         "ExceptionDatabaseVersion": "თქვენი %1$s ვერსია არის %2$s, მაგრამ Piwik მოითხოვს არანაკლებ %3$s.",

@@ -584,7 +584,6 @@
         "EncryptedSmtpTransport": "Въведете криптирания транспортен слой, който се изисква от Вашия SMTP сървър.",
         "EnglishLanguageName": "Bulgarian",
         "Error": "Грешка",
-        "ErrorRequest": "Ооопс… възникна грешка! Опитайте отново.",
         "EvolutionOverPeriod": "Развитие за периода",
         "EvolutionSummaryGeneric": "%1$s в %2$s сравнено с %3$s в %4$s. Нарастване: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Потребителят трябва да бъде или привилигирован потребител или потребител '%s'.",

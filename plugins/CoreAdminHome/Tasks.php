@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\DataAccess\ArchivePurger;
-use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;

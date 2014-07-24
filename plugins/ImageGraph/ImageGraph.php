@@ -27,12 +27,12 @@ class ImageGraph extends \Piwik\Plugin
         return $info;
     }
 
-    static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
+    private static $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
         'Referrers_getReferrerType',
     );
 
     // row evolution support not yet implemented for these APIs
-    static private $REPORTS_DISABLED_EVOLUTION_GRAPH = array(
+    private static $REPORTS_DISABLED_EVOLUTION_GRAPH = array(
         'Referrers_getAll',
     );
 

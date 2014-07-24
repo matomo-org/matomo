@@ -32,6 +32,34 @@ class MenuUser extends MenuAbstract
 {
 
     /**
+     * See {@link add()}. Adds a new menu item to the manage section of the user menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CoreAdminHome_MenuManage', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the platform section of the user menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addPlatformItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CorePluginsAdmin_MenuPlatform', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
      * Triggers the Menu.User.addItems hook and returns the menu.
      *
      * @return Array
@@ -39,7 +67,7 @@ class MenuUser extends MenuAbstract
     public function getMenu()
     {
         if (!$this->menu) {
-            foreach ($this->getAvailableMenus() as $menu) {
+            foreach ($this->getAllMenus() as $menu) {
                 $menu->configureUserMenu($this);
             }
         }

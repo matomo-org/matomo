@@ -19,6 +19,10 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
+use Piwik\Plugins\UserCountry\Reports\GetCity;
+use Piwik\Plugins\UserCountry\Reports\GetContinent;
+use Piwik\Plugins\UserCountry\Reports\GetCountry;
+use Piwik\Plugins\UserCountry\Reports\GetRegion;
 use Piwik\View;
 
 /**
@@ -33,10 +37,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
 
-        $view->dataTableCountry = $this->getCountry(true);
-        $view->dataTableContinent = $this->getContinent(true);
-        $view->dataTableRegion = $this->getRegion(true);
-        $view->dataTableCity = $this->getCity(true);
+        $view->dataTableCountry = $this->renderReport(new GetCountry());
+        $view->dataTableContinent = $this->renderReport(new GetContinent());
+        $view->dataTableRegion = $this->renderReport(new GetRegion());
+        $view->dataTableCity = $this->renderReport(new GetCity());
 
         return $view->render();
     }
@@ -326,36 +330,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $location, $newline = '<br/>', $includeExtra = true);
 
         return $location;
-    }
-
-    public function getCountry()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getContinent()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    /**
-     * Echo's or returns an HTML view of the visits by region report.
-     *
-     * @return string
-     */
-    public function getRegion()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    /**
-     * Echo's or returns an HTML view of the visits by city report.
-     *
-     * @return string
-     */
-    public function getCity()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 
     public function getNumberOfDistinctCountries()

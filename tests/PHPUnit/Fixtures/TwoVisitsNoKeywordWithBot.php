@@ -5,14 +5,17 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site and tracks two visits. One visit is a bot and one has no keyword
  * but is from a search engine.
  */
-class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Fixture
+class TwoVisitsNoKeywordWithBot extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;
@@ -66,6 +69,5 @@ class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Fixture
 
         // Test with empty title, that the output of Live is valid
         self::checkResponse($t->doTrackPageView(''));
-
     }
 }

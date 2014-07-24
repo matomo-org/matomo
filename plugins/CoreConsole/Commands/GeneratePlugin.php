@@ -117,7 +117,7 @@ class GeneratePlugin extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
@@ -125,17 +125,17 @@ class GeneratePlugin extends GeneratePluginBase
 
         $validate = function ($pluginName) use ($self) {
             if (empty($pluginName)) {
-                throw new \RunTimeException('You have to enter a plugin name');
+                throw new \RuntimeException('You have to enter a plugin name');
             }
 
             if (!Filesystem::isValidFilename($pluginName)) {
-                throw new \RunTimeException(sprintf('The plugin name %s is not valid', $pluginName));
+                throw new \RuntimeException(sprintf('The plugin name %s is not valid', $pluginName));
             }
 
             $pluginPath = $self->getPluginPath($pluginName);
 
             if (file_exists($pluginPath)) {
-                throw new \RunTimeException('A plugin with this name already exists');
+                throw new \RuntimeException('A plugin with this name already exists');
             }
 
             return $pluginName;
@@ -159,16 +159,16 @@ class GeneratePlugin extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return mixed
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginDescription(InputInterface $input, OutputInterface $output)
     {
         $validate = function ($description) {
             if (empty($description)) {
-                throw new \RunTimeException('You have to enter a description');
+                throw new \RuntimeException('You have to enter a description');
             }
             if (150 < strlen($description)) {
-                throw new \RunTimeException('Description is too long, max 150 characters allowed.');
+                throw new \RuntimeException('Description is too long, max 150 characters allowed.');
             }
 
             return $description;

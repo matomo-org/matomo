@@ -5,19 +5,25 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 
 /**
  * Tests the log importer.
+ *
+ * @group ImportLogsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
+class ImportLogsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
     
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -69,9 +75,6 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     }
 
     /**
-     * @group        Integration
-     *
-     * 
      * NOTE: This test must be last since the new sites that get added are added in
      *       random order.
      */
@@ -99,5 +102,4 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_ImportLogs::$fixture = new Test_Piwik_Fixture_ManySitesImportedLogs();
-
+ImportLogsTest::$fixture = new ManySitesImportedLogs();

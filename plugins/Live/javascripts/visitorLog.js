@@ -64,7 +64,7 @@
                     var tooltipIsOpened = false;
 
                     $('a', $this).on('focus', function () {
-                        // see http://dev.piwik.org/trac/ticket/4099
+                        // see https://github.com/piwik/piwik/issues/4099
                         if (tooltipIsOpened) {
                             $this.tooltip('close');
                         }

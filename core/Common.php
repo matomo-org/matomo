@@ -1066,11 +1066,11 @@ class Common
     /**
      * Marks an orphaned object for garbage collection.
      *
-     * For more information: {@link http://dev.piwik.org/trac/ticket/374}
+     * For more information: {@link https://github.com/piwik/piwik/issues/374}
      * @param $var The object to destroy.
      * @api
      */
-    static public function destroy(&$var)
+    public static function destroy(&$var)
     {
         if (is_object($var) && method_exists($var, '__destruct')) {
             $var->__destruct();
@@ -1079,7 +1079,7 @@ class Common
         $var = null;
     }
 
-    static public function printDebug($info = '')
+    public static function printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
 

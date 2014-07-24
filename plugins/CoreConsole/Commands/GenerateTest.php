@@ -69,7 +69,7 @@ class GenerateTest extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return string
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     private function getTestName(InputInterface $input, OutputInterface $output)
     {
@@ -103,7 +103,7 @@ class GenerateTest extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {

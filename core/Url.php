@@ -60,7 +60,7 @@ class Url
      * @return string eg, `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
-    static public function getCurrentUrl()
+    public static function getCurrentUrl()
     {
         return self::getCurrentScheme() . '://'
         . self::getCurrentHost()
@@ -77,7 +77,7 @@ class Url
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
      * @api
      */
-    static public function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
+    public static function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
     {
         return self::getCurrentScheme() . '://'
         . self::getCurrentHost($default = 'unknown', $checkTrustedHost)
@@ -92,7 +92,7 @@ class Url
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
      * @api
      */
-    static public function getCurrentUrlWithoutFileName()
+    public static function getCurrentUrlWithoutFileName()
     {
         return self::getCurrentScheme() . '://'
         . self::getCurrentHost()
@@ -106,7 +106,7 @@ class Url
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
-    static public function getCurrentScriptPath()
+    public static function getCurrentScriptPath()
     {
         $queryString = self::getCurrentScriptName();
 
@@ -127,7 +127,7 @@ class Url
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
-    static public function getCurrentScriptName()
+    public static function getCurrentScriptName()
     {
         $url = '';
 
@@ -177,7 +177,7 @@ class Url
      * @return string `'https'` or `'http'`
      * @api
      */
-    static public function getCurrentScheme()
+    public static function getCurrentScheme()
     {
         try {
             $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
@@ -202,7 +202,7 @@ class Url
      *                          value from the request.
      * @return bool `true` if valid; `false` otherwise.
      */
-    static public function isValidHost($host = false)
+    public static function isValidHost($host = false)
     {
         // only do trusted host check if it's enabled
         if (isset(Config::getInstance()->General['enable_trusted_host_check'])
@@ -285,7 +285,7 @@ class Url
      *                             except in Controller.
      * @return string|bool eg, `"demo.piwik.org"` or false if no host found.
      */
-    static public function getHost($checkIfTrusted = true)
+    public static function getHost($checkIfTrusted = true)
     {
         // HTTP/1.1 request
         if (isset($_SERVER['HTTP_HOST'])
@@ -309,7 +309,7 @@ class Url
      * 
      * @param $host string
      */
-    static public function setHost($host)
+    public static function setHost($host)
     {
         $_SERVER['HTTP_HOST'] = $host;
     }
@@ -324,7 +324,7 @@ class Url
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
-    static public function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
+    public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
         $hostHeaders = array();
 
@@ -350,7 +350,7 @@ class Url
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
-    static public function getCurrentQueryString()
+    public static function getCurrentQueryString()
     {
         $url = '';
         if (isset($_SERVER['QUERY_STRING'])
@@ -374,7 +374,7 @@ class Url
      *                   )
      * @api
      */
-    static public function getArrayFromCurrentQueryString()
+    public static function getArrayFromCurrentQueryString()
     {
         $queryString = self::getCurrentQueryString();
         $urlValues = UrlHelper::getArrayFromQueryString($queryString);
@@ -413,7 +413,7 @@ class Url
      * @return string eg. `"param1=10&param2[]=1&param2[]=2"`
      * @api
      */
-    static public function getQueryStringFromParameters($parameters)
+    public static function getQueryStringFromParameters($parameters)
     {
         $query = '';
         foreach ($parameters as $name => $value) {
@@ -432,7 +432,7 @@ class Url
         return $query;
     }
 
-    static public function getQueryStringFromUrl($url)
+    public static function getQueryStringFromUrl($url)
     {
         return parse_url($url, PHP_URL_QUERY);
     }
@@ -443,7 +443,7 @@ class Url
      * 
      * @api
      */
-    static public function redirectToReferrer()
+    public static function redirectToReferrer()
     {
         $referrer = self::getReferrer();
         if ($referrer !== false) {
@@ -458,7 +458,7 @@ class Url
      * @param string $url
      * @api
      */
-    static public function redirectToUrl($url)
+    public static function redirectToUrl($url)
     {
         // Close the session manually.
         // We should not have to call this because it was registered via register_shutdown_function,
@@ -482,7 +482,7 @@ class Url
     /**
      * If the page is using HTTP, redirect to the same page over HTTPS
      */
-    static public function redirectToHttps()
+    public static function redirectToHttps()
     {
         if(ProxyHttp::isHttps()) {
             return;
@@ -498,7 +498,7 @@ class Url
      * @return string|false
      * @api
      */
-    static public function getReferrer()
+    public static function getReferrer()
     {
         if (!empty($_SERVER['HTTP_REFERER'])) {
             return $_SERVER['HTTP_REFERER'];
@@ -513,7 +513,7 @@ class Url
      * @return bool True if local; false otherwise.
      * @api
      */
-    static public function isLocalUrl($url)
+    public static function isLocalUrl($url)
     {
         if (empty($url)) {
             return true;

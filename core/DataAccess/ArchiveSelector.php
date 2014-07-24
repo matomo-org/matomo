@@ -40,7 +40,7 @@ class ArchiveSelector
 
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
-    static public function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC)
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC)
     {
         $dateStart = $params->getPeriod()->getDateStart();
         $bindSQL = array($params->getSite()->getId(),
@@ -148,7 +148,7 @@ class ArchiveSelector
      *               )
      * @throws
      */
-    static public function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
+    public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
     {
         if(empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
@@ -224,7 +224,7 @@ class ArchiveSelector
      * @throws Exception
      * @return array
      */
-    static public function getArchiveData($archiveIds, $recordNames, $archiveDataType, $loadAllSubtables)
+    public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $loadAllSubtables)
     {
         // create the SQL to select archive data
         $inNames = Common::getSqlStringFieldsArray($recordNames);
@@ -280,7 +280,7 @@ class ArchiveSelector
      * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
-    static private function getNameCondition(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
+    private static function getNameCondition(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed

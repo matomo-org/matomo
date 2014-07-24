@@ -373,7 +373,7 @@ class Xml extends Renderer
 
             // Handing case idgoal=7, creating a new array for that one
             $rowAttribute = '';
-            if (($equalFound = strstr($rowId, '=')) !== false) {
+            if (strstr($rowId, '=') !== false) {
                 $rowAttribute = explode('=', $rowId);
                 $rowAttribute = " " . $rowAttribute[0] . "='" . $rowAttribute[1] . "'";
             }

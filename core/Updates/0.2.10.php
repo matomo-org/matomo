@@ -26,38 +26,33 @@ class Updates_0_2_10 extends Updates
 				option_name VARCHAR( 64 ) NOT NULL ,
 				option_value LONGTEXT NOT NULL ,
 				PRIMARY KEY ( idoption , option_name )
-			)'                                                                                                                                                       => false,
+			)'                                                                               => 1050,
 
             // 0.1.7 [463]
             'ALTER IGNORE TABLE `' . Common::prefixTable('log_visit') . '`
-				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => '1054',
+				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => 1054,
 
             // 0.1.7 [470]
             'ALTER TABLE `' . Common::prefixTable('logger_api_call') . '`
 				CHANGE `parameter_names_default_values` `parameter_names_default_values` TEXT,
 				CHANGE `parameter_values` `parameter_values` TEXT,
-				CHANGE `returned_value` `returned_value` TEXT'                                => false,
+				CHANGE `returned_value` `returned_value` TEXT'                               => array(1054, 1146),
             'ALTER TABLE `' . Common::prefixTable('logger_error') . '`
-				CHANGE `message` `message` TEXT'                                                 => false,
+				CHANGE `message` `message` TEXT'                                             => array(1054, 1146),
             'ALTER TABLE `' . Common::prefixTable('logger_exception') . '`
-				CHANGE `message` `message` TEXT'                                             => false,
+				CHANGE `message` `message` TEXT'                                             => array(1054, 1146),
             'ALTER TABLE `' . Common::prefixTable('logger_message') . '`
-				CHANGE `message` `message` TEXT'                                               => false,
+				CHANGE `message` `message` TEXT'                                             => 1054,
 
             // 0.2.2 [489]
             'ALTER IGNORE TABLE `' . Common::prefixTable('site') . '`
-				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL'            => '1054',
+				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL'       => 1054,
         );
     }
 
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
-
-        $obsoleteFile = '/plugins/ExamplePlugin/API.php';
-        if (file_exists(PIWIK_INCLUDE_PATH . $obsoleteFile)) {
-            @unlink(PIWIK_INCLUDE_PATH . $obsoleteFile);
-        }
 
         $obsoleteDirectories = array(
             '/plugins/AdminHome',

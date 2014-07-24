@@ -5,12 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Date;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
 
 /**
  * Test reports using visits for a site with a non-UTC timezone.
+ *
+ * @group TimezonesTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TimezonesTest extends IntegrationTestCase
+class TimezonesTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -41,7 +48,6 @@ class Test_Piwik_Integration_TimezonesTest extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -49,4 +55,4 @@ class Test_Piwik_Integration_TimezonesTest extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_TimezonesTest::$fixture = new Test_Piwik_Fixture_VisitsInDifferentTimezones();
+TimezonesTest::$fixture = new VisitsInDifferentTimezones();

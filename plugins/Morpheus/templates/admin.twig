@@ -30,7 +30,7 @@
             {% include "@CoreHome/_topScreen.twig" %}
 
             {% import 'ajaxMacros.twig' as ajax %}
-            {{ ajax.requestErrorDiv }}
+            {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
             {{ postEvent("Template.beforeContent", "admin", currentModule) }}
 
             <div id="container">

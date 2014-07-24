@@ -563,7 +563,6 @@
         "EncryptedSmtpTransport": "Digite a criptografia de camada de transporte exigida pelo servidor SMTP.",
         "EnglishLanguageName": "Brazilian Portuguese",
         "Error": "Erro",
-        "ErrorRequest": "Oops… problema durante a sua requisição, por favor, tente novamente.",
         "EvolutionOverPeriod": "Evolução no Período",
         "EvolutionSummaryGeneric": "%1$s em %2$s em relação ao %3$s em %4$s. Evolução: %5$s",
         "ExceptionConfigurationFileNotFound": "O ficheiro de configuração {%s} não foi encontrado.",

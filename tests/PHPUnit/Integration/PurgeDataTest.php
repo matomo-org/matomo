@@ -5,19 +5,34 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 use Piwik\API\Request;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
+ * TODO: shouldn't this be merged w/ PrivacyManagerTest? the original data purging tests are there
+ *
  * @group Integration
+ * @group PurgeDataTest
  */
-class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
+class PurgeDataTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
+
+    public static function setUpBeforeClass()
+    {
+
+    }
+    public static function tearDownBeforeClass()
+    {
+
+    }
 
     public function setUp()
     {
@@ -176,5 +191,4 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_PurgeDataTest::$fixture = new Test_Piwik_Fixture_OneVisitorTwoVisits();
-
+PurgeDataTest::$fixture = new OneVisitorTwoVisits();

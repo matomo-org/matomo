@@ -46,7 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
     private $pathPiwikZip = false;
     private $newVersion;
 
-    static protected function getLatestZipUrl($newVersion)
+    protected static function getLatestZipUrl($newVersion)
     {
         if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
             return 'http://builds.piwik.org/piwik-' . $newVersion . '.zip';
@@ -379,6 +379,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->new_piwik_version = Version::VERSION;
         $view->commandUpgradePiwik = "<br /><code>php " . Filesystem::getPathToPiwikRoot() . "/console core:update </code>";
         $pluginNamesToUpdate = array();
+        $dimensionsToUpdate = array();
         $coreToUpdate = false;
 
         // handle case of existing database with no tables
@@ -397,6 +398,8 @@ class Controller extends \Piwik\Plugin\Controller
             foreach ($componentsWithUpdateFile as $name => $filenames) {
                 if ($name == 'core') {
                     $coreToUpdate = true;
+                } elseif (0 === strpos($name, 'log_')) {
+                    $dimensionsToUpdate[] = $name;
                 } else {
                     $pluginNamesToUpdate[] = $name;
                 }
@@ -418,6 +421,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->errorMessages = $this->errorMessages;
         $view->current_piwik_version = $currentVersion;
         $view->pluginNamesToUpdate = $pluginNamesToUpdate;
+        $view->dimensionsToUpdate = $dimensionsToUpdate;
         $view->coreToUpdate = $coreToUpdate;
     }
 

@@ -197,7 +197,6 @@
         "EncryptedSmtpTransport": "Odaberite oblik enkripcije koju zahtjeva vaš SMTP poslužitelj.",
         "EnglishLanguageName": "Croatian",
         "Error": "Greška",
-        "ErrorRequest": "Ups... došlo je do problema pri zahtjevu, pokušaj nanovo.",
         "ExceptionConfigurationFileNotFound": "Konfiguracijska datoteka {%s} nije pronađena.",
         "ExceptionDatabaseVersion": "Vaša %1$s verzija je %2$s ali Piwik zahtjeva barem %3$s.",
         "ExceptionFileIntegrity": "Provjera integriteta nije uspjela: %s",

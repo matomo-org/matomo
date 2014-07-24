@@ -106,7 +106,7 @@ class CliMulti {
     {
         $bin = $this->findPhpBinary();
 
-        return sprintf('%s -q %s/console climulti:request --piwik-domain=%s %s > %s 2>&1 &',
+        return sprintf('%s %s/console climulti:request --piwik-domain=%s %s > %s 2>&1 &',
                        $bin, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), escapeshellarg($query), $outputFile);
     }
 
@@ -234,13 +234,15 @@ class CliMulti {
         } catch (\Exception $e) {
             $message = "Got invalid response from API request: $url. ";
 
-            if (empty($response)) {
+            if (isset($response) && empty($response)) {
                 $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
             } else {
                 $message .= "Response was '" . $e->getMessage() . "'";
             }
 
             $output->write($message);
+
+            Log::debug($e);
         }
     }
 

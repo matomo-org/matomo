@@ -15,9 +15,10 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->add('General_Settings', 'Installation_SystemCheck',
-                   array('module' => 'Installation', 'action' => 'systemCheckPage'),
-                   Piwik::hasUserSuperUserAccess(),
-                   $order = 15);
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addSettingsItem('Installation_SystemCheck',
+                                   array('module' => 'Installation', 'action' => 'systemCheckPage'),
+                                   $order = 15);
+        }
     }
 }

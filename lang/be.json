@@ -279,7 +279,6 @@
         "EncryptedSmtpTransport": "Калі ласка, увядзіце тып шыфравання які патрабуе ваш SMTP-сервер.",
         "EnglishLanguageName": "Belarusian",
         "Error": "Памылка",
-        "ErrorRequest": "На жаль… праблема падчас запыту, калі ласка, паспрабуйце яшчэ раз.",
         "EvolutionOverPeriod": "Змена за перыяд",
         "ExceptionConfigurationFileNotFound": "Файл канфігурацыі {%s} не знойдзены.",
         "ExceptionDatabaseVersion": "Ваша %1$s версія %2$s, але Piwik патрабуе па меншай меры версію %3$s.",

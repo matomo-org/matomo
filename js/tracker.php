@@ -33,7 +33,6 @@ $file = '../piwik.js';
 
 $daysExpireFarFuture = 10;
 
-$compressFileSuffix = false;
 $byteStart = $byteEnd = false;
 if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     || !PIWIK_KEEP_JS_TRACKER_COMMENT

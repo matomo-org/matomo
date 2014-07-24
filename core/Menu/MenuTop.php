@@ -77,6 +77,7 @@ class MenuTop extends MenuAbstract
     {
         if ($displayedForCurrentUser) {
             if (!isset($this->menu[$menuName])) {
+                $this->menu[$menuName]['_name'] = $menuName;
                 $this->menu[$menuName]['_html'] = $data;
                 $this->menu[$menuName]['_order'] = $order;
                 $this->menu[$menuName]['_hasSubmenu'] = false;
@@ -100,7 +101,7 @@ class MenuTop extends MenuAbstract
              */
             Piwik::postEvent('Menu.Top.addItems', array());
 
-            foreach ($this->getAvailableMenus() as $menu) {
+            foreach ($this->getAllMenus() as $menu) {
                 $menu->configureTopMenu($this);
             }
         }

@@ -5,13 +5,16 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
+use Piwik\Tests\Fixture;
 
 /**
  * Import a same visitor, over three different days, in reverse chronological order
  * useful to test there are three visits are created for this visitor, as expected
  *
  */
-class Test_Piwik_Fixture_VisitOverSeveralDaysImportedLogs extends Fixture
+class VisitOverSeveralDaysImportedLogs extends Fixture
 {
     public $dateTime = '2013-04-07 19:00:00';
     public $idSite = 1;
@@ -52,5 +55,4 @@ class Test_Piwik_Fixture_VisitOverSeveralDaysImportedLogs extends Fixture
 
         self::executeLogImporter($logFile, $opts);
     }
-
 }

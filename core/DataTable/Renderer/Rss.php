@@ -184,7 +184,6 @@ class Rss extends Renderer
             }
         }
         $html .= "\n</tr>";
-        $colspan = count($allColumns);
 
         foreach ($tableStructure as $row) {
             $html .= "\n\n<tr>";

@@ -153,6 +153,19 @@
 
                 // scroll to report
                 piwikHelper.lazyScrollTo(report, 400);
+            }, function (deferred, status) {
+                if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+                    return;
+                }
+
+                loading.hide();
+
+                var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
+                if ($('#loadingError').html()) {
+                    errorMessage = $('#loadingError').html();
+                }
+
+                report.css('display', 'inline-block').html('<div class="dimensionLoadingError">' + errorMessage + '</div>');
             });
         });
     });

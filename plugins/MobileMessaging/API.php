@@ -30,7 +30,7 @@ class API extends \Piwik\Plugin\API
      * @param string $provider
      * @return SMSProvider
      */
-    static private function getSMSProviderInstance($provider)
+    private static function getSMSProviderInstance($provider)
     {
         return SMSProvider::factory($provider);
     }

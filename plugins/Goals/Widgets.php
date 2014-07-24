@@ -8,46 +8,40 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\WidgetsList;
 use Piwik\Common;
 use Piwik\Site;
 use Piwik\Piwik;
 
 class Widgets extends \Piwik\Plugin\Widgets
 {
-    public function configure(WidgetsList $widgetsList)
+    protected $category = 'Goals_Goals';
+
+    protected function init()
     {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
+        $this->addWidget('Goals_GoalsOverview', 'widgetGoalsOverview');
 
-        $site  = new Site($idSite);
-        if ($site->isEcommerceEnabled()) {
-            $this->addEcommerceWidgets($widgetsList);
-        }
+        $idSite = $this->getIdSite();
+        $goals  = API::getInstance()->getGoals($idSite);
 
-        $this->addGoalsWidgets($widgetsList, $idSite);
-    }
-
-    private function addEcommerceWidgets(WidgetsList $widgetsList)
-    {
-        $goals = new Goals();
-
-        $widgetsList->add('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
-        $widgetsList->add('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
-        foreach ($goals->getEcommerceReports() as $widget) {
-            $widgetsList->add('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);
-        }
-    }
-
-    private function addGoalsWidgets(WidgetsList $widgetsList, $idSite)
-    {
-        $widgetsList->add('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
-
-        $goals = API::getInstance()->getGoals($idSite);
         if (count($goals) > 0) {
             foreach ($goals as $goal) {
-                $widgetsList->add('Goals_Goals', Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+                $name   = Common::sanitizeInputValue($goal['name']);
+                $params = array('idGoal' => $goal['idgoal']);
+
+                $this->addWidget($name, 'widgetGoalReport', $params);
             }
         }
+
+        $site = new Site($idSite);
+        if ($site->isEcommerceEnabled()) {
+            $this->addWidgetWithCustomCategory('Goals_Ecommerce', 'Goals_EcommerceOverview', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
+            $this->addWidgetWithCustomCategory('Goals_Ecommerce', 'Goals_EcommerceLog', 'getEcommerceLog');
+        }
+    }
+
+    private function getIdSite()
+    {
+        return Common::getRequestVar('idSite', null, 'int');
     }
 
 }

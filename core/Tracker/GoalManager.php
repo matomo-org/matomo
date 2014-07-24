@@ -10,8 +10,9 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker;
 
@@ -20,8 +21,6 @@ use Piwik\Tracker;
 class GoalManager
 {
     // log_visit.visit_goal_buyer
-    const TYPE_BUYER_NONE = 0;
-    const TYPE_BUYER_ORDERED = 1;
     const TYPE_BUYER_OPEN_CART = 2;
     const TYPE_BUYER_ORDERED_AND_OPEN_CART = 3;
 
@@ -37,19 +36,23 @@ class GoalManager
     const MAXIMUM_PRODUCT_CATEGORIES = 5;
     public $idGoal;
     public $requestIsEcommerce;
-    public $isGoalAnOrder;
+    private $isGoalAnOrder;
 
     /**
      * @var Action
      */
     protected $action = null;
     protected $convertedGoals = array();
-    protected $isThereExistingCartInVisit = false;
+
+    private $currentGoal = array();
+
     /**
      * @var Request
      */
     protected $request;
     protected $orderId;
+
+    protected $isThereExistingCartInVisit = false;
 
     /**
      * Constructor
@@ -58,40 +61,30 @@ class GoalManager
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->init();
-    }
+        $this->orderId = $request->getParam('ec_id');
+        $this->idGoal  = $request->getParam('idgoal');
 
-    function init()
-    {
-        $this->orderId = $this->request->getParam('ec_id');
         $this->isGoalAnOrder = !empty($this->orderId);
-        $this->idGoal = $this->request->getParam('idgoal');
         $this->requestIsEcommerce = ($this->idGoal == 0);
     }
 
-    function getBuyerType($existingType = GoalManager::TYPE_BUYER_NONE)
+    public function isGoalAnOrder()
     {
-        // Was there a Cart for this visit prior to the order?
-        $this->isThereExistingCartInVisit = in_array($existingType,
-            array(GoalManager::TYPE_BUYER_OPEN_CART,
-                  GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART));
-
-        if (!$this->requestIsEcommerce) {
-            return $existingType;
-        }
-        if ($this->isGoalAnOrder) {
-            return self::TYPE_BUYER_ORDERED;
-        }
-        // request is Add to Cart
-        if ($existingType == self::TYPE_BUYER_ORDERED
-            || $existingType == self::TYPE_BUYER_ORDERED_AND_OPEN_CART
-        ) {
-            return self::TYPE_BUYER_ORDERED_AND_OPEN_CART;
-        }
-        return self::TYPE_BUYER_OPEN_CART;
+        return $this->isGoalAnOrder;
     }
 
-    static public function getGoalDefinitions($idSite)
+    public function detectIsThereExistingCartInVisit($visitInformation)
+    {
+        if (!empty($visitInformation['visit_goal_buyer'])) {
+            $goalBuyer = $visitInformation['visit_goal_buyer'];
+            $types     = array(GoalManager::TYPE_BUYER_OPEN_CART, GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART);
+
+            // Was there a Cart for this visit prior to the order?
+            $this->isThereExistingCartInVisit = in_array($goalBuyer, $types);
+        }
+    }
+
+    public static function getGoalDefinitions($idSite)
     {
         $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
         if (isset($websiteAttributes['goals'])) {
@@ -100,7 +93,7 @@ class GoalManager
         return array();
     }
 
-    static public function getGoalDefinition($idSite, $idGoal)
+    public static function getGoalDefinition($idSite, $idGoal)
     {
         $goals = self::getGoalDefinitions($idSite);
         foreach ($goals as $goal) {
@@ -111,7 +104,7 @@ class GoalManager
         throw new Exception('Goal not found');
     }
 
-    static public function getGoalIds($idSite)
+    public static function getGoalIds($idSite)
     {
         $goals = self::getGoalDefinitions($idSite);
         $goalIds = array();
@@ -129,7 +122,7 @@ class GoalManager
      * @throws Exception
      * @return int Number of goals matched
      */
-    function detectGoalsMatchingUrl($idSite, $action)
+    public function detectGoalsMatchingUrl($idSite, $action)
     {
         if (!Common::isGoalPluginEnabled()) {
             return false;
@@ -165,7 +158,7 @@ class GoalManager
         return count($this->convertedGoals) > 0;
     }
 
-    function detectGoalId($idSite)
+    public function detectGoalId($idSite)
     {
         if (!Common::isGoalPluginEnabled()) {
             return false;
@@ -178,7 +171,6 @@ class GoalManager
 
         $url = $this->request->getParam('url');
         $goal['url'] = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
-        $goal['revenue'] = $this->getRevenue($this->request->getGoalRevenue($goal['revenue']));
         $this->convertedGoals[] = $goal;
         return true;
     }
@@ -186,43 +178,23 @@ class GoalManager
     /**
      * Records one or several goals matched in this request.
      *
-     * @param int $idSite
+     * @param Visitor $visitor
      * @param array $visitorInformation
      * @param array $visitCustomVariables
      * @param Action $action
      */
-    public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
+    public function recordGoals(Visitor $visitor, $visitorInformation, $visitCustomVariables, $action)
     {
-        $referrerTimestamp = $this->request->getParam('_refts');
-        $referrerUrl = $this->request->getParam('_ref');
-        $referrerCampaignName = trim(urldecode($this->request->getParam('_rcn')));
-        $referrerCampaignKeyword = trim(urldecode($this->request->getParam('_rck')));
-        $browserLanguage = $this->request->getBrowserLanguage();
-
-        $location_country = isset($visitorInformation['location_country'])
-            ? $visitorInformation['location_country']
-            : Common::getCountry(
-                $browserLanguage,
-                $enableLanguageToCountryGuess = Config::getInstance()->Tracker['enable_language_to_country_guess'],
-                $visitorInformation['location_ip']
-            );
-
         $goal = array(
-            'idvisit'                  => $visitorInformation['idvisit'],
-            'idsite'                   => $idSite,
-            'idvisitor'                => $visitorInformation['idvisitor'],
-            'server_time'              => Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
-            'location_country'         => $location_country,
-            'visitor_returning'        => $visitorInformation['visitor_returning'],
-            'visitor_days_since_first' => $visitorInformation['visitor_days_since_first'],
-            'visitor_days_since_order' => $visitorInformation['visitor_days_since_order'],
-            'visitor_count_visits'     => $visitorInformation['visitor_count_visits'],
+            'idvisit'     => $visitorInformation['idvisit'],
+            'idvisitor'   => $visitorInformation['idvisitor'],
+            'server_time' => Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time'])
         );
 
-        $extraLocationCols = array('location_region', 'location_city', 'location_latitude', 'location_longitude');
-        foreach ($extraLocationCols as $col) {
-            if (isset($visitorInformation[$col])) {
-                $goal[$col] = $visitorInformation[$col];
+        foreach (VisitDimension::getAllDimensions() as $dimension) {
+            $value = $dimension->onAnyGoalConversion($this->request, $visitor, $action);
+            if (false !== $value) {
+                $goal[$dimension->getColumnName()] = $value;
             }
         }
 
@@ -244,60 +216,11 @@ class GoalManager
             }
         }
 
-        // Attributing the correct Referrer to this conversion.
-        // Priority order is as follows:
-        // 0) In some cases, the campaign is not passed from the JS so we look it up from the current visit
-        // 1) Campaign name/kwd parsed in the JS
-        // 2) Referrer URL stored in the _ref cookie
-        // 3) If no info from the cookie, attribute to the current visit referrer
-
-        // 3) Default values: current referrer
-        $type = $visitorInformation['referer_type'];
-        $name = $visitorInformation['referer_name'];
-        $keyword = $visitorInformation['referer_keyword'];
-        $time = $visitorInformation['visit_first_action_time'];
-
-        // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie, but the URL ref was found.
-        //    In this case we look up if the current visit is credited to a campaign and will credit this campaign rather than the URL ref (since campaigns have higher priority)
-        if (empty($referrerCampaignName)
-            && $type == Common::REFERRER_TYPE_CAMPAIGN
-            && !empty($name)
-        ) {
-            // Use default values per above
-        } // 1) Campaigns from 1st party cookie
-        elseif (!empty($referrerCampaignName)) {
-            $type = Common::REFERRER_TYPE_CAMPAIGN;
-            $name = $referrerCampaignName;
-            $keyword = $referrerCampaignKeyword;
-            $time = $referrerTimestamp;
-        } // 2) Referrer URL parsing
-        elseif (!empty($referrerUrl)) {
-            $referrer = new Referrer();
-            $referrer = $referrer->getReferrerInformation($referrerUrl, $currentUrl = '', $idSite);
-
-            // if the parsed referrer is interesting enough, ie. website or search engine
-            if (in_array($referrer['referer_type'], array(Common::REFERRER_TYPE_SEARCH_ENGINE, Common::REFERRER_TYPE_WEBSITE))) {
-                $type = $referrer['referer_type'];
-                $name = $referrer['referer_name'];
-                $keyword = $referrer['referer_keyword'];
-                $time = $referrerTimestamp;
-            }
-        }
-        $this->setCampaignValuesToLowercase($type, $name, $keyword);
-
-        $goal += array(
-            'referer_type'              => $type,
-            'referer_name'              => $name,
-            'referer_keyword'           => $keyword,
-            // this field is currently unused
-            'referer_visit_server_date' => date("Y-m-d", $time),
-        );
-
         // some goals are converted, so must be ecommerce Order or Cart Update
         if ($this->requestIsEcommerce) {
-            $this->recordEcommerceGoal($goal, $visitorInformation);
+            $this->recordEcommerceGoal($goal, $visitor, $action, $visitorInformation);
         } else {
-            $this->recordStandardGoals($goal, $action, $visitorInformation);
+            $this->recordStandardGoals($goal, $visitor, $action, $visitorInformation);
         }
     }
 
@@ -320,30 +243,35 @@ class GoalManager
      * Will deal with 2 types of conversions: Ecommerce Order and Ecommerce Cart update (Add to cart, Update Cart etc).
      *
      * @param array $conversion
+     * @param Visitor $visitor
+     * @param Action $action
      * @param array $visitInformation
      */
-    protected function recordEcommerceGoal($conversion, $visitInformation)
+    protected function recordEcommerceGoal($conversion, Visitor $visitor, $action, $visitInformation)
     {
         if ($this->isThereExistingCartInVisit) {
             Common::printDebug("There is an existing cart for this visit");
         }
-        if ($this->isGoalAnOrder) {
-            $conversion['idgoal'] = self::IDGOAL_ORDER;
-            $conversion['idorder'] = $this->orderId;
-            $conversion['buster'] = Common::hashStringToInt($this->orderId);
-            $conversion['revenue_subtotal'] = $this->getRevenue($this->request->getParam('ec_st'));
-            $conversion['revenue_tax'] = $this->getRevenue($this->request->getParam('ec_tx'));
-            $conversion['revenue_shipping'] = $this->getRevenue($this->request->getParam('ec_sh'));
-            $conversion['revenue_discount'] = $this->getRevenue($this->request->getParam('ec_dt'));
 
+        if ($this->isGoalAnOrder) {
             $debugMessage = 'The conversion is an Ecommerce order';
+
+            $conversion['idorder'] = $this->orderId;
+            $conversion['idgoal']  = self::IDGOAL_ORDER;
+            $conversion['buster']  = Common::hashStringToInt($this->orderId);
+
+            $conversionDimensions = ConversionDimension::getAllDimensions();
+            $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onEcommerceOrderConversion', $visitor, $action, $conversion);
         } // If Cart update, select current items in the previous Cart
         else {
+            $debugMessage = 'The conversion is an Ecommerce Cart Update';
+
             $conversion['buster'] = 0;
             $conversion['idgoal'] = self::IDGOAL_CART;
-            $debugMessage = 'The conversion is an Ecommerce Cart Update';
+
+            $conversionDimensions = ConversionDimension::getAllDimensions();
+            $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onEcommerceCartUpdateConversion', $visitor, $action, $conversion);
         }
-        $conversion['revenue'] = $this->getRevenue($this->request->getGoalRevenue($defaultRevenue = 0));
 
         Common::printDebug($debugMessage . ':' . var_export($conversion, true));
 
@@ -355,11 +283,12 @@ class GoalManager
 
         $itemsCount = 0;
         foreach ($items as $item) {
-            $itemsCount += $item[self::INTERNAL_ITEM_QUANTITY];
+            $itemsCount += $item[GoalManager::INTERNAL_ITEM_QUANTITY];
         }
+
         $conversion['items'] = $itemsCount;
 
-        if($this->isThereExistingCartInVisit) {
+        if ($this->isThereExistingCartInVisit) {
             $updateWhere = array(
                 'idvisit' => $visitInformation['idvisit'],
                 'idgoal'  => self::IDGOAL_CART,
@@ -376,10 +305,10 @@ class GoalManager
 
         /**
          * Triggered after successfully persisting an ecommerce conversion.
-         * 
+         *
          * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
          * the tracker down._
-         * 
+         *
          * @param array $conversion The conversion entity that was just persisted. See what information
          *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
          * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
@@ -392,7 +321,7 @@ class GoalManager
      * Returns Items read from the request string
      * @return array|bool
      */
-    protected function getEcommerceItemsFromRequest()
+    private function getEcommerceItemsFromRequest()
     {
         $items = Common::unsanitizeInputValue($this->request->getParam('ec_items'));
         if (empty($items)) {
@@ -520,7 +449,7 @@ class GoalManager
      * @param array $items
      * @return array $cleanedItems
      */
-    protected function getCleanedEcommerceItems($items)
+    private function getCleanedEcommerceItems($items)
     {
         // Clean up the items array
         $cleanedItems = array();
@@ -718,21 +647,31 @@ class GoalManager
         return $newRow;
     }
 
+    public function getGoalColumn($column)
+    {
+        if (array_key_exists($column, $this->currentGoal)) {
+            return $this->currentGoal[$column];
+        }
+
+        return false;
+    }
+
     /**
      * Records a standard non-Ecommerce goal in the DB (URL/Title matching),
      * linking the conversion to the action that triggered it
      * @param $goal
+     * @param Visitor $visitor
      * @param Action $action
      * @param $visitorInformation
      */
-    protected function recordStandardGoals($goal, $action, $visitorInformation)
+    protected function recordStandardGoals($goal, Visitor $visitor, $action, $visitorInformation)
     {
         foreach ($this->convertedGoals as $convertedGoal) {
+            $this->currentGoal = $convertedGoal;
             Common::printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
             $conversion = $goal;
             $conversion['idgoal'] = $convertedGoal['idgoal'];
             $conversion['url'] = $convertedGoal['url'];
-            $conversion['revenue'] = $this->getRevenue($convertedGoal['revenue']);
 
             if (!is_null($action)) {
                 $conversion['idaction_url'] = $action->getIdActionUrl();
@@ -743,6 +682,9 @@ class GoalManager
             $conversion['buster'] = $convertedGoal['allow_multiple'] == 0
                 ? '0'
                 : $visitorInformation['visit_last_action_time'];
+
+            $conversionDimensions = ConversionDimension::getAllDimensions();
+            $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
             $this->insertNewConversion($conversion, $visitorInformation);
 
@@ -841,23 +783,6 @@ class GoalManager
     }
 
     /**
-     * @param $type
-     * @param $name
-     * @param $keyword
-     */
-    protected function setCampaignValuesToLowercase($type, &$name, &$keyword)
-    {
-        if ($type === Common::REFERRER_TYPE_CAMPAIGN) {
-            if (!empty($name)) {
-                $name = Common::mb_strtolower($name);
-            }
-            if (!empty($keyword)) {
-                $keyword = Common::mb_strtolower($keyword);
-            }
-        }
-    }
-
-    /**
      * @param $goal
      * @param $pattern_type
      * @param $url
@@ -901,5 +826,31 @@ class GoalManager
                 break;
         }
         return $match;
+    }
+
+
+    /**
+     * @param ConversionDimension[] $dimensions
+     * @param string $hook
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @param array|null $valuesToUpdate If null, $this->visitorInfo will be updated
+     *
+     * @return array|null The updated $valuesToUpdate or null if no $valuesToUpdate given
+     */
+    private function triggerHookOnDimensions($dimensions, $hook, $visitor, $action, $valuesToUpdate)
+    {
+        foreach ($dimensions as $dimension) {
+            $value = $dimension->$hook($this->request, $visitor, $action, $this);
+
+            if ($value !== false) {
+                $fieldName = $dimension->getColumnName();
+                $visitor->setVisitorColumn($fieldName, $value);
+
+                $valuesToUpdate[$fieldName] = $value;
+            }
+        }
+
+        return $valuesToUpdate;
     }
 }

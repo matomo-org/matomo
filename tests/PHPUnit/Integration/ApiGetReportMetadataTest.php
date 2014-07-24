@@ -5,14 +5,21 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\API\Proxy;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
 
 /**
  * This tests the output of the API plugin API
  * It will return metadata about all API reports from all plugins
  * as well as the data itself, pre-processed and ready to be displayed
+ *
+ * @group Integration
+ * @group ApiGetReportMetadataTest
  */
-class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
+class ApiGetReportMetadataTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -75,7 +82,6 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -83,5 +89,4 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_ApiGetReportMetadata::$fixture = new Test_Piwik_Fixture_ThreeGoalsOnePageview();
-
+ApiGetReportMetadataTest::$fixture = new ThreeGoalsOnePageview();

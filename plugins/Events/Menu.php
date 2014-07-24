@@ -16,6 +16,6 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->add('General_Actions', 'Events_Events', array('module' => 'Events', 'action' => 'index'), true, 30);
+        $menu->addActionsItem('Events_Events', array('module' => 'Events', 'action' => 'index'), 30);
     }
 }

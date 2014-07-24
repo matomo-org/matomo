@@ -14,7 +14,8 @@
                     <div>
                         <div class="visitor-profile-image-frame">
                             <img src="{{ visitorData.visitorAvatar|default("plugins/Live/images/unknown_avatar.jpg") }}"
-                                 alt="{{ visitorData.visitorDescription|default('') }}"/>
+                                 alt="{{ visitorData.visitorDescription|default('') }}"
+                                 title="{{ visitorData.visitorDescription|default('') }}" />
                         </div>
                         <img src="plugins/Live/images/paperclip.png" alt=""/>
                     </div>

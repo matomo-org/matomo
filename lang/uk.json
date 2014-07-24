@@ -211,7 +211,6 @@
         "EncryptedSmtpTransport": "Введіть шифрування транспортного рівня що вимагається вашим SMTP сервером.",
         "EnglishLanguageName": "Ukrainian",
         "Error": "Помилка",
-        "ErrorRequest": "Ой… запит викликав помилку, будь ласка спробуйте знову.",
         "EvolutionOverPeriod": "Динаміка протягом періоду",
         "ExceptionConfigurationFileNotFound": "Файл конфігурації {%s} не знайдено.",
         "ExceptionDatabaseVersion": "Ваша версія %1$s є %2$s але Piwik вимагає мінімум %3$s.",

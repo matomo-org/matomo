@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+sudo apt-get update
+
 # Install XMLStarlet
 sudo apt-get install -qq xmlstarlet
 

@@ -35,16 +35,19 @@ if (false !== strpos($callee, 'archive.php')) {
     echo "
 -------------------------------------------------------
 Using this 'archive.php' script is no longer recommended.
-Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', array_slice($_SERVER['argv'], 1)) . "' instead.
+Please use '/path/to/php $piwikHome/console core:archive " . implode('', array_slice($_SERVER['argv'], 1)) . "' instead.
 To get help use '/path/to/php $piwikHome/console core:archive --help'
 See also: http://piwik.org/docs/setup-auto-archiving/
 -------------------------------------------------------
 \n\n";
 }
 
-$archiving = new Piwik\CronArchive();
-try {
-    $archiving->main();
-} catch (Exception $e) {
-    $archiving->logFatalError($e->getMessage());
-} 
+$console = new Piwik\Console();
+$console->init();
+
+// manipulate command line arguments so CoreArchiver command will be executed
+$script = array_shift($_SERVER['argv']);
+array_unshift($_SERVER['argv'], 'core:archive');
+array_unshift($_SERVER['argv'], $script);
+
+$console->run();

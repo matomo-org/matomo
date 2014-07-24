@@ -9,6 +9,9 @@
 namespace Piwik;
 
 
+use Piwik\Cache\LanguageAwareStaticCache;
+use Piwik\Cache\PluginAwareStaticCache;
+
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
 /**
@@ -86,7 +89,7 @@ class Metrics
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
 
-    static public $mappingFromIdToName = array(
+    public static $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
         Metrics::INDEX_NB_VISITS                             => 'nb_visits',
         Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
@@ -135,7 +138,7 @@ class Metrics
 
     );
 
-    static public $mappingFromIdToNameGoal = array(
+    public static $mappingFromIdToNameGoal = array(
         Metrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
         Metrics::INDEX_GOAL_REVENUE                    => 'revenue',
@@ -146,7 +149,7 @@ class Metrics
         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
     );
 
-    static protected $metricsAggregatedFromLogs = array(
+    protected static $metricsAggregatedFromLogs = array(
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_NB_VISITS,
         Metrics::INDEX_NB_ACTIONS,
@@ -156,7 +159,7 @@ class Metrics
         Metrics::INDEX_NB_VISITS_CONVERTED,
     );
 
-    static public function getVisitsMetricNames()
+    public static function getVisitsMetricNames()
     {
         $names = array();
         foreach (self::$metricsAggregatedFromLogs as $metricId) {
@@ -165,7 +168,7 @@ class Metrics
         return $names;
     }
 
-    static public function getMappingFromIdToName()
+    public static function getMappingFromIdToName()
     {
         $idToName = array_flip(self::$mappingFromIdToName);
         return $idToName;
@@ -178,7 +181,7 @@ class Metrics
      *
      * @ignore
      */
-    static public function isLowerValueBetter($column)
+    public static function isLowerValueBetter($column)
     {
         $lowerIsBetterPatterns = array(
             'bounce', 'exit'
@@ -200,7 +203,7 @@ class Metrics
      * @return string
      * @ignore
      */
-    static public function getUnit($column, $idSite)
+    public static function getUnit($column, $idSite)
     {
         $nameToUnit = array(
             '_rate'   => '%',
@@ -217,8 +220,14 @@ class Metrics
         return '';
     }
 
-    static public function getDefaultMetricTranslations()
+    public static function getDefaultMetricTranslations()
     {
+        $cache = new PluginAwareStaticCache('DefaultMetricTranslations');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $translations = array(
             'label'                         => 'General_ColumnLabel',
             'date'                          => 'General_Date',
@@ -264,22 +273,39 @@ class Metrics
 
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
+        $cache->set($translations);
+
         return $translations;
     }
 
-    static public function getDefaultMetrics()
+    public static function getDefaultMetrics()
     {
+        $cache = new LanguageAwareStaticCache('DefaultMetrics');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $translations = array(
             'nb_visits'        => 'General_ColumnNbVisits',
             'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
             'nb_actions'       => 'General_ColumnNbActions',
         );
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+
+        $cache->set($translations);
+
         return $translations;
     }
 
-    static public function getDefaultProcessedMetrics()
+    public static function getDefaultProcessedMetrics()
     {
+        $cache = new LanguageAwareStaticCache('DefaultProcessedMetrics');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $translations = array(
             // Processed in AddColumnsProcessedMetrics
             'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
@@ -287,10 +313,14 @@ class Metrics
             'bounce_rate'          => 'General_ColumnBounceRate',
             'conversion_rate'      => 'General_ColumnConversionRate',
         );
-        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+
+        $cache->set($translations);
+
+        return $translations;
     }
 
-    static public function getReadableColumnName($columnIdRaw)
+    public static function getReadableColumnName($columnIdRaw)
     {
         $mappingIdToName = self::$mappingFromIdToName;
 
@@ -302,7 +332,7 @@ class Metrics
         return $columnIdRaw;
     }
 
-    static public function getMetricIdsToProcessReportTotal()
+    public static function getMetricIdsToProcessReportTotal()
     {
         return array(
             self::INDEX_NB_VISITS,
@@ -321,9 +351,15 @@ class Metrics
         );
     }
 
-    static public function getDefaultMetricsDocumentation()
+    public static function getDefaultMetricsDocumentation()
     {
-        $documentation = array(
+        $cache = new PluginAwareStaticCache('DefaultMetricsDocumentation');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
+        $translations = array(
             'nb_visits'            => 'General_ColumnNbVisitsDocumentation',
             'nb_uniq_visitors'     => 'General_ColumnNbUniqVisitorsDocumentation',
             'nb_actions'           => 'General_ColumnNbActionsDocumentation',
@@ -335,7 +371,19 @@ class Metrics
             'nb_hits'              => 'General_ColumnPageviewsDocumentation',
             'exit_rate'            => 'General_ColumnExitRateDocumentation'
         );
-        return array_map(array('\\Piwik\\Piwik','translate'), $documentation);
+
+        /**
+         * Use this event to register translations for metrics documentation processed by your plugin.
+         *
+         * @param string[] $translations The array mapping of column_name => Plugin_TranslationForColumnDocumentation
+         */
+        Piwik::postEvent('Metrics.getDefaultMetricDocumentationTranslations', array(&$translations));
+
+        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+
+        $cache->set($translations);
+
+        return $translations;
     }
 
     public static function getPercentVisitColumn()

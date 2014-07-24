@@ -10,7 +10,7 @@ $(document).ready(function () {
      * Please note that this JavaScript file will be loaded only if you
      * enable the following setting in your config:
      *
-     * [Debug]
+     * [Development]
      * disable_merged_assets = 1
      */
 

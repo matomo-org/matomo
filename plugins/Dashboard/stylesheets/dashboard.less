@@ -206,9 +206,17 @@
 
 .widgetLoading {
   cursor: wait;
-  padding: 10px;
   text-align: center;
+}
+
+.widgetLoading, .widgetLoadingError, .dimensionLoadingError {
+  padding: 10px;
   font-size: 10pt;
+}
+
+.widgetLoadingError, .dimensionLoadingError {
+  color: @theme-color-brand;
+  text-align: left;
 }
 
 #closeMenuIcon {

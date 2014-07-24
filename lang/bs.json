@@ -249,7 +249,6 @@
         "EncryptedSmtpTransport": "Upisite transportni sloj (layer) enkripcije potreban za vaš SMTP server.",
         "EnglishLanguageName": "Bosnian",
         "Error": "Greška",
-        "ErrorRequest": "Ups... problem prilikom zahtjeva, probaj ponovo.",
         "ExceptionConfigurationFileNotFound": "Konfiguracijski fajl {%s} nije pronađen.",
         "ExceptionDatabaseVersion": "Vaša %1$s verzija je %2$s ali Piwik traži da bude barem %3$s.",
         "ExceptionFileIntegrity": "Integracijska provjera je zaustavljena: %s",

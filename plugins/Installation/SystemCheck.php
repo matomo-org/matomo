@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Installation;
 
 use Piwik\CliMulti;
-use Piwik\CliMulti\Process;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;

@@ -161,7 +161,7 @@
                     pageCustomVariables: getCustomVariables('javascript-tracking-page-cv'),
                     customCampaignNameQueryParam: null,
                     customCampaignKeywordParam: null,
-                    doNotTrack: $('#javascript-tracking-do-not-track').is(':checked') ? 1 : 0,
+                    doNotTrack: $('#javascript-tracking-do-not-track').is(':checked') ? 1 : 0
                 };
 
                 if ($('#custom-campaign-query-params-check').is(':checked')) {
@@ -195,7 +195,7 @@
                 // get data used to generate the link
                 var generateDataParams = {
                     piwikUrl: piwikHost + piwikPath,
-                    actionName: $('#image-tracker-action-name').val(),
+                    actionName: $('#image-tracker-action-name').val()
                 };
 
                 if ($('#image-tracking-goal-check').is(':checked')) {

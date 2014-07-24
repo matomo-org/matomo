@@ -23,6 +23,7 @@ use Piwik\Menu\MenuUser;
  * For an example, see the {@link https://github.com/piwik/piwik/blob/master/plugins/ExampleUI/Menu.php} plugin.
  *
  * @api
+ * @since 2.4.0
  */
 class Menu
 {

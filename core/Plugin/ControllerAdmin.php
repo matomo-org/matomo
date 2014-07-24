@@ -86,7 +86,7 @@ abstract class ControllerAdmin extends Controller
     /**
      * @ignore
      */
-    static public function displayWarningIfConfigFileNotWritable()
+    public static function displayWarningIfConfigFileNotWritable()
     {
         $isConfigFileWritable = PiwikConfig::getInstance()->isFileWritable();
 
@@ -102,7 +102,7 @@ abstract class ControllerAdmin extends Controller
     }
 
     /**
-     * See http://dev.piwik.org/trac/ticket/4439#comment:8 and https://github.com/eaccelerator/eaccelerator/issues/12
+     * See https://github.com/piwik/piwik/issues/4439#comment:8 and https://github.com/eaccelerator/eaccelerator/issues/12
      *
      * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling
      * it automatically. At this point it looks like Eaccelerator is no longer under development and the bug has not
@@ -125,7 +125,7 @@ abstract class ControllerAdmin extends Controller
             $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
                 We have disabled eAccelerator, which might affect the performance of Piwik.
                 Read the %srelated ticket%s for more information and how to fix this problem.",
-                '<a target="_blank" href="http://dev.piwik.org/trac/ticket/4439">', '</a>');
+                '<a target="_blank" href="https://github.com/piwik/piwik/issues/4439">', '</a>');
 
             $notification = new Notification($message);
             $notification->context = Notification::CONTEXT_WARNING;
@@ -157,7 +157,7 @@ abstract class ControllerAdmin extends Controller
      * @param View $view
      * @api
      */
-    static public function setBasicVariablesAdminView(View $view)
+    public static function setBasicVariablesAdminView(View $view)
     {
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
@@ -188,12 +188,12 @@ abstract class ControllerAdmin extends Controller
         }
     }
 
-    static public function isDataPurgeSettingsEnabled()
+    public static function isDataPurgeSettingsEnabled()
     {
         return (bool) Config::getInstance()->General['enable_delete_old_data_settings_admin'];
     }
 
-    static protected function getPiwikVersion()
+    protected static function getPiwikVersion()
     {
         return "Piwik " . Version::VERSION;
     }

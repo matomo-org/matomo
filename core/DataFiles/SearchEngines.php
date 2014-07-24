@@ -180,6 +180,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.qbyrd.com'                  => array('Ask'),
         '{}.qbyrd.com'                   => array('Ask'),
         'www.search-results.com'         => array('Ask'),
+        'www1.search-results.com'        => array('Ask'),
         'int.search-results.com'         => array('Ask'),
         '{}.search-results.com'          => array('Ask'),
         'search.ask.com'                 => array('Ask'),
@@ -193,6 +194,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // auone
         'search.auone.jp'                => array('auone', 'q', '?q={k}'),
+        'sp-image.search.auone.jp'       => array('auone Images', 'q', '?q={k}'),
 
         // Austronaut
         'www2.austronaut.at'             => array('Austronaut', 'q'),
@@ -451,7 +453,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.optuszoo.com.au'            => array('Google'),
         'search.dolphin-browser.jp'      => array('Google'),
         'search.smt.docomo.ne.jp'        => array('Google', 'MT'),
-        'image.search.smt.docomo.ne.jp'     => array('Google', 'MT'),
+        'image.search.smt.docomo.ne.jp'  => array('Google', 'MT'),
+        'gfsoso.com'                     => array('Google', 'q'),
 
 
         // Google Earth
@@ -573,6 +576,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'searchya.com'                   => array('InfoSpace', 'q'),
         'search.handycafe.com'           => array('InfoSpace', 'q'),
         'search.v9.com'                  => array('InfoSpace', 'q'),
+        'search.iminent.com'             => array('InfoSpace', 'q'),
+        'utorrent.inspsearch.com'        => array('InfoSpace', 'q'),
 
         /*
          * Other InfoSpace powered metasearches are handled in Common::extractSearchEngineInformationFromUrl()
@@ -613,6 +618,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Jungle key
         'junglekey.com'                  => array('Jungle Key', 'query', 'search.php?query={k}&type=web&lang=en'),
         'junglekey.fr'                   => array('Jungle Key'),
+
+        // K9 Safe Search
+        'k9safesearch.com'               => array('K9 Safe Search', 'q', 'search.jsp?q={k}'),
 
         // Kataweb
         'www.kataweb.it'                 => array('Kataweb', 'q'),
@@ -713,6 +721,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Nifty
         'search.nifty.com'               => array('Nifty', array('q', 'Text'), 'websearch/search?q={k}'),
+        'search.azby.fmworld.net'        => array('Nifty'),
         'videosearch.nifty.com'          => array('Nifty Videos', 'kw', 'search?kw={k}'),
 
         // Nigma
@@ -968,7 +977,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.x-recherche.com'            => array('X-Recherche', 'MOTS', 'cgi-bin/websearch?MOTS={k}'),
 
         // Yahoo! Japan
-        'search.yahoo.co.jp'             => array('Yahoo! Japan', 'p', 'search?p={k}'),
+        'search.yahoo.co.jp'             => array('Yahoo! Japan', array('p', 'vp'), 'search?p={k}'),
         'jp.hao123.com'                  => array('Yahoo! Japan', 'query'),
         'video.search.yahoo.co.jp'       => array('Yahoo! Japan Videos', 'p', 'search?p={k}'),
         'image.search.yahoo.co.jp'       => array('Yahoo! Japan Images', 'p', 'search?p={k}'),

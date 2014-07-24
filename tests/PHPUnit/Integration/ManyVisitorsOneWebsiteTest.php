@@ -5,10 +5,13 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 use Piwik\Date;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 
 /**
  * Tests w/ 14 visitors w/ 2 visits each.
@@ -16,14 +19,16 @@ use Piwik\Date;
  *
  * TODO Test ServerBased GeoIP implementation somehow. (Use X-FORWARDED-FOR?)
  * TODO Test PECL implementation somehow. (The PECL module must point to the test dir, not the real one.)
+ *
+ * @group ManyVisitorsOneWebsiteTest
+ * @group Integration
  */
-class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestCase
+class ManyVisitorsOneWebsiteTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -126,5 +131,4 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
     }
 }
 
-Test_Piwik_Integration_ManyVisitorsOneWebsiteTest::$fixture = new Test_Piwik_Fixture_ManyVisitsWithGeoIP();
-
+ManyVisitorsOneWebsiteTest::$fixture = new ManyVisitsWithGeoIP();

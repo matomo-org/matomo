@@ -143,6 +143,7 @@ class Config extends Singleton
             $this->configCache['Tracker'] = $this->configGlobal['Tracker'];
             $this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
             $this->configCache['Deletereports'] = $this->configGlobal['Deletereports'];
+            $this->configCache['Development'] = $this->configGlobal['Development'];
         }
 
         // for unit tests, we set that no plugin is installed. This will force
@@ -383,6 +384,7 @@ class Config extends Singleton
             }
         } else {
             $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
+            $values = str_replace('$', '&#36;', $values);
         }
         return $values;
     }

@@ -337,7 +337,7 @@ class ArchiveProcessor
         }
 
         if ($dataTable instanceof Map) {
-            // see http://dev.piwik.org/trac/ticket/4377
+            // see https://github.com/piwik/piwik/issues/4377
             $self = $this;
             $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
                 $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);

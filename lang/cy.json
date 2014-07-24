@@ -100,7 +100,6 @@
         "EncryptedSmtpTransport": "Nodwch y cludiant amgryptio haen sy'n ofynnol gan eich gweinyddwr SMTP.",
         "EnglishLanguageName": "Welsh",
         "Error": "Gwall",
-        "ErrorRequest": "O diar!...roedd problem yn ystod y cais, ceisiwch eto os gwelwch yn dda.",
         "ExceptionConfigurationFileNotFound": "Nid yw'r ffeil cyfluniad {%s} wedi ei darganfod.",
         "ExceptionDatabaseVersion": "Rydych yn defnyddio %1$s fersiwn %2$s ond mae Piwik angen o leiaf fersiwn %3$s",
         "ExceptionFileIntegrity": "Gwirio uniondeb wedi methu: %s",

@@ -307,7 +307,6 @@
         "EncryptedSmtpTransport": "יש להזין את שכבת ההצפנה הדרושה ע\"י שרת ה-SMTP שלך.",
         "EnglishLanguageName": "Hebrew",
         "Error": "שגיאה",
-        "ErrorRequest": "אופס… נוצרה בעיה בזמן הבקשה, נא לנסות שוב.",
         "ExceptionConfigurationFileNotFound": "קובץ ההגדרות {%s} לא נמצא.",
         "ExceptionDatabaseVersion": "גרסאת ה%1$s שלך היא %2$s אך Piwik דורשת לפחות %3$s.",
         "ExceptionFileIntegrity": "בדיקת שלמות נכשלה: %s",

@@ -7,14 +7,14 @@
  */
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Piwik\Common;
 use Piwik\CronArchive;
 use Piwik\Log;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use Piwik\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Exception;
 
 class CoreArchiver extends ConsoleCommand
 {
@@ -25,25 +25,61 @@ class CoreArchiver extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $url = $input->getOption('url');
-        if ($input->getOption('piwik-domain') && !$url) {
-            $_SERVER['argv'][] = '--url=' . $input->getOption('piwik-domain');
+        $url = $input->getOption('url') ?: $input->getOption('piwik-domain');
+        if (empty($url)) {
+            throw new \InvalidArgumentException("The --url argument is not set. It should be set to your Piwik URL, for example: --url=http://example.org/piwik/.");
         }
 
         if (is_string($url) && $url && in_array($url, array('http://', 'https://'))) {
-            // see http://dev.piwik.org/trac/ticket/5180 and http://forum.piwik.org/read.php?2,115274
+            // see https://github.com/piwik/piwik/issues/5180 and http://forum.piwik.org/read.php?2,115274
             throw new \InvalidArgumentException('No valid URL given. If you have specified a valid URL try --piwik-domain instead of --url');
         }
 
-        if($input->getOption('verbose')) {
+        if ($input->getOption('verbose')) {
             Log::getInstance()->setLogLevel(Log::VERBOSE);
         }
 
-        include PIWIK_INCLUDE_PATH . '/misc/cron/archive.php';
+        $archiver = $this->makeArchiver($url, $input);
+
+        try {
+            $archiver->main();
+        } catch (Exception $e) {
+            $archiver->logFatalError($e->getMessage());
+        }
+    }
+
+    // also used by another console command
+    public static function makeArchiver($url, InputInterface $input)
+    {
+        $archiver = new CronArchive($url);
+
+        $archiver->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
+        $archiver->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
+        $archiver->shouldArchiveAllSites = (bool) $input->getOption("force-all-websites");
+        $archiver->shouldStartProfiler = (bool) $input->getOption("xhprof");
+        $archiver->shouldArchiveSpecifiedSites = self::getSitesListOption($input, "force-idsites");
+        $archiver->shouldSkipSpecifiedSites = self::getSitesListOption($input, "skip-idsites");
+        $archiver->forceTimeoutPeriod = $input->getOption("force-timeout-for-periods");
+        $archiver->shouldArchiveAllPeriodsSince = $input->getOption("force-all-periods");
+        $archiver->restrictToDateRange = $input->getOption("force-date-range");
+
+        $restrictToPeriods = $input->getOption("force-periods");
+        $restrictToPeriods = explode(',', $restrictToPeriods);
+        $archiver->restrictToPeriods = array_map('trim', $restrictToPeriods);
+
+        $archiver->dateLastForced = $input->getOption('force-date-last-n');
+        $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
+
+        return $archiver;
+    }
+
+    private static function getSitesListOption(InputInterface $input, $optionName)
+    {
+        return Site::getIdSitesFromIdSitesString($input->getOption($optionName));
     }
 
     // This is reused by another console command
-    static public function configureArchiveCommand(ConsoleCommand $command)
+    public static function configureArchiveCommand(ConsoleCommand $command)
     {
         $command->setName('core:archive');
         $command->setDescription("Runs the CLI archiver. It is an important tool for general maintenance and to keep Piwik very fast.");

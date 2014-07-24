@@ -5,19 +5,24 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
  * Testing that, when using window_look_back_for_visitor with a high value,
  * works well with the use case of a returning visitor being assigned to today's visit
  *
+ * @group TrackerWindowLookBackTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TrackerWindowLookBack extends IntegrationTestCase
+class TrackerWindowLookBackTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -42,5 +47,5 @@ class Test_Piwik_Integration_TrackerWindowLookBack extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_TrackerWindowLookBack::$fixture = new Test_Piwik_Fixture_VisitsOverSeveralDays();
-Test_Piwik_Integration_TrackerWindowLookBack::$fixture->forceLargeWindowLookBackForVisitor = true;
+TrackerWindowLookBackTest::$fixture = new VisitsOverSeveralDays();
+TrackerWindowLookBackTest::$fixture->forceLargeWindowLookBackForVisitor = true;

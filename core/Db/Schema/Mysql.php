@@ -26,7 +26,7 @@ class Mysql implements SchemaInterface
      * @param string $engineName
      * @return bool  True if available and enabled; false otherwise
      */
-    static private function hasStorageEngine($engineName)
+    private static function hasStorageEngine($engineName)
     {
         $db = Db::get();
         $allEngines = $db->fetchAssoc('SHOW ENGINES');
@@ -42,7 +42,7 @@ class Mysql implements SchemaInterface
      *
      * @return bool  True if schema is available; false otherwise
      */
-    static public function isAvailable()
+    public static function isAvailable()
     {
         return self::hasStorageEngine('InnoDB');
     }
@@ -148,50 +148,9 @@ class Mysql implements SchemaInterface
 							  idvisit INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
 							  idvisitor BINARY(8) NOT NULL,
-							  visitor_localtime TIME NOT NULL,
-							  visitor_returning TINYINT(1) NOT NULL,
-							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
-							  visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
-							  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL,
-							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
-							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
-							  visit_exit_idaction_url INTEGER(11) UNSIGNED NULL DEFAULT 0,
-							  visit_exit_idaction_name INTEGER(11) UNSIGNED NOT NULL,
-							  visit_entry_idaction_url INTEGER(11) UNSIGNED NOT NULL,
-							  visit_entry_idaction_name INTEGER(11) UNSIGNED NOT NULL,
-							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
-							  visit_total_searches SMALLINT(5) UNSIGNED NOT NULL,
-							  visit_total_events SMALLINT(5) UNSIGNED NOT NULL,
-							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
-							  visit_goal_converted TINYINT(1) NOT NULL,
-							  visit_goal_buyer TINYINT(1) NOT NULL,
-							  referer_type TINYINT(1) UNSIGNED NULL,
-							  referer_name VARCHAR(70) NULL,
-							  referer_url TEXT NOT NULL,
-							  referer_keyword VARCHAR(255) NULL,
 							  config_id BINARY(8) NOT NULL,
-							  config_os CHAR(3) NOT NULL,
-							  config_browser_name VARCHAR(10) NOT NULL,
-							  config_browser_version VARCHAR(20) NOT NULL,
-							  config_resolution VARCHAR(9) NOT NULL,
-							  config_pdf TINYINT(1) NOT NULL,
-							  config_flash TINYINT(1) NOT NULL,
-							  config_java TINYINT(1) NOT NULL,
-							  config_director TINYINT(1) NOT NULL,
-							  config_quicktime TINYINT(1) NOT NULL,
-							  config_realplayer TINYINT(1) NOT NULL,
-							  config_windowsmedia TINYINT(1) NOT NULL,
-							  config_gears TINYINT(1) NOT NULL,
-							  config_silverlight TINYINT(1) NOT NULL,
-							  config_cookie TINYINT(1) NOT NULL,
 							  location_ip VARBINARY(16) NOT NULL,
-							  location_browser_lang VARCHAR(20) NOT NULL,
-							  location_country CHAR(3) NOT NULL,
-							  location_region char(2) DEFAULT NULL,
-							  location_city varchar(255) DEFAULT NULL,
-							  location_latitude float(10, 6) DEFAULT NULL,
-							  location_longitude float(10, 6) DEFAULT NULL,
 							  PRIMARY KEY(idvisit),
 							  INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
 							  INDEX index_idsite_datetime (idsite, visit_last_action_time),
@@ -229,30 +188,11 @@ class Mysql implements SchemaInterface
 									  server_time datetime NOT NULL,
 									  idaction_url int(11) default NULL,
 									  idlink_va int(11) default NULL,
-									  referer_visit_server_date date default NULL,
-									  referer_type int(10) unsigned default NULL,
-									  referer_name varchar(70) default NULL,
-									  referer_keyword varchar(255) default NULL,
-									  visitor_returning tinyint(1) NOT NULL,
-        							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
-        							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
-							  		  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL,
-									  location_country char(3) NOT NULL,
-									  location_region char(2) DEFAULT NULL,
-									  location_city varchar(255) DEFAULT NULL,
-									  location_latitude float(10, 6) DEFAULT NULL,
-									  location_longitude float(10, 6) DEFAULT NULL,
-									  url text NOT NULL,
 									  idgoal int(10) NOT NULL,
 									  buster int unsigned NOT NULL,
-
 									  idorder varchar(100) default NULL,
 									  items SMALLINT UNSIGNED DEFAULT NULL,
-									  revenue float default NULL,
-									  revenue_subtotal float default NULL,
-									  revenue_tax float default NULL,
-									  revenue_shipping float default NULL,
-									  revenue_discount float default NULL,
+									  url text NOT NULL,
 
 									  PRIMARY KEY (idvisit, idgoal, buster),
 									  UNIQUE KEY unique_idsite_idorder (idsite, idorder),
@@ -264,20 +204,13 @@ class Mysql implements SchemaInterface
 											  idlink_va INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 									          idsite int(10) UNSIGNED NOT NULL,
 									  		  idvisitor BINARY(8) NOT NULL,
-									          server_time DATETIME NOT NULL,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
-											  idaction_url INTEGER(10) UNSIGNED DEFAULT NULL,
 											  idaction_url_ref INTEGER(10) UNSIGNED NULL DEFAULT 0,
-											  idaction_name INTEGER(10) UNSIGNED,
 											  idaction_name_ref INTEGER(10) UNSIGNED NOT NULL,
-											  idaction_event_category INTEGER(10) UNSIGNED DEFAULT NULL,
-											  idaction_event_action INTEGER(10) UNSIGNED DEFAULT NULL,
-											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 
 											  custom_float FLOAT NULL DEFAULT NULL,
 											  PRIMARY KEY(idlink_va),
-											  INDEX index_idvisit(idvisit),
-									          INDEX index_idsite_servertime ( idsite, server_time )
+											  INDEX index_idvisit(idvisit)
 											) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
@@ -377,6 +310,27 @@ class Mysql implements SchemaInterface
     private $tablesInstalled = null;
 
     /**
+     * Get list of installed columns in a table
+     *
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
+     */
+    public function getTableColumns($tableName)
+    {
+        $db = Db::get();
+
+        $allColumns = $db->fetchAll("SHOW COLUMNS FROM . $tableName");
+
+        $fields = array();
+        foreach ($allColumns as $column) {
+            $fields[trim($column['Field'])] = $column;
+        }
+
+        return $fields;
+    }
+
+    /**
      * Get list of tables installed
      *
      * @param bool $forceReload Invalidate cache
@@ -454,7 +408,7 @@ class Mysql implements SchemaInterface
             Db::exec($statement);
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
-            // see bug #153 http://dev.piwik.org/trac/ticket/153
+            // see bug #153 https://github.com/piwik/piwik/issues/153
             if (!Db::get()->isErrNo($e, '1050')) {
                 throw $e;
             }

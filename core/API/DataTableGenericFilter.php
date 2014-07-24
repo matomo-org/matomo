@@ -16,6 +16,13 @@ use Piwik\DataTable;
 class DataTableGenericFilter
 {
     /**
+     * List of filter names not to run.
+     *
+     * @var string[]
+     */
+    private $disabledFilters = array();
+
+    /**
      * Constructor
      *
      * @param $request
@@ -33,6 +40,16 @@ class DataTableGenericFilter
     public function filter($table)
     {
         $this->applyGenericFilters($table);
+    }
+
+    /**
+     * Makes sure a set of filters are not run.
+     *
+     * @param string[] $filterNames The name of each filter to disable.
+     */
+    public function disableFilters($filterNames)
+    {
+        $this->disabledFilters = array_unique(array_merge($this->disabledFilters, $filterNames));
     }
 
     /**
@@ -117,6 +134,11 @@ class DataTableGenericFilter
             $filterParams = $filterMeta[1];
             $filterParameters = array();
             $exceptionRaised = false;
+
+            if (in_array($filterName, $this->disabledFilters)) {
+                continue;
+            }
+
             foreach ($filterParams as $name => $info) {
                 // parameter type to cast to
                 $type = $info[0];
@@ -125,12 +147,6 @@ class DataTableGenericFilter
                 $defaultValue = null;
                 if (isset($info[1])) {
                     $defaultValue = $info[1];
-                }
-
-                // third element in the array, if it exists, overrides the name of the request variable
-                $varName = $name;
-                if (isset($info[2])) {
-                    $varName = $info[2];
                 }
 
                 try {

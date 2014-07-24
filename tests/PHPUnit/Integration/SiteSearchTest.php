@@ -5,17 +5,23 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ThreeSitesWithManyVisitsWithSiteSearch;
 
 /**
  * Testing the various use cases w/ internal Site Search tracking
+ *
+ * @group SiteSearchTest
+ * @group Integration
  */
-class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
+class SiteSearchTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -86,5 +92,4 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_SiteSearch::$fixture = new Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch();
-
+SiteSearchTest::$fixture = new ThreeSitesWithManyVisitsWithSiteSearch();

@@ -39,21 +39,23 @@ class Menu extends \Piwik\Plugin\Menu
             }
         }
 
-        $menu->add('CorePluginsAdmin_MenuPlatform', null, "", !$isAnonymous, $order = 7);
-        $menu->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
-                   array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
-                   $hasSuperUserAcess,
-                   $order = 1);
-        $menu->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
-                   array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
-                   $hasSuperUserAcess,
-                   $order = 3);
+        if (!$isAnonymous) {
+            $menu->addPlatformItem(null, "", $order = 7);
+        }
 
-        if ($isMarketplaceEnabled) {
-            $menu->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Marketplace',
-                       array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
-                       !$isAnonymous,
-                       $order = 5);
+        if ($hasSuperUserAcess) {
+            $menu->addPlatformItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
+                                   array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
+                                   $order = 1);
+            $menu->addPlatformItem(Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
+                                   array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
+                                   $order = 3);
+        }
+
+        if ($isMarketplaceEnabled && !$isAnonymous) {
+            $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
+                                   array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
+                                   $order = 5);
 
         }
     }

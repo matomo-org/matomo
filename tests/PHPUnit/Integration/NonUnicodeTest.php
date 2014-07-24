@@ -5,18 +5,24 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SomeVisitsWithNonUnicodePageTitles;
 
 /**
  * Tests that visits track & reports display correctly when non-unicode text is
  * used in URL query params of visits.
+ *
+ * @group NonUnicodeTest
+ * @group Integration
  */
-class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
+class NonUnicodeTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -46,6 +52,4 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 
 }
 
-Test_Piwik_Integration_NonUnicodeTest::$fixture =
-    new Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles();
-
+NonUnicodeTest::$fixture = new SomeVisitsWithNonUnicodePageTitles();

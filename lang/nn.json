@@ -304,7 +304,6 @@
         "Edit": "Endre",
         "EnglishLanguageName": "Norwegian Nynorsk",
         "Error": "Feil",
-        "ErrorRequest": "Uffdå… det var eit problem med spurnaden, prøv att.",
         "EvolutionOverPeriod": "Utvikling gjennom perioden",
         "ExceptionConfigurationFileNotFound": "Fann ikkje konfigurasjonsfila {%s}.",
         "ExceptionDatabaseVersion": "Din %1$s versjon er %2$s, men Piwik krev minst %3$s.",

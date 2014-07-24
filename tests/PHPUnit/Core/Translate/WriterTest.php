@@ -50,7 +50,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorInvalid()
     {
-        $translationWriter = new Writer('en', 'InValIdPlUGin');
+        new Writer('en', 'InValIdPlUGin');
     }
 
     /**

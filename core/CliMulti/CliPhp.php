@@ -19,7 +19,7 @@ class CliPhp
         if (defined('PHP_BINARY')) {
 
             if($this->isValidPhpType(PHP_BINARY)) {
-                return PHP_BINARY;
+                return PHP_BINARY . ' -q';
             }
 
             if($this->isHhvmBinary(PHP_BINARY)) {
@@ -54,6 +54,9 @@ class CliPhp
         if (!$this->isValidPhpVersion($bin)) {
             return false;
         }
+        
+        $bin .= ' -q';
+        
         return $bin;
     }
 

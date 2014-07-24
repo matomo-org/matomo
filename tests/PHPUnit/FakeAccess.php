@@ -169,5 +169,4 @@ class FakeAccess
         }
         return $result;
     }
-
 }

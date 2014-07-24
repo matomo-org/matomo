@@ -193,7 +193,7 @@ class API extends \Piwik\Plugin\API
      * @ignore
      * @return mixed
      */
-    static public function getWebsiteIdsToInvalidate()
+    public static function getWebsiteIdsToInvalidate()
     {
         Piwik::checkUserHasSomeAdminAccess();
 

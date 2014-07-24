@@ -210,22 +210,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->userEmail = $user['email'];
 
         $userPreferences = new UserPreferences();
-        $defaultReport = $userPreferences->getDefaultWebsiteId();
+        $defaultReport   = $userPreferences->getDefaultReport();
+
         if ($defaultReport === false) {
-            $defaultReport = $this->getDefaultWebsiteId();
+            $defaultReport = $userPreferences->getDefaultWebsiteId();
         }
+
         $view->defaultReport = $defaultReport;
 
         if ($defaultReport == 'MultiSites') {
 
-            $userPreferences = new UserPreferences();
-            $view->defaultReportSiteName = Site::getNameFor($userPreferences->getDefaultWebsiteId());
+            $defaultSiteId = $userPreferences->getDefaultWebsiteId();
+
+            $view->defaultReportIdSite   = $defaultSiteId;
+            $view->defaultReportSiteName = Site::getNameFor($defaultSiteId);
         } else {
+            $view->defaultReportIdSite   = $defaultReport;
             $view->defaultReportSiteName = Site::getNameFor($defaultReport);
         }
 
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
-        $view-> availableDefaultDates = $this->getDefaultDates();
+        $view->availableDefaultDates = $this->getDefaultDates();
 
         $view->languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = LanguagesManager::getLanguageCodeForCurrentUser();
@@ -235,15 +240,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->setBasicVariablesView($view);
 
         return $view->render();
-    }
-
-    protected function getDefaultWebsiteId()
-    {
-        $sitesId = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
-        if (!empty($sitesId)) {
-            return $sitesId[0];
-        }
-        return false;
     }
 
     public function setIgnoreCookie()

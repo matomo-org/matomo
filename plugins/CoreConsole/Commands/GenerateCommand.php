@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -52,7 +51,7 @@ class GenerateCommand extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return string
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     private function getCommandName(InputInterface $input, OutputInterface $output)
     {

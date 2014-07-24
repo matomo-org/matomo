@@ -110,7 +110,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      */
     function testWriterInvalidPlugin()
     {
-        $writer = new Writer('de', 'iNvaLiDPluGin'); // invalid plugin throws exception
+        new Writer('de', 'iNvaLiDPluGin'); // invalid plugin throws exception
     }
 
     /**

@@ -5,9 +5,14 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
+use Piwik\Tests\Fixture;
+use Exception;
 
 /**
  * Tests to call the cron core:archive command script and check there is no error,
@@ -15,8 +20,10 @@ use Piwik\Plugins\SitesManager\API;
  * This tests that, when archiving is disabled,
  *  then Piwik API will return data that was pre-processed during archive.php run
  *
+ * @group Integration
+ * @group ArchiveCronTest
  */
-class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
+class ArchiveCronTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -51,8 +58,8 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                                                       'segment'    => 'browserCode==EP',
                                                       'testSuffix' => '_nonPreArchivedSegment'));
 
-        $segments = array(Test_Piwik_Fixture_ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
-                          Test_Piwik_Fixture_ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
+        $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
+                          ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
         foreach($segments as $segment) {
             // TODO debugging travis
@@ -71,9 +78,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         return $results;
     }
 
-    /**
-     * @group        Integration
-     */
     public function testArchivePhpCron()
     {
         if(self::isPhpVersion53()) {
@@ -162,5 +166,5 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_ArchiveCronTest::$fixture = new Test_Piwik_Fixture_ManySitesImportedLogs();
-Test_Piwik_Integration_ArchiveCronTest::$fixture->addSegments = true;
+ArchiveCronTest::$fixture = new ManySitesImportedLogs();
+ArchiveCronTest::$fixture->addSegments = true;

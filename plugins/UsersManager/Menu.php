@@ -15,13 +15,13 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers',
-                   array('module' => 'UsersManager', 'action' => 'index'),
-                   Piwik::isUserHasSomeAdminAccess(),
-                   $order = 2);
-        $menu->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings',
-                   array('module' => 'UsersManager', 'action' => 'userSettings'),
-                   Piwik::isUserHasSomeViewAccess(),
-                   $order = 3);
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            $menu->addManageItem('UsersManager_MenuUsers',
+                                 array('module' => 'UsersManager', 'action' => 'index'),
+                                 $order = 2);
+            $menu->addManageItem('UsersManager_MenuUserSettings',
+                                 array('module' => 'UsersManager', 'action' => 'userSettings'),
+                                 $order = 3);
+        }
     }
 }

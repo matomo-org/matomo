@@ -8,6 +8,7 @@
  */
 namespace Piwik\Menu;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 
 /**
  * Contains menu entries for the Reporting menu (the menu displayed under the Piwik logo).
@@ -32,6 +33,49 @@ use Piwik\Piwik;
  */
 class MenuReporting extends MenuAbstract
 {
+
+    /**
+     * See {@link add()}. Adds a new menu item to the visitors section of the reporting menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addVisitorsItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('General_Visitors', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the actions section of the reporting menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addActionsItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('General_Actions', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the referrers section of the reporting menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addReferrersItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('Referrers_Referrers', $menuName, $url, true, $order, $tooltip);
+    }
+
     /**
      * Returns if the URL was found in the menu.
      *
@@ -67,9 +111,16 @@ class MenuReporting extends MenuAbstract
              */
             Piwik::postEvent('Menu.Reporting.addItems', array());
 
-            foreach ($this->getAvailableMenus() as $menu) {
+            foreach (Report::getAllReports() as $report) {
+                if ($report->isEnabled()) {
+                    $report->configureReportingMenu($this);
+                }
+            }
+
+            foreach ($this->getAllMenus() as $menu) {
                 $menu->configureReportingMenu($this);
             }
+
         }
 
         return parent::getMenu();

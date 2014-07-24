@@ -480,7 +480,6 @@
         "EncryptedSmtpTransport": "आपके एसएमटीपी सर्वर द्वारा आवश्यक परिवहन परत गूढ़लेखन दर्ज करें.",
         "EnglishLanguageName": "Hindi",
         "Error": "त्रुटि",
-        "ErrorRequest": "ओह ... अनुरोध के दौरान समस्या, पुन: प्रयास करें.",
         "EvolutionOverPeriod": "अवधि में विकास",
         "EvolutionSummaryGeneric": "%1$s में %2$s की तुलना मे %3$s में %4$s. विकास:%5$s",
         "ExceptionConfigurationFileNotFound": "विन्यास फाइल {%s} नहीं पाया गया है.",

@@ -24,6 +24,7 @@ use Piwik\DataTable\Row;
 class LabelFilter extends DataTableManipulator
 {
     const SEPARATOR_RECURSIVE_LABEL = '>';
+    const TERMINAL_OPERATOR = '@';
 
     private $labels;
     private $addLabelIndex;
@@ -118,9 +119,15 @@ class LabelFilter extends DataTableManipulator
     {
         static $pageTitleReports = array('getPageTitles', 'getEntryPageTitles', 'getExitPageTitles');
 
+        $originalLabel = trim($originalLabel);
+
+        $isTerminal = substr($originalLabel, 0, 1) == self::TERMINAL_OPERATOR;
+        if ($isTerminal) {
+            $originalLabel = substr($originalLabel, 1);
+        }
+
         $variations = array();
-        $label = urldecode($originalLabel);
-        $label = trim($label);
+        $label = trim(urldecode($originalLabel));
 
         $sanitizedLabel = Common::sanitizeInputValue($label);
         $variations[] = $sanitizedLabel;
@@ -128,9 +135,7 @@ class LabelFilter extends DataTableManipulator
         if ($this->apiModule == 'Actions'
             && in_array($this->apiMethod, $pageTitleReports)
         ) {
-            // temporary workaround for #4363, if a '%20' is at the end of this label, we assume it is a
-            // terminal label and only check for a terminal row.
-            if (substr($originalLabel, -3) == '%20') {
+            if ($isTerminal) {
                 array_unshift($variations, ' ' . $sanitizedLabel);
                 array_unshift($variations, ' ' . $label);
             } else {

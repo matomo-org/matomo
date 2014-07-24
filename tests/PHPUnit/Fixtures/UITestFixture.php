@@ -8,8 +8,8 @@
 namespace Piwik\Tests\Fixtures;
 
 use Exception;
-use Piwik\Access;
 use Piwik\AssetManager;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -18,17 +18,28 @@ use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\WidgetsList;
+use Piwik\Tests\OverrideLogin;
 
 /**
  * Fixture for UI tests.
  */
-class UITestFixture extends OmniFixture
+class UITestFixture extends SqlDump
 {
+    const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql.gz';
+
+    public function __construct()
+    {
+        $this->dumpUrl = PIWIK_INCLUDE_PATH . self::FIXTURE_LOCATION;
+        $this->tablesPrefix = '';
+    }
+
     public function setUp()
     {
         parent::setUp();
+
+        self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(Common::prefixTable("site"),
@@ -41,13 +52,7 @@ class UITestFixture extends OmniFixture
 
         DbHelper::createAnonymousUser();
         UsersManagerAPI::getInstance()->setSuperUserAccess('superUserLogin', true);
-
-        Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
-
-        // launch archiving so tests don't run out of time
-        $date = Date::factory($this->dateTime)->toString();
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
+        SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -69,7 +74,7 @@ class UITestFixture extends OmniFixture
 
         $forcedNowTimestamp = Option::get("Tests.forcedNowTimestamp");
         if ($forcedNowTimestamp == false) {
-            throw Exception("Incorrect fixture setup, Tests.forcedNowTimestamp option does not exist! Run the setup again.");
+            throw new Exception("Incorrect fixture setup, Tests.forcedNowTimestamp option does not exist! Run the setup again.");
         }
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
@@ -293,7 +298,7 @@ class UITestFixture extends OmniFixture
 
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance($access = new \Test_Access_OverrideLogin());
+        Access::setSingletonInstance($access = new OverrideLogin());
         \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

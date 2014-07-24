@@ -29,7 +29,7 @@ class Menu extends \Piwik\Plugin\Menu
         $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
         $tooltip      = Piwik::translate('API_TopLinkTooltip');
 
-        $menu->add('CorePluginsAdmin_MenuPlatform', 'General_API', $apiUrlParams, true, 6, $tooltip);
+        $menu->addPlatformItem('General_API', $apiUrlParams, 6, $tooltip);
     }
 
     private function addTopMenuMobileApp(MenuTop $menu)

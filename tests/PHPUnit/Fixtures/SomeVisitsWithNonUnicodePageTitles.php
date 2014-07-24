@@ -5,13 +5,16 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one website and some visits with non unicode page titles.
  */
-class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Fixture
+class SomeVisitsWithNonUnicodePageTitles extends Fixture
 {
     public $idSite1 = 1;
     public $dateTime = '2010-01-03 11:22:33';

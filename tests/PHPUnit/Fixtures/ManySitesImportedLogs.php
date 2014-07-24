@@ -5,16 +5,20 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Access;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Tests\Fixture;
+use Piwik\Tests\OverrideLogin;
 
 /**
  * Imports visits from several log files using the python log importer.
  */
-class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
+class ManySitesImportedLogs extends Fixture
 {
     public $dateTime = '2012-08-09 11:22:33';
     public $idSite = 1;
@@ -26,7 +30,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
 
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
+        Access::setSingletonInstance($access = new OverrideLogin());
         \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 
@@ -47,7 +51,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
     {
         LocationProvider::$providers = null;
         GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        Test_Piwik_Fixture_ManyVisitsWithGeoIP::unsetLocationProvider();
+        ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
     public function setUpWebsitesAndGoals()
@@ -225,5 +229,4 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
 
         self::executeLogImporter($logFile, $opts);
     }
-
 }

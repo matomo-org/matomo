@@ -124,7 +124,7 @@ class Db
      * @throws \Exception If there is an error in the SQL.
      * @return integer|\Zend_Db_Statement
      */
-    static public function exec($sql)
+    public static function exec($sql)
     {
         /** @var \Zend_Db_Adapter_Abstract $db */
         $db = self::get();
@@ -154,7 +154,7 @@ class Db
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return \Zend_Db_Statement
      */
-    static public function query($sql, $parameters = array())
+    public static function query($sql, $parameters = array())
     {
         try {
             return self::get()->query($sql, $parameters);
@@ -173,7 +173,7 @@ class Db
      * @return array The fetched rows, each element is an associative array mapping column names
      *               with column values.
      */
-    static public function fetchAll($sql, $parameters = array())
+    public static function fetchAll($sql, $parameters = array())
     {
         try {
             return self::get()->fetchAll($sql, $parameters);
@@ -192,7 +192,7 @@ class Db
      * @return array The fetched row, each element is an associative array mapping column names
      *               with column values.
      */
-    static public function fetchRow($sql, $parameters = array())
+    public static function fetchRow($sql, $parameters = array())
     {
         try {
             return self::get()->fetchRow($sql, $parameters);
@@ -211,7 +211,7 @@ class Db
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return string
      */
-    static public function fetchOne($sql, $parameters = array())
+    public static function fetchOne($sql, $parameters = array())
     {
         try {
             return self::get()->fetchOne($sql, $parameters);
@@ -234,7 +234,7 @@ class Db
      *                     'col1value2' => array('col2' => '...', 'col3' => ...))
      *               ```
      */
-    static public function fetchAssoc($sql, $parameters = array())
+    public static function fetchAssoc($sql, $parameters = array())
     {
         try {
             return self::get()->fetchAssoc($sql, $parameters);
@@ -264,7 +264,7 @@ class Db
      * @param array $parameters Parameters to bind for each query.
      * @return int The total number of rows deleted.
      */
-    static public function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
+    public static function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
     {
         $orderByClause = $orderBy ? "ORDER BY $orderBy" : "";
         $sql = "DELETE FROM $table
@@ -293,7 +293,7 @@ class Db
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @return \Zend_Db_Statement
      */
-    static public function optimizeTables($tables)
+    public static function optimizeTables($tables)
     {
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
         if (empty($optimize)) {
@@ -332,19 +332,19 @@ class Db
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @return \Zend_Db_Statement
      */
-    static public function dropTables($tables)
+    public static function dropTables($tables)
     {
         if (!is_array($tables)) {
             $tables = array($tables);
         }
 
-        return self::query("DROP TABLE " . implode(',', $tables));
+        return self::query("DROP TABLE `" . implode('`,`', $tables) . "`");
     }
 
     /**
      * Drops all tables
      */
-    static public function dropAllTables()
+    public static function dropAllTables()
     {
         $tablesAlreadyInstalled = DbHelper::getTablesInstalled();
         self::dropTables($tablesAlreadyInstalled);
@@ -356,9 +356,9 @@ class Db
      * @param string|array $table The name of the table you want to get the columns definition for.
      * @return \Zend_Db_Statement
      */
-    static public function getColumnNamesFromTable($table)
+    public static function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAll("SHOW COLUMNS FROM " . $table);
+        $columns = self::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
 
         $columnNames = array();
         foreach ($columns as $column) {
@@ -380,7 +380,7 @@ class Db
      *                                    be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @return \Zend_Db_Statement
      */
-    static public function lockTables($tablesToRead, $tablesToWrite = array())
+    public static function lockTables($tablesToRead, $tablesToWrite = array())
     {
         if (!is_array($tablesToRead)) {
             $tablesToRead = array($tablesToRead);
@@ -408,7 +408,7 @@ class Db
      * 
      * @return \Zend_Db_Statement
      */
-    static public function unlockAllTables()
+    public static function unlockAllTables()
     {
         return self::exec("UNLOCK TABLES");
     }
@@ -451,7 +451,7 @@ class Db
      *
      * @return string
      */
-    static public function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
     {
         $result = false;
         if ($step > 0) {
@@ -487,7 +487,7 @@ class Db
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      * @return array An array of primitive values.
      */
-    static public function segmentedFetchOne($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchOne($sql, $first, $last, $step, $params = array())
     {
         $result = array();
         if ($step > 0) {
@@ -524,7 +524,7 @@ class Db
      * @return array An array of rows that includes the result set of every smaller
      *               query.
      */
-    static public function segmentedFetchAll($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchAll($sql, $first, $last, $step, $params = array())
     {
         $result = array();
         if ($step > 0) {
@@ -559,7 +559,7 @@ class Db
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      */
-    static public function segmentedQuery($sql, $first, $last, $step, $params = array())
+    public static function segmentedQuery($sql, $first, $last, $step, $params = array())
     {
         if ($step > 0) {
             for ($i = $first; $i <= $last; $i += $step) {
@@ -580,7 +580,7 @@ class Db
      * @param string $tableName The name of the table to check for. Must be prefixed.
      * @return bool
      */
-    static public function tableExists($tableName)
+    public static function tableExists($tableName)
     {
         return self::query("SHOW TABLES LIKE ?", $tableName)->rowCount() > 0;
     }
@@ -593,7 +593,7 @@ class Db
      * @param int $maxRetries The max number of times to retry.
      * @return bool `true` if the lock was obtained, `false` if otherwise.
      */
-    static public function getDbLock($lockName, $maxRetries = 30)
+    public static function getDbLock($lockName, $maxRetries = 30)
     {
         /*
          * the server (e.g., shared hosting) may have a low wait timeout
@@ -620,7 +620,7 @@ class Db
      * @param string $lockName The lock name.
      * @return bool `true` if the lock was released, `false` if otherwise.
      */
-    static public function releaseDbLock($lockName)
+    public static function releaseDbLock($lockName)
     {
         $sql = 'SELECT RELEASE_LOCK(?)';
 

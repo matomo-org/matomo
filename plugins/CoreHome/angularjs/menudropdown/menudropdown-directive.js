@@ -24,7 +24,7 @@ angular.module('piwikApp').directive('piwikMenudropdown', function(){
         restrict: 'A',
         scope: {
             menuTitle: '@',
-            tooltip: '@',
+            tooltip: '@'
         },
         templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster
     };

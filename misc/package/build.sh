@@ -104,7 +104,7 @@ fi
 echo "Starting build...."
 ############################
 
-# Setting umask so it works for most users, see http://dev.piwik.org/trac/ticket/3869
+# Setting umask so it works for most users, see https://github.com/piwik/piwik/issues/3869
 UMASK=`umask`
 umask 0022
 

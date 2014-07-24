@@ -5,14 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Fixture that adds one site with three goals and tracks one pageview & one manual
  * goal conversion.
  */
-class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Fixture
+class ThreeGoalsOnePageview extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;

@@ -68,34 +68,49 @@ class API extends \Piwik\Plugin\API
     public function getCounters($idSite, $lastMinutes, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $lastMinutes = (int)$lastMinutes;
+        $lastMinutes = (int) $lastMinutes;
 
-        $select = "count(*) as visits,
-				SUM(log_visit.visit_total_actions) as actions,
-				SUM(log_visit.visit_goal_converted) as visitsConverted,
-				COUNT(DISTINCT log_visit.idvisitor) as visitors";
+        $counters = array(
+            'visits'   => 0,
+            'actions'  => 0,
+            'visitors' => 0,
+            'visitsConverted' => 0,
+        );
 
-        $from = "log_visit";
+        if (empty($lastMinutes)) {
+            return array($counters);
+        }
 
         list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite);
 
-        $where = $whereIdSites . "AND log_visit.visit_last_action_time >= ?";
-        $bind = $idSites;
-        $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
+        $select  = "count(*) as visits, COUNT(DISTINCT log_visit.idvisitor) as visitors";
+        $where   = $whereIdSites . "AND log_visit.visit_last_action_time >= ?";
+        $bind    = $idSites;
+        $bind[]  = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
 
         $segment = new Segment($segment, $idSite);
-        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $query   = $segment->getSelectQuery($select, 'log_visit', $where, $bind);
 
-        $data = Db::fetchAll($query['sql'], $query['bind']);
+        $data    = Db::fetchAll($query['sql'], $query['bind']);
 
-        // These could be unset for some reasons, ensure they are set to 0
-        if (empty($data[0]['actions'])) {
-            $data[0]['actions'] = 0;
-        }
-        if (empty($data[0]['visitsConverted'])) {
-            $data[0]['visitsConverted'] = 0;
-        }
-        return $data;
+        $counters['visits']   = $data[0]['visits'];
+        $counters['visitors'] = $data[0]['visitors'];
+
+        $select = "count(*)";
+        $from   = 'log_link_visit_action';
+        list($whereIdSites) = $this->getIdSitesWhereClause($idSite, $from);
+        $where  = $whereIdSites . "AND log_link_visit_action.server_time >= ?";
+        $query  = $segment->getSelectQuery($select, $from, $where, $bind);
+        $counters['actions'] = Db::fetchOne($query['sql'], $query['bind']);
+
+        $select = "count(*)";
+        $from   = 'log_conversion';
+        list($whereIdSites) = $this->getIdSitesWhereClause($idSite, $from);
+        $where  = $whereIdSites . "AND log_conversion.server_time >= ?";
+        $query  = $segment->getSelectQuery($select, $from, $where, $bind);
+        $counters['visitsConverted'] = Db::fetchOne($query['sql'], $query['bind']);
+
+        return array($counters);
     }
 
     /**
@@ -710,15 +725,16 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param $idSite
+     * @param string $table
      * @return array
      */
-    private function getIdSitesWhereClause($idSite)
+    private function getIdSitesWhereClause($idSite, $table = 'log_visit')
     {
         $idSites = array($idSite);
         Piwik::postEvent('Live.API.getIdSitesString', array(&$idSites));
 
         $idSitesBind = Common::getSqlStringFieldsArray($idSites);
-        $whereClause = "log_visit.idsite in ($idSitesBind) ";
+        $whereClause = $table . ".idsite in ($idSitesBind) ";
         return array($whereClause, $idSites);
     }
 }

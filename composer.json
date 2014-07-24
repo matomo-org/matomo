@@ -14,7 +14,7 @@
     ],
     "support": {
         "forum": "http://forum.piwik.org/",
-        "issues": "http://dev.piwik.org/trac/roadmap",
+        "issues": "https://github.com/piwik/piwik/issues",
         "wiki": "http://dev.piwik.org/",
         "source": "https://github.com/piwik/piwik"
     },
@@ -28,6 +28,6 @@
         "piwik/device-detector": "2.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*"
+        "phpunit/phpunit": "~4.1"
     }
 }

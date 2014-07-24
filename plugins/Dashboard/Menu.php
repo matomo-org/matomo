@@ -8,10 +8,7 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
-use Exception;
-use Piwik\Common;
 use Piwik\Db;
-use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;

@@ -167,7 +167,7 @@ class LogAggregator
         );
     }
 
-    static public function getConversionsMetricFields()
+    public static function getConversionsMetricFields()
     {
         return array(
             Metrics::INDEX_GOAL_NB_CONVERSIONS             => "count(*)",
@@ -181,12 +181,12 @@ class LogAggregator
         );
     }
 
-    static private function getSqlConversionRevenueSum($field)
+    private static function getSqlConversionRevenueSum($field)
     {
         return self::getSqlRevenue('SUM(' . self::LOG_CONVERSION_TABLE . '.' . $field . ')');
     }
 
-    static public function getSqlRevenue($field)
+    public static function getSqlRevenue($field)
     {
         return "ROUND(" . $field . "," . GoalManager::REVENUE_PRECISION . ")";
     }
@@ -662,7 +662,7 @@ class LogAggregator
 
     protected function getActionsMetricFields()
     {
-        return $availableMetrics = array(
+        return array(
             Metrics::INDEX_NB_VISITS        => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisit)",
             Metrics::INDEX_NB_UNIQ_VISITORS => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisitor)",
             Metrics::INDEX_NB_ACTIONS       => "count(*)",
@@ -856,7 +856,7 @@ class LogAggregator
      *                                 value is used.
      * @return array
      */
-    static public function makeArrayOneColumn($row, $columnName, $lookForThisPrefix = false)
+    public static function makeArrayOneColumn($row, $columnName, $lookForThisPrefix = false)
     {
         $cleanRow = array();
         foreach ($row as $label => $count) {

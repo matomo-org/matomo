@@ -134,7 +134,19 @@
             }
 
             var params = $.extend(this.widgetParameters, overrideParams || {});
-            widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent);
+            widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent, function (deferred, status) {
+                if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+                    return;
+                }
+
+                $('.widgetContent', currentWidget).removeClass('loading');
+                var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
+                if ($('#loadingError').html()) {
+                    errorMessage = $('#loadingError').html();
+                }
+
+                $('.widgetContent', currentWidget).html('<div class="widgetLoadingError">' + errorMessage + '</div>');
+            });
 
             return this;
         },

@@ -138,8 +138,20 @@ class Translate
         self::$languageToLoad = null;
     }
 
+    private static function isALanguageLoaded() {
+        return !empty($GLOBALS['Piwik_translations']);
+    }
+
+    /**
+     * Either the name of the currently loaded language such as 'en' or 'de' or null if no language is loaded at all.
+     * @return bool|string
+     */
     public static function getLanguageLoaded()
     {
+        if (!self::isALanguageLoaded()) {
+            return null;
+        }
+
         return self::$loadedLanguage;
     }
 
@@ -211,5 +223,19 @@ class Translate
         $locale_variant = str_replace('UTF-8', 'UTF8', $locale);
         setlocale(LC_ALL, $locale, $locale_variant);
         setlocale(LC_CTYPE, '');
+    }
+
+    public static function findTranslationKeyForTranslation($translation)
+    {
+        if (empty($GLOBALS['Piwik_translations'])) {
+            return;
+        }
+
+        foreach ($GLOBALS['Piwik_translations'] as $key => $translations) {
+            $possibleKey = array_search($translation, $translations);
+            if (!empty($possibleKey)) {
+                return $key . '_' . $possibleKey;
+            }
+        }
     }
 }

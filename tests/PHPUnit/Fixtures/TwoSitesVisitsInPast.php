@@ -5,12 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds two sites and tracks several visits all in the past.
  */
-class Test_Piwik_Fixture_TwoSitesVisitsInPast extends Fixture
+class TwoSitesVisitsInPast extends Fixture
 {
     public $dateTimeFirstDateWebsite1 = '2010-03-06 01:22:33';
     public $dateTimeDateInPastWebsite1 = '2010-01-06 01:22:33';

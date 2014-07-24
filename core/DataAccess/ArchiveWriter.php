@@ -116,7 +116,7 @@ class ArchiveWriter
         $this->logArchiveStatusAsFinal();
     }
 
-    static protected function compress($data)
+    protected static function compress($data)
     {
         if (Db::get()->hasBlobDataType()) {
             return gzcompress($data);
@@ -266,7 +266,7 @@ class ArchiveWriter
 
         $tableName = $this->getTableNameToInsert($value);
 
-        // duplicate idarchives are Ignored, see http://dev.piwik.org/trac/ticket/987
+        // duplicate idarchives are Ignored, see https://github.com/piwik/piwik/issues/987
         $query = "INSERT IGNORE INTO " . $tableName . "
 					(" . implode(", ", $this->getInsertFields()) . ")
 					VALUES (?,?,?,?,?,?,?,?)";

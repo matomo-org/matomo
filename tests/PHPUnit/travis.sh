@@ -36,7 +36,7 @@ then
         then
             artifacts_folder="protected/ui-tests.master.$PLUGIN_NAME"
         else
-            artifacts_folder="ui-tests.master"
+            artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
 
         echo ""
@@ -53,9 +53,9 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --testdox
+            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
         else
-            travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors --testdox
+            travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
     fi
 else

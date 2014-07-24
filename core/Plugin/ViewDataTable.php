@@ -191,6 +191,41 @@ abstract class ViewDataTable implements ViewInterface
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
+        $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
+
+        if (!empty($report)) {
+            /** @var Report $report */
+            $subtable = $report->getActionToLoadSubTables();
+            if (!empty($subtable)) {
+                $this->config->subtable_controller_action = $subtable;
+            }
+
+            $this->config->show_goals = $report->hasGoalMetrics();
+
+            $relatedReports = $report->getRelatedReports();
+            if (!empty($relatedReports)) {
+                foreach ($relatedReports as $relatedReport) {
+                    $widgetTitle = $relatedReport->getWidgetTitle();
+
+                    if ($widgetTitle && Common::getRequestVar('widget', 0, 'int')) {
+                        $relatedReportName = $widgetTitle;
+                    } else {
+                        $relatedReportName = $relatedReport->getName();
+                    }
+
+                    $this->config->addRelatedReport($relatedReport->getModule() . '.' . $relatedReport->getAction(),
+                                                    $relatedReportName);
+                }
+            }
+
+            $metrics = $report->getMetrics();
+            if (!empty($metrics)) {
+                $this->config->addTranslations($metrics);
+            }
+
+            $report->configureView($this);
+        }
+
         /**
          * Triggered during {@link ViewDataTable} construction. Subscribers should customize
          * the view based on the report that is being displayed.

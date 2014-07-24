@@ -48,18 +48,18 @@ class ScheduledReports extends \Piwik\Plugin
 
     const EMAIL_TYPE = 'email';
 
-    static private $availableParameters = array(
+    private static $availableParameters = array(
         self::EMAIL_ME_PARAMETER          => false,
         self::EVOLUTION_GRAPH_PARAMETER   => false,
         self::ADDITIONAL_EMAILS_PARAMETER => false,
         self::DISPLAY_FORMAT_PARAMETER    => true,
     );
 
-    static private $managedReportTypes = array(
+    private static $managedReportTypes = array(
         self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png'
     );
 
-    static private $managedReportFormats = array(
+    private static $managedReportFormats = array(
         ReportRenderer::HTML_FORMAT => 'plugins/Morpheus/images/html_icon.png',
         ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
@@ -153,7 +153,7 @@ class ScheduledReports extends \Piwik\Plugin
     }
 
     // based on http://www.php.net/manual/en/filter.filters.validate.php -> FILTER_VALIDATE_BOOLEAN
-    static private function valueIsTrue($value)
+    private static function valueIsTrue($value)
     {
         return $value == 'true' || $value == 1 || $value == '1' || $value === true;
     }
@@ -447,7 +447,7 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    static public function template_reportParametersScheduledReports(&$out)
+    public static function template_reportParametersScheduledReports(&$out)
     {
         $view = new View('@ScheduledReports/reportParametersScheduledReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
@@ -582,7 +582,7 @@ class ScheduledReports extends \Piwik\Plugin
      * Used in the Report Listing
      * @ignore
      */
-    static public function getPeriodToFrequency()
+    public static function getPeriodToFrequency()
     {
         return array(
             ScheduledTime::PERIOD_NEVER => Piwik::translate('General_Never'),
@@ -596,7 +596,7 @@ class ScheduledReports extends \Piwik\Plugin
      * Used in the Report's email content, ie "monthly report"
      * @ignore
      */
-    static public function getPeriodToFrequencyAsAdjective()
+    public static function getPeriodToFrequencyAsAdjective()
     {
         return array(
             ScheduledTime::PERIOD_DAY   => Piwik::translate('General_DailyReport'),

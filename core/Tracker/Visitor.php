@@ -10,18 +10,24 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Piwik;
 use Piwik\Tracker;
 
 class Visitor
 {
-    function __construct(Request $request, Tracker\Settings $settings, $visitorInfo = array(), $customVariables = null)
+    private $visitorKnown = false;
+    private $request;
+    private $visitorInfo;
+    private $configId;
+
+    public function __construct(Request $request, $configId, $visitorInfo = array(), $customVariables = null)
     {
         $this->request = $request;
         $this->visitorInfo = $visitorInfo;
         $this->customVariables = $customVariables;
-        $this->userInfo = $settings->getInfo();
+        $this->configId = $configId;
     }
 
     /**
@@ -31,11 +37,11 @@ class Visitor
      * - Known visitor
      * - New visitor
      */
-    function recognize()
+    public function recognize()
     {
-        $this->visitorKnown = false;
+        $this->setIsVisitorKnown(false);
 
-        $configId = $this->userInfo['config_id'];
+        $configId = $this->configId;
 
         $idVisitor = $this->request->getVisitorId();
         $isVisitorIdToLookup = !empty($idVisitor);
@@ -58,12 +64,13 @@ class Visitor
         }
 
         $persistedVisitAttributes = self::getVisitFieldsPersist();
+        array_unshift($persistedVisitAttributes, 'visit_first_action_time');
+        array_unshift($persistedVisitAttributes, 'visit_last_action_time');
+        $persistedVisitAttributes = array_unique($persistedVisitAttributes);
 
         $selectFields = implode(", ", $persistedVisitAttributes);
 
         $select = "SELECT
-                        visit_last_action_time,
-                        visit_first_action_time,
                         $selectFields
                         $selectCustomVariables
         ";
@@ -155,13 +162,14 @@ class Visitor
             && $visitRow
             && count($visitRow) > 0
         ) {
-            // These values will be used throughout the request
-            $this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
-            $this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 
+            // These values will be used throughout the request
             foreach($persistedVisitAttributes as $field) {
                 $this->visitorInfo[$field] = $visitRow[$field];
             }
+
+            $this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
+            $this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 
             // Custom Variables copied from Visit in potential later conversion
             if (!empty($selectCustomVariables)) {
@@ -180,7 +188,7 @@ class Visitor
                 }
             }
 
-            $this->visitorKnown = true;
+            $this->setIsVisitorKnown(true);
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($this->visitorInfo['idvisitor']) . ",
                     config_id = " . bin2hex($configId) . ",
                     idvisit = {$this->visitorInfo['idvisit']},
@@ -248,7 +256,6 @@ class Visitor
             'visitor_days_since_first',
             'visitor_days_since_order',
             'visitor_count_visits',
-            'visit_goal_buyer',
 
             'location_country',
             'location_region',
@@ -261,36 +268,64 @@ class Visitor
             'referer_type',
         );
 
+        $dimensions = VisitDimension::getAllDimensions();
+
+        foreach ($dimensions as $dimension) {
+            if ($dimension->hasImplementedEvent('onExistingVisit')) {
+                $fields[] = $dimension->getColumnName();
+            }
+
+            /**
+             * This event collects a list of [visit entity]() properties that should be loaded when reading
+             * the existing visit. Properties that appear in this list will be available in other tracking
+             * events such as 'onExistingVisit'.
+             *
+             * Plugins can use this event to load additional visit entity properties for later use during tracking.
+             */
+            foreach ($dimension->getRequiredVisitFields() as $field) {
+                $fields[] = $field;
+            }
+        }
+
         /**
-         * Triggered when checking if the current action being tracked belongs to an existing visit.
-         *
-         * This event collects a list of [visit entity]() properties that should be loaded when reading
-         * the existing visit. Properties that appear in this list will be available in other tracking
-         * events such as {@hook Tracker.newConversionInformation} and {@hook Tracker.newVisitorInformation}.
-         *
-         * Plugins can use this event to load additional visit entity properties for later use during tracking.
-         * When you add fields to this $fields array, they will be later available in Tracker.newConversionInformation
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Tracker.getVisitFieldsToPersist', function (&$fields) {
-         *         $fields[] = 'custom_visit_property';
-         *     });
-         *
-         * @param array &$fields The list of visit properties to load.
+         * @ignore
          */
         Piwik::postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
 
         return $fields;
     }
 
-    function getVisitorInfo()
+    public function getVisitorInfo()
     {
         return $this->visitorInfo;
     }
 
-    function isVisitorKnown()
+    public function clearVisitorInfo()
+    {
+        $this->visitorInfo = array();
+    }
+
+    public function setVisitorColumn($column, $value)
+    {
+        $this->visitorInfo[$column] = $value;
+    }
+
+    public function getVisitorColumn($column)
+    {
+        if (array_key_exists($column, $this->visitorInfo)) {
+            return $this->visitorInfo[$column];
+        }
+
+        return false;
+    }
+
+    public function isVisitorKnown()
     {
         return $this->visitorKnown === true;
+    }
+
+    public function setIsVisitorKnown($isVisitorKnown)
+    {
+        return $this->visitorKnown = $isVisitorKnown;
     }
 }

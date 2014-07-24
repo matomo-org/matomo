@@ -167,14 +167,6 @@ class Log extends Singleton
      */
     protected function __construct()
     {
-        /**
-         * access a property that is not overriden by TestingEnvironment before accessing log as the
-         * log section is used in TestingEnvironment. Otherwise access to magic __get('log') fails in
-         * TestingEnvironment as it tries to acccess it already here with __get('log').
-         * $config->log ==> __get('log') ==> Config.createConfigInstance ==> nested __get('log') ==> returns null
-         */
-        $initConfigToPreventErrorWhenAccessingLog = Config::getInstance()->mail;
-
         $logConfig = Config::getInstance()->log;
         $this->setCurrentLogLevelFromConfig($logConfig);
         $this->setLogWritersFromConfig($logConfig);
@@ -373,6 +365,7 @@ class Log extends Singleton
         $this->currentLogLevel = $logLevel;
     }
 
+
     public function getLogLevel()
     {
         return $this->currentLogLevel;
@@ -385,9 +378,11 @@ class Log extends Singleton
             return;
         }
 
-        if(!file_put_contents($this->logToFilePath, $message, FILE_APPEND)) {
+        if (!@file_put_contents($this->logToFilePath, $message, FILE_APPEND)
+            && !defined('PIWIK_TEST_MODE')
+        ) {
             $message = Filechecks::getErrorMessageMissingPermissions($this->logToFilePath);
-            throw new \Exception( $message );
+            throw new \Exception($message);
         }
     }
 

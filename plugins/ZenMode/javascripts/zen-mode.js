@@ -113,7 +113,7 @@ $(document).ready(function () {
             minWidth: width + 'px',
             position: 'absolute',
             top: (position.top + height) + 'px',
-            maxHeight: 'none',
+            maxHeight: 'none'
         });
     }
 

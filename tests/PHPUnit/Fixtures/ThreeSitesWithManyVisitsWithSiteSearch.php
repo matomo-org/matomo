@@ -5,14 +5,17 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds three websites with different site search configurations and adds
  * several visits to each of them.
  */
-class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Fixture
+class ThreeSitesWithManyVisitsWithSiteSearch extends Fixture
 {
     public $idSite1 = 1;
     public $idSite2 = 2;
@@ -205,6 +208,4 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Fixture
         $visitor->setUrl('http://example.org/index.htm?' . $crazyTitle);
         self::checkResponse($visitor->doTrackPageView('Pageview: ' . $crazyTitle));
     }
-
 }
-

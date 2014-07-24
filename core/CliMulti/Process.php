@@ -125,7 +125,7 @@ class Process
         }
 
         $lockedPID   = trim($content);
-        $runningPIDs = explode("\n", trim( `ps -e | awk '{print $1}'` ));
+        $runningPIDs = explode("\n", trim( `ps ex | awk '{print $1}'` ));
 
         return !empty($lockedPID) && in_array($lockedPID, $runningPIDs);
     }

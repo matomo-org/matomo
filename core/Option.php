@@ -127,14 +127,14 @@ class Option
      * Singleton instance
      * @var \Piwik\Option
      */
-    static private $instance = null;
+    private static $instance = null;
 
     /**
      * Returns Singleton instance
      *
      * @return \Piwik\Option
      */
-    static private function getInstance()
+    private static function getInstance()
     {
         if (self::$instance == null) {
             self::$instance = new self;

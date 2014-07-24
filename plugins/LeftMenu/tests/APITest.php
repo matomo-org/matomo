@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\LeftMenu\tests;
 
 use Piwik\Access;
-use Piwik\Option;
 use Piwik\Plugins\LeftMenu\API;
 use Piwik\Plugins\LeftMenu\Settings;
 use \FakeAccess;

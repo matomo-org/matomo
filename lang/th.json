@@ -332,7 +332,6 @@
         "EncryptedSmtpTransport": "ใส่การเข้ารหัสชั้นการขนส่งจำเป็นต้องใช้เซิร์ฟเวอร์ SMTP ของคุณ",
         "EnglishLanguageName": "Thai",
         "Error": "ผิดพลาด",
-        "ErrorRequest": "อุ๊ปส์… เกิดปัญหาระหว่างดึงข้อมูล กรุณาลองใหม่อีกครั้ง",
         "EvolutionOverPeriod": "วิวัฒนาการตามเวลา",
         "ExceptionConfigurationFileNotFound": "ไม่พบไฟล์การตั้งค่า {%s}",
         "ExceptionDatabaseVersion": "คุณ %1$s มีเวอร์ชั่นคือ %2$s แต่ Piwik ต้องมีอย่างน้อย %3$s.",

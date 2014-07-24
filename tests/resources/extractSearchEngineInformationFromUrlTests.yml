@@ -32,7 +32,7 @@
   keywords: '<> &test; piwik &quot;'
   
 # testing Baidu special case (several variable names possible, and custom encoding)
-# see http://dev.piwik.org/trac/ticket/589
+# see https://github.com/piwik/piwik/issues/589
 
 # keyword is in "wd"
 - url: 'http://www.baidu.com/s?ie=gb2312&bs=%BF%D5%BC%E4+hao123+%7C+%B8%FC%B6%E0%3E%3E&sr=&z=&cl=3&f=8&tn=baidu&wd=%BF%D5%BC%E4+%BA%C3123+%7C+%B8%FC%B6%E0%3E%3E&ct=0'
@@ -328,7 +328,7 @@
   keywords: false
 
 # Google images no keyword
-- url: 'http://www.google.com/imgres?hl=en&client=ubuntu&hs=xDb&sa=X&channel=fs&biw=1920&bih=1084&tbm=isch&prmd=imvns&tbnid=5i7iz7u4LPSSrM:&imgrefurl=http://dev.piwik.org/trac/wiki/HowToSetupDevelopmentEnvironmentWindows&docid=tWN9OesMyOTqsM&imgurl=http://dev.piwik.org/trac/raw-attachment/wiki/HowToSetupDevelopmentEnvironmentWindows/eclipse-preview.jpg&w=1000&h=627&ei=pURoT67BEdT74QTUzYiSCQ&zoom=1&iact=hc&vpx=1379&vpy=548&dur=513&hovh=178&hovw=284&tx=134&ty=105&sig=108396332168858896950&page=1&tbnh=142&tbnw=227&start=0&ndsp=37&ved=1t:429,r:5,s:0'
+- url: 'http://www.google.com/imgres?hl=en&client=ubuntu&hs=xDb&sa=X&channel=fs&biw=1920&bih=1084&tbm=isch&prmd=imvns&tbnid=5i7iz7u4LPSSrM:&imgrefurl=http://helloworld/trac/wiki/HowToSetupDevelopmentEnvironmentWindows&docid=tWN9OesMyOTqsM&imgurl=http://helloworld.org/trac/raw-attachment/wiki/HowToSetupDevelopmentEnvironmentWindows/eclipse-preview.jpg&w=1000&h=627&ei=pURoT67BEdT74QTUzYiSCQ&zoom=1&iact=hc&vpx=1379&vpy=548&dur=513&hovh=178&hovw=284&tx=134&ty=105&sig=108396332168858896950&page=1&tbnh=142&tbnw=227&start=0&ndsp=37&ved=1t:429,r:5,s:0'
   engine: 'Google Images'
   keywords: false
 
@@ -465,6 +465,23 @@
 - url: 'http://search.v9.com/image/?q=saeko&hl=mx&yahoo=0&pn=2&ab=default'
   engine: 'InfoSpace'
   keywords: 'saeko'
+
+- url: 'http://www.k9safesearch.com/search.jsp?q=amagami+sae+nakata'
+  engine: 'K9 Safe Search'
+  keywords: 'amagami sae nakata'
+
+- url: 'http://sp-image.search.auone.jp/search?q=school%20days%20%E7%94%BB%E5%83%8F&query=p2Abo29fVTEurKZt55F75LBCWzygLJqypj&page=6'
+  engine: 'auone Images'
+  keywords: 'school days 画像'
+
+- url: 'http://search.iminent.com/SearchTheWeb/v6/1036/homepage/Default.aspx#q=rest&s=images'
+  engine: 'InfoSpace'
+  keywords: 'rest'
+
+# No keyword
+- url: 'http://yandex.ru/clck/jsredir?from=yandex.ru;yandsearch;web;;&text=&etext=385.4_2Hh6u_q9NEfpXpGpdVughcGncWYG-_kwHJA-7QxQ8v4xvt5Q2aAB7TvvUxHLtacHMltCoYGQFFmIdiXaIT-_yiHqjEJoZKVdHIXJylYsQ5TJuxRtqCDA0zUi_xlatVD6kx219rIP4Q4a7j9E7-2U88ZpCZwGXuhRws6LASTZUIJRfiPbVdxjIn2Qu5bCtcGKIQBqGa567Czx019cxaPvNAWQQ_8MIJjUgFHzg2vO_XvlSMmKOcooZNX5UzqgJAnaioMW7884jsYEKwXebrij39unXyWKnLXDX15607fkXqQFGIC_tp8zvjXq0ynizqcdQcfkHnZG-zxxPqCoALAWj47hwRCZtLGinfqMatmzFWG7Yo7eWxScEHyMI2J89OU2ZjpuHog0VyZpSb3hN17-CdHWEeN_ii1mLG_J24ftGMEpbWOeH-M3fZeAtCzmq0XUFchFAbVvm9Xmk8I2M-4A.66cd118e1c9292f7ec030c8580f6912eae4ac700&uuid=&state=AiuY0DBWFJ4ePaEse6rgeAjgs2pI3DW99KUdgowt9XsGes-COYeAtjuEaMUoBSHP2gxXC4630Mz4aEvXYUCXRTGAgAQwM7IGD-gsizkhSmBNCEfle91ZI3guOwMFOli3aeHzkqoQeuyYhvz_XwXodFz8gB8yMp6IgAL52sHwR5edKVNpZtbPIFNbLDRYIxJbYQciYGnLnCw_i584OfCtQO-zjBBGMlwoQFtGet-Xvmw&data=UlNrNmk5WktYejR0eWJFYk1LdmtxdE5aS05CUWU0alhkSkF1MEpOb0Jrc0dpbmNsUGhaVjljRWt6R0VackFURk5sM1psNlVKMWh6djhYazhRT1psQTdHamFGSFJacDFhQjdfbHJQU05jeDJMRHV0MTJmRG53Zw&b64e=2&sign=9072743a841f27dd5e766c4b57fa5138&keyno=0&l10n=ru'
+  engine: 'Yandex'
+  keywords: ''
 
 # No search
 - url: 'http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-x&output=html&h=15&slotname=2973049897&adk=3777420323&w=728&lmt=1381755030&flash=11.9.900.117&url=http%3A%2F%2Fexample.com%2F&dt=1381755030169&bpp=8&bdt=2592&shv=r20131008&cbv=r20130906&saldr=sa&correlator=1381755030200&frm=20&ga_vid=1659309719.1381755030&ga_sid=1381755030&ga_hid=1569070879&ga_fc=0&u_tz=660&u_his=3&u_java=1&u_h=768&u_w=1366&u_ah=728&u_aw=1366&u_cd=24&u_nplug=0&u_nmime=0&dff=times%20new%20roman&dfs=13&adx=311&ady=107&biw=1349&bih=673&oid=2&ref=http%3A%2F%2Fwww.google.com.au%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26frm%3D1%26source%3Dweb%26cd%3D10%26ved%3D0CGcQFjAJ%26url%3Dhttp%253A%252F%252Fexample.com%252F%26ei%3DXNtbUvrJPKXOiAfw1IH4Bw%26usg%3DAFQjCNE66zRf2zaUw8FKf0JWxiM1FiXHVg&vis=1&fu=0&ifi=1&pfi=32&dtd=122&xpc=tBekiCZTWM&p=http%3A//example.com&rl_rc=true&adsense_enabled=true&ad_type=text_image&oe=utf8&height=15&width=728&format=fp_al_lp&kw_type=radlink&prev_fmts=728x15_0ads_al&rt=ChBSW-iYAADltAqmmOfZAA2SEg1BbmltYXRlZCBUZXh0Ggj019wBciBqgSgBUhMI8OHhzq6WugIVhJOmCh2NYQBO&hl=en&kw0=Animated+Text&kw1=Animated+GIF&kw2=Animated+Graphics&kw3=Fonts&okw=Animated+Text'

@@ -77,10 +77,6 @@ enable_sql_profiler = 0
 ; this is useful for Piwik developers as an easy way to create data in their local Piwik
 enable_measure_piwik_usage_in_idsite = 0
 
-; if set to 1, javascript files will be included individually and neither merged nor minified.
-; this option must be set to 1 when adding, removing or modifying javascript files
-disable_merged_assets = 0
-
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 
@@ -92,7 +88,20 @@ allow_upgrades_to_beta = 0
 ; will be loaded when executing tests.
 enable_load_standalone_plugins_during_tests = 0
 
+[Development]
+
+; Enables the development mode where we avoid most caching to make sure code changes will be directly applied as
+; some caches are only invalidated after an update otherwise. When enabled it'll also performs some validation checks.
+; For instance if you register a method in a widget we will verify whether the method actually exists and is public.
+; If not, we will show you a helpful warning to make it easy to find simple typos etc.
+enabled = 0
+
+; if set to 1, javascript files will be included individually and neither merged nor minified.
+; this option must be set to 1 when adding, removing or modifying javascript files
+disable_merged_assets = 0
+
 [General]
+
 ; the following settings control whether Unique Visitors will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
 ; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
@@ -464,7 +473,8 @@ debug = 0
 ; _paq.push(['appendToTrackingUrl', 'new_visit=1']);
 new_visit_api_requires_admin = 1
 
-; This setting should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
+; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
+; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
 trust_visitors_cookies = 0
 
@@ -539,7 +549,7 @@ bulk_requests_use_transaction = 1
 
 ; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
 ; All Visits with a Referrer URL host set to one of these will be excluded.
-; If you find new spam entries in Referrers>Websites, please report them here: http://dev.piwik.org/trac/ticket/5099
+; If you find new spam entries in Referrers>Websites, please report them here: https://github.com/piwik/piwik/issues/5099
 referrer_urls_spam = "semalt.com"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER

@@ -5,14 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\API;
+use Piwik\Tests\Fixture;
+use FakeAccess;
 
 /**
  * A fixture that adds two websites and annotations for each website.
  */
-class Test_Piwik_Fixture_TwoSitesWithAnnotations extends Fixture
+class TwoSitesWithAnnotations extends Fixture
 {
     public $dateTime = '2011-01-01 00:11:42';
     public $idSite1 = 1;

@@ -43,12 +43,12 @@ class Tracker
     const LENGTH_HEX_ID_STRING = 16;
     const LENGTH_BINARY_ID = 8;
 
-    static protected $forcedDateTime = null;
-    static protected $forcedIpString = null;
-    static protected $forcedVisitorId = null;
+    protected static $forcedDateTime = null;
+    protected static $forcedIpString = null;
+    protected static $forcedVisitorId = null;
 
-    static protected $pluginsNotToLoad = array();
-    static protected $pluginsToLoad = array();
+    protected static $pluginsNotToLoad = array();
+    protected static $pluginsToLoad = array();
 
     /**
      * The set of visits to track.
@@ -115,7 +115,7 @@ class Tracker
      * Do not load the specified plugins (used during testing, to disable Provider plugin)
      * @param array $plugins
      */
-    static public function setPluginsNotToLoad($plugins)
+    public static function setPluginsNotToLoad($plugins)
     {
         self::$pluginsNotToLoad = $plugins;
     }
@@ -125,7 +125,7 @@ class Tracker
      *
      * @return array
      */
-    static public function getPluginsNotToLoad()
+    public static function getPluginsNotToLoad()
     {
         return self::$pluginsNotToLoad;
     }
@@ -136,7 +136,7 @@ class Tracker
      * @param string $name Setting name
      * @param mixed $value Value
      */
-    static private function updateTrackerConfig($name, $value)
+    private static function updateTrackerConfig($name, $value)
     {
         $section = Config::getInstance()->Tracker;
         $section[$name] = $value;
@@ -226,6 +226,7 @@ class Tracker
      */
     public function main($args = null)
     {
+
         try {
             $tokenAuth = $this->initRequests($args);
         } catch (Exception $ex) {
@@ -251,6 +252,8 @@ class Tracker
         } else {
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
+
+        Piwik::postEvent('Tracker.end');
 
         $this->end();
 
@@ -393,13 +396,13 @@ class Tracker
         Common::printDebug("Next run will be from: " . date('Y-m-d H:i:s', $nextRunTime) . ' UTC');
     }
 
-    static public $initTrackerMode = false;
+    public static $initTrackerMode = false;
 
     /**
      * Used to initialize core Piwik components on a piwik.php request
      * Eg. when cache is missed and we will be calling some APIs to generate cache
      */
-    static public function initCorePiwikInTrackerMode()
+    public static function initCorePiwikInTrackerMode()
     {
         if (SettingsServer::isTrackerApiRequest()
             && self::$initTrackerMode === false
@@ -408,8 +411,8 @@ class Tracker
             require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
-            $access = Access::getInstance();
-            $config = Config::getInstance();
+            Access::getInstance();
+            Config::getInstance();
 
             try {
                 Db::get();
@@ -636,7 +639,7 @@ class Tracker
          * Triggered before a new **visit tracking object** is created. Subscribers to this
          * event can force the use of a custom visit tracking object that extends from
          * {@link Piwik\Tracker\VisitInterface}.
-         * 
+         *
          * @param \Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
          *                                              a new visit object. If it isn't modified
          *                                              Piwik uses the default class.
@@ -863,11 +866,11 @@ class Tracker
 
         try {
             if ($this->isVisitValid()) {
-                $visit = $this->getNewVisitObject();
                 $request->setForcedVisitorId(self::$forcedVisitorId);
                 $request->setForceDateTime(self::$forcedDateTime);
                 $request->setForceIp(self::$forcedIpString);
 
+                $visit = $this->getNewVisitObject();
                 $visit->setRequest($request);
                 $visit->handle();
             } else {

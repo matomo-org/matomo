@@ -5,15 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Tests\Fixture;
+use Exception;
 
 /**
  * Reusable fixture. Loads a SQL dump into the DB.
  */
-class Piwik_Test_Fixture_SqlDump extends Fixture
+class SqlDump extends Fixture
 {
     public $date = '2012-09-03';
     public $dateTime = '2012-09-03';

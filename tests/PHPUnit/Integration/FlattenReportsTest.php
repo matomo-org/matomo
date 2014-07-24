@@ -5,18 +5,23 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
 
 /**
  * Tests the flattening of reports.
+ *
+ * @group FlattenReportsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
+class FlattenReportsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
-     * 
      */
     public function testApi($api, $params)
     {
@@ -120,6 +125,4 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_FlattenReports::$fixture =
-    new Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars();
-
+FlattenReportsTest::$fixture = new ManyVisitsWithSubDirReferrersAndCustomVars();

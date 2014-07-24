@@ -45,7 +45,7 @@ class GenerateController extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {

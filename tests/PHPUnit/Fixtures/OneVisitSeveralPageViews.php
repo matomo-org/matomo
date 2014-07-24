@@ -5,12 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site and tracks one visit with several pageviews.
  */
-class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Fixture
+class OneVisitSeveralPageViews extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;
@@ -66,16 +69,24 @@ class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Fixture
 
         $t->setUrl('http://example.org/dir2/sub/0/file.php');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
-
         // Very high Generation time should be ignored
         $t->setGenerationTime(6350000);
         self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
 
+        // visit terminal & branch pages w/ the same name so we can test the ! label filter query operator
+        $t->setUrl('http://example.org/dir/subdir/');
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.41)->getDatetime());
+        $t->setGenerationTime(233);
+        self::checkResponse($t->doTrackPageView('check <> / @one@ / two'));
+
+        $t->setUrl('http://example.org/dir/subdir');
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.42)->getDatetime());
+        $t->setGenerationTime(333);
+        self::checkResponse($t->doTrackPageView('check <> / @one@'));
 
         $t->setUrl('http://example.org/0');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $t->setGenerationTime(635);
         self::checkResponse($t->doTrackPageView('I am URL zero!'));
-
     }
 }

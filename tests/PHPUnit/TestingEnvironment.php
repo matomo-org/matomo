@@ -102,11 +102,12 @@ class Piwik_TestingEnvironment
         $disabledPlugins[] = 'ExampleVisualization';
         $disabledPlugins[] = 'PleineLune';
 
+        $disabledPlugins = array_diff($disabledPlugins, array(
+            'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
+        ));
+
         return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
-            if (in_array($pluginName, $disabledPlugins)
-                && $pluginName != 'DBStats'
-                && $pluginName != 'ExampleUI'
-            ) {
+            if (in_array($pluginName, $disabledPlugins)) {
                 return false;
             }
 
@@ -144,12 +145,11 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache, $local) use ($testingEnvironment) {
+            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache, &$local) use ($testingEnvironment) {
                 $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
 
                 if ($testingEnvironment->configFileLocal) {
-                    unset($cache['General']);
-                    $config->General['session_save_handler'] = 'dbtable';
+                    $local['General']['session_save_handler'] = 'dbtable';
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
@@ -160,17 +160,15 @@ class Piwik_TestingEnvironment
 
                 sort($pluginsToLoad);
 
-                $config->Plugins = array('Plugins' => $pluginsToLoad);
+                $local['Plugins'] = array('Plugins' => $pluginsToLoad);
 
-                $trackerPluginsToLoad = array_filter($config->Plugins['Plugins'], function ($plugin) use ($manager) {
+                $trackerPluginsToLoad = array_filter($local['Plugins']['Plugins'], function ($plugin) use ($manager) {
                     return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
                 });
 
-                $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
+                $local['Plugins_Tracker'] = array('Plugins_Tracker' => $trackerPluginsToLoad);
 
-                $log = $config->log;
-                $log['log_writers'] = array('file');
-                $config->log = $log;
+                $local['log']['log_writers'] = array('file');
 
                 $manager->unloadPlugins();
 

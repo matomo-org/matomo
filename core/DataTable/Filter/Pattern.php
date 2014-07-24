@@ -53,7 +53,7 @@ class Pattern extends BaseFilter
      * @return string
      * @ignore
      */
-    static public function getPatternQuoted($pattern)
+    public static function getPatternQuoted($pattern)
     {
         return '/' . str_replace('/', '\/', $pattern) . '/';
     }
@@ -67,7 +67,7 @@ class Pattern extends BaseFilter
      * @return int
      * @ignore
      */
-    static public function match($patternQuoted, $string, $invertedMatch = false)
+    public static function match($patternQuoted, $string, $invertedMatch = false)
     {
         return preg_match($patternQuoted . "i", $string) == 1 ^ $invertedMatch;
     }

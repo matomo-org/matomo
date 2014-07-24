@@ -49,6 +49,76 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
+     * See {@link add()}. Adds a new menu item to the development section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addDevelopmentItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CoreAdminHome_MenuDevelopment', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the diagnostic section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addDiagnosticItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CoreAdminHome_MenuDiagnostic', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the platform section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addPlatformItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CorePluginsAdmin_MenuPlatform', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the settings section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addSettingsItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('General_Settings', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the manage section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CoreAdminHome_MenuManage', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
      * Triggers the Menu.MenuAdmin.addItems hook and returns the admin menu.
      *
      * @return Array
@@ -63,7 +133,7 @@ class MenuAdmin extends MenuAbstract
              */
             Piwik::postEvent('Menu.Admin.addItems', array());
 
-            foreach ($this->getAvailableMenus() as $menu) {
+            foreach ($this->getAllMenus() as $menu) {
                 $menu->configureAdminMenu($this);
             }
         }
