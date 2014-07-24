@@ -473,7 +473,8 @@ debug = 0
 ; _paq.push(['appendToTrackingUrl', 'new_visit=1']);
 new_visit_api_requires_admin = 1
 
-; This setting should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
+; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
+; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
 trust_visitors_cookies = 0
 
