@@ -133,6 +133,28 @@
                     $exportLink.css('visibility', 'hidden');
                 }
             });
+
+            var tooltipIsOpened = false;
+
+            $('a', $element).on('focus', function () {
+                // see https://github.com/piwik/piwik/issues/4099
+                if (tooltipIsOpened) {
+                    $element.tooltip('close');
+                }
+            });
+
+            $element.tooltip({
+                track: true,
+                show: false,
+                hide: false,
+                content: function() {
+                    var title = $(this).attr('title');
+                    return $('<a>').text( title ).html().replace(/\n/g, '<br />');
+                },
+                tooltipClass: 'small',
+                open: function() { tooltipIsOpened = true; },
+                close: function() { tooltipIsOpened = false; }
+            });
         },
 
         toggleMap: function () {
