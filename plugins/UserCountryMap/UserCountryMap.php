@@ -50,7 +50,8 @@ class UserCountryMap extends \Piwik\Plugin
     {
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
         return $hooks;
     }
@@ -69,5 +70,11 @@ class UserCountryMap extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/UserCountryMap/stylesheets/visitor-map.less";
         $stylesheets[] = "plugins/UserCountryMap/stylesheets/realtime-map.less";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'UserCountryMap_WithUnknownRegion';
+        $translationKeys[] = 'UserCountryMap_WithUnknownCity';
     }
 }
