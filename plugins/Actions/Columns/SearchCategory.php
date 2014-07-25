@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class SearchCategory extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('Actions_ColumnSearchCategory');

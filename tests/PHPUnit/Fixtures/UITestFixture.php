@@ -176,7 +176,7 @@ class UITestFixture extends SqlDump
     {
         $dashboardColumnCount = 3;
         $dashboardCount = 4;
-        
+
         $layout = array();
         for ($j = 0; $j != $dashboardColumnCount; ++$j) {
             $layout[] = array();
@@ -186,10 +186,10 @@ class UITestFixture extends SqlDump
         for ($i = 0; $i != $dashboardCount; ++$i) {
             $dashboards[] = $layout;
         }
-        
+
         $oldGet = $_GET;
         $_GET['idSite'] = 1;
-        
+
         // collect widgets & sort them so widget order is not important
         $allWidgets = array();
         foreach (WidgetsList::get() as $category => $widgets) {
@@ -218,7 +218,7 @@ class UITestFixture extends SqlDump
                 'uniqueId' => $widget['uniqueId'],
                 'parameters' => $widget['parameters']
             );
-            
+
             // dashboard images must have height of less than 4000px to avoid odd discoloration of last line of image
             $widgetEntry['parameters']['filter_limit'] = 5;
 
@@ -233,13 +233,13 @@ class UITestFixture extends SqlDump
                 throw new Exception("Unexpected error: Incorrect dashboard widget placement logic. Something's wrong w/ the code.");
             }
         }
-        
+
         // distribute widgets in each dashboard
         $column = 0;
         foreach ($groupedWidgets as $dashboardIndex => $dashboardWidgets) {
             foreach ($dashboardWidgets as $widget) {
                 $column = ($column + 1) % $dashboardColumnCount;
-                
+
                 $dashboards[$dashboardIndex][$column][] = $widget;
             }
         }
@@ -279,7 +279,7 @@ class UITestFixture extends SqlDump
 
         $_GET = $oldGet;
     }
-    
+
     public function createSegments()
     {
         Db::exec("TRUNCATE TABLE " . Common::prefixTable('segment'));

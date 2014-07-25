@@ -714,7 +714,6 @@ class Visitor implements VisitorInterface
             $visitorDetailsArray['exitPageUrl'] = $lastAction['url'];
         }
 
-
         return $visitorDetailsArray;
     }
 
@@ -786,7 +785,6 @@ class Visitor implements VisitorInterface
             if (!empty($customVariablesPage)) {
                 $actionDetail['customVariables'] = $customVariablesPage;
             }
-
 
             if($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
                 // Handle Event

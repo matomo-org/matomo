@@ -36,7 +36,7 @@
 
     /**
      * UI control that handles extra functionality for Actions datatables.
-     * 
+     *
      * @constructor
      */
     exports.ActionsDataTable = function (element) {
@@ -54,7 +54,7 @@
             var self = this;
 
             self.cleanParams();
-            
+
             if (!rows) {
                 rows = $('tr', domElem);
             }
@@ -114,11 +114,11 @@
                 });
 
             var rootRow = rows.first().prev();
-            
+
             // we look at the style of the row before the new rows to determine the rows'
             // level
             var level = rootRow.length ? getLevelFromClass(rootRow.attr('class')) + 1 : 0;
-            
+
             rows.each(function () {
                 var currentStyle = $(this).attr('class') || '';
 
@@ -133,10 +133,10 @@
                     return self.parentAttributeParent + ' ' + self.parentId;
                 });
             });
-            
+
             self.addOddAndEvenClasses(domElem);
         },
-        
+
         addOddAndEvenClasses: function(domElem) {
             // Add some styles on the cells even/odd
             // label (first column of a data row) or not
@@ -212,7 +212,7 @@
             else {
                 var plusDetected = $('td img.plusMinus', domElem).attr('src').indexOf('plus') >= 0;
                 var stripingNeeded = false;
-                
+
                 $(domElem).siblings().each(function () {
                     var parents = $(this).prop('parent').split(' ');
                     if (parents) {
@@ -221,7 +221,7 @@
                             if (plusDetected) {
                                 $(this).css('display', '').removeClass('hidden');
                                 stripingNeeded = !stripingNeeded;
-                                
+
                                 //unroll everything and display '-' sign
                                 //if the row is already opened
                                 var NextStyle = $(this).next().attr('class');

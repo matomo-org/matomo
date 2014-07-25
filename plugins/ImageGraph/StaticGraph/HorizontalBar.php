@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\Piwik;
 
-
 /**
  *
  */

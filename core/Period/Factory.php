@@ -39,7 +39,6 @@ class Factory
             $date = Date::factory($date);
         }
 
-
         switch ($period) {
             case 'day':
                 return new Day($date);
@@ -77,7 +76,6 @@ class Factory
         $message = Piwik::translate('General_ExceptionInvalidPeriod', array($strPeriod, $periods));
         throw new Exception($message);
     }
-
 
     /**
      * Creates a Period instance using a period, date and timezone.

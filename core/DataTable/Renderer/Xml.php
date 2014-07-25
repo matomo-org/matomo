@@ -370,7 +370,6 @@ class Xml extends Renderer
                 continue;
             }
 
-
             // Handing case idgoal=7, creating a new array for that one
             $rowAttribute = '';
             if (strstr($rowId, '=') !== false) {

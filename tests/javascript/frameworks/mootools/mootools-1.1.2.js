@@ -286,7 +286,7 @@ document.head = document.getElementsByTagName('head')[0];
 /*
 Class: window
 	Some properties are attached to the window object by the browser detection.
-	
+
 Note:
 	browser detection is entirely object-based. We dont sniff.
 
@@ -2938,7 +2938,6 @@ Element.Events = new Abstract({
 		In addition to the standard javascript events (load, mouseover, mouseout, click, etc.) <Event.js> contains two custom events
 		this event fires when the mouse enters the area of the dom element; will not be fired again if the mouse crosses over children of the element (unlike mouseover)
 
-
 	Example:
 		>$(myElement).addEvent('mouseenter', myFunction);
 	*/
@@ -2954,7 +2953,6 @@ Element.Events = new Abstract({
 	/*
 	Event: mouseleave
 		this event fires when the mouse exits the area of the dom element; will not be fired again if the mouse crosses over children of the element (unlike mouseout)
-
 
 	Example:
 		>$(myElement).addEvent('mouseleave', myFunction);
@@ -3014,7 +3012,6 @@ Function.extend({
 	}
 
 });
-
 
 /*
 Script: Element.Filters.js
@@ -4714,7 +4711,6 @@ Fx.Transitions.extend({
 	Circ: function(p){
 		return 1 - Math.sin(Math.acos(p));
 	},
-
 
 	/*
 	Property: Sine

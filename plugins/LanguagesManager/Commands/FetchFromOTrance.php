@@ -140,7 +140,7 @@ class FetchFromOTrance extends ConsoleCommand
         $progress = $this->getHelperSet()->get('progress');
 
         $progress->start($output, count($filesToConvert));
-        foreach ($filesToConvert AS $filename) {
+        foreach ($filesToConvert as $filename) {
 
             require_once $filename;
             $basename = explode(".", basename($filename));

@@ -30,7 +30,6 @@ rm $CONNECT_DOWNLOAD
 
 SAUCE_ACCESS_KEY=`echo $SAUCE_ACCESS_KEY | rev`
 
-
 ARGS=""
 
 # Set tunnel-id only on Travis, to make local testing easier.

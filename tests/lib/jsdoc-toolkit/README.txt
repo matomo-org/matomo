@@ -15,7 +15,7 @@ For more information, to report a bug, or to browse the technical
 documentation for this tool please visit the official JsDoc Toolkit
 project homepage at http://code.google.com/p/jsdoc-toolkit/
 
-For the most up-to-date documentation on JsDoc Toolkit see the 
+For the most up-to-date documentation on JsDoc Toolkit see the
 official wiki at http://code.google.com/p/jsdoc-toolkit/w/list
 
 ======================================================================
@@ -142,12 +142,12 @@ You can obtain the source code for Rhino from the Mozilla web site at
 http://www.mozilla.org/rhino/download.html
 
 JsDoc Toolkit is a larger work that uses the Rhino JavaScript engine
-but is not derived from it in any way. The Rhino library is used 
+but is not derived from it in any way. The Rhino library is used
 without modification and without any claims whatsoever.
 
 The Rhino Debugger
 
-You can obtain more information about the Rhino Debugger from the 
+You can obtain more information about the Rhino Debugger from the
 Mozilla web site at http://www.mozilla.org/rhino/debugger.html
 
 JsDoc Toolkit is a larger work that uses the Rhino Debugger but

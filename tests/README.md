@@ -1,5 +1,5 @@
 Piwik comes with unit tests, integration tests, Javascript tests and Webtests.
-This document briefly describes how to use and modify Piwik tests. 
+This document briefly describes how to use and modify Piwik tests.
 
 ## Continuous Integration
 
@@ -64,7 +64,7 @@ To execute the tests:
 		<server name="HTTP_HOST" value="localhost"/>
 		<server name="REQUEST_URI" value="/path/to/piwik/"/>
 
-3.	Ensure the `[database_tests]` section in `piwik/config/config.php.ini` is set up correctly, 
+3.	Ensure the `[database_tests]` section in `piwik/config/config.php.ini` is set up correctly,
 	i.e. with the correct password to prevent the following error:
 	`SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
 
@@ -78,11 +78,9 @@ To execute the tests:
 	There are three main groups of tests: Core, Plugins and Integration
 	For example run `phpunit --group Core`
 	to run all Core Piwik tests.
-	
+
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
-
-
 
 ## Integration Tests
 
@@ -104,7 +102,7 @@ Otherwise, if you didn't expect to modify the API outputs, it might be that your
 
 ### Scheduled Reports Tests
 
-As part of our integration tests we generate the scheduled reports (in HTML, PDF & SMS). 
+As part of our integration tests we generate the scheduled reports (in HTML, PDF & SMS).
 Some of these scheduled reports contain PNG graphs. Depending on the system under test, generated images can differ.
 Therefore, PNG graphs are only tested and compared against "expected" graphs, if the system under test has the same characteristics as the integration server.
 The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
@@ -133,7 +131,7 @@ See [tests/PHPUnit/Benchmarks/README.md](https://github.com/piwik/piwik/blob/mas
 
 You can retrieve the files generated during the build (the build artifacts) at [builds-artifacts.piwik.org](http://builds-artifacts.piwik.org/)
 
-## Troubleshooting 
+## Troubleshooting
 
 See [tests/README.troubleshooting.md](https://github.com/piwik/piwik/blob/master/tests/README.troubleshooting.md) for troubleshooting the tests.
 

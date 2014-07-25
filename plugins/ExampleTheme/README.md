@@ -17,5 +17,3 @@ Here goes the changelog text.
 
 Please direct any feedback to ...
 
-
-

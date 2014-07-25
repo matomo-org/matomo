@@ -25,8 +25,6 @@ Following these guidelines helps to communicate that you respect the time of the
 - Additional support is available via the [Google Group](http://groups.google.com/group/chaijs) or on irc.freenode.net#chaijs.
 - **IMPORTANT**: By submitting a patch, you agree to allow the project owner to license your work under the same license as that used by the project.
 
-
-
 <a name="contributing"></a>
 ## Contributing
 

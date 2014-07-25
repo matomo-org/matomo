@@ -34,7 +34,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
 
         $pluginsWithTranslation = array();
 
-        foreach ($plugins AS $plugin) {
+        foreach ($plugins as $plugin) {
 
             if (API::getInstance()->getPluginTranslationsForLanguage($plugin, 'en')) {
 
@@ -43,11 +43,11 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         }
 
         $return = array();
-        foreach ($languages AS $language) {
+        foreach ($languages as $language) {
             if ($language != 'en') {
                 $return[] = array($language, null);
 
-                foreach ($pluginsWithTranslation AS $plugin) {
+                foreach ($pluginsWithTranslation as $plugin) {
 
                     $return[] = array($language, $plugin);
                 }

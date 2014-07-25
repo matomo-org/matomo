@@ -126,7 +126,6 @@ class ManyVisitorsOneWebsiteTest extends IntegrationTestCase
 //                'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_limit' => 7)
 //            ));
 
-
         return $apiToTest;
     }
 }

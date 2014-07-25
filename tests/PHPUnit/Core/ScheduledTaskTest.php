@@ -36,7 +36,7 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getTaskNameTestCases
      */
     public function testGetTaskName($expectedTaskName, $className, $methodName, $methodParameter)

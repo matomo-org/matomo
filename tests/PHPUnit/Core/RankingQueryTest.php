@@ -32,10 +32,10 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 				END AS `label`,
 				`column`,
 				sum(`columnSum`) AS `columnSum`
-			FROM ( 
+			FROM (
 				SELECT
 					`label`,
-					CASE 
+					CASE
 						WHEN @counter = 11 THEN 11
 						ELSE @counter:=@counter+1
 					END AS counter,
@@ -69,7 +69,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 					ELSE `label`
 				END AS `label`,
 				`exclude_marker`
-			FROM ( 
+			FROM (
 				SELECT
 					`label`,
 					CASE
@@ -106,7 +106,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 					ELSE `label`
 				END AS `label`,
 				`partition`
-			FROM ( 
+			FROM (
 				SELECT
 					`label`,
 					CASE
@@ -122,7 +122,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 				FROM
 					( SELECT @counter1:=0 ) initCounter1,
 					( SELECT @counter2:=0 ) initCounter2,
-					( SELECT @counter3:=0 ) initCounter3, 
+					( SELECT @counter3:=0 ) initCounter3,
 					( SELECT label, partition FROM myTable ) actualQuery
 			) AS withCounter
 			GROUP BY counter, `partition`

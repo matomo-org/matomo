@@ -30,7 +30,7 @@
 - url: 'http://www.google.fr/search?hl=en&q=%3C%3E+%26test%3B+piwik+%26quot%3B&ei=GcXJSb-VKoKEsAPmnIjzBw&sa=X&oi=revisions_inline&ct=unquoted-query-link'
   engine: 'Google'
   keywords: '<> &test; piwik &quot;'
-  
+
 # testing Baidu special case (several variable names possible, and custom encoding)
 # see https://github.com/piwik/piwik/issues/589
 
@@ -200,7 +200,6 @@
   engine: 'Yahoo! Directory'
   keywords: 'analytics'
 
-
 # Bing mobile image search has a special URL
 #- url: 'http://m.bing.com/search/search.aspx?A=imageresults&Q=piwik&D=Image&MID=8015&SI=0&PN=0&SCO=0'
 #  engine: 'Bing Images'
@@ -214,7 +213,6 @@
 #- url: 'http://74.6.239.185/search/srpcache?ei=UTF-8&p=piwik&fr=yfp-t-964&fp_ip=ca&u=http://cc.bingj.com/cache.aspx?q=piwik&d=4770519086662477&mkt=en-US&setlang=en-US&w=f4bc05d8,8c8af2e3&icp=1&.intl=us&sig=PXmPDNqapxSQ.scsuhIpZA--'
 #  engine: 'Yahoo'
 #  keywords: 'piwik'
-
 
 # InfoSpace
 - url: 'http://www.infospace.com/search/web?fcoid=417&fcop=topnav&fpid=27&q=piwik&ql='

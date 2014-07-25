@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  * Provides a means of creating {@link Piwik\Plugin\ViewDataTable} instances by ID.
  *
  * ### Examples
- * 
+ *
  * **Creating a ViewDataTable for a report**
- * 
+ *
  *     // method in MyPlugin\Controller
  *     public function myReport()
  *     {
@@ -28,9 +28,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  *         $view->config->translations['myFancyMetric'] = "My Fancy Metric";
  *         return $view->render();
  *     }
- * 
+ *
  * **Displaying a report in another way**
- * 
+ *
  *     // method in MyPlugin\Controller
  *     // use the same data that's used in myReport() above, but transform it in some way before
  *     // displaying.
@@ -40,9 +40,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  *         $view->config->filters[] = array('MyMagicFilter', array('an arg', 'another arg'));
  *         return $view->render();
  *     }
- * 
+ *
  * **Force a report to be shown as a bar graph**
- * 
+ *
  *     // method in MyPlugin\Controller
  *     // force the myReport report to show as a bar graph if there is no viewDataTable query param,
  *     // even though it is configured to show as a table.
@@ -52,7 +52,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  *                                $forceDefault = true);
  *         return $view->render();
  *     }
- * 
+ *
  *
  * @api
  */

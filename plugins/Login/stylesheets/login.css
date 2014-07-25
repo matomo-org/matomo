@@ -48,7 +48,6 @@
     text-transform: none;
 }
 
-
 /* LAYOUT
 ***********************/
 #loginPage a {
@@ -82,8 +81,7 @@
     position: relative;
 }
 
-
-/* FORM 
+/* FORM
 ***********************/
 .loginSection form {
     margin: 0 5px;
@@ -112,7 +110,6 @@
 #login_form_rememberme {
     vertical-align: middle;
 }
-
 
 /* FIELDS
 ***********************/
@@ -149,8 +146,7 @@
     background-position: 10px 11px;
 }
 
-
-/* MESSAGE 
+/* MESSAGE
 ***********************/
 #loginPage .message_error,
 #loginPage .message {
@@ -169,10 +165,9 @@
     border-color: #e6db55;
 }
 
-
-/* NAVIGATION 
+/* NAVIGATION
 ***********************/
-#nav, 
+#nav,
 #piwik {
     margin: 0 0 0 8px;
     padding: 16px;

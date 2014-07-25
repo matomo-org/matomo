@@ -38,17 +38,17 @@ use Piwik\Tracker\GoalManager;
  *                                        reports.
  * - **goal_%idGoal%_items**: number of items. Only for ecommerce order and abandoned cart
  *                            reports.
- * 
+ *
  * Adding the **filter_update_columns_when_show_all_goals** query parameter to
  * an API request will trigger the execution of this Filter.
- * 
+ *
  * _Note: This filter must be called before {@link ReplaceColumnNames} is called._
- * 
+ *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->filter('AddColumnsProcessedMetricsGoal',
  *         array($enable = true, $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
- * 
+ *
  * @api
  */
 class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
@@ -72,7 +72,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The table that will eventually filtered.
      * @param bool $enable Always set to true.
      * @param string $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them).

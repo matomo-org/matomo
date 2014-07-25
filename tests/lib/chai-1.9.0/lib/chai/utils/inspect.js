@@ -168,7 +168,6 @@ function formatValue(ctx, value, recurseTimes) {
   return reduceToSingleString(output, base, braces);
 }
 
-
 function formatPrimitive(ctx, value) {
   switch (typeof value) {
     case 'undefined':
@@ -192,11 +191,9 @@ function formatPrimitive(ctx, value) {
   }
 }
 
-
 function formatError(value) {
   return '[' + Error.prototype.toString.call(value) + ']';
 }
-
 
 function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
   var output = [];
@@ -216,7 +213,6 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
   });
   return output;
 }
-
 
 function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
   var name, str;
@@ -276,7 +272,6 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
 
   return name + ': ' + str;
 }
-
 
 function reduceToSingleString(output, base, braces) {
   var numLinesEst = 0;

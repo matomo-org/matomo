@@ -7,7 +7,7 @@ library Data.Dump. To download the original visit:
 
 AUTHORS
 
-The Data.Dump JavaScript module is written by Kevin Jones 
+The Data.Dump JavaScript module is written by Kevin Jones
 (kevinj@cpan.org), based on Data::Dump by Gisle Aas (gisle@aas.no),
 based on Data::Dumper by Gurusamy Sarathy (gsar@umich.edu).
 
@@ -33,7 +33,7 @@ Dumper = {
 	    else
 	        return "()";
 	},
-	
+
 	_dump: function (obj) {
 		if (typeof obj == 'undefined') return 'undefined';
 		var out;
@@ -46,23 +46,23 @@ Dumper = {
 				break;
 			case 'object':
 				var pairs = new Array;
-				
+
 				for (var prop in obj) {
 					if (prop != "circularReference" && obj.hasOwnProperty(prop)) { //hide inherited properties
 						pairs.push(prop + ': ' + this._dump(obj[prop]));
 					}
 				}
-	
+
 				out = '{' + this._format_list(pairs) + '}';
 				break;
-	
+
 			case 'string':
 				for (var prop in Dumper.ESC) {
 					if (Dumper.ESC.hasOwnProperty(prop)) {
 						obj = obj.replace(prop, Dumper.ESC[prop]);
 					}
 				}
-	
+
 			// Escape UTF-8 Strings
 				if (obj.match(/^[\x00-\x7f]*$/)) {
 					out = '"' + obj.replace(/\"/g, "\\\"").replace(/([\n\r]+)/g, "\\$1") + '"';
@@ -71,44 +71,44 @@ Dumper = {
 					out = "unescape('"+escape(obj)+"')";
 				}
 				break;
-	
+
 			case 'array':
 				var elems = new Array;
-	
+
 				for (var i=0; i<obj.length; i++) {
 					elems.push( this._dump(obj[i]) );
 				}
-	
+
 				out = '[' + this._format_list(elems) + ']';
 				break;
-	
+
 			case 'date':
 			// firefox returns GMT strings from toUTCString()...
 			var utc_string = obj.toUTCString().replace(/GMT/,'UTC');
 				out = 'new Date("' + utc_string + '")';
 				break;
-	
+
 			case 'element':
 				// DOM element
 				out = this._dump_dom(obj);
 				break;
-		
+
 				default:
 					out = obj;
 		}
-	
+
 		out = String(out).replace(/\n/g, '\n    ');
 		out = out.replace(/\n    (.*)$/,"\n$1");
-	
+
 		return out;
 	},
-	
+
 	_format_list: function (list) {
 		if (!list.length) return '';
 		var nl = list.toString().length > 60 ? '\n' : ' ';
 		return nl + list.join(',' + nl) + nl;
     },
-    
+
     _typeof: function (obj) {
     	if (obj && obj.circularReference && obj.circularReference > 1) return 'circular';
 		if (Array.prototype.isPrototypeOf(obj)) return 'array';
@@ -116,7 +116,7 @@ Dumper = {
 		if (typeof obj.nodeType != 'undefined') return 'element';
 		return typeof(obj);
 	},
-	
+
 	_dump_dom: function (obj) {
 		return '"' + Dumper.nodeTypes[obj.nodeType] + '"';
 	}

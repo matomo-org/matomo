@@ -251,7 +251,7 @@ class API extends \Piwik\Plugin\API
             $dataTables = $searchEngines->getDataTables();
 
             // find first datatable containing data
-            foreach ($dataTables AS $subTable) {
+            foreach ($dataTables as $subTable) {
 
                 $subTableRow = $subTable->getRowFromIdSubDataTable($idSubtable);
                 if (!empty($subTableRow)) {

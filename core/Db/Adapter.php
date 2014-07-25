@@ -8,7 +8,6 @@
  */
 namespace Piwik\Db;
 
-
 use Piwik\Loader;
 use Zend_Db_Table;
 

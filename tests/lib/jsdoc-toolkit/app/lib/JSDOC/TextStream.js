@@ -11,7 +11,7 @@ JSDOC.TextStream = function(text) {
 
 JSDOC.TextStream.prototype.look = function(n) {
 	if (typeof n == "undefined") n = 0;
-	
+
 	if (this.cursor+n < 0 || this.cursor+n >= this.text.length) {
 		var result = new String("");
 		result.eof = true;
@@ -23,7 +23,7 @@ JSDOC.TextStream.prototype.look = function(n) {
 JSDOC.TextStream.prototype.next = function(n) {
 	if (typeof n == "undefined") n = 1;
 	if (n < 1) return null;
-	
+
 	var pulled = "";
 	for (var i = 0; i < n; i++) {
 		if (this.cursor+i < this.text.length) {

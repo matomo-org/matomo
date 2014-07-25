@@ -71,7 +71,6 @@ class HtmlTable extends Visualization
             $this->assignTemplateVar('siteSummary', $dataTable);
         }
 
-
     }
 
 }

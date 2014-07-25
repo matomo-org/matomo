@@ -24,7 +24,7 @@ class UserSetting extends Setting
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $name The setting's persisted name.
      * @param string $title The setting's display name.
      * @param null|string $userLogin The user this setting applies to. Will default to the current user login.
@@ -41,7 +41,7 @@ class UserSetting extends Setting
 
     /**
      * Returns the display order. User settings are displayed after system settings.
-     * 
+     *
      * @return int
      */
     public function getOrder()

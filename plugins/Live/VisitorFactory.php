@@ -46,4 +46,4 @@ class VisitorFactory
 
         return $visitor;
     }
-} 
+}

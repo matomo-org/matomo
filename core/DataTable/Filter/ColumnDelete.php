@@ -16,15 +16,15 @@ use Piwik\DataTable\BaseFilter;
  * whitelist or both.
  *
  * This filter is used to handle the **hideColumn** and **showColumn** query parameters.
- * 
+ *
  * **Basic usage example**
- * 
+ *
  *     $columnsToRemove = array('nb_hits', 'nb_pageviews');
  *     $dataTable->filter('ColumnDelete', array($columnsToRemove));
- * 
+ *
  *     $columnsToKeep = array('nb_visits');
  *     $dataTable->filter('ColumnDelete', array(array(), $columnsToKeep));
- * 
+ *
  * @api
  */
 class ColumnDelete extends BaseFilter

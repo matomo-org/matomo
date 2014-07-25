@@ -16,7 +16,7 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
 class LocalTime extends VisitDimension
-{    
+{
     protected $columnName = 'visitor_localtime';
     protected $columnType = 'TIME NOT NULL';
 

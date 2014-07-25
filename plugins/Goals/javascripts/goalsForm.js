@@ -61,7 +61,6 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
     }
 }
 
-
 function bindGoalForm() {
     $('select[name=trigger_type]').click(function () {
         var triggerTypeId = $(this).val();

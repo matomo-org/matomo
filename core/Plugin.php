@@ -19,7 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
 
 /**
  * Base class of all Plugin Descriptor classes.
- * 
+ *
  * Any plugin that wants to add event observers to one of Piwik's {@hook # hooks},
  * or has special installation/uninstallation logic must implement this class.
  * Plugins that can specify everything they need to in the _plugin.json_ files,
@@ -27,16 +27,16 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  *
  * Class implementations should be named after the plugin they are a part of
  * (eg, `class UserCountry extends Plugin`).
- * 
+ *
  * ### Plugin Metadata
- * 
+ *
  * In addition to providing a place for plugins to install/uninstall themselves
  * and add event observers, this class is also responsible for loading metadata
  * found in the plugin.json file.
- * 
+ *
  * The plugin.json file must exist in the root directory of a plugin. It can
  * contain the following information:
- * 
+ *
  * - **description**: An internationalized string description of what the plugin
  *                    does.
  * - **homepage**: The URL to the plugin's website.
@@ -45,15 +45,15 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  * - **license_homepage**: URL to website describing the license used.
  * - **version**: The plugin version (eg, 1.0.1).
  * - **theme**: `true` or `false`. If `true`, the plugin will be treated as a theme.
- * 
+ *
  * ### Examples
- * 
+ *
  * **How to extend**
- * 
+ *
  *     use Piwik\Common;
  *     use Piwik\Plugin;
  *     use Piwik\Db;
- * 
+ *
  *     class MyPlugin extends Plugin
  *     {
  *         public function getListHooksRegistered()
@@ -66,17 +66,17 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  *                                            )
  *             );
  *         }
- * 
+ *
  *         public function install()
  *         {
  *             Db::exec("CREATE TABLE " . Common::prefixTable('mytable') . "...");
  *         }
- * 
+ *
  *         public function uninstall()
  *         {
  *             Db::exec("DROP TABLE IF EXISTS " . Common::prefixTable('mytable'));
  *         }
- *         
+ *
  *         public function getReportMetadata(&$metadata)
  *         {
  *             // ...
@@ -87,7 +87,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  *             // ...
  *         }
  *     }
- * 
+ *
  * @api
  */
 class Plugin
@@ -159,7 +159,7 @@ class Plugin
 
     /**
      * Returns plugin information, including:
-     * 
+     *
      * - 'description' => string        // 1-2 sentence description of the plugin
      * - 'author' => string             // plugin author
      * - 'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
@@ -179,11 +179,11 @@ class Plugin
 
     /**
      * Returns a list of hooks with associated event observers.
-     * 
+     *
      * Derived classes should use this method to associate callbacks with events.
      *
      * @return array eg,
-     * 
+     *
      *                   array(
      *                       'API.getReportMetadata' => 'myPluginFunction',
      *                       'Another.event'         => array(
@@ -213,11 +213,11 @@ class Plugin
     /**
      * Installs the plugin. Derived classes should implement this class if the plugin
      * needs to:
-     * 
+     *
      * - create tables
      * - update existing tables
      * - etc.
-     * 
+     *
      * @throws \Exception if installation of fails for some reason.
      */
     public function install()
@@ -228,10 +228,10 @@ class Plugin
     /**
      * Uninstalls the plugins. Derived classes should implement this method if the changes
      * made in {@link install()} need to be undone during uninstallation.
-     * 
+     *
      * In most cases, if you have an {@link install()} method, you should provide
      * an {@link uninstall()} method.
-     * 
+     *
      * @throws \Exception if uninstallation of fails for some reason.
      */
     public function uninstall()

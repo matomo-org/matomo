@@ -9,7 +9,6 @@
 
 namespace Piwik\Translate\Validate;
 
-
 use Piwik\Common;
 
 /**

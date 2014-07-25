@@ -262,5 +262,4 @@ class ActionSiteSearch extends Action
         );
     }
 
-
 }

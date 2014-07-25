@@ -5,7 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 function _pk_translate(translationStringId, values) {
 
     function sprintf (translation, values) {
@@ -82,7 +81,7 @@ var piwikHelper = {
         }
         return value;
     },
-	
+
 	/**
 	 * Add break points to a string so that it can be displayed more compactly
 	 */
@@ -383,7 +382,6 @@ var piwikHelper = {
 
 };
 
-
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 };
@@ -395,7 +393,7 @@ String.prototype.trim = function() {
  */
 function isEnterKey(e)
 {
-    return (window.event?window.event.keyCode:e.which)==13; 
+    return (window.event?window.event.keyCode:e.which)==13;
 }
 
 // workarounds

@@ -25,7 +25,7 @@ class ManySitesImportedLogs extends Fixture
     public $idSite2 = 2;
     public $idGoal = 1;
     public $segments = null; // should be array mapping segment name => segment definition
-    
+
     public $addSegments = false;
 
     public static function createAccessInstance()
@@ -112,28 +112,28 @@ class ManySitesImportedLogs extends Fixture
         $this->replayLogFile();
         $this->logCustomFormat();
     }
-    
+
     private function setupSegments()
     {
         if (!$this->addSegments) {
             return;
         }
-        
+
         if ($this->segments === null) {
             $this->segments = $this->getDefaultSegments();
         }
-        
+
         foreach ($this->segments as $segmentName => $info) {
             $idSite = false;
             if (isset($info['idSite'])) {
                 $idSite = $info['idSite'];
             }
-            
+
             $autoArchive = true;
             if (isset($info['autoArchive'])) {
                 $autoArchive = $info['autoArchive'];
             }
-            
+
             $enabledAllUsers = true;
             if (isset($info['enabledAllUsers'])) {
                 $enabledAllUsers = $info['enabledAllUsers'];

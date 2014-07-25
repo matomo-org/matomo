@@ -440,7 +440,6 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
         $this->addSystemSetting('mysystemsetting3', 'mytitle3');
         $this->settings->save();
 
-
         $verifySettings = $this->createSettingsInstance();
 
         $setting1 = $this->buildSystemSetting('mysystemsetting1', 'mytitle1');

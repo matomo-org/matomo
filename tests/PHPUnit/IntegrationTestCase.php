@@ -183,7 +183,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-
         // CSV Scheduled Report
         array_push(
             $apiCalls,
@@ -415,7 +414,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                         $parametersToSet['serialize'] = 1;
 
                         $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
-                        
+
                         if ($exampleUrl === false) {
                             continue;
                         }

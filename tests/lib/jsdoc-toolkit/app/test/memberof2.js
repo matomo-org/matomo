@@ -7,19 +7,19 @@ function Foo() {
     */
     function bar(a, b) {
     }
-    
+
     /**
     	@memberOf Foo
     */
     var zip = function(p, q) {
     }
-    
+
     /**
     	@memberOf Foo
     */
     function zop( x,y ) {
     }
-    
+
     /**
     	@memberOf Foo
     	@constructor

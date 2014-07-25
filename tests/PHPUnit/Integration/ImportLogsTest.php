@@ -21,7 +21,7 @@ use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 class ImportLogsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
-    
+
     /**
      * @dataProvider getApiForTesting
      */

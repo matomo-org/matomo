@@ -203,7 +203,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         );
         $table->addRowsFromArray($rows);
 
-
         $this->assertEquals(count($rows), $table->getRowsCount());
         $countAllRows = count($rows) + count($rows1) + count($rows2) + count($rows1sub);
         $this->assertEquals($countAllRows, $table->getRowsCountRecursive());
@@ -280,7 +279,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $rowWanted = new Row(array(Row::COLUMNS => $columnsWanted, Row::METADATA => $metadata));
         $this->assertTrue(Row::isEqual($rowWanted, $finalRow));
 
-
         // testing that, 'sumRow' does not result in extra unwanted attributes being serialized
         $expectedRow = 'O:19:"Piwik\DataTable\Row":1:{s:1:"c";a:3:{i:0;a:8:{s:8:"test_int";i:150;s:10:"test_float";d:150;s:11:"test_float2";d:14.5;s:14:"test_stringint";i:150;i:0;s:4:"toto";s:17:"integerArrayToSum";a:3:{i:1;i:6;i:2;d:15.5;i:3;a:2:{i:2;i:7;i:1;i:2;}}s:11:"test_float3";d:1.5;s:4:"test";s:11:"string fake";}i:1;a:2:{s:4:"logo";s:9:"piwik.png";s:5:"super";a:1:{i:0;s:39:"this column has an array value, amazing";}}i:3;N;}}';
         $this->assertEquals($expectedRow, serialize($finalRow));
@@ -312,7 +310,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * Test that adding two string column values results in an exception.
      *
      * @group Core
-     * 
+     *
      * @expectedException Exception
      */
     public function testSumRow_stringException()
@@ -336,7 +334,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * After 100 recursion must throw an exception
      *
      * @group Core
-     * 
+     *
      * @expectedException Exception
      */
     public function testSerializeWithInfiniteRecursion()
@@ -347,7 +345,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
 
         $table->getSerialized();
     }
-
 
     /**
      * Test queing filters
@@ -434,7 +431,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         /*
          * create some fake tables to make sure that the serialized array of the first TABLE
          * does not take in consideration those tables
-         * -> we check that the DataTable_Manager is not impacting DataTable 
+         * -> we check that the DataTable_Manager is not impacting DataTable
          */
         $useless1->addRowFromArray(array(Row::COLUMNS => array(8487,),));
         $useless3 = new DataTable;
@@ -459,7 +456,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
          * SUB TABLE
          */
 
-
         $row = array(Row::COLUMNS  => array(0 => 1554,),
                      Row::METADATA => array('searchengine' => 'google'),
         );
@@ -473,7 +469,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
                      Row::METADATA => array('searchengine' => 'ask'),
         );
         $subtable->addRowFromArray($row);
-
 
         /*
          * SUB SUB TABLE
@@ -540,7 +535,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * - no metadata are lost in the first datatable rows that have been changed
      * - when a subtable
      */
-
 
     /**
      * add an empty datatable to a normal datatable
@@ -728,7 +722,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(DataTable::isEqual($table, $tableExpected));
     }
 
-
     /**
      * @group Core
      */
@@ -786,7 +779,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $table2 = $this->_getDataTable2ForTest();
         $table2->getFirstRow()->addSubtable($table1);
         $idSubtable = $table1->getId();
-
 
         /* Check it looks good:
         $renderer = DataTable\Renderer::factory('xml');

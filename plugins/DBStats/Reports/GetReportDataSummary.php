@@ -31,7 +31,6 @@ class GetReportDataSummary extends Base
         $view->config->title = $this->name;
     }
 
-
     public function getRelatedReports()
     {
         return array(new GetReportDataSummaryByYear());

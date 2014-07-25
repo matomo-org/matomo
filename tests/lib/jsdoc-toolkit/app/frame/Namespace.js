@@ -5,6 +5,6 @@ function Namespace(name, f) {
 	for (var o = _global_, i = 0, l = n.length; i < l; i++) {
 		o = o[n[i]] = o[n[i]] || {};
 	}
-	
+
 	if (f) f();
 }

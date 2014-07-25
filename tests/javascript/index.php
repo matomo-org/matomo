@@ -425,15 +425,12 @@ function PiwikTest() {
         ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
     });
 
-
     test("AnalyticsTracker alias", function() {
         expect(1);
 
         var tracker = AnalyticsTracker.getTracker();
         equal( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
     });
-
-
 
     test("Tracker encode, decode, urldecode wrappers", function() {
         expect(6);
@@ -556,7 +553,6 @@ function PiwikTest() {
         ok( tracker.hook.test._getProtocolScheme('') === null, 'empty string' );
         ok( tracker.hook.test._getProtocolScheme(':') === null, 'unspecified scheme' );
         ok( tracker.hook.test._getProtocolScheme('scheme') === null, 'missing colon' );
-
 
         equal( typeof tracker.hook.test._resolveRelativeReference, 'function', 'resolveRelativeReference' );
 
@@ -903,7 +899,6 @@ function PiwikTest() {
             'example3.com/current/folder/relative.html'
         ]]);
 
-
         Piwik_Overlay_UrlNormalizer.setBaseHref('http://example.com/base/');
 
         test([
@@ -1105,7 +1100,6 @@ if ($sqlite) {
         ok( campaignName2 == "YEAH", "getAttributionCampaignName()");
         ok( campaignKeyword2 == "RIGHT!", "getAttributionCampaignKeyword()");
 
-
         // Test visitor ID at the start is the same at the end
         var visitorIdEnd = tracker.getVisitorId();
         ok( visitorIdStart == visitorIdEnd, "tracker.getVisitorId() same at the start and end of process");
@@ -1229,7 +1223,6 @@ if ($sqlite) {
 
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
-
 
         stop();
         setTimeout(function() {

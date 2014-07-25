@@ -14,21 +14,21 @@ use Piwik\Tracker;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
- * 
+ *
  * Plugins should always use this class to execute SQL against the database.
- * 
+ *
  * ### Examples
- * 
+ *
  *     $rows = Db::fetchAll("SELECT col1, col2 FROM mytable WHERE thing = ?", array('thingvalue'));
  *     foreach ($rows as $row) {
  *         doSomething($row['col1'], $row['col2']);
  *     }
- * 
+ *
  *     $value = Db::fetchOne("SELECT MAX(col1) FROM mytable");
  *     doSomethingElse($value);
- * 
+ *
  *     Db::query("DELETE FROM mytable WHERE id < ?", array(23));
- * 
+ *
  * @api
  */
 class Db
@@ -88,9 +88,9 @@ class Db
 
     /**
      * Connects to the database.
-     * 
+     *
      * Shouldn't be called directly, use {@link get()} instead.
-     * 
+     *
      * @param array|null $dbConfig Connection parameters in an array. Defaults to the `[database]`
      *                             INI config section.
      */
@@ -145,7 +145,7 @@ class Db
     /**
      * Executes an SQL query and returns the [Zend_Db_Statement](http://framework.zend.com/manual/1.12/en/zend.db.statement.html)
      * for the query.
-     * 
+     *
      * This method is meant for non-query SQL statements like `INSERT` and `UPDATE. If you want to fetch
      * data from the DB you should use one of the fetch... functions.
      *
@@ -247,16 +247,16 @@ class Db
     /**
      * Deletes all desired rows in a table, while using a limit. This function will execute many
      * DELETE queries until there are no more rows to delete.
-     * 
+     *
      * Use this function when you need to delete many thousands of rows from a table without
      * locking the table for too long.
-     * 
+     *
      * **Example**
-     * 
+     *
      *     // delete all visit rows whose ID is less than a certain value, 100000 rows at a time
      *     $idVisit = // ...
      *     Db::deleteAllRows(Common::prefixTable('log_visit'), "WHERE idvisit <= ?", "idvisit ASC", 100000, array($idVisit));
-     * 
+     *
      * @param string $table The name of the table to delete from. Must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string $where The where clause of the query. Must include the WHERE keyword.
      * @param $orderBy The column to order by and the order by direction, eg, `idvisit ASC`.
@@ -285,7 +285,7 @@ class Db
 
     /**
      * Runs an `OPTIMIZE TABLE` query on the supplied table or tables.
-     * 
+     *
      * Tables will only be optimized if the `[General] enable_sql_optimize_queries` INI config option is
      * set to **1**.
      *
@@ -370,10 +370,10 @@ class Db
 
     /**
      * Locks the supplied table or tables.
-     * 
+     *
      * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
      * should still work if it has not been granted.
-     * 
+     *
      * @param string|array $tablesToRead The table or tables to obtain 'read' locks on. Table names must
      *                                   be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on. Table names must
@@ -405,7 +405,7 @@ class Db
      *
      * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
      * should still work if it has not been granted.
-     * 
+     *
      * @return \Zend_Db_Statement
      */
     public static function unlockAllTables()
@@ -416,7 +416,7 @@ class Db
     /**
      * Performs a `SELECT` statement on a table one chunk at a time and returns the first
      * successfully fetched value.
-     * 
+     *
      * This function will execute a query on one set of rows in a table. If nothing
      * is fetched, it will execute the query on the next set of rows and so on until
      * the query returns a value.
@@ -425,10 +425,10 @@ class Db
      * should be used when performing a `SELECT` that can take a long time to finish.
      * Using several smaller `SELECT`s will ensure that the table will not be locked
      * for too long.
-     * 
+     *
      * **Example**
-     * 
-     *     // find the most recent visit that is older than a certain date 
+     *
+     *     // find the most recent visit that is older than a certain date
      *     $dateStart = // ...
      *     $sql = "SELECT idvisit
      *           FROM $logVisit
@@ -469,11 +469,11 @@ class Db
     /**
      * Performs a `SELECT` on a table one chunk at a time and returns an array
      * of every fetched value.
-     * 
+     *
      * This function will break up a `SELECT` query into several smaller queries by
      * using only a limited number of rows at a time. It will accumulate the results
      * of each smaller query and return the result.
-     * 
+     *
      * This function should be used when performing a `SELECT` that can
      * take a long time to finish. Using several smaller queries will ensure that
      * the table will not be locked for too long.
@@ -509,11 +509,11 @@ class Db
      * This function will break up a `SELECT` query into several smaller queries by
      * using only a limited number of rows at a time. It will accumulate the results
      * of each smaller query and return the result.
-     * 
+     *
      * This function should be used when performing a `SELECT` that can
      * take a long time to finish. Using several smaller queries will ensure that
      * the table will not be locked for too long.
-     * 
+     *
      * @param string $sql The SQL to perform. The last two conditions of the `WHERE`
      *                    expression must be as follows: `'id >= ? AND id < ?'` where
      *                    **id** is the int id of the table.
@@ -543,14 +543,14 @@ class Db
 
     /**
      * Performs a `UPDATE` or `DELETE` statement on a table one chunk at a time.
-     * 
+     *
      * This function will break up a query into several smaller queries by
      * using only a limited number of rows at a time.
-     * 
+     *
      * This function should be used when executing a non-query statement will
      * take a long time to finish. Using several smaller queries will ensure that
      * the table will not be locked for too long.
-     * 
+     *
      * @param string $sql The SQL to perform. The last two conditions of the `WHERE`
      *                    expression must be as follows: `'id >= ? AND id < ?'` where
      *                    **id** is the int id of the table.

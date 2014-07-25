@@ -342,7 +342,7 @@ class Fixture extends PHPUnit_Framework_Assert
         try {
             $manager = \Piwik\Plugin\Manager::getInstance();
             $plugins = $manager->getLoadedPlugins();
-            foreach ($plugins AS $plugin) {
+            foreach ($plugins as $plugin) {
                 $plugin->uninstall();
             }
             \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
@@ -745,7 +745,6 @@ class Fixture extends PHPUnit_Framework_Assert
         return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", array($idGoal, $idSite)) != 0;
     }
 
-
     /**
      * Connects to MySQL w/o specifying a database.
      */
@@ -809,7 +808,7 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         Cache::deleteTrackerCache();
         Option::clearCache();
-        
+
         if ($force) {
             // remove version options to force update
             Option::deleteLike('version%');

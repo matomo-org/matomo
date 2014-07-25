@@ -26,7 +26,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 
 /**
  * Main piwik helper class.
- * 
+ *
  * Contains helper methods for a variety of common tasks. Plugin developers are
  * encouraged to reuse these methods as much as possible.
  */
@@ -46,14 +46,14 @@ class Piwik
 
     /**
      * The idGoal query parameter value for the special 'abandoned carts' goal.
-     * 
+     *
      * @api
      */
     const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
 
     /**
      * The idGoal query parameter value for the special 'ecommerce' goal.
-     * 
+     *
      * @api
      */
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
@@ -381,7 +381,6 @@ class Piwik
         return false;
     }
 
-
     /**
      * Returns true if the current user has Super User access.
      *
@@ -662,7 +661,7 @@ class Piwik
 
     /**
      * Returns `true` if the login is valid.
-     * 
+     *
      * _Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well._
      *
      * @param string $userLogin
@@ -743,7 +742,6 @@ class Piwik
         return false;
     }
 
-
     /**
      * Returns the class name of an object without its namespace.
      *
@@ -756,7 +754,6 @@ class Piwik
         $parts = explode('\\', $className);
         return end($parts);
     }
-
 
     /**
      * Post an event to Piwik's event dispatcher which will execute the event's observers.
@@ -776,7 +773,7 @@ class Piwik
 
     /**
      * Register an observer to an event.
-     * 
+     *
      * **_Note: Observers should normally be defined in plugin objects. It is unlikely that you will
      * need to use this function._**
      *

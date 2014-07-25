@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class OperatingsystemFamily extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('UserSettings_OperatingSystemFamily');

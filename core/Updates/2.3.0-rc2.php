@@ -22,5 +22,4 @@ class Updates_2_3_0_rc2 extends Updates
         ServerFilesGenerator::createHtAccessFiles();
     }
 
-
 }

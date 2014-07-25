@@ -29,7 +29,6 @@ class Updates_1_9_b16 extends Updates
 			CHANGE `idaction_url` `idaction_url` INT( 10 ) UNSIGNED NULL DEFAULT NULL'
             => false,
 
-
             'ALTER TABLE  `' . Common::prefixTable('log_visit') . '`
 			ADD visit_total_searches SMALLINT(5) UNSIGNED NOT NULL AFTER `visit_total_actions`'
             => 1060,

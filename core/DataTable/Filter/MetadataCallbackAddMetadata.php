@@ -16,7 +16,7 @@ use Piwik\DataTable\BaseFilter;
  * row as a metadata value. Only metadata values are passed to the callback.
  *
  * **Basic usage example**
- * 
+ *
  *     // add a logo metadata based on the url metadata
  *     $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', 'Piwik\Plugins\MyPlugin\getLogoFromUrl'));
  *
@@ -31,7 +31,7 @@ class MetadataCallbackAddMetadata extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The DataTable that will eventually be filtered.
      * @param string|array $metadataToRead The metadata to read from each row and pass to the callback.
      * @param string $metadataToAdd The name of the metadata to add.
@@ -57,7 +57,7 @@ class MetadataCallbackAddMetadata extends BaseFilter
 
     /**
      * See {@link MetadataCallbackAddMetadata}.
-     * 
+     *
      * @param DataTable $table
      */
     public function filter($table)

@@ -293,7 +293,6 @@ class ScheduledReports extends \Piwik\Plugin
                     $mail->setBodyHtml($message . "<br/><br/>" . $contents);
                     break;
 
-
                 case 'csv':
                     $message .= "\n" . Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
 

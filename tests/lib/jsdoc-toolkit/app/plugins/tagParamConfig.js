@@ -5,7 +5,7 @@ JSDOC.PluginManager.registerPlugin(
 			var currentParam = null;
 			var tags = comment.tags;
 			for (var i = 0, l = tags.length; i < l; i++) {
-				
+
 				if (tags[i].title == "param") {
 					if (tags[i].name.indexOf(".") == -1) {
 						currentParam = i;

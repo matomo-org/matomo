@@ -24,7 +24,6 @@ $TOKEN_AUTH = 'xyz';
 // Maximum time, in seconds, to wait for the Piwik server to return the 1*1 GIF
 $timeout = 5;
 
-
 // DO NOT MODIFY BELOW
 // ---------------------------
 // 1) PIWIK.JS PROXY: No _GET parameter, we serve the JS file

@@ -4,7 +4,6 @@
  * MIT Licensed
  */
 
-
 module.exports = function (chai, util) {
 
   /*!

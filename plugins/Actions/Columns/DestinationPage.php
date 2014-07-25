@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class DestinationPage extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('General_ColumnDestinationPage');

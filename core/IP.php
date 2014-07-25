@@ -246,7 +246,7 @@ class IP
 
     /**
      * Returns an IPv4 address from a 'mapped' IPv6 address.
-     * 
+     *
      * @param string $ip eg, `'::ffff:192.0.2.128'`
      * @return string eg, `'192.0.2.128'`
      */

@@ -17,12 +17,12 @@ use Piwik\Site;
  * it to each row as a percentage.
  *
  * **This filter cannot be used as an argument to {@link Piwik\DataTable::filter()}** since
- * it requires corresponding data from another DataTable. Instead, 
+ * it requires corresponding data from another DataTable. Instead,
  * you must manually perform a binary filter (see the **MultiSites** API for an
  * example).
  *
  * The evolution metric is calculated as:
- * 
+ *
  *     ((currentValue - pastValue) / pastValue) * 100
  *
  * @api

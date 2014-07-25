@@ -211,7 +211,6 @@ class CliMulti {
         return SettingsPiwik::rewriteTmpPathWithInstanceId($dir);
     }
 
-
     private function executeAsyncCli($url, Output $output, $cmdId)
     {
         $this->processes[] = new Process($cmdId);

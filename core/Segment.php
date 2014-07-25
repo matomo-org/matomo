@@ -13,26 +13,26 @@ use Piwik\Plugins\API\API;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
- * 
+ *
  * A segment is a condition used to filter visits. They can, for example,
  * select visits that have a specific browser or come from a specific
  * country, or both.
- * 
+ *
  * Individual segment dimensions (such as `browserCode` and `countryCode`)
  * are defined by plugins. Read about the {@hook API.getSegmentDimensionMetadata}
  * event to learn more.
- * 
+ *
  * Plugins that aggregate data stored in Piwik can support segments by
  * using this class when generating aggregation SQL queries.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Basic usage**
- * 
+ *
  *     $idSites = array(1,2,3);
  *     $segmentStr = "browserCode==ff;countryCode==CA";
  *     $segment = new Segment($segmentStr, $idSites);
- * 
+ *
  *     $query = $segment->getSelectQuery(
  *         $select = "table.col1, table2.col2",
  *         $from = array("table", "table2"),
@@ -41,15 +41,15 @@ use Piwik\Plugins\API\API;
  *         $orderBy = "table.col1 DESC",
  *         $groupBy = "table2.col2"
  *     );
- *     
+ *
  *     Db::fetchAll($query['sql'], $query['bind']);
- * 
+ *
  * **Creating a _null_ segment**
- * 
+ *
  *     $idSites = array(1,2,3);
  *     $segment = new Segment('', $idSites);
  *     // $segment->getSelectQuery will return a query that selects all visits
- * 
+ *
  * @api
  */
 class Segment
@@ -66,7 +66,7 @@ class Segment
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
      * @param array $idSites The list of sites the segment will be used with. Some segments are
      *                       dependent on the site, such as goal segments.
@@ -186,7 +186,7 @@ class Segment
 
     /**
      * Returns the segment condition.
-     * 
+     *
      * @return string
      */
     public function getString()
@@ -197,7 +197,7 @@ class Segment
     /**
      * Returns a hash of the segment condition, or the empty string if the segment
      * condition is empty.
-     * 
+     *
      * @return string
      */
     public function getHash()

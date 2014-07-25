@@ -13,7 +13,7 @@ LOG = {
 	warn: function(msg, e) {
 		if (JSDOC.opt.q) return;
 		if (e) msg = e.fileName+", line "+e.lineNumber+": "+msg;
-		
+
 		msg = ">> WARNING: "+msg;
 		LOG.warnings.push(msg);
 		if (LOG.out) LOG.out.write(msg+"\n");
@@ -35,18 +35,18 @@ LOG.out = undefined;
  *	@class Manipulate a filepath.
  */
 function FilePath(absPath, separator) {
-	this.slash =  separator || "/"; 
+	this.slash =  separator || "/";
 	this.root = this.slash;
 	this.path = [];
 	this.file = "";
-	
+
 	var parts = absPath.split(/[\\\/]/);
 	if (parts) {
 		if (parts.length) this.root = parts.shift() + this.slash;
 		if (parts.length) this.file =  parts.pop()
 		if (parts.length) this.path = parts;
 	}
-	
+
 	this.path = this.resolvePath();
 }
 
@@ -103,7 +103,6 @@ FilePath.dir = function(path) {
 	return path.substring(0, nameStart-1);
 }
 
-
 importClass(java.lang.System);
 
 /**
@@ -119,25 +118,25 @@ SYS = {
 		new String(System.getProperty("os.name")),
 		new String(System.getProperty("os.version"))
 	].join(", "),
-	
+
 	/**
 	 * Which way does your slash lean.
 	 * @type string
 	 */
 	slash: System.getProperty("file.separator")||"/",
-	
+
 	/**
 	 * The path to the working directory where you ran java.
 	 * @type string
 	 */
 	userDir: new String(System.getProperty("user.dir")),
-	
+
 	/**
 	 * Where is Java's home folder.
 	 * @type string
 	 */
 	javaHome: new String(System.getProperty("java.home")),
-	
+
 	/**
 	 * The absolute path to the directory containing this script.
 	 * @type string
@@ -182,7 +181,7 @@ IO = {
 		out.flush();
 		out.close();
 	},
-	
+
 	/**
 	 * @type string
 	 */
@@ -194,16 +193,16 @@ IO = {
 	},
 
 	/**
-	 * @param inFile 
+	 * @param inFile
 	 * @param outDir
 	 * @param [fileName=The original filename]
 	 */
 	copyFile: function(/**string*/ inFile, /**string*/ outDir, /**string*/ fileName) {
 		if (fileName == null) fileName = FilePath.fileName(inFile);
-	
+
 		var inFile = new File(inFile);
 		var outFile = new File(outDir+SYS.slash+fileName);
-		
+
 		var bis = new Packages.java.io.BufferedInputStream(new Packages.java.io.FileInputStream(inFile), 4096);
 		var bos = new Packages.java.io.BufferedOutputStream(new Packages.java.io.FileOutputStream(outFile), 4096);
 		var theChar;
@@ -227,7 +226,7 @@ IO = {
 			}
 		}
 	},
-	
+
 	/**
 	 * Creates a directory at the given path.
 	 */
@@ -248,15 +247,15 @@ IO = {
 		}
 		if (_path.length == 0) return _allFiles;
 		if (recurse === undefined) recurse = 1;
-		
+
 		dir = new File(dir);
 		if (!dir.directory) return [String(dir)];
 		var files = dir.list();
-		
+
 		for (var f = 0; f < files.length; f++) {
 			var file = String(files[f]);
 			if (file.match(/^\.[^\.\/\\]/)) continue; // skip dot files
-	
+
 			if ((new File(_path.join(SYS.slash)+SYS.slash+file)).list()) { // it's a directory
 				_path.push(file);
 				if (_path.length-1 < recurse) IO.ls(_path.join(SYS.slash), recurse, _allFiles, _path);
@@ -266,7 +265,7 @@ IO = {
 				_allFiles.push((_path.join(SYS.slash)+SYS.slash+file).replace(SYS.slash+SYS.slash, SYS.slash));
 			}
 		}
-	
+
 		return _allFiles;
 	},
 
@@ -275,7 +274,7 @@ IO = {
 	 */
 	exists: function(/**string*/ path) {
 		file = new File(path);
-	
+
 		if (file.isDirectory()){
 			return true;
 		}
@@ -289,7 +288,7 @@ IO = {
 	},
 
 	/**
-	 * 
+	 *
 	 */
 	open: function(/**string*/ path, /**string*/ append) {
 		var append = true;
@@ -322,21 +321,21 @@ IO = {
 	 * @private
 	 */
 	encoding: "utf-8",
-	
+
 	/**
 	 * Load the given script.
 	 */
 	include: function(relativePath) {
 		load(SYS.pwd+relativePath);
 	},
-	
+
 	/**
 	 * Loads all scripts from the given directory path.
 	 */
 	includeDir: function(path) {
 		if (!path) return;
-		
-		for (var lib = IO.ls(SYS.pwd+path), i = 0; i < lib.length; i++) 
+
+		for (var lib = IO.ls(SYS.pwd+path), i = 0; i < lib.length; i++)
 			if (/\.js$/i.test(lib[i])) load(lib[i]);
 	}
 }

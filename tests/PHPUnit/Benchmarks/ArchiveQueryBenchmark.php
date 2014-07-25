@@ -19,7 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 class ArchiveQueryBenchmark extends BenchmarkTestCase
 {
     private $archivingLaunched = false;
-    
+
     public function setUp()
     {
         $archivingTables = ArchiveTableCreator::getTablesArchivesInstalled();
@@ -40,10 +40,10 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
         }
 
         Rules::$archivingDisabledByTests = true;
-        
+
         $period = Period\Factory::build(self::$fixture->period, Date::factory(self::$fixture->date));
         $dateRange = $period->getDateStart().','.$period->getDateEnd();
-        
+
         API::getInstance()->get(self::$fixture->idSite, 'day', $dateRange);
     }
 }

@@ -8,7 +8,6 @@
  */
 namespace Piwik\Menu;
 
-
 /**
  * @deprecated since 2.4.0
  * @see MenuReporting

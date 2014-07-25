@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class Referrer extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('Referrers_Referrer');

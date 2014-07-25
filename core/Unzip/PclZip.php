@@ -8,7 +8,6 @@
  */
 namespace Piwik\Unzip;
 
-
 /**
  * @see libs/PclZip
  */

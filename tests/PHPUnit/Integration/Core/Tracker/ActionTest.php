@@ -37,7 +37,7 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         Config::getInstance()->Tracker = $section;
 
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
-        
+
         Translate::loadEnglishTranslation();
     }
 
@@ -156,7 +156,6 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         $this->assertEquals(PageUrl::reconstructNormalizedUrl($url, PageUrl::$urlPrefixMap['http://']), $expectedUrl);
     }
 
-
     /**
      * Testing with some website specific parameters excluded
      * @group Core
@@ -180,7 +179,7 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
      */
     public function testExcludeQueryParametersSiteAndGlobalExcluded($url, $filteredUrl)
     {
-        // testing also that query parameters are case insensitive 
+        // testing also that query parameters are case insensitive
         $excludedQueryParameters = 'P2,var[value][date]';
         $excludedGlobalParameters = 'blabla, P4';
         $this->setUpRootAccess();
@@ -191,7 +190,6 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
         $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
-
 
     public function getExtractUrlData()
     {

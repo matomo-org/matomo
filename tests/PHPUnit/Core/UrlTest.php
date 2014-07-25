@@ -258,7 +258,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getQueryParameters
      */
     public function testGetQueryStringFromParameters($params, $queryString)
@@ -279,6 +279,5 @@ class UrlTest extends PHPUnit_Framework_TestCase
             array(array('key' => 'val', 'k2' => array('k1' => 'v1', 'k2' => 'v2')), 'key=val&k2[]=v1&k2[]=v2'),
         );
     }
-
 
 }

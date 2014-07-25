@@ -1,5 +1,5 @@
-body#simple  { 
-	background: #eee; 
+body#simple  {
+	background: #eee;
 }
 #contentsimple {
 	background: #fff;
@@ -34,7 +34,7 @@ body#simple  {
 }
 
 #title img{
-	vertical-align:bottom; 
+	vertical-align:bottom;
 }
 #title {
 	padding-bottom:15px;

@@ -10,7 +10,7 @@ namespace Piwik;
 
 /**
  * Contains less commonly needed URL helper methods.
- * 
+ *
  */
 class UrlHelper
 {
@@ -108,9 +108,9 @@ class UrlHelper
     /**
      * Returns a URL created from the result of the [parse_url](http://php.net/manual/en/function.parse-url.php)
      * function.
-     * 
+     *
      * Copied from the PHP comments at [http://php.net/parse_url](http://php.net/parse_url).
-     * 
+     *
      * @param array $parsed Result of [parse_url](http://php.net/manual/en/function.parse-url.php).
      * @return false|string The URL or `false` if `$parsed` isn't an array.
      * @api
@@ -233,7 +233,6 @@ class UrlHelper
         }
         return $result;
     }
-
 
     /**
      * Extracts a keyword from a raw not encoded URL.

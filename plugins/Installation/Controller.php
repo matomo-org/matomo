@@ -549,7 +549,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::redirectToModule('Installation', $nextStep, $parameters);
     }
 
-
     /**
      * Extract host from URL
      *
@@ -630,7 +629,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
     }
-
 
     private function createSuperUser($login, $password, $email)
     {

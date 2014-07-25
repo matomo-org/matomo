@@ -17,12 +17,12 @@ use Piwik\SettingsServer;
 /**
  * Base class of all plugin settings providers. Plugins that define their own configuration settings
  * can extend this class to easily make their settings available to Piwik users.
- * 
+ *
  * Descendants of this class should implement the {@link init()} method and call the
  * {@link addSetting()} method for each of the plugin's settings.
- * 
+ *
  * For an example, see the {@link Piwik\Plugins\ExampleSettingsPlugin\ExampleSettingsPlugin} plugin.
- * 
+ *
  * @api
  */
 abstract class Settings implements StorageInterface
@@ -60,7 +60,7 @@ abstract class Settings implements StorageInterface
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $pluginName The name of the plugin these settings are for.
      */
     public function __construct($pluginName)
@@ -90,7 +90,7 @@ abstract class Settings implements StorageInterface
 
     /**
      * Returns the introduction text for this plugin's settings.
-     * 
+     *
      * @return string
      */
     public function getIntroduction()
@@ -187,7 +187,7 @@ abstract class Settings implements StorageInterface
     /**
      * Sets (overwrites) the value of a setting in memory. To persist the change, {@link save()} must be
      * called afterwards, otherwise the change has no effect.
-     * 
+     *
      * Before the setting is changed, the {@link Piwik\Settings\Setting::$validate} and
      * {@link Piwik\Settings\Setting::$transform} closures will be invoked (if defined). If there is no validation
      * filter, the setting value will be casted to the appropriate data type.

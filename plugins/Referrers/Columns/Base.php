@@ -18,7 +18,6 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 use Piwik\UrlHelper;
 
-
 abstract class Base extends VisitDimension
 {
 

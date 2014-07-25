@@ -332,7 +332,7 @@ class GeoIPAutoUpdater extends ScheduledTask
         // set period option
         if (!empty($options['period'])) {
             $period = $options['period'];
-            
+
             if ($period != self::SCHEDULE_PERIOD_MONTHLY
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
@@ -622,7 +622,7 @@ class GeoIPAutoUpdater extends ScheduledTask
 
     /**
      * Returns the next scheduled time for the auto updater.
-     * 
+     *
      * @return Date|false
      */
     public static function getNextRunTime()

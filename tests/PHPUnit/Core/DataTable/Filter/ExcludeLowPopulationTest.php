@@ -74,7 +74,6 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
         $this->assertEquals(array(90, 100), $table->getColumn('count'));
     }
 
-
     /**
      * Test to exclude low population filter
      *

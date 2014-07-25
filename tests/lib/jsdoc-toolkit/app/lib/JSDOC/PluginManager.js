@@ -13,8 +13,7 @@ JSDOC.PluginManager.registerPlugin = function(/**String*/name, /**Object*/handle
 		/** The collection of all plugins. Requires a unique name for each.
 		*/
 		JSDOC.PluginManager.plugins = {};
-	
-	
+
 	JSDOC.PluginManager.plugins[name] = handlers;
 }
 

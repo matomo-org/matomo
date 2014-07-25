@@ -16,9 +16,9 @@ use Piwik\DataTable\Manager;
 /**
  * Deletes rows that do not contain a column that matches a regex pattern and do not contain a
  * subtable that contains a column that matches a regex pattern.
- * 
+ *
  * **Example**
- * 
+ *
  *     // only display index pageviews in Actions.getPageUrls
  *     $dataTable->filter('PatternRecursive', array('label', 'index'));
  *
@@ -32,7 +32,7 @@ class PatternRecursive extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The table to eventually filter.
      * @param string $columnToFilter The column to match with the `$patternToSearch` pattern.
      * @param string $patternToSearch The regex pattern to use.
@@ -48,7 +48,7 @@ class PatternRecursive extends BaseFilter
 
     /**
      * See {@link PatternRecursive}.
-     * 
+     *
      * @param DataTable $table
      * @return int The number of deleted rows.
      */

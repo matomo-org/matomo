@@ -15,7 +15,7 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
 class PluginFlash extends VisitDimension
-{    
+{
     protected $columnName = 'config_flash';
     protected $columnType = 'TINYINT(1) NOT NULL';
 

@@ -12,16 +12,16 @@ use Exception;
 
 /**
  * Provides URL related helper methods.
- * 
+ *
  * This class provides simple methods that can be used to parse and modify
  * the current URL. It is most useful when plugins need to redirect the current
  * request to a URL and when they need to link to other parts of Piwik in
  * HTML.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Redirect to a different controller action**
- * 
+ *
  *     public function myControllerAction()
  *     {
  *         $url = Url::getCurrentQueryStringWithParametersModified(array(
@@ -30,9 +30,9 @@ use Exception;
  *         ));
  *         Url::redirectToUrl($url);
  *     }
- * 
+ *
  * **Link to a different controller action in a template**
- * 
+ *
  *     public function myControllerAction()
  *     {
  *         $url = Url::getCurrentQueryStringWithParametersModified(array(
@@ -45,7 +45,7 @@ use Exception;
  *         $view->realtimeMapUrl = $url;
  *         return $view->render();
  *     }
- * 
+ *
  */
 class Url
 {
@@ -70,7 +70,7 @@ class Url
 
     /**
      * Returns the current URL without the query string.
-     * 
+     *
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
      *                               except in {@link Piwik\Plugin\Controller}.
      * @return string eg, `"http://example.org/dir1/dir2/index.php"` if the current URL is
@@ -306,7 +306,7 @@ class Url
 
     /**
      * Sets the host. Useful for CLI scripts, eg. core:archive command
-     * 
+     *
      * @param $host string
      */
     public static function setHost($host)
@@ -367,7 +367,7 @@ class Url
      *
      * @return array If current URL is `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      *               this will return:
-     *               
+     *
      *                   array(
      *                       'param1' => string 'value1',
      *                       'param2' => string 'value2'
@@ -408,7 +408,7 @@ class Url
     /**
      * Converts an array of parameters name => value mappings to a query
      * string.
-     * 
+     *
      * @param array $parameters eg. `array('param1' => 10, 'param2' => array(1,2))`
      * @return string eg. `"param1=10&param2[]=1&param2[]=2"`
      * @api
@@ -440,7 +440,7 @@ class Url
     /**
      * Redirects the user to the referrer. If no referrer exists, the user is redirected
      * to the current URL without query string.
-     * 
+     *
      * @api
      */
     public static function redirectToReferrer()

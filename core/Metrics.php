@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-
 use Piwik\Cache\LanguageAwareStaticCache;
 use Piwik\Cache\PluginAwareStaticCache;
 
@@ -17,7 +16,7 @@ require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 /**
  * This class contains metadata regarding core metrics and contains several
  * related helper functions.
- * 
+ *
  * Of note are the `INDEX_...` constants. In the database, metric column names
  * in {@link DataTable} rows are stored as integers to save space. The integer
  * values used are determined by these constants.

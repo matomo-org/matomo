@@ -131,11 +131,11 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
             $excludedUserAgent);
 
         $request = new Request(array('idsite' => $idsite));
-        
+
         // test that user agents that contain excluded user agent strings are excluded
         foreach ($tests as $ua => $expected) {
             $excluded = new VisitExcluded_public($request, $ip = false, $ua);
-            
+
             $this->assertSame($expected, $excluded->public_isUserAgentExcluded(), "Result if isUserAgentExcluded('$ua') was not " . ($expected ? 'true' : 'false') . ".");
         }
     }
@@ -156,7 +156,6 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
         API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
-
 
         // test that user agents that contain excluded user agent strings are excluded
         foreach ($knownSpammers as $spamUrl => $expectedIsReferrerSpam) {
@@ -221,7 +220,6 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
             'Exabot/2.0' => true,
             'sogou spider' => true,
             'Mozilla/5.0(compatible;Sosospider/2.0;+http://help.soso.com/webspider.htm)' => true,
-
 
             'AdsBot-Google (+http://www.google.com/adsbot.html)' => true,
             'Google Page Speed Insights' => true,

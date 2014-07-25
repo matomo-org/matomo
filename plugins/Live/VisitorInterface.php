@@ -19,4 +19,4 @@ interface VisitorInterface
      * @return string|bool
      */
     public function getVisitorId();
-} 
+}

@@ -21,7 +21,7 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
         include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
 
         $searchEngines = array();
-        foreach ($GLOBALS['Piwik_SearchEngines'] AS $url => $searchEngine) {
+        foreach ($GLOBALS['Piwik_SearchEngines'] as $url => $searchEngine) {
             $searchEngines[] = array($url, $searchEngine);
         }
         return $searchEngines;
@@ -195,7 +195,6 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
         include PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
         $this->assertContains($expected, \Piwik\Plugins\Referrers\getSocialsLogoFromUrl($url));
     }
-
 
     public function isSocialUrlTestData()
     {

@@ -28,11 +28,11 @@ use Piwik\Piwik;
  * This filter can be extended to vary exactly how ranges are prettified based
  * on the range values found in the DataTable. To see an example of this,
  * take a look at the {@link BeautifyTimeRangeLabels} filter.
- * 
+ *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->queueFilter('BeautifyRangeLabels', array("1 visit", "%s visits"));
- * 
+ *
  * @api
  */
 class BeautifyRangeLabels extends ColumnCallbackReplace

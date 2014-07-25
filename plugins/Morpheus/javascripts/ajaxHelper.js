@@ -15,7 +15,7 @@ globalAjaxQueue.active = 0;
 
 /**
  * Removes all finished requests from the queue.
- * 
+ *
  * @return {void}
  */
 globalAjaxQueue.clean = function () {
@@ -165,10 +165,10 @@ function ajaxHelper() {
             }
         }
     };
-    
+
     /**
      * Sets the base URL to use in the AJAX request.
-     * 
+     *
      * @param {string} url
      */
     this.setUrl = function (url) {

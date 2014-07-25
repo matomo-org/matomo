@@ -101,7 +101,7 @@ class Settings
         // prevent the config hash from being the same, across different Piwik instances
         // (limits ability of different Piwik instances to cross-match users)
         $salt = SettingsPiwik::getSalt();
-        
+
         $configString =
               $os
             . $browserName . $browserVersion
@@ -109,9 +109,9 @@ class Settings
             . $ip
             . $browserLang
             . $salt;
-        
+
         $hash = md5($configString, $raw_output = true);
-        
+
         return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
-} 
+}

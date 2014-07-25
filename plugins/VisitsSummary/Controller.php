@@ -143,7 +143,6 @@ class Controller extends \Piwik\Plugin\Controller
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
 
-
         $view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
         $nbVisits = (int)$dataRow->getColumn('nb_visits');
         $view->nbVisits = $nbVisits;
@@ -168,7 +167,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->nbOutlinks = (int)$dataActionsRow->getColumn('nb_outlinks');
             $view->nbUniqueOutlinks = (int)$dataActionsRow->getColumn('nb_uniq_outlinks');
             $view->averageGenerationTime = $dataActionsRow->getColumn('avg_time_generation');
-
 
             if ($displaySiteSearch) {
                 $view->nbSearches = (int)$dataActionsRow->getColumn('nb_searches');

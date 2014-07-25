@@ -26,7 +26,7 @@
 
     /**
      * DataTable UI class for jqPlot graph datatable visualizations.
-     * 
+     *
      * @constructor
      */
     exports.JqplotGraphDataTable = function (element) {
@@ -146,7 +146,7 @@
                     if ($.isArray(value) && value[1]) {
                         value = value[1];
                     }
-                    
+
                     percentages[valueIdx] = sum > 0 ? Math.round(100 * value / sum) : 0;
                 }
             }
@@ -365,10 +365,10 @@
             });
 
             var popover = $(document.createElement('div'));
-            
+
             popover.append('<div style="font-size: 13px; margin-bottom: 10px;">'
                 + lang.exportText + '</div>').append($(img));
-                
+
             popover.dialog({
                 title: lang.exportTitle,
                 modal: true,
@@ -496,7 +496,7 @@
             } else if (viewDataTable == 'graphVerticalBar') {
                 graphType = 'bar';
             }
-            
+
             var namespace = graphType + '-graph-colors';
 
             this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
@@ -618,7 +618,6 @@ JQPlotExternalSeriesToggle.prototype = {
 
 };
 
-
 // ROW EVOLUTION SERIES TOGGLE
 
 function RowEvolutionSeriesToggle(targetDivId, jqplotData, initiallyShowAll) {
@@ -674,7 +673,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         }
     }
 };
-
 
 // ------------------------------------------------------------
 //  PIWIK TICKS PLUGIN FOR JQPLOT
@@ -835,7 +833,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
 })(jQuery);
 
-
 // ------------------------------------------------------------
 //  LEGEND PLUGIN FOR JQPLOT
 //  Render legend on canvas
@@ -933,7 +930,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.postDrawHooks.push($.jqplot.CanvasLegendRenderer.postDraw);
 
 })(jQuery);
-
 
 // ------------------------------------------------------------
 //  SERIES PICKER

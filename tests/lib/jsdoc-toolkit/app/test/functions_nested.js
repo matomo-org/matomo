@@ -12,12 +12,12 @@ Foo = function(id) {
 	Foo.prototype.methodOne = function(bar) {
 	  alert(bar);
 	};
-	
+
 	// same again
 	Foo.prototype.methodTwo = function(bar2) {
 	  alert(bar2);
 	};
-	
+
 	// and these are only executed if the enclosing function is actually called
 	// and who knows if that will ever happen?
 	Bar = function(pez) {
@@ -26,7 +26,7 @@ Foo = function(id) {
 	Zop.prototype.zap = function(p){
 		alert(p);
 	};
-	
+
 	// but this is only visible inside Foo
 	function inner() {
 	}

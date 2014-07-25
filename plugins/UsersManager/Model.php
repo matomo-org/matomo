@@ -64,7 +64,7 @@ class Model
         foreach ($users as $login) {
             $return[] = $login['login'];
         }
-        
+
         return $return;
     }
 

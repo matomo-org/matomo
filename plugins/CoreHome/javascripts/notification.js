@@ -105,7 +105,7 @@
 
         template += message;
         template += buildNotificationEnd();
-        
+
         return template;
     }
 

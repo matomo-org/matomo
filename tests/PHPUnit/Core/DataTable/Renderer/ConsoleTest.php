@@ -64,7 +64,6 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-
     /**
      *  test with a row without child
      *

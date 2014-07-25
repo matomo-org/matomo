@@ -9,7 +9,6 @@
 
 namespace Piwik\Translate\Filter;
 
-
 /**
  */
 class EmptyTranslations extends FilterAbstract
@@ -25,7 +24,7 @@ class EmptyTranslations extends FilterAbstract
     {
         $translationsBefore = $translations;
 
-        foreach ($translations AS $plugin => &$pluginTranslations) {
+        foreach ($translations as $plugin => &$pluginTranslations) {
 
             $pluginTranslations = array_filter($pluginTranslations, function ($value) {
                 return !empty($value) && '' != trim($value);

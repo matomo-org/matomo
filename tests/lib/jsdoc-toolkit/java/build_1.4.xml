@@ -5,7 +5,7 @@
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-        <javac 
+        <javac
          srcdir="src" destdir="build/classes"
          classpath="./classes/js.jar"
         />
@@ -20,7 +20,7 @@
             </manifest>
         </jar>
     </target>
-    
+
     <target name="debugjar">
         <mkdir dir="build/jar"/>
         <jar jarfile="build/jar/jsdebug.jar" basedir="build/classes">

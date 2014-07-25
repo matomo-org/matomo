@@ -14,10 +14,10 @@ use Piwik\Plugin\Widgets;
 
 /**
  * Manages the global list of reports that can be displayed as dashboard widgets.
- * 
+ *
  * Reports are added as dashboard widgets through the {@hook WidgetsList.addWidgets}
  * event. Observers for this event should call the {@link add()} method to add reports.
- * 
+ *
  * @api
  * @method static \Piwik\WidgetsList getInstance()
  */
@@ -198,9 +198,9 @@ class WidgetsList extends Singleton
 
     /**
      * Removes one or more widgets from the widget list.
-     * 
+     *
      * @param string $widgetCategory The widget category. Can be a translation token.
-     * @param string|false $widgetName The name of the widget to remove. Cannot be a 
+     * @param string|false $widgetName The name of the widget to remove. Cannot be a
      *                                 translation token. If not supplied, the entire category
      *                                 will be removed.
      */

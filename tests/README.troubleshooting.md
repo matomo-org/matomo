@@ -1,6 +1,6 @@
 # Troubleshooting Piwik Tests
 
-If you have problems with running Piwik tests see below. 
+If you have problems with running Piwik tests see below.
 
 If you cannot solve your issues please [ask in the forums](http://forum.piwik.org/list.php?9)
 

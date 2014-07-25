@@ -12,7 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\UserSettings\Segment;
 
 class BrowserVersion extends \Piwik\Plugins\DevicesDetection\Columns\BrowserVersion
-{    
+{
     protected $columnName = 'config_browser_version';
     protected $columnType = 'VARCHAR(20) NOT NULL';
 

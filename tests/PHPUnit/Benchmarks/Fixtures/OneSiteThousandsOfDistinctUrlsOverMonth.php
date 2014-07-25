@@ -29,16 +29,16 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
         $goals = API::getInstance();
         $goals->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         $goals->addGoal($this->idSite, 'all', 'url', 'thing2', 'contains');
-        
+
         $start = Date::factory($this->date);
-        
+
         $dates = array();
         for ($day = 0; $day != 31; ++$day) {
             $dates[] = $start->addDay($day);
         }
-        
+
         $t = BenchmarkTestCase::getLocalTracker($this->idSite);
-        
+
         $actionNum = 0;
         foreach ($dates as $date) {
             for ($visitNum = 0; $visitNum != 1000; ++$visitNum) {
@@ -50,10 +50,10 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
                     $referrerUrl = "http://";
                 }
                 $title = "A page title / $actionNum / 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 /9";
-                
+
                 $t->setNewVisitorId();
                 $t->setForceVisitDateTime($date);
-                
+
                 $t->setUrl($url);
                 $t->setUrlReferrer($referrerUrl);
                 Fixture::checkResponse($t->doTrackPageView($title));

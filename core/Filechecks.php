@@ -117,7 +117,6 @@ class Filechecks
 
         $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
 
-
         if (file_exists($manifest)) {
             require_once $manifest;
         }

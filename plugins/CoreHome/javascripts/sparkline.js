@@ -17,11 +17,11 @@ piwik.getSparklineColors = function () {
 piwik.initSparklines = function() {
     $('.sparkline > img').each(function () {
         var $self = $(this);
-        
+
         if ($self.attr('src')) {
             return;
         }
-        
+
         var colors = JSON.stringify(piwik.getSparklineColors());
         var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors);
 

@@ -150,7 +150,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $message = html_entity_decode($e->getMessage(), ENT_QUOTES, 'UTF-8');
             return json_encode(array('result' => 'error', 'message' => $message));
         }
-        
+
         Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
         return json_encode(array('result' => 'success'));
     }
@@ -350,6 +350,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->canUpdateCommunication              = $pluginUpdateCommunication->canBeEnabled();
         $view->enableSendPluginUpdateCommunication = $pluginUpdateCommunication->isEnabled();
     }
-
 
 }

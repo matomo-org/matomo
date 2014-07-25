@@ -92,7 +92,7 @@ class Updates_1_2_rc1 extends Updates
 
             // Drop migrated fields
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-		    	DROP visitor_idcookie, 
+		    	DROP visitor_idcookie,
 		    	DROP config_md5config
 		    	' => 1091,
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
@@ -107,8 +107,8 @@ class Updates_1_2_rc1 extends Updates
             // Backfill action logs as best as we can
             'UPDATE ' . Common::prefixTable('log_link_visit_action') . ' as action,
 				  	' . Common::prefixTable('log_visit') . '  as visit
-                SET action.idsite = visit.idsite, 
-                	action.server_time = visit.visit_last_action_time, 
+                SET action.idsite = visit.idsite,
+                	action.server_time = visit.visit_last_action_time,
                 	action.idvisitor = visit.idvisitor
                 WHERE action.idvisit=visit.idvisit
                 ' => false,

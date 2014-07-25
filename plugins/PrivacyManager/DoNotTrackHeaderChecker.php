@@ -14,10 +14,10 @@ use Piwik\Tracker\Request;
 
 /**
  * Excludes visits where user agent's request contains either:
- * 
+ *
  * - X-Do-Not-Track header (used by AdBlockPlus and NoScript)
  * - DNT header (used by Mozilla)
- * 
+ *
  */
 class DoNotTrackHeaderChecker
 {

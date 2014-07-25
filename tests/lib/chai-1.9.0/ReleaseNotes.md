@@ -1,15 +1,15 @@
 # Release Notes
 
-## 1.9.0 / 2014-01-29 
+## 1.9.0 / 2014-01-29
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - Review [#219](https://github.com/chaijs/chai/pull/219).
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Community Contributions
 
@@ -31,42 +31,42 @@ Thank you to all who took time to contribute!
 - [#237](https://github.com/chaijs/chai/pull/237) Remove coveralls/jscoverage, include istanbul coverage report in travis test.
 - Update Karma and Sauce runner versions for consistent CI results. No more karma@canary.
 
-## 1.8.1 / 2013-10-10 
+## 1.8.1 / 2013-10-10
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
-  - Refresh `node_modules` folder for updated dependencies. 
-- **Plugin Developers:** 
+  - Refresh `node_modules` folder for updated dependencies.
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Browserify
 
 This is a small patch that updates the dependency tree so browserify users can install
 chai. (Remove conditional requires)
 
-## 1.8.0 / 2013-09-18 
+## 1.8.0 / 2013-09-18
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - See `deep.equal` notes.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Deep Equals
 
 This version of Chai focused on a overhaul to the deep equal utility. The code for this
-tool has been removed from the core lib and can now be found at: 
+tool has been removed from the core lib and can now be found at:
 [chai / deep-eql](https://github.com/chaijs/deep-eql). As stated in previous releases,
 this is part of a larger initiative to provide transparency, independent testing, and coverage for
-some of the more complicated internal tools. 
+some of the more complicated internal tools.
 
-For the most part `.deep.equal` will behave the same as it has. However, in order to provide a 
+For the most part `.deep.equal` will behave the same as it has. However, in order to provide a
 consistent ruleset across all types being tested, the following changes have been made and _might_
 require changes to your tests.
 
@@ -94,7 +94,7 @@ expect(Array.prototype.slice.call(arguments)).to.deep.equal([]);
 
 ### CI and Browser Testing
 
-Chai now runs the browser CI suite using [Karma](http://karma-runner.github.io/) directed at 
+Chai now runs the browser CI suite using [Karma](http://karma-runner.github.io/) directed at
 [SauceLabs](https://saucelabs.com/). This means we get to know where our browser support stands...
 and we get a cool badge:
 
@@ -104,67 +104,67 @@ Look for the list of browsers/versions to expand over the coming releases.
 
 - [#195](https://github.com/chaijs/chai/issues/195) karma test framework
 
-## 1.7.2 / 2013-06-27 
+## 1.7.2 / 2013-06-27
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Coverage Reporting
 
 Coverage reporting has always been available for core-developers but the data has never been published
 for our end users. In our ongoing effort to improve accountability this data will now be published via
 the [coveralls.io](https://coveralls.io/) service. A badge has been added to the README and the full report
-can be viewed online at the [chai coveralls project](https://coveralls.io/r/chaijs/chai). Furthermore, PRs 
+can be viewed online at the [chai coveralls project](https://coveralls.io/r/chaijs/chai). Furthermore, PRs
 will receive automated messages indicating how their PR impacts test coverage. This service is tied to TravisCI.
 
 ### Other Fixes
 
 - [#175](https://github.com/chaijs/chai/issues/175) Add `bower.json`. (Fix ignore all)
 
-## 1.7.1 / 2013-06-24 
+## 1.7.1 / 2013-06-24
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Official Bower Support
 
 Support has been added for the Bower Package Manager ([bower.io])(http://bower.io/). Though
 Chai could be installed via Bower in the past, this update adds official support via the `bower.json`
-specification file. 
+specification file.
 
 - [#175](https://github.com/chaijs/chai/issues/175) Add `bower.json`.
 
-## 1.7.0 / 2013-06-17 
+## 1.7.0 / 2013-06-17
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - Review AssertionError update notice.
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### AssertionError Update Notice
 
 Chai now uses [chaijs/assertion-error](https://github.com/chaijs/assertion-error) instead an internal
-constructor. This will allow for further iteration/experimentation of the AssertionError constructor 
-independant of Chai. Future plans include stack parsing for callsite support. 
+constructor. This will allow for further iteration/experimentation of the AssertionError constructor
+independant of Chai. Future plans include stack parsing for callsite support.
 
 This update constructor has a different constructor param signature that conforms more with the standard
-`Error` object. If your plugin throws and `AssertionError` directly you will need to update your plugin 
+`Error` object. If your plugin throws and `AssertionError` directly you will need to update your plugin
 with the new signature.
 
 ```js
@@ -208,7 +208,7 @@ throw new AssertionError('An assertion error occurred', null, arguments.callee);
 This is the first non-developement dependency for Chai. As Chai continues to evolve we will begin adding
 more; the next will likely be improved type detection and deep equality. With Chai's userbase continually growing
 there is an higher need for accountability and documentation. External dependencies will allow us to iterate and
-test on features independent from our interfaces. 
+test on features independent from our interfaces.
 
 Note: The browser packaged version `chai.js` will ALWAYS contain all dependencies needed to run Chai.
 
@@ -220,16 +220,16 @@ Note: The browser packaged version `chai.js` will ALWAYS contain all dependencie
 
 Thank you to all who took the time to contribute!
 
-## 1.6.1 / 2013-06-05 
+## 1.6.1 / 2013-06-05
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required.
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated developement dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated developement dependencies.
 
 ### Deep Equality
 
@@ -247,16 +247,16 @@ Thank you to all who took the time to contribute!
 
 - Mocha has been locked at version `1.8.x` to ensure `mocha-phantomjs` compatibility.
 
-## 1.6.0 / 2013-04-29 
+## 1.6.0 / 2013-04-29
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required.
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated developement dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated developement dependencies.
 
 ### New Assertions
 
@@ -277,14 +277,14 @@ expect([1, 2, 3]).to.not.include.members([3, 2, 8]);
 // (assert) full set
 assert.sameMembers([ 1, 2, 3 ], [ 2, 1, 3 ], 'same members');
 
-// (assert) inclusion 
+// (assert) inclusion
 assert.includeMembers([ 1, 2, 3 ], [ 2, 1 ], 'include members');
 
 ```
 
 #### Non-inclusion for Assert Interface
 
-Most `assert` functions have a negative version, like `instanceOf()` has a corresponding `notInstaceOf()`. 
+Most `assert` functions have a negative version, like `instanceOf()` has a corresponding `notInstaceOf()`.
 However `include()` did not have a corresponding `notInclude()`. This has been added.
 
 ```js
@@ -305,19 +305,19 @@ Thank you to all who took time to contribute!
 - [#158](https://github.com/chaijs/chai/issues/158) `assert#notInclude` has been added.
 - Travis-CI now tests Node.js `v0.10.x`. Support for `v0.6.x` has been removed. `v0.8.x` is still tested as before.
 
-## 1.5.0 / 2013-02-03 
+## 1.5.0 / 2013-02-03
 
 ### Migration Requirements
 
 The following changes are required if you are upgrading from the previous version:
 
-- **Users:** 
-  - _Update [2013-02-04]:_ Some users may notice a small subset of deep equality assertions will no longer pass. This is the result of 
+- **Users:**
+  - _Update [2013-02-04]:_ Some users may notice a small subset of deep equality assertions will no longer pass. This is the result of
   [#120](https://github.com/chaijs/chai/issues/120), an improvement to our deep equality algorithm. Users will need to revise their assertions
   to be more granular should this occur. Further information: [#139](https://github.com/chaijs/chai/issues/139).
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required.
-- **Core Contributors:** 
+- **Core Contributors:**
   - Refresh `node_modules` folder for updated developement dependencies.
 
 ### Community Contributions
@@ -336,15 +336,14 @@ Thank you to all who took time to contribute!
 - [#116](https://github.com/chaijs/chai/issues/116): `.throw()` has cleaner display of errors when WebKit browsers.
 - [#120](https://github.com/chaijs/chai/issues/120): `.eql()` now works to compare dom nodes in browsers.
 
-
 ### Usage Updates
 
 #### For Users
 
-**1. Component Support:** Chai now included the proper configuration to be installed as a 
+**1. Component Support:** Chai now included the proper configuration to be installed as a
 [component](https://github.com/component/component). Component users are encouraged to consult
 [chaijs.com](http://chaijs.com) for the latest version number as using the master branch
-does not gaurantee stability. 
+does not gaurantee stability.
 
 ```js
 // relevant component.json
@@ -357,9 +356,9 @@ Alternatively, bleeding-edge is available:
 
     $ component install chaijs/chai
 
-**2. Configurable showDiff:** Some test runners (such as [mocha](http://visionmedia.github.com/mocha/)) 
-include support for showing the diff of strings and objects when an equality error occurs. Chai has 
-already included support for this, however some users may not prefer this display behavior. To revert to 
+**2. Configurable showDiff:** Some test runners (such as [mocha](http://visionmedia.github.com/mocha/))
+include support for showing the diff of strings and objects when an equality error occurs. Chai has
+already included support for this, however some users may not prefer this display behavior. To revert to
 no diff display, the following configuration is available:
 
 ```js
@@ -369,7 +368,7 @@ chai.Assertion.showDiff = true; // default, diff output enabled
 
 #### For Plugin Developers
 
-**1. New Utility - type**: The new utility `.type()` is available as a better implementation of `typeof` 
+**1. New Utility - type**: The new utility `.type()` is available as a better implementation of `typeof`
 that can be used cross-browser. It handles the inconsistencies of Array, `null`, and `undefined` detection.
 
 - **@param** _{Mixed}_ object to detect type of
@@ -387,9 +386,9 @@ chai.use(function (c, utils) {
 
 #### For Core Contributors
 
-**1. Browser Testing**: Browser testing of the `./chai.js` file is now available in the command line 
-via PhantomJS. `make test` and Travis-CI will now also rebuild and test `./chai.js`. Consequently, all 
-pull requests will now be browser tested in this way. 
+**1. Browser Testing**: Browser testing of the `./chai.js` file is now available in the command line
+via PhantomJS. `make test` and Travis-CI will now also rebuild and test `./chai.js`. Consequently, all
+pull requests will now be browser tested in this way.
 
 _Note: Contributors opening pull requests should still NOT include the browser build._
 

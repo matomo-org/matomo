@@ -219,7 +219,7 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
 
         // Vimeo
         'vimeo.com'            => 'Vimeo',
-        
+
         //tumblr
         'tumblr.com'           => 'tumblr',
     );

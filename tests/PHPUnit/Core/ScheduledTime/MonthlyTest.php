@@ -109,11 +109,9 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
         $timeUTC = $mock->getRescheduledTime();
         $this->assertEquals(self::$_FEBRUARY_01_1971_00_00_00, $timeUTC);
 
-
         $mock->setTimezone('Pacific/Auckland');
         $timeAuckland = $mock->getRescheduledTime();
         $this->assertEquals(-13 * $oneHourInSeconds, $timeAuckland - $timeUTC);
-
 
         $mock->setTimezone('America/Los_Angeles');
         $timeLosAngeles = $mock->getRescheduledTime();

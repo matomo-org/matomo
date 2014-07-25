@@ -205,7 +205,6 @@ class BatchInsert
         return false;
     }
 
-
     /**
      * Create CSV (or other delimited) files
      *

@@ -76,7 +76,7 @@ class CronArchive
     private $requests = 0;
     private $output = '';
     private $archiveAndRespectTTL = true;
-    
+
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
     private $isCoreInited = false;
@@ -97,7 +97,7 @@ class CronArchive
      * The list of IDs of sites to ignore when launching archiving. Archiving will not be launched
      * for any site whose ID is in this list (even if the ID is supplied in {@link $shouldArchiveSpecifiedSites}
      * or if {@link $shouldArchiveAllSites} is true).
-     * 
+     *
      * @var int[]
      */
     public $shouldSkipSpecifiedSites = array();
@@ -689,7 +689,6 @@ class CronArchive
         $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed);
         $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
 
-
         $url .= self::APPEND_TO_API_REQUEST;
 
         $visitsInLastPeriods = $visitsLastPeriod = 0;
@@ -921,10 +920,10 @@ class CronArchive
         /**
          * Triggered by the **core:archive** console command so plugins can modify the list of
          * websites that the archiving process will be launched for.
-         * 
+         *
          * Plugins can use this hook to add websites to archive, remove websites to archive, or change
          * the order in which websites will be archived.
-         * 
+         *
          * @param array $websiteIds The list of website IDs to launch the archiving process for.
          */
         Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));

@@ -322,10 +322,10 @@ class Request
 
         /**
          * Triggered when obtaining the ID of the site we are tracking a visit for.
-         * 
+         *
          * This event can be used to change the site ID so data is tracked for a different
          * website.
-         * 
+         *
          * @param int &$idSite Initialized to the value of the **idsite** query parameter. If a
          *                     subscriber sets this variable, the value it uses must be greater
          *                     than 0.

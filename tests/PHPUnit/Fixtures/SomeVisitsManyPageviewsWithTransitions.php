@@ -44,7 +44,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
     {
         $tracker = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $tracker->enableBulkTracking();
-        
+
         $tracker->setIp('156.5.3.1');
         $tracker->setUrlReferrer('http://www.google.com.vn/url?sa=t&rct=j&q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&source=web&cd=4&ved=0FjAD&url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&ei=y-HHAQ&usg=AFQjCN2-nt5_GgDeg&cad=rja');
         $this->trackPageView($tracker, 0, 'page/one.html');
@@ -88,7 +88,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $tracker->setNewVisitorId();
         $tracker->setUrlReferrer('');
         $this->trackPageView($tracker, 0, 'page/one.html');
-        
+
         // perform site search before & after page/one.html, then outlink after page/one.html, then download
         // before & after
         $tracker->setIp('156.5.3.6');
@@ -105,7 +105,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $this->trackPageView($tracker, 0.5, '', $this->dateTime, $pageViewType = 'download');
         $this->trackPageView($tracker, 0.55, 'page/one.html');
         $this->trackPageView($tracker, 0.6, 'to/outlink/page2.html', $this->dateTime, $pageViewType = 'outlink');
-        
+
         // perform new searches/outlinks before & after in later date to test 'month' period
         $laterDate = Date::factory($this->dateTime)->addDay(8)->getDatetime();
         $tracker->setIp('156.5.3.7');
@@ -120,7 +120,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $this->trackPageView($tracker, 0.35, 'page/search.html#q=anotherkwd', $laterDate,
                              $pageViewType = 'site-search', $searchKeyword = 'anotherkwd',
                              $searchCategory = 'mysearchcat');
-        
+
         self::checkBulkTrackingResponse($tracker->doBulkTrack());
     }
 
@@ -130,7 +130,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         if ($dateTime === null) {
             $dateTime = $this->dateTime;
         }
-        
+
         // rotate protocol and www to make sure it doesn't matter
         $prefixes = array('http://', 'http://www.', 'https://', 'https://');
         $prefix = $prefixes[$this->prefixCounter % 4];
@@ -139,7 +139,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         /** @var $visit PiwikTracker */
         $visit->setUrl($prefix . 'example.org/' . $path);
         $visit->setForceVisitDateTime(Date::factory($dateTime)->addHour($timeOffset)->getDatetime());
-        
+
         if ($pageViewType == 'normal') {
             self::assertTrue($visit->doTrackPageView('page title - ' . $path));
         } else if ($pageViewType == 'outlink') {

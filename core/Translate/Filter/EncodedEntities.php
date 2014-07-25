@@ -9,7 +9,6 @@
 
 namespace Piwik\Translate\Filter;
 
-
 use Piwik\Translate;
 
 /**
@@ -25,8 +24,8 @@ class EncodedEntities extends FilterAbstract
      */
     public function filter($translations)
     {
-        foreach ($translations AS $pluginName => $pluginTranslations) {
-            foreach ($pluginTranslations AS $key => $translation) {
+        foreach ($translations as $pluginName => $pluginTranslations) {
+            foreach ($pluginTranslations as $key => $translation) {
 
                 // remove encoded entities
                 $decoded = Translate::clean($translation);

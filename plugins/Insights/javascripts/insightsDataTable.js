@@ -20,7 +20,7 @@
 
     /**
      * UI control that handles extra functionality for Actions datatables.
-     * 
+     *
      * @constructor
      */
     exports.InsightsDataTable = function (element) {

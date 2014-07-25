@@ -1,7 +1,7 @@
 <?php
 exit; // REMOVE this line to run the script
 
-// this token is used to authenticate your API request. 
+// this token is used to authenticate your API request.
 // You can get the token on the API page inside your Piwik interface
 $token_auth = 'anonymous';
 

@@ -9,7 +9,6 @@
 
 namespace Piwik\Updates;
 
-
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
@@ -27,14 +26,14 @@ class Updates_1_5_b1 extends Updates
 										          server_time DATETIME NOT NULL,
 												  idvisit INTEGER(10) UNSIGNED NOT NULL,
 												  idorder varchar(100) NOT NULL,
-												  
+
 												  idaction_sku INTEGER(10) UNSIGNED NOT NULL,
 												  idaction_name INTEGER(10) UNSIGNED NOT NULL,
 												  idaction_category INTEGER(10) UNSIGNED NOT NULL,
 												  price FLOAT NOT NULL,
 												  quantity INTEGER(10) UNSIGNED NOT NULL,
 												  deleted TINYINT(1) UNSIGNED NOT NULL,
-												  
+
 												  PRIMARY KEY(idvisit, idorder, idaction_sku),
 										          INDEX index_idsite_servertime ( idsite, server_time )
 												)  DEFAULT CHARSET=utf8 '              => 1050,

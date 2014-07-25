@@ -65,22 +65,22 @@ class Cache
         Piwik::setUserHasSuperUserAccess();
 
         $content = array();
-        
+
         /**
          * Triggered to get the attributes of a site entity that might be used by the
          * Tracker.
-         * 
+         *
          * Plugins add new site attributes for use in other tracking events must
          * use this event to put those attributes in the Tracker Cache.
-         * 
+         *
          * **Example**
-         * 
+         *
          *     public function getSiteAttributes($content, $idSite)
          *     {
          *         $sql = "SELECT info FROM " . Common::prefixTable('myplugin_extra_site_info') . " WHERE idsite = ?";
          *         $content['myplugin_site_data'] = Db::fetchOne($sql, array($idSite));
          *     }
-         * 
+         *
          * @param array &$content Array mapping of site attribute names with values.
          * @param int $idSite The site ID to get attributes for.
          */
@@ -130,20 +130,20 @@ class Cache
         /**
          * Triggered before the [general tracker cache](/guides/all-about-tracking#the-tracker-cache)
          * is saved to disk. This event can be used to add extra content to the cache.
-         * 
+         *
          * Data that is used during tracking but is expensive to compute/query should be
          * cached to keep tracking efficient. One example of such data are options
          * that are stored in the piwik_option table. Querying data for each tracking
          * request means an extra unnecessary database query for each visitor action. Using
          * a cache solves this problem.
-         * 
+         *
          * **Example**
-         * 
+         *
          *     public function setTrackerCacheGeneral(&$cacheContent)
          *     {
          *         $cacheContent['MyPlugin.myCacheKey'] = Option::get('MyPlugin_myOption');
          *     }
-         * 
+         *
          * @param array &$cacheContent Array of cached data. Each piece of data must be
          *                             mapped by name.
          */

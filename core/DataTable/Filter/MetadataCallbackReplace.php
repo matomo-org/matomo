@@ -14,9 +14,9 @@ use Piwik\DataTable\Row;
 /**
  * Execute a callback for each row of a {@link DataTable} passing certain column values and metadata
  * as metadata, and replaces row metadata with the callback result.
- * 
+ *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->filter('MetadataCallbackReplace', array('url', function ($url) {
  *         return $url . '#index';
  *     }));
@@ -27,7 +27,7 @@ class MetadataCallbackReplace extends ColumnCallbackReplace
 {
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The DataTable that will eventually be filtered.
      * @param array|string $metadataToFilter The metadata whose values should be passed to the callback
      *                                       and then replaced with the callback's result.

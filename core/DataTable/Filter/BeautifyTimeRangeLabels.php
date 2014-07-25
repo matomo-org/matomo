@@ -17,11 +17,11 @@ use Piwik\DataTable;
  * This filter customizes the behavior of the {@link BeautifyRangeLabels} filter
  * so range values that are less than one minute are displayed in seconds but
  * other ranges are displayed in minutes.
- * 
+ *
  * **Basic usage**
- * 
+ *
  *     $dataTable->filter('BeautifyTimeRangeLabels', array("%1$s-%2$s min", "1 min", "%s min"));
- * 
+ *
  * @api
  */
 class BeautifyTimeRangeLabels extends BeautifyRangeLabels

@@ -21,7 +21,6 @@ use Piwik\Plugins\Goals\Archiver;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
-
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/LogDataPurger.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
 

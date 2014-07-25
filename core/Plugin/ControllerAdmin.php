@@ -22,9 +22,9 @@ use Piwik\View;
 
 /**
  * Base class of plugin controllers that provide administrative functionality.
- * 
+ *
  * See {@link Controller} to learn more about Piwik controllers.
- * 
+ *
  */
 abstract class ControllerAdmin extends Controller
 {

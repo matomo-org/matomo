@@ -13,17 +13,17 @@ use Piwik\Singleton;
 
 /**
  * The base class of all API singletons.
- * 
+ *
  * Plugins that want to expose functionality through the Reporting API should create a class
  * that extends this one. Every public method in that class that is not annotated with **@ignore**
  * will be callable through Piwik's Web API.
- * 
+ *
  * _Note: If your plugin calculates and stores reports, they should be made available through the API._
- * 
+ *
  * ### Examples
- * 
+ *
  * **Defining an API for a plugin**
- * 
+ *
  *     class API extends \Piwik\Plugin\API
  *     {
  *         public function myMethod($idSite, $period, $date, $segment = false)
@@ -32,11 +32,11 @@ use Piwik\Singleton;
  *             return $dataTable;
  *         }
  *     }
- * 
+ *
  * **Linking to an API method**
- * 
+ *
  *     <a href="?module=API&method=MyPlugin.myMethod&idSite=1&period=day&date=2013-10-23">Link</a>
- * 
+ *
  * @api
  */
 abstract class API extends Singleton

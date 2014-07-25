@@ -50,7 +50,6 @@ function getOSShortLabel($osId)
     return $osId;
 }
 
-
 function getOSFamily($osLabel)
 {
     $osId = UserAgentParser::getOperatingSystemIdFromName($osLabel);
@@ -100,7 +99,6 @@ function getBrowserTypeLabel($oldLabel)
     }
     return $oldLabel;
 }
-
 
 function getConfigurationLabel($str)
 {

@@ -297,7 +297,6 @@ module.exports = function (chai, _) {
     );
   });
 
-
   /**
    * ### .empty
    *
@@ -790,7 +789,6 @@ module.exports = function (chai, _) {
     flag(this, 'object', value);
   });
 
-
   /**
    * ### .ownProperty(name)
    *
@@ -913,7 +911,6 @@ module.exports = function (chai, _) {
       , 'expected #{this} to not contain ' + _.inspect(str)
     );
   });
-
 
   /**
    * ### .keys(key1, [key2], [...])

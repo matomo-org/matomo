@@ -120,7 +120,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
         // track outlinks
         $this->trackActions($t, $visitorCounter, 'outlink', $userAgents, $resolutions);
-        
+
         // track ecommerce product orders
         $this->trackOrders($t);
     }
@@ -175,15 +175,15 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             }
         }
     }
-    
+
     private function trackOrders($t)
     {
         $nextDay = Date::factory($this->nextDay);
         $t->setForceVisitDateTime($nextDay);
-        
+
         for ($i = 0; $i != 25; ++$i) {
             $cat = $i % 5;
-            
+
             $t->setNewVisitorId();
             $t->setIp("155.5.4.$i");
             $t->setEcommerceView("id_book$i",  "Book$i", "Books Cat #$cat", 7.50);

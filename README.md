@@ -1,4 +1,4 @@
-# Piwik - piwik.org   
+# Piwik - piwik.org
 
 ## We’re seeking a talented Software Engineer
 
@@ -37,9 +37,9 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
 
 See http://piwik.org/docs/requirements/
 
-## Install 
+## Install
 
-  * Upload piwik to your webserver 
+  * Upload piwik to your webserver
   * Point your browser to the directory
   * Follow the steps
   * Add the given javascript code to your pages
@@ -72,7 +72,7 @@ About us: http://piwik.org/the-piwik-team/
 
 What makes Piwik unique from the competition:
 
-  * Real time web analytics reports: in Piwik, reports are by default generated in real time. 
+  * Real time web analytics reports: in Piwik, reports are by default generated in real time.
     For high traffic websites, you can choose the frequency for reports to be processed.
 
   * You own your web analytics data: since Piwik is installed on your server, the data is stored in your own database and you can get all the statistics
@@ -82,12 +82,12 @@ What makes Piwik unique from the competition:
 
   * Modern, easy to use User Interface: you can fully customize your dashboard, drag and drop widgets and more.
 
-  * Piwik features are built inside plugins: you can add new features and remove the ones you don’t need. 
+  * Piwik features are built inside plugins: you can add new features and remove the ones you don’t need.
     You can build your own web analytics plugins or hire a consultant to have your custom feature built in Piwik
 
   * Vibrant international Open community of more than 200,000 active users (tracking even more websites!)
 
-  * Advanced Web Analytics capabilities such as Ecommerce Tracking, Goal tracking, Campaign tracking, 
+  * Advanced Web Analytics capabilities such as Ecommerce Tracking, Goal tracking, Campaign tracking,
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real time maps, and more!
 
 Documentation and more info on http://piwik.org

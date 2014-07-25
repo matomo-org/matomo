@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class Configuration extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('UserSettings_ColumnConfiguration');

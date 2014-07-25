@@ -13,9 +13,9 @@ use Piwik\DataTable\BaseFilter;
 
 /**
  * Deletes every row for which a specific column does not match a supplied regex pattern.
- * 
+ *
  * **Example**
- * 
+ *
  *     // filter out all rows whose labels doesn't start with piwik
  *     $dataTable->filter('Pattern', array('label', '^piwik'));
  *
@@ -30,7 +30,7 @@ class Pattern extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The table to eventually filter.
      * @param string $columnToFilter The column to match with the `$patternToSearch` pattern.
      * @param string $patternToSearch The regex pattern to use.
@@ -74,7 +74,7 @@ class Pattern extends BaseFilter
 
     /**
      * See {@link Pattern}.
-     * 
+     *
      * @param DataTable $table
      */
     public function filter($table)

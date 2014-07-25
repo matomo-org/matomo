@@ -5,22 +5,22 @@
 		{! Link.base = ""; /* all generated links will be relative to this */ !}
 		<title>JsDoc Reference - File Index</title>
 		<meta name="generator" content="JsDoc Toolkit" />
-		
+
 		<style type="text/css">
 		{+include("static/default.css")+}
 		</style>
 	</head>
-	
+
 	<body>
 		{+include("static/header.html")+}
-		
+
 		<div id="index">
 			{+publish.classesIndex+}
 		</div>
-		
+
 		<div id="content">
 			<h1 class="classTitle">File Index</h1>
-			
+
 			<for each="item" in="data">
 			<div>
 				<h2>{+new Link().toSrc(item.alias).withText(item.name)+}</h2>
@@ -45,7 +45,7 @@
 			</div>
 			<hr />
 			</for>
-			
+
 		</div>
 		<div class="fineprint" style="clear:both">
 			<if test="JSDOC.opt.D.copyright">&copy;{+JSDOC.opt.D.copyright+}<br /></if>

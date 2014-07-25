@@ -87,7 +87,7 @@ class FakeAccess
         if (self::$superUser) {
             return;
         }
-        
+
         $websitesAccess = array_merge(self::$idSitesView, self::$idSitesAdmin);
 
         if (!is_array($idSites)) {
@@ -160,7 +160,7 @@ class FakeAccess
         }
         return array_merge(self::$idSitesView, self::$idSitesAdmin);
     }
-    
+
     public function getRawSitesWithSomeViewAccess($login)
     {
         $result = array();

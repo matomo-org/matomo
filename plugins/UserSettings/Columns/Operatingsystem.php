@@ -13,7 +13,7 @@ use Piwik\Plugins\DevicesDetection\Columns\Os;
 use Piwik\Plugins\UserSettings\Segment;
 
 class Operatingsystem extends Os
-{    
+{
     protected $columnName = 'config_os';
     protected $columnType = 'CHAR(3) NOT NULL';
 

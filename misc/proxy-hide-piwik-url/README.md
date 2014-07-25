@@ -1,7 +1,7 @@
 ## Piwik Proxy Hide URL
 This script allows to track statistics using Piwik, without revealing the
 Piwik Server URL. This is useful for users who track multiple websites
-on the same Piwik server, but don't want to show the Piwik server URL in 
+on the same Piwik server, but don't want to show the Piwik server URL in
 the source code of all tracked websites.
 
 ### Requirements

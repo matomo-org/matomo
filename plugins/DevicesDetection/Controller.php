@@ -83,7 +83,7 @@ class Controller extends \Piwik\Plugin\Controller
             case 'brands':
                 $availableBrands = \DeviceDetector\Parser\Device\DeviceParserAbstract::$deviceBrands;
 
-                foreach ($availableBrands AS $short => $name) {
+                foreach ($availableBrands as $short => $name) {
                     if ($name != 'Unknown') {
                         $list[$name] = getBrandLogo($name);
                     }
@@ -93,7 +93,7 @@ class Controller extends \Piwik\Plugin\Controller
             case 'browsers':
                 $availableBrowsers = \DeviceDetector\Parser\Client\Browser::getAvailableBrowsers();
 
-                foreach ($availableBrowsers AS $short => $name) {
+                foreach ($availableBrowsers as $short => $name) {
                     $list[$name] = getBrowserLogoExtended($short);
                 }
                 break;
@@ -101,7 +101,7 @@ class Controller extends \Piwik\Plugin\Controller
             case 'browserfamilies':
                 $availableBrowserFamilies = \DeviceDetector\Parser\Client\Browser::getAvailableBrowserFamilies();
 
-                foreach ($availableBrowserFamilies AS $name => $browsers) {
+                foreach ($availableBrowserFamilies as $name => $browsers) {
                     $list[$name] = getBrowserFamilyLogoExtended($name);
                 }
                 break;
@@ -109,7 +109,7 @@ class Controller extends \Piwik\Plugin\Controller
             case 'os':
                 $availableOSs = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystems();
 
-                foreach ($availableOSs AS $short => $name) {
+                foreach ($availableOSs as $short => $name) {
                     $list[$name] = getOsLogoExtended($short);
                 }
                 break;
@@ -117,7 +117,7 @@ class Controller extends \Piwik\Plugin\Controller
             case 'osfamilies':
                 $osFamilies = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystemFamilies();
 
-                foreach ($osFamilies AS $name => $oss) {
+                foreach ($osFamilies as $name => $oss) {
                     $list[$name] = getOsFamilyLogoExtended($name);
                 }
                 break;
@@ -125,7 +125,7 @@ class Controller extends \Piwik\Plugin\Controller
             case 'devicetypes':
                 $deviceTypes = \DeviceDetector\Parser\Device\DeviceParserAbstract::getAvailableDeviceTypes();
 
-                foreach ($deviceTypes AS $name => $id) {
+                foreach ($deviceTypes as $name => $id) {
                     $list[$name] = getDeviceTypeLogo($name);
                 }
                 break;

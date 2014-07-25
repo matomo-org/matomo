@@ -15,9 +15,9 @@ use Piwik\DataTable\Row;
 /**
  * Replaces one or more column values in each row of a DataTable with the results
  * of a callback.
- * 
+ *
  * **Basic usage example**
- * 
+ *
  *     $truncateString = function ($value, $truncateLength) {
  *         if (strlen($value) > $truncateLength) {
  *             return substr(0, $truncateLength);
@@ -25,10 +25,10 @@ use Piwik\DataTable\Row;
  *             return $value;
  *         }
  *     };
- *     
+ *
  *     // label, url and truncate_length are columns in $dataTable
  *     $dataTable->filter('ColumnCallbackReplace', array('label', 'url'), $truncateString, null, array('truncate_length'));
- * 
+ *
  */
 class ColumnCallbackReplace extends BaseFilter
 {
@@ -39,7 +39,7 @@ class ColumnCallbackReplace extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The DataTable to filter.
      * @param array|string $columnsToFilter The columns whose values should be passed to the callback
      *                                      and then replaced with the callback's result.

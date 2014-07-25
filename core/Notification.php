@@ -10,39 +10,39 @@ namespace Piwik;
 
 /**
  * Describes a UI notification.
- * 
+ *
  * UI notifications are messages displayed to the user near the top of the screen.
  * Notifications consist of a message, a context (the message type), a priority
  * and a display type.
- * 
+ *
  * **The context** affects the way the message looks, but not how it is displayed.
- * 
+ *
  * **The display type** determines how the message is displayed.
- * 
+ *
  * **The priority** determines where it is shown in the list of all displayed notifications.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Display an error message**
- * 
+ *
  *     $notification = new Notification('My Error Message');
  *     $notification->context = Notification::CONTEXT_ERROR;
  *     Notification\Manager::notify('myUniqueNotificationId', $notification);
- * 
+ *
  * **Display a temporary success message**
- * 
+ *
  *     $notification = new Notificiation('Success');
  *     $notification->context = Notification::CONTEXT_SUCCESS;
  *     $notification->type = Notification::TYPE_TOAST;
  *     Notification\Manager::notify('myUniqueNotificationId', $notification);
- * 
+ *
  * **Display a message near the top of the screen**
- * 
+ *
  *     $notification = new Notification('Urgent: Your password has expired!');
  *     $notification->context = Notification::CONTEXT_INFO;
  *     $notification->type = Notification::TYPE_PERSISTENT;
  *     $notification->priority = Notification::PRIORITY_MAX;
- * 
+ *
  * @api
  */
 class Notification
@@ -75,7 +75,7 @@ class Notification
     /**
      * If this flag is applied, no close icon will be displayed. _Note: persistent notifications always have a close
      * icon._
-     * 
+     *
      * See {@link $flags}.
      */
     const FLAG_NO_CLEAR   = 1;
@@ -99,39 +99,39 @@ class Notification
 
     /**
      * The notification title. The title is optional and is displayed directly before the message content.
-     * 
+     *
      * @var string
      */
     public $title;
 
     /**
      * The notification message. Must be set.
-     * 
+     *
      * @var string
      */
     public $message;
 
     /**
      * Contains extra display options.
-     * 
+     *
      * Usage: `$notification->flags = Notification::FLAG_BAR | Notification::FLAG_FOO`.
-     * 
+     *
      * @var int
      */
     public $flags = self::FLAG_NO_CLEAR;
 
     /**
      * The notification's display type. See `TYPE_*` constants in {@link Notification}.
-     * 
+     *
      * @var string
      */
     public $type = self::TYPE_TRANSIENT;
 
     /**
      * The notification's context (message type). See `CONTEXT_*` constants in {@link Notification}.
-     * 
+     *
      * A notification's context determines how it will be styled.
-     * 
+     *
      * @var string
      */
     public $context = self::CONTEXT_INFO;
@@ -139,7 +139,7 @@ class Notification
     /**
      * The notification's priority. The higher the priority, the higher the order. See `PRIORITY_*`
      * constants in {@link Notification} to see possible priority values.
-     * 
+     *
      * @var int
      */
     public $priority;
@@ -147,14 +147,14 @@ class Notification
     /**
      * If true, the message will not be escaped before being outputted as HTML. If you set this to
      * `true`, make sure you escape text yourself in order to avoid XSS vulnerabilities.
-     * 
+     *
      * @var bool
      */
     public $raw = false;
 
     /**
      * Constructor.
-     * 
+     *
      * @param  string $message   The notification message.
      * @throws \Exception        If the message is empty.
      */
@@ -169,7 +169,7 @@ class Notification
 
     /**
      * Returns `1` if the notification will be displayed without a close button, `0` if otherwise.
-     * 
+     *
      * @return int `1` or `0`.
      */
     public function hasNoClear()
@@ -184,7 +184,7 @@ class Notification
     /**
      * Returns the notification's priority. If no priority has been set, a priority will be set based
      * on the notification's context.
-     * 
+     *
      * @return int
      */
     public function getPriority()

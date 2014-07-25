@@ -192,7 +192,6 @@ class SystemCheck
         $infos['is_nfs'] = Filesystem::checkIfFileSystemIsNFS();
         $infos = self::enrichSystemChecks($infos);
 
-
         return $infos;
     }
 
@@ -276,7 +275,6 @@ class SystemCheck
         return $result;
     }
 
-
     private static function checkGeolocation(&$result)
     {
         $currentProviderId = LocationProvider::getCurrentProviderId();
@@ -316,7 +314,6 @@ class SystemCheck
         // delete the temporary rows that were created
         Db::exec("DELETE FROM `$optionTable` WHERE option_name IN ('" . implode("','", $testOptionNames) . "')");
     }
-
 
     protected static function initServerFilesForSecurity()
     {

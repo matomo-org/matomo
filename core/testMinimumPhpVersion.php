@@ -22,7 +22,7 @@ $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHP
 if ($minimumPhpInvalid) {
     $piwik_errorMessage .= "<p><strong>To run Piwik you need at least PHP version $piwik_minimumPHPVersion</strong></p>
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
-				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts 
+				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts
 				support PHP $piwik_minimumPHPVersion.</p>
 				<p>Also see the FAQ: <a href='http://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
 } else {

@@ -120,7 +120,6 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
     }
 
-
     private function compareTimestamps($expected, $processed)
     {
 //        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
@@ -136,7 +135,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
         $archiveProcessor = $this->_createArchiveProcessor('day', '2010-01-01', 'UTC');
 
-        // min finished timestamp considered when looking at archive timestamp 
+        // min finished timestamp considered when looking at archive timestamp
         $dateMinArchived = Date::factory('2010-01-02')->getTimestamp();
         $this->assertEquals($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed() + 1);
 
@@ -153,7 +152,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
         $timezone = 'UTC+5.5';
         $archiveProcessor = $this->_createArchiveProcessor('day', '2010-01-01', $timezone);
-        // min finished timestamp considered when looking at archive timestamp 
+        // min finished timestamp considered when looking at archive timestamp
         $dateMinArchived = Date::factory('2010-01-01 18:30:00');
         $this->assertEquals($dateMinArchived->getTimestamp(), $archiveProcessor->public_getMinTimeArchiveProcessed() + 1);
 
@@ -170,7 +169,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
         $timezone = 'UTC-5.5';
         $archiveProcessor = $this->_createArchiveProcessor('month', '2010-01-02', $timezone);
-        // min finished timestamp considered when looking at archive timestamp 
+        // min finished timestamp considered when looking at archive timestamp
         $dateMinArchived = Date::factory('2010-02-01 05:30:00');
         $this->assertEquals($dateMinArchived->getTimestamp(), $archiveProcessor->public_getMinTimeArchiveProcessed() + 1);
 
@@ -419,7 +418,6 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         }
         $this->fail('Exception expected');
     }
-
 
     protected function _checkTableIsExpected($table, $data)
     {

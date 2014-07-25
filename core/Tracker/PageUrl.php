@@ -63,7 +63,6 @@ class PageUrl
         return $url;
     }
 
-
     /**
      * Returns the array of parameters names that must be excluded from the Query String in all tracked URLs
      * @static
@@ -95,7 +94,6 @@ class PageUrl
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;
     }
-
 
     /**
      * Returns true if URL fragments should be removed for a specific site,

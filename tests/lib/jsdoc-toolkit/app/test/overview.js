@@ -1,5 +1,5 @@
 /**
- * @overview This "library" contains a 
+ * @overview This "library" contains a
  *               lot of classes and functions.
  * @example
  <pre>
@@ -8,11 +8,11 @@
  </pre>
  * @name My Cool Library
  * @author 	Joe Smith jsmith@company.com
- * @version 	0.1 
+ * @version 	0.1
  */
- 
-/** 
- * Gets the current foo 
+
+/**
+ * Gets the current foo
  * @param {String} fooId	The unique identifier for the foo.
  * @return {Object}	Returns the current foo.
  */

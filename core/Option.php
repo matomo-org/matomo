@@ -11,24 +11,24 @@ namespace Piwik;
 /**
  * Convenient key-value storage for user specified options and temporary
  * data that needs to be persisted beyond one request.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Setting and getting options**
- * 
+ *
  *     $optionValue = Option::get('MyPlugin.MyOptionName');
  *     if ($optionValue === false) {
  *         // if not set, set it
  *         Option::set('MyPlugin.MyOptionName', 'my option value');
  *     }
- * 
+ *
  * **Storing user specific options**
- * 
+ *
  *     $userName = // ...
  *     Option::set('MyPlugin.MyOptionName.' . $userName, 'my option value');
- * 
+ *
  * **Clearing user specific options**
- * 
+ *
  *     Option::deleteLike('MyPlugin.MyOptionName.%');
  *
  * @api
@@ -37,7 +37,7 @@ class Option
 {
     /**
      * Returns the option value for the requested option `$name`.
-     * 
+     *
      * @param string $name The option name.
      * @return string|false The value or `false`, if not found.
      */

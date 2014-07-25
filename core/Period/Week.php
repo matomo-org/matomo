@@ -8,7 +8,6 @@
  */
 namespace Piwik\Period;
 
-
 use Piwik\Period;
 use Piwik\Piwik;
 

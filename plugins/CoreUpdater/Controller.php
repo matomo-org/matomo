@@ -134,7 +134,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-
     public function oneClickResults()
     {
         $view = new View('@CoreUpdater/oneClickResults');

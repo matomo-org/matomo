@@ -14,17 +14,17 @@ use Piwik\DataTable\BaseFilter;
 /**
  * Deletes all rows for which a specific column has a value that is lower than
  * specified minimum threshold value.
- * 
+ *
  * **Basic usage examples**
- * 
+ *
  *     // remove all countries from UserCountry.getCountry that have less than 3 visits
  *     $dataTable = // ... get a DataTable whose queued filters have been run ...
  *     $dataTable->filter('ExcludeLowPopulation', array('nb_visits', 3));
- * 
+ *
  *     // remove all countries from UserCountry.getCountry whose percent of total visits is less than 5%
  *     $dataTable = // ... get a DataTable whose queued filters have been run ...
  *     $dataTable->filter('ExcludeLowPopulation', array('nb_visits', false, 0.05));
- * 
+ *
  *     // remove all countries from UserCountry.getCountry whose bounce rate is less than 10%
  *     $dataTable = // ... get a DataTable that has a numerical bounce_rate column ...
  *     $dataTable->filter('ExcludeLowPopulation', array('bounce_rate', 0.10));
@@ -50,7 +50,7 @@ class ExcludeLowPopulation extends BaseFilter
      * @param string $columnToFilter The name of the column whose value will determine whether
      *                               a row is deleted or not.
      * @param number|false $minimumValue The minimum column value. Rows with column values <
-     *                                   this number will be deleted. If false, 
+     *                                   this number will be deleted. If false,
      *                                   `$minimumPercentageThreshold` is used.
      * @param bool|float $minimumPercentageThreshold If supplied, column values must be a greater
      *                                               percentage of the sum of all column values than

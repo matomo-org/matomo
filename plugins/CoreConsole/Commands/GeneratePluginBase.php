@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
@@ -106,7 +105,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $translatedText = preg_replace('/(\s+)/', '', $translatedText);
         $translatedText = preg_replace("/[^A-Za-z0-9]/", '', $translatedText);
         $translatedText = trim($translatedText);
-        
+
         return $this->removeNonJsonCompatibleCharacters($translatedText);
     }
 

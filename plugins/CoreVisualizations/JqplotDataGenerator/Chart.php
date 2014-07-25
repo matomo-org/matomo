@@ -13,7 +13,7 @@ use Piwik\ProxyHttp;
 /**
  *
  */
-class Chart 
+class Chart
 {
     // the data kept here conforms to the jqplot data layout
     // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html

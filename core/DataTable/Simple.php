@@ -12,7 +12,7 @@ use Piwik\DataTable;
 
 /**
  * A {@link Piwik\DataTable} where every row has two columns: **label** and **value**.
- * 
+ *
  * Simple DataTables are only used to slightly alter the output of some renderers
  * (notably the XML renderer).
  *
@@ -25,7 +25,7 @@ class Simple extends DataTable
      * values.
      *
      * @param array $array Array containing the rows, eg,
-     *                     
+     *
      *                         array(
      *                             'Label row 1' => $value1,
      *                             'Label row 2' => $value2,

@@ -572,7 +572,7 @@ class GoalManager
             $newRow = $this->getItemRowEnriched($goal, $item);
             Common::printDebug($newRow);
             $updateParts = $sqlBind = array();
-            foreach ($newRow AS $name => $value) {
+            foreach ($newRow as $name => $value) {
                 $updateParts[] = $name . " = ?";
                 $sqlBind[] = $value;
             }
@@ -690,10 +690,10 @@ class GoalManager
 
             /**
              * Triggered after successfully recording a non-ecommerce conversion.
-             * 
+             *
              * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
              * the tracker down._
-             * 
+             *
              * @param array $conversion The conversion entity that was just persisted. See what information
              *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
              */
@@ -712,9 +712,9 @@ class GoalManager
     {
         /**
          * Triggered before persisting a new [conversion entity](/guides/persistence-and-the-mysql-backend#conversions).
-         * 
+         *
          * This event can be used to modify conversion information or to add new information to be persisted.
-         * 
+         *
          * @param array $conversion The conversion entity. Read [this](/guides/persistence-and-the-mysql-backend#conversions)
          *                          to see what it contains.
          * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
@@ -761,7 +761,7 @@ class GoalManager
     protected function updateExistingConversion($newGoal, $updateWhere)
     {
         $updateParts = $sqlBind = $updateWhereParts = array();
-        foreach ($newGoal AS $name => $value) {
+        foreach ($newGoal as $name => $value) {
             $updateParts[] = $name . " = ?";
             $sqlBind[] = $value;
         }
@@ -827,7 +827,6 @@ class GoalManager
         }
         return $match;
     }
-
 
     /**
      * @param ConversionDimension[] $dimensions

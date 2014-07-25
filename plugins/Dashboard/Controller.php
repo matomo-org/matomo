@@ -335,4 +335,3 @@ class Controller extends \Piwik\Plugin\Controller
     }
 }
 
-

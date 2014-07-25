@@ -62,7 +62,7 @@ class Info extends ConsoleCommand
                 return false;
             }
         }
-        
+
         return true;
     }
 }

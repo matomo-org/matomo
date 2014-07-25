@@ -20,7 +20,7 @@ On Ubuntu you might be able to use the `scripts/install-ubuntu.sh` script. Have 
 We do not have a general `tests` folder containing all test files. Instead we create a file having the same name appended by `_spec.js` in the same directory.
 
 For instance you want to test a file named `startfrom.js` then we create a file named `startfrom_spec.js`:
-`plugins/CoreHome/angularjs/common/filters/startfrom.js` => 
+`plugins/CoreHome/angularjs/common/filters/startfrom.js` =>
 `plugins/CoreHome/angularjs/common/filters/startfrom_spec.js`
 
 ## Execution
@@ -41,7 +41,7 @@ Before executing a test it'll always run [JSHint](http://www.jshint.com/) to det
 
 ## Testing existing jQuery code
 
-Just in case you want to write a test for your jQuery code you can do this the same way. You might be interested in the [Chai jQuery](http://chaijs.com/plugins/chai-jquery) plugin. 
+Just in case you want to write a test for your jQuery code you can do this the same way. You might be interested in the [Chai jQuery](http://chaijs.com/plugins/chai-jquery) plugin.
 
 ## Examples
 * [Testing a filter](../../plugins/CoreHome/angularjs/common/filters/startfrom_spec.js)

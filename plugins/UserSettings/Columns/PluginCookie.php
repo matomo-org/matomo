@@ -15,7 +15,7 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
 class PluginCookie extends VisitDimension
-{    
+{
     protected $columnName = 'config_cookie';
     protected $columnType = 'TINYINT(1) NOT NULL';
 

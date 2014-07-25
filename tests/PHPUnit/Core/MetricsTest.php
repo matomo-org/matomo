@@ -95,7 +95,6 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-
     public function getUnitColumns()
     {
         return array(
@@ -124,6 +123,5 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
         $actual = Metrics::getUnit($column, 1);
         $this->assertEquals($expected, $actual);
     }
-
 
 }

@@ -37,7 +37,7 @@ require_once 'PrivacyManager/PrivacyManager.php';
 class PrivacyManagerTest extends IntegrationTestCase
 {
     // constants used in checking whether numeric tables are populated correctly.
-    // 'done' entries exist for every period, even if there's no metric data, so we need the 
+    // 'done' entries exist for every period, even if there's no metric data, so we need the
     // total archive count for each month.
     const TOTAL_JAN_ARCHIVE_COUNT = 37; // 31 + 4 + 1 + 1;
     const TOTAL_FEB_ARCHIVE_COUNT = 34; // 29 + 4 + 1;
@@ -751,7 +751,6 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
-
 
         // no range metric for february
         $febMetricCount = $this->_getExpectedNumericArchiveCountFeb();

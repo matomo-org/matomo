@@ -15,7 +15,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
 class Provider extends Base
-{    
+{
     protected $columnName = 'location_provider';
 
     /**

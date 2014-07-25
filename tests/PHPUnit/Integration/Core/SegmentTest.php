@@ -33,7 +33,7 @@ class SegmentTest extends DatabaseTestCase
     protected function _filterWhitsSpaces($valueToFilter)
     {
         if (is_array($valueToFilter)) {
-            foreach ($valueToFilter AS $key => $value) {
+            foreach ($valueToFilter as $key => $value) {
                 $valueToFilter[$key] = $this->_filterWhitsSpaces($value);
             }
             return $valueToFilter;
@@ -41,7 +41,6 @@ class SegmentTest extends DatabaseTestCase
             return preg_replace('/[\s]+/', ' ', $valueToFilter);
         }
     }
-
 
     public function getCommonTestData()
     {
@@ -467,7 +466,7 @@ class SegmentTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getBogusSegments
      */
     public function testBogusSegmentThrowsException($segment)

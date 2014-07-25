@@ -45,7 +45,7 @@ class Parameters
 
     /**
      * Constructor.
-     * 
+     *
      * @ignore
      */
     public function __construct(Site $site, Period $period, Segment $segment, $skipAggregationOfSubTables = false)

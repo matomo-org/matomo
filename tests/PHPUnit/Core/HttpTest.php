@@ -26,7 +26,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getMethodsToTest
      */
     public function testFetchRemoteFile($method)
@@ -88,7 +88,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getMethodsToTest
      */
     public function testHEADOperation($method)

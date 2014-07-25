@@ -154,7 +154,6 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         }
     }
 
-
     /**
      * @param $idSite2
      * @param $dateTime

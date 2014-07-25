@@ -9,7 +9,6 @@
 
 namespace Piwik\Translate\Filter;
 
-
 /**
  */
 class ByBaseTranslations extends FilterAbstract
@@ -37,7 +36,7 @@ class ByBaseTranslations extends FilterAbstract
     {
         $cleanedTranslations = array();
 
-        foreach ($translations AS $pluginName => $pluginTranslations) {
+        foreach ($translations as $pluginName => $pluginTranslations) {
 
             if (empty($this->baseTranslations[$pluginName])) {
                 $this->filteredData[$pluginName] = $pluginTranslations;

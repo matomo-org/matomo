@@ -14,22 +14,22 @@ use Exception;
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
  * be easier than using `date`, `time`, `date_default_timezone_set`, etc.
- * 
+ *
  * ### Performance concerns
- * 
+ *
  * The helper methods in this class are instance methods and thus `Date` instances
  * need to be constructed before they can be used. The memory allocation can result
  * in noticeable performance degradation if you construct thousands of Date instances,
  * say, in a loop.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Basic usage**
- * 
+ *
  *     $date = Date::factory('2007-07-24 14:04:24', 'EST');
  *     $date->addHour(5);
  *     echo $date->getLocalized("%longDay% the %day% of %longMonth% at %time%");
- * 
+ *
  * @api
  */
 class Date
@@ -164,7 +164,7 @@ class Date
     /**
      * Returns a new date object with the same timestamp as `$this` but with a new
      * timezone.
-     * 
+     *
      * See {@link getTimestamp()} to see how the timezone is used.
      *
      * @param string $timezone eg, `'UTC'`, `'Europe/London'`, etc.
@@ -383,7 +383,7 @@ class Date
 
     /**
      * Returns `true` if current date is today.
-     * 
+     *
      * @return bool
      */
     public function isToday()
@@ -560,9 +560,9 @@ class Date
     /**
      * Returns a localized date string using the given template.
      * The template should contain tags that will be replaced with localized date strings.
-     * 
+     *
      * Allowed tags include:
-     * 
+     *
      * - **%day%**: replaced with the day of the month without leading zeros, eg, **1** or **20**.
      * - **%shortMonth%**: the short month in the current language, eg, **Jan**, **Feb**.
      * - **%longMonth%**: the whole month name in the current language, eg, **January**, **February**.

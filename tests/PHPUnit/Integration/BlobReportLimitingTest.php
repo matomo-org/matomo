@@ -43,40 +43,40 @@ class BlobReportLimitingTest extends IntegrationTestCase
             'UserSettings.getBrowserVersion',
             'UserCountry.getRegion', 'UserCountry.getCity',
         );
-        
+
         $ecommerceApi = array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory');
 
         return array(
             array($apiToCall, array('idSite'  => self::$fixture->idSite,
                                     'date'    => self::$fixture->dateTime,
                                     'periods' => array('day'))),
-            
+
             array($ecommerceApi, array('idSite'  => self::$fixture->idSite,
                                        'date'    => self::$fixture->nextDay,
                                        'periods' => 'day')),
         );
     }
-    
+
     public function getRankingQueryDisabledApiForTesting()
     {
         $idSite = self::$fixture->idSite;
         $dateTime = self::$fixture->dateTime;
-        
+
         return array(
             array('Actions.getPageUrls', array('idSite'  => $idSite,
                                                'date'    => $dateTime,
                                                'periods' => array('day'))),
-            
+
             array('Provider.getProvider', array('idSite'  => $idSite,
                                                 'date'    => $dateTime,
                                                 'periods' => array('month'))),
-            
+
             array('Provider.getProvider', array('idSite'     => $idSite,
                                                 'date'       => $dateTime,
                                                 'periods'    => array('month'),
                                                 'segment'    => 'provider==comcast.net',
                                                 'testSuffix' => '_segment_provider')),
-            
+
             // test getDownloads w/ period=range & flat=1
             array('Actions.getDownloads', array('idSite'                 => $idSite,
                                                 'date'                   => '2010-01-02,2010-01-05',
@@ -106,7 +106,7 @@ class BlobReportLimitingTest extends IntegrationTestCase
 
         foreach ($this->getApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;
-            
+
             if (empty($params['testSuffix'])) {
                 $params['testSuffix'] = '';
             }
@@ -115,7 +115,7 @@ class BlobReportLimitingTest extends IntegrationTestCase
             $this->runApiTests($apiToCall, $params);
         }
     }
-    
+
     public function testApiWithRankingQueryDisabled()
     {
         self::deleteArchiveTables();
@@ -128,10 +128,10 @@ class BlobReportLimitingTest extends IntegrationTestCase
         $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 500;
         $generalConfig['archiving_ranking_query_row_limit'] = 0;
-        
+
         foreach ($this->getRankingQueryDisabledApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;
-            
+
             if (empty($params['testSuffix'])) {
                 $params['testSuffix'] = '';
             }

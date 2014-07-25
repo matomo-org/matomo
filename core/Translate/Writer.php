@@ -207,7 +207,6 @@ class Writer
         return sprintf('%s/%s/%s.json', PIWIK_INCLUDE_PATH, $base, $lang);
     }
 
-
     /**
      * Converts translations to a string that can be written to a file
      *
@@ -292,7 +291,7 @@ class Writer
 
         $this->validationMessage = null;
 
-        foreach ($this->validators AS $validator) {
+        foreach ($this->validators as $validator) {
             if (!$validator->isValid($this->translations)) {
                 $this->validationMessage = $validator->getMessage();
                 return false;
@@ -362,7 +361,7 @@ class Writer
 
         $cleanedTranslations = $this->translations;
 
-        foreach ($this->filters AS $filter) {
+        foreach ($this->filters as $filter) {
 
             $cleanedTranslations = $filter->filter($cleanedTranslations);
             $filteredData = $filter->getFilteredData();

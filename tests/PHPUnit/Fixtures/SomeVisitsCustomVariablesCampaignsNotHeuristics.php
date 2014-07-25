@@ -61,7 +61,6 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 
         $this->testFirstPartyCookies($t);
 
-
         // Create a new Tracker object, with different attributes
         $t2 = self::getTracker($idSite, $dateTime, $defaultInit = false);
 
@@ -69,10 +68,10 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $visitorId2 = $t2->getVisitorId();
         self::assertTrue($visitorId != $visitorId2);
 
-        // Then force the visitor ID 
+        // Then force the visitor ID
         $t2->setVisitorId($visitorId);
 
-        // And Record a Goal: The previous visit should be updated rather than a new visit Created 
+        // And Record a Goal: The previous visit should be updated rather than a new visit Created
         $t2->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t2->doTrackGoal($idGoal, $revenue = 42.256));
 
@@ -80,7 +79,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t3 = self::getTracker($idSite, $dateTime);
         $t3->setUrlReferrer('http://example.org/referrer');
         $t3->setForceVisitDateTime(Date::factory($dateTime)->addHour(1.3)->getDatetime());
-        // fake a website ref cookie, the campaign should be credited for conversion, not referrer.example.com nor example.org 
+        // fake a website ref cookie, the campaign should be credited for conversion, not referrer.example.com nor example.org
         $t3->DEBUG_APPEND_URL = '&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3';
         $t3->setUrl('http://example.org/index.htm#pk_campaign=CREDITED TO GOAL PLEASE');
         self::checkResponse($t3->doTrackGoal($idGoal, 42));

@@ -164,11 +164,11 @@ class Proxy extends Singleton
 
             /**
              * Triggered before an API request is dispatched.
-             * 
+             *
              * This event can be used to modify the arguments passed to one or more API methods.
-             * 
+             *
              * **Example**
-             * 
+             *
              *     Piwik::addAction('API.Request.dispatch', function (&$parameters, $pluginName, $methodName) {
              *         if ($pluginName == 'Actions') {
              *             if ($methodName == 'getPageUrls') {
@@ -178,7 +178,7 @@ class Proxy extends Singleton
              *             }
              *         }
              *     });
-             * 
+             *
              * @param array &$finalParameters List of parameters that will be passed to the API method.
              * @param string $pluginName The name of the plugin the API method belongs to.
              * @param string $methodName The name of the API method that will be called.
@@ -187,20 +187,20 @@ class Proxy extends Singleton
 
             /**
              * Triggered before an API request is dispatched.
-             * 
+             *
              * This event exists for convenience and is triggered directly after the {@hook API.Request.dispatch}
              * event is triggered. It can be used to modify the arguments passed to a **single** API method.
-             * 
+             *
              * _Note: This is can be accomplished with the {@hook API.Request.dispatch} event as well, however
              * event handlers for that event will have to do more work._
-             * 
+             *
              * **Example**
-             * 
+             *
              *     Piwik::addAction('API.Actions.getPageUrls', function (&$parameters) {
              *         // force use of a single website. for some reason.
              *         $parameters['idSite'] = 1;
              *     });
-             * 
+             *
              * @param array &$finalParameters List of parameters that will be passed to the API method.
              */
             Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
@@ -218,16 +218,16 @@ class Proxy extends Singleton
 
             /**
              * Triggered directly after an API request is dispatched.
-             * 
+             *
              * This event exists for convenience and is triggered immediately before the
              * {@hook API.Request.dispatch.end} event. It can be used to modify the output of a **single**
              * API method.
-             * 
+             *
              * _Note: This can be accomplished with the {@hook API.Request.dispatch.end} event as well,
              * however event handlers for that event will have to do more work._
              *
              * **Example**
-             * 
+             *
              *     // append (0 hits) to the end of row labels whose row has 0 hits
              *     Piwik::addAction('API.Actions.getPageUrls', function (&$returnValue, $info)) {
              *         $returnValue->filter('ColumnCallbackReplace', 'label', function ($label, $hits) {
@@ -238,13 +238,13 @@ class Proxy extends Singleton
              *             }
              *         }, null, array('nb_hits'));
              *     }
-             * 
+             *
              * @param mixed &$returnedValue The API method's return value. Can be an object, such as a
              *                              {@link Piwik\DataTable DataTable} instance.
              *                              could be a {@link Piwik\DataTable DataTable}.
              * @param array $extraInfo An array holding information regarding the API request. Will
              *                         contain the following data:
-             * 
+             *
              *                         - **className**: The namespace-d class name of the API instance
              *                                          that's being called.
              *                         - **module**: The name of the plugin the API request was
@@ -257,11 +257,11 @@ class Proxy extends Singleton
 
             /**
              * Triggered directly after an API request is dispatched.
-             * 
+             *
              * This event can be used to modify the output of any API method.
-             * 
+             *
              * **Example**
-             * 
+             *
              *     // append (0 hits) to the end of row labels whose row has 0 hits for any report that has the 'nb_hits' metric
              *     Piwik::addAction('API.Actions.getPageUrls', function (&$returnValue, $info)) {
              *         // don't process non-DataTable reports and reports that don't have the nb_hits column
@@ -270,7 +270,7 @@ class Proxy extends Singleton
              *         ) {
              *             return;
              *         }
-             * 
+             *
              *         $returnValue->filter('ColumnCallbackReplace', 'label', function ($label, $hits) {
              *             if ($hits === 0) {
              *                 return $label . " (0 hits)";
@@ -279,12 +279,12 @@ class Proxy extends Singleton
              *             }
              *         }, null, array('nb_hits'));
              *     }
-             * 
+             *
              * @param mixed &$returnedValue The API method's return value. Can be an object, such as a
              *                              {@link Piwik\DataTable DataTable} instance.
              * @param array $extraInfo An array holding information regarding the API request. Will
              *                         contain the following data:
-             * 
+             *
              *                         - **className**: The namespace-d class name of the API instance
              *                                          that's being called.
              *                         - **module**: The name of the plugin the API request was

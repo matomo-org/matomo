@@ -32,7 +32,6 @@ class Plugins_MultiSitesTest extends DatabaseTestCase
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
     }
 
-
     /**
      * Testing that getOne returns a row even when there are no data
      * This is necessary otherwise ResponseBuilder throws 'Call to a member function getColumns() on a non-object'

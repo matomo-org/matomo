@@ -43,7 +43,7 @@ JSDOC.TokenStream.prototype.look = function(/**Number*/n, /**Boolean*/considerWh
 				if (n < 0) i--; else i++;
 				continue;
 			}
-			
+
 			if (count == Math.abs(n)) {
 				return this.tokens[i];
 			}
@@ -82,21 +82,21 @@ JSDOC.TokenStream.prototype.next = function(/**Number*/howMany) {
 */
 JSDOC.TokenStream.prototype.balance = function(/**String*/start, /**String*/stop) {
 	if (!stop) stop = JSDOC.Lang.matching(start);
-	
+
 	var depth = 0;
 	var got = [];
 	var started = false;
-	
+
 	while ((token = this.look())) {
 		if (token.is(start)) {
 			depth++;
 			started = true;
 		}
-		
+
 		if (started) {
 			got.push(token);
 		}
-		
+
 		if (token.is(stop)) {
 			depth--;
 			if (depth == 0) return got;
@@ -108,18 +108,18 @@ JSDOC.TokenStream.prototype.balance = function(/**String*/start, /**String*/stop
 JSDOC.TokenStream.prototype.getMatchingToken = function(/**String*/start, /**String*/stop) {
 	var depth = 0;
 	var cursor = this.cursor;
-	
+
 	if (!start) {
 		start = JSDOC.Lang.matching(stop);
 		depth = 1;
 	}
 	if (!stop) stop = JSDOC.Lang.matching(start);
-	
+
 	while ((token = this.tokens[cursor])) {
 		if (token.is(start)) {
 			depth++;
 		}
-		
+
 		if (token.is(stop) && cursor) {
 			depth--;
 			if (depth == 0) return this.tokens[cursor];

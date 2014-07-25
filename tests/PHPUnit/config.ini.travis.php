@@ -9,7 +9,7 @@ password =
 dbname = piwik_tests
 adapter = PDO\MYSQL
 ; no table prefix for tests on travis
-tables_prefix = 
+tables_prefix =
 ;charset = utf8
 
 [database_tests]
@@ -19,7 +19,7 @@ password =
 dbname = piwik_tests
 adapter = PDO\MYSQL
 ; no table prefix for tests on travis
-tables_prefix = 
+tables_prefix =
 
 [log]
 log_writers[] = file

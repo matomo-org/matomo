@@ -27,7 +27,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
     {
         $this->now = Date::factory('now');
     }
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -56,7 +56,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
                 $siteUrl = 'http://example-site-two.com');
         }
     }
-    
+
     public function addAnnotations()
     {
         APIAnnotations::getInstance()->add($this->idSite, '2012-08-09', "Note 1", $starred = 1);

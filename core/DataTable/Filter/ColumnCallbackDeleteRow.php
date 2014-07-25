@@ -15,12 +15,12 @@ use Piwik\DataTable\BaseFilter;
  * Deletes all rows for which a callback returns true.
  *
  * **Basic usage example**
- * 
+ *
  *     $labelsToRemove = array('label1', 'label2', 'label2');
  *     $dataTable->filter('ColumnCallbackDeleteRow', array('label', function ($label) use ($labelsToRemove) {
  *         return in_array($label, $labelsToRemove);
  *     }));
- * 
+ *
  * @api
  */
 class ColumnCallbackDeleteRow extends BaseFilter
@@ -31,7 +31,7 @@ class ColumnCallbackDeleteRow extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The DataTable that will be filtered eventually.
      * @param array|string $columnsToFilter The column or array of columns that should be
      *                                      passed to the callback.

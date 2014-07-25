@@ -48,7 +48,7 @@ class Common
 
     /**
      * Returns a prefixed table name.
-     * 
+     *
      * The table prefix is determined by the `[database] tables_prefix` INI config
      * option.
      *
@@ -82,7 +82,7 @@ class Common
      *
      * The table prefix is determined by the `[database] tables_prefix` INI config
      * option.
-     * 
+     *
      * @param string $table The prefixed table name, eg "piwik-production_log_visit".
      * @return string The unprefixed table name, eg "log_visit".
      * @api
@@ -168,7 +168,7 @@ class Common
 
     /**
      * Multi-byte substr() - works with UTF-8.
-     * 
+     *
      * Calls `mb_substr` if available and falls back to `substr` if it's not.
      *
      * @param string $string
@@ -192,7 +192,7 @@ class Common
 
     /**
      * Multi-byte strlen() - works with UTF-8
-     * 
+     *
      * Calls `mb_substr` if available and falls back to `substr` if not.
      *
      * @param string $string
@@ -210,9 +210,9 @@ class Common
 
     /**
      * Multi-byte strtolower() - works with UTF-8.
-     * 
+     *
      * Calls `mb_strtolower` if available and falls back to `strtolower` if not.
-     * 
+     *
      * @param string $string
      * @return string
      * @api
@@ -232,18 +232,18 @@ class Common
 
     /**
      * Sanitizes a string to help avoid XSS vulnerabilities.
-     * 
+     *
      * This function is automatically called when {@link getRequestVar()} is called,
      * so you should not normally have to use it.
-     * 
+     *
      * This function should be used when outputting data that isn't escaped and was
      * obtained from the user (for example when using the `|raw` twig filter on goal names).
-     * 
+     *
      * _NOTE: Sanitized input should not be used directly in an SQL query; SQL placeholders
      * should still be used._
-     * 
+     *
      * **Implementation Details**
-     * 
+     *
      * - [htmlspecialchars](http://php.net/manual/en/function.htmlspecialchars.php) is used to escape text.
      * - Single quotes are not escaped so **Piwik's amazing community** will still be
      *   **Piwik's amazing community**.
@@ -318,7 +318,7 @@ class Common
 
     /**
      * Unsanitizes a single input value and returns the result.
-     * 
+     *
      * @param string $value
      * @return string  unsanitized input
      */
@@ -332,10 +332,10 @@ class Common
      *
      * This method should be used when you need to unescape data that was obtained from
      * the user.
-     * 
+     *
      * Some data in Piwik is stored sanitized (such as site name). In this case you may
      * have to use this method to unsanitize it in order to, for example, output it in JSON.
-     * 
+     *
      * @param string|array $value The data to unsanitize. If an array is passed, the
      *                            array is sanitized recursively. Key values are not unsanitized.
      * @return string|array The unsanitized data.
@@ -381,9 +381,9 @@ class Common
 
     /**
      * Gets a sanitized request parameter by name from the `$_GET` and `$_POST` superglobals.
-     * 
+     *
      * Use this function to get request parameter values. **_NEVER use `$_GET` and `$_POST` directly._**
-     * 
+     *
      * If the variable cannot be found, and a default value was not provided, an exception is raised.
      *
      * _See {@link sanitizeInputValues()} to learn more about sanitization._
@@ -393,7 +393,7 @@ class Common
      * @param string|null $varDefault The value to return if the request parameter cannot be found or has an empty value.
      * @param string|null $varType Expected type of the request variable. This parameters value must be one of the following:
      *                             `'array'`, `'int'`, `'integer'`, `'string'`, `'json'`.
-     *                             
+     *
      *                             If `'json'`, the string value will be `json_decode`-d and then sanitized.
      * @param array|null $requestArrayToUse The array to use instead of `$_GET` and `$_POST`.
      * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
@@ -1012,10 +1012,10 @@ class Common
     /**
      * Returns a string with a comma separated list of placeholders for use in an SQL query. Used mainly
      * to fill the `IN (...)` part of a query.
-     * 
+     *
      * @param array|string $fields The names of the mysql table fields to bind, e.g.
      *                             `array(fieldName1, fieldName2, fieldName3)`.
-     * 
+     *
      *                             _Note: The content of the array isn't important, just its length._
      * @return string The placeholder string, e.g. `"?, ?, ?"`.
      * @api

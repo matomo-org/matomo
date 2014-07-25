@@ -299,7 +299,6 @@ var JSLINT = (function () {
         return object;
     }
 
-
     var allowed_option = {
             bitwise   : true,
             browser   : true,
@@ -637,7 +636,6 @@ var JSLINT = (function () {
 // token
         tx = /^\s*([(){}\[\]\?.,:;'"~#@`]|={1,3}|\/(\*(jslint|properties|property|members?|globals?)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|[\^%]=?|&[&=]?|\|[|=]?|>{1,3}=?|<(?:[\/=!]|\!(\[|--)?|<=?)?|\!(\!|==?)?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+(?:[xX][0-9a-fA-F]+|\.[0-9]*)?(?:[eE][+\-]?[0-9]+)?)/;
 
-
     function F() {}     // Used by Object.create
 
 // Provide critical ES5 functions to ES3.
@@ -727,7 +725,6 @@ var JSLINT = (function () {
         };
     }
 
-
     function sanitize(a) {
 
 //  Escapify a troublesome character.
@@ -736,13 +733,11 @@ var JSLINT = (function () {
             '\\u' + ('0000' + a.charCodeAt().toString(16)).slice(-4);
     }
 
-
     function add_to_predefined(group) {
         Object.keys(group).forEach(function (name) {
             predefined[name] = group[name];
         });
     }
-
 
     function assume() {
         if (option.rhino) {
@@ -771,7 +766,6 @@ var JSLINT = (function () {
             option.couch = false;
         }
     }
-
 
 // Produce an error warning.
 
@@ -1466,7 +1460,6 @@ klass:              do {
         };
     }());
 
-
     function add_label(token, kind, name) {
 
 // Define the symbol in the current function in the current scope.
@@ -1510,7 +1503,6 @@ klass:              do {
         funct[name] = kind;
     }
 
-
     function peek(distance) {
 
 // Peek ahead to a future token. The distance is how far ahead to look. The
@@ -1528,7 +1520,6 @@ klass:              do {
         }
         return found;
     }
-
 
     function advance(id, match) {
 
@@ -1634,7 +1625,6 @@ klass:              do {
         tokens.push(next_token);
     }
 
-
     function do_globals() {
         var name, writeable;
         for (;;) {
@@ -1665,7 +1655,6 @@ klass:              do {
             advance(',');
         }
     }
-
 
     function do_jslint() {
         var name, value;
@@ -1703,7 +1692,6 @@ klass:              do {
         assume();
     }
 
-
     function do_properties() {
         var name;
         option.properties = true;
@@ -1728,7 +1716,6 @@ klass:              do {
             advance(',');
         }
     }
-
 
     directive = function directive() {
         var command = this.id,
@@ -1764,13 +1751,11 @@ klass:              do {
         indent = old_indent;
     };
 
-
 // Indentation intention
 
     function edge(mode) {
         next_token.edge = indent ? indent.open && (mode || 'edge') : '';
     }
-
 
     function step_in(mode) {
         var open;
@@ -1882,7 +1867,6 @@ klass:              do {
         }
     }
 
-
     function semicolon() {
         if (next_token.id !== ';') {
             warn_at('expected_a_b', token.line, token.thru, ';', artifact());
@@ -1911,7 +1895,6 @@ klass:              do {
         }
         return false;
     }
-
 
     function are_similar(a, b) {
         if (a === b) {
@@ -1966,7 +1949,6 @@ klass:              do {
         return false;
     }
 
-
 // This is the heart of JSLINT, the Pratt parser. In addition to parsing, it
 // is looking for ad hoc lint patterns. We add .fud to Pratt's model, which is
 // like .nud except that it is only used on the first token of a statement.
@@ -2020,7 +2002,6 @@ klass:              do {
         return left;
     }
 
-
 // Functional constructors for making the symbols that will be inherited by
 // tokens.
 
@@ -2051,7 +2032,6 @@ klass:              do {
         return postscript(x);
     }
 
-
     function stmt(s, f) {
         var x = symbol(s);
         x.identifier = x.reserved = true;
@@ -2069,7 +2049,6 @@ klass:              do {
         x.disrupt = true;
     }
 
-
     function reserve_name(x) {
         var c = x.id.charAt(0);
         if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
@@ -2077,7 +2056,6 @@ klass:              do {
         }
         return x;
     }
-
 
     function prefix(s, f) {
         var x = symbol(s, 150);
@@ -2119,7 +2097,6 @@ klass:              do {
         return x;
     }
 
-
     function type(s, t, nud) {
         var x = symbol(s);
         x.arity = t;
@@ -2128,7 +2105,6 @@ klass:              do {
         }
         return x;
     }
-
 
     function reserve(s, f) {
         var x = symbol(s);
@@ -2139,14 +2115,12 @@ klass:              do {
         return x;
     }
 
-
     function constant(name) {
         var x = reserve(name);
         x.string = name;
         x.nud = return_this;
         return x;
     }
-
 
     function reservevar(s, v) {
         return reserve(s, function () {
@@ -2156,7 +2130,6 @@ klass:              do {
             return this;
         });
     }
-
 
     function infix(s, p, f, w) {
         var x = symbol(s, p);
@@ -2248,7 +2221,6 @@ klass:              do {
         return node;
     }
 
-
     function relation(s, eqeq) {
         return infix(s, 100, function (left, that) {
             check_relation(left);
@@ -2284,7 +2256,6 @@ klass:              do {
             return that;
         });
     }
-
 
     function assignop(s, op) {
         var x = infix(s, 20, function (left, that) {
@@ -2334,13 +2305,11 @@ klass:              do {
         return x;
     }
 
-
     function bitwise(s, p) {
         var x = infix(s, p, 'number');
         x.bitwise = true;
         return x;
     }
-
 
     function suffix(s) {
         var x = symbol(s, 150);
@@ -2359,7 +2328,6 @@ klass:              do {
         return x;
     }
 
-
     function optional_identifier(variable) {
         if (next_token.identifier) {
             advance();
@@ -2370,7 +2338,6 @@ klass:              do {
         }
     }
 
-
     function identifier(variable) {
         var i = optional_identifier(variable);
         if (!i) {
@@ -2380,7 +2347,6 @@ klass:              do {
         }
         return i;
     }
-
 
     function statement() {
 
@@ -2456,7 +2422,6 @@ klass:              do {
         return the_statement;
     }
 
-
     function statements() {
         var array = [], disruptor, the_statement;
 
@@ -2491,7 +2456,6 @@ klass:              do {
         }
         return array;
     }
-
 
     function block(ordinary) {
 
@@ -2534,7 +2498,6 @@ klass:              do {
         return array;
     }
 
-
     function tally_property(name) {
         if (option.properties && typeof property[name] !== 'number') {
             warn('unexpected_property_a', token, name);
@@ -2545,7 +2508,6 @@ klass:              do {
             property[name] = 1;
         }
     }
-
 
 // ECMAScript parser
 
@@ -2955,7 +2917,6 @@ klass:              do {
         return that;
     });
 
-
     prefix('~', function (that) {
         no_space_only();
         if (!option.bitwise) {
@@ -3251,7 +3212,6 @@ klass:              do {
         return that;
     }, 170);
 
-
     function property_name() {
         var id = optional_identifier();
         if (!id) {
@@ -3265,8 +3225,6 @@ klass:              do {
         }
         return id;
     }
-
-
 
     assignop('=');
     assignop('+=', '+');
@@ -4003,7 +3961,6 @@ klass:              do {
         return this;
     });
 
-
 //  Superfluous reserved words
 
     reserve('class');
@@ -4025,7 +3982,6 @@ klass:              do {
     reserve('public');
     reserve('static');
     reserve('yield');
-
 
 // Parse JSON
 
@@ -4112,7 +4068,6 @@ klass:              do {
             stop('unexpected_a');
         }
     }
-
 
 // The actual JSLINT function itself.
 
@@ -4218,7 +4173,6 @@ klass:              do {
         }
         return JSLINT.errors.length === 0;
     };
-
 
 // Data summary.
 
@@ -4359,7 +4313,6 @@ klass:              do {
         }
         return output.join('');
     };
-
 
     itself.report = function (data) {
         var dl, i, j, names, output = [], the_function;

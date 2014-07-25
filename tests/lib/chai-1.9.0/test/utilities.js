@@ -54,7 +54,6 @@ describe('utilities', function () {
     });
   });
 
-
   it('getPathValue', function () {
     var object = {
         hello: 'universe'

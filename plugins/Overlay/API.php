@@ -105,20 +105,20 @@ class API extends \Piwik\Plugin\API
     {
         /**
          * Triggered immediately before the user is authenticated.
-         * 
+         *
          * This event can be used by plugins that provide their own authentication mechanism
          * to make that mechanism available. Subscribers should set the `'auth'` object in
          * the {@link Piwik\Registry} to an object that implements the {@link Piwik\Auth} interface.
-         * 
+         *
          * **Example**
-         * 
+         *
          *     use Piwik\Registry;
-         * 
+         *
          *     public function initAuthenticationObject($activateCookieAuth)
          *     {
          *         Registry::set('auth', new LDAPAuth($activateCookieAuth));
          *     }
-         * 
+         *
          * @param bool $activateCookieAuth Whether authentication based on `$_COOKIE` values should
          *                                        be allowed.
          */

@@ -32,7 +32,7 @@ The js/ folder contains:
   $ wget http://www.julienlecomte.net/yuicompressor/yuicompressor-2.4.2.zip
   $ unzip yuicompressor-2.4.2.zip
   ```
-    
+
   To compress the code containing the evil "eval", either apply the patch from
   http://yuilibrary.com/projects/yuicompressor/ticket/2343811,
   or run:
@@ -41,7 +41,7 @@ The js/ folder contains:
   $ cd /path/to/piwik/js/
   $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js
   ```
-    
+
   This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to
   /path/to/piwik/piwik.js
 

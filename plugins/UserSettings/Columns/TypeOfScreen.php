@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class TypeOfScreen extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('UserSettings_ColumnTypeOfScreen');

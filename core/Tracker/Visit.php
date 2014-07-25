@@ -242,7 +242,7 @@ class Visit implements VisitInterface
         $visitor->setVisitorColumn('time_spent_ref_action', $this->visitorInfo['time_spent_ref_action']);
 
         // update visitorInfo
-        foreach ($valuesToUpdate AS $name => $value) {
+        foreach ($valuesToUpdate as $name => $value) {
             $this->visitorInfo[$name] = $value;
         }
 
@@ -450,7 +450,7 @@ class Visit implements VisitInterface
                         AND idvisit = ?";
         // build sql query
         $updateParts = $sqlBind = array();
-        foreach ($valuesToUpdate AS $name => $value) {
+        foreach ($valuesToUpdate as $name => $value) {
             // Case where bind parameters don't work
             if(strpos($value, $name) !== false) {
                 //$name = 'visit_total_events'

@@ -36,7 +36,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getJsonSerializeData
      */
     public function testJsonSerialize($testData, $id)
@@ -78,7 +78,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getSafeSerializeData
      */
     public function testSafeSerialize($id, $testData)
