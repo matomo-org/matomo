@@ -28,8 +28,8 @@ use Exception;
  * You can create a new report using the console command `./console generate:report`. The generated report will guide
  * you through the creation of a report.
  *
- * @api
  * @since 2.5.0
+ * @api
  */
 class Report
 {
