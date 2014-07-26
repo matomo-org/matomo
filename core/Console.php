@@ -51,7 +51,6 @@ class Console extends Application
         $commands = $this->getAvailableCommands();
 
         foreach ($commands as $command) {
-
             if (!class_exists($command)) {
                 Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
             } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {

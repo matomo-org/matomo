@@ -42,12 +42,17 @@ See also: http://piwik.org/docs/setup-auto-archiving/
 \n\n";
 }
 
-$console = new Piwik\Console();
-$console->init();
+if (isset($_SERVER['argv'])) {
+    $console = new Piwik\Console();
+    $console->init();
 
-// manipulate command line arguments so CoreArchiver command will be executed
-$script = array_shift($_SERVER['argv']);
-array_unshift($_SERVER['argv'], 'core:archive');
-array_unshift($_SERVER['argv'], $script);
+    // manipulate command line arguments so CoreArchiver command will be executed
+    $script = array_shift($_SERVER['argv']);
+    array_unshift($_SERVER['argv'], 'core:archive');
+    array_unshift($_SERVER['argv'], $script);
 
-$console->run();
+    $console->run();
+} else { // if running via web request, use CronArchive directly
+    $archiver = new Piwik\CronArchive();
+    $archiver->main();
+}
