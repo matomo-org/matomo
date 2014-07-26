@@ -74,7 +74,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends Integrati
                                              'date'             => $dateRange,
                                              'periods'          => array('range'),
                                              'disableArchiving' => true,
-                                             'hackDeleteRangeArchivesBefore' => true,
                                              'testSuffix'       => '_disabledBefore_isDateRange')),
 
         );

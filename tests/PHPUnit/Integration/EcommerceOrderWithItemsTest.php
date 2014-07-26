@@ -94,8 +94,11 @@ class EcommerceOrderWithItemsTest extends IntegrationTestCase
 
                 // abandoned carts tests
                 array($goalItemApi, array('idSite'     => $idSite, 'date' => $dateTime,
-                                          'periods'    => array('day', 'week'), 'abandonedCarts' => 1,
-                                          'testSuffix' => '_AbandonedCarts')),
+                                          'periods'    => array('day', 'week'),
+                                          'testSuffix' => '_AbandonedCarts',
+                                          'otherRequestParameters' => array(
+                                              'abandonedCarts' => 1
+                                          ))),
 
                 // multiple periods tests
                 array($goalItemApi, array('idSite'       => $idSite, 'date' => $dateTime, 'periods' => array('day'),

@@ -20,6 +20,9 @@ use Piwik\DbHelper;
 use Piwik\ReportRenderer;
 use Piwik\Translate;
 use Piwik\UrlHelper;
+use Piwik\Tests\Impl\TestRequestCollection;
+use Piwik\Tests\Impl\TestRequestResponse;
+use Piwik\Tests\Impl\ApiTestConfig;
 use Piwik\Log;
 use PHPUnit_Framework_TestCase;
 
@@ -33,38 +36,6 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
  */
 abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 {
-    public $defaultApiNotToCall = array(
-        'LanguagesManager',
-        'DBStats',
-        'Dashboard',
-        'UsersManager',
-        'SitesManager',
-        'ExampleUI',
-        'Overlay',
-        'Live',
-        'SEO',
-        'ExampleAPI',
-        'ScheduledReports',
-        'MobileMessaging',
-        'Transitions',
-        'API',
-        'ImageGraph',
-        'Annotations',
-        'SegmentEditor',
-        'UserCountry.getLocationFromIP',
-        'Dashboard',
-        'ExamplePluginTemplate',
-        'CustomAlerts',
-        'Insights'
-    );
-
-    /**
-     * List of Modules, or Module.Method that should not be called as part of the XML output compare
-     * Usually these modules either return random changing data, or are already tested in specific unit tests.
-     */
-    public $apiNotToCall = array();
-    public $apiToCall = array();
-
     /**
      * Identifies the last language used in an API/Controller call.
      *
@@ -105,16 +76,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         $fixture->performTearDown();
-    }
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        // Make sure the browser running the test does not influence the Country detection code
-        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
-
-        $this->changeLanguage('en');
     }
 
     /**
@@ -308,417 +269,61 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return $apiCalls;
     }
 
-    /**
-     * Given a list of default parameters to set, returns the URLs of APIs to call
-     * If any API was specified in $this->apiNotToCall we ensure only these are tested.
-     * If any API is set as excluded (see list below) then it will be ignored.
-     *
-     * @param array $parametersToSet Parameters to set in api call
-     * @param array $formats         Array of 'format' to fetch from API
-     * @param array $periods         Array of 'period' to query API
-     * @param bool  $supertableApi
-     * @param bool  $setDateLastN    If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
-     * @param bool|string $language        2 letter language code, defaults to default piwik language
-     * @param bool|string $fileExtension
-     *
-     * @throws Exception
-     *
-     * @return array of API URLs query strings
-     */
-    protected function generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $fileExtension = false)
+    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove = array(), $params = array())
     {
-        // Get the URLs to query against the API for all functions starting with get*
-        $requestUrls = array();
-        $apiMetadata = new DocumentationGenerator;
-        foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
-            $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
-            foreach ($info as $methodName => $infoMethod) {
-                $apiId = $moduleName . '.' . $methodName;
-
-                // If Api to test were set, we only test these
-                if (!empty($this->apiToCall)
-                    && in_array($moduleName, $this->apiToCall) === false
-                    && in_array($apiId, $this->apiToCall) === false
-                ) {
-                    continue;
-                } elseif (
-                    ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
-                        || in_array($moduleName, $this->apiNotToCall) === true
-                        || in_array($apiId, $this->apiNotToCall) === true
-                        || $methodName == 'getLogoUrl'
-                        || $methodName == 'getSVGLogoUrl'
-                        || $methodName == 'hasSVGLogo'
-                        || $methodName == 'getHeaderLogoUrl'
-                    )
-                ) { // Excluded modules from test
-                    continue;
-                }
-
-                foreach ($periods as $period) {
-                    $parametersToSet['period'] = $period;
-
-                    // If date must be a date range, we process this date range by adding 6 periods to it
-                    if ($setDateLastN) {
-                        if (!isset($parametersToSet['dateRewriteBackup'])) {
-                            $parametersToSet['dateRewriteBackup'] = $parametersToSet['date'];
-                        }
-
-                        $lastCount = (int)$setDateLastN;
-                        if ($setDateLastN === true) {
-                            $lastCount = 6;
-                        }
-                        $firstDate = $parametersToSet['dateRewriteBackup'];
-                        $secondDate = date('Y-m-d', strtotime("+$lastCount " . $period . "s", strtotime($firstDate)));
-                        $parametersToSet['date'] = $firstDate . ',' . $secondDate;
-                    }
-
-                    // Set response language
-                    if ($language !== false) {
-                        $parametersToSet['language'] = $language;
-                    }
-
-                    // set idSubtable if subtable API is set
-                    if ($supertableApi !== false) {
-                        $request = new Request(array(
-                                                              'module'    => 'API',
-                                                              'method'    => $supertableApi,
-                                                              'idSite'    => $parametersToSet['idSite'],
-                                                              'period'    => $parametersToSet['period'],
-                                                              'date'      => $parametersToSet['date'],
-                                                              'format'    => 'php',
-                                                              'serialize' => 0,
-                                                         ));
-
-                        // find first row w/ subtable
-                        $content = $request->process();
-
-                        $this->checkRequestResponse($content);
-                        foreach ($content as $row) {
-                            if (isset($row['idsubdatatable'])) {
-                                $parametersToSet['idSubtable'] = $row['idsubdatatable'];
-                                break;
-                            }
-                        }
-
-                        // if no subtable found, throw
-                        if (!isset($parametersToSet['idSubtable'])) {
-                            throw new Exception(
-                                "Cannot find subtable to load for $apiId in $supertableApi.");
-                        }
-                    }
-
-                    // Generate for each specified format
-                    foreach ($formats as $format) {
-                        $parametersToSet['format'] = $format;
-                        $parametersToSet['hideIdSubDatable'] = 1;
-                        $parametersToSet['serialize'] = 1;
-
-                        $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
-
-                        if ($exampleUrl === false) {
-                            continue;
-                        }
-
-                        // Remove the first ? in the query string
-                        $exampleUrl = substr($exampleUrl, 1);
-                        $apiRequestId = $apiId;
-                        if (strpos($exampleUrl, 'period=') !== false) {
-                            $apiRequestId .= '_' . $period;
-                        }
-
-                        $apiRequestId .= '.' . $format;
-
-                        if ($fileExtension) {
-                            $apiRequestId .= '.' . $fileExtension;
-                        }
-
-                        $requestUrls[$apiRequestId] = $exampleUrl;
-                    }
-                }
-            }
-        }
-        return $requestUrls;
-    }
-
-    /**
-     * Will return all api urls for the given data
-     *
-     * @param string|array $formats        String or array of formats to fetch from API
-     * @param int|bool $idSite         Id site
-     * @param string|bool $dateTime       Date time string of reports to request
-     * @param array|bool|string $periods        String or array of strings of periods (day, week, month, year)
-     * @param bool $setDateLastN   When set to true, 'date' parameter passed to API request will be rewritten to query a range of dates rather than 1 date only
-     * @param string|bool $language       2 letter language code to request data in
-     * @param string|bool $segment        Custom Segment to query the data  for
-     * @param string|bool $visitorId      Only used for Live! API testing
-     * @param bool $abandonedCarts Only used in Goals API testing
-     * @param bool $idGoal
-     * @param bool $apiModule
-     * @param bool $apiAction
-     * @param array $otherRequestParameters
-     * @param array|bool $supertableApi
-     * @param array|bool $fileExtension
-     *
-     * @return array
-     */
-    protected function _generateApiUrls($formats = 'xml', $idSite = false, $dateTime = false, $periods = false,
-                                        $setDateLastN = false, $language = false, $segment = false, $visitorId = false,
-                                        $abandonedCarts = false, $idGoal = false, $apiModule = false, $apiAction = false,
-                                        $otherRequestParameters = array(), $supertableApi = false, $fileExtension = false)
-    {
-        list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
-
-        if ($periods === false) {
-            $periods = 'day';
-        }
-        if (!is_array($periods)) {
-            $periods = array($periods);
-        }
-        if (!is_array($formats)) {
-            $formats = array($formats);
-        }
-        if (!is_writable($pathProcessed)) {
-            $this->fail('To run the tests, you need to give write permissions to the following directory (create it if it doesn\'t exist).<code><br/>mkdir ' . $pathProcessed . '<br/>chmod 777 ' . $pathProcessed . '</code><br/>');
-        }
-        $parametersToSet = array(
-            'idSite'         => $idSite,
-            'date'           => ($periods == array('range') || strpos($dateTime, ',') !== false) ?
-                                    $dateTime : date('Y-m-d', strtotime($dateTime)),
-            'expanded'       => '1',
-            'piwikUrl'       => 'http://example.org/piwik/',
-            // Used in getKeywordsForPageUrl
-            'url'            => 'http://example.org/store/purchase.htm',
-
-            // Used in Actions.getPageUrl, .getDownload, etc.
-            // tied to Main.test.php doTest_oneVisitorTwoVisits
-            // will need refactoring when these same API functions are tested in a new function
-            'downloadUrl'    => 'http://piwik.org/path/again/latest.zip?phpsessid=this is ignored when searching',
-            'outlinkUrl'     => 'http://dev.piwik.org/svn',
-            'pageUrl'        => 'http://example.org/index.htm?sessionid=this is also ignored by default',
-            'pageName'       => ' Checkout / Purchasing... ',
-
-            // do not show the millisec timer in response or tests would always fail as value is changing
-            'showTimer'      => 0,
-
-            'language'       => $language ? $language : 'en',
-            'abandonedCarts' => $abandonedCarts ? 1 : 0,
-            'idSites'        => $idSite,
-        );
-        $parametersToSet = array_merge($parametersToSet, $otherRequestParameters);
-        if (!empty($visitorId)) {
-            $parametersToSet['visitorId'] = $visitorId;
-        }
-        if (!empty($apiModule)) {
-            $parametersToSet['apiModule'] = $apiModule;
-        }
-        if (!empty($apiAction)) {
-            $parametersToSet['apiAction'] = $apiAction;
-        }
-        if (!empty($segment)) {
-            $parametersToSet['segment'] = urlencode($segment);
-        }
-        if ($idGoal !== false) {
-            $parametersToSet['idGoal'] = $idGoal;
-        }
-
-        $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi, $setDateLastN, $language, $fileExtension);
-
-        $this->checkEnoughUrlsAreTested($requestUrls);
-
-        return $requestUrls;
-    }
-
-    protected function checkEnoughUrlsAreTested($requestUrls)
-    {
-        $countUrls = count($requestUrls);
-        $approximateCountApiToCall = count($this->apiToCall);
-        if (empty($requestUrls)
-            || $approximateCountApiToCall > $countUrls
-        ) {
-            throw new Exception("Only generated $countUrls API calls to test but was expecting more for this test.\n" .
-                    "Want to test APIs: " . implode(", ", $this->apiToCall) . ")\n" .
-                    "But only generated these URLs: \n" . implode("\n", $requestUrls) . ")\n"
-            );
-        }
-    }
-
-    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove = array())
-    {
-        $isTestLogImportReverseChronological = strpos($testName, 'ImportedInRandomOrderTest') === false;
-        $isLiveMustDeleteDates = (strpos($requestUrl, 'Live.getLastVisits') !== false
-                                  || strpos($requestUrl, 'Live.getVisitorProfile') !== false)
-                                // except for that particular test that we care about dates!
-                                && $isTestLogImportReverseChronological;
-
-        $request = new Request($requestUrl);
-        $dateTime = Common::getRequestVar('date', '', 'string', UrlHelper::getArrayFromQueryString($requestUrl));
-
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
 
-        // Cast as string is important. For example when calling
-        // with format=original, objects or php arrays can be returned.
-        // we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
-        $response = (string)$request->process();
-
-        if ($isLiveMustDeleteDates) {
-            $response = $this->removeAllLiveDatesFromXml($response);
-        }
-        $response = $this->normalizePdfContent($response);
-
-        if (!empty($xmlFieldsToRemove)) {
-            $response = $this->removeXmlFields($response, $xmlFieldsToRemove);
-        }
-
-        $expected = $this->loadExpectedFile($expectedFilePath);
-        $expectedContent = $expected;
-        $expected = $this->normalizePdfContent($expected);
-
-        if (empty($expected)) {
-            if (empty($compareAgainst)) {
-                file_put_contents($processedFilePath, $response);
-            }
-
-            print("The expected file is not found at '$expectedFilePath'. The Processed response was:");
-            print("\n----------------------------\n\n");
-            var_dump($response);
-            print("\n----------------------------\n");
-            return;
-        }
-
-        $expected = $this->removeXmlElement($expected, 'idsubdatatable', $testNotSmallAfter = false);
-        $response = $this->removeXmlElement($response, 'idsubdatatable', $testNotSmallAfter = false);
-
-        if ($isLiveMustDeleteDates) {
-            $expected = $this->removeAllLiveDatesFromXml($expected);
-        } // If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
-        elseif (strpos($dateTime, 'last') !== false
-            || strpos($dateTime, 'today') !== false
-            || strpos($dateTime, 'now') !== false
-        ) {
-            if (strpos($requestUrl, 'API.getProcessedReport') !== false) {
-                $expected = $this->removePrettyDateFromXml($expected);
-                $response = $this->removePrettyDateFromXml($response);
-            }
-
-            $expected = $this->removeXmlElement($expected, 'visitServerHour');
-            $response = $this->removeXmlElement($response, 'visitServerHour');
-
-            if (strpos($requestUrl, 'date=') !== false) {
-                $regex = "/date=[-0-9,%Ca-z]+/"; // need to remove %2C which is encoded ,
-                $expected = preg_replace($regex, 'date=', $expected);
-                $response = preg_replace($regex, 'date=', $response);
-            }
-        }
-
-        // if idSubtable is in request URL, make sure idSubtable values are not in any urls
-        if (strpos($requestUrl, 'idSubtable=') !== false) {
-            $regex = "/idSubtable=[0-9]+/";
-            $expected = preg_replace($regex, 'idSubtable=', $expected);
-            $response = preg_replace($regex, 'idSubtable=', $response);
-        }
-
-        // Do not test for TRUNCATE(SUM()) returning .00 on mysqli since this is not working
-        // http://bugs.php.net/bug.php?id=54508
-        $expected = str_replace('.000000</l', '</l', $expected); //lat/long
-        $response = str_replace('.000000</l', '</l', $response); //lat/long
-        $expected = str_replace('.00</revenue>', '</revenue>', $expected);
-        $response = str_replace('.00</revenue>', '</revenue>', $response);
-        $response = str_replace('.1</revenue>', '</revenue>', $response);
-        $expected = str_replace('.1</revenue>', '</revenue>', $expected);
-        $expected = str_replace('.11</revenue>', '</revenue>', $expected);
-        $response = str_replace('.11</revenue>', '</revenue>', $response);
-
+        $processedResponse = TestRequestResponse::loadFromApi($params, $requestUrl);
         if (empty($compareAgainst)) {
-            file_put_contents($processedFilePath, $response);
+            $processedResponse->save($processedFilePath);
         }
 
         try {
-            if (strpos($requestUrl, 'format=xml') !== false) {
-                $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath");
-            } else {
-                $this->assertEquals(strlen($expected), strlen($response), "Differences with expected in: $processedFilePath");
-                $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath");
-            }
+            $expectedResponse = TestRequestResponse::loadFromFile($expectedFilePath, $params, $requestUrl);
+        } catch (Exception $ex) {
+            $this->handleMissingExpectedFile($expectedFilePath, $processedResponse);
+            return;
+        }
 
-            if (trim($response) == trim($expected)
-                && empty($compareAgainst)
-            ) {
-                if(trim($expectedContent) != trim($expected)) {
-                    file_put_contents($expectedFilePath, $expected);
-                }
-            }
+        try {
+            TestRequestResponse::assertEquals($expectedResponse, $processedResponse, "Differences with expected in '$processedFilePath'");
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }
     }
 
-    protected function checkRequestResponse($response)
+    private function handleMissingExpectedFile($expectedFilePath, TestRequestResponse $processedResponse)
+    {
+        $this->missingExpectedFiles[] = $expectedFilePath;
+
+        print("The expected file is not found at '$expectedFilePath'. The Processed response was:");
+        print("\n----------------------------\n\n");
+        var_dump($processedResponse->getResponseText());
+        print("\n----------------------------\n");
+    }
+
+    public static function assertApiResponseHasNoError($response)
     {
         if(!is_string($response)) {
             $response = json_encode($response);
         }
-        $this->assertTrue(stripos($response, 'error') === false, "error in $response");
-        $this->assertTrue(stripos($response, 'exception') === false, "exception in $response");
-    }
-
-    protected function removeAllLiveDatesFromXml($input)
-    {
-        $toRemove = array(
-            'serverDate',
-            'firstActionTimestamp',
-            'lastActionTimestamp',
-            'lastActionDateTime',
-            'serverTimestamp',
-            'serverTimePretty',
-            'serverDatePretty',
-            'serverDatePrettyFirstAction',
-            'serverTimePrettyFirstAction',
-            'goalTimePretty',
-            'serverTimePretty',
-            'visitorId',
-            'nextVisitorId',
-            'previousVisitorId',
-            'visitServerHour',
-            'date',
-            'prettyDate',
-            'serverDateTimePrettyFirstAction'
-        );
-        return $this->removeXmlFields($input, $toRemove);
-    }
-
-    protected function removeXmlFields($input, $toRemove)
-    {
-        foreach ($toRemove as $xml) {
-            $input = $this->removeXmlElement($input, $xml);
-        }
-        return $input;
-    }
-
-    protected function removePrettyDateFromXml($input)
-    {
-        return $this->removeXmlElement($input, 'prettyDate');
-    }
-
-    protected function removeXmlElement($input, $xmlElement, $testNotSmallAfter = true)
-    {
-        // Only raise error if there was some data before
-        $testNotSmallAfter = strlen($input > 100) && $testNotSmallAfter;
-
-        $oldInput = $input;
-        $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/', '', $input);
-
-        //check we didn't delete the whole string
-        if ($testNotSmallAfter && $input != $oldInput) {
-            $this->assertTrue(strlen($input) > 100);
-        }
-        return $input;
+        self::assertTrue(stripos($response, 'error') === false, "error in $response");
+        self::assertTrue(stripos($response, 'exception') === false, "exception in $response");
     }
 
     protected static function getProcessedAndExpectedDirs()
     {
         $path = static::getPathToTestDirectory();
-        return array($path . '/processed/', $path . '/expected/');
+        $processedPath = $path . '/processed/';
+
+        if (!is_writable($processedPath)) {
+            $this->fail('To run the tests, you need to give write permissions to the following directory (create it if '
+                      . 'it doesn\'t exist).<code><br/>mkdir ' . $processedPath . '<br/>chmod 777 ' . $processedPath
+                      . '</code><br/>');
+        }
+
+        return array($processedPath, $path . '/expected/');
     }
 
     private function getProcessedAndExpectedPaths($testName, $testId, $format = null, $compareAgainst = false)
@@ -729,21 +334,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         $processedFilename = $testName . $filenameSuffix;
-        $expectedFilename = ($compareAgainst ?: $testName) . $filenameSuffix;
+
+        $expectedFilename = $compareAgainst ? ('test_' . $compareAgainst) : $testName;
+        $expectedFilename .= $filenameSuffix;
 
         list($processedDir, $expectedDir) = static::getProcessedAndExpectedDirs();
 
         return array($processedDir . $processedFilename, $expectedDir . $expectedFilename);
-    }
-
-    private function loadExpectedFile($filePath)
-    {
-        $result = @file_get_contents($filePath);
-        if (empty($result)) {
-            $this->missingExpectedFiles[] = $filePath;
-            return null;
-        }
-        return $result;
     }
 
     /**
@@ -761,26 +358,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * )
      * </code>
      *
-     * Valid test options:
-     * <ul>
-     *   <li><b>testSuffix</b> The suffix added to the test name. Helps determine
-     *   the filename of the expected output.</li>
-     *   <li><b>format</b> The desired format of the output. Defaults to 'xml'.</li>
-     *   <li><b>idSite</b> The id of the website to get data for.</li>
-     *   <li><b>date</b> The date to get data for.</li>
-     *   <li><b>periods</b> The period or periods to get data for. Can be an array.</li>
-     *   <li><b>setDateLastN</b> Flag describing whether to query for a set of
-     *   dates or not.</li>
-     *   <li><b>language</b> The language to use.</li>
-     *   <li><b>segment</b> The segment to use.</li>
-     *   <li><b>visitorId</b> The visitor ID to use.</li>
-     *   <li><b>abandonedCarts</b> Whether to look for abandoned carts or not.</li>
-     *   <li><b>idGoal</b> The goal ID to use.</li>
-     *   <li><b>apiModule</b> The value to use in the apiModule request parameter.</li>
-     *   <li><b>apiAction</b> The value to use in the apiAction request parameter.</li>
-     *   <li><b>otherRequestParameters</b> An array of extra request parameters to use.</li>
-     *   <li><b>disableArchiving</b> Disable archiving before running tests.</li>
-     * </ul>
+     * Valid test options are described in the ApiTestConfig class docs.
      *
      * All test options are optional, except 'idSite' & 'date'.
      */
@@ -800,32 +378,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return $result;
     }
 
-    protected function _setCallableApi($api)
-    {
-        if ($api == 'all') {
-            $this->apiToCall = array();
-            $this->apiNotToCall = $this->defaultApiNotToCall;
-        } else {
-            if (!is_array($api)) {
-                $api = array($api);
-            }
-
-            $this->apiToCall = $api;
-
-            if (!in_array('UserCountry.getLocationFromIP', $api)) {
-                $this->apiNotToCall = array('API.getPiwikVersion',
-                                            'UserCountry.getLocationFromIP');
-            } else {
-                $this->apiNotToCall = array();
-            }
-        }
-    }
-
     /**
      * Runs API tests.
      */
     protected function runApiTests($api, $params)
     {
+        $testConfig = new ApiTestConfig($params);
+
         // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
         // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
         \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
@@ -834,9 +393,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $this->missingExpectedFiles = array();
         $this->comparisonFailures = array();
 
-        $this->_setCallableApi($api);
-
-        if (isset($params['disableArchiving']) && $params['disableArchiving'] === true) {
+        if ($testConfig->disableArchiving) {
             Rules::$archivingDisabledByTests = true;
             Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
         } else {
@@ -844,46 +401,14 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
         }
 
-        if(!empty($params['hackDeleteRangeArchivesBefore'])) {
-            Db::query('delete from '. Common::prefixTable('archive_numeric_2009_12') . ' where period = 5');
-            Db::query('delete from '. Common::prefixTable('archive_blob_2009_12') . ' where period = 5');
+        if ($testConfig->language) {
+            $this->changeLanguage($testConfig->language);
         }
 
-        if (isset($params['language'])) {
-            $this->changeLanguage($params['language']);
-        }
+        $testRequests = new TestRequestCollection($api, $testConfig, $api);
 
-        $testSuffix = isset($params['testSuffix']) ? $params['testSuffix'] : '';
-
-        $requestUrls = $this->_generateApiUrls(
-            isset($params['format']) ? $params['format'] : 'xml',
-            isset($params['idSite']) ? $params['idSite'] : false,
-            isset($params['date']) ? $params['date'] : false,
-            isset($params['periods']) ? $params['periods'] : (isset($params['period']) ? $params['period'] : false),
-            isset($params['setDateLastN']) ? $params['setDateLastN'] : false,
-            isset($params['language']) ? $params['language'] : false,
-            isset($params['segment']) ? $params['segment'] : false,
-            isset($params['visitorId']) ? $params['visitorId'] : false,
-            isset($params['abandonedCarts']) ? $params['abandonedCarts'] : false,
-            isset($params['idGoal']) ? $params['idGoal'] : false,
-            isset($params['apiModule']) ? $params['apiModule'] : false,
-            isset($params['apiAction']) ? $params['apiAction'] : false,
-            isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array(),
-            isset($params['supertableApi']) ? $params['supertableApi'] : false,
-            isset($params['fileExtension']) ? $params['fileExtension'] : false);
-
-        $compareAgainst = isset($params['compareAgainst']) ? ('test_' . $params['compareAgainst']) : false;
-        $xmlFieldsToRemove = @$params['xmlFieldsToRemove'];
-
-        foreach ($requestUrls as $apiId => $requestUrl) {
-            // this is a hack
-            if(isset($params['skipGetPageTitles'])) {
-                if($apiId == 'Actions.getPageTitles_day.xml') {
-                    continue;
-                }
-            }
-
-            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove);
+        foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
+            $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
         }
 
         // Restore normal purge behavior
@@ -904,20 +429,24 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // Display as one error all sub-failures
         if (!empty($this->comparisonFailures)) {
-            $messages = '';
-            $i = 1;
-            foreach ($this->comparisonFailures as $failure) {
-                $msg = $failure->getMessage();
-                $msg = strtok($msg, "\n");
-                $messages .= "\n#" . $i++ . ": " . $msg;
-            }
-            $messages .= " \n ";
-            print($messages);
-            $first = reset($this->comparisonFailures);
-            throw $first;
+            $this->printComparisonFailures();
+            throw reset($this->comparisonFailures);
         }
 
         return count($this->comparisonFailures) == 0;
+    }
+
+    private function printComparisonFailures()
+    {
+        $messages = '';
+        foreach ($this->comparisonFailures as $index => $failure) {
+            $msg = $failure->getMessage();
+            $msg = strtok($msg, "\n");
+            $messages .= "\n#" . ($index + 1) . ": " . $msg;
+        }
+        $messages .= " \n ";
+
+        print($messages);
     }
 
     /**
@@ -1023,27 +552,5 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);
-    }
-
-    /**
-     * Removes content from PDF binary the content that changes with the datetime or other random Ids
-     */
-    protected function normalizePdfContent($response)
-    {
-        // normalize date markups and document ID in pdf files :
-        // - /LastModified (D:20120820204023+00'00')
-        // - /CreationDate (D:20120820202226+00'00')
-        // - /ModDate (D:20120820202226+00'00')
-        // - /M (D:20120820202226+00'00')
-        // - /ID [ <0f5cc387dc28c0e13e682197f485fe65> <0f5cc387dc28c0e13e682197f485fe65> ]
-        $response = preg_replace('/\(D:[0-9]{14}/', '(D:19700101000000', $response);
-        $response = preg_replace('/\/ID \[ <.*> ]/', '', $response);
-        $response = preg_replace('/\/id:\[ <.*> ]/', '', $response);
-        $response = $this->removeXmlElement($response, "xmp:CreateDate");
-        $response = $this->removeXmlElement($response, "xmp:ModifyDate");
-        $response = $this->removeXmlElement($response, "xmp:MetadataDate");
-        $response = $this->removeXmlElement($response, "xmpMM:DocumentID");
-        $response = $this->removeXmlElement($response, "xmpMM:InstanceID");
-        return $response;
     }
 }

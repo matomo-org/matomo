@@ -69,10 +69,9 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends IntegrationTestCa
             foreach ($dates as $date) {
                 $result[] = array($apiToCall, array('idSite'    => $idSite, 'date' => $date,
                                                     'periods'   => array('range'), 'segment' => $segment,
-                                                    // testing getLastVisitsForVisitor requires a visitor ID
-                                                    'visitorId' => $visitorId,
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24,
+                                                        'visitorId' => $visitorId // testing getLastVisitsForVisitor requires a visitor ID
                                                     )));
             }
         }

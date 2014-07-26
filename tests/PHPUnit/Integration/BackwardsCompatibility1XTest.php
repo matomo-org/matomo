@@ -55,19 +55,6 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
         VisitFrequencyApi::getInstance()->get(1, 'year', '2012-12-29');
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->defaultApiNotToCall[] = 'Referrers';
-
-        // changes made to SQL dump to test VisitFrequency change the day of week
-        $this->defaultApiNotToCall[] = 'VisitTime.getByDayOfWeek';
-
-        // we test VisitFrequency explicitly
-        $this->defaultApiNotToCall[] = 'VisitFrequency.get';
-    }
-
     /**
      * @dataProvider getApiForTesting
      */
@@ -81,14 +68,26 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
         $idSite = 1;
         $dateTime = '2012-03-06 11:22:33';
 
+        $apiNotToCall = array(
+            // in the SQL dump, a referrer is named referer.com, but now in OneVisitorTwoVisits it is referrer.com
+            'Referrers',
+
+            // changes made to SQL dump to test VisitFrequency change the day of week
+            'VisitTime.getByDayOfWeek',
+
+            // we test VisitFrequency explicitly
+            'VisitFrequency.get',
+
+             // the Action.getPageTitles test fails for unknown reason, so skipping it
+             // eg. https://travis-ci.org/piwik/piwik/jobs/24449365
+            'Action.getPageTitles'
+        );
+
         return array(
             array('all', array('idSite' => $idSite, 'date' => $dateTime,
                                'compareAgainst' => 'OneVisitorTwoVisits',
                                'disableArchiving' => true,
-
-                               // the Action.getPageTitles test fails for unknown reason, so skipping it
-                               // eg. https://travis-ci.org/piwik/piwik/jobs/24449365
-                               'skipGetPageTitles' => true )),
+                               'apiNotToCall' => $apiNotToCall)),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
                                               'disableArchiving' => true, 'testSuffix' => '_multipleDates')),

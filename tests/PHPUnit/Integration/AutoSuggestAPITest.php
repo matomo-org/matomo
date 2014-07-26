@@ -93,7 +93,7 @@ class AutoSuggestAPITest extends IntegrationTestCase
                 . '&format=php&serialize=0'
         );
         $response = $request->process();
-        $this->checkRequestResponse($response);
+        $this->assertApiResponseHasNoError($response);
         $topSegmentValue = @$response[0];
 
         if ($topSegmentValue !== false && !is_null($topSegmentValue)) {
