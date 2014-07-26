@@ -1305,6 +1305,7 @@
         "TryIt": "Try It!",
         "UseSearchBarHint": "Only the first %s websites are displayed here. Please use the search bar to access your other websites.",
         "VerifyAccount": "Verifying Account",
+        "ValidateSslCertificate": "Validate SSL Certificate",
         "VerifyLoginData": "Make sure your username and password combination is correct.",
         "YouAreOffline": "Sorry, you are currently offline"
     },
