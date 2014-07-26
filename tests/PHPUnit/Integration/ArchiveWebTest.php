@@ -30,8 +30,6 @@ class ArchiveWebTest extends IntegrationTestCase
             $this->markTestSkipped('Skipping on Mysqli as it randomly fails.');
         }
 
-        self::deleteArchiveTables();
-
         $host  = Fixture::getRootUrl();
         $token = Fixture::getTokenAuth();
 
