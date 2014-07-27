@@ -170,6 +170,8 @@ class API extends \Piwik\Plugin\API
             }
             // Both calls above have called Site::setSitesFromArray. We now get these sites:
             $sitesToProblablyAdd = Site::getSites();
+        } else if (is_array($idSitesOrIdSite)) {
+            $sitesToProblablyAdd = APISitesManager::getInstance()->getSitesFromIds($idSitesOrIdSite);
         } else {
             $sitesToProblablyAdd = array(APISitesManager::getInstance()->getSiteFromId($idSitesOrIdSite));
         }
