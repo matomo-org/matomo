@@ -17,6 +17,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
 use Piwik\Site;
 use Piwik\TaskScheduler;
 
@@ -171,7 +172,8 @@ class API extends \Piwik\Plugin\API
             // Both calls above have called Site::setSitesFromArray. We now get these sites:
             $sitesToProblablyAdd = Site::getSites();
         } else if (is_array($idSitesOrIdSite)) {
-            $sitesToProblablyAdd = APISitesManager::getInstance()->getSitesFromIds($idSitesOrIdSite);
+            $model = new ModelSitesManager();
+            $sitesToProblablyAdd = $model->getSitesFromIds($idSitesOrIdSite);
         } else {
             $sitesToProblablyAdd = array(APISitesManager::getInstance()->getSiteFromId($idSitesOrIdSite));
         }

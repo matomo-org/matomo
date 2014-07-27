@@ -180,12 +180,16 @@ class API extends \Piwik\Plugin\API
     public function getSiteFromId($idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $site = Db::get()->fetchRow("SELECT *
-    								FROM " . Common::prefixTable("site") . "
-    								WHERE idsite = ?", $idSite);
+
+        $site = $this->getModel()->getSiteFromId($idSite);
 
         Site::setSitesFromArray(array($site));
         return $site;
+    }
+
+    private function getModel()
+    {
+        return new Model();
     }
 
     /**
@@ -419,29 +423,12 @@ class API extends \Piwik\Plugin\API
      * @param bool $limit
      * @return array
      */
-    public function getSitesFromIds($idSites, $limit = false)
+    private function getSitesFromIds($idSites, $limit = false)
     {
-        Piwik::checkUserHasViewAccess($idSites);
-
-        if (count($idSites) === 0) {
-            return array();
-        }
-
-        if ($limit) {
-            $limit = "LIMIT " . (int)$limit;
-        } else {
-            $limit = '';
-        }
-
-        $idSites = array_map('intval', $idSites);
-
-        $db = Db::get();
-        $sites = $db->fetchAll("SELECT *
-								FROM " . Common::prefixTable("site") . "
-								WHERE idsite IN (" . implode(", ", $idSites) . ")
-								ORDER BY idsite ASC $limit");
+        $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
 
         Site::setSitesFromArray($sites);
+
         return $sites;
     }
 
