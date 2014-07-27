@@ -419,7 +419,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $limit
      * @return array
      */
-    private function getSitesFromIds($idSites, $limit = false)
+    public function getSitesFromIds($idSites, $limit = false)
     {
         if (count($idSites) === 0) {
             return array();
@@ -427,7 +427,11 @@ class API extends \Piwik\Plugin\API
 
         if ($limit) {
             $limit = "LIMIT " . (int)$limit;
+        } else {
+            $limit = '';
         }
+
+        $idSites = array_map('intval', $idSites);
 
         $db = Db::get();
         $sites = $db->fetchAll("SELECT *
