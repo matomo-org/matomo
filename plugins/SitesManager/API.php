@@ -421,6 +421,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesFromIds($idSites, $limit = false)
     {
+        Piwik::checkUserHasViewAccess($idSites);
+
         if (count($idSites) === 0) {
             return array();
         }
