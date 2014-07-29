@@ -92,6 +92,8 @@ class EventDispatcher extends Singleton
             }
         }
 
+        // sort callbacks by their importance
+        ksort($callbacks);
         // execute callbacks in order
         foreach ($callbacks as $callbackGroup) {
             foreach ($callbackGroup as $callback) {
@@ -171,10 +173,9 @@ class EventDispatcher extends Singleton
             if (!empty($hookInfo['before'])) {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_FIRST;
             } else if (!empty($hookInfo['after'])) {
-                $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
-            } else {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_THIRD;
-            }
+            } else {
+                $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;            }
         } else {
             $pluginFunction = $hookInfo;
             $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
