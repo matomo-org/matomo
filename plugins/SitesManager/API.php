@@ -316,12 +316,14 @@ class API extends \Piwik\Plugin\API
      * For the superUser it returns all the websites in the database.
      *
      * @param bool $fetchAliasUrls
+     * @param bool|int $limit
+     * @param bool|int $offset
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false)
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $limit = false, $offset = false)
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
-        $sites = $this->getSitesFromIds($sitesId);
+        $sites = $this->getSitesFromIds($sitesId, $limit, $offset);
 
         if ($fetchAliasUrls)
             foreach ($sites as &$site)
@@ -334,12 +336,16 @@ class API extends \Piwik\Plugin\API
      * Returns the list of websites with the 'view' access for the current user.
      * For the superUser it doesn't return any result because the superUser has admin access on all the websites (use getSitesWithAtLeastViewAccess() instead).
      *
+     * @param bool|int $limit Specify max number of sites to return
+     * @param bool|int $offset Specify number of sites to skip.
+     *
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithViewAccess()
+    public function getSitesWithViewAccess($limit = false, $offset = false)
     {
         $sitesId = $this->getSitesIdWithViewAccess();
-        return $this->getSitesFromIds($sitesId);
+
+        return $this->getSitesFromIds($sitesId, $limit, $offset);
     }
 
     /**
@@ -348,12 +354,14 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool|int $limit Specify max number of sites to return
      * @param bool $_restrictSitesToLogin Hack necessary when runnning scheduled tasks, where "Super User" is forced, but sometimes not desired, see #3017
-     * @return array array for each site, an array of information (idsite, name, main_url, etc.)
+     * @param bool|int $offset Specify number of sites to skip.
+     * @return array Array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin = false)
+    public function getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin = false, $offset = false)
     {
         $sitesId = $this->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
-        return $this->getSitesFromIds($sitesId, $limit);
+
+        return $this->getSitesFromIds($sitesId, $limit, $offset);
     }
 
     /**
@@ -421,11 +429,12 @@ class API extends \Piwik\Plugin\API
      *
      * @param array $idSites list of website ID
      * @param bool $limit
+     * @param bool|int $offset
      * @return array
      */
-    private function getSitesFromIds($idSites, $limit = false)
+    private function getSitesFromIds($idSites, $limit = false, $offset = false)
     {
-        $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
+        $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $offset);
 
         Site::setSitesFromArray($sites);
 
