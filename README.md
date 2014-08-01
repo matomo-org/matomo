@@ -1,13 +1,5 @@
 # Piwik - piwik.org
 
-## We’re seeking a talented Software Engineer
-
-Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
-
-[View Job Description](http://piwik.org/blog/2014/05/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
-
-We are grateful if you can share the Job Description with your friends and colleagues. We can help the right candidate relocate to beautiful New Zealand.
-
 ## Description
 
 Piwik is the leading Free/Libre open analytics platform.
@@ -91,6 +83,17 @@ What makes Piwik unique from the competition:
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real time maps, and more!
 
 Documentation and more info on http://piwik.org
+
+
+
+## We’re seeking a talented Software Engineer
+
+Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
+
+[View Job Description](http://piwik.org/blog/2014/05/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
+
+We are grateful if you can share the Job Description with your friends and colleagues. We can help the right candidate relocate to beautiful New Zealand.
+
 
 ## Code Status
 The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and dozens of integration [tests](https://github.com/piwik/piwik/tree/master/tests),
