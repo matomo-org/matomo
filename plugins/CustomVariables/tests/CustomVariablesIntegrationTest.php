@@ -12,7 +12,7 @@ use Piwik\Tests\IntegrationTestCase;
 
 /**
  * @group CustomVariables
- * @group CustomVariablesTest
+ * @group CustomVariablesIntegrationTest
  * @group Database
  */
 class CustomVariablesIntegrationTest extends IntegrationTestCase

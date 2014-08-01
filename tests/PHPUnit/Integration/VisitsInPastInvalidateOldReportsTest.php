@@ -75,20 +75,20 @@ class VisitsInPastInvalidateOldReportsTest extends IntegrationTestCase
         // 1) Invalidate old reports for the 2 websites
         // Test invalidate 1 date only
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
-        $this->checkRequestResponse($r->process());
+        $this->assertApiResponseHasNoError($r->process());
 
         // Test invalidate comma separated dates
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "," . $idSite2 . "&dates=2010-01-06,2009-10-30");
-        $this->checkRequestResponse($r->process());
+        $this->assertApiResponseHasNoError($r->process());
 
         // test invalidate date in the past
         // Format=original will re-throw exception
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2009-06-29&format=original");
-        $this->checkRequestResponse( json_encode( $r->process() ) );
+        $this->assertApiResponseHasNoError($r->process());
 
         // invalidate a date more recent to check the date is only updated when it's earlier than current
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2010-03-03");
-        $this->checkRequestResponse($r->process());
+        $this->assertApiResponseHasNoError($r->process());
 
         // Make an invalid call
         $idSiteNoAccess = 777;

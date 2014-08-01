@@ -88,7 +88,7 @@ class RowEvolutionTest extends IntegrationTestCase
         $config['periods'] = array('day', 'week');
         $config['otherRequestParameters']['apiModule'] = 'Actions';
         $config['otherRequestParameters']['apiAction'] = 'getPageTitles';
-        $config['otherRequestParameters']['label'] = urlencode('incredible title 0');
+        $config['otherRequestParameters']['label'] = ('incredible title 0');
         $config['otherRequestParameters']['filter_limit'] = 1; // should have no effect
         $return[] = array('API.getRowEvolution', $config);
 

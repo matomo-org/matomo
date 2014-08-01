@@ -61,4 +61,3 @@ then
 else
     travis_wait phpunit --configuration phpunit.xml --coverage-text --colors
 fi
-

@@ -36,11 +36,12 @@ class OneVisitorSeveralDaysImportedInRandomOrderTest extends IntegrationTestCase
         return array(
             // This should show 1 visit on 3 different days
             array('Live.getLastVisitsDetails', array(
-                                    'idSite' => '1',
-                                    'date'         => self::$fixture->dateTime,
-                                    'periods'      => 'month',
+                                    'idSite'                 => '1',
+                                    'date'                   => self::$fixture->dateTime,
+                                    'periods'                => 'month',
                                     'testSuffix'             => '_shouldShowOneVisit_InEachOfThreeDays',
-                                    'otherRequestParameters' => array('hideColumns' => 'visitorId')
+                                    'otherRequestParameters' => array('hideColumns' => 'visitorId'),
+                                    'keepLiveDates'          => true
 
             )),
         );

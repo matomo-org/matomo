@@ -81,7 +81,6 @@ class ArchiveCronTest extends IntegrationTestCase
         if(self::isPhpVersion53()) {
             $this->markTestSkipped('Fails on PHP 5.3 once in a blue moon.');
         }
-        self::deleteArchiveTables();
 
         $this->setLastRunArchiveOptions();
         $output = $this->runArchivePhpCron();
