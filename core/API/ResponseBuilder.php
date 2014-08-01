@@ -372,6 +372,15 @@ class ResponseBuilder
             return $multiDimensional;
         }
 
+        $isAssoc = ($array !== array_values($array));
+
+        if ($isAssoc) {
+            $dataTable = new DataTable();
+            $dataTable->addRowsFromSimpleArray($array);
+
+            return $this->handleDataTable($dataTable);
+        }
+
         return $this->getRenderedDataTable($array);
     }
 
