@@ -804,7 +804,7 @@ class ProcessedReport
         foreach ($request as $k => $v) {
             if (is_array($v)) {
                 $implodedArrayMultidim = implode(', ', array_map(function ($entry) {
-                    return implode($entry);
+                    return implode(",", $entry);
                 }, $v));
                 $key .= $k . $implodedArrayMultidim . ',';
             } else {
