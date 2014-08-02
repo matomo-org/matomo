@@ -397,6 +397,10 @@ class API extends \Piwik\Plugin\API
         if ($table1 instanceof DataTable\Map && $table2 instanceof DataTable\Map) {
             $subTables2 = $table2->getDataTables();
             foreach ($table1->getDataTables() as $index => $subTable1) {
+                if (!array_key_exists($index, $subTables2)) {
+                    // occurs when archiving starts on dayN and continues into dayN+1, see https://github.com/piwik/piwik/issues/5168#issuecomment-50959925
+                    continue;
+                }
                 $subTable2 = $subTables2[$index];
                 $this->mergeDataTables($subTable1, $subTable2);
             }
