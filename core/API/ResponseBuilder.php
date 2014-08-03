@@ -223,9 +223,9 @@ class ResponseBuilder
         $isAssoc = !empty($firstArray) && is_numeric($firstKey) && is_array($firstArray) && !Piwik::isMultiDimensionalArray($array) && count(array_filter(array_keys($firstArray), 'is_string'));
 
         if ($isAssoc) {
-          //  $dataTable = DataTable::makeFromSimpleArray($array);
+            $dataTable = DataTable::makeFromSimpleArray($array);
 
-          //  return $this->handleDataTable($dataTable);
+            return $this->handleDataTable($dataTable);
         }
 
         return $this->apiRenderer->renderArray($array);
