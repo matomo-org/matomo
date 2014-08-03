@@ -44,7 +44,7 @@ class Php extends ApiRenderer
     public function renderArray($array)
     {
         if (!Piwik::isMultiDimensionalArray($array)) {
-            return parent::renderArray($array);
+            return $this->renderDataTable($array);
         }
 
         if ($this->shouldSerialize(0)) {
