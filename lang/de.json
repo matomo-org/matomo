@@ -1272,6 +1272,7 @@
         "TopVisitedWebsites": "Top besuchte Webseiten",
         "TryIt": "Testen!",
         "UseSearchBarHint": "Hier werden nur die ersten %s Webseiten angezeigt. Bitte benutzen Sie die Suchbox, um auf die restlichen Seiten zuzugreifen.",
+        "ValidateSslCertificate": "Validiere SSL Zertifikat",
         "VerifyAccount": "Account wird überprüft...",
         "VerifyLoginData": "Bitte überprüfen Sie, ob die Kombination aus Benutzername und Passwort korrekt ist.",
         "YouAreOffline": "Sie sind derzeit offline"

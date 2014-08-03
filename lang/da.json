@@ -606,6 +606,7 @@
         "EncryptedSmtpTransport": "Indtast tranportlag krypteringen, som kræves af SMTP serveren.",
         "EnglishLanguageName": "Danish",
         "Error": "Fejl",
+        "ErrorRequest": "Ups… der var et problem i løbet af anmodningen. Måske serveren havde et midlertidigt problem, eller måske du har anmodet om en rapport med for mange data. Prøv igen. Hvis fejlen opstår gentagne gange %skontakt din Piwik administrator%s for at få hjælp.",
         "EvolutionOverPeriod": "Udvikling i perioden",
         "EvolutionSummaryGeneric": "%1$s i %2$s sammenlignet med %3$s i %4$s. Udvikling: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Brugeren skal være enten en superbruger eller brugeren '%s' selv.",
@@ -1294,6 +1295,7 @@
         "TopVisitedWebsites": "Top besøgte websteder",
         "TryIt": "Prøv!",
         "UseSearchBarHint": "Kun de første %s hjemmesider er vist her. Brug søgefeltet til at få adgang til de andre hjemmesider.",
+        "ValidateSslCertificate": "Valider SSL-certifikat",
         "VerifyAccount": "Bekræftelse af konto",
         "VerifyLoginData": "Kontroller at kombinationen af brugernavn og adgangskode er korrekt.",
         "YouAreOffline": "Beklager, du er i øjeblikket offline"

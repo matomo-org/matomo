@@ -1282,6 +1282,7 @@
         "TopVisitedWebsites": "Mest besökta webbplatser",
         "TryIt": "Prova!",
         "UseSearchBarHint": "Endast de första %s webbplatserna visas här. Använd sökfältet för att komma åt dina andra webbplatser.",
+        "ValidateSslCertificate": "Validera SSL-certifikat",
         "VerifyAccount": "Verifierar konto",
         "VerifyLoginData": "Kontrollera så att ditt användarnamn och lösenord är korrekt.",
         "YouAreOffline": "Tyvärr, du är offline just nu"
