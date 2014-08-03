@@ -35,7 +35,7 @@ class Php extends ApiRenderer
         /** @var \Piwik\DataTable\Renderer\Php $tableRenderer */
         $tableRenderer = $this->buildDataTableRenderer($dataTable);
 
-        $tableRenderer->setSerialize($this->shouldSerialize(0));
+        $tableRenderer->setSerialize($this->shouldSerialize(1));
         $tableRenderer->setPrettyDisplay(Common::getRequestVar('prettyDisplay', false, 'int', $this->request));
 
         return $tableRenderer->render();
