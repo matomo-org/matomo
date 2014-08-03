@@ -606,6 +606,7 @@
         "EncryptedSmtpTransport": "Inserisci la crittografia a livello di trasporto richiesta dal server SMTP.",
         "EnglishLanguageName": "Italian",
         "Error": "Errore",
+        "ErrorRequest": "Ooops... c'è stato un problema durante la richiesta. Forse il server ha avuto un problema temporaneo o forse hai richiesto un report con troppi dati. Si prega di provare nuovamente. Se questo errore si verifica ripetutamente, %scontatta il tuo amministratore di Piwik%s per assistenza.",
         "EvolutionOverPeriod": "Evoluzione nel periodo",
         "EvolutionSummaryGeneric": "%1$s in %2$s confrontato con %3$s in %4$s. Evoluzione: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "L'utente deve essere un Super User o l'utente '%s' stesso.",
@@ -1292,6 +1293,7 @@
         "TopVisitedWebsites": "Primi siti visitati",
         "TryIt": "Provalo!",
         "UseSearchBarHint": "Solo i primi %s siti sono qui mostrati. Usa la barra di ricerca per accedere ai tuoi altri siti.",
+        "ValidateSslCertificate": "Valida Certificato SSL",
         "VerifyAccount": "Verifica Account",
         "VerifyLoginData": "Verifica username e password.",
         "YouAreOffline": "Spiacente, sei al momento offline"
