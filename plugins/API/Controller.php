@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -27,6 +28,12 @@ class Controller extends \Piwik\Plugin\Controller
         if (!isset($_GET['filter_limit'])) {
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
         }
+
+        $corsHosts = Url::getCorsHostsFromConfig();
+        if (!empty($corsHosts)) {
+            header('Access-Control-Allow-Origin: ' . implode(',', $corsHosts));
+        }
+
         $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
         return $request->process();
     }

@@ -16,6 +16,11 @@ function sendGeneralSettingsAJAX() {
         trustedHosts.push($(this).val());
     });
 
+    var corsHosts = [];
+    $('input[name=cors_host]').each(function () {
+        corsHosts.push($(this).val());
+    });
+
     var ajaxHandler = new ajaxHelper();
     ajaxHandler.setLoadingElement();
     ajaxHandler.addParams({
@@ -32,7 +37,8 @@ function sendGeneralSettingsAJAX() {
         mailPassword: $('#mailPassword').val(),
         mailEncryption: $('#mailEncryption').val(),
         useCustomLogo: isCustomLogoEnabled(),
-        trustedHosts: JSON.stringify(trustedHosts)
+        trustedHosts: JSON.stringify(trustedHosts),
+        corsHosts: JSON.stringify(corsHosts)
     }, 'POST');
     ajaxHandler.addParams({
         module: 'CoreAdminHome',
@@ -144,6 +150,22 @@ $(document).ready(function () {
         // append new row to the table
         trustedHostSettings.find('ul').append(trustedHostSettings.find('li:last').clone());
         trustedHostSettings.find('li:last input').val('');
+        return false;
+    });
+
+    // cors hosts event handling
+    var corsHostSettings = $('#corsSettings');
+    corsHostSettings.on('click', '.remove-cors-host', function (e) {
+        e.preventDefault();
+        $(this).parent('li').remove();
+        return false;
+    });
+    corsHostSettings.find('.add-cors-host').click(function (e) {
+        e.preventDefault();
+
+        // append new row to the table
+        corsHostSettings.find('ul').append($("#add-cors-host-template").html());
+//        corsHostSettings.find('li:last input').val('');
         return false;
     });
 });
