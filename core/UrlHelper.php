@@ -401,6 +401,11 @@ class UrlHelper
                                 && (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
                             )
 
+                            // Yahoo search with no keyword
+                            || ($searchEngineName == 'Yahoo!'
+                                && ($referrerParsed['host'] == 'r.search.yahoo.com')
+                            )
+
                             // empty keyword parameter
                             || strpos($query, sprintf('&%s=', $variableName)) !== false
                             || strpos($query, sprintf('?%s=', $variableName)) !== false
