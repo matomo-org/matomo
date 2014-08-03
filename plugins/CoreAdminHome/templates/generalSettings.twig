@@ -319,36 +319,6 @@
         {% endif %}
     </div>
 
-    <h2 id="corsSection">{{ 'CoreAdminHome_CORSSettings'|translate }}</h2>
-    <div id='corsSettings'>
-
-        {% if not isGeneralSettingsAdminEnabled %}
-            {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}: {{ corsHosts|join(", ") }}
-        {% else %}
-            <script type="template/javascript" id="add-cors-host-template">
-                <li>
-                    <input name="cors_host" type="text" value=""/>
-                    <a href="#" class="remove-cors-host" title="{{ 'General_Delete'|translate }}">
-                        <img alt="{{ 'General_Delete'|translate }}" src="plugins/Morpheus/images/ico_delete.png" />
-                    </a>
-                </li>
-            </script>
-            <ul>
-                {% for hostIdx, host in corsHosts %}
-                    <li>
-                        <input name="cors_host" type="text" value="{{ host }}"/>
-                        <a href="#" class="remove-cors-host" title="{{ 'General_Delete'|translate }}">
-                            <img alt="{{ 'General_Delete'|translate }}" src="plugins/Morpheus/images/ico_delete.png" />
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <div class="add-cors-host-container">
-                <a href="#" class="add-cors-host"><em>{{ 'General_Add'|translate }}</em></a>
-            </div>
-        {% endif %}
-    </div>
-
     <input type="submit" value="{{ 'General_Save'|translate }}" id="generalSettingsSubmit" class="submit"/>
     <br/>
     <br/>
