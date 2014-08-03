@@ -167,6 +167,7 @@
         "TrackingCode": "Tracking Code",
         "TrustedHostConfirm": "Are you sure you want to change the trusted Piwik hostname?",
         "TrustedHostSettings": "Trusted Piwik Hostname",
+        "CORSSettings": "Cross-origin resource sharing hostnames",
         "UpdateSettings": "Update settings",
         "UseCustomLogo": "Use a custom logo",
         "ValidPiwikHostname": "Valid Piwik Hostname",

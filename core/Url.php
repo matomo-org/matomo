@@ -259,10 +259,20 @@ class Url
      */
     public static function saveTrustedHostnameInConfig($host)
     {
+        return self::saveHostsnameInConfig($host, 'General', 'trusted_hosts');
+    }
+
+    public static function saveCORSHostnameInConfig($host)
+    {
+        return self::saveHostsnameInConfig($host, 'General', 'cors_hosts');
+    }
+
+    protected static function saveHostsnameInConfig($host, $domain, $key)
+    {
         if (Piwik::hasUserSuperUserAccess()
             && file_exists(Config::getLocalConfigPath())
         ) {
-            $general = Config::getInstance()->General;
+            $config = Config::getInstance()->$domain;
             if (!is_array($host)) {
                 $host = array($host);
             }
@@ -270,8 +280,8 @@ class Url
             if (empty($host)) {
                 return false;
             }
-            $general['trusted_hosts'] = $host;
-            Config::getInstance()->General = $general;
+            $config[$key] = $host;
+            Config::getInstance()->$domain = $config;
             Config::getInstance()->forceSave();
             return true;
         }
@@ -535,29 +545,24 @@ class Url
         $parsedUrl = @parse_url($url);
         $host = IP::sanitizeIp(@$parsedUrl['host']);
         return !empty($host)
-            && ($disableHostCheck || in_array($host, $hosts))
-            && !empty($parsedUrl['scheme'])
-            && in_array($parsedUrl['scheme'], array('http', 'https'));
+        && ($disableHostCheck || in_array($host, $hosts))
+        && !empty($parsedUrl['scheme'])
+        && in_array($parsedUrl['scheme'], array('http', 'https'));
     }
 
     public static function getTrustedHostsFromConfig()
     {
-        $trustedHosts = @Config::getInstance()->General['trusted_hosts'];
-        if (!is_array($trustedHosts)) {
-            return array();
-        }
-        foreach ($trustedHosts as &$trustedHost) {
-            // Case user wrote in the config, http://example.com/test instead of example.com
-            if (UrlHelper::isLookLikeUrl($trustedHost)) {
-                $trustedHost = parse_url($trustedHost, PHP_URL_HOST);
-            }
-        }
-        return $trustedHosts;
+        return self::getHostsFromConfig('General', 'trusted_hosts');
     }
 
     public static function getTrustedHosts()
     {
         return self::getTrustedHostsFromConfig();
+    }
+
+    public static function getCorsHostsFromConfig()
+    {
+        return self::getHostsFromConfig('General', 'cors_hosts', false);
     }
 
     /**
@@ -569,5 +574,26 @@ class Url
     public static function getHostSanitized($host)
     {
         return IP::sanitizeIp($host);
+    }
+
+    protected static function getHostsFromConfig($domain, $key, $parseToHost = true)
+    {
+        $config = @Config::getInstance()->$domain;
+
+        if (!isset($config[$key])) {
+            return array();
+        }
+
+        $hosts = $config[$key];
+        if (!is_array($hosts)) {
+            return array();
+        }
+        foreach ($hosts as &$host) {
+            // Case user wrote in the config, http://example.com/test instead of example.com
+            if ($parseToHost && UrlHelper::isLookLikeUrl($host)) {
+                $host = parse_url($host, PHP_URL_HOST);
+            }
+        }
+        return $hosts;
     }
 }
