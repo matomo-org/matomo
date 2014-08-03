@@ -51,7 +51,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $this->handleGeneralSettingsAdmin($view);
 
             $view->trustedHosts = Url::getTrustedHostsFromConfig();
-            $view->corsHosts = Url::getCorsHostsFromConfig();
 
             $logo = new CustomLogo();
             $view->branding              = array('use_custom_logo' => $logo->isEnabled());
@@ -314,13 +313,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($trustedHosts !== false) {
             Url::saveTrustedHostnameInConfig($trustedHosts);
         }
-
-        // update cors host settings
-        $corsHosts = Common::getRequestVar('corsHosts', false, 'json');
-        if ($corsHosts !== false) {
-            Url::saveCORSHostnameInConfig($corsHosts);
-        }
-
         Config::getInstance()->forceSave();
 
         $pluginUpdateCommunication = new UpdateCommunication();
