@@ -27,25 +27,7 @@ class Json extends Renderer
      */
     public function render()
     {
-        $this->renderHeader();
         return $this->renderTable($this->table);
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        $this->renderHeader();
-
-        $exceptionMessage = $this->getExceptionMessage();
-        $exceptionMessage = str_replace(array("\r\n", "\n"), "", $exceptionMessage);
-
-        $result = json_encode(array('result' => 'error', 'message' => $exceptionMessage));
-
-        return $this->jsonpWrap($result);
     }
 
     /**
@@ -110,15 +92,6 @@ class Json extends Renderer
         }
 
         return $str;
-    }
-
-    /**
-     * Sends the http header for json file
-     */
-    protected function renderHeader()
-    {
-        self::sendHeaderJSON();
-        ProxyHttp::overrideCacheControlHeaders();
     }
 
     public static function sendHeaderJSON()

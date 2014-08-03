@@ -93,18 +93,6 @@ class Csv extends Renderer
     }
 
     /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        @header('Content-Type: text/html; charset=utf-8');
-        $exceptionMessage = $this->getExceptionMessage();
-        return 'Error: ' . $exceptionMessage;
-    }
-
-    /**
      * Enables / Disables unicode converting
      *
      * @param $bool
@@ -353,8 +341,7 @@ class Csv extends Renderer
         }
 
         // silent fail otherwise unit tests fail
-        @header('Content-Type: application/vnd.ms-excel');
-        @header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        @header('Content-Disposition: attachment; filename="' . $fileName . '"', true);
         ProxyHttp::overrideCacheControlHeaders();
     }
 

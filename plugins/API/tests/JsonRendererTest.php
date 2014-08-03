@@ -5,10 +5,23 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\API\ResponseBuilder;
 
-class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
+namespace Piwik\Plugins\API\tests;
+
+use Piwik\Plugins\API\Renderer\Json;
+
+class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Json
+     */
+    private $jsonBuilder;
+
+    public function setUp()
+    {
+        $this->jsonBuilder = new Json(array());
+    }
+
     /**
      * Two dimensions standard array
      *
@@ -24,7 +37,8 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
                        "thirdElement");
 
         $expected = json_encode($input);
-        $actual = ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+
+        $actual = $this->jsonBuilder->renderArray($input);
         $this->assertEquals($expected, $actual);
     }
 
@@ -44,7 +58,8 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
             "thirdElement"  => "isThird");
 
         $expected = json_encode($input);
-        $actual = ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+
+        $actual = $this->jsonBuilder->renderArray($input);
         $this->assertEquals($expected, $actual);
     }
 
@@ -68,7 +83,8 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
         );
 
         $expected = json_encode($input);
-        $actual = ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+
+        $actual = $this->jsonBuilder->renderArray($input);
         $this->assertEquals($expected, $actual);
     }
 }

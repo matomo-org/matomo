@@ -742,6 +742,23 @@ class Piwik
         return false;
     }
 
+    public static function isMultiDimensionalArray($array)
+    {
+        $first = reset($array);
+        foreach ($array as $first) {
+            if (is_array($first)) {
+                foreach ($first as $value) {
+                    // Yes, this is a multi dim array
+                    if (is_array($value)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Returns the class name of an object without its namespace.
      *
