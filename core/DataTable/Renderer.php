@@ -128,8 +128,7 @@ abstract class Renderer
     public function setTable($table)
     {
         if (!is_array($table)
-            && !($table instanceof DataTable)
-            && !($table instanceof DataTable\Map)
+            && !($table instanceof DataTableInterface)
         ) {
             throw new Exception("DataTable renderers renderer accepts only DataTable, Simple and Map instances, and arrays.");
         }

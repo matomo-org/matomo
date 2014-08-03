@@ -86,7 +86,7 @@ class ResponseBuilder
         // If the returned value is an object DataTable we
         // apply the set of generic filters if asked in the URL
         // and we render the DataTable according to the format specified in the URL
-        if ($value instanceof DataTable || $value instanceof DataTable\Map) {
+        if ($value instanceof DataTableInterface) {
             return $this->handleDataTable($value);
         }
 
