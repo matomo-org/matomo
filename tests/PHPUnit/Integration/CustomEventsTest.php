@@ -84,14 +84,14 @@ class CustomEventsTest extends IntegrationTestCase
             ),
 
             // eventValue should not match any page view
-//            array('Actions.getPageUrls', array(
-//                'idSite'       => $idSite1,
-//                'date'         => $dateTime,
-//                'periods'      => $dayPeriod,
-//                'segment'      => "eventValue>0",
-//                'setDateLastN' => false,
-//                'testSuffix'   => '_eventSegmentMatchNoAction')
-//            ),
+            array('Actions.getPageUrls', array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $dayPeriod,
+                'segment'      => "eventValue>0",
+                'setDateLastN' => false,
+                'testSuffix'   => '_eventSegmentMatchNoAction')
+            ),
         );
 
         $apiToCallProcessedReportMetadata = array(
