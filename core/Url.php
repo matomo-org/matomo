@@ -552,7 +552,15 @@ class Url
 
     public static function getTrustedHostsFromConfig()
     {
-        return self::getHostsFromConfig('General', 'trusted_hosts');
+        $hosts = self::getHostsFromConfig('General', 'trusted_hosts');
+
+        // Case user wrote in the config, http://example.com/test instead of example.com
+        foreach ($hosts as &$host) {
+            if (UrlHelper::isLookLikeUrl($host)) {
+                $host = parse_url($host, PHP_URL_HOST);
+            }
+        }
+        return $hosts;
     }
 
     public static function getTrustedHosts()
@@ -562,7 +570,7 @@ class Url
 
     public static function getCorsHostsFromConfig()
     {
-        return self::getHostsFromConfig('General', 'cors_hosts', false);
+        return self::getHostsFromConfig('General', 'cors_hosts');
     }
 
     /**
@@ -576,7 +584,7 @@ class Url
         return IP::sanitizeIp($host);
     }
 
-    protected static function getHostsFromConfig($domain, $key, $parseToHost = true)
+    protected static function getHostsFromConfig($domain, $key)
     {
         $config = @Config::getInstance()->$domain;
 
@@ -587,12 +595,6 @@ class Url
         $hosts = $config[$key];
         if (!is_array($hosts)) {
             return array();
-        }
-        foreach ($hosts as &$host) {
-            // Case user wrote in the config, http://example.com/test instead of example.com
-            if ($parseToHost && UrlHelper::isLookLikeUrl($host)) {
-                $host = parse_url($host, PHP_URL_HOST);
-            }
         }
         return $hosts;
     }
