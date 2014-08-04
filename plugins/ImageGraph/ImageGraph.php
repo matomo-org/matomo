@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ImageGraph;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Period;
@@ -140,8 +141,9 @@ class ImageGraph extends \Piwik\Plugin
                 $parameters['_restrictSitesToLogin'] = $_GET['_restrictSitesToLogin'];
             }
 
-            if (!empty($_GET['segment'])) {
-                $parameters['segment'] = $_GET['segment'];
+            $segment = Request::getRawSegmentFromRequest();
+            if (!empty($segment)) {
+                $parameters['segment'] = $segment;
             }
 
             $report['imageGraphUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
