@@ -685,3 +685,14 @@ if(!function_exists('mb_strtolower')) {
 		return strtolower($input);
 	}
 }
+
+/**
+ * On ubuntu in some cases, there is a bug that gzopen does not exist and one must use gzopen64 instead
+ */
+if (!function_exists('gzopen')
+    && function_exists('gzopen64')) {
+    function gzopen($filename , $mode = 'r', $use_include_path = 0 )
+    {
+        return gzopen64($filename , $mode, $use_include_path);
+    }
+}
