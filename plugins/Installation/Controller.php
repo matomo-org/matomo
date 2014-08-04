@@ -605,6 +605,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->helpMessages = array(
             'zlib'            => 'Installation_SystemCheckZlibHelp',
+            'gzopen'          => 'Installation_SystemCheckZlibHelp',
             'SPL'             => 'Installation_SystemCheckSplHelp',
             'iconv'           => 'Installation_SystemCheckIconvHelp',
             'mbstring'        => 'Installation_SystemCheckMbstringHelp',

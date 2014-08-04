@@ -102,6 +102,7 @@ class SystemCheck
             'gzcompress',
             'gzuncompress',
             'pack',
+            'gzopen',
         );
         $infos['needed_functions'] = $needed_functions;
         $infos['missing_functions'] = array();
