@@ -373,8 +373,6 @@ abstract class Base extends VisitDimension
             'referer_type'              => $type,
             'referer_name'              => $name,
             'referer_keyword'           => $keyword,
-            // this field is currently unused
-            'referer_visit_server_date' => date("Y-m-d", $time),
         );
 
         if (array_key_exists($this->columnName, $fields)) {

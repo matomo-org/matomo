@@ -49,7 +49,6 @@ class Updates_0_2_27 extends Updates
 				`idaction` int(11) NOT NULL,
 				`idlink_va` int(11) NOT NULL,
 				`referer_idvisit` int(10) unsigned default NULL,
-				`referer_visit_server_date` date default NULL,
 				`referer_type` int(10) unsigned default NULL,
 				`referer_name` varchar(70) default NULL,
 				`referer_keyword` varchar(255) default NULL,

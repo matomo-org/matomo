@@ -262,7 +262,6 @@ class Updater extends \Piwik\Updates
             'log_visit.location_browser_lang' => 'VARCHAR(20) NOT NULL',
             'log_visit.config_os' => 'CHAR(3) NOT NULL',
             'log_visit.config_cookie' => 'TINYINT(1) NOT NULL',
-            'log_visit.referer_visit_server_date' => 'date default NULL1',
             'log_visit.referer_url' => 'TEXT NOT NULL',
             'log_visit.visit_total_searches' => 'SMALLINT(5) UNSIGNED NOT NULL',
             'log_visit.visit_total_actions' => 'SMALLINT(5) UNSIGNED NOT NULL',
