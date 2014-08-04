@@ -385,12 +385,14 @@ enable_trusted_host_check = 1
 ;trusted_hosts[] = example.com
 ;trusted_hosts[] = stats.example.com
 
-; List of Cross-origin resource sharing hosts (eg domain or subdomain names) when generating absolute URLs.
+; List of Cross-origin resource sharing domains (eg domain or subdomain names) when generating absolute URLs.
 ; Described here: http://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 ;
 ; Examples:
-;cors_hosts[] = example.com
-;cors_hosts[] = stats.example.com
+;cors_domains[] = http://example.com
+;cors_domains[] = http://stats.example.com
+; OR allow for all domains
+;cors_domains[] = *
 
 ; If you use this Piwik instance over multiple hostnames, Piwik will need to know
 ; a unique instance_id for this instance, so that Piwik can serve the right custom logo and tmp/* assets,

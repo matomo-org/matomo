@@ -193,6 +193,9 @@ class Request
         // create the response
         $response = new ResponseBuilder($outputFormat, $this->request);
 
+        $corsHandler = new CORSHandler();
+        $corsHandler->handle();
+
         try {
             // read parameters
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
