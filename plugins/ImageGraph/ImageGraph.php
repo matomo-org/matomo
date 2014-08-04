@@ -140,6 +140,10 @@ class ImageGraph extends \Piwik\Plugin
                 $parameters['_restrictSitesToLogin'] = $_GET['_restrictSitesToLogin'];
             }
 
+            if (!empty($_GET['segment'])) {
+                $parameters['segment'] = $_GET['segment'];
+            }
+
             $report['imageGraphUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
 
             // thanks to API.getRowEvolution, reports with dimensions can now be plotted using an evolution graph
