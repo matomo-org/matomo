@@ -264,7 +264,7 @@ class Url
 
     public static function saveCORSHostnameInConfig($host)
     {
-        return self::saveHostsnameInConfig($host, 'General', 'cors_hosts');
+        return self::saveHostsnameInConfig($host, 'General', 'cors_domains');
     }
 
     protected static function saveHostsnameInConfig($host, $domain, $key)
@@ -570,7 +570,7 @@ class Url
 
     public static function getCorsHostsFromConfig()
     {
-        return self::getHostsFromConfig('General', 'cors_hosts');
+        return self::getHostsFromConfig('General', 'cors_domains');
     }
 
     /**

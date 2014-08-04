@@ -29,11 +29,6 @@ class Controller extends \Piwik\Plugin\Controller
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
         }
 
-        $corsHosts = Url::getCorsHostsFromConfig();
-        if (!empty($corsHosts)) {
-            header('Access-Control-Allow-Origin: ' . implode(',', $corsHosts));
-        }
-
         $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
         return $request->process();
     }
