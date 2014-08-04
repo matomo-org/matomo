@@ -352,39 +352,14 @@ class Plugin
         if ($this->cache->has()) {
             $components = $this->cache->get();
 
-            foreach ($components as $file => $klass) {
-                include_once $file;
+            if($this->includeComponents($components)) {
+                return $components;
+            } else {
+                // problem including one cached file, refresh cache
             }
-
-            return $components;
         }
 
-        $components = array();
-
-        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName .'/' . $directoryWithinPlugin, '*.php');
-
-        foreach ($files as $file) {
-            require_once $file;
-
-            $fileName  = basename($file, '.php');
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, $fileName);
-
-            if (!class_exists($klassName)) {
-                continue;
-            }
-
-            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
-                continue;
-            }
-
-            $klass = new \ReflectionClass($klassName);
-
-            if ($klass->isAbstract()) {
-                continue;
-            }
-
-            $components[$file] = $klassName;
-        }
+        $components = $this->doFindMultipleComponents($directoryWithinPlugin, $expectedSubclass);
 
         $this->cache->set($components);
 
@@ -454,5 +429,58 @@ class Plugin
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param $directoryWithinPlugin
+     * @param $expectedSubclass
+     * @return array
+     */
+    private function doFindMultipleComponents($directoryWithinPlugin, $expectedSubclass)
+    {
+        $components = array();
+
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName . '/' . $directoryWithinPlugin, '*.php');
+
+        foreach ($files as $file) {
+            require_once $file;
+
+            $fileName = basename($file, '.php');
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, $fileName);
+
+            if (!class_exists($klassName)) {
+                continue;
+            }
+
+            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
+                continue;
+            }
+
+            $klass = new \ReflectionClass($klassName);
+
+            if ($klass->isAbstract()) {
+                continue;
+            }
+
+            $components[$file] = $klassName;
+        }
+        return $components;
+    }
+
+    /**
+     * @param $components
+     * @return bool true if all files were included, false if any file cannot be read
+     */
+    private function includeComponents($components)
+    {
+        foreach ($components as $file => $klass) {
+            if (!is_readable($file)) {
+                return false;
+            }
+        }
+        foreach ($components as $file => $klass) {
+            include_once $file;
+        }
+        return true;
     }
 }
