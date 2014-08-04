@@ -19,7 +19,8 @@ class Json extends ApiRenderer
 
     public function renderSuccess($message)
     {
-        return '{"result":"success", "message":"' . $message . '"}';
+        $result = json_encode(array('result' => 'success', 'message' => $message));
+        return $this->applyJsonpIfNeeded($result);
     }
 
     public function renderException($message, \Exception $exception)
@@ -28,7 +29,14 @@ class Json extends ApiRenderer
 
         $result = json_encode(array('result' => 'error', 'message' => $exceptionMessage));
 
-        return $this->jsonpWrap($result);
+        return $this->applyJsonpIfNeeded($result);
+    }
+
+    public function renderDataTable($dataTable)
+    {
+        $result = parent::renderDataTable($dataTable);
+
+        return $this->applyJsonpIfNeeded($result);
     }
 
     public function sendHeader()
@@ -41,10 +49,14 @@ class Json extends ApiRenderer
      * @param $str
      * @return string
      */
-    private function jsonpWrap($str)
+    private function applyJsonpIfNeeded($str)
     {
-        if (($jsonCallback = Common::getRequestVar('callback', false, null, $this->request)) === false)
+        $jsonCallback = Common::getRequestVar('callback', false, null, $this->request);
+
+        if ($jsonCallback === false) {
             $jsonCallback = Common::getRequestVar('jsoncallback', false, null, $this->request);
+        }
+
         if ($jsonCallback !== false) {
             if (preg_match('/^[0-9a-zA-Z_.]*$/D', $jsonCallback) > 0) {
                 $str = $jsonCallback . "(" . $str . ")";

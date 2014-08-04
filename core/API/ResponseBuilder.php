@@ -223,6 +223,10 @@ class ResponseBuilder
         $isAssoc = !empty($firstArray) && is_numeric($firstKey) && is_array($firstArray) && !Piwik::isMultiDimensionalArray($array) && count(array_filter(array_keys($firstArray), 'is_string'));
 
         if ($isAssoc) {
+            if ('original' == $this->outputFormat) {
+                return $this->apiRenderer->renderArray($array);
+            }
+
             $dataTable = DataTable::makeFromSimpleArray($array);
             return $this->handleDataTable($dataTable);
         }

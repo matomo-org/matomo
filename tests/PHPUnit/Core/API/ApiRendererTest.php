@@ -18,7 +18,7 @@ class ApiRendererTest extends PHPUnit_Framework_TestCase
         \Piwik\Tests\Fixture::loadAllPlugins();
     }
 
-    public function testApiRenderer_shouldCreateAnInstance_IfValidFormatGiven()
+    public function test_factory_shouldCreateAnInstance_IfValidFormatGiven()
     {
         $renderer = ApiRenderer::factory('php', array());
         $this->assertInstanceOf('\\Piwik\\Plugins\\API\\Renderer\\Php', $renderer);
@@ -40,7 +40,7 @@ class ApiRendererTest extends PHPUnit_Framework_TestCase
      * @expectedException \Exception
      * @expectedExceptionMessage General_ExceptionInvalidRendererFormat
      */
-    public function testApiRenderer_shouldThrowAnException_IfInvalidFormatGiven()
+    public function test_factory_shouldThrowAnException_IfInvalidFormatGiven()
     {
         ApiRenderer::factory('phpi', array());
     }

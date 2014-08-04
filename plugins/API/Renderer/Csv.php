@@ -47,6 +47,11 @@ class Csv extends ApiRenderer
         return $tableRenderer->render();
     }
 
+    public function renderArray($array)
+    {
+        return $this->renderDataTable($array);
+    }
+
     public function sendHeader()
     {
         @header("Content-Type: application/vnd.ms-excel", true);
