@@ -151,23 +151,23 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         curl_close($curlHandle);
 
         // Tests returned code equals 200
-        $this->assertEquals($responseInfo["http_code"], 200);
+        $this->assertEquals(200, $responseInfo["http_code"]);
 
         // Tests content type
-        $this->assertEquals($responseInfo["content_type"], TEST_FILE_CONTENT_TYPE);
+        $this->assertEquals(TEST_FILE_CONTENT_TYPE, $responseInfo["content_type"]);
 
         // Tests no compression has been applied
         $this->assertNull($this->getContentEncodingValue($fullResponse));
 
         // Tests returned size
-        $this->assertEquals($responseInfo["size_download"], filesize(TEST_FILE_LOCATION));
+        $this->assertEquals(filesize(TEST_FILE_LOCATION), $responseInfo["size_download"]);
 
         // Tests if returned modified date is correctly set
-        $this->assertEquals($this->getLastModifiedValue($fullResponse),
-            gmdate('D, d M Y H:i:s', filemtime(TEST_FILE_LOCATION)) . ' GMT');
+        $this->assertEquals(gmdate('D, d M Y H:i:s', filemtime(TEST_FILE_LOCATION)) . ' GMT',
+            $this->getLastModifiedValue($fullResponse));
 
         // Tests if cache control headers are correctly set
-        $this->assertEquals($this->getCacheControlValue($fullResponse), "public, must-revalidate");
+        $this->assertEquals("public, must-revalidate", $this->getCacheControlValue($fullResponse));
         $pragma = $this->getPragma($fullResponse);
         $this->assertTrue($pragma == null || $pragma == 'Pragma:');
         $expires = $this->getExpires($fullResponse);
