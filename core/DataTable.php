@@ -1634,6 +1634,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate
         $thisRow->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
     }
 
+    /**
+     * @return \ArrayIterator|Row[]
+     */
     public function getIterator() {
         return new \ArrayIterator($this->rows);
     }

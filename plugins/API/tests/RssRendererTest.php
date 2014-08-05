@@ -155,7 +155,7 @@ class RssRendererTest extends \DatabaseTestCase
     <title>piwik statistics - RSS</title>
     <link>http://piwik.org</link>
     <description>Piwik RSS feed</description>
-
+    
     <generator>piwik</generator>
     <language>en</language>
     	</channel>
