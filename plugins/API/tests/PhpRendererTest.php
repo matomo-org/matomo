@@ -25,6 +25,7 @@ class PhpRendererTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->builder = $this->makeBuilder(array('serialize' => 0));
+        DataTable\Manager::getInstance()->deleteAll();
     }
 
     public function test_renderSuccess_shouldAlwaysReturnTrueAndIgnoreMessage()
@@ -122,7 +123,7 @@ class PhpRendererTest extends \PHPUnit_Framework_TestCase
         $dataTable->getFirstRow()->setSubtable($subtable);
 
         $response = $this->builder->renderDataTable($dataTable);
-        $expected = array(array('nb_visits' => 5, 'nb_random' => 10, 'idsubdatatable' => 6));
+        $expected = array(array('nb_visits' => 5, 'nb_random' => 10, 'idsubdatatable' => 1));
 
         $this->assertEquals($expected, $response);
     }

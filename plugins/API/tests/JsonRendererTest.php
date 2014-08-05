@@ -25,6 +25,7 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->jsonBuilder = $this->makeBuilder(array());
+        DataTable\Manager::getInstance()->deleteAll();
     }
 
     public function test_renderSuccess_shouldIncludeMessage()
@@ -169,7 +170,7 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->jsonBuilder->renderDataTable($dataTable);
 
-        $this->assertEquals('[{"nb_visits":5,"nb_random":10,"idsubdatatable":7}]', $response);
+        $this->assertEquals('[{"nb_visits":5,"nb_random":10,"idsubdatatable":1}]', $response);
         $this->assertNoJsonError($response);
     }
 

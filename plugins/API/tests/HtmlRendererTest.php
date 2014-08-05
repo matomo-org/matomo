@@ -25,6 +25,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->builder = $this->makeBuilder(array('method' => 'MultiSites_getAll'));
+        DataTable\Manager::getInstance()->deleteAll();
     }
 
     public function test_renderSuccess_shouldIncludeMessage()
@@ -187,7 +188,7 @@ message', $response);
 	<tr>
 		<td>5</td>
 		<td>10</td>
-		<td>6</td>
+		<td>1</td>
 	</tr>
 </tbody>
 </table>

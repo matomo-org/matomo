@@ -25,6 +25,7 @@ class XmlRendererTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->builder = $this->makeBuilder(array());
+        DataTable\Manager::getInstance()->deleteAll();
     }
 
     public function test_renderSuccess_shouldIncludeMessage()
@@ -131,7 +132,7 @@ class XmlRendererTest extends \PHPUnit_Framework_TestCase
 	<row>
 		<nb_visits>5</nb_visits>
 		<nb_random>10</nb_random>
-		<idsubdatatable>6</idsubdatatable>
+		<idsubdatatable>1</idsubdatatable>
 	</row>
 </result>', $response);
     }

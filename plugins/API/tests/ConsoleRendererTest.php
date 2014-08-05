@@ -25,6 +25,7 @@ class ConsoleRendererTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->builder = $this->makeBuilder(array());
+        DataTable\Manager::getInstance()->deleteAll();
     }
 
     public function test_renderSuccess_shouldAlwaysReturnTrueAndIgnoreMessage()
