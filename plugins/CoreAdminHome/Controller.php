@@ -167,7 +167,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         foreach ($settings as $setting) {
             if ($setting['name'] == $settingKey) {
-                return $setting['value'];
+                $value = $setting['value'];
+
+                if (is_string($value)) {
+                    return Common::unsanitizeInputValue($value);
+                }
+
+                return $value;
             }
         }
     }
