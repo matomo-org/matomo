@@ -172,11 +172,6 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($input, $response);
         $this->assertCount(10, $response);
 
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 4));
-        $response = $builder->getResponse($input);
-
-        $this->assertCount(4, $response);
-
         $builder  = new ResponseBuilder('php', array('serialize' => 0, 'showColumns' => 'test'));
         $response = $builder->getResponse($input);
 

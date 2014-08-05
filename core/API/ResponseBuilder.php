@@ -13,9 +13,10 @@ use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\DataTableManipulator\ReportTotalsCalculator;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable;
+use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Piwik;
 
 /**
@@ -223,12 +224,12 @@ class ResponseBuilder
         $isAssoc = !empty($firstArray) && is_numeric($firstKey) && is_array($firstArray) && !Piwik::isMultiDimensionalArray($array) && count(array_filter(array_keys($firstArray), 'is_string'));
 
         if ($isAssoc) {
-            if ('original' == $this->outputFormat) {
-                return $this->apiRenderer->renderArray($array);
+            $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
+            $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
+            if ($hideColumns !== '' || $showColumns !== '') {
+                $columnDelete = new ColumnDelete(new DataTable(), $hideColumns, $showColumns);
+                $array = $columnDelete->filter($array);
             }
-
-            $dataTable = DataTable::makeFromSimpleArray($array);
-            return $this->handleDataTable($dataTable);
         }
 
         return $this->apiRenderer->renderArray($array);

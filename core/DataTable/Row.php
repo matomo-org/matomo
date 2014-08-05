@@ -21,7 +21,7 @@ use Piwik\Metrics;
  *
  * @api
  */
-class Row
+class Row implements \ArrayAccess, \IteratorAggregate
 {
     /**
      * List of columns that cannot be summed. An associative array for speed.
@@ -725,5 +725,29 @@ class Row
             }
         }
         return true;
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->hasColumn($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->getColumn($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->setColumn($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->deleteColumn($offset);
+    }
+
+    public function getIterator() {
+        return new \ArrayIterator($this->c[self::COLUMNS]);
     }
 }
