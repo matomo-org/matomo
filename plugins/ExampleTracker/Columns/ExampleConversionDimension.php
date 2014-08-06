@@ -48,7 +48,7 @@ class ExampleConversionDimension extends ConversionDimension
      */
     public function getName()
     {
-        return Piwik::translate('ExamplePlugin_DimensionName');
+        return Piwik::translate('ExampleTracker_DimensionName');
     }
 
     /**
@@ -61,7 +61,7 @@ class ExampleConversionDimension extends ConversionDimension
         $segment = new Segment();
         $segment->setSegment('myConversionSegmentName');
         $segment->setCategory('General_Visit');
-        $segment->setName('ExamplePlugin_DimensionName');
+        $segment->setName('ExampleTracker_DimensionName');
         $segment->setAcceptedValues('Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99');
         $this->addSegment($segment);
     }

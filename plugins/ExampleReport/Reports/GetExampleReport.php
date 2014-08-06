@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\ExamplePlugin\Reports;
+namespace Piwik\Plugins\ExampleReport\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -96,7 +96,7 @@ class GetExampleReport extends Base
      * @return string
     public function render()
     {
-        $view = new View('@ExamplePlugin/getExampleReport');
+        $view = new View('@ExampleReport/getExampleReport');
         $view->myData = array();
 
         return $view->render();

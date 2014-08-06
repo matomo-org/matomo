@@ -46,7 +46,7 @@ class ExampleActionDimension extends ActionDimension
      */
     public function getName()
     {
-        return Piwik::translate('ExamplePlugin_DimensionName');
+        return Piwik::translate('ExampleTracker_DimensionName');
     }
 
     /**
@@ -59,7 +59,7 @@ class ExampleActionDimension extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('keywords');
         $segment->setCategory('General_Actions');
-        $segment->setName('ExamplePlugin_DimensionName');
+        $segment->setName('ExampleTracker_DimensionName');
         $segment->setAcceptedValues('Here you should explain which values are accepted/useful: Any word, for instance MyKeyword1, MyKeyword2');
         $this->addSegment($segment);
     }

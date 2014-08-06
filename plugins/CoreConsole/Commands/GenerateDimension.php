@@ -62,8 +62,8 @@ class GenerateDimension extends GeneratePluginBase
                                'ExampleVisitDimension'  => $dimensionClassName,
                                'ExampleActionDimension' => $dimensionClassName,
                                'ExampleConversionDimension'  => $dimensionClassName,
-                               'ExamplePlugin_DimensionName' => $translatedDimensionName,
-                               'ExamplePlugin' => $pluginName,
+                               'ExampleTracker_DimensionName' => $translatedDimensionName,
+                               'ExampleTracker' => $pluginName,
         );
 
         $whitelistFiles = array('/Columns');
