@@ -1638,6 +1638,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate
      * @return \ArrayIterator|Row[]
      */
     public function getIterator() {
-        return new \ArrayIterator($this->rows);
+        return new \ArrayIterator($this->getRows());
     }
 }
