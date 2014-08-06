@@ -74,23 +74,6 @@ class Json extends Renderer
 
         $str = json_encode($array);
 
-        return $this->jsonpWrap($str);
-    }
-
-    /**
-     * @param $str
-     * @return string
-     */
-    protected function jsonpWrap($str)
-    {
-        if (($jsonCallback = Common::getRequestVar('callback', false)) === false)
-            $jsonCallback = Common::getRequestVar('jsoncallback', false);
-        if ($jsonCallback !== false) {
-            if (preg_match('/^[0-9a-zA-Z_.]*$/D', $jsonCallback) > 0) {
-                $str = $jsonCallback . "(" . $str . ")";
-            }
-        }
-
         return $str;
     }
 

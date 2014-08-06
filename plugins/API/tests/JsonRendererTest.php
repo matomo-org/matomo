@@ -226,6 +226,16 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($response);
     }
 
+    public function test_renderArray_ShouldWrapJsonIfRequested()
+    {
+        $input = array(1, 2, 5, 'string', 10);
+
+        $builder  = $this->makeBuilder(array('jsoncallback' => 'myName'));
+        $response = $builder->renderArray($input);
+
+        $this->assertEquals('myName([1,2,5,"string",10])', $response);
+    }
+
     public function test_renderArray_ShouldRenderAnEmptyArray()
     {
         $response = $this->jsonBuilder->renderArray(array());

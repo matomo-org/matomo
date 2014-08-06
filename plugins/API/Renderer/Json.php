@@ -39,6 +39,11 @@ class Json extends ApiRenderer
         return $this->applyJsonpIfNeeded($result);
     }
 
+    public function renderArray($array)
+    {
+        return $this->renderDataTable($array);
+    }
+
     public function sendHeader()
     {
         Renderer\Json::sendHeaderJSON();
