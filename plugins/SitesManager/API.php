@@ -377,6 +377,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns number of websites ID with the 'admin' access for the current user.
+     * For the superUser it returns number of all the websites in the database.
+     *
+     * @return int
+     */
+    public function getNumberOfSitesWithAdminAccess()
+    {
+        return count(Access::getInstance()->getSitesIdWithAdminAccess());
+    }
+
+    /**
      * Returns the list of websites ID with the 'view' access for the current user.
      * For the superUser it doesn't return any result because the superUser has admin access on all the websites (use getSitesIdWithAtLeastViewAccess() instead).
      *
