@@ -12,6 +12,7 @@ use Piwik\API\ApiRenderer;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
+use Piwik\Piwik;
 use Piwik\ProxyHttp;
 
 class Json extends ApiRenderer
@@ -41,6 +42,13 @@ class Json extends ApiRenderer
 
     public function renderArray($array)
     {
+        if (Piwik::isMultiDimensionalArray($array)) {
+            $jsonRenderer = Renderer::factory('json');
+            $jsonRenderer->setTable($array);
+            $result = $jsonRenderer->render();
+            return $this->applyJsonpIfNeeded($result);
+        }
+
         return $this->renderDataTable($array);
     }
 
