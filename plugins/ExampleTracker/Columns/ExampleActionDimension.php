@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\ExamplePlugin\Columns;
+namespace Piwik\Plugins\ExampleTracker\Columns;
 
 use Piwik\Common;
 use Piwik\Piwik;
