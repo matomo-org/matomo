@@ -19,18 +19,20 @@ class Model
      *
      * @param array $idSites list of website ID
      * @param bool $limit
+     * @param bool|int $offset
      * @return array
      */
-    public function getSitesFromIds($idSites, $limit = false)
+    public function getSitesFromIds($idSites, $limit = false, $offset = false)
     {
         if (count($idSites) === 0) {
             return array();
         }
 
-        if ($limit) {
-            $limit = "LIMIT " . (int)$limit;
-        } else {
-            $limit = '';
+        $limitSqlString = '';
+        if ($offset && $limit) {
+            $limitSqlString = sprintf("LIMIT %d, %d", (int) $offset, (int) $limit);
+        } elseif ($limit) {
+            $limitSqlString = "LIMIT " . (int) $limit;
         }
 
         $idSites = array_map('intval', $idSites);
@@ -39,7 +41,7 @@ class Model
         $sites = $db->fetchAll("SELECT *
 								FROM " . Common::prefixTable("site") . "
 								WHERE idsite IN (" . implode(", ", $idSites) . ")
-								ORDER BY idsite ASC $limit");
+								ORDER BY idsite ASC $limitSqlString");
 
         return $sites;
     }
