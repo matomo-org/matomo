@@ -6,7 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Access;
+use Piwik\Authorization\Authorization;
 use Piwik\AuthResult;
+use Piwik\Db\Db;
 
 /**
  * Class Core_AccessTest
@@ -15,10 +17,16 @@ use Piwik\AuthResult;
  */
 class Core_AccessTest extends DatabaseTestCase
 {
+    /**
+     * @var Db
+     */
+    private $db;
+
     public function setUp()
     {
         parent::setUp();
         Access::setSingletonInstance(null);
+        $this->db = \Piwik\StaticContainer::getContainer()->get('Piwik\Db\Db');
     }
 
     public function testGetListAccess()
@@ -30,19 +38,21 @@ class Core_AccessTest extends DatabaseTestCase
 
     public function testGetTokenAuthWithEmptyAccess()
     {
-        $access = new Access();
+        $access = new Authorization($this->db);
         $this->assertNull($access->getTokenAuth());
     }
 
     public function testGetLoginWithEmptyAccess()
     {
-        $access = new Access();
+        $db = $this->getMock('Piwik\Db\Db', array(), array(), '', false);
+        $access = new Authorization($this->db);
         $this->assertNull($access->getLogin());
     }
 
     public function testHasSuperUserAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $db = $this->getMock('Piwik\Db\Db', array(), array(), '', false);
+        $access = new Authorization($this->db);
         $this->assertFalse($access->hasSuperUserAccess());
     }
 
@@ -62,19 +72,19 @@ class Core_AccessTest extends DatabaseTestCase
 
     public function testGetSitesIdWithAtLeastViewAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $this->assertEmpty($access->getSitesIdWithAtLeastViewAccess());
     }
 
     public function testGetSitesIdWithAdminAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $this->assertEmpty($access->getSitesIdWithAdminAccess());
     }
 
     public function testGetSitesIdWithViewAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $this->assertEmpty($access->getSitesIdWithViewAccess());
     }
 
@@ -83,7 +93,7 @@ class Core_AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasSuperUserAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $access->checkUserHasSuperUserAccess();
     }
 
@@ -99,7 +109,7 @@ class Core_AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $access->checkUserHasSomeAdminAccess();
     }
 
@@ -114,7 +124,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAdminAccess')
+            array('getSitesIdWithAdminAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->once())
@@ -129,7 +142,7 @@ class Core_AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasSomeViewAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $access->checkUserHasSomeViewAccess();
     }
 
@@ -144,7 +157,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
+            array('getSitesIdWithAtLeastViewAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->once())
@@ -159,7 +175,7 @@ class Core_AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasViewAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $access->checkUserHasViewAccess(array());
     }
 
@@ -174,7 +190,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
+            array('getSitesIdWithAtLeastViewAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->once())
@@ -188,7 +207,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
+            array('getSitesIdWithAtLeastViewAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->any())
@@ -205,7 +227,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
+            array('getSitesIdWithAtLeastViewAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->once())
@@ -227,7 +252,7 @@ class Core_AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $access->checkUserHasViewAccess(array());
     }
 
@@ -235,7 +260,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAdminAccess')
+            array('getSitesIdWithAdminAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->once())
@@ -249,7 +277,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAdminAccess', 'getSitesIdWithAtLeastViewAccess')
+            array('getSitesIdWithAdminAccess', 'getSitesIdWithAtLeastViewAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->any())
@@ -270,7 +301,10 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock(
             'Piwik\Access',
-            array('getSitesIdWithAdminAccess')
+            array('getSitesIdWithAdminAccess'),
+            array(),
+            '',
+            false
         );
 
         $mock->expects($this->once())
@@ -282,7 +316,7 @@ class Core_AccessTest extends DatabaseTestCase
 
     public function testReloadAccessWithEmptyAuth()
     {
-        $access = new Access();
+        $access = new Access($this->db);
         $this->assertFalse($access->reloadAccess(null));
     }
 
