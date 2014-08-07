@@ -45,15 +45,15 @@ class StaticContainer
     {
         $builder = new ContainerBuilder();
 
-        // TODO
+        // TODOFixFi
         // $builder->setDefinitionCache($cache);
         // $builder->writeProxiesToFile(true, PIWIK_USER_PATH . '/tmp/proxies');
 
         // Global config
-        $builder->addDefinitions(PIWIK_USER_PATH . '/configs/global.php');
+        $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
 
         // User config
-        $builder->addDefinitions(PIWIK_USER_PATH . '/configs/config.php');
+        $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
 
         return $builder->build();
     }
