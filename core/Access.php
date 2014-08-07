@@ -48,10 +48,13 @@ class Access
     public static function getInstance()
     {
         if (self::$instance == null) {
-            self::$instance = new Authorization();
+            $container = StaticContainer::getContainer();
+
+            self::$instance = $container->get('Piwik\Authorization\Authorization');
 
             Piwik::postEvent('Access.createAccessSingleton', array(&self::$instance));
         }
+
         return self::$instance;
     }
 
