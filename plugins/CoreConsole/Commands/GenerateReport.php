@@ -39,8 +39,8 @@ class GenerateReport extends GeneratePluginBase
         $order   = $this->getOrder($category);
         $apiName = $this->getApiName($reportName);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array('ExamplePlugin'     => $pluginName,
+        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExampleReport';
+        $replace        = array('ExampleReport'     => $pluginName,
                                 'GetExampleReport'  => ucfirst($apiName),
                                 'getExampleReport'  => lcfirst($apiName),
                                 'getApiReport'      => lcfirst($apiName),
@@ -55,7 +55,7 @@ class GenerateReport extends GeneratePluginBase
         $whitelistFiles = array('/Reports', '/Reports/Base.php', '/Reports/GetExampleReport.php');
 
         if (file_exists($this->getPluginPath($pluginName) . '/API.php')) {
-            $this->copyTemplateMethodToExisitingClass('Piwik\Plugins\ExamplePlugin\API', 'getExampleReport', $replace);
+            $this->copyTemplateMethodToExisitingClass('Piwik\Plugins\ExampleReport\API', 'getExampleReport', $replace);
         } else {
             $whitelistFiles[] = '/API.php';
         }

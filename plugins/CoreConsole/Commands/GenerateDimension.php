@@ -52,7 +52,7 @@ class GenerateDimension extends GeneratePluginBase
         $dimensionClassName      = $this->getDimensionClassName($dimensionName);
         $translatedDimensionName = $this->makeTranslationIfPossible($pluginName, ucfirst($dimensionName));
 
-        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleTracker';
         $replace       = array('example_action_dimension'  => strtolower($columnName),
                                'example_visit_dimension'   => strtolower($columnName),
                                'example_conversion_dimension'   => strtolower($columnName),
@@ -62,8 +62,8 @@ class GenerateDimension extends GeneratePluginBase
                                'ExampleVisitDimension'  => $dimensionClassName,
                                'ExampleActionDimension' => $dimensionClassName,
                                'ExampleConversionDimension'  => $dimensionClassName,
-                               'ExamplePlugin_DimensionName' => $translatedDimensionName,
-                               'ExamplePlugin' => $pluginName,
+                               'ExampleTracker_DimensionName' => $translatedDimensionName,
+                               'ExampleTracker' => $pluginName,
         );
 
         $whitelistFiles = array('/Columns');

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a369c506837f7af17cd3258c889e3b57",
+    "hash": "ba9388aa9f61e6a370364aadbf0316ad",
     "packages": [
         {
             "name": "leafo/lessphp",
@@ -96,16 +96,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "2.2",
+            "version": "2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "2a5f44c6c788f0b06e50c38514ea5bf011fc8636"
+                "reference": "c881d3592b55253c4e8968245e7b162f453ca4b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/2a5f44c6c788f0b06e50c38514ea5bf011fc8636",
-                "reference": "2a5f44c6c788f0b06e50c38514ea5bf011fc8636",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/c881d3592b55253c4e8968245e7b162f453ca4b9",
+                "reference": "c881d3592b55253c4e8968245e7b162f453ca4b9",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +139,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2014-06-26 11:07:53"
+            "time": "2014-07-29 10:06:51"
         },
         {
             "name": "symfony/console",
