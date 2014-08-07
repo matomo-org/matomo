@@ -99,7 +99,7 @@ class Authorization
      *
      * @return array
      */
-    public function getListAccess()
+    public static function getListAccess()
     {
         return self::$availableAccess;
     }
@@ -165,7 +165,7 @@ class Authorization
      * @param string $select Columns or expression to SELECT FROM table, eg. "MIN(ts_created)"
      * @return string  SQL query
      */
-    public function getSqlAccessSite($select)
+    public static function getSqlAccessSite($select)
     {
         return "SELECT " . $select . "
 				FROM " . Common::prefixTable('access') . " as t1

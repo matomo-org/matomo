@@ -12,7 +12,6 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Log;
 use Piwik\SettingsPiwik;
@@ -40,7 +39,7 @@ class BatchInsert
 					INTO " . $tableName . "
 					$fieldList
 					VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
-            Db::query($query, $row);
+            \Piwik\Db::query($query, $row);
         }
     }
 
@@ -64,7 +63,7 @@ class BatchInsert
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
         if ($loadDataInfileEnabled
-            && Db::get()->hasBulkLoader()) {
+            && \Piwik\Db::get()->hasBulkLoader()) {
             try {
                 $fileSpec = array(
                     'delim'            => "\t",
@@ -183,7 +182,7 @@ class BatchInsert
             $queryStart = 'LOAD DATA ' . $keyword . 'INFILE ';
             $sql = $queryStart . $query;
             try {
-                $result = @Db::exec($sql);
+                $result = @\Piwik\Db::exec($sql);
                 if (empty($result) || $result < 0) {
                     continue;
                 }
@@ -193,7 +192,7 @@ class BatchInsert
 //				echo $sql . ' ---- ' .  $e->getMessage();
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
-                if (!Db::get()->isErrNo($e, '1148')) {
+                if (!\Piwik\Db::get()->isErrNo($e, '1148')) {
                     Log::info("LOAD DATA INFILE failed... Error was: %s", $message);
                 }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;
