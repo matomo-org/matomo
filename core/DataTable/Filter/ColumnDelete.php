@@ -100,15 +100,16 @@ class ColumnDelete extends BaseFilter
 
         // remove columns specified in $this->columnsToRemove
         if (!empty($this->columnsToRemove)) {
-            foreach ($table->getRows() as $row) {
+            foreach ($table as &$row) {
                 foreach ($this->columnsToRemove as $column) {
                     if ($this->deleteIfZeroOnly) {
-                        $value = $row->getColumn($column);
+                        $value = $row[$column];
                         if ($value === false || !empty($value)) {
                             continue;
                         }
                     }
-                    $row->deleteColumn($column);
+
+                    unset($row[$column]);
                 }
             }
 
@@ -117,8 +118,8 @@ class ColumnDelete extends BaseFilter
 
         // remove columns not specified in $columnsToKeep
         if (!empty($this->columnsToKeep)) {
-            foreach ($table->getRows() as $row) {
-                foreach ($row->getColumns() as $name => $value) {
+            foreach ($table as &$row) {
+                foreach ($row as $name => $value) {
 
                     $keep = false;
                     // @see self::APPEND_TO_COLUMN_NAME_TO_KEEP
@@ -132,7 +133,7 @@ class ColumnDelete extends BaseFilter
                         && $name != 'label' // label cannot be removed via whitelisting
                         && !isset($this->columnsToKeep[$name])
                     ) {
-                        $row->deleteColumn($name);
+                        unset($row[$name]);
                     }
                 }
             }
@@ -141,10 +142,12 @@ class ColumnDelete extends BaseFilter
         }
 
         // recurse
-        if ($recurse) {
-            foreach ($table->getRows() as $row) {
+        if ($recurse && !is_array($table)) {
+            foreach ($table as $row) {
                 $this->filterSubTable($row);
             }
         }
+
+        return $table;
     }
 }
