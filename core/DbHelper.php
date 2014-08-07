@@ -135,14 +135,6 @@ class DbHelper
     }
 
     /**
-     * Disconnect from database
-     */
-    public static function disconnectDatabase()
-    {
-        Db::destroyDatabaseObject();
-    }
-
-    /**
      * Create database
      *
      * @param string|null $dbName

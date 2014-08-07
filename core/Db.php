@@ -30,20 +30,14 @@ use Piwik\Tracker;
  *
  *     Db::query("DELETE FROM mytable WHERE id < ?", array(23));
  *
+ * This class is a static proxy to \Piwik\Db\Db
+ *
+ * @deprecated Use \Piwik\Db\Db instead
+ *
  * @api
  */
 class Db
 {
-    /**
-     * @var AdapterInterface|\Zend_Db_Adapter_Abstract
-     */
-    private static $connection;
-
-    /**
-     * @var Db\Db
-     */
-    private static $instance;
-
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
@@ -51,15 +45,7 @@ class Db
      */
     public static function get()
     {
-        if (SettingsServer::isTrackerApiRequest()) {
-            return Tracker::getDatabase();
-        }
-
-        if (self::$connection === null) {
-            self::createDatabaseObject();
-        }
-
-        return self::$connection;
+        return self::getInstance()->getDbAdapter();
     }
 
     /**
@@ -67,73 +53,7 @@ class Db
      */
     public static function getInstance()
     {
-        if (self::$instance === null) {
-            self::$instance = new Db\Db(self::get());
-        }
-
-        return self::$instance;
-    }
-
-    public static function getDatabaseConfig($dbConfig = null)
-    {
-        $config = Config::getInstance();
-
-        if (is_null($dbConfig)) {
-            $dbConfig = $config->database;
-        }
-
-        /**
-         * Triggered before a database connection is established.
-         *
-         * This event can be used to change the settings used to establish a connection.
-         *
-         * @param array *$dbInfos Reference to an array containing database connection info,
-         *                        including:
-         *
-         *                        - **host**: The host name or IP address to the MySQL database.
-         *                        - **username**: The username to use when connecting to the
-         *                                        database.
-         *                        - **password**: The password to use when connecting to the
-         *                                       database.
-         *                        - **dbname**: The name of the Piwik MySQL database.
-         *                        - **port**: The MySQL database port to use.
-         *                        - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
-         *                        - **type**: The MySQL engine to use, for instance 'InnoDB'
-         */
-        Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
-
-        $dbConfig['profiler'] = $config->Debug['enable_sql_profiler'];
-
-        return $dbConfig;
-    }
-
-    /**
-     * Connects to the database.
-     *
-     * Shouldn't be called directly, use {@link get()} instead.
-     *
-     * @param array|null $dbConfig Connection parameters in an array. Defaults to the `[database]`
-     *                             INI config section.
-     */
-    public static function createDatabaseObject($dbConfig = null)
-    {
-        $dbConfig = self::getDatabaseConfig($dbConfig);
-
-        $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
-
-        self::$connection = $db;
-    }
-
-    /**
-     * Disconnects and destroys the database connection.
-     *
-     * For tests.
-     */
-    public static function destroyDatabaseObject()
-    {
-        self::getInstance()->closeConnection();
-        self::$instance = null;
-        self::$connection = null;
+        return StaticContainer::getContainer()->get('Piwik\Db\Db');
     }
 
     /**

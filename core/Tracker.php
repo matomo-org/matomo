@@ -414,11 +414,7 @@ class Tracker
             Access::getInstance();
             Config::getInstance();
 
-            try {
-                Db::get();
-            } catch (Exception $e) {
-                Db::createDatabaseObject();
-            }
+            Db::get();
 
             \Piwik\Plugin\Manager::getInstance()->loadCorePluginsDuringTracker();
         }

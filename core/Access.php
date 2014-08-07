@@ -75,7 +75,7 @@ class Access
      */
     public static function getListAccess()
     {
-        return self::$instance->getListAccess();
+        return self::getInstance()->getListAccess();
     }
 
     /**
@@ -91,12 +91,12 @@ class Access
      */
     public function reloadAccess(Auth $auth = null)
     {
-        return self::$instance->reloadAccess($auth);
+        return self::getInstance()->reloadAccess($auth);
     }
 
     public function getRawSitesWithSomeViewAccess($login)
     {
-        return self::$instance->reloadAccess($login);
+        return self::getInstance()->reloadAccess($login);
     }
 
     /**
@@ -107,7 +107,7 @@ class Access
      */
     public static function getSqlAccessSite($select)
     {
-        return self::$instance->getSqlAccessSite($select);
+        return self::getInstance()->getSqlAccessSite($select);
     }
 
     /**
@@ -118,7 +118,7 @@ class Access
      */
     public function setSuperUserAccess($bool = true)
     {
-        self::$instance->setSuperUserAccess($bool);
+        self::getInstance()->setSuperUserAccess($bool);
     }
 
     /**
@@ -128,7 +128,7 @@ class Access
      */
     public function hasSuperUserAccess()
     {
-        return self::$instance->hasSuperUserAccess();
+        return self::getInstance()->hasSuperUserAccess();
     }
 
     /**
@@ -138,7 +138,7 @@ class Access
      */
     public function getLogin()
     {
-        return self::$instance->getLogin();
+        return self::getInstance()->getLogin();
     }
 
     /**
@@ -148,7 +148,7 @@ class Access
      */
     public function getTokenAuth()
     {
-        return self::$instance->getTokenAuth();
+        return self::getInstance()->getTokenAuth();
     }
 
     /**
@@ -160,7 +160,7 @@ class Access
      */
     public function getSitesIdWithAtLeastViewAccess()
     {
-        return self::$instance->getSitesIdWithAtLeastViewAccess();
+        return self::getInstance()->getSitesIdWithAtLeastViewAccess();
     }
 
     /**
@@ -171,7 +171,7 @@ class Access
      */
     public function getSitesIdWithAdminAccess()
     {
-        return self::$instance->getSitesIdWithAdminAccess();
+        return self::getInstance()->getSitesIdWithAdminAccess();
     }
 
     /**
@@ -183,7 +183,7 @@ class Access
      */
     public function getSitesIdWithViewAccess()
     {
-        return self::$instance->getSitesIdWithViewAccess();
+        return self::getInstance()->getSitesIdWithViewAccess();
     }
 
     /**
@@ -193,7 +193,7 @@ class Access
      */
     public function checkUserHasSuperUserAccess()
     {
-        self::$instance->checkUserHasSuperUserAccess();
+        self::getInstance()->checkUserHasSuperUserAccess();
     }
 
     /**
@@ -203,7 +203,7 @@ class Access
      */
     public function checkUserHasSomeAdminAccess()
     {
-        self::$instance->checkUserHasSomeAdminAccess();
+        self::getInstance()->checkUserHasSomeAdminAccess();
     }
 
     /**
@@ -213,7 +213,7 @@ class Access
      */
     public function checkUserHasSomeViewAccess()
     {
-        self::$instance->checkUserHasSomeViewAccess();
+        self::getInstance()->checkUserHasSomeViewAccess();
     }
 
     /**
@@ -225,7 +225,7 @@ class Access
      */
     public function checkUserHasAdminAccess($idSites)
     {
-        self::$instance->checkUserHasAdminAccess($idSites);
+        self::getInstance()->checkUserHasAdminAccess($idSites);
     }
 
     /**
@@ -237,7 +237,7 @@ class Access
      */
     public function checkUserHasViewAccess($idSites)
     {
-        self::$instance->checkUserHasViewAccess($idSites);
+        self::getInstance()->checkUserHasViewAccess($idSites);
     }
 }
 

@@ -10,7 +10,7 @@ namespace Piwik\Authorization;
 
 use Piwik\Auth;
 use Piwik\Common;
-use Piwik\Db;
+use Piwik\Db\Db;
 use Piwik\Piwik;
 use Piwik\Site;
 
@@ -83,13 +83,19 @@ class Authorization
      */
     private $auth;
 
-    public function __construct()
+    /**
+     * @var Db
+     */
+    private $db;
+
+    public function __construct(Db $db)
     {
         $this->idsitesByAccess = array(
             'view'      => array(),
             'admin'     => array(),
             'superuser' => array()
         );
+        $this->db = $db;
     }
 
     /**
@@ -156,7 +162,7 @@ class Authorization
 
     public function getRawSitesWithSomeViewAccess($login)
     {
-        return Db::fetchAll(self::getSqlAccessSite("access, t2.idsite"), $login);
+        return $this->db->fetchAll(self::getSqlAccessSite("access, t2.idsite"), $login);
     }
 
     /**

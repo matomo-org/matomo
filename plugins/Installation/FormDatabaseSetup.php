@@ -15,10 +15,12 @@ use HTML_QuickForm2_Rule;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\Adapter;
+use Piwik\Db\DbFactory;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\QuickForm2;
+use Piwik\StaticContainer;
 use Zend_Db_Adapter_Exception;
 
 /**
@@ -121,24 +123,35 @@ class FormDatabaseSetup extends QuickForm2
             $dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
         }
 
+        /** @var \DI\Container $container */
+        $container = StaticContainer::getContainer();
+        /** @var DbFactory $dbFactory */
+        $dbFactory = $container->get('Piwik\Db\DbFactory');
+
         try {
-            @Db::createDatabaseObject($dbInfos);
+            $db = @$dbFactory->createDb($dbInfos);
         } catch (Zend_Db_Adapter_Exception $e) {
-            $db = Adapter::factory($adapter, $dbInfos, $connect = false);
+            $dbAdapter = Adapter::factory($adapter, $dbInfos, $connect = false);
 
             // database not found, we try to create  it
-            if ($db->isErrNo($e, '1049')) {
+            if ($dbAdapter->isErrNo($e, '1049')) {
+                // Connect to the server without the schema name
                 $dbInfosConnectOnly = $dbInfos;
                 $dbInfosConnectOnly['dbname'] = null;
-                @Db::createDatabaseObject($dbInfosConnectOnly);
+                $db = @$dbFactory->createDb($dbInfosConnectOnly);
+                $container->set('Piwik\Db\Db', $db);
+
+                // Create the database
                 @DbHelper::createDatabase($dbInfos['dbname']);
 
-                // select the newly created database
-                @Db::createDatabaseObject($dbInfos);
+                // Reconnect to the newly created database
+                $db = @$dbFactory->createDb($dbInfos);
             } else {
                 throw $e;
             }
         }
+
+        $container->set('Piwik\Db\Db', $db);
 
         return $dbInfos;
     }

@@ -39,14 +39,14 @@ class Db
     /**
      * @var AdapterInterface|\Zend_Db_Adapter_Abstract
      */
-    private $connection;
+    private $adapter;
 
     /**
-     * @param AdapterInterface $connection
+     * @param AdapterInterface $adapter
      */
-    public function __construct($connection)
+    public function __construct($adapter)
     {
-        $this->connection = $connection;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -56,7 +56,7 @@ class Db
      */
     public function closeConnection()
     {
-        $this->connection->closeConnection();
+        $this->adapter->closeConnection();
     }
 
     /**
@@ -71,11 +71,11 @@ class Db
      */
     public function exec($sql)
     {
-        $profiler = $this->connection->getProfiler();
+        $profiler = $this->adapter->getProfiler();
         $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);
 
         try {
-            $return = $this->connection->exec($sql);
+            $return = $this->adapter->exec($sql);
         } catch (Exception $ex) {
             $this->logExtraInfoIfDeadlock($ex);
             throw $ex;
@@ -100,7 +100,7 @@ class Db
     public function query($sql, $parameters = array())
     {
         try {
-            return $this->connection->query($sql, $parameters);
+            return $this->adapter->query($sql, $parameters);
         } catch (Exception $ex) {
             $this->logExtraInfoIfDeadlock($ex);
             throw $ex;
@@ -119,7 +119,7 @@ class Db
     public function fetchAll($sql, $parameters = array())
     {
         try {
-            return $this->connection->fetchAll($sql, $parameters);
+            return $this->adapter->fetchAll($sql, $parameters);
         } catch (Exception $ex) {
             $this->logExtraInfoIfDeadlock($ex);
             throw $ex;
@@ -138,7 +138,7 @@ class Db
     public function fetchRow($sql, $parameters = array())
     {
         try {
-            return $this->connection->fetchRow($sql, $parameters);
+            return $this->adapter->fetchRow($sql, $parameters);
         } catch (Exception $ex) {
             $this->logExtraInfoIfDeadlock($ex);
             throw $ex;
@@ -157,7 +157,7 @@ class Db
     public function fetchOne($sql, $parameters = array())
     {
         try {
-            return $this->connection->fetchOne($sql, $parameters);
+            return $this->adapter->fetchOne($sql, $parameters);
         } catch (Exception $ex) {
             $this->logExtraInfoIfDeadlock($ex);
             throw $ex;
@@ -180,7 +180,7 @@ class Db
     public function fetchAssoc($sql, $parameters = array())
     {
         try {
-            return $this->connection->fetchAssoc($sql, $parameters);
+            return $this->adapter->fetchAssoc($sql, $parameters);
         } catch (Exception $ex) {
             $this->logExtraInfoIfDeadlock($ex);
             throw $ex;
@@ -570,11 +570,19 @@ class Db
 
     private function logExtraInfoIfDeadlock($ex)
     {
-        if ($this->connection->isErrNo($ex, 1213)) {
+        if ($this->adapter->isErrNo($ex, 1213)) {
             $deadlockInfo = $this->fetchAll("SHOW ENGINE INNODB STATUS");
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
         }
+    }
+
+    /**
+     * @return AdapterInterface|\Zend_Db_Adapter_Abstract
+     */
+    public function getDbAdapter()
+    {
+        return $this->adapter;
     }
 }

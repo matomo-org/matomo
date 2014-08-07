@@ -7,6 +7,8 @@
  */
 namespace Piwik\Tests;
 
+use DI\Container;
+use Interop\Container\ContainerInterface;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
@@ -14,6 +16,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\DbFactory;
 use Piwik\DbHelper;
 use Piwik\Log;
 use Piwik\Option;
@@ -28,6 +31,7 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
+use Piwik\StaticContainer;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
@@ -145,7 +149,7 @@ class Fixture extends PHPUnit_Framework_Assert
                 $this->dbName = Config::getInstance()->database['dbname'];
             }
 
-            static::connectWithoutDatabase();
+            $this->connectWithoutDatabase();
 
             if ($this->dropDatabaseInSetUp
                 || $this->resetPersistedFixture
@@ -154,11 +158,10 @@ class Fixture extends PHPUnit_Framework_Assert
             }
 
             DbHelper::createDatabase($this->dbName);
-            DbHelper::disconnectDatabase();
 
             // reconnect once we're sure the database exists
             Config::getInstance()->database['dbname'] = $this->dbName;
-            Db::createDatabaseObject();
+            $this->reconnectDb();
 
             Db::get()->query("SET wait_timeout=28800;");
 
@@ -748,15 +751,37 @@ class Fixture extends PHPUnit_Framework_Assert
     /**
      * Connects to MySQL w/o specifying a database.
      */
-    public static function connectWithoutDatabase()
+    public function connectWithoutDatabase()
     {
+        /** @var Container $container */
+        $container = StaticContainer::getContainer();
+
         $dbConfig = Config::getInstance()->database;
         $oldDbName = $dbConfig['dbname'];
         $dbConfig['dbname'] = null;
 
-        Db::createDatabaseObject($dbConfig);
+        /** @var DbFactory $dbFactory */
+        $dbFactory = $container->get('Piwik\Db\DbFactory');
+        $container->set('Piwik\Db\Db', $dbFactory->createDb($dbConfig));
 
         $dbConfig['dbname'] = $oldDbName;
+    }
+
+    /**
+     * Reconnect to the database with the default config
+     */
+    public function reconnectDb()
+    {
+        /** @var Container $container */
+        $container = StaticContainer::getContainer();
+
+        /** @var \Piwik\Db\Db $db */
+        $db = $container->get('Piwik\Db\Db');
+        $db->closeConnection();
+
+        /** @var DbFactory $dbFactory */
+        $dbFactory = $container->get('Piwik\Db\DbFactory');
+        $container->set('Piwik\Db\Db', $dbFactory->createDb());
     }
 
     /**
