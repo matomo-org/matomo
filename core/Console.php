@@ -110,6 +110,11 @@ class Console extends Application
     protected function initPiwikHost(InputInterface $input)
     {
         $piwikHostname = $input->getParameterOption('--piwik-domain');
+
+        if (empty($piwikHostname)) {
+            $piwikHostname = $input->getParameterOption('--url');
+        }
+
         $piwikHostname = UrlHelper::getHostFromUrl($piwikHostname);
         Url::setHost($piwikHostname);
     }
