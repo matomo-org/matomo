@@ -53,7 +53,9 @@ class StaticContainer
         $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
 
         // User config
-        $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
+        if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
+            $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
+        }
 
         return $builder->build();
     }
