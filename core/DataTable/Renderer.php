@@ -111,22 +111,6 @@ abstract class Renderer
     abstract public function render();
 
     /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    abstract public function renderException();
-
-    protected function getExceptionMessage()
-    {
-        $message = $this->exception->getMessage();
-        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-            $message .= "\n" . $this->exception->getTraceAsString();
-        }
-        return self::renderHtmlEntities($message);
-    }
-
-    /**
      * @see render()
      * @return string
      */
@@ -144,26 +128,11 @@ abstract class Renderer
     public function setTable($table)
     {
         if (!is_array($table)
-            && !($table instanceof DataTable)
-            && !($table instanceof DataTable\Map)
+            && !($table instanceof DataTableInterface)
         ) {
-            throw new Exception("DataTable renderers renderer accepts only DataTable and Map instances, and arrays.");
+            throw new Exception("DataTable renderers renderer accepts only DataTable, Simple and Map instances, and arrays.");
         }
         $this->table = $table;
-    }
-
-    /**
-     * Set the Exception to be rendered
-     *
-     * @param Exception $exception to be rendered
-     * @throws Exception
-     */
-    public function setException($exception)
-    {
-        if (!($exception instanceof Exception)) {
-            throw new Exception("The exception renderer accepts only an Exception object.");
-        }
-        $this->exception = $exception;
     }
 
     /**
@@ -206,17 +175,6 @@ abstract class Renderer
             @header('Content-Type: text/plain; charset=utf-8');
             throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
         }
-    }
-
-    /**
-     * Returns $rawData after all applicable characters have been converted to HTML entities.
-     *
-     * @param String $rawData data to be converted
-     * @return String
-     */
-    protected static function renderHtmlEntities($rawData)
-    {
-        return self::formatValueXml($rawData);
     }
 
     /**

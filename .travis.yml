@@ -1,10 +1,10 @@
 language: php
 
-# We want to test against PHP 5.3/5.4/5.5
+# We want to test against PHP 5.3.3/5.4/5.5
 php:
   - 5.5
   - 5.4
-  - 5.3
+  - 5.3.3
 #  - 5.6
 #  - hhvm
 
@@ -78,8 +78,8 @@ matrix:
 script: ./travis.sh
 
 before_install:
-  - # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
-  - '[[ "$TRAVIS_PHP_VERSION" == "5.3" ]] && export USE_ZEND_ALLOC=0 || true'
+  - # do not use the Zend allocator on PHP 5.3.3 since it will randomly segfault after program execution
+  - '[[ "$TRAVIS_PHP_VERSION" == "5.3.3" ]] && export USE_ZEND_ALLOC=0 || true'
 
 before_script:
   - mysql --version

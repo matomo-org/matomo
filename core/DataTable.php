@@ -165,7 +165,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *
  * @api
  */
-class DataTable implements DataTableInterface
+class DataTable implements DataTableInterface, \IteratorAggregate
 {
     const MAX_DEPTH_DEFAULT = 15;
 
@@ -1632,5 +1632,12 @@ class DataTable implements DataTableInterface
             $this->addRow($thisRow);
         }
         $thisRow->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+    }
+
+    /**
+     * @return \ArrayIterator|Row[]
+     */
+    public function getIterator() {
+        return new \ArrayIterator($this->getRows());
     }
 }

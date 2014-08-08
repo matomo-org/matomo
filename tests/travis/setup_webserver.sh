@@ -11,7 +11,15 @@ sudo service nginx stop
 
 # Setup PHP-FPM
 echo "Configuring php-fpm"
-PHP_FPM_BIN="$HOME/.phpenv/versions/$TRAVIS_PHP_VERSION/sbin/php-fpm"
+
+if [[ "$TRAVIS_PHP_VERSION" == 5.3* ]];
+then
+    # path does not exist with 5.3.3 so use 5.3 
+    PHP_FPM_BIN="$HOME/.phpenv/versions/5.3/sbin/php-fpm"
+else
+    PHP_FPM_BIN="$HOME/.phpenv/versions/$TRAVIS_PHP_VERSION/sbin/php-fpm"
+fi;
+
 PHP_FPM_CONF="$DIR/php-fpm.conf"
 PHP_FPM_SOCK=$(realpath "$DIR")/php-fpm.sock
 
