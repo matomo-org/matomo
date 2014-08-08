@@ -567,6 +567,12 @@ class API extends \Piwik\Plugin\API
         // when no access are specified
         if ($access != 'noaccess') {
             $this->model->addUserAccess($userLogin, $access, $idSites);
+        } else {
+            if (!empty($idSites) && !is_array($idSites)) {
+                $idSites = array($idSites);
+            }
+
+            Piwik::postEvent('UsersManager.removeSiteAccess', array($userLogin, $idSites));
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access

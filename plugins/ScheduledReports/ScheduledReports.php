@@ -85,6 +85,7 @@ class ScheduledReports extends \Piwik\Plugin
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
             'UsersManager.deleteUser'                   => 'deleteUserReport',
+            'UsersManager.removeSiteAccess'             => 'deleteUserReportForSites',
             'SitesManager.deleteSite.end'               => 'deleteSiteReport',
             'SegmentEditor.deactivate'                  => 'segmentDeactivation',
             'SegmentEditor.update'                      => 'segmentUpdated',
@@ -526,6 +527,20 @@ class ScheduledReports extends \Piwik\Plugin
     public function deleteUserReport($userLogin)
     {
         Db::query('DELETE FROM ' . Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
+    }
+
+    public function deleteUserReportForSites($userLogin, $idSites)
+    {
+        if (empty($idSites) || empty($userLogin)) {
+            return;
+        }
+
+        $table = Common::prefixTable('report');
+
+        foreach ($idSites as $idSite) {
+            Db::query('DELETE FROM ' . $table . ' WHERE login = ? and idsite = ?',
+                      array($userLogin, $idSite));
+        }
     }
 
     public function install()
