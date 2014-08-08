@@ -1290,7 +1290,7 @@
         "NoWebsitesShort": "No Websites",
         "PullDownToRefresh": "Pull down to refresh...",
         "Mobile_PossibleSslError": "Possible SSL certificate error",
-        "Mobile_PossibleSslErrorExplanation": "An error occurred that could be caused by an invalid or self signed certificate: "%s". Login might work for you when ignoring SSL validation but it is less secure. You can change SSL validation at any time in the settings.",
+        "Mobile_PossibleSslErrorExplanation": "An error occurred that could be caused by an invalid or self signed certificate: \"%s\". Login might work for you when ignoring SSL validation but it is less secure. You can change SSL validation at any time in the settings.",
         "Mobile_IgnoreSslError": "Ignore SSL Error",
         "RatingDontRemindMe": "Don't remind me",
         "RatingNotNow": "Not now",
