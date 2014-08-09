@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Tracker\Cache;
 
 /**
