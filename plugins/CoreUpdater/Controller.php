@@ -243,26 +243,6 @@ class Controller extends \Piwik\Plugin\Controller
         }
     }
 
-    private function getPluginsFromDirectoy($directoryToLook)
-    {
-        $directories = _glob($directoryToLook . '/plugins/' . '*', GLOB_ONLYDIR);
-
-        $directories = array_map(function ($directory) use ($directoryToLook) {
-            return str_replace($directoryToLook, '', $directory);
-        }, $directories);
-
-        return $directories;
-    }
-
-    private function removeGoneFiles($source, $target)
-    {
-        Filesystem::unlinkTargetFilesNotPresentInSource($source . '/core', $target . '/core');
-
-        foreach ($this->getPluginsFromDirectoy($source) as $pluginDir) {
-            Filesystem::unlinkTargetFilesNotPresentInSource($source . $pluginDir, $target . $pluginDir);
-        }
-    }
-
     private function oneClick_Copy()
     {
         /*
@@ -272,12 +252,14 @@ class Controller extends \Piwik\Plugin\Controller
             @chmod($this->pathRootExtractedPiwik . '/misc/cron/archive.sh', 0755);
         }
 
+        $model = new Model();
+
         /*
          * Copy all files to PIWIK_INCLUDE_PATH.
          * These files are accessed through the dispatcher.
          */
         Filesystem::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
-        $this->removeGoneFiles($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
+        $model->removeGoneFiles($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
 
         /*
          * These files are visible in the web root and are generally
@@ -301,7 +283,7 @@ class Controller extends \Piwik\Plugin\Controller
              * Copy the non-PHP files (e.g., images, css, javascript)
              */
             Filesystem::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
-            $this->removeGoneFiles($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT);
+            $model->removeGoneFiles($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT);
         }
 
         /*
