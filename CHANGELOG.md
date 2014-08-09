@@ -8,6 +8,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The [settings](http://developer.piwik.org/guides/piwik-configuration) API will receive the actual entered value and will no longer convert characters like `&` to `&amp;`. If you still want this behavior - for instance to prevent XSS - you can define a filter by setting the `transform` property like this:
   `$setting->transform = function ($value) { return Common::sanitizeInputValue($value); }`
 * Config setting `disable_merged_assets` moved from `Debug` section to `Development`. The updater will automatically change the section for you.
+* `API.getRowEvolution` will throw an exception if a report is requested that does not have a dimension, for instance `VisitsSummary.get`. This is a fix as an invalid format was returned before see [#5951](https://github.com/piwik/piwik/issues/5951)
 
 ### Deprecations
 The following events are considered as deprecated and the new structure should be used in the future. We have not scheduled when those events will be removed but probably in Piwik 3.0 which is not scheduled yet and won't be soon. New features will be added only to the new classes.

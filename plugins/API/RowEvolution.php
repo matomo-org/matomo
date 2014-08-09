@@ -331,6 +331,10 @@ class RowEvolution
             $metrics = $metrics + $reportMetadata['processedMetrics'];
         }
 
+        if (empty($reportMetadata['dimension'])) {
+            throw new Exception(sprintf('Reports like %s.%s which do not have a dimension are not supported by row evolution', $apiModule, $apiAction));
+        }
+
         $dimension = $reportMetadata['dimension'];
 
         return compact('metrics', 'dimension');
