@@ -111,9 +111,6 @@ class TestRequestResponse
 
     private function normalizeEncodingPhp533($apiResponse)
     {
-        if($this->params['format'] != 'xml') {
-            return;
-        }
         if(!IntegrationTestCase::isPhpVersion53()) {
             return;
         }
