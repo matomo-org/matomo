@@ -219,13 +219,21 @@ class Filesystem
             $remove = $target . $file;
 
             if (is_dir($remove)) {
-                rmdir($remove);
+                @rmdir($remove);
             } else {
                 self::deleteFileIfExists($remove);
             }
         }
     }
 
+    /**
+     * Sort all given paths/filenames by its path length. Long path names will be listed first. This method can be
+     * useful if you have for instance a bunch of files/directories to delete. By sorting them by lengh you can make
+     * sure to delete all files within the folders before deleting the actual folder.
+     *
+     * @param string[] $files
+     * @return string[]
+     */
     public static function sortFilesDescByPathLength($files)
     {
         usort($files, function ($a, $b) {
@@ -247,7 +255,7 @@ class Filesystem
      * @param $source
      * @param $target
      *
-     * @return array
+     * @return string[]
      */
     public static function directoryDiff($source, $target)
     {
