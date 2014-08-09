@@ -111,6 +111,7 @@ class TestRequestResponse
 
     private function normalizeEncodingPhp533($apiResponse)
     {
+        return $apiResponse;
         if(!IntegrationTestCase::isPhpVersion53()) {
             return;
         }

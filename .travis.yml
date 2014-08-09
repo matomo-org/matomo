@@ -30,6 +30,10 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: 5.6
+    - php: 5.3
+      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
+    - php: 5.3
+      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
   exclude:
     # Javascript tests need to run only on one PHP version
     - php: 5.4
