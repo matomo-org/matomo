@@ -104,8 +104,20 @@ class TestRequestResponse
         $apiResponse = $this->normalizePdfContent($apiResponse);
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
+        $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
 
         return $apiResponse;
+    }
+
+    private function normalizeEncodingPhp533($apiResponse)
+    {
+        if($this->params['format'] != 'xml') {
+            return;
+        }
+        if(!IntegrationTestCase::isPhpVersion53()) {
+            return;
+        }
+        return str_replace("'", '&amp;#039;', $apiResponse);
     }
 
     private function removeIdSubtableParamFromUrlsInResponse($apiResponse)
