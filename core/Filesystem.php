@@ -204,7 +204,52 @@ class Filesystem
         return;
     }
 
+    /**
+     * Removes all files and directories that are present in the target directory but are not in the source directory.
+     *
+     * @param string $source Path to the source directory
+     * @param string $target Path to the target
+     */
     public static function unlinkTargetFilesNotPresentInSource($source, $target)
+    {
+        $diff = self::directoryDiff($source, $target);
+        $diff = self::sortFilesDescByPathLength($diff);
+
+        foreach ($diff as $file) {
+            $remove = $target . $file;
+
+            if (is_dir($remove)) {
+                rmdir($remove);
+            } else {
+                self::deleteFileIfExists($remove);
+            }
+        }
+    }
+
+    public static function sortFilesDescByPathLength($files)
+    {
+        usort($files, function ($a, $b) {
+            // sort by filename length so we kinda make sure to remove files before its directories
+            if ($a == $b) {
+                return 0;
+            }
+
+            return (strlen($a) > strlen($b) ? -1 : 1);
+        });
+
+        return $files;
+    }
+
+    /**
+     * Computes the difference of directories. Compares $target against $source and returns a relative path to all files
+     * and directories in $target that are not present in $source.
+     *
+     * @param $source
+     * @param $target
+     *
+     * @return array
+     */
+    public static function directoryDiff($source, $target)
     {
         $sourceFiles = self::globr($source, '*');
         $targetFiles = self::globr($target, '*');
@@ -219,26 +264,8 @@ class Filesystem
 
         $diff = array_diff($targetFiles, $sourceFiles);
 
-        usort($diff, function ($a,$b) {
-            // sort by filename length so we kinda make sure to remove files before its directories
-            if ($a == $b) {
-                return 0;
-            }
-
-            return (strlen($a) > strlen($b) ? -1 : 1);
-        });
-
-        foreach ($diff as $file) {
-            $remove = $target . $file;
-
-            if (is_dir($remove)) {
-                rmdir($remove);
-            } else {
-                unlink($remove);
-            }
-        }
+        return array_values($diff);
     }
-
 
     /**
      * Copies a file from `$source` to `$dest`.
