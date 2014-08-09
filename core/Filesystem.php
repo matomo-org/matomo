@@ -204,6 +204,42 @@ class Filesystem
         return;
     }
 
+    public static function unlinkTargetFilesNotPresentInSource($source, $target)
+    {
+        $sourceFiles = self::globr($source, '*');
+        $targetFiles = self::globr($target, '*');
+
+        $sourceFiles = array_map(function ($file) use ($source) {
+            return str_replace($source, '', $file);
+        }, $sourceFiles);
+
+        $targetFiles = array_map(function ($file) use ($target) {
+            return str_replace($target, '', $file);
+        }, $targetFiles);
+
+        $diff = array_diff($targetFiles, $sourceFiles);
+
+        usort($diff, function ($a,$b) {
+            // sort by filename length so we kinda make sure to remove files before its directories
+            if ($a == $b) {
+                return 0;
+            }
+
+            return (strlen($a) > strlen($b) ? -1 : 1);
+        });
+
+        foreach ($diff as $file) {
+            $remove = $target . $file;
+
+            if (is_dir($remove)) {
+                rmdir($remove);
+            } else {
+                unlink($remove);
+            }
+        }
+    }
+
+
     /**
      * Copies a file from `$source` to `$dest`.
      *
