@@ -203,6 +203,7 @@ class Process
      */
     private static function isProcFSMounted()
     {
-        return is_resource(@fopen('/proc', 'r'));
+      $type = shell_exec('stat -f -c "%T" /proc 2>/dev/null');
+      return strpos($type,'proc')==0;
     }
 }
