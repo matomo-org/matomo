@@ -112,7 +112,7 @@ class TestRequestResponse
     private function normalizeEncodingPhp533($apiResponse)
     {
         if(!IntegrationTestCase::isPhpVersion53()
-            || strpos($apiResponse, '<result>') === false) {
+            || strpos($apiResponse, '<result') === false) {
             return $apiResponse;
         }
         return str_replace('&amp;#039;', "'", $apiResponse);

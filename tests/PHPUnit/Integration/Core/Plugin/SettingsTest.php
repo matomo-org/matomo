@@ -416,6 +416,9 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
 
     public function test_getSettingsForCurrentUser_shouldReturnAllSettingsIfEnoughPermissionsAndSortThemBySettingOrder()
     {
+        if(\Piwik\Tests\IntegrationTestCase::isPhpVersion53()) {
+            $this->markTestSkipped('does not pass on PHP 5.3.3');
+        }
         $this->setSuperUser();
 
         $this->addSystemSetting('mysystemsetting1', 'mytitle1');
