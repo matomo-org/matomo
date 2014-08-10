@@ -128,6 +128,8 @@ class GeoIPAutoUpdater extends ScheduledTask
      */
     protected function downloadFile($dbType, $url)
     {
+        $url = trim($url);
+
         $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
 
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity

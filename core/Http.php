@@ -162,6 +162,8 @@ class Http
         $proxyUser = Config::getInstance()->proxy['username'];
         $proxyPassword = Config::getInstance()->proxy['password'];
 
+        $aUrl = trim($aUrl);
+
         // other result data
         $status = null;
         $headers = array();
