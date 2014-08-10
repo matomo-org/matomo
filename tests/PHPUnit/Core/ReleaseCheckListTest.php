@@ -1,13 +1,16 @@
 <?php
-use Piwik\Filesystem;
-use Piwik\Plugin\Manager;
-use Piwik\SettingsServer;
-
 /**
  * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+use Piwik\Filesystem;
+use Piwik\Plugin\Manager;
+use Piwik\SettingsServer;
+
+/**
+ * @group ReleaseCheckListTest
  */
 class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 {
@@ -113,6 +116,10 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $patternFailIfFound = 'dump(';
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
+            if ($file == PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/templates/travis.yml.twig') {
+                continue;
+            }
+
             $content = file_get_contents($file);
             $this->assertFalse(strpos($content, $patternFailIfFound), 'found in ' . $file);
         }
