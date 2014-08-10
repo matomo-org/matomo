@@ -85,8 +85,6 @@ install:
 before_script:
   - ./tests/travis/configure_git.sh
 
-  - echo "change for testing"
-
   # print out mysql information
   - mysql --version
   - mysql -e "SELECT VERSION();"
