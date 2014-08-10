@@ -105,6 +105,7 @@
         "DevelopmentProcess": "Poichè il nostro %sprocesso di sviluppo%s include migliaia di test automatizzati, i Beta Tester giocano un ruolo chiave nel raggiungimento in Piwik della \"Politica no bug\".",
         "EmailServerSettings": "Impostazioni server e-mail",
         "FaviconUpload": "Seleziona una Favicon da caricare",
+        "FileUploadDisabled": "Il caricamento dei files non è abilitato nella configurazione del tuo PHP. Per caricare il tuo logo personalizzato devi impostare %s nel php.ini e riavviare il server.",
         "ForBetaTestersOnly": "Solo per beta tester",
         "ImageTracking": "Rilevamento immagine",
         "ImageTrackingIntro1": "Quando un visitatore ha disattivato JavaScript o quando JavaScript non può essere utilizzato, è possibile utilizzare un collegamento di tracciamento immagine per tracciare i visitatori.",
@@ -144,6 +145,7 @@
         "LogoNotWriteableInstruction": "Per utilizzare il tuo logo personalizzato al posto del logo di Piwik, da' i permessi di scrittura a questa directory: %1$s Piwik necessita dell'accesso in scrittura per i tuoi loghi conservati nei files %2$s.",
         "LogoUpload": "Seleziona un logo da caricare",
         "LogoUploadHelp": "Caricate un file nei formati %s con un'altezza minima di %s pixels",
+        "MenuDevelopment": "Sviluppo",
         "MenuDiagnostic": "Diagnostica",
         "MenuGeneralSettings": "Impostazioni generali",
         "MenuManage": "Gestione",
@@ -379,6 +381,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Il Database Piwik deve essere aggiornato dalla versione %1$s alla nuova versione %2$s.",
         "PluginDescription": "Meccanismo di aggiornamento di Piwik",
         "ReadyToGo": "Pronto a partire?",
+        "TheFollowingDimensionsWillBeUpgradedX": "Le dimensioni seguenti saranno aggiornate: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "I seguenti plugin saranno aggiornati: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Alcuni plugin che utilizzi sono stati aggiornati sul Marketplace:",
         "ThereIsNewVersionAvailableForUpdate": "C'è una nuova versione di Piwik disponibile per l'aggiornamento.",
@@ -449,6 +452,7 @@
         "ContactThePiwikTeam": "Contatta il team Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "Hai un bug da segnalare o una richiesta di funzionalità?",
         "GetInTouch": "Apprezziamo il tuo feedback e leggiamo sempre tutti i messaggi. Ma forse vorresti condividere qualche opportunità commerciale, ingaggiare un consulente di Piwik, raccontarci una storia di successi o semplicemente dirci Ciao!",
+        "HowToCreateTicket": "Si prega di leggere le raccomandazioni per scrivere un buon %1$srapporto bug%2$s o una %3$srichiesta di funzionalità%4$s. Poi registrati o accedi al nostro %5$stracker dei problemi%6$s e crea un %7$snuovo problema%8$s.",
         "IWantTo": "Vorrei:",
         "LearnWaysToParticipate": "Impara tutti i modi attraverso i quali puoi %s partecipare %s",
         "ManuallySendEmailTo": "Perfavore invia manualmente il messaggio a",
@@ -631,9 +635,12 @@
         "ExceptionPrivilege": "Non puoi accedere a questa risorsa con un accesso %s.",
         "ExceptionPrivilegeAccessWebsite": "Non puoi accedere alla risorsa richiesta perché è necessario essere autorizzati per l'accesso %s per il sito con id = %d.",
         "ExceptionPrivilegeAtLeastOneWebsite": "Non puoi accedere alla risorsa richiesta perché è necessario essere autorizzati come %s per almeno un sito web.",
+        "ExceptionReportNotEnabled": "Il report richiesto non è abilitato. Questo in genere significa che il plugin che definisce il report è disattivato o che tu non hai i permessi sufficienti per accedere a questo report.",
+        "ExceptionReportNotFound": "Il report richiesto non esiste.",
         "ExceptionUnableToStartSession": "Impossibile avviare la sessione.",
         "ExceptionUndeletableFile": "Impossibile cancellare %s",
         "ExceptionUnreadableFileDisabledMethod": "Il file di configurazione {%s} non può essere letto. Il tuo host può aver disabilitato %s.",
+        "ExceptionWidgetNotFound": "Il widget richiesto non esiste.",
         "ExpandDataTableFooter": "Cambia la visualizzazione o configura il report",
         "Export": "Esporta",
         "ExportAsImage": "Esporta come Immagine",
@@ -1041,6 +1048,8 @@
         "YearComparedToPreviousYear": "anno precedente"
     },
     "Installation": {
+        "CannotConnectToDb": "Impossibile connettersi al database",
+        "CannotConnectToDbResolvingExplanation": "Potrebbe trattarsi di un problema temporaneo, prova a %1$sricaricare la pagina%2$s. Se il problema persiste, contatta il tuo amministratore di Piwik.",
         "CollaborativeProject": "Piwik è un progetto in collaborazione, costruito con amore da persone di tutto il mondo.",
         "ConfigurationHelp": "Il tuo file di configurazioni Piwik sembra essere configurato male. Puoi rimuovere il file config\/config.ini.php e ricominciare l'installazione, o correggere i dati di connessione al database.",
         "ConfirmDeleteExistingTables": "Sei sicuro di voler cancellare le tabelle %s dal tuo Database? ATTENZIONE: I DATI NON POTRANNO ESSERE RECUPERATI!",
@@ -1169,7 +1178,8 @@
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "Riguardo alle traduzioni di Piwik",
-        "PluginDescription": "Questo plugin mostrerà la lista delle lingue disponibili per l'interfaccia Piwik. La lingua selezionata sarà salvata nelle preferenze per ciascun utente."
+        "PluginDescription": "Questo plugin mostrerà la lista delle lingue disponibili per l'interfaccia Piwik. La lingua selezionata sarà salvata nelle preferenze per ciascun utente.",
+        "TranslationSearch": "Ricerca Traduzione"
     },
     "Live": {
         "AbandonedCartSummary": "%1$s%2$s carrelli abbandonati%3$s e %4$s articoli abbandonati %5$sper un valore complessivo di %6$s%7$s.",
@@ -1244,6 +1254,7 @@
         "ChooseHttpTimeout": "Scegliere il valore di timeout HTTP",
         "ChooseMetric": "Scegli metriche",
         "ChooseReport": "Scegli report",
+        "ChooseSegment": "Scegli segmento",
         "ConfirmRemoveAccount": "Vuoi rimuovere questo account?",
         "DefaultReportDate": "Data report",
         "EmailUs": "Scrivici",
@@ -1255,6 +1266,7 @@
         "HowtoLoginAnonymous": "Lascia vuoti username e password per un login anonimo",
         "HttpIsNotSecureWarning": "Il tuo token di autorizzazione Piwik (token_auth) viene inviato in chiaro se si utilizza 'HTTP'. Per questo motivo si consiglia HTTPS per il trasporto sicuro dei dati su Internet. Vuoi continuare?",
         "HttpTimeout": "HTTP Timeout",
+        "IgnoreSslError": "Ignora errore SSL",
         "IncompatiblePiwikVersion": "La versione di Piwik che stai utilizzando è incompatibile con Piwik Mobile 2. Aggiorna la tua installazione e prova ancora o installa Piwik Mobile 1.",
         "LastUpdated": "Ultimo aggiornamento: %s",
         "LoadingReport": "Sto caricando %s",
@@ -1275,6 +1287,8 @@
         "NoVisitorsShort": "Nessun Visitatore",
         "NoWebsiteFound": "Nessun sito web",
         "NoWebsitesShort": "Nessun Sito Web",
+        "PossibleSslError": "Possibile errore nel certificato SSL",
+        "PossibleSslErrorExplanation": "Si è verificato un errore che potrebbe essere causato da un certificato non valido o autofirmato: \"%s\". Il login potrebbe funzionare meglio ignorando la convalida SSL ma ciò è meno sicuro. Puoi cambiare la convalida SSL in ogni momento nelle impostazioni.",
         "PullDownToRefresh": "Tira giù per aggiornare...",
         "RatingDontRemindMe": "Non ricordarmelo",
         "RatingNotNow": "Non ora",
@@ -2083,6 +2097,8 @@
         "ShowingVisits": "Visite geolocalizzate degli ultimi",
         "Unlocated": "<b>%s<\/b> %p delle visite da %c non possono essere geolocalizzate.",
         "VisitorMap": "Mappa Visitatori",
+        "WithUnknownCity": "%s con città sconosciuta",
+        "WithUnknownRegion": "%s con regione sconosciuta",
         "WorldWide": "Tutto il Mondo"
     },
     "UserSettings": {

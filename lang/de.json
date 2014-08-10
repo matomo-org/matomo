@@ -105,6 +105,7 @@
         "DevelopmentProcess": "Auch wenn unser %sEntwicklungsprozess%s tausende an automatisierten Tests beinhaltet, haben Beta-Tester eine Schlüsselrolle um die \"No Bug Policy\" in Piwik zu gewährleisten.",
         "EmailServerSettings": "E-Mail-Server-Einstellungen",
         "FaviconUpload": "Wählen Sie ein Favicon für den Upload aus",
+        "FileUploadDisabled": "Das Hochladen von Dateien ist in Ihrer PHP-Konfiguration nicht aktiviert. Um Ihr eigenes Logo hochladen zu können setzen Sie bitte %s in Ihrer php.ini und starten Sie den Webserver neu.",
         "ForBetaTestersOnly": "Nur für Beta-Tester",
         "ImageTracking": "Tracking mit Hilfe eines Bildes",
         "ImageTrackingIntro1": "Für den Fall, dass ein Besucher JavaScript deaktiviert hat, oder JavaScript nicht verwendet werden kann, können Sie das Tracking mit Hilfe eines Bildes nutzen um Besucher zu tracken.",
@@ -143,6 +144,7 @@
         "LogoNotWriteableInstruction": "Um Ihr eigenes Logo anstelle des Piwik Logos verwenden zu können werden Schreibrechte auf diesen Ordner benötigt: %1$s Piwik benötigt Schreibzugriff auf Ihre Logos die gespeichert sind in %2$s.",
         "LogoUpload": "Wählen Sie ein Logo für den Upload",
         "LogoUploadHelp": "Bitte laden Sie eine Datei in den Formaten %s mit einer minimalen Höhe von %s Pixeln hoch.",
+        "MenuDevelopment": "Entwicklung",
         "MenuDiagnostic": "Diagnose",
         "MenuGeneralSettings": "Allgemeine Einstellungen",
         "MenuManage": "Verwalten",
@@ -1025,6 +1027,7 @@
         "YearComparedToPreviousYear": "vorheriges Jahr"
     },
     "Installation": {
+        "CannotConnectToDb": "Verbindung zur Datenbank ist fehlgeschlagen",
         "CollaborativeProject": "Piwik ist ein gemeinschaftliches Projekt, geschaffen mit Liebe von Menschen aus der ganzen Welt.",
         "ConfigurationHelp": "Ihre Konfigurationsdatei enthält Fehler. Sie können entweder die config\/config.php löschen und neu installieren, oder die Einstellung zur Datenbankverbindung korrigieren.",
         "ConfirmDeleteExistingTables": "Wollen Sie wirklich die Tabellen: %s aus der Datenbank löschen? WARNUNG: DATEN AUS DIESEN TABELLEN KÖNNEN NICHT WIEDERHERGESTELLT WERDEN!",
@@ -1148,7 +1151,8 @@
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "Über Piwik Übersetzungen",
-        "PluginDescription": "Dieses Plugin zeigt eine Liste aller verfügbaren Sprachen für die Piwik-Oberfläche. Die ausgewählte Sprache wird in den Benutzereinstellungen jedes Benutzers gespeichert."
+        "PluginDescription": "Dieses Plugin zeigt eine Liste aller verfügbaren Sprachen für die Piwik-Oberfläche. Die ausgewählte Sprache wird in den Benutzereinstellungen jedes Benutzers gespeichert.",
+        "TranslationSearch": "Übersetzungssuche"
     },
     "Live": {
         "AbandonedCartSummary": "%1$s%2$s verlassene Warenkörbe%3$s und %4$s verlassene Produkte %5$sim Gesamtwert von %6$s%7$s.",
@@ -1223,6 +1227,7 @@
         "ChooseHttpTimeout": "Wählen Sie einen Wert für den HTTP Timeout",
         "ChooseMetric": "Wähle Metrik",
         "ChooseReport": "Wählen Sie einen Bericht",
+        "ChooseSegment": "Segment auswählen",
         "ConfirmRemoveAccount": "Möchten Sie diesen Account entfernen?",
         "DefaultReportDate": "Berichtsdatum",
         "EmailUs": "Email senden",
@@ -1234,6 +1239,7 @@
         "HowtoLoginAnonymous": "Benutzername und Passwort leer lassen für anonymes anmelden",
         "HttpIsNotSecureWarning": "Bei der Verwendung von HTTP wird ihr Piwik Authorisierungstoken (token_auth) im Klartext übertragen. Aus diesem Grund empfehlen wir HTTPS für eine sichere Übertragung von Daten über das Internet. Möchten Sie forfahren?",
         "HttpTimeout": "HTTP Timeout",
+        "IgnoreSslError": "Ignoriere SSL Fehler",
         "IncompatiblePiwikVersion": "The Piwik Version die Sie verwenden ist nicht mit Piwik Mobile 2 kompatibel. Aktualisieren Sie Ihre Piwik Installation oder verwenden Sie alternativ Piwik Mobile 1.",
         "LastUpdated": "Letzte Aktualisierung: %s",
         "LoadingReport": "Lade %s",
@@ -1254,6 +1260,8 @@
         "NoVisitorsShort": "Keine Besucher",
         "NoWebsiteFound": "Webseite nicht gefunden",
         "NoWebsitesShort": "Keine Webseiten",
+        "PossibleSslError": "Möglicher SSL Zertifikat Fehler",
+        "PossibleSslErrorExplanation": "Ein Fehler ist aufgetreten welcher durch ein invalides oder selbst signiertes SSL Zertifikat verursacht sein könnte: \"%s\". Die Anmeldung könnte funktionieren indem die Validierung des SSL Zertifikat ignoriert wird aber es ist weniger sicher. Die Einstellung kann jederzeit nachträglich geändert werden.",
         "PullDownToRefresh": "Zum Aktualisieren herunterziehen...",
         "RatingDontRemindMe": "Bitte nicht daran erinnern",
         "RatingNotNow": "Nicht jetzt",
@@ -2061,6 +2069,8 @@
         "ShowingVisits": "Lokalisierte Besuche der letzten",
         "Unlocated": "<b>%s<\/b> der Besuche %p aus %c konnten nicht lokalisiert werden.",
         "VisitorMap": "Besucherkarte",
+        "WithUnknownCity": "%s mit unbekannter Stadt",
+        "WithUnknownRegion": "%s mit unbekannter Region",
         "WorldWide": "Weltweit"
     },
     "UserSettings": {

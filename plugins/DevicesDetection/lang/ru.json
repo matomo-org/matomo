@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Версии браузеров",
+        "CarBrowser": "Автомобильный браузер",
         "Console": "Консоль",
         "dataTableLabelBrands": "Фирма-производитель",
         "dataTableLabelBrowserFamily": "Семейство браузеров",
@@ -9,6 +10,7 @@
         "dataTableLabelTypes": "Тип",
         "Device": "Устройство",
         "DeviceBrand": "Фирма-производитель устройства",
+        "DeviceDetection": "Определение устройств",
         "DeviceModel": "Модель устройства",
         "DevicesDetection": "Устройства посетителей",
         "DeviceType": "Тип устройства",

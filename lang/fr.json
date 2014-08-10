@@ -1144,7 +1144,7 @@
         "SystemCheckWriteDirsHelp": "Pour corriger les erreurs sur votre système Linux essayez de taper les commandes suivantes",
         "SystemCheckZlibHelp": "Vous devez reconfigurer et recompiler PHP avec le support zlib, --with-zlib.",
         "Tables": "Création des tables",
-        "TablesCreatedSuccess": "Tables crées avec succès!",
+        "TablesCreatedSuccess": "Tables créées avec succès!",
         "TablesDelete": "Supprimer les tables détectées",
         "TablesDeletedSuccess": "Tables Piwik existantes supprimées avec succès",
         "TablesFound": "Les tables suivantes ont été trouvées dans la base de données",
