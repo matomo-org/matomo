@@ -85,9 +85,6 @@ install:
 {% endif %}
 
 before_script:
-{% if pluginName is not empty %}  - cd piwik
-{% endif %}
-
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git checkout master ./tests/travis
 
