@@ -20,8 +20,10 @@ env:
 {% else %}
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
 {% endif %}
-    {% if artifactsPass|default is not empty %}secure: "{{ artifactsPass|raw }}"{% endif %}
-    {% if githubToken|default is not empty %}secure: "{{ githubToken|raw }}"{% endif %}
+{% if artifactsPass|default is not empty %}    - secure: "{{ artifactsPass|raw }}"
+{% endif %}
+{% if githubToken|default is not empty %}    - secure: "{{ githubToken|raw }}"
+{% endif %}
   matrix:
 {% for test in testsToRun %}    - TEST_SUITE={{ test.name|raw }} {{ test.vars|raw }}
 {% endfor %}
