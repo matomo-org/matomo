@@ -86,6 +86,9 @@ before_install:
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
 
 before_script:
+  # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
+  - git checkout master ./tests/travis
+
   - ./tests/travis/configure_git.sh
 
   # print out mysql information
