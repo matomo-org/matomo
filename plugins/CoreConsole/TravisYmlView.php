@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreConsole;
 
 use Piwik\View;
 use Symfony\Component\Console\Output\OutputInterface;
+use Exception;
 
 /**
  * View class for the travis.yml.twig template file. Generates the contents for a .travis.yml file.
@@ -200,6 +201,10 @@ class TravisYmlView extends View
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
             $testsToExclude[] = array('php' => '5.4',
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
+        }
+
+        if (empty($testsToRun)) {
+            throw new Exception("No tests to run for this plugin, aborting .travis.yml generation.");
         }
 
         return array($testsToRun, $testsToExclude);
