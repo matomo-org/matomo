@@ -35,7 +35,6 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
 
                 if ! git push origin $TRAVIS_BRANCH 2> /dev/null; then
                     echo "Failed to push!"
-                    exit 1
                 fi
             else
                 echo "Building for pull request or not first job, skipping .travis.yml out of date check."
