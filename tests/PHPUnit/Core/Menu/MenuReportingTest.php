@@ -20,7 +20,7 @@ use Piwik\Plugin\Manager as PluginManager;
 /**
  * @group Core
  */
-class Plugin_ReportTest extends PHPUnit_Framework_TestCase
+class Menu_ReportingTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var MenuReporting
