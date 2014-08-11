@@ -15,6 +15,7 @@ use Piwik\WidgetsList;
 use Piwik\Translate;
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Tests\Fixture;
 
 class GetBasicReport extends Report
 {
@@ -91,6 +92,11 @@ class Plugin_ReportTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Fixture::createWebsite('2014-01-01 00:00:00');
+        $this->unloadAllPlugins();
+        $_GET['idSite'] = 1;
+
         $this->exampleReport  = new GetExampleReport();
         $this->disabledReport = new GetDisabledReport();
         $this->basicReport    = new GetBasicReport();
@@ -102,6 +108,7 @@ class Plugin_ReportTest extends DatabaseTestCase
         WidgetsList::getInstance()->_reset();
         MenuReporting::getInstance()->unsetInstance();
         Translate::unloadEnglishTranslation();
+        unset($_GET['idSite']);
         parent::tearDown();
     }
 
@@ -215,18 +222,17 @@ class Plugin_ReportTest extends DatabaseTestCase
         $menuItems = $menu->getMenu();
         
         $expected = array(
-            '_tooltip' => '',
+            '_tooltip' => false,
             '_order' => 20,
-            '_hasSubmenu' => 1,
+            '_hasSubmenu' => true,
             'Actions_SubmenuPageTitles' => array(
             '_url' => array(
                 'module' => 'TestPlugin',
-                'action' => 'menuGetAdvancedReport',
-                'idSite' =>  '',
+                'action' => 'menuGetAdvancedReport'
             ),
             '_order' => 20,
             '_name' => 'Actions_SubmenuPageTitles',
-            '_tooltip' =>  '',
+            '_tooltip' =>  false,
         ));
         
         $this->assertCount(1, $menuItems);
