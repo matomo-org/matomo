@@ -476,6 +476,10 @@
   engine: 'InfoSpace'
   keywords: 'rest'
 
+- url: 'http://www.sputnik.ru/search?q=%D0%BC%D0%B8%D0%BA%D1%80%D0%BE'
+  engine: 'Sputnik'
+  keywords: 'микро'
+
 # No keyword
 - url: 'http://yandex.ru/clck/jsredir?from=yandex.ru;yandsearch;web;;&text=&etext=385.4_2Hh6u_q9NEfpXpGpdVughcGncWYG-_kwHJA-7QxQ8v4xvt5Q2aAB7TvvUxHLtacHMltCoYGQFFmIdiXaIT-_yiHqjEJoZKVdHIXJylYsQ5TJuxRtqCDA0zUi_xlatVD6kx219rIP4Q4a7j9E7-2U88ZpCZwGXuhRws6LASTZUIJRfiPbVdxjIn2Qu5bCtcGKIQBqGa567Czx019cxaPvNAWQQ_8MIJjUgFHzg2vO_XvlSMmKOcooZNX5UzqgJAnaioMW7884jsYEKwXebrij39unXyWKnLXDX15607fkXqQFGIC_tp8zvjXq0ynizqcdQcfkHnZG-zxxPqCoALAWj47hwRCZtLGinfqMatmzFWG7Yo7eWxScEHyMI2J89OU2ZjpuHog0VyZpSb3hN17-CdHWEeN_ii1mLG_J24ftGMEpbWOeH-M3fZeAtCzmq0XUFchFAbVvm9Xmk8I2M-4A.66cd118e1c9292f7ec030c8580f6912eae4ac700&uuid=&state=AiuY0DBWFJ4ePaEse6rgeAjgs2pI3DW99KUdgowt9XsGes-COYeAtjuEaMUoBSHP2gxXC4630Mz4aEvXYUCXRTGAgAQwM7IGD-gsizkhSmBNCEfle91ZI3guOwMFOli3aeHzkqoQeuyYhvz_XwXodFz8gB8yMp6IgAL52sHwR5edKVNpZtbPIFNbLDRYIxJbYQciYGnLnCw_i584OfCtQO-zjBBGMlwoQFtGet-Xvmw&data=UlNrNmk5WktYejR0eWJFYk1LdmtxdE5aS05CUWU0alhkSkF1MEpOb0Jrc0dpbmNsUGhaVjljRWt6R0VackFURk5sM1psNlVKMWh6djhYazhRT1psQTdHamFGSFJacDFhQjdfbHJQU05jeDJMRHV0MTJmRG53Zw&b64e=2&sign=9072743a841f27dd5e766c4b57fa5138&keyno=0&l10n=ru'
   engine: 'Yandex'
