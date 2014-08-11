@@ -8,8 +8,12 @@ if ! $GENERATE_TRAVIS_YML_COMMAND; then
     exit 1
 fi
 
-diff .travis.yml generated.travis.yml > /dev/null
+echo "Diffing generated with existing..."
+
+diff .travis.yml generated.travis.yml
 DIFF_RESULT=$?
+
+echo ""
 
 if [ "$DIFF_RESULT" -eq "1" ]; then
     if [ "$GITHUB_USER_TOKEN" != "" ]; then
