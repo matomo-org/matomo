@@ -59,6 +59,10 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
     if (goalId != undefined) {
         $('input[name=goalIdUpdate]').val(goalId);
     }
+
+    // force re-run of iCheck. They were already initialized with all radio fields not selected. see #5961
+    $('.entityAddContainer div.form-radio').removeClass('form-radio');
+    $(document).trigger('Goals.edit', {});
 }
 
 function bindGoalForm() {
