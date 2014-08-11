@@ -164,7 +164,7 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId = false, $minTimestamp, $filterSortOrder);
-        $this->addFilterToCleanVisitors($dataTable, $idSite, $flat, $doNotFetchActions);
+        $this->addFilterToCleanVisitors($dataTable, $idSite, $flat, $doNotFetchActions, $filterNow = true);
 
         return $dataTable;
     }
