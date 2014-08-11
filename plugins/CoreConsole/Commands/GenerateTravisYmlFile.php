@@ -54,7 +54,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
             $output->write("<info>Found existing YAML file at $existingYmlPath.</info>");
 
             $view->processExistingTravisYml($outputYmlPath);
-        } echo {
+        } else {
             $output->write("<info>Could not find existing YAML file at $existingYmlPath, generating a new one.</info>");
         }
 
