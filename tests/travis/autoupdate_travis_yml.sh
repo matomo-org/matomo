@@ -5,6 +5,12 @@
 GENERATE_TRAVIS_YML_COMMAND="$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"
 if ! $GENERATE_TRAVIS_YML_COMMAND; then
     echo "generate:travis-yml failed!"
+
+    # if building for 'latest_stable' ignore the error and continue build
+    if [ "$TEST_AGAINST_CORE" == 'latest_stable' ]; then
+        exit
+    fi
+
     exit 1
 fi
 
