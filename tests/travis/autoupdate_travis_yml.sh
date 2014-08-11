@@ -8,9 +8,15 @@ if ! $GENERATE_TRAVIS_YML_COMMAND; then
     exit 1
 fi
 
-echo "Diffing generated with existing..."
+if [ "$PLUGIN_NAME" != "" ]; then
+    EXISTING_YML_PATH=plugins/$PLUGIN_NAME/.travis.yml
+else
+    EXISTING_YML_PATH=.travis.yml
+fi
 
-diff .travis.yml generated.travis.yml
+echo "Diffing generated with existing (located at $EXISTING_YML_PATH)..."
+
+diff $EXISTING_YML_PATH generated.travis.yml > /dev/null
 DIFF_RESULT=$?
 
 echo ""
