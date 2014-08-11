@@ -203,7 +203,9 @@ class TravisYmlView extends View
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
         }
 
-        if (empty($testsToRun)) {
+        if (!empty($this->pluginName)
+            && empty($testsToRun)
+        ) {
             throw new Exception("No tests to run for this plugin, aborting .travis.yml generation.");
         }
 

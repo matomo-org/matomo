@@ -85,6 +85,8 @@ install:
 {% endif %}
 
 before_script:
+{% if pluginName is not empty %}  - cd piwik
+{% endif %}
   - ./tests/travis/configure_git.sh
 
   # print out mysql information
