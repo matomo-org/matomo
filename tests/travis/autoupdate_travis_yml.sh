@@ -3,7 +3,10 @@
 # if we're on master, check if .travis.yml is out of date. if github token is supplied we will try to auto-update,
 # otherwise we just print a message and exit.
 GENERATE_TRAVIS_YML_COMMAND="$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"
-$GENERATE_TRAVIS_YML_COMMAND
+if ! $GENERATE_TRAVIS_YML_COMMAND; then
+    echo "generate:travis-yml failed!"
+    exit 1
+fi
 
 diff .travis.yml generated.travis.yml > /dev/null
 DIFF_RESULT=$?
