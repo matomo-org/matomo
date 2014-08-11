@@ -55,3 +55,24 @@ count=$(($count + 1))
 echo -e "\n${RED}Timeout (${timeout} minutes) reached. Terminating \"$@\"${RESET}\n"
   kill -9 $cmd_pid
 }
+
+travis_retry() {
+  local result=0
+  local count=1
+  while [ $count -le 3 ]; do
+    [ $result -ne 0 ] && {
+      echo -e "\n${RED}The command \"$@\" failed. Retrying, $count of 3.${RESET}\n" >&2
+    }
+    "$@"
+    result=$?
+    [ $result -eq 0 ] && break
+count=$(($count + 1))
+    sleep 1
+  done
+
+  [ $count -gt 3 ] && {
+    echo "\n${RED}The command \"$@\" failed 3 times.${RESET}\n" >&2
+  }
+
+  return $result
+}

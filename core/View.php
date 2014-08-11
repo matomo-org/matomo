@@ -189,6 +189,17 @@ class View implements ViewInterface
         return $this->templateVars[$key];
     }
 
+    /**
+     * Returns true if a template variable has been set or not.
+     *
+     * @param $name The name of the template variable.
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return isset($this->templateVars[$name]);
+    }
+
     private function initializeTwig()
     {
         $piwikTwig = new Twig();

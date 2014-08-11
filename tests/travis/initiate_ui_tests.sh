@@ -19,9 +19,6 @@ COMMIT_MESSAGE=$(git log "$TRAVIS_COMMIT" -1 --pretty=%B)
 
 cd tests/PHPUnit/UI
 
-git config --global user.email "hello@piwik.org"
-git config --global user.name "Piwik Automation"
-
 UI_BRANCH="master"
 git checkout $UI_BRANCH
 git pull --rebase origin $UI_BRANCH

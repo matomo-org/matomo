@@ -1,7 +1,12 @@
 #!/bin/bash
 
+SCRIPT_DIR=$( dirname "$0" )
+
 # for travis_wait function
-source travis-helper.sh
+source $SCRIPT_DIR/travis-helper.sh
+
+# go to tests directory
+cd ../PHPUnit
 
 if [ "$TEST_SUITE" != "UITests" ] && [ "$TEST_SUITE" != "AngularJSTests" ]
 then
@@ -25,7 +30,7 @@ then
 
     if [ "$TEST_SUITE" = "AngularJSTests" ]
     then
-        sh ./../angularjs/scripts/travis.sh
+        ./../angularjs/scripts/travis.sh
     elif [ "$TEST_SUITE" = "JavascriptTests" ]
     then
         touch ../javascript/enable_sqlite
