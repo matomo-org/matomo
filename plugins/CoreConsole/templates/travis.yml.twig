@@ -152,8 +152,8 @@ after_script:
 after_success:
   - cd $PIWIK_ROOT_DIR
 {% if pluginName is empty %}  - ./tests/travis/generate_docs.sh{%- endif %}
-
-
 {% if extraSections|default is not empty %}
+
+
 {{ extraSections|trim|raw }}
 {%- endif -%}
