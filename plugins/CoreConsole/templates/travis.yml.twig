@@ -87,7 +87,7 @@ install:
 
 before_script:
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master ./tests/travis
+  - git checkout master ./tests/travis ./plugins/CoreConsole
 
   - ./tests/travis/configure_git.sh
 
