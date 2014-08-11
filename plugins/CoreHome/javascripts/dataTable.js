@@ -598,6 +598,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
         currentPattern = piwikHelper.htmlDecode(currentPattern);
 
+        var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}]
+
+        $.each(patternsToReplace, function (index, pattern) {
+            currentPattern = currentPattern.replace(pattern.to, pattern.from);
+        });
+
         $('.dataTableSearchPattern', domElem)
             .css({display: 'block'})
             .each(function () {
@@ -617,6 +623,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     function () {
                         var keyword = $(this).siblings('.searchInput').val();
                         self.param.filter_offset = 0;
+
+                        $.each(patternsToReplace, function (index, pattern) {
+                            keyword = keyword.replace(pattern.from, pattern.to);
+                        });
 
                         if (self.param.search_recursive) {
                             self.param.filter_column_recursive = 'label';
