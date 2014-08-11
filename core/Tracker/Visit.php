@@ -306,7 +306,7 @@ class Visit implements VisitInterface
             $visitor->setVisitorColumn($key, $value);
         }
 
-        $dimensions = VisitDimension::getAllDimensions();
+        $dimensions = $this->getAllVisitDimensions();
 
         $this->triggerHookOnDimensions($dimensions, 'onNewVisit', $visitor, $action);
 
@@ -517,7 +517,7 @@ class Visit implements VisitInterface
             $visitor->setVisitorColumn('idvisitor', $this->visitorInfo['idvisitor']);
         }
 
-        $dimensions = VisitDimension::getAllDimensions();
+        $dimensions     = $this->getAllVisitDimensions();
         $valuesToUpdate = $this->triggerHookOnDimensions($dimensions, 'onExistingVisit', $visitor, $action, $valuesToUpdate);
 
         if ($visitIsConverted) {
@@ -556,5 +556,11 @@ class Visit implements VisitInterface
         }
 
         return $valuesToUpdate;
+    }
+
+    protected function getAllVisitDimensions()
+    {
+        $dimensions = VisitDimension::getAllDimensions();
+        return $dimensions;
     }
 }
