@@ -10,14 +10,14 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\DevicesDetection\Columns\Browserversion;
+use Piwik\Plugins\DevicesDetection\Columns\BrowserVersion;
 
 class GetBrowserVersions extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Browserversion();
+        $this->dimension     = new BrowserVersion();
         $this->name          = Piwik::translate('DevicesDetection_BrowserVersions');
         $this->documentation = ''; // TODO
         $this->order = 6;

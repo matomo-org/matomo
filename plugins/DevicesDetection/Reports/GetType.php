@@ -10,14 +10,14 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\DevicesDetection\Columns\Devicetype;
+use Piwik\Plugins\DevicesDetection\Columns\DeviceType;
 
 class GetType extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Devicetype();
+        $this->dimension     = new DeviceType();
         $this->name          = Piwik::translate('DevicesDetection_DeviceType');
         $this->documentation = ''; // TODO
         $this->order = 0;

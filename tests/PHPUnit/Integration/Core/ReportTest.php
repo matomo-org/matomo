@@ -66,7 +66,7 @@ class GetDisabledReport extends GetBasicReport
 /**
  * @group Core
  */
-class Plugin_ReportTest extends PHPUnit_Framework_TestCase
+class Plugin_ReportTest extends DatabaseTestCase
 {
     /**
      * @var Report
@@ -90,6 +90,7 @@ class Plugin_ReportTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->exampleReport  = new GetExampleReport();
         $this->disabledReport = new GetDisabledReport();
         $this->basicReport    = new GetBasicReport();

@@ -80,5 +80,4 @@ class Menu_ReportingTest extends PHPUnit_Framework_TestCase
         PluginManager::getInstance()->loadPlugin('Morpheus');
     }
 
-
 }
