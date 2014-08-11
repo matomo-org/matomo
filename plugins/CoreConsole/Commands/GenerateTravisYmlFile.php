@@ -49,7 +49,15 @@ class GenerateTravisYmlFile extends ConsoleCommand
         $thisConsoleCommand = $this->getExecutedConsoleCommandForTravis($input);
 
         $view = new TravisYmlView();
-        $view->processExistingTravisYml($outputYmlPath);
+
+        if (file_exists($existingYmlPath)) {
+            $output->write("<info>Found existing YAML file at $existingYmlPath.</info>");
+
+            $view->processExistingTravisYml($outputYmlPath);
+        } echo {
+            $output->write("<info>Could not find existing YAML file at $existingYmlPath, generating a new one.</info>");
+        }
+
         $view->configure($targetPlugin, $artifactsPass, $githubToken, $thisConsoleCommand, $output);
         $travisYmlContents = $view->render();
 

@@ -50,10 +50,6 @@ class TravisYmlView extends View
      */
     public function processExistingTravisYml($existingYmlPath)
     {
-        if (!file_exists($existingYmlPath)) {
-            return;
-        }
-
         $existingYamlText = file_get_contents($existingYmlPath);
         foreach ($this->getRootSectionsFromYaml($existingYamlText) as $sectionName => $offset) {
             $section = $this->getRootSectionText($existingYamlText, $offset);
