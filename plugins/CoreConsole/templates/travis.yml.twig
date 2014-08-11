@@ -60,6 +60,7 @@ install:
   - mkdir $PLUGIN_NAME
   - cp -R !($PLUGIN_NAME) $PLUGIN_NAME
   - cp -R .git/ $PLUGIN_NAME/
+  - cp .travis.yml $PLUGIN_NAME
 
   # checkout piwik in the current directory
   - git clone https://github.com/piwik/piwik.git piwik
