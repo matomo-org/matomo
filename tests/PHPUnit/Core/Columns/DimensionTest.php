@@ -45,7 +45,7 @@ class DimensionTest extends Dimension
 /**
  * @group Core
  */
-class Plugin_ActionDimensionTest extends \PHPUnit_Framework_TestCase
+class Plugin_DimensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var FakeActionDimension
