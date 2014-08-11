@@ -193,8 +193,11 @@ class Report
     {
         $classname    = get_class($this);
         $parts        = explode('\\', $classname);
-        $this->module = $parts[2];
-        $this->action = lcfirst($parts[4]);
+
+        if (5 === count($parts)) {
+            $this->module = $parts[2];
+            $this->action = lcfirst($parts[4]);
+        }
 
         $this->init();
     }

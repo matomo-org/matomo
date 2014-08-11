@@ -71,7 +71,7 @@ abstract class VisitDimension extends Dimension
      */
     public function install()
     {
-        if (!$this->columnType) {
+        if (empty($this->columnType) || empty($this->columnName)) {
             return array();
         }
 
