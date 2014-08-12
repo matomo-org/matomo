@@ -37,11 +37,14 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
         if [ "$LAST_COMMIT_MESSAGE" == "" ] || [ "$LAST_COMMIT_IS_NOT_UPDATE" -eq "0" ]; then
             echo "Last commit message was '$LAST_COMMIT_MESSAGE', possible recursion or error in auto-update, aborting."
         else
-            # only run auto-update for first travis job and if not a pull request
-            if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then
+            LATEST_COMMIT_HASH=`git rev-parse $TRAVIS_BRANCH`
+            CURRENT_COMMIT_HASH=`git rev-parse HEAD`
+
+            # only run auto-update for first travis job, if not a pull request and if we are latest commit
+            if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_JOB_NUMBER" == *.1 ]] && [ "$LATEST_COMMIT_HASH" == "$CURRENT_COMMIT_HASH" ]; then
                 $PIWIK_ROOT_DIR/tests/travis/configure_git.sh # re-configure in case git hasn't been configured yet
 
-                git status
+                git checkout $TRAVIS_BRANCH
 
                 git add .travis.yml
                 git commit -m ".travis.yml file is out of date, auto-updating .travis.yml file."
