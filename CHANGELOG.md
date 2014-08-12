@@ -9,6 +9,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   `$setting->transform = function ($value) { return Common::sanitizeInputValue($value); }`
 * Config setting `disable_merged_assets` moved from `Debug` section to `Development`. The updater will automatically change the section for you.
 * `API.getRowEvolution` will throw an exception if a report is requested that does not have a dimension, for instance `VisitsSummary.get`. This is a fix as an invalid format was returned before see [#5951](https://github.com/piwik/piwik/issues/5951)
+* `MultiSites.getAll` returns from now on always an array of websites. In the past it returned a single object and it didn't contain all properties in case only one website was found which was a bug see [#5987](https://github.com/piwik/piwik/issues/5987)
 
 ### Deprecations
 The following events are considered as deprecated and the new structure should be used in the future. We have not scheduled when those events will be removed but probably in Piwik 3.0 which is not scheduled yet and won't be soon. New features will be added only to the new classes.
