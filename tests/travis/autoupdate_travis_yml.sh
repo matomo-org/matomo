@@ -50,7 +50,7 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
                 git remote set-url origin "https://$GITHUB_USER_TOKEN:@github.com/$TRAVIS_REPO_SLUG.git"
 
                 if ! git push origin $TRAVIS_BRANCH 2> /dev/null; then
-                    echo "Failed to push!"
+                    echo "Failed to push to https://github.com/$TRAVIS_REPO_SLUG.git!"
                 fi
             else
                 echo "Building for pull request or not first job, skipping .travis.yml out of date check."
