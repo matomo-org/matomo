@@ -55,10 +55,12 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
                     echo "Failed to push to https://github.com/$TRAVIS_REPO_SLUG.git!"
                 fi
             else
-                echo "Building for pull request or not first job, skipping .travis.yml out of date check."
+                echo "Building for pull request, old commit or not first job, so skipping .travis.yml out of date check."
                 echo ""
                 echo "TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
                 echo "TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER"
+                echo "LATEST_COMMIT_HASH=$LATEST_COMMIT_HASH"
+                echo "CURRENT_COMMIT_HASH=$CURRENT_COMMIT_HASH"
             fi
         fi
 
