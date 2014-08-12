@@ -115,34 +115,34 @@ class ManyVisitorsOneWebsiteTest extends IntegrationTestCase
                 'testSuffix'             => '_Live.getLastVisitsDetails_sortDesc',
                 'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_limit' => 7)
             ));
+
+            // #5950
+            $apiToTest[] = array('Live.getLastVisitsDetails', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateString,
+                'periods'                => 'month',
+                'testSuffix'             => '_Live.getLastVisitsDetails_sortByVisitCount',
+                'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'visitCount', 'filter_limit' => 7)
+            ));
+
+            // #5950
+            $apiToTest[] = array('Live.getLastVisitsDetails', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateString,
+                'periods'                => 'month',
+                'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisit',
+                'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7)
+            ));
+
+            // #5950
+            $apiToTest[] = array('Live.getLastVisitsDetails', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateString,
+                'periods'                => 'month',
+                'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisitAsc',
+                'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7)
+            ));
         }
-
-        // #5950
-        $apiToTest[] = array('Live.getLastVisitsDetails', array(
-            'idSite'                 => $idSite,
-            'date'                   => $dateString,
-            'periods'                => 'month',
-            'testSuffix'             => '_Live.getLastVisitsDetails_sortByVisitCount',
-            'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'visitCount', 'filter_limit' => 7)
-        ));
-
-        // #5950
-        $apiToTest[] = array('Live.getLastVisitsDetails', array(
-            'idSite'                 => $idSite,
-            'date'                   => $dateString,
-            'periods'                => 'month',
-            'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisit',
-            'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7)
-        ));
-
-        // #5950
-        $apiToTest[] = array('Live.getLastVisitsDetails', array(
-            'idSite'                 => $idSite,
-            'date'                   => $dateString,
-            'periods'                => 'month',
-            'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisitAsc',
-            'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7)
-        ));
 
         // this also fails on all PHP versions, it seems randomly.
 //            $apiToTest[] = array('Live.getLastVisitsDetails', array(
