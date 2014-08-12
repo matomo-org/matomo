@@ -27,7 +27,7 @@ echo ""
 
 if [ "$DIFF_RESULT" -eq "1" ]; then
     if [ "$GITHUB_USER_TOKEN" != "" ]; then
-        cp generated.travis.yml .travis.yml
+        cp $PIWIK_ROOT_DIR/generated.travis.yml .travis.yml
 
         LAST_COMMIT_MESSAGE=$(git log -1 HEAD --pretty=format:%s)
 
@@ -61,7 +61,7 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
         echo ""
         echo "Generated .travis.yml:"
         echo ""
-        cat generated.travis.yml
+        cat $PIWIK_ROOT_DIR/generated.travis.yml
     else
         echo "${RED}Your .travis.yml file is out of date! Please update it using the generate:travis-yml command.${RESET}"
     fi
