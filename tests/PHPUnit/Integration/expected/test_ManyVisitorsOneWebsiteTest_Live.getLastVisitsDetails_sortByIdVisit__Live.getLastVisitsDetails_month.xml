@@ -28,7 +28,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It's pitch black...</pageTitle>
+				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>61</pageId>
@@ -289,7 +289,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>29</pageId>
@@ -551,7 +551,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>26</pageId>
@@ -830,7 +830,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>22</pageId>
