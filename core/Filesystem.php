@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Tracker\Cache;
 
 /**
@@ -202,6 +201,77 @@ class Filesystem
             @rmdir($dir);
         }
         return;
+    }
+
+    /**
+     * Removes all files and directories that are present in the target directory but are not in the source directory.
+     *
+     * @param string $source Path to the source directory
+     * @param string $target Path to the target
+     */
+    public static function unlinkTargetFilesNotPresentInSource($source, $target)
+    {
+        $diff = self::directoryDiff($source, $target);
+        $diff = self::sortFilesDescByPathLength($diff);
+
+        foreach ($diff as $file) {
+            $remove = $target . $file;
+
+            if (is_dir($remove)) {
+                @rmdir($remove);
+            } else {
+                self::deleteFileIfExists($remove);
+            }
+        }
+    }
+
+    /**
+     * Sort all given paths/filenames by its path length. Long path names will be listed first. This method can be
+     * useful if you have for instance a bunch of files/directories to delete. By sorting them by lengh you can make
+     * sure to delete all files within the folders before deleting the actual folder.
+     *
+     * @param string[] $files
+     * @return string[]
+     */
+    public static function sortFilesDescByPathLength($files)
+    {
+        usort($files, function ($a, $b) {
+            // sort by filename length so we kinda make sure to remove files before its directories
+            if ($a == $b) {
+                return 0;
+            }
+
+            return (strlen($a) > strlen($b) ? -1 : 1);
+        });
+
+        return $files;
+    }
+
+    /**
+     * Computes the difference of directories. Compares $target against $source and returns a relative path to all files
+     * and directories in $target that are not present in $source.
+     *
+     * @param $source
+     * @param $target
+     *
+     * @return string[]
+     */
+    public static function directoryDiff($source, $target)
+    {
+        $sourceFiles = self::globr($source, '*');
+        $targetFiles = self::globr($target, '*');
+
+        $sourceFiles = array_map(function ($file) use ($source) {
+            return str_replace($source, '', $file);
+        }, $sourceFiles);
+
+        $targetFiles = array_map(function ($file) use ($target) {
+            return str_replace($target, '', $file);
+        }, $targetFiles);
+
+        $diff = array_diff($targetFiles, $sourceFiles);
+
+        return array_values($diff);
     }
 
     /**

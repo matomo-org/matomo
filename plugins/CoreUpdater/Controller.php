@@ -252,11 +252,14 @@ class Controller extends \Piwik\Plugin\Controller
             @chmod($this->pathRootExtractedPiwik . '/misc/cron/archive.sh', 0755);
         }
 
+        $model = new Model();
+
         /*
          * Copy all files to PIWIK_INCLUDE_PATH.
          * These files are accessed through the dispatcher.
          */
         Filesystem::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
+        $model->removeGoneFiles($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
 
         /*
          * These files are visible in the web root and are generally
@@ -280,6 +283,7 @@ class Controller extends \Piwik\Plugin\Controller
              * Copy the non-PHP files (e.g., images, css, javascript)
              */
             Filesystem::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
+            $model->removeGoneFiles($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT);
         }
 
         /*

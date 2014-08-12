@@ -166,6 +166,13 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId = false, $minTimestamp, $filterSortOrder);
         $this->addFilterToCleanVisitors($dataTable, $idSite, $flat, $doNotFetchActions);
 
+        $filterSortColumn = Common::getRequestVar('filter_sort_column', false, 'string');
+        $filterSortOrder  = Common::getRequestVar('filter_sort_order', 'desc', 'string');
+
+        if ($filterSortColumn) {
+            $dataTable->queueFilter('Sort', array($filterSortColumn, $filterSortOrder));
+        }
+
         return $dataTable;
     }
 
