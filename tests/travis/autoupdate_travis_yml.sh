@@ -20,7 +20,7 @@ fi
 
 echo "Diffing generated with existing (located at `pwd`/.travis.yml)..."
 
-diff .travis.yml generated.travis.yml > /dev/null
+diff .travis.yml $PIWIK_ROOT_DIR/generated.travis.yml > /dev/null
 DIFF_RESULT=$?
 
 echo ""
