@@ -39,8 +39,7 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
         else
             # only run auto-update for first travis job and if not a pull request
             if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then
-                SCRIPT_DIR=$( dirname "$0" )
-                $SCRIPT_DIR/configure_git.sh # re-configure in case git hasn't been configured yet
+                $PIWIK_ROOT_DIR/tests/travis/configure_git.sh # re-configure in case git hasn't been configured yet
 
                 git add .travis.yml
                 git commit -m ".travis.yml file is out of date, auto-updating .travis.yml file."
