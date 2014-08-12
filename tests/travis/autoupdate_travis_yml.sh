@@ -41,6 +41,8 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
             if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then
                 $PIWIK_ROOT_DIR/tests/travis/configure_git.sh # re-configure in case git hasn't been configured yet
 
+                git status
+
                 git add .travis.yml
                 git commit -m ".travis.yml file is out of date, auto-updating .travis.yml file."
 
