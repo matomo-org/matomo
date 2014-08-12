@@ -1,6 +1,25 @@
 #!/bin/bash
 
-# if we're on master, check if .travis.yml is out of date. if github token is supplied we will try to auto-update,
+if [ "$PLUGIN_NAME" != "" ]; then
+    cd $PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME
+fi
+
+LATEST_COMMIT_HASH=`git rev-parse $TRAVIS_BRANCH`
+CURRENT_COMMIT_HASH=`git rev-parse HEAD`
+
+cd $PIWIK_ROOT_DIR
+
+# if current commit is not latest, do not check .travis.yml
+if [ "$LATEST_COMMIT_HASH" != "$CURRENT_COMMIT_HASH" ]; then
+    echo "Commit being tested is not latest, aborting autoupdate check."
+    echo ""
+    echo "LATEST_COMMIT_HASH=$LATEST_COMMIT_HASH"
+    echo "CURRENT_COMMIT_HASH=$CURRENT_COMMIT_HASH"
+
+    exit;
+fi
+
+# check if .travis.yml is out of date. if github token is supplied we will try to auto-update,
 # otherwise we just print a message and exit.
 GENERATE_TRAVIS_YML_COMMAND="$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"
 if ! $GENERATE_TRAVIS_YML_COMMAND; then
@@ -8,6 +27,7 @@ if ! $GENERATE_TRAVIS_YML_COMMAND; then
 
     # if building for 'latest_stable' ignore the error and continue build
     if [ "$TEST_AGAINST_CORE" == 'latest_stable' ]; then
+        cd $PIWIK_ROOT_DIR
         exit
     fi
 
@@ -15,7 +35,7 @@ if ! $GENERATE_TRAVIS_YML_COMMAND; then
 fi
 
 if [ "$PLUGIN_NAME" != "" ]; then
-    cd plugins/$PLUGIN_NAME
+    cd $PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME
 fi
 
 echo "Diffing generated with existing (located at `pwd`/.travis.yml)..."
@@ -37,11 +57,9 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
         if [ "$LAST_COMMIT_MESSAGE" == "" ] || [ "$LAST_COMMIT_IS_NOT_UPDATE" -eq "0" ]; then
             echo "Last commit message was '$LAST_COMMIT_MESSAGE', possible recursion or error in auto-update, aborting."
         else
-            LATEST_COMMIT_HASH=`git rev-parse $TRAVIS_BRANCH`
-            CURRENT_COMMIT_HASH=`git rev-parse HEAD`
 
             # only run auto-update for first travis job, if not a pull request and if we are latest commit
-            if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_JOB_NUMBER" == *.1 ]] && [ "$LATEST_COMMIT_HASH" == "$CURRENT_COMMIT_HASH" ]; then
+            if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then
                 $PIWIK_ROOT_DIR/tests/travis/configure_git.sh # re-configure in case git hasn't been configured yet
 
                 git checkout $TRAVIS_BRANCH
@@ -55,12 +73,10 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
                     echo "Failed to push to https://github.com/$TRAVIS_REPO_SLUG.git!"
                 fi
             else
-                echo "Building for pull request, old commit or not first job, so skipping .travis.yml out of date check."
+                echo "Building for pull request, old commit or not first job, so not pushing updated .travis.yml."
                 echo ""
                 echo "TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
                 echo "TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER"
-                echo "LATEST_COMMIT_HASH=$LATEST_COMMIT_HASH"
-                echo "CURRENT_COMMIT_HASH=$CURRENT_COMMIT_HASH"
             fi
         fi
 
@@ -77,6 +93,4 @@ else
     echo ".travis.yml file is up-to-date."
 fi
 
-if [ "$PLUGIN_NAME" != "" ]; then
-    cd ../..
-fi
+cd $PIWIK_ROOT_DIR
