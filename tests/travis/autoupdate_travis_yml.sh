@@ -15,14 +15,12 @@ if ! $GENERATE_TRAVIS_YML_COMMAND; then
 fi
 
 if [ "$PLUGIN_NAME" != "" ]; then
-    EXISTING_YML_PATH=plugins/$PLUGIN_NAME/.travis.yml
-else
-    EXISTING_YML_PATH=.travis.yml
+    cd plugins/$PLUGIN_NAME
 fi
 
-echo "Diffing generated with existing (located at $EXISTING_YML_PATH)..."
+echo "Diffing generated with existing (located at `pwd`/.travis.yml)..."
 
-diff $EXISTING_YML_PATH generated.travis.yml > /dev/null
+diff .travis.yml generated.travis.yml > /dev/null
 DIFF_RESULT=$?
 
 echo ""
@@ -71,4 +69,8 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
     exit 1
 else
     echo ".travis.yml file is up-to-date."
+fi
+
+if [ "$PLUGIN_NAME" != "" ]; then
+    cd ../..
 fi
