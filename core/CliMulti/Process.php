@@ -167,7 +167,7 @@ class Process
 
     private static function isSystemNotSupported()
     {
-        $uname = shell_exec('uname -a');
+        $uname = @shell_exec('uname -a');
         if(strpos($uname, 'synology') !== false) {
             return true;
         }
