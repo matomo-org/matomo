@@ -292,6 +292,13 @@ class API extends \Piwik\Plugin\API
             );
         }
 
+        if ($multipleWebsitesRequested && $dataTable->getRowsCount() === 1 && $dataTable instanceof DataTable\Simple) {
+            $simpleTable = $dataTable;
+            $dataTable   = $simpleTable->getEmptyClone();
+            $dataTable->addRow($simpleTable->getFirstRow());
+            unset($simpleTable);
+        }
+
         return $dataTable;
     }
 
