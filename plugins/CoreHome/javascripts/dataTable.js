@@ -601,7 +601,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}]
 
         $.each(patternsToReplace, function (index, pattern) {
-            currentPattern = currentPattern.replace(pattern.to, pattern.from);
+            if (0 === currentPattern.indexOf(pattern.to)) {
+                currentPattern = pattern.from + currentPattern.substr(2);
+            }
         });
 
         $('.dataTableSearchPattern', domElem)
@@ -625,7 +627,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         self.param.filter_offset = 0;
 
                         $.each(patternsToReplace, function (index, pattern) {
-                            keyword = keyword.replace(pattern.from, pattern.to);
+                            if (0 === keyword.indexOf(pattern.from)) {
+                                keyword = pattern.to + keyword.substr(1);
+                            }
                         });
 
                         if (self.param.search_recursive) {
