@@ -26,6 +26,9 @@ The following events are considered as deprecated and the new structure should b
 #### Translation search
 As a plugin developer you might want to reuse existing translation keys. You can now find all available translations and translation keys by opening the page "Settings => Development:Translation search" in your Piwik installation. Read more about [internationalization](http://developer.piwik.org/guides/internationalization) here.
 
+#### Reporting API
+* It is now possible to use the `filter_sort_column` parameter when requesting `Live.getLastVisitDetails`. For instance `&filter_sort_column=visitCount`. 
+
 ### New APIs
 * [Report](http://developer.piwik.org/api-reference/Piwik/Plugin/Report) to add a new report
 * [Action Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/ActionDimension) to add a dimension that tracks action related information
