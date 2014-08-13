@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Http;
+use Piwik\Tests\Fixture;
 
 /**
  * @group HttpTest
@@ -66,7 +67,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     {
         $result = Http::sendHttpRequestBy(
             $method,
-            'http://localhost/piwik.js',
+            Fixture::getRootUrl() . '/piwik.js',
             30,
             $userAgent = null,
             $destinationPath = null,
