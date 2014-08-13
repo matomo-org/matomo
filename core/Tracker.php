@@ -226,7 +226,6 @@ class Tracker
      */
     public function main($args = null)
     {
-
         try {
             $tokenAuth = $this->initRequests($args);
         } catch (Exception $ex) {
@@ -432,6 +431,9 @@ class Tracker
      */
     protected function exitWithException($e, $authenticated = false)
     {
+        Common::sendHeader('HTTP/1.1 500 Internal Server Error');
+        error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
+
         if ($this->usingBulkTracking) {
             // when doing bulk tracking we return JSON so the caller will know how many succeeded
             $result = array(

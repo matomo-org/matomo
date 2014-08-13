@@ -124,7 +124,8 @@ class Visit implements VisitInterface
             $visitIsConverted = $someGoalsConverted;
             // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
             if (!$someGoalsConverted) {
-                throw new \Exception('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
+                Common::printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
+                return;
             }
         } // normal page view, potentially triggering a URL matching goal
         else {

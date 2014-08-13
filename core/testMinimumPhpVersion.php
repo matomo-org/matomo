@@ -128,14 +128,18 @@ if (!function_exists('Piwik_ExitWithMessage')) {
             . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;
 
+
+        $message = str_replace(array("<br />", "<br>", "<br/>", "</p>"), "\n", $message);
+        $message = str_replace("\t", "", $message);
+        $message = strip_tags($message);
+
         if($isCli) {
-            $message = str_replace(array("<br />", "<br>", "<br/>", "</p>"), "\n", $message);
-            $message = str_replace("\t", "", $message);
-            echo strip_tags($message);
+            echo $message;
         } else {
             echo $headerPage . $content . $footerPage;
         }
         echo "\n";
+        error_log(sprintf("Error in Piwik: %s", str_replace("\n", " ", $message)));
         exit(1);
     }
 }
