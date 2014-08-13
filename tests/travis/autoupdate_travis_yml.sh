@@ -1,4 +1,4 @@
-#!/bin/bash
+cd #!/bin/bash
 
 if [ "$PLUGIN_NAME" != "" ]; then
     cd $PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME
@@ -40,7 +40,7 @@ fi
 
 echo "Diffing generated with existing (located at `pwd`/.travis.yml)..."
 
-diff .travis.yml $PIWIK_ROOT_DIR/generated.travis.yml > /dev/null
+diff .travis.yml $PIWIK_ROOT_DIR/generated.travis.yml
 DIFF_RESULT=$?
 
 echo ""
