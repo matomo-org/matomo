@@ -413,7 +413,7 @@ if (typeof JSON2 !== 'object') {
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
     setCustomRequestProcessing,
-    setCustomVariable, getCustomVariable, deleteCustomVariable,
+    setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie,
     setDownloadExtensions, addDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
@@ -1180,6 +1180,9 @@ if (typeof Piwik !== 'object') {
                 // Generation time set from the server
                 configPerformanceGenerationTime = 0,
 
+                // Whether Custom Variables scope "visit" should be stored in a cookie during the time of the visit
+                configStoreCustomVariablesInCookie = false,
+
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
 
@@ -1806,7 +1809,9 @@ if (typeof Piwik !== 'object') {
                         }
                     }
 
-                    setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                    if (configStoreCustomVariablesInCookie) {
+                        setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                    }
                 }
 
                 // performance tracking
@@ -2577,6 +2582,16 @@ if (typeof Piwik !== 'object') {
                     if (this.getCustomVariable(index, scope)) {
                         this.setCustomVariable(index, '', '', scope);
                     }
+                },
+
+                /**
+                 * When called then the Custom Variables of scope "visit" will be stored (persisted) in a first party cookie
+                 * for the duration of the visit. This is useful if you want to call getCustomVariable later in the visit.
+                 *
+                 * By default, Custom Variables of scope "visit" are not stored on the visitor's computer.
+                 */
+                storeCustomVariablesInCookie: function () {
+                    configStoreCustomVariablesInCookie = true;
                 },
 
                 /**
