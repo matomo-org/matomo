@@ -18,7 +18,7 @@ class Model
      * Returns the list of websites from the ID array in parameters.
      *
      * @param array $idSites list of website ID
-     * @param bool $limit
+     * @param bool|int $limit
      * @return array
      */
     public function getSitesFromIds($idSites, $limit = false)
@@ -45,11 +45,10 @@ class Model
     }
 
     /**
-     * Returns the website information : name, main_url
+     * Returns the website information.
      *
-     * @throws Exception if the site ID doesn't exist or the user doesn't have access to it
      * @param int $idSite
-     * @return array
+     * @return array|false
      */
     public function getSiteFromId($idSite)
     {
