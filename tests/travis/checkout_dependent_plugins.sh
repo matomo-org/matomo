@@ -19,5 +19,5 @@ else
     echo "Plugin directory"
     echo ""
 
-    ls -d plugins
+    ls -d plugins/*
 fi
