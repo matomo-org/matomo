@@ -85,14 +85,14 @@ install:
   - mv ../$PLUGIN_NAME plugins
 
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master ./tests/travis ./plugins/CoreConsole
+  - git checkout master -- ./tests/travis ./plugins/CoreConsole
 
   # clone dependent repos
   - ./tests/travis/checkout_dependent_plugins.sh
 {% else %}
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git fetch
-  - git checkout master ./tests/travis ./plugins/CoreConsole
+  - git checkout master -- ./tests/travis ./plugins/CoreConsole
 {% endif %}
 
 before_script:

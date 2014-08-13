@@ -318,7 +318,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $processedPath = $path . '/processed/';
 
         if (!is_writable($processedPath)) {
-            $this->fail('To run the tests, you need to give write permissions to the following directory (create it if '
+            self::fail('To run the tests, you need to give write permissions to the following directory (create it if '
                       . 'it doesn\'t exist).<code><br/>mkdir ' . $processedPath . '<br/>chmod 777 ' . $processedPath
                       . '</code><br/>');
         }
