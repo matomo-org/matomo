@@ -1105,6 +1105,7 @@ if ($sqlite) {
         ok( visitorIdStart == visitorIdEnd, "tracker.getVisitorId() same at the start and end of process");
 
         // Custom variables
+        tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");
         tracker.setCustomVariable(1, "cookiename", "cookievalue");
         deepEqual( tracker.getCustomVariable(1), ["cookiename", "cookievalue"], "setCustomVariable(cvarExists), getCustomVariable()" );
@@ -1142,6 +1143,7 @@ if ($sqlite) {
         var tracker2 = Piwik.getTracker();
         tracker2.setTrackerUrl("piwik.php");
         tracker2.setSiteId(1);
+        tracker2.storeCustomVariablesInCookie();
         tracker2.setCustomData({ "token" : getToken() });
         tracker2.setCookieNamePrefix("PREFIX");
         deepEqual( tracker2.getCustomVariable(1), ["cookiename", "cookievalue"], "getCustomVariable(cvarExists) from cookie" );
