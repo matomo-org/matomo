@@ -83,6 +83,9 @@ install:
   # move plugin contents to folder in the plugins subdirectory
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
+
+  # clone dependent repos
+  - ./tests/travis/checkout_dependent_plugins.sh
 {% endif %}
 
 before_script:
