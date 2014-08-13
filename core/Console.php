@@ -101,7 +101,8 @@ class Console extends Application
     private function checkCompatibility()
     {
         if (Common::isPhpCgiType()) {
-            echo 'Piwik Console is known to be not compatible with PHP-CGI. Please execute console using PHP-CLI. For instance "/usr/bin/php-cli console ..."';
+            echo 'Piwik Console is known to be not compatible with PHP-CGI (you are using '.php_sapi_name().'). ' .
+                 'Please execute console using PHP-CLI. For instance "/usr/bin/php-cli console ..."';
             echo "\n";
             exit(1);
         }
