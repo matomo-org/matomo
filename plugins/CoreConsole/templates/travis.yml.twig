@@ -53,9 +53,9 @@ script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 before_install:
   # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
-{% if pluginName is not empty %}
 
 install:
+{% if pluginName is not empty %}
   # move all contents of current repo (which contains the plugin) to a new directory
   - mkdir $PLUGIN_NAME
   - cp -R !($PLUGIN_NAME) $PLUGIN_NAME
@@ -84,14 +84,17 @@ install:
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
 
-  # clone dependent repos
-  - ./tests/travis/checkout_dependent_plugins.sh
-{% endif %}
-
-before_script:
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git checkout master ./tests/travis ./plugins/CoreConsole
 
+  # clone dependent repos
+  - ./tests/travis/checkout_dependent_plugins.sh
+{% else %}
+  # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
+  - git checkout master ./tests/travis ./plugins/CoreConsole
+{% endif %}
+
+before_script:
   - ./tests/travis/configure_git.sh
 
   # print out mysql information
