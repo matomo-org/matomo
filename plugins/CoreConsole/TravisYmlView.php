@@ -217,7 +217,7 @@ class TravisYmlView extends View
 
     private function doesFolderContainPluginTests($folderPath)
     {
-        $testFiles = glob($folderPath . "/**/*Test.php");
+        $testFiles = array_merge(glob($folderPath . "/**/*Test.php"), glob($folderPath . "/*Test.php"));
         return !empty($testFiles);
     }
 
@@ -230,7 +230,7 @@ class TravisYmlView extends View
 
     private function doesFolderContainUITests($folderPath)
     {
-        $testFiles = glob($folderPath . "/**/*_spec.js");
+        $testFiles = array_merge(glob($folderPath . "/**/*_spec.js"), glob($folderPath . "/*_spec.js"));
         return !empty($testFiles);
     }
 
