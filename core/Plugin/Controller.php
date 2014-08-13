@@ -249,6 +249,45 @@ abstract class Controller
     }
 
     /**
+     * Assigns the given variables to the template and renders it.
+     *
+     * Example:
+     * ```
+ public function myControllerAction () {
+    return $this->renderTemplate('index', array(
+        'answerToLife' => '42'
+    ));
+ }
+     ```
+     * This will render the 'index.twig' file within the plugin templates folder and assign the view variable
+     * `answerToLife` to `42`.
+     *
+     * @param string $template   The name of the template file. If only a name is given it will automatically use
+     *                           the template within the plugin folder. For instance 'myTemplate' will result in
+     *                           '@$pluginName/myTemplate.twig'. Alternatively you can include the full path:
+     *                           '@anyOtherFolder/otherTemplate'. The trailing '.twig' is not needed.
+     * @param array $variables   For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
+     * @return string
+     * @since 2.5.0
+     * @api
+     */
+    protected function renderTemplate($template, array $variables = array())
+    {
+        if (false === strpos($template, '@') || false === strpos($template, '/')) {
+            $template = '@' . $this->pluginName . '/' . $template;
+        }
+
+        $view = new View($template);
+        $this->setBasicVariablesView($view);
+
+        foreach ($variables as $key => $value) {
+            $view->$key = $value;
+        }
+
+        return $view->render();
+    }
+
+    /**
      * Convenience method that creates and renders a ViewDataTable for a API method.
      *
      * @param string|\Piwik\Plugin\Report $apiAction The name of the API action (eg, `'getResolution'`) or
