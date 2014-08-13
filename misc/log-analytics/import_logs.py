@@ -47,13 +47,7 @@ except ImportError:
             print >> sys.stderr, 'simplejson (http://pypi.python.org/pypi/simplejson/) is required.'
             sys.exit(1)
 
-try:
-    from collections import OrderedDict
-except ImportError:
-    try:
-        from ordereddict import OrderedDict
-    except ImportError:
-        pass
+
 
 ##
 ## Constants.
@@ -1556,10 +1550,6 @@ class Parser(object):
         resolver.check_format(format)
 
         hits = []
-        try:
-            cache_dates = OrderedDict()
-        except NameError:
-            cache_dates = None
         for lineno, line in enumerate(file):
             try:
                 line = line.decode(config.options.encoding)
@@ -1585,7 +1575,6 @@ class Parser(object):
                 is_robot=False,
                 is_error=False,
                 is_redirect=False,
-                date=None,
                 args={},
             )
 
@@ -1640,38 +1629,24 @@ class Parser(object):
             # Parse date.
             # We parse it after calling check_methods as it's quite CPU hungry, and
             # we want to avoid that cost for excluded hits.
-            if cache_dates is not None:
-                # To mitigate CPU usage, parsed dates are cached.
-                try:
-                    timezone_key = format.get('timezone')
-                except BaseFormatException:
-                    timezone_key = ''
-                date_key = (format.get('date'), timezone_key)
-                hit.date = cache_dates.get(date_key)
-            if not hit.date:
-                date_string = format.get('date')
-                try:
-                    hit.date = datetime.datetime.strptime(date_string, format.date_format)
-                except ValueError:
-                    invalid_line(line, 'invalid date')
-                    continue
+            date_string = format.get('date')
+            try:
+                hit.date = datetime.datetime.strptime(date_string, format.date_format)
+            except ValueError:
+                invalid_line(line, 'invalid date')
+                continue
 
-                # Parse timezone and substract its value from the date
-                try:
-                    timezone = float(format.get('timezone'))
-                except BaseFormatException:
-                    timezone = 0
-                except ValueError:
-                    invalid_line(line, 'invalid timezone')
-                    continue
+            # Parse timezone and substract its value from the date
+            try:
+                timezone = float(format.get('timezone'))
+            except BaseFormatException:
+                timezone = 0
+            except ValueError:
+                invalid_line(line, 'invalid timezone')
+                continue
 
-                if timezone:
-                    hit.date -= datetime.timedelta(hours=timezone/100)
-
-                if cache_dates is not None:
-                    if len(cache_dates) > 3600:
-                        cache_dates.popitem(False)
-                    cache_dates[date_key] = hit.date
+            if timezone:
+                hit.date -= datetime.timedelta(hours=timezone/100)
 
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
