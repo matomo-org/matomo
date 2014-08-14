@@ -165,7 +165,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *
  * @api
  */
-class DataTable implements DataTableInterface, \IteratorAggregate
+class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 {
     const MAX_DEPTH_DEFAULT = 15;
 
@@ -1639,5 +1639,27 @@ class DataTable implements DataTableInterface, \IteratorAggregate
      */
     public function getIterator() {
         return new \ArrayIterator($this->getRows());
+    }
+
+    public function offsetExists($offset)
+    {
+        $row = $this->getRowFromId($offset);
+
+        return false !== $row;
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->getRowFromId($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->rows[$offset] = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->deleteRow($offset);
     }
 }

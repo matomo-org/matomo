@@ -100,7 +100,7 @@ class ColumnDelete extends BaseFilter
 
         // remove columns specified in $this->columnsToRemove
         if (!empty($this->columnsToRemove)) {
-            foreach ($table as &$row) {
+            foreach ($table as $index => $row) {
                 foreach ($this->columnsToRemove as $column) {
                     if ($this->deleteIfZeroOnly) {
                         $value = $row[$column];
@@ -109,7 +109,7 @@ class ColumnDelete extends BaseFilter
                         }
                     }
 
-                    unset($row[$column]);
+                    unset($table[$index][$column]);
                 }
             }
 
@@ -118,7 +118,7 @@ class ColumnDelete extends BaseFilter
 
         // remove columns not specified in $columnsToKeep
         if (!empty($this->columnsToKeep)) {
-            foreach ($table as &$row) {
+            foreach ($table as $index => $row) {
                 foreach ($row as $name => $value) {
 
                     $keep = false;
@@ -133,7 +133,7 @@ class ColumnDelete extends BaseFilter
                         && $name != 'label' // label cannot be removed via whitelisting
                         && !isset($this->columnsToKeep[$name])
                     ) {
-                        unset($row[$name]);
+                        unset($table[$index][$name]);
                     }
                 }
             }
