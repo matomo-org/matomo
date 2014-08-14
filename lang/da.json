@@ -105,6 +105,7 @@
         "DevelopmentProcess": "Mens vores%s udviklingsproces%s omfatter tusindvis af automatiske tests, spiller betatestere en nøglerolle i at opnå \"ingen fejl politikken\" i Piwik.",
         "EmailServerSettings": "E-mail-server indstillinger",
         "FaviconUpload": "Vælg Favicon til overførelse",
+        "FileUploadDisabled": "Overførelse af filer er ikke aktiveret i PHP-konfiguration. For at overføre dit brugerdefinerede logo skal du indstille %s i php.ini og genstarte webserveren.",
         "ForBetaTestersOnly": "Kun for beta testere",
         "ImageTracking": "Sporing vha. et billede",
         "ImageTrackingIntro1": "Når en besøgende har deaktiveret JavaScript, eller når JavaScript kan ikke bruges, kan sporing vha. et billede bruges til at spore besøgende.",
@@ -380,6 +381,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik vil blive opgraderet fra version %1$s til den nye version %2$s.",
         "PluginDescription": "Piwik ajourføringsmekanisme",
         "ReadyToGo": "Klar, parat, start?",
+        "TheFollowingDimensionsWillBeUpgradedX": "Følgende mål vil blive opdateret: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Følgende udvidelsesmoduler vil blive opgraderet: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Nogle programudvidelser du bruger er blevet opdateret på markedspladsen:",
         "ThereIsNewVersionAvailableForUpdate": "Ny version af Piwik er tilgængelig",
@@ -450,6 +452,7 @@
         "ContactThePiwikTeam": "Kontakt Piwik holdet",
         "DoYouHaveBugReportOrFeatureRequest": "Har du en fejlrapport eller en anmodning om en funktion?",
         "GetInTouch": "Vi værdsætter din feedback og læser altid alle meddelelser uanset om du har en forretningsidé, ønsker at finde en Piwik konsulent, fortæl os en succeshistorie eller blot sige hej!",
+        "HowToCreateTicket": "Læs anbefalingerne om at skrive en god %1$sfejlrapport%2$s eller %3$sfunktionsanmodning%4$s. Tilmeld eller log ind på %5$svores emne tracker%6$s og opret et %7$snyt emne%8$s.",
         "IWantTo": "Jeg ønsker at:",
         "LearnWaysToParticipate": "Lær om alle de måder, du kan %s bidrage%s",
         "ManuallySendEmailTo": "Send din besked manuelt til",
@@ -632,9 +635,12 @@
         "ExceptionPrivilege": "Du kan ikke få adgang til denne ressource, det kræver en %s adgang.",
         "ExceptionPrivilegeAccessWebsite": "Du kan ikke få adgang til denne ressource, da det kræver en %s adgang til hjemmeside id = %d.",
         "ExceptionPrivilegeAtLeastOneWebsite": "Du kan ikke få adgang til denne ressource, da det kræver en %s adgang til mindst én hjemmeside.",
+        "ExceptionReportNotEnabled": "Den ønskede rapport er ikke aktiveret. Dette betyder normalt enten at udvidelsen, der definerer rapporten er deaktiveret eller at du har ikke tilladelse nok til at få adgang til rapporten.",
+        "ExceptionReportNotFound": "Den ønskede rapport findes ikke.",
         "ExceptionUnableToStartSession": "Kan ikke starte sessionen.",
         "ExceptionUndeletableFile": "Kunne ikke slette %s",
         "ExceptionUnreadableFileDisabledMethod": "Konfigurationsfilen (%s) kunne ikke læses. Udbyderen kan have deaktiveret %s.",
+        "ExceptionWidgetNotFound": "Den anmodede widget findes ikke.",
         "ExpandDataTableFooter": "Ændre visualiseringen eller konfigurer rapporten",
         "Export": "Eksporter",
         "ExportAsImage": "Eksporter som billede",
@@ -1044,6 +1050,8 @@
         "YearComparedToPreviousYear": "forrige år"
     },
     "Installation": {
+        "CannotConnectToDb": "Kan ikke oprette forbindelse til databasen",
+        "CannotConnectToDbResolvingExplanation": "Kan være et midlertidigt problem, så prøv at %1$sopdatere siden%2$s. Hvis problemet fortsætter skal du kontakte din Piwik administrator.",
         "CollaborativeProject": "Piwik er et samarbejdsprojekt, bygget med kærlighed af folk fra hele verden.",
         "ConfigurationHelp": "Piwik konfigurationsfil synes at være konfigureret forkert. Fjern enten config\/config.ini.php og genoptage installation eller ret database forbindelsesindstillinger.",
         "ConfirmDeleteExistingTables": "Bekræft sletning af tabellerne: %s fra databasen? ADVARSEL: DATA FRA DISSE TABELLER KAN IKKE GENSKABES!",
@@ -1172,7 +1180,8 @@
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "Om Piwik oversættelser",
-        "PluginDescription": " Programudvidelsen viser en liste over de tilgængelige sprog for Piwik brugerflade. Det valgte sprog vil blive gemt i præferencer for hver bruger."
+        "PluginDescription": " Programudvidelsen viser en liste over de tilgængelige sprog for Piwik brugerflade. Det valgte sprog vil blive gemt i præferencer for hver bruger.",
+        "TranslationSearch": "Oversættelse søgning"
     },
     "Live": {
         "AbandonedCartSummary": "%1$s%2$s afbrudte ordrer%3$s og %4$s usolgte varer %5$stil en samlet værdi af %6$s%7$s.",
@@ -1247,6 +1256,7 @@
         "ChooseHttpTimeout": "Vælg HTTP timeoutværdi",
         "ChooseMetric": "Vælg målinger",
         "ChooseReport": "Vælg en rapport",
+        "ChooseSegment": "Vælg segment",
         "ConfirmRemoveAccount": "Fjern kontoen?",
         "DefaultReportDate": "Rapport dato",
         "EmailUs": "E-mail os",
@@ -2089,6 +2099,8 @@
         "ShowingVisits": "Geografisk placeret besøg af sidste",
         "Unlocated": "<b>%s<\/b> besøg %p fra %c kunne ikke placeres geografisk.",
         "VisitorMap": "Besøgerkort",
+        "WithUnknownCity": "%s med ukendt by",
+        "WithUnknownRegion": "%s med ukendt region",
         "WorldWide": "Hele verden"
     },
     "UserSettings": {
