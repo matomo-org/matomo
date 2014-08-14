@@ -20,6 +20,6 @@ class Updates_2_5_0_rc4 extends Updates
 
     static function update()
     {
-        Cache::clearCacheGeneral();
+        Cache::deleteTrackerCache();
     }
 }
