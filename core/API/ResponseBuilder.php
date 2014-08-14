@@ -231,10 +231,10 @@ class ResponseBuilder
                 $array = $columnDelete->filter($array);
             }
         } else if (is_numeric($firstKey)) {
-            $limit  = Common::getRequestVar('filter_limit', false, 'integer', $this->request);
+            $limit  = Common::getRequestVar('filter_limit', -1, 'integer', $this->request);
             $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
 
-            if (false !== $limit) {
+            if (-1 !== $limit) {
                 $array = array_slice($array, $offset, $limit);
             }
         }
