@@ -25,11 +25,9 @@ class Updates_2_5_0_rc2 extends Updates
         foreach ($files as $file) {
             $path = PIWIK_INCLUDE_PATH . $file;
 
-            if (!file_exists($path)) {
-                continue;
+            if (file_exists($path)) {
+                self::deleteIfLastModifiedBefore14August2014($path);
             }
-
-            self::deleteIfLastModifiedBefore14August2014($path);
         }
     }
 
