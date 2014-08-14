@@ -230,6 +230,13 @@ class ResponseBuilder
                 $columnDelete = new ColumnDelete(new DataTable(), $hideColumns, $showColumns);
                 $array = $columnDelete->filter($array);
             }
+        } else if (is_numeric($firstKey)) {
+            $limit  = Common::getRequestVar('filter_limit', false, 'integer', $this->request);
+            $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
+
+            if (false !== $limit) {
+                $array = array_slice($array, $offset, $limit);
+            }
         }
 
         return $this->apiRenderer->renderArray($array);
