@@ -155,7 +155,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
     }
 
-    protected static function clearPhpCaches()
+    public static function clearPhpCaches()
     {
         if (function_exists('apc_clear_cache')) {
             apc_clear_cache(); // clear the system (aka 'opcode') cache
