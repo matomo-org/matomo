@@ -26,6 +26,9 @@ class Updates_2_5_0_rc2 extends Updates
             $path = PIWIK_INCLUDE_PATH . $file;
 
             if (file_exists($path)) {
+                if (function_exists('opcache_invalidate')) {
+                    opcache_invalidate($file, $force = true);
+                }
                 self::deleteIfLastModifiedBefore14August2014($path);
             }
         }
