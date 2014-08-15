@@ -316,7 +316,9 @@ class Plugin
                 return; // might by "false" in case has no menu, widget, ...
             }
 
-            include_once $componentFile;
+            if (file_exists($componentFile)) {
+                include_once $componentFile;
+            }
 
         } else {
             $this->cache->set(false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
