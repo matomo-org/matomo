@@ -37,8 +37,8 @@
              piwik-menudropdown>
 
             {% if userLogin != 'anonymous' %}
-                {% if isAdminLayout is defined %}
-                    <a class="item active">{{ 'General_Settings'|translate }}</a>
+                {% if isAdminLayout is defined and currentModule == 'UsersManager' and currentAction == 'userSettings' %}
+                    <a class="item active" href="index.php?module=CoreAdminHome">{{ 'General_Settings'|translate }}</a>
                 {% else %}
                     <a class="item" href="index.php?module=CoreAdminHome">{{ 'General_Settings'|translate }}</a>
                 {% endif %}
