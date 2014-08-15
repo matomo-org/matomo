@@ -55,8 +55,15 @@ class Core_DimensionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         Manager::getInstance()->unloadPlugins();
+        Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new DimensionTest();
+    }
+
+    public function tearDown()
+    {
+        Manager::unsetInstance();
+        parent::tearDown();
     }
 
     public function test_hasImplementedEvent_shouldDetectWhetherAMethodWasOverwrittenInTheActualPluginClass()
@@ -87,10 +94,7 @@ class Core_DimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getAllDimensions_shouldReturnActionVisitAndConversionDimensions()
     {
-        Manager::getInstance()->loadPlugin('Actions');
-        Manager::getInstance()->loadPlugin('Events');
-        Manager::getInstance()->loadPlugin('DevicesDetector');
-        Manager::getInstance()->loadPlugin('Goals');
+        Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
 
         $dimensions = Dimension::getAllDimensions();
 

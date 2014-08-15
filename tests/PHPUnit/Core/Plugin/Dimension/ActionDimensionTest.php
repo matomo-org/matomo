@@ -55,8 +55,15 @@ class Plugin_ActionDimensionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         Manager::getInstance()->unloadPlugins();
+        Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new FakeActionDimension();
+    }
+
+    public function tearDown()
+    {
+        Manager::unsetInstance();
+        parent::tearDown();
     }
 
     public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()
@@ -125,6 +132,7 @@ class Plugin_ActionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getDimensions_shouldOnlyLoadAllActionDimensionsFromACertainPlugin()
     {
+        Manager::getInstance()->loadPlugins(array('Actions'));
         $plugin = Manager::getInstance()->loadPlugin('Actions');
 
         $dimensions = ActionDimension::getDimensions($plugin);
@@ -139,8 +147,7 @@ class Plugin_ActionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getAllDimensions_shouldLoadAllDimensionsButOnlyIfLoadedPlugins()
     {
-        Manager::getInstance()->loadPlugin('Actions');
-        Manager::getInstance()->loadPlugin('Events');
+        Manager::getInstance()->loadPlugins(array('Actions', 'Events'));
 
         $dimensions = ActionDimension::getAllDimensions();
 

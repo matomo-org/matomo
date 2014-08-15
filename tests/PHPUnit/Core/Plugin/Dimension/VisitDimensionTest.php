@@ -76,9 +76,16 @@ class Plugin_VisitDimensionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         Manager::getInstance()->unloadPlugins();
+        Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new FakeVisitDimension();
         $this->conversionDimension = new FakeConversionVisitDimension();
+    }
+
+    public function tearDown()
+    {
+        Manager::unsetInstance();
+        parent::tearDown();
     }
 
     public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()
@@ -224,6 +231,7 @@ class Plugin_VisitDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getDimensions_shouldOnlyLoadAllVisitDimensionsFromACertainPlugin()
     {
+        Manager::getInstance()->loadPlugins(array('Actions'));
         $plugin = Manager::getInstance()->loadPlugin('Actions');
 
         $dimensions = VisitDimension::getDimensions($plugin);
@@ -239,8 +247,7 @@ class Plugin_VisitDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getAllDimensions_shouldLoadAllDimensionsButOnlyIfLoadedPlugins()
     {
-        Manager::getInstance()->loadPlugin('Actions');
-        Manager::getInstance()->loadPlugin('DevicesDetection');
+        Manager::getInstance()->loadPlugins(array('Actions', 'DevicesDetection'));
 
         $dimensions = VisitDimension::getAllDimensions();
 
