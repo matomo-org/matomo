@@ -12,7 +12,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Translate;
-
+use Piwik\Plugin\Manager as PluginManager;
 /**
  * Piwik - free/libre analytics platform
  *
@@ -36,7 +36,7 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         $section['campaign_keyword_var_name']     = 'piwik_kwd,utm_term,test_piwik_kwd';
         Config::getInstance()->Tracker = $section;
 
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
+        PluginManager::getInstance()->loadPlugins(array('SitesManager'));
 
         Translate::loadEnglishTranslation();
     }
@@ -368,6 +368,7 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
      */
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {
+        PluginManager::getInstance()->loadPlugins(array('Actions', 'SitesManager'));
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
         $request['idsite'] = $idSite;
