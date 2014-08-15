@@ -387,6 +387,15 @@ class Filesystem
         if (function_exists('wincache_refresh_if_changed')) {
             @wincache_refresh_if_changed(); // reset the wincache
         }
+
+        if (function_exists('xcache_clear_cache') && defined('XC_TYPE_VAR')) {
+
+            if (ini_get('xcache.admin.enable_auth')) {
+                // XCache will not be cleared because "xcache.admin.enable_auth" is enabled in php.ini.
+            } else {
+                @xcache_clear_cache(XC_TYPE_VAR, 0);
+            }
+        }
     }
 
 }
