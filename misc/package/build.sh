@@ -207,7 +207,7 @@ Piwik $VERSION can be downloaded at: http://builds.piwik.org/WebAppGallery/piwik
 SHA1 checksum is: $SHA1_WINDOWS \n\n\
 Please consult the changelog for list of closed tickets: http://piwik.org/changelog/ \n\n\
 We're looking forward to seeing this Piwik version on Microsoft Web App Gallery. \n\
-If you have any question, feel free to ask. \n\n\
+If you have any question, feel free to ask at feedback@piwik.org. \n\n\
 Thank you,\n\n\
 Piwik team" | mail -s"New Piwik Version $VERSION" "appgal@microsoft.com,hello@piwik.org"
 
