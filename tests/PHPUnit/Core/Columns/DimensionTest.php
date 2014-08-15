@@ -9,7 +9,10 @@
 namespace Piwik\Plugins\Test;
 // there is a test that requires the class to be defined in a plugin
 
+use Piwik\Cache\PersistentCache;
+use Piwik\Cache\StaticCache;
 use Piwik\Columns\Dimension;
+use Piwik\Config;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
 
@@ -56,12 +59,15 @@ class Core_DimensionTest extends \PHPUnit_Framework_TestCase
     {
         Manager::getInstance()->unloadPlugins();
         Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+        Config::getInstance()->clear();
+        Config::getInstance()->init();
 
         $this->dimension = new DimensionTest();
     }
 
     public function tearDown()
     {
+        Config::unsetInstance();
         Manager::unsetInstance();
         parent::tearDown();
     }
