@@ -38,14 +38,14 @@ class Manager
 
         if (empty(static::$settings)) {
 
-            $settings = array();
+            $settings = PluginManager::getInstance()->findComponents('Settings', 'Piwik\\Plugin\\Settings');
+            $byPluginName = array();
 
-            $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
-            foreach ($pluginNames as $pluginName) {
-                $settings[$pluginName] = self::getPluginSettingsClass($pluginName);
+            foreach ($settings as $setting) {
+                $byPluginName[$setting->getPluginName()] = $setting;
             }
 
-            static::$settings = array_filter($settings);
+            static::$settings = $byPluginName;
         }
 
         return static::$settings;
@@ -63,7 +63,14 @@ class Manager
      */
     public static function cleanupPluginSettings($pluginName)
     {
-        $settings = self::getPluginSettingsClass($pluginName);
+        $pluginManager = PluginManager::getInstance();
+
+        if (!$pluginManager->isPluginLoaded($pluginName)) {
+            return;
+        }
+
+        $plugin   = $pluginManager->loadPlugin($pluginName);
+        $settings = $plugin->findComponent('Settings', 'Piwik\\Plugin\\Settings');
 
         if (!empty($settings)) {
             $settings->removeAllPluginSettings();
@@ -112,22 +119,6 @@ class Manager
         $settings = static::getPluginSettingsForCurrentUser();
 
         return !empty($settings);
-    }
-
-    /**
-     * Tries to find a settings class for the specified plugin name. Returns null in case the plugin does not specify
-     * any settings, an instance of the settings class otherwise.
-     *
-     * @param string $pluginName
-     * @return \Piwik\Plugin\Settings|null
-     */
-    private static function getPluginSettingsClass($pluginName)
-    {
-        $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Settings';
-
-        if (class_exists($klassName) && is_subclass_of($klassName, 'Piwik\\Plugin\\Settings')) {
-            return new $klassName($pluginName);
-        }
     }
 
 }

@@ -603,6 +603,13 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
         $this->assertSettingHasValue($setting, null);
     }
 
+    public function test_construct_shouldDetectTheNameOfThePluginAutomatically_IfPluginNameNotGiven()
+    {
+        $setting = new Piwik\Plugins\ExampleSettingsPlugin\Settings();
+
+        $this->assertEquals('ExampleSettingsPlugin', $setting->getPluginName());
+    }
+
     private function buildUserSetting($name, $title, $userLogin = null)
     {
         return new \Piwik\Settings\UserSetting($name, $title, $userLogin);

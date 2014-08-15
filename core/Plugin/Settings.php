@@ -60,15 +60,28 @@ abstract class Settings implements StorageInterface
 
     /**
      * Constructor.
-     *
-     * @param string $pluginName The name of the plugin these settings are for.
      */
-    public function __construct($pluginName)
+    public function __construct($pluginName = null)
     {
-        $this->pluginName = $pluginName;
+        if (!empty($pluginName)) {
+            $this->pluginName = $pluginName;
+        } else {
+
+            $classname    = get_class($this);
+            $parts        = explode('\\', $classname);
+
+            if (3 <= count($parts)) {
+                $this->pluginName = $parts[2];
+            }
+        }
 
         $this->init();
         $this->loadSettings();
+    }
+
+    public function getPluginName()
+    {
+        return $this->pluginName;
     }
 
     /**
