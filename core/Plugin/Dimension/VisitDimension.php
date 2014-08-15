@@ -275,7 +275,7 @@ abstract class VisitDimension extends Dimension
 
         if (!$cache->has()) {
 
-            $plugins   = PluginManager::getInstance()->getLoadedPlugins();
+            $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
 
             foreach ($plugins as $plugin) {

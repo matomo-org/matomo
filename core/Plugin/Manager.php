@@ -604,7 +604,8 @@ class Manager extends Singleton
     }
 
     /**
-     * Load the specified plugins.
+     * Load AND activates the specified plugins. It will also overwrite all previously loaded plugins, so it acts
+     * as a setter. 
      *
      * @param array $pluginsToLoad Array of plugins to load.
      */
@@ -822,7 +823,8 @@ class Manager extends Singleton
     }
 
     /**
-     * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry
+     * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry.
+     * Contrary to loadPlugins() it does not activate the plugin, it only loads it.
      *
      * @param string $pluginName
      * @throws \Exception

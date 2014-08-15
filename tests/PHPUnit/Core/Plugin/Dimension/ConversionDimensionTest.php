@@ -55,8 +55,15 @@ class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         Manager::getInstance()->unloadPlugins();
+        Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new FakeConversionDimension();
+    }
+
+    public function tearDown()
+    {
+        Manager::unsetInstance();
+        parent::tearDown();
     }
 
     public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()
@@ -125,6 +132,7 @@ class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getDimensions_shouldOnlyLoadAllConversionDimensionsFromACertainPlugin()
     {
+        Manager::getInstance()->loadPlugins(array('ExampleTracker'));
         $plugin = Manager::getInstance()->loadPlugin('ExampleTracker');
 
         $dimensions = ConversionDimension::getDimensions($plugin);
@@ -139,8 +147,7 @@ class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getAllDimensions_shouldLoadAllDimensionsButOnlyIfLoadedPlugins()
     {
-        Manager::getInstance()->loadPlugin('ExampleTracker');
-        Manager::getInstance()->loadPlugin('Goals');
+        Manager::getInstance()->loadPlugins(array('Goals', 'ExampleTracker'));
 
         $dimensions = ConversionDimension::getAllDimensions();
 
