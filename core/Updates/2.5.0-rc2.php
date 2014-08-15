@@ -61,7 +61,8 @@ class Updates_2_5_0_rc2 extends Updates
             '/plugins/UserCountry/Widgets.php',
             '/plugins/UserSettings/Widgets.php',
             '/plugins/VisitTime/Widgets.php',
-            '/plugins/VisitorInterest/Widgets.php'
+            '/plugins/VisitorInterest/Widgets.php',
+            '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php'
         );
     }
 }
