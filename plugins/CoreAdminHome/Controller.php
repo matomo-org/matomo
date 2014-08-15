@@ -74,14 +74,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $settings = $this->getPluginSettings();
 
-        $view = new View('@CoreAdminHome/pluginSettings');
-        $view->nonce          = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);
-        $view->pluginSettings = $settings;
-        $view->firstSuperUserSettingNames = $this->getFirstSuperUserSettingNames($settings);
+        $vars = array(
+            'nonce'                      => Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE),
+            'pluginSettings'             => $settings,
+            'firstSuperUserSettingNames' => $this->getFirstSuperUserSettingNames($settings)
+        );
 
-        $this->setBasicVariablesView($view);
-
-        return $view->render();
+        return $this->renderTemplate('pluginSettings', $vars);
     }
 
     private function getPluginSettings()
@@ -248,7 +247,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
 
-        $nonce = Common::getRequestVar('nonce', false);
+        $nonce    = Common::getRequestVar('nonce', false);
         $language = Common::getRequestVar('language', '');
         if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
             Nonce::discardNonce('Piwik_OptOut');
@@ -256,13 +255,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $trackVisits = !$trackVisits;
         }
 
-        $view = new View('@CoreAdminHome/optOut');
-        $view->trackVisits = $trackVisits;
-        $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = APILanguagesManager::getInstance()->isLanguageAvailable($language)
+        $lang = APILanguagesManager::getInstance()->isLanguageAvailable($language)
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
-        return $view->render();
+
+        return $this->renderTemplate('outOut', array(
+            'trackVisits' => $trackVisits,
+            'nonce'       => Nonce::getNonce('Piwik_OptOut', 3600),
+            'language'    => $lang
+        ));
     }
 
     public function uploadCustomLogo()

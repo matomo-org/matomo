@@ -40,9 +40,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $view = new View('@LanguagesManager/searchTranslation');
-        $this->setBasicVariablesView($view);
-
-        return $view->render();
+        return $this->renderTemplate('searchTranslation');
     }
 }

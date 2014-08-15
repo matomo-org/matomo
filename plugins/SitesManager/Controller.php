@@ -26,11 +26,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function index()
     {
-        $view = new View('@SitesManager/index');
-
-        $this->setBasicVariablesView($view);
-
-        return $view->render();
+        return $this->renderTemplate('index');
     }
 
     public function getGlobalSettings() {
@@ -100,14 +96,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $idSite = Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
         $jsTag = Piwik::getJavascriptCode($idSite, SettingsPiwik::getPiwikUrl());
-        $view = new View('@SitesManager/displayJavascriptCode');
-        $this->setBasicVariablesView($view);
-        $view->idSite = $idSite;
-        $site = new Site($idSite);
-        $view->displaySiteName = $site->getName();
-        $view->jsTag = $jsTag;
+        $site  = new Site($idSite);
 
-        return $view->render();
+        return $this->renderTemplate('displayJavascriptCode', array(
+            'idSite' => $idSite,
+            'displaySiteName' => $site->getName(),
+            'jsTag' => $jsTag
+        ));
     }
 
     /**
