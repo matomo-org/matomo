@@ -131,11 +131,17 @@ class ModelTest extends IntegrationTestCase
 
     public function test_getTotalValue_shouldCalculateTotals()
     {
-        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits');
+        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits', false);
         $this->assertEquals(50, $total);
 
-        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date2, 'nb_visits');
+        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date2, 'nb_visits', false);
         $this->assertEquals(59, $total);
+    }
+
+    public function test_getTotalValue_shouldCalculateTotalsAndApplySegment()
+    {
+        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits', 'visitIp==156.15.13.1');
+        $this->assertEquals(1, $total);
     }
 
     /**
@@ -143,7 +149,7 @@ class ModelTest extends IntegrationTestCase
      */
     public function test_getTotalValue_shouldReturnZero_IfColumnDoesNotExist()
     {
-        $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'unknown_ColUmn');
+        $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'unknown_ColUmn', false);
     }
 
     public function test_getRelevantTotalValue_shouldReturnTotalValue_IfMetricTotalIsHighEnough()
