@@ -383,6 +383,10 @@ class Filesystem
         if (function_exists('opcache_reset')) {
             @opcache_reset(); // reset the opcode cache (php 5.5.0+)
         }
+
+        if (function_exists('wincache_refresh_if_changed')) {
+            @wincache_refresh_if_changed(); // reset the wincache
+        }
     }
 
 }
