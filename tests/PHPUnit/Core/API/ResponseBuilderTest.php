@@ -176,6 +176,95 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
         $response = $builder->getResponse($input);
 
         $this->assertEquals(array('test' => 'two0'), array_shift($response));
+    }
 
+    public function test_getResponse_shouldApplyFilterLimitOnIndexedArray()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 15));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals(range(0, 14), $response);
+    }
+
+    public function test_getResponse_shouldReturnEmptyArrayOnIndexedArray_IfOffsetIsTooHigh()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 15, 'filter_offset' => 200));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals(array(), $response);
+    }
+
+    public function test_getResponse_shouldReturnAllOnIndexedArray_IfLimitIsTooHigh()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 200));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals($input, $response);
+    }
+
+    public function test_getResponse_shouldNotApplyFilterLimitOnIndexedArrayIfParamNotSet()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals($input, $response);
+    }
+
+    public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfFilterLimitIsGiven()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 15, 'filter_offset' => 30));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals(range(30, 44), $response);
+    }
+
+    public function test_getResponse_shouldNotApplyFilterOffsetOnIndexedArray_IfNoFilterLimitIsSetButOffset()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_offset' => 30));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals($input, $response);
+    }
+
+    public function test_getResponse_shouldReturnEmptyArrayOnIndexedArray_IfFilterLimitIsZero()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 0, 'filter_offset' => 30));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals(array(), $response);
+    }
+
+    public function test_getResponse_shouldIgnoreFilterOffsetOnIndexedArray_IfFilterLimitIsMinusOne()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => -1, 'filter_offset' => 30));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals($input, $response);
+    }
+
+    public function test_getResponse_shouldReturnAllOnIndexedArray_IfFilterLimitIsMinusOne()
+    {
+        $input = range(0, 100);
+
+        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => -1));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals($input, $response);
     }
 }
