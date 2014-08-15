@@ -293,7 +293,7 @@ class Manager extends Singleton
      */
     public function findComponents($componentName, $expectedSubclass)
     {
-        $plugins    = $this->getLoadedPlugins();
+        $plugins    = $this->getPluginsLoadedAndActivated();
         $components = array();
 
         foreach ($plugins as $plugin) {
@@ -309,7 +309,7 @@ class Manager extends Singleton
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {
-        $plugins = $this->getLoadedPlugins();
+        $plugins = $this->getPluginsLoadedAndActivated();
         $found   = array();
 
         foreach ($plugins as $plugin) {
@@ -338,6 +338,8 @@ class Manager extends Singleton
         }
         $this->returnLoadedPluginsInfo();
 
+        \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
+
         $this->executePluginDeactivate($pluginName);
         $this->executePluginUninstall($pluginName);
 
@@ -348,7 +350,6 @@ class Manager extends Singleton
         $this->removePluginFromConfig($pluginName);
 
         Option::delete('version_' . $pluginName);
-        \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
         $this->clearCache($pluginName);
 
         self::deletePluginFromFilesystem($pluginName);
@@ -561,6 +562,7 @@ class Manager extends Singleton
             );
             $plugins[$pluginName] = $info;
         }
+
         return $plugins;
     }
 
