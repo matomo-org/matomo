@@ -393,7 +393,7 @@ class Filesystem
             if (ini_get('xcache.admin.enable_auth')) {
                 // XCache will not be cleared because "xcache.admin.enable_auth" is enabled in php.ini.
             } else {
-                @xcache_clear_cache(XC_TYPE_VAR, 0);
+                @xcache_clear_cache(XC_TYPE_VAR);
             }
         }
     }
