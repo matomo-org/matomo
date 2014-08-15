@@ -26,6 +26,7 @@ class Filesystem
         AssetManager::getInstance()->removeMergedAssets($pluginName);
         View::clearCompiledTemplates();
         Cache::deleteTrackerCache();
+        self::clearPhpCaches();
     }
 
     /**
@@ -372,4 +373,16 @@ class Filesystem
         // plugins/* and all others
         return 0755;
     }
+
+    public static function clearPhpCaches()
+    {
+        if (function_exists('apc_clear_cache')) {
+            apc_clear_cache(); // clear the system (aka 'opcode') cache
+        }
+
+        if (function_exists('opcache_reset')) {
+            @opcache_reset(); // reset the opcode cache (php 5.5.0+)
+        }
+    }
+
 }

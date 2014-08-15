@@ -155,17 +155,6 @@ class Controller extends \Piwik\Plugin\Controller
         }
     }
 
-    public static function clearPhpCaches()
-    {
-        if (function_exists('apc_clear_cache')) {
-            apc_clear_cache(); // clear the system (aka 'opcode') cache
-        }
-
-        if (function_exists('opcache_reset')) {
-            @opcache_reset(); // reset the opcode cache (php 5.5.0+)
-        }
-    }
-
     private function checkNewVersionIsAvailableOrDie()
     {
         $newVersion = UpdateCheck::isNewestVersionAvailable();
@@ -295,7 +284,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         Filesystem::unlinkRecursive($this->pathRootExtractedPiwik, true);
 
-        self::clearPhpCaches();
+        Filesystem::clearPhpCaches();
     }
 
     private function oneClick_Finished()

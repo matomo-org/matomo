@@ -9,7 +9,7 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Plugins\CoreUpdater\Controller;
+use Piwik\Filesystem;
 use Piwik\Tracker\Cache;
 use Piwik\Updates;
 
@@ -22,6 +22,6 @@ class Updates_2_5_0_rc4 extends Updates
     static function update()
     {
         Cache::deleteTrackerCache();
-        Controller::clearPhpCaches();
+        Filesystem::clearPhpCaches();
     }
 }
