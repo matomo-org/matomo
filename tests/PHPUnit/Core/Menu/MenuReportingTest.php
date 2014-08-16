@@ -7,11 +7,8 @@
  */
 
 use Piwik\Plugin\Report;
-use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
-use Piwik\Plugins\Actions\Columns\ExitPageUrl;
 use Piwik\Piwik;
 use Piwik\Metrics;
-use Piwik\WidgetsList;
 use Piwik\Translate;
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Manager as PluginManager;
@@ -73,11 +70,9 @@ class Menu_ReportingTest extends PHPUnit_Framework_TestCase
 
     private function loadSomePlugins()
     {
-        PluginManager::getInstance()->loadPlugin('Actions');
-        PluginManager::getInstance()->loadPlugin('DevicesDetection');
-        PluginManager::getInstance()->loadPlugin('CoreVisualizations');
-        PluginManager::getInstance()->loadPlugin('API');
-        PluginManager::getInstance()->loadPlugin('Morpheus');
+        PluginManager::getInstance()->loadPlugins(array(
+            'Actions', 'DevicesDetection', 'CoreVisualizations', 'API', 'Morpheus'
+        ));
     }
 
 }
