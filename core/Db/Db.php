@@ -6,11 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik;
+namespace Piwik\Db;
 
 use Exception;
+use Piwik\Config;
 use Piwik\Db\Adapter;
-use Piwik\Db\AdapterInterface;
+use Piwik\DbHelper;
+use Piwik\Log;
 use Piwik\Tracker;
 
 /**
@@ -20,40 +22,41 @@ use Piwik\Tracker;
  *
  * ### Examples
  *
- *     $rows = Db::fetchAll("SELECT col1, col2 FROM mytable WHERE thing = ?", array('thingvalue'));
+ *     $rows = $db->fetchAll("SELECT col1, col2 FROM mytable WHERE thing = ?", array('thingvalue'));
  *     foreach ($rows as $row) {
  *         doSomething($row['col1'], $row['col2']);
  *     }
  *
- *     $value = Db::fetchOne("SELECT MAX(col1) FROM mytable");
+ *     $value = $db->fetchOne("SELECT MAX(col1) FROM mytable");
  *     doSomethingElse($value);
  *
- *     Db::query("DELETE FROM mytable WHERE id < ?", array(23));
- *
- * This class is a static proxy to \Piwik\Db\Db
- *
- * @deprecated Use \Piwik\Db\Db instead
+ *     $db->query("DELETE FROM mytable WHERE id < ?", array(23));
  *
  * @api
  */
 class Db
 {
     /**
-     * Returns the database connection and creates it if it hasn't been already.
-     *
-     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
+     * @var AdapterInterface|\Zend_Db_Adapter_Abstract
      */
-    public static function get()
+    private $adapter;
+
+    /**
+     * @param AdapterInterface $adapter
+     */
+    public function __construct($adapter)
     {
-        return self::getInstance()->getDbAdapter();
+        $this->adapter = $adapter;
     }
 
     /**
-     * @return Db\Db
+     * Disconnects and destroys the database connection.
+     *
+     * For tests.
      */
-    public static function getInstance()
+    public function closeConnection()
     {
-        return StaticContainer::getContainer()->get('Piwik\Db\Db');
+        $this->adapter->closeConnection();
     }
 
     /**
@@ -66,9 +69,20 @@ class Db
      * @throws \Exception If there is an error in the SQL.
      * @return integer|\Zend_Db_Statement
      */
-    public static function exec($sql)
+    public function exec($sql)
     {
-        return self::getInstance()->exec($sql);
+        $profiler = $this->adapter->getProfiler();
+        $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);
+
+        try {
+            $return = $this->adapter->exec($sql);
+        } catch (Exception $ex) {
+            $this->logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
+
+        $profiler->queryEnd($q);
+        return $return;
     }
 
     /**
@@ -83,9 +97,14 @@ class Db
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return \Zend_Db_Statement
      */
-    public static function query($sql, $parameters = array())
+    public function query($sql, $parameters = array())
     {
-        return self::getInstance()->query($sql, $parameters);
+        try {
+            return $this->adapter->query($sql, $parameters);
+        } catch (Exception $ex) {
+            $this->logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -97,9 +116,14 @@ class Db
      * @return array The fetched rows, each element is an associative array mapping column names
      *               with column values.
      */
-    public static function fetchAll($sql, $parameters = array())
+    public function fetchAll($sql, $parameters = array())
     {
-        return self::getInstance()->fetchAll($sql, $parameters);
+        try {
+            return $this->adapter->fetchAll($sql, $parameters);
+        } catch (Exception $ex) {
+            $this->logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -111,9 +135,14 @@ class Db
      * @return array The fetched row, each element is an associative array mapping column names
      *               with column values.
      */
-    public static function fetchRow($sql, $parameters = array())
+    public function fetchRow($sql, $parameters = array())
     {
-        return self::getInstance()->fetchRow($sql, $parameters);
+        try {
+            return $this->adapter->fetchRow($sql, $parameters);
+        } catch (Exception $ex) {
+            $this->logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -125,9 +154,14 @@ class Db
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return string
      */
-    public static function fetchOne($sql, $parameters = array())
+    public function fetchOne($sql, $parameters = array())
     {
-        return self::getInstance()->fetchOne($sql, $parameters);
+        try {
+            return $this->adapter->fetchOne($sql, $parameters);
+        } catch (Exception $ex) {
+            $this->logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -143,9 +177,14 @@ class Db
      *                     'col1value2' => array('col2' => '...', 'col3' => ...))
      *               ```
      */
-    public static function fetchAssoc($sql, $parameters = array())
+    public function fetchAssoc($sql, $parameters = array())
     {
-        return self::getInstance()->fetchAssoc($sql, $parameters);
+        try {
+            return $this->adapter->fetchAssoc($sql, $parameters);
+        } catch (Exception $ex) {
+            $this->logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -168,9 +207,23 @@ class Db
      * @param array $parameters Parameters to bind for each query.
      * @return int The total number of rows deleted.
      */
-    public static function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
+    public function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
     {
-        return self::getInstance()->deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery, $parameters);
+        $orderByClause = $orderBy ? "ORDER BY $orderBy" : "";
+        $sql = "DELETE FROM $table
+                $where
+                $orderByClause
+                LIMIT " . (int)$maxRowsPerQuery;
+
+        // delete rows w/ a limit
+        $totalRowsDeleted = 0;
+        do {
+            $rowsDeleted = $this->query($sql, $parameters)->rowCount();
+
+            $totalRowsDeleted += $rowsDeleted;
+        } while ($rowsDeleted >= $maxRowsPerQuery);
+
+        return $totalRowsDeleted;
     }
 
     /**
@@ -183,9 +236,36 @@ class Db
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @return \Zend_Db_Statement
      */
-    public static function optimizeTables($tables)
+    public function optimizeTables($tables)
     {
-        return self::getInstance()->optimizeTables($tables);
+        $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
+        if (empty($optimize)) {
+            return;
+        }
+
+        if (empty($tables)) {
+            return false;
+        }
+        if (!is_array($tables)) {
+            $tables = array($tables);
+        }
+
+        // filter out all InnoDB tables
+        $myisamDbTables = array();
+        foreach ($this->fetchAll("SHOW TABLE STATUS") as $row) {
+            if (strtolower($row['Engine']) == 'myisam'
+                && in_array($row['Name'], $tables)
+            ) {
+                $myisamDbTables[] = $row['Name'];
+            }
+        }
+
+        if (empty($myisamDbTables)) {
+            return false;
+        }
+
+        // optimize the tables
+        return $this->query("OPTIMIZE TABLE " . implode(',', $myisamDbTables));
     }
 
     /**
@@ -195,17 +275,22 @@ class Db
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @return \Zend_Db_Statement
      */
-    public static function dropTables($tables)
+    public function dropTables($tables)
     {
-        return self::getInstance()->dropTables($tables);
+        if (!is_array($tables)) {
+            $tables = array($tables);
+        }
+
+        return $this->query("DROP TABLE `" . implode('`,`', $tables) . "`");
     }
 
     /**
      * Drops all tables
      */
-    public static function dropAllTables()
+    public function dropAllTables()
     {
-        self::getInstance()->dropAllTables();
+        $tablesAlreadyInstalled = DbHelper::getTablesInstalled();
+        $this->dropTables($tablesAlreadyInstalled);
     }
 
     /**
@@ -214,9 +299,16 @@ class Db
      * @param string|array $table The name of the table you want to get the columns definition for.
      * @return \Zend_Db_Statement
      */
-    public static function getColumnNamesFromTable($table)
+    public function getColumnNamesFromTable($table)
     {
-        return self::getInstance()->getColumnNamesFromTable($table);
+        $columns = $this->fetchAll("SHOW COLUMNS FROM `" . $table . "`");
+
+        $columnNames = array();
+        foreach ($columns as $column) {
+            $columnNames[] = $column['Field'];
+        }
+
+        return $columnNames;
     }
 
     /**
@@ -231,9 +323,24 @@ class Db
      *                                    be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @return \Zend_Db_Statement
      */
-    public static function lockTables($tablesToRead, $tablesToWrite = array())
+    public function lockTables($tablesToRead, $tablesToWrite = array())
     {
-        return self::getInstance()->lockTables($tablesToRead, $tablesToWrite);
+        if (!is_array($tablesToRead)) {
+            $tablesToRead = array($tablesToRead);
+        }
+        if (!is_array($tablesToWrite)) {
+            $tablesToWrite = array($tablesToWrite);
+        }
+
+        $lockExprs = array();
+        foreach ($tablesToWrite as $table) {
+            $lockExprs[] = $table . " WRITE";
+        }
+        foreach ($tablesToRead as $table) {
+            $lockExprs[] = $table . " READ";
+        }
+
+        return $this->exec("LOCK TABLES " . implode(', ', $lockExprs));
     }
 
     /**
@@ -244,9 +351,9 @@ class Db
      *
      * @return \Zend_Db_Statement
      */
-    public static function unlockAllTables()
+    public function unlockAllTables()
     {
-        return self::getInstance()->unlockAllTables();
+        return $this->exec("UNLOCK TABLES");
     }
 
     /**
@@ -275,7 +382,7 @@ class Db
      *          LIMIT 1";
      *
      *     // since visits
-     *     return Db::segmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
+     *     return $db->segmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
      *
      * @param string $sql The SQL to perform. The last two conditions of the `WHERE`
      *                    expression must be as follows: `'id >= ? AND id < ?'` where
@@ -287,9 +394,19 @@ class Db
      *
      * @return string
      */
-    public static function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
+    public function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
     {
-        return self::getInstance()->segmentedFetchFirst($sql, $first, $last, $step, $params);
+        $result = false;
+        if ($step > 0) {
+            for ($i = $first; $result === false && $i <= $last; $i += $step) {
+                $result = $this->fetchOne($sql, array_merge($params, array($i, $i + $step)));
+            }
+        } else {
+            for ($i = $first; $result === false && $i >= $last; $i += $step) {
+                $result = $this->fetchOne($sql, array_merge($params, array($i, $i + $step)));
+            }
+        }
+        return $result;
     }
 
     /**
@@ -313,9 +430,19 @@ class Db
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      * @return array An array of primitive values.
      */
-    public static function segmentedFetchOne($sql, $first, $last, $step, $params = array())
+    public function segmentedFetchOne($sql, $first, $last, $step, $params = array())
     {
-        return self::getInstance()->segmentedFetchOne($sql, $first, $last, $step, $params);
+        $result = array();
+        if ($step > 0) {
+            for ($i = $first; $i <= $last; $i += $step) {
+                $result[] = $this->fetchOne($sql, array_merge($params, array($i, $i + $step)));
+            }
+        } else {
+            for ($i = $first; $i >= $last; $i += $step) {
+                $result[] = $this->fetchOne($sql, array_merge($params, array($i, $i + $step)));
+            }
+        }
+        return $result;
     }
 
     /**
@@ -340,9 +467,21 @@ class Db
      * @return array An array of rows that includes the result set of every smaller
      *               query.
      */
-    public static function segmentedFetchAll($sql, $first, $last, $step, $params = array())
+    public function segmentedFetchAll($sql, $first, $last, $step, $params = array())
     {
-        return self::getInstance()->segmentedFetchAll($sql, $first, $last, $step, $params);
+        $result = array();
+        if ($step > 0) {
+            for ($i = $first; $i <= $last; $i += $step) {
+                $currentParams = array_merge($params, array($i, $i + $step));
+                $result = array_merge($result, $this->fetchAll($sql, $currentParams));
+            }
+        } else {
+            for ($i = $first; $i >= $last; $i += $step) {
+                $currentParams = array_merge($params, array($i, $i + $step));
+                $result = array_merge($result, $this->fetchAll($sql, $currentParams));
+            }
+        }
+        return $result;
     }
 
     /**
@@ -363,9 +502,19 @@ class Db
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      */
-    public static function segmentedQuery($sql, $first, $last, $step, $params = array())
+    public function segmentedQuery($sql, $first, $last, $step, $params = array())
     {
-        self::getInstance()->segmentedQuery($sql, $first, $last, $step, $params);
+        if ($step > 0) {
+            for ($i = $first; $i <= $last; $i += $step) {
+                $currentParams = array_merge($params, array($i, $i + $step));
+                $this->query($sql, $currentParams);
+            }
+        } else {
+            for ($i = $first; $i >= $last; $i += $step) {
+                $currentParams = array_merge($params, array($i, $i + $step));
+                $this->query($sql, $currentParams);
+            }
+        }
     }
 
     /**
@@ -374,9 +523,9 @@ class Db
      * @param string $tableName The name of the table to check for. Must be prefixed.
      * @return bool
      */
-    public static function tableExists($tableName)
+    public function tableExists($tableName)
     {
-        return self::getInstance()->tableExists($tableName);
+        return $this->query("SHOW TABLES LIKE ?", $tableName)->rowCount() > 0;
     }
 
     /**
@@ -387,9 +536,23 @@ class Db
      * @param int $maxRetries The max number of times to retry.
      * @return bool `true` if the lock was obtained, `false` if otherwise.
      */
-    public static function getDbLock($lockName, $maxRetries = 30)
+    public function getDbLock($lockName, $maxRetries = 30)
     {
-        return self::getInstance()->getDbLock($lockName, $maxRetries);
+        /*
+         * the server (e.g., shared hosting) may have a low wait timeout
+         * so instead of a single GET_LOCK() with a 30 second timeout,
+         * we use a 1 second timeout and loop, to avoid losing our MySQL
+         * connection
+         */
+        $sql = 'SELECT GET_LOCK(?, 1)';
+
+        while ($maxRetries > 0) {
+            if ($this->fetchOne($sql, array($lockName)) == '1') {
+                return true;
+            }
+            $maxRetries--;
+        }
+        return false;
     }
 
     /**
@@ -398,39 +561,28 @@ class Db
      * @param string $lockName The lock name.
      * @return bool `true` if the lock was released, `false` if otherwise.
      */
-    public static function releaseDbLock($lockName)
+    public function releaseDbLock($lockName)
     {
-        return self::getInstance()->releaseDbLock($lockName);
+        $sql = 'SELECT RELEASE_LOCK(?)';
+
+        return $this->fetchOne($sql, array($lockName)) == '1';
+    }
+
+    private function logExtraInfoIfDeadlock($ex)
+    {
+        if ($this->adapter->isErrNo($ex, 1213)) {
+            $deadlockInfo = $this->fetchAll("SHOW ENGINE INNODB STATUS");
+
+            // log using exception so backtrace appears in log output
+            Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
+        }
     }
 
     /**
-     * Cached result of isLockprivilegeGranted function.
-     *
-     * Public so tests can simulate the situation where the lock tables privilege isn't granted.
-     *
-     * @var bool
-     * @ignore
+     * @return AdapterInterface|\Zend_Db_Adapter_Abstract
      */
-    public static $lockPrivilegeGranted = null;
-
-    /**
-     * Checks whether the database user is allowed to lock tables.
-     *
-     * @return bool
-     */
-    public static function isLockPrivilegeGranted()
+    public function getDbAdapter()
     {
-        if (is_null(self::$lockPrivilegeGranted)) {
-            try {
-                self::lockTables(Common::prefixTable('log_visit'));
-                self::unlockAllTables();
-
-                self::$lockPrivilegeGranted = true;
-            } catch (Exception $ex) {
-                self::$lockPrivilegeGranted = false;
-            }
-        }
-
-        return self::$lockPrivilegeGranted;
+        return $this->adapter;
     }
 }

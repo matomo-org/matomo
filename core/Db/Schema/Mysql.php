@@ -11,6 +11,7 @@ namespace Piwik\Db\Schema;
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db\DbFactory;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -469,7 +470,7 @@ class Mysql implements SchemaInterface
 
     private function getTablePrefix()
     {
-        $dbInfos = Db::getDatabaseConfig();
+        $dbInfos = DbFactory::getDbConfig();
         $prefixTables = $dbInfos['tables_prefix'];
 
         return $prefixTables;
@@ -477,14 +478,15 @@ class Mysql implements SchemaInterface
 
     private function getTableEngine()
     {
-        $dbInfos = Db::getDatabaseConfig();
+        $dbInfos = DbFactory::getDbConfig();
         $engine = $dbInfos['type'];
+
         return $engine;
     }
 
     private function getDbName()
     {
-        $dbInfos = Db::getDatabaseConfig();
+        $dbInfos = DbFactory::getDbConfig();
         $dbName  = $dbInfos['dbname'];
 
         return $dbName;
