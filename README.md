@@ -101,3 +101,5 @@ The Piwik project uses an ever-expanding comprehensive set of thousands of unit 
 
 Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.png?branch=master)](https://travis-ci.org/piwik/piwik) - Screenshot tests Build  [![Build Status](https://travis-ci.org/piwik/piwik-ui-tests.png?branch=master)](https://travis-ci.org/piwik/piwik-ui-tests)
 
+Code Coverage: [![Coverage Status](https://coveralls.io/repos/piwik/piwik/badge.png?branch=master)](https://coveralls.io/r/piwik/piwik?branch=master)
+
