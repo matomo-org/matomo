@@ -42,7 +42,7 @@ See also: http://piwik.org/docs/setup-auto-archiving/
 \n\n";
 }
 
-if (isset($_SERVER['argv'])) {
+if (isset($_SERVER['argv']) && Piwik\Common::isPhpCliMode()) {
     $console = new Piwik\Console();
     $console->init();
 
