@@ -160,7 +160,7 @@ class CliMulti {
      */
     public function supportsAsync()
     {
-        return Process::isSupported() && $this->findPhpBinary();
+        return Process::isSupported() && !Common::isPhpCgiType() && $this->findPhpBinary();
     }
 
     private function findPhpBinary()
