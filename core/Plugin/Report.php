@@ -583,8 +583,15 @@ class Report
             return;
         }
 
+        $pluginManager = PluginManager::getInstance();
+
         try {
-            $plugin = PluginManager::getInstance()->getLoadedPlugin($module);
+            if (!$pluginManager->isPluginActivated($module)) {
+                return;
+            }
+
+            $plugin = $pluginManager->getLoadedPlugin($module);
+
         } catch (Exception $e) {
             return;
         }

@@ -105,8 +105,14 @@ class Widgets
             return;
         }
 
+        $pluginManager = PluginManager::getInstance();
+
         try {
-            $plugin = PluginManager::getInstance()->getLoadedPlugin($module);
+            if (!$pluginManager->isPluginActivated($module)) {
+                return;
+            }
+
+            $plugin = $pluginManager->getLoadedPlugin($module);
         } catch (\Exception $e) {
             // we are not allowed to use possible widgets, plugin is not active
             return;

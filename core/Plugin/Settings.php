@@ -79,6 +79,9 @@ abstract class Settings implements StorageInterface
         $this->loadSettings();
     }
 
+    /**
+     * @ignore
+     */
     public function getPluginName()
     {
         return $this->pluginName;

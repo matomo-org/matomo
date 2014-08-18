@@ -385,7 +385,7 @@ class Plugin_ReportTest extends DatabaseTestCase
         $this->assertNull($report);
     }
 
-    public function test_factory_shouldFindAReportThatExists()
+    public function test_factory_shouldFindAReport_ThatExists()
     {
         $this->loadExampleReportPlugin();
 
@@ -403,7 +403,7 @@ class Plugin_ReportTest extends DatabaseTestCase
         $this->assertInstanceOf('Piwik\Plugins\ExampleReport\Reports\GetExampleReport', $report);
     }
 
-    public function test_factory_shouldNotFindAReportIfPluginLoadedButReportNotExists()
+    public function test_factory_shouldNotFindAReport_IfPluginIsActivatedButReportNotExists()
     {
         $this->loadExampleReportPlugin();
 
@@ -415,7 +415,19 @@ class Plugin_ReportTest extends DatabaseTestCase
         $this->assertNull($report);
     }
 
-    public function test_getAllReports_shouldNotFindAReportIfNoPluginLoaded()
+    public function test_factory_shouldNotFindAReport_IfPluginIsLoadedButNotActivated()
+    {
+        PluginManager::getInstance()->loadPlugin('ExampleReport');
+
+        $module = 'ExampleReport';
+        $action = 'getExampleReport';
+
+        $report = Report::factory($module, $action);
+
+        $this->assertNull($report);
+    }
+
+    public function test_getAllReports_shouldNotFindAReport_IfNoPluginLoaded()
     {
         $this->unloadAllPlugins();
 
@@ -424,7 +436,7 @@ class Plugin_ReportTest extends DatabaseTestCase
         $this->assertEquals(array(), $report);
     }
 
-    public function test_getAllReports_shouldFindAReportIfPluginLoadedButReportNotExists()
+    public function test_getAllReports_ShouldFindAllAvailableReports()
     {
         $this->loadExampleReportPlugin();
         $this->loadMorePlugins();
@@ -440,16 +452,12 @@ class Plugin_ReportTest extends DatabaseTestCase
 
     private function loadExampleReportPlugin()
     {
-        PluginManager::getInstance()->loadPlugin('ExampleReport');
+        PluginManager::getInstance()->loadPlugins(array('ExampleReport'));
     }
 
     private function loadMorePlugins()
     {
-        PluginManager::getInstance()->loadPlugin('Actions');
-        PluginManager::getInstance()->loadPlugin('DevicesDetection');
-        PluginManager::getInstance()->loadPlugin('CoreVisualizations');
-        PluginManager::getInstance()->loadPlugin('API');
-        PluginManager::getInstance()->loadPlugin('Morpheus');
+        PluginManager::getInstance()->loadPlugins(array('Actions', 'DevicesDetection', 'CoreVisualizations', 'API', 'Morpheus'));
     }
 
     private function unloadAllPlugins()
