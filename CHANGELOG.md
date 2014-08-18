@@ -2,6 +2,13 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.6.0
+
+### New features
+
+#### Reporting API
+If an API returns an indexed array, it is now possible to use `filter_limit` and `filter_offset`. This was before only possible if an API returned a DataTable.
+
 ## Piwik 2.5.0
 
 ### Breaking Changes
