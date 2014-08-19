@@ -108,6 +108,11 @@ class Console extends Application
         }
     }
 
+    public static function isSupported()
+    {
+        return Common::isPhpCliMode() && !Common::isPhpCgiType();
+    }
+
     protected function initPiwikHost(InputInterface $input)
     {
         $piwikHostname = $input->getParameterOption('--piwik-domain');

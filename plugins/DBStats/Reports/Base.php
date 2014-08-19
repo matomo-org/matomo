@@ -109,8 +109,6 @@ abstract class Base extends \Piwik\Plugin\Report
                 $view->config->y_axis_unit = ' K';
                 $view->requestConfig->filter_sort_column = 'total_size';
                 $view->requestConfig->filter_sort_order  = 'desc';
-
-                $runPrettySizeFilterBeforeGeneric = true;
             } else {
                 $view->config->columns_to_display = array('label', 'row_count');
                 $view->config->y_axis_unit        = ' ' . Piwik::translate('General_Rows');
@@ -124,7 +122,9 @@ abstract class Base extends \Piwik\Plugin\Report
         $getPrettySize = array('\Piwik\MetricsFormatter', 'getPrettySizeFromBytes');
         $params        = !isset($fixedMemoryUnit) ? array() : array($fixedMemoryUnit);
 
-        $view->config->filters[] = array('ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params), $runPrettySizeFilterBeforeGeneric);
+        $view->config->filters[] = function ($dataTable) use ($sizeColumns, $getPrettySize, $params) {
+            $dataTable->filter('ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params));
+        };
 
         // jqPlot will display &nbsp; as, well, '&nbsp;', so don't replace the spaces when rendering as a graph
         if ($view->isViewDataTableId(HtmlTable::ID)) {
