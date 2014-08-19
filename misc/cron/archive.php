@@ -38,11 +38,14 @@ Using this 'archive.php' script is no longer recommended.
 Please use '/path/to/php $piwikHome/console core:archive " . implode('', array_slice($_SERVER['argv'], 1)) . "' instead.
 To get help use '/path/to/php $piwikHome/console core:archive --help'
 See also: http://piwik.org/docs/setup-auto-archiving/
+
+If you cannot use the console because it requires CLI
+try 'php archive.php -- url=http://your.piwik/path'
 -------------------------------------------------------
 \n\n";
 }
 
-if (isset($_SERVER['argv']) && Piwik\Common::isPhpCliMode()) {
+if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
     $console = new Piwik\Console();
     $console->init();
 
