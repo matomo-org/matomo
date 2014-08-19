@@ -125,11 +125,14 @@ abstract class Settings implements StorageInterface
             return $setting->isWritableByCurrentUser();
         });
 
-        uasort($settings, function ($setting1, $setting2) use ($settings) {
+        $settings2 = $settings;
+        
+        uasort($settings, function ($setting1, $setting2) use ($settings2) {
+
             /** @var Setting $setting1 */ /** @var Setting $setting2 */
             if ($setting1->getOrder() == $setting2->getOrder()) {
                 // preserve order for settings having same order
-                foreach ($settings as $setting) {
+                foreach ($settings2 as $setting) {
                     if ($setting1 === $setting) {
                         return -1;
                     }
