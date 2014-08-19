@@ -31,6 +31,7 @@ env:
     - secure: "CW73pDjcaabpSL7bWiWIQLydKmvLzA1gWNv/zK0VcAKezQtCAQbqpIY1+B56wOhkaCWa7P+xdd2gUWEtvvdRKEC0sZcgCdHD5pQx390e5PWCMQTFO+doAElI4w4DMATCbH890Wcw2rotiZcjlkPYY+urIpUlcRsl6mMtBVQuQ9c="
 
 matrix:
+  fast_finish: true
   allow_failures:
     - php: hhvm
     - php: 5.6
