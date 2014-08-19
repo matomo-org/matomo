@@ -7,7 +7,7 @@
 
 /**
  * Usage:
- * <div piwik-menudropdown menu-title="MyMenuItem" tooltip="My Tooltip">
+ * <div piwik-menudropdown menu-title="MyMenuItem" tooltip="My Tooltip" show-search="false">
  *     <a class="item" href="/url">An Item</a>
  *     <a class="item disabled">Disabled</a>
  *     <a class="item active">Active item</a>
@@ -24,8 +24,43 @@ angular.module('piwikApp').directive('piwikMenudropdown', function(){
         restrict: 'A',
         scope: {
             menuTitle: '@',
-            tooltip: '@'
+            tooltip: '@',
+            showSearch: '='
         },
-        templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster
+        templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster,
+        link: function(scope, element, attrs) {
+
+            element.find('.item').on('click', function () {
+                var $self = angular.element(this);
+
+                if ($self.hasClass('disabled') || $self.hasClass('separator')) {
+                    return;
+                }
+
+                scope.menuTitle = $self.text().replace(/[\u0000-\u2666]/g, function(c) {
+                    return '&#'+c.charCodeAt(0)+';';
+                });
+                scope.$eval('view.showItems = false');
+                scope.$apply();
+
+                element.find('.item').removeClass('active');
+                $self.addClass('active');
+            });
+
+            scope.searchItems = function (searchTerm)
+            {
+                searchTerm = searchTerm.toLowerCase();
+
+                element.find('.item').each(function (index, node) {
+                    var $node = angular.element(node);
+
+                    if (-1 === $node.text().toLowerCase().indexOf(searchTerm)) {
+                        $node.hide();
+                    } else {
+                        $node.show();
+                    }
+                });
+            }
+        }
     };
 });

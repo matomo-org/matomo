@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\Common;
+use Piwik\Menu\Group;
 use Piwik\Menu\MenuReporting;
 use Piwik\Piwik;
 use Piwik\Site;
@@ -55,8 +56,20 @@ class Menu extends \Piwik\Plugin\Menu
 
             $menu->add($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
 
+            $group = new Group();
             foreach ($goals as $goal) {
-                $menu->add($mainGoalMenu, str_replace('%', '%%', Translate::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+                $subMenuName = str_replace('%', '%%', Translate::clean($goal['name']));
+                $params      = array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']);
+
+                if (count($goals) <= 3) {
+                    $menu->add($mainGoalMenu, $subMenuName, $params);
+                } else {
+                    $group->add($subMenuName, $params, false);
+                }
+            }
+
+            if (count($goals) > 3) {
+                $menu->addGroup($mainGoalMenu, 'Goals_ChooseGoal', $group, $orderId = 50, $tooltip = false);
             }
         }
     }

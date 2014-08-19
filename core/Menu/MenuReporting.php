@@ -63,6 +63,21 @@ class MenuReporting extends MenuAbstract
     }
 
     /**
+     * Should not be a public API yet. We probably have to change the API once we have another use case.
+     * @ignore
+     */
+    public function addGroup($menuName, $defaultTitle, Group $group, $order = 50, $tooltip = false)
+    {
+        $this->menuEntries[] = array(
+            $menuName,
+            $defaultTitle,
+            $group,
+            $order,
+            $tooltip
+        );
+    }
+
+    /**
      * See {@link add()}. Adds a new menu item to the referrers section of the reporting menu.
      * @param string $menuName
      * @param array $url

@@ -1,5 +1,41 @@
 .Menu--dashboard {
   position: relative;
+
+  .menuDropdown {
+
+    .items {
+      width: 250px;
+
+      .search {
+        margin: 15px 16px 10px 17px;
+      }
+
+      .item {
+        padding: 10px 16px 4px !important;
+        min-height: 25px;
+        height: auto;
+      }
+    }
+
+    .title {
+      color: @theme-color-menu-contrast-text;
+      display: block;
+      padding: 15px 22px 11px;
+      font-size: 15px;
+      font-weight: normal;
+
+      &:hover {
+        color: @theme-color-menu-contrast-textActive;
+      }
+
+      &:after {
+        color: @theme-color-menu-contrast-text;
+        border-top: 5px solid @theme-color-menu-contrast-text;
+        top: 20px;
+        right: 3px;
+      }
+    }
+  }
 }
 
 .Menu--dashboard > .Menu-tabList {
@@ -91,7 +127,7 @@
 /* LEVEL2 HOVER */
 .Menu--dashboard > .Menu-tabList > li.sfHover ul,
 .Menu--dashboard > .Menu-tabList > li:hover ul {
-  z-index: 1;
+  z-index: 130;
   top: 100%;
   opacity: 1;
   -webkit-transition: opacity 300ms ease-out 10ms; /* property duration timing-function delay */

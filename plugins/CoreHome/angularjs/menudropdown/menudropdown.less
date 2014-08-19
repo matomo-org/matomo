@@ -29,14 +29,41 @@
     z-index: 21;
     position: absolute;
     border: 1px solid @color-silver-l80 !important;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
     background: @theme-color-background-base;
     max-height: 400px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 !important;
+
+    .search {
+      margin: 15px 6px 10px 6px;
+      display: block;
+
+      .search_ico {
+        position: absolute;
+        right: 25px;
+        top: 22px;
+        margin: 0px;
+        left: initial;
+      }
+      .reset {
+        position: absolute;
+        top: 25px;
+        cursor: pointer;
+        margin: 0px;
+        right: 25px;
+        left: initial;
+      }
+
+      input {
+        margin: 0px;
+        width: 100%;
+
+        &::-ms-clear {
+          display: none;
+        }
+      }
+    }
 
     .item {
       display: block;
@@ -44,6 +71,8 @@
       text-decoration: none !important;
       padding: 6px 25px 6px 6px !important;
       font-size: 11px;
+      float: none;
+      text-align: left;
 
       &:hover {
         background: @color-silver-l80;

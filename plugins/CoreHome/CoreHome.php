@@ -195,6 +195,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DaySa';
         $translationKeys[] = 'General_DaySu';
         $translationKeys[] = 'General_Search';
+        $translationKeys[] = 'General_Clear';
         $translationKeys[] = 'General_MoreDetails';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_MoreDetails';

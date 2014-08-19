@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
+use Piwik\Menu\MenuReporting;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -131,7 +132,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
-        $view->menu = MenuMain::getInstance()->getMenu();
+        $view->menu = MenuReporting::getInstance()->getMenu();
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
         return $view;
