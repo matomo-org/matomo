@@ -186,9 +186,11 @@ class Profiler
      * Initializes Profiling via XHProf.
      * See: https://github.com/piwik/piwik/blob/master/tests/README.xhprof.md
      */
-    public static function setupProfilerXHProf($mainRun = false)
+    public static function setupProfilerXHProf($mainRun = false, $setupDuringTracking = false)
     {
-        if(SettingsServer::isTrackerApiRequest()) {
+        if (!$setupDuringTracking
+            && SettingsServer::isTrackerApiRequest()
+        ) {
             // do not profile Tracker
             return;
         }
@@ -237,9 +239,6 @@ class Profiler
             }
             $runs = self::getProfilingRunIds();
             $runs[] = $runId;
-//            $weights = array_fill(0, count($runs), 1);
-//            $aggregate = xhprof_aggregate_runs($xhprofRuns, $runs, $weights, $profilerNamespace);
-//            $runId = $xhprofRuns->save_run($aggregate, $profilerNamespace);
 
             if($mainRun) {
                 $runIds = implode(',', $runs);

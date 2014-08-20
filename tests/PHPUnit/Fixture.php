@@ -243,6 +243,10 @@ class Fixture extends PHPUnit_Framework_Assert
         if ($this->testEnvironment === null) {
             $this->testEnvironment = new Piwik_TestingEnvironment();
             $this->testEnvironment->delete();
+
+            if (getenv('PIWIK_USE_XHPROF') == 1) {
+                $this->testEnvironment->useXhprof = true;
+            }
         }
         return $this->testEnvironment;
     }
