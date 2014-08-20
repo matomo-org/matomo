@@ -8,7 +8,7 @@
  */
 namespace Piwik;
 
-use Piwik\Period\Factory;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 
 /**
@@ -64,7 +64,7 @@ abstract class Period
      */
     public static function factory($period, $date)
     {
-        return Factory::build($period, $date);
+        return PeriodFactory::build($period, $date);
     }
 
     /**

@@ -12,7 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
-use Piwik\Period\Factory;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
@@ -1288,7 +1288,7 @@ class CronArchive
     private function getPeriodsToProcess()
     {
         $this->restrictToPeriods = array_intersect($this->restrictToPeriods, $this->getDefaultPeriodsToProcess());
-        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, Factory::getPeriodsEnabledForAPI());
+        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, PeriodFactory::getPeriodsEnabledForAPI());
         return $this->restrictToPeriods;
     }
 
