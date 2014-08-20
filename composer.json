@@ -48,5 +48,13 @@
             "type": "vcs",
             "url": "https://github.com/phacility/xhprof"
         }
-    ]
+    ],
+    "scripts": {
+        "post-update-cmd": [
+            "misc/composer/build-xhprof.sh"
+        ],
+        "post-install-cmd": [
+            "misc/composer/build-xhprof.sh"
+        ]
+    }
 }
