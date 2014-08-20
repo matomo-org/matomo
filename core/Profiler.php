@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Exception;
+
 /**
  * Class Profiler helps with measuring memory, and profiling the database.
  * To enable set in your config.ini.php
@@ -195,23 +197,15 @@ class Profiler
             return;
         }
 
-        $path = PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_runs.php';
-
-        if(!file_exists($path)) {
-            return;
+        if (!function_exists('xhprof_enable')) {
+            throw new Exception("Cannot find xhprof, run 'composer update'.");
         }
 
-        if(!function_exists('xhprof_enable')) {
-            return;
+        if (!is_writable(ini_get("xhprof.output_dir"))) {
+            throw new Exception("The profiler output dir '" . ini_get("xhprof.output_dir") . "' should exist and be writable.");
         }
 
-        if(!is_writable(ini_get("xhprof.output_dir"))) {
-            throw new \Exception("The profiler output dir '" .ini_get("xhprof.output_dir"). "' should exist and be writable.");
-        }
-        require_once $path;
-        require_once PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_lib.php';
-
-        if(!function_exists('xhprof_error')) {
+        if (!function_exists('xhprof_error')) {
             function xhprof_error($out) {
                 echo substr($out, 0, 300) . '...';
             }
