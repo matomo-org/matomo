@@ -857,7 +857,7 @@ class Common
             }
         }
 
-        if (is_null($browserLang)) {
+        if (empty($browserLang)) {
             // a fallback might be to infer the language in HTTP_USER_AGENT (i.e., localized build)
             $browserLang = "";
         } else {
