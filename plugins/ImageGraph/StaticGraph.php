@@ -12,7 +12,6 @@ namespace Piwik\Plugins\ImageGraph;
 use Exception;
 use pData;
 use pImage;
-use Piwik\Loader;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 
@@ -86,7 +85,6 @@ abstract class StaticGraph
 
             $className = self::$availableStaticGraphTypes[$graphType];
             $className = __NAMESPACE__ . "\\StaticGraph\\" . $className;
-            Loader::loadClass($className);
             return new $className;
         } else {
             throw new Exception(

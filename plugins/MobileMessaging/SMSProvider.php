@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Exception;
-use Piwik\Loader;
 use Piwik\Piwik;
 
 /**
@@ -50,7 +49,6 @@ abstract class SMSProvider
         $className = __NAMESPACE__ . '\\SMSProvider\\' . $providerName;
 
         try {
-            Loader::loadClass($className);
             return new $className;
         } catch (Exception $e) {
             throw new Exception(

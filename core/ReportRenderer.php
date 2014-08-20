@@ -52,7 +52,6 @@ abstract class ReportRenderer
         $className = 'Piwik\ReportRenderer\\' . $name;
 
         try {
-            Loader::loadClass($className);
             return new $className;
         } catch (Exception $e) {
 
