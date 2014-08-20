@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use XHProfRuns_Default;
 
 /**
  * Class Profiler helps with measuring memory, and profiling the database.
@@ -23,6 +24,13 @@ use Exception;
  */
 class Profiler
 {
+    /**
+     * Whether xhprof has been setup or not.
+     *
+     * @var bool
+     */
+    private static $isXhprofSetup = false;
+
     /**
      * Returns memory usage
      *
@@ -197,11 +205,24 @@ class Profiler
             return;
         }
 
-        if (!function_exists('xhprof_enable')) {
-            throw new Exception("Cannot find xhprof, run 'composer update'.");
+        if (self::$isXhprofSetup) {
+            return;
         }
 
-        if (!is_writable(ini_get("xhprof.output_dir"))) {
+        $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
+        if (!file_exists($xhProfPath)) {
+            throw new Exception("Cannot find xhprof, run 'composer update' and build the extension."); // TODO: automate building w/ composer
+        }
+
+        if (!function_exists('xhprof_enable')) {
+            throw new Exception("Cannot find xhprof_enable, make sure to add 'extension=$xhProfPath' to your php.ini.");
+        }
+
+        $outputDir = ini_get("xhprof.output_dir");
+        if (empty($outputDir)) {
+            throw new Exception("The profiler output dir is not set. Add 'xhprof.output_dir=...' to your php.ini.");
+        }
+        if (!is_writable($outputDir)) {
             throw new Exception("The profiler output dir '" . ini_get("xhprof.output_dir") . "' should exist and be writable.");
         }
 
@@ -223,40 +244,75 @@ class Profiler
             self::setProfilingRunIds(array());
         }
 
-        register_shutdown_function(function () use($profilerNamespace, $mainRun) {
+        $baseUrlStored = SettingsPiwik::getPiwikUrl();
+
+        register_shutdown_function(function () use($profilerNamespace, $mainRun, $baseUrlStored) {
             $xhprofData = xhprof_disable();
-            $xhprofRuns = new \XHProfRuns_Default();
+            $xhprofRuns = new XHProfRuns_Default();
             $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
 
-            if(empty($runId)) {
+            if (empty($runId)) {
                 die('could not write profiler run');
             }
-            $runs = self::getProfilingRunIds();
-            $runs[] = $runId;
 
-            if($mainRun) {
-                $runIds = implode(',', $runs);
+            $runs = Profiler::getProfilingRunIds();
+            array_unshift($runs, $runId);
+
+            if ($mainRun) {
+                self::aggregateXhprofRuns($runs, $profilerNamespace, $saveTo = $runId);
+
                 $out = "\n\n";
                 $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
-                $baseUrlStored = SettingsPiwik::getPiwikUrl();
-                if(strlen($baseUrlStored) > strlen($baseUrl)) {
+                if (strlen($baseUrlStored) > strlen($baseUrl)) {
                     $baseUrl = $baseUrlStored;
                 }
-                $baseUrl = "\n" . $baseUrl
-                    ."tests/lib/xhprof-0.9.4/xhprof_html/?source=$profilerNamespace&run=";
+                $baseUrl = $baseUrlStored . "vendor/facebook/xhprof/xhprof_html/?source=$profilerNamespace&run=$runId";
 
-                $out .= "Profiler report is available at:";
-                $out .= $baseUrl . $runId;
-                if($runId != $runIds) {
-                    $out .= "\n\nProfiler Report aggregating all runs triggered from this process: ";
-                    $out .= $baseUrl . $runIds;
-                }
+                $out .= "Profiler report is available at:\n";
+                $out .= $baseUrl;
                 $out .= "\n\n";
-                echo ($out);
+
+                echo $out;
             } else {
-                self::setProfilingRunIds($runs);
+                Profiler::setProfilingRunIds($runs);
             }
         });
+
+        self::$isXhprofSetup = true;
+    }
+
+    /**
+     * Aggregates xhprof runs w/o normalizing (xhprof_aggregate_runs will always average data which
+     * does not fit Piwik's use case).
+     */
+    private static function aggregateXhprofRuns($runIds, $profilerNamespace, $saveToRunId)
+    {
+        $xhprofRuns = new XHProfRuns_Default();
+
+        $aggregatedData = array();
+
+        foreach ($runIds as $runId) {
+            $xhprofRunData = $xhprofRuns->get_run($runId, $profilerNamespace, $description);
+
+            foreach ($xhprofRunData as $key => $data) {
+                if (empty($aggregatedData[$key])) {
+                    $aggregatedData[$key] = $data;
+                } else {
+                    // don't aggregate main() metrics since only the super run has the correct metrics for the entire run
+                    if ($key == "main()") {
+                        continue;
+                    }
+
+                    $aggregatedData[$key]["ct"] += $data["ct"];
+                    $aggregatedData[$key]["wt"] += $data["wt"];
+                    $aggregatedData[$key]["cpu"] += $data["cpu"];
+                    $aggregatedData[$key]["mu"] += $data["mu"];
+                    $aggregatedData[$key]["pmu"] = max($aggregatedData[$key]["pmu"], $data["pmu"]);
+                }
+            }
+        }
+
+        $xhprofRuns->save_run($aggregatedData, $profilerNamespace, $saveToRunId);
     }
 
     private static function setProfilingRunIds($ids)

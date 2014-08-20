@@ -44,7 +44,9 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/TestRequestCollection.php
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/TestRequestResponse.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/ApiTestConfig.php';
 
-\Piwik\Profiler::setupProfilerXHProf( $mainRun = true );
+if (getenv('PIWIK_USE_XHPROF') == 1) {
+    \Piwik\Profiler::setupProfilerXHProf();
+}
 
 // require test fixtures
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
