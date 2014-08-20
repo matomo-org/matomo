@@ -360,11 +360,11 @@ class Configuration(object):
         )
         option_parser.add_option(
             '--exclude-path', dest='excluded_paths', action='append', default=[],
-            help="Paths to exclude. Can be specified multiple times"
+            help="Any URL path matching this exclude-path will not be imported in Piwik. Can be specified multiple times"
         )
         option_parser.add_option(
             '--exclude-path-from', dest='exclude_path_from',
-            help="Each line from this file is a path to exclude"
+            help="Each line from this file is a path to exclude (see: --exclude-path)"
         )
         option_parser.add_option(
             '--include-path', dest='included_paths', action='append', default=[],
