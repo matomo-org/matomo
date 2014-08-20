@@ -38,6 +38,21 @@ class ActionEvent extends Action
         return (strlen($eventCategory) > 0 && strlen($eventAction) > 0);
     }
 
+    public function getEventAction()
+    {
+        return $this->request->getParam('e_a');
+    }
+
+    public function getEventCategory()
+    {
+        return $this->request->getParam('e_c');
+    }
+
+    public function getEventName()
+    {
+        return $this->request->getParam('e_n');
+    }
+
     public function getCustomFloatValue()
     {
         return $this->eventValue;

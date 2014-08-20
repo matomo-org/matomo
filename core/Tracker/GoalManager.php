@@ -138,15 +138,29 @@ class GoalManager
                 || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
                 || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
                 || ($attribute == 'manually')
+                || in_array($attribute, array('event_action', 'event_name', 'event_category')) && $actionType != Action::TYPE_EVENT
             ) {
                 continue;
             }
 
             $url = $decodedActionUrl;
-            // Matching on Page Title
-            if ($attribute == 'title') {
-                $url = $action->getActionName();
+
+            switch ($attribute) {
+                case 'title':
+                    // Matching on Page Title
+                    $url = $action->getActionName();
+                    break;
+                case 'event_action':
+                    $url = $action->getEventAction();
+                    break;
+                case 'event_name':
+                    $url = $action->getEventName();
+                    break;
+                case 'event_category':
+                    $url = $action->getEventCategory();
+                    break;
             }
+
             $pattern_type = $goal['pattern_type'];
 
             $match = $this->isUrlMatchingGoal($goal, $pattern_type, $url);
