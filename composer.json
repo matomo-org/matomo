@@ -40,6 +40,13 @@
         "piwik/device-detector": "2.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1"
-    }
+        "phpunit/phpunit": "~4.1",
+        "facebook/xhprof": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/phacility/xhprof"
+        }
+    ]
 }
