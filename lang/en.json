@@ -930,6 +930,7 @@
         "CaseSensitive": "Case sensitive match",
         "ChooseGoal": "Choose Goal",
         "ClickOutlink": "Click on a Link to an external website",
+        "SendEvent": "Send an event",
         "ColumnAverageOrderRevenueDocumentation": "Average Order Value (AOV) is the total revenue from all Ecommerce Orders divided by the number of orders.",
         "ColumnAveragePriceDocumentation": "The average revenue for this %s.",
         "ColumnAverageQuantityDocumentation": "The average quantity of this %s sold in Ecommerce orders.",

@@ -28,7 +28,6 @@ set_time_limit(0);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);

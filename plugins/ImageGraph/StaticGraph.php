@@ -12,9 +12,9 @@ namespace Piwik\Plugins\ImageGraph;
 use Exception;
 use pData;
 use pImage;
-use Piwik\Loader;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
+use Piwik\Factory;
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pImage.class.php";
@@ -24,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pData.class.php";
  * The StaticGraph abstract class is used as a base class for different types of static graphs.
  *
  */
-abstract class StaticGraph
+abstract class StaticGraph extends Factory
 {
     const GRAPH_TYPE_BASIC_LINE = "evolution";
     const GRAPH_TYPE_VERTICAL_BAR = "verticalBar";
@@ -73,29 +73,19 @@ abstract class StaticGraph
 
     abstract public function renderGraph();
 
-    /**
-     * Return the StaticGraph according to the static graph type $graphType
-     *
-     * @throws Exception If the static graph type is unknown
-     * @param string $graphType
-     * @return \Piwik\Plugins\ImageGraph\StaticGraph
-     */
-    public static function factory($graphType)
+    protected static function getClassNameFromClassId($graphType)
     {
-        if (isset(self::$availableStaticGraphTypes[$graphType])) {
+        $className = self::$availableStaticGraphTypes[$graphType];
+        $className = __NAMESPACE__ . "\\StaticGraph\\" . $className;
+        return new $className;
+    }
 
-            $className = self::$availableStaticGraphTypes[$graphType];
-            $className = __NAMESPACE__ . "\\StaticGraph\\" . $className;
-            Loader::loadClass($className);
-            return new $className;
-        } else {
-            throw new Exception(
-                Piwik::translate(
-                    'General_ExceptionInvalidStaticGraphType',
-                    array($graphType, implode(', ', self::getAvailableStaticGraphTypes()))
-                )
-            );
-        }
+    protected static function getInvalidClassIdExceptionMessage($graphType)
+    {
+        return Piwik::translate(
+            'General_ExceptionInvalidStaticGraphType',
+            array($graphType, implode(', ', self::getAvailableStaticGraphTypes()))
+        );
     }
 
     public static function getAvailableStaticGraphTypes()

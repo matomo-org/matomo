@@ -32,6 +32,12 @@ class Language extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        return substr($request->getBrowserLanguage(), 0, 20);
+        $language = $request->getBrowserLanguage();
+
+        if (empty($language)) {
+            return '';
+        }
+
+        return substr($language, 0, 20);
     }
 }

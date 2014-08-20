@@ -39,11 +39,11 @@ class TrackGoalsAllowMultipleConversionsPerVisitTest extends IntegrationTestCase
 
         // test delete is working as expected
         $goals = API::getInstance()->getGoals($idSite);
-        $this->assertTrue(2 == count($goals));
+        $this->assertTrue(5 == count($goals));
         API::getInstance()->deleteGoal($idSite, self::$fixture->idGoal_OneConversionPerVisit);
         API::getInstance()->deleteGoal($idSite, self::$fixture->idGoal_MultipleConversionPerVisit);
         $goals = API::getInstance()->getGoals($idSite);
-        $this->assertTrue(empty($goals));
+        $this->assertTrue(3 == count($goals));
     }
 
     public function getApiForTesting()

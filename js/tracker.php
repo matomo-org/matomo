@@ -27,7 +27,7 @@ define('PIWIK_DOCUMENT_ROOT', '..');
 define('PIWIK_USER_PATH', '..');
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 
 $file = '../piwik.js';
 

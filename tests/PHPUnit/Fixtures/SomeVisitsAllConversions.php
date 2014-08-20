@@ -53,6 +53,18 @@ class SomeVisitsAllConversions extends Fixture
                 $revenue = 10, $allowMultipleConversions = true
             );
         }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 3)) {
+            API::getInstance()->addGoal($this->idSite, 'click event', 'event_action', 'click', 'contains');
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 4)) {
+            API::getInstance()->addGoal($this->idSite, 'category event', 'event_category', 'The_Category', 'exact', true);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 5)) {
+            API::getInstance()->addGoal($this->idSite, 'name event', 'event_name', 'the_name', 'exact');
+        }
     }
 
     private function trackVisits()
@@ -93,5 +105,17 @@ class SomeVisitsAllConversions extends Fixture
         $t->setTokenAuth($this->getTokenAuth());
         $t->setForceNewVisit();
         $t->doTrackPageView('This is tracked in a new visit.');
+
+        // should trigger two goals at once (event_category, event_action)
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
+        self::checkResponse($t->doTrackEvent('The_Category', 'click_action', 'name'));
+
+        // should not trigger a goal (the_category is case senstive goal)
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        self::checkResponse($t->doTrackEvent('the_category', 'click_action', 'name'));
+
+        // should trigger a goal for event_name
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        self::checkResponse($t->doTrackEvent('other_category', 'other_action', 'the_name'));
     }
 }
