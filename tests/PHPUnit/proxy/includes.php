@@ -13,7 +13,6 @@ require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
     ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
     : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
 
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';

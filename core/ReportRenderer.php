@@ -14,12 +14,13 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
 use Piwik\Plugins\ImageGraph\API;
+use Piwik\Factory;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
  * All new Renderers must be copied in ReportRenderer and added to the $availableReportRenderers.
  */
-abstract class ReportRenderer
+abstract class ReportRenderer extends Factory
 {
     const DEFAULT_REPORT_FONT = 'dejavusans';
     const REPORT_TEXT_COLOR = "68,68,68";
@@ -39,32 +40,22 @@ abstract class ReportRenderer
         self::CSV_FORMAT,
     );
 
-    /**
-     * Return the ReportRenderer associated to the renderer type $rendererType
-     *
-     * @throws exception If the renderer is unknown
-     * @param string $rendererType
-     * @return \Piwik\ReportRenderer
-     */
-    public static function factory($rendererType)
+    protected static function getClassNameFromClassId($rendererType)
     {
-        $name = ucfirst(strtolower($rendererType));
-        $className = 'Piwik\ReportRenderer\\' . $name;
+        return 'Piwik\ReportRenderer\\' . self::normalizeRendererType($rendererType);
+    }
 
-        try {
-            Loader::loadClass($className);
-            return new $className;
-        } catch (Exception $e) {
+    protected static function getInvalidClassIdExceptionMessage($rendererType)
+    {
+        return Piwik::translate(
+            'General_ExceptionInvalidReportRendererFormat',
+            array(self::normalizeRendererType($rendererType), implode(', ', self::$availableReportRenderers))
+        );
+    }
 
-            @header('Content-Type: text/html; charset=utf-8');
-
-            throw new Exception(
-                Piwik::translate(
-                    'General_ExceptionInvalidReportRendererFormat',
-                    array($name, implode(', ', self::$availableReportRenderers))
-                )
-            );
-        }
+    protected static function normalizeRendererType($rendererType)
+    {
+        return ucfirst(strtolower($rendererType));
     }
 
     /**

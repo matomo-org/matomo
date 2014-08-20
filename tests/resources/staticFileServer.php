@@ -39,7 +39,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
-require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH .'/vendor/autoload.php';
 
 // This is Piwik logo, the static file used in this test suit
 define("TEST_FILE_LOCATION", dirname(__FILE__) . "/lipsum.txt");

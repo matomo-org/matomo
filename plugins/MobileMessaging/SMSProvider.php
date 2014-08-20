@@ -9,14 +9,14 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Exception;
-use Piwik\Loader;
 use Piwik\Piwik;
+use Piwik\Factory;
 
 /**
  * The SMSProvider abstract class is used as a base class for SMS provider implementations.
  *
  */
-abstract class SMSProvider
+abstract class SMSProvider extends Factory
 {
     const MAX_GSM_CHARS_IN_ONE_UNIQUE_SMS = 160;
     const MAX_GSM_CHARS_IN_ONE_CONCATENATED_SMS = 153;
@@ -38,6 +38,18 @@ abstract class SMSProvider
 			',
     );
 
+    protected static function getClassNameFromClassId($id)
+    {
+        return __NAMESPACE__ . '\\SMSProvider\\' . $id;
+    }
+
+    protected static function getInvalidClassIdExceptionMessage($id)
+    {
+        return Piwik::translate('MobileMessaging_Exception_UnknownProvider',
+            array($id, implode(', ', array_keys(self::$availableSMSProviders)))
+        );
+    }
+
     /**
      * Return the SMSProvider associated to the provider name $providerName
      *
@@ -49,10 +61,7 @@ abstract class SMSProvider
     {
         $className = __NAMESPACE__ . '\\SMSProvider\\' . $providerName;
 
-        try {
-            Loader::loadClass($className);
-            return new $className;
-        } catch (Exception $e) {
+        if (!class_exists($className)) {
             throw new Exception(
                 Piwik::translate(
                     'MobileMessaging_Exception_UnknownProvider',
@@ -60,6 +69,8 @@ abstract class SMSProvider
                 )
             );
         }
+
+        return new $className;
     }
 
     /**

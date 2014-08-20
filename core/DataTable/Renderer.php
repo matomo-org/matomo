@@ -10,9 +10,9 @@ namespace Piwik\DataTable;
 
 use Exception;
 use Piwik\DataTable;
-use Piwik\Loader;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Factory;
 
 /**
  * A DataTable Renderer can produce an output given a DataTable object.
@@ -22,7 +22,7 @@ use Piwik\Piwik;
  *  $render->setTable($dataTable);
  *  echo $render;
  */
-abstract class Renderer
+abstract class Renderer extends Factory
 {
     protected $table;
 
@@ -156,25 +156,17 @@ abstract class Renderer
         return self::$availableRenderers;
     }
 
-    /**
-     * Returns the DataTable associated to the output format $name
-     *
-     * @param string $name
-     * @throws Exception If the renderer is unknown
-     * @return \Piwik\DataTable\Renderer
-     */
-    public static function factory($name)
+    protected static function getClassNameFromClassId($id)
     {
-        $className = ucfirst(strtolower($name));
+        $className = ucfirst(strtolower($id));
         $className = 'Piwik\DataTable\Renderer\\' . $className;
-        try {
-            Loader::loadClass($className);
-            return new $className;
-        } catch (Exception $e) {
-            $availableRenderers = implode(', ', self::getRenderers());
-            @header('Content-Type: text/plain; charset=utf-8');
-            throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
-        }
+        return $className;
+    }
+
+    protected static function getInvalidClassIdExceptionMessage($id)
+    {
+        $availableRenderers = implode(', ', self::getRenderers());
+        return Piwik::translate('General_ExceptionInvalidRendererFormat', array(self::getClassNameFromClassId($id), $availableRenderers));
     }
 
     /**
