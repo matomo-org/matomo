@@ -126,7 +126,7 @@ class FrontController extends Singleton
             }
 
             if ($action === false) {
-                $this->triggerControllerActionNotFoundError($controller, $controllerAction);
+                $this->triggerControllerActionNotFoundError($module, $controllerAction);
             }
 
         }
