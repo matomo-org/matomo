@@ -22,6 +22,7 @@ use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Updater;
+use Piwik\SettingsServer;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -957,7 +958,7 @@ class Manager extends Singleton
     private function loadTranslation($plugin, $langCode)
     {
         // we are in Tracker mode if Loader is not (yet) loaded
-        if (!class_exists('Piwik\\Loader', false)) {
+        if (SettingsServer::isTrackerApiRequest()) {
             return false;
         }
 

@@ -407,7 +407,6 @@ class Tracker
             && self::$initTrackerMode === false
         ) {
             self::$initTrackerMode = true;
-            require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
             Access::getInstance();
