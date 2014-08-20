@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b47a13d5f82b7e36891b725fbea836f2",
+    "hash": "aca9f46b026a9e629b4a11e3e57428c0",
     "packages": [
         {
             "name": "leafo/lessphp",
@@ -296,6 +296,44 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "facebook/xhprof",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phacility/xhprof.git",
+                "reference": "0a7a5f69f5d762c34056164eb08dd13d41156015"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phacility/xhprof/zipball/0a7a5f69f5d762c34056164eb08dd13d41156015",
+                "reference": "0a7a5f69f5d762c34056164eb08dd13d41156015",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "xhprof_lib/utils/xhprof_lib.php",
+                    "xhprof_lib/utils/xhprof_runs.php"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "XHProf: A Hierarchical Profiler for PHP",
+            "homepage": "http://pecl.php.net/package/xhprof",
+            "keywords": [
+                "performance",
+                "profiling"
+            ],
+            "support": {
+                "source": "https://github.com/phacility/xhprof/tree/master"
+            },
+            "time": "2014-04-22 20:02:16"
+        },
         {
             "name": "ocramius/instantiator",
             "version": "1.1.2",
@@ -1108,9 +1146,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "facebook/xhprof": 20
+    },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.2"
