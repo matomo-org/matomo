@@ -96,6 +96,10 @@ install:
 {% endif %}
 
 before_script:
+  - if [ -z "$TEST_SUITE" ];
+    then composer require satooshi/php-coveralls dev-master;
+    fi
+
   - ./tests/travis/configure_git.sh
 
   # print out mysql information
@@ -146,6 +150,10 @@ before_script:
 after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
+
+  - if [ -z "$TEST_SUITE" ];
+    then php vendor/bin/coveralls -v;
+    fi
 
   # output contents of files w/ debugging info to screen
   - cat /var/log/nginx/error.log

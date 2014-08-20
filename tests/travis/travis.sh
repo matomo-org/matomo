@@ -64,5 +64,17 @@ then
         fi
     fi
 else
-    travis_wait phpunit --configuration phpunit.xml --coverage-text --colors
+    if [ "$COVERAGE" = "Integration" ]
+    then
+        echo "Executing non Integration tests in test suite IntegrationTests..."
+        phpunit --configuration phpunit.xml --testsuite IntegrationTests --exclude-group Integration --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
+    elif [ "$COVERAGE" = "Core" ]
+    then
+        echo "Executing tests in test suite CoreTests..."
+        phpunit --configuration phpunit.xml --testsuite CoreTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-core.xml || true
+    elif [ "$COVERAGE" = "Plugins" ]
+    then
+        echo "Executing tests in test suite PluginTests..."
+        phpunit --configuration phpunit.xml --testsuite PluginTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-plugins.xml || true
+    fi;
 fi
