@@ -166,13 +166,14 @@ abstract class Renderer
     {
         $className = ucfirst(strtolower($name));
         $className = 'Piwik\DataTable\Renderer\\' . $className;
-        try {
-            return new $className;
-        } catch (Exception $e) {
+
+        if (!class_exists($className)) {
             $availableRenderers = implode(', ', self::getRenderers());
             @header('Content-Type: text/plain; charset=utf-8');
             throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
         }
+
+        return new $className;
     }
 
     /**

@@ -51,10 +51,7 @@ abstract class ReportRenderer
         $name = ucfirst(strtolower($rendererType));
         $className = 'Piwik\ReportRenderer\\' . $name;
 
-        try {
-            return new $className;
-        } catch (Exception $e) {
-
+        if (!class_exists($className)) {
             @header('Content-Type: text/html; charset=utf-8');
 
             throw new Exception(
@@ -64,6 +61,8 @@ abstract class ReportRenderer
                 )
             );
         }
+
+        return new $className;
     }
 
     /**

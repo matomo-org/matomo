@@ -48,9 +48,7 @@ abstract class SMSProvider
     {
         $className = __NAMESPACE__ . '\\SMSProvider\\' . $providerName;
 
-        try {
-            return new $className;
-        } catch (Exception $e) {
+        if (!class_exists($className)) {
             throw new Exception(
                 Piwik::translate(
                     'MobileMessaging_Exception_UnknownProvider',
@@ -58,6 +56,8 @@ abstract class SMSProvider
                 )
             );
         }
+
+        return new $className;
     }
 
     /**
