@@ -7,7 +7,11 @@
 
     <div class="items" ng-show="view.showItems">
         <div class="search" ng-if="showSearch && view.showItems">
-            <input type="text" ng-model="view.searchTerm" placeholder="{{ 'General_Search'|translate }}" ng-change="searchItems(view.searchTerm)">
+            <input type="text"
+                   piwik-focus-if="view.showItems"
+                   ng-model="view.searchTerm"
+                   placeholder="{{ 'General_Search'|translate }}"
+                   ng-change="searchItems(view.searchTerm)">
 
             <img title="{{ 'General_Search'|translate }}"
                  ng-show="!view.searchTerm"
