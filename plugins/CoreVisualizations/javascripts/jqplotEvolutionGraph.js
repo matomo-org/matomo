@@ -89,6 +89,31 @@
                     if (lastTick !== false && typeof self.jqplotParams.axes.xaxis.onclick != 'undefined'
                         && typeof self.jqplotParams.axes.xaxis.onclick[lastTick] == 'string') {
                         var url = self.jqplotParams.axes.xaxis.onclick[lastTick];
+
+                        if (url && -1 === url.indexOf('#')) {
+                            var module = broadcast.getValueFromHash('module');
+                            var action = broadcast.getValueFromHash('action');
+                            var idSite = broadcast.getValueFromUrl('idSite', url);
+                            var period = broadcast.getValueFromUrl('period', url);
+                            var date   = broadcast.getValueFromUrl('date', url);
+
+                            if (module && action) {
+                                url += '#module=' + module + '&action=' + action;
+
+                                if (idSite) {
+                                    url += '&idSite=' + idSite;
+                                }
+
+                                if (period) {
+                                    url += '&period=' + period;
+                                }
+
+                                if (period) {
+                                    url += '&date=' + date;
+                                }
+                            }
+                        }
+
                         piwikHelper.redirectToUrl(url);
                     }
                 })
