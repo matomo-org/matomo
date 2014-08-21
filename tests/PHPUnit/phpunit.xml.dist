@@ -54,6 +54,7 @@
         <exclude>
             <directory suffix=".php">../../core/Updates</directory>
             <directory suffix=".php">../../plugins/Example*</directory>
+            <directory suffix=".php">../../plugins/SecurityInfo*</directory>
             <directory suffix=".php">../../plugins/*/Updates</directory>
             <directory suffix=".php">../../plugins/*/libs</directory>
             <directory suffix=".php">../../plugins/*/tests</directory>
