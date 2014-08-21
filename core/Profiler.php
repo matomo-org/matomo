@@ -211,7 +211,7 @@ class Profiler
 
         $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
         if (!file_exists($xhProfPath)) {
-            throw new Exception("Cannot find xhprof, run 'composer update' and build the extension."); // TODO: automate building w/ composer
+            throw new Exception("Cannot find xhprof, run 'composer update' and build the extension.");
         }
 
         if (!function_exists('xhprof_enable')) {
