@@ -6,12 +6,12 @@ This is the technical concept for implementing content tracking. We won't plan a
 * Plugin name: Contents
 * Content name - The name of the content visible in reports
 * Content piece - eg a video file, image file, text, ...
-* Content target - a clicked url, a started video, any "conversion"... 
+* Content target - a clicked url, a started video, any "conversion" to be a bit more generic?
 
 ## Further Questions
-1. Can the same piece have different names / targets? Can the same content name have different targets? How are they presented?
-2. Are we always assuming the "conversion" or "target URL" is caused by a click or can it be a hover or drag/drop, ...?
-3. Would a piece of content have maybe custom variables etc?
+1. Can the same piece have different names / targets? Can the same content name have different targets? 
+2. Are we always assuming the "conversion" or "target URL" is caused by a click or can it be a hover or drag/drop, ...? For a general solution we might want to assume it can be anything?
+3. Would a piece of content - such as a banner - have maybe custom variables etc?
 4. How do we present the data in a report? Similar to events with second dimensions? Probably depends on 1)
 
 ## Tagging of the content piece declarative
