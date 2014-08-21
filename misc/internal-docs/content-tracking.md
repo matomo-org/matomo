@@ -3,7 +3,7 @@
 This is the technical concept for implementing content tracking. We won't plan anything to death but a little bit of thinking upfront makes sense :) Feel free to contribute and let us know if you have any objections! If your thoughts are not technical please comment on the actual issue [#4996](#4996).
 
 ## Naming
-* Plugin name: Content
+* Plugin name: Contents
 * Content name - The name of the content visible in reports
 * Content piece - eg a video file, image file, text, ...
 * Content target - a clicked url, a started video, any "conversion"... 
