@@ -2,14 +2,18 @@
 
 This is the technical concept for implementing content tracking. We won't plan anything to death but a little bit of thinking upfront makes sense :) Feel free to contribute and let us know if you have any objections! If your thoughts are not technical please comment on the actual issue [#4996](#4996).
 
+## Naming
+* Plugin name: Content
+* Content name - The name of the content visible in reports
+* Content piece - eg a video file, image file, text, ...
+* Content target - a clicked url, a started video, any "conversion"... Are we always assuming it is a click or can it be a hover or drag/drop, ...?
+
 ## Tagging of the content piece declarative
 In HTML...
 
 ## Tracking the impressions
 Impressions are logically not really events and I don't think it makes sense to use them here. It would also make it harder to analyze events when they are mixed with pieces of content.
 
-* New url parameter like `content` which contains serialized JSON like 
-  [{"c": "content", "n": "name", "u": "url"}, ...]
 * Saving in database?
   * New column `id_action_content_url` and `id_action_content_piece` in `log_link_visit_action`. For name `id_action_name` can be reused?
   * Would we need a new column for each piece of content in action table to make archiver work? --> would result in many! columns
@@ -17,6 +21,8 @@ Impressions are logically not really events and I don't think it makes sense to 
   * or would we store the pieces serialized as JSON in a `content` column? I don't know anything about the archiver but I think it wouldn't work at all
   * or would we create an action entry for each piece of content? --> yes I think! 
 * New Action class that handles type content
+* New url parameters like `c_p`, `c_n` and `c_u` for piece of content, name and url. Maybe instead of `c_u` would be better `c_t` for target which is more generic. Sending a JSON array would not work since we cannot log multiple actions in one tracking request. They have to be sent using bulk tracking instead.
+ * `c_c` and `c_n` would be required, `c_t` not as for instance a piece of content does not necessarily have a target (hard to measure a click ratio in this case?)
 
 Would a piece of content have maybe custom variables etc?
 

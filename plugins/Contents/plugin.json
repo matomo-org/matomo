@@ -1,0 +1,13 @@
+{
+ "name": "Contents",
+ "version": "0.1.0",
+ "description": "Content and banner tracking",
+ "theme": false,
+ "authors": [
+     {
+         "name": "Piwik",
+         "email": "",
+         "homepage": ""
+     }
+ ]
+}
