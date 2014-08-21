@@ -259,7 +259,7 @@ class Profiler
             array_unshift($runs, $runId);
 
             if ($mainRun) {
-                self::aggregateXhprofRuns($runs, $profilerNamespace, $saveTo = $runId);
+                Profiler::aggregateXhprofRuns($runs, $profilerNamespace, $saveTo = $runId);
 
                 $out = "\n\n";
                 $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
