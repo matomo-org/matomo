@@ -256,6 +256,7 @@ class Visitor
             'visitor_days_since_first',
             'visitor_days_since_order',
             'visitor_count_visits',
+            'visit_goal_buyer',
 
             'location_country',
             'location_region',
