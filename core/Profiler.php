@@ -303,11 +303,11 @@ class Profiler
                         continue;
                     }
 
-                    $aggregatedData[$key]["ct"] += $data["ct"];
-                    $aggregatedData[$key]["wt"] += $data["wt"];
-                    $aggregatedData[$key]["cpu"] += $data["cpu"];
-                    $aggregatedData[$key]["mu"] += $data["mu"];
-                    $aggregatedData[$key]["pmu"] = max($aggregatedData[$key]["pmu"], $data["pmu"]);
+                    $aggregatedData[$key]["ct"] += $data["ct"]; // call count
+                    $aggregatedData[$key]["wt"] += $data["wt"]; // incl. wall time
+                    $aggregatedData[$key]["cpu"] += $data["cpu"]; // cpu time
+                    $aggregatedData[$key]["mu"] += $data["mu"]; // memory usage
+                    $aggregatedData[$key]["pmu"] = max($aggregatedData[$key]["pmu"], $data["pmu"]); // peak mem usage
                 }
             }
         }
