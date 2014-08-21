@@ -132,6 +132,10 @@ class Piwik_TestingEnvironment
             }
         }
 
+        if ($testingEnvironment->useXhprof) {
+            \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
+        }
+
         Config::setSingletonInstance(new Config(
             $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
         ));
