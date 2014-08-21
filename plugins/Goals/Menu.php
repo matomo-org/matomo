@@ -60,11 +60,12 @@ class Menu extends \Piwik\Plugin\Menu
             foreach ($goals as $goal) {
                 $subMenuName = str_replace('%', '%%', Translate::clean($goal['name']));
                 $params      = array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']);
+                $tooltip     = sprintf('%s (id = %d)', $subMenuName, $goal['idgoal']);
 
                 if (count($goals) <= 3) {
-                    $menu->add($mainGoalMenu, $subMenuName, $params);
+                    $menu->add($mainGoalMenu, $subMenuName, $params, true, 50, $tooltip);
                 } else {
-                    $group->add($subMenuName, $params, false);
+                    $group->add($subMenuName, $params, $tooltip);
                 }
             }
 
