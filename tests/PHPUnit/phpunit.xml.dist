@@ -47,4 +47,18 @@
   </testsuite>
 </testsuites>
 
+<filter>
+    <whitelist addUncoveredFilesFromWhitelist="true">
+        <directory suffix=".php">../../core</directory>
+        <directory suffix=".php">../../plugins</directory>
+        <exclude>
+            <directory suffix=".php">../../core/Updates</directory>
+            <directory suffix=".php">../../plugins/Example*</directory>
+            <directory suffix=".php">../../plugins/*/Updates</directory>
+            <directory suffix=".php">../../plugins/*/libs</directory>
+            <directory suffix=".php">../../plugins/*/tests</directory>
+        </exclude>
+    </whitelist>
+</filter>
+
 </phpunit>
