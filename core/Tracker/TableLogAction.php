@@ -232,6 +232,9 @@ class TableLogAction
             'eventAction' => Action::TYPE_EVENT_ACTION,
             'eventCategory' => Action::TYPE_EVENT_CATEGORY,
             'eventName' => Action::TYPE_EVENT_NAME,
+            'contentPiece' => Action::TYPE_CONTENT_PIECE,
+            'contentTarget' => Action::TYPE_CONTENT_TARGET,
+            'contentName' => Action::TYPE_CONTENT_NAME,
         );
         if(!empty($exactMatch[$segmentName])) {
             return $exactMatch[$segmentName];

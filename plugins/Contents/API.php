@@ -8,8 +8,11 @@
  */
 namespace Piwik\Plugins\Contents;
 
+use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
+use Piwik\Piwik;
 
 /**
  * API for plugin Contents
@@ -18,6 +21,10 @@ use Piwik\DataTable\Row;
  */
 class API extends \Piwik\Plugin\API
 {
+
+    protected $mappingApiToRecord = array(
+        'getContents' => Archiver::CONTENTS_NAME_RECORD_NAME
+    );
 
     /**
      * Another example method that returns a data table.
@@ -29,15 +36,39 @@ class API extends \Piwik\Plugin\API
      */
     public function getContents($idSite, $period, $date, $segment = false)
     {
-        $table = new DataTable();
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment);
+    }
 
-        $table->addRowFromArray(array(Row::COLUMNS => array(
-            'label' => 'My banner',
-            'nb_impressions' => 50,
-            'nb_conversions' => 5,
-            'conversion_rate' => '10%'
-        )));
+    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+        $recordName = $this->getRecordNameForAction($name);
+        $dataTable = Archive::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, false);
+        $this->filterDataTable($dataTable);
+        return $dataTable;
+    }
 
-        return $table;
+    protected function getRecordNameForAction($apiMethod, $secondaryDimension = false)
+    {
+        return $this->mappingApiToRecord[$apiMethod];
+    }
+
+    /**
+     * @param DataTable $dataTable
+     */
+    protected function filterDataTable($dataTable)
+    {
+        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
+        $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable->queueFilter('ReplaceSummaryRowLabel');
+        $dataTable->filter(function (DataTable $table) {
+            $row = $table->getRowFromLabel(Archiver::CONTENT_TARGET_NOT_SET);
+            if ($row) {
+                $row->setColumn('label', Piwik::translate('General_NotDefined', Piwik::translate('Contents_ContentTarget')));
+            }
+        });
+
+        // Content conversion rate = conversions / impressions
+        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', 'nb_conversions', 'nb_impressions', $precision = 2));
     }
 }

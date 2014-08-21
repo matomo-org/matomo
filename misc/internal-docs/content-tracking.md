@@ -6,7 +6,13 @@ This is the technical concept for implementing content tracking. We won't plan a
 * Plugin name: Content
 * Content name - The name of the content visible in reports
 * Content piece - eg a video file, image file, text, ...
-* Content target - a clicked url, a started video, any "conversion"... Are we always assuming it is a click or can it be a hover or drag/drop, ...?
+* Content target - a clicked url, a started video, any "conversion"... 
+
+## Further Questions
+1. Can the same piece have different names / targets? Can the same content name have different targets? How are they presented?
+2. Are we always assuming the "conversion" or "target URL" is caused by a click or can it be a hover or drag/drop, ...?
+3. Would a piece of content have maybe custom variables etc?
+4. How do we present the data in a report? Similar to events with second dimensions? Probably depends on 1)
 
 ## Tagging of the content piece declarative
 In HTML...
@@ -24,7 +30,6 @@ Impressions are logically not really events and I don't think it makes sense to 
 * New url parameters like `c_p`, `c_n` and `c_u` for piece of content, name and url. Maybe instead of `c_u` would be better `c_t` for target which is more generic. Sending a JSON array would not work since we cannot log multiple actions in one tracking request. They have to be sent using bulk tracking instead.
  * `c_c` and `c_n` would be required, `c_t` not as for instance a piece of content does not necessarily have a target (hard to measure a click ratio in this case?)
 
-Would a piece of content have maybe custom variables etc?
 
 ## Tracking the clicks
 Contrary to impressions, clicks are actually events and it would be nice to use events here. Maybe we can link an event with a piece of content?
