@@ -9,6 +9,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 #### Reporting API
 If an API returns an indexed array, it is now possible to use `filter_limit` and `filter_offset`. This was before only possible if an API returned a DataTable.
 
+#### Internal change
+We removed our own autoloader that was used to load Piwik files in favor of the composer autoloader which we already have been using for some libraries. This means the file `core/Loader.php` will no longer exist. In case you are using Piwik from Git make sure to run `php composer.phar self-update && php composer.phar install` to make your Piwik work again. Also make sure to no longer include `core/Loader.php` in case it is used in any custom script.
+
 ## Piwik 2.5.0
 
 ### Breaking Changes
