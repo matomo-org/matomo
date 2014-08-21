@@ -66,6 +66,12 @@ matrix:
       env: TEST_SUITE=PluginTests MYSQL_ADAPTER=MYSQLI
     - php: 5.5
       env: TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
+    - php: 5.6
+      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
+    - php: 5.6
+      env: TEST_SUITE=PluginTests MYSQL_ADAPTER=MYSQLI
+    - php: 5.6
+      env: TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
     - php: hhvm
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
     - php: hhvm
