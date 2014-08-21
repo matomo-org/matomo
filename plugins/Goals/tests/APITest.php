@@ -80,7 +80,7 @@ class APITest extends \DatabaseTestCase
         $this->api->addGoal($this->idSite, 'MyName2', 'event_name', 'test', 'exact');
         $idGoal = $this->api->addGoal($this->idSite, 'MyName3', 'event_category', 'test', 'exact');
 
-        $this->assertSame('3', $idGoal);
+        $this->assertSame('3', (string)$idGoal);
     }
 
     /**
