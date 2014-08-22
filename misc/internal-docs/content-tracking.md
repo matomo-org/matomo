@@ -9,11 +9,14 @@ This is the technical concept for implementing content tracking. We won't plan a
 * Content target - a clicked url, a started video, any "conversion" to be a bit more generic?
 
 ## Further Questions
-1. Can the same piece have different names / targets? Can the same content name have different targets? 
+1. Can the same one content piece has different names / targets? Can the same content name have different targets/pieces?
 2. Are we always assuming the "conversion" or "target URL" is caused by a click or can it be a hover or drag/drop, ...? For a general solution we might want to assume it can be anything?
+  * In this case we would also rename or need an additional attribute or whatever to [data-trackclick] etc.
 3. Would a piece of content - such as a banner - have maybe custom variables etc?
 4. How do we present the data in a report? Similar to events with second dimensions? Probably depends on 1)
 5. I assume there can be nested content in theory. A piece of content that contains another piece of content. In this case we have to be careful when automatically picking name, target, ...
+6. We would probably also need an attribute like data-target="$target" and/or the possiblity for data-trackclick="$target" since not all links might be defined via href but onclick javascript links
+7. HTML Attributes always take precendence over css classes or the other way around (if both defined)?
 
 ## Tagging of the content piece declarative
 In HTML...
