@@ -1973,6 +1973,123 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
+            function makeNodesUnique(nodes)
+            {
+                nodes.sort(function (n1, n2) {
+                    if (n1 === n2) {
+                        return 0;
+                    }
+
+                    return n1.innerHTML > n2.innerHTML ? 1 : -1;
+                });
+
+                var index  = 0;
+                var numDuplicates = 0;
+                var duplicates = [];
+                var node;
+
+                while ((node = nodes[index++])) {
+                    if (node === nodes[index]) {
+                        numDuplicates = duplicates.push(index);
+                    }
+                }
+
+                while (numDuplicates--) {
+                    nodes.splice(duplicates[numDuplicates], 1);
+                }
+
+                return nodes;
+            }
+
+            function queryDom(selector)
+            {
+                if (!document.querySelectorAll) {
+                    return []; // TODO
+                }
+
+                return document.querySelectorAll(selector);
+            }
+
+            function queryDomMultiple(selectors)
+            {
+                var index;
+                var nodes = [];
+                for (index = 0; index < selectors.length; index++) {
+                    nodes = nodes.concat(queryDom(selectors[index]));
+                }
+
+                nodes = makeNodesUnique(nodes);
+
+                return nodes;
+            }
+
+            function findContentName(node)
+            {
+                /**
+                 * the Content Name must be memorable and distinguishable from others. Piwik will detect the content name by:
+                 o reading the 'data-name' attribute of the main content element: <div data-name="Content name 1" ...>
+                 o reading the title element of the main content element: <a href="{CLICK_URL}" data-trackclick title="This is used as content name">
+                 o reading the title element of the Image found within this link element and used as content image <a href="{CLICK_URL}" data-trackclick> <img title="This is used as content name" src="{BANNER_IMAGE}"> </a>
+                 o note: if data-name=" is not found in the data-trackclick element or any children, piwik will also read the title="" and alt="" attributes
+                 o if no title or alt is found, the Content Image name is used as Content name, eg. "SHOP-new_at_shopi_tile"
+                 */
+                return '';
+            }
+
+            function findContentPiece(node)
+            {
+                /**
+                 * the Content Image is what all visitors see before clicking on the content.
+                 o by default, Piwik will automatically detect the first image found within the content:
+                 o alternatively, you may add a CSS class to the image element to use as banner image.  <img class="piwik-banner" src="{BANNER_IMAGE}">
+                 o or add a tag <img data-banner src="{BANNER_IMAGE}">
+                 */
+                return '';
+            }
+
+            function findContentTarget(node)
+            {
+                /**
+                 * the Click URL can be a landing page or a product page. Help Piwik detect this Click URL by tagging your content links elements:
+                 o by default, Piwik will automatically detect the first link found within the content:
+                 o you may add a CSS class to the link element to track, <a class="piwik-trackclick" href="{CLICK_URL}">
+                 o you may add a tag "data-click" to the link element  <a data-trackclick href="{CLICK_URL}">
+                 */
+                return '';
+            }
+
+            function buildContent(node)
+            {
+                return {
+                    c_n: findContentName(node),
+                    c_p: findContentPiece(node),
+                    c_t: findContentTarget(node)
+                };
+            }
+
+            /*
+             * Log all content
+             */
+            function logContents() {
+
+                // collect content
+
+                var contentNodes = queryDomMultiple(['.piwik-trackcontent', '[data-trackcontent]']);
+
+                if (!contentNodes.length) {
+                    return;
+                }
+
+                var contents = [];
+
+                var index;
+                for (index = 0; index < contentNodes.length; index++) {
+                    contents.push(buildContent(contents[index]));
+                }
+
+                // send bulk tracking request?
+            }
+
             /*
              * Log the event
              */
@@ -3036,6 +3153,12 @@ if (typeof Piwik !== 'object') {
                             logPageView(customTitle, customData);
                         });
                     }
+                },
+
+                trackContents: function () {
+                    trackCallback(function () {
+                        logContents();
+                    });
                 },
 
                 /**

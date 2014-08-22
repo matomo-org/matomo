@@ -13,6 +13,7 @@ This is the technical concept for implementing content tracking. We won't plan a
 2. Are we always assuming the "conversion" or "target URL" is caused by a click or can it be a hover or drag/drop, ...? For a general solution we might want to assume it can be anything?
 3. Would a piece of content - such as a banner - have maybe custom variables etc?
 4. How do we present the data in a report? Similar to events with second dimensions? Probably depends on 1)
+5. I assume there can be nested content in theory. A piece of content that contains another piece of content. In this case we have to be careful when automatically picking name, target, ...
 
 ## Tagging of the content piece declarative
 In HTML...
@@ -35,7 +36,15 @@ Impressions are logically not really events and I don't think it makes sense to 
 Contrary to impressions, clicks are actually events and it would be nice to use events here. Maybe we can link an event with a piece of content?
 
 ## Piwik.js
-
+* We need to find all dom nodes having css class or html attribute.
+ * Options for this is traversing over each node and checking for everything -> CSS selectors cannot be used on all browsers and it might be slow therefore -> maybe lot of work to make it cross browser compatible
+ * https://github.com/fabiomcosta/micro-selector --> tiny selector library but does not support attributes
+ * http://sizzlejs.com/ Used by jQuery & co but like 30kb (compressed + gzipped 4kb). Has way too many features we don't need
+ * https://github.com/ded/qwery Doesn't support IE8 and a few others, no support for attribute selector
+ * https://github.com/padolsey/satisfy 2.4KB and probably outdated
+ * https://github.com/digitarald/sly very tiny and many features but last commit 3 years old
+ * https://github.com/alpha123/Jaguar >10KB and last commit 2 years old
+ * As we don't need many features we could implement it ourselves but probably needs a lot of cross-browser testing which I wanted to avoid. We'd only start with `querySelectorAll()` maybe. Brings also incredible [performance benefits](http://jsperf.com/jquery-vs-native-selector-and-element-style/2) (2-10 faster than jQuery) but there might be problems see http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall, http://jsfiddle.net/QdMc5/ and http://ejohn.org/blog/thoughts-on-queryselectorall/
 
 ## Reports
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with .jpg it could be recognized as image content and show a banner in the report.
