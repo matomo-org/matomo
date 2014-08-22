@@ -39,6 +39,24 @@ describe('piwikApiClient', function () {
         $httpBackend.flush();
     });
 
+    it("should chain multiple then callbacks correctly when a fetch succeeds", function (done) {
+        var firstThenDone = false;
+
+        piwikApi.fetch({
+            method: "SomePlugin.action"
+        }).then(function (response) {
+            firstThenDone = true;
+        }).then(function (response) {
+            expect(firstThenDone).to.equal(true);
+
+            done();
+        }).catch(function (ex) {
+            done(ex);
+        });
+
+        $httpBackend.flush();
+    });
+
     it("should send multiple requests concurrently when fetch is called more than once", function (done) {
         var request1Done, request2Done;
 
