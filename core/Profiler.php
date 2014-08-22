@@ -240,11 +240,12 @@ class Profiler
 
         xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
 
-        if($mainRun) {
+        $baseUrlStored = "";
+        if ($mainRun) {
             self::setProfilingRunIds(array());
-        }
 
-        $baseUrlStored = SettingsPiwik::getPiwikUrl();
+            $baseUrlStored = SettingsPiwik::getPiwikUrl();
+        }
 
         register_shutdown_function(function () use($profilerNamespace, $mainRun, $baseUrlStored) {
             $xhprofData = xhprof_disable();
