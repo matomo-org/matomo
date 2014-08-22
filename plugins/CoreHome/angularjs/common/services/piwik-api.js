@@ -11,7 +11,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
     var format = 'json';
     var getParams  = {};
     var postParams = {};
-    var requestHandle = null;
+    var allRequests = [];
 
     var piwikApi = {};
 
@@ -53,7 +53,6 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
 
         var onSuccess = function (response) {
             if (response && response.result == 'error') {
-
                 if (response.message) {
                     onError(response.message);
 
@@ -93,7 +92,31 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
 
         $http(ajaxCall).success(onSuccess).error(onError);
 
-        return deferred.promise;
+        var request = {
+            then: function () {
+                deferred.promise.then.apply(deferred.promise, arguments);
+                return this;
+            },
+
+            'finally': function () {
+                deferred.promise['finally'].apply(deferred.promise, arguments);
+                return this;
+            },
+
+            'catch': function () { // TODO: cleanup deferred.promise references
+                deferred.promise['catch'].apply(deferred.promise, arguments);
+                return this;
+            },
+
+            abort: function () {
+                deferred.reject();
+                return this;
+            }
+        };
+
+        allRequests.push(request);
+
+        return request;
     }
 
     /**
@@ -147,13 +170,12 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         return getParamsToMixin;
     }
 
-    piwikApi.abort = function () {
+    piwikApi.abortAll = function () {
         reset();
 
-        if (requestHandle) {
-            requestHandle.resolve();
-            requestHandle = null;
-        }
+        allRequests.forEach(function (request) {
+            request.abort();
+        });
     };
 
     /**
