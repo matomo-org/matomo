@@ -57,6 +57,23 @@ describe('piwikApiClient', function () {
         $httpBackend.flush();
     });
 
+    it("should not fail when multiple aborts are issued", function (done) {
+        var request = piwikApi.fetch({
+            method: "SomePlugin.action"
+        }).then(function (response) {
+            done(new Error("Aborted request succeeded!"));
+        }).catch(function (ex) {
+            done(ex);
+        });
+
+        request.abort();
+        request.abort();
+
+        $httpBackend.flush();
+
+        request.abort();
+    });
+
     it("should send multiple requests concurrently when fetch is called more than once", function (done) {
         var request1Done, request2Done;
 

@@ -42,13 +42,11 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
      * @return $promise
      */
     function send () {
-
-        var deferred = $q.defer();
-        var requestHandle = deferred;
+        var deferred = $q.defer(),
+            requestPromise = deferred.promise;
 
         var onError = function (message) {
             deferred.reject(message);
-            requestHandle = null;
         };
 
         var onSuccess = function (response) {
@@ -67,11 +65,9 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
                 } else {
                     onError(null);
                 }
-
             } else {
                 deferred.resolve(response);
             }
-            requestHandle = null;
         };
 
         var headers = {
@@ -86,25 +82,27 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
             responseType: format,
             params: _mixinDefaultGetParams(getParams),
             data: $.param(getPostParams(postParams)),
-            timeout: deferred.promise,
+            timeout: requestPromise,
             headers: headers
         };
 
         $http(ajaxCall).success(onSuccess).error(onError);
 
+        // we can't modify requestPromise directly and add an abort method since for some reason it gets
+        // removed after then/finally/catch is called.
         var request = {
             then: function () {
-                deferred.promise.then.apply(deferred.promise, arguments);
+                requestPromise.then.apply(requestPromise, arguments);
                 return this;
             },
 
             'finally': function () {
-                deferred.promise['finally'].apply(deferred.promise, arguments);
+                requestPromise['finally'].apply(requestPromise, arguments);
                 return this;
             },
 
-            'catch': function () { // TODO: cleanup deferred.promise references
-                deferred.promise['catch'].apply(deferred.promise, arguments);
+            'catch': function () {
+                requestPromise['catch'].apply(requestPromise, arguments);
                 return this;
             },
 
@@ -176,6 +174,8 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         allRequests.forEach(function (request) {
             request.abort();
         });
+
+        allRequests = [];
     };
 
     /**
