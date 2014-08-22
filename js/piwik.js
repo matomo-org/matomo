@@ -2058,7 +2058,7 @@ if (typeof Piwik !== 'object') {
                 return '';
             }
 
-            function buildContent(node)
+            function buildContentPiece(node)
             {
                 return {
                     c_n: findContentName(node),
@@ -2067,13 +2067,8 @@ if (typeof Piwik !== 'object') {
                 };
             }
 
-            /*
-             * Log all content
-             */
-            function logContents() {
-
-                // collect content
-
+            function collectContentPieces()
+            {
                 var contentNodes = queryDomMultiple(['.piwik-trackcontent', '[data-trackcontent]']);
 
                 if (!contentNodes.length) {
@@ -2084,8 +2079,17 @@ if (typeof Piwik !== 'object') {
 
                 var index;
                 for (index = 0; index < contentNodes.length; index++) {
-                    contents.push(buildContent(contents[index]));
+                    contents.push(buildContentPiece(contents[index]));
                 }
+
+                return contents;
+            }
+
+            /*
+             * Log all content pieces
+             */
+            function logContentPieces() {
+                var contents = collectContentPieces();
 
                 // send bulk tracking request?
             }
@@ -3155,9 +3159,9 @@ if (typeof Piwik !== 'object') {
                     }
                 },
 
-                trackContents: function () {
+                trackContentPieces: function () {
                     trackCallback(function () {
-                        logContents();
+                        logContentPieces();
                     });
                 },
 
