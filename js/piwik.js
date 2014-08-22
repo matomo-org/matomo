@@ -3017,6 +3017,7 @@ if (typeof Piwik !== 'object') {
                  * @param string sourceUrl
                  * @param string linkType
                  * @param mixed customData
+                 * @param function callback
                  */
                 trackLink: function (sourceUrl, linkType, customData, callback) {
                     trackCallback(function () {
