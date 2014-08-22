@@ -28,10 +28,9 @@ class ActionContent extends Action
 
     public static function shouldHandle(Request $request)
     {
-        $piece = $request->getParam('c_p');
         $name  = $request->getParam('c_n');
 
-        return !empty($piece) && !empty($name);
+        return !empty($name);
     }
 
     protected function getActionsToLookup()

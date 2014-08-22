@@ -28,7 +28,7 @@ Impressions are logically not really events and I don't think it makes sense to 
   * or would we create an action entry for each piece of content? --> yes I think! 
 * New Action class that handles type content
 * New url parameters like `c_p`, `c_n` and `c_u` for piece of content, name and url. Maybe instead of `c_u` would be better `c_t` for target which is more generic. Sending a JSON array would not work since we cannot log multiple actions in one tracking request. They have to be sent using bulk tracking instead.
- * `c_c` and `c_n` would be required, `c_t` not as for instance a piece of content does not necessarily have a target (hard to measure a click ratio in this case?)
+* Only `c_n` would be required, `c_p` and `c_t` not as for instance a piece of content does not necessarily have a target (hard to measure a click ratio in this case?)
 
 
 ## Tracking the clicks
