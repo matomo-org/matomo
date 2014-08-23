@@ -2027,13 +2027,77 @@ if (typeof Piwik !== 'object') {
             {
                 /**
                  * the Content Name must be memorable and distinguishable from others. Piwik will detect the content name by:
+                 o TODO what is actually meant by main content element, it is described three times differently here
                  o reading the 'data-name' attribute of the main content element: <div data-name="Content name 1" ...>
                  o reading the title element of the main content element: <a href="{CLICK_URL}" data-trackclick title="This is used as content name">
-                 o reading the title element of the Image found within this link element and used as content image <a href="{CLICK_URL}" data-trackclick> <img title="This is used as content name" src="{BANNER_IMAGE}"> </a>
+                 o TODO image hard coded makes no sense, reading the title element of the Image found within this link element and used as content image <a href="{CLICK_URL}" data-trackclick> <img title="This is used as content name" src="{BANNER_IMAGE}"> </a>
                  o note: if data-name=" is not found in the data-trackclick element or any children, piwik will also read the title="" and alt="" attributes
-                 o if no title or alt is found, the Content Image name is used as Content name, eg. "SHOP-new_at_shopi_tile"
+                 o TODO not possible as well, if no title or alt is found, the Content Image name is used as Content name, eg. "SHOP-new_at_shopi_tile"
+                 + TOOD everything here is very vague and it is way too complicated for users to understand which value will be used!!!
                  */
-                return '';
+
+                /**
+                 * It should be actually
+                 * Search for data-name attribute where piwik-trackcontent is set // why not let users directly specify `piwik-trackcontent="data name"`???
+                 * Search for data-name attribute where piwik-clickurl is set
+                 * Search for any data-name attribute within piwik-trackcontent's children
+                 * Search for title attribute where piwik-trackcontent is set
+                 * Search for title attribute where piwik-clickurl is set
+                 * Search for any title within piwik-clickurl's children
+                 * Search for any alt within piwik-clickurl's children
+                 * TODO use 'Unknown'? or ignore content?
+                 *
+                 * TODO Actually I think we should read ONLY!!! data-name and maybe title attribute to keep it simple for users! It would end in random content names that change often!!!
+                 */
+
+                /**
+                 * So better:
+                 * Search for any data-name attribute within the content (children of piwik-trackcontent)
+                 * Search for any title attribute within click-url  (children of piwik-clickurl)
+                 * Search for any alt attribute within click-url  (children of piwik-clickurl)
+                 *
+                 * Maybe we should prefix data-name since it might be used in other components as well!
+                 */
+
+                var name;
+                var target = '';
+                var clickUrlNode = null;
+
+                if (hasNodeAttributeWithValue(node, 'data-name')) {
+                    return getAttributeValueFromNode(node, 'data-name');
+                }
+
+                if (hasNodeAttributeWithValue(clickUrlNode, 'data-name')) {
+                    return getAttributeValueFromNode(clickUrlNode, 'data-name');
+                }
+
+                name = findFirstNodeHavingAttributeWithValue(node, 'data-name');
+
+                if (name) {
+                    return name;
+                }
+
+                if (hasNodeAttributeWithValue(node, 'title')) {
+                    return getAttributeValueFromNode(node, 'title');
+                }
+
+                if (hasNodeAttributeWithValue(clickUrlNode, 'title')) {
+                    return getAttributeValueFromNode(clickUrlNode, 'title');
+                }
+
+                name = findFirstNodeHavingAttributeWithValue(clickUrlNode, 'title');
+
+                if (name) {
+                    return name;
+                }
+
+                name = findFirstNodeHavingAttributeWithValue(clickUrlNode, 'alt');
+
+                if (name) {
+                    return name;
+                }
+
+                return 'Unknown';
             }
 
             function findContentPiece(node)
@@ -2055,7 +2119,206 @@ if (typeof Piwik !== 'object') {
                  o you may add a CSS class to the link element to track, <a class="piwik-trackclick" href="{CLICK_URL}">
                  o you may add a tag "data-click" to the link element  <a data-trackclick href="{CLICK_URL}">
                  */
-                return '';
+
+                var link;
+                var target = '';
+
+                link = findFirstNodeHavingAttribute(node, 'data-trackclick');
+                // TODO it might be not always 'href' or it may contain javascript so we allow data-trackclick="http://..."?
+
+                if (link) {
+                    target = getAttributeValueFromNode(node, 'data-trackclick');
+
+                    if (target) {
+                        return target;
+                    }
+                }
+
+
+                if (!link) {
+                    link = findFirstNodeHavingClass(node, 'piwik-trackclick');
+                }
+
+                if (!link) {
+                    link = findFirstLink(node)
+                }
+
+                if (!link) {
+                    return;
+                }
+
+                return getAttributeValueFromNode(node, 'href');
+            }
+
+            function getAttributeValueFromNode(node, attributeName)
+            {
+                if (node && node.getAttribute) {
+                    return node.getAttribute(attributeName)
+                }
+
+                if (!node || !node.attributes) {
+                    return;
+                }
+
+                if ('undefined' === (typeof node.attributes[attributeName])) {
+                    return;
+                }
+
+                if (node.attributes[attributeName].value) {
+                    return node.attributes[attributeName].value; // nodeValue is deprecated ie Chrome
+                }
+
+                if (node.attributes[attributeName].nodeValue) {
+                    return node.attributes[attributeName].nodeValue;
+                }
+
+                var index;
+                var attrs = node.attributes;
+
+                for (index = 0; index < attrs.length; index++) {
+                    if (attrs[index].nodeName === attributeName) {
+                        return attrs[index].nodeValue;
+                    }
+                }
+
+                return null;
+            }
+
+            function hasNodeAttributeWithValue(node, attributeName)
+            {
+                if (hasNodeAttribute(node, attributeName)) {
+                    var value = getAttributeValueFromNode(node, attributeName);
+
+                    if (value) {
+                        return value;
+                    }
+                }
+            }
+
+            function hasNodeAttribute(node, attributeName)
+            {
+                if (node && node.hasAttribute) {
+                    return node.hasAttribute(attributeName)
+                }
+
+                if (node && node.attributes) {
+                    return 'undefined' !== (typeof node.attributes[attributeName])
+                }
+
+                return false;
+            }
+
+            function hasNodeCssClass(node, className)
+            {
+                if (node && node.className) {
+                    var classes = node.className.split(' ');
+                    if (-1 !== classes.indexOf(className)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function findNodesHavingAttribute(nodeToSearch, attributeName, nodes)
+            {
+                if (!nodes) {
+                    nodes = []
+                }
+
+                if (!nodeToSearch) {
+                    return nodes;
+                }
+
+                var index, child;
+                for (index = 0; index < nodeToSearch.children.length; index++) {
+                    child = nodeToSearch.children[index];
+                    if (hasNodeAttribute(child, attributeName)) {
+                        nodes.push(child);
+                    }
+
+                    nodes = findNodesHavingAttribute(child, attributeName, nodes);
+                }
+
+                return nodes;
+            }
+
+            function findNodesHavingCssClass(nodeToSearch, className, nodes)
+            {
+                if (!nodes) {
+                    nodes = []
+                }
+
+                if (!nodeToSearch) {
+                    return nodes;
+                }
+
+                if (nodeToSearch.getElementsByClassName) {
+                    return nodeToSearch.getElementsByClassName(className);
+                }
+
+                var index, child;
+                for (index = 0; index < nodeToSearch.children.length; index++) {
+                    child = nodeToSearch.children[index];
+                    if (hasNodeCssClass(child, className)) {
+                        nodes.push(child);
+                    }
+
+                    nodes = findNodesHavingCssClass(child, className, nodes);
+                }
+
+                return nodes;
+            }
+
+            function findFirstNodeHavingClass(node, className)
+            {
+                if (hasNodeCssClass(node, className)) {
+                    return node;
+                }
+
+                var nodes = findNodesHavingCssClass(node, className);
+
+                if (nodes && nodes.length) {
+                    return nodes[0]; // TODO here we should check whether this node is also present within another nested piece of content and if there are multiple other nodes maybe use the next one
+                }
+            }
+
+            function findFirstNodeHavingAttributeWithValue(node, attributeName)
+            {
+                if (hasNodeAttribute(node, attributeName) && getAttributeValueFromNode(node, attributeName)) {
+                    return node;
+                }
+
+                var nodes = findNodesHavingAttribute(node, attributeName);
+
+                var index;
+                for (index = 0; index < nodes.length; index++) {
+                    if (getAttributeValueFromNode(nodes[index], attributeName)) {
+                        return nodes[index];
+                    }
+                }
+            }
+
+            function findFirstNodeHavingAttribute(node, attributeName)
+            {
+                if (hasNodeAttribute(node, attributeName)) {
+                    return node;
+                }
+
+                var nodes = findNodesHavingAttribute(node, attributeName);
+
+                if (nodes && nodes.length) {
+                    return nodes[0]; // TODO here we should check whether this node is also present within another nested piece of content and if there are multiple other nodes maybe use the next one
+                }
+            }
+
+            function findFirstLink(node)
+            {
+                var linkNodes = node.getElementsByTagName('a');
+
+                if (linkNodes && linkNodes.length) {
+                    return linkNodes[0];
+                }
             }
 
             function buildContentPiece(node)

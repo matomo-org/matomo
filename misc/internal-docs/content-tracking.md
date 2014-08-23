@@ -25,6 +25,9 @@ This is the technical concept for implementing content tracking. We won't plan a
     * We'd probably have to offer a mode to rescan all banners again at a certain time and only track those content pieces now that were not visibile before but are now
     * We'd probably have to offer a method to pass a DOM node and track it independent of visibility (useful for instance in case of carousel when the website owner already knows a specific content piece is visible now but does not want to use expensive events for this)
     * We'd maybe have to offer a mode where we are trying to detect automatically when an impression becomes visible and send it
+10. FYI: "you may add a CSS class or attribute to the link element to track" => It could be also a span, a div or something else!
+11. FYI: There is way to much magic how content-name is found and it is neither predicatble nor understandable by users, I will simplify this and rather require users to set specific attributes!
+12. FYI: We need to define how a content piece is defined in markup since it can be anything (was something like piwik-banner before)
 
 ## Tagging of the content piece declarative
 In HTML...
@@ -56,6 +59,90 @@ Contrary to impressions, clicks are actually events and it would be nice to use 
  * https://github.com/digitarald/sly very tiny and many features but last commit 3 years old
  * https://github.com/alpha123/Jaguar >10KB and last commit 2 years old
  * As we don't need many features we could implement it ourselves but probably needs a lot of cross-browser testing which I wanted to avoid. We'd only start with `querySelectorAll()` maybe. Brings also incredible [performance benefits](http://jsperf.com/jquery-vs-native-selector-and-element-style/2) (2-10 faster than jQuery) but there might be problems see http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall, http://jsfiddle.net/QdMc5/ and http://ejohn.org/blog/thoughts-on-queryselectorall/
+
+ ### New proposed way of finding content
+ * Search for any `data-track-content` attribute and `piwikTrackContent` CSS class within the DOM
+ * One page can use both ways so we will mix the result of found contents
+
+### New proposed way of finding content name
+Solution 1
+ * Search for any `data-content-name` attribute within the content (`.piwikTrackContent` and children)
+ * Search for any `title` attribute in element of `.piwikTrackContent`
+ * Search for any `title` attribute within click-url (`.piwikTrackClick` element and children)
+ * If `.piwikTrackClick` is an image or video, we will read the alt attribute as well
+ * Note: `title` and `alt` can be complicated in case of i18n so it will be recommended to use `data-content-name` attribute
+
+Solution 2
+ * Search for any `data-content-name` attribute within the content (`.piwikTrackContent` and children)
+ * Use value of content-piece in case there is one
+ * If neither found ignore content or use "Unknown"
+ * Note: No problems with i18n, works automatically if content-piece is set on an image or video and it is simple to understand for users!
+
+Thomas definitely prefers solution 2.
+
+### New proposed way of finding content target
+ * Search for any `data-track-click` attribute with a value in the content (`.piwikTrackContent` and children)
+ * search for `href` attribute in element with attribute `data-track-click` (if attribute has no value)
+ * search for `href` attribute in element with css class `.piwikTrackClick`
+ * TODO `click` in attribute name and css class is misleading since it could be a hover or so as well? `conversion` would be misleading as well since it could be used for goal
+
+### New proposed way of finding content piece
+ * If attribute `data-track-content` has a value, we will use this value whatever it is
+ * Search for any `data-content-piece` attribute with value within the content (`.piwikTrackContent` and children)
+ * if `.piwikTrackContent` is image or video we will try to find a source (difficult for video)
+ * if `.piwikTrackClick` is image or video we will try to find a source (difficult for video)
+ * if `.piwikTrackContent` and `.piwikTrackClick` is not image or video we will use `text()` of this element??? (I think we better ignore this step, text can be a lot and problems with i18n makes it not useful at all?)
+ * Note: source of image/video and any text() that we detect automatically can be complicated in case of i18n, it will be recommended to use data-track-content attribute
+
+### A few Examples
+```
+<img src="xyz.jpg" href="/" data-track-content="My Content Name"/>
+// content name   = My Content Name
+// content piece  = xyz.jpg
+// content target = /
+
+<img src="xyz.jpg" href="javascript:..." data-track-click="/" data-track-content="My Content Name"/>
+<img src="xyz.jpg" onclick="..."         data-track-click="/" data-track-content="My Content Name"/>
+// content name   = My Content Name
+// content piece  = xyz.jpg
+// content target = /
+
+<img src="xyz.jpg" href="/" data-track-content/>
+// content name   = xyz.jpg
+// content piece  = xyz.jpg
+// content target = /
+
+<img src="xyz.jpg" href="/" class="piwikTrackContent"/>
+// content name   = xyz.jpg
+// content piece  = xyz.jpg
+// content target = /
+
+<div data-track-content="banner ad 1"><a href="/" data-track-click>click here to foo bar</a></div>
+// content name   = banner ad 1
+// content piece  = ""
+// content target = /
+
+<div data-track-content="banner ad 1"><a href="/" data-track-click data-content-piece="xyz ad">click here to foo bar</a></div>
+// content name   = banner ad 1
+// content piece  = xyz ad
+// content target = /
+
+<div data-track-content="banner ad 1" data-track-click="/" data-content-piece="xyz.jpg"><img src="xyz.jpg"/></div>
+// content name   = banner ad 1
+// content piece  = xyz.jpg
+// content target = /
+
+<div data-track-content="banner ad 1" data-track-click="/"><img src="xyz.jpg" data-content-piece/></div>
+// content name   = banner ad 1
+// content piece  = xyz.jpg
+// content target = /
+
+<div data-track-content="banner ad 1"><img src="xyz.jpg" data-content-piece/></div>
+// content name   = banner ad 1
+// content piece  = xyz.jpg
+// content target = ""
+
+``
 
 ## Reports
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with .jpg it could be recognized as image content and show a banner in the report.
