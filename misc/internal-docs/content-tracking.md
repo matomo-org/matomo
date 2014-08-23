@@ -17,6 +17,14 @@ This is the technical concept for implementing content tracking. We won't plan a
 5. I assume there can be nested content in theory. A piece of content that contains another piece of content. In this case we have to be careful when automatically picking name, target, ...
 6. We would probably also need an attribute like data-target="$target" and/or the possiblity for data-trackclick="$target" since not all links might be defined via href but onclick javascript links
 7. HTML Attributes always take precendence over css classes or the other way around (if both defined)?
+8. Do we need to support IE7 and older? Firefox 3 and older?
+9. "Maybe we could automatically detect when such element becomes visible, and send the Impression event automatically"
+  * I think we can detect whether a specific content was visible at a specific time in most cases but not necessarily automatically. We would have to check the DOM for this every few ms (in case of Carousel) and we'd also have to attach to events like scrolling etc. This can make other peoples website slow, especially on mobile but even browser. Website owners usually want to achieve 60fps to have animations and scrolling smooth and they usually invest a lot of time to achieve this. So it has to an opt-in if at all
+  * Do I understand it right that we send an impression only if it is visible?
+    * We'd probably have to offer a mode to send all banners independend of visibility
+    * We'd probably have to offer a mode to rescan all banners again at a certain time and only track those content pieces now that were not visibile before but are now
+    * We'd probably have to offer a method to pass a DOM node and track it independent of visibility (useful for instance in case of carousel when the website owner already knows a specific content piece is visible now but does not want to use expensive events for this)
+    * We'd maybe have to offer a mode where we are trying to detect automatically when an impression becomes visible and send it
 
 ## Tagging of the content piece declarative
 In HTML...
