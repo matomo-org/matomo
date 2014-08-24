@@ -467,8 +467,7 @@ class Plugin_ReportTest extends DatabaseTestCase
 
     private function loadEnglishTranslation()
     {
-        Translate::loadEnglishTranslation();
-        PluginManager::getInstance()->loadPluginTranslations('en');
+        Translate::reloadLanguage('en');
     }
 
 

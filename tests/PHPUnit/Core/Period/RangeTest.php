@@ -1312,7 +1312,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     private function loadEnglishTranslation()
     {
-        Translate::loadEnglishTranslation();
-        \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations('en');
+        Translate::reloadLanguage('en');
     }
 }
