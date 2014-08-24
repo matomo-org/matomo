@@ -49,7 +49,14 @@ class Json extends ApiRenderer
             return $this->applyJsonpIfNeeded($result);
         }
 
-        return $this->renderDataTable($array);
+        $result = $this->renderDataTable($array);
+
+        // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
+        if (Piwik::isAssociativeArray($array)) {
+            $result = substr($result, 1, strlen($result) - 2);
+        }
+
+        return $result;
     }
 
     public function sendHeader()

@@ -300,6 +300,20 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
+    public function test_renderArray_ShouldConvertSingleDimensionalAssociativeArrayToJson()
+    {
+        $input = array(
+            "fistElement" => "isFirst",
+            "secondElement" => "isSecond"
+        );
+
+        $expected = json_encode($input);
+
+        $actual = $this->jsonBuilder->renderArray($input);
+        $this->assertEquals($expected, $actual);
+        $this->assertNoJsonError($actual);
+    }
+
     public function test_renderArray_ShouldConvertMultiDimensionalIndexArrayToJson()
     {
         $input = array(array("firstElement",
