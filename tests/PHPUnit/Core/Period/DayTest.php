@@ -215,7 +215,8 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
+
         $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = 'Wed 9 Oct';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
@@ -226,7 +227,8 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
+
         $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = 'Wednesday 9 October 2024';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
@@ -237,9 +239,16 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
+
         $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = '2024-10-09';
         $this->assertEquals($shouldBe, $month->getPrettyString());
+    }
+
+    private function loadEnglishTranslation()
+    {
+        Translate::loadEnglishTranslation();
+        \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations('en');
     }
 }

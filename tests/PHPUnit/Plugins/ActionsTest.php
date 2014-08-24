@@ -7,6 +7,7 @@
  */
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Translate;
 
 require_once 'Actions/Actions.php';
@@ -16,6 +17,7 @@ class ActionsTests extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         Translate::loadEnglishTranslation();
+        PluginManager::getInstance()->loadPluginTranslations('en');
     }
 
     public function tearDown()
