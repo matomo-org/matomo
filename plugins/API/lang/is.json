@@ -1,0 +1,12 @@
+{
+    "API": {
+        "GenerateVisits": "Ef þú hefur ekki gögn dagsins í dag verður þú fyrst að búa til gögn með að nota %s íbótina. Virkjaðu %s íbótina og smelltu síðan á valmyndinni 'Gesta framleiðni' í Piwik umsjónarmanns svæðinu.",
+        "KeepTokenSecret": "Þessi tókar auðkenning er eins leynd og þitt notendanafn og lykilorð %s deilið því ekki%s!",
+        "LoadedAPIs": "Tókst að hlaða %s API",
+        "MoreInformation": "Fyrir frekari upplýsingar um Piwik API, Vinsamlegast skoðið %s Inngangur að Piwik API %s og %s Piwik API Tilvísunir %s.",
+        "PluginDescription": "Öll gögn í Piwik eru til boði í gegnum einfalt API. Þessi íbót er vefþjónustu inngangur sem þú getur kallað í til fá þín vefgögn í xml JSON, PHP, csv, o.fl.",
+        "QuickDocumentationTitle": "API hraðskjöl.",
+        "UserAuthentication": "Notenda auðkenning",
+        "UsingTokenAuth": "Ef þú vilt að %s biðji um gögn inn í skriftu eða crontab færslu osfv. %s verður þú að bæta við færibreytu %s til API kalls vefslóðir sem krefst auðkenningar."
+    }
+}

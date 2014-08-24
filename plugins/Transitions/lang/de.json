@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s Absprünge",
+        "DirectEntries": "Direkte Eingaben",
+        "ErrorBack": "Gehe zurück zur letzten Aktion",
+        "ExitsInline": "%s Abgänge",
+        "FromCampaigns": "Von Kampagnen",
+        "FromPreviousPages": "Von internen Seiten",
+        "FromPreviousPagesInline": "%s von internen Seiten",
+        "FromPreviousSiteSearches": "Von der internen Suche",
+        "FromPreviousSiteSearchesInline": "%s von internen Suchen",
+        "FromSearchEngines": "Von Suchmaschinen",
+        "FromWebsites": "Von Webseiten",
+        "IncomingTraffic": "Eingehende Daten",
+        "LoopsInline": "%s Seite erneut geladen",
+        "NoDataForAction": "Es sind keine Daten für %s verfügbar",
+        "NoDataForActionDetails": "Entweder hatte diese Aktion während des Zeitraums %s keine Seitenansichten oder sie ist ungültig.",
+        "OutgoingTraffic": "Ausgehender Verkehr",
+        "PluginDescription": "Berichte über vorherige und nachfolgende Aktionen einer Seiten URL.",
+        "ShareOfAllPageviews": "Diese Seite wurde %s mal angesehen (%s aller Seitenansichten)",
+        "ToFollowingPages": "Zu internen Seiten",
+        "ToFollowingPagesInline": "%s zu internen Seiten",
+        "ToFollowingSiteSearches": "Interne Suchen",
+        "ToFollowingSiteSearchesInline": "%s interne Suchen",
+        "XOfAllPageviews": "%s von allen Seitenansichten",
+        "XOutOfYVisits": "%s (von insgesamt %s)"
+    }
+}

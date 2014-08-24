@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "报表中没有 '%s' 栏，请试试 %s",
+        "PluginDescription": "为 Piwik 统计报表生成漂亮的PNG图片。"
+    }
+}

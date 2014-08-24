@@ -1,0 +1,6 @@
+{
+    "CustomVariables": {
+        "CustomVariables": "Egendefinerte variabler",
+        "PluginDescription": "Egendefinerte variabler er navn og verdier som du kan sette for en besøkende via funksjonen setVisitCustomVariables() i Javascript API-et. Piwik vil da kunne rapportere hvor mange besøkende, sider, konverteringer som benytter disse egendefinerte variablene og verdiene."
+    }
+}

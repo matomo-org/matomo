@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "En länk för bekräftelse har skickats till dig. Kontrollera din e-post och besök länken för att fullfölja begäran att ändra ditt lösenord.",
+        "ContactAdmin": "Möjlig orsak: din värd kan ha inaktiverat mail() funktionen. <br\/>Kontakta din Piwik administratör.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En användare med Superanvändaråtkomst kan inte bli autensieras vid användande av '%s' mekanism.",
+        "ExceptionPasswordMD5HashExpected": "Lösenordsparametern förväntas bli en MD5-hash av lösenordet.",
+        "InvalidNonceOrHeadersOrReferrer": "Formulärets säkerhet misslyckades. Vänligen ladda formuläret och kontrollera att cookies är aktiverade. Om du använder en proxyserver måste du %s konfigurera Piwik att acceptera proxy huvuden %s som överför Host-huvuden. Kontrollera också att din Referer header skickas korrekt.",
+        "InvalidOrExpiredToken": "Lösenordsbevis är felaktigt eller har utgått.",
+        "InvalidUsernameEmail": "Felaktigt användarnamn och\/eller e-postadress",
+        "LogIn": "Logga in",
+        "LoginOrEmail": "Användarnamn eller e-postadress",
+        "LoginPasswordNotCorrect": "Användarnamn & Lösenord är inte korrekta",
+        "LostYourPassword": "Glömt ditt lösenord?",
+        "MailPasswordChangeBody": "Hej %1$s,\n\nEn begäran om att återställa ditt lösenord togs emot från %2$s. Besök följande länk för att bekräfta lösenordsbytet och göra det möjligt att logga in med dina nya uppgifter:\n\n%3$s\n\nNotera: den här förfrågan kommer att upphöra om 24 timmar.\n\nTack för att du använder Piwik!",
+        "MailTopicPasswordChange": "Bekräfta byte av lösenord",
+        "PasswordChanged": "Ditt lösenord har ändrats.",
+        "PasswordRepeat": "Lösenord (bekräfta)",
+        "PasswordsDoNotMatch": "Lösenorden matchar inte.",
+        "PluginDescription": "Login autentiseringstillägget, läser referenserna från konfigurationen\/config.ini.php filen för den första Administratören, och från databasen för övriga användare. Kan enkelt ersättas för att hantera en ny autentiseringsmekanism (OpenID, htaccess, custom Auth, etc.).",
+        "RememberMe": "Kom ihåg mig",
+        "ResetPasswordInstructions": "Skriv in ett nytt lösenord för ditt konto."
+    }
+}

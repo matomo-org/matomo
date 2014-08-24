@@ -1,0 +1,12 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Lokalni čas",
+        "ColumnServerTime": "Čas na strežniku",
+        "LocalTime": "Obiski na lokalni čas",
+        "NHour": "%sh",
+        "ServerTime": "Obiski na čas strežnika",
+        "SubmenuTimes": "Časi",
+        "WidgetLocalTime": "Obiski glede na lokalni čas",
+        "WidgetServerTime": "Obiski glede na čas na strežniku"
+    }
+}

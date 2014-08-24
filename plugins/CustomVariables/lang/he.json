@@ -1,0 +1,8 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "שם המשתנה",
+        "ColumnCustomVariableValue": "ערך המשתנה",
+        "CustomVariables": "משתנים מותאמים אישים",
+        "PluginDescription": "משתנים מותאמים הם זוגות של שמות וערכים שניתן להגדיר לביקור בעזרת פונקצית setVisitCustomVariables() שבתוך ה-Javascript API. לאחר מכן, Piwik תדווח כמו ביקורים, עמודים, המרות היו לכל אחד מהמשתנים ואת ערכם."
+    }
+}

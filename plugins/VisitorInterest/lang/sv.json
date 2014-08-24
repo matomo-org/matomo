@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Sidor per besök",
+        "ColumnVisitDuration": "Besökstid",
+        "Engagement": "Engagemang",
+        "NPages": "%s sidor",
+        "OneMinute": "1 min",
+        "OnePage": "1 sida",
+        "PluginDescription": "Rapporter om Besökarnas intressen: antalet sidvisningar och tid på webbplatsen.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Besöksnummer",
+        "VisitsByDaysSinceLast": "Besök efter dagar sedan senaste besöket",
+        "visitsByVisitCount": "Besök efter besöksnummer",
+        "VisitsPerDuration": "Besökstid",
+        "VisitsPerNbOfPages": "Besökta sidor",
+        "WidgetLengths": "Besökets längd",
+        "WidgetLengthsDocumentation": "I denna rapport kan du se hur många besök som hade en viss total varaktighet. Inledningsvis så visas rapporten som ett taggmoln, vanligare varaktighet visas i ett större typsnitt.",
+        "WidgetPages": "Sidor per besök",
+        "WidgetPagesDocumentation": "I denna rapport kan du se hur många besök som involverade ett visst antal sidvisningar. Inledningsvis så visas rapporten som ett taggmoln, vanligare sidor visas i ett större typsnitt.",
+        "WidgetVisitsByDaysSinceLast": "Besök per dag sedan senaste besöket",
+        "WidgetVisitsByDaysSinceLastDocumentation": "I denna rapport kan du se hur många besök som var från besökare vars senaste besök var ett visst antal dagar sedan.",
+        "WidgetVisitsByNumDocumentation": "I denna rapport kan du se hur många besök som var det N:e besöket, dvs. besökare som besökt din webbplats minst N gånger."
+    }
+}

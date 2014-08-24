@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s průměrný čas generování",
+        "AverageVisitDuration": "%s průměrná doba návštěvy",
+        "GenerateQueries": "%s provedeno dotazů",
+        "GenerateTime": "%s sekund k vygenerování stránky",
+        "MaxNbActions": "%s maximální počet akcí na návštěvu",
+        "NbActionsDescription": "%s akcí (zobrazení stránek, stažení a odchodů)",
+        "NbActionsPerVisit": "%s akcí za návštěvu",
+        "NbDownloadsDescription": "%s stažení",
+        "NbKeywordsDescription": "%s unikátní klíčová slova",
+        "NbOutlinksDescription": "%s externích odkazů",
+        "NbPageviewsDescription": "%s zobrazení",
+        "NbSearchesDescription": "Celkem %s vyhledávání na vašich stránkách",
+        "NbUniqueDownloadsDescription": "%s unikátních stražení",
+        "NbUniqueOutlinksDescription": "%s unikátních externích odkazů",
+        "NbUniquePageviewsDescription": "%s unikátních zobrazení",
+        "NbUniqueVisitors": "%s unikátních návštěvníků",
+        "NbVisitsBounced": "%s návštěvníků odešlo (opustilo web po jedné stránce)",
+        "PluginDescription": "Hlásí základní analytická čísla: návštěv, unikátních návštěvníků, počet akcí, poměr návratů",
+        "VisitsSummary": "Shrnutí návštěv",
+        "VisitsSummaryDocumentation": "Toto je přehled vývoj návštěv",
+        "WidgetLastVisits": "Graf posledních návštěv",
+        "WidgetOverviewGraph": "Přehled s grafem",
+        "WidgetVisits": "Přehled návštěv"
+    }
+}

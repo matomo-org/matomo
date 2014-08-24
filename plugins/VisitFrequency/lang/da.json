@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Handlinger af tilbagevendende besøg",
+        "ColumnAverageVisitDurationForReturningVisitors": "Gns. besøgsvarighed for tilbagevendende besøgende (i sekunder)",
+        "ColumnAvgActionsPerReturningVisit": "Gns. antal handlinger pr. tilbagevendende besøg",
+        "ColumnBounceCountForReturningVisits": "Afvisningstæller for tilbagevendende besøg",
+        "ColumnBounceRateForReturningVisits": "Afvisningsprocent for tilbagevendende besøg",
+        "ColumnMaxActionsInReturningVisit": "Maks. handlinger i et tilbagevendende besøg",
+        "ColumnNbReturningVisitsConverted": "Antal konverterede tilbagevendende besøg",
+        "ColumnReturningVisits": "Tilbagevendende besøg",
+        "ColumnSumVisitLengthReturning": "Samlet tidsforbrug for tilbagevendende besøgende (i sekunder)",
+        "ColumnUniqueReturningVisitors": "Unikke tilbagevendende besøgende",
+        "PluginDescription": "Rapporter forskellige statistikker om tilbagevendende besøgende kontra førstegangs besøgende..",
+        "ReturnActions": "%s handlinger af tilbagevendende besøg",
+        "ReturnAverageVisitDuration": "%s gns. Besøgsvarighed for tilbagevendende besøgende",
+        "ReturnAvgActions": "%s gns. handlinger pr. tilbagevendende besøg",
+        "ReturnBounceRate": "%s tilbagevendende besøg er blevet afvist (har forladt hjemmesiden efter en sidevisning)",
+        "ReturningVisitDocumentation": "Et tilbagevendende besøg (i modsætning til et nyt besøg) foretages af en person, der har besøgt hjemmesiden mindst en gang før.",
+        "ReturningVisitsDocumentation": "Oversigt over tilbagevendende besøg.",
+        "ReturnVisits": "%s tilbagevendende besøg",
+        "SubmenuFrequency": "Hyppighed",
+        "WidgetGraphReturning": "Tilbagevendende besøg",
+        "WidgetOverview": "Hyppighedsoversigt"
+    }
+}

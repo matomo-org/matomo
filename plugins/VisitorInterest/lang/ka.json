@@ -1,0 +1,16 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s წთ",
+        "BetweenXYSeconds": "%1$s-%2$sწმ",
+        "ColumnPagesPerVisit": "გვერდები ვიზიტის შესაბამისად",
+        "ColumnVisitDuration": "ვიზიტის ხანგრძლივობა",
+        "NPages": "%s გვერდი",
+        "OnePage": "1 გვერდი",
+        "PluginDescription": "აკეთებს ანგარიშს ვიზიტორების ინტერესების შესახებ: ნანახი გვერდების რაოდენობა, ვებ საიტზე გატარებული დრო.",
+        "PlusXMin": "%s წთ",
+        "VisitsPerDuration": "ვიზიტები ვიზიტის ხანგრძლივობის შესაბამისად",
+        "VisitsPerNbOfPages": "ვიზიტები გვერდების რაოდენობის შესაბამისად",
+        "WidgetLengths": "ვიზიტების სიგრძე",
+        "WidgetPages": "გვერდები ვიზიტზე"
+    }
+}

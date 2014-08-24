@@ -1,0 +1,18 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Aktywność w trakcie powtórnych odwiedzin",
+        "ColumnAverageVisitDurationForReturningVisitors": "Średni czas odwiedzin dla powtórnych wizyt (w sekundach)",
+        "ColumnAvgActionsPerReturningVisit": "Średnia ilość działań przypadająca na powtórne odwiedziny",
+        "ColumnBounceRateForReturningVisits": "Współczynnik rezygnacji dla powtórnych odwiedzin",
+        "ColumnReturningVisits": "Powtórne odwiedziny",
+        "PluginDescription": "Raportuje rozmaite statystyki o powracających odwiedzających w odniesieniu do tych którzy pojawiają się po raz pierwszy.",
+        "ReturnActions": "%s działań przypadających na powtórne odwiedziny",
+        "ReturnAverageVisitDuration": "%s średni czas trwania odwiedzin przy powtórnych odsłonach",
+        "ReturnAvgActions": "%s działań przypadających na powtórne odwiedziny",
+        "ReturnBounceRate": "%s powtórnych odsłon które zostały odrzucone (opuścili serwis po wizycie na jednej stronie)",
+        "ReturnVisits": "%s powtórnych wizyt",
+        "SubmenuFrequency": "Częstotliwość",
+        "WidgetGraphReturning": "Wykres powtórnych odwiedzin",
+        "WidgetOverview": "Częstotliwość przeglądania"
+    }
+}

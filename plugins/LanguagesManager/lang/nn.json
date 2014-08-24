@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Om Piwik-omsetjingane",
+        "PluginDescription": "Dette innstikket vil visa ei liste over tilgjengelege språk for Piwik-brukargrensesnittet. Det valde språket vil lagrast i innstillingane til kvar enkelt brukar."
+    }
+}

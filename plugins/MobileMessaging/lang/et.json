@@ -1,0 +1,20 @@
+{
+    "MobileMessaging": {
+        "PhoneNumbers": "Telefoninumbrid",
+        "Settings_APIKey": "API võti",
+        "Settings_CredentialNotProvided": "Enne kui saad luua ja hallata telefoninumbreid, palun ühenda Piwik oma SMS kontoga ülal.",
+        "Settings_CredentialNotProvidedByAdmin": "Enne kui saad luua ja hallata telefoninumbreid, palu Piwiku haldajal luua ühendus SMS kontoga.",
+        "Settings_CredentialProvided": "Sinu %s SMS API konto on korrektselt seadistatud!",
+        "Settings_LetUsersManageAPICredential": "Luba kasutajatel muuta nende enda SMS API seadeid",
+        "Settings_ManagePhoneNumbers": "Halda telefoninumbreid",
+        "Settings_PhoneNumber": "Telefoninumber",
+        "Settings_PhoneNumbers_Add": "Lisa uus telefoninumber",
+        "Settings_SMSAPIAccount": "Halda SMS API kontot",
+        "Settings_SMSProvider": "SMS teenusepakkuja",
+        "Settings_SuperAdmin": "Peakasutaja seaded",
+        "Settings_ValidatePhoneNumber": "Valideeri",
+        "SettingsMenu": "Mobiilsed teenused",
+        "SMS_Content_Too_Long": "[liiga pikk]",
+        "TopMenu": "E-posti ja SMS raportid"
+    }
+}

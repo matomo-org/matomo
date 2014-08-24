@@ -1,0 +1,24 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Acțiuni de Revenire Vizite",
+        "ColumnAverageVisitDurationForReturningVisitors": "Med. Durata unei vizite Revenind (in sec)",
+        "ColumnAvgActionsPerReturningVisit": "Med. Acțiuni per Revenind vizită",
+        "ColumnBounceCountForReturningVisits": "Salt total pentru Revenire Vizite",
+        "ColumnBounceRateForReturningVisits": "Pretul pentru revenirea vizitei",
+        "ColumnMaxActionsInReturningVisit": "Acțiuni maxime într-o vizită de revenire",
+        "ColumnNbReturningVisitsConverted": "Numărul de vizite întorse convertite",
+        "ColumnReturningVisits": "Reintoarcere vizite",
+        "ColumnSumVisitLengthReturning": "Timpul total petrecut de vizitatori reintorsi (în secunde",
+        "ColumnUniqueReturningVisitors": "Vizitatori unici se reîntorc",
+        "PluginDescription": "Rapoarteaza diverse statistici despre reintoarcerea Vizitei față de vizitatorii pentru prima dată.",
+        "ReturnActions": "%s actiuni ale vizitatorilor intorsi",
+        "ReturnAvgActions": "%s acțiuni pe revenirea vizita",
+        "ReturnBounceRate": "%s vizite reîntoarse au sărit (au părăsit site-ul după o singură pagină)",
+        "ReturningVisitDocumentation": "O vizită reventoarsa este ( spre deosebire de o nouă vizită) realizate de către cineva care a vizitat site-ul cel puțin o dată înainte.",
+        "ReturningVisitsDocumentation": "Aceasta este o imagine de ansamblu a vizitelor care se întorc.",
+        "ReturnVisits": "%s vizitatori intorsi",
+        "SubmenuFrequency": "Frecventa",
+        "WidgetGraphReturning": "Graficul vizitelor intoarse",
+        "WidgetOverview": "Rezumat periodic"
+    }
+}

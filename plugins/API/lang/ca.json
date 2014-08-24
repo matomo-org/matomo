@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Si no disposeu d'informació d'avui podeu generar informació utilitzant l'extensió: %s. Heu d'activar l'extensió %s i desprès anar al menú 'Generador de visites' de l'espai d'administració del Piwik.",
+        "KeepTokenSecret": "El token_auth es tan secret com el vostre usuari i la vostra contrasenya, %s no compartiu el seu %s!",
+        "LoadedAPIs": "S'ha carregat correctament un total de %s API",
+        "MoreInformation": "Per mes informació sobre les APIs de Piwik, siusplau reviseu %s Introducció a l'API de Piwik %s i %s la Referència de l'API de Piwik %s.",
+        "PluginDescription": "Tota la informació del Piwik està disponible a travès de APIs simples. Aquest plugin es el punt d'entrada que podeu ciradar per obtenir la informació de l'anàlisis Web en xml, json, php, csv, etc.",
+        "QuickDocumentationTitle": "Documentació ràpida de la API",
+        "TopLinkTooltip": "Accediu a la vostra informació de l'anàlisis Web d'una forma programada a través d'una API simple en json, xml, etc.",
+        "UserAuthentication": "Autentificació de l'usuari",
+        "UsingTokenAuth": "Si voleu %s obtenir informació a través d'un script, un crontab, etc %s heu d'afegir el paràmetre %s a les crides a la APU per les URLs que requereixen autentificació."
+    }
+}

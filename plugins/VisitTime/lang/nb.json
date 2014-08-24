@@ -1,0 +1,15 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Lokaltid",
+        "ColumnServerTime": "Tjenertid",
+        "DayOfWeek": "Dag i uken",
+        "LocalTime": "Besøk pr lokaltid",
+        "NHour": "%st",
+        "ServerTime": "Besøk pr tjenertid",
+        "SubmenuTimes": "Tider",
+        "VisitsByDayOfWeek": "Besøk etter ukedag",
+        "WidgetByDayOfWeekDocumentation": "Denne grafen viser antall besøk nettstedet ditt mottatt på hver dag i uken.",
+        "WidgetLocalTime": "Besøk etter lokaltid",
+        "WidgetServerTime": "Besøk etter tjenertid"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": ", 기타 %s",
+        "Cities": "도시",
+        "Countries": "국가",
+        "DaysAgo": "%s일 전",
+        "GoalConversions": "%s 목표 전환",
+        "Hours": "시간",
+        "HoursAgo": "%s시간 전",
+        "map": "지도",
+        "Minutes": "분",
+        "MinutesAgo": "%s분 전",
+        "None": "없음",
+        "NoVisit": "방문 없음",
+        "RealTimeMap": "실시간 지도",
+        "Regions": "지역",
+        "Searches": "%s 검색",
+        "Seconds": "초",
+        "SecondsAgo": "%s초 전",
+        "ShowingVisits": "최근 방문의 지리적 위치",
+        "Unlocated": "<b>%s<\/b> %c 방문에서 %p의 지리적 위치를 찾을 수 없습니다.",
+        "VisitorMap": "방문자 지도",
+        "WorldWide": "전세계"
+    }
+}

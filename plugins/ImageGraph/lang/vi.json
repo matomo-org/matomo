@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Cột này '%s' không thấy trong báo cáo này. Thử bất kỳ của %s",
+        "PluginDescription": "Tạo ra hình ảnh đồ họa PNG tĩnh đẹp cho các báo cáo Piwik."
+    }
+}

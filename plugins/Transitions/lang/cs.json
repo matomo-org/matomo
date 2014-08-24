@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s odrazů",
+        "DirectEntries": "Přímé záznamy",
+        "ErrorBack": "Přejít k předchozí akci",
+        "ExitsInline": "%s východy",
+        "FromCampaigns": "Z kampaní",
+        "FromPreviousPages": "Z interních stránek",
+        "FromPreviousPagesInline": "%s z interních stránek",
+        "FromPreviousSiteSearches": "Z interního vyhledávání",
+        "FromPreviousSiteSearchesInline": "%s z interních vyhledávání",
+        "FromSearchEngines": "Z vyhledávačů",
+        "FromWebsites": "Z webových stránek",
+        "IncomingTraffic": "Příchozí provoz",
+        "LoopsInline": "%s obnovení stránky",
+        "NoDataForAction": "Pro %s nejsou žádná data",
+        "NoDataForActionDetails": "Buď akce neměla za období %s žádné zobrazení stránky, nebo je neplatná.",
+        "OutgoingTraffic": "Odchozí provoz",
+        "PluginDescription": "Hlášení o předchozích a následujících akcích pro každou URL stránky.",
+        "ShareOfAllPageviews": "Tato stránka měla %s zobrazení (%s všech zobrazení)",
+        "ToFollowingPages": "Na interní stránky",
+        "ToFollowingPagesInline": "%s na interní stránky",
+        "ToFollowingSiteSearches": "Interní vyhledávání",
+        "ToFollowingSiteSearchesInline": "%s interních vyhledávání",
+        "XOfAllPageviews": "%s ze všech zobrazení této stránky",
+        "XOutOfYVisits": "%s (z %s)"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Evoluţie",
+        "LoadingWebsites": "încărcare site-uri web",
+        "Pagination": "%s - %s of %s",
+        "PluginDescription": "Afișează multi-site-ul rezumat executiv \/ statistici. În prezent, se menține o bază Piwik plugin.",
+        "TopLinkTooltip": "Compara statisticiLE Web Analytics pentru toate site-urile dvs.."
+    }
+}

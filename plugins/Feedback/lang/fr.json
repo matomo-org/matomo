@@ -1,0 +1,25 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Contactez l’Équipe Piwik!",
+        "DoYouHaveBugReportOrFeatureRequest": "Avez-vous un bug à rapporter ou une fonctionnalité à demander?",
+        "GetInTouch": "Nous apprécions vos commentaires et lisons tous les messages. Peut-être voudriez vous nous informer d'une opportunité commerciale, employer un consultant, nous raconter un succès ou simplement dire bonjour!",
+        "IWantTo": "Je veux:",
+        "LearnWaysToParticipate": "Renseignez vous sur les manières dont vous pouvez %s participer%s",
+        "ManuallySendEmailTo": "Merci d'envoyer manuellement votre message à",
+        "PluginDescription": "Envoie vos retours à l’Équipe Piwik. Partagez vos idées et suggestions avec nous!",
+        "PrivacyClaim": "Piwik respecte votre %1$svie privée%2$s et vous donne un contrôle total sur vos données.",
+        "RateFeatureLeaveMessageDislike": "Nous sommes désolés de voir que vous n'aimez pas ça. N'hésitez pas à nous dire comme nous pouvons améliorer.",
+        "RateFeatureLeaveMessageLike": "Nous sommes heureux de savoir que vous l'aimez ! S'il vous plaît laissez-nous savoir ce que vous aimez le plus ou si vous avez une demande de fonctionnalité.",
+        "RateFeatureSendFeedbackInformation": "Voter installation Piwik nous enverra (l'équipe Piwik) un e-mail (contenant votre adresse e-mail) afin que nous puissions entrer en contact avec vous si vous avez des questions.",
+        "RateFeatureThankYouTitle": "Merci d'avoir noté \"%s\" !",
+        "RateFeatureTitle": "Est-ce que vous aimez la fonctionnalité \"%s\" ? Notez la et laissez un commentaire",
+        "SendFeedback": "Envoyer le retour",
+        "SpecialRequest": "Avez-vous une demande spéciale pour l’Équipe Piwik?",
+        "ThankYou": "Merci d'avoir aidé à améliorer Piwik!",
+        "TopLinkTooltip": "Dites nous ce que vous en pensez, ou demandez un Support Professionnel.",
+        "ViewAnswersToFAQ": "Voir les réponses aux %squestions fréquemment posées%s",
+        "ViewUserGuides": "Apprenez comment configurer Piwik et comment analyser de manière efficaces vos données avec notre %1$sguide utilisateur%2$s",
+        "VisitTheForums": "Visitez les %s Forums%s",
+        "WantToThankConsiderDonating": "Vous pensez que Piwik est génial et voulez nous remercier?"
+    }
+}

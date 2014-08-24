@@ -1,0 +1,15 @@
+{
+    "Login": {
+        "ContactAdmin": "可能原因：您的伺服主機可能已經停用了 mail() 函式。<br \/>請聯絡您的 Piwik 管理員！",
+        "ExceptionPasswordMD5HashExpected": "密碼參數會是一個 MD5 雜湊加密的密碼！",
+        "InvalidOrExpiredToken": "權杖不正確或已過期！",
+        "InvalidUsernameEmail": "無效的使用者名稱 和\/或 E-mail 位址",
+        "LogIn": "登入",
+        "LoginOrEmail": "登入帳號或 E-mail",
+        "LoginPasswordNotCorrect": "使用者名稱 & 密碼不正確。",
+        "LostYourPassword": "遺失了您的密碼嗎？",
+        "MailTopicPasswordChange": "確認密碼變更",
+        "PasswordRepeat": "密碼（再次輸入）",
+        "PasswordsDoNotMatch": "密碼並不相符！"
+    }
+}

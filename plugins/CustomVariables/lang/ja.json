@@ -1,0 +1,10 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "カスタム変数名",
+        "ColumnCustomVariableValue": "カスタム変数値",
+        "CustomVariables": "カスタム変数",
+        "PluginDescription": "カスタム変数は名前と値のペアです。Javascript APIのsetVisitCustomVariables() ファンクションを使ってビジットに設定できます。Piwikはそれらの名前と値に対し、どれだけのビジット、ページ数、コンバージョンがあったかをリポートします。",
+        "ScopePage": "スコープはページ",
+        "ScopeVisit": "スコープはビジット"
+    }
+}

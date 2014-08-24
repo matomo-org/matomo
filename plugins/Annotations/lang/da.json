@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Tilføj annotation for %s...",
+        "AnnotationOnDate": "Annotation den %1$s: %2$s",
+        "Annotations": "Anmærkninger",
+        "ClickToDelete": "Klik for at slette en annotation",
+        "ClickToEdit": "Klik for at rette en annotation",
+        "ClickToEditOrAdd": "Klik for at ændre eller tilføje en ny annotation.",
+        "ClickToStarOrUnstar": "Klik for at markere eller fjerne markering af anmærkningen.",
+        "CreateNewAnnotation": "Opret ny annotation",
+        "EnterAnnotationText": "Indtast din note...",
+        "HideAnnotationsFor": "Skjul annotationer for %s...",
+        "IconDesc": "Vis noter for dette tidsrum.",
+        "IconDescHideNotes": "Skjul noter for dette tidsrum.",
+        "InlineQuickHelp": "Du kan oprette anmærkninger for at markere specielle begivenheder (som et nyt blog-indlæg, eller hjemmeside redesign), gemme dine data analyser eller at gemme noget andet, du synes er vigtigt.",
+        "LoginToAnnotate": "Log på for at oprette en anmærkning",
+        "NoAnnotations": "Der er ingen anmærkninger for datointervallet.",
+        "PluginDescription": "Giver mulighed for at knytte bemærkninger til forskellige dage, så du kan huske, hvorfor data ser ud som de gør.",
+        "ViewAndAddAnnotations": "Vis og tilføj annotationer for %s...",
+        "YouCannotModifyThisNote": "Du kan ikke ændre denne annotation, da du ikke har oprettet den eller har administrator adgang."
+    }
+}

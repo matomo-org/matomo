@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa 랭크",
+        "Bing_IndexedPages": "Bing에 색인된 페이지",
+        "Dmoz": "DMOZ 항목",
+        "DomainAge": "도메인 에이지",
+        "Google_IndexedPages": "Google에 색인된 페이지",
+        "Rank": "순위",
+        "SeoRankings": "SEO 랭킹",
+        "SEORankingsFor": "%s의 SEO 순위"
+    }
+}

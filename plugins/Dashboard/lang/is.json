@@ -1,0 +1,13 @@
+{
+    "Dashboard": {
+        "AddPreviewedWidget": "Bæta forskoðuðum aukahlut á skjáborðið",
+        "Dashboard": "Skjáborð",
+        "DeleteWidgetConfirm": "Ertu viss um að þú viljir eyða þessum aukahlut af skjáborðinu.",
+        "LoadingWidget": "Hleð inn aukahlut, vinsamlegast bíðið...",
+        "Maximise": "Hámarka",
+        "PluginDescription": "Vefgreiningarskjáborðið þitt. Þú getur sérsniðið skjáborðið þitt: bætt við nýjum aukahlutum, breytt uppröðun aukahluta. Sérhver notandi hefur aðgang að sínu eigin sérsniðna skjáborði.",
+        "SelectWidget": "Veldu aukahlutinn til að bæta við skjáborðið",
+        "WidgetNotFound": "Aukahlutur fannst ekki",
+        "WidgetPreview": "Forskoðun á aukahlut"
+    }
+}

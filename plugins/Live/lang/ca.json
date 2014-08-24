@@ -1,0 +1,17 @@
+{
+    "Live": {
+        "GoalType": "Tipus",
+        "KeywordRankedOnSearchResultForThisVisitor": "La paraula clau %1$s està a la posició %2$s del ranking de %3$s resultats de cerca per aquest visitant.",
+        "LastHours": "Últimes %s hores",
+        "LastMinutes": "Últims %s minuts",
+        "LinkVisitorLog": "Veure registre detallat del visitant",
+        "MorePagesNotDisplayed": "No es mostre més pàgines per aquest visitant",
+        "PageRefreshed": "Nombre de vegades que s'ha vist\/refrescat una pàgina",
+        "PluginDescription": "Mireu els vostres visitants en temps real!",
+        "Referrer_URL": "URL del referent",
+        "VisitorLog": "Registre de visitants",
+        "VisitorLogDocumentation": "Aquesta taula mostra les últimes visites pel període de temps seleccionat. Podeu veure quan s'ha produït l'últim accès d'un visitant pasant per damunt de la data de visita. %s Si el període de temps inclou avui, podeu veure els visitants en temps real! %s La informació que es mostra és sempre en directa, sense dependre de cada quan executeu el treball programat d'arxivat.",
+        "VisitorsInRealTime": "Visitants en temps real",
+        "VisitorsLastVisit": "L'ultima visita d'aquest visitant va ser fa %s dies."
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Aktyvinti",
+        "Activated": "Aktyvintas",
+        "Active": "Aktyvus",
+        "Deactivate": "Pasyvinti",
+        "Inactive": "Pasyvus",
+        "MainDescription": "Papildiniai suteikia Piwik papildomų galimybių. Įdiegę papildinį, čia galite jį aktyvinti arba pasyvinti",
+        "PluginDescription": "Papildinių administravimo sąsaja.",
+        "PluginHomepage": "Papildinio svetainė",
+        "PluginsManagement": "Papildinių valdymas",
+        "Status": "Būsena",
+        "Version": "Versija"
+    }
+}

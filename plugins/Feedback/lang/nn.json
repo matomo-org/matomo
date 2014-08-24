@@ -1,0 +1,14 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Kontakt Piwik-teamet!",
+        "DoYouHaveBugReportOrFeatureRequest": "Vil du rapportera ein feil eller førespurnad om ein funksjon?",
+        "IWantTo": "Eg ønskjer:",
+        "LearnWaysToParticipate": "Lær om korleis du kan %s medverka%s",
+        "ManuallySendEmailTo": "Send meldinga di manuelt til",
+        "PluginDescription": "Send dine attendemeldingar til Piwik. Del dine idear og framlegg med oss!",
+        "SendFeedback": "Send attendemelding",
+        "SpecialRequest": "Har du ein førespurnad til Piwik?",
+        "ThankYou": "Takk for at hjelper oss med å forbetra Piwik!",
+        "VisitTheForums": "Gå til %s Forumet%s"
+    }
+}

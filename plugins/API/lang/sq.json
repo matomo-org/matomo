@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Nëse nuk keni të dhëna për ditën e sotme, mund të prodhonit ca të dhëna duke përdorur shtojcën %s. Shtojcën %s mund ta aktivizoni, mandej klikoni mbi menunë 'Gjenerator Vizitorësh' te pjesa Përgjegjës Piwik-u.",
+        "KeepTokenSecret": "Ky token_auth është po aq i fshehtë sa të dhënat tuaja për hyrjen dhe fjalëkalimi juaj, %s mos ia jepni kujt%s!",
+        "LoadedAPIs": "U ngarkua me sukses API %s",
+        "MoreInformation": "Për më tepër të dhëna rreth API-ve të Piwik-ut, ju lutem, hidhini një sy %s Hyrje në API-t e Piwik-ut %s dhe %s Referencë API-sh Piwik-u %s.",
+        "PluginDescription": "Në Piwik krejt të dhënat mund të kihen përmes API-sh të thjeshta. Kjo shtojcë është pikënisja e shërbimit web, ajo që mund të thërrisni për të patur të dhënat për Analizën tuaj Web në format xml, json, php, csv, etj.",
+        "QuickDocumentationTitle": "Dokumentim i shpejtë për API",
+        "TopLinkTooltip": "Hyni programatikisht te të dhënat tuaja të Analizave Web përmes një API-je të thjeshtë json, xml, etj.",
+        "UserAuthentication": "Mirëfilltësim përdoruesi",
+        "UsingTokenAuth": "Nëse doni të %s kërkoni të dhëna brenda një programthi, një crontab-i, etj. %s lypset të shtoni parametrin %s te URL-të për thirrje API që lypin mirëfilltësim."
+    }
+}

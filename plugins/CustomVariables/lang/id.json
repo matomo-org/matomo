@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nama Variabel Kustom",
+        "ColumnCustomVariableValue": "Nilai Variabel Kustom",
+        "CustomVariables": "Variabel Kustom",
+        "CustomVariablesReportDocumentation": "Laporan ini mengandung informasi tentang Variabel Kustom Anda. Klik di nama variabel untuk melihat distribusi nilai. %s Informasi lebih lengkap tentang Vabiabel Kustom, baca %sdokumentasi Vabiabel Kustom di piwik.org%s",
+        "PluginDescription": "Variabel Kustom harus `nama,nilai` terkait yang dapat Anda atur ke `Visit` menggunakan fungsi API Javascript setVisitCustomVariables(). Piwik akan melaporkan jumlah kunjungan, halaman, dan konversi untuk tiap nama dan nilai kustom.",
+        "ScopePage": "cakupan halaman",
+        "ScopeVisit": "cakupan kunjungan"
+    }
+}

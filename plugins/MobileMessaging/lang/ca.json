@@ -1,0 +1,29 @@
+{
+    "MobileMessaging": {
+        "MobileReport_NoPhoneNumbers": "Siusplau, activeu com a mínim un numbre de telèfon per accedir.",
+        "MultiSites_Must_Be_Activated": "Per generar SMS de les vostres estadístiques web, siusplau activeu la extensió MultiSites de Piwik.",
+        "PhoneNumbers": "Nombres de telèfon",
+        "PluginDescription": "Crea i descarrega informes personalitzats per SMS i envieu-los al vostre mobil de forma diària, semanal o mensual.",
+        "Settings_APIKey": "Clau API",
+        "Settings_CountryCode": "Codi de país",
+        "Settings_CredentialNotProvided": "Abans de crear i gestionar els vostres nombres de telèfon, siusplau conecteu el Piwik a la vostra compta de SMS.",
+        "Settings_CredentialProvided": "La vostra compta de la API de SMS %s ha estat configurada correctament!",
+        "Settings_DeleteAccountConfirm": "Esteu segurs d'esborrar aquest compte de SMS?",
+        "Settings_InvalidActivationCode": "El codi introduït és invàlid, sisplau torneu-ho a probar.",
+        "Settings_LetUsersManageAPICredential": "Permetre als usuaris administrar les seves credencials de la API de SMS",
+        "Settings_LetUsersManageAPICredential_No_Help": "Tots els usuaris poden rebre informes per SMS i faran servir els credits de la vostra compta.",
+        "Settings_LetUsersManageAPICredential_Yes_Help": "Cada usuari pot configurar la seva pròpia compta de API de SMS i no farà servir els vostres crèdits.",
+        "Settings_ManagePhoneNumbers": "Administra nombres de telèfon",
+        "Settings_PhoneActivated": "Nombre de telèfon validat! Ara podeu rebre SMS amb les vostres estadístiques.",
+        "Settings_PhoneNumber": "Telèfon",
+        "Settings_PhoneNumbers_Add": "Afegir un nou telèfon",
+        "Settings_PhoneNumbers_CountryCode_Help": "Si no sabeu el vostre codi de pais el podeu buscar aquí.",
+        "Settings_SMSAPIAccount": "Administra el compte de l'API de SMS",
+        "Settings_SMSProvider": "Proveïdor SMS",
+        "Settings_SuperAdmin": "Preferències del Super Usuari",
+        "Settings_ValidatePhoneNumber": "Valida",
+        "SettingsMenu": "Missatgeria Mòbil",
+        "SMS_Content_Too_Long": "[massa llarg]",
+        "TopMenu": "Informes per Email i SMS"
+    }
+}

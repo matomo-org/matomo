@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Actions by Returning Visits",
+        "ColumnAverageVisitDurationForReturningVisitors": "Avg. Duration of a Returning Visit (in sec)",
+        "ColumnAvgActionsPerReturningVisit": "Avg. Actions per Returning Visit",
+        "ColumnBounceCountForReturningVisits": "Bounce Count for Returning Visits",
+        "ColumnBounceRateForReturningVisits": "Bounce Rate for Returning Visits",
+        "ColumnMaxActionsInReturningVisit": "Maximum actions in one returning visit",
+        "ColumnNbReturningVisitsConverted": "Number of converted returning visits",
+        "ColumnReturningVisits": "Returning Visits",
+        "ColumnSumVisitLengthReturning": "Total time spent by returning visitors (in seconds)",
+        "ColumnUniqueReturningVisitors": "Unique returning visitors",
+        "PluginDescription": "Reports various statistics about the Returning Visitor versus the First time visitor.",
+        "ReturnActions": "%s actions by the returning visits",
+        "ReturnAverageVisitDuration": "%s average visit duration for returning visitors",
+        "ReturnAvgActions": "%s actions per returning visit",
+        "ReturnBounceRate": "%s returning visits have bounced (left the website after one page)",
+        "ReturningVisitDocumentation": "A returning visit is (as opposed to a new visit) made by someone who has visited the website at least once before.",
+        "ReturningVisitsDocumentation": "This is an overview of the returning visits.",
+        "ReturnVisits": "%s returning visits",
+        "SubmenuFrequency": "Frequency",
+        "WidgetGraphReturning": "Returning Visits Over Time",
+        "WidgetOverview": "Frequency Overview"
+    }
+}

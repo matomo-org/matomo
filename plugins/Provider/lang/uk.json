@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "Провайдер",
+        "PluginDescription": "Звітує про провейдера відвідувачів",
+        "SubmenuLocationsProvider": "Місцезнаходження та провайдер",
+        "WidgetProviders": "Провайдери"
+    }
+}

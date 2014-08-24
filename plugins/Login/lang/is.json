@@ -1,0 +1,14 @@
+{
+    "Login": {
+        "ContactAdmin": "Möguleg ástæða: þjónninn þinn gæti hafa slökkt á mail() fallinu. <br\/>Vinsamlegast hafðu samband við umsjónarmann Piwik þjónsins.",
+        "ExceptionPasswordMD5HashExpected": "Búist er við að lykilorðs færibreytan sé MD5 dulmál af lykilorðinu.",
+        "InvalidUsernameEmail": "Ekki gilt notendanafn og\/eða tölvupóstfang",
+        "LogIn": "Innskrá",
+        "LoginOrEmail": "Notendanafn eða tölvupóstfang",
+        "LoginPasswordNotCorrect": "Notendanafn & Lykilroð ekki rétt",
+        "LostYourPassword": "Tapaðirðu lykilroðinu?",
+        "PasswordRepeat": "Lykilorð (endurtekið)",
+        "PasswordsDoNotMatch": "Lykilorðin stemma ekki.",
+        "RememberMe": "Mundu mig"
+    }
+}

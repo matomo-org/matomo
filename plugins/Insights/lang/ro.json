@@ -1,0 +1,32 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Crestere comparativ cu",
+        "ControlFilterByDescription": "Aratale pe toate, doar Miscarile, numai pe cele noi sau dispărute",
+        "DatePeriodCombinationNotSupported": "Nu este posibil să genereze perspective pentru această dată și combinație perioadă.",
+        "DayComparedToPreviousDay": "ziua precedenta",
+        "DayComparedToPreviousWeek": "aceeasi zi in saptamana precedenta",
+        "DayComparedToPreviousYear": "aceeasi zi in anul precedent",
+        "Filter": "Filtru",
+        "FilterIncreaserAndDecreaser": "Creșterea & scăderea",
+        "FilterOnlyDecreaser": "Doar descrestere",
+        "FilterOnlyDisappeared": "Doar disparut",
+        "FilterOnlyIncreaser": "Doar crestere",
+        "FilterOnlyMovers": "Numai mutari",
+        "FilterOnlyNew": "Doar nou",
+        "IgnoredChanges": "Modificarile afecteaza mai putin decat %s vizitele care au fost ignorate.",
+        "MonthComparedToPreviousMonth": "luna precedenta",
+        "MonthComparedToPreviousYear": "aceeasi luna in anul precedent",
+        "MoversAndShakersWidgetTitle": "Miscari si zguduituri",
+        "NoResultMatchesCriteria": "Nici un rând nu corespunde criteriilor",
+        "OverviewWidgetTitle": "Prezentare generală",
+        "TitleConsideredInsightsChanges": "Liniile au crescut sau scăzut cu cel puțin %1$s vizite (%2$s%% din %3$s vizite totale).",
+        "TitleConsideredInsightsGrowth": "Următoarele rânduri au o creștere de cel puțin %1$s%% comparativ cu %2$s.",
+        "TitleRowChangeDetails": "'%1$s' schimbat din %2$s (%3$s) la %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "'%1$s' a scăzut cu %2$s și a dispărut în %3$s, comparativ cu %4$s.",
+        "TitleRowMoverAndShaker": "Acest rând a avut un impact mai mare decât media.",
+        "TitleRowNewDetails": "'%1$s' a crescut cu %2$s și este nou față de %3$s.",
+        "WeekComparedToPreviousWeek": "săptămâna trecuta",
+        "WidgetCategory": "înţelegere",
+        "YearComparedToPreviousYear": "anul trecut"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Shtoni një widget",
+        "AddPreviewedWidget": "Shtoje \"widget\"-in e paraparë te pulti",
+        "ChangeDashboardLayout": "Ndryshoni skemën e pultit",
+        "Dashboard": "Pulti",
+        "DeleteWidgetConfirm": "Jeni i sigurt se doni të fshihet ky \"widget\" prej pulti?",
+        "LoadingWidget": "\"Widget\"-i po ngarkohet, ju lutem prisni...",
+        "Maximise": "Maksimizoje",
+        "Minimise": "Minimizoje",
+        "PluginDescription": "Pulti Juaj Për Analiza Web. Pultin Tuaj mund ta personalizoni: shtoni \"widget\"-e të rinj, ndryshoni radhën e \"widget\"-eve tuaja. Çdo përdorues mund të hyjë te Pulti i tij i personalizuar.",
+        "ResetDashboard": "Riktheje pultin te parazgjedhjet",
+        "ResetDashboardConfirm": "Doni vërtet ta riktheni skemën e pultit tuaj te përzgjedhja parazgjedhje për Widget-et?",
+        "SelectDashboardLayout": "Ju lutem, përzgjidhni skemën e re për pultin tuaj",
+        "SelectWidget": "Përzgjidhni \"widget\"-in që doni të shtoni te pulti",
+        "WidgetNotFound": "Nuk u gjet \"widget\"",
+        "WidgetPreview": "Paraparje \"widget\"-i",
+        "WidgetsAndDashboard": "Widget-e & Pult"
+    }
+}

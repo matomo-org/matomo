@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Vietinis laikas",
+        "ColumnServerTime": "Serverio laikas",
+        "LocalTime": "Apsilankymai vietiniu laiku",
+        "NHour": "%sh",
+        "PluginDescription": "Ataskaitos lokaliu ir serverio laiku.",
+        "ServerTime": "Apsilankymai serverio laiku",
+        "SubmenuTimes": "Laikai",
+        "WidgetLocalTime": "Apsilankymai vietiniu laiku",
+        "WidgetServerTime": "Apsilankymai serverio laiku"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "%s için not ekle",
+        "AnnotationOnDate": "%1$s için not: %2$s",
+        "Annotations": "Notlar",
+        "ClickToDelete": "Bu notu silmek için tıklayınız.",
+        "ClickToEdit": "Bu notu düzenlemek için tıklayınız.",
+        "ClickToEditOrAdd": "Yorum eklemek veya düzenlemek icin buraya tıklayın",
+        "ClickToStarOrUnstar": "Bu not işaretlemek veya işaretlemeyi kaldırmak için tıklayın",
+        "CreateNewAnnotation": "Yeni not ekle...",
+        "EnterAnnotationText": "Notunuzu giriniz...",
+        "HideAnnotationsFor": "%s için notları gizle...",
+        "IconDesc": "Bu tarih aralığı için notları göster",
+        "IconDescHideNotes": "Bu tarih aralığı için notları gizle",
+        "InlineQuickHelp": "Önemli olduğunu düşündüğünüz yada veri analizleriniz için özel anonslar oluşturabilirsiniz (yeni yazılar yada site yenilenmesi gibi)",
+        "LoginToAnnotate": "Not eklemek için giriş yapmalısınız.",
+        "NoAnnotations": "Bu tarih aralığı için not yok.",
+        "ViewAndAddAnnotations": "%s için notları göster ve yeni not ekle...",
+        "YouCannotModifyThisNote": "Bunu değiştiremezsiniz. Bunun için bu siteye yönetici erişiminiz olması gerekli."
+    }
+}

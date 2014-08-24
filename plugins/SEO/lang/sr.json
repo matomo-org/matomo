@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa rangiranje",
+        "Bing_IndexedPages": "Stranice koje je indeksirao Bing",
+        "Dmoz": "DMOZ stavke",
+        "DomainAge": "Starost domena",
+        "ExternalBacklinks": "Eksterni povratni linkovi (Majestic)",
+        "Google_IndexedPages": "Stranice koje je indeksirao Google",
+        "Rank": "Rang",
+        "ReferrerDomains": "Domeni sa referencama (Majestic)",
+        "SeoRankings": "SEO rangiranje",
+        "SEORankingsFor": "SEO rangiranje za %s",
+        "ViewBacklinksOnMajesticSEO": "Prikaži izveštaj o spoljnim povratnim linkovima sa MajesticSEO.com"
+    }
+}

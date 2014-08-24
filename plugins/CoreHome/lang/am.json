@@ -1,0 +1,15 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "በዚህ ፈርጅ ምንም ውሂብ የለም. \"ሁሉንም ምድብ\" ለማጠቃለል ይሞክሩ።",
+        "PageOf": "%1$s የ %2$s",
+        "PeriodDay": "ቀን",
+        "PeriodDays": "ቀናት",
+        "PeriodMonth": "ወር",
+        "PeriodMonths": "ወራት",
+        "PeriodWeek": "ሳምንት",
+        "PeriodWeeks": "ሳምንታት",
+        "PeriodYear": "ዓመት",
+        "PeriodYears": "ዓመታት",
+        "ShowJSCode": "ለማስገባት የጃቫ ስክሪፕትን ኮድ አሳይ"
+    }
+}

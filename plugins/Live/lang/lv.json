@@ -1,0 +1,15 @@
+{
+    "Live": {
+        "GoalType": "Tips",
+        "KeywordRankedOnSearchResultForThisVisitor": "Atslēgvārds %1$s ir %2$s vietā %3$s šī lietotāja meklēšanas rezultātu lapā.",
+        "LastHours": "Pēdējās %s stundas",
+        "LastMinutes": "Pēdējās %s minūtes",
+        "LinkVisitorLog": "Apskatīt detalizētu apmeklētāju žurnālu",
+        "PluginDescription": "Izspiego savus apmeklētājus, dzīvajā, reāllaikā!",
+        "Referrer_URL": "Atsauces URL",
+        "VisitorLog": "Apmeklētāju žurnāls",
+        "VisitorLogDocumentation": "Šī tabula atspoguļo pēdējos apmeklējumus izvēlētajā datumu intervālā. Jūs varat apskatīt pēdējo apmeklētāja apmeklējuma laiku kursoru uzbīdot uz apmeklējuma datuma. %s Ja datumu intervāls iekļauj šodienu, Jūs varat skatīt apmeklētājus reāllaikā! %s Dati, kas apskatāmi šeit, ir vienmēr aktuālie, neatkarīgi no tā vai lietojat arhivēšanas darbu, vai nē.",
+        "VisitorsInRealTime": "Apmeklētāji reāllaikā",
+        "VisitorsLastVisit": "Šī apmeklētāja pēdējais apmklējums bija %s dienas atpakaļ."
+    }
+}

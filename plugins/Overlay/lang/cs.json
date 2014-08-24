@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s kliknutí",
+        "ClicksFromXLinks": "%1$s kliknutí z některého z %2$s odkazů",
+        "Domain": "Doména",
+        "ErrorNotLoading": "Sezení překryvu stránky nemohlo být zatím spuštěno.",
+        "ErrorNotLoadingDetails": "Možná nemá načtená stránka na pravé straně sledovací kód. V tomto případě zkuste spustit překryv pro jinou stránku z hlášení stránek.",
+        "ErrorNotLoadingDetailsSSL": "Protože používáte Piwik přes HTTPS, nejpravděpodobnější je, že stránky nepodporují SSL. Zkuste přistoupit k Piwiku přes HTTP.",
+        "ErrorNotLoadingLink": "Klikněte zde pro více tipů k řešení problémů",
+        "Link": "Odkaz",
+        "Location": "Umístění",
+        "NoData": "V daném období nejsou pro vybranou stránku k dispozici žádná data.",
+        "OneClick": "1 kliknutí",
+        "OpenFullScreen": "Přejít na celou obrazovku (bez postranní lišty)",
+        "Overlay": "Překryv stránky",
+        "PluginDescription": "Podívejte se na analytická data přímo na vašich stránkách.",
+        "RedirectUrlError": "Pokoušíte se spustit překryv pro stránku s url \"%s\". %s Žádná doména z nastavení Piwiku ale neodpovídá odkazu.",
+        "RedirectUrlErrorAdmin": "Doménu můžete jako další URL přidat v %snastavení%s.",
+        "RedirectUrlErrorUser": "Požádejte svého administrátora o přidání stránky jako další URL:."
+    }
+}

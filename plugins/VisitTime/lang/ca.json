@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Hora local",
+        "ColumnServerTime": "Hora del servidor",
+        "DayOfWeek": "Dia de la setmana",
+        "LocalTime": "Visites segons l'hora local",
+        "NHour": "%sh",
+        "PluginDescription": "Informe sobre l'hora local i la del servidor. L'hora del servidor pot ser útil per programar un manteniment al lloc web.",
+        "ServerTime": "Visites segons l'hora del servidor",
+        "SubmenuTimes": "Hores",
+        "VisitsByDayOfWeek": "Visites per día de la setmana",
+        "WidgetByDayOfWeekDocumentation": "Aquest gràfic mostre el nombre de visites que ha rebut el vostre lloc web cada dia de la setmana.",
+        "WidgetLocalTime": "Visites segons l'hora local",
+        "WidgetLocalTimeDocumentation": "Aquest gràfic mostra a quina hora era a %s la zona horària del visitant %s durant la seva visita.",
+        "WidgetServerTime": "Visites segons l'hora del servidor",
+        "WidgetServerTimeDocumentation": "Aquest gràfic quina hora era a la %s zona horària del servidor %s durant la visita."
+    }
+}

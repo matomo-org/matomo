@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Paikallinen aika",
+        "ColumnServerTime": "Palvelimen aika",
+        "DayOfWeek": "Viikonpäivä",
+        "LocalTime": "Käyntejä (paikallinen aika)",
+        "NHour": "%sh",
+        "PluginDescription": "Raportoi paikallisen ja palvelimen ajan. Palvelimen aikatietoa voi käyttää ylläpitokatkojen päättämiseen.",
+        "ServerTime": "Käyntejä (palvelimen aika)",
+        "SubmenuTimes": "Ajat",
+        "VisitsByDayOfWeek": "Käynnit viikonpäivän mukaan",
+        "WidgetByDayOfWeekDocumentation": "Tämä kuvaaja näyttää käyntien määrän sivuilla viikonpäivien mukaan",
+        "WidgetLocalTime": "Käyntejä (paikallinen aika)",
+        "WidgetLocalTimeDocumentation": "Tämä kuvaaja näyttää, mikä aika oli %s kävijöiden aikavyöhykkeellä %s käyntien aikana.",
+        "WidgetServerTime": "Käyntejä (palvelimen aika)",
+        "WidgetServerTimeDocumentation": "Tämä kuvaaja näyttää, mikä aika oli %s palvelimen aikavyöhykkeellä %s käyntien aikana."
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s meðallengd heimsóknar",
+        "GenerateQueries": "%s fyrirspurnir framkvæmdar",
+        "GenerateTime": "%s sekúndur að gera þessa síðu",
+        "MaxNbActions": "%s hámark aðgerða í einni heimsókn",
+        "NbActionsDescription": "%s aðgerðir (síðuflettingar, niðurhal og linkar frá vefnum)",
+        "NbActionsPerVisit": "%s aðgerðir á heimsókn",
+        "NbUniqueVisitors": "%s einstakir gestir",
+        "NbVisitsBounced": "%s heimsóknir hafa skoppað (yfirgefið vefinn eftir eina síðu)",
+        "PluginDescription": "Gefur skýrslu um almennar greiningartölur: heimsóknir, einstakir gestir, fjöldi aðgerða, skopptíðni, o.s.frv.",
+        "VisitsSummary": "Samantekt heimsókna",
+        "WidgetLastVisits": "Línurit yfir síðustu heimsóknir",
+        "WidgetOverviewGraph": "Yfirlit með línuriti",
+        "WidgetVisits": "Heimsóknayfirlit"
+    }
+}

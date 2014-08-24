@@ -1,0 +1,21 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpDescription": "Wybierz \"Tak\" jeśli chcesz aby nie śledzić w pełni wykwalifikowanych adresów IP.",
+        "AnonymizeIpInlineHelp": "Anonimizacja ostatniego bajtu w adresie IP odwiedzających, by dostosować się do być może lokalnego prawa do prywatności\/wytycznych o prywatności.",
+        "AnonymizeIpMaskLengtDescription": "Wybierz ile bajtów z odwiedzających' adresów IP powinny być zamaskowane.",
+        "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
+        "DeleteLogDescription2": "Po włączeniu automatycznego usuwania logów należy się upewnić, że wszystkie poprzednie raporty dzienne zostały przetworzone, tak że żadne dane nie zostaną utracone.",
+        "DeleteLogInfo": "Logi z poniższych tabel zostaną usunięte: %s",
+        "DeleteLogsOlderThan": "Usuń logi starsze niż",
+        "DeleteMaxRows": "Maksymalna liczba wierszy, aby usunąć w jednym przebiegu:",
+        "DeleteMaxRowsNoLimit": "bez limitu",
+        "DeleteReportsOlderThan": "Usuń raporty starsze niż",
+        "LastDelete": "Ostatnio był usunięte",
+        "LeastDaysInput": "Proszę podać liczbę dni większą niż %s.",
+        "MenuPrivacySettings": "Prywatność",
+        "NextDelete": "Następne skreślenie zaplanowano w",
+        "TeaserHeadline": "Ustawienia prywatności",
+        "UseAnonymizeIp": "Anonimizacja odwiedzających' adres IP",
+        "UseDeleteLog": "Regularnie usuwanie starych logów odwiedzających z bazy danych"
+    }
+}

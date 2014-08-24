@@ -1,0 +1,33 @@
+{
+    "UsersManager": {
+        "AddUser": "Dodaj novega uporabnika",
+        "Alias": "Psevdonim",
+        "AllWebsites": "Vse spletne strani",
+        "ApplyToAllWebsites": "Uveljavi za vse spletne strani",
+        "DeleteConfirm": "Ste prepričani, da želite izbrisati uporabnika %s?",
+        "Email": "Email",
+        "ExceptionAdminAnonymous": "\"Anonimnemu\" uporabniku ne morate dodeliti administrativnih dovoljenj.",
+        "ExceptionDeleteDoesNotExist": "Uporabnik '%s' ne obstaja, ter ga tako ni moč izbrisati.",
+        "ExceptionEmailExists": "Uporabnik z emailom \"%s\" že obstaja.",
+        "ExceptionInvalidEmail": "Email ni veljavnega formata.",
+        "ExceptionInvalidPassword": "Dolžina gesla mora biti med %1$s in %2$s znaki.",
+        "ExceptionLoginExists": "Vpis '%s' že obstaja.",
+        "ExceptionUserDoesNotExist": "Uporabnik \"%s\" ne obstaja.",
+        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Če bi radi spremenili geslo, vpišite novega. Če ne, to pustite prazno.",
+        "ManageAccess": "Upravljaj dostop",
+        "MenuAnonymousUserSettings": "Nastavitve anonimnih uporabnikov",
+        "MenuUsers": "Uporabniki",
+        "MenuUserSettings": "Nastavitve uporabnikov",
+        "PrivAdmin": "Admin",
+        "PrivNone": "Ni dostopa",
+        "PrivView": "Pogled",
+        "ReportDateToLoadByDefault": "Privzet časovni obseg",
+        "ReportToLoadByDefault": "Privzeto prikaži",
+        "TheLoginScreen": "Obrazec za vpis",
+        "ThereAreCurrentlyNRegisteredUsers": "Trenutno je %s registriranih uporabnikov.",
+        "TypeYourPasswordAgain": "Ponovno vpišite vaše novo geslo.",
+        "User": "Uporabnik",
+        "UsersManagement": "Upravljanje Uporabnikov",
+        "YourUsernameCannotBeChanged": "Vaše uporabniško ime ne more biti spremenjeno."
+    }
+}

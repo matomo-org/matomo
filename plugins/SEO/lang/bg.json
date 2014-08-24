@@ -1,0 +1,14 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa ранг",
+        "Bing_IndexedPages": "Bing индексирани страници",
+        "Dmoz": "DMOZ записи",
+        "DomainAge": "Възраст на домейна",
+        "ExternalBacklinks": "Външни препратки (Majestic)",
+        "Google_IndexedPages": "Google индексирани страници",
+        "Rank": "Ранг",
+        "SeoRankings": "SEO ранг",
+        "SEORankingsFor": "SEO ранг за %s",
+        "ViewBacklinksOnMajesticSEO": "Преглед на доклада за външните препратки в MajesticSEO.com"
+    }
+}

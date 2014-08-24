@@ -1,0 +1,32 @@
+{
+    "Goals": {
+        "AddGoal": "Legg til mål",
+        "AddNewGoal": "Legg til et nytt mål",
+        "ColumnConversions": "Konvertering",
+        "Contains": "inneholder %s",
+        "CreateNewGOal": "Opprett et nytt mål",
+        "DeleteGoalConfirm": "Er du sikker på at du vil slette målet %s?",
+        "DocumentationRevenueGeneratedByProductSales": "Produktsalg. Ekskluderer skatt, frakt og rabatt",
+        "Download": "Last ned en fil",
+        "Filename": "filnavn",
+        "GoalName": "Målnavn",
+        "Goals": "Mål",
+        "GoalsManagement": "Administrasjon av mål",
+        "GoalX": "Mål %s",
+        "IsExactly": "er akuratt %s",
+        "Manually": "manuelt",
+        "NewGoalYouWillBeAbleTo": "Du vil være i stand til å se og analysere resultatene for hvert mål, og lære hvordan du kan øke konverteringer, konverteringsfrekvenser og inntekter per besøk.",
+        "Optional": "(valgfritt)",
+        "PageTitle": "Sidetittel",
+        "Pattern": "Mønster",
+        "ProductCategory": "Produktkategori",
+        "ProductName": "Produktnavn",
+        "Products": "Produkter",
+        "ProductSKU": "Produkt SKU",
+        "UpdateGoal": "Oppdater mål",
+        "URL": "URL",
+        "ViewAndEditGoals": "Vis og rediger mål",
+        "ViewGoalsBy": "Vis mål etter %s",
+        "WhenVisitors": "når besøkende"
+    }
+}

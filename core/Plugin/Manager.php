@@ -9,10 +9,14 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache\StaticCache;
+use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
@@ -645,11 +649,33 @@ class Manager extends Singleton
         if (empty($language)) {
             $language = Translate::getLanguageToLoad();
         }
-        $plugins = $this->getLoadedPlugins();
 
-        foreach ($plugins as $plugin) {
-            $this->loadTranslation($plugin, $language);
+        $cache        = new CacheFile('tracker', 43200); // ttl=12hours
+        $cacheKey     = 'PluginTranslations-' . $language;
+        $translations = $cache->get($cacheKey);
+
+        if (!empty($translations) &&
+            !Development::isEnabled()) {
+
+            Translate::mergeTranslationArray($translations);
+            return;
         }
+
+        $translations = array();
+        $pluginNames  = self::getAllPluginsNames();
+
+        foreach ($pluginNames as $pluginName) {
+            if ($this->isPluginThirdPartyAndBogus($pluginName)) {
+                continue;
+            }
+
+            $this->loadTranslation($pluginName, $language);
+            if (isset($GLOBALS['Piwik_translations'][$pluginName])) {
+                $translations[$pluginName] = $GLOBALS['Piwik_translations'][$pluginName];
+            }
+        }
+
+        $cache->set($cacheKey, $translations);
     }
 
     /**

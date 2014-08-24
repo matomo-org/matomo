@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "%sの注釈を追加…",
+        "AnnotationOnDate": "%1$sの注釈: %2$s",
+        "Annotations": "注釈",
+        "ClickToDelete": "クリックしてこの注釈を削除",
+        "ClickToEdit": "クリックしてこの注釈を編集",
+        "ClickToEditOrAdd": "クリックして新しい注釈を編集または作成",
+        "ClickToStarOrUnstar": "クリックして注釈に星印を付ける、または外す",
+        "CreateNewAnnotation": "新しい注釈を作成する",
+        "EnterAnnotationText": "メモを入力して下さい",
+        "HideAnnotationsFor": "%sの注釈を隠す…",
+        "IconDesc": "この期間内のメモを参照する",
+        "IconDescHideNotes": "この期間内のメモを隠す",
+        "InlineQuickHelp": "データの分析結果や重要と思うものを記録するのに、特別なイベントとして注釈を作成できます（新しいブログの投稿、ウェブサイトのリニューアルなど）。",
+        "LoginToAnnotate": "ログインして注釈を作成する",
+        "NoAnnotations": "この期間内の注釈はありません",
+        "PluginDescription": "あなたのウェブサイトの変更を日毎にメモを付けることができます。データの分析結果を記録し、仲間と互いに考えを共有しましょう。注釈を付けることによって、なぜデータがそうなっているのかを思い出す手助けになるでしょう。",
+        "ViewAndAddAnnotations": "%sの注釈の表示と追加",
+        "YouCannotModifyThisNote": "この注釈は変更できません。あなたが生成した注釈ではないか、このサイトの管理者権限がないからです"
+    }
+}

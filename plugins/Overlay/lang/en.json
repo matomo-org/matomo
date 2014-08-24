@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s clicks",
+        "ClicksFromXLinks": "%1$s clicks from one of %2$s links",
+        "Domain": "Domain",
+        "ErrorNotLoading": "The Page Overlay session couldn't be launched yet.",
+        "ErrorNotLoadingDetails": "Maybe the page loaded on the right doesn't have the Piwik tracker code. In this case, try launching Overlay for a different page from the pages report.",
+        "ErrorNotLoadingDetailsSSL": "Since you're using Piwik over https, the most likely cause is that your website doesn't support SSL. Try using Piwik over http.",
+        "ErrorNotLoadingLink": "Click here to get more tips for troubleshooting",
+        "Link": "Link",
+        "Location": "Location",
+        "NoData": "There is no data for this page during the selected period.",
+        "OneClick": "1 click",
+        "OpenFullScreen": "Go full screen (no sidebar)",
+        "Overlay": "Page Overlay",
+        "PluginDescription": "See analytics data as an overlay on your actual website.",
+        "RedirectUrlError": "You are attempting to open Page Overlay for the URL \"%s\". %s None of the domains from the Piwik settings matches the link.",
+        "RedirectUrlErrorAdmin": "You can add the domain as an additional URL %sin the settings%s.",
+        "RedirectUrlErrorUser": "Ask your administrator to add the domain as an additional URL."
+    }
+}

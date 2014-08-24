@@ -1,0 +1,17 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s నిమి",
+        "BetweenXYSeconds": "%1$s-%2$sక్ష",
+        "ColumnPagesPerVisit": "సందర్శనలో పుటలు",
+        "ColumnVisitDuration": "సందర్శన నిడివి",
+        "NPages": "%s పుటలు",
+        "OneMinute": "1 నిమి",
+        "OnePage": "1 పుట",
+        "PluginDescription": "సందర్శకుల ఆసక్తి గురించిన నివేదికలు: చూసిన పుటల సంఖ్య, సైటులో గడిపిన సమయం.",
+        "PlusXMin": "%s నిమి",
+        "VisitsPerDuration": "నిడివి ప్రకారం సందర్శనలు",
+        "VisitsPerNbOfPages": "పుటల సంఖ్య ప్రకారం సందర్శనలు",
+        "WidgetLengths": "సందర్శనల పొడవు",
+        "WidgetPages": "సందర్శనలో పుటలు"
+    }
+}

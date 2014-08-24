@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Aktivizēt",
+        "Activated": "Aktivizēts",
+        "Active": "Aktīvs",
+        "AuthorHomepage": "Autora vietne",
+        "Deactivate": "Deaktivizēt",
+        "Inactive": "Neaktīvs",
+        "LicenseHomepage": "Licences vietne",
+        "MainDescription": "Spraudņi paplašina Piwik funkcionalitāti. Pēc spraudņa instalācijas, Jūs to varat aktivizēt (vai deaktivizēt) šeit.",
+        "PluginDescription": "Spraudņu administrācijas skats",
+        "PluginHomepage": "Spraudņa vietne",
+        "PluginsManagement": "Spraudņu pārvaldība",
+        "Status": "Statuss",
+        "Version": "Versija"
+    }
+}

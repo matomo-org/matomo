@@ -1,0 +1,25 @@
+{
+    "CorePluginsAdmin": {
+        "ActionActivatePlugin": "הפעל תוסף",
+        "ActionInstall": "להתקין",
+        "Activate": "הפעל",
+        "Activated": "הופעל",
+        "Active": "פעיל",
+        "Activity": "פעילות",
+        "AuthorHomepage": "אתר היוצר",
+        "Authors": "כותבים",
+        "Deactivate": "כבה",
+        "Inactive": "לא פעיל",
+        "LicenseHomepage": "אתר רישון השימוש",
+        "MainDescription": "תוספים מרחיבים את היכולות של Piwik. ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
+        "MenuPlatform": "פלטפורמה",
+        "PluginDescription": "ממשק ניהול תוספים.",
+        "PluginHomepage": "אתר התוסף",
+        "PluginsManagement": "ניהול תוספים",
+        "Status": "מצב",
+        "Theme": "ערכת עיצוב",
+        "Themes": "ערכות עיצוב",
+        "ThemesManagement": "ניהול ערכות עיצוב",
+        "Version": "גרסה"
+    }
+}

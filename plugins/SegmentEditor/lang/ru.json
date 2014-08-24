@@ -1,0 +1,18 @@
+{
+    "SegmentEditor": {
+        "AddNewSegment": "Добавить новый сегмент",
+        "AutoArchiveRealTime": "отчёты по сегментам обрабатываются в реальном времени",
+        "ChooseASegment": "Выбрать сегмент",
+        "DefaultAllVisits": "Все посещения",
+        "OperatorAND": "И",
+        "OperatorOR": "ИЛИ",
+        "SaveAndApply": "Сохранить и применить",
+        "SegmentDisplayedAllWebsites": "все сайты",
+        "SegmentDisplayedThisWebsiteOnly": "только этот сайт",
+        "SegmentIsDisplayedForWebsite": "и отображается для",
+        "SelectSegmentOfVisitors": "Выберите сегмент посетителей:",
+        "ThisSegmentIsVisibleTo": "Этот сегмент видим для:",
+        "VisibleToAllUsers": "все пользователи",
+        "VisibleToMe": "меня"
+    }
+}

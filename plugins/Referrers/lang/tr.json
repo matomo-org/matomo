@@ -1,0 +1,17 @@
+{
+    "Referrers": {
+        "Campaigns": "Yönlendirici Kampanyaları",
+        "ColumnCampaign": "Kampanya",
+        "ColumnSearchEngine": "Arama Motoru",
+        "ColumnSocial": "Sosyal medya",
+        "DirectEntry": "Doğrudan Giriş",
+        "DirectEntryDocumentation": "Ziyaretçiniz web adresini yazarak siteye doğrudan giriş yapmış.",
+        "DistinctCampaigns": "farklı kampanyalar",
+        "Keywords": "Anahtar Kelimeler",
+        "SubmenuSearchEngines": "Arama Motorları ve Anahtar Kelimeler",
+        "SubmenuWebsites": "Websiteleri ve Sosyal Platform",
+        "TypeCampaigns": "%s kampanyalarından",
+        "WidgetExternalWebsites": "Yönlendiren Siteler",
+        "WidgetKeywords": "Anahtar Kelimeler"
+    }
+}

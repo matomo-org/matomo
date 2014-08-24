@@ -1,0 +1,15 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Neem contact op met het Piwik team!",
+        "DoYouHaveBugReportOrFeatureRequest": "Heeft u een bugmelding of een verzoek voor nieuwe functies?",
+        "IWantTo": "Ik wil:",
+        "LearnWaysToParticipate": "Ontdek op welke manieren je kunt %s bijdragen%s",
+        "ManuallySendEmailTo": "Gelieve uw bericht handmatig te zenden naar",
+        "PluginDescription": "Stuur uw feedback naar het Piwik team. Deel uw ideeën en suggesties met ons!",
+        "SendFeedback": "Stuur Feedback",
+        "SpecialRequest": "Heeft u een speciaal verzoek aan het Piwik team?",
+        "ThankYou": "Bedankt voor uw bijdrage om Piwik beter te maken!",
+        "TopLinkTooltip": "Vertel ons je waat je ervan denkt, of vraag om Professionele Ondersteuning.",
+        "VisitTheForums": "Bezoek de %s Forums %s"
+    }
+}

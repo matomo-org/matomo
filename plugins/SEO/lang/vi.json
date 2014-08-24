@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Xếp hạng Alexa",
+        "Bing_IndexedPages": "Các trang được lập chỉ mục Bing",
+        "Dmoz": "Các mục DMOZ",
+        "DomainAge": "Tuổi tên miền",
+        "ExternalBacklinks": "Các backlink ngoài (Majestic)",
+        "Google_IndexedPages": "Các trang được lập chỉ mục Google",
+        "Rank": "Xếp hạng",
+        "ReferrerDomains": "Các tên miền giới thiệu (Majestic)",
+        "SeoRankings": "Xếp hạng SEO",
+        "SEORankingsFor": "Xếp hạng SEO cho %s",
+        "ViewBacklinksOnMajesticSEO": "Xem các báo cáo Backlink ngoài trên MajesticSEO.com"
+    }
+}

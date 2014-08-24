@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Tên biến tùy chọn",
+        "ColumnCustomVariableValue": "Giá trị của biến tùy chọn",
+        "CustomVariables": "Các biến tùy chọn",
+        "CustomVariablesReportDocumentation": "Báo cáo này chứa thông tin về các biến tùy chỉnh. Vui lòng chọn tên biến để xem phân bố của các giá trị. %s Để tìm hiểu thêm thông tin chung về các biến tùy chỉnh, đọc %s Tài liệu hướng dẫn về biến tùy chỉnh trên piwik.org %s",
+        "PluginDescription": "Các biến tùy chỉnh là các cặp tên-giá trị mà bạn sử dụng đối với mỗi lần thăm trang web sử dụng hàm setVisitCustomVariables() trong API. Piwik sau đó sẽ báo cáo có bao nhiêu lượt truy cập, bao nhiêu trang, bao nhiêu lần chuyển đổi trang đối với từng biến.",
+        "ScopePage": "Trang phạm vi",
+        "ScopeVisit": "sự viếng thăm trong phạm vi nào đó"
+    }
+}

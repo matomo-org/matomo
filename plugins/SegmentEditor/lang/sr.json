@@ -1,0 +1,29 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Dodavanje uslova %s",
+        "AddNewSegment": "Dodavanje novog segmenta",
+        "AreYouSureDeleteSegment": "Da li ste sigurni da želite da obrišete ovaj segment?",
+        "AutoArchivePreProcessed": "segmentirani izveštaji su unapred pripremljeni (brže, zahteva archive.php cron)",
+        "AutoArchiveRealTime": "segmentirani izveštaji se obrađuju u realnom vremenu",
+        "ChooseASegment": "Izaberite segment",
+        "DataAvailableAtLaterDate": "Vaš segmentirani analitički izveštaj će biti na raspolaganju nešto kasnije. Izvinjavamo se zbog neprijatnosti.",
+        "DefaultAllVisits": "Sve posete",
+        "DragDropCondition": "Prevuci i Pusti uslov",
+        "LoadingSegmentedDataMayTakeSomeTime": "Obrada podataka može potrajati par trenutaka...",
+        "OperatorAND": "I",
+        "OperatorOR": "ILI",
+        "SaveAndApply": "Sačuvaj i primeni",
+        "SegmentDisplayedAllWebsites": "svi sajtovi",
+        "SegmentDisplayedThisWebsiteOnly": "samo ovaj sajt",
+        "SegmentIsDisplayedForWebsite": "i prikazan za",
+        "SegmentNotApplied": "Segment '%s' nije primenjen.",
+        "SegmentNotAppliedMessage": "Zahtevali ste podatke za korisnički definisani segment '%s' a trenutne postavke Piwik-a sprečavaju procesiranje izveštaja u realnom vremenu zbog očuvanja nivoa performansi.",
+        "SelectSegmentOfVisitors": "Izaberite segment posetilaca:",
+        "ThisSegmentIsVisibleTo": "Ovaj segment je vidljiv:",
+        "VisibleToAllUsers": "svi korisnici",
+        "VisibleToMe": "meni",
+        "YouDontHaveAccessToCreateSegments": "Nemate odgovarajući nivo pristupa da biste kreirali i menjali segmente.",
+        "YouMayChangeSetting": "Takođe možete promeniti podešavanja i u datoteci %s ili izmenom segmenta i izborom '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Morate biti prijavljeni kako biste mogli da kreirate i menjate segmente."
+    }
+}

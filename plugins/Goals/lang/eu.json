@@ -1,0 +1,25 @@
+{
+    "Goals": {
+        "AddGoal": "Gehitu helburua",
+        "AddNewGoal": "Gehitu helburu berria",
+        "AddNewGoalOrEditExistingGoal": "%sGehitu helburu berria%s edo %sEditatu%s dauden helburuak",
+        "ClickOutlink": "Egin klik kanpoko webgune baterako loturan",
+        "ColumnConversions": "Bihurketa",
+        "ConversionsOverview": "Bihurketen ikuspegi orokorra",
+        "CreateNewGOal": "Sortu helburu berria",
+        "DeleteGoalConfirm": "Ziur zaude %s helburua ezabatu nahi duzula?",
+        "Download": "Deskargatu fitxategia",
+        "ExternalWebsiteUrl": "kanpoko webgunearen URLa",
+        "Filename": "fitxategi-izena",
+        "GoalName": "Helburu-izena",
+        "Goals": "Helburuak",
+        "GoalsManagement": "Helburuen kudeaketa",
+        "GoalsOverview": "Helburuen ikuspegi orokorra",
+        "GoalX": "%s helburua",
+        "Optional": "(aukerazkoa)",
+        "Pattern": "Eredua",
+        "UpdateGoal": "Eguneratu helburua",
+        "URL": "URLa",
+        "ViewAndEditGoals": "Ikusi eta editatu helburuak"
+    }
+}

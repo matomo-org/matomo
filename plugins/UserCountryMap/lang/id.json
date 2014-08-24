@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "dan %s lain",
+        "Cities": "Kita",
+        "Countries": "Negara",
+        "DaysAgo": "%s hari lalu",
+        "GoalConversions": "%s konversi tujuan",
+        "Hours": "jam",
+        "HoursAgo": "%s jam lalu",
+        "map": "peta",
+        "Minutes": "menit",
+        "MinutesAgo": "%s menit lalu",
+        "None": "Tidak Ada",
+        "NoVisit": "Tidak ada kunjungan",
+        "RealTimeMap": "Peta Waktu-Nyata",
+        "Regions": "Wilayah",
+        "Searches": "%s pencarian",
+        "Seconds": "detik",
+        "SecondsAgo": "%s detik lalu",
+        "ShowingVisits": "Kunjungan Lokasi-Geo terakhir",
+        "Unlocated": "<b>%s<\/b> %p kunjungan dari %c lokasi-geo tidak diketahui.",
+        "VisitorMap": "Peta Pengunjung",
+        "WorldWide": "Seluruh Dunia"
+    }
+}

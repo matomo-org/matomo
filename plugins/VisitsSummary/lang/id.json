@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s rerata waktu pembangkitan",
+        "AverageVisitDuration": "%s rerata waktu kunjungan",
+        "GenerateQueries": "%s kueri dijalankan",
+        "GenerateTime": "%s detik untuk menghasilkan halaman",
+        "MaxNbActions": "%s tindakan maksimum dalam satu kunjungan",
+        "NbActionsDescription": "%s tindakan (menampilkan halaman, mengunduh, dan tautan keluar)",
+        "NbActionsPerVisit": "%s tindakan tiap kunjungan",
+        "NbDownloadsDescription": "%s unduhan",
+        "NbKeywordsDescription": "%s kata kunci unik",
+        "NbOutlinksDescription": "%s tautan keluar",
+        "NbPageviewsDescription": "%s tampilan halaman",
+        "NbSearchesDescription": "%s jumlah pencarian dalam situs Anda",
+        "NbUniqueDownloadsDescription": "%s unduhan unik",
+        "NbUniqueOutlinksDescription": "%s tautan keluar unik",
+        "NbUniquePageviewsDescription": "%s tampilan halaman unik",
+        "NbUniqueVisitors": "%s pengunjung unik",
+        "NbVisitsBounced": "%s kunjungan dengan pentalan (meninggalkan situs setelah mengunjungi satu halaman)",
+        "PluginDescription": "Laporan Analisis angka umum: kunjungan, pengunjung unik, jumlah tindakan, Tingkat Pentalan, dsb.",
+        "VisitsSummary": "Rangkuman Kunjungan",
+        "VisitsSummaryDocumentation": "Ini merupakan iktisar perkembangan kunjungan.",
+        "WidgetLastVisits": "Grafik kunjungan terakhir",
+        "WidgetOverviewGraph": "Iktisar dengan grafik",
+        "WidgetVisits": "Iktisar kunjungan"
+    }
+}

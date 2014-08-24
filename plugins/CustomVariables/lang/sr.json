@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Ime dodatnog parametra",
+        "ColumnCustomVariableValue": "Vrednost dodatnog parametra",
+        "CustomVariables": "Dodatni parametri",
+        "CustomVariablesReportDocumentation": "Ovaj izveštaj sadrži informacije o dodatnim parametrima. Kliknite na ime parametra kako biste videli distribuciju vrednosti. %s Za više informacija o dodatnim parametrima pogledajte %sCustom Variables na piwik.org%s",
+        "PluginDescription": "Dodatni parametri predstavljaju uređene parove ime, vrednost koje možete sami postaviti pomoću JavaScript API funkcije setVisitCustomVariables(). U tom slučaju Piwik će prikazati koliko je bilo poseta, otvaranja stranica i ciljeva za svaki od zadatih parova.",
+        "ScopePage": "oblast strana",
+        "ScopeVisit": "oblast poseta"
+    }
+}

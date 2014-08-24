@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Evolution",
+        "LoadingWebsites": "Loading websites",
+        "PluginDescription": "Displays multi-site executive summary\/statistics. Currently maintained as a core Piwik plugin.",
+        "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites.",
+        "Pagination": "%s - %s of %s"
+    }
+}

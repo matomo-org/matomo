@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Ações de Visitantes de Retorno",
+        "ColumnAverageVisitDurationForReturningVisitors": "Taxa. Duração das visitas para visitantes que retornam",
+        "ColumnAvgActionsPerReturningVisit": "Taxa. Ações por visita retornada",
+        "ColumnBounceCountForReturningVisits": "Contagem de saltos para visitas recorrentes",
+        "ColumnBounceRateForReturningVisits": "Taxa da saída para Visitantes de Retorno",
+        "ColumnMaxActionsInReturningVisit": "Máximo de ações em uma visita recorrente",
+        "ColumnNbReturningVisitsConverted": "Número de visitas convertidas que retornaram",
+        "ColumnReturningVisits": "Visitantes de Retorno",
+        "ColumnSumVisitLengthReturning": "O tempo total gasto por visitantes de retorno (em segundos)",
+        "ColumnUniqueReturningVisitors": "Visitantes únicos que retornaram",
+        "PluginDescription": "Reportar diferentes estatísticas sobre os visitantes que retornam versus os visitantes pela primeira vez.",
+        "ReturnActions": "%s ações por visitante de retorno",
+        "ReturnAverageVisitDuration": "%s média da duração da visita para visitantes que retornam",
+        "ReturnAvgActions": "%s ações por visita retornada",
+        "ReturnBounceRate": "%s visitantes de retorno deixaram o website após uma página",
+        "ReturningVisitDocumentation": "Uma visita de retorno é (em oposição a uma nova visita) feito por alguém que tenha visitado o site pelo menos uma vez antes.",
+        "ReturningVisitsDocumentation": "Esta é uma visão geral das visitas de retorno.",
+        "ReturnVisits": "%s visitantes de retorno",
+        "SubmenuFrequency": "Frequência",
+        "WidgetGraphReturning": "Gráfico de Visitantes de Retorno",
+        "WidgetOverview": "Visão Geral da Frequência"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "Referrers": {
+        "Campaigns": "Кампанії",
+        "ColumnCampaign": "Кампанія",
+        "ColumnSearchEngine": "Пошукова машина",
+        "ColumnWebsite": "Веб-сайт",
+        "ColumnWebsitePage": "Сторінка Веб-сайту",
+        "DetailsByReferrerType": "Деталі по типу реферера",
+        "DirectEntry": "Прямі заходи",
+        "Distinct": "Унікальні реферери по типу реферера",
+        "DistinctCampaigns": "унікальні компанії",
+        "DistinctKeywords": "унікальні ключові слова",
+        "DistinctSearchEngines": "унікальні пошукові машини",
+        "DistinctWebsites": "унікальні веб-сайти",
+        "Keywords": "Ключові слова",
+        "PluginDescription": "Звіти та дані реферерів: пошукові машини, ключові слова, веб-сайти, відслідковування кампаній, прямі заходи.",
+        "Referrers": "Реферер",
+        "SearchEngines": "Пошукові системи",
+        "SubmenuSearchEngines": "Пошукові системи і ключові слова",
+        "SubmenuWebsites": "Веб-сайти",
+        "Type": "Тип реферера",
+        "TypeCampaigns": "%s з кампаній",
+        "TypeDirectEntries": "%s прямих заходжень",
+        "TypeSearchEngines": "%s з пошукових систем",
+        "TypeWebsites": "%s з веб-сайтів",
+        "UsingNDistinctUrls": "(використовуючи %s унікальні URL)",
+        "Websites": "Веб-сайти",
+        "WidgetExternalWebsites": "Список зовнішніх веб-сайтів",
+        "WidgetKeywords": "Список ключових слів"
+    }
+}

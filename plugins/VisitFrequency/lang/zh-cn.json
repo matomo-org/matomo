@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "老访客的活动次数",
+        "ColumnAverageVisitDurationForReturningVisitors": "老访客的平均停留时间(秒)",
+        "ColumnAvgActionsPerReturningVisit": "老访客的平均活动次数",
+        "ColumnBounceCountForReturningVisits": "老访客的跳出次数",
+        "ColumnBounceRateForReturningVisits": "老访客的跳出率",
+        "ColumnMaxActionsInReturningVisit": "老访客的最大活动次数",
+        "ColumnNbReturningVisitsConverted": "老访客的转化次数",
+        "ColumnReturningVisits": "老访客的访问次数",
+        "ColumnSumVisitLengthReturning": "老访客总的停留时间 (秒)",
+        "ColumnUniqueReturningVisitors": "独立重访客数",
+        "PluginDescription": "关于老访客与新访客的报表。",
+        "ReturnActions": "%s 个老访客的活动次数",
+        "ReturnAverageVisitDuration": "%s 老访客的平均停留时间",
+        "ReturnAvgActions": "%s 个老访客的平均活动次数",
+        "ReturnBounceRate": "%s 老访客的跳出率 (浏览一个页面后就离开)",
+        "ReturningVisitDocumentation": "老访客 (相对于新访客) 指至少访问过这个网站一次的访客。",
+        "ReturningVisitsDocumentation": "这是老访客的总表。",
+        "ReturnVisits": "%s 个老访客的访问次数",
+        "SubmenuFrequency": "频率",
+        "WidgetGraphReturning": "老访客趋势",
+        "WidgetOverview": "频率总表"
+    }
+}

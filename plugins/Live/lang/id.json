@@ -1,0 +1,21 @@
+{
+    "Live": {
+        "GoalType": "Jenis",
+        "KeywordRankedOnSearchResultForThisVisitor": "Kata kunci %1$s menuduki peringkat %2$s dalam halaman pencarian %3$s untuk pengunjung ini",
+        "LastHours": "Jam %s terakhir",
+        "LastMinutes": "Menit %s terakhir",
+        "LinkVisitorLog": "Tampilkan catatan pengunjung lengkap",
+        "MorePagesNotDisplayed": "halaman lain untuk pengguna tersebut tak dapat ditampilkan",
+        "NbVisitor": "1 pengunjung",
+        "NbVisitors": "%s pengunjung",
+        "PageRefreshed": "Jumlah kali halaman ini ditampilkan \/ disegarkan berurutan.",
+        "PluginDescription": "Mengintai pengunjung Anda, langsung, secara waktu-nyata!",
+        "RealTimeVisitorCount": "Jumlah Pengunjung Waktu Nyata",
+        "Referrer_URL": "URL Pengarah",
+        "SimpleRealTimeWidget_Message": "%s dan %s dalam %s terakhir.",
+        "VisitorLog": "Catatan Pengunjung",
+        "VisitorLogDocumentation": "Tabel berikut menampilkan kunjungan terakhir selama rentang tanggal yang dipilih.%s Bila hari ini termasuk dalam rentang tanggal, Anda dapat melihat pengunjung Anda dalam waktu nyata! %s Data yang ditampilkan di sini selalu ditampilkan secara langsung, tidak terpengaruh bagaimana Anda mengatur pengarsipan di tugas Cron.",
+        "VisitorsInRealTime": "Pengunjung dalam Waktu Nyata",
+        "VisitorsLastVisit": "Pengunjung ini telah berkunjung %s hari yang lalu."
+    }
+}

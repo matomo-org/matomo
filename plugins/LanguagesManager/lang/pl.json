@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "O tłumaczeniach Piwik",
+        "PluginDescription": "Ta wtyczka będzie wyświetlać listę osiągalnych tłumaczeń interfejsu Piwik. Wybrany język zostanie zapisany w konfiguracji każdego z użytkowników."
+    }
+}

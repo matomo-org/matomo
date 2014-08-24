@@ -1,0 +1,24 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Thêm điều kiện %s",
+        "AddNewSegment": "Thêm segment mới",
+        "AreYouSureDeleteSegment": "Bạn có chắc chắn muốn xóa phân đoạn này?",
+        "AutoArchivePreProcessed": "Các báo cáo phân đoạn là tiền xử lý (nhanh hơn, cần thiết archive.php cron)",
+        "AutoArchiveRealTime": "Các báo cáo phân đoạn được xử lý trong thời gian thực",
+        "ChooseASegment": "Chọn một phân đoạn",
+        "DefaultAllVisits": "Tất cả lượt truy cập",
+        "DragDropCondition": "Kéo và thả",
+        "LoadingSegmentedDataMayTakeSomeTime": "Xử lý dữ liệu khách truy cập bị phân đoạn có thể mất một vài phút ...",
+        "OperatorAND": "AND",
+        "OperatorOR": "OR",
+        "SaveAndApply": "Lưu và áp dụng",
+        "SegmentDisplayedAllWebsites": "Tất cả các website",
+        "SegmentDisplayedThisWebsiteOnly": "Chỉ website này",
+        "SegmentIsDisplayedForWebsite": "và hiển thị cho",
+        "SelectSegmentOfVisitors": "Chọn một phân đoạn của khách truy cập:",
+        "ThisSegmentIsVisibleTo": "Phân đoạn này có thể nhìn thấy:",
+        "VisibleToAllUsers": "Tất cả người dùng",
+        "VisibleToMe": "Tôi",
+        "YouMustBeLoggedInToCreateSegments": "Bạn phải đăng nhập để tạo và chỉnh sửa các phân đoạn khách hàng."
+    }
+}

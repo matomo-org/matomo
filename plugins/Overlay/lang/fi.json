@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s klikkausta",
+        "ClicksFromXLinks": "%1$s klikkaukset yhdestä %2$s:n linkeistä",
+        "Domain": "Verkkotunnus",
+        "ErrorNotLoading": "Sivun leijuke sessiota ei voitu käynnistää vielä.",
+        "ErrorNotLoadingDetails": "On mahdollista, ettei ladatulla sivulla ole Piwik seurantakoodia. Yritä käynnistää leijuke toiselle sivulle sivuraportista.",
+        "ErrorNotLoadingDetailsSSL": "Koska käytät Piwikiä https:llä, todennäköisin syy on, ettei verkkosivusi tue SSL:ää. Kokeile käyttää Piwikiä http:llä.",
+        "ErrorNotLoadingLink": "Klikkaa tästä saadaksesi lisää vinkkejä vianetsintään",
+        "Link": "Linkki",
+        "Location": "Sijainti",
+        "NoData": "Tällä sivulla ei ole tietoja valitulla ajalla.",
+        "OneClick": "1 klikkaus",
+        "OpenFullScreen": "Siirry koko näytön tilaan (ei sivupalkkia)",
+        "Overlay": "Sivun leijuke",
+        "PluginDescription": "Näe analyysidata leijukekerroksena tämänhetkisellä verkkosivullasi.",
+        "RedirectUrlError": "Yrität avata sivun leijuketta URL:lle \"%s\". %s mikän Piwikin asetuksien domain ei vastaa linkkiä.",
+        "RedirectUrlErrorAdmin": "Voit lisätä domainin ylimääräisenä URL:nä %sasetuksissa%s.",
+        "RedirectUrlErrorUser": "Pyydä ylläpitää lisäämään domain ylimääräisenä verkkosivuna."
+    }
+}

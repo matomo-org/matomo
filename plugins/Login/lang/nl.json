@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Een bevestigings link is verstuurd naar je mailbox. Controleer je email en open de link om je wachtwoord wijzigen actie te voltooien.",
+        "ContactAdmin": "Mogelijke reden: uw host heeft mogelijk de mail() functie geblokkeerd. <br \/>Neem contact op met uw Piwik beheerder.",
+        "ExceptionPasswordMD5HashExpected": "De wachtwoord parameter moet een MD5 hash zijn van het wachtwoord.",
+        "InvalidNonceOrHeadersOrReferrer": "Securityformulier gefaald. Herlaad het formulier en controleer dat cookies worden toegestaan. Als u een proxyserver gebruikt, %s configureer Piwik dan zodanig dat deze proxy headers%s accepteert, die de Hostheaders doorstuurt. Controleer tevens dat de refererheader correct wordt verzonden.",
+        "InvalidOrExpiredToken": "Token is ongeldig of is verlopen",
+        "InvalidUsernameEmail": "Ongeldige gebruikersnaam en\/of e-mail adres",
+        "LogIn": "Log in",
+        "LoginOrEmail": "Login of E-mail",
+        "LoginPasswordNotCorrect": "Gebruikersnaam & Wachtwoord niet correct",
+        "LostYourPassword": "Wachtwoord vergeten?",
+        "MailPasswordChangeBody": "Hallo %1$s,\n\nEen wachtwoord reset verzoek was ontvangen vanaf %2$s. Om deze wachtwoord wijziging te bevestigen zodat je kan inloggen met je nieuwe login gegevens, open de volgende link:\n\n%3$s\n\nOpmerking: Deze token vervalt na 24 uur.\n\nBedankt voor het gebruik van Piwik!",
+        "MailTopicPasswordChange": "Bevestig wachtwoord wijziging",
+        "PasswordChanged": "Je wachtwoord is veranderd.",
+        "PasswordRepeat": "Wachtwoord (herhaal)",
+        "PasswordsDoNotMatch": "Wachtwoorden komen niet overeen",
+        "RememberMe": "Onthoud mij",
+        "ResetPasswordInstructions": "Voer een nieuw wachtwoord in voor je account."
+    }
+}

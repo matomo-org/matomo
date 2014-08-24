@@ -1,0 +1,26 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s duració mitja de la visita",
+        "GenerateQueries": "S'ha executat un total de %s consultes",
+        "GenerateTime": "S'han trigat %s segons en generar la pàgina",
+        "MaxNbActions": "Hi ha %s accions màximes en una visita",
+        "NbActionsDescription": "%s accions",
+        "NbActionsPerVisit": "%s accions (visualitzacions de pàgina, descàrregues i enllaços exteriors) per visita",
+        "NbDownloadsDescription": "%s descàrregues",
+        "NbKeywordsDescription": "%s paraules clau úniques",
+        "NbOutlinksDescription": "%s enllaços externs",
+        "NbPageviewsDescription": "%s visualitzacions de pàgina",
+        "NbSearchesDescription": "%s cerques totals al lloc web",
+        "NbUniqueDownloadsDescription": "%s descàrregues úniques",
+        "NbUniqueOutlinksDescription": "%s enllaços externs únics",
+        "NbUniquePageviewsDescription": "%s visualitzacions de pàgina úniques",
+        "NbUniqueVisitors": "%s visitants únics",
+        "NbVisitsBounced": "%s visites han rebotat (abandonat el lloc després de veure una pàgina)",
+        "PluginDescription": "Informa de les principals analítiques: visitants, visitants únics, nombre d'accions, rati de rebots,etc.",
+        "VisitsSummary": "Resum de les visites",
+        "VisitsSummaryDocumentation": "Aquesta és una visió general de l'evolució visita.",
+        "WidgetLastVisits": "Gràfic de les darreres visites",
+        "WidgetOverviewGraph": "Resum amb gràfic",
+        "WidgetVisits": "Resum de les visites"
+    }
+}

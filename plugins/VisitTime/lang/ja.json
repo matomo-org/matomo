@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "ローカルタイム",
+        "ColumnServerTime": "サーバタイム",
+        "LocalTime": "ローカルタイム単位のビジット",
+        "NHour": "%s時",
+        "PluginDescription": "ローカルタイムとサーバータイムでリポートします。 サーバタイムの情報は、ウェブサイトのメンテナンスを予定するのに便利です。",
+        "ServerTime": "サーバタイム単位のビジット",
+        "SubmenuTimes": "時間",
+        "WidgetLocalTime": "ローカルタイム単位のビジット",
+        "WidgetServerTime": "サーバタイム単位のビジット"
+    }
+}

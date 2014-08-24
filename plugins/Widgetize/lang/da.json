@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Åben i et nyt vindue",
+        "PluginDescription": "Programudvidelsen gør det nemt at eksportere Piwik moduler til din blog, hjemmeside eller på iGoogle og Netvibes!",
+        "TopLinkTooltip": "Eksporter Piwik rapporter som moduler og indlejre dit kontrolpanel i din applikation som en iframe."
+    }
+}

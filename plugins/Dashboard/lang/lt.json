@@ -1,0 +1,13 @@
+{
+    "Dashboard": {
+        "AddPreviewedWidget": "Įdėti peržiūrėtą valdiklį į skydelį",
+        "Dashboard": "Skydelis",
+        "DeleteWidgetConfirm": "Ar tikrai norite pašalinti šį valdiklį iš skydelio?",
+        "LoadingWidget": "Įkeliamas valdiklis, luktelėkite...",
+        "Maximise": "Padidinti",
+        "PluginDescription": "Jūsų žiniatinklio analizės sprendimo skydelis. Galite pritaikyti skydelį savo poreikiams: pridėti naujų valdiklių, pakeisti jų išdėstymo tvarką. Kiekvienas naudotojas gali susikurti savo asmeninį skydelį.",
+        "SelectWidget": "Pasirinkite valdiklį, kurį norite įdėti į skydelį",
+        "WidgetNotFound": "Valdiklis nerastas",
+        "WidgetPreview": "Valdiklio peržiūra"
+    }
+}

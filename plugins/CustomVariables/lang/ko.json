@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "맞춤 변수 이름",
+        "ColumnCustomVariableValue": "맞춤 변수 값",
+        "CustomVariables": "맞춤 변수",
+        "CustomVariablesReportDocumentation": "이 보고서는 맞춤 변수에 대한 정보를 포함합니다. 변수 이름을 클릭하여 값의 분포를 확인할 수 있습니다. %s 맞춤 변수에 대한 자세한 내용은 %spiwik.org의 맞춤 변수 설명서%s를 참조하세요.",
+        "PluginDescription": "맞춤 변수는 이름과 값으로 이루어집니다. Javascript API의 setVisitCustomVariables() 함수를 사용하여 방문 수를 설정할 수 있습니다. Piwik은 그 이름과 값에 대한 방문수와 페이지 전환수를 보고합니다.",
+        "ScopePage": "페이지 범위",
+        "ScopeVisit": "방문 범위"
+    }
+}

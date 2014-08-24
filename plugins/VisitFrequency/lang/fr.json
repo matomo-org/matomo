@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Actions des visites retour",
+        "ColumnAverageVisitDurationForReturningVisitors": "Durée moyenne des visites pour les visiteurs connus (en secondes)",
+        "ColumnAvgActionsPerReturningVisit": "Nombre d'actions moyen par visiteur connu.",
+        "ColumnBounceCountForReturningVisits": "Compteur rebond pour visites de retour",
+        "ColumnBounceRateForReturningVisits": "Pourcentage de rebond par les visites retour",
+        "ColumnMaxActionsInReturningVisit": "Actions maximum dans une visite de retour",
+        "ColumnNbReturningVisitsConverted": "Nombre de visites converties de retour",
+        "ColumnReturningVisits": "Visites retour",
+        "ColumnSumVisitLengthReturning": "Le temps total passé par les visiteurs de retour (en secondes)",
+        "ColumnUniqueReturningVisitors": "Visiteurs uniques de retour",
+        "PluginDescription": "Effectue des rapports sur les visiteurs déjà venus vis-à-vis des nouveaux visiteurs.",
+        "ReturnActions": "%s actions de visites de visiteurs connus",
+        "ReturnAverageVisitDuration": "%s durée moyenne de la visite des visiteurs connus",
+        "ReturnAvgActions": "%s actions par visiteur connu",
+        "ReturnBounceRate": "%s visiteurs connus ont survolé (quitté le site après une page)",
+        "ReturningVisitDocumentation": "Une visite de retour (par opposition à une nouvelle visite) est effectuée par quelqu'un qui a déjà visité le site web au moins une fois auparavant.",
+        "ReturningVisitsDocumentation": "Ceci est un aperçu des visites de retour.",
+        "ReturnVisits": "%s visites de visiteurs connus",
+        "SubmenuFrequency": "Fréquence",
+        "WidgetGraphReturning": "Graphique de visites de visiteurs connus",
+        "WidgetOverview": "Récapitulatif de la Fréquence"
+    }
+}

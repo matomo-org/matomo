@@ -1,0 +1,10 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administracija",
+        "EmailServerSettings": "Postavke email servera",
+        "LogoUpload": "Odaberi logo za upload",
+        "MenuGeneralSettings": "Opće postavke",
+        "PluginDescription": "Administratorsko područje PIWIK.",
+        "TrackingCode": "Kod za praćenje"
+    }
+}

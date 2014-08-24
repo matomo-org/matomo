@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Poziţie în Alexa",
+        "Bing_IndexedPages": "Pagini indexate de Bing",
+        "Dmoz": "DMOZ intrari",
+        "DomainAge": "Vechime domeniu",
+        "ExternalBacklinks": "Backlink-uri externe (Majestic)",
+        "Google_IndexedPages": "Pagini indexate de Google",
+        "Rank": "Poziţie",
+        "ReferrerDomains": "Referrer Domenii (Majestic)",
+        "SeoRankings": "Poziţionări SEO",
+        "SEORankingsFor": "Poziţionări SEO pentru %s",
+        "ViewBacklinksOnMajesticSEO": "Vezi backlink externe cu raport pe MajesticSEO.com"
+    }
+}

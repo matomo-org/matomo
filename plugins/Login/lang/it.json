@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Un link di conferma è stato inviato alla tua casella di posta. Controlla la tua e-mail e visita questo link per autorizzare la richiesta di modifica della password.",
+        "ContactAdmin": "Possibile ragione: il tuo host potrebbe non avere attive le funzionalità di e-mail.<br \/>Per favore, contatta l'amministratore del server.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utente con accesso Super User non può essere autenticato utilizzando il sistema '%s'.",
+        "ExceptionPasswordMD5HashExpected": "I parametri della password sono seguiti da un hash MD5 della password.",
+        "InvalidNonceOrHeadersOrReferrer": "Sicurezza modulo non è riuscita. Si prega di ricaricare il modulo e verificare che i cookie siano abilitati. Se si utilizza un server proxy, è necessario %s configurare Piwik per accettare gli header del proxy %s che inoltri l'header host. Inoltre, verificare che l'intestazione Referer venga inviata correttamente.",
+        "InvalidOrExpiredToken": "Il token non è valido o è scaduto",
+        "InvalidUsernameEmail": "Username e\/o indirizzo e-mail non validi",
+        "LogIn": "Entra",
+        "LoginOrEmail": "Login o E-mail",
+        "LoginPasswordNotCorrect": "Username & Password non corretti",
+        "LostYourPassword": "Hai perso la password?",
+        "MailPasswordChangeBody": "Ciao %1$s, una richiesta di reimpostazione della password è stata ricevuta da %2$s. Per confermare la modifica della password in modo da poter accedere con le nuove credenziali, visitare il seguente link: %3$s Nota: questo token scade tra 24 ore. E vi ringrazio per l'utilizzo di Piwik!",
+        "MailTopicPasswordChange": "Conferma Cambio Password",
+        "PasswordChanged": "La tua password è stata cambiata.",
+        "PasswordRepeat": "Password (ripeti)",
+        "PasswordsDoNotMatch": "La password non combacia.",
+        "PluginDescription": "Plugin di Autenticazione Login, legge le creadenziali dal file config\/config.ini.php per il Super User iniziale, e dal database per gli altri utenti. Può essere sostituito con facilità per introdurre un nuovo meccanismo di autenticazione (OpenID, htaccess, custom Auth, ecc.).",
+        "RememberMe": "Ricordami",
+        "ResetPasswordInstructions": "Immetti una nuova password per il tuo account."
+    }
+}

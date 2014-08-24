@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "오늘에 해당하는 데이터가 없는 경우는 %s 플러그인을 사용하여 처음 약간의 데이터를 생성할 수 있습니다. %s 플러그인을 활성화하고 관리 영역에서 '방문자 생성기'메뉴를 클릭하세요.",
+        "KeepTokenSecret": "token_auth는 외부 로그인을 위한 비밀키입니다. %s 절대로 공유하지 마세요 %s!",
+        "LoadedAPIs": "성공적으로 %s API를 불러옴",
+        "MoreInformation": "Piwik API에 대한 자세한 내용은 %sIntroduction to Piwik API %s 문서와 %sPiwik API Reference%s 문서를 참조하세요.",
+        "PluginDescription": "Piwik의 모든 데이터는 간단한 API를 통해 사용할 수 있습니다. 이 플러그인은 xml, json, php, csv 등 웹 분석 데이터를 얻기 위해 호출 할 수있는 웹서비스의 진입점입니다.",
+        "QuickDocumentationTitle": "API 퀵 가이드",
+        "TopLinkTooltip": "JSON, XML 등의 간단한 API를 통해 프로그래밍 방식으로 웹 로그 분석 데이터에 접근할 수 있습니다.",
+        "UserAuthentication": "용자 인증",
+        "UsingTokenAuth": "%s 스크립트 (crontab 등)에서 요청 데이터를 얻고 싶다면 %s는 API를 호출하는 URL (인증 필요)에 매개 변수 %s를 추가해야합니다."
+    }
+}

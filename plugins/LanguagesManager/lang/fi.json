@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Tietoja Piwikin käännöksistä",
+        "PluginDescription": "Tämä lisäosa listaa saatavilla olevat kielet Piwikin käyttöliittymässä. Valittu kieli tallennetaan käyttäjäkohtaisesti."
+    }
+}

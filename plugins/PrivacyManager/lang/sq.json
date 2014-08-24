@@ -1,0 +1,23 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpDescription": "Përzgjidhni \"Po\" nëse doni që Piwik-u të mos gjurmojë adresa IP të përcaktuara qartë.",
+        "AnonymizeIpInlineHelp": "Anonimizoje bajtin e fundit të adresave IP të vizitorëve, në pajtim me ligjet\/udhëzimet vendore për vetësinë.",
+        "AnonymizeIpMaskLengtDescription": "Përzgjidhni sa bajte të maskohen te IP-ja e vizitorit.",
+        "AnonymizeIpMaskLength": "%s bajt(e) - p.sh. %s",
+        "ClickHereSettings": "Klikoni këtu që të shkoni te rregullimet mbi %s.",
+        "DeleteLogDescription2": "Kur aktivizoni fshirjen e vetvetishme të regjistrimeve, duhet të siguroheni që janë përpunuar krejt raportet e ditës së mëparshme, që të mos humbni të dhëna.",
+        "DeleteLogInfo": "Regjistrimet nga tabelat vijuese do të fshihen: %s",
+        "DeleteLogsOlderThan": "Fshi regjistrime më të vjetër se",
+        "DeleteMaxRows": "Numër maksimum rreshtash për t’u fshirë njëherazi:",
+        "DeleteMaxRowsNoLimit": "pa kufi",
+        "LastDelete": "Fshirja e fundit u krye më",
+        "LeastDaysInput": "Ju lutem, jepni një numër ditësh më të madh se %s.",
+        "MenuPrivacySettings": "Privatësi",
+        "NextDelete": "Fshirja pasuese është planifikuar më",
+        "PluginDescription": "Përshtateni Piwik-un për ta bërë privatësinë të përputhshme me legjislacionin ekzistues.",
+        "Teaser": "Në këtë faqe, mund ta përshtatni Piwik-un që privatësi në të të jetë në pajtim me legjislacionin në fuqi, duke: %s anonimizuar IP-të e vizitorëve%s, %s hequr automatikisht nga baza e të dhënave regjistrime të vjetër vizitorësh%s, dhe %s duke ofruar një mekanizëm Opt-out për site-in tuaj web%s.",
+        "TeaserHeadline": "Rregullime Privatësie",
+        "UseAnonymizeIp": "Anonimizoni adresat IP të Vizitorëve",
+        "UseDeleteLog": "Fshiji rregullisht te baza e të dhënave regjistrimet e vjetra të përdoruesve"
+    }
+}

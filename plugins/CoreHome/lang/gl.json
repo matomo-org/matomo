@@ -1,0 +1,11 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Non hai datos nesta categoría. Intente \"Incluir todos os datos\".",
+        "PageOf": "%1$s de %2$s",
+        "PeriodDay": "Día",
+        "PeriodMonth": "Mes",
+        "PeriodWeek": "Semana",
+        "PeriodYear": "Ano",
+        "ShowJSCode": "Ver o código javascript para insertar"
+    }
+}

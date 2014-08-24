@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s cliques",
+        "ClicksFromXLinks": "%1$s cliques de um dos %2$s links",
+        "Domain": "Domínio",
+        "ErrorNotLoading": "A sessão de sobreposição de página (Page Overlay) ainda não pode ser exibida.",
+        "ErrorNotLoadingDetails": "Talvez a página carregada no lado direito não tem o código JS de rastreamento. Neste caso, tente iniciar sobreposição para uma página diferente das páginas do relatório.",
+        "ErrorNotLoadingDetailsSSL": "Desde que você está usando Piwik sobre https, a causa mais provável é que o seu site não suporta SSL. Tente usar Piwik sobre http.",
+        "ErrorNotLoadingLink": "Clique aqui para obter mais dicas para solução de problemas",
+        "Link": "Link",
+        "Location": "Localização",
+        "NoData": "Não há dados para esta página durante o período selecionado.",
+        "OneClick": "1 clique",
+        "OpenFullScreen": "Ir para tela cheia (sem barra lateral)",
+        "Overlay": "Sobreposição de Página",
+        "PluginDescription": "Veja os dados do Google Analytics como uma sobreposição no site real.",
+        "RedirectUrlError": "Você está tentando abrir sobreposição de página para a URL \"%s\". %s Nenhum dos domínios configurados no Piwik corresponde ao link.",
+        "RedirectUrlErrorAdmin": "Você pode adicionar um domínio como uma URL adicional %sem definições%s.",
+        "RedirectUrlErrorUser": "Solicite ao seu administrador para adicionar o domínio como uma URL adicional."
+    }
+}

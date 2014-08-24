@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Fornecedor",
+        "PluginDescription": "Relata os Fornecedores dos visitantes.",
+        "ProviderReportDocumentation": "Este relatório mostra quais os ISPs que os seus visitantes usaram para aceder ao website. Você pode clicar num nome do ISP para obter mais detalhes. %s Se o Piwik não pode determinar o ISP do visitante, é listado como IP.",
+        "SubmenuLocationsProvider": "Localizações & Fornecedores",
+        "WidgetProviders": "Fornecedores"
+    }
+}

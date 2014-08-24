@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Pages per visit",
+        "ColumnVisitDuration": "Visit duration",
+        "Engagement": "Engagement",
+        "NPages": "%s pages",
+        "OneMinute": "1 min",
+        "OnePage": "1 page",
+        "PluginDescription": "Reports about the Visitor Interest: number of pages viewed, time spent on the Website.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Visit number",
+        "VisitsByDaysSinceLast": "Visits by days since last visit",
+        "visitsByVisitCount": "Visits by Visit Number",
+        "VisitsPerDuration": "Visits per visit duration",
+        "VisitsPerNbOfPages": "Visits per number of pages",
+        "WidgetLengths": "Length of Visits",
+        "WidgetLengthsDocumentation": "In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.",
+        "WidgetPages": "Pages per Visit",
+        "WidgetPagesDocumentation": "In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.",
+        "WidgetVisitsByDaysSinceLast": "Visits by Days Since Last Visit",
+        "WidgetVisitsByDaysSinceLastDocumentation": "In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.",
+        "WidgetVisitsByNumDocumentation": "In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times."
+    }
+}
