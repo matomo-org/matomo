@@ -249,8 +249,9 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $input = array('nb_visits' => 6, 'nb_random' => 8);
 
         $response = $this->jsonBuilder->renderArray($input);
+        $expected = json_encode($input);
 
-        $this->assertEquals('[{"nb_visits":6,"nb_random":8}]', $response);
+        $this->assertEquals($expected, $response);
         $this->assertNoJsonError($response);
     }
 
@@ -262,8 +263,9 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         );
 
         $response = $this->jsonBuilder->renderArray($input);
+        $expected = json_encode($input);
 
-        $this->assertEquals('[{"nb_visits":6,"nb_random":8},{"nb_visits":3,"nb_random":4}]', $response);
+        $this->assertEquals($expected, $response);
         $this->assertNoJsonError($response);
     }
 

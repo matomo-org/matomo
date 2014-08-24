@@ -52,7 +52,9 @@ class Json extends ApiRenderer
         $result = $this->renderDataTable($array);
 
         // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
-        if (Piwik::isAssociativeArray($array)) {
+        if (!empty($array)
+            && Piwik::isAssociativeArray($array)
+        ) {
             $result = substr($result, 1, strlen($result) - 2);
         }
 
