@@ -12,6 +12,9 @@ If an API returns an indexed array, it is now possible to use `filter_limit` and
 #### Internal change
 We removed our own autoloader that was used to load Piwik files in favor of the composer autoloader which we already have been using for some libraries. This means the file `core/Loader.php` will no longer exist. In case you are using Piwik from Git make sure to run `php composer.phar self-update && php composer.phar install` to make your Piwik work again. Also make sure to no longer include `core/Loader.php` in case it is used in any custom script.
 
+### New commmands
+* `core:run-scheduled-tasks` Let's you run all scheduled tasks due to run at this time. Useful for instance when testing tasks.
+
 ## Piwik 2.5.0
 
 ### Breaking Changes
