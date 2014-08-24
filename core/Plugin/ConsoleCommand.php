@@ -20,20 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConsoleCommand extends SymfonyCommand
 {
-    /**
-     * Constructor.
-     *
-     * @param string|null $name The name of the command, eg, `'generate:api'`.
-     */
-    public function __construct($name = null)
-    {
-        if (!Common::isPhpCliMode()) {
-            throw new \RuntimeException('Only executable in CLI mode');
-        }
-
-        parent::__construct($name);
-    }
-
     public function writeSuccessMessage(OutputInterface $output, $messages)
     {
         $lengths = array_map('strlen', $messages);
