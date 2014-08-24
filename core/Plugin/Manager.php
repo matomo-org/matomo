@@ -652,9 +652,11 @@ class Manager extends Singleton
 
         $cache        = new CacheFile('tracker', 43200); // ttl=12hours
         $cacheKey     = 'PluginTranslations-' . $language;
+        $cacheKey    .= '-' . md5(implode('', $this->getLoadedPluginsName())); // makes sure to create a translation in case loaded plugins change (ie Tests vs Tracker vs UI etc)
         $translations = $cache->get($cacheKey);
 
         if (!empty($translations) &&
+            is_array($translations) &&
             !Development::isEnabled()) {
 
             Translate::mergeTranslationArray($translations);
@@ -665,13 +667,14 @@ class Manager extends Singleton
         $pluginNames  = self::getAllPluginsNames();
 
         foreach ($pluginNames as $pluginName) {
-            if ($this->isPluginThirdPartyAndBogus($pluginName)) {
-                continue;
-            }
+            if ($this->isPluginLoaded($pluginName) ||
+                $this->isPluginBundledWithCore($pluginName)) {
 
-            $this->loadTranslation($pluginName, $language);
-            if (isset($GLOBALS['Piwik_translations'][$pluginName])) {
-                $translations[$pluginName] = $GLOBALS['Piwik_translations'][$pluginName];
+                $this->loadTranslation($pluginName, $language);
+
+                if (isset($GLOBALS['Piwik_translations'][$pluginName])) {
+                    $translations[$pluginName] = $GLOBALS['Piwik_translations'][$pluginName];
+                }
             }
         }
 
