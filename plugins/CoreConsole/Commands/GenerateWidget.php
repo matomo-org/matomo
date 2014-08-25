@@ -34,7 +34,7 @@ class GenerateWidget extends GeneratePluginBase
         $category   = $this->getCategory($input, $output);
 
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array('ExampleRssWidget' => $pluginName,
+        $replace        = array('ExamplePlugin'    => $pluginName,
                                 'Example Category' => $category);
         $whitelistFiles = array('/Widgets.php');
 

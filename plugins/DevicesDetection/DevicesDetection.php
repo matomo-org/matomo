@@ -50,7 +50,7 @@ class DevicesDetection extends \Piwik\Plugin
 
         if (!PluginManager::getInstance()->isPluginActivated('UserSettings')) {
             $instance = new UserSettings();
-            $instance->extendVisitorDetails(&$visitor, $details);
+            $instance->extendVisitorDetails($visitor, $details);
         }
     }
 
