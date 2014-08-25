@@ -37,6 +37,16 @@ class GenerateTravisYmlFile extends ConsoleCommand
                 "Github token of a user w/ push access to this repository. Used to auto-commit updates to the "
               . ".travis.yml file and checkout dependencies. Will be encrypted in the .travis.yml file.\n\n"
               . "If not supplied, the .travis.yml will fail the build if it needs updating.")
+             ->addOption('before-install', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                    "Custom shell command(s) to run at the end of the before_install .travis.yml section.")
+             ->addOption('install', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                    "Custom shell command(s) to run at the end of the install .travis.yml section.")
+             ->addOption('before-script', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                    "Custom shell command(s) to run at the end of the before_script .travis.yml section.")
+             ->addOption('after-script', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                    "Custom shell command(s) to run at the end of the after_script .travis.yml section.")
+             ->addOption('after-success', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                    "Custom shell command(s) to run at the end of the after_success .travis.yml section.")
              ->addOption('dump', null, InputOption::VALUE_REQUIRED, "Debugging option. Saves the output .travis.yml to the specified file.");
     }
 
@@ -58,7 +68,15 @@ class GenerateTravisYmlFile extends ConsoleCommand
             $output->writeln("<info>Could not find existing YAML file at $outputYmlPath, generating a new one.</info>");
         }
 
-        $view->configure($targetPlugin, $artifactsPass, $githubToken, $thisConsoleCommand, $output);
+        $customTravisSteps = array(
+            'before_install' => $input->getOption('before-install'),
+            'install' => $input->getOption('install'),
+            'before_script' => $input->getOption('before-script'),
+            'after_script' => $input->getOption('after-script'),
+            'after_success' => $input->getOption('after-success')
+        );
+
+        $view->configure($targetPlugin, $artifactsPass, $githubToken, $thisConsoleCommand, $customTravisSteps, $output);
         $travisYmlContents = $view->render();
 
         $writePath = $input->getOption('dump');
@@ -93,12 +111,8 @@ class GenerateTravisYmlFile extends ConsoleCommand
         $command = "php ./console " . $this->getName();
 
         $arguments = $input->getOptions();
-        if (isset($arguments['github-token'])) {
-            $arguments['github-token'] = '$GITHUB_USER_TOKEN';
-        }
-        if (isset($arguments['artifacts-pass'])) {
-            $arguments['artifacts-pass'] = '$ARTIFACTS_PASS';
-        }
+        unset($arguments['github-token']);
+        unset($arguments['artifacts-pass']);
         unset($arguments['dump']);
 
         foreach ($arguments as $name => $value) {
@@ -110,8 +124,12 @@ class GenerateTravisYmlFile extends ConsoleCommand
 
             if ($value === true) {
                 $command .= " --$name";
+            } else if (is_array($value)) {
+                foreach ($value as $arrayValue) {
+                    $command .= " --$name=\"" . addslashes($arrayValue) . "\"";
+                }
             } else {
-                $command .= " --$name=". addslashes($value);
+                $command .= " --$name=\"" . addslashes($value) . "\"";
             }
         }
 

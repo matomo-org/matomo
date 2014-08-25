@@ -72,7 +72,8 @@ class TravisYmlView extends View
      *                                   of date.
      * @param OutputInterface $output OutputInterface to output warnings and the like.
      */
-    public function configure($targetPlugin, $artifactsPass, $githubToken, $generateYmlCommand, OutputInterface $output)
+    public function configure($targetPlugin, $artifactsPass, $githubToken, $generateYmlCommand, $customTravisSteps,
+                              OutputInterface $output)
     {
         $this->pluginName = $targetPlugin;
 
@@ -93,6 +94,7 @@ class TravisYmlView extends View
         list($this->testsToRun, $this->testsToExclude) = $this->getTestsToRun();
 
         $this->consoleCommand = $generateYmlCommand;
+        $this->customTravisSteps = $customTravisSteps;
     }
 
     /**
