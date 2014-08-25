@@ -650,9 +650,18 @@ class Manager extends Singleton
             $language = Translate::getLanguageToLoad();
         }
 
-        $cache        = new CacheFile('tracker', 43200); // ttl=12hours
-        $cacheKey     = 'PluginTranslations-' . $language;
-        $cacheKey    .= '-' . md5(implode('', $this->getLoadedPluginsName())); // makes sure to create a translation in case loaded plugins change (ie Tests vs Tracker vs UI etc)
+        $cache    = new CacheFile('tracker', 43200); // ttl=12hours
+        $cacheKey = 'PluginTranslations';
+
+        if (!empty($language)) {
+            $cacheKey .= '-' . trim($language);
+        }
+
+        if (!empty($this->loadedPlugins)) {
+            // makes sure to create a translation in case loaded plugins change (ie Tests vs Tracker vs UI etc)
+            $cacheKey .= '-' . md5(implode('', $this->getLoadedPluginsName()));
+        }
+
         $translations = $cache->get($cacheKey);
 
         if (!empty($translations) &&
@@ -1015,7 +1024,10 @@ class Manager extends Singleton
         }
 
         // merge in specific language translations (to overwrite english defaults)
-        if ($defaultEnglishLangPath != $defaultLangPath && file_exists($defaultLangPath)) {
+        if (!empty($langCode) &&
+            $defaultEnglishLangPath != $defaultLangPath &&
+            file_exists($defaultLangPath)) {
+
             $translations = $this->getTranslationsFromFile($defaultLangPath);
             $translationsLoaded = true;
             if (isset($translations[$pluginName])) {
