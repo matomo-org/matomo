@@ -15,6 +15,9 @@ We removed our own autoloader that was used to load Piwik files in favor of the 
 ### New commmands
 * `core:run-scheduled-tasks` Let's you run all scheduled tasks due to run at this time. Useful for instance when testing tasks.
 
+### Breaking Changes
+* A bug in JSON formatting was fixed so API methods that return simple associative arrays like `array('name' => 'value', 'name2' => 'value2')` will now appear correctly as `{"name":"value","name2":"value2"}` in JSON API output instead of `[{"name":"value","name2":"value2"}]`. API methods like **SitesManager.getSiteFromId** & **UsersManager.getUser** are affected
+
 ## Piwik 2.5.0
 
 ### Breaking Changes
