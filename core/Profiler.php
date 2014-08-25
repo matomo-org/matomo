@@ -211,7 +211,7 @@ class Profiler
 
         $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
         if (!file_exists($xhProfPath)) {
-            throw new Exception("Cannot find xhprof, run 'composer update' and build the extension.");
+            throw new Exception("Cannot find xhprof, run 'composer install --dev' and build the extension.");
         }
 
         if (!function_exists('xhprof_enable')) {
@@ -286,7 +286,7 @@ class Profiler
      * Aggregates xhprof runs w/o normalizing (xhprof_aggregate_runs will always average data which
      * does not fit Piwik's use case).
      */
-    private static function aggregateXhprofRuns($runIds, $profilerNamespace, $saveToRunId)
+    public static function aggregateXhprofRuns($runIds, $profilerNamespace, $saveToRunId)
     {
         $xhprofRuns = new XHProfRuns_Default();
 
@@ -316,13 +316,13 @@ class Profiler
         $xhprofRuns->save_run($aggregatedData, $profilerNamespace, $saveToRunId);
     }
 
-    private static function setProfilingRunIds($ids)
+    public static function setProfilingRunIds($ids)
     {
         file_put_contents( self::getPathToXHProfRunIds(), json_encode($ids) );
         @chmod(self::getPathToXHProfRunIds(), 0777);
     }
 
-    private static function getProfilingRunIds()
+    public static function getProfilingRunIds()
     {
         $runIds = file_get_contents( self::getPathToXHProfRunIds() );
         $array = json_decode($runIds, $assoc = true);
