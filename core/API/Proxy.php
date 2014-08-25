@@ -433,6 +433,7 @@ class Proxy extends Singleton
             && $method->getName() != 'getInstance'
             && false === strstr($method->getDocComment(), '@deprecated')
             && (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
+            && (Piwik::hasUserSuperUserAccess() || false === strstr($method->getDocComment(), '@hideExceptForSuperUser'))
         ) {
             $name = $method->getName();
             $parameters = $method->getParameters();

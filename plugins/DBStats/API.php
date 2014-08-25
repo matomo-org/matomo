@@ -13,6 +13,7 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
+ * @hideExceptForSuperUser
  * @see plugins/DBStats/MySQLMetadataProvider.php
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/DBStats/MySQLMetadataProvider.php';
