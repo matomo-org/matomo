@@ -313,7 +313,6 @@ class FrontController extends Singleton
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
 
             Translate::loadEnglishTranslation();
-            Plugin\Manager::getInstance()->loadPluginTranslations('en');
 
             $exceptionToThrow = self::createConfigObject();
 
@@ -321,6 +320,7 @@ class FrontController extends Singleton
             $this->handleProfiler();
             $this->handleSSLRedirection();
 
+            Plugin\Manager::getInstance()->loadPluginTranslations('en');
             Plugin\Manager::getInstance()->loadActivatedPlugins();
 
             if ($exceptionToThrow) {
