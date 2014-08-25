@@ -15,11 +15,18 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
-/**
- *
- */
 class VisitorInterest extends \Piwik\Plugin
 {
+
+    /**
+     * @see Piwik\Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
+    {
+        return array(
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+        );
+    }
 
     function postLoad()
     {
@@ -40,4 +47,10 @@ class VisitorInterest extends \Piwik\Plugin
         $out .= FrontController::getInstance()->fetchDispatch('VisitorInterest', 'index');
         $out .= '</div>';
     }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $visitor['daysSinceLastVisit'] = $details['visitor_days_since_last'];
+    }
+
 }

@@ -21,8 +21,27 @@ class CoreHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
         );
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $instance = new Visitor($details);
+
+        $visitor['visitorType']                 = $instance->getVisitorReturning();
+        $visitor['visitorTypeIcon']             = $instance->getVisitorReturningIcon();
+        $visitor['visitConverted']              = $instance->isVisitorGoalConverted();
+        $visitor['visitConvertedIcon']          = $instance->getVisitorGoalConvertedIcon();
+        $visitor['visitCount']                  = $instance->getVisitCount();
+        $visitor['firstActionTimestamp']        = $instance->getTimestampFirstAction();
+        $visitor['visitEcommerceStatus']        = $instance->getVisitEcommerceStatus();
+        $visitor['visitEcommerceStatusIcon']    = $instance->getVisitEcommerceStatusIcon();
+        $visitor['daysSinceFirstVisit']         = $instance->getDaysSinceFirstVisit();
+        $visitor['daysSinceLastEcommerceOrder'] = $instance->getDaysSinceLastEcommerceOrder();
+        $visitor['visitDuration']               = $instance->getVisitLength();
+        $visitor['visitDurationPretty']         = $instance->getVisitLengthPretty();
     }
 
     public function getStylesheetFiles(&$stylesheets)
