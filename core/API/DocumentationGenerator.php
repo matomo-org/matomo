@@ -16,6 +16,8 @@ use ReflectionClass;
 
 class DocumentationGenerator
 {
+    protected $countPluginsLoaded = 0;
+
     /**
      * trigger loading all plugins with an API.php file in the Proxy
      */
