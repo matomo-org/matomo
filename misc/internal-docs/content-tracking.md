@@ -15,7 +15,7 @@ This is the technical concept for implementing content tracking. We won't plan a
 3. Would a piece of content - such as a banner - have maybe custom variables etc?
 4. How do we present the data in a report? Similar to events with second dimensions? Probably depends on 1)
 5. I assume there can be nested content in theory. A piece of content that contains another piece of content. In this case we have to be careful when automatically picking name, target, ...
-6. FYI: We would probably also need an attribute like data-target="$target" and/or the possiblity for data-trackclick="$target" since not all links might be defined via href but onclick javascript links. See further below
+6. FYI: We would probably also need an attribute like data-target="$target" and/or the possiblity for data-trackclick="$target" since not all links might be defined via href but onclick javascript links. See next section
 7. HTML Attributes always take precendence over css classes or the other way around (if both defined)? I think attributes should take precendence which I think is also defined in the spec
 8. Do we need to support IE7 and older? Firefox 3 and older?
 9. "Maybe we could automatically detect when such element becomes visible, and send the Impression event automatically"
@@ -26,39 +26,10 @@ This is the technical concept for implementing content tracking. We won't plan a
     * We'd probably have to offer a method to pass a DOM node and track it independent of visibility (useful for instance in case of carousel when the website owner already knows a specific content piece is visible now but does not want to use expensive events for this)
     * We'd maybe have to offer a mode where we are trying to detect automatically when an impression becomes visible and send it
 10. FYI: "you may add a CSS class or attribute to the link element to track" => It could be also a span, a div or something else
-11. FYI: There is way to much magic how content-name is found and it is neither predicatble nor understandable by users, I will simplify this and rather require users to set specific attributes! See further down (Piwik.js)
-12. FYI: We need to define how a content piece is defined in markup since it can be anything (was something like piwik-banner before) see further down (Piwik.js)
+11. FYI: There is way to much magic how content-name is found and it is neither predicatble nor understandable by users, I will simplify this and rather require users to set specific attributes! See next section
+12. FYI: We need to define how a content piece is defined in markup since it can be anything (was something like piwik-banner before) see next section
 
 ## Tagging of the content piece declarative
-In HTML...
-
-## Tracking the impressions
-Impressions are logically not really events and I don't think it makes sense to use them here. It would also make it harder to analyze events when they are mixed with pieces of content.
-
-* Saving in database?
-  * New column `id_action_content_url` and `id_action_content_piece` in `log_link_visit_action`. For name `id_action_name` can be reused?
-  * Would we need a new column for each piece of content in action table to make archiver work? --> would result in many! columns
-  * or would we need a new table for each piece of content to make archiver work? --> would be basically a copy of the link_action table and therefore not really makes sense I reckon. Only a lot of work. Logically I am not sure if an impression is actually an "action" so it could make sense
-  * or would we store the pieces serialized as JSON in a `content` column? I don't know anything about the archiver but I think it wouldn't work at all
-  * or would we create an action entry for each piece of content? --> yes I think! 
-* New Action class that handles type content
-* New url parameters like `c_p`, `c_n` and `c_u` for piece of content, name and url. Maybe instead of `c_u` would be better `c_t` for target which is more generic. Sending a JSON array would not work since we cannot log multiple actions in one tracking request. They have to be sent using bulk tracking instead.
-* Only `c_n` would be required, `c_p` and `c_t` not as for instance a piece of content does not necessarily have a target (hard to measure a click ratio in this case?)
-
-
-## Tracking the clicks
-Contrary to impressions, clicks are actually events and it would be nice to use events here. Maybe we can link an event with a piece of content?
-
-## Piwik.js
-* We need to find all dom nodes having css class or html attribute.
- * Options for this is traversing over each node and checking for everything -> CSS selectors cannot be used on all browsers and it might be slow therefore -> maybe lot of work to make it cross browser compatible
- * https://github.com/fabiomcosta/micro-selector --> tiny selector library but does not support attributes
- * http://sizzlejs.com/ Used by jQuery & co but like 30kb (compressed + gzipped 4kb). Has way too many features we don't need
- * https://github.com/ded/qwery Doesn't support IE8 and a few others, no support for attribute selector
- * https://github.com/padolsey/satisfy 2.4KB and probably outdated
- * https://github.com/digitarald/sly very tiny and many features but last commit 3 years old
- * https://github.com/alpha123/Jaguar >10KB and last commit 2 years old
- * As we don't need many features we could implement it ourselves but probably needs a lot of cross-browser testing which I wanted to avoid. We'd only start with `querySelectorAll()` maybe. Brings also incredible [performance benefits](http://jsperf.com/jquery-vs-native-selector-and-element-style/2) (2-10 faster than jQuery) but there might be problems see http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall, http://jsfiddle.net/QdMc5/ and http://ejohn.org/blog/thoughts-on-queryselectorall/
 
  ### New proposed way of finding content
  * Search for any `data-track-content` attribute and `piwikTrackContent` CSS class within the DOM
@@ -142,7 +113,35 @@ Thomas definitely prefers solution 2.
 // content piece  = xyz.jpg
 // content target = ""
 
-``
+```
+
+## Tracking the impressions
+Impressions are logically not really events and I don't think it makes sense to use them here. It would also make it harder to analyze events when they are mixed with pieces of content.
+
+* Saving in database?
+  * New column `id_action_content_url` and `id_action_content_piece` in `log_link_visit_action`. For name `id_action_name` can be reused?
+  * Would we need a new column for each piece of content in action table to make archiver work? --> would result in many! columns
+  * or would we need a new table for each piece of content to make archiver work? --> would be basically a copy of the link_action table and therefore not really makes sense I reckon. Only a lot of work. Logically I am not sure if an impression is actually an "action" so it could make sense
+  * or would we store the pieces serialized as JSON in a `content` column? I don't know anything about the archiver but I think it wouldn't work at all
+  * or would we create an action entry for each piece of content? --> yes I think! 
+* New Action class that handles type content
+* New url parameters like `c_p`, `c_n` and `c_u` for piece of content, name and url. Maybe instead of `c_u` would be better `c_t` for target which is more generic. Sending a JSON array would not work since we cannot log multiple actions in one tracking request. They have to be sent using bulk tracking instead.
+* Only `c_n` would be required, `c_p` and `c_t` not as for instance a piece of content does not necessarily have a target (hard to measure a click ratio in this case?)
+
+
+## Tracking the clicks
+Contrary to impressions, clicks are actually events and it would be nice to use events here. Maybe we can link an event with a piece of content?
+
+## Piwik.js
+* We need to find all dom nodes having css class or html attribute.
+ * Options for this is traversing over each node and checking for everything -> CSS selectors cannot be used on all browsers and it might be slow therefore -> maybe lot of work to make it cross browser compatible
+ * https://github.com/fabiomcosta/micro-selector --> tiny selector library but does not support attributes
+ * http://sizzlejs.com/ Used by jQuery & co but like 30kb (compressed + gzipped 4kb). Has way too many features we don't need
+ * https://github.com/ded/qwery Doesn't support IE8 and a few others, no support for attribute selector
+ * https://github.com/padolsey/satisfy 2.4KB and probably outdated
+ * https://github.com/digitarald/sly very tiny and many features but last commit 3 years old
+ * https://github.com/alpha123/Jaguar >10KB and last commit 2 years old
+ * As we don't need many features we could implement it ourselves but probably needs a lot of cross-browser testing which I wanted to avoid. We'd only start with `querySelectorAll()` maybe. Brings also incredible [performance benefits](http://jsperf.com/jquery-vs-native-selector-and-element-style/2) (2-10 faster than jQuery) but there might be problems see http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall, http://jsfiddle.net/QdMc5/ and http://ejohn.org/blog/thoughts-on-queryselectorall/
 
 ## Reports
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with .jpg it could be recognized as image content and show a banner in the report.
