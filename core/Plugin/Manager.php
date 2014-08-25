@@ -1104,6 +1104,7 @@ class Manager extends Singleton
                 $pluginsTracker = array();
             }
             if (!in_array($pluginName, $pluginsTracker)) {
+                Log::verbose("Adding this plugin to the list of Tracker plugins: $pluginName");
                 $pluginsTracker[] = $pluginName;
                 $this->updatePluginsTrackerConfig($pluginsTracker);
                 $saveConfig = true;
