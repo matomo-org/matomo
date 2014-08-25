@@ -19,6 +19,7 @@ use Piwik\Db;
 use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
+use Piwik\Log;
 use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\Singleton;
@@ -385,6 +386,7 @@ class Manager extends Singleton
      */
     public function installLoadedPlugins()
     {
+        Log::verbose("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
         $messages = array();
         foreach ($this->getLoadedPlugins() as $plugin) {
             try {
