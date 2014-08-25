@@ -1,0 +1,15 @@
+{
+    "Login": {
+        "ContactAdmin": "Možné dôvody: Váš server ma zakázanú funkciu mail().<br \/> Skontaktujte svojho administrátora Piwik.",
+        "ExceptionPasswordMD5HashExpected": "Očakávajte že heslo bude v MD5 hash.",
+        "InvalidOrExpiredToken": "Token je neplatný, alebo už vypršal.",
+        "InvalidUsernameEmail": "Neplatné meno používateľa alebo e-mailová adresa",
+        "LogIn": "Prihlásiť sa",
+        "LoginOrEmail": "Prihlasovací údaj (Login) alebo e-mail",
+        "LoginPasswordNotCorrect": "Meno používateľa a heslo nie sú správne",
+        "LostYourPassword": "Zabudli ste heslo?",
+        "PasswordRepeat": "Heslo (znovu)",
+        "PasswordsDoNotMatch": "Heslá sa nezhodujú.",
+        "RememberMe": "Zapamätať si ma"
+    }
+}

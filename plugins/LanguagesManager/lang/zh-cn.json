@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "关于 Piwik 翻译",
+        "PluginDescription": "这个插件会显示 Piwik 页面可以使用的语言列表。选择的语言将会被保存在每个用户的偏好里。"
+    }
+}

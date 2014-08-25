@@ -1,0 +1,14 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Anonimiziraj zadnji bajt IP naslova obiskovalca, da se s tem izpolnijo zahteve lokalnih zakonov\/smernic o zasebnosti.",
+        "ClickHereSettings": "Kliknite tu za dostop do %s nastavitev.",
+        "DeleteLogInfo": "Dnevniki iz sledečih tabel bodo izbrizani: %s",
+        "DeleteLogsOlderThan": "Izbriši dnevnike, starejše od",
+        "DeleteMaxRowsNoLimit": "brez omejitve",
+        "LastDelete": "Zadnji izbris je bil",
+        "LeastDaysInput": "Prosimo, navedite število dni, večje od %s.",
+        "NextDelete": "Naslednji izbris je predviden",
+        "TeaserHeadline": "Nastavitve zasebnosti",
+        "UseDeleteLog": "Redno izbriši stare dnevnike obiskov iz podatkovne baze"
+    }
+}

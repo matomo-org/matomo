@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Utveckling",
+        "LoadingWebsites": "Laddar webbplatser",
+        "Pagination": "%s - %s av %s",
+        "PluginDescription": "Visar fler-webbplatser sammanfattning\/statistik. För närvarande underhållen som en central Piwik plugin.",
+        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser."
+    }
+}

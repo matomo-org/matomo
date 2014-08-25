@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "À propos des traductions de Piwik",
+        "PluginDescription": "Ce plugin affichera la liste des langues disponibles pour l'interface de Piwik. Le langage sélectionné sera sauvegardé dans les préférences de chaque utilisateur."
+    }
+}

@@ -60,7 +60,7 @@ angular.module('piwikApp').directive('piwikMenudropdown', function(){
                         $node.show();
                     }
                 });
-            }
+            };
         }
     };
 });

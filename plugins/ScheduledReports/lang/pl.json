@@ -1,0 +1,32 @@
+{
+    "ScheduledReports": {
+        "AggregateReportsFormat": "Wyświetl opcje (opcjonalnie)",
+        "AggregateReportsFormat_GraphsOnly": "Wyświetlane wykresów (brak tabeli raportu)",
+        "AggregateReportsFormat_TablesAndGraphs": "Wyświetlane tabeli i wykresów dla wszystkich raportów",
+        "AggregateReportsFormat_TablesOnly": "(domyślny) Wyświetlane tabele raportu (wykresy tylko dla kluczowych wskaźników)",
+        "AlsoSendReportToTheseEmails": "Również wyślij raport na podane adresy e-mail (jeden na linię):",
+        "CancelAndReturnToReports": "Anuluj i %spowróć do listy raportów%s",
+        "CreateAndScheduleReport": "Utwórz i zaplanuj raport",
+        "CreateReport": "Utwórz raport",
+        "DescriptionOnFirstPage": "Opis będzie wyświetlany na pierwszej stronie raportu.",
+        "EmailHello": "Witaj,",
+        "EmailReports": "Raporty pocztowe",
+        "EmailSchedule": "Kalendarium poczty e-mail",
+        "FrontPage": "Strona główna",
+        "ManageEmailReports": "Administracja raportami pocztowymi",
+        "MonthlyScheduleHelp": "Planowanie miesięczne: raport będzie wysyłany pierwszego dnia każdego miesiąca.",
+        "PiwikReports": "Raporty Piwik",
+        "PleaseFindAttachedFile": "Prosimy odszukać w pliku załącznika twój %1$s raport dla %2$s.",
+        "PleaseFindBelow": "Prosimy odszukać w poniższym %1$s raport %2$s.",
+        "ReportFormat": "Format raportu",
+        "ReportsIncluded": "Zawarte statystyki",
+        "SendReportNow": "Wyślij raport teraz",
+        "SendReportTo": "Wyślij raport do",
+        "SentToMe": "Wyślij do mnie",
+        "TableOfContent": "Lista raportów",
+        "ThereIsNoReportToManage": "Brak raportu dla strony %s",
+        "TopOfReport": "Powrót na górę strony",
+        "UpdateReport": "Aktualizuj raport",
+        "WeeklyScheduleHelp": "Planowanie tygodniowe: raport będzie wysyłany w każdy pierwszy poniedziałek każdego tygodnia."
+    }
+}

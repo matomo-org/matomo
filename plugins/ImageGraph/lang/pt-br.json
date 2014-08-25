@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "A coluna '%s' não foi encontrado neste relatório. Tente qualquer um %s",
+        "PluginDescription": "Gerar belas imagens estáticas dos gráfico em PNG para qualquer relatório Piwik."
+    }
+}

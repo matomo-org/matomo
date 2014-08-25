@@ -1,0 +1,11 @@
+{
+    "Login": {
+        "ContactAdmin": "ተገቢው ምክንያት: አስተናጋጅዎ የ ሜይል() ተግባርን አቦዝኖት ሊሆን ይችላል። <br \/>እባክዎ የፒዊክ መናጅዎን ያነጋግሩ",
+        "InvalidUsernameEmail": "የተሳሳት የተጠቃሚ ስም እና\/ወይም ኢ-ሜይል አድራሻ",
+        "LogIn": "ግባ",
+        "LoginOrEmail": "ግባ ወይም ኢ-ሜይል",
+        "LoginPasswordNotCorrect": "የተጠቃሚ ስም እና የይለፍ ቃል ትክክል አይደለም",
+        "LostYourPassword": "የይለፍ ቃል ጠፋብህ?",
+        "PasswordRepeat": "የይለፍ ቃል (ድገም)"
+    }
+}

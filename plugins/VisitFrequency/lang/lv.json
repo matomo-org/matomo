@@ -1,0 +1,9 @@
+{
+    "VisitFrequency": {
+        "ColumnReturningVisits": "Atkārtoti apmeklējumi",
+        "ColumnUniqueReturningVisitors": "Unikālie atkārtotie apmeklētāji",
+        "ReturningVisitsDocumentation": "Šis ir atkārtotu apmeklējumu pārskats.",
+        "SubmenuFrequency": "Biežums",
+        "WidgetOverview": "Biežuma pārskats"
+    }
+}

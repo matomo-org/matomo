@@ -1,0 +1,24 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "เฉลี่ยระยะเวลาการเข้าชม %s",
+        "GenerateQueries": "%s การค้นหา",
+        "GenerateTime": "%s วินาทีที่ใช้",
+        "MaxNbActions": "%s หน้าสูงสุดในหนึ่งผู้เข้าชม",
+        "NbActionsDescription": "%s ดำเนินการ(เข้าชม ดาวน์โหลดและลิงค์ออก)",
+        "NbActionsPerVisit": "%s ดำเนินต่อเข้าชม",
+        "NbDownloadsDescription": "%s ดาวน์โหลด",
+        "NbOutlinksDescription": "%s ลิงค์ที่ออก",
+        "NbPageviewsDescription": "%s จำนวนหน้าที่มีการเปิด",
+        "NbUniqueDownloadsDescription": "%s จำนวนดาวน์โหลดที่ไม่ซ้ำกันน",
+        "NbUniqueOutlinksDescription": "%s จำนวนลิงค์ที่ออกโดยไม่ซ้ำกัน",
+        "NbUniquePageviewsDescription": "%s จำนวนหน้าที่มีการเปิดที่ไม่ซ้ำกัน",
+        "NbUniqueVisitors": "%s ผู้เข้าชมที่ไม่ซ้ำ",
+        "NbVisitsBounced": "%s ของผู้เข้าชมที่เด้ง (คือการออกจากเว็บไซต์หลังจากเปิดเพียงหน้าเดียว)",
+        "PluginDescription": "รายงานตัวเลขการวิเคราะห์ทั่วไป: เข้าชม ผู้เข้าชมที่ไม่ซ้ำกัน หมายเลขของการดำเนินการ อัตราการตอบกลับ ฯลฯ",
+        "VisitsSummary": "สรุปการเข้าชม",
+        "VisitsSummaryDocumentation": "ภาพรวมของผู้เข้าชม",
+        "WidgetLastVisits": "กราฟของผู้เข้าชมล่าสุด",
+        "WidgetOverviewGraph": "ภาพรวมและกราฟ",
+        "WidgetVisits": "ภาพรวมผู้เข้าชม"
+    }
+}

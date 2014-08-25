@@ -1,0 +1,15 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "Також надсилати звіти на наступні е-майли (кожен з нового рядка):",
+        "EmailHello": "Привіт,",
+        "EmailReports": "Звіти на е-майл",
+        "EmailSchedule": "Розклад розсилки",
+        "MonthlyScheduleHelp": "Щомісячний розклад: звіт буде надсилатися в перший день кожного місяця",
+        "PiwikReports": "Звіти Piwik",
+        "PleaseFindAttachedFile": "Прикріплений файл є звітом %1$s від %2$s.",
+        "SendReportNow": "Надіслати звіт зараз",
+        "SendReportTo": "Надіслати звіт на:",
+        "SentToMe": "Надіслати мені",
+        "WeeklyScheduleHelp": "Щотижневий розклад: звіт буде надсилатися в понелілок кожного тижня"
+    }
+}

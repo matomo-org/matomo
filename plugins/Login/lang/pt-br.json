@@ -1,0 +1,22 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Um link de confirmação foi enviado para sua caixa de entrada. Verifique se o seu e-mail e acesse este link para autorizar o seu pedido de alteração de senha.",
+        "ContactAdmin": "Possível razão: o seu host desabilitou a função mail(). <br \/>Por favor contacte o administrador do Piwik.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Um usuário com acesso de Super Usuário não pode ser autenticado usando o mecanismo '%s'.",
+        "ExceptionPasswordMD5HashExpected": "É esperado que o parâmetro da senha seja um hash MD5 da senha.",
+        "InvalidNonceOrHeadersOrReferrer": "Forma de segurança falhou. Por favor, recarregar o formulário e verifique se seus cookies estão habilitados. Se você usar um servidor proxy, você deve configurar %s Piwik para aceitar cabeçalhos proxy %s encaminhados para Host. Além disso, verifique se o cabeçalho do Referer é enviado corretamente.",
+        "InvalidOrExpiredToken": "Token inválido ou expirado",
+        "InvalidUsernameEmail": "Nome de usuário e\/ou e-mail inválido",
+        "LogIn": "Entrar",
+        "LoginOrEmail": "Nome de Usuário ou E-mail",
+        "LoginPasswordNotCorrect": "Nome de usuário e senha incorretos",
+        "LostYourPassword": "Esqueceu a sua senha?",
+        "MailPasswordChangeBody": "Oi %1$s, um pedido de redefinição de senha foi recebida de %2$s. Para confirmar esta alteração de senha para que você possa fazer o login com suas novas credenciais, visite o seguinte link: %3$s Nota: este token expirará em 24 horas. Obrigado por usar Piwik!",
+        "MailTopicPasswordChange": "Confirme Alteração de senha",
+        "PasswordChanged": "Sua senha foi alterada.",
+        "PasswordRepeat": "Senha (repetir)",
+        "PasswordsDoNotMatch": "Senhas não conferem.",
+        "RememberMe": "Lembrar meu login",
+        "ResetPasswordInstructions": "Digite uma nova senha para a sua conta."
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "אין מידע בקטגוריה זו. נא לנסות \"לכלול את כלל האוכלוסייה\"",
+        "CheckForUpdates": "בדוק עדכונים",
+        "Default": "ברירת מחדל",
+        "DonateCall1": "תמיד השימוש ב-Piwik לא יעלה לך דבר, אך זה לא אומר שלהכין אותו לא עולה לנו כסף",
+        "HowMuchIsPiwikWorth": "כמה Piwik שווה עבורך?",
+        "JavascriptDisabled": "-בכדי לצפות בPiwik חובה להפעיל JavaScript.<br\/>בכל מקרה, נראה כי הJavaScript מנוטרל או לא נתמך על יד הדפדפן שלך.<br\/>בכדי לצפות בצורה סטנדרטית, יש להפעיל את הJavaScript על ידי שינוי הגדרות הדפדפן, ולאחר מכן %1$sלנסות שוב%2$s.<br\/>",
+        "MakeOneTimeDonation": "במקום,בצע תרומה חד-פעמית",
+        "PageOf": "%1$s מתוך %2$s",
+        "PeriodDay": "יום",
+        "PeriodDays": "ימים",
+        "PeriodMonth": "חודש",
+        "PeriodMonths": "חודשים",
+        "PeriodRange": "טווח",
+        "PeriodWeek": "שבוע",
+        "PeriodWeeks": "שבועות",
+        "PeriodYear": "שנה",
+        "PeriodYears": "שנים",
+        "PluginDescription": "מבנה דוחות הפעילות.",
+        "SharePiwikShort": "Piwik! ניתוח רשת חינמי ופתוח. שליטה בנתונים של עצמך.",
+        "ShowJSCode": "הצגת הJavaScript להטמעה",
+        "SupportPiwik": "תמיכה ב-Piwik!",
+        "ThereIsNoDataForThisReport": "אין מידע להצגה עבור הדוח",
+        "ViewAllPiwikVideoTutorials": "צפייה בכל סרטי ההדרכה של Piwik",
+        "WebAnalyticsReports": "דוחות פעילות"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Kontakta Piwikteamet!",
+        "DoYouHaveBugReportOrFeatureRequest": "Har du en bugg att rapportera eller en funktionsbegäran?",
+        "GetInTouch": "Vi uppskattar din feedback och läser alltid alla meddelanden. Du kanske vill dela en affärsmöjlighet, hyra en Piwik konsult, berätta en framgångssaga eller bara säga Hej!",
+        "IWantTo": "Jag vill:",
+        "LearnWaysToParticipate": "Läs om alla sätt du kan %s delta%s",
+        "ManuallySendEmailTo": "Vänligen skicka ditt meddelande manuellt till",
+        "PluginDescription": "Skicka din feedback till Piwikteamet. Dela med dig av dina idéer och förslag med oss​​!",
+        "RateFeatureLeaveMessageDislike": "Vi är ledsna över att du inte gillar det! Berätta gärna för oss hur vi kan förbättra Piwik.",
+        "RateFeatureLeaveMessageLike": "Vi är glada att du gillar det! Berätta för oss vad du gillar mest med Piwik eller om du har ett förslag på en funktion.",
+        "RateFeatureSendFeedbackInformation": "Din Piwik plattform kommer att skicka oss (Piwik teamet) ett e-post (inklusive din e-postadress) så att vi kan komma i kontakt med dig om du har några frågor.",
+        "RateFeatureThankYouTitle": "Tack för att du betygsatt '%s'!",
+        "RateFeatureTitle": "Tycker du om '%s'-funktionen? Vänligen betygsätt och lämna en kommentar",
+        "SendFeedback": "Skicka Feedback",
+        "SpecialRequest": "Har du en speciell begäran för Piwikteamet?",
+        "ThankYou": "Tack för att du hjälper oss att göra Piwik bättre!",
+        "TopLinkTooltip": "Tala om för oss vad du tycker, eller fråga efter professionell support.",
+        "ViewAnswersToFAQ": "Se svar på %svanliga frågor%s",
+        "ViewUserGuides": "Lär dig att konfigurera Piwik och hur man på ett effektivt sätt analyserar data med våra %1$sanvändarguider%2$s",
+        "VisitTheForums": "Besök %s Forumet%s",
+        "WantToThankConsiderDonating": "Tycker du att Piwik är fantastiskt och vill tacka oss?"
+    }
+}

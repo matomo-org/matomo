@@ -1,0 +1,17 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s sorgu çalıştırılmıştır.",
+        "GenerateTime": "sayfa %s saniyede oluşturulmuştur.",
+        "MaxNbActions": "Bir ziyarette yapılan max etkinlik %s",
+        "NbActionsDescription": "Etkinlik sayısı %s (sayfa gösterimi, dosya indirme, dış linkler)",
+        "NbKeywordsDescription": "%s tekil anahtar kelimeler",
+        "NbUniqueVisitors": "%s tekil ziyaretçiler",
+        "NbVisitsBounced": "%s ziyaret sıçrama yaşadı (ziyaretçi 1 sayfaya baktıktan sonra siteyi terketti )",
+        "PluginDescription": "Genel analiz sonuçlarını rapor eder: ziyaretler,tekil ziyaretçiler,etkinlik sayıları,sıçrama oranı vb.",
+        "VisitsSummary": "Özeri gör",
+        "VisitsSummaryDocumentation": "Ziyaretler için genel bakış niteliğindedir.",
+        "WidgetLastVisits": "Son ziyaret grafiği",
+        "WidgetOverviewGraph": "Grafiklere genel bakış",
+        "WidgetVisits": "Ziyaret özeti"
+    }
+}

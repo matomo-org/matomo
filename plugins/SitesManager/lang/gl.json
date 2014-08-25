@@ -1,0 +1,15 @@
+{
+    "SitesManager": {
+        "AddSite": "Engadir un sitio",
+        "Currency": "Moeda",
+        "DeleteConfirm": "Está seguro de querer eliminar o sitio %s?",
+        "ExceptionDeleteSite": "Non é posible eliminar este sitio xa que é o único que hai rexistrado. Antes de eliminalo, engada un novo.",
+        "ExceptionEmptyName": "O nome do sitio non pode estar baleiro.",
+        "ExceptionInvalidUrl": "A URL '%s' non é unha URL válida.",
+        "ExceptionNoUrl": "Debe especificar polo menos unha URL do seu sitio.",
+        "NoWebsites": "Vostede non ten ningunha web que administrar",
+        "Sites": "Sitios",
+        "Timezone": "Fuso horario",
+        "Urls": "URLs"
+    }
+}

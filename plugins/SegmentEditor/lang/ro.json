@@ -1,0 +1,29 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Adaugă condiţia %s",
+        "AddNewSegment": "Adaugă segment nou",
+        "AreYouSureDeleteSegment": "Esti sigur ca vrei sa stergi acest segment?",
+        "AutoArchivePreProcessed": "Rapoartele segmentate sunt pre-procesate (mai rapid, necesită archive.php cron)",
+        "AutoArchiveRealTime": "rapoartele segmentate sunt procesate în timp real",
+        "ChooseASegment": "Selectare segment",
+        "DataAvailableAtLaterDate": "Rapoartele de analiză segmentate vor fi disponibile mai târziu. Ne cerem scuze pentru neplăcerile create.",
+        "DefaultAllVisits": "Toate vizite",
+        "DragDropCondition": "Conditie trage & lasa",
+        "LoadingSegmentedDataMayTakeSomeTime": "Prelucrarea datelor pe segmentul vizitatorii poate dura câteva minute ...",
+        "OperatorAND": "ŞI",
+        "OperatorOR": "SAU",
+        "SaveAndApply": "Salvează şi aplică",
+        "SegmentDisplayedAllWebsites": "toate siturile web",
+        "SegmentDisplayedThisWebsiteOnly": "numai acest site web",
+        "SegmentIsDisplayedForWebsite": "și afișate pentru",
+        "SegmentNotApplied": "Segmentul '%s' nu se aplica",
+        "SegmentNotAppliedMessage": "Vi se solicită date pentru segmentul personalizat '%s', această configurație Piwik împiedică în prezent prelucrarea în timp real a rapoartelor pentru motive de performanță.",
+        "SelectSegmentOfVisitors": "Selecteaza un segment de vizitatori:",
+        "ThisSegmentIsVisibleTo": "Acest segment este vizibil către:",
+        "VisibleToAllUsers": "tuturor utilizatorilor",
+        "VisibleToMe": "mie",
+        "YouDontHaveAccessToCreateSegments": "Nu ai nivelul de acces necesar pentru a crea și edita segmente.",
+        "YouMayChangeSetting": "Alternativ, puteți schimba setările în fișierul de configurare (%s), sau pentru a edita acest segment și alegeți '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Trebuie să fii logat pentru a crea și edita segmente de vizitatori personalizate."
+    }
+}

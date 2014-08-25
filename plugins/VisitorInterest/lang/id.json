@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s menit",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Halaman tiap kunjungan",
+        "ColumnVisitDuration": "Waktu kunjungan",
+        "Engagement": "Keterlibatan",
+        "NPages": "%s halaman",
+        "OneMinute": "1 menit",
+        "OnePage": "1 halaman",
+        "PluginDescription": "Laporan mengenai Tingkat Kunjungan: jumlah halaman yang dilihat, waktu yang dihabiskan di Situs.",
+        "PlusXMin": "%s menit",
+        "VisitNum": "Jumlah kunjungan",
+        "VisitsByDaysSinceLast": "Pengunjung berdasar hari sejak kunjungan terakhir",
+        "visitsByVisitCount": "Kunjungan berdasar Jumlah Kunjungan",
+        "VisitsPerDuration": "Kunjungan tiap waktu kunjungan",
+        "VisitsPerNbOfPages": "Kunjungan tiap jumlah halaman",
+        "WidgetLengths": "Waktu Kunjungan",
+        "WidgetLengthsDocumentation": "Dalam laporan ini, Anda dapat mengetahui berapa banyak kunjungan memiliki total lama kunjungan tertentu. Awalnya, laporan tersebut ditampilkan sebagai etiket awan, jangka waktu yang lebih umum ditampilkan dalam huruf yang lebih besar.",
+        "WidgetPages": "Halaman tiap kunjungan",
+        "WidgetPagesDocumentation": "Dalam laporan ini, Anda dapat melihat berapa banyak kunjungan yang terlibat sejumlah tampilan halaman. Awalnya, laporan tersebut ditampilkan sebagai etiket awan, jumlah lebih umum dari halaman ditampilkan dalam huruf yang lebih besar.",
+        "WidgetVisitsByDaysSinceLast": "Kunjungan berdasar Hari sejak Kunjungan Terakhir",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Di laporan ini, Anda dapat melihat berapa banyak kunjungan dari pengunjung beberapa hari yang lalu.",
+        "WidgetVisitsByNumDocumentation": "Di laporan ini, Anda dapat melihat jumlah kunjungan ke-N, misalnya, siapa pengunjung yang mengunjungi situs Anda dalam N waktu terakhir."
+    }
+}

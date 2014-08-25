@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Se você não tem nenhum dado hoje, você pode gerar alguns dados usando o plugin %s. Você pode habilitar o plugin %s, então clique no menu \"Gerador de Visitantes\" na área Piwik Admin.",
+        "KeepTokenSecret": "Esse token_auth é tão secreto quanto seu login e sua senha, %s não compartilhe isso %s!",
+        "LoadedAPIs": "%s APIs carregadas com sucesso",
+        "MoreInformation": "Para mais informações sobre as APIs Piwik, por favor, dê uma olhada no %s Introdução para Piwik API %s e a %s API Piwik de Referência %s .",
+        "PluginDescription": "Todos os dados no Piwik estão disponíveis através de APIs simples. Esse plugin é o ponto de entrada para o web service, que você pode chamar para ter seus dados Web Analytics em xml, json, php, csv, etc.",
+        "QuickDocumentationTitle": "Documentação rápida da API",
+        "TopLinkTooltip": "Acesso ao Google Analytics seus dados Web programação através de uma API simples em json, xml, etc.",
+        "UserAuthentication": "Autenticação de usuário",
+        "UsingTokenAuth": "Se você quer %s requisitar dados dentro de um script, um crontab, etc. %s você precisa adicionar o parâmetro %s para a API chamar URLS que requerem autenticação."
+    }
+}

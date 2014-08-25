@@ -1,0 +1,29 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Lisa vidin",
+        "AddPreviewedWidget": "Vali et lisada vidin töölauale",
+        "ChangeDashboardLayout": "Muuda töölaua paigutust",
+        "CopyDashboardToUser": "Kopeeri töölaud kasutajale",
+        "CreateNewDashboard": "Loo uus töölaud",
+        "Dashboard": "Töölaud",
+        "DashboardName": "Töölaua nimi:",
+        "DashboardOf": "%s töölaud",
+        "DefaultDashboard": "Vaikimisi töölaud - kasutab vaikimisi vidinaid ja paigutust",
+        "DeleteWidgetConfirm": "Oled sa kindel selle mooduli kustutamises oma töölaualt?",
+        "EmptyDashboard": "Tühi töölaud - vali oma lemmik vidinad",
+        "LoadingWidget": "Laen moodulit, palun oota...",
+        "ManageDashboard": "Halda töölauda",
+        "Maximise": "Maksimeeri",
+        "Minimise": "Minimeeri",
+        "NotUndo": "Sul ei ole võimalik antud tegevust tagasi võtta.",
+        "RemoveDashboard": "Eemalda töölaud",
+        "RenameDashboard": "Nimeta töölaud ümber",
+        "ResetDashboard": "Algseadista töölaud",
+        "SelectWidget": "Vali töölauale lisatav moodul",
+        "SetAsDefaultWidgets": "Määra vaikimisi valitud vidinateks",
+        "TopLinkTooltip": "Kuva veebianalüütika raport lehele %s.",
+        "WidgetNotFound": "Moodulit ei leitud",
+        "WidgetPreview": "Vidina eelvaade",
+        "WidgetsAndDashboard": "Vidinad ja töölaud"
+    }
+}

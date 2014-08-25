@@ -1,0 +1,7 @@
+{
+    "Installation": {
+        "DatabaseSetupAdapter": "Adapter",
+        "DatabaseSetupLogin": "Prijavi se",
+        "Email": "e-pošta"
+    }
+}

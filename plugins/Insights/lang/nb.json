@@ -1,0 +1,9 @@
+{
+    "Insights": {
+        "DayComparedToPreviousDay": "forrige dag",
+        "DayComparedToPreviousWeek": "samme dag i forrige uke",
+        "MonthComparedToPreviousMonth": "forrige måned",
+        "WeekComparedToPreviousWeek": "forrige uke",
+        "YearComparedToPreviousYear": "forrige år"
+    }
+}

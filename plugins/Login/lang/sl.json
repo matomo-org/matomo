@@ -1,0 +1,13 @@
+{
+    "Login": {
+        "InvalidOrExpiredToken": "Žeton je neveljaven ali pa je potekel.",
+        "InvalidUsernameEmail": "Napačno uporabniško ime ali e-mail naslov.",
+        "LogIn": "Vpis",
+        "LoginOrEmail": "Uporabniško ime ali E-mail",
+        "LoginPasswordNotCorrect": "Napačna kombinacija uporabniškega imena in gesla.",
+        "LostYourPassword": "Ste pozabili geslo?",
+        "PasswordRepeat": "Geslo (ponovno)",
+        "PasswordsDoNotMatch": "Gesli se ne ujemata.",
+        "RememberMe": "Zapomni si me"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Ilość stron w czasie wizyty",
+        "ColumnVisitDuration": "Czas trwania odwiedzin",
+        "Engagement": "Zaangażowanie",
+        "NPages": "%s stron",
+        "OnePage": "1 strona",
+        "PluginDescription": "Raporty o zainteresowaniach odwiedzających: ilość odwiedzonych stron, czas spędzony w serwisie.",
+        "PlusXMin": "%s min",
+        "VisitsPerDuration": "Odwiedzin w czasie trwania wizyty",
+        "VisitsPerNbOfPages": "Liczba wizyt na stronach",
+        "WidgetLengths": "Czas wizyt",
+        "WidgetPages": "Stron w czasie wizyty"
+    }
+}

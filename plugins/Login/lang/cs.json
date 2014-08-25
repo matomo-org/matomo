@@ -1,0 +1,22 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Do vaší e-mailové schránky byl odeslán potvrzovací e-mail. Pro potvrzení požadavku na změnu hesla navštivte odkaz v e-mailu uvedený.",
+        "ContactAdmin": "Možná příčina: Váš hosting zakázal funkci mail().. <br \/>Prosím kontaktujte vašeho administrátora Piwiku.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uživatel se Super uživatelským přístupem nemůže být autentizován mechanismem %s.",
+        "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla",
+        "InvalidNonceOrHeadersOrReferrer": "Zabezpečení formuláře selhalo. Prosím obnovte formulář a zkontrolujte, že máte povolené cookies. Pokud používáte proxy server, %smusíte nakonfigurovat Piwik aby přijímal proxy hlavičku%s, která přeposílá hlavičku hosta. Zkontrolujte také, že je správně posílána hlavička referrer.",
+        "InvalidOrExpiredToken": "Klíč je neplatný, nebo vypršel",
+        "InvalidUsernameEmail": "Neplatné uživatelské jméno a\/nebo e-mailová adresa",
+        "LogIn": "Přihlásit",
+        "LoginOrEmail": "Uživatelské jméno nebo E-mail",
+        "LoginPasswordNotCorrect": "Uživatelské jméno & heslo nejsou správné",
+        "LostYourPassword": "Zapomněli jste vaše heslo?",
+        "MailTopicPasswordChange": "Potvrďte změnu hesla",
+        "PasswordChanged": "Vaše heslo bylo změněno.",
+        "PasswordRepeat": "Heslo (pro kontrolu)",
+        "PasswordsDoNotMatch": "Hesla si neodpovídají",
+        "PluginDescription": "Zásuvný modul přihlašování, který pro prvotního super uživatele čte údaje ze souboru config\/config.ini.php a pro další uživatele z databáze. Může být jednoduše nahrazen jinou metodou autentizace (OpenId, htaccess atd.).",
+        "RememberMe": "Zapamatovat si",
+        "ResetPasswordInstructions": "Zadejte nové heslo k Vašemu účtu."
+    }
+}

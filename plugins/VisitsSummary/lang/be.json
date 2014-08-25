@@ -1,0 +1,18 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s сярэдняя працягласць наведвання",
+        "GenerateQueries": "%s запытаў выканана",
+        "GenerateTime": "Старонка згенеравана за %s секунд",
+        "MaxNbActions": "%s макс. дзеянняў за адно наведванне",
+        "NbActionsDescription": "%s дзеянні (прагляды старонак, запампоўка і знешнія спасылкі)",
+        "NbActionsPerVisit": "%s дзеянняў за наведванне",
+        "NbUniqueVisitors": "%s унікальных наведвальнікаў",
+        "NbVisitsBounced": "%s наведвальнікаў сышло пасля наведвання адной старонкі",
+        "PluginDescription": "Справаздачы у агульных аналітычных лічбах: наведванні, унікальныя наведвальнікі, колькасць дзеянняў, узровень адмоў і г.д.",
+        "VisitsSummary": "Наведванні сумарна",
+        "VisitsSummaryDocumentation": "Гэта агляд зменаў наведванняў.",
+        "WidgetLastVisits": "Графік апошніх наведванняў",
+        "WidgetOverviewGraph": "Агляд па ўсіх графіках",
+        "WidgetVisits": "Агляд наведванняў"
+    }
+}

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Profiler;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * Executes PHP tests.
  */
 class TestsRun extends ConsoleCommand
 {
@@ -25,6 +27,7 @@ class TestsRun extends ConsoleCommand
         $this->setDescription('Run Piwik PHPUnit tests one group after the other');
         $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,integration', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
+        $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -67,10 +70,17 @@ class TestsRun extends ConsoleCommand
             $command = sprintf('php -d zend_extension=%s %s', $xdebugFile, $phpunitPath);
         }
 
-        if(empty($groups)) {
+        if (empty($groups)) {
             $groups = $this->getTestsGroups();
         }
-        foreach($groups as $group) {
+
+        if ($input->getOption('xhprof')) {
+            Profiler::setupProfilerXHProf($isMainRun = true);
+
+            putenv('PIWIK_USE_XHPROF=1');
+        }
+
+        foreach ($groups as $group) {
             $params = '--group ' . $group . ' ' . str_replace('%group%', $group, $options);
             $cmd = sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
             $output->writeln('Executing command: <info>' . $cmd . '</info>');
@@ -83,5 +93,4 @@ class TestsRun extends ConsoleCommand
     {
         return array('Core', 'Plugins', 'Integration', 'UI');
     }
-
 }

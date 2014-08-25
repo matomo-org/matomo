@@ -1,0 +1,20 @@
+{
+    "SitesManager": {
+        "AddSite": "Gehitu webgune berria",
+        "AliasUrlHelp": "Gomendagarria da, baina ez beharrezkoa, bisitariek webgune hau atzitzeko erabiltzen dituzten URL ezberdinak zehaztea. Webgune baterako alias URLak ez dira agertuko Erreferenteak > Webguneak txostenean. Konturatu ez dela beharrezkoa URLak 'www'-rekin edo gabe zehaztea, Piwik-ek automatikoki biak hartzen baititu kontuan.",
+        "Currency": "Moneta",
+        "DeleteConfirm": "Ziur zaude %s webgunea ezabatu nahi duzula?",
+        "ExceptionDeleteSite": "Ezin da webgune hau ezabatu erregistratutako bakarra delako. Gehitu webgune berri bat lehenik eta ezabatu hau ondoren.",
+        "ExceptionEmptyName": "Webgunearen izenak ezin du hutsa izan.",
+        "ExceptionInvalidUrl": "'%s' URLa ez da baliozko URL bat.",
+        "ExceptionNoUrl": "Webgunearentzat URL bat zehaztu behar duzu gutxienez.",
+        "JsTrackingTagHelp": "Hemen da zure orri guztietan txertatu beharreko JavaScript jarraipen-etiketa",
+        "MainDescription": "Zure web analitiken txostenek webguneak behar dituzte! Gehitu, eguneratu, ezabatu webguneak eta erakutsi zure orrietan txertatu beharreko JavaScript kodea.",
+        "NoWebsites": "Ez daukazu kudeatzeko webgunerik.",
+        "ShowTrackingTag": "erakutsi jarraipen-etiketa",
+        "Sites": "Webguneak",
+        "Timezone": "Ordu-zona",
+        "Urls": "URLak",
+        "WebsitesManagement": "Webguneen kudeaketa"
+    }
+}

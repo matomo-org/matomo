@@ -1,0 +1,9 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Özel Değişken adı",
+        "ColumnCustomVariableValue": "Özel Değişken değeri",
+        "CustomVariables": "Özel Değişkenler",
+        "ScopePage": "ilgili sayfa",
+        "ScopeVisit": "ilgili ziyaret"
+    }
+}

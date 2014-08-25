@@ -1,0 +1,21 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s średniego czasu trwania odwiedzin",
+        "GenerateQueries": "%s wykonanych zapytań",
+        "GenerateTime": "%s sekund do wygenerowania strony",
+        "MaxNbActions": "%s działań maksymalnie przypadających na jedną wizytę",
+        "NbActionsDescription": "%s działań (przeglądania stron, pobrań i linków kolejnych)",
+        "NbActionsPerVisit": "%s działań na wizytę",
+        "NbDownloadsDescription": "%s pobrań",
+        "NbPageviewsDescription": "%s wejść",
+        "NbUniqueDownloadsDescription": "%s unikalnych pobrań",
+        "NbUniquePageviewsDescription": "%s unikalnych wejść",
+        "NbUniqueVisitors": "%s jednorazowych gości",
+        "NbVisitsBounced": "%s odwiedzin powróciło (opuszczając serwis po jednej stronie)",
+        "PluginDescription": "Ogólne raporty liczbowe odnośnie: odwiedzin, jednorazowych odwiedzin, zakres ich działań, współczynnik rezygnacji, etc.",
+        "VisitsSummary": "Podsumowanie odwiedzin",
+        "WidgetLastVisits": "Wykres z ostatnich odwiedzin",
+        "WidgetOverviewGraph": "Podgląd z wykresem",
+        "WidgetVisits": "Podgląd odwiedzin"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Vedd fel a kapcsolatot a Piwik fejlesztőkkel!",
+        "DoYouHaveBugReportOrFeatureRequest": "Hibát szeretnél bejelenteni, vagy egy funkció kifejlesztését szeretnéd kérni?",
+        "IWantTo": "A következőt szeretném:",
+        "LearnWaysToParticipate": "Győződj meg róla, %shányféleképpen segíthetsz%s",
+        "ManuallySendEmailTo": "Kérjük, küldd el manuálisan az üzeneted ide:",
+        "PluginDescription": "Küldd el véleményedet a Piwik fejlesztőinek. Oszd meg ötleteid, javaslataid velük!",
+        "SendFeedback": "Visszajelzés elküldése",
+        "SpecialRequest": "Valamilyen speciális kérdésed lenne a Piwik fejlesztőkhőz?",
+        "ThankYou": "Köszönjük, hogy segítesz jobbá tenni a Piwik-et!",
+        "VisitTheForums": "Látogasd meg a %sFórumot%s"
+    }
+}

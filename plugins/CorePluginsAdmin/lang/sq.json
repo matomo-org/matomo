@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Aktivizoje",
+        "Activated": "E aktivizuar",
+        "Active": "Vepruese",
+        "AuthorHomepage": "Faqja Hyrëse e Autorit",
+        "Deactivate": "Çaktivizoje",
+        "Inactive": "Jovepruese",
+        "LicenseHomepage": "Faqja Hyrëse e Lejes",
+        "MainDescription": "Shtojcat zgjerojnë dhe thellojnë funksionet e Piwik-ut. Pasi një shtojcë të jetë instaluar, mund ta aktivizoni ose çaktivizoni prej këtu.",
+        "PluginDescription": "Ndërfaqe Administrimi Shtojcash.",
+        "PluginHomepage": "Faqe Hyrëse e Shtojcës",
+        "PluginsManagement": "Administrim Shtojcash",
+        "Status": "Gjendje",
+        "Version": "Version"
+    }
+}

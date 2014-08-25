@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aca9f46b026a9e629b4a11e3e57428c0",
+    "hash": "1f130896dd9e74174a38115d905d0f32",
     "packages": [
         {
             "name": "leafo/lessphp",

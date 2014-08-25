@@ -747,12 +747,8 @@ class Piwik
         $first = reset($array);
         foreach ($array as $first) {
             if (is_array($first)) {
-                foreach ($first as $value) {
-                    // Yes, this is a multi dim array
-                    if (is_array($value)) {
-                        return true;
-                    }
-                }
+                // Yes, this is a multi dim array
+                return true;
             }
         }
 

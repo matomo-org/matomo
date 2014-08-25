@@ -1,0 +1,16 @@
+{
+    "Transitions": {
+        "FromCampaigns": "Fra kampanjer",
+        "FromPreviousPagesInline": "%s fra interne sider",
+        "FromPreviousSiteSearches": "Fra interne søk",
+        "FromPreviousSiteSearchesInline": "%s fra interne søk",
+        "FromSearchEngines": "Fra søkemotorer",
+        "FromWebsites": "Fra nettsider",
+        "IncomingTraffic": "Innkommende trafikk",
+        "OutgoingTraffic": "Utgående trafikk",
+        "ToFollowingPages": "Til interne sider",
+        "ToFollowingSiteSearches": "Interne søk",
+        "ToFollowingSiteSearchesInline": "%s interne søk",
+        "XOutOfYVisits": "%s (av %s)"
+    }
+}

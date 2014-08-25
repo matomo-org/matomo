@@ -1,0 +1,19 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "無資料在此類別！ 嘗試使用 \"包含所有個體\"！",
+        "JavascriptDisabled": "使用 Piwik 的標準檢視時必須啟用 JavaScript。<br \/>然而，看來你的瀏覽器已停用或不支援 JavaScript。<br \/>若要使用標準檢視，請變更你的瀏覽器選項並啟用 JavaScript, 然後%1$s重試一次%2$s。<br \/>",
+        "PageOf": "%1$s 之於 %2$s",
+        "PeriodDay": "日統計",
+        "PeriodDays": "天",
+        "PeriodMonth": "月統計",
+        "PeriodMonths": "月",
+        "PeriodWeek": "週統計",
+        "PeriodWeeks": "週",
+        "PeriodYear": "年統計",
+        "PeriodYears": "年",
+        "PluginDescription": "網站分析報告結構。",
+        "ShowJSCode": "顯示 JavaScript 追蹤碼以供插入",
+        "ThereIsNoDataForThisReport": "此報告項目無資料！",
+        "WebAnalyticsReports": "網站分析報告"
+    }
+}

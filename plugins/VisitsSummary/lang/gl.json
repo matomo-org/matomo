@@ -1,0 +1,11 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s consultas executadas",
+        "GenerateTime": "%s segundos para xerar a páxina",
+        "MaxNbActions": "%s accións máximas nunha visita",
+        "NbUniqueVisitors": "%s visitas únicas",
+        "WidgetLastVisits": "Gráfico das últimas visitas",
+        "WidgetOverviewGraph": "Visión xeral con gráfico",
+        "WidgetVisits": "Visión xeral de visitas"
+    }
+}

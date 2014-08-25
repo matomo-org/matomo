@@ -1,0 +1,12 @@
+{
+    "API": {
+        "GenerateVisits": "Ha nem volt még ma látogató, automatikusan generálhatsz mintaadatokat a %s kiegészítő segítségével. A %s kiegészítőt a Piwik adminisztrációs felületén megjelenő Látogatógenerálás menüpontra kattintva engedélyezheted.",
+        "KeepTokenSecret": "Ez a token_auth nevű kód pontosan annyira érzékeny adat mint a felhasználói neved és jelszavad, ezért %s ne oszd meg mindenkivel%s!",
+        "LoadedAPIs": "A(z) %s API sikeresen betöltődött.",
+        "MoreInformation": "További információkért a Piwik API-kkal kapcsolatban kérjük, tekintse meg a %s Introduction to Piwik API %s és a %s Piwik API Reference %s című leírásokat.",
+        "PluginDescription": "A Piwik által tárolt összes adat elérhető egyszerű API-k segítségével. Ez a kiegészítő egy belépési pontként funkcionáló web alkalmazás, melyet meghívhatsz, hogy hozzáférhess a webanalitika adatokhoz xml, json, php, csv, stb. formátumokban.",
+        "QuickDocumentationTitle": "API dokumentáció összefoglalója",
+        "UserAuthentication": "Felhasználó autentikációja",
+        "UsingTokenAuth": "Ha azt szeretné, hogy a %s külső alkalmazás adatot kérjen a szkripten belül, a crontab segítségével, stb. %s hozzá kell adnia a %s paramétert az API hívásoknál használt URL-ekhez, ha autentikáció szükséges számukra."
+    }
+}

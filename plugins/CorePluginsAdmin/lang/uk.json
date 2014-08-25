@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Активувати",
+        "Activated": "Активовано",
+        "Active": "Активний",
+        "AuthorHomepage": "Сторінки автора",
+        "Deactivate": "Деактивувати",
+        "Inactive": "Неактивний",
+        "LicenseHomepage": "Сторінка ліцензії",
+        "MainDescription": "Плагіни розширюють та примножують функціонал Piwik. Як тільки плагін встановлено його можна автивувати або деактивувати тут.",
+        "PluginDescription": "Інтерфейс Адміністрування Плагінів",
+        "PluginHomepage": "Домашня сторінка плагіна",
+        "PluginsManagement": "Керування плагінами",
+        "Status": "Статус",
+        "Version": "Версія"
+    }
+}

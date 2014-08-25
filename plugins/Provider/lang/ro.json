@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Operator",
+        "PluginDescription": "Rapoarte ale Furnizorului de vizitatori.",
+        "ProviderReportDocumentation": "Acest raport arată care furnizorii de servicii de Internet vizitatorii dvs. au folosit pentru a accesa site-ul. Puteți face clic pe un nume de furnizor pentru mai multe detalii. %s Daca Piwik nu poate determina furnizor un vizitator, acesta este listat ca IP.",
+        "SubmenuLocationsProvider": "Locație și operatori",
+        "WidgetProviders": "Provideri"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "e %s altri",
+        "Cities": "Città",
+        "Countries": "Nazioni",
+        "DaysAgo": "%s giorni fa",
+        "GoalConversions": "%s conversioni obiettivi",
+        "Hours": "ore",
+        "HoursAgo": "%s ore fa",
+        "map": "mappa",
+        "Minutes": "minuti",
+        "MinutesAgo": "%s minuti fa",
+        "None": "Nessuno",
+        "NoVisit": "Nessuna visita",
+        "RealTimeMap": "Mappa Real Time",
+        "Regions": "Regioni",
+        "Searches": "%s ricerche",
+        "Seconds": "secondi",
+        "SecondsAgo": "%s secondi fa",
+        "ShowingVisits": "Visite geolocalizzate degli ultimi",
+        "Unlocated": "<b>%s<\/b> %p delle visite da %c non possono essere geolocalizzate.",
+        "VisitorMap": "Mappa Visitatori",
+        "WithUnknownCity": "%s con città sconosciuta",
+        "WithUnknownRegion": "%s con regione sconosciuta",
+        "WorldWide": "Tutto il Mondo"
+    }
+}

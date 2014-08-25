@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "Dostawca",
+        "PluginDescription": "Raporty dostawców o odwiedzających.",
+        "SubmenuLocationsProvider": "Lokalizacje & dostawcy",
+        "WidgetProviders": "Dostawcy"
+    }
+}

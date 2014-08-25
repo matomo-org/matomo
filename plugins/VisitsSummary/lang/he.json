@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s זמן עלייה ממוצע",
+        "AverageVisitDuration": "%s זמן ביקור ממוצע",
+        "GenerateQueries": "%s שאילתות בוצעו",
+        "GenerateTime": "%s שניות בכדי לחולל את העמוד",
+        "MaxNbActions": "%s מספר פעולות מקסימלי בביקור אחד",
+        "NbActionsDescription": "%s פעולות (צפייה בעמודים, הורדות וקישורים יוצאים)",
+        "NbActionsPerVisit": "%s פעולות בביקור",
+        "NbDownloadsDescription": "%s הורדות",
+        "NbKeywordsDescription": "%s מילות מפתח ייחודיות",
+        "NbOutlinksDescription": "%s קישורים יוצאים",
+        "NbPageviewsDescription": "%s צפיות בעמודים",
+        "NbSearchesDescription": "%s חיפושים באתר סה״כ",
+        "NbUniqueDownloadsDescription": "%s הורדות ייחודיות",
+        "NbUniqueOutlinksDescription": "%s קישורים יוצאים ייחודיים",
+        "NbUniquePageviewsDescription": "%s ביקורי עמודים ייחודיים",
+        "NbUniqueVisitors": "%s מבקרים יחודיים",
+        "NbVisitsBounced": "%s ביקורים ננטשו (עזבו את האתר אחרי עמוד אחד)",
+        "PluginDescription": "מדווח על ניתוח המספרים הכללי: ביקורים, מבקרים יחודיים, מספר פעולות, שיעור נטישה וכו'",
+        "VisitsSummary": "תקציר ביקורים",
+        "VisitsSummaryDocumentation": "זו סקירה של התפתחות הביקור.",
+        "WidgetLastVisits": "גרף ביקורים אחרונים",
+        "WidgetOverviewGraph": "מבט כללי עם גרף",
+        "WidgetVisits": "מבט כללי על ביקורים"
+    }
+}

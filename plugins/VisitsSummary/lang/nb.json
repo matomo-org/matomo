@@ -1,0 +1,24 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s gjennomsnittlig besøksvarighet",
+        "GenerateQueries": "%s spørringer kjørt",
+        "GenerateTime": "%s sekunder for å generere denne siden",
+        "MaxNbActions": "%s maks handlinger i ett besøk",
+        "NbActionsDescription": "%s handlinger (sidevisninger, nedlastinger og utlenker)",
+        "NbActionsPerVisit": "%s handlinger per besøk",
+        "NbDownloadsDescription": "%s nedlastinger",
+        "NbKeywordsDescription": "%s unike nøkkelord",
+        "NbOutlinksDescription": "%s utlenker",
+        "NbPageviewsDescription": "%s sidevisninger",
+        "NbUniqueDownloadsDescription": "%s unike nedlastinger",
+        "NbUniqueOutlinksDescription": "%s unike utlenker",
+        "NbUniquePageviewsDescription": "%s unike sidevisninger",
+        "NbUniqueVisitors": "%s unike besøkende",
+        "NbVisitsBounced": "%s besøk har sprettet (forlatt nettstedet etter en side)",
+        "PluginDescription": "Rapporterer generell statistikk: Besøk, unike besøkende, antall handlinger, sprettfrekvens, osv.",
+        "VisitsSummary": "Besøksammendrag",
+        "WidgetLastVisits": "Graf over siste besøk",
+        "WidgetOverviewGraph": "Oversikt med grafikk",
+        "WidgetVisits": "Besøksoversikt"
+    }
+}

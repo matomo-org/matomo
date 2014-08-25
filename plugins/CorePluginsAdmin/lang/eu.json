@@ -1,0 +1,14 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Gaitu",
+        "Activated": "Gaituta",
+        "Active": "Gaituta",
+        "Deactivate": "Ezgaitu",
+        "Inactive": "Ezgaituta",
+        "MainDescription": "Piwik-en funtzionaltasunak hedatu eta zabaltzen dituzte pluginek. Plugin bat instalatu ondoren, hemendik gaitu edo ezgaitu dezakezu.",
+        "PluginHomepage": "Pluginaren hasiera-orria",
+        "PluginsManagement": "Pluginen kudeaketa",
+        "Status": "Egoera",
+        "Version": "Bertsioa"
+    }
+}

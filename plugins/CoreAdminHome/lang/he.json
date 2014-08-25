@@ -1,0 +1,29 @@
+{
+    "CoreAdminHome": {
+        "Administration": "ניהול",
+        "BrandingSettings": "הגדרות מיתוג",
+        "CheckReleaseGetVersion": "כאשר מתבצעת בדיקה לגרסה חדשה של פיווק, קבל תמיד",
+        "ClickHereToOptIn": "לחץ כאן להצטרפות.",
+        "ClickHereToOptOut": "לחץ כאן לביטול.",
+        "EmailServerSettings": "הגדרות שרת אימייל",
+        "ForBetaTestersOnly": "עבור גרסת ניסיון בלבד",
+        "ImageTracking": "תמונת מעקב",
+        "ImageTrackingIntro1": "כאשר המבקרים ביטלו את יישום הג'אווה או שלא בשימוש, אתה יכול להשתמש בתמונת קישור למעקב אחרי המבקרים",
+        "ImageTrackingLink": "קישור מעקב כתמונה",
+        "JavaScriptTracking": "מעקב בג'אווה-סקריפט",
+        "LatestBetaRelease": "גרסת נסיון עדכנית",
+        "LatestStableRelease": "גרסה יציבה עדכנית",
+        "LogoUpload": "בחירת קובץ לוגו",
+        "MenuDiagnostic": "אבחון",
+        "MenuGeneralSettings": "הגדרות כלליות",
+        "MenuManage": "ניהול",
+        "OptOutForYourVisitors": "התחמקות מ-Piwik עבור גולשיך",
+        "PiwikIsInstalledAt": "Piwik מותקן ב",
+        "PluginDescription": "אזור הניהול של Piwik.",
+        "PluginSettings": "הגדרות תוסף",
+        "TrackAGoal": "עקיבה אחר יעד",
+        "TrackingCode": "קוד מעקב",
+        "TrustedHostSettings": "מארח מהימן ע״י Piwik",
+        "UseCustomLogo": "להשתמש בלוגו מותאם אישית"
+    }
+}

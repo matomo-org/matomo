@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Bila Anda tidak memiliki data untuk hari ini, Anda dapat membuat beberapa menggunakan pengaya %s. Anda dapat mengaktifkan pengaya %s, lalu klik menu 'Pembangkit Kunjungan' di halaman Pengurus Piwik.",
+        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama-id dan sandi Anda, %s sehingga jangan memberitahukannya%s!",
+        "LoadedAPIs": "Berhasil memuat API %s",
+        "MoreInformation": "Untuk informasi selengkapnya tentang API Piwik, silakan melihat %s Pengenalan API Piwik%s dan %sReferensi API Piwik%s.",
+        "PluginDescription": "Seluruh data di Piwik tersedia dalam API sederhana. Pengaya ini adalah titik masuk layanan ramatraya, yang dapat Anda hubungi untuk mendapatkan data Analisis Ramatraya Anda dalam xml, json, php, csv, dll",
+        "QuickDocumentationTitle": "Dokumentasi API ringkas",
+        "TopLinkTooltip": "Akses data Analisis Ramatraya terprogram melalui API sederhana dalam json, xml, dan lain lain.",
+        "UserAuthentication": "Otentikasi pengguna",
+        "UsingTokenAuth": "Jika Anda ingin melakukan permintaan data %s menggunakan skrip, crontab, dll. %s Anda harus menambah parameter %s agar API memanggil URL yang membutuhkan otentikasi."
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "การดำเนินการโดยผู้เข้าชมที่กลับมา",
+        "ColumnAverageVisitDurationForReturningVisitors": "ระยะเวลาการเข้าชมเฉลี่ยสำหรับส่งกลับผู้เข้าชม (เป็นวินาที)",
+        "ColumnAvgActionsPerReturningVisit": "เฉลี่ยการดำเนินการต่อกลับมาเข้าชม",
+        "ColumnBounceRateForReturningVisits": "อัตราการเด้งของผู้เข้าชมที่กลับมา",
+        "ColumnReturningVisits": "ผู้เข้าชมที่กลับมา",
+        "PluginDescription": "รายงานสถิติต่าง ๆ เกี่ยวกับผู้เข้าชมกลับมาเทียบกับผู้เข้าชมครั้งแรก",
+        "ReturnActions": "%s ดำเนินการโดยการกลับมาเข้าชม",
+        "ReturnAverageVisitDuration": "%s ค่าเฉลี่ยของเข้าเข้าชมระยะเวลาสำหรับการส่งกลับผู้เข้าชม",
+        "ReturnAvgActions": "%s ดำเนินต่อกลับมาเข้าชม",
+        "ReturnBounceRate": "%s ที่กลับมาเข้าชมได้ (ซ้ายเว็บไซต์หลังจากหนึ่งหน้า)",
+        "ReturnVisits": "%s กลับมาเข้าชม",
+        "SubmenuFrequency": "ความถี่ของผู้เข้าชม",
+        "WidgetGraphReturning": "กราฟของผู้เข้าชม",
+        "WidgetOverview": "ภาพรวมความถี่ผู้เข้าชมที่กลับมา"
+    }
+}

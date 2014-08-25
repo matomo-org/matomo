@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "새 창에서 열기",
+        "PluginDescription": "당신의 블로그, 웹사이트, Igoogle, Netvibes 등 모든 Piwik 위젯을 매우 쉽게 내보낼 수 있습니다.",
+        "TopLinkTooltip": "Piwik 보고서를 위젯으로 내보내고 당신의 애플리케이션 대시보드에 IFRAME으로 삽입할 수 있습니다."
+    }
+}

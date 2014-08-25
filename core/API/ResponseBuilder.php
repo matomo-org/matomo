@@ -221,7 +221,7 @@ class ResponseBuilder
             $firstKey   = key($array);
         }
 
-        $isAssoc = !empty($firstArray) && is_numeric($firstKey) && is_array($firstArray) && !Piwik::isMultiDimensionalArray($array) && count(array_filter(array_keys($firstArray), 'is_string'));
+        $isAssoc = !empty($firstArray) && is_numeric($firstKey) && is_array($firstArray) && count(array_filter(array_keys($firstArray), 'is_string'));
 
         if ($isAssoc) {
             $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);

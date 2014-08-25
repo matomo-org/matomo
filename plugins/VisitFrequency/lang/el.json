@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Δραστηριότητες από Επιστρεφόμενες Επισκέψεις",
+        "ColumnAverageVisitDurationForReturningVisitors": "Μέση Διάρκεια Επιστρεφόμενης Επίσκεψης (σε δευτερόλεπτα)",
+        "ColumnAvgActionsPerReturningVisit": "Μέσος αριθμός Δραστηριοτήτων ανά Επιστρεφόμενη Επίσκεψη",
+        "ColumnBounceCountForReturningVisits": "Μέτρηση Αναπήδησης για Επιστρεφόμενους Επισκέπτες",
+        "ColumnBounceRateForReturningVisits": "Βαθμός Απομάκρυνσης για Επιστρεφόμενες Επισκέψεις",
+        "ColumnMaxActionsInReturningVisit": "Μέγιστος αριθμός Δραστηριοτήτων σε μια επιστρεφόμενη επίσκεψη",
+        "ColumnNbReturningVisitsConverted": "Αριθμός μετατρεπόμενων επιστρεφόμενων επισκέψεων",
+        "ColumnReturningVisits": "Επιστρεφόμενες επισκέψεις",
+        "ColumnSumVisitLengthReturning": "Συνολικός δαπανηθής χρόνος από επιστρεφόμενους επισκέπτες (σε δευτερόλεπτα)",
+        "ColumnUniqueReturningVisitors": "Μοναδικοί επιστρεφόμενοι επισκέπτες",
+        "PluginDescription": "Αναφέρει διάφορα στατιστικά για τον Επιστρεφόμενο Επισκέπτη αντί το Πρωτοεμφανιζόμενου επισκέπτη.",
+        "ReturnActions": "%s δραστηριότητες από τις επιστρεφόμενες επισκέψεις",
+        "ReturnAverageVisitDuration": "%s μέση διάρκεια επισκέψεων για επιστρεφόμενους Επισκέπτες",
+        "ReturnAvgActions": "%s δραστηριότητες ανά επιστρεφόμενη επίσκεψη",
+        "ReturnBounceRate": "%s επιστρεφόμενες επισκέψεις έχουν απομακρυνθεί (άφησαν την ιστοσελίδα μετά από μια σελίδα)",
+        "ReturningVisitDocumentation": "Μια επιστρεφόμενη επίσκεψη είναι (σε αντίθεση με μια νέα επίσκεψη) αυτή που έγινε από κάποιον που έχει επισκευφτεί την ιστοσελίδα ήδη μια φορά.",
+        "ReturningVisitsDocumentation": "Αυτή είναι μια επισκόπηση των επιστρεφόμενων επισκέψεων.",
+        "ReturnVisits": "%s επιστρεφόμενες επισκέψεις",
+        "SubmenuFrequency": "Συχνότητα",
+        "WidgetGraphReturning": "Γράφημα επιστρεφόμενων επισκέψεων",
+        "WidgetOverview": "Επισκόπηση συχνότητας"
+    }
+}

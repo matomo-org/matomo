@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s klik",
+        "ClicksFromXLinks": "%1$s klik fra et af %2$s link",
+        "Domain": "Domæne",
+        "ErrorNotLoading": "Sideoverlay session kunne ikke startes endnu.",
+        "ErrorNotLoadingDetails": "Måske den indlæste side til højre ikke har Piwik sporingskode. I så tilfælde, kan du prøve at starte overlejring for en anden side fra siderapporter.",
+        "ErrorNotLoadingDetailsSSL": "Da du bruger Piwik over HTTPS, er den mest sandsynlige årsag, at hjemmesiden ikke understøtter SSL. Prøv at bruge Piwik over HTTP.",
+        "ErrorNotLoadingLink": "Klik her for at få flere tips til fejlfinding",
+        "Link": "Link",
+        "Location": "Lokation",
+        "NoData": "Der er ingen data for denne side i den valgte periode.",
+        "OneClick": "1 klik",
+        "OpenFullScreen": "Vis fuldskærm (ingen sidebjælke)",
+        "Overlay": "Side overlejring",
+        "PluginDescription": "Se analysedata som en overlejring på din faktiske hjemmeside.",
+        "RedirectUrlError": "Du forsøger at åbne sideoverlejring for URL \"%s\". %s Ingen af ​​domæner fra Piwiks indstillinger matcher linket.",
+        "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %si indstillingerne%s.",
+        "RedirectUrlErrorUser": "Spørg administratoren om at tilføje domænet som en yderligere URL."
+    }
+}

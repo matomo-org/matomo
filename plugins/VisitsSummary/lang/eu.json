@@ -1,0 +1,13 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s galdera exekutatuta",
+        "GenerateTime": "%s segundo orria sortzeko",
+        "MaxNbActions": "%s ekintza gehienez bisita batean",
+        "NbUniqueVisitors": "%s bisitari desberdin",
+        "NbVisitsBounced": "%s bisita errebotatu dira (webgunea utzi dute orri bat ikusi ondoren)",
+        "VisitsSummary": "Bisiten laburpena",
+        "WidgetLastVisits": "Azken bisiten grafikoa",
+        "WidgetOverviewGraph": "Ikuspegi orokorra grafikoarekin",
+        "WidgetVisits": "Bisiten ikuspegi orokorra"
+    }
+}

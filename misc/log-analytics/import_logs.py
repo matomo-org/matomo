@@ -970,17 +970,9 @@ class StaticResolver(object):
     def __init__(self, site_id):
         self.site_id = site_id
         # Go get the main URL
-        sites = piwik.call_api(
+        site = piwik.call_api(
             'SitesManager.getSiteFromId', idSite=self.site_id
         )
-        try:
-            site = sites[0]
-        except (IndexError, KeyError):
-            logging.debug('response for SitesManager.getSiteFromId: %s', str(sites))
-
-            fatal_error(
-                "cannot get the main URL of this site: invalid site ID: %s" % site_id
-            )
         if site.get('result') == 'error':
             fatal_error(
                 "cannot get the main URL of this site: %s" % site.get('message')

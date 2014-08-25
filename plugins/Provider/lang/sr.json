@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Provajder",
+        "PluginDescription": "Izveštaj o provajderima",
+        "ProviderReportDocumentation": "Ovaj izveštaj prikazuje koje Internet provajdere koriste vaši posetioci kako bi pristupili sajtu. Možete kliknuti na naziv provajdera kako biste videli više detalja. %s Ako Piwik ne može da odredi koji provajder je u pitanju, onda prikazuje IP.",
+        "SubmenuLocationsProvider": "Lokacije i provajderi",
+        "WidgetProviders": "Provajderi"
+    }
+}

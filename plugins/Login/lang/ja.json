@@ -1,0 +1,15 @@
+{
+    "Login": {
+        "ContactAdmin": "考えられる理由： ホストで mail() 関数が無効にされている可能性があります。<br \/>Piwik 管理者にご連絡ください。",
+        "ExceptionPasswordMD5HashExpected": "パスワードパラメータは、パスワードの MD5 ハッシュ値であることを想定されています。",
+        "InvalidOrExpiredToken": "トークンが無効または期限切れです。",
+        "InvalidUsernameEmail": "ユーザー名またはメールアドレスが無効です",
+        "LogIn": "ログイン",
+        "LoginOrEmail": "ユーザー名またはメールアドレス",
+        "LoginPasswordNotCorrect": "ユーザー名またはパスワードが正しくありません",
+        "LostYourPassword": "パスワードをお忘れですか？",
+        "PasswordRepeat": "パスワード（再入力）",
+        "PasswordsDoNotMatch": "パスワードが一致しません。",
+        "RememberMe": "次回の入力を省略"
+    }
+}

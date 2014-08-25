@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "ستون '%s' در این گزارش پیدا نشد. تلاش کنید برای %s",
+        "PluginDescription": "تولید تصاویر زیبا PNG استاتیک نمودار هر گزارش Piwik."
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Nav datu šajā kategorijā. Mēģiniet izvēlēties \"Iekļaut visu apmeklējumu\".",
+        "JavascriptDisabled": "Lai lietotu Piwik tā standartskatā, ir jāieslēdz JavaScript.<br \/>Tomēr izskatās, ka JavaScript atbalsts ir izslēgts vai arī to neatbalsts Jūsu pārlūks.<br \/>Lai lietotu standartskatu, ieslēdziet JavaScript atbalstu pārlūka iestatījumos, tad %1$smēģiniet atkārtoti%2$s.<br \/>",
+        "NoPrivilegesAskPiwikAdmin": "Jūs esat ienākuši kā '%s', bet izskatās, ka Jums nav iestatītas vajadzīgās Piwik atļaujas. %s Pieprasiet savam Piwik administratoram (klikšķiniet, lai nosūtītu e-pastu)%s Jums pieslēgt vietnes apskates atļauju.",
+        "PageOf": "%1$s no %2$s",
+        "PeriodDay": "Diena",
+        "PeriodDays": "dienas",
+        "PeriodMonth": "Mēnesis",
+        "PeriodMonths": "mēneši",
+        "PeriodWeek": "Nedēļa",
+        "PeriodWeeks": "nedēļas",
+        "PeriodYear": "Gads",
+        "PeriodYears": "gadi",
+        "PluginDescription": "Tīkla analīzes atskaišu struktūra",
+        "ShowJSCode": "Rādīt ievietošanai paredzēto JavaScript kodu",
+        "ThereIsNoDataForThisReport": "Nav šajai atskaitei vajadzīgo datu.",
+        "WebAnalyticsReports": "Tīkla analīzes atskaites"
+    }
+}

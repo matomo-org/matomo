@@ -1,0 +1,23 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administração",
+        "BrandingSettings": "Definições de Marca",
+        "ClickHereToOptIn": "Clique aqui para fazer opt-in.",
+        "ClickHereToOptOut": "Clique aqui para fazer opt-out.",
+        "CustomLogoHelpText": "Você pode personalizar o logotipo Piwik que será exibido na interface do utilizador e relatórios de e-mail.",
+        "EmailServerSettings": "Definições do servidor de email",
+        "LogoUpload": "Selecione um logo para fazer upload",
+        "MenuGeneralSettings": "Definições gerais",
+        "OptOutComplete": "Opt-out completo; as suas visitas a este site não serão gravadas pela ferramenta de Web Analytics.",
+        "OptOutCompleteBis": "Note que se você apagar os cookies, apagar o cookie de opt-out, ou se você mudar de computador ou navegadores Web, vai precisar de realizar o procedimento de opt-out novamente.",
+        "OptOutExplanation": "O Piwik é dedicado a fornecer privacidade na Internet. Para apresentar aos seus visitantes a escolha de opting-out da Web Analytics Piwik, você pode adicionar o seguinte código HTML em uma das páginas do seu site, por exemplo, numa página de Política de Privacidade.",
+        "OptOutExplanationBis": "Este código irá exibir um iFrame contendo um link para que seus visitantes possam fazer opt-out do Piwik definindo um cookie de opt-out nos navegadores do utilizador. %s Clique aqui%s para ver o conteúdo que será exibido pelo iFrame.",
+        "OptOutForYourVisitors": "opt-out do Piwik para os seus visitantes",
+        "PluginDescription": "Área de administração de Piwik.",
+        "UseCustomLogo": "Use um logo personalizado.",
+        "YouAreOptedIn": "Actualmente está activa a opção opt-in",
+        "YouAreOptedOut": "Actualmente está activa a opção opt-out",
+        "YouMayOptOut": "Você pode optar por não ter um único número de identificação web analytics em cookie atribuído ao seu computador para evitar a agregação e análise dos dados coletados neste site.",
+        "YouMayOptOutBis": "Para fazer essa escolha, por favor clique em baixo para receber uma cookie opt-out."
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "اضافه کردن وضعیت از%s",
+        "AddNewSegment": "اضافه کردن سگمنت جدید",
+        "AreYouSureDeleteSegment": "آیا شما مطمئن هستید که میخواهید این بخش را حذف کنید؟",
+        "AutoArchivePreProcessed": "گزارش سگمنتال پیش پردازش (سریع تر، نیاز به cron را archive.php ذخیره)",
+        "AutoArchiveRealTime": "گزارش های سگمنتال در زمان واقعی پردازش",
+        "ChooseASegment": "انتخاب بخش",
+        "DefaultAllVisits": "تمامی بازدیدکننده ها",
+        "DragDropCondition": "کشیدن و رها کردن",
+        "LoadingSegmentedDataMayTakeSomeTime": "پردازش داده های بازدید کننده تقسیم ممکن است چند دقیقه طول بکشد ...",
+        "OperatorAND": "و",
+        "OperatorOR": "یا",
+        "SaveAndApply": "ذخیره و درخواست",
+        "SegmentDisplayedAllWebsites": "تمام وب سایت ها",
+        "SegmentDisplayedThisWebsiteOnly": "این وب سایت فقط",
+        "SegmentIsDisplayedForWebsite": "و برای نمایش داده",
+        "SelectSegmentOfVisitors": "انتخاب بخشی از بازدید کنندگان:",
+        "ThisSegmentIsVisibleTo": "این بخش قابل رؤیت است:",
+        "VisibleToAllUsers": "تمام کاربران",
+        "VisibleToMe": "من",
+        "YouMustBeLoggedInToCreateSegments": "شما باید برای ایجاد و ویرایش بخش های بازدید کننده سفارشی، وارد سیستم شوید."
+    }
+}

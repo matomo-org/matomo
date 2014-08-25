@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s gemiddelde laadtijd",
+        "AverageVisitDuration": "%s gemiddelde duur bezoek",
+        "GenerateQueries": "%s queries uitgevoerd",
+        "GenerateTime": "%s seconden om deze pagina te genereren",
+        "MaxNbActions": "%s hoogste aantal acties per bezoek",
+        "NbActionsDescription": "%s acties",
+        "NbActionsPerVisit": "%s acties per bezoek.",
+        "NbDownloadsDescription": "%s downloads",
+        "NbKeywordsDescription": "%s unieke sleutelwoorden",
+        "NbOutlinksDescription": "%s outlinks",
+        "NbPageviewsDescription": "%s paginaweergaves",
+        "NbSearchesDescription": "%s totale zoekopdrachten",
+        "NbUniqueDownloadsDescription": "%s unieke downloads",
+        "NbUniqueOutlinksDescription": "%s unieke outlinks",
+        "NbUniquePageviewsDescription": "%s unieke paginaweergaves",
+        "NbUniqueVisitors": "%s unieke bezoekers",
+        "NbVisitsBounced": "%s bezoekers hebben de website verlaten na één pagina",
+        "PluginDescription": "Toont de algemene analyses: bezoeken, unieke bezoekers, aantal acties, bouncerate enz.",
+        "VisitsSummary": "Bezoekers samenvatting",
+        "VisitsSummaryDocumentation": "Dit is een trendlijn die de ontwikkeling weergeeft.",
+        "WidgetLastVisits": "Recente bezoeken",
+        "WidgetOverviewGraph": "Totalen met trendlijn",
+        "WidgetVisits": "Bezoeken totalen"
+    }
+}

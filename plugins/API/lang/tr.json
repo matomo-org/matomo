@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Eğer bugün için bir veri yoksa öncelikle %s eklentisiyle biraz veri oluşturabilirsiniz. %s eklentisini aktifleştirin, sonrasında Piwik Yönetim alanından 'Ziyaretçi Oluşturucu' menüsüne tıklayınız.",
+        "KeepTokenSecret": "token_auth kullanıcı adı ve şifreniz kadar gizlidir, %s kimseyle paylaşmayınız%s!",
+        "LoadedAPIs": "%s API başarılı şekilde yüklendi",
+        "MoreInformation": "Piwik APIsi hakkında daha fazla bilgi için lütfen %s Piwik API Kullanımı %s ve %s Piwik API Referansına %s bakınız.",
+        "PluginDescription": "Piwik içerisindeki tüm veriler basit APIlerle kullanılabilmektedir. Bu eklenti Web Istatistiklerinize xml, json, php, csv vb. yollarla erişebilmenizi sağlayan bir erişim noktasıdır.",
+        "QuickDocumentationTitle": "API hızlı belgeler",
+        "TopLinkTooltip": "Json, xml veya diğerleri ile Api kullanarak erişin.",
+        "UserAuthentication": "Kullanıcı kimlik doğrulaması",
+        "UsingTokenAuth": "Bir script, cron vb içerisinden %s verisi çağırmak isterseniz, %s kimlik doğrulama gerektiren API bağlantılarına %s parametresini eklemelisiniz."
+    }
+}

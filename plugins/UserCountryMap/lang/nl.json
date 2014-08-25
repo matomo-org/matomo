@@ -1,0 +1,23 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "en %s anderen",
+        "Cities": "Steden",
+        "Countries": "Landen",
+        "DaysAgo": "%s dagen geleden",
+        "GoalConversions": "%s doelconversies",
+        "Hours": "uren",
+        "HoursAgo": "%s uren geleden",
+        "map": "kaart",
+        "Minutes": "minuten",
+        "MinutesAgo": "%s minuten geleden",
+        "None": "Geen",
+        "NoVisit": "Geen bezoeken",
+        "RealTimeMap": "Realtime Kaart",
+        "Regions": "Regio's",
+        "Searches": "%s zoekopdrachten",
+        "Seconds": "seconden",
+        "SecondsAgo": "%s seconden geleden",
+        "VisitorMap": "Bezoeker Kaart",
+        "WorldWide": "Wereldwijd"
+    }
+}

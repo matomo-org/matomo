@@ -1,0 +1,13 @@
+{
+    "Login": {
+        "ContactAdmin": "Arrazoi posiblea: zure ostalariak mail() funtzioa ezgaituta izan dezake.<br \/>Jar zaitez harremanetan zure Piwik kudeatzailearekin.",
+        "InvalidOrExpiredToken": "Tokena baliogabea da edo iraungi egin da",
+        "InvalidUsernameEmail": "Erabiltzaile-izen edo helbide elektroniko baliogabea",
+        "LogIn": "Hasi saioa",
+        "LoginOrEmail": "Erabiltzaile-izena edo e-posta",
+        "LoginPasswordNotCorrect": "Erabiltzaile-izena eta pasahitza ez datoz bat",
+        "LostYourPassword": "Pasahitza galdu duzu?",
+        "PasswordRepeat": "Pasahitza (errepikatu)",
+        "PasswordsDoNotMatch": "Pasahitzak ez datoz bat."
+    }
+}

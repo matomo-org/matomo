@@ -1,0 +1,25 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Contacta al equipo de Piwik!",
+        "DoYouHaveBugReportOrFeatureRequest": "Tienes un error que reportar o una nueva característica?",
+        "GetInTouch": "Agradecemos tu feedback, nosotros leemos siempre todos los mensajes. Quizá te gustaría compartir una oportunidad comercial, contratar un consultor de Piwik, o contarnos sobre un éxito empresarial interesante o simplemente mandarnos un saludo!",
+        "IWantTo": "Yo quiero:",
+        "LearnWaysToParticipate": "Aprende sobre todas las formas de %sparticipar%s",
+        "ManuallySendEmailTo": "Por favor envíe su mensaje manualmente a",
+        "PluginDescription": "Enviar tus comentarios al equipo de Piwik. Comparte tus ideas y sugerencias con nosotros!",
+        "PrivacyClaim": "Piwik respeta tu %1$sprivacidad%2$s y te deja controlar todos tus datos.",
+        "RateFeatureLeaveMessageDislike": "¡Lamentamos que no te gusta! Por favor déjanos saber cómo podemos mejorar.",
+        "RateFeatureLeaveMessageLike": "¡Nos alegra que te gusta! Por favor déjanos saber qué es lo que más te gusta y si hay otras funciones que te gustaría tener.",
+        "RateFeatureSendFeedbackInformation": "Tu plataforma Piwik nos enviará (nosotros del team de Piwik) un email (incluso tu dirección de mail) para que podamos contactarte en caso de que tienes preguntas.",
+        "RateFeatureThankYouTitle": "¡Gracias por evaluar '%s'!",
+        "RateFeatureTitle": "¿Te gusta la función '%s'? Por favor evaluala y deja un comento",
+        "SendFeedback": "Enviar comentario",
+        "SpecialRequest": "Tienes una petición especial para el equipo de Piwik?",
+        "ThankYou": "Gracias por ayudarnos a hacer un mejor Piwik",
+        "TopLinkTooltip": "Danos tu opinión o solicita Soporte Profesional",
+        "ViewAnswersToFAQ": "Ver respuestas a las %sPreguntas frecuentes%s",
+        "ViewUserGuides": "Aprende a configurar Piwik y a analizar tus datos de modo eficaz con nuestras %1$sguías de usuario%2$s",
+        "VisitTheForums": "Visita el %sForo%s",
+        "WantToThankConsiderDonating": "¿Piensas que Piwik es genial y te gustaría agradecernos?"
+    }
+}

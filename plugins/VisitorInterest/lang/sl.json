@@ -1,0 +1,15 @@
+{
+    "VisitorInterest": {
+        "ColumnPagesPerVisit": "Strani na obisk",
+        "ColumnVisitDuration": "Trajanje obiska",
+        "Engagement": "Interes",
+        "NPages": "%s strani",
+        "OneMinute": "1 min",
+        "OnePage": "1 stran",
+        "PlusXMin": "%s min",
+        "VisitNum": "Številka obiska",
+        "VisitsPerNbOfPages": "Obiskov na število strani",
+        "WidgetLengths": "Dolžina obiskov",
+        "WidgetPages": "Strani na obisk"
+    }
+}

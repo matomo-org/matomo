@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Penyedia",
+        "PluginDescription": "Membuat laporan Penyedia pengunjung.",
+        "ProviderReportDocumentation": "Laporan ini menampilkan Penyedia Layanan Internet yang digunakan oleh pengunjung Anda untuk mengunjungi situs. Anda dapat mengeklik nama penyedia untuk melihat rinciannya. %s Bila Piwik tak dapat menentukan penyedia pengunjung, ini akan ditampikan sebagai IP.",
+        "SubmenuLocationsProvider": "Lokasi & Penyedia",
+        "WidgetProviders": "Penyedia"
+    }
+}
