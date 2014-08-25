@@ -700,6 +700,7 @@
     }
 
    /* Create a dataset based on a formula */
+   /* COMMENTED BY PIWIK to avoid eval()
    function createFunctionSerie($SerieName,$Formula="",$Options="")
     {
      $MinX		= isset($Options["MinX"]) ? $Options["MinX"] : -10;
@@ -728,7 +729,7 @@
      $this->addPoints($Result,$SerieName);
      if ( $AutoDescription ) { $this->setSerieDescription($SerieName,$Formula); }
      if ( $RecordAbscissa ) { $this->addPoints($Abscissa,$AbscissaSerie); }
-    }
+    }*/
 
    function negateValues($Series)
     {
