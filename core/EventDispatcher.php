@@ -46,6 +46,25 @@ class EventDispatcher extends Singleton
     private $pendingEvents = array();
 
     /**
+     * Plugin\Manager instance used to get list of loaded plugins.
+     *
+     * @var Piwik\Plugin\Manager
+     */
+    private $pluginManager;
+
+    /**
+     * Constructor.
+     */
+    public function __construct($pluginManager = null)
+    {
+        if ($pluginManager === null) {
+            $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        }
+
+        $this->pluginManager = $pluginManager;
+    }
+
+    /**
      * Triggers an event, executing all callbacks associated with it.
      *
      * @param string $eventName The name of the event, ie, API.getReportMetadata.
@@ -64,7 +83,7 @@ class EventDispatcher extends Singleton
         }
 
         if (empty($plugins)) {
-            $plugins = \Piwik\Plugin\Manager::getInstance()->getPluginsLoadedAndActivated();
+            $plugins = $this->pluginManager->getPluginsLoadedAndActivated();
         }
 
         $callbacks = array();
@@ -72,7 +91,7 @@ class EventDispatcher extends Singleton
         // collect all callbacks to execute
         foreach ($plugins as $plugin) {
             if (is_string($plugin)) {
-                $plugin = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin($plugin);
+                $plugin = $this->pluginManager->getLoadedPlugin($plugin);
             }
 
             $hooks = $plugin->getListHooksRegistered();
@@ -94,6 +113,7 @@ class EventDispatcher extends Singleton
 
         // sort callbacks by their importance
         ksort($callbacks);
+
         // execute callbacks in order
         foreach ($callbacks as $callbackGroup) {
             foreach ($callbackGroup as $callback) {
@@ -184,4 +204,3 @@ class EventDispatcher extends Singleton
         return array($pluginFunction, $callbackGroup);
     }
 }
-
