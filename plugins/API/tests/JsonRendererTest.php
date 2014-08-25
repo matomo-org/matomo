@@ -10,10 +10,12 @@ namespace Piwik\Plugins\API\tests;
 
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Json;
+use Piwik\Plugins\API\Renderer\Json2;
 
 /**
  * @group Plugin
  * @group API
+ * @group API_JsonRendererTest
  */
 class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -353,9 +355,27 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
+    /**
+     * backwards compatibility test
+     */
+    public function test_oldJson_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
+    {
+        $input = array(
+            "firstElement" => "isFirst",
+            "secondElement" => "isSecond"
+        );
+
+        $expected = '[{"firstElement":"isFirst","secondElement":"isSecond"}]';
+
+        $oldJsonBuilder = new Json($input);
+        $actual = $oldJsonBuilder->renderArray($input);
+        $this->assertEquals($expected, $actual);
+        $this->assertNoJsonError($actual);
+    }
+
     private function makeBuilder($request)
     {
-        return new Json($request);
+        return new Json2($request);
     }
 
     private function assertNoJsonError($response)

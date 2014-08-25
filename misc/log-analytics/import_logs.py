@@ -880,7 +880,7 @@ class Piwik(object):
         """
         args = {
             'module' : 'API',
-            'format' : 'json',
+            'format' : 'json2',
             'method' : method,
         }
         # token_auth, by default, is taken from config.

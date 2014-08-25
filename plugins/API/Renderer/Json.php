@@ -15,9 +15,16 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
 
+/**
+ * API output renderer for JSON.
+ *
+ * **NOTE: This is the old JSON format. It includes bugs that are fixed in the JSON2 API output
+ * format. Please use that format instead of this.**
+ *
+ * @deprecated
+ */
 class Json extends ApiRenderer
 {
-
     public function renderSuccess($message)
     {
         $result = json_encode(array('result' => 'success', 'message' => $message));
@@ -49,16 +56,7 @@ class Json extends ApiRenderer
             return $this->applyJsonpIfNeeded($result);
         }
 
-        $result = $this->renderDataTable($array);
-
-        // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
-        if (!empty($array)
-            && Piwik::isAssociativeArray($array)
-        ) {
-            $result = substr($result, 1, strlen($result) - 2);
-        }
-
-        return $result;
+        return $this->renderDataTable($array);
     }
 
     public function sendHeader()

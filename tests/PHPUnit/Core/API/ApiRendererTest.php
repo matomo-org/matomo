@@ -7,6 +7,7 @@
  */
 
 use Piwik\API\ApiRenderer;
+use Piwik\API\ApiRenderer\Json;
 
 /**
  * @group Core

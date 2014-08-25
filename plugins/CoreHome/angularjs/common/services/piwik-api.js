@@ -185,7 +185,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
     piwikApi.fetch = function (getParams) {
 
         getParams.module = getParams.module || 'API';
-        getParams.format = 'JSON';
+        getParams.format = 'JSON2';
 
         addParams(getParams, 'GET');
 
