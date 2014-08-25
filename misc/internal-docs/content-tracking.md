@@ -96,7 +96,7 @@ OK
 
 ## Tagging of the content piece declarative
 
- ### New proposed way of finding content
+### New proposed way of finding content
  * Search for any `data-track-content` attribute and `piwikTrackContent` CSS class within the DOM
  * One page can use both ways so we will mix the result of found contents
 
@@ -119,9 +119,11 @@ Thomas definitely prefers solution 2.
 Matthieu feedback about solution 2:
 
 > Use value of content-piece in case there is one
+
 Maybe only the path of the content-piece or even only the content-piece filename should be used?
 
 > If neither found ignore content or use "Unknown"
+
 Before ignoring content or setting content-name to "Unknown", maybe it would be user friendly to read the first "title" attribute found in `.piwikTrackContent` (and its children).
 
 (But I'm not pushing this since it's not that important, if you think it's better to have only clear attribute names then I'm OK with it... As long as we document things clearly then it will be fine for users)
@@ -205,18 +207,33 @@ What problems are there with i18n, eg. when the page is in UTF-8? eg. when testi
 Impressions are logically not really events and I don't think it makes sense to use them here. It would also make it harder to analyze events when they are mixed with pieces of content.
 
 * Saving in database?
-  * New column `id_action_content_url` and `id_action_content_piece` in `log_link_visit_action`. For name `id_action_name` can be reused?
+  * New column `idaction_content_url` and `idaction_content_piece` in `log_link_visit_action`. For name `idaction_name` can be reused?
+
+Could we also reuse `idaction_url` instead of adding new column `idaction_content_url`?
+And we could also store the URL of the page showing the Content in `idaction_url_ref`. (reusing columns is good in this case)
+
   * Would we need a new column for each piece of content in action table to make archiver work? --> would result in many! columns
   * or would we need a new table for each piece of content to make archiver work? --> would be basically a copy of the link_action table and therefore not really makes sense I reckon. Only a lot of work. Logically I am not sure if an impression is actually an "action" so it could make sense
   * or would we store the pieces serialized as JSON in a `content` column? I don't know anything about the archiver but I think it wouldn't work at all
   * or would we create an action entry for each piece of content? --> yes I think! 
+
+Yes it seems most logical to create an action entry for each Content.
+
 * New Action class that handles type content
 * New url parameters like `c_p`, `c_n` and `c_u` for piece of content, name and url. Maybe instead of `c_u` would be better `c_t` for target which is more generic. Sending a JSON array would not work since we cannot log multiple actions in one tracking request. They have to be sent using bulk tracking instead.
+ * Bulk tracking in JS is covered in: [#4910](https://github.com/piwik/piwik/issues/4910)
+
 * Only `c_n` would be required, `c_p` and `c_t` not as for instance a piece of content does not necessarily have a target (hard to measure a click ratio in this case?)
 
+OK
 
 ## Tracking the clicks
 Contrary to impressions, clicks are actually events and it would be nice to use events here. Maybe we can link an event with a piece of content?
+
+Linking the Click event to the piece of content will be hard, since we don't know when tracking the event, the idaction of the Content piece impression. I think only way is store in Event the two Unique IDs dimensions { Content name, Content piece }. For example the Click Event could be:
+ * Event Category = `Content Click`
+ * Event Action = `$Content_piece`
+ * Event Name = `$Content_Name`
 
 ## Piwik.js
 * We need to find all dom nodes having css class or html attribute.
@@ -229,8 +246,11 @@ Contrary to impressions, clicks are actually events and it would be nice to use 
  * https://github.com/alpha123/Jaguar >10KB and last commit 2 years old
  * As we don't need many features we could implement it ourselves but probably needs a lot of cross-browser testing which I wanted to avoid. We'd only start with `querySelectorAll()` maybe. Brings also incredible [performance benefits](http://jsperf.com/jquery-vs-native-selector-and-element-style/2) (2-10 faster than jQuery) but there might be problems see http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall, http://jsfiddle.net/QdMc5/ and http://ejohn.org/blog/thoughts-on-queryselectorall/
 
+
+Matt: I don't have much thoughts on the JS part, besides that we don't need to have amazing support of old browsers. ie. browsers released in the last two or three years would be perfect.
+
 ## Reports
-Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with .jpg it could be recognized as image content and show a banner in the report.
+Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with [.jpg, .png, .gif] it could be recognized as image content and show a banner in the report.
 
 
 ## Order of implementation
