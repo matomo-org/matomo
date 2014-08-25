@@ -29,7 +29,7 @@ describe('piwikApiClient', function () {
         piwikApi.fetch({
             method: "SomePlugin.action"
         }).then(function (response) {
-            expect(response).to.equal("Request url: index.php?date=&format=JSON&idSite=1&method=SomePlugin.action&module=API&period=day");
+            expect(response).to.equal("Request url: index.php?date=&format=JSON2&idSite=1&method=SomePlugin.action&module=API&period=day");
 
             done();
         }).catch(function (ex) {
@@ -86,7 +86,7 @@ describe('piwikApiClient', function () {
         piwikApi.fetch({
             method: "SomePlugin.action"
         }).then(function (response) {
-            expect(response).to.equal("Request url: index.php?date=&format=JSON&idSite=1&method=SomePlugin.action&module=API&period=day");
+            expect(response).to.equal("Request url: index.php?date=&format=JSON2&idSite=1&method=SomePlugin.action&module=API&period=day");
 
             request1Done = true;
 
@@ -98,7 +98,7 @@ describe('piwikApiClient', function () {
         piwikApi.fetch({
             method: "SomeOtherPlugin.action"
         }).then(function (response) {
-            expect(response).to.equal("Request url: index.php?date=&format=JSON&idSite=1&method=SomeOtherPlugin.action&module=API&period=day");
+            expect(response).to.equal("Request url: index.php?date=&format=JSON2&idSite=1&method=SomeOtherPlugin.action&module=API&period=day");
 
             request2Done = true;
 
@@ -133,7 +133,7 @@ describe('piwikApiClient', function () {
         piwikApi.fetch({
             method: "SomeOtherPlugin.action"
         }).then(function (response) {
-            expect(response).to.equal("Request url: index.php?date=&format=JSON&idSite=1&method=SomeOtherPlugin.action&module=API&period=day");
+            expect(response).to.equal("Request url: index.php?date=&format=JSON2&idSite=1&method=SomeOtherPlugin.action&module=API&period=day");
 
             request2Done = true;
 

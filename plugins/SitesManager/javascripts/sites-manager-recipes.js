@@ -10,11 +10,11 @@ angular.module('piwikApp').factory('sitesManagerAPI', function SitesManagerAPIFa
     var api = sitesManagerApiHelper;
 
     return {
-        getCurrencyList: api.fetchApi('SitesManager.getCurrencyList', api.singleObjectAdaptor),
+        getCurrencyList: api.fetchApi('SitesManager.getCurrencyList', api.noop),
         getSitesWithAdminAccess: api.fetchApi('SitesManager.getSitesWithAdminAccess', api.noop, {fetchAliasUrls: true}),
         getTimezonesList: api.fetchApi('SitesManager.getTimezonesList', api.noop),
         isTimezoneSupportEnabled: api.fetchApi('SitesManager.isTimezoneSupportEnabled', api.valueAdaptor),
-        getGlobalSettings: api.fetchAction('SitesManager', 'getGlobalSettings', api.singleObjectAdaptor)
+        getGlobalSettings: api.fetchAction('SitesManager', 'getGlobalSettings', api.noop)
     };
 });
 
