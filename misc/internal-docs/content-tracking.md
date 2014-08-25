@@ -9,14 +9,14 @@ This is the technical concept for implementing content tracking. We won't plan a
 * Content target - a clicked url, a started video, any "conversion" to be a bit more generic?
 
 ## Further Questions
-1. Can the same one content piece has different names / targets? Can the same content name have different targets/pieces?
+1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?
 2. Are we always assuming the "conversion" or "target URL" is caused by a click or can it be a hover or drag/drop, ...? For a general solution we might want to assume it can be anything?
   * In this case we would also rename or need an additional attribute or whatever to [data-trackclick] etc.
 3. Would a piece of content - such as a banner - have maybe custom variables etc?
 4. How do we present the data in a report? Similar to events with second dimensions? Probably depends on 1)
 5. I assume there can be nested content in theory. A piece of content that contains another piece of content. In this case we have to be careful when automatically picking name, target, ...
-6. We would probably also need an attribute like data-target="$target" and/or the possiblity for data-trackclick="$target" since not all links might be defined via href but onclick javascript links
-7. HTML Attributes always take precendence over css classes or the other way around (if both defined)?
+6. FYI: We would probably also need an attribute like data-target="$target" and/or the possiblity for data-trackclick="$target" since not all links might be defined via href but onclick javascript links. See further below
+7. HTML Attributes always take precendence over css classes or the other way around (if both defined)? I think attributes should take precendence which I think is also defined in the spec
 8. Do we need to support IE7 and older? Firefox 3 and older?
 9. "Maybe we could automatically detect when such element becomes visible, and send the Impression event automatically"
   * I think we can detect whether a specific content was visible at a specific time in most cases but not necessarily automatically. We would have to check the DOM for this every few ms (in case of Carousel) and we'd also have to attach to events like scrolling etc. This can make other peoples website slow, especially on mobile but even browser. Website owners usually want to achieve 60fps to have animations and scrolling smooth and they usually invest a lot of time to achieve this. So it has to an opt-in if at all
@@ -25,9 +25,9 @@ This is the technical concept for implementing content tracking. We won't plan a
     * We'd probably have to offer a mode to rescan all banners again at a certain time and only track those content pieces now that were not visibile before but are now
     * We'd probably have to offer a method to pass a DOM node and track it independent of visibility (useful for instance in case of carousel when the website owner already knows a specific content piece is visible now but does not want to use expensive events for this)
     * We'd maybe have to offer a mode where we are trying to detect automatically when an impression becomes visible and send it
-10. FYI: "you may add a CSS class or attribute to the link element to track" => It could be also a span, a div or something else!
-11. FYI: There is way to much magic how content-name is found and it is neither predicatble nor understandable by users, I will simplify this and rather require users to set specific attributes!
-12. FYI: We need to define how a content piece is defined in markup since it can be anything (was something like piwik-banner before)
+10. FYI: "you may add a CSS class or attribute to the link element to track" => It could be also a span, a div or something else
+11. FYI: There is way to much magic how content-name is found and it is neither predicatble nor understandable by users, I will simplify this and rather require users to set specific attributes! See further down (Piwik.js)
+12. FYI: We need to define how a content piece is defined in markup since it can be anything (was something like piwik-banner before) see further down (Piwik.js)
 
 ## Tagging of the content piece declarative
 In HTML...
