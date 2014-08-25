@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Akcí za opakovanou návštěvu",
+        "ColumnAverageVisitDurationForReturningVisitors": "Průměrná délka návštěvy pro navracejících se návštěvnících (v sekundách)",
+        "ColumnAvgActionsPerReturningVisit": "Proměrnů počet akcí pro navracející se návštěvníky",
+        "ColumnBounceCountForReturningVisits": "Počet odrazů pro vracející se návštěvy",
+        "ColumnBounceRateForReturningVisits": "Frekvence odchodů pro opakované návštěvy",
+        "ColumnMaxActionsInReturningVisit": "Maximum akcí v jedné vracející se návštěvě",
+        "ColumnNbReturningVisitsConverted": "Počet zkonvertovaných vracejících se návštěv",
+        "ColumnReturningVisits": "Opětovných návštěv",
+        "ColumnSumVisitLengthReturning": "Celkový čas strávený vracejícími se návštěvníky (v sekundách)",
+        "ColumnUniqueReturningVisitors": "Unikátní vracející se návštěvníci",
+        "PluginDescription": "Hlásí různé statistiky o navracejících se versus nových návštěvnících",
+        "ReturnActions": "%s akcí za opakovanou návštěvu",
+        "ReturnAverageVisitDuration": "%s průměrná dělka návštěvy pro navracející se návštěvníky",
+        "ReturnAvgActions": "%s akcí na navracejících se návštěvníka",
+        "ReturnBounceRate": "%s opakujících se návštěv odešlo (opustilo web po jedné stránce)",
+        "ReturningVisitDocumentation": "Vracející se návštěva je návštěvník, který již stránku aspoň jednou navštívil.",
+        "ReturningVisitsDocumentation": "Toto je přehled vracejících se návštěvníků.",
+        "ReturnVisits": "%s opakujících se návštěv",
+        "SubmenuFrequency": "Frekvence",
+        "WidgetGraphReturning": "Graf opakujících se návštěv",
+        "WidgetOverview": "Přehled frekvencí"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s clics",
+        "ClicksFromXLinks": "%1$s clics depuis un des %2$s liens",
+        "Domain": "Domaine",
+        "ErrorNotLoading": "La session de page superposée n'a pas encore pu être lancée.",
+        "ErrorNotLoadingDetails": "Peut être que la page chargée sur la droite n'a pas de code de suivi Piwik. Dans ce cas, essayez de lancer la navigation superposée depuis une autre page que le rapport de pages.",
+        "ErrorNotLoadingDetailsSSL": "Etant donné que vous utilisez Piwik en https, la cause la plus probable est que votre site web ne supporte pas le SSL. Essayez d'utiliser Piwik en http.",
+        "ErrorNotLoadingLink": "Cliquez ici pour obtenir plus d'informations de dépannage.",
+        "Link": "Lien",
+        "Location": "Localisation",
+        "NoData": "Il n'y a aucune données durant cette période",
+        "OneClick": "1 clic",
+        "OpenFullScreen": "Ouvrir en plein écran",
+        "Overlay": "FOnd de page",
+        "PluginDescription": "Visualisez les données d'analyse superposées sur votre site web.",
+        "RedirectUrlError": "Vous tentez à présent d'ouvrir une page superposée pour l'URL \"%s\". %s Aucun des domaines des paramètres de Piwik ne correspond au lien.",
+        "RedirectUrlErrorAdmin": "Vous pouvez ajouter le domaine en tant qu'URL additionnelle %sdans les paramètres%s.",
+        "RedirectUrlErrorUser": "Demandez à votre administrateur d'ajouter le domaine en tant qu'URL additionnelle."
+    }
+}

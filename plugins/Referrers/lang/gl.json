@@ -1,0 +1,18 @@
+{
+    "Referrers": {
+        "Campaigns": "Campañas",
+        "DirectEntry": "Entrada directa",
+        "Keywords": "Palabras clave",
+        "SearchEngines": "Motores de busca",
+        "SubmenuSearchEngines": "Motores de busca e palabras clave",
+        "SubmenuWebsites": "Páxinas web",
+        "Type": "Tipo de Referer",
+        "TypeCampaigns": "%s desde campañas",
+        "TypeDirectEntries": "%s entradas directas",
+        "TypeSearchEngines": "%s desde motores de busca",
+        "TypeWebsites": "%s desde outras webs",
+        "Websites": "Páxinas web",
+        "WidgetExternalWebsites": "Lista de webs externas",
+        "WidgetKeywords": "Lista de palabras clave"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Coloana '%s' nu a fost gasita in acest raport. Incearca oricare dintre %s",
+        "PluginDescription": "Generează frumoase statice grafice imagini PNG pentru orice raport Piwik."
+    }
+}

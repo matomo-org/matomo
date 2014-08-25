@@ -1,0 +1,9 @@
+{
+    "Dashboard": {
+        "CreateNewDashboard": "নতুন ড্যাশবোর্ড তৈরি করুন",
+        "Dashboard": "ড্যাশবোর্ড",
+        "DashboardName": "ড্যাশবোর্ডের নাম:",
+        "RemoveDashboard": "ড্যাশবোর্ড মুছে ফেলুন",
+        "RenameDashboard": "ড্যাশবোর্ডের নাম পরিবর্তন"
+    }
+}

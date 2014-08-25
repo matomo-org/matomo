@@ -1,0 +1,8 @@
+{
+    "MultiSites": {
+        "Evolution": "Kehitys",
+        "LoadingWebsites": "Lataa verkkosivuja",
+        "PluginDescription": "Näytä monen sivun yleiskatsaus\/tilastot. Tällä hetkellä ylläpidetään Piwikin ydinmoduulina.",
+        "TopLinkTooltip": "Vertaile eri sivujen tilastoja."
+    }
+}

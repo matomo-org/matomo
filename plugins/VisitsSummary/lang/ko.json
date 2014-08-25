@@ -1,0 +1,26 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s 방문의 평균 지속 시간",
+        "GenerateQueries": "%s 쿼리 실행됨",
+        "GenerateTime": "페이지 생성에 %s 초 걸림",
+        "MaxNbActions": "%s 방문당 최대 활동",
+        "NbActionsDescription": "%s 활동",
+        "NbActionsPerVisit": "%s 방문당 활동",
+        "NbDownloadsDescription": "%s 다운로드",
+        "NbKeywordsDescription": "%s 고유 검색어",
+        "NbOutlinksDescription": "%s 외부링크",
+        "NbPageviewsDescription": "%s 페이지뷰",
+        "NbSearchesDescription": "%s 사이트내 검색",
+        "NbUniqueDownloadsDescription": "%s 고유 다운로드",
+        "NbUniqueOutlinksDescription": "%s 고유 외부링크",
+        "NbUniquePageviewsDescription": "%s 고유 페이지뷰",
+        "NbUniqueVisitors": "%s 고유 방문자",
+        "NbVisitsBounced": "%s 반송률 (첫 페이지에서 이탈)",
+        "PluginDescription": "전반적인 분석수 (방문수, 고유 방문자수, 활동수, 반송비율 등)를 보고합니다.",
+        "VisitsSummary": "방문 개요",
+        "VisitsSummaryDocumentation": "방문 추이 개요입니다.",
+        "WidgetLastVisits": "최근 방문 그래프",
+        "WidgetOverviewGraph": "개요 그래프",
+        "WidgetVisits": "방문자 개요"
+    }
+}

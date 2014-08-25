@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Dodaj adnotacje dla %s...",
+        "AnnotationOnDate": "Adnotacja do %1$s: %2$s",
+        "Annotations": "Adnotacje",
+        "ClickToDelete": "Kliknij aby usunąć tą adnotację.",
+        "ClickToEdit": "Kliknij aby edytować tą adnotację.",
+        "ClickToEditOrAdd": "Kliknij aby edytować albo dodać nową adnotację.",
+        "ClickToStarOrUnstar": "Kliknij aby zaznaczyć lub odznaczyć (gwiazdką) tą adnotację.",
+        "CreateNewAnnotation": "Utwórz nową adnotację...",
+        "EnterAnnotationText": "Wpisz swoją notatkę...",
+        "HideAnnotationsFor": "Ukryj tą adnotację dla %s...",
+        "IconDesc": "Pokarz notatki dla danego zakresu dat.",
+        "IconDescHideNotes": "Ukryj notatki dla tego zakresu dat.",
+        "InlineQuickHelp": "Możesz utworzyć adnotację aby zaznaczać specjalne zdarzenia (jak nowy wpis na blogu albo re-design strony) aby zapisać twoje dane analityczne lub by zapisać cokolwiek innego co wydaje ci się ważne.",
+        "LoginToAnnotate": "Zaloguj się aby utworzyć adnotację.",
+        "NoAnnotations": "Nie ma adnotacji dla tego zakresu dat.",
+        "PluginDescription": "Daje ci możliwość dodania notatek do innych dni aby zaznaczyć zmiany na twojej stronie, zapisać jakiś wnioski dotyczące twoich danych oraz podzielić się twoimi spostrzeżeniami z kolegami. Adnotując twoje dane będziesz miał pewność że pamiętasz dlaczego twoje dane wyglądają tak jak wyglądają.",
+        "ViewAndAddAnnotations": "Pokarz i dodaj adnotację dla %s...",
+        "YouCannotModifyThisNote": "Nie możesz modyfikować tej adnotacji ponieważ jej nie utworzyłeś lub nie masz praw administratora dla tej strony."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "CoreAdminHome": {
+        "Administration": "管理",
+        "EmailServerSettings": "設定郵件伺服器",
+        "JavaScriptTracking": "JS追蹤程式碼",
+        "MenuDiagnostic": "診斷",
+        "MenuGeneralSettings": "一般設定",
+        "MenuManage": "管理",
+        "PluginDescription": "Piwik 管理區域"
+    }
+}

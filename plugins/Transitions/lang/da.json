@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s afvisninger",
+        "DirectEntries": "Direkte besøg",
+        "ErrorBack": "Gå tilbage til forrige handling",
+        "ExitsInline": "%s afslutninger",
+        "FromCampaigns": "Fra kampagner",
+        "FromPreviousPages": "Fra interne sider",
+        "FromPreviousPagesInline": "%s fra interne sider",
+        "FromPreviousSiteSearches": "Fra intern søgning",
+        "FromPreviousSiteSearchesInline": "%s fra interne søgninger",
+        "FromSearchEngines": "Fra søgemaskiner",
+        "FromWebsites": "Fra hjemmesider",
+        "IncomingTraffic": "Indkommende trafik",
+        "LoopsInline": "%s side genindlæsninger",
+        "NoDataForAction": "Der er ingen data for %s",
+        "NoDataForActionDetails": "Enten havde handlingen ingen sidevisninger i perioden %s eller den er ugyldig.",
+        "OutgoingTraffic": "Udgående trafik",
+        "PluginDescription": "Rapporter om tidligere og følgende handlinger for hver side URL.",
+        "ShareOfAllPageviews": "Denne side havde %s sidevisninger (%s af alle sidevisninger)",
+        "ToFollowingPages": "Til interne sider",
+        "ToFollowingPagesInline": "%s til interne sider",
+        "ToFollowingSiteSearches": "Interne søgninger",
+        "ToFollowingSiteSearchesInline": "%s interne søgninger",
+        "XOfAllPageviews": "%s af alle visninger af denne side",
+        "XOutOfYVisits": "%s (ud af %s)"
+    }
+}

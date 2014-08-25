@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Anpassat variabelnamn",
+        "ColumnCustomVariableValue": "Anpassat variabelvärde",
+        "CustomVariables": "Anpassade variabler",
+        "CustomVariablesReportDocumentation": "Denna rapport innehåller information om din anpassade variabler. Klicka på ett variabelnamn för att se fördelningen av värdena. %s För mer information om anpassade variabler i allmänhet, läs %sdokumentationen om anpassade variabler på piwik.org%s",
+        "PluginDescription": "Anpassade variabler är namn, värde-par som du kan ange för ett besök med hjälp av JavaScript API setVisitCustomVariables() funktionen. Piwik kommer därefter att rapportera hur många besök, sidor, omvandlingar för vart och ett av dessa anpassade namn och värden.",
+        "ScopePage": "omfattning sida",
+        "ScopeVisit": "omfattning besök"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "MultiSites": {
+        "Evolution": "趋势",
+        "PluginDescription": "显示多个网站的摘要 \/ 统计。目前为 Piwik 的核心插件。",
+        "TopLinkTooltip": "比较所有网站的分析数据"
+    }
+}

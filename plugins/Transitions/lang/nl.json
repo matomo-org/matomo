@@ -1,0 +1,26 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s bounces",
+        "DirectEntries": "Directe Bezoeken",
+        "ErrorBack": "Ga terug naar de vorige actie",
+        "ExitsInline": "%s bestaat",
+        "FromCampaigns": "Van Campagnes",
+        "FromPreviousPages": "Van Interne Pagina's",
+        "FromPreviousPagesInline": "%s van interne pagina's",
+        "FromPreviousSiteSearches": "Van Interne Zoekopdracht",
+        "FromPreviousSiteSearchesInline": "%s van interne zoekopdrachten",
+        "FromSearchEngines": "Van Zoekmachines",
+        "FromWebsites": "Van Websites",
+        "IncomingTraffic": "Inkomend verkeer",
+        "LoopsInline": "%s pagina herladen",
+        "NoDataForAction": "Er is geen data voor %s",
+        "OutgoingTraffic": "Uitgaand verkeer",
+        "ShareOfAllPageviews": "Deze pagina had %s paginaweergaves (%s van alle paginaweergaves)",
+        "ToFollowingPages": "Naar Interne Pagina's",
+        "ToFollowingPagesInline": "%s naar interne pagina's",
+        "ToFollowingSiteSearches": "Interne Zoekopdrachten",
+        "ToFollowingSiteSearchesInline": "%s interne zoekopdrachten",
+        "XOfAllPageviews": "%s van alle weergaves van deze pagina",
+        "XOutOfYVisits": "%s (van de %s)"
+    }
+}

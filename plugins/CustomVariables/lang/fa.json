@@ -1,0 +1,10 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "نام متغیر سفارشی",
+        "ColumnCustomVariableValue": "مقدار متغیر سفارشی",
+        "CustomVariables": "متغیرهای سفارشی",
+        "PluginDescription": "متغیر سفارشی عبارتند از: نام، جفت ارزش است که شما می توانید با بازدید با استفاده از API جاوا اسکریپت setVisitCustomVariables() تابع تعیین کنند. Piwik از آن خواهد شد, که چگونه بسیاری از بازدیدکننده داشته است، صفحات، تبدیل برای هر یک از این اسامی و ارزش های سفارشی را گزارش دهند.",
+        "ScopePage": "حوزه صفحه",
+        "ScopeVisit": "بازدید دامنه"
+    }
+}

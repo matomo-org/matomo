@@ -1,0 +1,17 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s mín",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Síður á hverja heimsókn",
+        "ColumnVisitDuration": "Lengd heimsóknar",
+        "Engagement": "Þáttaka",
+        "NPages": "%s síður",
+        "OnePage": "1 síða",
+        "PluginDescription": "Skýrslur um áhuga gestsins: fjöldi síðna sem eru skoðaðar, og tíma sem er eytt á vefnum.",
+        "PlusXMin": "%s mín",
+        "VisitsPerDuration": "Heimsóknir per lengd heimsóknar",
+        "VisitsPerNbOfPages": "Heimsóknir per fjölda síðna",
+        "WidgetLengths": "Lengd heimsókna",
+        "WidgetPages": "Síður á hverja heimsókn"
+    }
+}

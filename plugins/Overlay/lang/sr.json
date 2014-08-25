@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s klikova",
+        "ClicksFromXLinks": "%1$s klikova sa jednog od %2$s linkova",
+        "Domain": "Domen",
+        "ErrorNotLoading": "Nije moguće pokrenuti sesiju za ovaj prikaz.",
+        "ErrorNotLoadingDetails": "Možda stranica koja se učitala sa desne strane nema Piwik kod za praćenje. U tom slučaju, pokušajte da otvorite prikaz neke druge stranice sa izveštajem.",
+        "ErrorNotLoadingDetailsSSL": "S obzirom na to da koristite Piwik preko HTTPS-a, najverovatnije je da vaš sajt ne podržava SSL. Pokušajte da koristite Piwik preko HTTP-a.",
+        "ErrorNotLoadingLink": "Kliknite ovde za više saveta za rešavanje problema",
+        "Link": "Link",
+        "Location": "Lokacija",
+        "NoData": "Nema podataka o ovoj stranici za dati period.",
+        "OneClick": "1 klik",
+        "OpenFullScreen": "Prikaži preko celog ekrana",
+        "Overlay": "Prikaz preko (overlay)",
+        "PluginDescription": "Prikaži analitičke podatke preko stranice sajta (overlay).",
+        "RedirectUrlError": "Pokušali ste da otvorite stranicu za URL \"%s\". %s Nijedan od domena iz Piwik podešavanja ne odgovara ovom linku.",
+        "RedirectUrlErrorAdmin": "Možete dodati domen kao dodatni URL %su podešavanjima%s.",
+        "RedirectUrlErrorUser": "Zamolite administratora da doda domen kao dodatni URL."
+    }
+}

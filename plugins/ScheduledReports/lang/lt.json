@@ -1,0 +1,26 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "Taip pat siųsti šią ataskaitą šiems adresatams (kiekvienam adresui atskira eilutė)",
+        "CreateAndScheduleReport": "Sukurti ir suplanuoti ataskaitą",
+        "CreateReport": "Sukurti ataskaitą",
+        "EmailHello": "Sveiki,",
+        "EmailReports": "Ataskaitos el. paštu",
+        "EmailSchedule": "Siuntimo tvarkaraštis",
+        "FrontPage": "Pirminis puslapis",
+        "ManageEmailReports": "Administruoti ataskaitas",
+        "MonthlyScheduleHelp": "Kas mėnesį: ataskaita bus išsiųsta kiekvieno mėnesio pirmąją dieną.",
+        "Pagination": "Puslapis %s iš %s",
+        "PiwikReports": "Piwik ataskaitos",
+        "PleaseFindAttachedFile": "Prašome peržiūrėti %1$s ataskaitų failą skirtą %2$s.",
+        "PluginDescription": "Sukurkite ir atsisiųskite savo ataskaitas arba nustatytike jų kadieninį, kas savaitinį ar mėnesinį atsisiuntimą.",
+        "ReportFormat": "Ataskaitos formatas",
+        "ReportsIncluded": "Įtraukta statistika",
+        "SendReportNow": "Siųsti ataskaitą dabar",
+        "SendReportTo": "Siųsti ataskaitą į",
+        "SentToMe": "Siųsti man",
+        "TableOfContent": "Ataskaitos sąrašas",
+        "TopOfReport": "Atgal į viršų",
+        "UpdateReport": "Atnaujinti ataskaitą",
+        "WeeklyScheduleHelp": "Kas savaitę: ataskaita bus išsiųsta kiekvienos savaitės pirmadienį."
+    }
+}

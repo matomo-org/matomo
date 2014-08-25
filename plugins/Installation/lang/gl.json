@@ -1,0 +1,31 @@
+{
+    "Installation": {
+        "Congratulations": "Noraboa!",
+        "CongratulationsHelp": "<p>Noraboa! A instalación de Piwik foi completada.<\/p><p>Asegúrese de inserir o código Javascript en todas as páxinas, e agora, agarde aos primeiros visitantes!<\/p>",
+        "Installation": "Instalación",
+        "InstallationStatus": "Estado da instalación",
+        "NoConfigFound": "O ficheiro de configuración de Piwik non se atopou e vostede está tentando acceder a unha páxina de Piwik.<br><b>  » Pode <a href='index.php'>instalar Piwik agora<\/a><\/b><br><small>Se instalou Piwik con anterioridade e ten táboas na súa base de datos, non se preocupe, pode reutilizar ditas táboas e manter os datos que se atopan nelas!<\/small>",
+        "PercentDone": "%s %%Hecho",
+        "SetupWebsite": "Configurar unha páxina web",
+        "SetupWebsiteError": "Houbo un erro ao engadir o sitio",
+        "SystemCheck": "Comprobación do sitio",
+        "SystemCheckError": "Houbo un erro - Debe arranxarse antes de continuar",
+        "SystemCheckGDHelp": "Os sparklines (gráficos pequenos) non funcionarán.",
+        "SystemCheckMemoryLimit": "Límite de memoria",
+        "SystemCheckMemoryLimitHelp": "Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire o apartado memory_limit no seu ficheiro php.ini se é necesario.",
+        "SystemCheckPhp": "Versión PHP",
+        "SystemCheckTimeLimitHelp": "Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire a directiva max_execution_time no seu ficheiro php.ini se fose necesario",
+        "SystemCheckWarning": "Piwik traballará correctamente, pero algunhas características poden faltar",
+        "SystemCheckWriteDirs": "Directorios con permisos de escrita",
+        "SystemCheckWriteDirsHelp": "Para arranxar este erro no seu sistema GNU\/Linux, tente inserindo os seguintes comandos",
+        "Tables": "Creando as táboas",
+        "TablesCreatedSuccess": "Táboas creadas con éxito!",
+        "TablesDelete": "Eliminar as táboas detectadas",
+        "TablesDeletedSuccess": "Táboas existentes de piwik eliminadas con éxito",
+        "TablesFound": "As seguintes táboas atopáronse na base de datos",
+        "TablesReuse": "Reutilizar as táboas xa existentes",
+        "TablesWarningHelp": "Ou ben optar pola reutilización de táboas de bases de datos existentes ou seleccionar unha instalación limpa para eliminar todos os datos existentes na base de datos.",
+        "Welcome": "Benvido!",
+        "WelcomeHelp": "<p>Piwik é unha aplicación de código aberto de estatísticas que che permitirá recompilar información sobre o teu sitio facilmente.<\/p><p>Este proceso divídese en %s pasos sinxelos que levarán uns 5 minutos.<\/p>"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Kontakt z ekipą Piwik!",
+        "DoYouHaveBugReportOrFeatureRequest": "Czy odkryłeś błąd o którym chcesz poinformować, lub masz pomysł na nową funkcjonalność?",
+        "IWantTo": "Pragnę:",
+        "LearnWaysToParticipate": "Poznaj wszystkie sposoby %s uczestnictwa%s",
+        "ManuallySendEmailTo": "Prosimy ręcznie wysłać swoją wiadomość",
+        "PluginDescription": "Wyślij swoje opinie do zespołu Piwik. Podziel się swoimi pomysłami i sugestiami z nami!",
+        "SendFeedback": "Wyślij opinię",
+        "SpecialRequest": "Czy masz wyjątkowe życzenia, które chcesz przekazać dla ekipy programistów z Piwik?",
+        "ThankYou": "Dziękujemy za pomoc, która pozwala uczynić statystyki Piwik jeszcze lepszymi!",
+        "VisitTheForums": "Odwiedź %s forum%s"
+    }
+}

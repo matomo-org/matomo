@@ -1,0 +1,31 @@
+{
+    "MobileMessaging": {
+        "MobileReport_AdditionalPhoneNumbers": "Вы можете добавить несколько телефонных номеров получив доступ",
+        "MobileReport_NoPhoneNumbers": "Пожалуйста, включите хотя бы один номер телефона получив доступ",
+        "PhoneNumbers": "Номера телефонов",
+        "PluginDescription": "Позволяет создавать и загружать SMS-отчёты и отправлять их на мобильный телефон каждый день, неделю или месяц.",
+        "Settings_APIKey": "API ключ",
+        "Settings_CountryCode": "Код страны",
+        "Settings_CredentialNotProvided": "Прежде чем вы сможете создавать и управлять номерами телефонов, подключите Piwik к своему ​​аккаунту SMS выше.",
+        "Settings_CredentialNotProvidedByAdmin": "Прежде чем вы сможете создавать и управлять номерами телефонов, пожалуйста, обратитесь к администратору для подключения Piwik к аккаунту SMS.",
+        "Settings_DeleteAccountConfirm": "Вы уверены что хотите удалить этот SMS акаунт?",
+        "Settings_InvalidActivationCode": "Код, который вы ввели, неверен. Попробуйте ещё.",
+        "Settings_LetUsersManageAPICredential": "Разрешить пользователям управлять своими полномочиями SMS API",
+        "Settings_LetUsersManageAPICredential_No_Help": "Все пользователи имеют возможность получать SMS-отчеты и будут использовать кредиты вашего аккаунта.",
+        "Settings_LetUsersManageAPICredential_Yes_Help": "Каждый пользователь сможет настроить самостоятельно счета SMS API и не будет использовать ваши кредиты.",
+        "Settings_ManagePhoneNumbers": "Управление номерами телефонов",
+        "Settings_PhoneActivated": "Номер телефона успешно проверен! Теперь вы можете получать SMS со статистикой.",
+        "Settings_PhoneNumber": "Номер телефона",
+        "Settings_PhoneNumbers_Add": "Добавить новый номер телефона",
+        "Settings_PleaseSignUp": "Для создания SMS сообщений и получения коротких текстовых сообщений со статистикой ваших веб-сайтов, на свой мобильный телефон, пожалуйста, зарегистрируйтесь в SMS API и введите информацию ниже.",
+        "Settings_SMSAPIAccount": "Управление API SMS аккаунтом",
+        "Settings_SMSProvider": "SMS-гейт",
+        "Settings_SuperAdmin": "Настройки суперпользователя",
+        "Settings_UpdateOrDeleteAccount": "Так же вы можете %sобновить%s или %sудалить%s этот аккаунт.",
+        "Settings_ValidatePhoneNumber": "Проверить",
+        "Settings_VerificationCodeJustSent": "Мы только что отправили SMS с кодом на ваш номер: введите его ниже и нажмите \"Подтвердить\"",
+        "SettingsMenu": "СМС сообщения",
+        "SMS_Content_Too_Long": "[слишком длинно]",
+        "TopMenu": "Email и SMS отчёты"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Accions dels visitants antics",
+        "ColumnAverageVisitDurationForReturningVisitors": "Duració mitja d'una visita que retorna (en seg.)",
+        "ColumnAvgActionsPerReturningVisit": "Mitja d'accions per visitant que retorna",
+        "ColumnBounceCountForReturningVisits": "Nombre de rebots dels visitants que retornen",
+        "ColumnBounceRateForReturningVisits": "Raó de rebots",
+        "ColumnMaxActionsInReturningVisit": "Màxim d'accions en una vista que torna",
+        "ColumnNbReturningVisitsConverted": "Nombre de conversions per als visitants que retornen",
+        "ColumnReturningVisits": "Visitants que retornen (antics)",
+        "ColumnSumVisitLengthReturning": "Temps total dels visitants que retornen (en segons)",
+        "ColumnUniqueReturningVisitors": "Visitants únics que retornen",
+        "PluginDescription": "Mostra informació sobre els visitants que retornen comparat amb els visitants per primera vegada.",
+        "ReturnActions": "Els visitants que han tornat han fet %s accions",
+        "ReturnAverageVisitDuration": "%s duració mitja de la vistia dels usuaris que retornen.",
+        "ReturnAvgActions": "%s accions per visitant que retorna",
+        "ReturnBounceRate": "%s visitants antics han rebotat (abandonat el lloc després de veure una pàgina)",
+        "ReturningVisitDocumentation": "Un visitant que retorna és (al contrari d'un visitant nou) un usuari que ja ha visitat el vostre lloc web almenys una vegada en el passat.",
+        "ReturningVisitsDocumentation": "Això es una visió global dels visitants que retornen.",
+        "ReturnVisits": "Han tornat %s visitants",
+        "SubmenuFrequency": "Freqüència",
+        "WidgetGraphReturning": "Gràfic de les visites que han tornat",
+        "WidgetOverview": "Resum de la freqüència"
+    }
+}

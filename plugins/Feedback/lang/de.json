@@ -1,0 +1,25 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Kontaktieren Sie das Piwik Team!",
+        "DoYouHaveBugReportOrFeatureRequest": "Möchten Sie einen Fehler melden oder haben Sie eine Idee für eine neue Funktion?",
+        "GetInTouch": "Wir wissen Ihr Feedback zu schätzen und lesen alle Nachrichten. Vielleicht wollen Sie ja eine Geschäftsmöglichkeit teilen, einen Piwik-Berater buchen, uns eine Erfolgsgeschichte erzählen oder einfach nur Hallo sagen!",
+        "HowToCreateTicket": "Bitte lesen Sie die Empfehlungen wie man eine gute %1$sFehlermeldung%2$s oder einen %3$sVerbesserungsvorschlag%4$s erstellt. Dann registrieren Sie sich oder loggen Sie sich bei %5$sunserem Fehlermeldesystem%6$s an und erstellen Sie einen %7$sneuen Fall%8$s.",
+        "IWantTo": "Ich möchte:",
+        "LearnWaysToParticipate": "Lernen Sie alle Möglichkeiten kennen, wie Sie %s uns unterstützen können%s",
+        "ManuallySendEmailTo": "Senden Sie Ihre Nachricht manuell an",
+        "PluginDescription": "Senden Sie Ihr Feedback an das Piwik-Team. Teilen Sie uns Ihre Ideen, Anforderungen und Wünsche mit!",
+        "RateFeatureLeaveMessageDislike": "Es tut uns leid zu hören, dass es Ihnen nicht gefällt! Bitte teilen Sie uns mit, wie wir es verbessern können.",
+        "RateFeatureLeaveMessageLike": "Wir sind froh, dass Sie es mögen! Bitte teilen Sie uns mit, was sie am meisten mögen oder Sie eine Idee für eine neue Funktion haben.",
+        "RateFeatureSendFeedbackInformation": "Ihre Piwik-Plattform wird uns (dem Piwik Team) eine E-Mail (inklusiver Ihrer E-Mail-Adresse) senden, damit wir mit Ihnen in Kontakt treten könne, sollten Sie Fragen haben.",
+        "RateFeatureThankYouTitle": "Danke für das Bewerten von '%s'!",
+        "RateFeatureTitle": "Gefällt Ihnen das Feature '%s'? Bitte bewerten Sie es und hinterlassen einen Kommentar!",
+        "SendFeedback": "Feedback absenden",
+        "SpecialRequest": "Haben Sie eine spezielle Anfrage an das Team?",
+        "ThankYou": "Danke für Ihre Unterstützung, Piwik zu verbessern!",
+        "TopLinkTooltip": "Teilen Sie uns Ihre Meinung mit, oder fordern professionelle Unterstützung an.",
+        "ViewAnswersToFAQ": "Antworten zu %sFrequently Asked Questions%s ansehen",
+        "ViewUserGuides": "Lernen Sie mithilfe unseres %1$sBenutzerhandbuches%2$s, wie Sie Piwik konfigurieren können und wie Sie effektiv Ihre Daten analysieren.",
+        "VisitTheForums": "Besuchen Sie die %s Foren%s",
+        "WantToThankConsiderDonating": "Finden Sie Piwik genial und möchten uns danken?"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Öppna i ett nytt fönster",
+        "PluginDescription": "Pluginen gör det väldigt enkelt att exportera Piwik widget i din blogg, hemsida eller på iGoogle och Netvibes!",
+        "TopLinkTooltip": "Exportera rapporter från Piwik som Widgets och bädda in instrumentpanelen i din app som en iframe."
+    }
+}

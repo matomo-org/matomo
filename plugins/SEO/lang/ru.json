@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Рейтинг Alexa",
+        "Bing_IndexedPages": "Страниц в индексе Bing",
+        "Dmoz": "Записей в каталоге DMOZ",
+        "DomainAge": "Возраст домена",
+        "ExternalBacklinks": "Внешние обратные ссылки (Majestic)",
+        "Google_IndexedPages": "Страниц в индексе Google",
+        "Rank": "Рейтинг",
+        "ReferrerDomains": "Ссылающиеся домены (Majestic)",
+        "SeoRankings": "SEO-Рейтинги",
+        "SEORankingsFor": "SEO Рейтинги для %s",
+        "ViewBacklinksOnMajesticSEO": "Посмотреть Внешние обратные ссылки на сайте MajesticSEO.com"
+    }
+}

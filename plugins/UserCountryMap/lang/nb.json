@@ -1,0 +1,19 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "og %s andre",
+        "Cities": "Byer",
+        "Countries": "Land",
+        "DaysAgo": "%s dager siden",
+        "Hours": "timer",
+        "HoursAgo": "%s timer siden",
+        "map": "kart",
+        "Minutes": "minutter",
+        "MinutesAgo": "%s minutter siden",
+        "RealTimeMap": "Sanntidskart",
+        "Regions": "Regioner",
+        "Searches": "%s søk",
+        "Seconds": "sekunder",
+        "SecondsAgo": "%s sekunder siden",
+        "WorldWide": "Verdensbasis"
+    }
+}

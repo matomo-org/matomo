@@ -1,0 +1,30 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administrim",
+        "BrandingSettings": "Rregullime marke",
+        "ClickHereToOptIn": "Klikoni këtu për të kryer \"opt in\"",
+        "ClickHereToOptOut": "Klikoni këtu për të kryer \"opt out\"",
+        "CustomLogoFeedbackInfo": "Nëse e përshtatni logon e Piwik-ut, mund t’ju interesonte edhe fshehja lidhjes %s te menuja në krye. Për ta bërë këtë, mund të çaktivizoni shtojcën e Përshtypjeve te faqja e %sAdministrimit të Shtojcëve%s.",
+        "CustomLogoHelpText": "Logon e Piwik-ut, që do të shfaqet në ndërfaqen e përdoruesit dhe raportet email.",
+        "EmailServerSettings": "Rregullime shërbyesi email",
+        "LogoUpload": "Përzgjidhni një Logo për ta ngarkuar",
+        "MenuDiagnostic": "Diagnostikim",
+        "MenuGeneralSettings": "Rregullime të përgjithshme",
+        "MenuManage": "Administroni",
+        "OptOutComplete": "\"Opt-out\" u plotësua; vizitat tuaja në këtë \"site\" web nuk do të regjistrohen nga mjeti Analiza Web.",
+        "OptOutCompleteBis": "Mbani parasysh që nëse i hiqni \"cookie\"-t tuaja, fshini \"cookie\"-in për \"opt-out\", ose ndërroni kompjuter apo shfletues Web, do t'ju duhet të kryeni sërish procedurën për \"opt-out\".",
+        "OptOutExplanation": "Piwik-u është i përkushtuar ndaj mundësimit të vetësisë në Internet. Për t'u dhënë mundësinë e zgjedhjes së \"opt-out\" te Analizat Web Piwik, mund të shtoni kodin HTML vijues te një nga faqet e site-it tuaj web, për shembull te faqja e Rregullave të Vetësisë.",
+        "OptOutExplanationBis": "Ky kod do të shfaqë një Iframe që përmban një lidhje me të cilën vizitorët të mund të zgjedhin \"opt-out\" për Piwik-un, duke depozituar një \"opt-out cookie\" në shfletuesin e tyre. %s Klikoni këtu%s që të shihni lëndën që do të shfaqet nga iFrame-i.",
+        "OptOutForYourVisitors": "\"Opt-out\" i Piwik-ut për vizitorët tuaj",
+        "PiwikIsInstalledAt": "Piwik-u është instaluar te",
+        "PluginDescription": "Zona e administrimit të Piwik-ut.",
+        "TrustedHostConfirm": "Jeni i sigurt se doni të ndryshoni emërstrehën e besuar të Piwik-ut?",
+        "TrustedHostSettings": "Strehëemër e Besuar Piwik",
+        "UseCustomLogo": "Përdorni një logo të përshtatur",
+        "ValidPiwikHostname": "Strehëemër e Vlefshme Piwik",
+        "YouAreOptedIn": "Tani jeni nën \"opt-in\"",
+        "YouAreOptedOut": "Tani jeni nën \"opt-out\"",
+        "YouMayOptOut": "Mundet edhe të zgjidhni të mos ju përshoqërohet një numër unik identifikimi \"cookie\" analizash web për kompjuterin tuaj, për të shmangur mbledhjen dhe analizimin e të dhënave të mbledhura në këtë \"site\" web.",
+        "YouMayOptOutBis": "Për ta bërë këtë zgjedhje, ju lutem klikoni më poshtë që të merrni një \"cookie\" \"opt-out\"."
+    }
+}

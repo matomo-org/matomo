@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Otevřít nové okno",
+        "PluginDescription": "Tento zásuvný modul zjednodušuje export widgetů Piwiku na váš blog, web nebo Igoogle a Netvibes!",
+        "TopLinkTooltip": "Exportujte své Piwik hlášení jako widgety a použijte eje e vaší aplikaci jako iframe."
+    }
+}

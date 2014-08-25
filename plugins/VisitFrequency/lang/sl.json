@@ -1,0 +1,14 @@
+{
+    "VisitFrequency": {
+        "ColumnAvgActionsPerReturningVisit": "Povpr. število akcij na ponovni obisk",
+        "ColumnReturningVisits": "Ponovni obiski",
+        "ReturnActions": "%s akcij od ponovnih obiskov",
+        "ReturnAverageVisitDuration": "%s povprečno trajanje obiska pri ponovnem obiskovalcu",
+        "ReturnAvgActions": "%s akcij na ponovni obisk",
+        "ReturnBounceRate": "%s ponovnih obiskov je bilo odbojev (so zapustili stran po ogledu ene strani)",
+        "ReturnVisits": "%s ponovnih obiskov",
+        "SubmenuFrequency": "Frekvenca",
+        "WidgetGraphReturning": "Ponovni obiski",
+        "WidgetOverview": "Frekvenčni pregled"
+    }
+}

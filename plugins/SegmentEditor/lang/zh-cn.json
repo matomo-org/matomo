@@ -1,0 +1,24 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "增加 %s 条件",
+        "AddNewSegment": "增加新的元素",
+        "AreYouSureDeleteSegment": "您确认要删除这个分段吗？",
+        "AutoArchivePreProcessed": "分段报表为预处理 (更快，需要 archive.php 定时脚本)",
+        "AutoArchiveRealTime": "分段报表为实时处理",
+        "ChooseASegment": "选择一个分段",
+        "DefaultAllVisits": "所有的访问",
+        "DragDropCondition": "拖拉条件",
+        "LoadingSegmentedDataMayTakeSomeTime": "正在处理分段访客数据，可能需要几分钟 ...",
+        "OperatorAND": "和",
+        "OperatorOR": "或",
+        "SaveAndApply": "保存并应用",
+        "SegmentDisplayedAllWebsites": "所有网站",
+        "SegmentDisplayedThisWebsiteOnly": "仅这个网站",
+        "SegmentIsDisplayedForWebsite": "显示",
+        "SelectSegmentOfVisitors": "选择一个访客分段",
+        "ThisSegmentIsVisibleTo": "这个分段对其可见:",
+        "VisibleToAllUsers": "所有用户",
+        "VisibleToMe": "我",
+        "YouMustBeLoggedInToCreateSegments": "您必须登录后创建和修改自定义访客分段"
+    }
+}

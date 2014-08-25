@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s उछाल",
+        "DirectEntries": "सीधी प्रविष्टियां",
+        "ErrorBack": "पिछली कार्रवाई के लिए वापस जाओ",
+        "ExitsInline": "%s बाहर निकलता है",
+        "FromCampaigns": "अभियान से",
+        "FromPreviousPages": "आंतरिक पृष्ठों से",
+        "FromPreviousPagesInline": "%s आंतरिक पृष्ठों से",
+        "FromPreviousSiteSearches": "आंतरिक खोज से",
+        "FromPreviousSiteSearchesInline": "%s आंतरिक खोजों से",
+        "FromSearchEngines": "खोज इंजन से",
+        "FromWebsites": "वेबसाइटों से",
+        "IncomingTraffic": "आने वाले यातायात",
+        "LoopsInline": "पृष्ठ पुनः लोड %s",
+        "NoDataForAction": "%s के लिए कोई डेटा नहीं है",
+        "NoDataForActionDetails": "या तो कार्रवाई की अवधि %s के दौरान कोई पेज देखा गया था या यह अवैध है.",
+        "OutgoingTraffic": "निवर्तमान यातायात",
+        "PluginDescription": "प्रत्येक पृष्ठ यूआरएल के लिए पिछले और अगले कार्यों के बारे में रिपोर्ट.",
+        "ShareOfAllPageviews": "यह पृष्ठ का %s पृष्ठ दृश्य (सभी पृष्ठ दृश्य का %s)किया था",
+        "ToFollowingPages": "आंतरिक पृष्ठ",
+        "ToFollowingPagesInline": "%s आंतरिक पृष्ठ",
+        "ToFollowingSiteSearches": "आंतरिक खोजें",
+        "ToFollowingSiteSearchesInline": "%s आंतरिक खोजें",
+        "XOfAllPageviews": "इस पृष्ठ के सभी दृश्यों का %s",
+        "XOutOfYVisits": "%s (बाहर %s)"
+    }
+}

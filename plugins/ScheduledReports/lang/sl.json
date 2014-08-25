@@ -1,0 +1,25 @@
+{
+    "ScheduledReports": {
+        "AggregateReportsFormat": "(opcijsko) Opcije prikaza",
+        "AlsoSendReportToTheseEmails": "Poročila pošlji tudi na sledeče emaile (en email v vsako vrstico):",
+        "AreYouSureDeleteReport": "Ste prepričani, da želite izbrisati to poročilo in urnik?",
+        "CreateReport": "Ustvari poročilo",
+        "EmailHello": "Zdravo,",
+        "EmailReports": "Email Poročila",
+        "EmailSchedule": "Urnik Emailov",
+        "FrontPage": "Prva Stran",
+        "ManageEmailReports": "Urejaj Email Poročila",
+        "MonthlyScheduleHelp": "Mesečno poročilo: poročilo bo poslano vsak prvi dan v mesecu.",
+        "Pagination": "Stran %s od %s",
+        "PiwikReports": "Piwik Poročila",
+        "ReportFormat": "Format poročila",
+        "ReportsIncluded": "Statistika vključena",
+        "SendReportNow": "Pošlji Poročilo zdaj",
+        "SendReportTo": "Pošlji poročilo k",
+        "SentToMe": "Pošlji meni",
+        "TableOfContent": "Seznam poročil",
+        "TopOfReport": "Nazaj na vrh",
+        "UpdateReport": "Posodobi poročilo",
+        "WeeklyScheduleHelp": "Mesečno poročilo: poročilo bo poslano vsak ponedeljek."
+    }
+}

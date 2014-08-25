@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s genomsnittlig genereringstid",
+        "AverageVisitDuration": "%s genomsnittlig besökstid",
+        "GenerateQueries": "%s frågor exekverade",
+        "GenerateTime": "Det tog %s sekunder att generera denna sida.",
+        "MaxNbActions": "%s händelser som mest i ett besök",
+        "NbActionsDescription": "%s händelser (sidvisningar, nedladdningar och outlinks)",
+        "NbActionsPerVisit": "%s händelser per besök",
+        "NbDownloadsDescription": "%s nerladdningar",
+        "NbKeywordsDescription": "%s unika sökord",
+        "NbOutlinksDescription": "%s utlänkar",
+        "NbPageviewsDescription": "%s sidvisningar",
+        "NbSearchesDescription": "%s totala sökningar på din webbplats",
+        "NbUniqueDownloadsDescription": "%s unika nerladdningar",
+        "NbUniqueOutlinksDescription": "%s unika utlänkar",
+        "NbUniquePageviewsDescription": "%s unika sidvisningar",
+        "NbUniqueVisitors": "%s unika besökare",
+        "NbVisitsBounced": "%s besökare som har studsat (lämnat sidan efter en sidvisning)",
+        "PluginDescription": "Rapporterar allmänna analyssiffror: besök, unika besökare, antal händelser, avvisningsfrekvens, etc.",
+        "VisitsSummary": "Besökssummering",
+        "VisitsSummaryDocumentation": "Detta är en översikt av besöksutvecklingen.",
+        "WidgetLastVisits": "Besöksgraf",
+        "WidgetOverviewGraph": "Översiktsgraf",
+        "WidgetVisits": "Besöksöversikt"
+    }
+}

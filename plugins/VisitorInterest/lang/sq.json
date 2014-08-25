@@ -1,0 +1,25 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Faqe për vizitë",
+        "ColumnVisitDuration": "Kohëzgjatje vizite",
+        "Engagement": "Angazhim",
+        "NPages": "%s faqe",
+        "OneMinute": "1 min",
+        "OnePage": "1 faqe",
+        "PluginDescription": "Raporton rreth Interesave të Vizitorit: numër faqesh të para, kohë e shpenzuar në site-in Web.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Numër vizitash",
+        "VisitsByDaysSinceLast": "Vizita sipas ditësh që pas vizitës së fundit",
+        "visitsByVisitCount": "Vizita sipas numrit të vizitave",
+        "VisitsPerDuration": "Vizita sipas kohëzgjatjes së vizitës",
+        "VisitsPerNbOfPages": "Vizita sipas numrit të faqeve",
+        "WidgetLengths": "Gjatësi Vizitash",
+        "WidgetLengthsDocumentation": "Në këtë raport, mund të shihni vizita sipas një kohëzgjatje të caktuar. Fillimisht, ky raport shfaqet si re etiketash, me zgjatjet më të shpeshta të treguara me shkronja më të mëdha.",
+        "WidgetPages": "Faqe për vizitë",
+        "WidgetPagesDocumentation": "Në këtë raport, mund të shihni sa vizitorë panë një numër të dhënë faqesh. Fillimisht, ky raport shfaqet si re etiketash, me numrat më të shpeshtë të faqeve të treguara me shkronja më të mëdha.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Në këtë raport, mund të shihni se sa vizita kanë qenë prej vizitorësh vizita e fundit e të cilëve ka ndodhur një numër ditësh më parë.",
+        "WidgetVisitsByNumDocumentation": "Në këtë raport, mund të shihni numrin e vizitave që kanë qenë vizita e N-të, d.m.th. vizitorët që e kanë vizituar site-in tuaj web të paktën N herë."
+    }
+}

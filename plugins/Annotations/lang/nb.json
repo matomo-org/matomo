@@ -1,0 +1,15 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Legg til merknader for %s...",
+        "AnnotationOnDate": "Merknad på %1$s: %2$s",
+        "Annotations": "Merknader",
+        "ClickToDelete": "Klikk for å slette denne merknaden.",
+        "ClickToEdit": "Klikk for å redigere denne merknaden.",
+        "ClickToEditOrAdd": "Klikk for å redigere eller legge til en ny merknad.",
+        "CreateNewAnnotation": "Opprett en ny merknad...",
+        "EnterAnnotationText": "Skriv inn merknad...",
+        "HideAnnotationsFor": "Skjul merknader for %s...",
+        "LoginToAnnotate": "Logg inn for å opprette en merknad.",
+        "ViewAndAddAnnotations": "Vis og legg til merknader for %s..."
+    }
+}

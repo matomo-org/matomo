@@ -1,0 +1,11 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa položaj",
+        "Bing_IndexedPages": "Bing indeksirane strani",
+        "DomainAge": "Starost domene",
+        "Google_IndexedPages": "Google indeksirane strani",
+        "Rank": "Položaj",
+        "SeoRankings": "SEO položaji",
+        "SEORankingsFor": "SEO položaji za %s"
+    }
+}

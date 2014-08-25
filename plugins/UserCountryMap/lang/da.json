@@ -1,0 +1,27 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "og %s andre",
+        "Cities": "Byer",
+        "Countries": "Lande",
+        "DaysAgo": "%s dage siden",
+        "GoalConversions": "%s målkonverteringer",
+        "Hours": "timer",
+        "HoursAgo": "%s timer siden",
+        "map": "kort",
+        "Minutes": "minutter",
+        "MinutesAgo": "%s minutter siden",
+        "None": "Ingen",
+        "NoVisit": "Ingen besøg",
+        "RealTimeMap": "Tidstro kort",
+        "Regions": "Regioner",
+        "Searches": "%s søgninger",
+        "Seconds": "sekunder",
+        "SecondsAgo": "%s sekunder siden",
+        "ShowingVisits": "Geografisk placeret besøg af sidste",
+        "Unlocated": "<b>%s<\/b> besøg %p fra %c kunne ikke placeres geografisk.",
+        "VisitorMap": "Besøgerkort",
+        "WithUnknownCity": "%s med ukendt by",
+        "WithUnknownRegion": "%s med ukendt region",
+        "WorldWide": "Hele verden"
+    }
+}

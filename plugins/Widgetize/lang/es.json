@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Abrir en una nueva ventana",
+        "PluginDescription": "Este plugin hace muy fácil exportar cualquier Widget de Piwik a tu blog, sitio web o a iGoogle y Netvibes!",
+        "TopLinkTooltip": "Exportar los informes de Piwik como una aplicación (widget) e incrustar el panel en su aplicación como un elemento iframe."
+    }
+}

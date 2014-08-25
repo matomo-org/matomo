@@ -1,0 +1,20 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Nincs adat ebben a kategóriában. Próbáld meg a \"Tartalmazza a teljes populációt\" opciót.",
+        "JavascriptDisabled": "A normál nézet megtekintéséhez JavaScript szükséges.<br \/>Úgy tűnik azonban, hogy a JavaScript vagy nem engedélyezett, vagy pedig nem támogatott a böngésződben.<br \/>A normál nézet eléréséhez engedélyezd a JavaScriptet böngésződben, majd %1$stöltsd be az oldalt újra!%2$s.<br \/>",
+        "NoPrivilegesAskPiwikAdmin": "'%s' felhasználóként léptél be, de úgy tűnik, hogy nem rendelkezel semmilyen jogosultsággal. %s Kérd meg a Piwik adminisztrátorod (kattints ide egy email írásához)%s, hogy adjon számodra 'megtekintési' jogosultságot a webhelyhez.",
+        "PageOf": "%1$s — %2$s",
+        "PeriodDay": "Nap",
+        "PeriodDays": "napok",
+        "PeriodMonth": "Hónap",
+        "PeriodMonths": "hónapok",
+        "PeriodWeek": "Hét",
+        "PeriodWeeks": "hetek",
+        "PeriodYear": "Év",
+        "PeriodYears": "évek",
+        "PluginDescription": "Webanalitikai jelentések struktúrája",
+        "ShowJSCode": "Mutasd a JavaScript kódot a beillesztéshez",
+        "ThereIsNoDataForThisReport": "Nincs adat ehhez a jelentéshez.",
+        "WebAnalyticsReports": "Webanalitikai jelentések"
+    }
+}

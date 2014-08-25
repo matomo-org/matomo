@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s bị trả lại",
+        "DirectEntries": "Các mục trực tiếp",
+        "ErrorBack": "Quay trở lại hành động trước đó",
+        "ExitsInline": "%s thoát",
+        "FromCampaigns": "Từ các chiến dịch",
+        "FromPreviousPages": "Từ các trang nội bộ",
+        "FromPreviousPagesInline": "%s từ các trang nội bộ",
+        "FromPreviousSiteSearches": "Từ các tìm kiếm nội bộ",
+        "FromPreviousSiteSearchesInline": "%s Từ các tìm kiếm nội bộ",
+        "FromSearchEngines": "Từ các công cụ tìm kiếm",
+        "FromWebsites": "Từ các Website",
+        "IncomingTraffic": "Lưu lượng truy cập đến",
+        "LoopsInline": "các lượt tải lại trang %s",
+        "NoDataForAction": "Không có dữ liệu cho %s",
+        "NoDataForActionDetails": "Hay là hành động không có lượt xem trang trong thời gian %s hoặc không hợp lệ.",
+        "OutgoingTraffic": "Lưu lượng truy cập đi",
+        "PluginDescription": "Báo cáo về các hoạt động trước và sau cho mỗi URL trang.",
+        "ShareOfAllPageviews": "Trang này đã có %s lượt xem trang (%s của tất cả các lượt xem trang)",
+        "ToFollowingPages": "Tới các trang nội bộ",
+        "ToFollowingPagesInline": "%s tới các trang nội bộ",
+        "ToFollowingSiteSearches": "Các tìm kiếm nội bộ",
+        "ToFollowingSiteSearchesInline": "%s Các tìm kiếm nội bộ",
+        "XOfAllPageviews": "%s của tất cả các lượt xem của trang này",
+        "XOutOfYVisits": "%s (trong số %s)"
+    }
+}

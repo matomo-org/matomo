@@ -1,0 +1,21 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "Klikšķinātais URL",
+        "ColumnClicks": "Klikšķi",
+        "ColumnClicksDocumentation": "Saites klikšķu skaits.",
+        "ColumnDownloadURL": "Lejupielādes URL",
+        "ColumnEntryPageTitle": "Ieejas lapas virsraksts",
+        "ColumnEntryPageURL": "Ieejas lapas URL",
+        "ColumnExitPageTitle": "Izejas lapas virsraksts",
+        "ColumnExitPageURL": "Izejas lapas URL",
+        "ColumnPageName": "Lapas virsraksts",
+        "ColumnPageURL": "Lapas URL",
+        "ColumnUniqueClicks": "Unikālie klikšķi",
+        "ColumnUniqueDownloads": "Unikālas lejupielādes",
+        "ColumnUniqueOutlinks": "Unikālās arējās saites",
+        "PluginDescription": "Lapas skatījumu, izejošo saišu un lejupielāžu atskaite. Izejošo saišu un lejupielāžu izsekošana ir automātiska!",
+        "SubmenuPagesEntry": "Ieejas lapas",
+        "SubmenuPagesExit": "Izejas lapas",
+        "SubmenuPageTitles": "Lapas virsraksti"
+    }
+}

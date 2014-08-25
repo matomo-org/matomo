@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Als u geen data hebt voor vandaag, kunt u eerst wat data genereren met de %s plugin. U kunt de %s plugin inschakelen, en dan klikken op het Bezoekers generator menu in het Piwik beheer gedeelte.",
+        "KeepTokenSecret": "Deze token_auth is even geheim als uw gebruikersnaam en wachtwoord. %s Deel het met niemand! %s!",
+        "LoadedAPIs": "Succesvol %s APIs geladen",
+        "MoreInformation": "Voor meer informatie over de Piwik API's, lees even de %s introductie van de Piwik API %s en de %s Piwik API referenties %s.",
+        "PluginDescription": "Alle data in Piwik is beschikbaar via simpele API's. Deze plugin is het webservice startpunt dat u kunt aanroepen om uw Web Analytics data te ontvangen in xml, json, php, csv, enz.",
+        "QuickDocumentationTitle": "Korte API handleiding",
+        "TopLinkTooltip": "Benader je Web Analyse data via een simpele API in josn, xml, enz.",
+        "UserAuthentication": "Gebruikers authenticatie.",
+        "UsingTokenAuth": "Als u data wil %s opvragen via een script, een cronjob, enz. waarvoor authenticatie vereist is, %s moet u de parameter %s aan de API aanvraag URL's toevoegen"
+    }
+}

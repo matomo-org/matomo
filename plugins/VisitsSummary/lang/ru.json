@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s среднее время генерации страницы",
+        "AverageVisitDuration": "%s средняя продолжительность посещения",
+        "GenerateQueries": "%s запросов выполнено",
+        "GenerateTime": "Страница сгенерирована за %s секунд",
+        "MaxNbActions": "%s макс. действий за одно посещение",
+        "NbActionsDescription": "%s действий (просмотры страниц, загрузки, внешние переходы)",
+        "NbActionsPerVisit": "%s действий за одно посещение",
+        "NbDownloadsDescription": "%s скачиваний",
+        "NbKeywordsDescription": "%s уникальных ключевых слов",
+        "NbOutlinksDescription": "%s исходящих ссылок",
+        "NbPageviewsDescription": "%s просмотров страниц",
+        "NbSearchesDescription": "%s всего поисков на вашем сайте",
+        "NbUniqueDownloadsDescription": "%s уникальных скачиваний",
+        "NbUniqueOutlinksDescription": "%s уникальных исходящих ссылок",
+        "NbUniquePageviewsDescription": "%s уникальных просмотров страниц",
+        "NbUniqueVisitors": "%s уникальных посетителей",
+        "NbVisitsBounced": "%s отказов (ушли после посещения одной страницы)",
+        "PluginDescription": "Показывает общую аналитику: посещения, уникальные посетители, поличество действий, доля отказов и т. д.",
+        "VisitsSummary": "Посещения",
+        "VisitsSummaryDocumentation": "Это обзор динамики посещений.",
+        "WidgetLastVisits": "График последних посещений",
+        "WidgetOverviewGraph": "Обзор по всем графикам",
+        "WidgetVisits": "Обзор посещений"
+    }
+}

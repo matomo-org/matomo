@@ -1,0 +1,11 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Ръст спрямо",
+        "DayComparedToPreviousDay": "предишен ден",
+        "Filter": "Филтър",
+        "FilterOnlyNew": "Само нови",
+        "TitleRowDisappearedDetails": "'%1$s' намалял с %2$s и изчезна в %3$s сравнено с %4$s.",
+        "WeekComparedToPreviousWeek": "предишна седмица",
+        "YearComparedToPreviousYear": "предишна година"
+    }
+}

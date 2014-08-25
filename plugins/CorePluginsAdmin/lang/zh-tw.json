@@ -1,0 +1,15 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "啟用",
+        "Activated": "已作用中",
+        "Active": "啟用中",
+        "Deactivate": "停用",
+        "Inactive": "停用中",
+        "MainDescription": "外掛延伸並擴展了 Piwik 的功能。 當一個外掛安裝了以後，您可以在這裏啟用或停用它。",
+        "PluginDescription": "外掛管理介面。",
+        "PluginHomepage": "外掛首頁",
+        "PluginsManagement": "外掛管理",
+        "Status": "狀態",
+        "Version": "版本"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Rapor kutusu ekle",
+        "AddPreviewedWidget": "Görüntülenen Bileşenı panoya ekleyin.",
+        "ChangeDashboardLayout": "Panel düzenini değiştir",
+        "CopyDashboardToUser": "Paneli kullanıcı için kopyala",
+        "CreateNewDashboard": "Yeni panel ekle",
+        "Dashboard": "Pano",
+        "DashboardCopied": "Panel başarılı şekilde seçilen kullanıcı için kopyalandı",
+        "DashboardName": "Panel adı:",
+        "DashboardOf": "Kontrol paneli %s",
+        "DefaultDashboard": "Varsayılan panel - Varsayılan widget seçimleri ve sütunları kullanın",
+        "DeleteWidgetConfirm": "Bu Bileşenı panodan silmek istediğinize emin misiniz?",
+        "EmptyDashboard": "Boş panel - Favori widgetlarınızı seçin",
+        "LoadingWidget": "Bileşen yükleniyor, lütfen bekleyin...",
+        "ManageDashboard": "Paneli düzenle",
+        "Maximise": "Maksimize",
+        "Minimise": "Küçült",
+        "NotUndo": "Bu eylemi geri alamazsınız.",
+        "PluginDescription": "Web istatistik panonuz. Panonuzu özelleştirebilirsiniz: yeni widget ekleyebilir, bileşen ayarlarınızı değiştirebilirsiniz. Her kullanıcı kendi panosuna ulaşır.",
+        "RemoveDashboard": "Paneli kaldır",
+        "RemoveDashboardConfirm": "\"%s\" panelini kaldırmak istediğinize emin misiniz?",
+        "RenameDashboard": "Panel yeniden adlandır",
+        "ResetDashboard": "Paneli sıfırla",
+        "SelectDashboardLayout": "Lütfen yeni panel düzenini seçiniz.",
+        "SelectWidget": "Panoya eklemek için bileşen seçiniz.",
+        "WidgetNotFound": "Bileşen bulunamadı",
+        "WidgetPreview": "Bileşen görünümü",
+        "WidgetsAndDashboard": "Rapor kutuları ve Panel"
+    }
+}

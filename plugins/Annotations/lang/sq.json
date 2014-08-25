@@ -1,0 +1,21 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Shtoni shënime për %s...",
+        "AnnotationOnDate": "Shënim te %1$s: %2$s",
+        "Annotations": "Shënime",
+        "ClickToDelete": "Klikoni që të fshihet ky shënim.",
+        "ClickToEdit": "Klikoni që të përpunohet ky shënim.",
+        "ClickToEditOrAdd": "Klikoni që të përpunohet ose që të shtohet një shënim i ri.",
+        "ClickToStarOrUnstar": "Klikoni që këtij shënimi t'i vihet ose hiqet ylli.",
+        "CreateNewAnnotation": "Krijoni një shënim të ri...",
+        "EnterAnnotationText": "Jepni shënim tuaj...",
+        "HideAnnotationsFor": "Fshihi shënimet për %s...",
+        "IconDesc": "Shihni shënimet për këtë interval kohor.",
+        "IconDescHideNotes": "Fshihi shënimet për këtë interval datash.",
+        "InlineQuickHelp": "Mund të krijoni shënime për të vënë një shenjë te ngjarje speciale (fjala vjen, një postim i ri blogu, ose ri hartim site-i web), për të ruajtur analiza të të dhënave tuaja ose për të ruajtur arëdo gjëje tjetër që mendoni se është e rëndësishme.",
+        "LoginToAnnotate": "Që të krijoni një shënim, bëni hyrjen.",
+        "NoAnnotations": "Nuk ka shënime për këtë interval datash.",
+        "ViewAndAddAnnotations": "Shihni dhe shtoni shënime për %s...",
+        "YouCannotModifyThisNote": "Nuk e ndryshoni dot këtë shënim, ngaqë nuk e krijuat ju, dhe as keni të drejta përgjegjësi për këtë site."
+    }
+}

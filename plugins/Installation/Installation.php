@@ -87,7 +87,7 @@ class Installation extends \Piwik\Plugin
             $message = '';
         }
 
-        Translate::loadCoreTranslation();
+        Translate::reloadLanguage();
 
         $action = Common::getRequestVar('action', 'welcome', 'string');
 

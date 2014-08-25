@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Pokud pro dnešek nemáte data, můžete je nejprve vygenerovat pomocí zásuvného modulu %s. Můžete povolit zásuvný modul %s a poté kliknout na 'Generátor návštěv' v menu v administrační části Piwiku",
+        "KeepTokenSecret": "Tento token_auth je tajný jako vaše uživatelské jméno a heslo, %s neříkejte jej nikomu jinému %s!",
+        "LoadedAPIs": "Úspěšně načteno %s API",
+        "MoreInformation": "Pro více informací o API Piwiku se podívejte na %s Úvod do API Piwiku %s a %s Referenci API Piwiku %s",
+        "PluginDescription": "Všechna data v Piwiku jsou dostupná přes jednoduchá API. Tento zásuvný modul je vstupním bodem pro webovou službu, kterou můžete volat, abyste získali data ve formátech xml, json, php, csv, atd.",
+        "QuickDocumentationTitle": "Rychlá dokumentace API",
+        "TopLinkTooltip": "Zpřístupněte Vaše Webové analýzy programově skrze jednoduché API pomocí json, xml a dalších.",
+        "UserAuthentication": "Autentifikace uživatele",
+        "UsingTokenAuth": "Pokud chcete %s načíst data ze skriptu, cronu, atd. %s Potřebujete přidat parametr %s k voláním API, které vyžadují přihlášení"
+    }
+}

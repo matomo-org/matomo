@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s spørjingar køyrd",
+        "GenerateTime": "%s sekundar å generera denne siden",
+        "MaxNbActions": "%s maks mengd handlingar på ein vitjing",
+        "NbUniqueVisitors": "%s unike vitjarar",
+        "NbVisitsBounced": "%s vitjarar hev hoppa (forsvunne etter ein sidevising)",
+        "WidgetLastVisits": "Siste vitjingar",
+        "WidgetOverviewGraph": "Oversikt med graf",
+        "WidgetVisits": "Vitjingsoversikt"
+    }
+}

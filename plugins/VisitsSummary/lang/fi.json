@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s keskimääräinen generointiaika",
+        "AverageVisitDuration": "%s keskimääräinen käynnin kesto",
+        "GenerateQueries": "%s kyselyä ajettu",
+        "GenerateTime": "%s sekuntia sivun luomiseen",
+        "MaxNbActions": "%s toimintoa maksimissaan yhdellä käynnillä",
+        "NbActionsDescription": "%s toimintoa (sivua, latausta ja lähtevää linkkiä)",
+        "NbActionsPerVisit": "%s toimintoa \/ käynti",
+        "NbDownloadsDescription": "%s tiedoston latausta",
+        "NbKeywordsDescription": "%s uniikkia hakusanaa",
+        "NbOutlinksDescription": "%s lähtevää linkki",
+        "NbPageviewsDescription": "%s sivunavausta",
+        "NbSearchesDescription": "%s hakua verkkosivullasi",
+        "NbUniqueDownloadsDescription": "%s yksilöllistä latausta",
+        "NbUniqueOutlinksDescription": "%s yksilöllistä lähtevää linkkiä",
+        "NbUniquePageviewsDescription": "%s yksilöllistä sivunavausta",
+        "NbUniqueVisitors": "%s uniikia kävijää",
+        "NbVisitsBounced": "%s lyhyttä käyntiä (vain yksi ladattu sivu)",
+        "PluginDescription": "Yleiset analyysit: käynnit, uniikit kävijät, toimintojen määrä, lähtevien määrä jne.",
+        "VisitsSummary": "Yhteenveto käynneistä",
+        "VisitsSummaryDocumentation": "Tämä on käyntien muutoksen yleiskatsaus",
+        "WidgetLastVisits": "Edelliset käynnit",
+        "WidgetOverviewGraph": "Yleiskatsaus graafilla",
+        "WidgetVisits": "Käyntien yleiskatsaus"
+    }
+}

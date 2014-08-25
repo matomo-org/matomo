@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "訪客端時段",
+        "ColumnServerTime": "伺服器時段",
+        "LocalTime": "依訪客端時段記錄的造訪次數",
+        "NHour": "%s 時",
+        "PluginDescription": "當地時段及伺服器時段報表。伺服器時段能作為排定網站維護時間的參考。",
+        "ServerTime": "依伺服器時段記錄的造訪次數",
+        "SubmenuTimes": "造訪時段",
+        "WidgetLocalTime": "依訪客端時段記錄的造訪次數",
+        "WidgetServerTime": "依伺服器時段記錄的造訪次數"
+    }
+}

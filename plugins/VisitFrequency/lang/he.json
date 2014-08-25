@@ -1,0 +1,20 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "פעולות לפי ביקורים חוזרים",
+        "ColumnAverageVisitDurationForReturningVisitors": "משך ממוצע של ביקור חוזר (שניות)",
+        "ColumnAvgActionsPerReturningVisit": "ממוצע פעולות לביקור חוזר",
+        "ColumnMaxActionsInReturningVisit": "מקסימום פעולות בביקור חוזר אחד",
+        "ColumnNbReturningVisitsConverted": "מספר ביקורים חוזרים שהומרו",
+        "ColumnReturningVisits": "ביקורים חוזרים",
+        "ColumnSumVisitLengthReturning": "סך הזמן ע״י מבקרים חוזרים (שניות)",
+        "ColumnUniqueReturningVisitors": "מבקרים חוזרים ייחודיים",
+        "ReturnActions": "%s פעולות ע״י ביקורים חוזרים",
+        "ReturnAverageVisitDuration": "%s משך ביקור ממוצע למבקרים חוזרים",
+        "ReturnAvgActions": "%s פעולות לביקור חוזר",
+        "ReturningVisitsDocumentation": "זו סקירה של ביקורים חוזרים.",
+        "ReturnVisits": "%s ביקורים חוזרים",
+        "SubmenuFrequency": "תדירות",
+        "WidgetGraphReturning": "ביקורים חוזרים לאורך זמן",
+        "WidgetOverview": "סקירת תדירות"
+    }
+}

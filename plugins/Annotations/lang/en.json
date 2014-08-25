@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Add annotations for %s...",
+        "AnnotationOnDate": "Annotation on %1$s: %2$s",
+        "Annotations": "Annotations",
+        "ClickToDelete": "Click to delete this annotation.",
+        "ClickToEdit": "Click to edit this annotation.",
+        "ClickToEditOrAdd": "Click to edit or add a new annotation.",
+        "ClickToStarOrUnstar": "Click to star or unstar this annotation.",
+        "CreateNewAnnotation": "Create a new annotation...",
+        "EnterAnnotationText": "Enter your note...",
+        "HideAnnotationsFor": "Hide annotations for %s...",
+        "IconDesc": "View notes for this date range.",
+        "IconDescHideNotes": "Hide notes for this date range.",
+        "InlineQuickHelp": "You can create annotations to mark special events (like a new blog post, or website redesign), to save your data analyses or to save anything else you think is important.",
+        "LoginToAnnotate": "Login to create an annotation.",
+        "NoAnnotations": "There are no annotations for this date range.",
+        "PluginDescription": "Allows you to attach notes to different days to mark changes made to your website, save analyses you make regarding your data and share your thoughts with your colleagues. By annotating your data, you will make sure you remember why your data looks the way it does.",
+        "ViewAndAddAnnotations": "View and add annotations for %s...",
+        "YouCannotModifyThisNote": "You cannot modify this annotation, because you did not create it, nor do you have admin access for this site."
+    }
+}

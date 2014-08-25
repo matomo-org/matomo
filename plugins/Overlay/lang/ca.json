@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s clicks",
+        "ClicksFromXLinks": "%1$s clicks de un de %2$s enllaços",
+        "Domain": "Domini",
+        "ErrorNotLoading": "No es pot iniciar la sessió de pàgines Overlay",
+        "ErrorNotLoadingDetails": "Potser la pàgina carregada a la dreta no te el codi de rastreig de Piwik. En aquest cas, proveu de llençar el Overlay d'un altra pàgina del informe de pàgines.",
+        "ErrorNotLoadingDetailsSSL": "Com esteu fent servir Piwik a través de https, es possible que el vostre lloc web no suporti el SSL. Proveu utilitzant el Piwik sobre http.",
+        "ErrorNotLoadingLink": "Feu click aquí per obtenir més informació sobre com solucionar el problema.",
+        "Link": "Enllaç",
+        "Location": "Ubicació",
+        "NoData": "No hi ha informació per aquesta pàgina en el període seleccionat.",
+        "OneClick": "1 click",
+        "OpenFullScreen": "Mostra a pantalla complerta (sense barra lateral)",
+        "Overlay": "Overlay de pàgina",
+        "PluginDescription": "Observeu les anàlitiques a sobre del lloc web actual.",
+        "RedirectUrlError": "Esteu intentant obrir un pàgina Overlay per la URL \"%s\". %s Cap dels dominis configurats al Piwik concòrda amb l'enllaç.",
+        "RedirectUrlErrorAdmin": "Podeu afegir una URL addicional per un domini a %s les preferències%s.",
+        "RedirectUrlErrorUser": "Contacteu amb el vostre administrador per afegir el domini com una URL adicional."
+    }
+}

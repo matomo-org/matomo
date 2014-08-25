@@ -1,0 +1,25 @@
+{
+    "Referrers": {
+        "Campaigns": "Kampanje",
+        "ColumnCampaign": "Kampanja",
+        "ColumnSearchEngine": "Spletni Iskalnik",
+        "ColumnWebsite": "Spletna stran",
+        "ColumnWebsitePage": "Spletna stran",
+        "DetailsByReferrerType": "Podrobnosti o tipu napotitelja",
+        "DirectEntry": "Neposreden obisk",
+        "Distinct": "Različnih napotiteljev po tipu",
+        "DistinctCampaigns": "različne kampanje",
+        "DistinctKeywords": "različne ključne besede",
+        "DistinctSearchEngines": "različni brskalniki",
+        "DistinctWebsites": "različne spletne strani",
+        "Keywords": "Ključne Besede",
+        "SearchEngines": "Spletni iskalniki",
+        "SubmenuSearchEngines": "Brskalniki & ključne besede",
+        "SubmenuWebsites": "Spletne strani",
+        "Type": "Tip napotitelja",
+        "TypeReportDocumentation": "Ta tabela vsebuje informacije o porazdelitvi tipov napotiteljev",
+        "Websites": "Spletne strani",
+        "WidgetExternalWebsites": "Seznam zunanjih spletnih strani",
+        "WidgetKeywords": "Seznam ključnih besed"
+    }
+}

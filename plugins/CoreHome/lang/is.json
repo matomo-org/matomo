@@ -1,0 +1,15 @@
+{
+    "CoreHome": {
+        "PageOf": "%1$s of %2$s",
+        "PeriodDay": "Dagur",
+        "PeriodDays": "daga",
+        "PeriodMonth": "Mánuður",
+        "PeriodMonths": "mánuði",
+        "PeriodWeek": "Vika",
+        "PeriodWeeks": "vikur",
+        "PeriodYear": "Ár",
+        "PeriodYears": "ár",
+        "ShowJSCode": "Sýna JavaScript kóða til að setja inn",
+        "ThereIsNoDataForThisReport": "Það eru eingin gögn til fyrir þessa skýrslu"
+    }
+}

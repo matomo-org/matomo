@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "돌아온 방문의 활동 수",
+        "ColumnAverageVisitDurationForReturningVisitors": "돌아운 방문 평균 방문 기간 (초 단위)",
+        "ColumnAvgActionsPerReturningVisit": "돌어온 방문당 평균 활동 수",
+        "ColumnBounceCountForReturningVisits": "돌아온 방문의 반송수",
+        "ColumnBounceRateForReturningVisits": "돌아온 방문의 반송률",
+        "ColumnMaxActionsInReturningVisit": "돌아온 방문당 최대 활동 수",
+        "ColumnNbReturningVisitsConverted": "돌아온 방무자 수",
+        "ColumnReturningVisits": "돌아온 방문 수",
+        "ColumnSumVisitLengthReturning": "리피터의 총 머문 시간 (초)",
+        "ColumnUniqueReturningVisitors": "고유한 돌아온 방문자",
+        "PluginDescription": "돌아온 방문자와 신규 방문자의 대비한 다양한 통계를 보고합니다.",
+        "ReturnActions": "%s 돌아온 방문의 활동",
+        "ReturnAverageVisitDuration": "%s 돌아온 방문자의 평균 방문 시간",
+        "ReturnAvgActions": "%s 돌아온 방문당 활동",
+        "ReturnBounceRate": "%s 돌아온 방문의 반송률 (첫 페이지에서 이탈)",
+        "ReturningVisitDocumentation": "돌아온 방문은 (신규 방문과는 대조적으로), 적어도 한 번은 이전에 웹 사이트를 방문한 사람에 의해 이루어집니다.",
+        "ReturningVisitsDocumentation": "돌아온 방문 개요입니다.",
+        "ReturnVisits": "%s 돌아온 방문",
+        "SubmenuFrequency": "프리퀸시",
+        "WidgetGraphReturning": "돌아온 방문 수 그래프",
+        "WidgetOverview": "프리퀸시 개요"
+    }
+}

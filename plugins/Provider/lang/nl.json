@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Provider",
+        "PluginDescription": "Rapporteert de provider van de bezoekers",
+        "ProviderReportDocumentation": "Dit rapport toont de Internet Service Providers die uw bezoekers gebruiken om de website te bezoeken. Klik op een provider naam voor meer informatie. %s Als Piwik de naam van de provider niet kan achterhalen, dan wordt deze vermeld als IP.",
+        "SubmenuLocationsProvider": "Lokatie & provider",
+        "WidgetProviders": "Providers"
+    }
+}

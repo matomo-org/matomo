@@ -1,0 +1,19 @@
+{
+    "SitesManager": {
+        "AddSite": "Pridať novú stránku",
+        "Currency": "Mena",
+        "DeleteConfirm": "Ste si istý, že chcete zmazať webstránku %s?",
+        "ExceptionDeleteSite": "Nie je možné odstrániť webstránku, pretože je jediná registrovaná webstránka. Najskôr pridajte novú webstránka a potom môžete odstrániť túto.",
+        "ExceptionEmptyName": "Názov stránok nemôže byť prázdny.",
+        "ExceptionInvalidUrl": "Url '%s' nie je platná URL.",
+        "ExceptionNoUrl": "Musíte zadať aspoň jednu URL pre stránku.",
+        "JsTrackingTagHelp": "Tu je JavaScript sledovacia značka (tag) na vloženie do vašich stránok",
+        "MainDescription": "Váš report analýzy webu potrebuje webstránky! Tu si pridajte, aktualizujte, odstráňte webstránky alebo zobrazte Javascript kód pre vaše stránky.",
+        "NoWebsites": "Nemáte webstránky na administrovanie.",
+        "ShowTrackingTag": "zobraziť sledovaciu značku",
+        "Sites": "Stránky",
+        "Timezone": "Časové pásmo",
+        "Urls": "URL",
+        "WebsitesManagement": "Správa webstránok"
+    }
+}

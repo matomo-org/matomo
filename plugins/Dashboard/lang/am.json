@@ -1,0 +1,11 @@
+{
+    "Dashboard": {
+        "AddPreviewedWidget": "ቅድመ እይታ የተሰጠውን widget ወደ ዳሽቦርዱ ጨምር",
+        "Dashboard": "ዳሽቦርድ",
+        "DeleteWidgetConfirm": "እርግጠኛ ነህ ይህ widget ከዳሽቦርድ ይሰረዝ?",
+        "LoadingWidget": "widget በመጫን ላይ, እባክዎ ይጠበቁ...",
+        "SelectWidget": "ወደ ዳሽቦርድ የሚጨመረውን widget ምረጥ",
+        "WidgetNotFound": "Widget አልተገኘም",
+        "WidgetPreview": "የWidget ቅድመእይታ"
+    }
+}

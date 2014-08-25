@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "رتبه الکسا",
+        "Bing_IndexedPages": "صفحه های نمایه (ایندکس) شده در بینگ",
+        "Dmoz": "ورودی های DMOZ",
+        "DomainAge": "سن دامنه",
+        "ExternalBacklinks": "لینک دهنده خارجی (Majestic)",
+        "Google_IndexedPages": "صفحه های نمایه (ایندکس) شده در گوگل",
+        "Rank": "رنک",
+        "ReferrerDomains": "ارجاع دامنه (Majestic)",
+        "SeoRankings": "رتبه سئو",
+        "SEORankingsFor": "رتبه سئو برای %s",
+        "ViewBacklinksOnMajesticSEO": "مشاهده گزارش لینک دهنده خارجی در MajesticSEO.com"
+    }
+}

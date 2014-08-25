@@ -1,0 +1,13 @@
+{
+    "Login": {
+        "InvalidOrExpiredToken": "Güvenlik kodu yanlış yada süresi dolmuş.",
+        "InvalidUsernameEmail": "Geçersiz kullanıcı adı ve\/veya e-posta adresi",
+        "LogIn": "Oturum aç",
+        "LoginOrEmail": "Giriş veya E-posta",
+        "LoginPasswordNotCorrect": "Kullanıcı adı & Şifre yanlış",
+        "LostYourPassword": "Şifrenizi mi unuttunuz?",
+        "PasswordRepeat": "Şifre (Tekrar)",
+        "PasswordsDoNotMatch": "Şifre eşleşmedi",
+        "RememberMe": "Beni Hatırla"
+    }
+}

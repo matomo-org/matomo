@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Βαθμολόγηση Alexa",
+        "Bing_IndexedPages": "Σελίδες σε ευρετήριο Bing",
+        "Dmoz": "Εισαγωγές DMOZ",
+        "DomainAge": "Ηλικία Domain",
+        "ExternalBacklinks": "Εξωτερικοί Σύνδεσμοι για πίσω (Majestic)",
+        "Google_IndexedPages": "Σελίδες σε ευρετήριο Google",
+        "Rank": "Βαθμολόγηση",
+        "ReferrerDomains": "Αναφέροντα ονόματα χώρου (Majestic)",
+        "SeoRankings": "Βαθμολόγηση BMA",
+        "SEORankingsFor": "Βαθμολόγηση BMA για %s",
+        "ViewBacklinksOnMajesticSEO": "Εμφάνιση της αναφοράς των εξωτερικών κατευθυνόμενων συνδέσμων στο MajesticSEO.com"
+    }
+}

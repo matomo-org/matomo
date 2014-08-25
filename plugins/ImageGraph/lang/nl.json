@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "De kolom '%s' is niet gevonden in dit rapport. Probeer één van %s",
+        "PluginDescription": "Genereer mooie PNG Grafieken voor elk Piwik rapport."
+    }
+}

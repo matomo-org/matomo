@@ -1,0 +1,9 @@
+{
+    "UserCountryMap": {
+        "Cities": "都市",
+        "Countries": "国",
+        "map": "地図",
+        "RealTimeMap": "リアルタイムマップ",
+        "VisitorMap": "ビジターマップ"
+    }
+}

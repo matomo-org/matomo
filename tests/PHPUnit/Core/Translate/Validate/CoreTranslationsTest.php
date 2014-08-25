@@ -51,74 +51,66 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'bla' => 'test text'
                     )
                 ),
-                CoreTranslations::ERRORSTATE_MINIMUMTRANSLATIONS
-            ),
-            array(
-                array(
-                    'General' => array_merge(array_fill(0, 251, 'test'), array(
-                        'bla' => 'test text'
-                    ))
-                ),
                 CoreTranslations::ERRORSTATE_LOCALEREQUIRED
             ),
             array(
                 array(
-                    'General' => array_merge(array_fill(0, 251, 'test'), array(
+                    'General' => array(
                         'Locale' => 'de_DE.UTF-8'
-                    ))
+                    )
                 ),
                 CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED
             ),
             array(
                 array(
-                    'General' => array_merge(array_fill(0, 251, 'test'), array(
+                    'General' => array(
                         'Locale' => 'de_DE.UTF-8',
                         'TranslatorName' => 'name',
-                    ))
+                    )
                 ),
                 CoreTranslations::ERRORSTATE_TRANSLATOREMAILREQUIRED
             ),
             array(
                 array(
-                    'General' => array_merge(array_fill(0, 251, 'test'), array(
+                    'General' => array(
                         'Locale' => 'de_DE.UTF-8',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
                         'LayoutDirection' => 'afd'
-                    ))
+                    )
                 ),
                 CoreTranslations::ERRORSTATE_LAYOUTDIRECTIONINVALID
             ),
             array(
                 array(
-                    'General' => array_merge(array_fill(0, 251, 'test'), array(
+                    'General' => array(
                         'Locale' => 'invalid',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
                         'LayoutDirection' => 'ltr'
-                    ))
+                    )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALID
             ),
             array(
                 array(
-                    'General' => array_merge(array_fill(0, 251, 'test'), array(
+                    'General' => array(
                         'Locale' => 'xx_DE.UTF-8',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
                         'LayoutDirection' => 'ltr'
-                    ))
+                    )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE
             ),
             array(
                 array(
-                    'General' => array_merge(array_fill(0, 251, 'test'), array(
+                    'General' => array(
                         'Locale' => 'de_XX.UTF-8',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
                         'LayoutDirection' => 'ltr'
-                    ))
+                    )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY
             ),

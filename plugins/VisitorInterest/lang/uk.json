@@ -1,0 +1,17 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s хв",
+        "BetweenXYSeconds": "%1$s-%2$s сек.",
+        "ColumnPagesPerVisit": "Сторінок за відвідування",
+        "ColumnVisitDuration": "Тривалість відвідування",
+        "Engagement": "Заручення",
+        "NPages": "%s сторінок",
+        "OnePage": "одна сторінка",
+        "PluginDescription": "Повідомляє про зацікавлення відвідувачів: кількість переглянутих сторінок, час проведений на веб-сайті.",
+        "PlusXMin": "%s хв",
+        "VisitsPerDuration": "Відвідування за тривалістю",
+        "VisitsPerNbOfPages": "Відвідування за кількістю сторінок",
+        "WidgetLengths": "Тривалість відвідувань",
+        "WidgetPages": "Кількість сторінок за відвідування"
+    }
+}

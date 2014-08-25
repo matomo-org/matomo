@@ -1,0 +1,13 @@
+{
+    "Live": {
+        "GoalType": "Tipas",
+        "KeywordRankedOnSearchResultForThisVisitor": "Šiam lankytojui raktažodis %1$s buvo parodytas %2$s %3$s paieškos rezultatuose",
+        "LastHours": "Paskutinės %s valandos",
+        "LastMinutes": "Paskutinės %s minutės",
+        "LinkVisitorLog": "Peržiūrėti išsamų apsilankymų žurnalą",
+        "PluginDescription": "Sekite savo lankytojus gyvai, realiu laiku!",
+        "Referrer_URL": "Persiunčiančiojo URL",
+        "VisitorLog": "Apsilankymų žurnalas",
+        "VisitorsInRealTime": "Lankytojai realiuoju laiku"
+    }
+}

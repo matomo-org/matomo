@@ -1,0 +1,15 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "URL–ზე დაწკაპუნება",
+        "ColumnClicks": "დაწკაპუნებები",
+        "ColumnDownloadURL": "URL–ის ჩამოტვირთვა",
+        "ColumnPageName": "გვერდის სახელი",
+        "ColumnPageURL": "გვერდის URL",
+        "ColumnUniqueClicks": "უნიკალური დაწკაპუნებები",
+        "ColumnUniqueDownloads": "უნიკალური ჩამოტვირთვები",
+        "PluginDescription": "აკეთებს ანგარიშს გვერდის დათვალიერების, გარე ბმულების და ჩამოტვირთვების შესახებ. გარებმულების და ჩამოტვირთვების ტრეკირება ხდება ავტომატურად!",
+        "SubmenuPagesEntry": "შესვლის გვერდები",
+        "SubmenuPagesExit": "გასავლის გვერდები",
+        "SubmenuPageTitles": "გვერდის სათაურები"
+    }
+}

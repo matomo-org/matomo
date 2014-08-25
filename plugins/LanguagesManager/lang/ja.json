@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Piwik の翻訳について",
+        "PluginDescription": "Piwik インターフェイスで利用可能な言語リストを表示します。 選択された言語は、各ユーザーの優先設定に保存されます。"
+    }
+}

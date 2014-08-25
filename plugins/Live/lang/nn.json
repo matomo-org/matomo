@@ -1,0 +1,15 @@
+{
+    "Live": {
+        "GoalType": "Type",
+        "LastHours": "Seinaste %s timar",
+        "LastMinutes": "Seinaste %s minutt",
+        "LinkVisitorLog": "Vis detaljert vitjarlogg",
+        "MorePagesNotDisplayed": "fleire sider av denne vitjaren er ikkje vist",
+        "PageRefreshed": "Tal på gonger denne sida var vist \/ oppdatert.",
+        "PluginDescription": "Spioner på vitjarane dine i sanntid!",
+        "VisitorLog": "Vitjarlogg",
+        "VisitorLogDocumentation": "Denne tabellen visar dei seinaste vitjingane innan tidsperioden. Du kan sjå den førre vitjinga til ein vitjar ved å halda peikaren over datoen til ei vitjing. %s Viss tidsperioden inkluderer idag, kan du sjå vitjarane dine i sanntid! %s Data her er alltid i sanntid, same om og kor ofte Piwik arkiverer dei.",
+        "VisitorsInRealTime": "Vitjarar i sanntid",
+        "VisitorsLastVisit": "Den førre vitjinga til vitjaren var %s dagar sidan."
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Afegir una anotació per %s",
+        "AnnotationOnDate": "Anotació per %1$s: %2$s",
+        "Annotations": "Anotacions",
+        "ClickToDelete": "Feu click per eliminar l'anotació",
+        "ClickToEdit": "Feu click per editar aquesta anotació",
+        "ClickToEditOrAdd": "Feu click per editar o afegir una anotació",
+        "ClickToStarOrUnstar": "Feu click per marcar o desmarcar aquesta nota.",
+        "CreateNewAnnotation": "Crea una nova anotació...",
+        "EnterAnnotationText": "Introduix la teva nota...",
+        "HideAnnotationsFor": "Amaga les anotacións per %s...",
+        "IconDesc": "Veure les notes d'aquest rang.",
+        "IconDescHideNotes": "Amaga les notes d'aquest rang.",
+        "InlineQuickHelp": "Podeu crear anotacions per marcar events especials (una nova entrada al blog, el rediseny del web). Les annotacions us permeten guardar el vostre anàlisis de la informació o qualsevol altra cosa que creïeu important.",
+        "LoginToAnnotate": "Identifiqueu-vos per crear una anotació.",
+        "NoAnnotations": "No hi ha notes per aquest rang de pàgines.",
+        "PluginDescription": "Permet afegir notes als diferents dies perquè pogueu recordar perquè la vostra inforamció es mostra d'una determinada forma.",
+        "ViewAndAddAnnotations": "Mostra i afegeix anotacions per %s...",
+        "YouCannotModifyThisNote": "No podeu modificar aquesta nota perquè o bé no l'heu creada vosatres, o no teni accès d'administrador per aquest lloc web."
+    }
+}

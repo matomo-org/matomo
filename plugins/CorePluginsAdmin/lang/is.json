@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Kveikja",
+        "Activated": "Kveikt",
+        "Active": "Kveikt",
+        "AuthorHomepage": "Heimasíða höfundar",
+        "Deactivate": "Slökkva",
+        "Inactive": "Slökkt",
+        "LicenseHomepage": "Heimasíða hugbúnaðarleyfis",
+        "MainDescription": "Íbætur auka og víkka virknina í Piwik. Hérna geturðu kveikteða slökkt á íbót þegar búið er að setja hana inn í kerfið.",
+        "PluginDescription": "Viðmót fyrir Íbótastjórnun",
+        "PluginHomepage": "Heimasíða íbótar",
+        "PluginsManagement": "Íbótastjórnun",
+        "Status": "Staða",
+        "Version": "Útgáfa"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "SegmentEditor": {
+        "AddNewSegment": "Legg til nytt segment",
+        "ChooseASegment": "Velg et segment",
+        "OperatorAND": "OG",
+        "OperatorOR": "ELLER",
+        "SegmentIsDisplayedForWebsite": "og vises for",
+        "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
+        "VisibleToAllUsers": "alle brukere",
+        "VisibleToMe": "meg"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Handlinger av tilbakevendende besøk",
+        "ColumnAverageVisitDurationForReturningVisitors": "Gj. besøksvarighet for tilbakevendende besøk (i sekunder)",
+        "ColumnAvgActionsPerReturningVisit": "Gj. handling per tilbakevendende besøk",
+        "ColumnBounceRateForReturningVisits": "Sprettfrekvens for tilbakevendende besøk",
+        "ColumnReturningVisits": "Tilbakevendende besøk",
+        "PluginDescription": "Rapporterer forskjellig statistikk om tilbakevendende besøkende sammenlignet med førstegangs besøkende.",
+        "ReturnActions": "%s handlinger av de tilbakevendende besøk",
+        "ReturnAverageVisitDuration": "%s gjennomsnittlig besøksvarighet for tilbakevendende besøk",
+        "ReturnBounceRate": "%s tilbakevendende besøk har sprettet (forlatt siden etter en side).",
+        "ReturnVisits": "%s tilbakevendende besøk",
+        "SubmenuFrequency": "Frekvens",
+        "WidgetGraphReturning": "Graf for tilbakevendende besøk",
+        "WidgetOverview": "Frekvens-oversikt"
+    }
+}

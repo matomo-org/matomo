@@ -1,0 +1,17 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s vidējais apmekējuma garums",
+        "MaxNbActions": "%s maks. darbības vienā apmeklējumā",
+        "NbActionsDescription": "%s darbības",
+        "NbActionsPerVisit": "%s darbības (lapu skatījumi, lejupielādes un ārējas saites) apmeklējumā",
+        "NbDownloadsDescription": "%s lejupielādes",
+        "NbOutlinksDescription": "%s ārējas saites",
+        "NbPageviewsDescription": "%s lapu skatījumi",
+        "NbUniqueDownloadsDescription": "%s unikālas lejupielādes",
+        "NbUniqueOutlinksDescription": "%s unikālas ārējas saites",
+        "NbUniquePageviewsDescription": "%s unikāli lapu skatījumi",
+        "NbUniqueVisitors": "%s unikāli apmeklētāji",
+        "WidgetLastVisits": "Pēdējo apmeklējumu grafiks",
+        "WidgetVisits": "Apmeklējumu pārskats"
+    }
+}

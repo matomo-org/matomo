@@ -148,13 +148,13 @@ class Plugin_ReportTest extends DatabaseTestCase
 
     public function test_getWidgetTitle_shouldReturnTranslatedTitleIfSet()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $this->assertEquals('Page Titles Following a Site Search', $this->advancedReport->getWidgetTitle());
     }
 
     public function test_getCategory_shouldReturnTranslatedCategory()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $this->assertEquals('Goals', $this->advancedReport->getCategory());
     }
 
@@ -463,6 +463,11 @@ class Plugin_ReportTest extends DatabaseTestCase
     private function unloadAllPlugins()
     {
         PluginManager::getInstance()->unloadPlugins();
+    }
+
+    private function loadEnglishTranslation()
+    {
+        Translate::reloadLanguage('en');
     }
 
 

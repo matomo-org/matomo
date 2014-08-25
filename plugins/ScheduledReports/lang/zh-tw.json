@@ -1,0 +1,15 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "也將報表寄到這些電子郵件地址（一行一個信箱）：",
+        "EmailHello": "您好，",
+        "EmailReports": "郵寄報表",
+        "EmailSchedule": "郵寄排程",
+        "MonthlyScheduleHelp": "每月排程：報表將會在每月的第一天寄出！",
+        "PiwikReports": "Piwik 報表",
+        "PleaseFindAttachedFile": "請找到為了 %2$s 您的報表 %1$s 的附件檔！",
+        "SendReportNow": "立即寄送報表",
+        "SendReportTo": "寄送報表至",
+        "SentToMe": "寄給我自己",
+        "WeeklyScheduleHelp": "每週排程：報表將會在每週的星期一寄出！"
+    }
+}

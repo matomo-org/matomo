@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Link sa potvrdom je poslat na vašu elektronsku adresu. Proverite elektronsku poštu i posetite link kako biste potvrdili zahtev za promenom lozinke.",
+        "ContactAdmin": "Moguć razlog: vaš hosting provajder je možda onemogućio mail() funkciju. <br \/>Molimo vas da kontaktirate vašeg Piwik administratora.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Korisnik sa superkorisničkim nivoom pristupa ne može biti autentifikovan korišćenjem mehanizma '%s'.",
+        "ExceptionPasswordMD5HashExpected": "Parametar za lozinku bi trebalo da bude MD5 hash lozinke.",
+        "InvalidNonceOrHeadersOrReferrer": "Problem sa sigurnošću. Molimo vas da proverite da li su kolačići (cookies) omogućeni i da ponovo učitate stranicu. Ukoliko se nalazite iza proxy servera, morate %s podesiti Piwik da prihvata proxy zaglavlje%s koje prosleđuje zaglavlje servera. Takođe, proverite da li je referer zaglavlje poslato kako treba.",
+        "InvalidOrExpiredToken": "Token ili nije validan ili je istekao.",
+        "InvalidUsernameEmail": "Pogrešno korisničko ime i\/ili elektronska adresa",
+        "LogIn": "Prijavljivanje",
+        "LoginOrEmail": "Korisničko ime ili elektronska adresa",
+        "LoginPasswordNotCorrect": "Korisničko ime i lozinka nisu ispravni",
+        "LostYourPassword": "Zaboravili ste lozinku?",
+        "MailPasswordChangeBody": "Pozdrav %1$s. Sa %2$s je poslat zahtev za resetovanje lozinke. Ukoliko želite da promenite lozinku kako biste mogli da se ponovo prijavite na sistem, otvorite sledeći link: %3$s Ovaj token je validan naredna 24 sata.",
+        "MailTopicPasswordChange": "Potvrdite promenu lozinke",
+        "PasswordChanged": "Vaša lozinka je promenjena.",
+        "PasswordRepeat": "Lozinka (ponovo)",
+        "PasswordsDoNotMatch": "Lozinka se ne poklapa",
+        "PluginDescription": "Dodatak za autentifikaciju prijave na sistem, služi za čitanje podataka za prijavu na sistem iz datoteke config\/config.ini.php kao i iz baze. Može lako biti zamenjen novim mehanizmom autentifikacije (OpenID, htaccess itd.).",
+        "RememberMe": "Zapamti me",
+        "ResetPasswordInstructions": "Upišite novu lozinku za vaš nalog."
+    }
+}

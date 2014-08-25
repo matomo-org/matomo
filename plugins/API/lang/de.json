@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Sollten für heute keine Daten verfügbar sein, so können Sie mit dem %s Plugin Testdaten erzeugen. Aktivieren Sie das %s Plugin und klicken dann auf das 'Besuchergenerator' Menu in der Piwik-Administration.",
+        "KeepTokenSecret": "Der token_auth ist so geheim wie Ihr Login und Passwort, %s teilen Sie es niemandem mit%s!",
+        "LoadedAPIs": "%s APIs erfolgreich geladen",
+        "MoreInformation": "Für weitere Informationen über die Piwik-APIs lesen Sie bitte %s Einführung in die Piwik-API %s und die %s Piwik API Referenz %s.",
+        "PluginDescription": "Alle Daten sind über eine einfache API verfügbar. Dieses Plugin ist der Webservice, den Sie nutzen können, um Ihre Webanalyse-Daten in XML, JSON, PHP, CSV, etc. zu exportieren.",
+        "QuickDocumentationTitle": "API-Kurzdokumentation",
+        "TopLinkTooltip": "Greife auf die Webanalytikdaten über eine einfache API mit json, xml, usw. zu.",
+        "UserAuthentication": "Benutzerauthentifizierung",
+        "UsingTokenAuth": "Wenn Sie %s Daten mit einem Script, einem Crontab, etc. abrufen wollen, %s müssen Sie den Parameter %s an die URLs anhängen, deren API-Aufrufe eine Authentifizierung benötigen."
+    }
+}

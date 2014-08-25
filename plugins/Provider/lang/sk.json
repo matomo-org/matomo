@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "Poskytovateľ",
+        "PluginDescription": "Report cez ktorého poskytovateľa pripojenia prišli návštevníci na web stránku.",
+        "SubmenuLocationsProvider": "Umiestnenie & poskytovateľ",
+        "WidgetProviders": "Poskytovatelia"
+    }
+}

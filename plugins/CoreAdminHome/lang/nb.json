@@ -1,0 +1,30 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administrasjon",
+        "ArchivingSettings": "Arkiveringsinnstillinger",
+        "ClickHereToOptIn": "Trykk her for å delta.",
+        "ClickHereToOptOut": "Trykk her for å ikke delta.",
+        "EmailServerSettings": "Innstillinger for e-posttjener",
+        "ForBetaTestersOnly": "Kun for beta testere",
+        "ImageTracking": "Bilde sporing",
+        "ImageTrackingLink": "Sporings lenke for bilde",
+        "JavaScriptTracking": "JavaScript-sporing",
+        "LatestBetaRelease": "Den nyeste betaversjonen",
+        "LatestStableRelease": "Den siste stabile utgaven",
+        "LogoUpload": "Velg en logo for å laste opp",
+        "MenuDiagnostic": "Diagnostikk",
+        "MenuGeneralSettings": "Generelle innstillinger",
+        "MenuManage": "Administrer",
+        "OptOutForYourVisitors": "Piwik «opt-out» for dine besøkende",
+        "PiwikIsInstalledAt": "Piwik er installert på",
+        "PluginDescription": "Administrasjonsområdet for Piwik.",
+        "TrackAGoal": "Spor et mål",
+        "TrackingCode": "Sporingskode",
+        "UpdateSettings": "Oppdater innstillinger",
+        "UseCustomLogo": "Bruk en tilpasset logo",
+        "YouAreOptedIn": "Du deltar i analysegrunnlaget",
+        "YouAreOptedOut": "Du deltar ikke i analysegrunnlaget",
+        "YouMayOptOut": "Du kan velge å ikke få tildelt en unik id for nettanalyse slik at du ikke blir en del av analysegrunnlaget",
+        "YouMayOptOutBis": "Hvis du ikke ønsker å delta, klikk under for å motta en blank informasjonskapsel så du ikke registreres."
+    }
+}

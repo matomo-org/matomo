@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "O prevodih Piwik-a",
+        "PluginDescription": "Ta vtičnik bo prikazoval seznam vseh jezikov, ki so na voljo za Piwik-ov vmesnik. Izbrani jezik bo shranjen v nastavitvah vsakega uporabnika."
+    }
+}

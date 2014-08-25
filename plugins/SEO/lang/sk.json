@@ -1,0 +1,9 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa hodnotenie",
+        "DomainAge": "Vek domény",
+        "Rank": "Hodnotenie",
+        "SeoRankings": "SEO hodnotenie",
+        "SEORankingsFor": "SEO hodnotenie pre %s"
+    }
+}

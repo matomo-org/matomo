@@ -1,0 +1,11 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "አካባቢያዊ ሰዓት",
+        "ColumnServerTime": "የአገልጋይ ሰዓት",
+        "LocalTime": "ጉብኝቶች ከአካባቢያዊ ሰዓት",
+        "ServerTime": "ጉብኝቶች ከአገልጋይ ሰዓት",
+        "SubmenuTimes": "ሰዓታት",
+        "WidgetLocalTime": "ጉብኝቶች በአካባቢያዊ ሰዓት",
+        "WidgetServerTime": "ጉብኝቶች በአገልጋይ ሰዓት"
+    }
+}

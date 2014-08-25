@@ -1,0 +1,24 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s ビジットの平均持続時間",
+        "GenerateQueries": "実行されたクエリ %s",
+        "GenerateTime": "ページ生成時間 %s 秒",
+        "MaxNbActions": "%s 1訪問あたりの最大アクション数",
+        "NbActionsDescription": "%s アクション（ページビュー、ダウンロード、外部リンク）",
+        "NbActionsPerVisit": "%s ビジット単位のアクション数",
+        "NbDownloadsDescription": "%s ダウンロード数",
+        "NbOutlinksDescription": "%s 外部リンク数",
+        "NbPageviewsDescription": "%s ページビュー数",
+        "NbUniqueDownloadsDescription": "%s ユニークダウンロード数",
+        "NbUniqueOutlinksDescription": "%s ユニーク外部リンク数",
+        "NbUniquePageviewsDescription": "%s ユニークページビュー数",
+        "NbUniqueVisitors": "%s ユニークビジター数",
+        "NbVisitsBounced": "%s 直帰率（1ページを表示後にウェブサイトを離れた）",
+        "PluginDescription": "全体的な解析数（ビジット、ユニークビジター数、アクション数、バウンス率等）をリポートします。",
+        "VisitsSummary": "ビジットの概要",
+        "VisitsSummaryDocumentation": "ビジット推移の概観です",
+        "WidgetLastVisits": "最終ビジットのグラフ",
+        "WidgetOverviewGraph": "グラフ付き概観",
+        "WidgetVisits": "ビジットの概観"
+    }
+}

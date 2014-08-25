@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s ጥያቄዎች ተሰርተዋል",
+        "GenerateTime": "%s ሰከንዶች ገፁን ለማመንጨት",
+        "MaxNbActions": "%s በአንድ ጉብኝት የተወሰዱ ከፍተኛ ርምጃዎች",
+        "NbUniqueVisitors": "%s የተለዩ ጎብኚዎች",
+        "NbVisitsBounced": "%s የተመለሱ ጉብኝቶች (ከአንድ ገፅ በኋላ ገፁን የተዉ)",
+        "WidgetLastVisits": "የመጨረሻው ጉብኝቶች ግራፍ",
+        "WidgetOverviewGraph": "አጠቃላይ እይታ ከግራፍ ጋር",
+        "WidgetVisits": "የጉብኝቶች አጠቃላይ እይታ"
+    }
+}

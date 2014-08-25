@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Ukoliko nema podataka za danas, onda ih prvo generišite pomoću dodatka %s. Aktivirajte dodatak %s a onda kliknite na 'Generator posetilaca' na stranici za Piwik administraciju.",
+        "KeepTokenSecret": "token_auth je poverljivi podatak poput vašeg korisničkog imena i lozinke, stoga ga %s nemojte nikome pokazivati%s!",
+        "LoadedAPIs": "Uspešno učitano API-ja: %s",
+        "MoreInformation": "Za više informacija o Piwik API-ju molimo vas da pogledate %s uvod u Piwik API %s i %s Piwik API referenc listu %s.",
+        "PluginDescription": "Svi podaci u Piwik-u su dostupni preko jednostavnog API-ja. Ovaj dodatak je ulazna tačka koju pozivate kako biste dobili podatke u xml, json, php, csv itd.",
+        "QuickDocumentationTitle": "API kratka dokumentacija",
+        "TopLinkTooltip": "Pristupite analitičkim podacima iz vašeg programa pomoću jednostavnog API-ja u json-u, xml-u itd.",
+        "UserAuthentication": "Autentifikacija korisnika",
+        "UsingTokenAuth": "Ukoliko želite da %s dođete do podataka putem skripta, crontaba i slično %s potrebno je da dodate parametar %s API pozivima."
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "یک تایید به ایمیل شما ارسال شد. لطفا به لینک داخل ایمیل تان مراجعه کنید تا درخواست تغییر رمزعبورتان را تایید کنید.",
+        "ContactAdmin": "دلیل احتمالی: میزبان شما ممکن است تابع () mail را غیر فعال نموده است. <br \/> لطفا با مدیر Piwik خود تماس بگیرید.",
+        "ExceptionPasswordMD5HashExpected": "پارامتر رمز عبور انتظار می رود به یک رشته هش MD5 از رمز عبور است.",
+        "InvalidOrExpiredToken": "رمز نامعتبر است و یا تمام شده است.",
+        "InvalidUsernameEmail": "نام کاربری نامعتبر و \/ یا آدرس پست الکترونیکی",
+        "LogIn": "ورود",
+        "LoginOrEmail": "نام کاربری یا ایمیل",
+        "LoginPasswordNotCorrect": "نام کاربری و کلمه عبور درست نیست.",
+        "LostYourPassword": "کلمه عبور خود را گم کرده اید؟",
+        "MailTopicPasswordChange": "تایید تغییر رمزعبور",
+        "PasswordChanged": "رمزعبور شما تغییر کرد.",
+        "PasswordRepeat": "تکرار رمزعبور",
+        "PasswordsDoNotMatch": "رمزعبور ها یکسان نیستند.",
+        "RememberMe": "مرا به خاطر داشته باش",
+        "ResetPasswordInstructions": "یک رمزعبور جدید برای حساب کاربری تان وارد کنید."
+    }
+}

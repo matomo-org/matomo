@@ -1,0 +1,12 @@
+{
+    "Live": {
+        "GoalType": "Tegund",
+        "LastHours": "Síðustu %s klukkustundir",
+        "LastMinutes": "Síðustu %s mínútur",
+        "LinkVisitorLog": "Skoða nákvæman heimsóknaannál",
+        "PluginDescription": "Njósnaðu um gestina þína, í rauntíma!",
+        "Referrer_URL": "URL Sendanda",
+        "VisitorLog": "Heimsóknaannáll",
+        "VisitorsInRealTime": "Gestir í rauntíma"
+    }
+}

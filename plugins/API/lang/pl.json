@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Jeżeli nie posiadasz żadnych danych do dnia dzisiejszego, możesz na początek wygenerować trochę symulowanych danych testowych używając wtyczki o nazwie %s. Możesz aktywować i uruchomić wtyczkę %s, a następnie kliknąć w menu przycisk Potwierdź w 'generatorze odwiedzin', w strefie menu Konfiguracja administratora systemu Piwik.",
+        "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %s nie upowszechniaj go%s!",
+        "LoadedAPIs": "Środowisko API załadowano %s pomyślnie",
+        "MoreInformation": "Aby uzyskać więcej informacji o interfejsie API statystyk Piwik, prosimy przeczytać %s Wprowadzenie do interfejsu API w Piwik%s, a także na stronie opracowania %s Piwik API Reference%s.",
+        "PluginDescription": "Wszystkie analizowane dane są w Piwik osiągalne przy pomocy prostego interfejsu API. Jest o miejsce, w którym możesz dokonać wyboru wśród wielu opcji i pozyskać dane z analityki statystycznej, w formatach xml, json, php, csv, itd.",
+        "QuickDocumentationTitle": "Skrócony przewodnik po interfejsie API",
+        "TopLinkTooltip": "Dostęp do twoich danych analitycznych programistycznie poprzez proste API w formatach json, xml itp.",
+        "UserAuthentication": "Uwierzytelnianie użytkownika",
+        "UsingTokenAuth": "Jeżeli wysuniesz żądanie %s ujęcia pewnych danych w statystyce za pomocą crontab, %s musisz dodać poniższy parametr %s do interfejsu API, wywołując URL-e które wymagają uwierzytelniania."
+    }
+}

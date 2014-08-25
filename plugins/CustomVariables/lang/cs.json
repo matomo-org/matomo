@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Název vlastní proměnné",
+        "ColumnCustomVariableValue": "Hodnota vlastní proměnné",
+        "CustomVariables": "Vlastní proměnné",
+        "CustomVariablesReportDocumentation": "Toto hlášení obsahuje informace o vašich vlastních proměnných. Klikněte na proměnnou pro zobrazení distribuce hodnot. %s Pro více informací si přečtěte %sdokumentaci o vlastních proměnných na piwik.org%s",
+        "PluginDescription": "Vlastní proměnné jsou dvojice klíč, hodnota, které můžete nastavit při návštěvě s použitím funkce setVisitCustomVariables() javascriptového API. Piwik pak zobrazí počty návštěv, stránek a konverzí pro tyto hodnoty.",
+        "ScopePage": "rozsah stránky",
+        "ScopeVisit": "rozsah návštěvy"
+    }
+}

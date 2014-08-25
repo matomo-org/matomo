@@ -9,10 +9,14 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache\StaticCache;
+use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
@@ -645,11 +649,45 @@ class Manager extends Singleton
         if (empty($language)) {
             $language = Translate::getLanguageToLoad();
         }
-        $plugins = $this->getLoadedPlugins();
 
-        foreach ($plugins as $plugin) {
-            $this->loadTranslation($plugin, $language);
+        $cache    = new CacheFile('tracker', 43200); // ttl=12hours
+        $cacheKey = 'PluginTranslations';
+
+        if (!empty($language)) {
+            $cacheKey .= '-' . trim($language);
         }
+
+        if (!empty($this->loadedPlugins)) {
+            // makes sure to create a translation in case loaded plugins change (ie Tests vs Tracker vs UI etc)
+            $cacheKey .= '-' . md5(implode('', $this->getLoadedPluginsName()));
+        }
+
+        $translations = $cache->get($cacheKey);
+
+        if (!empty($translations) &&
+            is_array($translations) &&
+            !Development::isEnabled()) {
+
+            Translate::mergeTranslationArray($translations);
+            return;
+        }
+
+        $translations = array();
+        $pluginNames  = self::getAllPluginsNames();
+
+        foreach ($pluginNames as $pluginName) {
+            if ($this->isPluginLoaded($pluginName) ||
+                $this->isPluginBundledWithCore($pluginName)) {
+
+                $this->loadTranslation($pluginName, $language);
+
+                if (isset($GLOBALS['Piwik_translations'][$pluginName])) {
+                    $translations[$pluginName] = $GLOBALS['Piwik_translations'][$pluginName];
+                }
+            }
+        }
+
+        $cache->set($cacheKey, $translations);
     }
 
     /**
@@ -986,7 +1024,10 @@ class Manager extends Singleton
         }
 
         // merge in specific language translations (to overwrite english defaults)
-        if ($defaultEnglishLangPath != $defaultLangPath && file_exists($defaultLangPath)) {
+        if (!empty($langCode) &&
+            $defaultEnglishLangPath != $defaultLangPath &&
+            file_exists($defaultLangPath)) {
+
             $translations = $this->getTranslationsFromFile($defaultLangPath);
             $translationsLoaded = true;
             if (isset($translations[$pluginName])) {

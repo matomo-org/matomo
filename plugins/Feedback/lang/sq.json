@@ -1,0 +1,14 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Lidhuni me ekipin e Piwik-ut!",
+        "DoYouHaveBugReportOrFeatureRequest": "Keni ndonjë të metë që ta raportoni apo kërkesë për veçori të reja?",
+        "IWantTo": "Dua të:",
+        "LearnWaysToParticipate": "Njihuni me krejt mënyrat përmes të cilave mund të %s merrni pjesë%s",
+        "ManuallySendEmailTo": "Ju lutem, dërgojeni mesazhin tuaj dorazi te",
+        "PluginDescription": "Dërgojini Përshtypjet tuaja Ekipit të Piwik-ut. Ndani me ne idetë dhe sugjerimet tuaja!",
+        "SendFeedback": "Dërgoji Përshtypjet",
+        "SpecialRequest": "Keni ndonjë kërkesë speciale për ekipin e Piwik-ut?",
+        "ThankYou": "Faleminderit që na ndihmoni ta bëjmë më të mirë Piwik-un!",
+        "VisitTheForums": "Vizitoni %s Forumet%s"
+    }
+}

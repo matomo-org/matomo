@@ -1,0 +1,17 @@
+{
+    "Login": {
+        "ContactAdmin": "Võimalik põhjus: sinu majutusel on mail() funktsioon välja lülitatud. <br \/>Palun kontakteeru administraatoriga.",
+        "InvalidOrExpiredToken": "Kontrollkood on kehtetu.",
+        "InvalidUsernameEmail": "Vale kasutajanimi ja\/või e-maili address",
+        "LogIn": "Sisene",
+        "LoginOrEmail": "Kasutajanimi või E-mail",
+        "LoginPasswordNotCorrect": "Kasutajanimi & salasõna olid valed",
+        "LostYourPassword": "Kaotasid oma salasõna?",
+        "MailTopicPasswordChange": "Kinnita salasõna vahetust",
+        "PasswordChanged": "Sinu salasõna on vahetatud.",
+        "PasswordRepeat": "Salasõna (kordus)",
+        "PasswordsDoNotMatch": "Salasõnad ei kattu.",
+        "RememberMe": "Pea meeles",
+        "ResetPasswordInstructions": "Sisesta oma konto jaoks uus salasõna."
+    }
+}

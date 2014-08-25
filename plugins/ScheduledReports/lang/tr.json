@@ -1,0 +1,10 @@
+{
+    "ScheduledReports": {
+        "CreateReport": "Rapor Oluştur",
+        "EmailHello": "Merhaba,",
+        "EmailReports": "Raporları epostala",
+        "TableOfContent": "Rapor listesi",
+        "TopOfReport": "Başa dön",
+        "UpdateReport": "Raporu Güncelle"
+    }
+}

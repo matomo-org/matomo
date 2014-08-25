@@ -1,0 +1,28 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Agregar condición %s",
+        "AddNewSegment": "Agregar nuevo segmento",
+        "AreYouSureDeleteSegment": "¿Usted está seguro de querer eliminar este segmento?",
+        "AutoArchivePreProcessed": "los informes segmentados son pre-procesados (rápido, requiere cron archive.php)",
+        "AutoArchiveRealTime": "los informes segmentados son procesados en tiempo real",
+        "ChooseASegment": "Escoger un segmento",
+        "DataAvailableAtLaterDate": "Tus informes analíticos segmentados serán disponibles más tarde. Lamentamos la inconveniencia.",
+        "DefaultAllVisits": "Todas las visitas",
+        "DragDropCondition": "Arrastrar & Soltar condiciones",
+        "LoadingSegmentedDataMayTakeSomeTime": "Procesando los datos del visitante segmentados puede tomar nos minutos…",
+        "OperatorAND": "Y",
+        "OperatorOR": "O",
+        "SaveAndApply": "Guardar & Aplicar",
+        "SegmentDisplayedAllWebsites": "todos los sitios web",
+        "SegmentDisplayedThisWebsiteOnly": "este sitio web únicamente",
+        "SegmentIsDisplayedForWebsite": "y mostrada para",
+        "SegmentNotApplied": "Segmento '%s' no ha sido aplicado",
+        "SegmentNotAppliedMessage": "Estás solicitando datos para el segmento personalizado '%s', esta configuración de Piwik actualmente impide el proceso en tiempo real de informes por razones de rendimiento.",
+        "SelectSegmentOfVisitors": "Selecciona un segmento de visitantes:",
+        "ThisSegmentIsVisibleTo": "Este segmento es visible para:",
+        "VisibleToAllUsers": "todos los usuarios",
+        "VisibleToMe": "mí",
+        "YouMayChangeSetting": "Alternativamente puedes cambiar la configuración en el archivo config (%s) o modificar este segmento y elegir '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Usted debe estar conectado para crear y editar segmentos de usuario personalizados."
+    }
+}
