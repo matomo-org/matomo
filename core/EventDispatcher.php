@@ -57,10 +57,6 @@ class EventDispatcher extends Singleton
      */
     public function __construct($pluginManager = null)
     {
-        if ($pluginManager === null) {
-            $pluginManager = \Piwik\Plugin\Manager::getInstance();
-        }
-
         $this->pluginManager = $pluginManager;
     }
 
@@ -83,7 +79,7 @@ class EventDispatcher extends Singleton
         }
 
         if (empty($plugins)) {
-            $plugins = $this->pluginManager->getPluginsLoadedAndActivated();
+            $plugins = $this->getPluginManager()->getPluginsLoadedAndActivated();
         }
 
         $callbacks = array();
@@ -91,7 +87,7 @@ class EventDispatcher extends Singleton
         // collect all callbacks to execute
         foreach ($plugins as $plugin) {
             if (is_string($plugin)) {
-                $plugin = $this->pluginManager->getLoadedPlugin($plugin);
+                $plugin = $this->getPluginManager()->getLoadedPlugin($plugin);
             }
 
             $hooks = $plugin->getListHooksRegistered();
@@ -202,5 +198,16 @@ class EventDispatcher extends Singleton
         }
 
         return array($pluginFunction, $callbackGroup);
+    }
+
+    /**
+     * TODO
+     */
+    private function getPluginManager()
+    {
+        if ($this->pluginManager === null) {
+            $this->pluginManager = \Piwik\Plugin\Manager::getInstance();
+        }
+        return $this->pluginManager;
     }
 }
