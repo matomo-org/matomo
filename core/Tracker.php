@@ -226,6 +226,9 @@ class Tracker
      */
     public function main($args = null)
     {
+        if(!SettingsPiwik::isPiwikInstalled()) {
+            return $this->handleEmptyRequest();
+        }
         try {
             $tokenAuth = $this->initRequests($args);
         } catch (Exception $ex) {
@@ -249,7 +252,7 @@ class Tracker
             }
 
         } else {
-            $this->handleEmptyRequest(new Request($_GET + $_POST));
+            $this->handleEmptyRequest();
         }
 
         Piwik::postEvent('Tracker.end');
@@ -707,8 +710,11 @@ class Tracker
         }
     }
 
-    protected function handleEmptyRequest(Request $request)
+    protected function handleEmptyRequest(Request $request = null)
     {
+        if(is_null($request)) {
+            $request = new Request($_GET + $_POST);
+        }
         $countParameters = $request->getParamsCount();
         if ($countParameters == 0) {
             $this->setState(self::STATE_EMPTY_REQUEST);
