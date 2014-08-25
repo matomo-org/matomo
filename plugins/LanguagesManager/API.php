@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Filesystem;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.
@@ -171,6 +172,17 @@ class API extends \Piwik\Plugin\API
                 );
             }
         }
+
+        foreach (PluginManager::getInstance()->getLoadedPluginsName() as $pluginName) {
+            $translations = $this->getPluginTranslationsForLanguage($pluginName, $languageCode);
+
+            if (!empty($translations)) {
+                foreach ($translations as $keys) {
+                    $languageInfo[] = $keys;
+                }
+            }
+        }
+
         return $languageInfo;
     }
 
