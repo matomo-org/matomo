@@ -11,7 +11,7 @@ use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 
 /**
- * @group MyTests
+ * @group Core
  */
 class hideModulesAndMethodsTest extends PHPUnit_Framework_TestCase
 {
