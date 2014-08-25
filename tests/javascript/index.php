@@ -947,7 +947,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(97);
+        expect(98);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -1023,7 +1023,11 @@ if ($sqlite) {
 
         tracker.trackPageView();
 
-        tracker.trackLink("http://example.ca", "link", { "token" : getToken() });
+        var trackLinkCallbackFired = false;
+        var trackLinkCallback = function () {
+            trackLinkCallbackFired = true;
+        };
+        tracker.trackLink("http://example.ca", "link", { "token" : getToken() }, trackLinkCallback);
 
         // async tracker proxy
         _paq.push(["trackLink", "http://example.fr/async.zip", "download",  { "token" : getToken() }]);
@@ -1232,6 +1236,9 @@ if ($sqlite) {
             xhr.send(null);
             results = xhr.responseText;
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "30", "count tracking events" );
+
+            // firing callback
+            ok( trackLinkCallbackFired, "trackLink() callback fired" );
 
             // tracking requests
             ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );

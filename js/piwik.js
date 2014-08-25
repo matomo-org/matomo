@@ -1347,11 +1347,12 @@ if (typeof Piwik !== 'object') {
              * Send image request to Piwik server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
-            function getImage(request) {
+            function getImage(request, callback) {
                 var image = new Image(1, 1);
 
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
+                    if (typeof callback === 'function') { callback(); }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -1359,7 +1360,7 @@ if (typeof Piwik !== 'object') {
             /*
              * POST request to Piwik server using XMLHttpRequest.
              */
-            function sendXmlHttpRequest(request) {
+            function sendXmlHttpRequest(request, callback) {
                 try {
                     // we use the progid Microsoft.XMLHTTP because
                     // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
@@ -1375,7 +1376,9 @@ if (typeof Piwik !== 'object') {
                     // fallback on error
                     xhr.onreadystatechange = function () {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
-                            getImage(request);
+                            getImage(request, callback);
+                        } else {
+                            if (typeof callback === 'function') { callback(); }
                         }
                     };
 
@@ -1384,21 +1387,21 @@ if (typeof Piwik !== 'object') {
                     xhr.send(request);
                 } catch (e) {
                     // fallback
-                    getImage(request);
+                    getImage(request, callback);
                 }
             }
 
             /*
              * Send request
              */
-            function sendRequest(request, delay) {
+            function sendRequest(request, delay, callback) {
                 var now = new Date();
 
                 if (!configDoNotTrack) {
                     if (configRequestMethod === 'POST') {
-                        sendXmlHttpRequest(request);
+                        sendXmlHttpRequest(request, callback);
                     } else {
-                        getImage(request);
+                        getImage(request, callback);
                     }
 
                     expireDateTime = now.getTime() + delay;
@@ -1695,6 +1698,7 @@ if (typeof Piwik !== 'object') {
                         visitCount++;
                         lastVisitTs = currentVisitTs;
                     }
+
 
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set
@@ -2016,10 +2020,10 @@ if (typeof Piwik !== 'object') {
             /*
              * Log the link or click with the server
              */
-            function logLink(url, linkType, customData) {
+            function logLink(url, linkType, customData, callback) {
                 var request = getRequest(linkType + '=' + encodeWrapper(purify(url)), customData, 'link');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, (callback ? 0 : configTrackerPause), callback);
             }
 
             /*
@@ -3013,10 +3017,11 @@ if (typeof Piwik !== 'object') {
                  * @param string sourceUrl
                  * @param string linkType
                  * @param mixed customData
+                 * @param function callback
                  */
-                trackLink: function (sourceUrl, linkType, customData) {
+                trackLink: function (sourceUrl, linkType, customData, callback) {
                     trackCallback(function () {
-                        logLink(sourceUrl, linkType, customData);
+                        logLink(sourceUrl, linkType, customData, callback);
                     });
                 },
 
@@ -3064,6 +3069,7 @@ if (typeof Piwik !== 'object') {
                         logSiteSearch(keyword, category, resultsCount);
                     });
                 },
+
 
                 /**
                  * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
@@ -3367,4 +3373,3 @@ if (typeof piwik_log !== 'function') {
 }
 
 /*! @license-end */
-
