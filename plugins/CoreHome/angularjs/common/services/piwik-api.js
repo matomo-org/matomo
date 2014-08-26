@@ -179,6 +179,13 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
     };
 
     /**
+     * @deprecated
+     */
+    piwikApi.abort = function () {
+        this.abortAll();
+    };
+
+    /**
      * Perform a reading API request.
      * @param getParams
      */
