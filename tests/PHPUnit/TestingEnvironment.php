@@ -166,12 +166,6 @@ class Piwik_TestingEnvironment
 
                 $local['Plugins'] = array('Plugins' => $pluginsToLoad);
 
-                $trackerPluginsToLoad = array_filter($local['Plugins']['Plugins'], function ($plugin) use ($manager) {
-                    return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
-                });
-
-                $local['Plugins_Tracker'] = array('Plugins_Tracker' => $trackerPluginsToLoad);
-
                 $local['log']['log_writers'] = array('file');
 
                 $manager->unloadPlugins();

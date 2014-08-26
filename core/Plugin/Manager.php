@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Cache\PersistentCache;
 use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Cache\StaticCache;
 use Piwik\CacheFile;
@@ -116,8 +117,30 @@ class Manager extends Singleton
      */
     public function loadTrackerPlugins()
     {
+        $cache = new PersistentCache('PluginsTracker');
+
+        if ($cache->has()) {
+            $pluginsTracker = $cache->get();
+        } else {
+
+            $this->unloadPlugins();
+            $this->loadActivatedPlugins();
+
+            $pluginsTracker = array();
+
+            foreach ($this->loadedPlugins as $pluginName => $plugin) {
+                if ($this->isTrackerPlugin($plugin)) {
+                    $pluginsTracker[] = $pluginName;
+                }
+            }
+
+            if (!empty($pluginsTracker)) {
+                $cache->set($pluginsTracker);
+            }
+        }
+
         $this->unloadPlugins();
-        $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+
         if (empty($pluginsTracker)) {
             return array();
         }
@@ -161,18 +184,6 @@ class Manager extends Singleton
         $section = PiwikConfig::getInstance()->Plugins;
         $section['Plugins'] = $pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
-    }
-
-    /**
-     * Update Plugins_Tracker config
-     *
-     * @param array $plugins Plugins
-     */
-    private function updatePluginsTrackerConfig($plugins)
-    {
-        $section = PiwikConfig::getInstance()->Plugins_Tracker;
-        $section['Plugins_Tracker'] = $plugins;
-        PiwikConfig::getInstance()->Plugins_Tracker = $section;
     }
 
     /**
@@ -1098,19 +1109,6 @@ class Manager extends Singleton
             $saveConfig = true;
         }
 
-        if ($this->isTrackerPlugin($plugin)) {
-            $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
-            if (is_null($pluginsTracker)) {
-                $pluginsTracker = array();
-            }
-            if (!in_array($pluginName, $pluginsTracker)) {
-                Log::verbose("Adding this plugin to the list of Tracker plugins: $pluginName");
-                $pluginsTracker[] = $pluginName;
-                $this->updatePluginsTrackerConfig($pluginsTracker);
-                $saveConfig = true;
-            }
-        }
-
         if ($saveConfig) {
             PiwikConfig::getInstance()->forceSave();
         }
@@ -1179,18 +1177,6 @@ class Manager extends Singleton
             unset($pluginsEnabled[$key]);
         }
         $this->updatePluginsConfig($pluginsEnabled);
-    }
-
-    private function removePluginFromTrackerConfig($pluginName)
-    {
-        $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
-        if (!is_null($pluginsTracker)) {
-            $key = array_search($pluginName, $pluginsTracker);
-            if ($key !== false) {
-                unset($pluginsTracker[$key]);
-                $this->updatePluginsTrackerConfig($pluginsTracker);
-            }
-        }
     }
 
     /**
@@ -1273,7 +1259,6 @@ class Manager extends Singleton
     private function removePluginFromConfig($pluginName)
     {
         $this->removePluginFromPluginsConfig($pluginName);
-        $this->removePluginFromTrackerConfig($pluginName);
         PiwikConfig::getInstance()->forceSave();
     }
 
