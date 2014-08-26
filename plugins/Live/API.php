@@ -29,6 +29,7 @@ use Piwik\Tracker;
  * @see plugins/Live/Visitor.php
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
  * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
@@ -301,7 +302,7 @@ class API extends \Piwik\Plugin\API
             }
             ++$continents[$continentCode];
 
-            if (!array_key_exists($countryCode, $cities)) {
+            if ($countryCode && !array_key_exists($countryCode, $cities)) {
                 $cities[$countryCode] = array();
             }
             $city = $visit->getColumn('city');

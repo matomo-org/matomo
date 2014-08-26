@@ -17,6 +17,16 @@ use Piwik\Piwik;
 
 class Provider extends \Piwik\Plugin
 {
+    /**
+     * @see Piwik\Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
+    {
+        return array(
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+        );
+    }
+
     public function install()
     {
         // add column hostname / hostname ext in the visit table
@@ -30,6 +40,15 @@ class Provider extends \Piwik\Plugin
                 throw $e;
             }
         }
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $instance = new Visitor($details);
+
+        $visitor['provider']     = $instance->getProvider();
+        $visitor['providerName'] = $instance->getProviderName();
+        $visitor['providerUrl']  = $instance->getProviderUrl();
     }
 
     public function uninstall()

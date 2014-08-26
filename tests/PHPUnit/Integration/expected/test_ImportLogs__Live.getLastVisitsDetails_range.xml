@@ -5,15 +5,6 @@
 		<idVisit>40</idVisit>
 		<visitIp>174.97.139.63</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -42,39 +33,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>77</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>20:34:49</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>77</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>North Carolina</region>
-		<regionCode>NC</regionCode>
-		<city>Raleigh</city>
-		<location>Raleigh, North Carolina, United States</location>
-		<latitude>35.771999</latitude>
-		<longitude>-78.639000</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -86,6 +73,17 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>North Carolina</region>
+		<regionCode>NC</regionCode>
+		<city>Raleigh</city>
+		<location>Raleigh, North Carolina, United States</location>
+		<latitude>35.771999</latitude>
+		<longitude>-78.639000</longitude>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemCode>WI8</operatingSystemCode>
 		<operatingSystemShortName>Win 8</operatingSystemShortName>
@@ -97,7 +95,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1366x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java</plugins>
@@ -115,6 +112,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>20:34:49</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
@@ -126,15 +126,6 @@
 		<idVisit>33</idVisit>
 		<visitIp>206.190.75.8</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -179,39 +170,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>2</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>2</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>181</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>81</visitDuration>
+		<visitDurationPretty>1 min 21s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>17:33:27</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>81</visitDuration>
-		<visitDurationPretty>1 min 21s</visitDurationPretty>
-		<visitCount>2</visitCount>
-		<daysSinceLastVisit>181</daysSinceLastVisit>
-		<daysSinceFirstVisit>181</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>Lake Forest</city>
-		<location>Lake Forest, California, United States</location>
-		<latitude>33.645000</latitude>
-		<longitude>-117.679001</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -223,6 +210,17 @@
 		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>Lake Forest</city>
+		<location>Lake Forest, California, United States</location>
+		<latitude>33.645000</latitude>
+		<longitude>-117.679001</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -234,11 +232,13 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1536x864</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>181</daysSinceLastVisit>
+		<visitLocalTime>17:33:27</visitLocalTime>
+		<visitLocalHour>17</visitLocalHour>
 		
 		
 		
@@ -250,15 +250,6 @@
 		<idVisit>39</idVisit>
 		<visitIp>193.159.20.129</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -287,6 +278,27 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
@@ -297,33 +309,8 @@
 				<customVariableValue2>English</customVariableValue2>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>01:34:37</visitLocalTime>
-		<visitLocalHour>1</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>4</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Germany</country>
-		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Germany</location>
-		<latitude>51</latitude>
-		<longitude>9</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -335,6 +322,17 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Germany</country>
+		<countryCode>de</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Germany</location>
+		<latitude>51</latitude>
+		<longitude>9</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -346,7 +344,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1920x1200</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
@@ -372,6 +369,9 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>4</daysSinceLastVisit>
+		<visitLocalTime>01:34:37</visitLocalTime>
+		<visitLocalHour>1</visitLocalHour>
 		
 		
 		
@@ -383,15 +383,6 @@
 		<idVisit>37</idVisit>
 		<visitIp>50.244.17.130</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -436,39 +427,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>2</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>7</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>17</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>34</visitDuration>
+		<visitDurationPretty>34s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>19:34:01</visitLocalTime>
-		<visitLocalHour>19</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>34</visitDuration>
-		<visitDurationPretty>34s</visitDurationPretty>
-		<visitCount>7</visitCount>
-		<daysSinceLastVisit>6</daysSinceLastVisit>
-		<daysSinceFirstVisit>17</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>United States</location>
-		<latitude>38</latitude>
-		<longitude>-97</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -480,6 +467,17 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>United States</location>
+		<latitude>38</latitude>
+		<longitude>-97</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -491,7 +489,6 @@
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>2880x1800</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime</plugins>
@@ -513,6 +510,9 @@
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>6</daysSinceLastVisit>
+		<visitLocalTime>19:34:01</visitLocalTime>
+		<visitLocalHour>19</visitLocalHour>
 		
 		
 		
@@ -524,15 +524,6 @@
 		<idVisit>38</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>outlink</type>
@@ -550,39 +541,35 @@
 				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>01:34:24</visitLocalTime>
-		<visitLocalHour>1</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Belgium</country>
-		<countryCode>be</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
-		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
-		<latitude>51.099998</latitude>
-		<longitude>5.800000</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -594,6 +581,17 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Belgium</country>
+		<countryCode>be</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
+		<region>Limburg</region>
+		<regionCode>05</regionCode>
+		<city>Maaseik</city>
+		<location>Maaseik, Limburg, Belgium</location>
+		<latitude>51.099998</latitude>
+		<longitude>5.800000</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -605,7 +603,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1920x1080</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, silverlight</plugins>
@@ -627,6 +624,9 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>01:34:24</visitLocalTime>
+		<visitLocalHour>1</visitLocalHour>
 		
 		
 		
@@ -638,15 +638,6 @@
 		<idVisit>36</idVisit>
 		<visitIp>108.211.181.12</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -675,39 +666,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>17:33:58</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>San Francisco</city>
-		<location>San Francisco, California, United States</location>
-		<latitude>37.792000</latitude>
-		<longitude>-122.408997</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -719,6 +706,17 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>San Francisco</city>
+		<location>San Francisco, California, United States</location>
+		<latitude>37.792000</latitude>
+		<longitude>-122.408997</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -730,7 +728,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1360x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
@@ -760,6 +757,9 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>17:33:58</visitLocalTime>
+		<visitLocalHour>17</visitLocalHour>
 		
 		
 		
@@ -771,15 +771,6 @@
 		<idVisit>35</idVisit>
 		<visitIp>219.101.46.222</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -807,39 +798,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>4</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>3</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>09:33:50</visitLocalTime>
-		<visitLocalHour>9</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>4</visitCount>
-		<daysSinceLastVisit>1</daysSinceLastVisit>
-		<daysSinceFirstVisit>3</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region>Kanagawa</region>
-		<regionCode>19</regionCode>
-		<city>Nihon'odori</city>
-		<location>Nihon'odori, Kanagawa, Japan</location>
-		<latitude>35.450001</latitude>
-		<longitude>139.649994</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -851,6 +838,17 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region>Kanagawa</region>
+		<regionCode>19</regionCode>
+		<city>Nihon'odori</city>
+		<location>Nihon'odori, Kanagawa, Japan</location>
+		<latitude>35.450001</latitude>
+		<longitude>139.649994</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -862,7 +860,6 @@
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>2560x1440</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, java, quicktime</plugins>
@@ -880,6 +877,9 @@
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>1</daysSinceLastVisit>
+		<visitLocalTime>09:33:50</visitLocalTime>
+		<visitLocalHour>9</visitLocalHour>
 		
 		
 		
@@ -891,15 +891,6 @@
 		<idVisit>34</idVisit>
 		<visitIp>80.136.160.65</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -928,39 +919,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>2</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>01:33:31</visitLocalTime>
-		<visitLocalHour>1</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>2</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Germany</country>
-		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
-		<region>Nordrhein-Westfalen</region>
-		<regionCode>07</regionCode>
-		<city>Weilerswist</city>
-		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
-		<latitude>50.766998</latitude>
-		<longitude>6.833000</longitude>
+		<deviceType>Unknown</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -972,6 +959,17 @@
 		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Germany</country>
+		<countryCode>de</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<region>Nordrhein-Westfalen</region>
+		<regionCode>07</regionCode>
+		<city>Weilerswist</city>
+		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
+		<latitude>50.766998</latitude>
+		<longitude>6.833000</longitude>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemShortName>Android</operatingSystemShortName>
@@ -983,7 +981,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<screenType>mobile</screenType>
-		<deviceType>Unknown</deviceType>
 		<resolution>360x640</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/mobile.gif</screenTypeIcon>
 		<plugins>flash</plugins>
@@ -993,6 +990,9 @@
 				<pluginName>flash</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>01:33:31</visitLocalTime>
+		<visitLocalHour>1</visitLocalHour>
 		
 		
 		
@@ -1004,15 +1004,6 @@
 		<idVisit>32</idVisit>
 		<visitIp>188.107.238.9</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1041,39 +1032,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>5</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>01:33:13</visitLocalTime>
-		<visitLocalHour>1</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>5</visitCount>
-		<daysSinceLastVisit>3</daysSinceLastVisit>
-		<daysSinceFirstVisit>1</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Germany</country>
-		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
-		<region>Rheinland-Pfalz</region>
-		<regionCode>08</regionCode>
-		<city>Mainz</city>
-		<location>Mainz, Rheinland-Pfalz, Germany</location>
-		<latitude>50</latitude>
-		<longitude>8.271000</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1085,6 +1072,17 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Germany</country>
+		<countryCode>de</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<region>Rheinland-Pfalz</region>
+		<regionCode>08</regionCode>
+		<city>Mainz</city>
+		<location>Mainz, Rheinland-Pfalz, Germany</location>
+		<latitude>50</latitude>
+		<longitude>8.271000</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -1096,7 +1094,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>2560x1440</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
@@ -1126,6 +1123,9 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>3</daysSinceLastVisit>
+		<visitLocalTime>01:33:13</visitLocalTime>
+		<visitLocalHour>1</visitLocalHour>
 		
 		
 		
@@ -1137,15 +1137,6 @@
 		<idVisit>30</idVisit>
 		<visitIp>93.80.130.163</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1209,39 +1200,35 @@
 				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>3</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>10</visitDuration>
+		<visitDurationPretty>10s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>04:28:18</visitLocalTime>
-		<visitLocalHour>4</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>10</visitDuration>
-		<visitDurationPretty>10s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Moscow City</region>
-		<regionCode>48</regionCode>
-		<city>Moscow</city>
-		<location>Moscow, Moscow City, Russian Federation</location>
-		<latitude>55.751999</latitude>
-		<longitude>37.616001</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1253,6 +1240,17 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Moscow City</region>
+		<regionCode>48</regionCode>
+		<city>Moscow</city>
+		<location>Moscow, Moscow City, Russian Federation</location>
+		<latitude>55.751999</latitude>
+		<longitude>37.616001</longitude>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemCode>WI8</operatingSystemCode>
 		<operatingSystemShortName>Win 8</operatingSystemShortName>
@@ -1264,7 +1262,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1920x1080</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1278,6 +1275,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>04:28:18</visitLocalTime>
+		<visitLocalHour>4</visitLocalHour>
 		
 		
 		
@@ -1289,15 +1289,6 @@
 		<idVisit>31</idVisit>
 		<visitIp>176.41.226.154</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1326,39 +1317,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>5</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>30</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>02:32:21</visitLocalTime>
-		<visitLocalHour>2</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>5</visitCount>
-		<daysSinceLastVisit>8</daysSinceLastVisit>
-		<daysSinceFirstVisit>30</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Turkey</country>
-		<countryCode>tr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/tr.png</countryFlag>
-		<region>Rize</region>
-		<regionCode>53</regionCode>
-		<city>Esentepe</city>
-		<location>Esentepe, Rize, Turkey</location>
-		<latitude>40.979000</latitude>
-		<longitude>40.415001</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1370,6 +1357,17 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Turkey</country>
+		<countryCode>tr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/tr.png</countryFlag>
+		<region>Rize</region>
+		<regionCode>53</regionCode>
+		<city>Esentepe</city>
+		<location>Esentepe, Rize, Turkey</location>
+		<latitude>40.979000</latitude>
+		<longitude>40.415001</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -1381,7 +1379,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1366x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, silverlight</plugins>
@@ -1403,6 +1400,9 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>8</daysSinceLastVisit>
+		<visitLocalTime>02:32:21</visitLocalTime>
+		<visitLocalHour>2</visitLocalHour>
 		
 		
 		
@@ -1414,15 +1414,6 @@
 		<idVisit>29</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1451,39 +1442,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Domain landed</customVariableName1>
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>01:34:18</visitLocalTime>
-		<visitLocalHour>1</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Belgium</country>
-		<countryCode>be</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
-		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
-		<latitude>51.099998</latitude>
-		<longitude>5.800000</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1495,6 +1482,17 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Belgium</country>
+		<countryCode>be</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
+		<region>Limburg</region>
+		<regionCode>05</regionCode>
+		<city>Maaseik</city>
+		<location>Maaseik, Limburg, Belgium</location>
+		<latitude>51.099998</latitude>
+		<longitude>5.800000</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -1506,7 +1504,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1920x1080</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, silverlight</plugins>
@@ -1528,6 +1525,9 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>01:34:18</visitLocalTime>
+		<visitLocalHour>1</visitLocalHour>
 		
 		
 		
@@ -1539,15 +1539,6 @@
 		<idVisit>41</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>10</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1738,35 +1729,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>08:10:38</visitLocalTime>
-		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>54</visitDuration>
-		<visitDurationPretty>54s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>10</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<visitDuration>54</visitDuration>
+		<visitDurationPretty>54s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Unknown</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1778,6 +1765,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemShortName>Unknown</operatingSystemShortName>
@@ -1789,11 +1787,13 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>08:10:38</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
@@ -1805,15 +1805,6 @@
 		<idVisit>26</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1849,39 +1840,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName5>VisitorType</customVariableName5>
 				<customVariableValue5>NewLoggedOut</customVariableValue5>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1893,6 +1880,17 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -1904,7 +1902,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1918,6 +1915,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
@@ -1929,15 +1929,6 @@
 		<idVisit>27</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1965,39 +1956,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>444</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName3>Forum status</customVariableName3>
 				<customVariableValue3>Anonymous</customVariableValue3>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>08:00:47</visitLocalTime>
-		<visitLocalHour>8</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>444</daysSinceLastVisit>
-		<daysSinceFirstVisit>444</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2009,6 +1996,17 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -2020,7 +2018,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>11.0</browserVersion>
 		<screenType>wide</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1280x800</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
@@ -2050,6 +2047,9 @@
 				<pluginName>gears</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>444</daysSinceLastVisit>
+		<visitLocalTime>08:00:47</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
@@ -2061,15 +2061,6 @@
 		<idVisit>25</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2097,39 +2088,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>20:15:41</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2141,6 +2128,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -2152,11 +2150,13 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>20:15:41</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
@@ -2168,15 +2168,6 @@
 		<idVisit>24</idVisit>
 		<visitIp>175.41.192.43</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2221,39 +2212,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>2</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>182</visitDuration>
+		<visitDurationPretty>3 min 2s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>19:12:40</visitLocalTime>
-		<visitLocalHour>19</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>182</visitDuration>
-		<visitDurationPretty>3 min 2s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2265,6 +2252,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -2276,11 +2274,13 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>19:12:40</visitLocalTime>
+		<visitLocalHour>19</visitLocalHour>
 		
 		
 		
@@ -2292,15 +2292,6 @@
 		<idVisit>23</idVisit>
 		<visitIp>175.41.192.42</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -2352,39 +2343,35 @@
 				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>3</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>123</visitDuration>
+		<visitDurationPretty>2 min 3s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>18:10:38</visitLocalTime>
-		<visitLocalHour>18</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>123</visitDuration>
-		<visitDurationPretty>2 min 3s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2396,6 +2383,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -2407,11 +2405,13 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>18:10:38</visitLocalTime>
+		<visitLocalHour>18</visitLocalHour>
 		
 		
 		
@@ -2423,15 +2423,6 @@
 		<idVisit>22</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2459,39 +2450,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Bot</customVariableName1>
 				<customVariableValue1>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>17:48:08</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>Virginia</region>
-		<regionCode>VA</regionCode>
-		<city>Ashburn</city>
-		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
+		<deviceType>Unknown</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2503,6 +2490,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>Virginia</region>
+		<regionCode>VA</regionCode>
+		<city>Ashburn</city>
+		<location>Ashburn, Virginia, United States</location>
+		<latitude>39.043999</latitude>
+		<longitude>-77.487999</longitude>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemShortName>BOT</operatingSystemShortName>
@@ -2514,11 +2512,13 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>17:48:08</visitLocalTime>
+		<visitLocalHour>17</visitLocalHour>
 		
 		
 		
@@ -2530,15 +2530,6 @@
 		<idVisit>21</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2566,39 +2557,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>17:48:07</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>Virginia</region>
-		<regionCode>VA</regionCode>
-		<city>Ashburn</city>
-		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2610,6 +2597,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>Virginia</region>
+		<regionCode>VA</regionCode>
+		<city>Ashburn</city>
+		<location>Ashburn, Virginia, United States</location>
+		<latitude>39.043999</latitude>
+		<longitude>-77.487999</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -2621,11 +2619,13 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>17:48:07</visitLocalTime>
+		<visitLocalHour>17</visitLocalHour>
 		
 		
 		
@@ -2637,15 +2637,6 @@
 		<idVisit>18</idVisit>
 		<visitIp>1.2.3.4</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -2663,39 +2654,35 @@
 				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Apache-HttpClient/4.2.1 (java 1.5)</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>17:46:03</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Oceania</continent>
-		<continentCode>oce</continentCode>
-		<country>Australia</country>
-		<countryCode>au</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/au.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Australia</location>
-		<latitude>-27</latitude>
-		<longitude>133</longitude>
+		<deviceType>Unknown</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2707,6 +2694,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Oceania</continent>
+		<continentCode>oce</continentCode>
+		<country>Australia</country>
+		<countryCode>au</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/au.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Australia</location>
+		<latitude>-27</latitude>
+		<longitude>133</longitude>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemShortName>Unknown</operatingSystemShortName>
@@ -2718,11 +2716,13 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>17:46:03</visitLocalTime>
+		<visitLocalHour>17</visitLocalHour>
 		
 		
 		
@@ -2734,15 +2734,6 @@
 		<idVisit>20</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2770,39 +2761,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>16:11:30</visitLocalTime>
-		<visitLocalHour>16</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<deviceType>Smartphone</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2814,6 +2801,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemShortName>Android</operatingSystemShortName>
@@ -2825,11 +2823,13 @@
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Smartphone</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>16:11:30</visitLocalTime>
+		<visitLocalHour>16</visitLocalHour>
 		
 		
 		
@@ -2841,15 +2841,6 @@
 		<idVisit>19</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2877,39 +2868,35 @@
 				<icon />
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>16:10:38</visitLocalTime>
-		<visitLocalHour>16</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -2921,6 +2908,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -2932,11 +2930,13 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>16:10:38</visitLocalTime>
+		<visitLocalHour>16</visitLocalHour>
 		
 		
 		
@@ -2948,15 +2948,6 @@
 		<idVisit>17</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2984,35 +2975,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>15:31:05</visitLocalTime>
-		<visitLocalHour>15</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3024,6 +3011,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -3035,11 +3033,13 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>15:31:05</visitLocalTime>
+		<visitLocalHour>15</visitLocalHour>
 		
 		
 		
@@ -3051,15 +3051,6 @@
 		<idVisit>16</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3087,35 +3078,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>13:49:46</visitLocalTime>
-		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3127,6 +3114,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -3138,11 +3136,13 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>13:49:46</visitLocalTime>
+		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
@@ -3154,15 +3154,6 @@
 		<idVisit>15</idVisit>
 		<visitIp>177.71.128.21</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3190,35 +3181,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>20:22:08</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>South America</continent>
-		<continentCode>ams</continentCode>
-		<country>Brazil</country>
-		<countryCode>br</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Brazil</location>
-		<latitude>-10</latitude>
-		<longitude>-55</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3230,6 +3217,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>South America</continent>
+		<continentCode>ams</continentCode>
+		<country>Brazil</country>
+		<countryCode>br</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Brazil</location>
+		<latitude>-10</latitude>
+		<longitude>-55</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -3241,11 +3239,13 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>20:22:08</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
@@ -3257,15 +3257,6 @@
 		<idVisit>14</idVisit>
 		<visitIp>177.71.128.21</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3293,35 +3284,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>20:21:28</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>South America</continent>
-		<continentCode>ams</continentCode>
-		<country>Brazil</country>
-		<countryCode>br</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Brazil</location>
-		<latitude>-10</latitude>
-		<longitude>-55</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3333,6 +3320,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>South America</continent>
+		<continentCode>ams</continentCode>
+		<country>Brazil</country>
+		<countryCode>br</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Brazil</location>
+		<latitude>-10</latitude>
+		<longitude>-55</longitude>
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -3344,11 +3342,13 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>20:21:28</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
@@ -3360,15 +3360,6 @@
 		<idVisit>13</idVisit>
 		<visitIp>177.71.128.21</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3396,35 +3387,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>20:21:03</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>South America</continent>
-		<continentCode>ams</continentCode>
-		<country>Brazil</country>
-		<countryCode>br</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Brazil</location>
-		<latitude>-10</latitude>
-		<longitude>-55</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3436,6 +3423,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>South America</continent>
+		<continentCode>ams</continentCode>
+		<country>Brazil</country>
+		<countryCode>br</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Brazil</location>
+		<latitude>-10</latitude>
+		<longitude>-55</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -3447,11 +3445,13 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>20:21:03</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
@@ -3463,15 +3463,6 @@
 		<idVisit>12</idVisit>
 		<visitIp>175.41.192.34</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3499,35 +3490,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>20:01:17</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3539,6 +3526,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -3550,11 +3548,13 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>20:01:17</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
@@ -3566,15 +3566,6 @@
 		<idVisit>11</idVisit>
 		<visitIp>175.41.192.34</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3602,35 +3593,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>19:59:50</visitLocalTime>
-		<visitLocalHour>19</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3642,6 +3629,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -3653,11 +3651,13 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>19:59:50</visitLocalTime>
+		<visitLocalHour>19</visitLocalHour>
 		
 		
 		
@@ -3669,15 +3669,6 @@
 		<idVisit>10</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3705,35 +3696,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>18:03:40</visitLocalTime>
-		<visitLocalHour>18</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3745,6 +3732,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -3756,11 +3754,13 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>18:03:40</visitLocalTime>
+		<visitLocalHour>18</visitLocalHour>
 		
 		
 		
@@ -3772,15 +3772,6 @@
 		<idVisit>9</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3808,35 +3799,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>21:00:42</visitLocalTime>
-		<visitLocalHour>21</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3848,6 +3835,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -3859,11 +3857,13 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>21:00:42</visitLocalTime>
+		<visitLocalHour>21</visitLocalHour>
 		
 		
 		
@@ -3875,15 +3875,6 @@
 		<idVisit>8</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3911,35 +3902,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>20:56:45</visitLocalTime>
-		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -3951,6 +3938,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -3962,11 +3960,13 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>20:56:45</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
 		
 		
 		
@@ -3978,15 +3978,6 @@
 		<idVisit>7</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4014,35 +4005,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>13:49:48</visitLocalTime>
-		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>Virginia</region>
-		<regionCode>VA</regionCode>
-		<city>Ashburn</city>
-		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -4054,6 +4041,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>Virginia</region>
+		<regionCode>VA</regionCode>
+		<city>Ashburn</city>
+		<location>Ashburn, Virginia, United States</location>
+		<latitude>39.043999</latitude>
+		<longitude>-77.487999</longitude>
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -4065,11 +4063,13 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>13:49:48</visitLocalTime>
+		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
@@ -4081,15 +4081,6 @@
 		<idVisit>6</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4117,35 +4108,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>13:48:20</visitLocalTime>
-		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>Virginia</region>
-		<regionCode>VA</regionCode>
-		<city>Ashburn</city>
-		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -4157,6 +4144,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>Virginia</region>
+		<regionCode>VA</regionCode>
+		<city>Ashburn</city>
+		<location>Ashburn, Virginia, United States</location>
+		<latitude>39.043999</latitude>
+		<longitude>-77.487999</longitude>
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -4168,11 +4166,13 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>13:48:20</visitLocalTime>
+		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
@@ -4184,15 +4184,6 @@
 		<idVisit>5</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4220,35 +4211,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>13:48:07</visitLocalTime>
-		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>Virginia</region>
-		<regionCode>VA</regionCode>
-		<city>Ashburn</city>
-		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -4260,6 +4247,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>Virginia</region>
+		<regionCode>VA</regionCode>
+		<city>Ashburn</city>
+		<location>Ashburn, Virginia, United States</location>
+		<latitude>39.043999</latitude>
+		<longitude>-77.487999</longitude>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
@@ -4271,11 +4269,13 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>13:48:07</visitLocalTime>
+		<visitLocalHour>13</visitLocalHour>
 		
 		
 		
@@ -4287,15 +4287,6 @@
 		<idVisit>4</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4323,35 +4314,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>08:12:03</visitLocalTime>
-		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -4363,6 +4350,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -4374,11 +4372,13 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>08:12:03</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
@@ -4390,15 +4390,6 @@
 		<idVisit>3</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4426,35 +4417,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>08:11:56</visitLocalTime>
-		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -4466,6 +4453,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
@@ -4477,11 +4475,13 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>08:11:56</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
@@ -4493,15 +4493,6 @@
 		<idVisit>2</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4529,35 +4520,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>08:11:30</visitLocalTime>
-		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Smartphone</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -4569,6 +4556,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemShortName>Android</operatingSystemShortName>
@@ -4580,11 +4578,13 @@
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Smartphone</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>08:11:30</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
@@ -4596,15 +4596,6 @@
 		<idVisit>1</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4632,35 +4623,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>08:10:38</visitLocalTime>
-		<visitLocalHour>8</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -4672,6 +4659,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemShortName>Mac OS</operatingSystemShortName>
@@ -4683,11 +4681,13 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>08:10:38</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
 		
 		
 		

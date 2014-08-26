@@ -27,20 +27,20 @@
 {% for visitor in dataTable.getRows() %}
     {% set breakBeforeVisitorRank = (visitor.getColumn('visitEcommerceStatusIcon') and visitor.getColumn('visitorTypeIcon')) ? true : false %}
     {% set visitorColumnContent %}
-        <img src="{{ visitor.getColumn('countryFlag') }}" title="{{ visitor.getColumn('location') }}, Provider {{ visitor.getColumn('providerName') }}"/>
+        {% if visitor.getColumn('countryFlag') %}<img src="{{ visitor.getColumn('countryFlag') }}" title="{{ visitor.getColumn('location') }}, Provider {{ visitor.getColumn('providerName') }}"/>{% endif %}
         &nbsp;
         {% if visitor.getColumn('plugins') %}
-        <img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitor.getColumn('browserName'),visitor.getColumn('plugins')) }}"/>
+            {% if visitor.getColumn('browserIcon') %}<img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitor.getColumn('browserName'),visitor.getColumn('plugins')) }}"/>{% endif %}
         {% else %}
-        <img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'UserSettings_BrowserWithNoPluginsEnabled'|translate(visitor.getColumn('browserName')) }}"/>
+            {% if visitor.getColumn('browserIcon') %}<img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'UserSettings_BrowserWithNoPluginsEnabled'|translate(visitor.getColumn('browserName')) }}"/>{% endif %}
         {% endif %}
-        &nbsp;
+        {% if visitor.getColumn('operatingSystemIcon') %}&nbsp;
         <img src="{{ visitor.getColumn('operatingSystemIcon') }}"
-             title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }} ({{ visitor.getColumn('screenType') }})"/>
+             title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }} ({{ visitor.getColumn('screenType') }})"/>{% endif %}
         {% if visitor.getColumn('visitorTypeIcon') %}
-            &nbsp;-
+            {% if visitor.getColumn('visitorTypeIcon') %}&nbsp;-
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
-                 title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>
+                 title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>{% endif %}
         {% endif %}
         {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}<br/><br />{% endif %}
         {% if visitor.getColumn('visitConverted') %}
