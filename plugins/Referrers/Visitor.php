@@ -24,7 +24,13 @@ class Visitor
 
     public function getReferrerType()
     {
-        return getReferrerTypeFromShortName($this->details['referer_type']);
+        try {
+            $referrerType = getReferrerTypeFromShortName($this->details['referer_type']);
+        } catch (\Exception $e) {
+            $referrerType = '';
+        }
+
+        return $referrerType;
     }
 
     public function getReferrerTypeName()
