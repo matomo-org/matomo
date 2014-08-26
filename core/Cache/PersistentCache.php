@@ -113,7 +113,7 @@ class PersistentCache
         Piwik::addAction($eventToPersist, array(__CLASS__, 'persistCache'));
     }
 
-    private function getCacheFilename()
+    private static function getCacheFilename()
     {
         return 'StaticCache-' . str_replace(array('.', '-'), '', Version::VERSION);
     }
