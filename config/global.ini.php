@@ -676,13 +676,6 @@ PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
 
-[Plugins_Tracker]
-Plugins_Tracker[] = Provider
-Plugins_Tracker[] = Goals
-Plugins_Tracker[] = PrivacyManager
-Plugins_Tracker[] = UserCountry
-Plugins_Tracker[] = Login
-
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
 ; index.php?module=API&method=API.getSettings

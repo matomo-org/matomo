@@ -311,6 +311,10 @@ class Fixture extends PHPUnit_Framework_Assert
                 continue;
             }
 
+            if (in_array($pluginName, $plugins)) {
+                continue;
+            }
+
             $plugins[] = $pluginName;
             if ($testEnvironment) {
                 $testEnvironment->pluginsToLoad = array_merge($testEnvironment->pluginsToLoad ?: array(), array($pluginName));
