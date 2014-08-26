@@ -106,7 +106,7 @@ class Piwik_TestingEnvironment
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
         ));
 
-        return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
+        $plugins = array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
             if (in_array($pluginName, $disabledPlugins)) {
                 return false;
             }
@@ -114,6 +114,10 @@ class Piwik_TestingEnvironment
             return PluginManager::getInstance()->isPluginBundledWithCore($pluginName)
                 || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
         });
+
+        sort($plugins);
+
+        return $plugins;
     }
 
     public static function addHooks()
