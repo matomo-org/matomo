@@ -5,15 +5,6 @@
 		<idVisit>5</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
-		<searches>0</searches>
-		<events>0</events>
-		<actions>0</actions>
 		<actionDetails>
 			<row>
 				<type>ecommerceOrder</type>
@@ -51,6 +42,27 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>0</actions>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>363</visitDuration>
+		<visitDurationPretty>6 min 3s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
@@ -65,33 +77,8 @@
 				<customVariableValue5>NewLoggedOut</customVariableValue5>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>363</visitDuration>
-		<visitDurationPretty>6 min 3s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Poland</country>
-		<countryCode>pl</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Poland</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -103,6 +90,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Poland</country>
+		<countryCode>pl</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Poland</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -114,7 +112,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -128,6 +125,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
@@ -139,15 +139,6 @@
 		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
-		<searches>0</searches>
-		<events>0</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -261,6 +252,27 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>3</actions>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>1</daysSinceLastEcommerceOrder>
+		<visitDuration>1081</visitDuration>
+		<visitDurationPretty>18 min 1s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
@@ -275,33 +287,8 @@
 				<customVariableValue5>NewLoggedOut</customVariableValue5>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>1081</visitDuration>
-		<visitDurationPretty>18 min 1s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>1</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Poland</country>
-		<countryCode>pl</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Poland</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -313,6 +300,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Poland</country>
+		<countryCode>pl</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Poland</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -324,7 +322,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -338,6 +335,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
