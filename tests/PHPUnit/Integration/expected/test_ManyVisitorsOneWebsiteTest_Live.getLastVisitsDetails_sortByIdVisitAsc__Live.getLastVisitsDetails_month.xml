@@ -43,17 +43,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -102,6 +91,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
+		<latitude>123.456001</latitude>
+		<longitude>21.320999</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -198,17 +198,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -257,6 +246,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
+		<latitude>123.456001</latitude>
+		<longitude>21.320999</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -322,17 +322,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
-		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
-		<longitude>6.018000</longitude>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -381,6 +370,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region>Franche-Comte</region>
+		<regionCode>A6</regionCode>
+		<city>Besançon</city>
+		<location>Besançon, Franche-Comte, France</location>
+		<latitude>47.249001</latitude>
+		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -477,17 +477,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
-		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
-		<longitude>6.018000</longitude>
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -536,6 +525,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region>Franche-Comte</region>
+		<regionCode>A6</regionCode>
+		<city>Besançon</city>
+		<location>Besançon, Franche-Comte, France</location>
+		<latitude>47.249001</latitude>
+		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -601,17 +601,6 @@
 		
 		
 		
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -660,6 +649,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -756,17 +756,6 @@
 		
 		
 		
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -815,6 +804,17 @@
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
 		<events>1</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -872,17 +872,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Italy</country>
-		<countryCode>it</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Italy</location>
-		<latitude />
-		<longitude />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -931,6 +920,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Italy</country>
+		<countryCode>it</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Italy</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>

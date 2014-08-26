@@ -33,17 +33,6 @@
 		
 		
 		
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>not a city</city>
-		<location>not a city, California, United States</location>
-		<latitude>1</latitude>
-		<longitude>2</longitude>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -92,6 +81,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>not a city</city>
+		<location>not a city, California, United States</location>
+		<latitude>1</latitude>
+		<longitude>2</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -180,17 +180,6 @@
 		
 		
 		
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -239,6 +228,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>1</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -304,17 +304,6 @@
 		
 		
 		
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -363,6 +352,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
@@ -442,17 +442,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Macedonia, the Former Yugoslav Republic of</country>
-		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
-		<latitude />
-		<longitude />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -501,6 +490,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -566,17 +566,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Macedonia, the Former Yugoslav Republic of</country>
-		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
-		<latitude />
-		<longitude />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -625,6 +614,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
@@ -721,17 +721,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -780,6 +769,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -845,17 +845,6 @@
 		
 		
 		
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -904,6 +893,17 @@
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>

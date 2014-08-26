@@ -83,9 +83,9 @@
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
-		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<visitLocalTime>10:00:00</visitLocalTime>
 		<visitLocalHour>10</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<serverTimestamp>1365328800</serverTimestamp>
 		<serverTimePretty>10:00:00</serverTimePretty>
 		<serverDatePretty>Sun 7 Apr</serverDatePretty>
@@ -175,9 +175,9 @@
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
-		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<visitLocalTime>11:00:00</visitLocalTime>
 		<visitLocalHour>11</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<serverTimestamp>1365246000</serverTimestamp>
 		<serverTimePretty>11:00:00</serverTimePretty>
 		<serverDatePretty>Sat 6 Apr</serverDatePretty>
@@ -267,9 +267,9 @@
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
-		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<visitLocalTime>12:00:00</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<serverTimestamp>1365163200</serverTimestamp>
 		<serverTimePretty>12:00:00</serverTimePretty>
 		<serverDatePretty>Fri 5 Apr</serverDatePretty>
