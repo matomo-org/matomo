@@ -77,7 +77,7 @@ abstract class StaticGraph extends Factory
     {
         $className = self::$availableStaticGraphTypes[$graphType];
         $className = __NAMESPACE__ . "\\StaticGraph\\" . $className;
-        return new $className;
+        return $className;
     }
 
     protected static function getInvalidClassIdExceptionMessage($graphType)
