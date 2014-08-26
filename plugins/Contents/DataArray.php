@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\Contents;
 
-use Exception;
-use Piwik\Tracker\GoalManager;
 use Piwik\Metrics;
 
 /**
@@ -32,9 +30,10 @@ class DataArray extends \Piwik\DataArray
     protected static function makeEmptyContentsRow()
     {
         return array(
-            Metrics::INDEX_NB_UNIQ_VISITORS        => 0,
-            Metrics::INDEX_NB_VISITS               => 0,
-            Metrics::INDEX_CONTENT_NB_IMPRESSIONS  => 0
+            Metrics::INDEX_NB_UNIQ_VISITORS         => 0,
+            Metrics::INDEX_NB_VISITS                => 0,
+            Metrics::INDEX_CONTENT_NB_IMPRESSIONS   => 0,
+            Metrics::INDEX_CONTENT_NB_INTERACTIONS  => 0
         );
     }
 
@@ -53,7 +52,7 @@ class DataArray extends \Piwik\DataArray
     public function sumMetricsContentsPivot($parentLabel, $label, $row)
     {
         if (!isset($this->dataTwoLevels[$parentLabel][$label])) {
-            $this->dataTwoLevels[$parentLabel][$label] = $this->makeEmptyEventRow();
+            $this->dataTwoLevels[$parentLabel][$label] = $this->makeEmptyContentsRow();
         }
         $this->doSumContentsMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
     }

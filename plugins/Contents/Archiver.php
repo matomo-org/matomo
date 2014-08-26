@@ -15,21 +15,20 @@ use Piwik\RankingQuery;
 
 /**
  * Processing reports for Contents
-
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const CONTENTS_PIECE_RECORD_NAME  = 'Contents_piece';
-    const CONTENTS_TARGET_RECORD_NAME = 'Contents_target';
-    const CONTENTS_NAME_RECORD_NAME   = 'Contents_name';
-    const CONTENT_TARGET_NOT_SET      = 'Piwik_ContentNameNotSet';
+    const CONTENTS_PIECE_NAME_RECORD_NAME = 'Contents_piece_name';
+    const CONTENTS_NAME_PIECE_RECORD_NAME = 'Contents_name_piece';
+    const CONTENT_TARGET_NOT_SET          = 'Piwik_ContentTargetNotSet';
 
     /**
      * @var DataArray[]
      */
-    protected $arrays = array();
+    protected $arrays   = array();
+    protected $metadata = array();
 
-    function __construct($processor)
+    public function __construct($processor)
     {
         parent::__construct($processor);
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
@@ -37,12 +36,11 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->maximumRowsInSubDataTable      = ArchivingHelper::$maximumRowsInSubDataTable;
     }
 
-    protected function getRecordToDimensions()
+    private function getRecordToDimensions()
     {
         return array(
-            self::CONTENTS_PIECE_RECORD_NAME  => array('contentPiece'),
-            self::CONTENTS_TARGET_RECORD_NAME => array('contentTarget'),
-            self::CONTENTS_NAME_RECORD_NAME   => array('contentName')
+            self::CONTENTS_PIECE_NAME_RECORD_NAME => array('contentPiece', 'contentName'),
+            self::CONTENTS_NAME_PIECE_RECORD_NAME => array('contentName', 'contentPiece')
         );
     }
 
@@ -52,7 +50,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->getProcessor()->aggregateDataTableRecords($dataTableToSum, $this->maximumRowsInDataTable, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
     }
 
-    protected function getRecordNames()
+    private function getRecordNames()
     {
         $mapping = $this->getRecordToDimensions();
         return array_keys($mapping);
@@ -64,7 +62,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->insertDayReports();
     }
 
-    protected function aggregateDayContents()
+    private function aggregateDayContents()
     {
         $select = "
                 log_action_content_piece.name as contentPiece,
@@ -119,7 +117,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
     }
 
-    protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, RankingQuery $rankingQuery)
+    private function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, RankingQuery $rankingQuery)
     {
         // get query with segmentation
         $query = $this->getLogAggregator()->generateQuery($select, $from, $where, $groupBy, $orderBy);
@@ -144,10 +142,22 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * Records the daily datatables
      */
-    protected function insertDayReports()
+    private function insertDayReports()
     {
         foreach ($this->arrays as $recordName => $dataArray) {
+
             $dataTable = $dataArray->asDataTable();
+
+            foreach ($dataTable->getRows() as $row) {
+                $label = $row->getColumn('label');
+
+                if (!empty($this->metadata[$label])) {
+                    foreach ($this->metadata[$label] as $name => $value) {
+                        $row->addMetadata($name, $value);
+                    }
+                }
+
+            }
             $blob = $dataTable->getSerialized(
                 $this->maximumRowsInDataTable,
                 $this->maximumRowsInSubDataTable,
@@ -160,29 +170,53 @@ class Archiver extends \Piwik\Plugin\Archiver
      * @param string $name
      * @return DataArray
      */
-    protected function getDataArray($name)
+    private function getDataArray($name)
     {
-        if(empty($this->arrays[$name])) {
+        if (empty($this->arrays[$name])) {
             $this->arrays[$name] = new DataArray();
         }
+
         return $this->arrays[$name];
     }
 
-    protected function aggregateContentRow($row)
+    private function aggregateContentRow($row)
     {
         foreach ($this->getRecordToDimensions() as $record => $dimensions) {
             $dataArray = $this->getDataArray($record);
 
             $mainDimension = $dimensions[0];
-            $mainLabel = $row[$mainDimension];
+            $mainLabel     = $row[$mainDimension];
 
-            // Content target is optional
-            if ($mainDimension == 'contentTarget'
-                && empty($mainLabel)) {
-                $mainLabel = self::CONTENT_TARGET_NOT_SET;
-            }
             $dataArray->sumMetricsContents($mainLabel, $row);
+            $this->rememberMetadataForRow($row, $mainLabel, $mainDimension);
+
+            $subDimension = $dimensions[1];
+            $subLabel     = $row[$subDimension];
+
+            if (empty($subLabel)) {
+                continue;
+            }
+
+            $dataArray->sumMetricsContentsPivot($mainLabel, $subLabel, $row);
         }
+    }
+
+    private function rememberMetadataForRow($row, $mainLabel, $mainDimension)
+    {
+        $this->metadata[$mainLabel] = array();
+
+        if ($mainDimension === 'contentPiece') {
+            $this->metadata[$mainLabel]['contentName'] = $row['contentName'];
+        } elseif ($mainDimension === 'contentName') {
+            $this->metadata[$mainLabel]['contentPiece'] = $row['contentPiece'];
+        }
+
+        $target = $row['contentTarget'];
+        if (empty($target)) {
+            $target = Archiver::CONTENT_TARGET_NOT_SET;
+        }
+
+        $this->metadata[$mainLabel]['contentTarget'] = $target;
     }
 
 }

@@ -1,6 +1,8 @@
 {
     "Contents":{
         "Impressions":"Impressions",
+        "Interactions":"Interactions",
+        "InteractionRate":"Interaction Rate",
         "ContentName":"Content Name",
         "ContentPiece":"Content Piece",
         "ContentTarget":"Content Target",

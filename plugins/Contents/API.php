@@ -21,54 +21,37 @@ use Piwik\Piwik;
  */
 class API extends \Piwik\Plugin\API
 {
-
-    protected $mappingApiToRecord = array(
-        'getContents' => Archiver::CONTENTS_NAME_RECORD_NAME
-    );
-
-    /**
-     * Another example method that returns a data table.
-     * @param int    $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
-     */
-    public function getContents($idSite, $period, $date, $segment = false)
+    public function getContentNames($idSite, $period, $date, $segment = false, $idSubtable = false, $secondaryDimension = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable, $secondaryDimension);
     }
 
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    public function getContentPieces($idSite, $period, $date, $segment = false, $idSubtable = false, $secondaryDimension = false)
+    {
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable, $secondaryDimension);
+    }
+
+    private function getDataTable($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $secondaryDimension)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $recordName = $this->getRecordNameForAction($name);
-        $dataTable = Archive::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, false);
+        Dimensions::checkSecondaryDimension($name, $secondaryDimension);
+        $recordName = Dimensions::getRecordNameForAction($name, $secondaryDimension);
+        $dataTable  = Archive::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterDataTable($dataTable);
         return $dataTable;
-    }
-
-    protected function getRecordNameForAction($apiMethod, $secondaryDimension = false)
-    {
-        return $this->mappingApiToRecord[$apiMethod];
     }
 
     /**
      * @param DataTable $dataTable
      */
-    protected function filterDataTable($dataTable)
+    private function filterDataTable($dataTable)
     {
         $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
+
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
-        $dataTable->filter(function (DataTable $table) {
-            $row = $table->getRowFromLabel(Archiver::CONTENT_TARGET_NOT_SET);
-            if ($row) {
-                $row->setColumn('label', Piwik::translate('General_NotDefined', Piwik::translate('Contents_ContentTarget')));
-            }
-        });
 
-        // Content conversion rate = conversions / impressions
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', 'nb_conversions', 'nb_impressions', $precision = 2));
+        // Content interaction rate = interactions / impressions
+        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('interaction_rate', 'nb_interactions', 'nb_impressions', $precision = 2));
     }
 }

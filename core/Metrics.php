@@ -80,6 +80,7 @@ class Metrics
 
     // Contents
     const INDEX_CONTENT_NB_IMPRESSIONS = 39;
+    const INDEX_CONTENT_NB_INTERACTIONS = 40;
 
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
