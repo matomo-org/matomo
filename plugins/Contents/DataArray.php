@@ -19,12 +19,20 @@ use Piwik\Metrics;
 
 class DataArray extends \Piwik\DataArray
 {
-    public function sumMetricsContents($label, $row)
+    public function sumMetricsImpressions($label, $row)
     {
         if (!isset($this->data[$label])) {
             $this->data[$label] = self::makeEmptyContentsRow();
         }
-        $this->doSumContentsMetrics($row, $this->data[$label], $onlyMetricsAvailableInActionsTable = true);
+        $this->doSumContentsImpressionMetrics($row, $this->data[$label]);
+    }
+
+    public function sumMetricsInteractions($label, $row)
+    {
+        if (!isset($this->data[$label])) {
+            return; // do igonre interactions that do not have an impression
+        }
+        $this->doSumContentsInteractionMetrics($row, $this->data[$label]);
     }
 
     protected static function makeEmptyContentsRow()
@@ -37,24 +45,32 @@ class DataArray extends \Piwik\DataArray
         );
     }
 
-    /**
-     * @param array $newRowToAdd
-     * @param array $oldRowToUpdate
-     * @return void
-     */
-    protected function doSumContentsMetrics($newRowToAdd, &$oldRowToUpdate)
+    protected function doSumContentsImpressionMetrics($newRowToAdd, &$oldRowToUpdate)
     {
         $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
         $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
         $oldRowToUpdate[Metrics::INDEX_CONTENT_NB_IMPRESSIONS] += $newRowToAdd[Metrics::INDEX_CONTENT_NB_IMPRESSIONS];
     }
 
-    public function sumMetricsContentsPivot($parentLabel, $label, $row)
+    protected function doSumContentsInteractionMetrics($newRowToAdd, &$oldRowToUpdate)
+    {
+        $oldRowToUpdate[Metrics::INDEX_CONTENT_NB_INTERACTIONS] += $newRowToAdd[Metrics::INDEX_CONTENT_NB_INTERACTIONS];
+    }
+
+    public function sumMetricsContentsImpressionPivot($parentLabel, $label, $row)
     {
         if (!isset($this->dataTwoLevels[$parentLabel][$label])) {
             $this->dataTwoLevels[$parentLabel][$label] = $this->makeEmptyContentsRow();
         }
-        $this->doSumContentsMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
+        $this->doSumContentsImpressionMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
+    }
+
+    public function sumMetricsContentsInteractionPivot($parentLabel, $label, $row)
+    {
+        if (!isset($this->dataTwoLevels[$parentLabel][$label])) {
+            return; // do igonre interactions that do not have an impression
+        }
+        $this->doSumContentsInteractionMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
     }
 
 }

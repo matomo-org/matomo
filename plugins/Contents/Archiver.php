@@ -58,11 +58,12 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        $this->aggregateDayContents();
+        $this->aggregateDayImpressions();
+        $this->aggregateDayInteractions();
         $this->insertDayReports();
     }
 
-    private function aggregateDayContents()
+    private function aggregateDayImpressions()
     {
         $select = "
                 log_action_content_piece.name as contentPiece,
@@ -89,14 +90,15 @@ class Archiver extends \Piwik\Plugin\Archiver
             array(
                 "table"      => "log_action",
                 "tableAlias" => "log_action_content_name",
-                "joinOn"     => "log_link_visit_action.idaction_name = log_action_content_name.idaction"
+                "joinOn"     => "log_link_visit_action.idaction_content_name = log_action_content_name.idaction"
             )
         );
 
         $where = "log_link_visit_action.server_time >= ?
                     AND log_link_visit_action.server_time <= ?
                     AND log_link_visit_action.idsite = ?
-                    AND log_link_visit_action.idaction_content_piece IS NOT NULL";
+                    AND log_link_visit_action.idaction_content_name IS NOT NULL
+                    AND log_link_visit_action.idaction_content_interaction IS NULL";
 
         $groupBy = "log_action_content_piece.idaction,
                     log_action_content_target.idaction,
@@ -114,7 +116,68 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_IMPRESSIONS, Metrics::INDEX_NB_VISITS), 'sum');
         }
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
+        $resultSet = $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
+
+        while ($row = $resultSet->fetch()) {
+            $this->aggregateImpressionRow($row);
+        }
+    }
+
+    private function aggregateDayInteractions()
+    {
+        $select = "
+                log_action_content_name.name as contentName,
+                log_action_content_interaction.name as contentInteraction,
+                log_action_content_piece.name as contentPiece,
+
+				count(*) as `" . Metrics::INDEX_CONTENT_NB_INTERACTIONS . "`
+        ";
+
+        $from = array(
+            "log_link_visit_action",
+            array(
+                "table"      => "log_action",
+                "tableAlias" => "log_action_content_piece",
+                "joinOn"     => "log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction"
+            ),
+            array(
+                "table"      => "log_action",
+                "tableAlias" => "log_action_content_interaction",
+                "joinOn"     => "log_link_visit_action.idaction_content_interaction = log_action_content_interaction.idaction"
+            ),
+            array(
+                "table"      => "log_action",
+                "tableAlias" => "log_action_content_name",
+                "joinOn"     => "log_link_visit_action.idaction_content_name = log_action_content_name.idaction"
+            )
+        );
+
+        $where = "log_link_visit_action.server_time >= ?
+                    AND log_link_visit_action.server_time <= ?
+                    AND log_link_visit_action.idsite = ?
+                    AND log_link_visit_action.idaction_content_name IS NOT NULL
+                    AND log_link_visit_action.idaction_content_interaction IS NOT NULL";
+
+        $groupBy = "log_action_content_piece.idaction,
+                    log_action_content_interaction.idaction,
+                    log_action_content_name.idaction";
+
+        $orderBy = "`" . Metrics::INDEX_CONTENT_NB_INTERACTIONS . "` DESC";
+
+        $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
+        $rankingQuery = null;
+        if ($rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
+            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
+            $rankingQuery->addLabelColumn(array('contentPiece', 'contentInteraction', 'contentName'));
+            $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_INTERACTIONS), 'sum');
+        }
+
+        $resultSet = $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
+
+        while ($row = $resultSet->fetch()) {
+            $this->aggregateInteractionRow($row);
+        }
     }
 
     private function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, RankingQuery $rankingQuery)
@@ -134,9 +197,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             return;
         }
 
-        while ($row = $resultSet->fetch()) {
-            $this->aggregateContentRow($row);
-        }
+        return $resultSet;
     }
 
     /**
@@ -179,7 +240,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->arrays[$name];
     }
 
-    private function aggregateContentRow($row)
+    private function aggregateImpressionRow($row)
     {
         foreach ($this->getRecordToDimensions() as $record => $dimensions) {
             $dataArray = $this->getDataArray($record);
@@ -187,7 +248,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $mainDimension = $dimensions[0];
             $mainLabel     = $row[$mainDimension];
 
-            $dataArray->sumMetricsContents($mainLabel, $row);
+            $dataArray->sumMetricsImpressions($mainLabel, $row);
             $this->rememberMetadataForRow($row, $mainLabel, $mainDimension);
 
             $subDimension = $dimensions[1];
@@ -197,7 +258,28 @@ class Archiver extends \Piwik\Plugin\Archiver
                 continue;
             }
 
-            $dataArray->sumMetricsContentsPivot($mainLabel, $subLabel, $row);
+            $dataArray->sumMetricsContentsImpressionPivot($mainLabel, $subLabel, $row);
+        }
+    }
+
+    private function aggregateInteractionRow($row)
+    {
+        foreach ($this->getRecordToDimensions() as $record => $dimensions) {
+            $dataArray = $this->getDataArray($record);
+
+            $mainDimension = $dimensions[0];
+            $mainLabel     = $row[$mainDimension];
+
+            $dataArray->sumMetricsInteractions($mainLabel, $row);
+
+            $subDimension = $dimensions[1];
+            $subLabel     = $row[$subDimension];
+
+            if (empty($subLabel)) {
+                continue;
+            }
+
+            $dataArray->sumMetricsContentsInteractionPivot($mainLabel, $subLabel, $row);
         }
     }
 
@@ -216,6 +298,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $target = Archiver::CONTENT_TARGET_NOT_SET;
         }
 
+        // there can be many different targets
         $this->metadata[$mainLabel]['contentTarget'] = $target;
     }
 

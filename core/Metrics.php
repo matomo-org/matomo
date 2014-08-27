@@ -140,7 +140,8 @@ class Metrics
         Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE              => 'nb_events_with_value',
 
         // Contents
-        Metrics::INDEX_CONTENT_NB_IMPRESSIONS                => 'nb_impressions'
+        Metrics::INDEX_CONTENT_NB_IMPRESSIONS                => 'nb_impressions',
+        Metrics::INDEX_CONTENT_NB_INTERACTIONS               => 'nb_interactions'
     );
 
     public static $mappingFromIdToNameGoal = array(

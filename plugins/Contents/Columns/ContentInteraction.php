@@ -10,45 +10,45 @@ namespace Piwik\Plugins\Contents\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Plugins\Actions\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
-class ContentName extends ActionDimension
+class ContentInteraction extends ActionDimension
 {
-    protected $columnName = 'idaction_content_name';
+    protected $columnName = 'idaction_content_interaction';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
 
     protected function configureSegments()
     {
         $segment = new Segment();
-        $segment->setSegment('contentName');
-        $segment->setName('Contents_ContentName');
+        $segment->setSegment('contentInteraction');
+        $segment->setName('Contents_Interaction');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('Contents_ContentName');
+        return Piwik::translate('Contents_Interaction');
     }
 
     public function getActionId()
     {
-        return Action::TYPE_CONTENT_NAME;
+        return Action::TYPE_CONTENT_INTERACTION;
     }
 
     public function onLookupAction(Request $request, Action $action)
     {
-        if (!($action instanceof ActionContent)) {
+        $interaction = $request->getParam('c_i');
+
+        if (empty($interaction)) {
             return false;
         }
 
-        $contentName = $request->getParam('c_n');
-        $contentName = trim($contentName);
+        $interaction = trim($interaction);
 
-        if (strlen($contentName) > 0) {
-            return $contentName;
+        if (strlen($interaction) > 0) {
+            return $interaction;
         }
 
         return false;

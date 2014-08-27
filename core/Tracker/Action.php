@@ -40,6 +40,7 @@ abstract class Action
     const TYPE_CONTENT_PIECE = 13;
     const TYPE_CONTENT_NAME = 14;
     const TYPE_CONTENT_TARGET = 15;
+    const TYPE_CONTENT_INTERACTION = 16;
 
     const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
