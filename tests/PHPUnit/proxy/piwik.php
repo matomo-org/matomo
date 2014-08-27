@@ -29,7 +29,6 @@ try {
     Manager::getInstance()->deleteAll();
     Option::clearCache();
     Site::clearCache();
-    Cache::deleteTrackerCache();
 
     include PIWIK_INCLUDE_PATH . '/piwik.php';
 } catch (Exception $ex) {
