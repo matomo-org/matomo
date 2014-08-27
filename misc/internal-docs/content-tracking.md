@@ -96,55 +96,53 @@ OK
 
 ## Tagging of the content piece declarative
 
+Namings:
+* `[data-track-content] or .piwikTrackContent` == mark content element
+* `[data-content-name]` == set content name
+* `[data-content-piece] or .piwikContentPiece` == mark content piece element
+* `[data-content-interaction] or .piwikContentInteraction` == mark click element
+
 ### New proposed way of finding content
  * Search for any `data-track-content` attribute and `piwikTrackContent` CSS class within the DOM
  * One page can use both ways so we will mix the result of found contents
 
 ### New proposed way of finding content name
-Solution 1
- * Search for any `data-content-name` attribute within the content (`.piwikTrackContent` and children)
- * Search for any `title` attribute in element of `.piwikTrackContent`
- * Search for any `title` attribute within click-url (`.piwikTrackClick` element and children)
- * If `.piwikTrackClick` is an image or video, we will read the alt attribute as well
- * Note: `title` and `alt` can be complicated in case of i18n so it will be recommended to use `data-content-name` attribute
 
-Solution 2
- * Search for any `data-content-name` attribute within the content (`.piwikTrackContent` and children)
- * Use value of content-piece in case there is one
- * If neither found ignore content or use "Unknown"
- * Note: No problems with i18n, works automatically if content-piece is set on an image or video and it is simple to understand for users!
+* Search for any `data-content-name` attribute within the content (`.piwikTrackContent` and children)
+* Use value of content-piece in case there is one (which will discover src of image, video and audio if possible). In case it includes a domain we will remove it? TODO Maybe should remove domain only if != current location.domain
+* Seach for `title` attribute in `.piwikTrackContent`
+* Seach for `title` attribute in `.piwikContentPiece`
+* Seach for `title` attribute in `.piwikContentInteraction`
+* If neither found use "Unknown"
+* Note: We will always trim the chosen name
 
-Thomas definitely prefers solution 2.
-
-Matthieu feedback about solution 2:
+Matthieu feedback:
 
 > Use value of content-piece in case there is one
 
-Maybe only the path of the content-piece or even only the content-piece filename should be used?
+Maybe only the path of the content-piece or even only the content-piece filename should be used? --> Yes, good one!
 
 > If neither found ignore content or use "Unknown"
 
-Before ignoring content or setting content-name to "Unknown", maybe it would be user friendly to read the first "title" attribute found in `.piwikTrackContent` (and its children).
+Before ignoring content or setting content-name to "Unknown", maybe it would be user friendly to read the first "title" attribute found in `.piwikTrackContent` (and its children). --> Not in children but otherwise yes see above!
 
 (But I'm not pushing this since it's not that important, if you think it's better to have only clear attribute names then I'm OK with it... As long as we document things clearly then it will be fine for users)
 
-Btw: i18n text should not be an issue, btw we have logic to convert to UTF-8 any content not set in UTF-8 (see [piwik.js](https://github.com/piwik/piwik/blob/master/js/piwik.js#L1772-1772) and [example tracker code](https://github.com/piwik/piwik/blob/master/plugins/Actions/Actions/ActionSiteSearch.php#L133-135))
-
-
+TODO document how we find contentPieceNode, contentTargetNode,...
 ### New proposed way of finding content target
- * Search for any `data-track-click` attribute with a value in the content (`.piwikTrackContent` and children)
- * search for `href` attribute in element with attribute `data-track-click` (if attribute has no value)
- * search for `href` attribute in element with css class `.piwikTrackClick`
- * TODO `click` in attribute name and css class is misleading since it could be a hover or so as well? `conversion` would be misleading as well since it could be used for goal
-   * Maybe we call it `data-track-interaction`?
+ * Search for any `data-content-interaction` attribute with a value in the content (`.piwikTrackContent` and children)
+ * search for `href` attribute in element with attribute `data-content-interaction` (if attribute has no value)
+ * search for `href` attribute in element with css class `.piwikContentInteraction` in case there is no element having attribute `data-tracking-interaction`
+ * search for `href` attribute in contentPieceNode
+* Note: We will always trim the chosen target
 
 ### New proposed way of finding content piece
- * If attribute `data-track-content` has a value, we will use this value whatever it is
  * Search for any `data-content-piece` attribute with value within the content (`.piwikTrackContent` and children)
- * if `.piwikTrackContent` is image or video we will try to find a source (difficult for video)
- * if `.piwikTrackClick` is image or video we will try to find a source (difficult for video)
- * if `.piwikTrackContent` and `.piwikTrackClick` is not image or video we will use `text()` of this element??? (I think we better ignore this step, text can be a lot and problems with i18n makes it not useful at all?)
+ * if `.piwikTrackContent` is image, audio or video we will try to find a source (difficult for video)
+ * if `.piwikContentInteraction` is image, audio or video we will try to find a source (difficult for video)
+ * if `.piwikTrackContent` and `.piwikContentInteraction` is not image or video we will use `text()` of this element??? (I think we better ignore this step, text can be a lot and problems with i18n makes it not useful at all?)
  * Note: source of image/video and any text() that we detect automatically can be complicated in case of i18n, it will be recommended to use data-track-content attribute
+* Note: We will always trim the chosen content piece
  
 
 
@@ -155,49 +153,50 @@ What problems are there with i18n, eg. when the page is in UTF-8? eg. when testi
 
 ### A few Examples
 ```
-<img src="xyz.jpg" href="/" data-track-content="My Content Name"/>
-// content name   = My Content Name
-// content piece  = xyz.jpg
+<img src="http://www.example.com/path/xyz.jpg" href="/" data-track-content />
+// content name   = /path/xyz.jpg
+// content piece  = http://www.example.com/xyz.jpg
 // content target = /
-
-<img src="xyz.jpg" href="javascript:..." data-track-click="/" data-track-content="My Content Name"/>
-<img src="xyz.jpg" onclick="..."         data-track-click="/" data-track-content="My Content Name"/>
-// content name   = My Content Name
-// content piece  = xyz.jpg
-// content target = /
-
-<img src="xyz.jpg" href="/" data-track-content/>
-// content name   = xyz.jpg
-// content piece  = xyz.jpg
-// content target = /
+// TODO SHOULD WE ADD THE DOMAIN AND IN CASE OF A RELATIVE URL THE PATH AUTOMATICALLY TO "/" in content target?
 
 <img src="xyz.jpg" href="/" class="piwikTrackContent"/>
 // content name   = xyz.jpg
 // content piece  = xyz.jpg
 // content target = /
 
-<div data-track-content="banner ad 1"><a href="/" data-track-click>click here to foo bar</a></div>
+<img src="xyz.jpg" href="/" data-track-content data-content-name="My Content Name" data-content-piece="The Content Piece" data-content-interaction="http://www.example.com"/>
+// content name   = My Content Name
+// content piece  = The Content Piece
+// content target = http://www.example.com
+
+<img src="xyz.jpg" href="javascript:..." data-track-content data-content-interaction="/"/>
+<img src="xyz.jpg" onclick="..."         data-track-content data-content-interaction="/"/>
+// content name   = xyz.jpg
+// content piece  = xyz.jpg
+// content target = /
+
+<div data-track-content data-content-name="banner ad 1"><a href="/" data-content-interaction>click here to foo bar</a></div>
 // content name   = banner ad 1
 // content piece  = ""
 // content target = /
 
-<div data-track-content="banner ad 1"><a href="/" data-track-click data-content-piece="xyz ad">click here to foo bar</a></div>
+<div data-track-content data-content-name="banner ad 1"><a href="/" data-content-interaction data-content-piece="xyz ad">click here to foo bar</a></div>
 // content name   = banner ad 1
 // content piece  = xyz ad
 // content target = /
 
-<div data-track-content="banner ad 1" data-track-click="/" data-content-piece="xyz.jpg"><img src="xyz.jpg"/></div>
+<div data-track-content data-content-name="banner ad 1" data-content-interaction="/" data-content-piece="xyz.jpg"><img src="xyz.jpg"/></div>
 // content name   = banner ad 1
 // content piece  = xyz.jpg
 // content target = /
 
-<div data-track-content="banner ad 1" data-track-click="/"><img src="xyz.jpg" data-content-piece/></div>
-// content name   = banner ad 1
+<div data-track-content data-content-interaction="/"><img src="xyz.jpg" data-content-piece/></div>
+// content name   = xyz.jpg
 // content piece  = xyz.jpg
 // content target = /
 
-<div data-track-content="banner ad 1"><img src="xyz.jpg" data-content-piece/></div>
-// content name   = banner ad 1
+<div data-track-content><img src="xyz.jpg" data-content-piece/></div>
+// content name   = xyz.jpg
 // content piece  = xyz.jpg
 // content target = ""
 
