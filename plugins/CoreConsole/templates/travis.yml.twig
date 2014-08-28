@@ -21,10 +21,8 @@ env:
 {% else %}
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
 {% endif %}
-{% if artifactsPass|default is not empty %}    - secure: "{{ artifactsPass|raw }}"
-{% endif %}
-{% if githubToken|default is not empty %}    - secure: "{{ githubToken|raw }}"
-{% endif %}
+{% if extraGlobalEnvVars|default is not empty %}{% for var in extraGlobalEnvVars %}    - secure: "{{ var|raw }}"
+{% endfor %}{% endif %}
   matrix:
 {% for test in testsToRun %}    - TEST_SUITE={{ test.name|raw }} {{ test.vars|raw }}
 {% endfor %}
@@ -54,13 +52,6 @@ script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 before_install:
   # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
-{% if customTravisSteps is not empty and customTravisSteps.before_install %}
-
-  # custom before_install steps
-{% for step in customTravisSteps.before_install %}
-  - {{ step|raw }}
-{% endfor %}
-{% endif %}
 
 install:
 {% if pluginName is not empty %}
@@ -101,13 +92,6 @@ install:
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git fetch
   - git checkout master -- ./tests/travis ./plugins/CoreConsole || true
-{% endif %}
-{% if customTravisSteps is not empty and customTravisSteps.install %}
-
-  # custom install steps
-{% for step in customTravisSteps.install %}
-  - {{ step|raw }}
-{% endfor %}
 {% endif %}
 
 before_script:
@@ -161,13 +145,6 @@ before_script:
   - ./tests/travis/autoupdate_travis_yml.sh
 
   - cd tests/PHPUnit
-{% if customTravisSteps is not empty and customTravisSteps.before_script %}
-
-  # custom before_script steps
-{% for step in customTravisSteps.before_script %}
-  - {{ step|raw }}
-{% endfor %}
-{% endif %}
 
 after_script:
   # change directory back to root travis dir
@@ -185,24 +162,10 @@ after_script:
 
   # upload test artifacts (for debugging travis failures)
   - ./tests/travis/upload_artifacts.sh
-{% if customTravisSteps is not empty and customTravisSteps.after_script %}
-
-  # custom after_script steps
-{% for step in customTravisSteps.after_script %}
-  - {{ step|raw }}
-{% endfor %}
-{% endif %}
 
 after_success:
   - cd $PIWIK_ROOT_DIR
 {% if pluginName is empty %}  - ./tests/travis/generate_docs.sh
-{% endif %}
-{% if customTravisSteps is not empty and customTravisSteps.after_success %}
-
-  # custom after_success steps
-{% for step in customTravisSteps.after_success %}
-  - {{ step|raw }}
-{% endfor %}
 {% endif %}
 {% if extraSections|default is not empty %}
 

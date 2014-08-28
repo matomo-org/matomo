@@ -64,37 +64,46 @@ class TravisYmlView extends View
     }
 
     /**
-     * Configures the view for generation.
+     * Sets the name of plugin the generated .travis.yml file is for.
      *
-     * @param string|null $targetPlugin The plugin target or `null` if generating for core.
-     * @param string|null $artifactsPass The password for the builds artifacts server. Encrypted in output.
-     * @param string $generateYmlCommand The command to use in travis when checking if a .travis.yml file is out
-     *                                   of date.
-     * @param OutputInterface $output OutputInterface to output warnings and the like.
+     * @param string $pluginName ie, ExamplePlugin, UserSettings, etc.
      */
-    public function configure($targetPlugin, $artifactsPass, $githubToken, $generateYmlCommand, $customTravisSteps,
-                              OutputInterface $output)
+    public function setPlugin($pluginName)
     {
-        $this->pluginName = $targetPlugin;
+        $this->pluginName = $pluginName;
+    }
 
-        if (empty($this->existingEnv)) {
-            $artifactsPass = $artifactsPass;
-            if (!empty($artifactsPass)) {
-                $this->artifactsPass = $this->travisEncrypt("ARTIFACTS_PASS=" . $artifactsPass, $output);
-            }
+    /**
+     * Set extra global environment variables that should be set in the generated .travis.yml file. The entries
+     * should be whole statements like `"MY_VAR=myvalue"` or `"secure: mysecurevalue"`.
+     *
+     * @param string[] $extraVars
+     */
+    public function setExtraGlobalEnvVars($extraVars)
+    {
+        $this->extraGlobalEnvVars = $extraVars;
+    }
 
-            $githubToken = $githubToken;
-            if (!empty($githubToken)) {
-                $this->githubToken = $this->travisEncrypt("GITHUB_USER_TOKEN=" . $githubToken, $output);
-            }
-        } else {
-            $output->writeln("<info>Existing .yml files found, ignoring global variables specified on command line.</info>");
-        }
+    /**
+     * Sets the self-referential command that will generate the .travis.yml file on travis.
+     *
+     * @param string $consoleCommand ie, `"./console generate:travis-yml ..."`
+     */
+    public function setGenerateYmlCommand($consoleCommand)
+    {
+        $this->consoleCommand = addslashes($consoleCommand);
+    }
 
+    /**
+     * Renders the view. See {@link Piwik\View::render()}.
+     *
+     * @return string
+     */
+    public function render()
+    {
         list($this->testsToRun, $this->testsToExclude) = $this->getTestsToRun();
 
-        $this->consoleCommand = $generateYmlCommand;
-        $this->customTravisSteps = $customTravisSteps;
+        return parent::render();
     }
 
     /**
@@ -136,41 +145,6 @@ class TravisYmlView extends View
         $endPos = isset($endMatches[0][1]) ? $endMatches[0][1] : strlen($yamlText);
 
         return substr($yamlText, $offset, $endPos - $offset);
-    }
-
-    private function travisEncrypt($data, OutputInterface $output)
-    {
-        $output->writeln("Encrypting \"$data\"...");
-
-        $command = "travis encrypt \"$data\"";
-
-        // change dir to target plugin since plugin will be in its own git repo
-        if (!empty($this->pluginName)) {
-            $command = "cd \"" . $this->getPluginRootFolder() . "\" && " . $command;
-        }
-
-        exec($command, $output, $returnCode);
-        if ($returnCode !== 0) {
-            throw new Exception("Cannot encrypt \"$data\" for travis! Please make sure you have the travis command line "
-                              . "utility installed (see http://blog.travis-ci.com/2013-01-14-new-client/).\n\n"
-                              . "return code: $returnCode\n\n"
-                              . "travis output:\n\n" . implode("\n", $output));
-        }
-
-        if (empty($output)) {
-            throw new Exception("Cannot parse travis encrypt output:\n\n" . implode("\n", $output));
-        }
-
-        // when not executed from a command line travis encrypt will return only the encrypted data
-        $encryptedData = $output[0];
-        if (substr($encryptedData, 0, 1) == '"') {
-            $encryptedData = substr($encryptedData, 1);
-        }
-        if (substr($encryptedData, -1) == '"') {
-            $encryptedData = substr($encryptedData, 0, strlen($encryptedData) - 1);
-        }
-
-        return $encryptedData;
     }
 
     private function getTestsToRun()
@@ -236,7 +210,7 @@ class TravisYmlView extends View
         return !empty($testFiles);
     }
 
-    private function getPluginRootFolder()
+    public function getPluginRootFolder()
     {
         return PIWIK_INCLUDE_PATH . "/plugins/{$this->pluginName}";
     }

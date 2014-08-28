@@ -37,28 +37,29 @@ class GenerateTravisYmlFile extends ConsoleCommand
                 "Github token of a user w/ push access to this repository. Used to auto-commit updates to the "
               . ".travis.yml file and checkout dependencies. Will be encrypted in the .travis.yml file.\n\n"
               . "If not supplied, the .travis.yml will fail the build if it needs updating.")
-             ->addOption('before-install', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                    "Custom shell command(s) to run at the end of the before_install .travis.yml section.")
-             ->addOption('install', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                    "Custom shell command(s) to run at the end of the install .travis.yml section.")
-             ->addOption('before-script', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                    "Custom shell command(s) to run at the end of the before_script .travis.yml section.")
-             ->addOption('after-script', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                    "Custom shell command(s) to run at the end of the after_script .travis.yml section.")
-             ->addOption('after-success', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                    "Custom shell command(s) to run at the end of the after_success .travis.yml section.")
              ->addOption('dump', null, InputOption::VALUE_REQUIRED, "Debugging option. Saves the output .travis.yml to the specified file.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $targetPlugin = $input->getOption('plugin');
-        $artifactsPass = $input->getOption('artifacts-pass');
-        $githubToken = $input->getOption('github-token');
         $outputYmlPath = $this->getTravisYmlOutputPath($input, $targetPlugin);
-        $thisConsoleCommand = $this->getExecutedConsoleCommandForTravis($input);
 
+        $view = $this->createTravisYmlView($input, $output, $outputYmlPath);
+        $travisYmlContents = $view->render();
+
+        $this->dumpTravisYmlContents($input, $outputYmlPath, $travisYmlContents);
+
+        $this->writeSuccessMessage($output, array("Generated .travis.yml file at '$writePath'!"));
+    }
+
+    private function createTravisYmlView(InputInterface $input, OutputInterface $output, $outputYmlPath)
+    {
         $view = new TravisYmlView();
+        $view->setPlugin($targetPlugin);
+
+        $thisConsoleCommand = $this->getExecutedConsoleCommandForTravis($input);
+        $view->setGenerateYmlCommand($thisConsoleCommand);
 
         if (file_exists($outputYmlPath)) {
             $output->writeln("<info>Found existing YAML file at $outputYmlPath.</info>");
@@ -68,25 +69,41 @@ class GenerateTravisYmlFile extends ConsoleCommand
             $output->writeln("<info>Could not find existing YAML file at $outputYmlPath, generating a new one.</info>");
         }
 
-        $customTravisSteps = array(
-            'before_install' => $input->getOption('before-install'),
-            'install' => $input->getOption('install'),
-            'before_script' => $input->getOption('before-script'),
-            'after_script' => $input->getOption('after-script'),
-            'after_success' => $input->getOption('after-success')
-        );
+        $this->setExtraEnvironmentVariables($view, $input, $output);
 
-        $view->configure($targetPlugin, $artifactsPass, $githubToken, $thisConsoleCommand, $customTravisSteps, $output);
-        $travisYmlContents = $view->render();
+        return $view;
+    }
 
+    private function dumpTravisYmlContents(InputInterface $input, $outputYmlPath, $travisYmlContents)
+    {
         $writePath = $input->getOption('dump');
         if (empty($writePath)) {
             $writePath = $outputYmlPath;
         }
 
         file_put_contents($writePath, $travisYmlContents);
+    }
 
-        $this->writeSuccessMessage($output, array("Generated .travis.yml file at '$writePath'!"));
+    private function setExtraEnvironmentVariables(TravisYmlView $view, InputInterface $input, OutputInterface $output)
+    {
+        if (!empty($view->existingEnv)) {
+            $output->writeln("<info>Existing .yml file found, ignoring global variables specified on command line.</info>");
+            return;
+        }
+
+        $extraVars = array();
+
+        $artifactsPass = $input->getOption('artifacts-pass');
+        if (!empty($artifactsPass)) {
+            $extraVars[] = $this->travisEncrypt("ARTIFACTS_PASS=" . $artifactsPass, $output);
+        }
+
+        $githubToken = $input->getOption('github-token');
+        if (!empty($githubToken)) {
+            $extraVars[] = $this->travisEncrypt("GITHUB_USER_TOKEN=" . $githubToken, $output);
+        }
+
+        $view->setExtraGlobalEnvVars($extraVars);
     }
 
     private function getTravisYmlOutputPath(InputInterface $input, $targetPlugin)
@@ -134,5 +151,41 @@ class GenerateTravisYmlFile extends ConsoleCommand
         }
 
         return $command;
+    }
+
+
+    private function travisEncrypt($data, TravisYmlView $view, OutputInterface $output)
+    {
+        $output->writeln("Encrypting \"$data\"...");
+
+        $command = "travis encrypt \"$data\"";
+
+        // change dir to target plugin since plugin will be in its own git repo
+        if (!empty($view->pluginName)) {
+            $command = "cd \"" . $view->getPluginRootFolder() . "\" && " . $command;
+        }
+
+        exec($command, $commandOutput, $returnCode);
+        if ($returnCode !== 0) {
+            throw new Exception("Cannot encrypt \"$data\" for travis! Please make sure you have the travis command line "
+                              . "utility installed (see http://blog.travis-ci.com/2013-01-14-new-client/).\n\n"
+                              . "return code: $returnCode\n\n"
+                              . "travis output:\n\n" . implode("\n", $commandOutput));
+        }
+
+        if (empty($commandOutput)) {
+            throw new Exception("Cannot parse travis encrypt output:\n\n" . implode("\n", $commandOutput));
+        }
+
+        // when not executed from a command line travis encrypt will return only the encrypted data
+        $encryptedData = $commandOutput[0];
+
+        if (substr($encryptedData, 0, 1) != '"'
+            || substr($encryptedData, -1) != '"'
+        ) {
+            $encryptedData = '"' . addslashes($encryptedData) . '"';
+        }
+
+        return "secure: " . $encryptedData;
     }
 }
