@@ -28,9 +28,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
-
-// NOTE: the code above this comment must be PHP4 compatible
-
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 session_cache_limiter('nocache');
