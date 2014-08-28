@@ -24,15 +24,10 @@ class Controller extends \Piwik\Plugin\Controller
         $reports = array(new GetContentNames(), new GetContentPieces());
 
         foreach($reports as $report) {
-            $params = array(
-                'secondaryDimension' => Dimensions::getDefaultSecondaryDimension($report->getAction())
-            );
-
             $reportsView->addReport(
                 $report->getCategory(),
                 $report->getName(),
-                'Contents.menu' . ucfirst($report->getAction()),
-                $params
+                'Contents.menu' . ucfirst($report->getAction())
             );
         }
 

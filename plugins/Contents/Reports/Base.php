@@ -8,8 +8,12 @@
  */
 namespace Piwik\Plugins\Contents\Reports;
 
+use Piwik\Columns\Dimension;
+use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\Contents\Dimensions;
 
 abstract class Base extends Report
 {
@@ -32,5 +36,18 @@ abstract class Base extends Report
 
         $view->config->columns_to_display = array_merge(array('label'), $this->metrics);
         $view->requestConfig->filter_sort_column = 'nb_impressions';
+
+        if ($this->hasSubtableId()) {
+            $apiMethod = $view->requestConfig->getApiMethodToRequest();
+            $label     = Dimensions::getSubtableLabelForApiMethod($apiMethod);
+            $view->config->addTranslation('label', Piwik::translate($label));
+        }
+    }
+
+    private function hasSubtableId()
+    {
+        $subtable = Common::getRequestVar('idSubtable', false, 'integer');
+
+        return !empty($subtable);
     }
 }

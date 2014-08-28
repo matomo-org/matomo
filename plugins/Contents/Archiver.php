@@ -249,7 +249,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $mainLabel     = $row[$mainDimension];
 
             $dataArray->sumMetricsImpressions($mainLabel, $row);
-            $this->rememberMetadataForRow($row, $mainLabel, $mainDimension);
+            $this->rememberMetadataForRow($row, $mainLabel);
 
             $subDimension = $dimensions[1];
             $subLabel     = $row[$subDimension];
@@ -283,15 +283,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    private function rememberMetadataForRow($row, $mainLabel, $mainDimension)
+    private function rememberMetadataForRow($row, $mainLabel)
     {
         $this->metadata[$mainLabel] = array();
-
-        if ($mainDimension === 'contentPiece') {
-            $this->metadata[$mainLabel]['contentName'] = $row['contentName'];
-        } elseif ($mainDimension === 'contentName') {
-            $this->metadata[$mainLabel]['contentPiece'] = $row['contentPiece'];
-        }
 
         $target = $row['contentTarget'];
         if (empty($target)) {

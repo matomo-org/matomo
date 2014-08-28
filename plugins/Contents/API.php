@@ -21,21 +21,20 @@ use Piwik\Piwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function getContentNames($idSite, $period, $date, $segment = false, $idSubtable = false, $secondaryDimension = false)
+    public function getContentNames($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable, $secondaryDimension);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
-    public function getContentPieces($idSite, $period, $date, $segment = false, $idSubtable = false, $secondaryDimension = false)
+    public function getContentPieces($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable, $secondaryDimension);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
-    private function getDataTable($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $secondaryDimension)
+    private function getDataTable($name, $idSite, $period, $date, $segment, $expanded, $idSubtable)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        Dimensions::checkSecondaryDimension($name, $secondaryDimension);
-        $recordName = Dimensions::getRecordNameForAction($name, $secondaryDimension);
+        $recordName = Dimensions::getRecordNameForAction($name);
         $dataTable  = Archive::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterDataTable($dataTable);
         return $dataTable;
