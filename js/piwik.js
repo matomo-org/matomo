@@ -1360,9 +1360,9 @@ if (typeof Piwik !== 'object') {
                 var target = this.findContentTarget(node);
 
                 return {
-                    c_n: name ? name : 'Unknown',
-                    c_p: piece ? piece : 'Unknown',
-                    c_t: target ? target : ''
+                    name: name ? name : 'Unknown',
+                    piece: piece ? piece : 'Unknown',
+                    target: target ? target : ''
                 };
             },
             collectContent: function ()
@@ -1814,6 +1814,23 @@ if (typeof Piwik !== 'object') {
 
                     expireDateTime = now.getTime() + delay;
                 }
+            }
+
+            /*
+             * Send requests using bulk
+             */
+            function sendBulkRequest(requests, delay) {
+
+                if (configDoNotTrack) {
+                    return;
+                }
+
+                var now  = new Date();
+                var bulk = '{"requests":["?' + requests.join('",?"') + '"]}';
+
+                sendXmlHttpRequest(bulk);
+
+                expireDateTime = now.getTime() + delay;
             }
 
             /*
@@ -2390,18 +2407,24 @@ if (typeof Piwik !== 'object') {
             function logContentPieces() {
                 var contents = content.collectContent();
 
-                // sendRequest(request, configTrackerPause);
-                /**
-                 * {
-   "requests": [
-      "?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&rec=1",
-      "?idsite=1&url=http://example.net/test.htm&action_name=Another bul k page view&rec=1"
-   ],
-   "token_auth": "33dc3f2536d3025974cccb4b4d2d98f4"
-}
-                 */
+                var index, request;
+                var requests = [];
 
-                // send bulk tracking request?
+                for (index = 0; index < contents.length; index++) {
+
+                    request = getRequest(
+                        'c_n=' + encodeWrapper(contents[index].name) +
+                        '&c_p=' + encodeWrapper(contents[index].piece) +
+                        '&c_t=' + encodeWrapper(contents[index].target),
+                        undefined,
+                        'content'
+                    );
+
+                    requests.push(request);
+
+                }
+
+                sendBulkRequest(requests, configTrackerPause);
             }
 
             /*
