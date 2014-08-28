@@ -1211,6 +1211,31 @@ if (typeof Piwik !== 'object') {
             CONTENT_INTERACTION_ATTR: 'data-content-interaction',
             CONTENT_INTERACTION_CLASS: 'piwikContentInteraction',
 
+            findContentNodes: function () {
+
+                var cssSelector  = '.' + this.CONTENT_CLASS;
+                var attrSelector = '[' + this.CONTENT_ATTR + ']';
+                var contentNodes = query.findMultiple([cssSelector, attrSelector]);
+
+                return contentNodes;
+            },
+            findParentContentNode: function (anyNode) {
+                if (!anyNode) {
+                    return;
+                }
+
+                var node = anyNode;
+                while (node && node !== documentAlias && node.parentNode) {
+                    if (query.hasNodeAttribute(node, this.CONTENT_ATTR)) {
+                        return node;
+                    }
+                    if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
+                        return node;
+                    }
+
+                    node = node.parentNode;
+                }
+            },
             findPieceNode: function (node) {
                 var contentPiece;
 
@@ -1230,7 +1255,7 @@ if (typeof Piwik !== 'object') {
 
                 return node;
             },
-            findTargetNode: function (node)
+            findTargetNodeNoDefault: function (node)
             {
                 var target = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_INTERACTION_ATTR);
                 if (target) {
@@ -1243,6 +1268,13 @@ if (typeof Piwik !== 'object') {
                 }
 
                 target = query.findFirstNodeHavingClass(node, this.CONTENT_INTERACTION_CLASS);
+                if (target) {
+                    return target;
+                }
+            },
+            findTargetNode: function (node)
+            {
+                var target = this.findTargetNodeNoDefault(node);
                 if (target) {
                     return target;
                 }
@@ -1353,11 +1385,38 @@ if (typeof Piwik !== 'object') {
                 }
 
             },
+            trim: function (text) {
+                if (text && (''+text) === text) {
+                    return text.replace(/^\s+|\s+$/g, '');
+                }
+
+                return text;
+            },
+            buildInteractionRequestParams: function (name, piece, interaction)
+            {
+                return 'c_n=' + encodeWrapper(name) +
+                       '&c_p=' + encodeWrapper(piece) +
+                       '&c_i=' + encodeWrapper(interaction);
+            },
+            buildImpressionRequestParams: function (name, piece, target)
+            {
+                return 'c_n=' + encodeWrapper(name) +
+                       '&c_p=' + encodeWrapper(piece) +
+                       '&c_t=' + encodeWrapper(target);
+            },
             buildContentPiece: function (node)
             {
+                if (!node) {
+                    return;
+                }
+
                 var name   = this.findContentName(node);
                 var piece  = this.findContentPiece(node);
                 var target = this.findContentTarget(node);
+
+                name   = this.trim(name);
+                piece  = this.trim(piece);
+                target = this.trim(target);
 
                 return {
                     name: name ? name : 'Unknown',
@@ -1365,14 +1424,10 @@ if (typeof Piwik !== 'object') {
                     target: target ? target : ''
                 };
             },
-            collectContent: function ()
+            collectContent: function (contentNodes)
             {
-                var cssSelector  = '.' + this.CONTENT_CLASS;
-                var attrSelector = '[' + this.CONTENT_ATTR + ']';
-                var contentNodes = query.findMultiple([cssSelector, attrSelector]);
-
                 if (!contentNodes || !contentNodes.length) {
-                    return;
+                    return [];
                 }
 
                 var contents = [];
@@ -1383,6 +1438,49 @@ if (typeof Piwik !== 'object') {
                 }
 
                 return contents;
+            },
+            addClickEventIfInternalLink: function (node, callback) {
+                addEventListener(node, 'click', function (event) {
+                    var url = content.findInternalTargetLink(node);
+                    if (!url) {
+                        return;
+                    }
+
+                    if (event.preventDefault) {
+                        event.preventDefault();
+                    } else {
+                        event.returnValue = false;
+                    }
+
+                    callback(url);
+                });
+            },
+            findInternalTargetLink: function (node)
+            {
+                var clickNode = this.findTargetNode(node);
+
+                if (!clickNode) {
+                    return;
+                }
+
+                var link;
+                if (query.hasNodeAttributeWithValue(clickNode, 'href')) {
+                    link = query.getAttributeValueFromNode(clickNode, 'href');
+                }
+
+                if (!link && query.hasNodeAttributeWithValue(clickNode, this.CONTENT_INTERACTION_ATTR)) {
+                    link = query.getAttributeValueFromNode(clickNode, this.CONTENT_INTERACTION_ATTR);
+                }
+
+                if (!link) {
+                    return;
+                }
+
+                if (link !== this.removeDomainIfIsUrl(link)) {
+                    return; // outlink or download?
+                }
+
+                return link;
             }
         };
 
@@ -2401,11 +2499,87 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
+            function appendContentInteractionToRequestIfPossible(request, anyNode, targetFallback)
+            {
+                if (!anyNode || !request) {
+
+                    return;
+                }
+
+                var contentNode = content.findParentContentNode(anyNode);
+                var targetNode  = content.findTargetNodeNoDefault(anyNode);
+
+                if (!contentNode !== anyNode && !targetNode) {
+                    // user clicked on any link within contentNode but it neither .piwikTrackContent nor .piwikContentInteraction
+                    return;
+                }
+
+                var contentPiece = content.buildContentPiece(contentNode);
+
+                if (!contentPiece) {
+                    return;
+                }
+
+                if (!contentPiece.target && targetFallback) {
+                    contentPiece.target = targetFallback;
+                } else if (!contentPiece.target) {
+                    contentPiece.target = 'Unknown';
+                }
+
+                if (request) {
+                    request += '&';
+                }
+
+                request += content.buildInteractionRequestParams(contentPiece.name, contentPiece.piece, contentPiece.target);
+
+                return request;
+            }
+
+            function toAbsoluteUrl(url) {
+                // Eg //example.com/test.jpg
+                if (url.search(/^\/\//) != -1) {
+                    return window.location.protocol + url
+                }
+
+                // Eg http://example.com/test.jpg
+                if (url.search(/:\/\//) != -1) {
+                    return url
+                }
+
+                // Eg #test.jpg
+                if (0 === url.indexOf('#')) {
+                    return window.location.origin + window.location.pathname + url;
+                }
+
+                // Eg /test.jpg
+                if (url.search(/^\//) != -1) {
+                    return window.location.origin + url
+                }
+
+                // Eg test.jpg
+                var base = window.location.origin + window.location.pathname.match(/(.*\/)/)[0]
+                return base + url
+            }
+
             /*
              * Log all content pieces
              */
-            function logContentPieces() {
-                var contents = content.collectContent();
+            function logContentImpressions() {
+
+                var contentNodes = content.findContentNodes();
+                var contents     = content.collectContent(contentNodes);
+
+                if (!contents || !contents.length) {
+                    return;
+                }
+
+                for (index = 0; index < contentNodes.length; index++) {
+                    content.addClickEventIfInternalLink(contentNodes[index], function (url) {
+                        var redirectUrl = toAbsoluteUrl(url);
+                        var request   = getRequest('redirecturl=' + redirectUrl + '&c_i=' + url + '&' + buildEventRequest('Content', 'click', url, ''));
+                        location.href = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+                    });
+                }
 
                 var index, request;
                 var requests = [];
@@ -2413,18 +2587,81 @@ if (typeof Piwik !== 'object') {
                 for (index = 0; index < contents.length; index++) {
 
                     request = getRequest(
-                        'c_n=' + encodeWrapper(contents[index].name) +
-                        '&c_p=' + encodeWrapper(contents[index].piece) +
-                        '&c_t=' + encodeWrapper(contents[index].target),
+                        content.buildImpressionRequestParams(contents[index].name, contents[index].piece, contents[index].target),
                         undefined,
-                        'content'
+                        'contentImpressions'
                     );
 
                     requests.push(request);
-
                 }
 
                 sendBulkRequest(requests, configTrackerPause);
+            }
+
+            function logContentImpression(contentName, contentPiece, contentTarget)
+            {
+                var params = content.buildImpressionRequestParams(contentName, contentPiece, contentTarget);
+
+                if (!params) {
+                    return;
+                }
+
+                var request = getRequest(params, null, 'contentImpression');
+
+                sendRequest(request, configTrackerPause);
+            }
+
+            function logContentImpressionNode(node, contentTarget)
+            {
+                var contentNode = content.findParentContentNode(node);
+                var content     = content.buildContentPiece(contentNode);
+
+                if (!content) {
+                    return;
+                }
+
+                if (!contentTarget && content.target) {
+                    contentTarget = content.target;
+                }
+
+                logContentImpression(content.name, content.piece, contentTarget);
+            }
+
+            function logContentInteraction(contentName, contentPiece, contentInteraction)
+            {
+                var params = content.buildInteractionRequestParams(contentName, contentPiece, contentInteraction);
+
+                if (!params) {
+                    return;
+                }
+
+                var request = getRequest(params, null, 'contentInteraction');
+
+                sendRequest(request, configTrackerPause);
+            }
+
+            function logContentInteractionNode(node, contentInteraction)
+            {
+                var contentNode = content.findParentContentNode(node);
+                var content     = content.buildContentPiece(contentNode);
+
+                if (!content) {
+                    return;
+                }
+
+                if (!contentInteraction) {
+                    contentInteraction = content.target ? content.target : 'Unknown';
+                }
+
+                logContentInteraction(content.name, content.piece, contentInteraction);
+            }
+
+            function buildEventRequest(category, action, name, value)
+            {
+                return 'e_c=' + encodeWrapper(category)
+                     + '&e_a=' + encodeWrapper(action)
+                     + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
+                     + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
             }
 
             /*
@@ -2436,10 +2673,7 @@ if (typeof Piwik !== 'object') {
                     return false;
                 }
                 var request = getRequest(
-                        'e_c=' + encodeWrapper(category)
-                            + '&e_a=' + encodeWrapper(action)
-                            + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
-                            + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : ''),
+                        buildEventRequest(category, action, name, value),
                         customData,
                         'event'
                     );
@@ -2470,8 +2704,12 @@ if (typeof Piwik !== 'object') {
             /*
              * Log the link or click with the server
              */
-            function logLink(url, linkType, customData) {
-                var request = getRequest(linkType + '=' + encodeWrapper(purify(url)), customData, 'link');
+            function logLink(url, linkType, customData, sourceElement) {
+
+                var linkParams = linkType + '=' + encodeWrapper(purify(url));
+
+                linkParams  = appendContentInteractionToRequestIfPossible(linkParams, sourceElement, url);
+                var request = getRequest(linkParams, customData, 'link');
 
                 sendRequest(request, configTrackerPause);
             }
@@ -2568,8 +2806,10 @@ if (typeof Piwik !== 'object') {
             function processClick(sourceElement) {
                 var parentElement,
                     tag,
-                    linkType;
+                    linkType,
+                    originalSource;
 
+                originalSource = sourceElement;
                 parentElement = sourceElement.parentNode;
                 while (parentElement !== null &&
                         /* buggy IE5.5 */
@@ -2594,11 +2834,9 @@ if (typeof Piwik !== 'object') {
                         // track outlinks and all downloads
                         linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 
-                        if (linkType) {
-                            // urldecode %xx
-                            sourceHref = urldecode(sourceHref);
-                            logLink(sourceHref, linkType);
-                        }
+                        // urldecode %xx
+                        sourceHref = urldecode(sourceHref);
+                        logLink(sourceHref, linkType, undefined, originalSource);
                     }
                 }
             }
@@ -2889,7 +3127,7 @@ if (typeof Piwik !== 'object') {
                         configCustomData = key_or_obj;
                     } else {
                         if (!configCustomData) {
-                            configCustomData = [];
+                            configCustomData = {};
                         }
                         configCustomData[key_or_obj] = opt_value;
                     }
@@ -3492,9 +3730,37 @@ if (typeof Piwik !== 'object') {
                     }
                 },
 
-                trackContentPieces: function () {
+                trackContentImpressions: function () {
                     trackCallback(function () {
-                        logContentPieces();
+                        logContentImpressions();
+                    });
+                },
+
+                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                trackContentImpression: function (contentName, contentPiece, contentTarget) {
+                    trackCallback(function () {
+                        logContentImpression(contentName, contentPiece, contentTarget);
+                    });
+                },
+                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                // we might remove this method again
+                trackContentImpressionNode: function (domNode, contentTarget) {
+                    trackCallback(function () {
+                        logContentImpressionNode(domNode, contentTarget);
+                    });
+                },
+
+                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                trackContentInteraction: function (contentName, contentPiece, contentInteraction) {
+                    trackCallback(function () {
+                        logContentInteraction(contentName, contentPiece, contentInteraction);
+                    });
+                },
+                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                // we might remove this method again
+                trackContentInteractionNode: function (domNode, contentInteraction) {
+                    trackCallback(function () {
+                        logContentInteractionNode(domNode, contentInteraction);
                     });
                 },
 

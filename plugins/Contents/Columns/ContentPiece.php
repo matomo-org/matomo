@@ -40,11 +40,12 @@ class ContentPiece extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        if (!($action instanceof ActionContent)) {
+        $contentPiece = $request->getParam('c_p');
+
+        if (empty($contentPiece)) {
             return false;
         }
 
-        $contentPiece = $request->getParam('c_p');
         $contentPiece = trim($contentPiece);
 
         if (strlen($contentPiece) > 0) {

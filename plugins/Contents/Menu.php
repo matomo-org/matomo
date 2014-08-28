@@ -19,6 +19,6 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addActionsItem('Contents_Contents', array('module' => 'Contents', 'action' => 'index'), $orderId = 30);
+        $menu->addActionsItem('Contents_Contents', array('module' => 'Contents', 'action' => 'index'), $orderId = 40);
     }
 }

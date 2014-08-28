@@ -129,6 +129,7 @@ Before ignoring content or setting content-name to "Unknown", maybe it would be 
 (But I'm not pushing this since it's not that important, if you think it's better to have only clear attribute names then I'm OK with it... As long as we document things clearly then it will be fine for users)
 
 TODO document how we find contentPieceNode, contentTargetNode,...
+
 ### New proposed way of finding content target
  * Search for any `data-content-interaction` attribute with a value in the content (`.piwikTrackContent` and children)
  * search for `href` attribute in element with attribute `data-content-interaction` (if attribute has no value)

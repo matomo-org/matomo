@@ -40,11 +40,12 @@ class ContentName extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        if (!($action instanceof ActionContent)) {
+        $contentName = $request->getParam('c_n');
+
+        if (empty($contentName)) {
             return false;
         }
 
-        $contentName = $request->getParam('c_n');
         $contentName = trim($contentName);
 
         if (strlen($contentName) > 0) {

@@ -257,6 +257,12 @@ class Tracker
         $this->end();
 
         $this->flushOutputBuffer();
+
+        $redirectUrl = Common::getRequestVar('redirecturl', false, 'string');
+        if ($redirectUrl) {
+            // TODO only redirecti if domain is trusted in config?
+            header('Location: ' . $redirectUrl);
+        }
     }
 
     protected function initOutputBuffer()
