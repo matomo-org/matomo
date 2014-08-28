@@ -10,7 +10,6 @@
 /**
  * This file is executed before anything else.
  * It checks the minimum PHP version required to run Piwik.
- * This file must be compatible PHP4.
  */
 
 $piwik_errorMessage = '';
@@ -26,12 +25,6 @@ if ($minimumPhpInvalid) {
 				support PHP $piwik_minimumPHPVersion.</p>
 				<p>Also see the FAQ: <a href='http://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
 } else {
-    if (!class_exists('ArrayObject')) {
-        $piwik_errorMessage .= "<p><strong>Piwik and Zend Framework require the SPL extension</strong></p>
-					<p>It appears your PHP was compiled with <pre>--disable-spl</pre>.
-					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
-    }
-
     if (!extension_loaded('session')) {
         $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the session extension</strong></p>
 					<p>It appears your PHP was compiled with <pre>--disable-session</pre>.
@@ -42,12 +35,6 @@ if ($minimumPhpInvalid) {
         $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the <code>ini_set()</code> function</strong></p>
 					<p>It appears your PHP has disabled this function.
 					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
-    }
-
-    if (!function_exists('json_encode')) {
-        $piwik_errorMessage .= "<p><strong>Piwik requires the php5-json extension which provides the functions <code>json_encode()</code> and <code>json_decode()</code></strong></p>
-					<p>It appears your PHP has not yet installed the php5-json extension.
-					To use Piwik, please ask your web host to install php5-json or install it yourself, for example on debian system: <code>sudo apt-get install php5-json</code>. <br/>Then restart your webserver and refresh this page.</p>";
     }
 
     if (!file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
