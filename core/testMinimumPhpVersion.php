@@ -30,13 +30,13 @@ if ($minimumPhpInvalid) {
 					<p>It appears your PHP was compiled with <pre>--disable-session</pre>.
 					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
     }
-    
+
     if (!function_exists('ini_set')) {
         $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the <code>ini_set()</code> function</strong></p>
 					<p>It appears your PHP has disabled this function.
 					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
-    
+
     if (!function_exists('json_encode')) {
         $piwik_errorMessage .= "<p><strong>Piwik requires the php5-json extension which provides the functions <code>json_encode()</code> and <code>json_decode()</code></strong></p>
 					<p>It appears your PHP has not yet installed the php5-json extension.
