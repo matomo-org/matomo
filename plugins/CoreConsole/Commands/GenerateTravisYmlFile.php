@@ -95,12 +95,12 @@ class GenerateTravisYmlFile extends ConsoleCommand
 
         $artifactsPass = $input->getOption('artifacts-pass');
         if (!empty($artifactsPass)) {
-            $extraVars[] = $this->travisEncrypt("ARTIFACTS_PASS=" . $artifactsPass, $output);
+            $extraVars[] = $this->travisEncrypt("ARTIFACTS_PASS=" . $artifactsPass, $view, $output);
         }
 
         $githubToken = $input->getOption('github-token');
         if (!empty($githubToken)) {
-            $extraVars[] = $this->travisEncrypt("GITHUB_USER_TOKEN=" . $githubToken, $output);
+            $extraVars[] = $this->travisEncrypt("GITHUB_USER_TOKEN=" . $githubToken, $view, $output);
         }
 
         $view->setExtraGlobalEnvVars($extraVars);
