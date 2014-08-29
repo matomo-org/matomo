@@ -8,12 +8,11 @@
  */
 namespace Piwik\Plugins\CoreConsole\tests\Unit;
 
-// DeviceDectector requires Spyc
-
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Piwik\Plugins\CoreConsole\TravisYmlView;
+use Piwik\Plugin\Manager as PluginManager;
 use PHPUnit_Framework_TestCase;
-use Spyc;
+use Spyc; // DeviceDectector requires Spyc
 
 /**
  * @group CoreConsole
@@ -21,11 +20,17 @@ use Spyc;
  */
 class TravisYmlViewTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        PluginManager::getInstance()->loadPlugin('Morpheus');
+        PluginManager::getInstance()->loadPlugin('CoreConsole');
+    }
+
     public function testViewGeneratesCorrectLookingYAML()
     {
         $view = new TravisYmlView();
         $view->setPlugin('ExamplePlugin');
-        $view->setExtraGlobalEnvVars(array('artifactspass', 'githubtoken'));
+        $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml \'arg1\' arg2');
         $output = $view->render();
 
@@ -54,7 +59,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
     {
         $view = new TravisYmlView();
         $view->setPlugin('ExamplePlugin');
-        $view->setExtraGlobalEnvVars(array('artifactspass', 'githubtoken'));
+        $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml arg1 arg2');
         $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/tests/resources/test.travis.yml');
         $output = $view->render();
@@ -85,7 +90,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $view = new TravisYmlView();
         // no setPlugin call here signifies generating for core
         $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/.travis.yml');
-        $view->setExtraGlobalEnvVars(array('artifactspass', 'githubtoken'));
+        $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml \'arg1\' arg2');
         $output = $view->render();
 
