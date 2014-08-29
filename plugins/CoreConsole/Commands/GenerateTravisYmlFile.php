@@ -45,15 +45,13 @@ class GenerateTravisYmlFile extends ConsoleCommand
         $targetPlugin = $input->getOption('plugin');
         $outputYmlPath = $this->getTravisYmlOutputPath($input, $targetPlugin);
 
-        $view = $this->createTravisYmlView($input, $output, $outputYmlPath);
+        $view = $this->createTravisYmlView($input, $output, $targetPlugin, $outputYmlPath);
         $travisYmlContents = $view->render();
 
-        $this->dumpTravisYmlContents($input, $outputYmlPath, $travisYmlContents);
-
-        $this->writeSuccessMessage($output, array("Generated .travis.yml file at '$writePath'!"));
+        $this->dumpTravisYmlContents($input, $output, $outputYmlPath, $travisYmlContents);
     }
 
-    private function createTravisYmlView(InputInterface $input, OutputInterface $output, $outputYmlPath)
+    private function createTravisYmlView(InputInterface $input, OutputInterface $output, $targetPlugin, $outputYmlPath)
     {
         $view = new TravisYmlView();
         $view->setPlugin($targetPlugin);
@@ -74,7 +72,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
         return $view;
     }
 
-    private function dumpTravisYmlContents(InputInterface $input, $outputYmlPath, $travisYmlContents)
+    private function dumpTravisYmlContents(InputInterface $input, OutputInterface $output, $outputYmlPath, $travisYmlContents)
     {
         $writePath = $input->getOption('dump');
         if (empty($writePath)) {
@@ -82,6 +80,8 @@ class GenerateTravisYmlFile extends ConsoleCommand
         }
 
         file_put_contents($writePath, $travisYmlContents);
+
+        $this->writeSuccessMessage($output, array("Generated .travis.yml file at '$writePath'!"));
     }
 
     private function setExtraEnvironmentVariables(TravisYmlView $view, InputInterface $input, OutputInterface $output)
