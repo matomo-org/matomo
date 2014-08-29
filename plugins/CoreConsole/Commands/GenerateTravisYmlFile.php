@@ -37,7 +37,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
                 "Github token of a user w/ push access to this repository. Used to auto-commit updates to the "
               . ".travis.yml file and checkout dependencies. Will be encrypted in the .travis.yml file.\n\n"
               . "If not supplied, the .travis.yml will fail the build if it needs updating.")
-             ->addOption('php-versions', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+             ->addOption('php-versions', null, InputOption::VALUE_OPTIONAL,
                 "List of PHP versions to test against, ie, 5.4,5.5,5.6. Defaults to: 5.3.3,5.4,5.5,5.6.")
              ->addOption('dump', null, InputOption::VALUE_REQUIRED, "Debugging option. Saves the output .travis.yml to the specified file.");
     }
@@ -62,7 +62,9 @@ class GenerateTravisYmlFile extends ConsoleCommand
         $view->setGenerateYmlCommand($thisConsoleCommand);
 
         $phpVersions = $input->getOption('php-versions');
-        $view->setPhpVersions($phpVersions);
+        if (!empty($phpVersions)) {
+            $view->setPhpVersions(explode(',', $phpVersions));
+        }
 
         if (file_exists($outputYmlPath)) {
             $output->writeln("<info>Found existing YAML file at $outputYmlPath.</info>");
