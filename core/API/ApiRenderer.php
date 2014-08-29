@@ -116,7 +116,9 @@ abstract class ApiRenderer
         }
 
         $availableRenderers = implode(', ', $availableRenderers);
-        @header('Content-Type: text/plain; charset=utf-8');
+        if(! headers_sent()) {
+            header('Content-Type: text/plain; charset=utf-8');
+        }
         throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($format, $availableRenderers)));
     }
 
