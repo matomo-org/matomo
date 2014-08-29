@@ -10,6 +10,7 @@
 /**
  * This file is executed before anything else.
  * It checks the minimum PHP version required to run Piwik.
+ * This file must be compatible PHP4.
  */
 
 $piwik_errorMessage = '';
