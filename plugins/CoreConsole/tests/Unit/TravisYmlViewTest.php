@@ -50,7 +50,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
 
         $this->assertBuildSectionsNotEmpty($yaml);
 
-        $this->assertContains("export GENERATE_TRAVIS_YML_COMMAND='./console generate:travis-yml \\'arg1\\' arg2'", $yaml['before_script']);
+        $this->assertContains("export GENERATE_TRAVIS_YML_COMMAND=\"./console generate:travis-yml \\'arg1\\' arg2\"", $yaml['before_script']);
 
         $this->assertViewUsesPluginSpecifiedTravisCommands($yaml);
     }
