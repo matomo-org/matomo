@@ -166,7 +166,7 @@ before_script:
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
 
-  - export GENERATE_TRAVIS_YML_COMMAND='{{ consoleCommand|raw }}'
+  - export GENERATE_TRAVIS_YML_COMMAND="{{ consoleCommand|raw }}"
   - ./tests/travis/autoupdate_travis_yml.sh
 
   - cd tests/PHPUnit
