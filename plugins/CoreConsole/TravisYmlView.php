@@ -127,6 +127,16 @@ class TravisYmlView extends View
     }
 
     /**
+     * Sets the PHP versions to run tests against in travis.
+     *
+     * @param string[] $phpVersions ie, `array("5.3.3", "5.4", "5.5")`.
+     */
+    public function setPhpVersions($phpVersions)
+    {
+        $this->phpVersions = $phpVersions;
+    }
+
+    /**
      * Renders the view. See {@link Piwik\View::render()}.
      *
      * @return string

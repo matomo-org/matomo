@@ -104,6 +104,20 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $this->assertViewDoesNotUsePluginSpecifiedTravisCommands($yaml);
     }
 
+    public function testViewGeneratesCorrectLookingYAMLWhenCustomPhpVersionsUsed()
+    {
+        $view = new TravisYmlView();
+        $view->setPlugin('ExamplePlugin');
+        $view->setPhpVersions(array('5.4', '5.6', 'hhvm'));
+        $view->setGenerateYmlCommand('./console generate:travis-yml arg1 arg2');
+        $output = $view->render();
+
+        $yaml = Spyc::YAMLLoadString($output);
+
+        $this->assertNotEmpty($yaml['php']);
+        $this->assertEquals(array('5.4', '5.6', 'hhvm'), $yaml['php']);
+    }
+
     private function assertBuildSectionsNotEmpty($yaml)
     {
         $this->assertNotEmpty($yaml['before_install']);
