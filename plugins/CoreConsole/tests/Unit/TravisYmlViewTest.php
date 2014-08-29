@@ -80,6 +80,25 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $this->assertViewUsesPluginSpecifiedTravisCommands($yaml);
     }
 
+    public function testViewGeneratesCorrectLookingYAMLForCore()
+    {
+        $view = new TravisYmlView();
+        // no setPlugin call here signifies generating for core
+        $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/.travis.yml');
+        $view->setExtraGlobalEnvVars(array('artifactspass', 'githubtoken'));
+        $view->setGenerateYmlCommand('./console generate:travis-yml \'arg1\' arg2');
+        $output = $view->render();
+
+        $yaml = Spyc::YAMLLoadString($output);
+
+        $this->assertNotEmpty($yaml['env']);
+        $this->assertNotEmpty($yaml['env']['global']);
+
+        $this->assertBuildSectionsNotEmpty($yaml);
+
+        $this->assertViewDoesNotUsePluginSpecifiedTravisCommands($yaml);
+    }
+
     private function assertBuildSectionsNotEmpty($yaml)
     {
         $this->assertNotEmpty($yaml['before_install']);
@@ -91,6 +110,37 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
 
     private function assertViewUsesPluginSpecifiedTravisCommands($yaml)
     {
-        // TODO
+        $this->assertEquals("before_install hook line 1", reset($yaml['before_install']));
+        $this->assertEquals("before_install hook line 2", end($yaml['before_install']));
+
+        $this->assertEquals("before_script hook line 1", reset($yaml['before_script']));
+        $this->assertEquals("before_script hook line 2", end($yaml['before_script']));
+
+        $this->assertEquals("install hook line 1", reset($yaml['install']));
+        $this->assertEquals("install hook line 2", end($yaml['install']));
+
+        $this->assertEquals("after_success hook line 1", reset($yaml['after_success']));
+        $this->assertEquals("after_success hook line 2", end($yaml['after_success']));
+
+        $this->assertEquals("after_script hook line 1", reset($yaml['after_script']));
+        $this->assertEquals("after_script hook line 2", end($yaml['after_script']));
+    }
+
+    private function assertViewDoesNotUsePluginSpecifiedTravisCommands($yaml)
+    {
+        $this->assertNotEquals("before_install hook line 1", reset($yaml['before_install']));
+        $this->assertNotEquals("before_install hook line 2", end($yaml['before_install']));
+
+        $this->assertNotEquals("before_script hook line 1", reset($yaml['before_script']));
+        $this->assertNotEquals("before_script hook line 2", end($yaml['before_script']));
+
+        $this->assertNotEquals("install hook line 1", reset($yaml['install']));
+        $this->assertNotEquals("install hook line 2", end($yaml['install']));
+
+        $this->assertNotEquals("after_success hook line 1", reset($yaml['after_success']));
+        $this->assertNotEquals("after_success hook line 2", end($yaml['after_success']));
+
+        $this->assertNotEquals("after_script hook line 1", reset($yaml['after_script']));
+        $this->assertNotEquals("after_script hook line 2", end($yaml['after_script']));
     }
 }

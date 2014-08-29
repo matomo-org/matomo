@@ -50,10 +50,20 @@ matrix:
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
 before_install:
+{% if customTravisBuildSteps.before_install.before|default is not empty %}{{ customTravisBuildSteps.before_install.before|raw }}
+
+{% endif %}
   # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
+{% if customTravisBuildSteps.before_install.after|default is not empty %}
+
+{{ customTravisBuildSteps.before_install.after|raw }}
+{% endif %}
 
 install:
+{% if customTravisBuildSteps.install.before|default is not empty %}{{ customTravisBuildSteps.install.before|raw }}
+
+{% endif %}
 {% if pluginName is not empty %}
   # move all contents of current repo (which contains the plugin) to a new directory
   - mkdir $PLUGIN_NAME
@@ -93,8 +103,15 @@ install:
   - git fetch
   - git checkout master -- ./tests/travis ./plugins/CoreConsole || true
 {% endif %}
+{% if customTravisBuildSteps.install.after|default is not empty %}
+
+{{ customTravisBuildSteps.install.after|raw }}
+{% endif %}
 
 before_script:
+{% if customTravisBuildSteps.before_script.before|default is not empty %}{{ customTravisBuildSteps.before_script.before|raw }}
+
+{% endif %}
   - if [ -z "$TEST_SUITE" ];
     then composer require satooshi/php-coveralls dev-master;
     fi
@@ -145,8 +162,15 @@ before_script:
   - ./tests/travis/autoupdate_travis_yml.sh
 
   - cd tests/PHPUnit
+{% if customTravisBuildSteps.before_script.after|default is not empty %}
+
+{{ customTravisBuildSteps.before_script.after|raw }}
+{% endif %}
 
 after_script:
+{% if customTravisBuildSteps.after_script.before|default is not empty %}{{ customTravisBuildSteps.after_script.before|raw }}
+
+{% endif %}
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
 
@@ -162,10 +186,21 @@ after_script:
 
   # upload test artifacts (for debugging travis failures)
   - ./tests/travis/upload_artifacts.sh
+{% if customTravisBuildSteps.after_script.after|default is not empty %}
+
+{{ customTravisBuildSteps.after_script.after|raw }}
+{% endif %}
 
 after_success:
+{% if customTravisBuildSteps.after_success.before|default is not empty %}{{ customTravisBuildSteps.after_success.before|raw }}
+
+{% endif %}
   - cd $PIWIK_ROOT_DIR
 {% if pluginName is empty %}  - ./tests/travis/generate_docs.sh
+{% endif %}
+{% if customTravisBuildSteps.after_success.after|default is not empty %}
+
+{{ customTravisBuildSteps.after_success.after|raw }}
 {% endif %}
 {% if extraSections|default is not empty %}
 

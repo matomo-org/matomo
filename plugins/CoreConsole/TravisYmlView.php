@@ -35,6 +35,22 @@ class TravisYmlView extends View
     );
 
     /**
+     * The names of .travis.yml sections that can be extended w/ custom steps by plugins. Twig templates
+     * in the plugins/PluginName/tests/travis directory can be used to insert travis commands at the
+     * beginning or end of a section. For example, before_install.before.yml will add steps
+     * at the beginning of the before_install: section.
+     *
+     * @var string[]
+     */
+    private static $travisYmlExtendableSectionNames = array(
+        'before_install',
+        'install',
+        'before_script',
+        'after_script',
+        'after_success'
+    );
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -71,6 +87,22 @@ class TravisYmlView extends View
     public function setPlugin($pluginName)
     {
         $this->pluginName = $pluginName;
+
+        $customTravisBuildSteps = array();
+        foreach (self::$travisYmlExtendableSectionNames as $name) {
+            $customTravisBuildSteps[$name] = array();
+
+            $beforeStepsTemplate = $this->getPathToCustomTravisStepsFile($name, 'before');
+            if (file_exists($beforeStepsTemplate)) {
+                $customTravisBuildSteps[$name]['before'] = $this->changeIndent(file_get_contents($beforeStepsTemplate), '  ');
+            }
+
+            $afterStepsTemplate = $this->getPathToCustomTravisStepsFile($name, 'after');
+            if (file_exists($afterStepsTemplate)) {
+                $customTravisBuildSteps[$name]['after'] = $this->changeIndent(file_get_contents($afterStepsTemplate), '  ');
+            }
+        }
+        $this->customTravisBuildSteps = $customTravisBuildSteps;
     }
 
     /**
@@ -210,8 +242,20 @@ class TravisYmlView extends View
         return !empty($testFiles);
     }
 
+    private function changeIndent($text, $newIndent)
+    {
+        $text = trim($text);
+
+        return preg_replace("/^\\s*/", $newIndent, $text);
+    }
+
     public function getPluginRootFolder()
     {
         return PIWIK_INCLUDE_PATH . "/plugins/{$this->pluginName}";
+    }
+
+    private function getPathToCustomTravisStepsFile($sectionName, $type)
+    {
+        return $this->getPluginRootFolder() . "/tests/travis/$sectionName.$type.yml";
     }
 }
