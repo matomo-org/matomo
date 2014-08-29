@@ -29,7 +29,7 @@ env:
 {% else %}
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
 {% endif %}
-{% if extraGlobalEnvVars|default is not empty %}{% for var in extraGlobalEnvVars %}    - secure: "{{ var|raw }}"
+{% if extraGlobalEnvVars|default is not empty %}{% for var in extraGlobalEnvVars %}    - {{ var|raw }}
 {% endfor %}{% endif %}
   matrix:
 {% for test in testsToRun %}    - TEST_SUITE={{ test.name|raw }} {{ test.vars|raw }}
