@@ -33,6 +33,11 @@ class GenerateWidget extends GeneratePluginBase
         $pluginName = $this->getPluginName($input, $output);
         $category   = $this->getCategory($input, $output);
 
+        if ($category === Piwik::translate($category)) {
+            // no translation found...
+            $category = $this->makeTranslationIfPossible($pluginName, $category);
+        }
+
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
         $replace        = array('ExamplePlugin'    => $pluginName,
                                 'Example Category' => $category);
@@ -45,6 +50,19 @@ class GenerateWidget extends GeneratePluginBase
              'You can now start defining your plugin widgets',
              'Enjoy!'
         ));
+    }
+
+    protected function getExistingCategories()
+    {
+        $categories = array();
+        foreach (Widgets::getAllWidgets() as $widget) {
+            if ($widget->getCategory()) {
+                $categories[] = Piwik::translate($widget->getCategory());
+            }
+        }
+        $categories = array_values(array_unique($categories));
+
+        return $categories;
     }
 
     /**
@@ -63,15 +81,8 @@ class GenerateWidget extends GeneratePluginBase
             return $category;
         };
 
-        $category = $input->getOption('category');
-
-        $categories = array();
-        foreach (Widgets::getAllWidgets() as $widget) {
-            if ($widget->getCategory()) {
-                $categories[] = Piwik::translate($widget->getCategory());
-            }
-        }
-        $categories = array_values(array_unique($categories));
+        $category   = $input->getOption('category');
+        $categories = $this->getExistingCategories();
 
         if (empty($category)) {
             $dialog = $this->getHelperSet()->get('dialog');
