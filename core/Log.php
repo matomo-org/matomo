@@ -418,6 +418,13 @@ class Log extends Singleton
         if (is_string($message)
             && !empty($sprintfParams)
         ) {
+            // handle array sprintf parameters
+            foreach ($sprintfParams as &$param) {
+                if (is_array($param)) {
+                    $param = json_encode($param);
+                }
+            }
+
             $message = vsprintf($message, $sprintfParams);
         }
 
@@ -676,6 +683,8 @@ class Log extends Singleton
              */
             Piwik::postEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
+
+        $message = str_replace("\n", "\n  ", $message);
         return $message . "\n";
     }
 }
