@@ -41,6 +41,26 @@ class Date
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     /**
+     * Max days for months (non-leap-year). See {@link addPeriod()} implementation.
+     *
+     * @var int[]
+     */
+    private static $maxDaysInMonth = array(
+        '1' => 31,
+        '2' => 28,
+        '3' => 31,
+        '4' => 30,
+        '5' => 31,
+        '6' => 30,
+        '7' => 31,
+        '8' => 31,
+        '9' => 30,
+        '10' => 31,
+        '11' => 30,
+        '12' => 31
+    );
+
+    /**
      * The stored timestamp is always UTC based.
      * The returned timestamp via getTimestamp() will have the conversion applied
      * @var int|null
@@ -673,12 +693,39 @@ class Date
      */
     public function addPeriod($n, $period)
     {
-        if ($n < 0) {
-            $ts = strtotime("$n $period", $this->timestamp);
+        if (strtolower($period) == 'month') { // TODO: comments
+            $dateInfo = getdate($this->timestamp);
+
+            $ts = mktime(
+                $dateInfo['hours'],
+                $dateInfo['minutes'],
+                $dateInfo['seconds'],
+                $dateInfo['mon'] + (int)$n,
+                1,
+                $dateInfo['year']
+            );
+
+            $daysToAdd = min($dateInfo['mday'], self::getMaxDaysInMonth($ts)) - 1;
+            $ts += self::NUM_SECONDS_IN_DAY * $daysToAdd;
         } else {
-            $ts = strtotime("+$n $period", $this->timestamp);
+            $time = $n < 0 ? "$n $period" : "+$n $period";
+
+            $ts = strtotime($time, $this->timestamp);
         }
+
         return new Date($ts, $this->timezone);
+    }
+
+    private static function getMaxDaysInMonth($timestamp)
+    {
+        $month = (int)date('m', $timestamp);
+        if (date('L', $timestamp) == 1
+            && $month == 2
+        ) {
+            return 29;
+        } else {
+            return self::$maxDaysInMonth[$month];
+        }
     }
 
     /**
