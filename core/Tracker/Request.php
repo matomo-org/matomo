@@ -277,6 +277,7 @@ class Request
             'cip'          => array(false, 'string'),
             'cdt'          => array(false, 'string'),
             'cid'          => array(false, 'string'),
+            'uid'          => array(false, 'string'),
 
             // Actions / pages
             'cs'           => array(false, 'string'),
@@ -436,21 +437,37 @@ class Request
     }
 
     /**
-     * Is the request for a known VisitorId, based on 1st party, 3rd party (optional) cookies or Tracking API forced Visitor ID
+     * Returns the ID from  the request in this order:
+     * return from a given User ID,
+     * or from a Tracking API forced Visitor ID,
+     * or from a Visitor ID from 3rd party (optional) cookies,
+     * or from a given Visitor Id from 1st party?
+     *
      * @throws Exception
      */
     public function getVisitorId()
     {
         $found = false;
 
-        // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
-        $idVisitor = $this->getForcedVisitorId();
-        if (!empty($idVisitor)) {
-            if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
-                throw new Exception("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
-            }
-            Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+        // If User ID is set it takes precedence
+        $userId = $this->getForcedUserId();
+        if(strlen($userId) > 0) {
+            $idVisitor = md5($userId);
+            $idVisitor = $this->truncateIdAsVisitorId($idVisitor);
+            Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
             $found = true;
+        }
+
+        // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
+        if (!$found) {
+            $idVisitor = $this->getForcedVisitorId();
+            if (!empty($idVisitor)) {
+                if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
+                    throw new Exception("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
+                }
+                Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+                $found = true;
+            }
         }
 
         // - If set to use 3rd party cookies for Visit ID, read the cookie
@@ -467,6 +484,7 @@ class Request
                 }
             }
         }
+
         // If a third party cookie was not found, we default to the first party cookie
         if (!$found) {
             $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
@@ -474,7 +492,7 @@ class Request
         }
 
         if ($found) {
-            $truncated = substr($idVisitor, 0, Tracker::LENGTH_HEX_ID_STRING);
+            $truncated = $this->truncateIdAsVisitorId($idVisitor);
             $binVisitorId = @Common::hex2bin($truncated);
             if (!empty($binVisitorId)) {
                 return $binVisitorId;
@@ -523,6 +541,11 @@ class Request
         return $this->forcedVisitorId;
     }
 
+    public function getForcedUserId()
+    {
+        return $this->getParam('uid');
+    }
+
     public function getPlugins()
     {
         static $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'gears', 'ag', 'cookie');
@@ -549,5 +572,14 @@ class Request
             return (int)$generationTime;
         }
         return false;
+    }
+
+    /**
+     * @param $idVisitor
+     * @return string
+     */
+    private function truncateIdAsVisitorId($idVisitor)
+    {
+        return substr($idVisitor, 0, Tracker::LENGTH_HEX_ID_STRING);
     }
 }

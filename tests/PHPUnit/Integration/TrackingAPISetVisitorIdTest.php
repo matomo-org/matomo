@@ -51,7 +51,20 @@ class TrackingAPISetVisitorIdTest extends IntegrationTestCase
                                              'date'       => self::$fixture->dateTime,
                                              'periods'    => 'day',
                                              'testSuffix' => '',
-            ))
+            )),
+
+            array('Live.getLastVisitsDetails', array('idSite'  => self::$fixture->idSite,
+                                                     'date'    => self::$fixture->dateTime,
+                                                     'periods' => 'day',
+                                                     'keepLiveIds' => true,
+                                                     'keepLiveDates' => true,
+                                                     'otherRequestParameters' => array(
+                                                         'showColumns' => 'idVisit,visitorId,userId,lastActionDateTime,actions,actionDetails',
+                                                         'filter_sort_column' => 'idVisit',
+                                                         'filter_sort_order' => 'asc',
+                                                     )
+            )),
+
         );
     }
 }

@@ -196,6 +196,7 @@ class PiwikTracker
         $this->configReferralCookieTimeout = 15768000; // 6 months
 
         // Visitor Ids in order
+        $this->userId = false;
         $this->forcedVisitorId = false;
         $this->cookieVisitorId = false;
         $this->randomVisitorId = false;
@@ -380,6 +381,7 @@ class PiwikTracker
     public function setNewVisitorId()
     {
         $this->randomVisitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
+        $this->userId = false;
         $this->forcedVisitorId = false;
         $this->cookieVisitorId = false;
     }
@@ -975,6 +977,25 @@ class PiwikTracker
         $this->forcedVisitorId = $visitorId;
     }
 
+
+    /**
+     *
+     * @param string $userId  Any user ID string (eg. email address, ID, username). Must be non empty. Set to false to de-assign a user id previously set.
+     * @throws Exception
+     */
+    public function setUserId($userId)
+    {
+        if($userId === '') {
+            throw new Exception("User ID cannot be empty.");
+        }
+        $this->userId = $userId;
+    }
+
+    static public function getIdHashed($id)
+    {
+        return substr(md5( $id ), 0, 16);
+    }
+
     /**
      * If the user initiating the request has the Piwik first party cookie,
      * this function will try and return the ID parsed from this first party cookie (found in $_COOKIE).
@@ -989,13 +1010,21 @@ class PiwikTracker
      */
     public function getVisitorId()
     {
+        if (!empty($this->userId)) {
+            return $this->getIdHashed($this->userId);
+        }
         if (!empty($this->forcedVisitorId)) {
             return $this->forcedVisitorId;
-        } else if ($this->loadVisitorIdCookie()) {
-            return $this->cookieVisitorId;
-        } else {
-            return $this->randomVisitorId;
         }
+        if ($this->loadVisitorIdCookie()) {
+            return $this->cookieVisitorId;
+        }
+        return $this->randomVisitorId;
+    }
+
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     /**
@@ -1308,6 +1337,7 @@ class PiwikTracker
 
             // Only allowed for Super User, token_auth required,
             (!empty($this->ip) ? '&cip=' . $this->ip : '') .
+            (!empty($this->userId) ? '&uid=' . $this->userId : '') .
             (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             (!empty($this->forcedNewVisit) ? '&new_visit=1' : '') .

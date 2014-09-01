@@ -236,8 +236,12 @@ class Visitor
         // If a &cid= was set, we force to select this visitor (or create a new one)
         $isForcedVisitorIdMustMatch = ($this->request->getForcedVisitorId() != null);
 
+        // if &iud was set, we force to select this visitor (or create new one)
+        $isForcedUserIdMustMatch = ($this->request->getForcedUserId() != null);
+
         $shouldMatchOneFieldOnly = (($isVisitorIdToLookup && $trustCookiesOnly)
             || $isForcedVisitorIdMustMatch
+            || $isForcedUserIdMustMatch
             || !$isVisitorIdToLookup);
         return $shouldMatchOneFieldOnly;
     }
@@ -250,6 +254,8 @@ class Visitor
         $fields = array(
             'idvisitor',
             'idvisit',
+            'user_id',
+
             'visit_exit_idaction_url',
             'visit_exit_idaction_name',
             'visitor_returning',
