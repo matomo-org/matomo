@@ -1100,6 +1100,9 @@ if (typeof Piwik !== 'object') {
                 // Site ID
                 configTrackerSiteId = siteId || '',
 
+                // User ID
+                configUserId = '',
+
                 // Document URL
                 configCustomUrl,
 
@@ -1761,6 +1764,7 @@ if (typeof Piwik !== 'object') {
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    (configUserId.length ? '&uid=' + configUserId : '') +
                     '&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount +
                     '&_idn=' + newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
@@ -2422,6 +2426,15 @@ if (typeof Piwik !== 'object') {
                  */
                 setSiteId: function (siteId) {
                     configTrackerSiteId = siteId;
+                },
+
+                /**
+                 * Sets a User ID to this user (such as an email address or a username)
+                 *
+                 * @param string User ID
+                 */
+                setUserId: function (userId) {
+                    configUserId = userId;
                 },
 
                 /**
