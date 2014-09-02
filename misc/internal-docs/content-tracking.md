@@ -26,6 +26,9 @@ This is the technical concept for implementing content tracking. We won't plan a
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
    * You said this is V2 right?
 * FYI: Piwik Mobile displays currently only one metric, so people won't see impressions and number of interactions or ratio next to each other
+* If user wants to track only visible content we'll need to wait until the websites load (not DOMContentLoaded) event is triggered. Otherwise CSS might be not be applied yet and we cannot detect whether node is actually visible. Downside: Some websites might take > 10 seconds until this event is triggered. Depending on how good they are developed. During this time the user might be already no longer on that page or might have already scrolled to somewhere else.
+* If user wants to track all content impressions (not only the visible ones) we'd probably have to wait until at least DOMContentLoaded event is triggered
+* When we listen to scroll events we currently do not detect if user scrolls the entire page, not if within a div
 
 ## Answered Questions
 1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?

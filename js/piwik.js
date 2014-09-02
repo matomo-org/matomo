@@ -1076,8 +1076,8 @@ if (typeof Piwik !== 'object') {
 
             //-- Cross browser method to get style properties:
             function _getStyle(el, property) {
-                if ( window.getComputedStyle ) {
-                    return document.defaultView.getComputedStyle(el,null)[property];
+                if ( windowAlias.getComputedStyle ) {
+                    return documentAlias.defaultView.getComputedStyle(el,null)[property];
                 }
                 if ( el.currentStyle ) {
                     return el.currentStyle[property];
@@ -1086,7 +1086,7 @@ if (typeof Piwik !== 'object') {
 
             function _elementInDocument(element) {
                 while (element = element.parentNode) {
-                    if (element == document) {
+                    if (element == documentAlias) {
                         return true;
                     }
                 }
@@ -1519,13 +1519,13 @@ if (typeof Piwik !== 'object') {
                 }
 
                 var rect = node.getBoundingClientRect();
-                var html = document.documentElement ? document.documentElement : {};
+                var html = documentAlias.documentElement ? documentAlias.documentElement : {};
 
                 return (
                     rect.bottom > 0 &&
                     rect.right  > 0 &&
-                    rect.left   < (window.innerWidth || html.clientWidth) &&
-                    rect.top    < (window.innerHeight || html.clientHeight)
+                    rect.left   < (windowAlias.innerWidth || html.clientWidth) &&
+                    rect.top    < (windowAlias.innerHeight || html.clientHeight)
                 );
             },
             isNodeVisible: function (node) {
@@ -1875,6 +1875,9 @@ if (typeof Piwik !== 'object') {
 
                 // Browser features via client-side data collection
                 browserFeatures = {},
+
+                // Keeps track of previously tracked content impressions
+                trackedContentImpressions = [],
 
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
@@ -2739,14 +2742,83 @@ if (typeof Piwik !== 'object') {
                 return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
+            function wasContentImpressionAlreadyTracked(content)
+            {
+                if (!trackedContentImpressions || !trackedContentImpressions.length) {
+                    return false;
+                }
+
+                var index;
+
+                for (index = 0; index < trackedContentImpressions.length; index++) {
+                    var trackedContent = trackedContentImpressions[index];
+
+                    if (!trackedContent) {
+                        continue;
+                    }
+
+                    if (trackedContent.name === content.name &&
+                        trackedContent.piece === content.piece &&
+                        trackedContent.target === content.target) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            /*
+             * Log currently visible content pieces
+             */
+            function logCurrentlyVisibleContentImpressionsIfNotTrackedYet() {
+
+                var contentNodes = content.findContentNodes();
+
+                if (!contentNodes || !contentNodes.length) {
+                    return;
+                }
+
+                var index;
+
+                for (index = 0; index < contentNodes.length; index++) {
+                    if (!content.isNodeVisible(contentNodes[index])) {
+                        contentNodes.splice(index, 1);
+                    }
+                }
+
+                if (!contentNodes || !contentNodes.length) {
+                    return;
+                }
+
+                var contents = content.collectContent(contentNodes);
+
+                for (index = 0; index < contents; index++) {
+                    // TODO !!! it could happen that a content was tracked while this check is performed if they run both at the same time, maybe we need some kind of lock?
+                    if (wasContentImpressionAlreadyTracked(contents[index])) {
+                        contents.splice(index, 1);
+                    } else {
+                        trackedContentImpressions.push(contents[index]);
+                    }
+                }
+
+                logContentImpressions(contents, contentNodes);
+            }
+
             /*
              * Log all content pieces
              */
-            function logContentImpressions() {
+            function logAllContentImpressions() {
 
                 var contentNodes = content.findContentNodes();
                 var contents     = content.collectContent(contentNodes);
 
+                logContentImpressions(contents, contentNodes);
+            }
+
+            /*
+             * Log all content pieces
+             */
+            function logContentImpressions(contents, contentNodes) {
                 if (!contents || !contents.length) {
                     return;
                 }
@@ -2954,6 +3026,37 @@ if (typeof Piwik !== 'object') {
 
                 // configCountPreRendered === true || isPreRendered === false
                 callback();
+            }
+
+            function trackCallbackOnLoad(callback)
+            {
+                if (documentAlias.readyState === 'complete') {
+                    setTimeout(callback, 1); // Handle async to allow delaying ready
+                } else if (windowAlias.addEventListener) {
+                    windowAlias.addEventListener('load', callback);
+                } else if (windowAlias.attachEvent) {
+                    windowAlias.attachEvent('onLoad', callback);
+                }
+            }
+
+            function trackCallbackOnReady(callback)
+            {
+                // TODO we might also need a poll similar to https://github.com/dperini/ContentLoaded/blob/master/src/contentloaded.js
+                var loaded = false;
+
+                if (documentAlias.attachEvent) {
+                    loaded = documentAlias.readyState === "complete";
+                } else {
+                    loaded = documentAlias.readyState !== "loading";
+                }
+
+                if (loaded) {
+                    setTimeout(callback, 1); // Handle async to allow delaying ready
+                } else if (documentAlias.addEventListener) {
+                    documentAlias.addEventListener('DOMContentLoaded', callback);
+                } else if (documentAlias.attachEvent) {
+                    documentAlias.attachEvent('onreadystatechange', callback);
+                }
             }
 
             /*
@@ -3920,9 +4023,74 @@ if (typeof Piwik !== 'object') {
                     }
                 },
 
-                trackContentImpressions: function () {
+                trackAllContentImpressions: function () {
                     trackCallback(function () {
-                        logContentImpressions();
+                        trackCallbackOnReady(function () {
+                            logAllContentImpressions();
+                        });
+                    });
+                },
+
+                enableDetectContentImpressionsAutomatically: function (checkOnSroll, timeIntervalInMs) {
+                    var self      = this;
+                    var didScroll = false;
+
+                    trackCallbackOnLoad(function () {
+
+                        function checkContent(intervalInMs) {
+                            setTimeout(function () {
+                                didScroll = false;
+                                self.trackCurrentlyVisibleContentImpressionsIfNotTrackedYet();
+                                checkBanners(intervalInMs);
+                            }, intervalInMs);
+                        }
+
+                        function checkContentIfDidScroll(intervalInMs) {
+                            setTimeout(function () {
+                                if (didScroll) {
+                                    didScroll = false;
+                                    self.trackCurrentlyVisibleContentImpressionsIfNotTrackedYet();
+                                }
+
+                                checkContentIfDidScroll(intervalInMs);
+                            }, intervalInMs);
+                        }
+
+                        if (checkOnSroll) {
+                            // scroll event is executed after each pixel, so we make sure not to
+                            // execute event too often. otherwise FPS goes down a lot!
+                            // todo test if need to listen to all of the following events:
+                            // 'ondrop', 'touchend', 'mousewheel', 'DOMMouseScroll'
+                            var events = ['scroll', 'resize'];
+                            for (var index = 0; index < events.length; index++) {
+                                if (windowAlias.addEventListener) {
+                                    windowAlias.addEventListener(events[index], function () {
+                                        didScroll = true;
+                                    });
+                                } else {
+                                    windowAlias.attachEvent('on' + events[index], function () {
+                                        didScroll = true;
+                                    });
+                                }
+                            }
+
+                            checkContentIfDidScroll(100);
+                        }
+
+                        if (timeIntervalInMs && timeIntervalInMs > 0) {
+                            timeIntervalInMs = parseInt(timeIntervalInMs, 10);
+                            // TODO provide possibility to cancel interval? or if called again cancel previous one?
+                            checkBanners(timeIntervalInMs);
+                        }
+
+                    });
+                },
+
+                trackCurrentlyVisibleContentImpressionsIfNotTrackedYet: function () {
+                    trackCallback(function () {
+                        trackCallbackOnLoad(function () {
+                            logCurrentlyVisibleContentImpressionsIfNotTrackedYet();
+                        });
                     });
                 },
 
