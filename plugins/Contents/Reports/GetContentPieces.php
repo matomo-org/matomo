@@ -29,9 +29,11 @@ class GetContentPieces extends Base
         // TODO $this->documentation = Piwik::translate('ContentsDocumentation');
         $this->dimension     = new ContentPiece();
         $this->order         = 36;
+        $this->actionToLoadSubTables = 'getContentPieces';
 
         $this->widgetTitle = 'Contents_ContentPiece';
 
-        $this->metrics = array('nb_impressions', 'nb_interactions', 'interaction_rate');
+        $this->metrics = array('nb_impressions', 'nb_interactions');
+        $this->processedMetrics = array('interaction_rate');
     }
 }

@@ -23,6 +23,9 @@ This is the technical concept for implementing content tracking. We won't plan a
       * note to myself: They should be able to parse a node that we parse for all content as you maybe wanna parse only the replaced ajax content. maybe v2
     * index.php, /foo/bar --> will be directly replaced by piwik.php in case clickNode (element having clickAttribute/Class) is an "A" element
     * Need to think about possible XSS. If an attacker can set href attributes on that website and we replace attribute based on that but should be ok ...
+* "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
+   * You said this is V2 right?
+* FYI: Piwik Mobile displays currently only one metric, so people won't see impressions and number of interactions or ratio next to each other
 
 ## Answered Questions
 1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?

@@ -29,8 +29,10 @@ class GetContentNames extends Base
         // TODO $this->documentation = Piwik::translate('ContentsDocumentation');
         $this->dimension     = new ContentName();
         $this->order         = 35;
+        $this->actionToLoadSubTables = 'getContentNames';
 
         $this->widgetTitle = 'Contents_ContentName';
-        $this->metrics = array('nb_impressions', 'nb_interactions', 'interaction_rate');
+        $this->metrics = array('nb_impressions', 'nb_interactions');
+        $this->processedMetrics = array('interaction_rate');
     }
 }
