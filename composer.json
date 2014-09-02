@@ -45,11 +45,39 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/phacility/xhprof"
+            "type": "package",
+            "package": {
+                "name": "facebook/xhprof",
+                "type": "library",
+                "description": "XHProf: A Hierarchical Profiler for PHP",
+                "keywords": ["profiling", "performance"],
+                "homepage": "http://pecl.php.net/package/xhprof",
+                "license": "Apache-2.0",
+                "version": "master",
+                "require": {
+                    "php": ">=5.2.0"
+                },
+                "autoload": {
+                    "files": [
+                        "xhprof_lib/utils/xhprof_lib.php",
+                        "xhprof_lib/utils/xhprof_runs.php"
+                    ]
+                },
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/phacility/xhprof",
+                    "reference": "master"
+                }
+            }
         }
     ],
     "scripts": {
+        "pre-update-cmd": [
+            "misc/composer/clean-xhprof.sh"
+        ],
+        "pre-install-cmd": [
+            "misc/composer/clean-xhprof.sh"
+        ],
         "post-update-cmd": [
             "misc/composer/build-xhprof.sh"
         ],

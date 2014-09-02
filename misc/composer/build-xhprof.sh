@@ -6,9 +6,6 @@ cd vendor/facebook/xhprof/extension
 
 echo "Building xhprof..."
 
-git fetch origin pull/33/head:33_pull_request
-git merge 33_pull_request
-
 echo "Running phpize..."
 if ! phpize &> ../../../../tmp/xhprof-logs/phpize.log; then
     echo "Fatal error: phpize failed! View tmp/xhprof-logs/phpize.log for more info."
