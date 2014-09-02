@@ -8,7 +8,23 @@ This is the technical concept for implementing content tracking. We won't plan a
 * Content piece - eg a video file, image file, text, ...
 * Content target - a clicked url, a started video, any "conversion" to be a bit more generic?
 
-## Further Questions
+## Open questions
+* User can decide to manually setup the proper redirect URL via piwik.php?rec=1&idsite=1&clickurl={$URL_HERE}&....
+  * Currently, the user would also have to add event URL parameters and make sure to send the correct name and piece to match an impression.
+  * If the user does not use any data-content-* attributes this is very likely to fail since the auto detected content name and piece can easily change and tracking would be broken
+  * The only advantage I see would be that we even track clicks if we haven't added a click listener to replace the URL yet (for instance before DOM loaded)
+* and/or maybe we can replace the href="" directly within the DOM so right click, middle click, shift click are also tracked
+  * sounds ok to me, have implement it like this. Only problem is in case a replaced link changes later for instance based on a visitor form selection.
+     * To prevent this I added a click event on top of it and in case it does not start with configTrackerUrl I will build it again
+  * it might be bad for SEO
+  * FYI: outlinks/downloads will be still tracked as it is done currently for simplicity (500ms) so we are talking here only about internal links that are not anchor links (starting with "#"). Those would not be tracked
+    * http://outlink.example.org --> not replaced -> handled the old way
+    * #target --> not replaced -> handled the old way. In single page application users have to call trackWhatever again
+      * note to myself: They should be able to parse a node that we parse for all content as you maybe wanna parse only the replaced ajax content. maybe v2
+    * index.php, /foo/bar --> will be directly replaced by piwik.php in case clickNode (element having clickAttribute/Class) is an "A" element
+    * Need to think about possible XSS. If an attacker can set href attributes on that website and we replace attribute based on that but should be ok ...
+
+## Answered Questions
 1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?
 
 Maybe the unique ID of a Content can be the { Content name + Content piece }. Then we would recommend users to set the same Content target for a given tuple { Content name, Content piece }. 

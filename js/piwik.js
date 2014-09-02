@@ -1615,11 +1615,36 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
+                if (0 === (''+ link).indexOf('#')) {
+                    return;
+                }
+
                 if (link !== this.removeDomainIfIsUrl(link)) {
                     return; // outlink or download?
                 }
 
                 return link;
+            },
+            replaceTargetLink: function (node, url)
+            {
+                var clickNode = this.findTargetNode(node);
+
+                if (!clickNode) {
+                    return false;
+                }
+
+                var elementName = clickNode.nodeName.toLowerCase();
+
+                if (elementName !== 'a') {
+                    return false;
+                }
+
+                if (clickNode && clickNode.setAttribute) {
+                    clickNode.setAttribute('href', url);
+                    return true;
+                }
+
+                return false;
             }
         };
 
@@ -2700,6 +2725,16 @@ if (typeof Piwik !== 'object') {
                 return base + url
             }
 
+            function buildTrackingRedirectUrl(url) {
+                if (0 === url.indexOf(configTrackerUrl)) {
+                    return url;
+                }
+
+                var redirectUrl = toAbsoluteUrl(url);
+                var request     = getRequest('redirecturl=' + redirectUrl + '&c_i=' + url + '&' + buildEventRequest('Content', 'click', url, ''));
+                return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+            }
+
             /*
              * Log all content pieces
              */
@@ -2713,10 +2748,21 @@ if (typeof Piwik !== 'object') {
                 }
 
                 for (index = 0; index < contentNodes.length; index++) {
+                    var internalLink = content.findInternalTargetLink(contentNodes[index]);
+                    if (internalLink) {
+                        content.replaceTargetLink(contentNodes[index], buildTrackingRedirectUrl(internalLink));
+                    }
+
                     content.addClickEventIfInternalLink(contentNodes[index], function (url) {
-                        var redirectUrl = toAbsoluteUrl(url);
-                        var request   = getRequest('redirecturl=' + redirectUrl + '&c_i=' + url + '&' + buildEventRequest('Content', 'click', url, ''));
-                        location.href = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+                        var targetUrl = buildTrackingRedirectUrl(internalLink);
+
+                        // location.href does not respect target=_blank so we prefer to use this
+                        var replaced = content.replaceTargetLink(contentNodes[index], targetUrl);
+
+                        if (!replaced) {
+                            // fallback to location.href
+                            location.href = targetUrl;
+                        }
                     });
                 }
 
