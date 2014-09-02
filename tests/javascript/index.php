@@ -1318,7 +1318,7 @@ if ($sqlite) {
             ok( /&appended=1&appended2=value/.test( results ), "appendToTrackingUrl(query) function");
 
             // Testing the User ID setter
-            ok( /&uid=userid@mydomain.org/.test( results ), "setUserId(userId) function");
+            ok( /&uid=userid%40mydomain.org/.test( results ), "setUserId(userId) function");
 
             // Testing the JavaScript Error Tracking
             ok( /e_c=JavaScript%20Errors&e_a=http%3A%2F%2Fpiwik.org%2Fpath%2Fto%2Ffile.js%3Fcb%3D34343%3A44%3A12&e_n=Uncaught%20Error%3A%20The%20message&idsite=1/.test( results ), "enableJSErrorTracking() function with predefined onerror event");

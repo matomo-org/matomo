@@ -1337,7 +1337,7 @@ class PiwikTracker
 
             // Only allowed for Super User, token_auth required,
             (!empty($this->ip) ? '&cip=' . $this->ip : '') .
-            (!empty($this->userId) ? '&uid=' . $this->userId : '') .
+            (!empty($this->userId) ? '&uid=' . urlencode($this->userId) : '') .
             (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             (!empty($this->forcedNewVisit) ? '&new_visit=1' : '') .
