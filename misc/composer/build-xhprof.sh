@@ -1,5 +1,16 @@
 #!/bin/bash
 
+if ! type phpize 2> /dev/null; then
+    echo "phpize missing, skipping build"
+    echo "If you installed PHP via Aptitude, you can install phpize w/ 'sudo apt-get install php5-dev'"
+    exit
+fi
+
+if ! type make 2> /dev/null; then
+    echo "make missing, skipping build"
+    exit
+fi
+
 mkdir -p tmp/xhprof-logs
 
 cd vendor/facebook/xhprof/extension
