@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Hành động các lượt truy cập quay lại",
+        "ColumnAverageVisitDurationForReturningVisitors": "Trung bình. Thời gian truy cập quay lại (tính theo giây)",
+        "ColumnAvgActionsPerReturningVisit": "Trung bình. Các hành động mỗi lượt truy cập quay lại",
+        "ColumnBounceCountForReturningVisits": "Tính số thải hồi cho lượt truy cập quay lại",
+        "ColumnBounceRateForReturningVisits": "Tỷ lệ thoát lượt truy cập quay lại",
+        "ColumnMaxActionsInReturningVisit": "Các hoạt động tối đa trong một truy cập quay lại",
+        "ColumnNbReturningVisitsConverted": "Số các lượt truy cập quay lại đã chuyển đổi",
+        "ColumnReturningVisits": "Các lượt truy cập quay lại",
+        "ColumnSumVisitLengthReturning": "Tổng số thời gian dành cho khách truy cập quay lại (tính bằng giây)",
+        "ColumnUniqueReturningVisitors": "Các khách truy cập quay lại duy nhất (unique)",
+        "PluginDescription": "Báo cáo thống kê khác nhau về khách quay lại so với khách truy cập trong thời gian đầu.",
+        "ReturnActions": "%s hành động của các lượt truy cập quay lại",
+        "ReturnAverageVisitDuration": "thời gian truy cập trung bình %s cho các khách truy cập quay lại",
+        "ReturnAvgActions": "%s Hành động của mỗi lượt truy cập quay lại",
+        "ReturnBounceRate": "%s lượt truy cập quay lại đã bị thải hồi (rời khỏi trang web sau mỗi lượt truy cập trang)",
+        "ReturningVisitDocumentation": "Một truy cập quay lại (trái ngược với một truy cập mới) được thực hiện bởi một người nào đó đã truy cập trang web ít nhất một lần trước đó.",
+        "ReturningVisitsDocumentation": "Đây là một tổng quan của các lượt truy cập quay lại.",
+        "ReturnVisits": "%s Lượt truy cập quay lại",
+        "SubmenuFrequency": "Tần xuất",
+        "WidgetGraphReturning": "Các lượt truy cập quay lại theo thời gian",
+        "WidgetOverview": "Tần xuất tổng quan"
+    }
+}

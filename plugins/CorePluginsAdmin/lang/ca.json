@@ -1,0 +1,20 @@
+{
+    "CorePluginsAdmin": {
+        "ActionInstall": "Instal·la",
+        "Activate": "Activa",
+        "Activated": "Actiu",
+        "Active": "Actiu",
+        "Activity": "Activitat",
+        "AuthorHomepage": "Pàgina de l'autor",
+        "Authors": "Autors",
+        "Deactivate": "Desactiva",
+        "Inactive": "Inactiu",
+        "LicenseHomepage": "Pàgina de la llicència",
+        "MainDescription": "Els connectors augmenten la funcionalitat del Piwik. Un cop hi ha un connector instal·lat, podeu activar-lo i desactivar-lo aquí.",
+        "PluginDescription": "Interfíce d'administració d'extensions.",
+        "PluginHomepage": "Pàgina web",
+        "PluginsManagement": "Gestiona els connectors",
+        "Status": "Estat",
+        "Version": "Versió"
+    }
+}

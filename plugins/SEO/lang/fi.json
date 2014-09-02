@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa-tulos",
+        "Bing_IndexedPages": "Bingin indeksoidut sivut",
+        "Dmoz": "DMOZ tulossivut",
+        "DomainAge": "Sivun ikä",
+        "ExternalBacklinks": "Ulkoiset paluulinkit (Majestic)",
+        "Google_IndexedPages": "Googlen indeksoimat sivut",
+        "Rank": "Sijoitus",
+        "ReferrerDomains": "Viittaavat domainit (Majestic)",
+        "SeoRankings": "SEO-tulos",
+        "SEORankingsFor": "SEO-sijoitus %s:lle",
+        "ViewBacklinksOnMajesticSEO": "Näe ulkoiset paluulinkit raportissa MajesticSEO.com"
+    }
+}

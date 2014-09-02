@@ -1,0 +1,15 @@
+{
+    "Login": {
+        "ContactAdmin": "Mulig grunn: Din tjener har kanskje deaktivert mail()-funksjonen. <br \/>Kontakt din Piwik administrator.",
+        "InvalidUsernameEmail": "Feil brukernavn og\/eller epost-adresse.",
+        "LogIn": "Logg inn",
+        "LoginOrEmail": "Brukernavn eller e-post",
+        "LoginPasswordNotCorrect": "Brukernavn og passord er ikke korrekt",
+        "LostYourPassword": "Glemt passord?",
+        "PasswordChanged": "Passordet er endret.",
+        "PasswordRepeat": "Passord (gjenta)",
+        "PasswordsDoNotMatch": "Passordene stemmer ikke overens.",
+        "RememberMe": "Husk meg",
+        "ResetPasswordInstructions": "Skriv inn et nytt passord for kontoen din."
+    }
+}

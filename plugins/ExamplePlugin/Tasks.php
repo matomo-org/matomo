@@ -13,9 +13,9 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function schedule()
     {
         $this->hourly('myTask');  // method will be executed once every hour
-        $this->daily('myTask');   // method will be executed every daily
-        $this->weekly('myTask');  // method will be executed once every weekly
-        $this->monthly('myTask'); // method will be executed once every monthly
+        $this->daily('myTask');   // method will be executed once every day
+        $this->weekly('myTask');  // method will be executed once every week
+        $this->monthly('myTask'); // method will be executed once every month
 
         // pass a parameter to the task
         $this->weekly('myTaskWithParam', 'anystring');

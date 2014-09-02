@@ -1,0 +1,6 @@
+{
+    "Widgetize": {
+        "PluginDescription": "這個外掛讓你輕鬆輸出任何 Piwik 模組至你的網誌、網站或 iGoogle 及 Netvibes!",
+        "TopLinkTooltip": "將 Piwik 報表匯出為組件，並於你的 APP 中以 iframe 嵌入展示板。"
+    }
+}

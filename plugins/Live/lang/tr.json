@@ -1,0 +1,11 @@
+{
+    "Live": {
+        "GoalType": "Tür",
+        "LastMinutes": "Son %s dakika",
+        "LinkVisitorLog": "Ayrıntılı ziyaretçi kayitlari",
+        "PluginDescription": "Ziyaretçilerinizi gözleyin, canlı, gerçek zamanlı!",
+        "Referrer_URL": "Yönlendirme Siteleri",
+        "VisitorLog": "Ziyaretçi kayıtları",
+        "VisitorsInRealTime": "Gerçek Zamanlı Ziyaretçiler"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s click",
+        "ClicksFromXLinks": "%1$s click từ một trong %2$s link",
+        "Domain": "Tên miền",
+        "ErrorNotLoading": "Một phiên trang Overlay chưa thể đưa ra.",
+        "ErrorNotLoadingDetails": "Có thể các trang được tải về bên phải không có mã theo dõi Piwik. Trong trường hợp này, hãy thử đưa ra Overlay cho một trang khác nhau từ báo cáo trang.",
+        "ErrorNotLoadingDetailsSSL": "Kể từ khi bạn đang sử dụng Piwik qua HTTPS, nguyên nhân có thể nhất là trang web của bạn không hỗ trợ SSL. Hãy thử sử dụng Piwik qua http.",
+        "ErrorNotLoadingLink": "Click vào đây để có thêm các lời khuyên cho việc xử lý sự cố",
+        "Link": "Link",
+        "Location": "Vị trí",
+        "NoData": "Không có dữ liệu cho trang này trong khoảng thời gian đã chọn.",
+        "OneClick": "1 click",
+        "OpenFullScreen": "Toàn màn hình (không có sidebar)",
+        "Overlay": "Trang Overlay",
+        "PluginDescription": "Xem dữ liệu phân tích như một overlay trên trang web thực của bạn.",
+        "RedirectUrlError": "Bạn đang cố mở trang Overlay cho URL \"%s\". Không có %s của các tên miền từ các thiết lập Piwik phù hợp với liên kết này.",
+        "RedirectUrlErrorAdmin": "Bạn có thể thêm các tên miền như một URL bổ sung %s trong cài đặt %s.",
+        "RedirectUrlErrorUser": "Yêu cầu quản trị của bạn thêm các tên miền như một URL bổ sung"
+    }
+}

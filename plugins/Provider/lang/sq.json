@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Mundësues",
+        "PluginDescription": "Raporton Mundësuesin e vizitorëve.",
+        "ProviderReportDocumentation": "Ky raport ju tregon cilët Mundësuesa Shërbimi Internet kanë përdorur vizitorët tuaj për të hyrë te site-i web. Për më tepër hollësi mund të klikoni mbi emrin e një mundësuesi. %s Nëse Piwik nuk arrin ta përcaktojë mundësuesin për një vizitor, e tregon thjesht si IP.",
+        "SubmenuLocationsProvider": "Vende & Mundësuesa",
+        "WidgetProviders": "Mundësuesa"
+    }
+}

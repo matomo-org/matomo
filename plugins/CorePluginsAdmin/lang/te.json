@@ -1,0 +1,12 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "చేతనించు",
+        "Activated": "చేతనమయ్యింది",
+        "Active": "చేతనం",
+        "Deactivate": "అచేతనించు",
+        "Inactive": "అచేతనం",
+        "PluginsManagement": "ప్లగిన్ల నిర్వహణ",
+        "Status": "స్థితి",
+        "Version": "సంచిక"
+    }
+}

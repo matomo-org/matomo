@@ -1,0 +1,26 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Contact the Piwik team!",
+        "DoYouHaveBugReportOrFeatureRequest": "Do you have a bug to report or a feature request?",
+        "GetInTouch": "We appreciate your feedback and always read all messages. Maybe you would like to share a business opportunity, hire a Piwik consultant, tell us a success story or simply say Hello!",
+        "HowToCreateTicket": "Please read the recommendations on writing a good %1$sbug report%2$s or %3$sfeature request%4$s. Then register or login on %5$sour issue tracker%6$s and create a %7$snew issue%8$s.",
+        "IWantTo": "I want to:",
+        "LearnWaysToParticipate": "Learn about all the ways you can %s participate%s",
+        "ManuallySendEmailTo": "Please manually send your message to",
+        "PluginDescription": "Send your Feedback to the Piwik Team. Share your ideas and suggestions with us!",
+        "PrivacyClaim": "Piwik respects your %1$sprivacy%2$s and gives you full control over your data.",
+        "RateFeatureLeaveMessageDislike": "We are sorry to hear you don't like it! Please let us know how we can improve.",
+        "RateFeatureLeaveMessageLike": "We are glad you like it! Please let us know what you like the most or if you have a feature request.",
+        "RateFeatureSendFeedbackInformation": "Your Piwik platform will send us (the Piwik team) an email (including your email address) so we can get in contact with you if you have any question.",
+        "RateFeatureThankYouTitle": "Thank you for rating '%s'!",
+        "RateFeatureTitle": "Do you like the '%s' feature? Please rate and leave a comment",
+        "SendFeedback": "Send Feedback",
+        "SpecialRequest": "Do you have a special request for the Piwik team?",
+        "ThankYou": "Thank you for helping us to make Piwik better!",
+        "TopLinkTooltip": "Tell us what you think, or request Professional Support.",
+        "ViewAnswersToFAQ": "View answers to %sFrequently Asked Questions%s",
+        "ViewUserGuides": "Learn how to configure Piwik and how to effectively analyze your data with our %1$suser guides%2$s",
+        "VisitTheForums": "Visit the %s Forums%s and get help from the community of Piwik users",
+        "WantToThankConsiderDonating": "Do you think Piwik is awesome and want to thank us?"
+    }
+}

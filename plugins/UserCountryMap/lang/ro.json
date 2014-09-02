@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "si %s altii",
+        "Cities": "Oraşe",
+        "Countries": "Ţări",
+        "DaysAgo": "%s zile în urmă",
+        "GoalConversions": "%s obiectivul conversiilor",
+        "Hours": "ore",
+        "HoursAgo": "%s ore în urmă",
+        "map": "harta",
+        "Minutes": "minute",
+        "MinutesAgo": "%s acum cateva minute",
+        "None": "Nu sunt",
+        "NoVisit": "Nici o vizita",
+        "RealTimeMap": "Harta în timp real",
+        "Regions": "Regiuni",
+        "Searches": "%s cautari",
+        "Seconds": "secunde",
+        "SecondsAgo": "%s acum o secunda",
+        "ShowingVisits": "Ultimile vizite geo-localizate",
+        "Unlocated": "<b>%s<\/b> %p vizitelor de la %c nu au putut fi geolocalizate.",
+        "VisitorMap": "Harta vizitatori",
+        "WorldWide": "World-Wide"
+    }
+}

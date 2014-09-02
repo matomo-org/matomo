@@ -1,0 +1,25 @@
+{
+    "Referrers": {
+        "Campaigns": "Kampaņas",
+        "ColumnCampaign": "Kampaņa",
+        "ColumnSearchEngine": "Meklēšanas dzinējs",
+        "ColumnWebsite": "Vietne",
+        "ColumnWebsitePage": "Vietnes lapa",
+        "DetailsByReferrerType": "Detaļas pēc referera tipa",
+        "DirectEntry": "Tiešā ieeja",
+        "Keywords": "Atslēgvārdi",
+        "ReferrerName": "Referera nosaukums",
+        "Referrers": "Refereri",
+        "SearchEngines": "Meklēšanas dzinēji",
+        "SubmenuSearchEngines": "Meklēšanas dzinēji un atslēgvārdi",
+        "SubmenuWebsites": "Vietnes",
+        "Type": "Referera tips",
+        "TypeCampaigns": "%s no kampaņām",
+        "TypeDirectEntries": "%s tiešās ieejas",
+        "TypeSearchEngines": "%s no meklēšanas dzinējiem",
+        "TypeWebsites": "%s no vietnēm",
+        "Websites": "Vietnes",
+        "WidgetExternalWebsites": "Ārējo vietņu saraksts",
+        "WidgetKeywords": "Atslēgvārdu saraksts"
+    }
+}

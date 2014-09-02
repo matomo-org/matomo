@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "网络服务商",
+        "PluginDescription": "访客的网络服务商的报表。",
+        "ProviderReportDocumentation": "本报表显示访客的网络服务商。点击服务商名字查看详细资料。%s 如果 Piwik 无法判断访客的网络服务商，就列出IP地址。",
+        "SubmenuLocationsProvider": "地区和网络服务商",
+        "WidgetProviders": "网络服务商"
+    }
+}

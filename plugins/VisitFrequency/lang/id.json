@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Tindakan oleh Kunjungan Kembali",
+        "ColumnAverageVisitDurationForReturningVisitors": "Rerata Waktu Kunjungan Pengunjung Kembali (dalam detik)",
+        "ColumnAvgActionsPerReturningVisit": "Rerata Tindakan tiap Kunjungan Kembali",
+        "ColumnBounceCountForReturningVisits": "Jumlah pentalan untuk Kunjungan Kembali",
+        "ColumnBounceRateForReturningVisits": "Tingkat pentalan Kunjungan Kembali",
+        "ColumnMaxActionsInReturningVisit": "Aksi maksimal dalam kunjungan kembali",
+        "ColumnNbReturningVisitsConverted": "Jumlah kunjungan kembali terkonversi",
+        "ColumnReturningVisits": "Kunjungan Kembali",
+        "ColumnSumVisitLengthReturning": "Jumlah waktu digunakan oleh pengunjung kembali (dalam detik)",
+        "ColumnUniqueReturningVisitors": "Pengnjung kembali unik",
+        "PluginDescription": "Laporan statistik tentang Pengunjung Kembali dan Pengunjung Pertama kali kunjung.",
+        "ReturnActions": "%s tindakan tiap kunjungan kembali",
+        "ReturnAverageVisitDuration": "%s rerata waktu kunjungan pengunjung kembali",
+        "ReturnAvgActions": "%s tindakan tiap kunjungan kembali",
+        "ReturnBounceRate": "%s kunjungan kembali dengan pentalan (meninggalkan situs setelah kunjungan satu halaman)",
+        "ReturningVisitDocumentation": "Kunjungan kembali (lawan dari kunjungan baru) dibuat oleh seseorang yang telah mengunjungi situs sekali sebelumnya.",
+        "ReturningVisitsDocumentation": "Ini merupakan iktisar kujungan kembali.",
+        "ReturnVisits": "%s kunjungan kembali",
+        "SubmenuFrequency": "Frekuensi",
+        "WidgetGraphReturning": "Grafik kunjungan kembali",
+        "WidgetOverview": "Iktisar Frekuensi"
+    }
+}

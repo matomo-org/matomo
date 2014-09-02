@@ -1,0 +1,33 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Crescita comparata a",
+        "ControlFilterByDescription": "Mostra tutto, solo protagoniste, solo nuove o solo scomparse",
+        "DatePeriodCombinationNotSupported": "Non è possibile generare approfondimenti per questa combinazione di data e periodo.",
+        "DayComparedToPreviousDay": "giorno precedente",
+        "DayComparedToPreviousWeek": "stesso giorno della settimana precedente",
+        "DayComparedToPreviousYear": "stesso giorno dell'anno precedente",
+        "Filter": "Filtro",
+        "FilterIncreaserAndDecreaser": "Crescono & Diminuiscono",
+        "FilterOnlyDecreaser": "Diminuiscono solamente",
+        "FilterOnlyDisappeared": "Scomparse solamente",
+        "FilterOnlyIncreaser": "Crescono solamente",
+        "FilterOnlyMovers": "Solo protagonisti",
+        "FilterOnlyNew": "Solo nuovo",
+        "IgnoredChanges": "Le variazioni che interessano meno di %s visite sono state ignorate.",
+        "MonthComparedToPreviousMonth": "mese precedente",
+        "MonthComparedToPreviousYear": "stesso mese dell'anno precedente",
+        "MoversAndShakersWidgetTitle": "Protagonisti",
+        "NoResultMatchesCriteria": "Nessuna riga corrisponde ai criteri",
+        "OverviewWidgetTitle": "Panoramica Approfondimenti",
+        "TitleConsideredInsightsChanges": "Righe aumentate o diminuite di almeno %1$s visite (%2$s%% di %3$s%% visite).",
+        "TitleConsideredInsightsGrowth": "Le righe seguenti hanno una crescita di almeno %1$s%% comparata a %2$s.",
+        "TitleConsideredMoversAndShakersChanges": "Sono considerate protagoniste se sono cresciute di più di %1$s%% visite o si sono contratte di meno di %2$s%% visite, nuove entrate se sono aumentate di più di %3$s%% visite (%4$s), e righe scomparse se si sono contratte di meno di %5$s%% visite (%6$s).",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s cambiate da %2$s a %3$s comparate a %4$s. Basandoci su ciò ci si aspetta un'evoluzione per ciascuna riga di %5$s%%.",
+        "TitleRowDisappearedDetails": "'%1$s' è diminuita di %2$s e scomparsa in %3$s comparata a %4$s.",
+        "TitleRowMoverAndShaker": "Questa riga ha avuto un impatto più alto della media.",
+        "TitleRowNewDetails": "'%1$s' è aumentata di %2$s ed è nuova comparata a %3$s.",
+        "WeekComparedToPreviousWeek": "settimana precedente",
+        "WidgetCategory": "Approfondimenti",
+        "YearComparedToPreviousYear": "anno precedente"
+    }
+}

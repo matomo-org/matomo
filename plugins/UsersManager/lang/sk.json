@@ -1,0 +1,33 @@
+{
+    "UsersManager": {
+        "AddUser": "Pridať nového používateľa",
+        "Alias": "Alias",
+        "AllWebsites": "Všetky webstránky",
+        "ApplyToAllWebsites": "Použiť na všetky webstránky",
+        "ChangeAllConfirm": "Ste si istý, že chcete zmeniť '%s' práva pre všetky webstránky?",
+        "DeleteConfirm": "Ste si istý, že chcete odstrániť používateľa %s?",
+        "Email": "E-mail",
+        "ExceptionAccessValues": "Parameter prístupu musí mať jednu z nasledujúcich hodnôt : [ %s ]",
+        "ExceptionAdminAnonymous": "Nemôžete priradiť prístup 'admin' pre používateľa 'anonymous'.",
+        "ExceptionDeleteDoesNotExist": "Používateľ '%s' neexistuje a preto nemôže byť odstránený.",
+        "ExceptionEditAnonymous": "Anonymný používateľ nemôže byť odstránený alebo upravený. Piwik ho používa na definovanie používateľa, ktorý sa ešte prihlásil. Anonymného používateľa môžete použiť na zverejnenie svojich štatistík, a to priradeným mu práv na prezeranie.",
+        "ExceptionEmailExists": "Používateľ s e-mailom '%s' už existuje.",
+        "ExceptionInvalidEmail": "E-mailová adresa nemá platný formát.",
+        "ExceptionInvalidLoginFormat": "Počet znakov pre Používateľ (login) musí byť medzi %1$s a %2$s a obsahovať iba písmená, číslice alebo znaky '_', '-', a '.'",
+        "ExceptionLoginExists": "Používateľ (login) '%s' už existuje.",
+        "ExceptionUserDoesNotExist": "Používateľ '%s' neexistuje.",
+        "MainDescription": "Rozhodnite sa, ktorí používatelia budú môcť pristupovať k jednotlivým stránkam. Tiež im môžete umožniť prístup na všetky vaše stránky.",
+        "ManageAccess": "Správa prístupov",
+        "MenuAnonymousUserSettings": "Nastavenie pre anonymného užívateľa",
+        "MenuUsers": "Používatelia",
+        "MenuUserSettings": "Užívateľské nastavenia",
+        "PrivAdmin": "Admin",
+        "PrivNone": "Bez prístupu",
+        "PrivView": "Prezeranie",
+        "TypeYourPasswordAgain": "Zadajte nové heslo znovu.",
+        "User": "Používatelia",
+        "UsersManagement": "Správa používateľov",
+        "UsersManagementMainDescription": "Vytvorenie nových alebo aktualizácia existujúcich používateľov V sekcií vyššie im môžete nastaviť rozsah prístupov.",
+        "YourUsernameCannotBeChanged": "Vaše užívateľské meno sa nedá zmeniť."
+    }
+}

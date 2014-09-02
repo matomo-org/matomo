@@ -1,0 +1,18 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min.",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Lapas apmeklējumā",
+        "ColumnVisitDuration": "Apmeklējuma ilgums",
+        "NPages": "%s lapas",
+        "OneMinute": "1 min.",
+        "OnePage": "1 lapa",
+        "PlusXMin": "%s min.",
+        "VisitNum": "Apmeklējuma numurs",
+        "visitsByVisitCount": "Apmeklējumu pēc apmeklējuma numura",
+        "VisitsPerDuration": "Apmeklējumi pēc apmeklējuma ilguma",
+        "VisitsPerNbOfPages": "Apmeklējumi pēc lapu skaita",
+        "WidgetLengths": "Apmeklējumu garums",
+        "WidgetPages": "Lapas apmeklējumā"
+    }
+}

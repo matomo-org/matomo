@@ -1,0 +1,10 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Denumirea variabilei personalizate",
+        "ColumnCustomVariableValue": "Valoarea variabilei personalizate",
+        "CustomVariables": "Variabile personalizate",
+        "PluginDescription": "Variabilele personalizate sunt nume, perechi de valoare care pot fi setate pentru o vizită folosind Javascript API seteazăVariabileleVizităPersonalizate(funcții). Piwik va raporta apoi cât de multe vizite, pagini, conversii pentru fiecare dintre aceste nume personalizate și valori.",
+        "ScopePage": "scop pagină",
+        "ScopeVisit": "scop vizită"
+    }
+}

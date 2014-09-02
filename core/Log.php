@@ -256,7 +256,7 @@ class Log extends Singleton
     {
         return str_replace(
             array("%tag%", "%message%", "%datetime%", "%level%"),
-            array($tag, $message, $datetime, $this->getStringLevel($level)),
+            array($tag, trim($message), $datetime, $this->getStringLevel($level)),
             $this->logMessageFormat
         );
     }
@@ -418,6 +418,13 @@ class Log extends Singleton
         if (is_string($message)
             && !empty($sprintfParams)
         ) {
+            // handle array sprintf parameters
+            foreach ($sprintfParams as &$param) {
+                if (is_array($param)) {
+                    $param = json_encode($param);
+                }
+            }
+
             $message = vsprintf($message, $sprintfParams);
         }
 
@@ -583,6 +590,7 @@ class Log extends Singleton
              */
             Piwik::postEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
+        $message = trim($message);
         return $message . "\n";
     }
 
@@ -636,6 +644,7 @@ class Log extends Singleton
              */
             Piwik::postEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
+        $message = trim($message);
         return $message;
     }
 
@@ -676,6 +685,9 @@ class Log extends Singleton
              */
             Piwik::postEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
+
+        $message = trim($message);
+        $message = str_replace("\n", "\n  ", $message);
         return $message . "\n";
     }
 }

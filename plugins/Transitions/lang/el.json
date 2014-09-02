@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s αναπηδήσεις",
+        "DirectEntries": "Άμεσες Εισαγωγές",
+        "ErrorBack": "Μετάβαση στην προηγούμενη ενέργεια",
+        "ExitsInline": "%s έξοδοι",
+        "FromCampaigns": "Από Εκστρατείες",
+        "FromPreviousPages": "Από Εσωτερικές Σελίδες",
+        "FromPreviousPagesInline": "%s από εσωτερικές σελίδες",
+        "FromPreviousSiteSearches": "Από Εσωτερική Αναζήτηση",
+        "FromPreviousSiteSearchesInline": "%s από εσωτερικές αναζητήσεις",
+        "FromSearchEngines": "Από Μηχανές Αναζήτησης",
+        "FromWebsites": "Από Ιστοσελίδες",
+        "IncomingTraffic": "Εισερχόμενη κίνηση",
+        "LoopsInline": "%s ανανεώσεις σελίδας",
+        "NoDataForAction": "Δεν υπάρχουν δεδομένα για %s",
+        "NoDataForActionDetails": "Είτε η ενέργεια δεν είχε προβολές σελίδας (pageviews) κατά τη διάρκεια της περιόδου %s ή δεν είναι έγκυρη.",
+        "OutgoingTraffic": "Εξερχόμενη κίνηση",
+        "PluginDescription": "Αναφορές σχετικά με τις προηγούμενες και επόμενες ενέργειες για κάθε διεύθυνση URL της σελίδας.",
+        "ShareOfAllPageviews": "Αυτή η σελίδα είχε %s προβολές σελίδων (%s από όλες τις προβολές σελίδων)",
+        "ToFollowingPages": "Προς Εσωτερικές Σελίδες",
+        "ToFollowingPagesInline": "%s προς εσωτερικές σελίδες",
+        "ToFollowingSiteSearches": "Εσωτερικές Αναζητήσεις",
+        "ToFollowingSiteSearchesInline": "%s εσωτερικές αναζητήσεις",
+        "XOfAllPageviews": "%s από όλες τις προβολές αυτής της σελίδας",
+        "XOutOfYVisits": "%s (από %s)"
+    }
+}

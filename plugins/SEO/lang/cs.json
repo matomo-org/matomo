@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Hodnocení Alexa",
+        "Bing_IndexedPages": "Stránek zaindexovaných Bingem",
+        "Dmoz": "Záznamů v katalogu DMOZ",
+        "DomainAge": "Staří domény",
+        "ExternalBacklinks": "Externí zpětné odkazy (Majestic)",
+        "Google_IndexedPages": "Stránek zaindexovaných Googlem",
+        "Rank": "Hodnocení",
+        "ReferrerDomains": "Odkazující domény (Majestic)",
+        "SeoRankings": "Hodnocení SEO",
+        "SEORankingsFor": "SEO hodnocení pro %s",
+        "ViewBacklinksOnMajesticSEO": "Zobrazit externí zpětné odkazy na MajesticSEO.com"
+    }
+}

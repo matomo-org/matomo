@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa 排名",
+        "Bing_IndexedPages": "Bing 索引页面",
+        "Dmoz": "DMOZ 条目",
+        "DomainAge": "域名年限",
+        "ExternalBacklinks": "外部反向链接 (Majestic)",
+        "Google_IndexedPages": "Google 索引页面",
+        "Rank": "排名",
+        "ReferrerDomains": "来源域名 (Majestic)",
+        "SeoRankings": "SEO排名",
+        "SEORankingsFor": "%s 的SEO排名",
+        "ViewBacklinksOnMajesticSEO": "查看 MajesticSEO.com 上的外部反向链接报表"
+    }
+}

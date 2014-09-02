@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$s sec",
+        "ColumnPagesPerVisit": "Pagina's per bezoek",
+        "ColumnVisitDuration": "Duur bezoek",
+        "Engagement": "Herhaalbezoeken",
+        "NPages": "%s pagina's",
+        "OneMinute": "1 min",
+        "OnePage": "1 pagina",
+        "PluginDescription": "Rapporten over de interesses van de bezoekers: aantal bekeken pagina's, tijdsduur op de website.",
+        "PlusXMin": "%s min.",
+        "VisitNum": "Aantal bezoeken",
+        "VisitsByDaysSinceLast": "Herhalingsbezoek na bepaald aantal dagen",
+        "visitsByVisitCount": "Verdeling herhaalbezoeken",
+        "VisitsPerDuration": "Aantal bezoeken per bezoeksduur",
+        "VisitsPerNbOfPages": "Pagina's per bezoek",
+        "WidgetLengths": "Lengte bezoek",
+        "WidgetLengthsDocumentation": "In dit rapport kunt u zien hoeveel bezoeken een bepaalde tijdsduur hadden. Het rapport wordt getoond in de vorm van een tagcloud, vaker voorkomende tijdsduren worden getoond in een groter lettertype.",
+        "WidgetPages": "Pagina's per bezoek",
+        "WidgetPagesDocumentation": "In dit rapport kunt u zien bij hoeveel bezoeken een bepaald aantal pagina's weren bekeken. Het rapport wordt getoond in de vorm van een tagcloud, vaker voorkomende aantal bekeken pagina's worden getoond in een groter lettertype.",
+        "WidgetVisitsByDaysSinceLast": "Bezoeken per Dagen Sinds Laatste Bezoek",
+        "WidgetVisitsByDaysSinceLastDocumentation": "In dit rapport kunt u zien hoeveel bezoeken van bezoekers waren, wiens laatste bezoek een bepaald aantal dagen geleden was.",
+        "WidgetVisitsByNumDocumentation": "In dit rapport ziet u het aantal bezoeken van bezoekers die uw website tenminste N keer bezochten."
+    }
+}

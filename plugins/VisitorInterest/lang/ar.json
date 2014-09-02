@@ -1,0 +1,17 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s - %2$s دقيقة",
+        "BetweenXYSeconds": "%1$s - %2$s ثانية",
+        "ColumnPagesPerVisit": "الصفحات لكل زيارة",
+        "ColumnVisitDuration": "زمن الزيارة",
+        "Engagement": "التفاعل",
+        "NPages": "%s صفحات",
+        "OnePage": "صفحة واحدة",
+        "PluginDescription": "تقارير حول اهتمامات الزوار: عدد الصفحات المشاهدة، الوقت المستغرق على الموقع.",
+        "PlusXMin": "%s دقيقة",
+        "VisitsPerDuration": "الزيارات لزمن الزيارة",
+        "VisitsPerNbOfPages": "الزيارات لعدد الصفحات",
+        "WidgetLengths": "طول الزيارة",
+        "WidgetPages": "الصفحات لكل زيارة"
+    }
+}

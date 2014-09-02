@@ -1,0 +1,32 @@
+{
+    "Referrers": {
+        "Campaigns": "แคมเปญ",
+        "ColumnCampaign": "แคมเปญ",
+        "ColumnSearchEngine": "เครื่องมือค้นหา",
+        "ColumnWebsite": "เว็บไซต์",
+        "ColumnWebsitePage": "หน้าเว็บไซต์",
+        "DetailsByReferrerType": "รายละเอียดตามชนิดแหล่งที่มา",
+        "DirectEntry": "เข้าชมโดยตรง",
+        "Distinct": "แหล่งที่มาแตกต่างกันตามชนิดของทำการอ้างอิง",
+        "DistinctCampaigns": "แคมเปญการขายที่แตกต่างกัน",
+        "DistinctKeywords": "คีย์เวิร์ดที่แตกต่างกัน",
+        "DistinctSearchEngines": "เครื่องมือค้นหาที่แตกต่างกัน",
+        "DistinctWebsites": "เว็บไซต์ที่แตกต่างกัน",
+        "Keywords": "คีย์เวิร์ด",
+        "PluginDescription": "รายงานข้อมูลแหล่งที่มา: Search Engines, Keywords เว็บไซต์ แคมเปญติดตาม รายการเข้าชมโดยตรง",
+        "Referrers": "แหล่งที่มา",
+        "SearchEngines": "เครื่องมือค้นหา",
+        "SubmenuSearchEngines": "เครื่องมือค้นหาและคีย์เวิร์ด",
+        "SubmenuWebsites": "เว็บไซต์",
+        "Type": "ชนิดของแหล่งที่มา",
+        "TypeCampaigns": "%s จากแคมเปญ",
+        "TypeDirectEntries": "%s การเข้าชมโดยตรง",
+        "TypeSearchEngines": "%s จากเครื่องมือค้นหา",
+        "TypeWebsites": "%s จากแหล่งที่มาเว็บไซต์",
+        "UsingNDistinctUrls": "(โดยใช้ %s ไม่ซ้ำ urls)",
+        "Websites": "เว็บไซต์",
+        "WidgetExternalWebsites": "รายการเว็บไซต์ภายนอก",
+        "WidgetKeywords": "รายการคีย์เวิร์ด",
+        "WidgetSocials": "รายชื่อเว็บไซต์เครือข่ายสังคมออนไลน์"
+    }
+}

@@ -20,10 +20,16 @@ class Events extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
-            'ViewDataTable.configure'               => 'configureViewDataTable',
+            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
+            'ViewDataTable.configure'   => 'configureViewDataTable',
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
         );
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $visitor['events'] = $details['visit_total_events'];
     }
 
     public function addMetricTranslations(&$translations)

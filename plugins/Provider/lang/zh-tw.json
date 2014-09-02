@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "供應商",
+        "PluginDescription": "訪客的網際網路服務供應商報表。",
+        "SubmenuLocationsProvider": "訪客分佈 & 網際網路服務供應商",
+        "WidgetProviders": "網際網路服務供應商"
+    }
+}

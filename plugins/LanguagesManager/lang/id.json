@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Tentang penerjemahan Piwik",
+        "PluginDescription": "Pengaya ini akan menampilkan daftar bahasa yang tersedia dalam antarmuka Piwik. Bahasa yang dipilih akan tersimpan dalam pengaturan setiap pengguna."
+    }
+}

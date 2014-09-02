@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Ranking Alexa",
+        "Bing_IndexedPages": "páginas indexadas por Bing",
+        "Dmoz": "Entradas DMOZ",
+        "DomainAge": "Edad del dominio",
+        "ExternalBacklinks": "Enlaces entrantes Externos (Majestic)",
+        "Google_IndexedPages": "Páginas indexadas por Google",
+        "Rank": "Rank",
+        "ReferrerDomains": "Dominios Referidos (Majestic)",
+        "SeoRankings": "SEO Rankings",
+        "SEORankingsFor": "SEO Rankings de %s",
+        "ViewBacklinksOnMajesticSEO": "Ver informe de Enlaces entrantes Externos en MajesticSEO.com"
+    }
+}

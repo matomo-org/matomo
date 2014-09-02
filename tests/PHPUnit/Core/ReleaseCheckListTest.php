@@ -370,7 +370,8 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $isTestResultFile = strpos($file, "/Integration/expected") !== false
             || strpos($file, "/Integration/processed") !== false
             || strpos($file, "tests/resources/Updater/") !== false
-            || strpos($file, "Twig/Tests/") !== false;
+            || strpos($file, "Twig/Tests/") !== false
+            || strpos($file, "/vendor/") !== false;
         $isLib = strpos($file, "lib/xhprof") !== false || strpos($file, "phpunit/phpunit") !== false;
 
         return ($isIniFile && $isIniFileInTests) || $isTestResultFile || $isLib;

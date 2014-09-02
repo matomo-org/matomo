@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Kolumnia '%s' ei löydetty tässä raportissa. Kokeile mitä tahansa %s",
+        "PluginDescription": "Luo upeita staattisia PNG-kuvaajia mistä tahansa Piwikin raportista."
+    }
+}

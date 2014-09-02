@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "自定义变量名称",
+        "ColumnCustomVariableValue": "自定义变量值",
+        "CustomVariables": "自定义变量",
+        "CustomVariablesReportDocumentation": "本报表包含您的自定义变量的资料，点击变量名查看数据。%s 关于自定义变量的详情，请阅读 %spiwik.org 上的自定义变量文档%s",
+        "PluginDescription": "插件描述",
+        "ScopePage": "访问页面",
+        "ScopeVisit": "访问范围"
+    }
+}

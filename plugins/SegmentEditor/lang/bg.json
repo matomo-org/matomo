@@ -1,0 +1,25 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Добавяне на %s условие",
+        "AddNewSegment": "Добави нов сегмент",
+        "AreYouSureDeleteSegment": "Сигурни ли сте, че искате да изтриете този сегмент?",
+        "AutoArchivePreProcessed": "Сегментираните отчети са предварително обработени (за по-голяма бързина се изисква archive.php cron)",
+        "AutoArchiveRealTime": "Сегментираните отчети са обработени в реално време",
+        "ChooseASegment": "Избери сегмент",
+        "DefaultAllVisits": "Всички посещения",
+        "DragDropCondition": "Състояние „Плъзгане & Пускане“",
+        "LoadingSegmentedDataMayTakeSomeTime": "Обработката на сегментирани данни за посетителите може да отнеме няколко минути…",
+        "OperatorAND": "И",
+        "OperatorOR": "ИЛИ",
+        "SaveAndApply": "Запази & Приложи",
+        "SegmentDisplayedAllWebsites": "всички сайтове",
+        "SegmentDisplayedThisWebsiteOnly": "само този уебсайт",
+        "SegmentIsDisplayedForWebsite": "и се показва за",
+        "SegmentNotApplied": "Сегмент '%s' не е приложен",
+        "SelectSegmentOfVisitors": "Изберете сегмент на посетителите:",
+        "ThisSegmentIsVisibleTo": "Този сегмент е видим за:",
+        "VisibleToAllUsers": "всички потребители",
+        "VisibleToMe": "аз",
+        "YouMustBeLoggedInToCreateSegments": "Трябва да сте вписани, за да създавате и редактирате персонализираните посетителски сегменти."
+    }
+}

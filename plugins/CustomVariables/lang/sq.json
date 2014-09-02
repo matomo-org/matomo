@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Emër Ndryshoreje të Personalizueshme",
+        "ColumnCustomVariableValue": "Vlerë Ndryshoreje të Personalizueshme",
+        "CustomVariables": "Ndryshore të Personalizueshme",
+        "CustomVariablesReportDocumentation": "Ky raport përmban të dhëna rreth Ndryshoreve tuaja të Personalizuara. Klikoni mbi një emër ndryshoreje që të shihni shpërndarjen e vlerave. %s Për më tepër të dhëna rreth Ndryshoresh të Personalizuara në përgjithësi, lexoni %sdokumentimin e Ndryshoreve të Personalizuara te piwik.org%s",
+        "PluginDescription": "Ndryshoret e personalizueshme janë të trajtës emër,çift vlerash që mund të rregullohen prej jush për një Vizitë duke përdorur funksionin Javascript API setVisitCustomVariables(). Piwik-u mandej do të njoftojë se sa vizita, faqe, shndërrime kanë ndodhur për këto emra dhe vlera të personalizuara.",
+        "ScopePage": "faqe me qëllim",
+        "ScopeVisit": "vizitë me qëllim"
+    }
+}

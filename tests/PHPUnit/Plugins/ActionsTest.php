@@ -15,7 +15,7 @@ class ActionsTests extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        Translate::loadEnglishTranslation();
+        Translate::reloadLanguage('en');
     }
 
     public function tearDown()

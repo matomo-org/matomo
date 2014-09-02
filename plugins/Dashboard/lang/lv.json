@@ -1,0 +1,14 @@
+{
+    "Dashboard": {
+        "AddPreviewedWidget": "Pievienot apskatīto logdaļu panelim",
+        "Dashboard": "Panelis",
+        "DeleteWidgetConfirm": "Vai tiešām vēlaties dzēst šo logdaļu no paneļa?",
+        "LoadingWidget": "Notiek logdaļas ielāde, lūdzu uzgaidiet...",
+        "Maximise": "Izvērst",
+        "Minimise": "Samazināt",
+        "PluginDescription": "Jūsu tīkla analīzes panelis. Jūs varat pielāgot savu paneli pievienojot logdaļas vai mainot to izkārtojumu. Katram lietotājam var būt savs, pielāgots panelis.",
+        "SelectWidget": "Izvēlieties to logdaļu, kuru vēlaties pievienot panelim",
+        "WidgetNotFound": "Logdaļa nav atrasta",
+        "WidgetPreview": "Logdaļas priekšstatījums"
+    }
+}

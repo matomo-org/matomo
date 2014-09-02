@@ -1,0 +1,28 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "%s の条件を追加",
+        "AddNewSegment": "新しいセグメントを追加",
+        "AreYouSureDeleteSegment": "このセグメントを削除してもよろしいですか？",
+        "AutoArchivePreProcessed": "セグメントレポートの事前処理（archive.php の cron 設定が必要）",
+        "AutoArchiveRealTime": "セグメントレポートをリアルタイムに処理",
+        "ChooseASegment": "セグメントを選択してください",
+        "DataAvailableAtLaterDate": "ご利用中のセグメント化した分析レポートは、後ほど利用できるようになります。ご迷惑をおかけして申し訳ございません。",
+        "DefaultAllVisits": "すべてのビジット",
+        "DragDropCondition": "左のメニューから条件をドラッグ&ドロップしてください",
+        "LoadingSegmentedDataMayTakeSomeTime": "ビジターデータのセグメント処理には、数分かかることがあります...",
+        "OperatorAND": "AND（および）",
+        "OperatorOR": "OR（または）",
+        "SaveAndApply": "適用",
+        "SegmentDisplayedAllWebsites": "全ウェブサイト",
+        "SegmentDisplayedThisWebsiteOnly": "このウェブサイトのみ",
+        "SegmentIsDisplayedForWebsite": "表示対象の選択：",
+        "SegmentNotApplied": "セグメント '%s' が適用されませんでした",
+        "SegmentNotAppliedMessage": "カスタムセグメント '%s' のデータをリクエストしました。この Piwik の構成は現在、パフォーマンス上の理由からレポートのリアルタイム処理をおこないません。",
+        "SelectSegmentOfVisitors": "ビジターのセグメントを選択:",
+        "ThisSegmentIsVisibleTo": "このセグメント設定の表示：",
+        "VisibleToAllUsers": "すべてのユーザー",
+        "VisibleToMe": "自分",
+        "YouMayChangeSetting": "別の方法としては設定ファイル (%s) で設定を変更するか、このセグメント '%s' を選択し編集することができます。",
+        "YouMustBeLoggedInToCreateSegments": "ビジターのカスタムセグメントの作成と編集にはログインが必要です。"
+    }
+}

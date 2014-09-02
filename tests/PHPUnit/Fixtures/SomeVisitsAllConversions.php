@@ -63,7 +63,8 @@ class SomeVisitsAllConversions extends Fixture
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 5)) {
-            API::getInstance()->addGoal($this->idSite, 'name event', 'event_name', 'the_name', 'exact');
+            // including a few characters that are HTML entitiable
+            API::getInstance()->addGoal($this->idSite, 'name event', 'event_name', '<the_\'"name>', 'exact');
         }
     }
 
@@ -114,8 +115,8 @@ class SomeVisitsAllConversions extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
         self::checkResponse($t->doTrackEvent('the_category', 'click_action', 'name'));
 
-        // should trigger a goal for event_name
+        // should trigger a goal for event_name, including a few characters that are HTML entitiable
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
-        self::checkResponse($t->doTrackEvent('other_category', 'other_action', 'the_name'));
+        self::checkResponse($t->doTrackEvent('other_category', 'other_action', '<the_\'"name>'));
     }
 }

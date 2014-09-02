@@ -5,15 +5,6 @@
 		<idVisit>5</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -26,39 +17,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -70,6 +57,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -81,7 +79,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -95,6 +92,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -106,15 +106,6 @@
 		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -127,39 +118,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -171,6 +158,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -182,7 +180,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -196,6 +193,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -207,15 +207,6 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>6</events>
-		<actions>6</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -296,39 +287,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>6</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>3481</visitDuration>
+		<visitDurationPretty>58 min 1s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>3481</visitDuration>
-		<visitDurationPretty>58 min 1s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>6</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -340,6 +327,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -351,7 +349,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -365,6 +362,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -376,15 +376,6 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -397,39 +388,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -441,6 +428,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -452,7 +450,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -466,6 +463,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -477,15 +477,6 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>13</events>
-		<actions>15</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -733,39 +724,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>15</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>3601</visitDuration>
+		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>3601</visitDuration>
-		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>13</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -777,6 +764,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -788,7 +786,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -802,6 +799,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -813,15 +813,6 @@
 		<idVisit>10</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -834,39 +825,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -878,6 +865,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -889,7 +887,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
@@ -899,6 +896,9 @@
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -910,15 +910,6 @@
 		<idVisit>9</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -931,39 +922,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -975,6 +962,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -986,7 +984,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
@@ -996,6 +993,9 @@
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -1007,15 +1007,6 @@
 		<idVisit>7</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>6</events>
-		<actions>6</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1096,39 +1087,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>6</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>3481</visitDuration>
+		<visitDurationPretty>58 min 1s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>3481</visitDuration>
-		<visitDurationPretty>58 min 1s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>6</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1140,6 +1127,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -1151,7 +1149,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
@@ -1161,6 +1158,9 @@
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -1172,15 +1172,6 @@
 		<idVisit>8</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -1193,39 +1184,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1237,6 +1224,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -1248,7 +1246,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
@@ -1258,6 +1255,9 @@
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -1269,15 +1269,6 @@
 		<idVisit>6</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>13</events>
-		<actions>15</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1525,39 +1516,35 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>15</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>3601</visitDuration>
+		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>3601</visitDuration>
-		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<deviceType>Desktop</deviceType>
+		<events>13</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -1569,6 +1556,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -1580,7 +1578,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
@@ -1590,6 +1587,9 @@
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		

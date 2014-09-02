@@ -1,0 +1,25 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Adicionar a condição %s",
+        "AddNewSegment": "Adicionar novo segmento",
+        "AreYouSureDeleteSegment": "Confirma a exclusão deste segmento?",
+        "AutoArchivePreProcessed": "Relatórios segmentados são pré-processados ​​(Para agilizar, é necessário usar o cron em: archive.php)",
+        "AutoArchiveRealTime": "Relatórios segmentados são processados em tempo real",
+        "ChooseASegment": "Escolha um segmento",
+        "DefaultAllVisits": "Todas as visitas",
+        "DragDropCondition": "Condição Drag & Drop",
+        "LoadingSegmentedDataMayTakeSomeTime": "O processamento segmentado de dados de visitantes pode demorar alguns mitutos...",
+        "OperatorAND": "e",
+        "OperatorOR": "ou",
+        "SaveAndApply": "Salvar e Aplicar",
+        "SegmentDisplayedAllWebsites": "Todos os Sites",
+        "SegmentDisplayedThisWebsiteOnly": "Somente neste website",
+        "SegmentIsDisplayedForWebsite": "e exibidos para",
+        "SegmentNotApplied": "Segmento '%s' não aplicado",
+        "SelectSegmentOfVisitors": "Selecione um segmento de visitantes:",
+        "ThisSegmentIsVisibleTo": "Este segmento é visível para:",
+        "VisibleToAllUsers": "Todos os Usuários",
+        "VisibleToMe": "mim",
+        "YouMustBeLoggedInToCreateSegments": "Você precisa estar logado para criar e editar segmentos personalizados de visitantes."
+    }
+}

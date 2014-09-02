@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Provider",
+        "PluginDescription": "Stellt Informationen über den Provider des Besuchers dar.",
+        "ProviderReportDocumentation": "Dieser Bericht zeigt Ihnen, welche Internetanbieter die Besucher Ihrer Webseite nutzen. Sie können auf den Namen eines Anbieters klicken, um mehr Informationen dazu zu erhalten. %s Wenn Piwik den Internetanbieter eines Besuchers nicht feststellen kann, wird er unter IP gelistet.",
+        "SubmenuLocationsProvider": "Standorte und Provider",
+        "WidgetProviders": "Provider"
+    }
+}

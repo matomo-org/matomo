@@ -1,0 +1,12 @@
+{
+    "MobileMessaging": {
+        "PhoneNumbers": "หมายเลขโทรศัพท์",
+        "Settings_CountryCode": "รหัสประเทศ",
+        "Settings_PhoneNumber": "เบอร์โทรศัพท์",
+        "Settings_PhoneNumbers_Add": "เพิ่มหมายเลขโทรศัพท์ใหม่",
+        "Settings_SMSAPIAccount": "จัดการบัญชี SMS API",
+        "Settings_SMSProvider": "ผู้ให้บริการ SMS",
+        "Settings_SuperAdmin": "ตั้งค่ำสำหรับผู้ใช้งานขั้นสูงสุด",
+        "TopMenu": "รายงานทางอีเมล & SMS"
+    }
+}

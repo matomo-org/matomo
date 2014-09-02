@@ -1,0 +1,15 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "Tiež poslať správu na tieto e-maily (jeden e-mail na riadok):",
+        "EmailHello": "Ahoj,",
+        "EmailReports": "Reporty e-mailom",
+        "EmailSchedule": "E-mail report",
+        "MonthlyScheduleHelp": "Mesačný plán: správa bude odoslaná prvý deň každého mesiaca.",
+        "PiwikReports": "Reporty",
+        "PleaseFindAttachedFile": "Nájdete v priloženom súbore %1$s reporte pre %2$s.",
+        "SendReportNow": "Teraz poslať report",
+        "SendReportTo": "Poslať report",
+        "SentToMe": "Pošli na",
+        "WeeklyScheduleHelp": "Týždenný plán: správa bude odoslaná prvý pondelok každého týždňa."
+    }
+}

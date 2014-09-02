@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s gennemsnitlige genereringstid",
+        "AverageVisitDuration": "%s gns. besøgsvarighed",
+        "GenerateQueries": "%s forespørgsler kørt",
+        "GenerateTime": "Siden genereret på %s sek.",
+        "MaxNbActions": "%s maks. handlinger i ét enkelt besøg",
+        "NbActionsDescription": "%s handlinger (sidevisninger, filhentninger og udgående links)",
+        "NbActionsPerVisit": "%s handlinger pr. besøg",
+        "NbDownloadsDescription": "%s fil-hentninger",
+        "NbKeywordsDescription": "%s unikke søgeord",
+        "NbOutlinksDescription": "%s udgående links",
+        "NbPageviewsDescription": "%s sidevisninger",
+        "NbSearchesDescription": "%s søgninger på hjemmesiden",
+        "NbUniqueDownloadsDescription": "%s unikke fil-hentninger",
+        "NbUniqueOutlinksDescription": "%s unikke udgående links",
+        "NbUniquePageviewsDescription": "%s unikke sidevisninger",
+        "NbUniqueVisitors": "%s unikke besøgende",
+        "NbVisitsBounced": "%s har forladt hjemmesiden efter én sidevisning",
+        "PluginDescription": "Generelle analyserapporter: besøg, unikke besøgende, antal handlinger, afvisningsprocent osv..",
+        "VisitsSummary": "Besøg resumé",
+        "VisitsSummaryDocumentation": "Oversigt over besøgsudviklingen.",
+        "WidgetLastVisits": "Seneste besøg",
+        "WidgetOverviewGraph": "Oversigt med diagrammer",
+        "WidgetVisits": "Besøgsoversigt"
+    }
+}

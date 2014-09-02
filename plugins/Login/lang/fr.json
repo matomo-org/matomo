@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Un lien de confirmation a été envoyé à votre courriel. Vérifiez votre courriel et cliquez sur le lien pour autoriser votre demande de changement de mot de passe.",
+        "ContactAdmin": "Raison possible : Votre hébergeur peut avoir désactivé la fonction mail(). <br \/> Veuillez contacter votre administrateur Piwik.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilisateur avec un accès super utilisateur ne peut être authentifié en utilisant le mécanisme '%s'.",
+        "ExceptionPasswordMD5HashExpected": "Le paramètre mot de passe doit être le hash MD5 du mot de passe.",
+        "InvalidNonceOrHeadersOrReferrer": "La sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que vos cookies sont activés. Si vous utilisez un serveur proxy, vous devez %s configurer Piwik pour accepter les en-têtes du proxy %s qui relaient les en-têtes de l'hôte. Vérifiez aussi que l'en-tête de votre référant est correctement transmis.",
+        "InvalidOrExpiredToken": "La clef est invalide ou a expiré",
+        "InvalidUsernameEmail": "Nom d'utilisateur et\/ou courriel invalide.",
+        "LogIn": "Connexion",
+        "LoginOrEmail": "Nom d'utilisateur ou courriel",
+        "LoginPasswordNotCorrect": "Mot de passe et nom d'utilisateur incorrects.",
+        "LostYourPassword": "Mot de passe perdu ?",
+        "MailPasswordChangeBody": "Bonjour %1$s,\n\nUne demande de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer le changement de mot de passe afin de pouvoir vous authentifier avec vos nouveaux identifiants, cliquez sur le lien suivant :\n\n%3$s\n\nNote : ce jeton expirera dans 24 heures.\n\nMerci d'utiliser Piwik!",
+        "MailTopicPasswordChange": "Confirmer le changement de mot de passe",
+        "PasswordChanged": "Votre mot de passe a été modifié",
+        "PasswordRepeat": "Mot de passe (répétez)",
+        "PasswordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+        "PluginDescription": "Composant d'authentification, qui se sert des identifiants contenu dans config\/config.ini.php pour le super utilisateur initial et depuis la base de donnés pour les autres utilisateurs. Peut être facilement remplacé pour incorporer d'autres méthodes d'authentification (OpenID, htaccess, authentification personnalisée, etc.).",
+        "RememberMe": "Se souvenir de moi",
+        "ResetPasswordInstructions": "Entrez un nouveau mot de passe pour votre compte."
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Seiten pro Besuch",
+        "ColumnVisitDuration": "Besuchsdauer",
+        "Engagement": "Engagement",
+        "NPages": "%s Seiten",
+        "OneMinute": "1 min",
+        "OnePage": "1 Seite",
+        "PluginDescription": "Berichte über Besucherinteressen: Anzahl der besuchten Seiten, Verweildauer auf der Webseite.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Besuchsanzahl",
+        "VisitsByDaysSinceLast": "Besuche pro Tage seit letztem Besuch",
+        "visitsByVisitCount": "Besuche nach Besuchsanzahl",
+        "VisitsPerDuration": "Besuche pro Besuchsdauer",
+        "VisitsPerNbOfPages": "Besuche pro Seitenanzahl",
+        "WidgetLengths": "Besuchslänge",
+        "WidgetLengthsDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche eine bestimmte Gesamtzeit hatten. Zu Beginn wird der Bericht als Tagwolke angezeigt, häufigere Gesamtzeiten werden in einer größeren Schrift dargestellt.",
+        "WidgetPages": "Seiten pro Besuch",
+        "WidgetPagesDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche eine bestimmte Anzahl an Seitenaufrufen umfassten. Zu Beginn wird der Bericht als Tagwolke angezeigt, häufigere Anzahlen werden in einer größeren Schrift dargestellt.",
+        "WidgetVisitsByDaysSinceLast": "Besuche pro Tage seit letztem Besuch",
+        "WidgetVisitsByDaysSinceLastDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche von Besuchern gemacht wurden, deren letzter Besuch eine bestimmte Anzahl an Tagen zuvor stattfand.",
+        "WidgetVisitsByNumDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche der n-te Besuch eines Besuches waren. Das bedeutet, der Besucher hat die Webseite mindestens n Mal besucht."
+    }
+}

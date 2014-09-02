@@ -1,0 +1,17 @@
+{
+    "VisitsSummary": {
+        "AverageVisitDuration": "%s متوسط زمن الزيارة",
+        "GenerateQueries": "%s استعلام تم تنفيذهم",
+        "GenerateTime": "%s ثانية لإنشاء هذه الصفحة",
+        "MaxNbActions": "%s أقصى عدد للسلوكيات في زيارة واحدة",
+        "NbActionsDescription": "%s سلوك (عدد مشاهدات الصفحة، التحميلات، والروابط الصادرة)",
+        "NbActionsPerVisit": "%s سلوك لكل زيارة",
+        "NbUniqueVisitors": "%s زيارة فريدة",
+        "NbVisitsBounced": "%s زيارات مرتدة (غادر الموقع بعد مشاهدة أول صفحة)",
+        "PluginDescription": "يعد تقاريراً حول أرقام التحليلات العامة الخاصة بالزيارات، الزيارات الفريدة، عدد السلوكيات، معدل الارتداد، وغيرها.",
+        "VisitsSummary": "ملخص الزيارات",
+        "WidgetLastVisits": "الرسم البياني لآخر الزيارات",
+        "WidgetOverviewGraph": "نظرة عامة مع الرسم البياني",
+        "WidgetVisits": "نظرة عامة على الزيارات"
+    }
+}

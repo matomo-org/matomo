@@ -1,0 +1,26 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Kontakt Piwik holdet",
+        "DoYouHaveBugReportOrFeatureRequest": "Har du en fejlrapport eller en anmodning om en funktion?",
+        "GetInTouch": "Vi værdsætter din feedback og læser altid alle meddelelser uanset om du har en forretningsidé, ønsker at finde en Piwik konsulent, fortæl os en succeshistorie eller blot sige hej!",
+        "HowToCreateTicket": "Læs anbefalingerne om at skrive en god %1$sfejlrapport%2$s eller %3$sfunktionsanmodning%4$s. Tilmeld eller log ind på %5$svores emne tracker%6$s og opret et %7$snyt emne%8$s.",
+        "IWantTo": "Jeg ønsker at:",
+        "LearnWaysToParticipate": "Lær om alle de måder, du kan %s bidrage%s",
+        "ManuallySendEmailTo": "Send din besked manuelt til",
+        "PluginDescription": "Send tilbagemelding til Piwik Team med et enkelt klik. Del ideer og forslag med os!",
+        "PrivacyClaim": "Piwik respekterer din %1$sprivacy%2$s og giver dig fuld kontrol over dine data.",
+        "RateFeatureLeaveMessageDislike": "Vi er kede af at høre, at du ikke kan lide det! Fortæl os, hvad vi kan gøre bedre.",
+        "RateFeatureLeaveMessageLike": "Vi er glad for du kan lide det! Fortæl os hvad du kan lide mest eller hvis du har forslag til en ny funktion.",
+        "RateFeatureSendFeedbackInformation": "Piwik vil sende Piwik holdet en e-mail (med din e-mail-adresse), så vi kan komme i kontakt med dig, hvis du har nogen spørgsmål.",
+        "RateFeatureThankYouTitle": "Tak for din bedømmelse '%s'!",
+        "RateFeatureTitle": "Kan du lide '%s' funktionen? Bedøm og efterlade en kommentar",
+        "SendFeedback": "Send tilbagemelding",
+        "SpecialRequest": "Har du en speciel anmodning til Piwik holdet?",
+        "ThankYou": "Tak, fordi du hjælper med at gøre Piwik bedre!",
+        "TopLinkTooltip": "Fortæl os hvad du mener eller anmod om professionel support",
+        "ViewAnswersToFAQ": "Se svarene på %sOfte stillede spørgsmål%s",
+        "ViewUserGuides": "Lær at konfigurere Piwik og hvordan man effektivt analyserer data med vores %1$sbrugervejledninger%2$s",
+        "VisitTheForums": "Besøg %s Forum%s",
+        "WantToThankConsiderDonating": "Synes du at Piwik er fantastisk og ønsker du at takke os?"
+    }
+}

@@ -106,7 +106,7 @@ class Piwik_TestingEnvironment
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
         ));
 
-        return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
+        $plugins = array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
             if (in_array($pluginName, $disabledPlugins)) {
                 return false;
             }
@@ -114,6 +114,10 @@ class Piwik_TestingEnvironment
             return PluginManager::getInstance()->isPluginBundledWithCore($pluginName)
                 || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
         });
+
+        sort($plugins);
+
+        return $plugins;
     }
 
     public static function addHooks()
@@ -130,6 +134,10 @@ class Piwik_TestingEnvironment
             foreach ($testingEnvironment->globalsOverride as $key => $value) {
                 $GLOBALS[$key] = $value;
             }
+        }
+
+        if ($testingEnvironment->useXhprof) {
+            \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
         Config::setSingletonInstance(new Config(
@@ -161,12 +169,6 @@ class Piwik_TestingEnvironment
                 sort($pluginsToLoad);
 
                 $local['Plugins'] = array('Plugins' => $pluginsToLoad);
-
-                $trackerPluginsToLoad = array_filter($local['Plugins']['Plugins'], function ($plugin) use ($manager) {
-                    return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
-                });
-
-                $local['Plugins_Tracker'] = array('Plugins_Tracker' => $trackerPluginsToLoad);
 
                 $local['log']['log_writers'] = array('file');
 

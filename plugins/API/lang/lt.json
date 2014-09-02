@@ -1,0 +1,12 @@
+{
+    "API": {
+        "GenerateVisits": "Jei neturite duomenų šiandienai , galite sugeneruoti jų pasinaudoję %s papildiniu. Įjunkite šį %s papildinį, tada spauskite ant 'Apsilankymų generatorius' meniu Piwik administratoriaus srityje.",
+        "KeepTokenSecret": "Šis token_auth yra slaptas kaip ir naudotojo vardas bei slaptažodis, %s neviešinkite jo%s!",
+        "LoadedAPIs": "Sėkmingai įkrautos API sąsajos (%s).",
+        "MoreInformation": "Norinčius gauti daugiau informacijos apie Piwik API sąsajas, prašome žvilgtelėti į %s Įvadas į Piwik API %s ir %s Piwik API informacija %s.",
+        "PluginDescription": "Visi duomenys Piwik pasiekiami per paprastas API sąsajas. Šis papildinys - tai žiniatinklio tarnybos įėjimo taškas, kuriuo galite naudotis norėdami gauti savo žiniatinklio analizatoriaus duomenis xml, json, php, csv ir kitais formatais.",
+        "QuickDocumentationTitle": "API trumpa dokumentacija",
+        "UserAuthentication": "Naudotojo autentifikavimas",
+        "UsingTokenAuth": "Jei norite %s gauti duomenis scenarijų, crontab ir pan. įrankių pagalba, %s turite pridėti parametrus %s į API užklausų URLs, kurios reikalauja autentifikacijos."
+    }
+}

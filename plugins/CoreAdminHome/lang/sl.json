@@ -1,0 +1,25 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administracija",
+        "BrandingSettings": "Nastavitve znamke",
+        "ClickHereToOptIn": "Kliknite tu za pristop",
+        "ClickHereToOptOut": "Kliknite tu, če želite odstopiti.",
+        "CustomLogoHelpText": "Piwik-ov logo lahko prilagodite po vaših željah. Spremembe bodo vidne tako v uporabniškem vmesniku, kot v email poročilih.",
+        "EmailServerSettings": "Nastavitev strežnika za email",
+        "ImageTracking": "Sledenje s pomočjo slike",
+        "JavaScriptTracking": "Sledenje s pomočjo Javascripta",
+        "LatestBetaRelease": "Zadnja beta različica",
+        "LatestStableRelease": "Zadnja stabilna različica",
+        "LogoUpload": "Izberite Logo za nalaganje",
+        "MenuDevelopment": "Razvoj",
+        "MenuDiagnostic": "Diagnostika",
+        "MenuGeneralSettings": "Splošne nastavitve",
+        "MenuManage": "Upravljaj",
+        "OptOutExplanation": "Piwik želi zagotoviti zasebnost na internetu. Če želite svojim obiskovalcem omogočiti 'opt-out' iz Piwik spletne analitike, potem lahko dodate naslednjo HTML kodo na vašo spletno stran, npr. na stran 'Varovanje zasebnosti'.",
+        "OptOutForYourVisitors": "'Opt-out' za vaše obiskovalce",
+        "PluginDescription": "Administrativno okolje Piwik.",
+        "UseCustomLogo": "Uporabi poseben logo",
+        "YouAreOptedIn": "Trenutno ste pridruženi.",
+        "YouAreOptedOut": "Trenutno niste pridruženi."
+    }
+}

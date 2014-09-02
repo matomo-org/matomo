@@ -1,0 +1,15 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Piwik チームと連絡を取る！",
+        "DoYouHaveBugReportOrFeatureRequest": "報告するべきバグや機能要望がありますか？",
+        "IWantTo": "あなたの希望：",
+        "LearnWaysToParticipate": "あなたが参加できるすべての方法を%s学んでください%s",
+        "ManuallySendEmailTo": "あなたのメッセージを手作業で次のアドレスへ送ってください：",
+        "PluginDescription": "Piwik チームにフィードバックを送信します。 あなたのアイディアや提案を私たちと共有してください！",
+        "RateFeatureThankYouTitle": "'%s' の評価をありがとう！",
+        "SendFeedback": "フィードバックを送信",
+        "SpecialRequest": "Piwik チームに対して特別なリクエストがありますか？",
+        "ThankYou": "私たちが Piwik をより良くするのを支援していただきありがとうございます！",
+        "VisitTheForums": "%sフォーラム%sにアクセスする"
+    }
+}

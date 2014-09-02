@@ -1,0 +1,7 @@
+{
+    "Provider": {
+        "ColumnProvider": "Pakalpojumu sniedzējs",
+        "SubmenuLocationsProvider": "Lokācijas un pakalpojumu sniedzējs",
+        "WidgetProviders": "Pakalpojumu sniedzēji"
+    }
+}

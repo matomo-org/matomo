@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "Internetszolgáltató",
+        "PluginDescription": "Jelentések a látogatók internetszolgáltatóról",
+        "SubmenuLocationsProvider": "Hely és internetszolgáltató",
+        "WidgetProviders": "Internetszolgáltatók"
+    }
+}

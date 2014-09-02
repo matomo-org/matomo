@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s phút",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Các trang cho mỗi truy cập",
+        "ColumnVisitDuration": "Thời gian truy cập",
+        "Engagement": "Tham gia",
+        "NPages": "%s trang",
+        "OneMinute": "1 phút",
+        "OnePage": "1 trang",
+        "PluginDescription": "Báo cáo về các mối quan tâm của khách: số trang đã xem, thời gian dành cho trang web.",
+        "PlusXMin": "%s phút",
+        "VisitNum": "Số truy cập",
+        "VisitsByDaysSinceLast": "Các truy cập theo ngày kể từ lượt truy cập cuối cùng",
+        "visitsByVisitCount": "Các lượt truy cập theo số lần truy cập",
+        "VisitsPerDuration": "Các lượt truy cập theo mỗi thời hạn truy cập",
+        "VisitsPerNbOfPages": "Các lượt truy cập theo mỗi số lượng trang",
+        "WidgetLengths": "Thời lượng của các truy cập",
+        "WidgetLengthsDocumentation": "Trong báo cáo này, bạn có thể thấy bao nhiêu lượt truy cập trong tổng thời gian nhất định. Ban đầu, báo cáo được trình bày như một Tag Cloud, thời gian phổ biến được hiển thị trong một phông chữ lớn hơn.",
+        "WidgetPages": "Các trang mỗi lượt truy cập",
+        "WidgetPagesDocumentation": "Trong báo cáo này, bạn có thể thấy bao nhiêu lượt truy cập liên quan đến một số lượng nhất định của lượt xem trang. Ban đầu, báo cáo được trình bày như một tag cloud, số trang thường dùng được hiển thị trong một phông chữ lớn hơn.",
+        "WidgetVisitsByDaysSinceLast": "Các lượt truy cập theo ngày kể từ lượt truy cập cuối",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Trong báo cáo này, bạn có thể thấy bao nhiêu lượt truy cập từ khách mà lượt truy cập trước đã xảy ra cách đây một số ngày nhất định.",
+        "WidgetVisitsByNumDocumentation": "Trong báo cáo này, bạn có thể thấy số lượng truy cập những người đã truy cập lần thứ N, tức là. Khách truy cập trang web của bạn ít nhất là N lần."
+    }
+}

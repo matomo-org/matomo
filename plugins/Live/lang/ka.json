@@ -1,0 +1,12 @@
+{
+    "Live": {
+        "GoalType": "ტიპი",
+        "LastHours": "ბოლო %s საათი",
+        "LastMinutes": "ბოლო %s წუთი",
+        "LinkVisitorLog": "იხილეთ ვიზიტორების ჟურნალი დეტალურად",
+        "PluginDescription": "ადევნეთ თვალი თქვენს ვიზიტორებს, ცოცხლად, რეალურ დროში!",
+        "Referrer_URL": "რეფერერის URL",
+        "VisitorLog": "ვიზიტორების ჟურნალი",
+        "VisitorsInRealTime": "ვიზიტორები რეალურ დროში"
+    }
+}

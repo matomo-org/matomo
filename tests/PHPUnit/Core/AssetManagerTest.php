@@ -12,12 +12,16 @@ use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
+use Piwik\EventDispatcher;
 
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/UIAssetCacheBusterMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/PluginManagerMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/PluginMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/ThemeMock.php";
 
+/**
+ * @group AssetManagerTest
+ */
 class AssetManagerTest extends PHPUnit_Framework_TestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
@@ -117,6 +121,8 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->pluginManager = PluginManagerMock::getInstance();
         Manager::setSingletonInstance($this->pluginManager);
+
+        EventDispatcher::unsetInstance(); // EventDispatcher stores a reference to Plugin Manager
     }
 
     private function setUpPlugins()

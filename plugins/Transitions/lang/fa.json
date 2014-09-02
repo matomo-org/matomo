@@ -1,0 +1,27 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s پس زده",
+        "DirectEntries": "ورودی های مستقیم",
+        "ErrorBack": "به فعالیت قبلی برگرد",
+        "ExitsInline": "%s خروج",
+        "FromCampaigns": "از کمپین",
+        "FromPreviousPages": "از صفحه های داخلی",
+        "FromPreviousPagesInline": "%s از صفحه های داخلی",
+        "FromPreviousSiteSearches": "از جستجوی داخلی",
+        "FromPreviousSiteSearchesInline": "%s از جستجوهای داخلی",
+        "FromSearchEngines": "از موتورهای جستجو",
+        "FromWebsites": "از وبسایت ها",
+        "IncomingTraffic": "ترافیک ورودی",
+        "LoopsInline": "%s بارگذاری مجدد صفحه",
+        "NoDataForAction": "هیچ داده ای وجود ندارد برای %s",
+        "OutgoingTraffic": "ترافیک خروجی",
+        "PluginDescription": "درباره فعالیت های قبلی و پیش روی هر URL صفحه گزارش می دهد.",
+        "ShareOfAllPageviews": "این صفحه %s بازدیدازصفحه دارد(%s از تمام بازدیدازصفحه ها)",
+        "ToFollowingPages": "به صفحه های داخلی",
+        "ToFollowingPagesInline": "%s به صفحه های داخلی",
+        "ToFollowingSiteSearches": "جستجوهای داخلی",
+        "ToFollowingSiteSearchesInline": "%s جستجوهای داخلی",
+        "XOfAllPageviews": "%s از همه ی بازدیدهای این صفحه",
+        "XOutOfYVisits": "%s (از %s)"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Umsjón",
+        "EmailServerSettings": "Póstþjóns stillingar",
+        "MenuGeneralSettings": "Almennar stillingar",
+        "OptOutExplanation": "Piwik er tileinkað að bjóða uppá persónuvernd á netinu. Til að veita gestum þínum val á að kjósa ekki að taka þátt í Piwik vefumferðar mælingum þá getur þú bætt við eftirfarandi HTML kóða á eina af síðum vefjarins tildæmis á persónuverndarstefnu síðunni.",
+        "OptOutForYourVisitors": "Piwik er útvalið fyrir þína gesti",
+        "PluginDescription": "Umsjónarsvæði Piwik",
+        "YouAreOptedIn": "Þú ert nú valinn",
+        "YouAreOptedOut": "Þú ert nú útvalinn",
+        "YouMayOptOutBis": "Til að framkvæma það val, vinsamlegast smelltu hér fyrir neðan til að fá útvals smáköku."
+    }
+}

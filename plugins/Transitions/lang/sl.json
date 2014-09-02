@@ -1,0 +1,19 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s odbojev",
+        "ErrorBack": "Nazaj na prejšnje dejanje",
+        "ExitsInline": "%s izhodov",
+        "FromPreviousPages": "Iz notranjih strani",
+        "FromPreviousPagesInline": "%s iz notranjih strani",
+        "FromSearchEngines": "S spletnih iskalnikov",
+        "NoDataForAction": "Ni podatkov za %s",
+        "OutgoingTraffic": "Izhodni promet",
+        "PluginDescription": "Poročila o predhodnih in naslednjih akcijah za vsak URL",
+        "ShareOfAllPageviews": "Ta stran je imela %s ogledov strani (%s od vseh ogledov strani)",
+        "ToFollowingPages": "Na notranje strani",
+        "ToFollowingPagesInline": "%s na notranje strani",
+        "ToFollowingSiteSearches": "Notranja iskanja",
+        "ToFollowingSiteSearchesInline": "%s notranjih iskanj",
+        "XOutOfYVisits": "%s (od %s)"
+    }
+}

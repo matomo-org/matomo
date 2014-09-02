@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s klick",
+        "ClicksFromXLinks": "%1$s klick från en av %2$s länkar",
+        "Domain": "Domän",
+        "ErrorNotLoading": "Sessionen för sidöverlägg kunde inte startas.",
+        "ErrorNotLoadingDetails": "Möjligtvis så har inte sidan som laddats till höger Piwik's spårningskod. I det här falletkan du prova att starta Sidöverlägg för en annan sida från rapporten \"Sidor\".",
+        "ErrorNotLoadingDetailsSSL": "Eftersom du använder Piwik över https, så är den mest troliga orsaken att din webbläsare inte stödjer SSL. Försök att använda Piwik över http.",
+        "ErrorNotLoadingLink": "Klicka här för att få fler tips för felsökning",
+        "Link": "Länk",
+        "Location": "Plats",
+        "NoData": "Det finns inga data för denna sida under den valda perioden.",
+        "OneClick": "1 klick",
+        "OpenFullScreen": "Gå till helskärmsläge (ingen sidolist)",
+        "Overlay": "Sidöverlägg",
+        "PluginDescription": "Se analysdata som ett överliggande lager på din faktiska webbplats.",
+        "RedirectUrlError": "Du försöker öppna ett överliggande lager för URL \"%s\". %s Ingen av domänerna från Piwik's inställningar matchar länken.",
+        "RedirectUrlErrorAdmin": "Du kan lägga till domänen som en extra URL %si inställningarna%s.",
+        "RedirectUrlErrorUser": "Be administratören att lägga till domänen som en extra webbadress"
+    }
+}

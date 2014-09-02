@@ -12,6 +12,9 @@ use Piwik\Period\Week;
 use Piwik\Period\Year;
 use Piwik\Translate;
 
+/**
+ * @group Core_Period_RangeTest
+ */
 class Period_RangeTest extends PHPUnit_Framework_TestCase
 {
     // test range 1
@@ -1259,7 +1262,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $month = new Range('range', '2000-12-09,2001-02-01');
         $shouldBe = '9 Dec 00 - 1 Feb 01';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
@@ -1270,7 +1273,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $month = new Range('range', '2023-05-09,2023-05-21');
         $shouldBe = '8 May 23 - 21 May 23';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
@@ -1281,7 +1284,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $month = new Range('range', '2007-02-09,2007-03-15');
         $shouldBe = 'From 2007-02-09 to 2007-03-15';
         $this->assertEquals($shouldBe, $month->getPrettyString());
@@ -1308,5 +1311,10 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     {
         $range = new Range($period, 'last' . $lastN);
         $this->assertEquals($expectedLastN, $range->getNumberOfSubperiods());
+    }
+
+    private function loadEnglishTranslation()
+    {
+        Translate::reloadLanguage('en');
     }
 }

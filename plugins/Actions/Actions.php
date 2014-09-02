@@ -35,9 +35,16 @@ class Actions extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview',
+            'Live.getAllVisitorDetails'       => 'extendVisitorDetails',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations'
+            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
         );
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $visitor['searches'] = $details['visit_total_searches'];
+        $visitor['actions']  = $details['visit_total_actions'];
     }
 
     public function addMetricTranslations(&$translations)

@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Evolutie",
+        "LoadingWebsites": "Websites laden",
+        "Pagination": "%s - %s van %s",
+        "PluginDescription": "Toont de multi-site uitvoering van de samenvatting\/statistieken. Momenteel onderhouden als een core plugin van Piwik.",
+        "TopLinkTooltip": "Vergelijk Website statistieken van al je websites."
+    }
+}

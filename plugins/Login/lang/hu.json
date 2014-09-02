@@ -1,0 +1,15 @@
+{
+    "Login": {
+        "ContactAdmin": "Lehetséges ok: talán a szolgáltatód tiltja a mail() funkciót. <br \/> Kérjük, lépj kapcsolatba a Piwik adminisztrátoroddal.",
+        "ExceptionPasswordMD5HashExpected": "A jelszóparaméternek egyeznie kellene a jelszó MD5 hash értékével.",
+        "InvalidOrExpiredToken": "A kód érvénytelen vagy lejárt.",
+        "InvalidUsernameEmail": "Helytelen felhasználói név és\/vagy e-mail cím",
+        "LogIn": "Bejelentkezés",
+        "LoginOrEmail": "Felhasználói név vagy e-mail cím",
+        "LoginPasswordNotCorrect": "Felhasználói név\/jelszó páros nem megfelelő",
+        "LostYourPassword": "Elfelejtetted jelszavad?",
+        "PasswordRepeat": "Jelszó (ismét)",
+        "PasswordsDoNotMatch": "Nem egyeznek a jelszavak",
+        "RememberMe": "Megjegyzés"
+    }
+}

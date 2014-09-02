@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Pages par visite",
+        "ColumnVisitDuration": "Durée de la visite",
+        "Engagement": "Engagement",
+        "NPages": "%s pages",
+        "OneMinute": "1 min",
+        "OnePage": "1 page",
+        "PluginDescription": "Effectue des rapports à propos des intérêts des visiteurs: nombre de pages vues, temps passé sur le site.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Numéro de la visite",
+        "VisitsByDaysSinceLast": "Visites par jours depuis la dernière visite",
+        "visitsByVisitCount": "Visites par numéro de visite",
+        "VisitsPerDuration": "Visites par durée de la visite",
+        "VisitsPerNbOfPages": "Visites par nombre de pages",
+        "WidgetLengths": "Durée des visites",
+        "WidgetLengthsDocumentation": "Dans ce rapport, vous pouvez voir combien de visites duraient un certain temps. Initialement ce rapport est affiché comme un nuage de tags, les durées les plus fréquentes sont affichées dans des polices plus grandes.",
+        "WidgetPages": "Pages par visite",
+        "WidgetPagesDocumentation": "Dans ce rapport, vous pouvez voir combien de visites impliquaient l'affichage d'un certain nombre de pages. Initialement ce rapport est affiché comme un nuage de tags, les nombres de pages les plus fréquents sont affichés dans des polices plus grandes.",
+        "WidgetVisitsByDaysSinceLast": "Visites par jour depuis la dernière visite",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Dans ce rapport, vous pouvez voir le nombre de visites il y a eu de ce visiteur dont la dernière visite date depuis un certain nombre de jours.",
+        "WidgetVisitsByNumDocumentation": "Dans ce rapport, vous pouvez voir le nombre de visites qui était la nième visite, par exemple: visiteurs qui ont visité votre site web au moins n fois."
+    }
+}

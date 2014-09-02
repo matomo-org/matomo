@@ -1,0 +1,29 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "%s Bedingung hinzufügen",
+        "AddNewSegment": "Neues Segment hinzufügen",
+        "AreYouSureDeleteSegment": "Möchten Sie dieses Segment wirklich löschen?",
+        "AutoArchivePreProcessed": "Segmentierte Berichte werden im Voraus verarbeitet (schneller, benötigt archive.php Cron)",
+        "AutoArchiveRealTime": "Segmentierte Berichte werden in Echtzeit verarbeitet.",
+        "ChooseASegment": "Segment auswählen",
+        "DataAvailableAtLaterDate": "Ihre segmentierten Analytik-Berichte stehen später zur Verfügung. Wir entschuldigen uns für die Unannehmlichkeit.",
+        "DefaultAllVisits": "Alle Besuche",
+        "DragDropCondition": "Bedingung durch Drag & Drop hinzufügen",
+        "LoadingSegmentedDataMayTakeSomeTime": "Die Verarbeitung der segmentierten Besucherdaten kann einige Minuten dauern...",
+        "OperatorAND": "UND",
+        "OperatorOR": "ODER",
+        "SaveAndApply": "Speichern & Übernehmen",
+        "SegmentDisplayedAllWebsites": "alle Webseiten",
+        "SegmentDisplayedThisWebsiteOnly": "nur diese Webseite",
+        "SegmentIsDisplayedForWebsite": "und wird angezeigt für",
+        "SegmentNotApplied": "Segment '%s' nicht angewendet",
+        "SegmentNotAppliedMessage": "Sie fragen Daten für das benutzerdefinierte Segment '%s' an, die Piwik-Konfiguration verhindert jedoch aktuell Echtzeit-Verarbeitung von Berichten aus Performance-Gründen.",
+        "SelectSegmentOfVisitors": "Wählen Sie ein Segment an Besuchern aus:",
+        "ThisSegmentIsVisibleTo": "Dieses Segment ist sichtbar für:",
+        "VisibleToAllUsers": "alle Benutzer",
+        "VisibleToMe": "mich",
+        "YouDontHaveAccessToCreateSegments": "Sie haben nicht die benötigten Berechtigungen um Segmente anzulegen und zu bearbeiten.",
+        "YouMayChangeSetting": "Alternativ können Sie die Einstellung in der Konfigurationsdatei (%s) ändern, oder ändern Sie dieses Segment und wählen '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Sie müssen sich anmelden um eigene Besuchersegmente anzulegen oder zu bearbeiten."
+    }
+}

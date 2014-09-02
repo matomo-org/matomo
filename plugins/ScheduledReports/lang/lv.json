@@ -1,0 +1,18 @@
+{
+    "ScheduledReports": {
+        "CreateReport": "Izveidot atskaiti",
+        "EmailHello": "Sveiki,",
+        "EmailReports": "E-pasta atskaites",
+        "FrontPage": "Pirmā lapa",
+        "Pagination": "%s. lapa no %s",
+        "PiwikReports": "Piwik atskaites",
+        "ReportFormat": "Atskaites formāts",
+        "ReportsIncluded": "Iekļautā statistika",
+        "SendReportNow": "Sūtīt atskaiti tagad",
+        "SendReportTo": "Sūtīt atskaites uz",
+        "SentToMe": "Sūtīt man",
+        "TableOfContent": "Atskaišu saraksts",
+        "TopOfReport": "Atpakaļ uz sākumu",
+        "UpdateReport": "Atjaunināt atskaiti"
+    }
+}

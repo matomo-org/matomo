@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\Test;
 // there is a test that requires the class to be defined in a plugin
 
-use Piwik\Cache\PersistentCache;
-use Piwik\Cache\StaticCache;
 use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\Plugin\Segment;

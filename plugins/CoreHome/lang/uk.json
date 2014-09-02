@@ -1,0 +1,19 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "В цій категорії немає даних. Спробуйте \"Виключити всі групи людей\"",
+        "JavascriptDisabled": "JavaScript повинен бути увімкнений щоб користовуватися Piwik в стандартному режимі. <br \/> Нажаль, JavaScript вимкнено або не підтримується вашим веб-оглядачем.<br \/> Щоб використовувати стандартний режим, увімкніть JavaScript змінивши налаштування вашого веб-оглядача, а тоді %1$sспробуйте ще раз%2$s.<br \/>",
+        "PageOf": "%1$s із %2$s",
+        "PeriodDay": "День",
+        "PeriodDays": "днів",
+        "PeriodMonth": "Місяць",
+        "PeriodMonths": "місяців",
+        "PeriodWeek": "Тиждень",
+        "PeriodWeeks": "тижнів",
+        "PeriodYear": "Рік",
+        "PeriodYears": "років",
+        "PluginDescription": "Структура звітів веб-аналітики",
+        "ShowJSCode": "Показати код вставки javascript",
+        "ThereIsNoDataForThisReport": "Відсутні дані для даного звіту",
+        "WebAnalyticsReports": "Звіти Веб-Аналітики"
+    }
+}

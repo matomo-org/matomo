@@ -21,8 +21,27 @@ class CoreHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
         );
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $instance = new Visitor($details);
+
+        $visitor['visitorType']                 = $instance->getVisitorReturning();
+        $visitor['visitorTypeIcon']             = $instance->getVisitorReturningIcon();
+        $visitor['visitConverted']              = $instance->isVisitorGoalConverted();
+        $visitor['visitConvertedIcon']          = $instance->getVisitorGoalConvertedIcon();
+        $visitor['visitCount']                  = $instance->getVisitCount();
+        $visitor['firstActionTimestamp']        = $instance->getTimestampFirstAction();
+        $visitor['visitEcommerceStatus']        = $instance->getVisitEcommerceStatus();
+        $visitor['visitEcommerceStatusIcon']    = $instance->getVisitEcommerceStatusIcon();
+        $visitor['daysSinceFirstVisit']         = $instance->getDaysSinceFirstVisit();
+        $visitor['daysSinceLastEcommerceOrder'] = $instance->getDaysSinceLastEcommerceOrder();
+        $visitor['visitDuration']               = $instance->getVisitLength();
+        $visitor['visitDurationPretty']         = $instance->getVisitLengthPretty();
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -61,7 +80,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
         $jsFiles[] = "libs/mousetrap/mousetrap.min.js";
-        $jsFiles[] = "libs/angularjs/angular.min.js";
+        $jsFiles[] = "libs/angularjs/angular.js";
         $jsFiles[] = "libs/angularjs/angular-sanitize.min.js";
         $jsFiles[] = "libs/angularjs/angular-animate.min.js";
         $jsFiles[] = "libs/angularjs/angular-cookies.min.js";

@@ -29,11 +29,10 @@ try {
     Manager::getInstance()->deleteAll();
     Option::clearCache();
     Site::clearCache();
-    Cache::deleteTrackerCache();
 
     include PIWIK_INCLUDE_PATH . '/piwik.php';
 } catch (Exception $ex) {
-    echo "Unexpected error during tracking: " . $ex->getTraceAsString() . "\n";
+    echo "Unexpected error during tracking: " . $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n";
 }
 
 ob_end_flush();

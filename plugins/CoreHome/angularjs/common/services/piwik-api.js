@@ -11,7 +11,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
     var format = 'json';
     var getParams  = {};
     var postParams = {};
-    var requestHandle = null;
+    var allRequests = [];
 
     var piwikApi = {};
 
@@ -42,18 +42,15 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
      * @return $promise
      */
     function send () {
-
-        var deferred = $q.defer();
-        var requestHandle = deferred;
+        var deferred = $q.defer(),
+            requestPromise = deferred.promise;
 
         var onError = function (message) {
             deferred.reject(message);
-            requestHandle = null;
         };
 
         var onSuccess = function (response) {
             if (response && response.result == 'error') {
-
                 if (response.message) {
                     onError(response.message);
 
@@ -68,11 +65,9 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
                 } else {
                     onError(null);
                 }
-
             } else {
                 deferred.resolve(response);
             }
-            requestHandle = null;
         };
 
         var headers = {
@@ -87,13 +82,40 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
             responseType: format,
             params: _mixinDefaultGetParams(getParams),
             data: $.param(getPostParams(postParams)),
-            timeout: deferred.promise,
+            timeout: requestPromise,
             headers: headers
         };
 
         $http(ajaxCall).success(onSuccess).error(onError);
 
-        return deferred.promise;
+        // we can't modify requestPromise directly and add an abort method since for some reason it gets
+        // removed after then/finally/catch is called.
+        var addAbortMethod = function (to) {
+            return {
+                then: function () {
+                    return addAbortMethod(to.then.apply(to, arguments));
+                },
+
+                'finally': function () {
+                    return addAbortMethod(to['finally'].apply(to, arguments));
+                },
+
+                'catch': function () {
+                    return addAbortMethod(to['catch'].apply(to, arguments));
+                },
+
+                abort: function () {
+                    deferred.reject();
+                    return this;
+                }
+            };
+        };
+
+        var request = addAbortMethod(requestPromise);
+
+        allRequests.push(request);
+
+        return request;
     }
 
     /**
@@ -147,13 +169,21 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         return getParamsToMixin;
     }
 
-    piwikApi.abort = function () {
+    piwikApi.abortAll = function () {
         reset();
 
-        if (requestHandle) {
-            requestHandle.resolve();
-            requestHandle = null;
-        }
+        allRequests.forEach(function (request) {
+            request.abort();
+        });
+
+        allRequests = [];
+    };
+
+    /**
+     * @deprecated
+     */
+    piwikApi.abort = function () {
+        this.abortAll();
     };
 
     /**
@@ -163,7 +193,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
     piwikApi.fetch = function (getParams) {
 
         getParams.module = getParams.module || 'API';
-        getParams.format = 'JSON';
+        getParams.format = 'JSON2';
 
         addParams(getParams, 'GET');
 

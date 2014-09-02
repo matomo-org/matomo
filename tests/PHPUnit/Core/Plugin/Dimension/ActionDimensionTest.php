@@ -151,7 +151,7 @@ class Plugin_ActionDimensionTest extends \PHPUnit_Framework_TestCase
 
         $dimensions = ActionDimension::getAllDimensions();
 
-        $this->assertGreaterThan(9, count($dimensions));
+        $this->assertGreaterThan(8, count($dimensions));
 
         foreach ($dimensions as $dimension) {
             $this->assertInstanceOf('\Piwik\Plugin\Dimension\ActionDimension', $dimension);

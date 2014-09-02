@@ -1,0 +1,25 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "Send også rapporten til disse e-postadressene (en adresse per linje):",
+        "CreateReport": "Lag rapport",
+        "EmailHello": "Hei,",
+        "EmailReports": "E-postrapporter",
+        "EmailSchedule": "E-postplan",
+        "FrontPage": "Forside",
+        "ManageEmailReports": "Administrer e-postrapporter",
+        "MonthlyScheduleHelp": "Månedsplan: Rapportene blir sendt første dag i hver måned.",
+        "Pagination": "Side %s av %s",
+        "PiwikReports": "Piwik-rapporter",
+        "PleaseFindAttachedFile": "I den vedlagte filen finner du din %1$s rapport for %2$s.",
+        "ReportFormat": "Rapportformat",
+        "ReportSent": "Rapport sendt",
+        "ReportType": "Send rapport via",
+        "ReportUpdated": "Rapport oppdatert",
+        "SendReportNow": "Send rapport nå",
+        "SendReportTo": "Send rapport til",
+        "SentToMe": "Send til meg",
+        "TopOfReport": "Tilbake til toppen",
+        "UpdateReport": "Oppdater rapport",
+        "WeeklyScheduleHelp": "Ukeplan: Rapportene blir sendt første mandag i hver uke."
+    }
+}

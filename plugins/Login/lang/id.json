@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Tautan konfirmasi telah dikirim ke kotak masuk Anda. Periksa surel Anda dan kunjungi tautan ini untuk memberi izin permintaan perubahan sandi Anda.",
+        "ContactAdmin": "Kemungkinan: inang Anda kemungkinan mematikan fungsi mail(). <br \/>Silakan hubungi pengelola Piwik Anda.",
+        "ExceptionPasswordMD5HashExpected": "Parameter sandi diperkirakan menjadi hash MD5 dari sandi.",
+        "InvalidNonceOrHeadersOrReferrer": "Borang keamanan gagal. Silkan muat ulang borang dan periksa apakah kuki Anda telah aktif. Bila Anda menggunakan peladen wali, Anda harus %s mengkonfigurasi Piwik untuk menerima `header` wali%s yang meneruskan `header` Inang. Serta, periksa apakah `header` Pengarah telah terkirim dengan benar.",
+        "InvalidOrExpiredToken": "Kepingan tak sahih atau telah kedaluwarsa.",
+        "InvalidUsernameEmail": "Nama-id dan\/atau alamat surel tak sahih",
+        "LogIn": "Masuk-log",
+        "LoginOrEmail": "Nama-id atau Surel",
+        "LoginPasswordNotCorrect": "Nama-id dan Sandi tak sesuai",
+        "LostYourPassword": "Lupa sandi?",
+        "MailPasswordChangeBody": "Hai %1$s,\n\nSebuah permintaan atur ulang sandi telah diterima dari %2$s. Untuk mengkonfirmasi pengubahan sandi, Anda dapat masuk-log dengan mandat baru Anda, kunjungi tautan berikut:\n\n%3$s\n\nCatatan: kepingan ini akan kedaluwarsa dalam 24 jam.\nDan terima kasih menggunakan Piwik!",
+        "MailTopicPasswordChange": "Konfirmasi Pengubahan Sandi",
+        "PasswordChanged": "Sandi Anda telah berubah.",
+        "PasswordRepeat": "Sandi (ulangi)",
+        "PasswordsDoNotMatch": "Sandi tak sesuai.",
+        "RememberMe": "Ingat Saya",
+        "ResetPasswordInstructions": "Masukkan sebuah sandi baru untuk akun Anda."
+    }
+}

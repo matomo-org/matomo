@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s отскоков (отказов)",
+        "DirectEntries": "Прямых входов",
+        "ErrorBack": "Верниться к предыдущему действию",
+        "ExitsInline": "%s уходов с сайта",
+        "FromCampaigns": "с кампаний",
+        "FromPreviousPages": "с внутренних страниц",
+        "FromPreviousPagesInline": "%s с внутренних страниц",
+        "FromPreviousSiteSearches": "внутренних поисков по сайту",
+        "FromPreviousSiteSearchesInline": "%s с внутреннего поиска по сайту",
+        "FromSearchEngines": "с поисковых систем",
+        "FromWebsites": "с сайтов",
+        "IncomingTraffic": "Входящий трафик",
+        "LoopsInline": "%s обновлений страницы",
+        "NoDataForAction": "Нет данныз для %s",
+        "NoDataForActionDetails": "Не было совершено таких действий %s или они неправильны.",
+        "OutgoingTraffic": "Исходящий трафик",
+        "PluginDescription": "Отчеты о предыдущих и последующих действиях для каждой страницы (URL).",
+        "ShareOfAllPageviews": "У этой страницы %s просмотров (%s из просмотров всех страниц)",
+        "ToFollowingPages": "на внутренние страницы",
+        "ToFollowingPagesInline": "%s на внутренние страницы",
+        "ToFollowingSiteSearches": "внутренних поисков по сайту",
+        "ToFollowingSiteSearchesInline": "%s внутренних поисков по сайту",
+        "XOfAllPageviews": "%s из всех просмотров страницы",
+        "XOutOfYVisits": "%s (из %s)"
+    }
+}

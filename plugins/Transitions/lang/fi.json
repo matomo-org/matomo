@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s käväisyä",
+        "DirectEntries": "Suorat merkinnät",
+        "ErrorBack": "Palaa takaisin edelliseen toimintoon",
+        "ExitsInline": "%s poistumista",
+        "FromCampaigns": "Kampanjoista",
+        "FromPreviousPages": "Sisäisiltä sivuilta",
+        "FromPreviousPagesInline": "%s sisäisiltä sivuilta",
+        "FromPreviousSiteSearches": "Sisäisestä hausta",
+        "FromPreviousSiteSearchesInline": "%s sisäisestä hausta",
+        "FromSearchEngines": "Hakukoneista",
+        "FromWebsites": "Verkkosivuilta",
+        "IncomingTraffic": "Sisääntuleva liikenne",
+        "LoopsInline": "%s sivujen uudelleenlatauksia",
+        "NoDataForAction": "%s:lle ei ole tietoja",
+        "NoDataForActionDetails": "Joko toiminnolle ei ole tietoja aikavälille %s tai toiminto on virheellinen.",
+        "OutgoingTraffic": "Lähtevä liikenne",
+        "PluginDescription": "Raportoi edellisen ja seuraavan toiminnon jokaiselle osoitteelle.",
+        "ShareOfAllPageviews": "Tällä sivulla on %s sivunavausta (%s kaikista)",
+        "ToFollowingPages": "Sisäisille sivuille",
+        "ToFollowingPagesInline": "%s sisäisille sivuille",
+        "ToFollowingSiteSearches": "Sisäisiä hakuja",
+        "ToFollowingSiteSearchesInline": "%s sisäistä hakua",
+        "XOfAllPageviews": "%s kaikista tämän sivun katseluista",
+        "XOutOfYVisits": "%s (%s:stä)"
+    }
+}

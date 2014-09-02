@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Quant a les traduccions del Piwik",
+        "PluginDescription": "Aquesta extensió mostrarà una llista dels idiomes disponibles per l'interfície de Piwik. L'idioma seleccionat es guardarà com a preferència per a cada usuari."
+    }
+}

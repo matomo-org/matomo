@@ -1,0 +1,14 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpMaskLength": "%s byte(s) - f.eks %s",
+        "CurrentDBSize": "Nåværende databasestørrelse",
+        "DeleteLogsOlderThan": "Slett logger eldre enn",
+        "DeleteMaxRowsNoLimit": "ingen grense",
+        "DeleteReportsOlderThan": "Slett rapporter eldre enn",
+        "GeolocationAnonymizeIpNote": "Merk: Geoposisjonering vil ha omtrent de samme resultatene med en byte anonymisert. Med to byte eller mer, vil geoposisjonering være unøyaktig.",
+        "LastDelete": "Siste sletting var på",
+        "MenuPrivacySettings": "Personvern",
+        "ReportsDataSavedEstimate": "Databasestørrelse",
+        "TeaserHeadline": "Personverninnstillinger"
+    }
+}

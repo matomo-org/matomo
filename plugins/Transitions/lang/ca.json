@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s rebots",
+        "DirectEntries": "Entrades directes",
+        "ErrorBack": "Ves a l'acció anterior",
+        "ExitsInline": "%s surts",
+        "FromCampaigns": "De campanyes",
+        "FromPreviousPages": "De pàgines internes",
+        "FromPreviousPagesInline": "%s de pàgines internes",
+        "FromPreviousSiteSearches": "De la cerca interna",
+        "FromPreviousSiteSearchesInline": "%s de la cerques internes",
+        "FromSearchEngines": "De cercadors",
+        "FromWebsites": "De llocs web",
+        "IncomingTraffic": "Tràfic entrant",
+        "LoopsInline": "%s refrescos de pàgina",
+        "NoDataForAction": "No hi ha informació per %s",
+        "NoDataForActionDetails": "O l'acció no ha estat vista cap vegada durant el període %s o és invàlida.",
+        "OutgoingTraffic": "Tràfic surtint",
+        "PluginDescription": "Mostra informació sobra les accions anteriors i següents a una URL.",
+        "ShareOfAllPageviews": "Aquesta pàgina ha tingut %s visites (%s de totes les visites)",
+        "ToFollowingPages": "A pàgines internes",
+        "ToFollowingPagesInline": "%s a pàgines internes",
+        "ToFollowingSiteSearches": "Cerques internes",
+        "ToFollowingSiteSearchesInline": "%s cerques internes",
+        "XOfAllPageviews": "%s de totes les visualitzacions d'aquesta pàgina",
+        "XOutOfYVisits": "%s (de %s)"
+    }
+}

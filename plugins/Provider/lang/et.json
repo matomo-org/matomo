@@ -1,0 +1,7 @@
+{
+    "Provider": {
+        "ColumnProvider": "Teenusepakkuja",
+        "SubmenuLocationsProvider": "Asukoht & pakkuja",
+        "WidgetProviders": "Teenusepakkujad"
+    }
+}

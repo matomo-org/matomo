@@ -1,0 +1,12 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Adminisztráció",
+        "BrandingSettings": "Arculat beállítása",
+        "CustomLogoFeedbackInfo": "A Piwik logó konfigurálása esetén érdekes lehet a felső menüben található %s link eltávolítása is. Ehhez a %sBővítmények%s oldalon ki kell kapcsolni a Feedback bővítményt.",
+        "CustomLogoHelpText": "A felhasználói felületen és az e-mail jelentésekben megjelenő Piwik logó testreszabható.",
+        "EmailServerSettings": "E-mail szerver beállítások",
+        "LogoUpload": "Feltölteni kívánt logó:",
+        "MenuGeneralSettings": "Alapbeállítások",
+        "PluginDescription": "Piwik adminisztrációs felület"
+    }
+}

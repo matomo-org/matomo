@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s timpul mediu de generare",
+        "AverageVisitDuration": "%s durata medie a vizitei",
+        "GenerateQueries": "%s interogari executate",
+        "GenerateTime": "%s secunde pentru generarea pagini",
+        "MaxNbActions": "%s actiuni maxime pe vizita",
+        "NbActionsDescription": "%s acţiuni",
+        "NbActionsPerVisit": "%s acţiuni (vizionări de pagini, descîrcîri, linkuri externe şi căutări pe site) pentru o vizită",
+        "NbDownloadsDescription": "%s descărcări",
+        "NbKeywordsDescription": "%s cuvinte-cheie unice",
+        "NbOutlinksDescription": "%s outlinks",
+        "NbPageviewsDescription": "%s vizionări de pagine",
+        "NbSearchesDescription": "total %s căutări pe site-ul tău",
+        "NbUniqueDownloadsDescription": "%s descărcări unice",
+        "NbUniqueOutlinksDescription": "%s outlinks unice",
+        "NbUniquePageviewsDescription": "%s vizualizări unice de pagină",
+        "NbUniqueVisitors": "%s vizitatori unici",
+        "NbVisitsBounced": "%s vizite care au sarit(a părăsit site-ul după o singură pagină)",
+        "PluginDescription": "Raportează general Analytics numerele: vizite, vizitatori unici, numărul de acțiuni, Bounce Rate, etc",
+        "VisitsSummary": "Rezumatul vizitelor",
+        "VisitsSummaryDocumentation": "Acesta este un rezumat a evoluţiei vizitelor.",
+        "WidgetLastVisits": "Grafic ultima vizita",
+        "WidgetOverviewGraph": "Rezumatul grafic",
+        "WidgetVisits": "Rezumatul vizitelor"
+    }
+}

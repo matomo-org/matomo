@@ -805,6 +805,9 @@ class GoalManager
      */
     protected function isUrlMatchingGoal($goal, $pattern_type, $url)
     {
+        $url = Common::unsanitizeInputValue($url);
+        $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
+
         switch ($pattern_type) {
             case 'regex':
                 $pattern = $goal['pattern'];

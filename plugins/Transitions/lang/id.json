@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s pentalan",
+        "DirectEntries": "Masukan Langsung",
+        "ErrorBack": "Kembali ke aksi sebelumnya",
+        "ExitsInline": "%s keluar",
+        "FromCampaigns": "Dari Kampanye",
+        "FromPreviousPages": "Dari Halaman Dalam",
+        "FromPreviousPagesInline": "%s dari halaman dalam",
+        "FromPreviousSiteSearches": "Dari Pencarian Dalam",
+        "FromPreviousSiteSearchesInline": "%s dari pencarian dalam",
+        "FromSearchEngines": "Dari Mesin Pencari",
+        "FromWebsites": "Dari Situs",
+        "IncomingTraffic": "Lalu lintas masuk",
+        "LoopsInline": "%s halam dimuat ulang",
+        "NoDataForAction": "Tidak tersedia data untuk %s",
+        "NoDataForActionDetails": "Tidak ada tindakan memiliki tampilan halaman selama periode %s atau ini tidak sahih.",
+        "OutgoingTraffic": "Lalu lintas keluar",
+        "PluginDescription": "Laporan tentang tindakan sebelumnya dan berikutnya untuk setiap URL halaman.",
+        "ShareOfAllPageviews": "Halaman ini memiliki %s tampilan halaman (%s dari semua tampilan halaman)",
+        "ToFollowingPages": "Menuju Halaman Dalam",
+        "ToFollowingPagesInline": "%s menuju halaman dalam",
+        "ToFollowingSiteSearches": "Pencarian Dalam",
+        "ToFollowingSiteSearchesInline": "%s pencarian dalam",
+        "XOfAllPageviews": "%s dari selruh tanpilan dari halaman ini",
+        "XOutOfYVisits": "%s (di luar dari %s)"
+    }
+}

@@ -102,7 +102,6 @@ class WriterTest extends PHPUnit_Framework_TestCase
     {
         $translations = json_decode(file_get_contents(PIWIK_INCLUDE_PATH.'/lang/de.json'), true);
         return array(
-            array(array('test' => array('test' => 'test')), CoreTranslations::ERRORSTATE_MINIMUMTRANSLATIONS),
             array(array('General' => array('Locale' => '')) + $translations, CoreTranslations::ERRORSTATE_LOCALEREQUIRED),
             array(array('General' => array('Locale' => 'de_DE.UTF-8')) + $translations, CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED),
             array(array('General' => array('Locale' => 'de_DE.UTF-8',
@@ -155,8 +154,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $translationsToWrite = array();
         $translationsToWrite['General'] = $translations['General'];
-        $translationsToWrite['UserSettings'] = $translations['UserSettings'];
-        $translationsToWrite['UserCountry'] = $translations['UserCountry'];
+        $translationsToWrite['Mobile'] = $translations['Mobile'];
 
         $translationsToWrite['General']['Yes'] = 'string with %1$s';
         $translationsToWrite['Plugin'] = array(
@@ -175,7 +173,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         @unlink(PIWIK_INCLUDE_PATH.'/tmp/fr.json');
 
-        $this->assertGreaterThan(40000, $rc);
+        $this->assertGreaterThan(25000, $rc);
 
         $this->assertCount(4, $translationWriter->getFilterMessages());
     }

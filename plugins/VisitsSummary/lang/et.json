@@ -1,0 +1,26 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s keskmine lehe genereerimise aeg",
+        "AverageVisitDuration": "%s keskmine külastuse kestvus",
+        "GenerateQueries": "%s katkestatud päringut",
+        "GenerateTime": "Lehe genereerimiseks kulus %s sekundit",
+        "MaxNbActions": "%s tegevust maksimaalselt ühel külastusel",
+        "NbActionsDescription": "%s tegevust",
+        "NbActionsPerVisit": "%s tegevust (lehe vaatamist, allalaadimist, väljuvat linki ja lehesisest otsingut) külastuse jooksul",
+        "NbDownloadsDescription": "%s allalaadimist",
+        "NbKeywordsDescription": "%s unikaalset võtmesõna",
+        "NbOutlinksDescription": "%s väljuvat linki",
+        "NbPageviewsDescription": "%s lehevaatamist",
+        "NbSearchesDescription": "%s otsingut kokku antud veebilehel",
+        "NbUniqueDownloadsDescription": "%s unikaalset allalaadimist",
+        "NbUniqueOutlinksDescription": "%s unikaalset väljuvat linki",
+        "NbUniquePageviewsDescription": "%s unikaalset lehevaatamist",
+        "NbUniqueVisitors": "%s unikaalset külastajat",
+        "NbVisitsBounced": "%s külastajaid põrkas (lahkus peale ühe lehe kuvamist)",
+        "VisitsSummary": "Külastuste kokkuvõte",
+        "VisitsSummaryDocumentation": "See on külastuste muutuse ajas ülevaade.",
+        "WidgetLastVisits": "Viimaste külastuste graafik",
+        "WidgetOverviewGraph": "Graafikutega ülevaade",
+        "WidgetVisits": "Külastuste ülevaade"
+    }
+}

@@ -10,10 +10,12 @@ namespace Piwik\Plugins\API\tests;
 
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Json;
+use Piwik\Plugins\API\Renderer\Json2;
 
 /**
  * @group Plugin
  * @group API
+ * @group API_JsonRendererTest
  */
 class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -249,8 +251,9 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $input = array('nb_visits' => 6, 'nb_random' => 8);
 
         $response = $this->jsonBuilder->renderArray($input);
+        $expected = json_encode($input);
 
-        $this->assertEquals('[{"nb_visits":6,"nb_random":8}]', $response);
+        $this->assertEquals($expected, $response);
         $this->assertNoJsonError($response);
     }
 
@@ -262,8 +265,9 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         );
 
         $response = $this->jsonBuilder->renderArray($input);
+        $expected = json_encode($input);
 
-        $this->assertEquals('[{"nb_visits":6,"nb_random":8},{"nb_visits":3,"nb_random":4}]', $response);
+        $this->assertEquals($expected, $response);
         $this->assertNoJsonError($response);
     }
 
@@ -292,6 +296,20 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
                 "secondElement" => "isSecond",
             ),
             "thirdElement"  => "isThird");
+
+        $expected = json_encode($input);
+
+        $actual = $this->jsonBuilder->renderArray($input);
+        $this->assertEquals($expected, $actual);
+        $this->assertNoJsonError($actual);
+    }
+
+    public function test_renderArray_ShouldConvertSingleDimensionalAssociativeArrayToJson()
+    {
+        $input = array(
+            "fistElement" => "isFirst",
+            "secondElement" => "isSecond"
+        );
 
         $expected = json_encode($input);
 
@@ -337,9 +355,27 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
+    /**
+     * backwards compatibility test
+     */
+    public function test_oldJson_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
+    {
+        $input = array(
+            "firstElement" => "isFirst",
+            "secondElement" => "isSecond"
+        );
+
+        $expected = '[{"firstElement":"isFirst","secondElement":"isSecond"}]';
+
+        $oldJsonBuilder = new Json($input);
+        $actual = $oldJsonBuilder->renderArray($input);
+        $this->assertEquals($expected, $actual);
+        $this->assertNoJsonError($actual);
+    }
+
     private function makeBuilder($request)
     {
-        return new Json($request);
+        return new Json2($request);
     }
 
     private function assertNoJsonError($response)

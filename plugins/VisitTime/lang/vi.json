@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Giờ địa phương",
+        "ColumnServerTime": "Giờ máy chủ",
+        "DayOfWeek": "Ngày trong tuần",
+        "LocalTime": "Lượt truy cập mỗi giờ địa phương",
+        "NHour": "%sh",
+        "PluginDescription": "Báo cáo thời gian Local và Server. Thông tin thời gian Server có thể có ích cho một lịch bảo trì trên trang web.",
+        "ServerTime": "Các lượt truy cập theo mỗi thời gian máy chủ",
+        "SubmenuTimes": "Số lần",
+        "VisitsByDayOfWeek": "Các lượt truy cập theo ngày trong tuần",
+        "WidgetByDayOfWeekDocumentation": "Đồ thị này cho thấy số lần truy cập mà trang web của bạn nhận được mỗi ngày trong tuần.",
+        "WidgetLocalTime": "Các lượt truy cập theo giờ địa phương (Local)",
+        "WidgetLocalTimeDocumentation": "Đồ thị này cho thấy thời điểm nào nó đã ở trong %s múi giờ của khách truy cập %s trong các lượt truy cập của họ.",
+        "WidgetServerTime": "Các lượt truy cập bởi giờ Server",
+        "WidgetServerTimeDocumentation": "Đồ thị này cho thấy thời điểm nào nó đã ở trong %s múi giờ của Server %s trong các lượt truy cập."
+    }
+}

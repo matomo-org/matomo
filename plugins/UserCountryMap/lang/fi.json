@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "ja %s muuta",
+        "Cities": "Kaupunkeja",
+        "Countries": "Maita",
+        "DaysAgo": "%s päivää sitten",
+        "GoalConversions": "%s tavoitekonversiot",
+        "Hours": "tuntia",
+        "HoursAgo": "%s tuntia sitten",
+        "map": "kartta",
+        "Minutes": "minuuttia",
+        "MinutesAgo": "%s minuuttia sitten",
+        "None": "Ei mitään",
+        "NoVisit": "Ei käyntejä",
+        "RealTimeMap": "Reaaliaikainen kartta",
+        "Regions": "Alueita",
+        "Searches": "%s hakua",
+        "Seconds": "sekuntia",
+        "SecondsAgo": "%s sekuntia sitten",
+        "ShowingVisits": "Geopaikannetut käynnit viimeiset",
+        "Unlocated": "<b>%s<\/b> %p käynneistä %c:sta ei voitu geopaikantaa.",
+        "VisitorMap": "Kartta kävijöistä",
+        "WorldWide": "Maailmanlaajuinen"
+    }
+}

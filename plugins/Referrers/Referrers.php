@@ -28,8 +28,23 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Insights.addReportToOverview'    => 'addReportToInsightsOverview'
+            'Insights.addReportToOverview' => 'addReportToInsightsOverview',
+            'Live.getAllVisitorDetails'    => 'extendVisitorDetails'
         );
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $instance = new Visitor($details);
+
+        $visitor['referrerType']             = $instance->getReferrerType();
+        $visitor['referrerTypeName']         = $instance->getReferrerTypeName();
+        $visitor['referrerName']             = $instance->getReferrerName();
+        $visitor['referrerKeyword']          = $instance->getKeyword();
+        $visitor['referrerKeywordPosition']  = $instance->getKeywordPosition();
+        $visitor['referrerUrl']              = $instance->getReferrerUrl();
+        $visitor['referrerSearchEngineUrl']  = $instance->getSearchEngineUrl();
+        $visitor['referrerSearchEngineIcon'] = $instance->getSearchEngineIcon();
     }
 
     public function addReportToInsightsOverview(&$reports)

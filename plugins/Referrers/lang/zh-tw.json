@@ -1,0 +1,32 @@
+{
+    "Referrers": {
+        "Campaigns": "廣告活動",
+        "ColumnCampaign": "廣告活動",
+        "ColumnSearchEngine": "搜尋引擎",
+        "ColumnWebsite": "網站",
+        "ColumnWebsitePage": "網站頁面",
+        "DetailsByReferrerType": "推薦連結網站類型詳細資料",
+        "DirectEntry": "直接流量",
+        "Distinct": "推薦連結網站類型的不同參照項目",
+        "DistinctCampaigns": "不同的廣告活動",
+        "DistinctKeywords": "不同的關鍵字",
+        "DistinctSearchEngines": "不同的搜尋引擎",
+        "DistinctWebsites": "不同的網站",
+        "Keywords": "關鍵字",
+        "PluginDescription": "推薦連結網站資料報表：搜尋引擎、關鍵字、網站、廣告活動追蹤及直接流量。",
+        "Referrers": "推薦連結網站",
+        "SearchEngines": "搜尋引擎",
+        "SubmenuSearchEngines": "搜尋引擎 & 關鍵字",
+        "SubmenuWebsites": "網站",
+        "Type": "推薦連結網站類型",
+        "TypeCampaigns": "%s 個來自廣告活動",
+        "TypeDirectEntries": "%s 個來自直接流量",
+        "TypeSearchEngines": "%s 個來自搜尋引擎",
+        "TypeWebsites": "%s 個來自網站",
+        "UsingNDistinctUrls": "(使用 %s 不同的網址)",
+        "Websites": "網站",
+        "WidgetExternalWebsites": "外部網站清單",
+        "WidgetKeywords": "關鍵字清單",
+        "WidgetSocials": "社交網站清單"
+    }
+}

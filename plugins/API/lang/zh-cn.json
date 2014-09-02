@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "如果您今天还沒有任何资料，可以先用 %s 插件来产生一些数据。您可以启用 %s 插件，然后点击在 Piwik 管理菜单下的'生成访客'选项。",
+        "KeepTokenSecret": "授权号 token_auth 与您的帐号和密码一样重要，%s请不要公开%s！",
+        "LoadedAPIs": "已成功载入 %s 个 APIs",
+        "MoreInformation": "了解更多关于 Piwik APIs 的资讯，请访问 %sPiwik API 介绍%s 和 %s Piwik API 参考资料%s。",
+        "PluginDescription": "所有在 Piwik 的资料都能通过简单的 APIs 取得。这个插件是页面服务的切入点，让您可以以 xml, json, php, csv 及其它格式取得网站分析资料。",
+        "QuickDocumentationTitle": "API 快速入门文档",
+        "TopLinkTooltip": "通过一个简单的 API，让您可以以 xml, json, 及其它格式取得网站统计数据。",
+        "UserAuthentication": "身份验证",
+        "UsingTokenAuth": "如果您想在代码、定时任务中 %s 请求资料，%s 要在 API 调用需要认证的网址时增加参数 %s。"
+    }
+}

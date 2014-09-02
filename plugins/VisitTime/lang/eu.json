@@ -1,0 +1,12 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Ordu lokala",
+        "ColumnServerTime": "Zerbitzariaren ordua",
+        "LocalTime": "Ordu lokaleko bisitak",
+        "NHour": "%sh",
+        "ServerTime": "Zerbitzariaren orduko bisitak",
+        "SubmenuTimes": "Orduak",
+        "WidgetLocalTime": "Ordu lokaleko bisitak",
+        "WidgetServerTime": "Zerbitzariaren orduko bisitak"
+    }
+}

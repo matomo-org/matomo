@@ -12,6 +12,7 @@ use Piwik\CacheFile;
 use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
+use Piwik\Version;
 
 /**
  * Caching class that persists all cached values between requests. Meaning whatever you cache will be stored on the
@@ -97,19 +98,24 @@ class PersistentCache
 
         if (SettingsServer::isTrackerApiRequest()) {
             $eventToPersist = 'Tracker.end';
-            $mode           = 'tracker';
+            $mode           = '-tracker';
         } else {
             $eventToPersist = 'Request.dispatch.end';
-            $mode           = 'ui';
+            $mode           = '-ui';
         }
 
-        $cache = self::getStorage()->get('StaticCache-' . $mode);
+        $cache = self::getStorage()->get(self::getCacheFilename() . $mode);
 
         if (is_array($cache)) {
             self::$content = $cache;
         }
 
         Piwik::addAction($eventToPersist, array(__CLASS__, 'persistCache'));
+    }
+
+    private static function getCacheFilename()
+    {
+        return 'StaticCache-' . str_replace(array('.', '-'), '', Version::VERSION);
     }
 
     /**
@@ -119,12 +125,12 @@ class PersistentCache
     {
         if (self::$isDirty) {
             if (SettingsServer::isTrackerApiRequest()) {
-                $mode = 'tracker';
+                $mode = '-tracker';
             } else {
-                $mode = 'ui';
+                $mode = '-ui';
             }
 
-            self::getStorage()->set('StaticCache-' . $mode, self::$content);
+            self::getStorage()->set(self::getCacheFilename() . $mode, self::$content);
         }
     }
 

@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "FAI",
+        "PluginDescription": "Effectue des rapports sur les FAI des visiteurs.",
+        "ProviderReportDocumentation": "Ce rapport affiche quel Fournisseur d'Accès à Internet vos visiteurs ont utilisé pour accéder à votre site web. Vous pouvez cliquer sur le nom d'un FAI pour plus de détails. %s Si Piwik ne peut déterminer le FAI d'un visiteur, il est listé en tant qu'IP.",
+        "SubmenuLocationsProvider": "Situation géographique et FAI",
+        "WidgetProviders": "Fournisseurs d'accès à Internet"
+    }
+}

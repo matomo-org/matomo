@@ -45,7 +45,7 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
         }
 
         if (model.isLoading) {
-            piwikApi.abort();
+            piwikApi.abortAll();
         }
 
         model.isLoading = true;

@@ -1,0 +1,14 @@
+{
+    "Login": {
+        "ContactAdmin": "Galima priežastis: Jūsų pagr. kompiuteryje (serveryje) gali būti išjungta mail() funkcija.<br \/>Prašome susisiekti su savo Piwik administratoriumi.",
+        "InvalidOrExpiredToken": "Netinkamas arba pasibaigęs talonas",
+        "InvalidUsernameEmail": "Netinkamas naudotojo vardas ir\/arba el. pašto adresas",
+        "LogIn": "Prisijungti",
+        "LoginOrEmail": "Registracijos vardas arba el. paštas",
+        "LoginPasswordNotCorrect": "Naudotojo vardas ir slaptažodis neteisingi",
+        "LostYourPassword": "Pamiršote slaptažodį?",
+        "PasswordRepeat": "Slaptažodis (pakartoti)",
+        "PasswordsDoNotMatch": "Slaptažodžiai nesutampa",
+        "RememberMe": "Prisiminti mane"
+    }
+}

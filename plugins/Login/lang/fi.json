@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Varmistusviesti on lähetetty sähköpostiisi. Sähköpostista löydät aktivointilinkin.",
+        "ContactAdmin": "Mahdollisia syitä: palvelin ei välttämättä salli sähköpostien lähetystä (mail()-funktiota).<br\/>Ota yhteyttä Piwikin ylläpitäjään.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Käyttäjää, jolla on Superkäyttäjäoikeudet, ei voida todentaa käyttämällä '%s' mekanismia.",
+        "ExceptionPasswordMD5HashExpected": "Salasanaparametrin kuuluu olla MD5-tiiviste salasanasta.",
+        "InvalidNonceOrHeadersOrReferrer": "Lomakkeen turvatarkastus epäonnistui. Lataa lomake uudelleen, ja tarkista että evästeet on sallittu. Jos käytät välityspalvelinta, sinun täytyy %s säätää Piwik sallimaan välityspalvelimen otsake %s joka välittää Host-otsakkeen. Tarkista, että \"Referer\"-otsake lähetetään oikein.",
+        "InvalidOrExpiredToken": "Virheellinen tai vanhentunut tunnistautuminen",
+        "InvalidUsernameEmail": "Virheellinen käyttäjätunnus ja\/tai sähköpostiosoite",
+        "LogIn": "Kirjaudu sisään",
+        "LoginOrEmail": "Käyttäjätunnus tai sähköposti",
+        "LoginPasswordNotCorrect": "Käyttäjätunnus tai salasana väärin",
+        "LostYourPassword": "Unohtuiko salasana?",
+        "MailPasswordChangeBody": "Hei %1$s,\n\nPyyntö salasanan resetoimiseen tuli %2$s:ltä. Jos haluat vaihtaa salasanan, avaa seuraava linkki:\n\n%3$s\n\nJos et tilannut uutta salasanaa, voit jätttää tämän sähköpostin huomiotta.\n\nHuom. tämä linkki vanhenee 24 tunnissa.\n\nKiitos Piwikin käyttämisestä!",
+        "MailTopicPasswordChange": "Varmista salasanan vaihto",
+        "PasswordChanged": "Salasana on vaihdettu.",
+        "PasswordRepeat": "Salasana (uudelleen)",
+        "PasswordsDoNotMatch": "Salasanat eivät täsmää.",
+        "PluginDescription": "Login todennus -liitännäinen, lukee suositukset config\/config.ini.php tiedostosta alkuperäiselle Superkäyttäjälle ja tietokannasta muille käyttäjille. Voidaan vaihtaa helposti esittelemällä uusi todennusmekanismi (OpenID, htaccess, custom Auth, jne).",
+        "RememberMe": "Muista minut",
+        "ResetPasswordInstructions": "Anna uusi salasana."
+    }
+}

@@ -28,7 +28,8 @@ class CustomVariables extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata'
+            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
+            'Live.getAllVisitorDetails'       => 'extendVisitorDetails'
         );
     }
 
@@ -40,6 +41,24 @@ class CustomVariables extends \Piwik\Plugin
     public function uninstall()
     {
         Model::uninstall();
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $customVariables = array();
+
+        $maxCustomVariables = self::getMaxCustomVariables();
+
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
+            if (!empty($details['custom_var_k' . $i])) {
+                $customVariables[$i] = array(
+                    'customVariableName' .  $i => $details['custom_var_k' . $i],
+                    'customVariableValue' . $i => $details['custom_var_v' . $i],
+                );
+            }
+        }
+
+        $visitor['customVariables'] = $customVariables;
     }
 
     /**

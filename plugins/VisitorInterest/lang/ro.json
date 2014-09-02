@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ssec.",
+        "ColumnPagesPerVisit": "Pagini pentru o vizită",
+        "ColumnVisitDuration": "Durata vizitei",
+        "Engagement": "Vizite repetate",
+        "NPages": "%s pagini",
+        "OneMinute": "1 min",
+        "OnePage": "1 pagina",
+        "PluginDescription": "Rapoarte cu privire la interesul vizitatorilor: numărul de pagini vizualizate, timpul petrecut pe site-ul web.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Numărul de vizite",
+        "VisitsByDaysSinceLast": "Vizite ordonate după zile de la ultima vizită",
+        "visitsByVisitCount": "VIzite ordonate după numărul de vizite",
+        "VisitsPerDuration": "Vizite per durata",
+        "VisitsPerNbOfPages": "Vizite per numar pagini",
+        "WidgetLengths": "Durata vizitelor",
+        "WidgetLengthsDocumentation": "În acest raport, puteți vedea cât de multe vizite au avut o anumită durată totală. Inițial, raportul este prezentat ca un tag, duratele mai comune sunt afișate într-un font mai mare ..",
+        "WidgetPages": "Pagini per vizita",
+        "WidgetPagesDocumentation": "În acest raport, puteți vedea câte vizite implica un anumit număr de vizualizări de pagină. Inițial, raportul este prezentat ca un tag, un număr mare de pagini sunt afișate într-un font mai mare.",
+        "WidgetVisitsByDaysSinceLast": "Vizite ordonate după zile de la ultima vizită",
+        "WidgetVisitsByDaysSinceLastDocumentation": "În acest raport, puteți vedea cât de multe vizite au fost de la vizitatori a căror vizită in trecut a fost un anumit număr de zile.",
+        "WidgetVisitsByNumDocumentation": "În acest raport, puteți vedea numărul de vizite, care au fost de la N vizita , de exemplu. de vizitatori care au vizitat site-ul dvs., cel puțin, de N ori."
+    }
+}

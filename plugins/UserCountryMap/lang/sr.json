@@ -1,0 +1,27 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "i %s ostalih",
+        "Cities": "Gradovi",
+        "Countries": "Države",
+        "DaysAgo": "pre %s dana",
+        "GoalConversions": "%s ispunjenih ciljeva",
+        "Hours": "sati",
+        "HoursAgo": "pre %s sati",
+        "map": "mapa",
+        "Minutes": "minuti",
+        "MinutesAgo": "pre %s minuta",
+        "None": "Ništa",
+        "NoVisit": "Nema poseta",
+        "RealTimeMap": "Mapa u realnom vremenu",
+        "Regions": "Regioni",
+        "Searches": "%s pretraga",
+        "Seconds": "sekundi",
+        "SecondsAgo": "pre %s sekundi",
+        "ShowingVisits": "Geolocirane posete od poslednjih",
+        "Unlocated": "<b>%s<\/b> %p od poseta sa %c nije moguće geolocirati.",
+        "VisitorMap": "Mapa posetilaca",
+        "WithUnknownCity": "%s sa nepoznatim gradom",
+        "WithUnknownRegion": "%s sa nepoznatim regionom",
+        "WorldWide": "Ceo svet"
+    }
+}

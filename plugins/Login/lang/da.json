@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Et bekræftelselink er blevet sendt til din indbakke. Tjek din e-mail og besøg dette link for at godkende ændringen af din adgangskode.",
+        "ContactAdmin": "Mulig årsag: udbyderen har måske deaktiveret mail()-funktionen. <br \/>Kontakt Piwik administrator.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruger med superbruger adgang kan ikke godkendes ved hjælp af '%s' mekanisme.",
+        "ExceptionPasswordMD5HashExpected": "Adgangskode parameteren forventes at være en MD5 hash af adgangskoden.",
+        "InvalidNonceOrHeadersOrReferrer": "Formularsikkerhed fejlede. Genindlæs formularen og kontroller, at dine cookies er aktiveret. Hvis du bruger en proxyserver, skal du %s konfigurere Piwik til at acceptere proxyheaderen%s, der videresender hostheaderen. Kontroller også, at din Referer header er sendt korrekt",
+        "InvalidOrExpiredToken": "Nøglen er forkert eller udløbet",
+        "InvalidUsernameEmail": "Fejl i brugernavn og\/eller e-mail-adresse.",
+        "LogIn": "Log på",
+        "LoginOrEmail": "Brugernavn eller e-mail-adresse",
+        "LoginPasswordNotCorrect": "Brugernavn og adgangskode er ikke korrekt",
+        "LostYourPassword": "Glemt adgangskoden?",
+        "MailPasswordChangeBody": "Hej %1$s, En anmodning og nulstilling af adgangskode blev modtaget fra %2$s. For at bekræfte denne ændring af adgangskode, så du kan logge ind med dine nye legitimationsoplysninger, skal du åbne følgende link: %3$s Bemærk: Dette link udløber om 24 timer. Og tak fordi du bruger Piwik!",
+        "MailTopicPasswordChange": "Bekræft ændring af adgangskode",
+        "PasswordChanged": "Din adgangskode er blevet ændret.",
+        "PasswordRepeat": "Adgangskode (gentag)",
+        "PasswordsDoNotMatch": "Adgangskoder er ikke ens.",
+        "PluginDescription": "Udvidelsen Login-godkendelse , læser legitimationsoplysningerne fra filen config\/config.ini.php for den oprindelige superbruger, og fra databasen for andre brugere. Kan let udskiftes for at indføre en ny godkendelses metode (OpenID, htaccess, brugerdefinerede Auth, osv.).",
+        "RememberMe": "Husk mig",
+        "ResetPasswordInstructions": "Indtast en ny adgangskode til din konto."
+    }
+}

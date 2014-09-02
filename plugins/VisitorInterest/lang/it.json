@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s minuti",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Pagine per visita",
+        "ColumnVisitDuration": "Durata della visita",
+        "Engagement": "Impegno",
+        "NPages": "%s pagine",
+        "OneMinute": "1 min",
+        "OnePage": "1 pagina",
+        "PluginDescription": "Report riguardo l'interesse dei visitatori: numero di pagine viste e tempo speso sul sito.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Numero visite",
+        "VisitsByDaysSinceLast": "Visite per giorni dall'ultima visita",
+        "visitsByVisitCount": "Visite per numero di visite",
+        "VisitsPerDuration": "Visite per durata della visita",
+        "VisitsPerNbOfPages": "Visite per numero di pagine",
+        "WidgetLengths": "Durata delle visite",
+        "WidgetLengthsDocumentation": "In questo report, puoi vedere quante visite hanno avuto una certa durata totale. Inizialmente, il report viene visualizzato come una tag cloud, le durate più comuni sono visualizzate in un carattere più grande.",
+        "WidgetPages": "Pagine per visita",
+        "WidgetPagesDocumentation": "In questo report, puoi vedere quante visite hanno coinvolto un certo numero di pagine visualizzate. Inizialmente, il report viene visualizzato come una tag cloud, i numeri più comuni di pagine vengono visualizzati in un carattere più grande.",
+        "WidgetVisitsByDaysSinceLast": "Visite per Giorni Dall'Ultima Visita",
+        "WidgetVisitsByDaysSinceLastDocumentation": "In questo report, puoi vedere quante visite ci sono state da parte di visitatori la cui ultima visita c'è stata un certo numero di giorni fa.",
+        "WidgetVisitsByNumDocumentation": "In questo report, puoi vedere il numero di visite che erano l'ennesima visita, vale a dire i visitatori che hanno visitato il vostro sito almeno N volte."
+    }
+}

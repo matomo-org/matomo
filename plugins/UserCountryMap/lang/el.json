@@ -1,0 +1,27 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "και %s άλλοι",
+        "Cities": "Πόλεις",
+        "Countries": "Χώρες",
+        "DaysAgo": "πριν %s ημέρες",
+        "GoalConversions": "%s μετατροπές στόχων",
+        "Hours": "ώρες",
+        "HoursAgo": "πριν %s ώρες",
+        "map": "χάρτης",
+        "Minutes": "λεπτά",
+        "MinutesAgo": "πριν %s λεπτά",
+        "None": "Κανένα",
+        "NoVisit": "Δεν υπάρχουν επισκέψεις",
+        "RealTimeMap": "Χάρτης σε πραγματικό χρόνο",
+        "Regions": "Περιοχές",
+        "Searches": "%s αναζητήσεις",
+        "Seconds": "δευτερόλεπτα",
+        "SecondsAgo": "πριν %s δευτερόλεπτα",
+        "ShowingVisits": "Επισκέψεις με γεωτοποθεσία από τις τελευταίες",
+        "Unlocated": "<b>%s<\/b> %p από τις επισκέψεις από %c δεν ήταν δυνατόν να χαρακτηριστούν με γεωτοποθεσία.",
+        "VisitorMap": "Χάρτης Επισκεπτών",
+        "WithUnknownCity": "%s με άγνωστη πόλη",
+        "WithUnknownRegion": "%s με άγνωστη περιοχή",
+        "WorldWide": "Παγκοσμίως"
+    }
+}

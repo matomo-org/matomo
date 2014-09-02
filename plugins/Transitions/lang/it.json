@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s rimbalzi",
+        "DirectEntries": "Accessi Diretti",
+        "ErrorBack": "Torna all'azione precedente",
+        "ExitsInline": "%s uscite",
+        "FromCampaigns": "Da Campagne",
+        "FromPreviousPages": "Da Pagine Interne",
+        "FromPreviousPagesInline": "%s da pagine interne",
+        "FromPreviousSiteSearches": "Da Ricerca Interna",
+        "FromPreviousSiteSearchesInline": "%s da ricerche interne",
+        "FromSearchEngines": "Da Motori di Ricerca",
+        "FromWebsites": "Da siti web",
+        "IncomingTraffic": "Traffico entrante",
+        "LoopsInline": "%s pagine ricaricate",
+        "NoDataForAction": "Non ci sono dati per %s",
+        "NoDataForActionDetails": "O l'azione non ha avuto pagine viste durante il periodo di%s o non è valida.",
+        "OutgoingTraffic": "Traffico uscente",
+        "PluginDescription": "Rapporti delle azioni precedenti e seguenti per ogni URL pagina.",
+        "ShareOfAllPageviews": "Questa pagina ha %s visualizzazioni (%s di tutte le visualizzazioni)",
+        "ToFollowingPages": "A Pagine Interne",
+        "ToFollowingPagesInline": "%s a pagine interne",
+        "ToFollowingSiteSearches": "Ricerche Interne",
+        "ToFollowingSiteSearchesInline": "%s ricerche interne",
+        "XOfAllPageviews": "%s di tutte le visualizzazioni di questa pagina",
+        "XOutOfYVisits": "%s (su %s)"
+    }
+}

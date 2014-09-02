@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "打开一个新窗口",
+        "PluginDescription": "这个插件让您轻松导出任何 Piwik 模块到博客、网站或 iGoogle 及 Netvibes!",
+        "TopLinkTooltip": "小工具形式导出 Piwik 报表，将面板以 iframe 形式嵌入您的应用程序中。"
+    }
+}

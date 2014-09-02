@@ -36,8 +36,30 @@ class UserSettings extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
+            'Live.getAllVisitorDetails'            => 'extendVisitorDetails'
         );
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $instance = new Visitor($details);
+
+        $visitor['operatingSystem']          = $instance->getOperatingSystem();
+        $visitor['operatingSystemCode']      = $instance->getOperatingSystemCode();
+        $visitor['operatingSystemShortName'] = $instance->getOperatingSystemShortName();
+        $visitor['operatingSystemIcon']      = $instance->getOperatingSystemIcon();
+        $visitor['browserFamily']            = $instance->getBrowserFamily();
+        $visitor['browserFamilyDescription'] = $instance->getBrowserFamilyDescription();
+        $visitor['browserName']              = $instance->getBrowser();
+        $visitor['browserIcon']              = $instance->getBrowserIcon();
+        $visitor['browserCode']              = $instance->getBrowserCode();
+        $visitor['browserVersion']           = $instance->getBrowserVersion();
+        $visitor['screenType']               = $instance->getScreenType();
+        $visitor['resolution']               = $instance->getResolution();
+        $visitor['screenTypeIcon']           = $instance->getScreenTypeIcon();
+        $visitor['plugins']                  = $instance->getPlugins();
+        $visitor['pluginsIcons']             = $instance->getPluginIcons();
     }
 
     public function addMetricTranslations(&$translations)

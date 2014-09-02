@@ -1,0 +1,23 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administrasjon",
+        "BrandingSettings": "Innstillingar for profilering",
+        "ClickHereToOptIn": "Klikk her for å melda deg på.",
+        "ClickHereToOptOut": "Klikk her for å melda deg av.",
+        "CustomLogoHelpText": "Du kan tilpassa Piwik-logoen som visast i brukargrensesnittet og e-postrapportar.",
+        "EmailServerSettings": "Innstillingar for e-posttenar",
+        "LogoUpload": "Last opp ein logo",
+        "MenuGeneralSettings": "Generelle innstillingar",
+        "OptOutComplete": "Avmelding fullførd. Vitjingane dine til denne nettsida vil ikkje loggførast av nettstatistikkverktøyet.",
+        "OptOutCompleteBis": "Dersom du slettar infokapslane dine eller byter datamaskin eller nettlesar, må du avmelda deg på nytt.",
+        "OptOutExplanation": "Piwik er oppteken av personvern på Internett.For å gje vitjarane dine valet om å slå av Piwik Nettstatistikk, kan du leggja til følgjande HTML-kode på ei av sidene dine, til dømes ei side med retningsliner for personvern.",
+        "OptOutExplanationBis": "Denne koden vil visa ei flytande råme med ein peikar som vitjarane dine kan klikka på for å melda seg av med ein infokapsel i nettlesaren deira. %s Klikk her%s for å sjå innhaldet som visast i den flytande råma.",
+        "OptOutForYourVisitors": "Avmelding av Piwik for vitjarar",
+        "PluginDescription": "Administrering av Piwik",
+        "UseCustomLogo": "Bruk ein tilpassa logo",
+        "YouAreOptedIn": "Du er påmeldt.",
+        "YouAreOptedOut": "Du er avmeldt.",
+        "YouMayOptOut": "Dersom du vil unngå innsamling og analyse av data frå vitjinga di på denne nettstaden, kan du velja å ikkje tildelast ein infokapsel med eit unikt identifikasjonsnummer for nettstatistikk.",
+        "YouMayOptOutBis": "For å gjera dette, klikk nedafor for å få ein avmeldingsinfokapsel."
+    }
+}

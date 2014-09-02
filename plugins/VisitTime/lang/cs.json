@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Lokální čas",
+        "ColumnServerTime": "Serverový čas",
+        "DayOfWeek": "Dny v týdnu",
+        "LocalTime": "Návštěvy podle lokálního času",
+        "NHour": "%sh",
+        "PluginDescription": "Hlásí lokální a serverový čas. Informace o serverovém času je užitečná pro naplánování odstávky webu",
+        "ServerTime": "Návštěvy podle serverového času",
+        "SubmenuTimes": "Časy",
+        "VisitsByDayOfWeek": "Návštěvy podle dnů v týdnu",
+        "WidgetByDayOfWeekDocumentation": "Tento graf zobrazuje, kolik návštěv obdržela vaše stránka každý den v týdnu.",
+        "WidgetLocalTime": "Návštěvy podle lokálního času",
+        "WidgetLocalTimeDocumentation": "Tento graf ukazuje čas v %s návštěvníkovo časové zóně %s během jěho návštěvy.",
+        "WidgetServerTime": "Návštěvy podle serverového času",
+        "WidgetServerTimeDocumentation": "Tento graf ukazuje jaký čas byl na %s serveru časové zóny %s během návstěvy."
+    }
+}
