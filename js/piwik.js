@@ -1546,11 +1546,33 @@ if (typeof Piwik !== 'object') {
             isNodeVisible: function (node) {
                 return isVisible(node) && this.isNodeInViewport(node);
             },
-            buildInteractionRequestParams: function (name, piece, interaction)
+            buildInteractionRequestParams: function (interaction, name, piece, target)
             {
-                return 'c_n=' + encodeWrapper(name) +
-                       '&c_p=' + encodeWrapper(piece) +
-                       '&c_i=' + encodeWrapper(interaction);
+                var params = '';
+
+                if (interaction) {
+                    params += 'c_i='+ encodeWrapper(interaction);
+                }
+                if (name) {
+                    if (params) {
+                        params += '&';
+                    }
+                    params += 'c_n='+ encodeWrapper(name);
+                }
+                if (piece) {
+                    if (params) {
+                        params += '&';
+                    }
+                    params += '&c_p='+ encodeWrapper(piece);
+                }
+                if (target) {
+                    if (params) {
+                        params += '&';
+                    }
+                    params += '&c_t='+ encodeWrapper(target);
+                }
+
+                return params;
             },
             buildImpressionRequestParams: function (name, piece, target)
             {
@@ -1593,22 +1615,6 @@ if (typeof Piwik !== 'object') {
 
                 return contents;
             },
-            addClickEventIfInternalLink: function (node, callback) {
-                addEventListener(node, 'click', function (event) {
-                    var url = content.findInternalTargetLink(node);
-                    if (!url) {
-                        return;
-                    }
-
-                    if (event.preventDefault) {
-                        event.preventDefault();
-                    } else {
-                        event.returnValue = false;
-                    }
-
-                    callback(url);
-                });
-            },
             findInternalTargetLink: function (node)
             {
                 var clickNode = this.findTargetNode(node);
@@ -1630,10 +1636,6 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                if (0 === (''+ link).indexOf('#')) {
-                    return;
-                }
-
                 if (link !== this.removeDomainIfIsUrl(link)) {
                     return; // outlink or download?
                 }
@@ -1645,21 +1647,18 @@ if (typeof Piwik !== 'object') {
                 var clickNode = this.findTargetNode(node);
 
                 if (!clickNode) {
-                    return false;
+                    return;
                 }
 
                 var elementName = clickNode.nodeName.toLowerCase();
 
                 if (elementName !== 'a') {
-                    return false;
+                    return;
                 }
 
                 if (clickNode && clickNode.setAttribute) {
                     clickNode.setAttribute('href', url);
-                    return true;
                 }
-
-                return false;
             }
         };
 
@@ -2686,7 +2685,7 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
-            function appendContentInteractionToRequestIfPossible(request, anyNode, targetFallback)
+            function appendContentInteractionToRequestIfPossible(request, anyNode, interaction, fallbackTarget)
             {
                 if (!anyNode || !request) {
 
@@ -2707,17 +2706,15 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                if (!contentPiece.target && targetFallback) {
-                    contentPiece.target = targetFallback;
-                } else if (!contentPiece.target) {
-                    contentPiece.target = 'Unknown';
+                if (!content.target && fallbackTarget) {
+                    content.target = fallbackTarget;
                 }
 
                 if (request) {
                     request += '&';
                 }
 
-                request += content.buildInteractionRequestParams(contentPiece.name, contentPiece.piece, contentPiece.target);
+                request += content.buildInteractionRequestParams(interaction, contentPiece.name, contentPiece.piece, contentPiece.target);
 
                 return request;
             }
@@ -2748,14 +2745,30 @@ if (typeof Piwik !== 'object') {
                 return base + url
             }
 
-            function buildTrackingRedirectUrl(url) {
+            function buildContentInteractionTrackingRedirectUrl(url, contentName, contentPiece, contentTarget) {
                 if (0 === url.indexOf(configTrackerUrl)) {
                     return url;
                 }
 
                 var redirectUrl = toAbsoluteUrl(url);
-                var request     = getRequest('redirecturl=' + redirectUrl + '&c_i=' + url + '&' + buildEventRequest('Content', 'click', url, ''));
+                var request = buildContentInteractionTrackingRequest(url, contentName, contentPiece, contentTarget);
+                request    += '&redirecturl=' + redirectUrl;
+
                 return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+            }
+
+            function buildContentInteractionTrackingRequest(url, contentName, contentPiece, contentTarget) {
+                if (0 === url.indexOf(configTrackerUrl)) {
+                    return url;
+                }
+
+
+                var contentInteraction = 'click';
+
+                var params = content.buildInteractionRequestParams(contentInteraction, contentName, contentPiece, contentTarget);
+
+                var request = getRequest(params + buildEventRequest('Content', contentInteraction, url, ''));
+                return request;
             }
 
             function wasContentImpressionAlreadyTracked(content)
@@ -2841,23 +2854,68 @@ if (typeof Piwik !== 'object') {
                 }
 
                 for (index = 0; index < contentNodes.length; index++) {
-                    // TODO we should actually replace the link on the target node, not on the content node !!!IMPORTANT
-                    var internalLink = content.findInternalTargetLink(contentNodes[index]);
-                    if (internalLink) {
-                        content.replaceTargetLink(contentNodes[index], buildTrackingRedirectUrl(internalLink));
+                    // TODO should we consult getLinkType()?
+                    var targetNode = content.findTargetNode(contentNodes[index]);
+
+                    if (!targetNode) {
+                        continue;
                     }
 
-                    content.addClickEventIfInternalLink(contentNodes[index], function (url) {
-                        var targetUrl = buildTrackingRedirectUrl(internalLink);
+                    if (targetNode && targetNode.contentTrackingRedirectSetupDone) {
+                        continue;
+                    }
 
-                        // location.href does not respect target=_blank so we prefer to use this
-                        var replaced = content.replaceTargetLink(contentNodes[index], targetUrl);
+                    targetNode.contentTrackingRedirectSetupDone = true;
 
-                        if (!replaced) {
-                            // fallback to location.href
-                            location.href = targetUrl;
+                    if (targetNode.nodeName.toLowerCase() === 'a' &&
+                        query.hasNodeAttributeWithValue(targetNode, 'href')) {
+
+                        var internalLink = content.findInternalTargetLink(contentNodes[index]);
+
+                        if (internalLink) {
+
+                            content.replaceTargetLink(targetNode, buildTrackingRedirectUrl(internalLink));
+
+                            addEventListener(targetNode, 'click', function () {
+                                var url = content.findInternalTargetLink(this);
+                                if (!url) {
+                                    return;
+                                }
+
+                                var contentName   = content.findContentName(this);
+                                var contentPiece  = content.findContentPiece(this);
+                                var contentTarget = content.findContentTarget(this);
+
+                                if (0 === internalLink.indexOf('#')) {
+                                    var request = buildContentInteractionTrackingRequest('click', contentName, contentPiece, contentTarget);
+                                    sendRequest(request);
+                                } else {
+                                    var targetUrl = buildContentInteractionTrackingRedirectUrl(internalLink, contentName, contentPiece, contentTarget);
+
+                                    // location.href does not respect target=_blank so we prefer to use this
+                                    content.replaceTargetLink(content.findTargetNode(this), targetUrl);
+                                }
+
+                            });
+
+                        } else {
+                            // outlink or download
                         }
-                    });
+
+                    } else {
+                        // trigger event
+
+                        addEventListener(targetNode, 'click', function () {
+                            var contentName   = content.findContentName(this);
+                            var contentPiece  = content.findContentPiece(this);
+                            var contentTarget = content.findContentTarget(this);
+
+                            var request = buildContentInteractionTrackingRequest('', contentName, contentPiece, contentTarget);
+
+                            sendRequest(request);
+                        });
+                    }
+
                 }
 
                 var index, request;
@@ -2901,7 +2959,7 @@ if (typeof Piwik !== 'object') {
 
             function logContentInteraction(contentName, contentPiece, contentInteraction)
             {
-                var params = content.buildInteractionRequestParams(contentName, contentPiece, contentInteraction);
+                var params = content.buildInteractionRequestParams(contentInteraction, contentName, contentPiece);
 
                 if (!params) {
                     return;
@@ -2980,7 +3038,7 @@ if (typeof Piwik !== 'object') {
 
                 var linkParams = linkType + '=' + encodeWrapper(purify(url));
 
-                linkParams  = appendContentInteractionToRequestIfPossible(linkParams, sourceElement, url);
+                linkParams  = appendContentInteractionToRequestIfPossible(linkParams, sourceElement, 'click', url);
                 var request = getRequest(linkParams, customData, 'link');
                 
                 sendRequest(request, (callback ? 0 : configTrackerPause), callback);

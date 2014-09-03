@@ -302,7 +302,7 @@ There are several ways to track a content impression and/or interaction manually
 #### `trackContentImpressions()`
 
 You can use this method to scan the entire DOM for content blocks.
-For each content block we will track a content impression immediately unless you enable `enableTrackOnlyVisbleContent` see below.
+For each content block we will track a content impression immediately unless you enable `enableTrackOnlyVisibleContent` see below.
 
 Note: We will not send an impression of the same content block twice if you call this method multiple times unless `trackPageView()` is called meanwhile. This is useful for single page applications. The "same" content blocks means if a content block has the identical name, piece and target as an already tracked one.
 Note: At this stage we do not exeute this method automatically along with a trackPageView(), we can do this later once we know it works
@@ -323,7 +323,7 @@ We would detect two new content blocks in this example.
 
 Please note: In case you have enabled to only track visible content blocks we will respect this. In case it contains a content block that was already tracked we will not track it again.
 
-#### `enableTrackOnlyVisbleContent(checkOnSroll, timeIntervalInMs)`
+#### `enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs)`
 If you enable to track only visible content we will only track an impression if a content block is actually visible. With visible we mean the content block has been in the view port, it is actually in the DOM and is not hidden via CSS (opacity, visibility, display, ...).
 
 * Optionally you can tell us to rescan the DOM automatically after each scroll event by passing `checkOnSroll=true`. We will then check whether the previously hidden content blocks are visible now and if so track the impression.
