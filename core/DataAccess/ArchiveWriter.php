@@ -45,6 +45,13 @@ class ArchiveWriter
      */
     const DONE_OK_TEMPORARY = 3;
 
+    /**
+     * Flag indicated that archive is done but was marked as invalid later and needs to be re-processed during next archiving process
+     *
+     * @var int
+     */
+    const DONE_INVALIDATED = 4;
+
     protected $fields = array('idarchive',
                               'idsite',
                               'date1',

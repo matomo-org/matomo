@@ -292,7 +292,7 @@ class ArchiveSelector
 
         if (!Rules::isRequestAuthorizedToArchive()) {
             //If request is not authorized to archive then fetch also invalidated archives
-            $possibleValues[] = 4;
+            $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
         }
 
         // create the SQL to find archives that are DONE
