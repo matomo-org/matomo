@@ -58,9 +58,8 @@ class DocumentationGenerator
         foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
             $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
             $rClass = new ReflectionClass($class);
-            $rClass->getMethods();
 
-            if (!Piwik::hasUserSuperUserAccess() && strstr($rClass->getDocComment(), '@hideExceptForSuperUser')) {
+            if (!Piwik::hasUserSuperUserAccess() && $this->checkIfClassCommentContainsHideAnnotation($rClass)) {
                 continue;
             }
 
@@ -72,11 +71,13 @@ class DocumentationGenerator
                 }
                 $toDisplay[$moduleName][] = $methodName;
             }
-            foreach ($toDisplay as $moduleName => $key) {
+
+            foreach ($toDisplay as $moduleName => $methods) {
                 $toc .= "<a href='#$moduleName'>$moduleName</a><br/>";
                 $str .= "\n<a  name='$moduleName' id='$moduleName'></a><h2>Module " . $moduleName . "</h2>";
+                $info['__documentation'] = $this->checkDocumentation($info['__documentation'], '@hideExceptForSuperUser');
                 $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
-                foreach ($toDisplay[$moduleName] as $methodName) {
+                foreach ($methods as $methodName) {
                     $params = $this->getParametersString($class, $methodName);
 
                     $str .= "\n <div class='apiMethod'>- <b>$moduleName.$methodName </b>" . $params . "";
@@ -113,6 +114,33 @@ class DocumentationGenerator
 				$toc
 				$str";
         return $str;
+    }
+
+    /**
+     * Check if Class contains @hideExceptForSuperUser
+     *
+     * @param ReflectionClass $rClass instance of ReflectionMethod
+     * @return bool
+     */
+    public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
+    {
+        return strstr($rClass->getDocComment(), '@hideExceptForSuperUser');
+    }
+
+    /**
+     * Check if documentation contains @hideExceptForSuperUser and deletes it
+     *
+     * @param $moduleToCheck
+     * @param $searchedContent
+     * @return mixed
+     */
+    public function checkDocumentation($moduleToCheck, $searchedContent)
+    {
+        if (strpos($moduleToCheck, $searchedContent) == true) {
+            $moduleToCheck = str_replace($searchedContent, "", $moduleToCheck);
+        }
+
+        return $moduleToCheck;
     }
 
     /**
