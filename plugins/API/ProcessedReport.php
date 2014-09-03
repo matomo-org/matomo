@@ -498,13 +498,15 @@ class ProcessedReport
                 $columns
             );
 
-            if (isset($reportMetadata['processedMetrics'])) {
+            if (isset($reportMetadata['processedMetrics']) && is_array($reportMetadata['processedMetrics'])) {
                 $processedMetricsAdded = Metrics::getDefaultProcessedMetrics();
                 foreach ($reportMetadata['processedMetrics'] as $processedMetricId => $processedMetricTranslation) {
                     // this processed metric can be displayed for this report
+
                     if ($processedMetricTranslation && $processedMetricId !== $processedMetricTranslation) {
                         $columns[$processedMetricId] = $processedMetricTranslation;
                     } elseif (isset($processedMetricsAdded[$processedMetricId])) {
+                        // for instance in case 'nb_visits' => 'nb_visits' we will translate it
                         $columns[$processedMetricId] = $processedMetricsAdded[$processedMetricId];
                     }
                 }
