@@ -288,10 +288,16 @@ class ArchiveSelector
 
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
+        $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
+
+        if (!Rules::isRequestAuthorizedToArchive()) {
+            //If request is not authorized to archive then fetch also invalidated archives
+            $possibleValues[] = 4;
+        }
+
         // create the SQL to find archives that are DONE
         return "((name IN ($allDoneFlags)) AND " .
-        " (value = '" . ArchiveWriter::DONE_OK . "' OR " .
-        " value = '" . ArchiveWriter::DONE_OK_TEMPORARY . "'))";
+        " (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
 }
