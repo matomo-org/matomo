@@ -21,6 +21,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const CONTENTS_PIECE_NAME_RECORD_NAME = 'Contents_piece_name';
     const CONTENTS_NAME_PIECE_RECORD_NAME = 'Contents_name_piece';
     const CONTENT_TARGET_NOT_SET          = 'Piwik_ContentTargetNotSet';
+    const CONTENT_PIECE_NOT_SET           = 'Piwik_ContentPieceNotSet';
 
     /**
      * @var DataArray[]
@@ -247,6 +248,12 @@ class Archiver extends \Piwik\Plugin\Archiver
 
             $mainDimension = $dimensions[0];
             $mainLabel     = $row[$mainDimension];
+
+            // content piece is optional
+            if ($mainDimension == 'contentPiece'
+                && empty($mainLabel)) {
+                $mainLabel = self::CONTENT_PIECE_NOT_SET;
+            }
 
             $dataArray->sumMetricsImpressions($mainLabel, $row);
             $this->rememberMetadataForRow($row, $mainLabel);

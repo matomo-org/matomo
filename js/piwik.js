@@ -1329,8 +1329,8 @@ if (typeof Piwik !== 'object') {
             CONTENT_NAME_ATTR: 'data-content-name',
             CONTENT_PIECE_ATTR: 'data-content-piece',
             CONTENT_PIECE_CLASS: 'piwikContentPiece',
-            CONTENT_INTERACTION_ATTR: 'data-content-interaction',
-            CONTENT_INTERACTION_CLASS: 'piwikContentInteraction',
+            CONTENT_TARGET_ATTR: 'data-content-target',
+            CONTENT_TARGET_CLASS: 'piwikContentTarget',
 
             findContentNodes: function () {
 
@@ -1339,6 +1339,25 @@ if (typeof Piwik !== 'object') {
                 var contentNodes = query.findMultiple([cssSelector, attrSelector]);
 
                 return contentNodes;
+            },
+            findContentNodesWithinNode: function (node) {
+                if (!node) {
+                    return;
+                }
+
+                var nodes1 = this.findNodesHavingAttribute(node, this.CONTENT_ATTR);
+                var nodes2 = this.findNodesHavingCssClass(node, this.CONTENT_CLASS);
+
+                if (nodes2 && nodes2.length) {
+                    var index;
+                    for (index = 0; index < nodes2.length; index++) {
+                        nodes1.push(nodes2[index]);
+                    }
+                }
+
+                nodes1 = this.makeNodesUnique(nodes1);
+
+                return nodes1;
             },
             findParentContentNode: function (anyNode) {
                 if (!anyNode) {
@@ -1360,14 +1379,10 @@ if (typeof Piwik !== 'object') {
             findPieceNode: function (node) {
                 var contentPiece;
 
-                contentPiece = query.findFirstNodeHavingAttribute(this.CONTENT_NAME_ATTR);
+                contentPiece = query.findFirstNodeHavingAttribute(this.CONTENT_PIECE_ATTR);
 
                 if (!contentPiece) {
                     contentPiece = query.findFirstNodeHavingClass(this.CONTENT_PIECE_CLASS);
-                }
-
-                if (!contentPiece) {
-                    contentPiece = query.findFirstNodeHavingClass(this.CONTENT_INTERACTION_CLASS);
                 }
 
                 if (contentPiece) {
@@ -1378,17 +1393,17 @@ if (typeof Piwik !== 'object') {
             },
             findTargetNodeNoDefault: function (node)
             {
-                var target = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_INTERACTION_ATTR);
+                var target = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_TARGET_ATTR);
                 if (target) {
                     return target;
                 }
 
-                target = query.findFirstNodeHavingAttribute(node, this.CONTENT_INTERACTION_ATTR);
+                target = query.findFirstNodeHavingAttribute(node, this.CONTENT_TARGET_ATTR);
                 if (target) {
                     return target;
                 }
 
-                target = query.findFirstNodeHavingClass(node, this.CONTENT_INTERACTION_CLASS);
+                target = query.findFirstNodeHavingClass(node, this.CONTENT_TARGET_CLASS);
                 if (target) {
                     return target;
                 }
@@ -1436,7 +1451,7 @@ if (typeof Piwik !== 'object') {
                 var nameNode = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_PIECE_ATTR);
 
                 if (nameNode) {
-                    return query.getAttributeValueFromNode(nameNode, this.CONTENT_NAME_ATTR);
+                    return query.getAttributeValueFromNode(nameNode, this.CONTENT_PIECE_ATTR);
                 }
 
                 var contentNode = this.findPieceNode(node);
@@ -1463,8 +1478,8 @@ if (typeof Piwik !== 'object') {
             {
                 var targetNode = this.findTargetNode(node);
 
-                if (query.hasNodeAttributeWithValue(targetNode, this.CONTENT_INTERACTION_ATTR)) {
-                    return query.getAttributeValueFromNode(targetNode, this.CONTENT_INTERACTION_ATTR);
+                if (query.hasNodeAttributeWithValue(targetNode, this.CONTENT_TARGET_ATTR)) {
+                    return query.getAttributeValueFromNode(targetNode, this.CONTENT_TARGET_ATTR);
                 }
 
                 if (query.hasNodeAttributeWithValue(targetNode, 'href')) {
@@ -1607,8 +1622,8 @@ if (typeof Piwik !== 'object') {
                     link = query.getAttributeValueFromNode(clickNode, 'href');
                 }
 
-                if (!link && query.hasNodeAttributeWithValue(clickNode, this.CONTENT_INTERACTION_ATTR)) {
-                    link = query.getAttributeValueFromNode(clickNode, this.CONTENT_INTERACTION_ATTR);
+                if (!link && query.hasNodeAttributeWithValue(clickNode, this.CONTENT_TARGET_ATTR)) {
+                    link = query.getAttributeValueFromNode(clickNode, this.CONTENT_TARGET_ATTR);
                 }
 
                 if (!link) {
@@ -1878,6 +1893,7 @@ if (typeof Piwik !== 'object') {
 
                 // Keeps track of previously tracked content impressions
                 trackedContentImpressions = [],
+                enableTrackOnlyVisibleContent = false,
 
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
@@ -2770,9 +2786,7 @@ if (typeof Piwik !== 'object') {
             /*
              * Log currently visible content pieces
              */
-            function logCurrentlyVisibleContentImpressionsIfNotTrackedYet() {
-
-                var contentNodes = content.findContentNodes();
+            function logCurrentlyVisibleContentImpressionsIfNotTrackedYet(contentNodes) {
 
                 if (!contentNodes || !contentNodes.length) {
                     return;
@@ -2790,27 +2804,15 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                var contents = content.collectContent(contentNodes);
-
-                for (index = 0; index < contents; index++) {
-                    // TODO !!! it could happen that a content was tracked while this check is performed if they run both at the same time, maybe we need some kind of lock?
-                    if (wasContentImpressionAlreadyTracked(contents[index])) {
-                        contents.splice(index, 1);
-                    } else {
-                        trackedContentImpressions.push(contents[index]);
-                    }
-                }
-
-                logContentImpressions(contents, contentNodes);
+                logAllContentImpressions(contentNodes);
             }
 
             /*
              * Log all content pieces
              */
-            function logAllContentImpressions() {
+            function logAllContentImpressions(contentNodes) {
 
-                var contentNodes = content.findContentNodes();
-                var contents     = content.collectContent(contentNodes);
+                var contents = content.collectContent(contentNodes);
 
                 logContentImpressions(contents, contentNodes);
             }
@@ -2819,11 +2821,27 @@ if (typeof Piwik !== 'object') {
              * Log all content pieces
              */
             function logContentImpressions(contents, contentNodes) {
+
+                if (!contents || !contents.length) {
+                    return;
+                }
+
+                for (index = 0; index < contents; index++) {
+                    // TODO !!! it could happen that a content was tracked while this check is performed if they run
+                    // both at the same time, maybe we need some kind of lock?
+                    if (wasContentImpressionAlreadyTracked(contents[index])) {
+                        contents.splice(index, 1);
+                    } else {
+                        trackedContentImpressions.push(contents[index]);
+                    }
+                }
+
                 if (!contents || !contents.length) {
                     return;
                 }
 
                 for (index = 0; index < contentNodes.length; index++) {
+                    // TODO we should actually replace the link on the target node, not on the content node !!!IMPORTANT
                     var internalLink = content.findInternalTargetLink(contentNodes[index]);
                     if (internalLink) {
                         content.replaceTargetLink(contentNodes[index], buildTrackingRedirectUrl(internalLink));
@@ -2872,20 +2890,13 @@ if (typeof Piwik !== 'object') {
                 sendRequest(request, configTrackerPause);
             }
 
-            function logContentImpressionNode(node, contentTarget)
+            function logContentImpressionsWithinNode(node)
             {
-                var contentNode = content.findParentContentNode(node);
-                var content     = content.buildContentPiece(contentNode);
+                // TODO what if user wants to detect only visible... we need to provide disableOnlyVisible
+                var contentNodes = content.findContentNodesWithinNode(node);
+                var contents     = content.collectContent(contentNodes);
 
-                if (!content) {
-                    return;
-                }
-
-                if (!contentTarget && content.target) {
-                    contentTarget = content.target;
-                }
-
-                logContentImpression(content.name, content.piece, contentTarget);
+                logContentImpressions(contents, contentNodes);
             }
 
             function logContentInteraction(contentName, contentPiece, contentInteraction)
@@ -4012,6 +4023,8 @@ if (typeof Piwik !== 'object') {
                  * @param mixed customData
                  */
                 trackPageView: function (customTitle, customData) {
+                    trackedContentImpressions = [];
+
                     if (isOverlaySession(configTrackerSiteId)) {
                         trackCallback(function () {
                             injectOverlayScripts(configTrackerUrl, configApiUrl, configTrackerSiteId);
@@ -4023,24 +4036,43 @@ if (typeof Piwik !== 'object') {
                     }
                 },
 
-                trackAllContentImpressions: function () {
+                trackContentImpressions: function () {
                     trackCallback(function () {
-                        trackCallbackOnReady(function () {
-                            logAllContentImpressions();
-                        });
+                        if (enableTrackOnlyVisibleContent) {
+                            trackCallbackOnLoad(function () {
+                                // we have to wait till CSS parsed and applied
+                                var contentNodes = content.findContentNodes();
+
+                                logCurrentlyVisibleContentImpressionsIfNotTrackedYet(contentNodes);
+                            });
+                        } else {
+                            trackCallbackOnReady(function () {
+                                // we have to wait till DOM ready
+                                var contentNodes = content.findContentNodes();
+
+                                logAllContentImpressions(contentNodes);
+                            });
+                        }
                     });
                 },
 
-                enableDetectContentImpressionsAutomatically: function (checkOnSroll, timeIntervalInMs) {
+                enableTrackOnlyVisibleContent: function (checkOnSroll, timeIntervalInMs) {
                     var self      = this;
                     var didScroll = false;
+
+                    if (enableTrackOnlyVisibleContent) {
+                        // already enabled, do not register intervals again
+                        return true;
+                    }
+
+                    enableTrackOnlyVisibleContent = true;
 
                     trackCallbackOnLoad(function () {
 
                         function checkContent(intervalInMs) {
                             setTimeout(function () {
                                 didScroll = false;
-                                self.trackCurrentlyVisibleContentImpressionsIfNotTrackedYet();
+                                self.trackContentImpressions();
                                 checkBanners(intervalInMs);
                             }, intervalInMs);
                         }
@@ -4049,7 +4081,7 @@ if (typeof Piwik !== 'object') {
                             setTimeout(function () {
                                 if (didScroll) {
                                     didScroll = false;
-                                    self.trackCurrentlyVisibleContentImpressionsIfNotTrackedYet();
+                                    self.trackContentImpressions();
                                 }
 
                                 checkContentIfDidScroll(intervalInMs);
@@ -4079,18 +4111,9 @@ if (typeof Piwik !== 'object') {
 
                         if (timeIntervalInMs && timeIntervalInMs > 0) {
                             timeIntervalInMs = parseInt(timeIntervalInMs, 10);
-                            // TODO provide possibility to cancel interval? or if called again cancel previous one?
                             checkBanners(timeIntervalInMs);
                         }
 
-                    });
-                },
-
-                trackCurrentlyVisibleContentImpressionsIfNotTrackedYet: function () {
-                    trackCallback(function () {
-                        trackCallbackOnLoad(function () {
-                            logCurrentlyVisibleContentImpressionsIfNotTrackedYet();
-                        });
                     });
                 },
 
@@ -4102,9 +4125,23 @@ if (typeof Piwik !== 'object') {
                 },
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
                 // we might remove this method again
-                trackContentImpressionNode: function (domNode, contentTarget) {
+                trackContentImpressionsWithinNode: function (domNode) {
                     trackCallback(function () {
-                        logContentImpressionNode(domNode, contentTarget);
+                        if (enableTrackOnlyVisibleContent) {
+                            trackCallbackOnLoad(function () {
+                                // we have to wait till CSS parsed and applied
+                                var contentNodes = content.findContentNodesWithinNode(domNode);
+
+                                logCurrentlyVisibleContentImpressionsIfNotTrackedYet(contentNodes);
+                            });
+                        } else {
+                            trackCallbackOnReady(function () {
+                                // we have to wait till DOM ready
+                                var contentNodes = content.findContentNodesWithinNode(domNode);
+
+                                logAllContentImpressions(contentNodes);
+                            });
+                        }
                     });
                 },
 

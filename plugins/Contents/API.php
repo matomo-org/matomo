@@ -49,6 +49,12 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
+        $dataTable->filter(function (DataTable $table) {
+            $row = $table->getRowFromLabel(Archiver::CONTENT_PIECE_NOT_SET);
+            if ($row) {
+                $row->setColumn('label', Piwik::translate('General_NotDefined', Piwik::translate('Contents_ContentPiece')));
+            }
+        });
 
         // Content interaction rate = interactions / impressions
         $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('interaction_rate', 'nb_interactions', 'nb_impressions', $precision = 2));
