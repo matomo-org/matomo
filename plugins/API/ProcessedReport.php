@@ -500,10 +500,12 @@ class ProcessedReport
 
             if (isset($reportMetadata['processedMetrics'])) {
                 $processedMetricsAdded = Metrics::getDefaultProcessedMetrics();
-                foreach ($processedMetricsAdded as $processedMetricId => $processedMetricTranslation) {
+                foreach ($reportMetadata['processedMetrics'] as $processedMetricId => $processedMetricTranslation) {
                     // this processed metric can be displayed for this report
-                    if (isset($reportMetadata['processedMetrics'][$processedMetricId])) {
+                    if ($processedMetricTranslation && $processedMetricId !== $processedMetricTranslation) {
                         $columns[$processedMetricId] = $processedMetricTranslation;
+                    } elseif (isset($processedMetricsAdded[$processedMetricId])) {
+                        $columns[$processedMetricId] = $processedMetricsAdded[$processedMetricId];
                     }
                 }
             }
