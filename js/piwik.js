@@ -1331,6 +1331,8 @@ if (typeof Piwik !== 'object') {
             CONTENT_PIECE_CLASS: 'piwikContentPiece',
             CONTENT_TARGET_ATTR: 'data-content-target',
             CONTENT_TARGET_CLASS: 'piwikContentTarget',
+            CONTENT_IGNOREINTERACTION_ATTR: 'data-content-ignoreinteraction',
+            CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
 
             findContentNodes: function () {
 
@@ -1482,14 +1484,17 @@ if (typeof Piwik !== 'object') {
                     return query.getAttributeValueFromNode(targetNode, this.CONTENT_TARGET_ATTR);
                 }
 
+                var href;
                 if (query.hasNodeAttributeWithValue(targetNode, 'href')) {
-                    return query.getAttributeValueFromNode(targetNode, 'href');
+                    href = query.getAttributeValueFromNode(targetNode, 'href');
+                    return this.toAbsoluteUrl(href);
                 }
 
                 var contentNode = this.findPieceNode(node);
 
                 if (query.hasNodeAttributeWithValue(contentNode, 'href')) {
-                    return query.getAttributeValueFromNode(contentNode, 'href');
+                    href = query.getAttributeValueFromNode(contentNode, 'href');
+                    return this.toAbsoluteUrl(href);
                 }
             },
             removeDomainIfIsUrl: function (text) {
@@ -1527,7 +1532,7 @@ if (typeof Piwik !== 'object') {
 
                 return text;
             },
-            isNodeInViewport: function (node) {
+            isOrWasNodeInViewport: function (node) {
 
                 if (!node || !node.getBoundingClientRect || node.nodeType !== 1) {
                     return true;
@@ -1540,11 +1545,11 @@ if (typeof Piwik !== 'object') {
                     rect.bottom > 0 &&
                     rect.right  > 0 &&
                     rect.left   < (windowAlias.innerWidth || html.clientWidth) &&
-                    rect.top    < (windowAlias.innerHeight || html.clientHeight)
+                    (rect.top    < (windowAlias.innerHeight || html.clientHeight) || rect.top < 0) // rect.top < 0 we assume user has seen all the ones that are above the current viewport
                 );
             },
             isNodeVisible: function (node) {
-                return isVisible(node) && this.isNodeInViewport(node);
+                return isVisible(node) && this.isOrWasNodeInViewport(node);
             },
             buildInteractionRequestParams: function (interaction, name, piece, target)
             {
@@ -1615,21 +1620,40 @@ if (typeof Piwik !== 'object') {
 
                 return contents;
             },
-            findInternalTargetLink: function (node)
-            {
-                var clickNode = this.findTargetNode(node);
+            toAbsoluteUrl: function (url) {
+                // Eg //example.com/test.jpg
+                if (url.search(/^\/\//) != -1) {
+                    return window.location.protocol + url
+                }
 
-                if (!clickNode) {
+                // Eg http://example.com/test.jpg
+                if (url.search(/:\/\//) != -1) {
+                    return url
+                }
+
+                // Eg #test.jpg
+                if (0 === url.indexOf('#')) {
+                    return window.location.origin + window.location.pathname + url;
+                }
+
+                // Eg /test.jpg
+                if (url.search(/^\//) != -1) {
+                    return window.location.origin + url
+                }
+
+                // Eg test.jpg
+                var base = window.location.origin + window.location.pathname.match(/(.*\/)/)[0]
+                return base + url
+            },
+            findInternalTargetLinkFromHref: function (targetNode)
+            {
+                if (!targetNode) {
                     return;
                 }
 
                 var link;
-                if (query.hasNodeAttributeWithValue(clickNode, 'href')) {
-                    link = query.getAttributeValueFromNode(clickNode, 'href');
-                }
-
-                if (!link && query.hasNodeAttributeWithValue(clickNode, this.CONTENT_TARGET_ATTR)) {
-                    link = query.getAttributeValueFromNode(clickNode, this.CONTENT_TARGET_ATTR);
+                if (query.hasNodeAttributeWithValue(targetNode, 'href')) {
+                    link = query.getAttributeValueFromNode(targetNode, 'href');
                 }
 
                 if (!link) {
@@ -1659,6 +1683,10 @@ if (typeof Piwik !== 'object') {
                 if (clickNode && clickNode.setAttribute) {
                     clickNode.setAttribute('href', url);
                 }
+            },
+            shouldIgnoreInteraction: function (targetNode) {
+                return query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR) ||
+                       query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS);
             }
         };
 
@@ -2719,38 +2747,12 @@ if (typeof Piwik !== 'object') {
                 return request;
             }
 
-            function toAbsoluteUrl(url) {
-                // Eg //example.com/test.jpg
-                if (url.search(/^\/\//) != -1) {
-                    return window.location.protocol + url
-                }
-
-                // Eg http://example.com/test.jpg
-                if (url.search(/:\/\//) != -1) {
-                    return url
-                }
-
-                // Eg #test.jpg
-                if (0 === url.indexOf('#')) {
-                    return window.location.origin + window.location.pathname + url;
-                }
-
-                // Eg /test.jpg
-                if (url.search(/^\//) != -1) {
-                    return window.location.origin + url
-                }
-
-                // Eg test.jpg
-                var base = window.location.origin + window.location.pathname.match(/(.*\/)/)[0]
-                return base + url
-            }
-
             function buildContentInteractionTrackingRedirectUrl(url, contentName, contentPiece, contentTarget) {
                 if (0 === url.indexOf(configTrackerUrl)) {
                     return url;
                 }
 
-                var redirectUrl = toAbsoluteUrl(url);
+                var redirectUrl = content.toAbsoluteUrl(url);
                 var request = buildContentInteractionTrackingRequest(url, contentName, contentPiece, contentTarget);
                 request    += '&redirecturl=' + redirectUrl;
 
@@ -2861,23 +2863,27 @@ if (typeof Piwik !== 'object') {
                         continue;
                     }
 
-                    if (targetNode && targetNode.contentTrackingRedirectSetupDone) {
+                    if (targetNode.contentTrackingRedirectSetupDone) {
                         continue;
                     }
 
                     targetNode.contentTrackingRedirectSetupDone = true;
 
+                    if (content.shouldIgnoreInteraction(targetNode)) {
+                        continue;
+                    }
+
                     if (targetNode.nodeName.toLowerCase() === 'a' &&
                         query.hasNodeAttributeWithValue(targetNode, 'href')) {
 
-                        var internalLink = content.findInternalTargetLink(contentNodes[index]);
+                        var internalLink = content.findInternalTargetLinkFromHref(targetNode);
 
                         if (internalLink) {
 
                             content.replaceTargetLink(targetNode, buildTrackingRedirectUrl(internalLink));
 
                             addEventListener(targetNode, 'click', function () {
-                                var url = content.findInternalTargetLink(this);
+                                var url = content.findInternalTargetLinkFromHref(this);
                                 if (!url) {
                                     return;
                                 }
@@ -2950,7 +2956,6 @@ if (typeof Piwik !== 'object') {
 
             function logContentImpressionsWithinNode(node)
             {
-                // TODO what if user wants to detect only visible... we need to provide disableOnlyVisible
                 var contentNodes = content.findContentNodesWithinNode(node);
                 var contents     = content.collectContent(contentNodes);
 

@@ -226,10 +226,12 @@ As the target element has a `href` attribute we can detect the content target au
 Interactions can be detected declarative in case the detected target element is an `a` element with an `href` attribute. If not, you will have to track
 the interaction programmatically, see one of the next sections. We generally treat links to the same page differently than downloads or outlinks.
 
-#### Links to the same website
+#### Links to the same domain
 In case we detect a link to the same website we will replace the current `href` attribute with a link to the `piwik.php` tracker URL. Whenever a user clicks on such a link we will first send the user to the `piwik.php` of your Piwik installation and then redirect the user from there to the actual page. This click will be tracked as an event.
 
 If the URL of the replaced `href` attribute changes meanwhile by your code we will respect the new `href` attribute and make sure to update the link with a `piwik.php` URL. Therefore we will add a `click` listener to the element.
+
+Note: The referrer information will get lost when redirecting from piwik.php to your page. If you depend on this you need to disable automatic tracking of interaction see below
 
 If you have added an `href` attribute after we scanned the DOM for content blocks we can not detect this and an interaction won't be tracked.
 
