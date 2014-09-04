@@ -53,6 +53,7 @@ testTrackPageViewAsync();
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
+ <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/jslint.js" type="text/javascript"></script>
  <script type="text/javascript">
@@ -148,6 +149,7 @@ function deleteCookies() {
         }
     }
 }
+
  </script>
 </head>
 <body>
@@ -197,6 +199,50 @@ function PiwikTest() {
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
             echo "$src"; ?>';
         ok( JSLINT(src), "JSLint" );
+//      alert(JSLINT.report(true));
+    });
+
+
+    test("Query", function() {
+        var tracker = Piwik.getTracker();
+        var query   = tracker.getQuery();
+
+        var firstLink = query.findFirstNodeHavingClass();
+        strictEqual(firstLink, undefined, "findFirstNodeHavingClass, no node set");
+
+        var firstLink = query.findFirstNodeHavingClass(document.body);
+        strictEqual(firstLink, undefined, "findFirstNodeHavingClass, no classname set");
+
+        var firstLink = query.findFirstNodeHavingClass(document.body, 'notExistingClass');
+        strictEqual(firstLink, undefined, "findFirstNodeHavingClass, no such classname exists");
+
+        var firstLink = query.findFirstNodeHavingClass(document.body, 'piwik_ignore');
+        strictEqual(firstLink, _e('click2'), "findFirstNodeHavingClass, find matching within body");
+
+        var firstLink = query.findFirstNodeHavingClass(_e('other'), 'clicktest');
+        strictEqual(firstLink, _e('click1'), "findFirstNodeHavingClass, find matching within node");
+
+        var firstLink = query.findFirstNodeHavingClass(_e('click1'), 'clicktest');
+        strictEqual(firstLink, _e('click1'), "findFirstNodeHavingClass, passed node has class itself");
+
+
+        var firstLink = query.findNodesHavingCssClass();
+        propEqual(firstLink, [], "find matching within div, no node set");
+
+        var firstLink = query.findNodesHavingCssClass(document.body);
+        propEqual(firstLink, [], "find matching within div, no classname set");
+debugger;
+        var firstLink = query.findNodesHavingCssClass(document.body, 'piwik_ignore');
+        propEqual(firstLink, [_e('click2')], "find matching within div, find matching within body");
+
+        var firstLink = query.findNodesHavingCssClass(_e('other'), 'piwik_ignore');
+        propEqual(firstLink, [_e('click2')], "find matching within div, find matching within div");
+
+        var firstLink = query.findNodesHavingCssClass(_e('other'), 'piwik_download');
+        propEqual(firstLink, [_e('click7')], "find matching within div, find matching within div different class");
+
+        var firstLink = query.findNodesHavingCssClass(_e('click7'), 'piwik_download');
+        propEqual(firstLink, [_e('click7')], "find matching within div, passed node has class itself");
 //      alert(JSLINT.report(true));
     });
 
@@ -1043,7 +1089,7 @@ if ($sqlite) {
         piwik_log("CompatibilityLayer", 1, "piwik.php", { "token" : getToken() });
 
         tracker.hook.test._addEventListener(_e("click8"), "click", stopEvent);
-        QUnit.triggerEvent( _e("click8"), "click" );
+        $(_e("click8")).trigger('click');
 
         tracker.enableLinkTracking();
 
@@ -1051,7 +1097,7 @@ if ($sqlite) {
         var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
         for (var i=0; i < buttons.length; i++) {
             tracker.hook.test._addEventListener(_e(buttons[i]), "click", stopEvent);
-            QUnit.triggerEvent( _e(buttons[i]), "click" );
+            $(_e(buttons[i])).trigger('click');
         }
 
         var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
@@ -1067,7 +1113,7 @@ if ($sqlite) {
         clickDiv.appendChild(anchor);
         tracker.addListener(anchor);
         tracker.hook.test._addEventListener(anchor, "click", stopEvent);
-        QUnit.triggerEvent( _e("click9"), "click" );
+        $(_e("click9")).trigger("click" );
 
         var visitorId1, visitorId2;
 
