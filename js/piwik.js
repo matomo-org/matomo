@@ -1101,26 +1101,40 @@ if (typeof Piwik !== 'object') {
          ************************************************************/
 
         var query = {
-            find: function(selector)
-            {
-                if (!document.querySelectorAll) {
-                    return []; // TODO
+            htmlCollectionToArray: function (foundNodes) {
+                var nodes = [], index;
+
+                if (!foundNodes || !foundNodes.length) {
+                    return nodes;
                 }
 
-                return document.querySelectorAll(selector);
+                for (index = 0; index < foundNodes.length; index++) {
+                    nodes.push(foundNodes[index]);
+                }
+
+                return nodes;
             },
-            findMultiple: function(selectors)
+            find: function (selector)
             {
+                if (!document.querySelectorAll || !selector) {
+                    return []; // we do not support all browsers
+                }
+
+                var foundNodes = document.querySelectorAll(selector);
+
+                return this.htmlCollectionToArray(foundNodes);
+            },
+            findMultiple: function (selectors)
+            {
+                if (!selectors || !selectors.length) {
+                    return [];
+                }
+
                 var index, j,foundNodes;
                 var nodes = [];
                 for (index = 0; index < selectors.length; index++) {
                     foundNodes = this.find(selectors[index]);
-                    if (!foundNodes || !foundNodes.length) {
-                        continue;
-                    }
-                    for (j = 0; j < foundNodes.length; j++) {
-                        nodes.push(foundNodes[j]);
-                    }
+                    nodes = nodes.concat(foundNodes);
                 }
 
                 nodes = this.makeNodesUnique(nodes);
@@ -1155,6 +1169,10 @@ if (typeof Piwik !== 'object') {
                 return nodes;
             },
             getAttributeValueFromNode: function (node, attributeName) {
+                if (!this.hasNodeAttribute(node, attributeName)) {
+                    return;
+                }
+
                 if (node && node.getAttribute) {
                     return node.getAttribute(attributeName)
                 }
@@ -1191,13 +1209,10 @@ if (typeof Piwik !== 'object') {
                 return null;
             },
             hasNodeAttributeWithValue: function (node, attributeName) {
-                if (this.hasNodeAttribute(node, attributeName)) {
-                    var value = this.getAttributeValueFromNode(node, attributeName);
 
-                    if (value) {
-                        return value;
-                    }
-                }
+                var value = this.getAttributeValueFromNode(node, attributeName);
+
+                return !!value;
             },
             hasNodeAttribute: function (node, attributeName) {
                 if (node && node.hasAttribute) {
@@ -1211,7 +1226,7 @@ if (typeof Piwik !== 'object') {
                 return false;
             },
             hasNodeCssClass: function (node, className) {
-                if (node && node.className) {
+                if (node && className && node.className) {
                     var classes = node.className.split(' ');
                     if (-1 !== classes.indexOf(className)) {
                         return true;
@@ -1225,7 +1240,7 @@ if (typeof Piwik !== 'object') {
                     nodes = []
                 }
 
-                if (!nodeToSearch || !nodeToSearch.children) {
+                if (!nodeToSearch || !attributeName || !nodeToSearch.children) {
                     return nodes;
                 }
 
@@ -1242,6 +1257,10 @@ if (typeof Piwik !== 'object') {
                 return nodes;
             },
             findFirstNodeHavingAttribute: function (node, attributeName) {
+                if (!node || !attributeName) {
+                    return;
+                }
+
                 if (this.hasNodeAttribute(node, attributeName)) {
                     return node;
                 }
@@ -1249,10 +1268,14 @@ if (typeof Piwik !== 'object') {
                 var nodes = this.findNodesHavingAttribute(node, attributeName);
 
                 if (nodes && nodes.length) {
-                    return nodes[0]; // TODO here we should check whether this node is also present within another nested piece of content and if there are multiple other nodes maybe use the next one
+                    return nodes[0];
                 }
             },
             findFirstNodeHavingAttributeWithValue: function (node, attributeName) {
+                if (!node || !attributeName) {
+                    return;
+                }
+
                 if (this.hasNodeAttributeWithValue(node, attributeName)) {
                     return node;
                 }
@@ -1275,12 +1298,13 @@ if (typeof Piwik !== 'object') {
                     nodes = []
                 }
 
-                if (!nodeToSearch) {
+                if (!nodeToSearch || !className) {
                     return nodes;
                 }
 
                 if (nodeToSearch.getElementsByClassName) {
-                    return nodeToSearch.getElementsByClassName(className);
+                    var foundNodes = nodeToSearch.getElementsByClassName(className);
+                    return this.htmlCollectionToArray(foundNodes);
                 }
 
                 if (!nodeToSearch.children) {
@@ -1300,6 +1324,10 @@ if (typeof Piwik !== 'object') {
                 return nodes;
             },
             findFirstNodeHavingClass: function (node, className) {
+                if (!node || !className) {
+                    return;
+                }
+
                 if (this.hasNodeCssClass(node, className)) {
                     return node;
                 }
@@ -1308,13 +1336,6 @@ if (typeof Piwik !== 'object') {
 
                 if (nodes && nodes.length) {
                     return nodes[0]; // TODO here we should check whether this node is also present within another nested piece of content and if there are multiple other nodes maybe use the next one
-                }
-            },
-            findFirstLink: function (node) {
-                var linkNodes = node.getElementsByTagName('a');
-
-                if (linkNodes && linkNodes.length) {
-                    return linkNodes[0];
                 }
             }
         }
@@ -3387,6 +3408,12 @@ if (typeof Piwik !== 'object') {
                 hook: registeredHooks,
                 getHook: function (hookName) {
                     return registeredHooks[hookName];
+                },
+                getQuery: function () {
+                    return query;
+                },
+                getContent: function () {
+                    return content;
                 },
 /*</DEBUG>*/
 

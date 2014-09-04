@@ -67,6 +67,23 @@
                 return errorString;
             }
         },
+
+        isNode = function (obj) {
+            if (typeof Node === 'object') {
+                return obj instanceof Node
+            }
+
+            return obj && typeof obj === 'object' && typeof obj.nodeType === 'number' && typeof obj.nodeName=== 'string';
+        },
+
+        isElement = function (obj) {
+            if (typeof HTMLElement === 'object') {
+                return obj instanceof HTMLElement
+            }
+
+            return obj && typeof obj === 'object' && obj !== null && obj.nodeType === 1 && typeof obj.nodeName==='string';
+        },
+
         /**
          * Makes a clone of an object using only Array or Object as base,
          * and copies over the own enumerable properties.
@@ -80,7 +97,7 @@
             for ( key in obj ) {
                 if ( hasOwn.call( obj, key ) ) {
                     val = obj[ key ];
-                    vals[ key ] = val === Object( val ) ? objectValues( val ) : val;
+                    vals[ key ] = val === Object( val ) && !isNode(val) && !isElement(val) ? objectValues( val ) : val;
                 }
             }
             return vals;

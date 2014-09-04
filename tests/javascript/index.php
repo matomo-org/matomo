@@ -153,7 +153,7 @@ function deleteCookies() {
  </script>
 </head>
 <body>
-<div style="display:none;"><a href="http://piwik.org/qa">First anchor link</a></div>
+<div style="display:none;"><a id="firstLink" href="http://piwik.org/qa">First anchor link</a></div>
 
  <h1 id="qunit-header">piwik.js: Unit Tests</h1>
  <h2 id="qunit-banner"></h2>
@@ -168,6 +168,8 @@ function deleteCookies() {
   <iframe name="iframe5"></iframe>
   <iframe name="iframe6"></iframe>
   <iframe name="iframe7"></iframe>
+  <img id="image1" src=""/> <!-- Test require this empty source attribute before image2!! -->
+  <img id="image2" data-content-piece src="img.jpg"/>
   <ul>
     <li><a id="click1" href="javascript:_e('div1').innerHTML='&lt;iframe src=&quot;http://click.example.com&quot;&gt;&lt;/iframe&gt;';void(0)" class="clicktest">ignore: implicit (JavaScript href)</a></li>
     <li><a id="click2" href="http://example.org" target="iframe2" class="piwik_ignore clicktest">ignore: explicit</a></li>
@@ -206,44 +208,275 @@ function PiwikTest() {
     test("Query", function() {
         var tracker = Piwik.getTracker();
         var query   = tracker.getQuery();
+        var actual;
 
-        var firstLink = query.findFirstNodeHavingClass();
-        strictEqual(firstLink, undefined, "findFirstNodeHavingClass, no node set");
+        actual = query.findFirstNodeHavingClass();
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no node set");
 
-        var firstLink = query.findFirstNodeHavingClass(document.body);
-        strictEqual(firstLink, undefined, "findFirstNodeHavingClass, no classname set");
+        actual = query.findFirstNodeHavingClass(document.body);
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no classname set");
 
-        var firstLink = query.findFirstNodeHavingClass(document.body, 'notExistingClass');
-        strictEqual(firstLink, undefined, "findFirstNodeHavingClass, no such classname exists");
+        actual = query.findFirstNodeHavingClass(document.body, 'notExistingClass');
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no such classname exists");
 
-        var firstLink = query.findFirstNodeHavingClass(document.body, 'piwik_ignore');
-        strictEqual(firstLink, _e('click2'), "findFirstNodeHavingClass, find matching within body");
+        actual = query.findFirstNodeHavingClass(document.body, 'piwik_ignore');
+        strictEqual(actual, _e('click2'), "findFirstNodeHavingClass, find matching within body");
 
-        var firstLink = query.findFirstNodeHavingClass(_e('other'), 'clicktest');
-        strictEqual(firstLink, _e('click1'), "findFirstNodeHavingClass, find matching within node");
+        actual = query.findFirstNodeHavingClass(_e('other'), 'clicktest');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, find matching within node");
 
-        var firstLink = query.findFirstNodeHavingClass(_e('click1'), 'clicktest');
-        strictEqual(firstLink, _e('click1'), "findFirstNodeHavingClass, passed node has class itself");
+        actual = query.findFirstNodeHavingClass(_e('click1'), 'clicktest');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, passed node has class itself");
 
 
-        var firstLink = query.findNodesHavingCssClass();
-        propEqual(firstLink, [], "find matching within div, no node set");
+        actual = query.findNodesHavingCssClass();
+        propEqual(actual, [], "findNodesHavingCssClass, no node set");
 
-        var firstLink = query.findNodesHavingCssClass(document.body);
-        propEqual(firstLink, [], "find matching within div, no classname set");
-debugger;
-        var firstLink = query.findNodesHavingCssClass(document.body, 'piwik_ignore');
-        propEqual(firstLink, [_e('click2')], "find matching within div, find matching within body");
+        actual = query.findNodesHavingCssClass(document.body);
+        propEqual(actual, [], "findNodesHavingCssClass, no classname set");
 
-        var firstLink = query.findNodesHavingCssClass(_e('other'), 'piwik_ignore');
-        propEqual(firstLink, [_e('click2')], "find matching within div, find matching within div");
+        actual = query.findNodesHavingCssClass(document.body, 'piwik_ignore');
+        propEqual(actual, [_e('click2')], "findNodesHavingCssClass, find matching within body");
 
-        var firstLink = query.findNodesHavingCssClass(_e('other'), 'piwik_download');
-        propEqual(firstLink, [_e('click7')], "find matching within div, find matching within div different class");
+        actual = query.findNodesHavingCssClass(_e('other'), 'piwik_ignore');
+        propEqual(actual, [_e('click2')], "findNodesHavingCssClass, ffind matching within div");
 
-        var firstLink = query.findNodesHavingCssClass(_e('click7'), 'piwik_download');
-        propEqual(firstLink, [_e('click7')], "find matching within div, passed node has class itself");
-//      alert(JSLINT.report(true));
+        actual = query.findNodesHavingCssClass(_e('other'), 'piwik_download');
+        propEqual(actual, [_e('click7')], "findNodesHavingCssClass, find matching within div different class");
+
+        actual = query.findNodesHavingCssClass(_e('other'), 'clicktest');
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingCssClass, find many matching within div");
+
+        actual = query.findNodesHavingCssClass(_e('click7'), 'piwik_download');
+        propEqual(actual, [], "findNodesHavingCssClass, should not find if passed node has class itself");
+
+        actual = query.findNodesHavingCssClass(_e('clickDiv'), 'clicktest');
+        ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        propEqual(actual, [], "findNodesHavingCssClass, should not find anything");
+
+
+
+        actual = query.hasNodeCssClass();
+        strictEqual(actual, false, "hasNodeCssClass, no element set");
+
+        actual = query.hasNodeCssClass(_e('clickDiv'));
+        strictEqual(actual, false, "hasNodeCssClass, no classname set");
+
+        actual = query.hasNodeCssClass(_e('clickDiv'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has no class at all");
+
+        actual = query.hasNodeCssClass(_e('click3'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has one classes and it does not match");
+
+        actual = query.hasNodeCssClass(_e('click3'), 'clicktest');
+        strictEqual(actual, true, "hasNodeCssClass, element has one classes and it matches");
+
+        actual = query.hasNodeCssClass(_e('click7'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has many classes but not this one");
+
+        actual = query.hasNodeCssClass(_e('click7'), 'piwik_download');
+        strictEqual(actual, true, "hasNodeCssClass, element has many classes and it matches");
+
+
+
+        actual = query.hasNodeAttribute();
+        strictEqual(actual, false, "hasNodeAttribute, no element set");
+
+        actual = query.hasNodeAttribute(_e('clickDiv'));
+        strictEqual(actual, false, "hasNodeAttribute, no attribute set");
+
+        actual = query.hasNodeAttribute(document.body, 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttribute, element has no attribute at all");
+
+        actual = query.hasNodeAttribute(_e('click2'), 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttribute, element has attributes and it does not match");
+
+        actual = query.hasNodeAttribute(_e('click2'), 'href');
+        strictEqual(actual, true, "hasNodeAttribute, element has attributes and it does match");
+
+        actual = query.hasNodeAttribute(_e('image1'), 'src');
+        strictEqual(actual, true, "hasNodeAttribute, element has attributes and it does match other attribute");
+
+        actual = query.hasNodeAttribute(_e('image2'), 'data-content-piece');
+        strictEqual(actual, true, "hasNodeAttribute, element has attribute and no value");
+
+
+
+        actual = query.hasNodeAttributeWithValue();
+        strictEqual(actual, false, "hasNodeAttributeWithValue, no element set");
+
+        actual = query.hasNodeAttributeWithValue(_e('clickDiv'));
+        strictEqual(actual, false, "hasNodeAttributeWithValue, no attribute set");
+
+        actual = query.hasNodeAttributeWithValue(document.body, 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has no attribute at all");
+
+        actual = query.hasNodeAttributeWithValue(_e('click2'), 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has attributes but not this one");
+
+        actual = query.hasNodeAttributeWithValue(_e('click2'), 'href');
+        strictEqual(actual, true, "hasNodeAttributeWithValue, element has attribute and value");
+
+        actual = query.hasNodeAttributeWithValue(_e('image1'), 'src');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has attribute but no value");
+
+        actual = query.hasNodeAttributeWithValue(_e('image2'), 'data-content-piece');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has attribute but no value");
+        
+        
+        actual = query.getAttributeValueFromNode();
+        strictEqual(actual, undefined, "getAttributeValueFromNode, no element set");
+
+        actual = query.getAttributeValueFromNode(_e('clickDiv'));
+        strictEqual(actual, undefined, "getAttributeValueFromNode, no attribute set");
+
+        actual = query.getAttributeValueFromNode(document.body, 'anyAttribute');
+        strictEqual(actual, undefined, "getAttributeValueFromNode, element has no attribute at all");
+
+        actual = query.getAttributeValueFromNode(_e('click2'), 'anyAttribute');
+        strictEqual(actual, undefined, "getAttributeValueFromNode, element has attributes but not this one");
+
+        actual = query.getAttributeValueFromNode(_e('click2'), 'href');
+        strictEqual(actual, 'http://example.org', "getAttributeValueFromNode, element has attribute and value");
+
+        actual = query.getAttributeValueFromNode(_e('image1'), 'src');
+        strictEqual(actual, '', "getAttributeValueFromNode, element has attribute but no value");
+
+        actual = query.getAttributeValueFromNode(_e('image2'), 'data-content-piece');
+        strictEqual(actual, '', "getAttributeValueFromNode, element has attribute but no value");
+
+        actual = query.getAttributeValueFromNode(_e('click2'), 'class');
+        strictEqual(actual, 'piwik_ignore clicktest', "getAttributeValueFromNode, element has attribute class and value");
+
+
+
+        actual = query.findNodesHavingAttribute();
+        propEqual(actual, [], "findNodesHavingAttribute, no node set");
+
+        actual = query.findNodesHavingAttribute(document.body);
+        propEqual(actual, [], "findNodesHavingAttribute, no attribute set");
+
+        actual = query.findNodesHavingAttribute(document.body, 'anyAttribute');
+        propEqual(actual, [], "findNodesHavingAttribute, should not find any such attribute within body");
+
+        actual = query.findNodesHavingAttribute(document.body, 'style');
+        strictEqual(actual.length, 3, "findNodesHavingAttribute, should find a few");
+
+        actual = query.findNodesHavingAttribute(_e('click1'), 'href');
+        propEqual(actual, [], "findNodesHavingAttribute, should not find itself if the passed element has the attribute");
+
+        actual = query.findNodesHavingAttribute(_e('clickDiv'), 'id');
+        ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        propEqual(actual, [], "findNodesHavingAttribute, this element does not have children");
+        
+        actual = query.findNodesHavingAttribute(document.body, 'href');
+        ok(actual.length > 11, "findNodesHavingAttribute, should find many elements within body");
+
+        actual = query.findNodesHavingAttribute(_e('other'), 'href');
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingAttribute, should find many elements within node");
+
+        actual = query.findNodesHavingAttribute(_e('other'), 'anyAttribute');
+        propEqual(actual, [], "findNodesHavingAttribute, should not find any such attribute within div");
+
+
+// TODO it is a bit confusing that findNodesHavingAttribute/CssClass does not include the passed node in the search but findFirstNodeHavingAttribute/CssClass does
+        actual = query.findFirstNodeHavingAttribute();
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, no node set");
+
+        actual = query.findFirstNodeHavingAttribute(document.body);
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, no attribute set");
+
+        actual = query.findFirstNodeHavingAttribute(document.body, 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, should not find any such attribute within body");
+
+        actual = query.findFirstNodeHavingAttribute(_e('click1'), 'href');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingAttribute, element has the attribute itself and not a children");
+
+        actual = query.findFirstNodeHavingAttribute(_e('clickDiv'), 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, this element does not have children");
+
+        actual = query.findFirstNodeHavingAttribute(document.body, 'href');
+        strictEqual(actual, _e('firstLink'), "findFirstNodeHavingAttribute, should find first link within body");
+
+        actual = query.findFirstNodeHavingAttribute(_e('other'), 'href');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingAttribute, should find fist link within node");
+
+
+
+        actual = query.findFirstNodeHavingAttributeWithValue();
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, no node set");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body);
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, no attribute set");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body, 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, should not find any such attribute within body");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(_e('click2'), 'href');
+        strictEqual(actual, _e('click2'), "findFirstNodeHavingAttributeWithValue, element has the attribute itself and not a children");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(_e('clickDiv'), 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, this element does not have children");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body, 'href');
+        strictEqual(actual, _e('firstLink'), "findFirstNodeHavingAttributeWithValue, should find first link within body");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body, 'src');
+        strictEqual(actual, _e('image2'), "findFirstNodeHavingAttributeWithValue, should not return first image which has empty src attribute");
+
+
+
+        actual = query.htmlCollectionToArray();
+        propEqual(actual, [], "htmlCollectionToArray, should always return an array even if nothing given");
+
+        actual = query.htmlCollectionToArray(5);
+        propEqual(actual, [], "htmlCollectionToArray, should always return an array even if interger given"); // would still parse string to an array but we can live with that
+
+        var htmlCollection = document.getElementsByTagName('a');
+        ok(htmlCollection instanceof HTMLCollection, 'htmlCollectionToArray, we need to make sure we handle an html collection in order to make test really useful')
+        actual = query.htmlCollectionToArray(htmlCollection);
+        ok($.isArray(actual), 'htmlCollectionToArray, should convert to array');
+        ok(actual.length === htmlCollection.length, 'htmlCollectionToArray should have same amount of elements as before');
+        ok(actual.length > 10, 'htmlCollectionToArray, just make sure there are many a elements found. otherwise test is useless');
+        ok(-1 !== actual.indexOf(_e('click1')), 'htmlCollectionToArray, random check to make sure it contains a link');
+
+
+        actual = query.find();
+        propEqual(actual, [], "find, no selector passed should return an empty array");
+
+        actual = query.find('[data-content-piece]');
+        propEqual(actual, [_e('image2')], "find, should find elements by attribute");
+
+        actual = query.find('.piwik_link');
+        propEqual(actual, [_e('click5')], "find, should find elements by class");
+
+        actual = query.find('#image1');
+        propEqual(actual, [_e('image1')], "find, should find elements by id");
+
+        actual = query.find('[href]');
+        ok(actual.length > 10, "find, should find many elements by attribute");
+        ok(-1 !== actual.indexOf(_e('click1')), 'find, random check to make sure it contains a link');
+
+        actual = query.find('.clicktest');
+        ok(actual.length === 8, "find, should find many elements by class");
+        ok(-1 !== actual.indexOf(_e('click1')), 'find, random check to make sure it contains a link');
+
+
+
+        actual = query.findMultiple();
+        propEqual(actual, [], "findMultiple, no selectors passed should return an empty array");
+
+        actual = query.findMultiple([]);
+        propEqual(actual, [], "findMultiple, empty selectors passed should return an empty array");
+
+        actual = query.findMultiple(['.piwik_link']);
+        propEqual(actual, [_e('click5')], "findMultiple, only one selector passed");
+
+        actual = query.findMultiple(['.piwik_link', '[data-content-piece]']);
+        propEqual(actual, [_e('image2'), _e('click5')], "findMultiple, two selectors passed");
+
+        actual = query.findMultiple(['.piwik_link', '[data-content-piece]', '#image2', '#div1']);
+        propEqual(actual, [_e('image2'), _e('div1'), _e('click5')], "findMultiple, should make nodes unique in case we select the same multiple times");
     });
 
     test("JSON", function() {
