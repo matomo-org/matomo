@@ -24,7 +24,7 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 @ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 @ini_set('memory_limit', -1);
-error_reporting(E_ALL | E_NOTICE);
+error_reporting(E_ALL);
 @date_default_timezone_set('UTC');
 
 require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
