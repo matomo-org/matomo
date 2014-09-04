@@ -259,7 +259,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 
-        return $this->renderTemplate('outOut', array(
+        return $this->renderTemplate('optOut', array(
             'trackVisits' => $trackVisits,
             'nonce'       => Nonce::getNonce('Piwik_OptOut', 3600),
             'language'    => $lang
