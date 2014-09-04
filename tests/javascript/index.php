@@ -150,6 +150,24 @@ function deleteCookies() {
     }
 }
 
+var contentTestHtml = {};
+
+function setupContentTrackingFixture(name) {
+    var url = 'content-fixtures/' + name + '.html'
+
+    if (!contentTestHtml[name]) {
+        $.ajax({
+            url: url,
+            success: function( content ) { contentTestHtml[name] = content; },
+            dataType: 'html',
+            async: false
+        });
+    }
+
+    $('#other #content').remove();
+    $('#other').append($('<div id="contenttest">' + contentTestHtml[name] + '</div>'));
+}
+
  </script>
 </head>
 <body>
@@ -204,6 +222,109 @@ function PiwikTest() {
 //      alert(JSLINT.report(true));
     });
 
+    test("JSON", function() {
+        expect(49);
+
+        var tracker = Piwik.getTracker(), dummy;
+
+        equal( typeof JSON2.stringify, 'function', 'JSON.stringify function' );
+        equal( typeof JSON2.stringify(dummy), 'undefined', 'undefined' );
+
+        equal( JSON2.stringify(null), 'null', 'null' );
+        equal( JSON2.stringify(true), 'true', 'true' );
+        equal( JSON2.stringify(false), 'false', 'false' );
+        ok( JSON2.stringify(0) === '0', 'Number 0' );
+        ok( JSON2.stringify(1) === '1', 'Number 1' );
+        ok( JSON2.stringify(-1) === '-1', 'Number -1' );
+        ok( JSON2.stringify(42) === '42', 'Number 42' );
+
+        ok( JSON2.stringify(1.0) === '1.0'
+            || JSON2.stringify(1.0) === '1', 'float 1.0' );
+
+        equal( JSON2.stringify(1.1), '1.1', 'float 1.1' );
+        equal( JSON2.stringify(""), '""', 'empty string' );
+        equal( JSON2.stringify('"'), '"' + '\\' + '"' + '"', 'string "' );
+        equal( JSON2.stringify('\\'), '"' + '\\\\' + '"', 'string \\' );
+
+        equal( JSON2.stringify("1"), '"1"', 'string "1"' );
+        equal( JSON2.stringify("ABC"), '"ABC"', 'string ABC' );
+        equal( JSON2.stringify("\x40\x41\x42\x43"), '"@ABC"', '\\x hex string @ABC' );
+
+        ok( JSON2.stringify("\u60a8\u597d") == '"您好"'
+            || JSON2.stringify("\u60a8\u597d") == '"\\u60a8\\u597d"', '\\u Unicode string 您好' );
+
+        ok( JSON2.stringify("ßéàêö您好") == '"ßéàêö您好"'
+            || JSON2.stringify("ßéàêö您好") == '"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"', 'string non-ASCII text' );
+
+        equal( JSON2.stringify("20060228T08:00:00"), '"20060228T08:00:00"', 'string "20060228T08:00:00"' );
+
+        var d = new Date();
+        d.setTime(1240013340000);
+        ok( JSON2.stringify(d) === '"2009-04-18T00:09:00Z"'
+            || JSON2.stringify(d) === '"2009-04-18T00:09:00.000Z"', 'Date');
+
+        equal( JSON2.stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
+        equal( JSON2.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
+        equal( JSON2.stringify(
+            [ {'domains' : ['example.com', 'example.ca']},
+            {'names' : ['Sean', 'Cathy'] } ]
+        ), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
+
+        equal( typeof eval('('+dummy+')'), 'undefined', 'eval undefined' );
+
+        equal( typeof JSON2.parse, 'function', 'JSON.parse function' );
+
+        // these throw a SyntaxError
+//      equal( typeof JSON2.parse('undefined'), 'undefined', 'undefined' );
+//      equal( typeof JSON2.parse(dummy), 'undefined', 'undefined' );
+//      equal( JSON2.parse('undefined'), dummy, 'undefined' );
+//      equal( JSON2.parse('undefined'), undefined, 'undefined' );
+
+        strictEqual( JSON2.parse('null'), null, 'null' );
+        strictEqual( JSON2.parse('true'), true, 'true' );
+        strictEqual( JSON2.parse('false'), false, 'false' );
+
+        equal( JSON2.parse('0'), 0, 'Number 0' );
+        equal( JSON2.parse('1'), 1, 'Number 1' );
+        equal( JSON2.parse('-1'), -1, 'Number -1' );
+        equal( JSON2.parse('42'), 42, 'Number 42' );
+
+        ok( JSON2.parse('1.0') === 1.0
+            || JSON2.parse('1.0') === 1, 'float 1.0' );
+
+        equal( JSON2.parse('1.1'), 1.1, 'float 1.1' );
+        equal( JSON2.parse('""'), "", 'empty string' );
+        equal( JSON2.parse('"' + '\\' + '"' + '"'), '"', 'string "' );
+        equal( JSON2.parse('"\\\\"'), '\\', 'string \\' );
+
+        equal( JSON2.parse('"1"'), "1", 'string "1"' );
+        equal( JSON2.parse('"ABC"'), "ABC", 'string ABC' );
+        equal( JSON2.parse('"@ABC"'), "\x40\x41\x42\x43", 'Hex string @ABC' );
+
+        ok( JSON2.parse('"您好"') == "\u60a8\u597d"
+            && JSON2.parse('"\\u60a8\\u597d"') == "您好", 'Unicode string 您好' );
+
+        ok( JSON2.parse('"ßéàêö您好"') == "ßéàêö您好"
+            && JSON2.parse('"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"') == "ßéàêö您好", 'string non-ASCII text' );
+
+        equal( JSON2.parse('"20060228T08:00:00"'), "20060228T08:00:00", 'string "20060228T08:00:00"' );
+
+        // these aren't converted back to Date objects
+        equal( JSON2.parse('"2009-04-18T00:09:00Z"'), "2009-04-18T00:09:00Z", 'string "2009-04-18T00:09:00Z"' );
+        equal( JSON2.parse('"2009-04-18T00:09:00.000Z"'), "2009-04-18T00:09:00.000Z", 'string "2009-04-18T00:09:00.000Z"' );
+
+        deepEqual( JSON2.parse('[1,2,3]'), [1, 2, 3], 'Array of numbers' );
+        deepEqual( JSON2.parse('{"key":"value"}'), {'key' : 'value'}, 'Object (members)' );
+        deepEqual( JSON2.parse('[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]'),
+            [ {'domains' : ['example.com', 'example.ca']}, {'names' : ['Sean', 'Cathy'] } ], 'Nested members' );
+    });
+
+    module("core", {
+        setup: function () {},
+        teardown: function () {
+            $('#other #content').remove();
+        }
+    });
 
     test("Query", function() {
         var tracker = Piwik.getTracker();
@@ -322,8 +443,8 @@ function PiwikTest() {
 
         actual = query.hasNodeAttributeWithValue(_e('image2'), 'data-content-piece');
         strictEqual(actual, false, "hasNodeAttributeWithValue, element has attribute but no value");
-        
-        
+
+
         actual = query.getAttributeValueFromNode();
         strictEqual(actual, undefined, "getAttributeValueFromNode, no element set");
 
@@ -368,7 +489,7 @@ function PiwikTest() {
         actual = query.findNodesHavingAttribute(_e('clickDiv'), 'id');
         ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
         propEqual(actual, [], "findNodesHavingAttribute, this element does not have children");
-        
+
         actual = query.findNodesHavingAttribute(document.body, 'href');
         ok(actual.length > 11, "findNodesHavingAttribute, should find many elements within body");
 
@@ -479,104 +600,324 @@ function PiwikTest() {
         propEqual(actual, [_e('image2'), _e('div1'), _e('click5')], "findMultiple, should make nodes unique in case we select the same multiple times");
     });
 
-    test("JSON", function() {
-        expect(49);
+    test("contentFindContentBlock", function() {
+        function _s(selector) { // select node within content test scope
+            $nodes = $('#contenttest ' + selector);
+            if ($nodes.length) return $nodes[0];
+        }
 
-        var tracker = Piwik.getTracker(), dummy;
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual, expected;
 
-        equal( typeof JSON2.stringify, 'function', 'JSON.stringify function' );
-        equal( typeof JSON2.stringify(dummy), 'undefined', 'undefined' );
+        actual = content.findContentNodes();
+        propEqual(actual, [], "findContentNodes, should not find any content node when there is none");
 
-        equal( JSON2.stringify(null), 'null', 'null' );
-        equal( JSON2.stringify(true), 'true', 'true' );
-        equal( JSON2.stringify(false), 'false', 'false' );
-        ok( JSON2.stringify(0) === '0', 'Number 0' );
-        ok( JSON2.stringify(1) === '1', 'Number 1' );
-        ok( JSON2.stringify(-1) === '-1', 'Number -1' );
-        ok( JSON2.stringify(42) === '42', 'Number 42' );
+        actual = content.findContentNodesWithinNode();
+        propEqual(actual, [], "findContentNodesWithinNode, should not find any content node when no node passed");
 
-        ok( JSON2.stringify(1.0) === '1.0'
-            || JSON2.stringify(1.0) === '1', 'float 1.0' );
+        actual = content.findContentNodesWithinNode(_e('other'));
+        ok(_e('other'), "if we do not get an element here test is not useful");
+        propEqual(actual, [], "findContentNodesWithinNode, should not find any content node when there is none");
 
-        equal( JSON2.stringify(1.1), '1.1', 'float 1.1' );
-        equal( JSON2.stringify(""), '""', 'empty string' );
-        equal( JSON2.stringify('"'), '"' + '\\' + '"' + '"', 'string "' );
-        equal( JSON2.stringify('\\'), '"' + '\\\\' + '"', 'string \\' );
+        actual = content.findParentContentNode(_e('click1'));
+        ok(_e('click1'), "if we do not get an element here test is not useful");
+        strictEqual(actual, undefined, "findParentContentNode, should not find any content node when there is none");
 
-        equal( JSON2.stringify("1"), '"1"', 'string "1"' );
-        equal( JSON2.stringify("ABC"), '"ABC"', 'string ABC' );
-        equal( JSON2.stringify("\x40\x41\x42\x43"), '"@ABC"', '\\x hex string @ABC' );
 
-        ok( JSON2.stringify("\u60a8\u597d") == '"您好"'
-            || JSON2.stringify("\u60a8\u597d") == '"\\u60a8\\u597d"', '\\u Unicode string 您好' );
 
-        ok( JSON2.stringify("ßéàêö您好") == '"ßéàêö您好"'
-            || JSON2.stringify("ßéàêö您好") == '"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"', 'string non-ASCII text' );
+        setupContentTrackingFixture('findContentBlockTest');
 
-        equal( JSON2.stringify("20060228T08:00:00"), '"20060228T08:00:00"', 'string "20060228T08:00:00"' );
+        expected = [_s('#isOneWithClass'), _s('#isOneWithAttribute'), _s('[href="http://www.example.com"]'), _s('#containsOneWithAttribute [data-track-content]')];
+        actual = content.findContentNodes();
+        propEqual(actual, expected, "findContentNodes, should find all content blocks within the DOM");
 
-        var d = new Date();
-        d.setTime(1240013340000);
-        ok( JSON2.stringify(d) === '"2009-04-18T00:09:00Z"'
-            || JSON2.stringify(d) === '"2009-04-18T00:09:00.000Z"', 'Date');
+        actual = content.findContentNodesWithinNode(_s(''));
+        propEqual(actual, expected, "findContentNodesWithinNode, should find all content blocks within the DOM");
 
-        equal( JSON2.stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
-        equal( JSON2.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
-        equal( JSON2.stringify(
-            [ {'domains' : ['example.com', 'example.ca']},
-            {'names' : ['Sean', 'Cathy'] } ]
-        ), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
+        actual = content.findContentNodesWithinNode(_s('#containsOneWithAttribute'));
+        propEqual(actual, [expected[3]], "findContentNodesWithinNode, should find content blocks within a node");
 
-        equal( typeof eval('('+dummy+')'), 'undefined', 'eval undefined' );
+        actual = content.findContentNodesWithinNode(expected[0]);
+        propEqual(actual, [expected[0]], "findContentNodesWithinNode, should find one content block in the node itself");
 
-        equal( typeof JSON2.parse, 'function', 'JSON.parse function' );
+        actual = content.findParentContentNode(_s('#isOneWithClass'));
+        strictEqual(actual, expected[0], "findParentContentNode, should find itself in case the passed node is a content block with class");
 
-        // these throw a SyntaxError
-//      equal( typeof JSON2.parse('undefined'), 'undefined', 'undefined' );
-//      equal( typeof JSON2.parse(dummy), 'undefined', 'undefined' );
-//      equal( JSON2.parse('undefined'), dummy, 'undefined' );
-//      equal( JSON2.parse('undefined'), undefined, 'undefined' );
+        actual = content.findParentContentNode(_s('#isOneWithAttribute'));
+        strictEqual(actual, expected[1], "findParentContentNode, should find itself in case the passed node is a content block with attribute");
 
-        strictEqual( JSON2.parse('null'), null, 'null' );
-        strictEqual( JSON2.parse('true'), true, 'true' );
-        strictEqual( JSON2.parse('false'), false, 'false' );
-
-        equal( JSON2.parse('0'), 0, 'Number 0' );
-        equal( JSON2.parse('1'), 1, 'Number 1' );
-        equal( JSON2.parse('-1'), -1, 'Number -1' );
-        equal( JSON2.parse('42'), 42, 'Number 42' );
-
-        ok( JSON2.parse('1.0') === 1.0
-            || JSON2.parse('1.0') === 1, 'float 1.0' );
-
-        equal( JSON2.parse('1.1'), 1.1, 'float 1.1' );
-        equal( JSON2.parse('""'), "", 'empty string' );
-        equal( JSON2.parse('"' + '\\' + '"' + '"'), '"', 'string "' );
-        equal( JSON2.parse('"\\\\"'), '\\', 'string \\' );
-
-        equal( JSON2.parse('"1"'), "1", 'string "1"' );
-        equal( JSON2.parse('"ABC"'), "ABC", 'string ABC' );
-        equal( JSON2.parse('"@ABC"'), "\x40\x41\x42\x43", 'Hex string @ABC' );
-
-        ok( JSON2.parse('"您好"') == "\u60a8\u597d"
-            && JSON2.parse('"\\u60a8\\u597d"') == "您好", 'Unicode string 您好' );
-
-        ok( JSON2.parse('"ßéàêö您好"') == "ßéàêö您好"
-            && JSON2.parse('"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"') == "ßéàêö您好", 'string non-ASCII text' );
-
-        equal( JSON2.parse('"20060228T08:00:00"'), "20060228T08:00:00", 'string "20060228T08:00:00"' );
-
-        // these aren't converted back to Date objects
-        equal( JSON2.parse('"2009-04-18T00:09:00Z"'), "2009-04-18T00:09:00Z", 'string "2009-04-18T00:09:00Z"' );
-        equal( JSON2.parse('"2009-04-18T00:09:00.000Z"'), "2009-04-18T00:09:00.000Z", 'string "2009-04-18T00:09:00.000Z"' );
-
-        deepEqual( JSON2.parse('[1,2,3]'), [1, 2, 3], 'Array of numbers' );
-        deepEqual( JSON2.parse('{"key":"value"}'), {'key' : 'value'}, 'Object (members)' );
-        deepEqual( JSON2.parse('[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]'),
-            [ {'domains' : ['example.com', 'example.ca']}, {'names' : ['Sean', 'Cathy'] } ], 'Nested members' );
+        actual = content.findParentContentNode(_s('#innerNode'));
+        strictEqual(actual, expected[2], "findParentContentNode, should find parent content block");
     });
 
-    module("core");
+    test("contentFindContentNodes", function() {
+        function ex(testNumber) { // select node within content test scope
+            $nodes = $('#contenttest #ex' + testNumber);
+            if ($nodes.length) return $nodes[0];
+        }
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual;
+
+        var unrelatedNode = _e('other');
+        ok(unrelatedNode, 'Make sure this element exists');
+
+        actual = content.findTargetNodeNoDefault();
+        strictEqual(actual, undefined, "findTargetNodeNoDefault, should not find anything if no node set");
+
+        actual = content.findTargetNode();
+        strictEqual(actual, undefined, "findTargetNode, should not find anything if no node set");
+
+        actual = content.findPieceNode();
+        strictEqual(actual, undefined, "findPieceNode, should not find anything if no node set");
+
+
+
+        setupContentTrackingFixture('findContentNodesTest');
+
+        var example1 = ex(1);
+        ok(example1, 'Make sure this element exists to verify setup');
+
+        ok("test fall back to content block node");
+
+        actual = content.findTargetNodeNoDefault(example1);
+        strictEqual(actual, undefined, "findTargetNodeNoDefault, should return nothing as no target set");
+
+        actual = content.findTargetNode(example1);
+        strictEqual(actual, example1, "findTargetNode, should fall back to content block node as no target set");
+
+        actual = content.findPieceNode(example1);
+        strictEqual(actual, example1, "findPieceNode, should not find anything if no node set");
+
+
+
+        ok("test actually detects the attributes within a content block");
+
+        actual = content.findTargetNodeNoDefault(ex(3));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNodeNoDefault, should have the attribute");
+        strictEqual(actual, ex('3 a'), "findTargetNodeNoDefault, should find actual target node via attribute");
+
+        actual = content.findTargetNode(ex(3));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
+        strictEqual(actual, ex('3 a'), "findTargetNode, should find actual target node via attribute");
+
+        actual = content.findPieceNode(ex(3));
+        ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
+        strictEqual(actual, ex('3 img'), "findPieceNode, should find actual target piece via attribute");
+
+
+
+        ok("test actually detects the CSS class within a content block");
+
+        actual = content.findTargetNodeNoDefault(ex(4));
+        ok($(actual).hasClass(content.CONTENT_TARGET_CLASS), "findTargetNodeNoDefault, should have the CSS class");
+        strictEqual(actual, ex('4 a'), "findTargetNodeNoDefault, should find actual target node via class");
+
+        actual = content.findTargetNode(ex(4));
+        ok($(actual).hasClass(content.CONTENT_TARGET_CLASS), "findTargetNode, should have the CSS class");
+        strictEqual(actual, ex('4 a'), "findTargetNode, should find actual target node via class");
+
+        actual = content.findPieceNode(ex(4));
+        ok($(actual).hasClass(content.CONTENT_PIECE_CLASS), "findPieceNode, should have the CSS class");
+        strictEqual(actual, ex('4 img'), "findPieceNode, should find actual target piece via class");
+
+
+
+        ok("test actually attributes takes precendence over class");
+
+        actual = content.findTargetNodeNoDefault(ex(5));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNodeNoDefault, should have the attribute");
+        strictEqual(actual.innerText, 'Target with attribute', "findTargetNodeNoDefault, should igonre node with class and pick attribute node");
+
+        actual = content.findTargetNode(ex(5));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
+        strictEqual(actual.innerText, 'Target with attribute', "findTargetNode, should igonre node with class and pick attribute node");
+
+        actual = content.findPieceNode(ex(5));
+        ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
+        strictEqual(actual.innerText, 'Piece with attribute', "findPieceNode, should igonre node with class and pick attribute node");
+
+
+
+        ok("make sure it picks always the first one with multiple nodes have same class or same attribute");
+
+        actual = content.findTargetNode(ex(6));
+        ok($(actual).hasClass(content.CONTENT_TARGET_CLASS), "findTargetNode, should have the CSS class");
+        strictEqual(actual.innerText, 'Target with class1', "findTargetNode, should igonre node with class and pick attribute node");
+
+        actual = content.findPieceNode(ex(6));
+        ok($(actual).hasClass(content.CONTENT_PIECE_CLASS), "findPieceNode, should have the CSS class");
+        strictEqual(actual.innerText, 'Piece with class1', "findPieceNode, should igonre node with class and pick attribute node");
+
+        actual = content.findTargetNode(ex(7));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
+        strictEqual(actual.innerText, 'Target with attribute1', "findTargetNode, should igonre node with class and pick attribute node");
+
+        actual = content.findPieceNode(ex(7));
+        ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
+        strictEqual(actual.innerText, 'Piece with attribute1', "findPieceNode, should igonre node with class and pick attribute node");
+    });
+
+    test("contentUtilities", function() {
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        content.setLocation(); // clear possible previous location
+        var actual, expected;
+
+        function assertTrimmed(value, expected, message)
+        {
+            strictEqual(content.trim(value), expected, message);
+        }
+
+        function assertRemoveDomainKeepsValueUntouched(value, message)
+        {
+            strictEqual(content.removeDomainIfIsUrl(value), value, message);
+        }
+
+        function assertDomainWillBeRemoved(url, expected, message)
+        {
+            strictEqual(content.removeDomainIfIsUrl(url), expected, message);
+        }
+
+        function assertBuildsAbsoluteUrl(url, expected, message)
+        {
+            strictEqual(content.toAbsoluteUrl(url), expected, message);
+        }
+
+        function assertImpressionRequestParams(name, piece, target, expected, message) {
+            strictEqual(content.buildImpressionRequestParams(name, piece, target), expected, message);
+        }
+
+        function assertInteractionRequestParams(interaction, name, piece, target, expected, message) {
+            strictEqual(content.buildInteractionRequestParams(interaction, name, piece, target), expected, message);
+        }
+
+        function assertShouldIgnoreInteraction(id, message) {
+            var node = content.findTargetNode(_e(id));
+            strictEqual(content.shouldIgnoreInteraction(node), true, message);
+            ok($(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), "needs to have either attribute or class");
+        }
+
+        function assertShouldNotIgnoreInteraction(id, message) {
+            var node = content.findTargetNode(_e(id));
+            strictEqual(content.shouldIgnoreInteraction(node), false, message);
+        }
+
+        var locationAlias = $.extend({}, window.location);
+        var origin = locationAlias.origin;
+
+        ok("test trim(text)");
+
+        strictEqual(undefined, content.trim(), 'should not fail if nothing set / is undefined');
+        assertTrimmed(null, null, 'should not trim if null');
+        assertTrimmed(5, 5, 'should not trim a number');
+        assertTrimmed('', '', 'should not change an empty string');
+        assertTrimmed('   ', '', 'should remove all whitespace');
+        assertTrimmed('   xxxx', 'xxxx', 'should remove left whitespace');
+        assertTrimmed('   xxxx   ', 'xxxx', 'should remove left and right whitespace');
+        assertTrimmed(" \t  xxxx   \t", 'xxxx', 'should remove tabs and whitespace');
+        assertTrimmed('  xx    xx  ', 'xx    xx', 'should keep whitespace between text untouched');
+
+        ok("test removeDomainIfIsUrl(url)");
+
+        strictEqual(undefined, content.removeDomainIfIsUrl(), 'should not fail if nothing set / is undefined');
+        assertRemoveDomainKeepsValueUntouched(null, 'should keep null untouched');
+        assertRemoveDomainKeepsValueUntouched(5, 'should keep number untouched');
+        assertRemoveDomainKeepsValueUntouched('', 'should keep empty string untouched');
+        assertRemoveDomainKeepsValueUntouched('Any Text', 'should keep string untouched that is not a url');
+        assertRemoveDomainKeepsValueUntouched('/path/img.jpg', 'should keep string untouched that looks like a path');
+        assertRemoveDomainKeepsValueUntouched('ftp://path/img.jpg', 'should keep string untouched that looks like a path');
+        assertRemoveDomainKeepsValueUntouched(origin, 'should keep string untouched as it is same domain');
+        assertRemoveDomainKeepsValueUntouched(origin + '/path/img.jpg', 'should keep string untouched as it is same domain, this time with path');
+
+        assertDomainWillBeRemoved('http://www.example.com/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim http domain with path that is not the same as the current');
+        assertDomainWillBeRemoved('https://www.example.com/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim https domain with path that is not the same as the current');
+        assertDomainWillBeRemoved('http://www.example.com', '/', 'should trim http domain without path that is not the same as the current');
+        assertDomainWillBeRemoved('https://www.example.com', '/', 'should trim https domain without path that is not the same as the current');
+
+        ok("test toAbsoluteUrl(url) we need a lot of tests for this method as this will generate the redirect url");
+
+        strictEqual(undefined, content.toAbsoluteUrl(), 'should not fail if nothing set / is undefined');
+        assertBuildsAbsoluteUrl(null, null, 'null should be untouched');
+        assertBuildsAbsoluteUrl(5, 5, 'number should be untouched');
+        assertBuildsAbsoluteUrl('', '', '');
+        assertBuildsAbsoluteUrl('/', origin + '/', 'root path');
+        assertBuildsAbsoluteUrl('/test', origin + '/test', 'absolute url');
+        assertBuildsAbsoluteUrl('/test/', origin + '/test/', 'absolute url');
+        assertBuildsAbsoluteUrl('?x=5', origin + '/tests/javascript/?x=5', 'absolute url');
+        assertBuildsAbsoluteUrl('path', origin + '/tests/javascript/path', 'relative path');
+        assertBuildsAbsoluteUrl('path/x?p=5', origin + '/tests/javascript/path/x?p=5', 'relative path');
+        assertBuildsAbsoluteUrl('#test', origin + '/tests/javascript/#test', 'anchor url');
+        assertBuildsAbsoluteUrl('//' + locationAlias.host + '/test/img.jpg', origin + '/test/img.jpg', 'inherit protocol url');
+        assertBuildsAbsoluteUrl('mailto:test@example.com', 'mailto:test@example.com', 'mailto special url');
+        assertBuildsAbsoluteUrl('tel:0123456789', 'tel:0123456789', 'tel special url');
+        assertBuildsAbsoluteUrl('anythingg:test', origin + '/tests/javascript/anythingg:test', 'we do not treat this one as special url as we recognize max 8 characters currently');
+        assertBuildsAbsoluteUrl('k1dm:test', origin + '/tests/javascript/k1dm:test', 'we do not treat this one as special url as it contains a number');
+
+        locationAlias.pathname = '/test/';
+        content.setLocation(locationAlias);
+        assertBuildsAbsoluteUrl('?x=5', origin + '/test/?x=5', 'should add query param');
+        assertBuildsAbsoluteUrl('link2', origin + '/test/link2', 'relative url in existing path');
+
+        locationAlias.pathname = '/test';
+        content.setLocation(locationAlias);
+        assertBuildsAbsoluteUrl('?x=5', origin + '/test?x=5', 'should add query param');
+        assertBuildsAbsoluteUrl('link2', origin + '/link2', 'relative url replaces other relative url');
+
+        ok("test buildImpressionRequestParams(name, piece, target)");
+        assertImpressionRequestParams('name', 'piece', 'target', 'c_n=name&c_p=piece&c_t=target', "all parameters set");
+        assertImpressionRequestParams('name', 'piece', null, 'c_n=name&c_p=piece', "no target set");
+        assertImpressionRequestParams('http://example.com.com', '/?x=1', '&target=1', 'c_n=http%3A%2F%2Fexample.com.com&c_p=%2F%3Fx%3D1&c_t=%26target%3D1', "should encode values");
+
+        ok("test buildInteractionRequestParams(interaction, name, piece, target)");
+        assertInteractionRequestParams(null, null, null, null, '', "nothing set");
+        assertInteractionRequestParams('interaction', null, null, null, 'c_i=interaction', "only interaction set");
+        assertInteractionRequestParams('interaction', 'name', null, null, 'c_i=interaction&c_n=name', "no piece and no target set");
+        assertInteractionRequestParams('interaction', 'name', 'piece', null, 'c_i=interaction&c_n=name&c_p=piece', "no target set");
+        assertInteractionRequestParams('interaction', 'name', 'piece', 'target', 'c_i=interaction&c_n=name&c_p=piece&c_t=target', "all parameters set");
+        assertInteractionRequestParams(null, 'name', 'piece', null, 'c_n=name&c_p=piece', "only name and piece set");
+        assertInteractionRequestParams('http://', 'http://example.com.com', '/?x=1', '&target=1', 'c_i=http%3A%2F%2F&c_n=http%3A%2F%2Fexample.com.com&c_p=%2F%3Fx%3D1&c_t=%26target%3D1', "should encode values");
+
+        setupContentTrackingFixture('contentUtilities');
+
+        ok("test shouldIgnoreInteraction(targetNode)");
+        assertShouldIgnoreInteraction('ignoreInteraction1', 'should be ignored because of CSS class');
+        assertShouldIgnoreInteraction('ignoreInteraction2', 'should be ignored because of Attribute');
+        assertShouldNotIgnoreInteraction('notIgnoreInteraction1', 'should not be ignored');
+
+        // isOrWasNodeInViewport
+        // isNodeVisible
+        // findInternalTargetLinkFromHref
+        // replaceTargetLink
+    });
+
+
+    test("contentFindContentValues", function() {
+        // TODO
+        function ex(testNumber) { // select node within content test scope
+            $nodes = $('#contenttest #ex' + testNumber);
+            if ($nodes.length) return $nodes[0];
+        }
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual;
+    });
+
+    test("contentCollectionTest", function() {
+        function ex(testNumber) { // select node within content test scope
+            $nodes = $('#contenttest #ex' + testNumber);
+            if ($nodes.length) return $nodes[0];
+        }
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual;
+
+    });
 
     test("Basic requirements", function() {
         expect(3);

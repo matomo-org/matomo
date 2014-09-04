@@ -66,7 +66,7 @@ If we do not find any specific content piece element, we will use the content bl
 
 Examples:
 ```
-<a href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece="img.jpg"/>
+<a href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece="img.jpg"/></a>
 // content name   = img.jpg
 // content piece  = img.jpg
 // content target = http://www.example.com
@@ -75,8 +75,8 @@ As you can see we can now define a specific value for the content piece which ca
 This time we can also automatically detect the content target since we have set the content block on an `a` element. More about this later. The `data-content-piece` attribute can be set on any element, also in the `a` element.
 
 ```
-<a href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece/>
-<a href="http://www.example.com" data-track-content><img src="img-en.jpg" class="piwikContentPiece"/>
+<a href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece/></a>
+<a href="http://www.example.com" data-track-content><img src="img-en.jpg" class="piwikContentPiece"/></a>
 // content name   = img-en.jpg
 // content piece  = img-en.jpg
 // content target = http://www.example.com
@@ -85,8 +85,8 @@ This time we can also automatically detect the content target since we have set 
 In this example we were able to detect the name and the piece of the content automatically based on the `src` attribute.
 
 ```
-<a href="http://www.example.com" data-track-content><p data-content-piece>Lorem ipsum dolor sit amet</p>
-<a href="http://www.example.com" data-track-content><p class="piwikContentPiece">Lorem ipsum dolor sit amet</p>
+<a href="http://www.example.com" data-track-content><p data-content-piece>Lorem ipsum dolor sit amet</p></a>
+<a href="http://www.example.com" data-track-content><p class="piwikContentPiece">Lorem ipsum dolor sit amet</p></a>
 // content name   = Unknown
 // content piece  = Unknown
 // content target = http://www.example.com
@@ -96,7 +96,7 @@ As the content piece element is not an image, video or audio we cannot detect th
 
 Better:
 ```
-<a href="http://www.example.com" data-track-content><p data-content-piece="My content">Lorem ipsum dolor sit amet...</p>
+<a href="http://www.example.com" data-track-content><p data-content-piece="My content">Lorem ipsum dolor sit amet...</p></a>
 // content name   = My content
 // content piece  = My content
 // content target = http://www.example.com
@@ -143,7 +143,7 @@ If no content name is set, it will default to the content piece in case there is
 If content piece contains a domain that is the same as the current website's domain we will remove it
 
 ```
-<a href="http://www.example.com" data-track-content>Lorem ipsum dolor sit amet...</p>
+<a href="http://www.example.com" data-track-content>Lorem ipsum dolor sit amet...</p></a>
 // content name   = Unknown
 // content piece  = Unknown
 // content target = http://www.example.com
@@ -152,7 +152,7 @@ If content piece contains a domain that is the same as the current website's dom
 In case there is no content name, no content piece and no title set anywhere it will default to "Unknown". To get a useful content name you should set either the `data-content-name` or a `title` attribute.
 
 ```
-<a href="http://www.example.com" data-track-content title="Block Title"><span title="Inner Title" data-content-piece>Lorem ipsum dolor sit amet...</p>
+<a href="http://www.example.com" data-track-content title="Block Title"><span title="Inner Title" data-content-piece>Lorem ipsum dolor sit amet...</p></a>
 // content name   = Block Title
 // content piece  = Unknown
 // content target = http://www.example.com
@@ -448,6 +448,7 @@ Nothing special here I think. We would probably automatically detect the type of
 * Referrer gets lost when using piwik.php
 * We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
 * Would content impressions be tracked in overlay session?
+* Single page applications will always want to disable interactions as redirect would not fit into their concept!!!
 
 ## Answered Questions
 1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?

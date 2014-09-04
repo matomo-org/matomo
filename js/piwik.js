@@ -1354,6 +1354,7 @@ if (typeof Piwik !== 'object') {
             CONTENT_TARGET_CLASS: 'piwikContentTarget',
             CONTENT_IGNOREINTERACTION_ATTR: 'data-content-ignoreinteraction',
             CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
+            location: undefined,
 
             findContentNodes: function () {
 
@@ -1365,11 +1366,11 @@ if (typeof Piwik !== 'object') {
             },
             findContentNodesWithinNode: function (node) {
                 if (!node) {
-                    return;
+                    return [];
                 }
 
-                var nodes1 = this.findNodesHavingAttribute(node, this.CONTENT_ATTR);
-                var nodes2 = this.findNodesHavingCssClass(node, this.CONTENT_CLASS);
+                var nodes1 = query.findNodesHavingCssClass(node, this.CONTENT_CLASS);
+                var nodes2 = query.findNodesHavingAttribute(node, this.CONTENT_ATTR);
 
                 if (nodes2 && nodes2.length) {
                     var index;
@@ -1378,7 +1379,13 @@ if (typeof Piwik !== 'object') {
                     }
                 }
 
-                nodes1 = this.makeNodesUnique(nodes1);
+                if (query.hasNodeAttribute(node, this.CONTENT_ATTR)) {
+                    nodes1.push(node);
+                } else if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
+                    nodes1.push(node);
+                }
+
+                nodes1 = query.makeNodesUnique(nodes1);
 
                 return nodes1;
             },
@@ -1387,7 +1394,9 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                var node = anyNode;
+                var node    = anyNode;
+                var counter = 0;
+
                 while (node && node !== documentAlias && node.parentNode) {
                     if (query.hasNodeAttribute(node, this.CONTENT_ATTR)) {
                         return node;
@@ -1397,15 +1406,20 @@ if (typeof Piwik !== 'object') {
                     }
 
                     node = node.parentNode;
+
+                    if (counter > 1000) {
+                        break; // prevent loop, should not happen anyway but better we do this
+                    }
+                    counter++;
                 }
             },
             findPieceNode: function (node) {
                 var contentPiece;
 
-                contentPiece = query.findFirstNodeHavingAttribute(this.CONTENT_PIECE_ATTR);
+                contentPiece = query.findFirstNodeHavingAttribute(node, this.CONTENT_PIECE_ATTR);
 
                 if (!contentPiece) {
-                    contentPiece = query.findFirstNodeHavingClass(this.CONTENT_PIECE_CLASS);
+                    contentPiece = query.findFirstNodeHavingClass(node, this.CONTENT_PIECE_CLASS);
                 }
 
                 if (contentPiece) {
@@ -1416,6 +1430,10 @@ if (typeof Piwik !== 'object') {
             },
             findTargetNodeNoDefault: function (node)
             {
+                if (!node) {
+                    return;
+                }
+
                 var target = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_TARGET_ATTR);
                 if (target) {
                     return target;
@@ -1519,8 +1537,16 @@ if (typeof Piwik !== 'object') {
                 }
             },
             removeDomainIfIsUrl: function (text) {
-                if (text && -1 !== text.search(/^https?:\/\/[^\/]+/)) {
-                    text = text.replace(/^.*\/\/[^\/]+/, ''); // TODO only remove if !== location.origin
+                // we will only remove if domain is !== location.origin meaning an outlink
+                if (text &&
+                    text.search &&
+                    -1 !== text.search(/^https?:\/\/[^\/]+/) &&
+                    0 !== text.indexOf(window.location.origin)) {
+
+                    text = text.replace(/^.*\/\/[^\/]+/, '');
+                    if (!text) {
+                        text = '/';
+                    }
                 }
 
                 return text;
@@ -1589,22 +1615,27 @@ if (typeof Piwik !== 'object') {
                     if (params) {
                         params += '&';
                     }
-                    params += '&c_p='+ encodeWrapper(piece);
+                    params += 'c_p='+ encodeWrapper(piece);
                 }
                 if (target) {
                     if (params) {
                         params += '&';
                     }
-                    params += '&c_t='+ encodeWrapper(target);
+                    params += 'c_t='+ encodeWrapper(target);
                 }
 
                 return params;
             },
             buildImpressionRequestParams: function (name, piece, target)
             {
-                return 'c_n=' + encodeWrapper(name) +
-                       '&c_p=' + encodeWrapper(piece) +
-                       '&c_t=' + encodeWrapper(target);
+                var params = 'c_n=' + encodeWrapper(name) +
+                             '&c_p=' + encodeWrapper(piece);
+
+                if (target) {
+                    params += '&c_t=' + encodeWrapper(target);
+                }
+
+                return params;
             },
             buildContentPiece: function (node)
             {
@@ -1641,10 +1672,21 @@ if (typeof Piwik !== 'object') {
 
                 return contents;
             },
+            setLocation: function (location) {
+                this.location = location;
+            },
+            getLocation: function () {
+                return this.location || windowAlias.location;
+            },
             toAbsoluteUrl: function (url) {
+                if (!url || (''+url) !== url) {
+                    // we only handle strings
+                    return url;
+                }
+
                 // Eg //example.com/test.jpg
                 if (url.search(/^\/\//) != -1) {
-                    return window.location.protocol + url
+                    return this.getLocation().protocol + url
                 }
 
                 // Eg http://example.com/test.jpg
@@ -1654,16 +1696,26 @@ if (typeof Piwik !== 'object') {
 
                 // Eg #test.jpg
                 if (0 === url.indexOf('#')) {
-                    return window.location.origin + window.location.pathname + url;
+                    return this.getLocation().origin + this.getLocation().pathname + url;
+                }
+
+                // Eg ?x=5
+                if (0 === url.indexOf('?')) {
+                    return this.getLocation().origin + this.getLocation().pathname + url;
+                }
+
+                // Eg mailto:x@y.z tel:012345, ... market:... sms:... and many more
+                if (0 === url.search('^[a-zA-Z]{2,8}:')) {
+                    return url;
                 }
 
                 // Eg /test.jpg
                 if (url.search(/^\//) != -1) {
-                    return window.location.origin + url
+                    return this.getLocation().origin + url
                 }
 
                 // Eg test.jpg
-                var base = window.location.origin + window.location.pathname.match(/(.*\/)/)[0]
+                var base = this.getLocation().origin + this.getLocation().pathname.match(/(.*\/)/)[0]
                 return base + url
             },
             findInternalTargetLinkFromHref: function (targetNode)
@@ -1706,8 +1758,9 @@ if (typeof Piwik !== 'object') {
                 }
             },
             shouldIgnoreInteraction: function (targetNode) {
-                return query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR) ||
-                       query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS);
+                var hasAttr  = query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR);
+                var hasClass = query.hasNodeCssClass(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS);
+                return hasAttr || hasClass;
             }
         };
 
