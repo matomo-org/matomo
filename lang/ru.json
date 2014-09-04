@@ -99,7 +99,7 @@
         "Date": "Дата",
         "DateRange": "Временной период:",
         "DateRangeFrom": "От",
-        "DateRangeFromTo": "Из %s в %s",
+        "DateRangeFromTo": "С %s по %s",
         "DateRangeInPeriodList": "Период",
         "DateRangeTo": "До",
         "DayFr": "Пт",

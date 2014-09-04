@@ -14,9 +14,9 @@ use Piwik\WidgetsList;
 
 /**
  * Base class of all plugin widget providers. Plugins that define their own widgets can extend this class to easily
- * add new widgets, to remove or to rename existing items.
+ * add new widgets or to remove widgets defined by other plugins.
  *
- * For an example, see the {@link https://github.com/piwik/piwik/blob/master/plugins/ExampleRssWidget/Widget.php} plugin.
+ * For an example, see the {@link https://github.com/piwik/piwik/blob/master/plugins/ExamplePlugin/Widgets.php} plugin.
  *
  * @api
  */
@@ -27,11 +27,17 @@ class Widgets
 
     private $module = '';
 
+    /**
+     * @ignore
+     */
     public function __construct()
     {
         $this->module = $this->getModule();
     }
 
+    /**
+     * @ignore
+     */
     public function getCategory()
     {
         return $this->category;
@@ -46,16 +52,23 @@ class Widgets
     }
 
     /**
+     * Adds a widget. You can add a widget by calling this method and passing the name of the widget as well as a method
+     * name that will be executed to render the widget. The method can be defined either directly here in this widget
+     * class or in the controller in case you want to reuse the same action for instance in the menu etc.
      * @api
      */
     protected function addWidget($name, $method, $parameters = array())
     {
-        // to be developer friendly we could check whether such a method exists (in controller or widget) and if
-        // not throw an exception so the developer does not have to handle with typos etc. I do not want to do this
-        // right now because of performance but if we add a development setting in config we could do such check
         $this->addWidgetWithCustomCategory($this->category, $name, $method, $parameters);
     }
 
+    /**
+     * Adds a widget with a custom category. By default all widgets that you define in your class will be added under
+     * the same category which is defined in the {@link $category} property. Sometimes you may have a widget that
+     * belongs to a different category where this method comes handy. It does the same as {@link addWidget()} but
+     * allows you to define the category name as well.
+     * @api
+     */
     protected function addWidgetWithCustomCategory($category, $name, $method, $parameters = array())
     {
         $this->checkIsValidWidget($name, $method);
@@ -68,12 +81,17 @@ class Widgets
     }
 
     /**
+     * Here you can add one or multiple widgets. To do so call the method {@link addWidget()} or
+     * {@link addWidgetWithCustomCategory()}.
      * @api
      */
     protected function init()
     {
     }
 
+    /**
+     * @ignore
+     */
     public function getWidgets()
     {
         $this->widgets = array();
@@ -84,7 +102,12 @@ class Widgets
     }
 
     /**
-     * Configures the widgets. Here you can for instance remove widgets.
+     * Allows you to configure previously added widgets.
+     * For instance you can remove any widgets defined by any plugin by calling the
+     * {@link \Piwik\WidgetsList::remove()} method.
+     *
+     * @param WidgetsList $widgetsList
+     * @api
      */
     public function configureWidgetsList(WidgetsList $widgetsList)
     {
@@ -93,12 +116,16 @@ class Widgets
 
     /**
      * @return \Piwik\Plugin\Widgets[]
+     * @ignore
      */
     public static function getAllWidgets()
     {
         return PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
     }
 
+    /**
+     * @ignore
+     */
     public static function factory($module, $action)
     {
         if (empty($module) || empty($action)) {

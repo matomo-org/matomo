@@ -46,8 +46,11 @@ describe('piwikApiClient', function () {
             method: "SomePlugin.action"
         }).then(function (response) {
             firstThenDone = true;
+
+            return "newval";
         }).then(function (response) {
             expect(firstThenDone).to.equal(true);
+            expect(response).to.equal("newval");
 
             done();
         }).catch(function (ex) {

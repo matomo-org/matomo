@@ -90,27 +90,28 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
 
         // we can't modify requestPromise directly and add an abort method since for some reason it gets
         // removed after then/finally/catch is called.
-        var request = {
-            then: function () {
-                requestPromise.then.apply(requestPromise, arguments);
-                return this;
-            },
+        var addAbortMethod = function (to) {
+            return {
+                then: function () {
+                    return addAbortMethod(to.then.apply(to, arguments));
+                },
 
-            'finally': function () {
-                requestPromise['finally'].apply(requestPromise, arguments);
-                return this;
-            },
+                'finally': function () {
+                    return addAbortMethod(to['finally'].apply(to, arguments));
+                },
 
-            'catch': function () {
-                requestPromise['catch'].apply(requestPromise, arguments);
-                return this;
-            },
+                'catch': function () {
+                    return addAbortMethod(to['catch'].apply(to, arguments));
+                },
 
-            abort: function () {
-                deferred.reject();
-                return this;
-            }
+                abort: function () {
+                    deferred.reject();
+                    return this;
+                }
+            };
         };
+
+        var request = addAbortMethod(requestPromise);
 
         allRequests.push(request);
 
