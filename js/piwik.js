@@ -1695,7 +1695,7 @@ if (typeof Piwik !== 'object') {
 
                 return params;
             },
-            buildContentPiece: function (node)
+            buildContentBlock: function (node)
             {
                 if (!node) {
                     return;
@@ -1725,7 +1725,7 @@ if (typeof Piwik !== 'object') {
 
                 var index;
                 for (index = 0; index < contentNodes.length; index++) {
-                    contents.push(this.buildContentPiece(contentNodes[index]));
+                    contents.push(this.buildContentBlock(contentNodes[index]));
                 }
 
                 return contents;
@@ -2822,22 +2822,29 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
-            function buildContentInteractionTrackingRedirectUrl(url, contentName, contentPiece, contentTarget) {
+            function buildContentInteractionTrackingRedirectUrl(url, contentInteraction, contentName, contentPiece, contentTarget) {
                 if (0 === url.indexOf(configTrackerUrl)) {
                     return url;
                 }
 
                 var redirectUrl = content.toAbsoluteUrl(url);
-                var request = buildContentInteractionRequestWithEvent(url, contentName, contentPiece, contentTarget);
+                var request = buildContentInteractionRequestWithEvent(contentInteraction, contentName, contentPiece, (contentTarget || url));
                 request    += '&redirecturl=' + redirectUrl;
 
                 return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
-            function buildContentInteractionRequestWithEvent(url, contentName, contentPiece, contentTarget)
+            function buildContentInteractionRequestWithEvent(contentInteraction, contentName, contentPiece, contentTarget)
             {
-                var request = buildContentInteractionRequest(contentName, contentPiece, contentTarget)
-                return getRequest(request + buildEventRequest('Content', 'click', url, ''));
+                var interaction = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
+
+                if (!interaction) {
+                    return;
+                }
+
+                var event = buildEventRequest('Content', contentInteraction, contentName, '');
+
+                return event + '&' + interaction;
             }
 
             function appendContentInteractionToRequestIfPossible (request, anyNode, interaction, fallbackTarget)
@@ -2855,7 +2862,7 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                var contentPiece = content.buildContentPiece(contentNode);
+                var contentPiece = content.buildContentBlock(contentNode);
 
                 if (!contentPiece) {
                     return;
@@ -2930,13 +2937,13 @@ if (typeof Piwik !== 'object') {
 
                 var contents = content.collectContent(contentNodes);
 
-                return getContentImpressionsRequests(contents, contentNodes);
+                return buildContentImpressionsRequests(contents, contentNodes);
             }
 
             /*
              * Log all content pieces
              */
-            function getContentImpressionsRequests(contents, contentNodes) {
+            function buildContentImpressionsRequests(contents, contentNodes) {
 
                 if (!contents || !contents.length) {
                     return;
@@ -2990,7 +2997,7 @@ if (typeof Piwik !== 'object') {
 
                             if (0 !== url.indexOf('#')) {
 
-                                var targetUrl = buildContentInteractionTrackingRedirectUrl(url, contentName, contentPiece, contentTarget);
+                                var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
 
                                 // location.href does not respect target=_blank so we prefer to use this
                                 content.setHrefAttribute(targetNode, targetUrl);
@@ -3000,7 +3007,7 @@ if (typeof Piwik !== 'object') {
                         }
 
                         // click on any non link element, or on a link element that has not an href attribute or on an anchor
-                        var request = buildContentInteractionRequestWithEvent('click', contentName, contentPiece, contentTarget);
+                        var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
                         sendRequest(request, configTrackerPause);
                     });
                 }
@@ -3026,24 +3033,20 @@ if (typeof Piwik !== 'object') {
             {
                 var params = content.buildImpressionRequestParams(contentName, contentPiece, contentTarget);
 
-                if (!params) {
-                    return;
-                }
-
                 return getRequest(params, null, 'contentImpression');
             }
 
-            function getContentImpressionsRequestsWithinNode(node)
+            function buildContentImpressionsRequestsWithinNode(node)
             {
                 var contentNodes = content.findContentNodesWithinNode(node);
                 var contents     = content.collectContent(contentNodes);
 
-                return getContentImpressionsRequests(contents, contentNodes);
+                return buildContentImpressionsRequests(contents, contentNodes);
             }
 
-            function buildContentInteractionRequest(contentName, contentPiece, contentInteraction)
+            function buildContentInteractionRequest(interaction, name, piece, target)
             {
-                var params = content.buildInteractionRequestParams(contentInteraction, contentName, contentPiece);
+                var params = content.buildInteractionRequestParams(interaction, name, piece, target);
 
                 if (!params) {
                     return;
@@ -3054,18 +3057,18 @@ if (typeof Piwik !== 'object') {
 
             function buildContentInteractionRequestNode(node, contentInteraction)
             {
-                var contentNode = content.findParentContentNode(node);
-                var content     = content.buildContentPiece(contentNode);
+                var contentNode  = content.findParentContentNode(node);
+                var contentBlock = content.buildContentBlock(contentNode);
 
-                if (!content) {
+                if (!contentBlock) {
                     return;
                 }
 
                 if (!contentInteraction) {
-                    contentInteraction = content.target ? content.target : 'Unknown';
+                    contentInteraction = 'Unknown';
                 }
 
-                return buildContentInteractionRequest(content.name, content.piece, contentInteraction);
+                return buildContentInteractionRequest(contentInteraction, contentBlock.name, contentBlock.piece, contentBlock.target);
             }
 
             function buildEventRequest(category, action, name, value)
@@ -3506,18 +3509,18 @@ if (typeof Piwik !== 'object') {
                 buildContentImpressionRequest: buildContentImpressionRequest,
                 buildContentInteractionRequest: buildContentInteractionRequest,
                 buildContentInteractionRequestNode: buildContentInteractionRequestNode,
-                buildContentInteractionTrackingRequest: buildContentInteractionRequestWithEvent,
+                buildContentInteractionRequestWithEvent: buildContentInteractionRequestWithEvent,
                 buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
+                buildContentImpressionsRequestsWithinNode: buildContentImpressionsRequestsWithinNode,
                 getAllContentImpressionsRequests: getAllContentImpressionsRequests,
-                getContentImpressionsRequestsWithinNode: getContentImpressionsRequestsWithinNode,
                 getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet: getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
                 trackCallbackOnLoad: trackCallbackOnLoad,
                 trackCallbackOnReady: trackCallbackOnReady,
-                getContentImpressionsRequests: getContentImpressionsRequests,
+                buildContentImpressionsRequests: buildContentImpressionsRequests,
                 wasContentImpressionAlreadyTracked: wasContentImpressionAlreadyTracked,
                 appendContentInteractionToRequestIfPossible: appendContentInteractionToRequestIfPossible,
 
-                /*</DEBUG>*/
+/*</DEBUG>*/
 
                 /**
                  * Get visitor ID (from first party cookie)
@@ -4342,10 +4345,10 @@ if (typeof Piwik !== 'object') {
                     });
                 },
 
-                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
-                trackContentInteraction: function (contentName, contentPiece, contentInteraction) {
+                // name and piece has to be same as previously used on an impression
+                trackContentInteraction: function (contentInteraction, contentName, contentPiece, contentTarget) {
                     trackCallback(function () {
-                        var request = buildContentInteractionRequest(contentName, contentPiece, contentInteraction);
+                        var request = buildContentInteractionRequest(contentName, contentPiece, contentInteraction, contentTarget);
                         sendRequest(request, configTrackerPause);
                     });
                 },

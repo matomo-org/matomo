@@ -1036,7 +1036,7 @@ function PiwikTest() {
 
             var expected = buildContentStruct(expectedName, expectedPiece, expectedTarget);
 
-            propEqual(content.buildContentPiece(node), expected, 'buildContentPiece, ' + message);
+            propEqual(content.buildContentBlock(node), expected, 'buildContentBlock, ' + message);
         }
 
         function assertCollectedContent(ids, expected, message) {
@@ -1110,8 +1110,8 @@ function PiwikTest() {
         assertFoundContent('ex31', '   name   ', '   pie ce  ', '  targ et  ', 'Should not trim');
 
 
-        ok('test buildContentPiece(node)');
-        strictEqual(content.buildContentPiece(), undefined, 'no node set');
+        ok('test buildContentBlock(node)');
+        strictEqual(content.buildContentBlock(), undefined, 'no node set');
         assertBuiltContent('ex31', 'name', 'pie ce', 'targ et', 'Should trim values');
         assertBuiltContent('ex30', 'audio.ogg', 'audio.ogg', 'audioplayer', 'All values set');
         assertBuiltContent(_e('div1'), 'Unknown', 'Unknown', '', 'It is not a content block, so should use defaults');
@@ -1137,9 +1137,89 @@ function PiwikTest() {
 
     test("ContentTrackerInternals", function() {
         var tracker = Piwik.getTracker();
-        var actual;
+        var actual, expected;
 
-        // idsite=&rec=1&_idvc=1&_idn=1&_refts=0
+        function assertTrackingRequest(actual, expectedStartsWith, message)
+        {
+            if (!message) {
+                message = '';
+            } else {
+                message += ', ';
+            }
+
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf('&idsite=&rec=1'), expectedStartsWith.length);
+            // make sure it contains all those other tracking stuff directly afterwards so we can assume it did append
+            // the other request stuff and we also make sure to compare the whole custom string as we check from
+            // expectedStartsWith.length
+        }
+
+        ok('test buildContentImpressionRequest()');
+        actual = tracker.buildContentImpressionRequest();
+        assertTrackingRequest(actual, 'c_n=undefined&c_p=undefined', 'nothing set');
+        actual = tracker.buildContentImpressionRequest('name', 'piece');
+        assertTrackingRequest(actual, 'c_n=name&c_p=piece', 'only name and piece');
+        actual = tracker.buildContentImpressionRequest('name', 'piece', 'target');
+        assertTrackingRequest(actual, 'c_n=name&c_p=piece&c_t=target');
+        actual = tracker.buildContentImpressionRequest('name://', 'x=5', '?x=5');
+        assertTrackingRequest(actual, 'c_n=name%3A%2F%2F&c_p=x%3D5&c_t=%3Fx%3D5', 'should encode values');
+
+        ok('test buildContentInteractionRequest()');
+        actual = tracker.buildContentInteractionRequest();
+        strictEqual(actual, undefined, 'nothing set should not build request');
+        actual = tracker.buildContentInteractionRequest('interaction');
+        assertTrackingRequest(actual, 'c_i=interaction');
+        actual = tracker.buildContentInteractionRequest('interaction', 'name', 'piece');
+        assertTrackingRequest(actual, 'c_i=interaction&c_n=name&c_p=piece');
+        actual = tracker.buildContentInteractionRequest('interaction', 'name', 'piece', 'target');
+        assertTrackingRequest(actual, 'c_i=interaction&c_n=name&c_p=piece&c_t=target', 'all params');
+        actual = tracker.buildContentInteractionRequest('interaction://', 'name://', 'p?=iece', 'tar=get');
+        assertTrackingRequest(actual, 'c_i=interaction%3A%2F%2F&c_n=name%3A%2F%2F&c_p=p%3F%3Diece&c_t=tar%3Dget', 'should encode');
+
+
+        setupContentTrackingFixture('manyExamples');
+
+
+        ok('test buildContentInteractionRequestNode()');
+        actual = tracker.buildContentInteractionRequestNode();
+        strictEqual(actual, undefined, 'nothing set should not build request');
+
+        actual = tracker.buildContentInteractionRequestNode(_e('div1'));
+        strictEqual(actual, undefined, 'does not contain a content block, should not build anything');
+
+        actual   = tracker.buildContentInteractionRequestNode(_e('ex18'));
+        expected = 'c_i=Unknown&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink';
+        assertTrackingRequest(actual, expected, 'no interaction set should default to unknown and recognize all other values');
+
+        actual   = tracker.buildContentInteractionRequestNode(_e('ex18'), 'CustomInteraction://');
+        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink';
+        assertTrackingRequest(actual, expected, 'custom interaction');
+
+        actual   = tracker.buildContentInteractionRequestNode($('#ex18 a')[0], 'CustomInteraction://');
+        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink';
+        assertTrackingRequest(actual, expected, 'should automatically find parent and search for content from there');
+
+
+        ok('test buildContentInteractionRequestWithEvent()');
+        actual = tracker.buildContentInteractionRequestWithEvent();
+        strictEqual(actual, undefined, 'nothing set should not build request');
+        actual = tracker.buildContentInteractionRequestWithEvent('interaction');
+        assertTrackingRequest(actual, 'e_c=Content&e_a=interaction&e_v=&c_i=interaction');
+        actual = tracker.buildContentInteractionRequestWithEvent('interaction', 'name', 'piece', 'target');
+        assertTrackingRequest(actual, 'e_c=Content&e_a=interaction&e_n=name&e_v=&c_i=interaction&c_n=name&c_p=piece&c_t=target', 'all params');
+        actual = tracker.buildContentInteractionRequestWithEvent('interaction://', 'name://', 'p?=iece', 'tar=get');
+        assertTrackingRequest(actual, 'e_c=Content&e_a=interaction%3A%2F%2F&e_n=name%3A%2F%2F&e_v=&c_i=interaction%3A%2F%2F&c_n=name%3A%2F%2F&c_p=p%3F%3Diece&c_t=tar%3Dget', 'should encode');
+
+        /**
+         buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
+         getAllContentImpressionsRequests: getAllContentImpressionsRequests,
+         buildContentImpressionsRequestsWithinNode: buildContentImpressionsRequestsWithinNode,
+         getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet: getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
+         trackCallbackOnLoad: trackCallbackOnLoad,
+         trackCallbackOnReady: trackCallbackOnReady,
+         buildContentImpressionsRequests: buildContentImpressionsRequests,
+         wasContentImpressionAlreadyTracked: wasContentImpressionAlreadyTracked,
+         appendContentInteractionToRequestIfPossible: appendContentInteractionToRequestIfPossible,*/
     });
 
     test("Basic requirements", function() {

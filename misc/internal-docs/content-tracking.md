@@ -228,7 +228,7 @@ Interactions can be detected declarative in case the detected target element is 
 the interaction programmatically, see one of the next sections. We generally treat links to the same page differently than downloads or outlinks.
 
 #### Links to the same domain
-In case we detect a link to the same website we will replace the current `href` attribute with a link to the `piwik.php` tracker URL. Whenever a user clicks on such a link we will first send the user to the `piwik.php` of your Piwik installation and then redirect the user from there to the actual page. This click will be tracked as an event.
+In case we detect a link to the same website we will replace the current `href` attribute with a link to the `piwik.php` tracker URL. Whenever a user clicks on such a link we will first send the user to the `piwik.php` of your Piwik installation and then redirect the user from there to the actual page. This click will be tracked as an event. Where the event category is the string `Content`, the event action is the value of the content interaction such as `click` and the event name will be the same as the content name.
 
 If the URL of the replaced `href` attribute changes meanwhile by your code we will respect the new `href` attribute and make sure to update the link with a `piwik.php` URL. Therefore we will add a `click` listener to the element.
 
@@ -240,7 +240,7 @@ If you have added an `href` attribute after we scanned the DOM for content block
 Outlinks and downloads are handled as before. If a user clicks on a download or outlink we will track this action using an XHR. Along with the information of this action we will send the information related to the content block. We will not track an additional event for this.
 
 #### Anchor links
-They are not tracked currently. Will be tracked as an event in V2?
+Anchor links will be tracked using an XHR.
 
 ### How to prevent the automatic tracking of an interaction?
 
@@ -354,7 +354,7 @@ form.addEventListener('dblclick', function () {
 
 * The passed `domNode` can be any node within a content block or the content block element itself. Nothing will be tracked in case there is no content-block found.
 * The content name and piece will be detected based on the content block
-* Optionally you can set the name of the content interaction. If none is provided the content target or alternatively `Unknown will be used.
+* Optionally you can set the name of the content interaction. If none is provided the `Unknown` will be used. Could be for instance `click` or `submit`.
 * The interaction will actually only have any effect if an impression was tracked for this content-block
 
 #### `trackContentImpression(contentName, contentPiece, contentTarget)` and `trackContentInteraction(contentName, contentPiece, contentInteraction)`
@@ -450,6 +450,7 @@ Nothing special here I think. We would probably automatically detect the type of
 * We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
 * Would content impressions be tracked in overlay session?
 * Single page applications will always want to disable interactions as redirect would not fit into their concept!!!
+* Why do we track an event for a click to an internal URL? does it actually make sense? I mean there will be pageview -> event -> same pageview as tracked event before
 
 ## Answered Questions
 1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?
