@@ -223,7 +223,7 @@ As the target element has a `href` attribute we can detect the content target au
 
 ### How do we track an interaction automatically?
 
-Interactions can be detected declarative in case the detected target element is an `a` element with an `href` attribute. If not, you will have to track
+Interactions can be detected declarative in case the detected target element is an `a` and `area` element with an `href` attribute. If not, you will have to track
 the interaction programmatically, see one of the next sections. We generally treat links to the same page differently than downloads or outlinks.
 
 #### Links to the same domain
@@ -241,8 +241,6 @@ Outlinks and downloads are handled as before. If a user clicks on a download or 
 #### Anchor links
 They are not tracked currently. Will be tracked as an event in V2?
 
-TODO we need to implement tracking of non `a` links, of anchor links and `a` links not having `href` attribute using XHR and events
-
 ### How to prevent the automatic tracking of an interaction?
 
 Maybe you do not want us to track any interaction automatically as explained before.
@@ -256,6 +254,8 @@ Examples
 ```
 
 In all examples we would track the impression automatically but not the interaction.
+
+Note: In single page application you will most likely always have to disable automatic tracking of an interaction as otherwise a page reload and a redirect will happen.
 
 ### Putting it all together
 
