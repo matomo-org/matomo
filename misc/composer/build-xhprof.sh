@@ -11,6 +11,11 @@ if ! type make &> /dev/null; then
     exit
 fi
 
+if ! [ -d "vendor/facebook/xhprof/extension" ]; then
+    echo "xhprof missing, skipping build"
+    exit
+fi
+
 mkdir -p tmp/xhprof-logs
 
 cd vendor/facebook/xhprof/extension
