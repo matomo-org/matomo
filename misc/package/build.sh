@@ -36,17 +36,13 @@ function cleanupWorkspace() {
 # organize files for packaging
 function organizePackage() {
     curl -sS https://getcomposer.org/installer | php
-    php composer.phar install
+    php composer.phar install --no-dev
     cd ../
     rm -rf piwik/composer.phar
     rm -rf piwik/vendor/twig/twig/test/
     rm -rf piwik/vendor/twig/twig/doc/
     rm -rf piwik/vendor/symfony/console/Symfony/Component/Console/Tests
     rm -rf piwik/vendor/symfony/console/Symfony/Component/Console/Resources/bin
-    rm -rf piwik/vendor/phpunit/
-    rm -rf piwik/vendor/sebastian/
-    rm -rf piwik/vendor/ocramius/
-    rm -rf piwik/vendor/facebook/
     rm -rf piwik/vendor/piwik/device-detector/Tests/
 
     rm -rf piwik/libs/PhpDocumentor-1.3.2/
