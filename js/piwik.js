@@ -1116,6 +1116,9 @@ if (typeof Piwik !== 'object') {
             },
             find: function (selector)
             {
+                // we use querySelectorAll only on document, not on nodes because of its unexpected behavior. See for
+                // instance http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall and
+                // http://jsfiddle.net/QdMc5/ and http://ejohn.org/blog/thoughts-on-queryselectorall
                 if (!document.querySelectorAll || !selector) {
                     return []; // we do not support all browsers
                 }
@@ -1140,6 +1143,15 @@ if (typeof Piwik !== 'object') {
                 nodes = this.makeNodesUnique(nodes);
 
                 return nodes;
+            },
+            findNodesByTagName: function (node, tagName) {
+                if (!node || !tagName || !node.getElementsByTagName) {
+                    return [];
+                }
+
+                var foundNodes = node.getElementsByTagName(tagName);
+
+                return this.htmlCollectionToArray(foundNodes);
             },
             makeNodesUnique: function (nodes)
             {
@@ -1337,6 +1349,16 @@ if (typeof Piwik !== 'object') {
                 if (nodes && nodes.length) {
                     return nodes[0]; // TODO here we should check whether this node is also present within another nested piece of content and if there are multiple other nodes maybe use the next one
                 }
+            },
+            isLinkElement: function (node) {
+                if (!node) {
+                    return false;
+                }
+
+                var elementName      = (node.nodeName + '').toLowerCase();
+                var linkElementNames = ['a', 'area'];
+
+                return linkElementNames.indexOf(elementName) !== -1;
             }
         }
 
@@ -1368,6 +1390,8 @@ if (typeof Piwik !== 'object') {
                 if (!node) {
                     return [];
                 }
+
+                // NOTE: we do not use query.findMultiple here as querySelectorAll would most likely not deliver the result we want
 
                 var nodes1 = query.findNodesHavingCssClass(node, this.CONTENT_CLASS);
                 var nodes2 = query.findNodesHavingAttribute(node, this.CONTENT_ATTR);
@@ -1560,7 +1584,8 @@ if (typeof Piwik !== 'object') {
                 var mediaElements = ['img', 'embed', 'video', 'audio'];
                 var elementName   = node.nodeName.toLowerCase();
 
-                if (-1 !== mediaElements.indexOf(elementName) && query.findFirstNodeHavingAttributeWithValue(node, 'src')) {
+                if (-1 !== mediaElements.indexOf(elementName) &&
+                    query.findFirstNodeHavingAttributeWithValue(node, 'src')) {
 
                     var sourceNode = query.findFirstNodeHavingAttributeWithValue(node, 'src');
 
@@ -1570,6 +1595,24 @@ if (typeof Piwik !== 'object') {
                 if (elementName === 'object' && query.hasNodeAttributeWithValue(node, 'data')) {
 
                     return query.getAttributeValueFromNode(node, 'data');
+
+                } else if (elementName === 'object') {
+                    var params = query.findNodesByTagName(node, 'param');
+                    if (params && params.length) {
+                        var index;
+                        for (index = 0; index < params.length; index++) {
+                            if ('movie' === query.getAttributeValueFromNode(params[index], 'name') &&
+                                query.hasNodeAttributeWithValue(params[index], 'value')) {
+
+                                return query.getAttributeValueFromNode(params[index], 'value');
+                            }
+                        }
+                    }
+
+                    var embed = query.findNodesByTagName(node, 'embed');
+                    if (embed && embed.length) {
+                        return this.findMediaUrlInNode(embed[0]);
+                    }
                 }
             },
             trim: function (text) {
@@ -1704,8 +1747,8 @@ if (typeof Piwik !== 'object') {
                     return this.getLocation().origin + this.getLocation().pathname + url;
                 }
 
-                // Eg mailto:x@y.z tel:012345, ... market:... sms:... and many more
-                if (0 === url.search('^[a-zA-Z]{2,8}:')) {
+                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javasript:... ecmascript: ... and many more
+                if (0 === url.search('^[a-zA-Z]{2,11}:')) {
                     return url;
                 }
 
@@ -1718,43 +1761,16 @@ if (typeof Piwik !== 'object') {
                 var base = this.getLocation().origin + this.getLocation().pathname.match(/(.*\/)/)[0]
                 return base + url
             },
-            findInternalTargetLinkFromHref: function (targetNode)
+            setHrefAttribute: function (node, url)
             {
-                if (!targetNode) {
+                if (!node || !url) {
                     return;
                 }
 
-                var link;
-                if (query.hasNodeAttributeWithValue(targetNode, 'href')) {
-                    link = query.getAttributeValueFromNode(targetNode, 'href');
-                }
-
-                if (!link) {
-                    return;
-                }
-
-                if (link !== this.removeDomainIfIsUrl(link)) {
-                    return; // outlink or download?
-                }
-
-                return link;
-            },
-            replaceTargetLink: function (node, url)
-            {
-                var clickNode = this.findTargetNode(node);
-
-                if (!clickNode) {
-                    return;
-                }
-
-                var elementName = clickNode.nodeName.toLowerCase();
-
-                if (elementName !== 'a') {
-                    return;
-                }
-
-                if (clickNode && clickNode.setAttribute) {
-                    clickNode.setAttribute('href', url);
+                if (node.setAttribute) {
+                    node.setAttribute('href', url);
+                } else {
+                    node.href = url;
                 }
             },
             shouldIgnoreInteraction: function (targetNode) {
@@ -2930,72 +2946,52 @@ if (typeof Piwik !== 'object') {
                 }
 
                 for (index = 0; index < contentNodes.length; index++) {
-                    // TODO should we consult getLinkType()?
                     var targetNode = content.findTargetNode(contentNodes[index]);
 
-                    if (!targetNode) {
+                    if (!targetNode || targetNode.contentInteractionTrackingSetupDone) {
                         continue;
                     }
 
-                    if (targetNode.contentTrackingRedirectSetupDone) {
-                        continue;
-                    }
-
-                    targetNode.contentTrackingRedirectSetupDone = true;
+                    targetNode.contentInteractionTrackingSetupDone = true;
 
                     if (content.shouldIgnoreInteraction(targetNode)) {
                         continue;
                     }
 
-                    if (targetNode.nodeName.toLowerCase() === 'a' &&
-                        query.hasNodeAttributeWithValue(targetNode, 'href')) {
+                    addEventListener(targetNode, 'click', function () {
 
-                        var internalLink = content.findInternalTargetLinkFromHref(targetNode);
+                        var link = getLinkIfShouldBeProcessed(this);
 
-                        if (internalLink) {
-
-                            content.replaceTargetLink(targetNode, buildTrackingRedirectUrl(internalLink));
-
-                            addEventListener(targetNode, 'click', function () {
-                                var url = content.findInternalTargetLinkFromHref(this);
-                                if (!url) {
-                                    return;
-                                }
-
-                                var contentName   = content.findContentName(this);
-                                var contentPiece  = content.findContentPiece(this);
-                                var contentTarget = content.findContentTarget(this);
-
-                                if (0 === internalLink.indexOf('#')) {
-                                    var request = buildContentInteractionTrackingRequest('click', contentName, contentPiece, contentTarget);
-                                    sendRequest(request);
-                                } else {
-                                    var targetUrl = buildContentInteractionTrackingRedirectUrl(internalLink, contentName, contentPiece, contentTarget);
-
-                                    // location.href does not respect target=_blank so we prefer to use this
-                                    content.replaceTargetLink(content.findTargetNode(this), targetUrl);
-                                }
-
-                            });
-
-                        } else {
-                            // outlink or download
+                        if (link && link.type) {
+                            // click ignore, will be tracked via processClick, we do not want to track it twice
+                            return;
                         }
 
-                    } else {
-                        // trigger event
+                        var contentBlock  = content.findParentContentNode(this);
+                        var contentName   = content.findContentName(contentBlock);
+                        var contentPiece  = content.findContentPiece(contentBlock);
+                        var contentTarget = content.findContentTarget(contentBlock);
+                        var targetNode    = content.findTargetNode(contentBlock); // should be actually same as 'this'
 
-                        addEventListener(targetNode, 'click', function () {
-                            var contentName   = content.findContentName(this);
-                            var contentPiece  = content.findContentPiece(this);
-                            var contentTarget = content.findContentTarget(this);
+                        if (query.isLinkElement(targetNode) &&
+                            query.hasNodeAttributeWithValue(targetNode, 'href')) {
+                            var url = query.getAttributeValueFromNode(targetNode, 'href');
 
-                            var request = buildContentInteractionTrackingRequest('', contentName, contentPiece, contentTarget);
+                            if (0 !== url.indexOf('#')) {
 
-                            sendRequest(request);
-                        });
-                    }
+                                var targetUrl = buildContentInteractionTrackingRedirectUrl(url, contentName, contentPiece, contentTarget);
 
+                                // location.href does not respect target=_blank so we prefer to use this
+                                content.setHrefAttribute(targetNode, targetUrl);
+                                return;
+                            }
+
+                        }
+
+                        // click on any non link element, or on a link element that has not an href attribute or on an anchor
+                        var request = buildContentInteractionTrackingRequest('click', contentName, contentPiece, contentTarget);
+                        sendRequest(request, configTrackerPause);
+                    });
                 }
 
                 var index, request;
@@ -3236,48 +3232,79 @@ if (typeof Piwik !== 'object') {
                     // does file extension indicate that it is a download?
                     downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
 
-                // optimization of the if..elseif..else construct below
-                return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
+                if (linkPattern.test(className)) {
+                    return 'link';
+                }
+
+                if (downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
+                    return 'download';
+                }
+
+                if (isInLink) {
+                    return 0;
+                }
+
+                return 'link';
             }
 
-            /*
-             * Process clicks
-             */
-            function processClick(sourceElement) {
-                var parentElement,
-                    tag,
-                    linkType,
-                    originalSource;
+            function getSourceElement(sourceElement)
+            {
+                var parentElement;
 
-                originalSource = sourceElement;
                 parentElement = sourceElement.parentNode;
                 while (parentElement !== null &&
                         /* buggy IE5.5 */
                         isDefined(parentElement)) {
-                    tag = sourceElement.tagName.toUpperCase();
-                    if (tag === 'A' || tag === 'AREA') {
+
+                    if (query.isLinkElement(sourceElement)) {
                         break;
                     }
                     sourceElement = parentElement;
                     parentElement = sourceElement.parentNode;
                 }
 
-                if (isDefined(sourceElement.href)) {
-                    // browsers, such as Safari, don't downcase hostname and href
-                    var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href),
-                        sourceHostName = originalSourceHostName.toLowerCase(),
-                        sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName),
-                        scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
+                return sourceElement;
+            }
 
-                    // ignore script pseudo-protocol links
-                    if (!scriptProtocol.test(sourceHref)) {
-                        // track outlinks and all downloads
-                        linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
+            function getLinkIfShouldBeProcessed(sourceElement)
+            {
+                sourceElement = getSourceElement(sourceElement);
 
-                        // urldecode %xx
-                        sourceHref = urldecode(sourceHref);
-                        logLink(sourceHref, linkType, undefined, null, originalSource);
+                if (!isDefined(sourceElement.href)) {
+                    return;
+                }
+
+                // browsers, such as Safari, don't downcase hostname and href
+                var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
+                var sourceHostName = originalSourceHostName.toLowerCase();
+                var sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName);
+
+                // browsers, such as Safari, don't downcase hostname and href
+                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
+
+                if (!scriptProtocol.test(sourceHref)) {
+                    // track outlinks and all downloads
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
+
+                    if (linkType) {
+                        return {
+                            type: linkType,
+                            href: sourceHref
+                        };
                     }
+                }
+            }
+
+            /*
+             * Process clicks
+             */
+            function processClick(sourceElement) {
+                var link = getLinkIfShouldBeProcessed(sourceElement);
+
+                if (link && link.type) {
+                    // urldecode %xx
+                    link.href = urldecode(link.href);
+                    logLink(link.href, link.type, undefined, null, sourceElement);
                 }
             }
 

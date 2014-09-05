@@ -200,6 +200,10 @@ function setupContentTrackingFixture(name) {
   </ul>
   <div id="clickDiv"></div>
  </div>
+ <map name="map">
+     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Piwik">
+     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Piwik2">
+ </map>
 
  <ol id="qunit-tests"></ol>
 
@@ -562,6 +566,25 @@ function PiwikTest() {
         ok(-1 !== actual.indexOf(_e('click1')), 'htmlCollectionToArray, random check to make sure it contains a link');
 
 
+        actual = query.isLinkElement();
+        strictEqual(actual, false, "isLinkElement, no element set");
+
+        actual = query.isLinkElement(_e('div1'));
+        strictEqual(actual, false, "isLinkElement, a div is not a link element");
+
+        actual = query.isLinkElement(document.createTextNode('ff'));
+        strictEqual(actual, false, "isLinkElement, a text node is not a link element");
+
+        actual = query.isLinkElement(document.createComment('tt'));
+        strictEqual(actual, false, "isLinkElement, a comment is not a link element");
+
+        actual = query.isLinkElement(_e('area1'));
+        strictEqual(actual, true, "isLinkElement, an area element is a link element");
+
+        actual = query.isLinkElement(_e('click1'));
+        strictEqual(actual, true, "isLinkElement, an a element is a link element");
+
+
         actual = query.find();
         propEqual(actual, [], "find, no selector passed should return an empty array");
 
@@ -598,6 +621,26 @@ function PiwikTest() {
 
         actual = query.findMultiple(['.piwik_link', '[data-content-piece]', '#image2', '#div1']);
         propEqual(actual, [_e('image2'), _e('div1'), _e('click5')], "findMultiple, should make nodes unique in case we select the same multiple times");
+
+
+        actual = query.findNodesByTagName();
+        propEqual(actual, [], "findNodesByTagName, no element and no tag name set");
+
+        actual = query.findNodesByTagName(document.body);
+        propEqual(actual, [], "findNodesByTagName, no tag name set");
+
+        actual = query.findNodesByTagName(document.body, 'notExistingOne');
+        propEqual(actual, [], "findNodesByTagName, should not find any such element");
+
+        actual = query.findNodesByTagName(document.body, 'a');
+        ok($.isArray(actual), "findNodesByTagName, should always return an array");
+
+        actual = query.findNodesByTagName(document.body, 'h1');
+        propEqual(actual, [_e('qunit-header')], "findNodesByTagName, find exactly one");
+
+        actual = query.findNodesByTagName(document.body, 'a');
+        ok(actual.length > 10, "findNodesByTagName, find many, even nested ones");
+        ok(actual.indexOf(_e('click1')), "findNodesByTagName, just a random test to make sure it actually contains a link");
     });
 
     test("contentFindContentBlock", function() {
@@ -764,6 +807,7 @@ function PiwikTest() {
 
         var tracker = Piwik.getTracker();
         var content = tracker.getContent();
+        var query   = tracker.getQuery();
         content.setLocation(); // clear possible previous location
         var actual, expected;
 
@@ -804,6 +848,11 @@ function PiwikTest() {
         function assertShouldNotIgnoreInteraction(id, message) {
             var node = content.findTargetNode(_e(id));
             strictEqual(content.shouldIgnoreInteraction(node), false, message);
+        }
+
+        function assertFoundMediaUrl(id, expected, message) {
+            var node = content.findPieceNode(_e(id));
+            strictEqual(content.findMediaUrlInNode(node), expected, message);
         }
 
         var locationAlias = $.extend({}, window.location);
@@ -852,10 +901,11 @@ function PiwikTest() {
         assertBuildsAbsoluteUrl('path/x?p=5', origin + '/tests/javascript/path/x?p=5', 'relative path');
         assertBuildsAbsoluteUrl('#test', origin + '/tests/javascript/#test', 'anchor url');
         assertBuildsAbsoluteUrl('//' + locationAlias.host + '/test/img.jpg', origin + '/test/img.jpg', 'inherit protocol url');
-        assertBuildsAbsoluteUrl('mailto:test@example.com', 'mailto:test@example.com', 'mailto special url');
-        assertBuildsAbsoluteUrl('tel:0123456789', 'tel:0123456789', 'tel special url');
-        assertBuildsAbsoluteUrl('anythingg:test', origin + '/tests/javascript/anythingg:test', 'we do not treat this one as special url as we recognize max 8 characters currently');
-        assertBuildsAbsoluteUrl('k1dm:test', origin + '/tests/javascript/k1dm:test', 'we do not treat this one as special url as it contains a number');
+        assertBuildsAbsoluteUrl('mailto:test@example.com', 'mailto:test@example.com', 'mailto pseudo-protocol url');
+        assertBuildsAbsoluteUrl('javascript:void 0', 'javascript:void 0', 'javascript pseudo-protocol url');
+        assertBuildsAbsoluteUrl('tel:0123456789', 'tel:0123456789', 'tel pseudo-protocol url');
+        assertBuildsAbsoluteUrl('anythinggggggggg:test', origin + '/tests/javascript/anythinggggggggg:test', 'we do not treat this one as pseudo-protocol url as there are too many characters before colon');
+        assertBuildsAbsoluteUrl('k1dm:test', origin + '/tests/javascript/k1dm:test', 'we do not treat this one as pseudo-protocol url as it contains a number');
 
         locationAlias.pathname = '/test/';
         content.setLocation(locationAlias);
@@ -886,12 +936,37 @@ function PiwikTest() {
         ok("test shouldIgnoreInteraction(targetNode)");
         assertShouldIgnoreInteraction('ignoreInteraction1', 'should be ignored because of CSS class');
         assertShouldIgnoreInteraction('ignoreInteraction2', 'should be ignored because of Attribute');
+        assertShouldIgnoreInteraction('ignoreInteraction3', 'should be ignored because of CSS class');
+        assertShouldIgnoreInteraction('ignoreInteraction4', 'should be ignored because of Attribute');
         assertShouldNotIgnoreInteraction('notIgnoreInteraction1', 'should not be ignored');
+        assertShouldNotIgnoreInteraction('notIgnoreInteraction2', 'should not be ignored as set in wrong element');
+
+
+        ok("test setHrefAttribute(node, url)");
+        var aElement = _e('aLinkToBeChanged');
+        content.setHrefAttribute(); // should not fail if no arguments
+        strictEqual(query.getAttributeValueFromNode(aElement, 'href'), 'http://www.example.com', 'setHrefAttribute, check initial link value');
+        content.setHrefAttribute(aElement);
+        content.setHrefAttribute(aElement, '');
+        strictEqual(query.getAttributeValueFromNode(aElement, 'href'), 'http://www.example.com', 'setHrefAttribute, an empty URL should not be set');
+        content.setHrefAttribute(aElement, '/test');
+        strictEqual(query.getAttributeValueFromNode(aElement, 'href'), '/test', 'setHrefAttribute, link should be changed now');
+
+        strictEqual(content.findMediaUrlInNode(), undefined, 'should not fail if no node passed');
+        ok(_e('click1') && _e('mediaDiv'), 'make sure both nodes exist otherwise following two assertions to not test what we want');
+        assertFoundMediaUrl('click1', undefined, 'should not find anything in a link as it is not a media');
+        assertFoundMediaUrl('mediaDiv', undefined, 'should not find anything in a non media element even if it defines a src attribute');
+        assertFoundMediaUrl('mediaImg', 'test/img.jpg', 'should find url of image');
+        assertFoundMediaUrl('mediaVideo', 'movie.mp4', 'should find url of video, first one should be used');
+        assertFoundMediaUrl('mediaAudio', 'audio.ogg', 'should find url of audio, first one should be used');
+        assertFoundMediaUrl('mediaEmbed', 'embed.swf', 'should find url of embed element');
+        assertFoundMediaUrl('mediaObjectSimple', 'objectSimple.swf', 'should find url of a simple object element');
+        assertFoundMediaUrl('mediaObjectParam', 'movie_param1.swf', 'should find url of a simple object element');
+        assertFoundMediaUrl('mediaObjectPdf', 'document.pdf', 'should find url of an object that contains non flash resources such as pdf');
+        assertFoundMediaUrl('mediaObjectEmbed', 'document2.pdf', 'should fallback to an embed in an object');
 
         // isOrWasNodeInViewport
         // isNodeVisible
-        // findInternalTargetLinkFromHref
-        // replaceTargetLink
     });
 
 

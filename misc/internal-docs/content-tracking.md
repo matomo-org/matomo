@@ -62,6 +62,7 @@ If we do not find any specific content piece element, we will use the content bl
 
 * The simplest scenario is to provide an HTML attribute `data-content-piece="foo"` including a value anywhere within the content block or in the content block element itself.
 * If there is no such attribute we will check whether the content piece element is a media (audio, video, image) and we will try to detect the URL to the media automatically. For instance using the `src` attribute.
+  * In case of video and audio elements, when there are multiple sources defined, we will choose the URL of the first source
 * If we haven't found anything we will fall back to use the value "Unknown". In such a case you should set the attribute `data-content-piece` telling us explicitly what the content is.
 
 Examples:
