@@ -450,7 +450,6 @@ Nothing special here I think. We would probably automatically detect the type of
 * We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
 * Would content impressions be tracked in overlay session?
 * Single page applications will always want to disable interactions as redirect would not fit into their concept!!!
-* Why do we track an event for a click to an internal URL? does it actually make sense? I mean there will be pageview -> event -> same pageview as tracked event before
 
 ## Answered Questions
 1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?
@@ -538,3 +537,10 @@ OK
 
 12. FYI: We need to define how a content piece is defined in markup since it can be anything (was something like piwik-banner before) see next section
 
+13. Why do we track an event for an interaction? Which is with the currently implementation done only on a click to an internal URL anyway... does it actually make sense? I mean there will be pageview -> content + event action -> same pageview after redirect. We would track same information 3 times
+It makes actually no sense and I will remove it again. It makes no sense because:
+* We would currently only track links to the same website as an event (as only there piwik.php is used), we could use it for other links as well but why...
+* A click to an internal page of the same website is simply no event per se. Also to an outlink or download... it is not an event
+* As it is possible that we would add many different EventNames (= ContentNames) and EventActions (=ContentInteraction) it would maybe make it harder for some users to analyze their event names/actions that they use for other things
+* The tracked content will be already displayed in the content report anyway, why displaying the same data in 2 reports (events and contents or actually even 3 reports as a pageview will be later tracked as well). There is no value in it
+* ...

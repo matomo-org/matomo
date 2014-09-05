@@ -1199,17 +1199,6 @@ function PiwikTest() {
         expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink';
         assertTrackingRequest(actual, expected, 'should automatically find parent and search for content from there');
 
-
-        ok('test buildContentInteractionRequestWithEvent()');
-        actual = tracker.buildContentInteractionRequestWithEvent();
-        strictEqual(actual, undefined, 'nothing set should not build request');
-        actual = tracker.buildContentInteractionRequestWithEvent('interaction');
-        assertTrackingRequest(actual, 'e_c=Content&e_a=interaction&e_v=&c_i=interaction');
-        actual = tracker.buildContentInteractionRequestWithEvent('interaction', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'e_c=Content&e_a=interaction&e_n=name&e_v=&c_i=interaction&c_n=name&c_p=piece&c_t=target', 'all params');
-        actual = tracker.buildContentInteractionRequestWithEvent('interaction://', 'name://', 'p?=iece', 'tar=get');
-        assertTrackingRequest(actual, 'e_c=Content&e_a=interaction%3A%2F%2F&e_n=name%3A%2F%2F&e_v=&c_i=interaction%3A%2F%2F&c_n=name%3A%2F%2F&c_p=p%3F%3Diece&c_t=tar%3Dget', 'should encode');
-
         /**
          buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
          getAllContentImpressionsRequests: getAllContentImpressionsRequests,

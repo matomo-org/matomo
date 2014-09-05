@@ -2828,23 +2828,10 @@ if (typeof Piwik !== 'object') {
                 }
 
                 var redirectUrl = content.toAbsoluteUrl(url);
-                var request = buildContentInteractionRequestWithEvent(contentInteraction, contentName, contentPiece, (contentTarget || url));
+                var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
                 request    += '&redirecturl=' + redirectUrl;
 
                 return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
-            }
-
-            function buildContentInteractionRequestWithEvent(contentInteraction, contentName, contentPiece, contentTarget)
-            {
-                var interaction = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
-
-                if (!interaction) {
-                    return;
-                }
-
-                var event = buildEventRequest('Content', contentInteraction, contentName, '');
-
-                return event + '&' + interaction;
             }
 
             function appendContentInteractionToRequestIfPossible (request, anyNode, interaction, fallbackTarget)
@@ -3509,7 +3496,6 @@ if (typeof Piwik !== 'object') {
                 buildContentImpressionRequest: buildContentImpressionRequest,
                 buildContentInteractionRequest: buildContentInteractionRequest,
                 buildContentInteractionRequestNode: buildContentInteractionRequestNode,
-                buildContentInteractionRequestWithEvent: buildContentInteractionRequestWithEvent,
                 buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
                 buildContentImpressionsRequestsWithinNode: buildContentImpressionsRequestsWithinNode,
                 getAllContentImpressionsRequests: getAllContentImpressionsRequests,
