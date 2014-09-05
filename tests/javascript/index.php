@@ -1135,6 +1135,13 @@ function PiwikTest() {
         assertCollectedContent(ids, expected, 'should collect all content, make sure it trims values and it uses default values');
     });
 
+    test("ContentTrackerInternals", function() {
+        var tracker = Piwik.getTracker();
+        var actual;
+
+        // idsite=&rec=1&_idvc=1&_idn=1&_refts=0
+    });
+
     test("Basic requirements", function() {
         expect(3);
 

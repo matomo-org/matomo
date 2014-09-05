@@ -2221,7 +2221,7 @@ if (typeof Piwik !== 'object') {
             function sendRequest(request, delay, callback) {
                 var now = new Date();
 
-                if (!configDoNotTrack) {
+                if (!configDoNotTrack && request) {
                     if (configRequestMethod === 'POST') {
                         sendXmlHttpRequest(request, callback);
                     } else {
@@ -2238,6 +2238,10 @@ if (typeof Piwik !== 'object') {
             function sendBulkRequest(requests, delay) {
 
                 if (configDoNotTrack) {
+                    return;
+                }
+
+                if (!requests || !requests.length) {
                     return;
                 }
 
@@ -2818,7 +2822,25 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
-            function appendContentInteractionToRequestIfPossible(request, anyNode, interaction, fallbackTarget)
+            function buildContentInteractionTrackingRedirectUrl(url, contentName, contentPiece, contentTarget) {
+                if (0 === url.indexOf(configTrackerUrl)) {
+                    return url;
+                }
+
+                var redirectUrl = content.toAbsoluteUrl(url);
+                var request = buildContentInteractionRequestWithEvent(url, contentName, contentPiece, contentTarget);
+                request    += '&redirecturl=' + redirectUrl;
+
+                return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+            }
+
+            function buildContentInteractionRequestWithEvent(url, contentName, contentPiece, contentTarget)
+            {
+                var request = buildContentInteractionRequest(contentName, contentPiece, contentTarget)
+                return getRequest(request + buildEventRequest('Content', 'click', url, ''));
+            }
+
+            function appendContentInteractionToRequestIfPossible (request, anyNode, interaction, fallbackTarget)
             {
                 if (!anyNode || !request) {
 
@@ -2852,32 +2874,6 @@ if (typeof Piwik !== 'object') {
                 return request;
             }
 
-            function buildContentInteractionTrackingRedirectUrl(url, contentName, contentPiece, contentTarget) {
-                if (0 === url.indexOf(configTrackerUrl)) {
-                    return url;
-                }
-
-                var redirectUrl = content.toAbsoluteUrl(url);
-                var request = buildContentInteractionTrackingRequest(url, contentName, contentPiece, contentTarget);
-                request    += '&redirecturl=' + redirectUrl;
-
-                return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
-            }
-
-            function buildContentInteractionTrackingRequest(url, contentName, contentPiece, contentTarget) {
-                if (0 === url.indexOf(configTrackerUrl)) {
-                    return url;
-                }
-
-
-                var contentInteraction = 'click';
-
-                var params = content.buildInteractionRequestParams(contentInteraction, contentName, contentPiece, contentTarget);
-
-                var request = getRequest(params + buildEventRequest('Content', contentInteraction, url, ''));
-                return request;
-            }
-
             function wasContentImpressionAlreadyTracked(content)
             {
                 if (!trackedContentImpressions || !trackedContentImpressions.length) {
@@ -2906,7 +2902,7 @@ if (typeof Piwik !== 'object') {
             /*
              * Log currently visible content pieces
              */
-            function logCurrentlyVisibleContentImpressionsIfNotTrackedYet(contentNodes) {
+            function getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes) {
 
                 if (!contentNodes || !contentNodes.length) {
                     return;
@@ -2924,23 +2920,23 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                logAllContentImpressions(contentNodes);
+                return getAllContentImpressionsRequests(contentNodes);
             }
 
             /*
              * Log all content pieces
              */
-            function logAllContentImpressions(contentNodes) {
+            function getAllContentImpressionsRequests(contentNodes) {
 
                 var contents = content.collectContent(contentNodes);
 
-                logContentImpressions(contents, contentNodes);
+                return getContentImpressionsRequests(contents, contentNodes);
             }
 
             /*
              * Log all content pieces
              */
-            function logContentImpressions(contents, contentNodes) {
+            function getContentImpressionsRequests(contents, contentNodes) {
 
                 if (!contents || !contents.length) {
                     return;
@@ -3004,7 +3000,7 @@ if (typeof Piwik !== 'object') {
                         }
 
                         // click on any non link element, or on a link element that has not an href attribute or on an anchor
-                        var request = buildContentInteractionTrackingRequest('click', contentName, contentPiece, contentTarget);
+                        var request = buildContentInteractionRequestWithEvent('click', contentName, contentPiece, contentTarget);
                         sendRequest(request, configTrackerPause);
                     });
                 }
@@ -3023,10 +3019,10 @@ if (typeof Piwik !== 'object') {
                     requests.push(request);
                 }
 
-                sendBulkRequest(requests, configTrackerPause);
+                return requests;
             }
 
-            function logContentImpression(contentName, contentPiece, contentTarget)
+            function buildContentImpressionRequest(contentName, contentPiece, contentTarget)
             {
                 var params = content.buildImpressionRequestParams(contentName, contentPiece, contentTarget);
 
@@ -3034,20 +3030,18 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                var request = getRequest(params, null, 'contentImpression');
-
-                sendRequest(request, configTrackerPause);
+                return getRequest(params, null, 'contentImpression');
             }
 
-            function logContentImpressionsWithinNode(node)
+            function getContentImpressionsRequestsWithinNode(node)
             {
                 var contentNodes = content.findContentNodesWithinNode(node);
                 var contents     = content.collectContent(contentNodes);
 
-                logContentImpressions(contents, contentNodes);
+                return getContentImpressionsRequests(contents, contentNodes);
             }
 
-            function logContentInteraction(contentName, contentPiece, contentInteraction)
+            function buildContentInteractionRequest(contentName, contentPiece, contentInteraction)
             {
                 var params = content.buildInteractionRequestParams(contentInteraction, contentName, contentPiece);
 
@@ -3055,12 +3049,10 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                var request = getRequest(params, null, 'contentInteraction');
-
-                sendRequest(request, configTrackerPause);
+                return getRequest(params, null, 'contentInteraction');
             }
 
-            function logContentInteractionNode(node, contentInteraction)
+            function buildContentInteractionRequestNode(node, contentInteraction)
             {
                 var contentNode = content.findParentContentNode(node);
                 var content     = content.buildContentPiece(contentNode);
@@ -3073,7 +3065,7 @@ if (typeof Piwik !== 'object') {
                     contentInteraction = content.target ? content.target : 'Unknown';
                 }
 
-                logContentInteraction(content.name, content.piece, contentInteraction);
+                return buildContentInteractionRequest(content.name, content.piece, contentInteraction);
             }
 
             function buildEventRequest(category, action, name, value)
@@ -3187,6 +3179,7 @@ if (typeof Piwik !== 'object') {
                 callback();
             }
 
+
             function trackCallbackOnLoad(callback)
             {
                 if (documentAlias.readyState === 'complete') {
@@ -3200,7 +3193,6 @@ if (typeof Piwik !== 'object') {
 
             function trackCallbackOnReady(callback)
             {
-                // TODO we might also need a poll similar to https://github.com/dperini/ContentLoaded/blob/master/src/contentloaded.js
                 var loaded = false;
 
                 if (documentAlias.attachEvent) {
@@ -3510,7 +3502,22 @@ if (typeof Piwik !== 'object') {
                 getContent: function () {
                     return content;
                 },
-/*</DEBUG>*/
+
+                buildContentImpressionRequest: buildContentImpressionRequest,
+                buildContentInteractionRequest: buildContentInteractionRequest,
+                buildContentInteractionRequestNode: buildContentInteractionRequestNode,
+                buildContentInteractionTrackingRequest: buildContentInteractionRequestWithEvent,
+                buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
+                getAllContentImpressionsRequests: getAllContentImpressionsRequests,
+                getContentImpressionsRequestsWithinNode: getContentImpressionsRequestsWithinNode,
+                getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet: getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
+                trackCallbackOnLoad: trackCallbackOnLoad,
+                trackCallbackOnReady: trackCallbackOnReady,
+                getContentImpressionsRequests: getContentImpressionsRequests,
+                wasContentImpressionAlreadyTracked: wasContentImpressionAlreadyTracked,
+                appendContentInteractionToRequestIfPossible: appendContentInteractionToRequestIfPossible,
+
+                /*</DEBUG>*/
 
                 /**
                  * Get visitor ID (from first party cookie)
@@ -4228,14 +4235,16 @@ if (typeof Piwik !== 'object') {
                                 // we have to wait till CSS parsed and applied
                                 var contentNodes = content.findContentNodes();
 
-                                logCurrentlyVisibleContentImpressionsIfNotTrackedYet(contentNodes);
+                                var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
+                                sendBulkRequest(requests, configTrackerPause);
                             });
                         } else {
                             trackCallbackOnReady(function () {
                                 // we have to wait till DOM ready
                                 var contentNodes = content.findContentNodes();
 
-                                logAllContentImpressions(contentNodes);
+                                var requests = getAllContentImpressionsRequests(contentNodes);
+                                sendBulkRequest(requests, configTrackerPause);
                             });
                         }
                     });
@@ -4305,7 +4314,8 @@ if (typeof Piwik !== 'object') {
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
                 trackContentImpression: function (contentName, contentPiece, contentTarget) {
                     trackCallback(function () {
-                        logContentImpression(contentName, contentPiece, contentTarget);
+                        var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
+                        sendRequest(request, configTrackerPause);
                     });
                 },
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
@@ -4317,14 +4327,16 @@ if (typeof Piwik !== 'object') {
                                 // we have to wait till CSS parsed and applied
                                 var contentNodes = content.findContentNodesWithinNode(domNode);
 
-                                logCurrentlyVisibleContentImpressionsIfNotTrackedYet(contentNodes);
+                                var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
+                                sendBulkRequest(requests, configTrackerPause);
                             });
                         } else {
                             trackCallbackOnReady(function () {
                                 // we have to wait till DOM ready
                                 var contentNodes = content.findContentNodesWithinNode(domNode);
 
-                                logAllContentImpressions(contentNodes);
+                                var requests = getAllContentImpressionsRequests(contentNodes);
+                                sendBulkRequest(requests, configTrackerPause);
                             });
                         }
                     });
@@ -4333,14 +4345,16 @@ if (typeof Piwik !== 'object') {
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
                 trackContentInteraction: function (contentName, contentPiece, contentInteraction) {
                     trackCallback(function () {
-                        logContentInteraction(contentName, contentPiece, contentInteraction);
+                        var request = buildContentInteractionRequest(contentName, contentPiece, contentInteraction);
+                        sendRequest(request, configTrackerPause);
                     });
                 },
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
                 // we might remove this method again
                 trackContentInteractionNode: function (domNode, contentInteraction) {
                     trackCallback(function () {
-                        logContentInteractionNode(domNode, contentInteraction);
+                        var request = buildContentInteractionRequestNode(domNode, contentInteraction);
+                        sendRequest(request, configTrackerPause);
                     });
                 },
 
