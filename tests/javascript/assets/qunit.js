@@ -2323,12 +2323,15 @@ QUnit.diff = (function() {
 
         if ( config.altertitle && defined.document && document.title ) {
 
-            // show ✖ for good, ✔ for bad suite result in title
-            // use escape sequences in case file gets loaded with non-utf-8-charset
-            document.title = [
-                ( details.failed ? "\u2716" : "\u2714" ),
-                document.title.replace( /^[\u2714\u2716] /i, "" )
-            ].join( " " );
+            if (document.title === (document.title + '')) {
+                // show ✖ for good, ✔ for bad suite result in title
+                // use escape sequences in case file gets loaded with non-utf-8-charset
+                document.title = [
+                    ( details.failed ? "\u2716" : "\u2714" ),
+                    document.title.replace( /^[\u2714\u2716] /i, "" )
+                ].join( " " );
+            }
+
         }
 
         // clear own sessionStorage items if all tests passed
