@@ -47,6 +47,7 @@ function organizePackage() {
     rm -rf piwik/vendor/sebastian/
     rm -rf piwik/vendor/ocramius/
     rm -rf piwik/vendor/facebook/
+    rm -rf piwik/vendor/piwik/device-detector/Tests/
 
     rm -rf piwik/libs/PhpDocumentor-1.3.2/
     rm -rf piwik/libs/FirePHPCore/
