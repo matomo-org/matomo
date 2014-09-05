@@ -772,15 +772,15 @@ function PiwikTest() {
 
         actual = content.findTargetNodeNoDefault(ex(5));
         ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNodeNoDefault, should have the attribute");
-        strictEqual(actual.innerText, 'Target with attribute', "findTargetNodeNoDefault, should igonre node with class and pick attribute node");
+        strictEqual(actual.textContent, 'Target with attribute', "findTargetNodeNoDefault, should igonre node with class and pick attribute node");
 
         actual = content.findTargetNode(ex(5));
         ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
-        strictEqual(actual.innerText, 'Target with attribute', "findTargetNode, should igonre node with class and pick attribute node");
+        strictEqual(actual.textContent, 'Target with attribute', "findTargetNode, should igonre node with class and pick attribute node");
 
         actual = content.findPieceNode(ex(5));
         ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
-        strictEqual(actual.innerText, 'Piece with attribute', "findPieceNode, should igonre node with class and pick attribute node");
+        strictEqual(actual.textContent, 'Piece with attribute', "findPieceNode, should igonre node with class and pick attribute node");
 
 
 
@@ -788,19 +788,19 @@ function PiwikTest() {
 
         actual = content.findTargetNode(ex(6));
         ok($(actual).hasClass(content.CONTENT_TARGET_CLASS), "findTargetNode, should have the CSS class");
-        strictEqual(actual.innerText, 'Target with class1', "findTargetNode, should igonre node with class and pick attribute node");
+        strictEqual(actual.textContent, 'Target with class1', "findTargetNode, should igonre node with class and pick attribute node");
 
         actual = content.findPieceNode(ex(6));
         ok($(actual).hasClass(content.CONTENT_PIECE_CLASS), "findPieceNode, should have the CSS class");
-        strictEqual(actual.innerText, 'Piece with class1', "findPieceNode, should igonre node with class and pick attribute node");
+        strictEqual(actual.textContent, 'Piece with class1', "findPieceNode, should igonre node with class and pick attribute node");
 
         actual = content.findTargetNode(ex(7));
         ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
-        strictEqual(actual.innerText, 'Target with attribute1', "findTargetNode, should igonre node with class and pick attribute node");
+        strictEqual(actual.textContent, 'Target with attribute1', "findTargetNode, should igonre node with class and pick attribute node");
 
         actual = content.findPieceNode(ex(7));
         ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
-        strictEqual(actual.innerText, 'Piece with attribute1', "findPieceNode, should igonre node with class and pick attribute node");
+        strictEqual(actual.textContent, 'Piece with attribute1', "findPieceNode, should igonre node with class and pick attribute node");
     });
 
     test("contentUtilities", function() {
@@ -818,12 +818,22 @@ function PiwikTest() {
 
         function assertRemoveDomainKeepsValueUntouched(value, message)
         {
-            strictEqual(content.removeDomainIfIsUrl(value), value, message);
+            strictEqual(content.removeDomainIfIsInLink(value), value, message);
+        }
+
+        function assertIsSameDomain(url, message)
+        {
+            strictEqual(content.isSameDomain(url), true, message);
+        }
+
+        function assertIsNotSameDomain(url, message)
+        {
+            strictEqual(content.isSameDomain(url), false, 'isSameDomain, ' + message);
         }
 
         function assertDomainWillBeRemoved(url, expected, message)
         {
-            strictEqual(content.removeDomainIfIsUrl(url), expected, message);
+            strictEqual(content.removeDomainIfIsInLink(url), expected, message);
         }
 
         function assertBuildsAbsoluteUrl(url, expected, message)
@@ -857,6 +867,7 @@ function PiwikTest() {
 
         var locationAlias = $.extend({}, window.location);
         var origin = locationAlias.origin;
+        var host   = locationAlias.host;
 
         ok("test trim(text)");
 
@@ -870,22 +881,40 @@ function PiwikTest() {
         assertTrimmed(" \t  xxxx   \t", 'xxxx', 'should remove tabs and whitespace');
         assertTrimmed('  xx    xx  ', 'xx    xx', 'should keep whitespace between text untouched');
 
-        ok("test removeDomainIfIsUrl(url)");
+        ok("test isSameDomain(url)");
+        assertIsNotSameDomain(undefined, 'no url given');
+        assertIsNotSameDomain(5, 'a number, not a url');
+        assertIsNotSameDomain('foo bar', 'not a url');
+        assertIsNotSameDomain('http://example.com', 'not same domain');
+        assertIsNotSameDomain('https://www.example.com', 'not same domain and different protocol');
+        assertIsNotSameDomain('http://www.example.com:8080', 'not same domain and different port');
+        assertIsNotSameDomain('http://www.example.com/path/img.jpg', 'not same domain with path');
 
-        strictEqual(undefined, content.removeDomainIfIsUrl(), 'should not fail if nothing set / is undefined');
+        assertIsSameDomain(origin, 'same protocol and same domain');
+        assertIsSameDomain(origin + '/path/img.jpg', 'same protocol and same domain with path');
+        assertIsSameDomain('https://' + host + '/path/img.jpg', 'different protocol is still same domain');
+        assertIsSameDomain('http://' + host + ':8080/path/img.jpg', 'different port is still same domain');
+
+        ok("test removeDomainIfIsInLink(url)");
+
+        strictEqual(undefined, content.removeDomainIfIsInLink(), 'should not fail if nothing set / is undefined');
         assertRemoveDomainKeepsValueUntouched(null, 'should keep null untouched');
         assertRemoveDomainKeepsValueUntouched(5, 'should keep number untouched');
         assertRemoveDomainKeepsValueUntouched('', 'should keep empty string untouched');
         assertRemoveDomainKeepsValueUntouched('Any Text', 'should keep string untouched that is not a url');
         assertRemoveDomainKeepsValueUntouched('/path/img.jpg', 'should keep string untouched that looks like a path');
         assertRemoveDomainKeepsValueUntouched('ftp://path/img.jpg', 'should keep string untouched that looks like a path');
-        assertRemoveDomainKeepsValueUntouched(origin, 'should keep string untouched as it is same domain');
-        assertRemoveDomainKeepsValueUntouched(origin + '/path/img.jpg', 'should keep string untouched as it is same domain, this time with path');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com', 'should keep string untouched as it is different domain');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com/', 'should keep string untouched as it is different domain');
+        assertRemoveDomainKeepsValueUntouched('https://www.example.com/', 'should keep string untouched as it is different domain');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com/path/img.jpg', 'should keep string untouched as it is different domain, this time with path');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com:8080/path/img.jpg', 'should keep string untouched as it is different domain, this time with port');
 
-        assertDomainWillBeRemoved('http://www.example.com/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim http domain with path that is not the same as the current');
-        assertDomainWillBeRemoved('https://www.example.com/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim https domain with path that is not the same as the current');
-        assertDomainWillBeRemoved('http://www.example.com', '/', 'should trim http domain without path that is not the same as the current');
-        assertDomainWillBeRemoved('https://www.example.com', '/', 'should trim https domain without path that is not the same as the current');
+        assertDomainWillBeRemoved(origin + '/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim http domain with path that is the same as the current');
+        assertDomainWillBeRemoved('https://' + host + '/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim https domain with path that is the same as the current');
+        assertDomainWillBeRemoved(origin, '/', 'should trim http domain without path that is the same as the current');
+        assertDomainWillBeRemoved('https://' + host, '/', 'should trim https domain without path that is the same as the current');
+        assertDomainWillBeRemoved('https://' + host + ':8080', '/', 'should trim https domain with port that is the same as the current');
 
         ok("test toAbsoluteUrl(url) we need a lot of tests for this method as this will generate the redirect url");
 
@@ -969,29 +998,141 @@ function PiwikTest() {
         // isNodeVisible
     });
 
-
     test("contentFindContentValues", function() {
         // TODO
-        function ex(testNumber) { // select node within content test scope
-            $nodes = $('#contenttest #ex' + testNumber);
+        function _s(selector) { // make sure to select node within content test scope
+            $nodes = $('#contenttest '  + selector);
             if ($nodes.length) return $nodes[0];
+        }
+
+        function _st(id) {
+            return id && (''+id) === id ? _s('#' + id) : id;
+        }
+
+        function assertFoundContent(id, expectedName, expectedPiece, expectedTarget, message) {
+            var node = _st(id)
+            if (!message) {
+                message = 'Id: ' + id;
+            }
+
+            strictEqual(content.findContentTarget(node), expectedTarget, 'findContentTarget, ' + message + ', expected ' + expectedTarget);
+            strictEqual(content.findContentPiece(node), expectedPiece, 'findContentPiece, ' + message + ', expected ' + expectedPiece);
+            strictEqual(content.findContentName(node), expectedName, 'findContentName, ' + message + ', expected ' + expectedName);
+        }
+
+        function buildContentStruct(name, piece, target) {
+            return {
+                name: name,
+                piece: piece,
+                target: target
+            };
+        }
+
+        function assertBuiltContent(id, expectedName, expectedPiece, expectedTarget, message) {
+            var node = _st(id);
+            if (!message) {
+                message = 'Id: ' + id;
+            }
+
+            var expected = buildContentStruct(expectedName, expectedPiece, expectedTarget);
+
+            propEqual(content.buildContentPiece(node), expected, 'buildContentPiece, ' + message);
+        }
+
+        function assertCollectedContent(ids, expected, message) {
+            var nodes = [];
+            var index;
+            for (index = 0; index < ids.length; index++) {
+                nodes.push(_st(ids[index]));
+            }
+
+            if (!message) {
+                message = 'Id: ' + id;
+            }
+
+            propEqual(content.collectContent(nodes), expected, 'collectContent  , ' + message);
         }
 
         var tracker = Piwik.getTracker();
         var content = tracker.getContent();
         var actual;
-    });
 
-    test("contentCollectionTest", function() {
-        function ex(testNumber) { // select node within content test scope
-            $nodes = $('#contenttest #ex' + testNumber);
-            if ($nodes.length) return $nodes[0];
-        }
+        setupContentTrackingFixture('manyExamples');
 
-        var tracker = Piwik.getTracker();
-        var content = tracker.getContent();
-        var actual;
+        var origin = location.origin;
+        var host   = location.host;
 
+        assertFoundContent(undefined, undefined, undefined, undefined, 'No node set');
+        assertFoundContent('ex1', 'img-en.jpg', 'img-en.jpg', undefined);
+        assertFoundContent('ex2', 'img-en.jpg', 'img-en.jpg', undefined);
+        assertFoundContent('ex3', 'img.jpg', 'img.jpg', 'http://www.example.com');
+        assertFoundContent('ex4', 'img-en.jpg', 'img-en.jpg', 'http://www.example.com');
+        assertFoundContent('ex5', 'img-en.jpg', 'img-en.jpg', 'http://www.example.com');
+        assertFoundContent('ex6', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex7', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex8', 'My content', 'My content', 'http://www.example.com');
+        assertFoundContent('ex9', 'Image1', 'img-en.jpg', undefined);
+        assertFoundContent('ex10', 'http://www.example.com/path/img-en.jpg', 'http://www.example.com/path/img-en.jpg', undefined);
+        assertFoundContent('ex11', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex12', 'Block Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex13', undefined, undefined, 'http://manual.example.com');
+        assertFoundContent('ex14', undefined, undefined, undefined);
+        assertFoundContent('ex15', undefined, undefined, 'http://attr.example.com');
+        assertFoundContent('ex16', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex17', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex18', 'My Ad', 'http://www.example.com/path/xyz.jpg', origin + '/anylink');
+        assertFoundContent('ex19', 'http://www.example.com/path/xyz.jpg', 'http://www.example.com/path/xyz.jpg', 'http://ad.example.com');
+
+        // test removal of domain if url === current domain
+        var newUrl = origin + '/path/xyz.jpg';
+        $(_s('#ex19 img')).attr('src', newUrl);
+        assertFoundContent('ex19', '/path/xyz.jpg', newUrl, 'http://ad.example.com', 'Should remove domain if the same as current');
+
+        newUrl = 'http://' + host + '/path/xyz.jpg';
+        $(_s('#ex19 img')).attr('src', newUrl);
+        assertFoundContent('ex19', '/path/xyz.jpg', newUrl, 'http://ad.example.com', 'Should remove domain if the same as current');
+
+        newUrl = 'https://' + host + '/path/xyz.jpg';
+        $(_s('#ex19 img')).attr('src', newUrl);
+        assertFoundContent('ex19', '/path/xyz.jpg', newUrl, 'http://ad.example.com', 'Should remove domain if the same as current');
+
+        assertFoundContent('ex20', 'My Ad', undefined, 'http://ad.example.com');
+        assertFoundContent('ex21', 'Block Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex22', 'Piece Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex23', 'Target Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex24', 'Piece Title', undefined, 'http://target.example.com');
+        assertFoundContent('ex25', 'My Ad', 'http://www.example.com/path/xyz.jpg', origin + '/anylink');
+        assertFoundContent('ex26', 'My Ad', undefined, 'http://fallback.example.com');
+        assertFoundContent('ex27', 'My Ad', undefined, origin + '/test');
+        assertFoundContent('ex28', 'My Ad', undefined, origin + '/tests/javascript/test');
+        assertFoundContent('ex29', 'My Video', 'movie.mp4', 'videoplayer');
+        assertFoundContent('ex30', 'audio.ogg', 'audio.ogg', 'audioplayer');
+        assertFoundContent('ex31', '   name   ', '   pie ce  ', '  targ et  ', 'Should not trim');
+
+
+        ok('test buildContentPiece(node)');
+        strictEqual(content.buildContentPiece(), undefined, 'no node set');
+        assertBuiltContent('ex31', 'name', 'pie ce', 'targ et', 'Should trim values');
+        assertBuiltContent('ex30', 'audio.ogg', 'audio.ogg', 'audioplayer', 'All values set');
+        assertBuiltContent(_e('div1'), 'Unknown', 'Unknown', '', 'It is not a content block, so should use defaults');
+        assertBuiltContent('ex1', 'img-en.jpg', 'img-en.jpg', '', 'Should use default for target');
+        assertBuiltContent('ex12', 'Block Title', 'Unknown', 'http://www.example.com', 'Should use default for piece');
+        assertBuiltContent('ex15', 'Unknown', 'Unknown', 'http://attr.example.com', 'Should use default for name and piece');
+
+
+        ok('test collectContent(node)');
+        propEqual(content.collectContent(), [], 'no node set should still return array');
+
+        var expected = [
+            buildContentStruct('name', 'pie ce', 'targ et'),
+            buildContentStruct('audio.ogg', 'audio.ogg', 'audioplayer'),
+            buildContentStruct('Unknown', 'Unknown', ''),
+            buildContentStruct('img-en.jpg', 'img-en.jpg', ''),
+            buildContentStruct('Block Title', 'Unknown', 'http://www.example.com'),
+            buildContentStruct('Unknown', 'Unknown', 'http://attr.example.com'),
+        ];
+        var ids = ['ex31', 'ex30', _e('div1'), 'ex1', 'ex12', 'ex15'];
+        assertCollectedContent(ids, expected, 'should collect all content, make sure it trims values and it uses default values');
     });
 
     test("Basic requirements", function() {

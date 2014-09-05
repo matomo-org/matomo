@@ -153,7 +153,7 @@ If content piece contains a domain that is the same as the current website's dom
 In case there is no content name, no content piece and no title set anywhere it will default to "Unknown". To get a useful content name you should set either the `data-content-name` or a `title` attribute.
 
 ```
-<a href="http://www.example.com" data-track-content title="Block Title"><span title="Inner Title" data-content-piece>Lorem ipsum dolor sit amet...</p></a>
+<a href="http://www.example.com" data-track-content title="Block Title"><span title="Inner Title" data-content-piece>Lorem ipsum dolor sit amet...</span></a>
 // content name   = Block Title
 // content piece  = Unknown
 // content target = http://www.example.com
@@ -279,7 +279,7 @@ We would replace the `href=/anylink` with a link to piwik.php of your Piwik inst
 <a href="http://ad.example.com" data-track-content>
     <img src="http://www.example.com/path/xyz.jpg" data-content-piece />
 </a>
-// content name   = xyz.jpg
+// content name   = /path/xyz.jpg
 // content piece  = http://www.example.com/path/xyz.jpg
 // content target = http://ad.example.com
 ```

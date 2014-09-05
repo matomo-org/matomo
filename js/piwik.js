@@ -1484,6 +1484,10 @@ if (typeof Piwik !== 'object') {
             },
             findContentName: function (node)
             {
+                if (!node) {
+                    return;
+                }
+
                 var nameNode = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_NAME_ATTR);
 
                 if (nameNode) {
@@ -1492,7 +1496,7 @@ if (typeof Piwik !== 'object') {
 
                 var contentPiece = this.findContentPiece(node);
                 if (contentPiece) {
-                    return this.removeDomainIfIsUrl(contentPiece);
+                    return this.removeDomainIfIsInLink(contentPiece);
                 }
 
                 if (query.hasNodeAttributeWithValue(node, 'title')) {
@@ -1513,6 +1517,10 @@ if (typeof Piwik !== 'object') {
             },
             findContentPiece: function (node)
             {
+                if (!node) {
+                    return;
+                }
+
                 var nameNode = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_PIECE_ATTR);
 
                 if (nameNode) {
@@ -1525,22 +1533,13 @@ if (typeof Piwik !== 'object') {
                 if (media) {
                     return media;
                 }
-
-                var targetNode = this.findTargetNode(node);
-
-                if (contentNode !== targetNode) {
-                    var media = this.findMediaUrlInNode(targetNode);
-                    if (media) {
-                        return media;
-                    }
-                }
-
-                // contentNode.innerText
-
-                return '';
             },
             findContentTarget: function (node)
             {
+                if (!node) {
+                    return;
+                }
+
                 var targetNode = this.findTargetNode(node);
 
                 if (query.hasNodeAttributeWithValue(targetNode, this.CONTENT_TARGET_ATTR)) {
@@ -1560,12 +1559,28 @@ if (typeof Piwik !== 'object') {
                     return this.toAbsoluteUrl(href);
                 }
             },
-            removeDomainIfIsUrl: function (text) {
-                // we will only remove if domain is !== location.origin meaning an outlink
+            isSameDomain: function (url) {
+                if (!url || !url.indexOf) {
+                    return false;
+                }
+
+                if (0 === url.indexOf(this.getLocation().origin)) {
+                    return true;
+                }
+
+                var posHost = url.indexOf(this.getLocation().host);
+                if (8 >= posHost && 0 <= posHost) {
+                    return true;
+                }
+
+                return false;
+            },
+            removeDomainIfIsInLink: function (text) {
+                // we will only remove if domain === location.origin meaning is not an outlink
                 if (text &&
                     text.search &&
-                    -1 !== text.search(/^https?:\/\/[^\/]+/) &&
-                    0 !== text.indexOf(window.location.origin)) {
+                    -1 !== text.search(/^https?:\/\/[^\/]+/)
+                    && this.isSameDomain(text)) {
 
                     text = text.replace(/^.*\/\/[^\/]+/, '');
                     if (!text) {
