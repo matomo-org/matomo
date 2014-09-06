@@ -259,11 +259,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 
-        return $this->renderTemplate('optOut', array(
-            'trackVisits' => $trackVisits,
-            'nonce'       => Nonce::getNonce('Piwik_OptOut', 3600),
-            'language'    => $lang
-        ));
+        //return $this->renderTemplate('optOut', array(
+        //    'trackVisits' => $trackVisits,
+        //    'nonce'       => Nonce::getNonce('Piwik_OptOut', 3600),
+        //    'language'    => $lang
+        //));
+
+        $view = new View('@CoreAdminHome/optOut');
+
+        $view->setXFrameOptions('allow');
+
+        $view->assign('trackVisits', $trackVisits);
+        $view->assign('nonce', Nonce::getNonce('Piwik_OptOut', 3600));
+        $view->assign('language', $lang);
+
+        return $view->render();
     }
 
     public function uploadCustomLogo()
