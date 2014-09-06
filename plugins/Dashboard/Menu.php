@@ -21,7 +21,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->add('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => 1), true, 5);
+        $menu->addItem('Dashboard_Dashboard', '', $this->urlForAction('embeddedIndex', array('idDashboard' => 1)), 5);
 
         if (!Piwik::isUserIsAnonymous()) {
             $login = Piwik::getCurrentUserLogin();
@@ -31,7 +31,7 @@ class Menu extends \Piwik\Plugin\Menu
 
             $pos = 0;
             foreach ($dashboards as $dashboard) {
-                $menu->add('Dashboard_Dashboard', $dashboard['name'], array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
+                $menu->addItem('Dashboard_Dashboard', $dashboard['name'], $this->urlForAction('embeddedIndex', array('idDashboard' => $dashboard['iddashboard'])), $pos);
                 $pos++;
             }
         }
@@ -44,13 +44,9 @@ class Menu extends \Piwik\Plugin\Menu
 
         $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
 
-        $urlParams = array(
-            'module' => 'CoreHome',
-            'action' => 'index',
-            'idSite' => $idSite,
-        );
+        $urlParams = $this->urlForModuleAction('CoreHome', 'index', array('idSite' => $idSite)) ;
 
-        $menu->add('Dashboard_Dashboard', null, $urlParams, true, 1, $tooltip);
+        $menu->addItem('Dashboard_Dashboard', null, $urlParams, 1, $tooltip);
     }
 }
 

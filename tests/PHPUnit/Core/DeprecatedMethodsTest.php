@@ -29,6 +29,8 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
 
         $validTill = '2014-10-15';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\SettingsPiwik', 'rewriteTmpPathWithHostname', $validTill);
+
+        $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
     }
 
     private function assertDeprecatedMethodIsRemoved($className, $method, $removalDate)
@@ -42,6 +44,24 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
         if (!$now->isLater($removalDate)) {
 
             $errorMessage = $className . '::' . $method . ' should still exists until ' . $removalDate . ' although it is deprecated.';
+            $this->assertTrue($methodExists, $errorMessage);
+            return;
+        }
+
+        $errorMessage = $className . '::' . $method . ' should be removed as the method is deprecated but it is not.';
+        $this->assertFalse($methodExists, $errorMessage);
+    }
+
+    private function assertDeprecatedMethodIsRemovedInPiwik3($className, $method)
+    {
+        $version = \Piwik\Version::VERSION;
+
+        $class        = new ReflectionClass($className);
+        $methodExists = $class->hasMethod($method);
+
+        if (-1 === version_compare($version, '3.0.0')) {
+
+            $errorMessage = $className . '::' . $method . ' should still exists until 3.0 although it is deprecated.';
             $this->assertTrue($methodExists, $errorMessage);
             return;
         }

@@ -2,6 +2,15 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.7.0
+
+### Deprecations
+* The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/piwik/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
+
+### New APIs
+* It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.piwik.org/api-reference/Piwik/Menu/MenuAbstract#urlfordefaultaction):, [urlForAction()](http://developer.piwik.org/api-reference/Piwik/Menu/MenuAbstract#urlforaction), [urlForModuleAction()](http://developer.piwik.org/api-reference/Piwik/Menu/MenuAbstract#urlformoduleaction)
+
+
 ## Piwik 2.6.0
 
 ### New features

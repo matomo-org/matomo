@@ -14,7 +14,6 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addVisitorsItem('VisitFrequency_SubmenuFrequency',
-                   array('module' => 'VisitFrequency', 'action' => 'index'), $order = 55);
+        $menu->addVisitorsItem('VisitFrequency_SubmenuFrequency', $this->urlForAction('index'), $order = 55);
     }
 }
