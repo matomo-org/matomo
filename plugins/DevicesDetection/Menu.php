@@ -20,13 +20,13 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
             $menu->addDiagnosticItem('DevicesDetection_DeviceDetection',
-                                     array('module' => 'DevicesDetection', 'action' => 'deviceDetection'),
+                                     $this->urlForAction('deviceDetection'),
                                      $order = 40);
         }
     }
 
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addVisitorsItem('DevicesDetection_submenu', array('module' => 'DevicesDetection', 'action' => 'index'));
+        $menu->addVisitorsItem('DevicesDetection_submenu', $this->urlForAction('index'));
     }
 }

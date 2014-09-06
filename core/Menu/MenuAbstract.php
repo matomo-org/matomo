@@ -77,16 +77,32 @@ abstract class MenuAbstract extends Singleton
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
      * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
-     * @api
+     *
+     * @deprecated since 2.7.0 Use {@link addItem() instead}. Method will be removed in Piwik 3.0
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
     {
         if (!$displayedForCurrentUser) {
-            // TODO this parameter should be removed and instead menu items should be only added if it is supposed to be
-            // displayed. Won't do it now to stay backward compatible. For Piwik 3.0 we should do it.
             return;
         }
 
+        $this->addItem($menuName, $subMenuName, $url, $order, $tooltip);
+    }
+
+    /**
+     * Adds a new entry to the menu.
+     *
+     * @param string $menuName The menu's category name. Can be a translation token.
+     * @param string $subMenuName The menu item's name. Can be a translation token.
+     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     *                          that can be used to build the URL.
+     * @param int $order The order hint.
+     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
+     * @since 2.7.0
+     * @api
+     */
+    public function addItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
+    {
         // make sure the idSite value used is numeric (hack-y fix for #3426)
         if (!is_numeric(Common::getRequestVar('idSite', false))) {
             $idSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();

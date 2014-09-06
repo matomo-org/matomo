@@ -14,6 +14,6 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addVisitorsItem('General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
+        $menu->addVisitorsItem('General_Settings', $this->urlForAction('index'));
     }
 }
