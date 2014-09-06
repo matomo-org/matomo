@@ -14,13 +14,13 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
 use Piwik\Plugins\ImageGraph\API;
-use Piwik\Factory;
+use Piwik\BaseFactory;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
  * All new Renderers must be copied in ReportRenderer and added to the $availableReportRenderers.
  */
-abstract class ReportRenderer extends Factory
+abstract class ReportRenderer extends BaseFactory
 {
     const DEFAULT_REPORT_FONT = 'dejavusans';
     const REPORT_TEXT_COLOR = "68,68,68";
