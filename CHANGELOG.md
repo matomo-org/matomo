@@ -10,6 +10,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### New APIs
 * It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
 
+### New commands
+* `core:clear-caches` Lets you easily delete all caches. This command can be useful for instance after updating Piwik files manually.
+
 
 ## Piwik 2.6.0
 
@@ -75,7 +78,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
   * [MenuUser](http://developer.piwik.org/api-reference/Piwik/Menu/MenuUser) to add or modify user menu items
 * [Tasks](http://developer.piwik.org/api-reference/Piwik/Plugin/Tasks) to add scheduled tasks
 
-### New commmands
+### New commands
 * `generate:theme` Let's you easily generate a new theme and customize colors, see the [Theming guide](http://developer.piwik.org/guides/theming)
 * `generate:update` Let's you generate an update file
 * `generate:report` Let's you generate a report
@@ -93,7 +96,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### Deprecations
 ### New features
 ### New APIs
-### New commmands
+### New commands
 ### New guides
 ### Internal change
  -->
