@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
@@ -86,6 +87,8 @@ class Menu
      */
     protected function urlForAction($controllerAction, $additionalParams = array())
     {
+        $this->checkisValidCallable($this->module, $controllerAction);
+
         $params = (array) $additionalParams;
         $params['action'] = $controllerAction;
         $params['module'] = $this->module;
@@ -110,6 +113,8 @@ class Menu
      */
     protected function urlForModuleAction($module, $controllerAction, $additionalParams = array())
     {
+        $this->checkisValidCallable($module, $controllerAction);
+
         $pluginManager = PluginManager::getInstance();
 
         if (!$pluginManager->isPluginLoaded($module) ||
@@ -154,6 +159,34 @@ class Menu
      */
     public function configureAdminMenu(MenuAdmin $menu)
     {
+    }
+
+    private function checkisValidCallable($module, $action)
+    {
+        if (!Development::isEnabled()) {
+            return;
+        }
+
+        $prefix = 'Menu item added in ' . get_class($this) . ' will fail when being selected. ';
+
+        if (!is_string($action)) {
+            Development::error($prefix . 'No valid action is specified. Make sure the defined action that should be executed is a string.');
+        }
+
+        $reportAction = lcfirst(substr($action, 4));
+        if (Report::factory($module, $reportAction)) {
+            return;
+        }
+
+        $controllerClass = '\\Piwik\\Plugins\\' . $module . '\\Controller';
+
+        if (!Development::methodExists($controllerClass, $action)) {
+            Development::error($prefix . 'The defined action "' . $action . '" does not exist in ' . $controllerClass . '". Make sure to define such a method.');
+        }
+
+        if (!Development::isCallableMethod($controllerClass, $action)) {
+            Development::error($prefix . 'The defined action "' . $action . '" is not callable on "' . $controllerClass . '". Make sure the method is public.');
+        }
     }
 
 }
