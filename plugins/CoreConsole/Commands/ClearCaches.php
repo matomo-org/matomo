@@ -22,7 +22,7 @@ class ClearCaches extends ConsoleCommand
     protected function configure()
     {
         $this->setName('core:clear-caches');
-        $this->setDescription('Deletes all caches. This command can be useful for instance after updating Piwik files manually.');
+        $this->setDescription('Cleares all caches. This command can be useful for instance after updating Piwik files manually.');
     }
 
     /**
