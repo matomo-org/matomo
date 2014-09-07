@@ -232,6 +232,8 @@ class View implements ViewInterface
             $user = APIUsersManager::getInstance()->getUser($this->userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
+            Log::verbose($e);
+
             // can fail, for example at installation (no plugin loaded yet)
         }
 
@@ -253,7 +255,16 @@ class View implements ViewInterface
 
     protected function renderTwigTemplate()
     {
-        $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
+        try {
+            $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
+        } catch (Exception $ex) {
+            // twig does not rethrow exceptions, it wraps them so we log the cause if we can find it
+            $cause = $ex->getPrevious();
+            Log::debug($cause === null ? $ex : $cause);
+
+            throw $ex;
+        }
+
         $output = $this->applyFilter_cacheBuster($output);
 
         $helper = new Theme;

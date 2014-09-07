@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Filesystem;
+use Piwik\Version;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -45,7 +46,8 @@ class GeneratePlugin extends GeneratePluginBase
             $replace       = array(
                 'ExampleTheme'       => $pluginName,
                 'ExampleDescription' => $description,
-                '0.1.0'              => $version
+                '0.1.0'              => $version,
+                'PIWIK_VERSION'      => Version::VERSION
             );
             $whitelistFiles = array();
 
@@ -55,7 +57,8 @@ class GeneratePlugin extends GeneratePluginBase
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,
                 'ExampleDescription' => $description,
-                '0.1.0'              => $version
+                '0.1.0'              => $version,
+                'PIWIK_VERSION'      => Version::VERSION
             );
             $whitelistFiles = array(
                 '/ExamplePlugin.php',

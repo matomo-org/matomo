@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use Piwik\Factory;
+use Piwik\BaseFactory;
 
 /**
  * @group Core
@@ -16,7 +16,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase
 {
     public function testCreatingExistingClassSucceeds()
     {
-        $instance = Factory::factory("Piwik\\Timer");
+        $instance = BaseFactory::factory("Piwik\\Timer");
 
         $this->assertNotNull($instance);
         $this->assertInstanceOf("Piwik\\Timer", $instance);
@@ -28,6 +28,6 @@ class FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreatingInvalidClassThrows()
     {
-        Factory::factory("This\\Class\\Does\\Not\\Exist");
+        BaseFactory::factory("This\\Class\\Does\\Not\\Exist");
     }
 }

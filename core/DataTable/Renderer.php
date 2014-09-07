@@ -12,7 +12,7 @@ use Exception;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Factory;
+use Piwik\BaseFactory;
 
 /**
  * A DataTable Renderer can produce an output given a DataTable object.
@@ -22,7 +22,7 @@ use Piwik\Factory;
  *  $render->setTable($dataTable);
  *  echo $render;
  */
-abstract class Renderer extends Factory
+abstract class Renderer extends BaseFactory
 {
     protected $table;
 

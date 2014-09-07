@@ -29,41 +29,40 @@ class Menu extends \Piwik\Plugin\Menu
         $site = new Site($idSite);
 
         if (count($goals) == 0) {
+            $action = $site->isEcommerceEnabled() ? 'ecommerceReport' : 'addNewGoal';
+            $url    = $this->urlForAction($action, array(
+                'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null
+            )));
 
-            $menu->add($mainGoalMenu, '', array('module' => 'Goals',
-                    'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'addNewGoal'),
-                    'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)),
-                true,
-                25);
+            $menu->addItem($mainGoalMenu, '', $url, 25);
 
             if ($site->isEcommerceEnabled()) {
-                $menu->add($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
+                $menu->addItem($mainGoalMenu, 'Goals_Ecommerce', $this->urlForAction('ecommerceReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER)), 1);
             }
 
-            $menu->add($mainGoalMenu, 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
+            $menu->addItem($mainGoalMenu, 'Goals_AddNewGoal', $this->urlForAction('addNewGoal'));
 
         } else {
 
-            $menu->add($mainGoalMenu, '', array('module' => 'Goals',
-                    'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'index'),
-                    'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)),
-                true,
-                25);
+            $action = $site->isEcommerceEnabled() ? 'ecommerceReport' : 'index';
+            $url    = $this->urlForAction($action, array('idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)));
+
+            $menu->addItem($mainGoalMenu, '', $url, 25);
 
             if ($site->isEcommerceEnabled()) {
-                $menu->add($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
+                $menu->addItem($mainGoalMenu, 'Goals_Ecommerce', $this->urlForAction('ecommerceReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER)), 1);
             }
 
-            $menu->add($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
+            $menu->addItem($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), 2);
 
             $group = new Group();
             foreach ($goals as $goal) {
                 $subMenuName = str_replace('%', '%%', Translate::clean($goal['name']));
-                $params      = array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']);
+                $params      = $this->urlForAction('goalReport', array('idGoal' => $goal['idgoal']));
                 $tooltip     = sprintf('%s (id = %d)', $subMenuName, $goal['idgoal']);
 
                 if (count($goals) <= 3) {
-                    $menu->add($mainGoalMenu, $subMenuName, $params, true, 50, $tooltip);
+                    $menu->addItem($mainGoalMenu, $subMenuName, $params, 50, $tooltip);
                 } else {
                     $group->add($subMenuName, $params, $tooltip);
                 }

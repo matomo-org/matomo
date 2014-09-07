@@ -252,13 +252,13 @@ abstract class Controller
      * Assigns the given variables to the template and renders it.
      *
      * Example:
-     * ```
- public function myControllerAction () {
-    return $this->renderTemplate('index', array(
-        'answerToLife' => '42'
-    ));
- }
-     ```
+     *
+     *     public function myControllerAction () {
+     *        return $this->renderTemplate('index', array(
+     *            'answerToLife' => '42'
+     *        ));
+     *     }
+     *
      * This will render the 'index.twig' file within the plugin templates folder and assign the view variable
      * `answerToLife` to `42`.
      *
@@ -278,7 +278,17 @@ abstract class Controller
         }
 
         $view = new View($template);
-        $this->setBasicVariablesView($view);
+
+        // alternatively we could check whether the templates extends either admin.twig or dashboard.twig and based on
+        // that call the correct method. This will be needed once we unify Controller and ControllerAdmin see
+        // https://github.com/piwik/piwik/issues/6151
+        if ($this instanceof ControllerAdmin) {
+            $this->setBasicVariablesView($view);
+        } elseif (empty($this->site) || empty($this->idSite)) {
+            $this->setBasicVariablesView($view);
+        } else {
+            $this->setGeneralVariablesView($view);
+        }
 
         foreach ($variables as $key => $value) {
             $view->$key = $value;

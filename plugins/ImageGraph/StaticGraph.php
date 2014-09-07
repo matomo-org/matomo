@@ -14,7 +14,7 @@ use pData;
 use pImage;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
-use Piwik\Factory;
+use Piwik\BaseFactory;
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pImage.class.php";
@@ -24,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pData.class.php";
  * The StaticGraph abstract class is used as a base class for different types of static graphs.
  *
  */
-abstract class StaticGraph extends Factory
+abstract class StaticGraph extends BaseFactory
 {
     const GRAPH_TYPE_BASIC_LINE = "evolution";
     const GRAPH_TYPE_VERTICAL_BAR = "verticalBar";

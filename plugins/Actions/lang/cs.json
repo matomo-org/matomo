@@ -30,7 +30,7 @@
         "EntryPageTitles": "Titulky vstupních stránek",
         "EntryPageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích vstupních stránek, které byly použity v daném období.",
         "ExitPagesReportDocumentation": "Toto hlášení obsahuje informace o výstupních stránkách, které se vyskytly v daném období. Výstupní stránka je poslední stránkou, kterou uživatel zobrazí během své návštěvy. %s URL výstupních stránek jsou zobrazeny jako strom složek.",
-        "ExitPageTitles": "Výstupní titulky stránky",
+        "ExitPageTitles": "Titulky výstupních stránek",
         "ExitPageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích výstupních stránek za dané období.",
         "LearnMoreAboutSiteSearchLink": "Zjistěte více o sledování toho, jak návštěvníci používaí váš vyhledávač.",
         "OneSearch": "1 Vyhledávání",

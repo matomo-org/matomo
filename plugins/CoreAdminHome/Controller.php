@@ -259,11 +259,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 
-        return $this->renderTemplate('optOut', array(
-            'trackVisits' => $trackVisits,
-            'nonce'       => Nonce::getNonce('Piwik_OptOut', 3600),
-            'language'    => $lang
-        ));
+        // should not use self::renderTemplate since that uses setBasicVariablesView. this will cause
+        // an error when setBasicVariablesAdminView is called, and MenuTop is requested (the idSite query
+        // parameter is required)
+        $view = new View("@CoreAdminHome/optOut");
+        $view->trackVisits = $trackVisits;
+        $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
+        $view->language = $lang;
+        return $view->render();
     }
 
     public function uploadCustomLogo()
