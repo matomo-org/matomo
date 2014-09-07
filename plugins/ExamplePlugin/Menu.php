@@ -22,13 +22,13 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        // reuse an existing category
-        // $menu->addVisitorsItem('Report 1', $this->urlForAction('report1'), $orderId = 30);
-        // $menu->addActionsItem('Report 1', $this->urlForAction('report1'), $orderId = 30);
+        // reuse an existing category. Execute the showList() method within the controller when menu item was clicked
+        // $menu->addVisitorsItem('Report 1', $this->urlForAction('showList'), $orderId = 30);
+        // $menu->addActionsItem('Report 1', $this->urlForAction('showList'), $orderId = 30);
 
         // or create a custom category 'UI Framework'
         // $menu->addItem('UI Framework', '', $this->urlForDefaultAction(), $orderId = 30);
-        // $menu->addItem('UI Framework', 'Report 1', $this->urlForAction('report1'), $orderId = 30);
+        // $menu->addItem('UI Framework', 'Report 1', $this->urlForAction('showList'), $orderId = 30);
     }
 
     public function configureAdminMenu(MenuAdmin $menu)
@@ -48,8 +48,8 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        // reuse an existing category
-        // $menu->addManageItem('My User Item', $this->urlForDefaultAction(), $orderId = 30);
+        // reuse an existing category. Execute the showList() method within the controller when menu item was clicked
+        // $menu->addManageItem('My User Item', $this->urlForAction('showList'), $orderId = 30);
         // $menu->addPlatformItem('My User Item', $this->urlForDefaultAction(), $orderId = 30);
 
         // or create a custom category
