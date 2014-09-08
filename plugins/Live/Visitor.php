@@ -143,6 +143,7 @@ class Visitor implements VisitorInterface
         $toUnset = array('config_id');
         if (Piwik::isUserIsAnonymous()) {
             $toUnset[] = 'idvisitor';
+            $toUnset[] = 'user_id';
             $toUnset[] = 'location_ip';
         }
         foreach ($toUnset as $keyName) {
