@@ -110,23 +110,29 @@ class Marketplace
 
         try {
             $pluginsHavingUpdate = $this->client->getInfoOfPluginsHavingUpdate($loadedPlugins, $themesOnly);
-
         } catch (\Exception $e) {
             $pluginsHavingUpdate = array();
         }
 
         foreach ($pluginsHavingUpdate as &$updatePlugin) {
             foreach ($loadedPlugins as $loadedPlugin) {
-
                 if (!empty($updatePlugin['name'])
                     && $loadedPlugin->getPluginName() == $updatePlugin['name']
                 ) {
-
                     $updatePlugin['currentVersion'] = $loadedPlugin->getVersion();
                     $updatePlugin['isActivated'] = $pluginManager->isPluginActivated($updatePlugin['name']);
                     $updatePlugin = $this->addMissingRequirements($updatePlugin);
                     break;
                 }
+            }
+        }
+
+        // remove plugins that have updates but for some reason are not loaded
+        foreach ($pluginsHavingUpdate as $key => $updatePlugin) {
+            if (empty($updatePlugin['currentVersion'])
+                || empty($updatePlugin['isActivated'])
+            ) {
+                unset($pluginsHavingUpdate[$key]);
             }
         }
 

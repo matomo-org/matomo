@@ -16,12 +16,8 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addManageItem('UsersManager_MenuUsers',
-                                 array('module' => 'UsersManager', 'action' => 'index'),
-                                 $order = 2);
-            $menu->addManageItem('UsersManager_MenuUserSettings',
-                                 array('module' => 'UsersManager', 'action' => 'userSettings'),
-                                 $order = 3);
+            $menu->addManageItem('UsersManager_MenuUsers', $this->urlForAction('index'), $order = 2);
+            $menu->addManageItem('UsersManager_MenuUserSettings', $this->urlForAction('userSettings'), $order = 3);
         }
     }
 }

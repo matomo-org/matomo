@@ -20,13 +20,13 @@ use Exception;
  * Derived classes should override the **getClassNameFromClassId** and **getInvalidClassIdExceptionMessage**
  * static methods. 
  */
-abstract class Factory
+abstract class BaseFactory
 {
     /**
      * Creates a new instance of a class using a string ID.
      *
      * @param string $classId The ID of the class.
-     * @return Factory
+     * @return BaseFactory
      * @throws Exception if $classId is invalid.
      */
     public static function factory($classId)

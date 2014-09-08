@@ -27,16 +27,16 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addDevelopmentItem(null, "", $order = 15);
 
             $menu->addSettingsItem('CoreAdminHome_MenuGeneralSettings',
-                                   array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
+                                   $this->urlForAction('generalSettings'),
                                    $order = 6);
             $menu->addManageItem('CoreAdminHome_TrackingCode',
-                                 array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'),
+                                 $this->urlForAction('trackingCodeGenerator'),
                                  $order = 4);
         }
 
         if (SettingsManager::hasPluginsSettingsForCurrentUser()) {
             $menu->addSettingsItem('CoreAdminHome_PluginSettings',
-                                   array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
+                                   $this->urlForAction('pluginSettings'),
                                    $order = 7);
         }
     }

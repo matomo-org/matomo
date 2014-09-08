@@ -17,7 +17,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
             $menu->addManageItem('SitesManager_Sites',
-                                 array('module' => 'SitesManager', 'action' => 'index'),
+                                 $this->urlForAction('index'),
                                  $order = 1);
         }
     }

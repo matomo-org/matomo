@@ -84,10 +84,10 @@
 		<location>Raleigh, North Carolina, United States</location>
 		<latitude>35.771999</latitude>
 		<longitude>-78.639000</longitude>
-		<operatingSystem>Windows 8</operatingSystem>
-		<operatingSystemCode>WI8</operatingSystemCode>
-		<operatingSystemShortName>Win 8</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI8.gif</operatingSystemIcon>
+		<operatingSystem>Windows 8.1</operatingSystem>
+		<operatingSystemCode>W81</operatingSystemCode>
+		<operatingSystemShortName>W81</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>webkit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browserName>Chrome 33.0</browserName>

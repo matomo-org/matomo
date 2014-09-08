@@ -17,7 +17,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $menu->addSettingsItem('Installation_SystemCheck',
-                                   array('module' => 'Installation', 'action' => 'systemCheckPage'),
+                                   $this->urlForAction('systemCheckPage'),
                                    $order = 15);
         }
     }
