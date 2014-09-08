@@ -113,8 +113,8 @@ class FewVisitsWithSetVisitorId extends Fixture
         // Change User ID -> This will create a new visit
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.2)->getDatetime());
         $t->setNewVisitorId();
-        $anotherUserId = 'new-email@example.com';
-        $t->setUserId($anotherUserId);
+        $secondUserId = 'new-email@example.com';
+        $t->setUserId($secondUserId);
         self::checkResponse($t->doTrackPageView('a new user id was set -> new visit'));
 
         // A NEW VISIT BY THE SAME USER
@@ -125,18 +125,28 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setIp('67.51.31.21');
         $t->setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)");
         $t->setBrowserLanguage('fr');
-        $t->setUserId($anotherUserId);
+        $t->setUserId($secondUserId);
         self::checkResponse($t->doTrackPageView('same user id was set -> this is the same unique user'));
 
         // Do not pass User ID in this request, it should still attribute to previous visit
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5.1)->getDatetime());
+        self::checkResponse($t->doTrackPageView('second pageview - by this user id'));
+
+        // Request from a different computer not yet logged in, this should not be added to our User ID session
         $t->setUserId(false);
-        self::checkResponse($t->doTrackPageView('second pageview by this user id'));
+        // make sure the Id is not so random as to not fail the test
+        $t->randomVisitorId = '5e15b4d842cc294d';
+
+        $t->setIp('1.2.4.7');
+        $t->setUserAgent("New unique device");
+        self::checkResponse($t->doTrackPageView('pageview - should not be tracked by our user id but in a new visit'));
+
+        // User has now logged in so we measure her interactions to her User ID
+        $t->setUserId($secondUserId);
 
         // Trigger a goal conversion
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5.2)->getDatetime());
         self::checkResponse($t->doTrackGoal(1));
-
 
         // An ecommerce add to cart
         // (helpful to test that &segment=userId==x will return all items purchased by a specific user ID

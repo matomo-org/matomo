@@ -47,13 +47,15 @@ class TrackingAPISetVisitorIdTest extends IntegrationTestCase
     public function getApiForTesting()
     {
         return array(
-            array('VisitsSummary.get', array('idSite'     => self::$fixture->idSite,
+            array('VisitsSummary.get',
+                                        array('idSite'     => self::$fixture->idSite,
                                              'date'       => self::$fixture->dateTime,
                                              'periods'    => 'day',
                                              'testSuffix' => '',
             )),
 
-            array('Live.getLastVisitsDetails', array('idSite'  => self::$fixture->idSite,
+            array('Live.getLastVisitsDetails',
+                                        array('idSite'  => self::$fixture->idSite,
                                                      'date'    => self::$fixture->dateTime,
                                                      'periods' => 'day',
                                                      'keepLiveIds' => true,
@@ -65,6 +67,25 @@ class TrackingAPISetVisitorIdTest extends IntegrationTestCase
                                                      )
             )),
 
+            // Testing userId segment matches both log_visits and log_conversion
+            array(array('VisitsSummary.get', 'Goals.get'),
+                                        array('idSite'     => self::$fixture->idSite,
+                                             'date'       => self::$fixture->dateTime,
+                                             'periods'    => 'day',
+                                             'segment'    => 'userId==' . urlencode('new-email@example.com'),
+                                             'testSuffix' => '_segmentUserId',
+            )),
+
+            array('Goals.getItemsName',
+                                        array('idSite'     => self::$fixture->idSite,
+                                               'date'       => self::$fixture->dateTime,
+                                               'periods'    => 'day',
+                                               'segment'    => 'visitEcommerceStatus==abandonedCart;userId==' . urlencode('new-email@example.com'),
+                                               'testSuffix' => '_segmentUserIdAndCartAbandoned_getAbandonedCartItems',
+                                               'otherRequestParameters' => array(
+                                                       'abandonedCarts' => 1
+                                               ),
+            )),
         );
     }
 }

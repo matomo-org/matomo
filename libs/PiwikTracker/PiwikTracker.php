@@ -49,8 +49,8 @@
  *      $t->setIp( "134.10.22.1" );
  *      $t->setForceVisitDateTime( '2011-04-05 23:55:02' );
  *
- *      // if you wanted to force to record the page view or conversion to a specific visitorId
- *      // $t->setVisitorId( "33c31e01394bdc63" );
+ *      // if you wanted to force to record the page view or conversion to a specific User ID
+ *      // $t->setUserId( "username@example.org" );
  *      // Mandatory: set the URL being tracked
  *      $t->setUrl( $url = 'http://example.org/store/list-category-toys/' );
  *
@@ -948,17 +948,48 @@ class PiwikTracker
     }
 
     /**
-     * Forces the requests to be recorded for the specified Visitor ID
-     * rather than using the heuristics based on IP and other attributes.
+     * The User ID is a string representing a given user in your system.
      *
-     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
+     * A User ID can be a username, UUID or an email address, or any number or string that uniquely identifies a user or client.
      *
-     * You may set the Visitor ID based on a user attribute, for example the user email:
-     *      $v->setVisitorId( substr(md5( $userEmail ), 0, 16));
+     * @param string $userId  Any user ID string (eg. email address, ID, username). Must be non empty. Set to false to de-assign a user id previously set.
+     * @throws Exception
+     */
+    public function setUserId($userId)
+    {
+        if($userId === false) {
+            $this->setNewVisitorId();
+            return;
+        }
+        if($userId === '') {
+            throw new Exception("User ID cannot be empty.");
+        }
+        $this->userId = $userId;
+    }
+
+    /**
+     * Hash function used internally by Piwik to hash a User ID into the Visitor ID.
      *
+     * @param $id
+     * @return string
+     */
+    static public function getUserIdHashed($id)
+    {
+        return substr( sha1( $id ), 0, 16);
+    }
+
+
+    /**
+     * Forces the requests to be recorded for the specified Visitor ID.
+     * Note: it is recommended to use ->setUserId($userId); instead.
+     *
+     * Rather than letting Piwik attribute the user with a heuristic based on IP and other user fingeprinting attributes,
+     * force the action to be recorded for a particular visitor.
+     *
+     * If you use both setVisitorId and setUserId, setUserId will take precedence.
      * If not set, the visitor ID will be fetched from the 1st party cookie, or will be set to a random UUID.
      *
-     * @see setTokenAuth()
+     * @deprecated We recommend to use  ->setUserId($userId).
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
      * @throws Exception
      */
@@ -977,25 +1008,6 @@ class PiwikTracker
         $this->forcedVisitorId = $visitorId;
     }
 
-
-    /**
-     *
-     * @param string $userId  Any user ID string (eg. email address, ID, username). Must be non empty. Set to false to de-assign a user id previously set.
-     * @throws Exception
-     */
-    public function setUserId($userId)
-    {
-        if($userId === '') {
-            throw new Exception("User ID cannot be empty.");
-        }
-        $this->userId = $userId;
-    }
-
-    static public function getIdHashed($id)
-    {
-        return substr(md5( $id ), 0, 16);
-    }
-
     /**
      * If the user initiating the request has the Piwik first party cookie,
      * this function will try and return the ID parsed from this first party cookie (found in $_COOKIE).
@@ -1011,7 +1023,7 @@ class PiwikTracker
     public function getVisitorId()
     {
         if (!empty($this->userId)) {
-            return $this->getIdHashed($this->userId);
+            return $this->getUserIdHashed($this->userId);
         }
         if (!empty($this->forcedVisitorId)) {
             return $this->forcedVisitorId;
@@ -1022,6 +1034,13 @@ class PiwikTracker
         return $this->randomVisitorId;
     }
 
+
+    /**
+     * Returns the User ID string, which may have been set via:
+     *     $v->setUserId('username@example.org');
+     *
+     * @return bool
+     */
     public function getUserId()
     {
         return $this->userId;

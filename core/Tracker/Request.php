@@ -450,8 +450,8 @@ class Request
         // If User ID is set it takes precedence
         $userId = $this->getForcedUserId();
         if(strlen($userId) > 0) {
-            $idVisitor = md5($userId);
-            $idVisitor = $this->truncateIdAsVisitorId($idVisitor);
+            $userIdHashed = $this->getUserIdHashed($userId);
+            $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
             Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
             $found = true;
         }
@@ -572,5 +572,16 @@ class Request
     private function truncateIdAsVisitorId($idVisitor)
     {
         return substr($idVisitor, 0, Tracker::LENGTH_HEX_ID_STRING);
+    }
+
+    /**
+     * Matches implementation of PiwikTracker::getUserIdHashed
+     *
+     * @param $userId
+     * @return string
+     */
+    private function getUserIdHashed($userId)
+    {
+        return sha1($userId);
     }
 }
