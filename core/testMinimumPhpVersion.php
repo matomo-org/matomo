@@ -26,12 +26,6 @@ if ($minimumPhpInvalid) {
 				support PHP $piwik_minimumPHPVersion.</p>
 				<p>Also see the FAQ: <a href='http://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
 } else {
-    if (!class_exists('ArrayObject')) {
-        $piwik_errorMessage .= "<p><strong>Piwik and Zend Framework require the SPL extension</strong></p>
-					<p>It appears your PHP was compiled with <pre>--disable-spl</pre>.
-					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
-    }
-
     if (!extension_loaded('session')) {
         $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the session extension</strong></p>
 					<p>It appears your PHP was compiled with <pre>--disable-session</pre>.

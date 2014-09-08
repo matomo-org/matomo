@@ -1,0 +1,13 @@
+{
+    "Insights": {
+        "DayComparedToPreviousDay": "روز گذشته",
+        "DayComparedToPreviousWeek": "همان روز در هفته گذشته",
+        "DayComparedToPreviousYear": "همان روز در سال گذشته",
+        "Filter": "فیلتر",
+        "FilterOnlyNew": "فقط جدید",
+        "MonthComparedToPreviousMonth": "ماه گذشته",
+        "MonthComparedToPreviousYear": "همان ماه در سال گذشته",
+        "WeekComparedToPreviousWeek": "هفته گذشته",
+        "YearComparedToPreviousYear": "سال گذشته"
+    }
+}

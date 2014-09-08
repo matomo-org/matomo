@@ -15,6 +15,9 @@ then
         echo "=====> There are some tests functions which do not have a @group set or have no tests. "
         echo "       Please add the @group phpdoc comment to the following tests: <====="
         phpunit --group __nogroup__ --testdox | grep "[x]"
+
+        echo "Initial output of \$phpunit --group __nogroup__ "
+        phpunit --group __nogroup__
         exit 1
     fi
 fi

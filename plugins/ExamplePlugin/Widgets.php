@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\View;
+use Piwik\WidgetsList;
 
 /**
  * This class allows you to add your own widgets to the Piwik platform. In case you want to remove widgets from another
@@ -26,7 +27,7 @@ class Widgets extends \Piwik\Plugin\Widgets
     protected $category = 'Example Category';
 
     /**
-     * Here you can add one or multiple widgets. You can add a widget by calling the method "addWidget" and pass the
+     * Here you can add one or multiple widgets. You can add a widget by calling the method "addWidget()" and pass the
      * name of the widget as well as a method name that should be called to render the widget. The method can be
      * defined either directly here in this widget class or in the controller in case you want to reuse the same action
      * for instance in the menu etc.
@@ -53,4 +54,14 @@ class Widgets extends \Piwik\Plugin\Widgets
         return 'My Widget Text';
     }
 
+    /**
+     * Here you can remove any widgets defined by any plugin.
+     *
+     * @param WidgetsList $widgetsList
+     */
+    public function configureWidgetsList(WidgetsList $widgetsList)
+    {
+        // $widgetsList->remove('NameOfWidgetCategory'); // will remove all widgets having this category
+        // $widgetsList->remove('NameOfWidgetCategory', 'Widget name'); // will only remove a specific widget
+    }
 }

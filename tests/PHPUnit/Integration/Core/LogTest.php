@@ -19,6 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
  * Class Core_LogTest
  *
  * @group Core
+ * @group Core_LogTest
  */
 class Core_LogTest extends DatabaseTestCase
 {
@@ -31,14 +32,13 @@ class Core_LogTest extends DatabaseTestCase
  <br />
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
         'file' => '[Core_LogTest] LogTest.php(161): dummy error message
-dummy backtrace',
+  dummy backtrace',
         'database' => '[Core_LogTest] LogTest.php(161): dummy error message
 dummy backtrace'
     );
 
     public static $expectedErrorOutput = array(
-        'screen' => '
-<div style=\'word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;\'>
+        'screen' => '<div style=\'word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;\'>
         <strong>There is an error. Please report the message (Piwik 2.0)
         and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
         Unknown error (102):</strong> <em>dummy error string</em> in <strong>dummyerrorfile.php</strong> on line <strong>145</strong>
@@ -46,7 +46,7 @@ dummy backtrace'
 dummy backtrace</div><br />
  </pre></div><br />',
         'file' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
-dummy backtrace',
+  dummy backtrace',
         'database' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
 dummy backtrace'
     );
@@ -200,6 +200,22 @@ dummy backtrace'
         ob_end_clean();
 
         $this->checkNoMessagesLogged($backend);
+    }
+
+    /**
+     * @group Core
+     * @dataProvider getBackendsToTest
+     */
+    public function testLogMessagesAreTrimmed($backend)
+    {
+        Config::getInstance()->log['log_writers'] = array($backend);
+
+        ob_start();
+        TestLoggingUtility::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
+        $this->screenOutput = ob_get_contents();
+        ob_end_clean();
+
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
     }
 
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)

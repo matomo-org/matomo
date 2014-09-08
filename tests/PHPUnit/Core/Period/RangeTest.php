@@ -12,6 +12,9 @@ use Piwik\Period\Week;
 use Piwik\Period\Year;
 use Piwik\Translate;
 
+/**
+ * @group Core_Period_RangeTest
+ */
 class Period_RangeTest extends PHPUnit_Framework_TestCase
 {
     // test range 1

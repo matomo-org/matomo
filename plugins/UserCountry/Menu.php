@@ -18,13 +18,13 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (UserCountry::isGeoLocationAdminEnabled() && Piwik::hasUserSuperUserAccess()) {
             $menu->addSettingsItem('UserCountry_Geolocation',
-                                   array('module' => 'UserCountry', 'action' => 'adminIndex'),
+                                   $this->urlForAction('adminIndex'),
                                    $order = 8);
         }
     }
 
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addVisitorsItem('UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
+        $menu->addVisitorsItem('UserCountry_SubmenuLocations', $this->urlForAction('index'));
     }
 }

@@ -46,16 +46,16 @@ class Menu extends \Piwik\Plugin\Menu
 
         if ($hasSuperUserAcess) {
             $menu->addPlatformItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
-                                   array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
+                                   $this->urlForAction('plugins', array('activated' => '')),
                                    $order = 1);
             $menu->addPlatformItem(Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
-                                   array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
+                                   $this->urlForAction('themes', array('activated' => '')),
                                    $order = 3);
         }
 
         if ($this->isAllowedToSeeMarketPlace()) {
             $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
+                                   $this->urlForAction('extend', array('activated' => '')),
                                    $order = 5);
 
         }
@@ -73,8 +73,8 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if ($this->isAllowedToSeeMarketPlace()) {
             $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                array('module' => 'CorePluginsAdmin', 'action' => 'browsePlugins', 'activated' => ''),
-                $order = 5);
+                                   $this->urlForAction('browsePlugins', array('activated' => '')),
+                                   $order = 5);
         }
     }
 }

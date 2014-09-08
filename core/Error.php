@@ -76,9 +76,15 @@ class Error
         $this->backtrace = $backtrace;
     }
 
-    public function getErrNoString()
+    /**
+     * Returns a string description of a PHP error number.
+     *
+     * @param int $errno `E_ERROR`, `E_WARNING`, `E_PARSE`, etc.
+     * @return string
+     */
+    public static function getErrNoString($errno)
     {
-        switch ($this->errno) {
+        switch ($errno) {
             case E_ERROR:
                 return "Error";
             case E_WARNING:
@@ -110,14 +116,14 @@ class Error
             case E_USER_DEPRECATED:
                 return "User Deprecated";
             default:
-                return "Unknown error ({$this->errno})";
+                return "Unknown error ($errno)";
         }
     }
 
     public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, $log)
     {
         if ($message instanceof Error) {
-            $message = $message->errfile . '(' . $message->errline . '): ' . $message->getErrNoString()
+            $message = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)
                 . ' - ' . $message->errstr . "\n" . $message->backtrace;
 
             $message = $log->formatMessage($level, $tag, $datetime, $message);
@@ -146,7 +152,7 @@ class Error
         <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
         and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
         ";
-            $htmlString .= $message->getErrNoString();
+            $htmlString .= Error::getErrNoString($message->errno);
             $htmlString .= ":</strong> <em>{$message->errstr}</em> in <strong>{$message->errfile}</strong>";
             $htmlString .= " on line <strong>{$message->errline}</strong>\n";
             $htmlString .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\"><br />\n";

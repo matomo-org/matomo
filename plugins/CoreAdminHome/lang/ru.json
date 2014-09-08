@@ -59,6 +59,8 @@
         "OptOutForYourVisitors": "Исключение из политики конфиденциальности Piwik для посетителей",
         "PiwikIsInstalledAt": "Piwik установлен в",
         "PluginDescription": "Админпанель Piwik.",
+        "PluginSettingChangeNotAllowed": "Вам не разрешено менять значение \"%s\" для плагина \"%s\"",
+        "PluginSettingReadNotAllowed": "Вам не разрешено читать значение \"%s\" плагина \"%s\"",
         "PluginSettings": "Настройки плагина",
         "PluginSettingsIntro": "Здесь вы можете изменить настройки для следующих плагинов:",
         "SendPluginUpdateCommunication": "Отправить мне уведомление по электронной почте, когда есть новое обновление плагина",

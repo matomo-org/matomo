@@ -17,6 +17,7 @@ use Piwik\PluginDeactivatedException;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Piwik\Log;
 
 /**
  * Dispatches API requests to the appropriate API method.
@@ -216,6 +217,8 @@ class Request
 
             $toReturn = $response->getResponse($returnedValue, $module, $method);
         } catch (Exception $e) {
+            Log::debug($e);
+
             $toReturn = $response->getResponseException($e);
         }
         return $toReturn;
