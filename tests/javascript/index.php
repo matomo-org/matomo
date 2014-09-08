@@ -53,10 +53,17 @@ testTrackPageViewAsync();
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
+<style>
+    .assertSize {
+        height: 1px;
+        width: 1px;
+    }
+</style>
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/jslint.js" type="text/javascript"></script>
  <script type="text/javascript">
+ QUnit.config.reorder = false;
 function _e(id){
     if (document.getElementById)
         return document.getElementById(id);
@@ -152,7 +159,7 @@ function deleteCookies() {
 
 var contentTestHtml = {};
 
-function setupContentTrackingFixture(name) {
+function setupContentTrackingFixture(name, targetNode) {
     var url = 'content-fixtures/' + name + '.html'
 
     if (!contentTestHtml[name]) {
@@ -164,8 +171,15 @@ function setupContentTrackingFixture(name) {
         });
     }
 
-    $('#other #content').remove();
-    $('#other').append($('<div id="contenttest">' + contentTestHtml[name] + '</div>'));
+    var newNode = $('<div id="contenttest">' + contentTestHtml[name] + '</div>');
+
+    $('#contenttest').remove();
+
+    if (targetNode) {
+        $(targetNode).prepend(newNode);
+    } else {
+        $('#other').append(newNode);
+    }
 }
 
  </script>
@@ -222,7 +236,9 @@ function PiwikTest() {
             $src = file_get_contents('../../js/piwik.js');
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
             echo "$src"; ?>';
-        ok( JSLINT(src), "JSLint" );
+
+        var result = JSLINT(src);
+        ok( result, "JSLint" );
 //      alert(JSLINT.report(true));
     });
 
@@ -324,7 +340,9 @@ function PiwikTest() {
     });
 
     module("core", {
-        setup: function () {},
+        setup: function () {
+            Piwik.getTracker().clearTrackedContentImpressions();
+        },
         teardown: function () {
             $('#other #content').remove();
         }
@@ -897,7 +915,7 @@ function PiwikTest() {
 
         ok("test removeDomainIfIsInLink(url)");
 
-        strictEqual(undefined, content.removeDomainIfIsInLink(), 'should not fail if nothing set / is undefined');
+        strictEqual(content.removeDomainIfIsInLink(), undefined, 'should not fail if nothing set / is undefined');
         assertRemoveDomainKeepsValueUntouched(null, 'should keep null untouched');
         assertRemoveDomainKeepsValueUntouched(5, 'should keep number untouched');
         assertRemoveDomainKeepsValueUntouched('', 'should keep empty string untouched');
@@ -921,7 +939,7 @@ function PiwikTest() {
         strictEqual(undefined, content.toAbsoluteUrl(), 'should not fail if nothing set / is undefined');
         assertBuildsAbsoluteUrl(null, null, 'null should be untouched');
         assertBuildsAbsoluteUrl(5, 5, 'number should be untouched');
-        assertBuildsAbsoluteUrl('', '', '');
+        assertBuildsAbsoluteUrl('', locationAlias.href, 'an empty string should generate the same URL as it is currently');
         assertBuildsAbsoluteUrl('/', origin + '/', 'root path');
         assertBuildsAbsoluteUrl('/test', origin + '/test', 'absolute url');
         assertBuildsAbsoluteUrl('/test/', origin + '/test/', 'absolute url');
@@ -993,13 +1011,162 @@ function PiwikTest() {
         assertFoundMediaUrl('mediaObjectParam', 'movie_param1.swf', 'should find url of a simple object element');
         assertFoundMediaUrl('mediaObjectPdf', 'document.pdf', 'should find url of an object that contains non flash resources such as pdf');
         assertFoundMediaUrl('mediaObjectEmbed', 'document2.pdf', 'should fallback to an embed in an object');
+    });
 
-        // isOrWasNodeInViewport
-        // isNodeVisible
+    test("contentVisibleNodeTests", function() {
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual;
+
+        function _s(selector) { // select node within content test scope
+            $nodes = $('#contenttest ' + selector);
+            if ($nodes.length) {
+                return $nodes[0];
+            } else {
+                ok(false, 'selector was not found but should be "#contenttest ' + selector + '"')
+            }
+        }
+        function _ex(testnumber) { // select node within content test scope
+            return _s('#ex' + testnumber);
+        }
+
+        function assertContentNodeVisible(node, message)
+        {
+            window.scroll(0,0); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isNodeVisible(node), true, 'isNodeVisible, ' + message);
+        }
+
+        function assertContentNodeNotVisible(node, message)
+        {
+            window.scroll(0,0); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isNodeVisible(node), false, 'isNodeVisible, ' + message);
+        }
+
+        function assertInternalNodeVisible(node, message)
+        {
+            window.scroll(0,0); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(tracker.internalIsNodeVisible(node), true, 'internalIsNodeVisible, ' + message);
+        }
+
+        function assertInternalNodeNotVisible(node, message)
+        {
+            window.scroll(0,0); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(tracker.internalIsNodeVisible(node), false, 'internalIsNodeVisible, ' + message);
+        }
+
+        function assertNodeNotInViewport(node, message)
+        {
+            window.scroll(0,0); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isOrWasNodeInViewport(node), false, 'internalIsNodeVisible, ' + message);
+        }
+
+        function assertNodeIsInViewport(node, message)
+        {
+            window.scroll(0,0); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isOrWasNodeInViewport(node), true, 'internalIsNodeVisible, ' + message);
+
+            window.scroll(0,200); // if we scroll done it was visible
+
+            strictEqual(content.isOrWasNodeInViewport(node), true, 'internalIsNodeVisible, ' + message);
+        }
+
+        setupContentTrackingFixture('visibleNodes', document.body); // #contenttest is placed by default in #other but #other is not visible so all tests would return false.
+
+        ok('test internalIsNodeVisible()');
+        assertInternalNodeNotVisible(undefined, 'no node set, cannot be visible');
+        assertInternalNodeNotVisible(_e('click1'), 'parent other is hidden');
+        assertInternalNodeNotVisible(document.createElement('div'), 'element is not in DOM');
+        assertInternalNodeVisible(_ex(1), 'node exists and should be visible');
+        assertInternalNodeNotVisible(_ex(2), 'hidden via opacity');
+        assertInternalNodeNotVisible(_ex(3), 'hidden via visibility');
+        assertInternalNodeNotVisible(_ex(4), 'hidden via display');
+        assertInternalNodeVisible(_ex(5), 'width is 0 but overflow can make it visible again?!?');
+        assertInternalNodeVisible(_ex(6), 'height is 0 but overflow can make it visible again?!?');
+        assertInternalNodeNotVisible(_ex(7), 'hidden via width:0, overflow is hidden');
+        assertInternalNodeNotVisible(_ex(8), 'hidden via height:0, overflow is hidden');
+        assertInternalNodeNotVisible(_ex(13), 'parent is hidden via opacity');
+        assertInternalNodeNotVisible(_ex(14), 'parent is hidden via visibility');
+        assertInternalNodeNotVisible(_ex(15), 'parent is hidden via display');
+        assertInternalNodeNotVisible(_ex(16), 'parent is hidden via width:0, overflow is hidden');
+        assertInternalNodeNotVisible(_ex(17), 'parent is hidden via height:0, overflow is hidden');
+
+        assertInternalNodeVisible(_ex(18), 'element is visible by 0px');
+        assertNodeNotInViewport(_ex(18), 'element is not visible, ends directly at left:0px');
+
+        assertInternalNodeVisible(_ex(19), 'element is visible by one px');
+        assertNodeIsInViewport(_ex(19), 'element is visible by one px');
+
+        assertNodeIsInViewport(_ex(20), 'element is position absolute and partially visible top');
+        assertNodeIsInViewport(_ex(21), 'element is position absolute and partially visible left');
+        assertNodeIsInViewport(_ex(22), 'element is position absolute and partially visible right');
+        assertNodeIsInViewport(_ex(23), 'element is position absolute and partially visible bottom');
+        assertNodeNotInViewport(_ex(24), 'element is position absolute and position too far top');
+        assertNodeNotInViewport(_ex(25), 'element is position absolute and position too far left');
+        assertNodeNotInViewport(_ex(26), 'element is position absolute and position too far right');
+        assertNodeNotInViewport(_ex(27), 'element is position absolute and position too far bottom');
+
+        assertNodeIsInViewport(_ex(28), 'element is position fixed and partially visible top');
+        assertNodeIsInViewport(_ex(29), 'element is position fixed and partially visible left');
+        assertNodeIsInViewport(_ex(30), 'element is position fixed and partially visible right');
+        assertNodeIsInViewport(_ex(31), 'element is position fixed and partially visible bottom');
+        assertNodeNotInViewport(_ex(32), 'element is position fixed and position too far top');
+        assertNodeNotInViewport(_ex(33), 'element is position fixed and position too far left');
+        assertNodeNotInViewport(_ex(34), 'element is position fixed and position too far right');
+        assertNodeNotInViewport(_ex(35), 'element is position fixed and position too far bottom');
+
+
+        assertInternalNodeVisible(_ex(37), 'element is within overflow scroll and it is visible');
+        assertInternalNodeNotVisible(_ex(38), 'element is within overflow scroll but not visible');
+        _ex(36).scrollTop = 35;_ex(36).scrolltop = 35; // scroll within div
+        assertInternalNodeVisible(_ex(38), 'element is within overflow scroll but not visible');
+
+        var nodesThatShouldBeInViewPort = [1,2,3,5,6,7,8,13,14,16,17];
+        var index;
+        for (index = 1; index < nodesThatShouldBeInViewPort.length; index++) {
+            if (4 === index) {
+                continue; // display:none will not be in view port
+            }
+            var exampleId = nodesThatShouldBeInViewPort[index];
+            assertNodeIsInViewport(_ex(exampleId), 'example ' + exampleId + ' the nodes have to be in view port otherwise we might test something else than expected');
+        }
+
+        assertNodeNotInViewport(_ex(9), 'margin left position is so far left it cannot be visible');
+        assertNodeNotInViewport(_ex(10), 'margin left position is so far right it cannot be visible');
+
+
+        assertContentNodeNotVisible(undefined, 'no node set');
+        assertContentNodeNotVisible(_ex(3), 'element is not visible but in viewport');
+        assertContentNodeNotVisible(_ex(18), 'element is visible but not viewport');
+        assertContentNodeNotVisible(_ex(4), 'element is neither visible nor in viewport');
+        assertContentNodeVisible(_ex(19), 'element is visible and in viewport');
     });
 
     test("contentFindContentValues", function() {
-        // TODO
         function _s(selector) { // make sure to select node within content test scope
             $nodes = $('#contenttest '  + selector);
             if ($nodes.length) return $nodes[0];
@@ -1055,6 +1222,7 @@ function PiwikTest() {
 
         var tracker = Piwik.getTracker();
         var content = tracker.getContent();
+        content.setLocation();
         var actual;
 
         setupContentTrackingFixture('manyExamples');
@@ -1137,7 +1305,21 @@ function PiwikTest() {
 
     test("ContentTrackerInternals", function() {
         var tracker = Piwik.getTracker();
-        var actual, expected;
+        var actual, expected, trackerUrl;
+
+        var impression = {name: 'name', piece: '5', target: 'target'};
+
+        var origin = location.origin;
+        var originEncoded = window.encodeURIComponent(origin);
+
+        function _s(selector) { // make sure to select node within content test scope
+            $nodes = $('#contenttest '  + selector);
+            if ($nodes.length) {
+                return $nodes[0];
+            } else {
+                ok(false, 'selector #contenttest '  + selector + ' is not found but should');
+            }
+        }
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -1188,27 +1370,222 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'does not contain a content block, should not build anything');
 
         actual   = tracker.buildContentInteractionRequestNode(_e('ex18'));
-        expected = 'c_i=Unknown&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink';
+        expected = 'c_i=Unknown&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
         assertTrackingRequest(actual, expected, 'no interaction set should default to unknown and recognize all other values');
 
         actual   = tracker.buildContentInteractionRequestNode(_e('ex18'), 'CustomInteraction://');
-        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink';
+        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
         assertTrackingRequest(actual, expected, 'custom interaction');
 
         actual   = tracker.buildContentInteractionRequestNode($('#ex18 a')[0], 'CustomInteraction://');
-        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink';
+        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
         assertTrackingRequest(actual, expected, 'should automatically find parent and search for content from there');
 
-        /**
-         buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
-         getAllContentImpressionsRequests: getAllContentImpressionsRequests,
-         buildContentImpressionsRequestsWithinNode: buildContentImpressionsRequestsWithinNode,
-         getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet: getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
-         trackCallbackOnLoad: trackCallbackOnLoad,
-         trackCallbackOnReady: trackCallbackOnReady,
-         buildContentImpressionsRequests: buildContentImpressionsRequests,
-         wasContentImpressionAlreadyTracked: wasContentImpressionAlreadyTracked,
-         appendContentInteractionToRequestIfPossible: appendContentInteractionToRequestIfPossible,*/
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl();
+        strictEqual(actual, undefined, 'nothing set');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
+        assertTrackingRequest(actual, '?redirecturl=' + origin + '/path?a=b&c_t=%2Fpath%3Fa%3Db', 'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
+        assertTrackingRequest(actual, '?redirecturl=' + origin + '/tests/javascript/path?a=b&c_t=path%3Fa%3Db', 'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
+        assertTrackingRequest(actual, '?redirecturl=' + origin + '/tests/javascript/#test&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
+
+        trackerUrl = tracker.getTrackerUrl();
+        tracker.setTrackerUrl('piwik.php?test=1');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
+        assertTrackingRequest(actual, 'piwik.php?test=1&redirecturl=' + origin + '/tests/javascript/#test&c_i=click&c_n=name&c_p=piece&c_t=target', 'should use & if tracker url already contains question mark');
+
+        tracker.setTrackerUrl('piwik.php');
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('piwik.php?redirecturl=http://www.example.com', 'click', 'name', 'piece', 'target');
+        strictEqual(actual, 'piwik.php?redirecturl=http://www.example.com', 'should return unmodified url if it is already a tracker url so users can set piwik.php link in href');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('http://www.example.com', 'click', 'name');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=http://www.example.com&c_i=click&c_n=name&c_t=http%3A%2F%2Fwww.example.com', 'should not change url if absolute');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl(origin, 'something', 'name', undefined, 'target');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + origin + '&c_i=something&c_n=name&c_t=target', 'should not change url if same domain');
+
+        tracker.setTrackerUrl(trackerUrl);
+
+        ok('test wasContentImpressionAlreadyTracked()');
+        actual = tracker.wasContentImpressionAlreadyTracked(impression);
+        strictEqual(actual, false, 'wasContentImpressionAlreadyTracked, content impression was not tracked before');
+        tracker.buildContentImpressionsRequests([impression], []);
+        actual = tracker.wasContentImpressionAlreadyTracked(impression);
+        strictEqual(actual, true, 'wasContentImpressionAlreadyTracked, should be marked as already tracked now');
+        actual = tracker.wasContentImpressionAlreadyTracked({name: 'name', piece: 5, target: 'target'});
+        strictEqual(actual, false, 'wasContentImpressionAlreadyTracked, should compare with === equal parameter');
+        tracker.trackPageView();
+        actual = tracker.wasContentImpressionAlreadyTracked(impression);
+        strictEqual(actual, false, 'wasContentImpressionAlreadyTracked, trackPageView should reset tracked impressions');
+
+        setupContentTrackingFixture('trackerInternals');
+
+        ok('test appendContentInteractionToRequestIfPossible()');
+        ok(_e('notClickedTargetNode') && _e('ignoreInteraction2') && _e('ignoreInteraction1') && _e('click1') && _s('#ex103') && _s('#ex104'),
+            'Make sure the nodes we are using for testing actually exist. Otherwise tests would be useless');
+        actual = tracker.appendContentInteractionToRequestIfPossible();
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, nothing set');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('click1'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, no content block');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('ignoreInteraction1'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, contains block but should be ignored in target node');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('ignoreInteraction2'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, contains block but should be ignored in block node as no target node');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('notClickedTargetNode'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, not a node within target node was clicked');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex103'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, the content block node was clicked but it is not the target');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'));
+        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'), 'clicki');
+        strictEqual(actual, 'c_i=clicki&c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, with interaction');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
+        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
+        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_target'));
+        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_withinTarget'));
+        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'), 'click', 'fallbacktarget');
+        strictEqual(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=fallbacktarget', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
+
+
+
+        ok('test setupInteractionsTracking()');
+        actual = tracker.setupInteractionsTracking();
+        strictEqual(actual, undefined, 'setupInteractionsTracking, no nodes set');
+        actual = tracker.setupInteractionsTracking([_s('#ex106'), _s('#ex107')]);
+        strictEqual(_s('#ex106_target').contentInteractionTrackingSetupDone, true, 'setupInteractionsTracking, should add event to target node');
+        strictEqual(_s('#ex107').contentInteractionTrackingSetupDone, true, 'setupInteractionsTracking, should add event to block node if no target node specified');
+
+
+        ok('test trackContentImpressionClickInteraction()');
+
+        trackerUrl = tracker.getTrackerUrl();
+        tracker.setTrackerUrl('piwik.php');
+
+        ok(_s('#ignoreInteraction1') && _s('#ex108') && _s('#ex109'), 'make sure node exists otherwise test is useless');
+        actual = (tracker.trackContentImpressionClickInteraction())();
+        strictEqual(actual, undefined, 'trackContentImpressionClickInteraction, no target node set');
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ignoreInteraction1')))();
+        strictEqual(actual, undefined, 'trackContentImpressionClickInteraction, no target node set');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))();
+        strictEqual(actual, 'link', 'trackContentImpressionClickInteraction, should not track as is an outlink');
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))();
+        strictEqual(actual, 'download', 'trackContentImpressionClickInteraction, should not track as is a download');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))();
+        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should be tracked using redirect');
+        assertTrackingRequest($(_s('#ex110')).attr('href'), 'piwik.php?redirecturl=' + origin + '/example&c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, the href link should be replaced with a redirect link to tracker');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex111')))();
+        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should detect it is a link to same page');
+        strictEqual($(_s('#ex111')).attr('href'), 'piwik.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))();
+        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + originEncoded + '%2Ftests%2Fjavascript%2F%23example', 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex113_target')))();
+        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg', 'trackContentImpressionClickInteraction, if element is not A or AREA it should always use xhr');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex114')))();
+        assertTrackingRequest(actual, 'c_i=click&c_n=imgnohref.jpg&c_p=imgnohref.jpg&c_t=%2Ftest', 'trackContentImpressionClickInteraction, if element is an A or AREA element but has no href attribute it should always use xhr');
+
+        tracker.setTrackerUrl(trackerUrl);
+
+
+        ok('test buildContentImpressionsRequests()');
+        ok(impression, 'we should have an impression');
+        tracker.clearTrackedContentImpressions();
+
+        actual = tracker.buildContentImpressionsRequests();
+        propEqual(actual, [], 'buildContentImpressionsRequests, nothing set');
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'buildContentImpressionsRequests, tracked impressions should be empty');
+
+        actual = tracker.buildContentImpressionsRequests([impression]);
+        propEqual(tracker.getTrackedContentImpressions(), [impression], 'buildContentImpressionsRequests, should have marked content as tracked');
+
+        actual = tracker.buildContentImpressionsRequests([impression]);
+        propEqual(actual, [], 'buildContentImpressionsRequests, nothing tracked as supposed to be ignored');
+        propEqual(tracker.getTrackedContentImpressions(), [impression], 'buildContentImpressionsRequests, impression should be ignored as it was already tracked before');
+
+        tracker.clearTrackedContentImpressions();
+        delete _s('#ignoreInteraction1').contentInteractionTrackingSetupDone;
+        tracker.buildContentImpressionsRequests([impression], [_s('#ex101')]);
+        strictEqual(_s('#ignoreInteraction1').contentInteractionTrackingSetupDone, true, 'buildContentImpressionsRequests, should trigger setup of interaction tracking');
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.buildContentImpressionsRequests([impression], [_s('#ex101')]);
+        strictEqual(actual.length, 1, 'buildContentImpressionsRequests, should generate a request for one request');
+        assertTrackingRequest(actual[0], 'c_n=name&c_p=5&c_t=target');
+
+        tracker.clearTrackedContentImpressions();
+        var impression2 = {name: 'name2', piece: 'piece2', target: 'http://www.example.com'};
+        var impression3 = {name: 'name3', piece: 'piece3', target: 'Anything'};
+
+        actual = tracker.buildContentImpressionsRequests([impression, impression2, impression, impression3], [_s('#ex101')]);
+        strictEqual(actual.length, 3, 'buildContentImpressionsRequests, should be only 3 requests as one impression was there twice and should be ignored once');
+        assertTrackingRequest(actual[0], 'c_n=name&c_p=5&c_t=target');
+        assertTrackingRequest(actual[1], 'c_n=name2&c_p=piece2&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[2], 'c_n=name3&c_p=piece3&c_t=Anything');
+
+
+        setupContentTrackingFixture('manyExamples');
+
+
+        ok('test getContentImpressionsRequestsFromNodes()');
+        actual = tracker.getContentImpressionsRequestsFromNodes();
+        propEqual(actual, [], 'getContentImpressionsRequestsFromNodes, no nodes set');
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getContentImpressionsRequestsFromNodes([undefined, null]);
+        propEqual(actual, [], 'getContentImpressionsRequestsFromNodes, no nodes set that are actually content nodes');
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), _s('#ex2')]);
+        strictEqual(actual.length, 1, 'getContentImpressionsRequestsFromNodes, should ignore a duplicated node that has same content');
+        assertTrackingRequest(actual[0], 'c_n=img-en.jpg&c_p=img-en.jpg');
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), undefined, _s('#ex2'), _s('#ex8'), _s('#ex19')]);
+        strictEqual(actual.length, 3, 'getContentImpressionsRequestsFromNodes, should only build requests for nodes that are content nodes');
+        assertTrackingRequest(actual[0], 'c_n=img-en.jpg&c_p=img-en.jpg');
+        assertTrackingRequest(actual[1], 'c_n=My%20content&c_p=My%20content&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com');
+
+        setupContentTrackingFixture('trackerInternals', document.body);
+
+        ok('test getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet()');
+
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet();
+        propEqual(actual, [], 'getVisibleImpressions, no nodes set');
+
+        _s('#ex115').scrollIntoView(true);
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden')]);
+        propEqual(actual, [], 'getVisibleImpressions, if all are hidden should not return anything');
+
+        _s('#ex115').scrollIntoView(true);
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex115'),_s('#ex115'),  _s('#ex116_hidden')]);
+        strictEqual(actual.length, 1, 'getVisibleImpressions, should not ignore the found requests but the visible ones, should not add the same one twice');
+        assertTrackingRequest(actual[0], 'c_n=img115.jpg&c_p=img115.jpg&c_t=http%3A%2F%2Fwww.example.com');
+
+        $('#contenttest').remove();
+
     });
 
     test("Basic requirements", function() {

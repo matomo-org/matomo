@@ -429,7 +429,29 @@ if (typeof JSON2 !== 'object') {
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
-    deleteCookies
+    deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
+    innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
+    getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
+    findPieceNode, findTargetNodeNoDefault, findTargetNode, findContentPiece, children, hasNodeCssClass,
+    getAttributeValueFromNode, hasNodeAttributeWithValue, hasNodeAttribute, findNodesByTagName, findMultiple,
+    makeNodesUnique, concat, find, htmlCollectionToArray, offsetParent, value, nodeValue, findNodesHavingAttribute,
+    findFirstNodeHavingAttribute, findFirstNodeHavingAttributeWithValue, getElementsByClassName,
+    findNodesHavingCssClass, findFirstNodeHavingClass, isLinkElement, findParentContentNode, removeDomainIfIsInLink,
+    findContentName, findMediaUrlInNode, toAbsoluteUrl, findContentTarget, getLocation, origin, host, isSameDomain,
+    search, trim, getBoundingClientRect, bottom, right, left, innerWidth, innerHeight, clientWidth, clientHeight,
+    isOrWasNodeInViewport, isNodeVisible, buildInteractionRequestParams, buildImpressionRequestParams,
+    shouldIgnoreInteraction, setHrefAttribute, setAttribute, buildContentBlock, collectContent, setLocation,
+    CONTENT_ATTR, CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS,
+    CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS,
+    trackCallbackOnLoad, trackCallbackOnReady, buildContentImpressionsRequests, wasContentImpressionAlreadyTracked,
+    getQuery, getContent, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
+    buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
+    appendContentInteractionToRequestIfPossible, setupInteractionsTracking, trackContentImpressionClickInteraction,
+    internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackContentImpressions,
+    getTrackedContentImpressions, getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
+    contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
+    trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
+    enableTrackOnlyVisibleContent, trackContentInteraction
  */
 /*global _paq:true */
 /*members push */
@@ -987,9 +1009,33 @@ if (typeof Piwik !== 'object') {
          * Package URL: https://github.com/UseAllFive/true-visibility
          * License: MIT (https://github.com/UseAllFive/true-visibility/blob/master/LICENSE.txt)
          */
-        function isVisible (node) {
+        function isVisible(node) {
 
-            'use strict';
+            if (!node) {
+                return false;
+            }
+
+            //-- Cross browser method to get style properties:
+            function _getStyle(el, property) {
+                if (windowAlias.getComputedStyle) {
+                    return documentAlias.defaultView.getComputedStyle(el,null)[property];
+                }
+                if (el.currentStyle) {
+                    return el.currentStyle[property];
+                }
+            }
+
+            function _elementInDocument(element) {
+                element = element.parentNode;
+
+                while (element) {
+                    if (element === documentAlias) {
+                        return true;
+                    }
+                    element = element.parentNode;
+                }
+                return false;
+            }
 
             /**
              * Checks if a DOM element is visible. Takes into
@@ -1009,14 +1055,14 @@ if (typeof Piwik !== 'object') {
              */
             function _isVisible(el, t, r, b, l, w, h) {
                 var p = el.parentNode,
-                    VISIBLE_PADDING = 2;
+                    VISIBLE_PADDING = 1; // has to be visible at least one px of the element
 
-                if ( !_elementInDocument(el) ) {
+                if (!_elementInDocument(el)) {
                     return false;
                 }
 
                 //-- Return true for document node
-                if ( 9 === p.nodeType ) {
+                if (9 === p.nodeType) {
                     return true;
                 }
 
@@ -1029,14 +1075,12 @@ if (typeof Piwik !== 'object') {
                     return false;
                 }
 
-                if (
-                    'undefined' === typeof(t) ||
-                    'undefined' === typeof(r) ||
-                    'undefined' === typeof(b) ||
-                    'undefined' === typeof(l) ||
-                    'undefined' === typeof(w) ||
-                    'undefined' === typeof(h)
-                ) {
+                if (!isDefined(t) ||
+                        !isDefined(r) ||
+                        !isDefined(b) ||
+                        !isDefined(l) ||
+                        !isDefined(w) ||
+                        !isDefined(h)) {
                     t = el.offsetTop;
                     l = el.offsetLeft;
                     b = t + el.offsetHeight;
@@ -1044,10 +1088,15 @@ if (typeof Piwik !== 'object') {
                     w = el.offsetWidth;
                     h = el.offsetHeight;
                 }
+
+                if ((0 === h || 0 === w) && 'hidden' === _getStyle(el, 'overflow')) {
+                    return false;
+                }
+
                 //-- If we have a parent, let's continue:
-                if ( p ) {
+                if (p) {
                     //-- Check if the parent can hide its children.
-                    if ( ('hidden' === _getStyle(p, 'overflow') || 'scroll' === _getStyle(p, 'overflow')) ) {
+                    if (('hidden' === _getStyle(p, 'overflow') || 'scroll' === _getStyle(p, 'overflow'))) {
                         //-- Only check if the offset is different for the parent
                         if (
                             //-- If the target element is to the right of the parent elm
@@ -1064,7 +1113,7 @@ if (typeof Piwik !== 'object') {
                         }
                     }
                     //-- Add the offset parent's left/top coords to our element's offset:
-                    if ( el.offsetParent === p ) {
+                    if (el.offsetParent === p) {
                         l += p.offsetLeft;
                         t += p.offsetTop;
                     }
@@ -1074,27 +1123,8 @@ if (typeof Piwik !== 'object') {
                 return true;
             }
 
-            //-- Cross browser method to get style properties:
-            function _getStyle(el, property) {
-                if ( windowAlias.getComputedStyle ) {
-                    return documentAlias.defaultView.getComputedStyle(el,null)[property];
-                }
-                if ( el.currentStyle ) {
-                    return el.currentStyle[property];
-                }
-            }
-
-            function _elementInDocument(element) {
-                while (element = element.parentNode) {
-                    if (element == documentAlias) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
             return _isVisible(node);
-        };
+        }
 
         /************************************************************
          * Query
@@ -1133,7 +1163,7 @@ if (typeof Piwik !== 'object') {
                     return [];
                 }
 
-                var index, j,foundNodes;
+                var index, foundNodes;
                 var nodes = [];
                 for (index = 0; index < selectors.length; index++) {
                     foundNodes = this.find(selectors[index]);
@@ -1155,7 +1185,7 @@ if (typeof Piwik !== 'object') {
             },
             makeNodesUnique: function (nodes)
             {
-                nodes.sort(function (n1, n2) {
+                nodes.sort(function(n1, n2){
                     if (n1 === n2) {
                         return 0;
                     }
@@ -1163,15 +1193,23 @@ if (typeof Piwik !== 'object') {
                     return n1.innerHTML > n2.innerHTML ? 1 : -1;
                 });
 
-                var index  = 0;
+                if (nodes.length <= 1) {
+                    return nodes;
+                }
+
+                var index = 0;
                 var numDuplicates = 0;
                 var duplicates = [];
                 var node;
 
-                while ((node = nodes[index++])) {
+                node = nodes[index++];
+
+                while (node) {
                     if (node === nodes[index]) {
                         numDuplicates = duplicates.push(index);
                     }
+
+                    node = nodes[index++] || null;
                 }
 
                 while (numDuplicates--) {
@@ -1186,14 +1224,15 @@ if (typeof Piwik !== 'object') {
                 }
 
                 if (node && node.getAttribute) {
-                    return node.getAttribute(attributeName)
+                    return node.getAttribute(attributeName);
                 }
 
                 if (!node || !node.attributes) {
                     return;
                 }
 
-                if ('undefined' === (typeof node.attributes[attributeName])) {
+                var typeOfAttr = (typeof node.attributes[attributeName]);
+                if ('undefined' === typeOfAttr) {
                     return;
                 }
 
@@ -1228,11 +1267,12 @@ if (typeof Piwik !== 'object') {
             },
             hasNodeAttribute: function (node, attributeName) {
                 if (node && node.hasAttribute) {
-                    return node.hasAttribute(attributeName)
+                    return node.hasAttribute(attributeName);
                 }
 
                 if (node && node.attributes) {
-                    return 'undefined' !== (typeof node.attributes[attributeName])
+                    var typeOfAttr = (typeof node.attributes[attributeName]);
+                    return 'undefined' !== typeOfAttr;
                 }
 
                 return false;
@@ -1249,7 +1289,7 @@ if (typeof Piwik !== 'object') {
             },
             findNodesHavingAttribute: function (nodeToSearch, attributeName, nodes) {
                 if (!nodes) {
-                    nodes = []
+                    nodes = [];
                 }
 
                 if (!nodeToSearch || !attributeName || !nodeToSearch.children) {
@@ -1307,7 +1347,7 @@ if (typeof Piwik !== 'object') {
             },
             findNodesHavingCssClass: function (nodeToSearch, className, nodes) {
                 if (!nodes) {
-                    nodes = []
+                    nodes = [];
                 }
 
                 if (!nodeToSearch || !className) {
@@ -1347,7 +1387,7 @@ if (typeof Piwik !== 'object') {
                 var nodes = this.findNodesHavingCssClass(node, className);
 
                 if (nodes && nodes.length) {
-                    return nodes[0]; // TODO here we should check whether this node is also present within another nested piece of content and if there are multiple other nodes maybe use the next one
+                    return nodes[0];
                 }
             },
             isLinkElement: function (node) {
@@ -1355,12 +1395,13 @@ if (typeof Piwik !== 'object') {
                     return false;
                 }
 
-                var elementName      = (node.nodeName + '').toLowerCase();
+                var elementName      = String(node.nodeName).toLowerCase();
                 var linkElementNames = ['a', 'area'];
+                var pos = linkElementNames.indexOf(elementName);
 
-                return linkElementNames.indexOf(elementName) !== -1;
+                return pos !== -1;
             }
-        }
+        };
 
         /************************************************************
          * Content Tracking
@@ -1607,11 +1648,13 @@ if (typeof Piwik !== 'object') {
                     return query.getAttributeValueFromNode(sourceNode, 'src');
                 }
 
-                if (elementName === 'object' && query.hasNodeAttributeWithValue(node, 'data')) {
+                if (elementName === 'object' &&
+                    query.hasNodeAttributeWithValue(node, 'data')) {
 
                     return query.getAttributeValueFromNode(node, 'data');
+                }
 
-                } else if (elementName === 'object') {
+                if (elementName === 'object') {
                     var params = query.findNodesByTagName(node, 'param');
                     if (params && params.length) {
                         var index;
@@ -1631,7 +1674,7 @@ if (typeof Piwik !== 'object') {
                 }
             },
             trim: function (text) {
-                if (text && (''+text) === text) {
+                if (text && String(text) === text) {
                     return text.replace(/^\s+|\s+$/g, '');
                 }
 
@@ -1644,13 +1687,18 @@ if (typeof Piwik !== 'object') {
                 }
 
                 var rect = node.getBoundingClientRect();
-                var html = documentAlias.documentElement ? documentAlias.documentElement : {};
+                var html = documentAlias.documentElement || {};
+
+                var wasVisible = rect.top < 0;
+                if (wasVisible && node.offsetTop) {
+                    wasVisible = (node.offsetTop + rect.height) > 0;
+                }
 
                 return (
-                    rect.bottom > 0 &&
+                    (rect.bottom > 0 || wasVisible) &&
                     rect.right  > 0 &&
                     rect.left   < (windowAlias.innerWidth || html.clientWidth) &&
-                    (rect.top    < (windowAlias.innerHeight || html.clientHeight) || rect.top < 0) // rect.top < 0 we assume user has seen all the ones that are above the current viewport
+                    ((rect.top   < (windowAlias.innerHeight || html.clientHeight)) || wasVisible) // rect.top < 0 we assume user has seen all the ones that are above the current viewport
                 );
             },
             isNodeVisible: function (node) {
@@ -1710,9 +1758,9 @@ if (typeof Piwik !== 'object') {
                 target = this.trim(target);
 
                 return {
-                    name: name ? name : 'Unknown',
-                    piece: piece ? piece : 'Unknown',
-                    target: target ? target : ''
+                    name: name || 'Unknown',
+                    piece: piece || 'Unknown',
+                    target: target || ''
                 };
             },
             collectContent: function (contentNodes)
@@ -1723,9 +1771,12 @@ if (typeof Piwik !== 'object') {
 
                 var contents = [];
 
-                var index;
+                var index, contentBlock;
                 for (index = 0; index < contentNodes.length; index++) {
-                    contents.push(this.buildContentBlock(contentNodes[index]));
+                    contentBlock = this.buildContentBlock(contentNodes[index]);
+                    if (isDefined(contentBlock)) {
+                        contents.push(contentBlock);
+                    }
                 }
 
                 return contents;
@@ -1737,19 +1788,23 @@ if (typeof Piwik !== 'object') {
                 return this.location || windowAlias.location;
             },
             toAbsoluteUrl: function (url) {
-                if (!url || (''+url) !== url) {
+                if ((!url || String(url) !== url) && url !== '') {
                     // we only handle strings
                     return url;
                 }
 
+                if ('' === url) {
+                    return this.getLocation().href;
+                }
+
                 // Eg //example.com/test.jpg
-                if (url.search(/^\/\//) != -1) {
-                    return this.getLocation().protocol + url
+                if (url.search(/^\/\//) !== -1) {
+                    return this.getLocation().protocol + url;
                 }
 
                 // Eg http://example.com/test.jpg
-                if (url.search(/:\/\//) != -1) {
-                    return url
+                if (url.search(/:\/\//) !== -1) {
+                    return url;
                 }
 
                 // Eg #test.jpg
@@ -1768,13 +1823,13 @@ if (typeof Piwik !== 'object') {
                 }
 
                 // Eg /test.jpg
-                if (url.search(/^\//) != -1) {
-                    return this.getLocation().origin + url
+                if (url.search(/^\//) !== -1) {
+                    return this.getLocation().origin + url;
                 }
 
                 // Eg test.jpg
-                var base = this.getLocation().origin + this.getLocation().pathname.match(/(.*\/)/)[0]
-                return base + url
+                var base = this.getLocation().origin + this.getLocation().pathname.match(/(.*\/)/)[0];
+                return base + url;
             },
             setHrefAttribute: function (node, url)
             {
@@ -2822,50 +2877,177 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
-            function buildContentInteractionTrackingRedirectUrl(url, contentInteraction, contentName, contentPiece, contentTarget) {
-                if (0 === url.indexOf(configTrackerUrl)) {
+            /*
+             * Construct regular expression of classes
+             */
+            function getClassesRegExp(configClasses, defaultClass) {
+                var i,
+                    classesRegExp = '(^| )(piwik[_-]' + defaultClass;
+
+                if (configClasses) {
+                    for (i = 0; i < configClasses.length; i++) {
+                        classesRegExp += '|' + configClasses[i];
+                    }
+                }
+
+                classesRegExp += ')( |$)';
+
+                return new RegExp(classesRegExp);
+            }
+
+            /*
+             * Link or Download?
+             */
+            function getLinkType(className, href, isInLink) {
+                // does class indicate whether it is an (explicit/forced) outlink or a download?
+                var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
+                    linkPattern = getClassesRegExp(configLinkClasses, 'link'),
+
+                // does file extension indicate that it is a download?
+                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
+
+                if (linkPattern.test(className)) {
+                    return 'link';
+                }
+
+                if (downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
+                    return 'download';
+                }
+
+                if (isInLink) {
+                    return 0;
+                }
+
+                return 'link';
+            }
+
+            function getSourceElement(sourceElement)
+            {
+                var parentElement;
+
+                parentElement = sourceElement.parentNode;
+                while (parentElement !== null &&
+                    /* buggy IE5.5 */
+                isDefined(parentElement)) {
+
+                    if (query.isLinkElement(sourceElement)) {
+                        break;
+                    }
+                    sourceElement = parentElement;
+                    parentElement = sourceElement.parentNode;
+                }
+
+                return sourceElement;
+            }
+
+            function getLinkIfShouldBeProcessed(sourceElement)
+            {
+                sourceElement = getSourceElement(sourceElement);
+
+                if (!query.hasNodeAttribute(sourceElement, 'href')) {
+                    return;
+                }
+
+                if (!isDefined(sourceElement.href)) {
+                    return;
+                }
+
+                // browsers, such as Safari, don't downcase hostname and href
+                var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
+                var sourceHostName = originalSourceHostName.toLowerCase();
+                var sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName);
+
+                // browsers, such as Safari, don't downcase hostname and href
+                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
+
+                if (!scriptProtocol.test(sourceHref)) {
+                    // track outlinks and all downloads
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
+
+                    if (linkType) {
+                        return {
+                            type: linkType,
+                            href: sourceHref
+                        };
+                    }
+                }
+            }
+
+            function buildContentInteractionRequest(interaction, name, piece, target)
+            {
+                var params = content.buildInteractionRequestParams(interaction, name, piece, target);
+
+                if (!params) {
+                    return;
+                }
+
+                return getRequest(params, null, 'contentInteraction');
+            }
+
+            function buildContentInteractionTrackingRedirectUrl(url, contentInteraction, contentName, contentPiece, contentTarget)
+            {
+                if (!isDefined(url)) {
+                    return;
+                }
+
+                if (url && configTrackerUrl && 0 === String(url).indexOf(configTrackerUrl)) {
                     return url;
                 }
 
                 var redirectUrl = content.toAbsoluteUrl(url);
-                var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
-                request    += '&redirecturl=' + redirectUrl;
+                var request  = 'redirecturl=' + redirectUrl + '&';
+                request     += buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
 
-                return configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+                var separator = '&';
+                if (configTrackerUrl.indexOf('?') < 0) {
+                    separator = '?';
+                }
+
+                return configTrackerUrl + separator + request;
             }
 
-            function appendContentInteractionToRequestIfPossible (request, anyNode, interaction, fallbackTarget)
+            function getContentInteractionToRequestIfPossible (anyNode, interaction, fallbackTarget)
             {
-                if (!anyNode || !request) {
-
+                if (!anyNode) {
                     return;
                 }
 
                 var contentNode = content.findParentContentNode(anyNode);
-                var targetNode  = content.findTargetNodeNoDefault(anyNode);
 
-                if (!contentNode !== anyNode && !targetNode) {
-                    // user clicked on any link within contentNode but it neither .piwikTrackContent nor .piwikContentInteraction
+                if (!contentNode) {
+                    // we are not within a content block
                     return;
                 }
 
-                var contentPiece = content.buildContentBlock(contentNode);
+                var targetNode = content.findTargetNode(contentNode);
 
-                if (!contentPiece) {
+                if (content.shouldIgnoreInteraction(targetNode)) {
+                    // interaction should be ignored
                     return;
                 }
 
-                if (!content.target && fallbackTarget) {
-                    content.target = fallbackTarget;
+                targetNode = content.findTargetNodeNoDefault(contentNode);
+                if (targetNode && !targetNode.contains(anyNode)) {
+                    /**
+                     * There is a target node defined but the clicked element is not within the target node. example:
+                     * <div data-track-content><a href="Y" data-content-target>Y</a><img src=""/><a href="Z">Z</a></div>
+                     *
+                     * The user clicked in this case on link Z and not on target Y
+                     */
+                    return;
                 }
 
-                if (request) {
-                    request += '&';
+                var contentBlock = content.buildContentBlock(contentNode);
+
+                if (!contentBlock) {
+                    return;
                 }
 
-                request += content.buildInteractionRequestParams(interaction, contentPiece.name, contentPiece.piece, contentPiece.target);
+                if (!contentBlock.target && fallbackTarget) {
+                    contentBlock.target = fallbackTarget;
+                }
 
-                return request;
+                return content.buildInteractionRequestParams(interaction, contentBlock.name, contentBlock.piece, contentBlock.target);
             }
 
             function wasContentImpressionAlreadyTracked(content)
@@ -2874,16 +3056,13 @@ if (typeof Piwik !== 'object') {
                     return false;
                 }
 
-                var index;
+                var index, trackedContent;
 
                 for (index = 0; index < trackedContentImpressions.length; index++) {
-                    var trackedContent = trackedContentImpressions[index];
+                    trackedContent = trackedContentImpressions[index];
 
-                    if (!trackedContent) {
-                        continue;
-                    }
-
-                    if (trackedContent.name === content.name &&
+                    if (trackedContent &&
+                        trackedContent.name === content.name &&
                         trackedContent.piece === content.piece &&
                         trackedContent.target === content.target) {
                         return true;
@@ -2893,38 +3072,69 @@ if (typeof Piwik !== 'object') {
                 return false;
             }
 
-            /*
-             * Log currently visible content pieces
-             */
-            function getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes) {
+            function trackContentImpressionClickInteraction (targetNode) {
 
-                if (!contentNodes || !contentNodes.length) {
-                    return;
-                }
+                return function () {
 
-                var index;
-
-                for (index = 0; index < contentNodes.length; index++) {
-                    if (!content.isNodeVisible(contentNodes[index])) {
-                        contentNodes.splice(index, 1);
+                    if (!targetNode || content.shouldIgnoreInteraction(targetNode)) {
+                        return;
                     }
-                }
 
-                if (!contentNodes || !contentNodes.length) {
-                    return;
-                }
+                    var link = getLinkIfShouldBeProcessed(targetNode);
 
-                return getAllContentImpressionsRequests(contentNodes);
+                    if (link && link.type) {
+                        // click ignore, will be tracked via processClick, we do not want to track it twice
+
+                        return link.type;
+                    }
+
+                    var contentBlock  = content.findParentContentNode(targetNode);
+                    var contentName   = content.findContentName(contentBlock);
+                    var contentPiece  = content.findContentPiece(contentBlock);
+                    var contentTarget = content.findContentTarget(contentBlock);
+
+                    if (query.isLinkElement(targetNode) &&
+                        query.hasNodeAttributeWithValue(targetNode, 'href')) {
+                        var url = query.getAttributeValueFromNode(targetNode, 'href');
+
+                        if (0 !== String(url).indexOf('#')) {
+
+                            var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
+
+                            // location.href does not respect target=_blank so we prefer to use this
+                            content.setHrefAttribute(targetNode, targetUrl);
+
+                            return 'href';
+                        }
+
+                    }
+
+                    // click on any non link element, or on a link element that has not an href attribute or on an anchor
+                    var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
+                    sendRequest(request, configTrackerPause);
+
+                    return request;
+                };
+
             }
 
-            /*
-             * Log all content pieces
-             */
-            function getAllContentImpressionsRequests(contentNodes) {
+            function setupInteractionsTracking(contentNodes)
+            {
+                if (!contentNodes || !contentNodes.length) {
+                    return;
+                }
 
-                var contents = content.collectContent(contentNodes);
+                var index, targetNode;
+                for (index = 0; index < contentNodes.length; index++) {
+                    targetNode = content.findTargetNode(contentNodes[index]);
 
-                return buildContentImpressionsRequests(contents, contentNodes);
+                    if (targetNode && !targetNode.contentInteractionTrackingSetupDone) {
+                        targetNode.contentInteractionTrackingSetupDone = true;
+
+                        addEventListener(targetNode, 'click', trackContentImpressionClickInteraction(targetNode));
+                    }
+
+                }
             }
 
             /*
@@ -2933,12 +3143,13 @@ if (typeof Piwik !== 'object') {
             function buildContentImpressionsRequests(contents, contentNodes) {
 
                 if (!contents || !contents.length) {
-                    return;
+                    return [];
                 }
 
-                for (index = 0; index < contents; index++) {
-                    // TODO !!! it could happen that a content was tracked while this check is performed if they run
-                    // both at the same time, maybe we need some kind of lock?
+                var index, request;
+
+                for (index = 0; index < contents.length; index++) {
+
                     if (wasContentImpressionAlreadyTracked(contents[index])) {
                         contents.splice(index, 1);
                     } else {
@@ -2947,59 +3158,11 @@ if (typeof Piwik !== 'object') {
                 }
 
                 if (!contents || !contents.length) {
-                    return;
+                    return [];
                 }
 
-                for (index = 0; index < contentNodes.length; index++) {
-                    var targetNode = content.findTargetNode(contentNodes[index]);
+                setupInteractionsTracking(contentNodes);
 
-                    if (!targetNode || targetNode.contentInteractionTrackingSetupDone) {
-                        continue;
-                    }
-
-                    targetNode.contentInteractionTrackingSetupDone = true;
-
-                    if (content.shouldIgnoreInteraction(targetNode)) {
-                        continue;
-                    }
-
-                    addEventListener(targetNode, 'click', function () {
-
-                        var link = getLinkIfShouldBeProcessed(this);
-
-                        if (link && link.type) {
-                            // click ignore, will be tracked via processClick, we do not want to track it twice
-                            return;
-                        }
-
-                        var contentBlock  = content.findParentContentNode(this);
-                        var contentName   = content.findContentName(contentBlock);
-                        var contentPiece  = content.findContentPiece(contentBlock);
-                        var contentTarget = content.findContentTarget(contentBlock);
-                        var targetNode    = content.findTargetNode(contentBlock); // should be actually same as 'this'
-
-                        if (query.isLinkElement(targetNode) &&
-                            query.hasNodeAttributeWithValue(targetNode, 'href')) {
-                            var url = query.getAttributeValueFromNode(targetNode, 'href');
-
-                            if (0 !== url.indexOf('#')) {
-
-                                var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
-
-                                // location.href does not respect target=_blank so we prefer to use this
-                                content.setHrefAttribute(targetNode, targetUrl);
-                                return;
-                            }
-
-                        }
-
-                        // click on any non link element, or on a link element that has not an href attribute or on an anchor
-                        var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
-                        sendRequest(request, configTrackerPause);
-                    });
-                }
-
-                var index, request;
                 var requests = [];
 
                 for (index = 0; index < contents.length; index++) {
@@ -3016,30 +3179,45 @@ if (typeof Piwik !== 'object') {
                 return requests;
             }
 
+            /*
+             * Log all content pieces
+             */
+            function getContentImpressionsRequestsFromNodes(contentNodes) {
+
+                var contents = content.collectContent(contentNodes);
+
+                return buildContentImpressionsRequests(contents, contentNodes);
+            }
+
+            /*
+             * Log currently visible content pieces
+             */
+            function getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes) {
+
+                if (!contentNodes || !contentNodes.length) {
+                    return [];
+                }
+
+                var index;
+
+                for (index = 0; index < contentNodes.length; index++) {
+                    if (!content.isNodeVisible(contentNodes[index])) {
+                        contentNodes.splice(index, 1);
+                    }
+                }
+
+                if (!contentNodes || !contentNodes.length) {
+                    return [];
+                }
+
+                return getContentImpressionsRequestsFromNodes(contentNodes);
+            }
+
             function buildContentImpressionRequest(contentName, contentPiece, contentTarget)
             {
                 var params = content.buildImpressionRequestParams(contentName, contentPiece, contentTarget);
 
                 return getRequest(params, null, 'contentImpression');
-            }
-
-            function buildContentImpressionsRequestsWithinNode(node)
-            {
-                var contentNodes = content.findContentNodesWithinNode(node);
-                var contents     = content.collectContent(contentNodes);
-
-                return buildContentImpressionsRequests(contents, contentNodes);
-            }
-
-            function buildContentInteractionRequest(interaction, name, piece, target)
-            {
-                var params = content.buildInteractionRequestParams(interaction, name, piece, target);
-
-                if (!params) {
-                    return;
-                }
-
-                return getRequest(params, null, 'contentInteraction');
             }
 
             function buildContentInteractionRequestNode(node, contentInteraction)
@@ -3110,9 +3288,14 @@ if (typeof Piwik !== 'object') {
 
                 var linkParams = linkType + '=' + encodeWrapper(purify(url));
 
-                linkParams  = appendContentInteractionToRequestIfPossible(linkParams, sourceElement, 'click', url);
+                var interaction = getContentInteractionToRequestIfPossible(linkParams, sourceElement, 'click', url);
+
+                if (interaction) {
+                    linkParams += '&' + interaction;
+                }
+
                 var request = getRequest(linkParams, customData, 'link');
-                
+
                 sendRequest(request, (callback ? 0 : configTrackerPause), callback);
             }
 
@@ -3197,98 +3380,6 @@ if (typeof Piwik !== 'object') {
                     documentAlias.addEventListener('DOMContentLoaded', callback);
                 } else if (documentAlias.attachEvent) {
                     documentAlias.attachEvent('onreadystatechange', callback);
-                }
-            }
-
-            /*
-             * Construct regular expression of classes
-             */
-            function getClassesRegExp(configClasses, defaultClass) {
-                var i,
-                    classesRegExp = '(^| )(piwik[_-]' + defaultClass;
-
-                if (configClasses) {
-                    for (i = 0; i < configClasses.length; i++) {
-                        classesRegExp += '|' + configClasses[i];
-                    }
-                }
-
-                classesRegExp += ')( |$)';
-
-                return new RegExp(classesRegExp);
-            }
-
-            /*
-             * Link or Download?
-             */
-            function getLinkType(className, href, isInLink) {
-                // does class indicate whether it is an (explicit/forced) outlink or a download?
-                var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
-                    linkPattern = getClassesRegExp(configLinkClasses, 'link'),
-
-                    // does file extension indicate that it is a download?
-                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
-
-                if (linkPattern.test(className)) {
-                    return 'link';
-                }
-
-                if (downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
-                    return 'download';
-                }
-
-                if (isInLink) {
-                    return 0;
-                }
-
-                return 'link';
-            }
-
-            function getSourceElement(sourceElement)
-            {
-                var parentElement;
-
-                parentElement = sourceElement.parentNode;
-                while (parentElement !== null &&
-                        /* buggy IE5.5 */
-                        isDefined(parentElement)) {
-
-                    if (query.isLinkElement(sourceElement)) {
-                        break;
-                    }
-                    sourceElement = parentElement;
-                    parentElement = sourceElement.parentNode;
-                }
-
-                return sourceElement;
-            }
-
-            function getLinkIfShouldBeProcessed(sourceElement)
-            {
-                sourceElement = getSourceElement(sourceElement);
-
-                if (!isDefined(sourceElement.href)) {
-                    return;
-                }
-
-                // browsers, such as Safari, don't downcase hostname and href
-                var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
-                var sourceHostName = originalSourceHostName.toLowerCase();
-                var sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName);
-
-                // browsers, such as Safari, don't downcase hostname and href
-                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
-
-                if (!scriptProtocol.test(sourceHref)) {
-                    // track outlinks and all downloads
-                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
-
-                    if (linkType) {
-                        return {
-                            type: linkType,
-                            href: sourceHref
-                        };
-                    }
                 }
             }
 
@@ -3497,14 +3588,25 @@ if (typeof Piwik !== 'object') {
                 buildContentInteractionRequest: buildContentInteractionRequest,
                 buildContentInteractionRequestNode: buildContentInteractionRequestNode,
                 buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
-                buildContentImpressionsRequestsWithinNode: buildContentImpressionsRequestsWithinNode,
-                getAllContentImpressionsRequests: getAllContentImpressionsRequests,
+                getContentImpressionsRequestsFromNodes: getContentImpressionsRequestsFromNodes,
                 getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet: getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
                 trackCallbackOnLoad: trackCallbackOnLoad,
                 trackCallbackOnReady: trackCallbackOnReady,
                 buildContentImpressionsRequests: buildContentImpressionsRequests,
                 wasContentImpressionAlreadyTracked: wasContentImpressionAlreadyTracked,
-                appendContentInteractionToRequestIfPossible: appendContentInteractionToRequestIfPossible,
+                appendContentInteractionToRequestIfPossible: getContentInteractionToRequestIfPossible,
+                setupInteractionsTracking: setupInteractionsTracking,
+                trackContentImpressionClickInteraction: trackContentImpressionClickInteraction,
+                internalIsNodeVisible: isVisible,
+                clearTrackedContentImpressions: function () {
+                    trackedContentImpressions = [];
+                },
+                getTrackedContentImpressions: function () {
+                    return trackedContentImpressions;
+                },
+                getTrackerUrl: function () {
+                    return configTrackerUrl;
+                },
 
 /*</DEBUG>*/
 
@@ -4232,7 +4334,7 @@ if (typeof Piwik !== 'object') {
                                 // we have to wait till DOM ready
                                 var contentNodes = content.findContentNodes();
 
-                                var requests = getAllContentImpressionsRequests(contentNodes);
+                                var requests = getContentImpressionsRequestsFromNodes(contentNodes);
                                 sendBulkRequest(requests, configTrackerPause);
                             });
                         }
@@ -4243,6 +4345,8 @@ if (typeof Piwik !== 'object') {
                     var self      = this;
                     var didScroll = false;
 
+                    function setDidScroll() { didScroll = true; }
+
                     if (enableTrackOnlyVisibleContent) {
                         // already enabled, do not register intervals again
                         return true;
@@ -4251,12 +4355,13 @@ if (typeof Piwik !== 'object') {
                     enableTrackOnlyVisibleContent = true;
 
                     trackCallbackOnLoad(function () {
+                        var events, index;
 
                         function checkContent(intervalInMs) {
                             setTimeout(function () {
                                 didScroll = false;
                                 self.trackContentImpressions();
-                                checkBanners(intervalInMs);
+                                checkContent(intervalInMs);
                             }, intervalInMs);
                         }
 
@@ -4272,20 +4377,15 @@ if (typeof Piwik !== 'object') {
                         }
 
                         if (checkOnSroll) {
+
                             // scroll event is executed after each pixel, so we make sure not to
                             // execute event too often. otherwise FPS goes down a lot!
-                            // todo test if need to listen to all of the following events:
-                            // 'ondrop', 'touchend', 'mousewheel', 'DOMMouseScroll'
-                            var events = ['scroll', 'resize'];
-                            for (var index = 0; index < events.length; index++) {
+                            events = ['scroll', 'resize'];
+                            for (index = 0; index < events.length; index++) {
                                 if (windowAlias.addEventListener) {
-                                    windowAlias.addEventListener(events[index], function () {
-                                        didScroll = true;
-                                    });
+                                    windowAlias.addEventListener(events[index], setDidScroll);
                                 } else {
-                                    windowAlias.attachEvent('on' + events[index], function () {
-                                        didScroll = true;
-                                    });
+                                    windowAlias.attachEvent('on' + events[index], setDidScroll);
                                 }
                             }
 
@@ -4294,7 +4394,7 @@ if (typeof Piwik !== 'object') {
 
                         if (timeIntervalInMs && timeIntervalInMs > 0) {
                             timeIntervalInMs = parseInt(timeIntervalInMs, 10);
-                            checkBanners(timeIntervalInMs);
+                            checkContent(timeIntervalInMs);
                         }
 
                     });
@@ -4324,7 +4424,7 @@ if (typeof Piwik !== 'object') {
                                 // we have to wait till DOM ready
                                 var contentNodes = content.findContentNodesWithinNode(domNode);
 
-                                var requests = getAllContentImpressionsRequests(contentNodes);
+                                var requests = getContentImpressionsRequestsFromNodes(contentNodes);
                                 sendBulkRequest(requests, configTrackerPause);
                             });
                         }
