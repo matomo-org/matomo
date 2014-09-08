@@ -1109,7 +1109,6 @@ class PiwikTracker
      * The following features require access:
      * - force the visitor IP
      * - force the date & time of the tracking requests rather than track for the current datetime
-     * - force Piwik to track the requests to a specific VisitorId rather than use the standard visitor matching heuristic
      *
      * @param string $token_auth token_auth 32 chars token_auth string
      */
@@ -1357,7 +1356,6 @@ class PiwikTracker
             // Only allowed for Super User, token_auth required,
             (!empty($this->ip) ? '&cip=' . $this->ip : '') .
             (!empty($this->userId) ? '&uid=' . urlencode($this->userId) : '') .
-            (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             (!empty($this->forcedNewVisit) ? '&new_visit=1' : '') .
             ((!empty($this->token_auth) && !$this->doBulkRequests) ? '&token_auth=' . urlencode($this->token_auth) : '') .
@@ -1381,6 +1379,7 @@ class PiwikTracker
             (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
             (!empty($this->eventCustomVar) ? '&e_cvar=' . urlencode(json_encode($this->eventCustomVar)) : '') .
             (!empty($this->generationTime) ? '&gt_ms=' . ((int)$this->generationTime) : '') .
+            (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
 
             // URL parameters
             '&url=' . urlencode($this->pageUrl) .
