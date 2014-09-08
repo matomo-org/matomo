@@ -27,8 +27,10 @@
                     &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }}"/>
                 {% endif %}
                 {% if visitor.visitorId|default(false) is not empty %}
-                <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.visitorId }}">
+                <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.userId is not empty %}{{ visitor.userId|raw }}{% endif %}" data-visitor-id="{{ visitor.visitorId }}">
+                    {% if visitor.userId is not empty %}<br/>{% endif %}
                     <img src="plugins/Live/images/visitorProfileLaunch.png"/>
+                    {{ visitor.userId|default('')|raw }}
                 </a>
                 {% endif %}
                 {% if visitor.visitIp %}- <span title="{% if visitor.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.visitorId }}{% endif %}">

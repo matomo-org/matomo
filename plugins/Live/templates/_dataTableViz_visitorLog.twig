@@ -118,7 +118,7 @@
                     {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitor.getColumn('serverTimePrettyFirstAction') }}</strong>
                 {% if visitor.getColumn('visitIp') is not empty %}
                     <br/>
-                <span title="{% if visitor.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitor.getColumn('userId') }}{% endif %}
+                <span title="{% if visitor.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitor.getColumn('userId')|raw }}{% endif %}
 
 {% if visitor.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.getColumn('visitorId') }}{% endif -%}
 {%- if visitor.getColumn('latitude') or visitor.getColumn('longitude') %}
@@ -127,7 +127,7 @@
 
 GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longitude') }}{% endif %}">
                     IP: {{ visitor.getColumn('visitIp') }}
-                    {% if visitor.getColumn('userId') is not empty %}<br/><br/>{{ visitor.getColumn('userId') }}{% endif %}
+                    {% if visitor.getColumn('userId') is not empty %}<br/><br/>{{ visitor.getColumn('userId')|raw }}{% endif %}
 
                     </span>{% endif %}
 
