@@ -2,7 +2,8 @@
 <result>
 	<nb_uniq_visitors>2</nb_uniq_visitors>
 	<nb_visits>2</nb_visits>
-	<nb_actions>4</nb_actions>
+	<nb_users>1</nb_users>
+    <nb_actions>4</nb_actions>
 	<max_actions>2</max_actions>
 	<bounce_rate>0%</bounce_rate>
 	<nb_actions_per_visit>2</nb_actions_per_visit>
