@@ -154,7 +154,8 @@ class ArchiveProcessor
      * @var array
      */
     protected static $columnsToRenameAfterAggregation = array(
-        Metrics::INDEX_NB_UNIQ_VISITORS => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS
+        Metrics::INDEX_NB_UNIQ_VISITORS => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
+        Metrics::INDEX_NB_USERS         => Metrics::INDEX_SUM_DAILY_NB_USERS,
     );
 
     /**
