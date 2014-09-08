@@ -89,6 +89,7 @@ class API extends \Piwik\Plugin\API
         $columns = array(
             'nb_visits',
             'nb_actions',
+            'nb_users',
             'nb_visits_converted',
             'bounce_count',
             'sum_visit_length',
@@ -117,6 +118,11 @@ class API extends \Piwik\Plugin\API
     public function getUniqueVisitors($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_uniq_visitors');
+    }
+
+    public function getUsers($idSite, $period, $date, $segment = false)
+    {
+        return $this->getNumeric($idSite, $period, $date, $segment, 'nb_users');
     }
 
     public function getActions($idSite, $period, $date, $segment = false)

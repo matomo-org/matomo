@@ -5,6 +5,10 @@
             {{ 'VisitsSummary_NbUniqueVisitors'|translate("<strong>"~nbUniqVisitors~"</strong>")|raw }}{% endif %}
     </div>
     <div class="sparkline">
+        {{ sparkline(urlSparklineNbUsers)|raw }}
+        {{ 'General_NUsers'|translate("<strong>"~nbUsers~"</strong>")|raw }}
+    </div>
+    <div class="sparkline">
         {{ sparkline(urlSparklineAvgVisitDuration)|raw }}
         {% set averageVisitDuration=averageVisitDuration|sumtime %}
         {{ 'VisitsSummary_AverageVisitDuration'|translate("<strong>"~averageVisitDuration~"</strong>")|raw }}

@@ -368,12 +368,16 @@ class ArchiveProcessor
             // we only compute unique visitors for a single site
             return;
         }
-        if ( $row->getColumn('nb_uniq_visitors') !== false) {
+        if ( $row->getColumn('nb_uniq_visitors') !== false
+            || $row->getColumn('nb_users') !== false) {
             if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
-                $uniqueVisitors = (float)$this->computeNbUniqVisitors();
-                $row->setColumn('nb_uniq_visitors', $uniqueVisitors);
+                $metrics = array(Metrics::INDEX_NB_UNIQ_VISITORS, Metrics::INDEX_NB_USERS);
+                $uniques = $this->computeNbUniques( $metrics );
+                $row->setColumn('nb_uniq_visitors', $uniques[Metrics::INDEX_NB_UNIQ_VISITORS]);
+                $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
             } else {
                 $row->deleteColumn('nb_uniq_visitors');
+                $row->deleteColumn('nb_users');
             }
         }
     }
@@ -395,14 +399,15 @@ class ArchiveProcessor
      * This is the only Period metric (ie. week/month/year/range) that we process from the logs directly,
      * since unique visitors cannot be summed like other metrics.
      *
+     * @param array Metrics Ids for which to aggregates count of values
      * @return int
      */
-    protected function computeNbUniqVisitors()
+    protected function computeNbUniques($metrics)
     {
         $logAggregator = $this->getLogAggregator();
-        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), array(Metrics::INDEX_NB_UNIQ_VISITORS));
+        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), $metrics);
         $data = $query->fetch();
-        return $data[Metrics::INDEX_NB_UNIQ_VISITORS];
+        return $data;
     }
 
     /**

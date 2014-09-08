@@ -79,7 +79,7 @@ class Controller extends \Piwik\Plugin\Controller
             $row = $dataTable->getFirstRow();
 
             $translations = Metrics::getDefaultMetricTranslations();
-            $showMetrics = array('nb_hits', 'nb_visits', 'nb_uniq_visitors',
+            $showMetrics = array('nb_hits', 'nb_visits', 'nb_users', 'nb_uniq_visitors',
                                  'bounce_rate', 'exit_rate', 'avg_time_on_page');
 
             foreach ($showMetrics as $metric) {

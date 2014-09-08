@@ -73,7 +73,8 @@ class Controller extends \Piwik\Plugin\Controller
                                                      'avg_time_on_site'     => Piwik::translate('VisitsSummary_AverageVisitDuration'),
                                                      'and_n_others'         => Piwik::translate('UserCountryMap_AndNOthers'),
                                                      'no_data'              => Piwik::translate('CoreHome_ThereIsNoDataForThisReport'),
-                                                     'nb_uniq_visitors'     => Piwik::translate('VisitsSummary_NbUniqueVisitors')
+                                                     'nb_uniq_visitors'     => Piwik::translate('VisitsSummary_NbUniqueVisitors'),
+                                                     'nb_users'             => Piwik::translate('VisitsSummary_NbUsers'),
                                                 ));
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
@@ -224,6 +225,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $metrics = array();
         foreach ($metaData[0]['metrics'] as $id => $val) {
+            // should use SettingsPiwik::isUniqueVisitorsEnabled ?
             if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
                 $metrics[] = array($id, $val);
             }

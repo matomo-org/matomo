@@ -19,6 +19,7 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
         $expectedNames = array(
             1 => 'nb_uniq_visitors',
             2 => 'nb_visits',
+            39 => 'nb_users',
             3 => 'nb_actions',
             4 => 'max_actions',
             5 => 'sum_visit_length',
@@ -41,6 +42,7 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
             'max_actions' => 4,
             'sum_visit_length' => 5,
             'bounce_count' => 6,
+            'nb_users' => 39,
             'nb_visits_converted' => 7,
             'nb_conversions' => 8,
             'revenue' => 23,

@@ -22,6 +22,7 @@ class Get extends \Piwik\Plugin\Report
         $this->metrics       = array(
             'nb_uniq_visitors',
             'nb_visits',
+            'nb_users',
             'nb_actions',
             'nb_actions_per_visit',
             'bounce_rate',

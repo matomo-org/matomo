@@ -78,6 +78,9 @@ class Metrics
     const INDEX_EVENT_MAX_EVENT_VALUE = 37;
     const INDEX_EVENT_NB_HITS_WITH_VALUE = 38;
 
+    // Number of unique User IDs
+    const INDEX_NB_USERS = 39;
+
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
     const INDEX_GOAL_REVENUE = 2;
@@ -92,6 +95,7 @@ class Metrics
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
         Metrics::INDEX_NB_VISITS                             => 'nb_visits',
         Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
+        Metrics::INDEX_NB_USERS                              => 'nb_users',
         Metrics::INDEX_MAX_ACTIONS                           => 'max_actions',
         Metrics::INDEX_SUM_VISIT_LENGTH                      => 'sum_visit_length',
         Metrics::INDEX_BOUNCE_COUNT                          => 'bounce_count',
@@ -133,7 +137,7 @@ class Metrics
         Metrics::INDEX_EVENT_SUM_EVENT_VALUE                 => 'sum_event_value',
         Metrics::INDEX_EVENT_MIN_EVENT_VALUE                 => 'min_event_value',
         Metrics::INDEX_EVENT_MAX_EVENT_VALUE                 => 'max_event_value',
-        Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE              => 'nb_events_with_value'
+        Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE              => 'nb_events_with_value',
 
     );
 
@@ -152,6 +156,7 @@ class Metrics
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_NB_VISITS,
         Metrics::INDEX_NB_ACTIONS,
+        Metrics::INDEX_NB_USERS,
         Metrics::INDEX_MAX_ACTIONS,
         Metrics::INDEX_SUM_VISIT_LENGTH,
         Metrics::INDEX_BOUNCE_COUNT,
@@ -256,6 +261,7 @@ class Metrics
         $afterEntry = ' ' . Piwik::translate('General_AfterEntry');
 
         $translations['sum_daily_nb_uniq_visitors'] = Piwik::translate('General_ColumnNbUniqVisitors') . $dailySum;
+        $translations['sum_daily_nb_users'] = Piwik::translate('General_ColumnNbUsers') . $dailySum;
         $translations['sum_daily_entry_nb_uniq_visitors'] = Piwik::translate('General_ColumnUniqueEntrances') . $dailySum;
         $translations['sum_daily_exit_nb_uniq_visitors'] = Piwik::translate('General_ColumnUniqueExits') . $dailySum;
         $translations['entry_nb_actions'] = Piwik::translate('General_ColumnNbActions') . $afterEntry;
@@ -289,6 +295,7 @@ class Metrics
             'nb_visits'        => 'General_ColumnNbVisits',
             'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
             'nb_actions'       => 'General_ColumnNbActions',
+            'nb_users'         => 'General_ColumnNbUsers',
         );
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
@@ -362,6 +369,7 @@ class Metrics
             'nb_visits'            => 'General_ColumnNbVisitsDocumentation',
             'nb_uniq_visitors'     => 'General_ColumnNbUniqVisitorsDocumentation',
             'nb_actions'           => 'General_ColumnNbActionsDocumentation',
+            'nb_users'             => 'General_ColumnNbUsersDocumentation',
             'nb_actions_per_visit' => 'General_ColumnActionsPerVisitDocumentation',
             'avg_time_on_site'     => 'General_ColumnAvgTimeOnSiteDocumentation',
             'bounce_rate'          => 'General_ColumnBounceRateDocumentation',
