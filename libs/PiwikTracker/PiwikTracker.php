@@ -948,7 +948,7 @@ class PiwikTracker
     }
 
     /**
-     * The User ID is a string representing a given user in your system.
+     * Force the action to be recorded for a specific User. The User ID is a string representing a given user in your system.
      *
      * A User ID can be a username, UUID or an email address, or any number or string that uniquely identifies a user or client.
      *

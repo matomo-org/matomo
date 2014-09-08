@@ -82,7 +82,7 @@ class TestRequestResponse
     private function normalizeApiResponse($apiResponse)
     {
         if ($this->shouldDeleteLiveIds()) {
-            $this->removeAllIdsFromXml($apiResponse);
+            $apiResponse = $this->removeAllIdsFromXml($apiResponse);
         }
 
         if ($this->shouldDeleteLiveDates()) {
@@ -225,7 +225,7 @@ class TestRequestResponse
 
     private function shouldDeleteLiveIds()
     {
-        return empty($this->params['keepLiveDates']);
+        return empty($this->params['keepLiveIds']);
     }
 
     private function shouldDeleteLiveDates()

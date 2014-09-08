@@ -39,6 +39,7 @@ class ProcessedReport
 
         foreach ($reportsMetadata as $report) {
             // See ArchiveProcessor/Aggregator.php - unique visitors are not processed for period != day
+            // todo: should use SettingsPiwik::isUniqueVisitorsEnabled instead
             if (($period && $period != 'day') && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
                 unset($report['metrics']['nb_uniq_visitors']);
             }
