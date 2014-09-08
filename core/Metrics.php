@@ -105,7 +105,7 @@ class Metrics
         Metrics::INDEX_REVENUE                               => 'revenue',
         Metrics::INDEX_GOALS                                 => 'goals',
         Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_uniq_visitors',
-        Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_users',
+        Metrics::INDEX_SUM_DAILY_NB_USERS                    => 'sum_daily_nb_users',
 
         // Actions metrics
         Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
