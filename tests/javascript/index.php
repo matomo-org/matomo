@@ -80,6 +80,17 @@ function loadJash() {
     document.body.appendChild(document.createElement('script')).src='jash/Jash.js';
 }
 
+function triggerEvent(element, type) {
+ if ( document.createEvent ) {
+     event = document.createEvent( "MouseEvents" );
+     event.initMouseEvent(type, true, true, element.ownerDocument.defaultView,
+         0, 0, 0, 0, 0, false, false, false, false, 0, null);
+     element.dispatchEvent( event );
+ } else if ( element.fireEvent ) {
+     element.fireEvent( "on" + type );
+ }
+}
+
 function dropCookie(cookieName, path, domain) {
     var expiryDate = new Date();
 
@@ -2332,7 +2343,7 @@ if ($sqlite) {
         piwik_log("CompatibilityLayer", 1, "piwik.php", { "token" : getToken() });
 
         tracker.hook.test._addEventListener(_e("click8"), "click", stopEvent);
-        $(_e("click8")).trigger('click');
+        triggerEvent(_e("click8"), 'click');
 
         tracker.enableLinkTracking();
 
@@ -2340,7 +2351,7 @@ if ($sqlite) {
         var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
         for (var i=0; i < buttons.length; i++) {
             tracker.hook.test._addEventListener(_e(buttons[i]), "click", stopEvent);
-            $(_e(buttons[i])).trigger('click');
+            triggerEvent(_e(buttons[i]), 'click');
         }
 
         var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
@@ -2356,7 +2367,7 @@ if ($sqlite) {
         clickDiv.appendChild(anchor);
         tracker.addListener(anchor);
         tracker.hook.test._addEventListener(anchor, "click", stopEvent);
-        $(_e("click9")).trigger("click" );
+        triggerEvent(_e('click9'), 'click');
 
         var visitorId1, visitorId2;
 
