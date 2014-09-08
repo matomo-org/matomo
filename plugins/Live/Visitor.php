@@ -87,7 +87,8 @@ class Visitor implements VisitorInterface
 
     function getUserId()
     {
-        if (!is_null($this->details['user_id'])) {
+        if (isset($this->details['user_id'])
+            && !is_null($this->details['user_id'])) {
             return $this->details['user_id'];
         }
         return false;

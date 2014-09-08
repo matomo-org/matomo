@@ -22,7 +22,10 @@
                     <div>
                         <div class="visitor-profile-header">
                             {% if visitorData.previousVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}">&larr;</a>{% endif %}
-                            <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/></h1>
+                            <h1>{{ 'Live_VisitorProfile'|translate }}
+                                {%- if visitorData.userId is not empty %}: <span title="{{'General_UserId'|translate}}: {{ visitorData.userId|raw }}">{{ visitorData.userId|raw }}</span>{% endif -%}
+                                <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/>
+                            </h1>
                             <a href="http://piwik.org/docs/user-profile/" class="reportDocumentationIcon" target="_blank" title="{{ 'General_ViewDocumentationFor'|translate("Live_VisitorProfile"|translate|ucwords) }}"></a>
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}">&rarr;</a>{% endif %}
                         </div>

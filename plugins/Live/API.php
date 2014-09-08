@@ -382,6 +382,8 @@ class API extends \Piwik\Plugin\API
             $visit->setColumn('serverDateTimePrettyFirstAction', $dateTimePretty);
         }
 
+        $result['userId'] = $visit->getColumn('userId');
+
         // get visitor IDs that are adjacent to this one in log_visit
         // TODO: make sure order of visitor ids is not changed if a returning visitor visits while the user is
         //       looking at the popup.
