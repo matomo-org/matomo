@@ -133,9 +133,18 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             $columnsToSet = array();
             $bind = array();
             foreach ($this->logVisitFieldsToUpdate as $column => $locationKey) {
-                if (!empty($location[$locationKey]) && $location[$locationKey] != $row->{$column}) {
-                    $columnsToSet[] = $column;
-                    $bind[] = $location[$locationKey];
+                if (!empty($location[$locationKey])) {
+                    if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
+                        if (strtolower($location[$locationKey]) != strtolower($row->{$column})) {
+                            $columnsToSet[] = $column;
+                            $bind[] = strtolower($location[$locationKey]);
+                        }
+                    } else {
+                        if ($location[$locationKey] != $row->{$column}) {
+                            $columnsToSet[] = $column;
+                            $bind[] = $location[$locationKey];
+                        }
+                    }
                 }
             }
 
