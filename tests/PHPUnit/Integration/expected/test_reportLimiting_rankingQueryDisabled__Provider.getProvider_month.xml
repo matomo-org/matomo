@@ -4,6 +4,7 @@
 		<label>Comcast</label>
 		<nb_visits>52</nb_visits>
 		<nb_actions>52</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>52</bounce_count>
@@ -15,6 +16,7 @@
 		<label>Awesomeisp</label>
 		<nb_visits>26</nb_visits>
 		<nb_actions>26</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>26</bounce_count>
@@ -26,6 +28,7 @@
 		<label>Unknown</label>
 		<nb_visits>22</nb_visits>
 		<nb_actions>22</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>22</bounce_count>

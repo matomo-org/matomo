@@ -4,6 +4,7 @@
 		<label>Europe</label>
 		<nb_visits>20</nb_visits>
 		<nb_actions>36</nb_actions>
+		<nb_users>10</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>12610</sum_visit_length>
 		<bounce_count>10</bounce_count>
@@ -28,6 +29,7 @@
 		<label>North America</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>11</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>3783</sum_visit_length>
 		<bounce_count>4</bounce_count>
@@ -52,6 +54,7 @@
 		<label>Unknown</label>
 		<nb_visits>4</nb_visits>
 		<nb_actions>8</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>2522</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -76,6 +79,7 @@
 		<label>Asia</label>
 		<nb_visits>4</nb_visits>
 		<nb_actions>6</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>2</max_actions>
 		<sum_visit_length>2522</sum_visit_length>
 		<bounce_count>2</bounce_count>

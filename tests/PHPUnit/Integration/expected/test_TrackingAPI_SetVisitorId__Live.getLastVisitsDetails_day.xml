@@ -101,7 +101,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://localhost/</url>
 				<pageTitle>same user id was set -&gt; this is the same unique user</pageTitle>
 				<pageIdAction>8</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:22:33</serverTimePretty>
@@ -112,7 +112,7 @@
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://localhost/</url>
 				<pageTitle>second pageview - by this user id</pageTitle>
 				<pageIdAction>8</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
@@ -126,7 +126,7 @@
 				<revenue>0</revenue>
 				<goalPageId />
 				<serverTimePretty>Sat 6 Mar 16:34:33</serverTimePretty>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://localhost/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
@@ -156,7 +156,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://localhost/</url>
 				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
 				<pageIdAction>8</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>

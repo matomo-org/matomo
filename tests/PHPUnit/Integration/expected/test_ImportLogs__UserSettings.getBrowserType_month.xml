@@ -4,6 +4,7 @@
 		<label>WebKit (Safari, Chrome)</label>
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
+		<nb_users>7</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>10</bounce_count>
@@ -15,6 +16,7 @@
 		<label>Unknown</label>
 		<nb_visits>9</nb_visits>
 		<nb_actions>12</nb_actions>
+		<nb_users>5</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>7</bounce_count>
@@ -26,6 +28,7 @@
 		<label>Trident (IE)</label>
 		<nb_visits>6</nb_visits>
 		<nb_actions>6</nb_actions>
+		<nb_users>4</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>6</bounce_count>
@@ -37,6 +40,7 @@
 		<label>Gecko (Firefox)</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>

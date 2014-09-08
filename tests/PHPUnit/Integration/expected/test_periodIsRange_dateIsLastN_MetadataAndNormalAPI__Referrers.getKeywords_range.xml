@@ -4,6 +4,7 @@
 		<label>this keyword should be ranked</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>364</sum_visit_length>
 		<bounce_count>0</bounce_count>
@@ -14,6 +15,7 @@
 				<label>Google</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
+				<nb_users>1</nb_users>
 				<max_actions>3</max_actions>
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>

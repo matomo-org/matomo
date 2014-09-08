@@ -4,6 +4,7 @@
 		<label>unknown</label>
 		<nb_visits>25</nb_visits>
 		<nb_actions>28</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>23</bounce_count>
@@ -14,6 +15,7 @@
 		<label>1024x768</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -24,6 +26,7 @@
 		<label>1280x800</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>

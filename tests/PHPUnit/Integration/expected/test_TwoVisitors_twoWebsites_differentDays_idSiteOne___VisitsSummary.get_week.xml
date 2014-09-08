@@ -4,6 +4,7 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
 		<bounce_count>1</bounce_count>
 		<sum_visit_length>0</sum_visit_length>
@@ -16,6 +17,7 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>7</nb_visits>
 		<nb_actions>32</nb_actions>
+		<nb_users>1</nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
 		<bounce_count>0</bounce_count>
 		<sum_visit_length>5767</sum_visit_length>
@@ -28,6 +30,7 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>10</nb_actions>
+		<nb_users>1</nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
 		<bounce_count>0</bounce_count>
 		<sum_visit_length>1802</sum_visit_length>

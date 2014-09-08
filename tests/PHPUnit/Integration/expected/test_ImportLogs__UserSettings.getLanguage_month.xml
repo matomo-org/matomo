@@ -4,6 +4,7 @@
 		<label>Unknown</label>
 		<nb_visits>27</nb_visits>
 		<nb_actions>30</nb_actions>
+		<nb_users>4</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>25</bounce_count>

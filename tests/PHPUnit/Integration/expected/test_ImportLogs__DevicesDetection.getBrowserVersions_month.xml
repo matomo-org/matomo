@@ -4,6 +4,7 @@
 		<label>Epiphany 2.30</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
@@ -15,6 +16,7 @@
 		<label>Internet Explorer 9.0</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
@@ -26,6 +28,7 @@
 		<label>RockMelt 0.9</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>8</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>3</bounce_count>
@@ -37,6 +40,7 @@
 		<label>Android Browser</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -48,6 +52,7 @@
 		<label>Chrome 19.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -59,6 +64,7 @@
 		<label>Chrome 20.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -70,6 +76,7 @@
 		<label>Firefox 6.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -81,6 +88,7 @@
 		<label>Unknown</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -92,6 +100,7 @@
 		<label>Chrome 11.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -103,6 +112,7 @@
 		<label>Internet Explorer 6.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>

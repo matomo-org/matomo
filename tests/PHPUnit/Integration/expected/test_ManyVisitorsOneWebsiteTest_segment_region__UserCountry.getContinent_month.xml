@@ -4,6 +4,7 @@
 		<label>Europe</label>
 		<nb_visits>6</nb_visits>
 		<nb_actions>11</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>3783</sum_visit_length>
 		<bounce_count>3</bounce_count>

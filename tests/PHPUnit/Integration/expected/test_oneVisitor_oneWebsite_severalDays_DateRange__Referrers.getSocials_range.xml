@@ -5,6 +5,7 @@
 			<label>Facebook</label>
 			<nb_visits>3</nb_visits>
 			<nb_actions>5</nb_actions>
+			<nb_users>3</nb_users>
 			<max_actions>2</max_actions>
 			<sum_visit_length>722</sum_visit_length>
 			<bounce_count>1</bounce_count>
@@ -17,6 +18,7 @@
 			<label>Mixi</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
+			<nb_users>1</nb_users>
 			<max_actions>1</max_actions>
 			<sum_visit_length>0</sum_visit_length>
 			<bounce_count>1</bounce_count>
@@ -29,6 +31,7 @@
 			<label>Skyrock</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>2</nb_actions>
+			<nb_users>1</nb_users>
 			<max_actions>2</max_actions>
 			<sum_visit_length>361</sum_visit_length>
 			<bounce_count>0</bounce_count>
@@ -41,6 +44,7 @@
 			<label>Twitter</label>
 			<nb_visits>3</nb_visits>
 			<nb_actions>4</nb_actions>
+			<nb_users>3</nb_users>
 			<max_actions>2</max_actions>
 			<sum_visit_length>361</sum_visit_length>
 			<bounce_count>2</bounce_count>
@@ -53,6 +57,7 @@
 			<label>Flickr</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>2</nb_actions>
+			<nb_users>1</nb_users>
 			<max_actions>2</max_actions>
 			<sum_visit_length>361</sum_visit_length>
 			<bounce_count>0</bounce_count>
@@ -65,6 +70,7 @@
 			<label>Xanga</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
+			<nb_users>1</nb_users>
 			<max_actions>1</max_actions>
 			<sum_visit_length>0</sum_visit_length>
 			<bounce_count>1</bounce_count>
@@ -79,6 +85,7 @@
 			<label>Twitter</label>
 			<nb_visits>2</nb_visits>
 			<nb_actions>2</nb_actions>
+			<nb_users>2</nb_users>
 			<max_actions>1</max_actions>
 			<sum_visit_length>0</sum_visit_length>
 			<bounce_count>2</bounce_count>
@@ -91,6 +98,7 @@
 			<label>Facebook</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
+			<nb_users>1</nb_users>
 			<max_actions>1</max_actions>
 			<sum_visit_length>0</sum_visit_length>
 			<bounce_count>1</bounce_count>

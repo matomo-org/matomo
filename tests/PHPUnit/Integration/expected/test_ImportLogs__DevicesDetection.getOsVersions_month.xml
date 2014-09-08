@@ -4,6 +4,7 @@
 		<label>GNU/Linux</label>
 		<nb_visits>8</nb_visits>
 		<nb_actions>8</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>8</bounce_count>
@@ -15,6 +16,7 @@
 		<label>Windows 7</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>7</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>7</bounce_count>
@@ -26,6 +28,7 @@
 		<label>Mac 10.6</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>8</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>3</bounce_count>
@@ -37,6 +40,7 @@
 		<label>Android 2.3</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -48,6 +52,7 @@
 		<label>Windows XP</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -59,6 +64,7 @@
 		<label>Bot</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -70,6 +76,7 @@
 		<label>Mac 10.8</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -81,6 +88,7 @@
 		<label>Unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>

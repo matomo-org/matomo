@@ -4,6 +4,7 @@
 		<label>Japan</label>
 		<nb_visits>11</nb_visits>
 		<nb_actions>14</nb_actions>
+		<nb_users>3</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>9</bounce_count>
@@ -26,6 +27,7 @@
 		<label>Unknown</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>7</nb_actions>
+		<nb_users>4</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>7</bounce_count>
@@ -48,6 +50,7 @@
 		<label>United States</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
+		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
@@ -70,6 +73,7 @@
 		<label>Brazil</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>3</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
@@ -92,6 +96,7 @@
 		<label>Australia</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>

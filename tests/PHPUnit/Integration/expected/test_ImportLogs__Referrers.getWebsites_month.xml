@@ -4,6 +4,7 @@
 		<label>piwik.org</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -22,6 +23,7 @@
 				<label>http://piwik.org/contribute%</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -34,6 +36,7 @@
 		<label>sn110w.snt110.mail.live.com</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -52,6 +55,7 @@
 				<label>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
