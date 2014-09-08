@@ -9,7 +9,7 @@
 use Piwik\Config;
 use Piwik\FrontController;
 
-error_reporting(E_ALL | E_NOTICE);
+error_reporting(E_ALL);
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__) . '/../..');
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
