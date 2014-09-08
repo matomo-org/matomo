@@ -4,7 +4,6 @@
 		<label>United Kingdom</label>
 		<nb_visits>10</nb_visits>
 		<nb_actions>18</nb_actions>
-		<nb_users>5</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>6305</sum_visit_length>
 		<bounce_count>5</bounce_count>
@@ -23,6 +22,7 @@
 		<nb_conversions>15</nb_conversions>
 		<revenue>75</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>5</sum_daily_nb_users>
 		<code>gb</code>
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 		<logoWidth>16</logoWidth>
@@ -32,7 +32,6 @@
 		<label>Canada</label>
 		<nb_visits>6</nb_visits>
 		<nb_actions>10</nb_actions>
-		<nb_users>2</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>3783</sum_visit_length>
 		<bounce_count>3</bounce_count>
@@ -51,6 +50,7 @@
 		<nb_conversions>9</nb_conversions>
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<code>ca</code>
 		<logo>plugins/UserCountry/images/flags/ca.png</logo>
 		<logoWidth>16</logoWidth>
@@ -60,7 +60,6 @@
 		<label>Russian Federation</label>
 		<nb_visits>4</nb_visits>
 		<nb_actions>7</nb_actions>
-		<nb_users>2</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>2522</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -79,6 +78,7 @@
 		<nb_conversions>6</nb_conversions>
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<code>ru</code>
 		<logo>plugins/UserCountry/images/flags/ru.png</logo>
 		<logoWidth>16</logoWidth>
@@ -88,7 +88,6 @@
 		<label>Unknown</label>
 		<nb_visits>4</nb_visits>
 		<nb_actions>8</nb_actions>
-		<nb_users>2</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>2522</sum_visit_length>
 		<bounce_count>2</bounce_count>
@@ -107,6 +106,7 @@
 		<nb_conversions>6</nb_conversions>
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<code>xx</code>
 		<logo>plugins/UserCountry/images/flags/xx.png</logo>
 		<logoWidth>16</logoWidth>
@@ -116,7 +116,6 @@
 		<label>France</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>4</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>1261</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -135,6 +134,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>fr</code>
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
 		<logoWidth>16</logoWidth>
@@ -144,7 +144,6 @@
 		<label>Indonesia</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>3</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>2</max_actions>
 		<sum_visit_length>1261</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -163,6 +162,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>id</code>
 		<logo>plugins/UserCountry/images/flags/id.png</logo>
 		<logoWidth>16</logoWidth>
@@ -172,7 +172,6 @@
 		<label>Italy</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>4</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>1261</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -191,6 +190,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>it</code>
 		<logo>plugins/UserCountry/images/flags/it.png</logo>
 		<logoWidth>16</logoWidth>
@@ -200,7 +200,6 @@
 		<label>Macedonia, the Former Yugoslav Republic of</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>3</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>2</max_actions>
 		<sum_visit_length>1261</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -219,6 +218,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>mk</code>
 		<logo>plugins/UserCountry/images/flags/mk.png</logo>
 		<logoWidth>16</logoWidth>
@@ -228,7 +228,6 @@
 		<label>Tibet</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>3</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>2</max_actions>
 		<sum_visit_length>1261</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -247,6 +246,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>ti</code>
 		<logo>plugins/UserCountry/images/flags/ti.png</logo>
 		<logoWidth>16</logoWidth>
@@ -256,7 +256,6 @@
 		<label>United States</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -270,6 +269,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>us</code>
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 		<logoWidth>16</logoWidth>

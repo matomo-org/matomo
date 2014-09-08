@@ -6,7 +6,6 @@
 				<label>SET WITH EMPTY VALUE</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>3</max_actions>
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>
@@ -20,12 +19,12 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>Value not defined</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>3</nb_actions>
-						<nb_users>1</nb_users>
 						<max_actions>3</max_actions>
 						<sum_visit_length>364</sum_visit_length>
 						<bounce_count>0</bounce_count>
@@ -39,6 +38,7 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>
@@ -64,7 +64,6 @@
 				<label>Value will be VERY long and truncated</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>3</max_actions>
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>
@@ -78,12 +77,12 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>3</nb_actions>
-						<nb_users>1</nb_users>
 						<max_actions>3</max_actions>
 						<sum_visit_length>364</sum_visit_length>
 						<bounce_count>0</bounce_count>
@@ -97,6 +96,7 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>
@@ -104,7 +104,6 @@
 				<label>VisitorType</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>3</max_actions>
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>
@@ -123,12 +122,12 @@
 				<nb_conversions>2</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>LoggedIn</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>3</nb_actions>
-						<nb_users>1</nb_users>
 						<max_actions>3</max_actions>
 						<sum_visit_length>364</sum_visit_length>
 						<bounce_count>0</bounce_count>
@@ -142,6 +141,7 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 					<row>
 						<label>LoggedOut</label>

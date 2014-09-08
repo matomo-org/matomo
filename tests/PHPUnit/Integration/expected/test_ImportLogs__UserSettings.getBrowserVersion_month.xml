@@ -4,12 +4,12 @@
 		<label>Epiphany 2.30</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
-		<nb_users>3</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/EP.gif</logo>
 		<shortLabel>Epiphany 2.30</shortLabel>
 	</row>
@@ -17,12 +17,12 @@
 		<label>Internet Explorer 9.0</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
-		<nb_users>3</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
 		<shortLabel>Internet Explorer 9.0</shortLabel>
 	</row>
@@ -30,12 +30,12 @@
 		<label>RockMelt 0.9</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>8</nb_actions>
-		<nb_users>2</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
 		<shortLabel>RockMelt 0.9</shortLabel>
 	</row>
@@ -43,12 +43,12 @@
 		<label>Android Browser </label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
-		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/AN.gif</logo>
 		<shortLabel>Android Browser </shortLabel>
 	</row>
@@ -56,12 +56,12 @@
 		<label>Chrome 19.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 		<shortLabel>Chrome 19.0</shortLabel>
 	</row>
@@ -69,12 +69,12 @@
 		<label>Chrome 20.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
-		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 		<shortLabel>Chrome 20.0</shortLabel>
 	</row>
@@ -82,12 +82,12 @@
 		<label>Firefox 6.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
 		<shortLabel>Firefox 6.0</shortLabel>
 	</row>
@@ -95,12 +95,12 @@
 		<label>Unknown</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
 		<shortLabel>Unknown</shortLabel>
 	</row>
@@ -108,12 +108,12 @@
 		<label>Chrome 11.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 		<shortLabel>Chrome 11.0</shortLabel>
 	</row>
@@ -121,12 +121,12 @@
 		<label>Internet Explorer 6.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
 		<shortLabel>Internet Explorer 6.0</shortLabel>
 	</row>

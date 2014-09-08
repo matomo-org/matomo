@@ -40,7 +40,6 @@
 		<label>Not-Bot</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>10</nb_actions>
-		<nb_users>4</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>5</bounce_count>
@@ -54,12 +53,12 @@
 		<nb_conversions>5</nb_conversions>
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>4</sum_daily_nb_users>
 		<subtable>
 			<row>
 				<label>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</label>
 				<nb_visits>4</nb_visits>
 				<nb_actions>7</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>3</max_actions>
 				<sum_visit_length>305</sum_visit_length>
 				<bounce_count>2</bounce_count>
@@ -73,23 +72,23 @@
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
 				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>Apache-HttpClient/4.2.1 (java 1.5)</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -103,12 +102,12 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -122,6 +121,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
@@ -129,7 +129,6 @@
 		<label>Bot</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -143,12 +142,12 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<subtable>
 			<row>
 				<label>Googlebot/2.1 ( http://www.googlebot.com/bot.html)</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -162,6 +161,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
@@ -169,7 +169,6 @@
 		<label>Forum status</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -183,12 +182,12 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<subtable>
 			<row>
 				<label>Anonymous</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -202,6 +201,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
@@ -209,7 +209,6 @@
 		<label>VisitorType</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -223,12 +222,12 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<subtable>
 			<row>
 				<label>NewLoggedOut</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -242,6 +241,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>

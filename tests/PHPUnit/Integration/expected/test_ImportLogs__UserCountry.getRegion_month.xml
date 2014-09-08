@@ -4,7 +4,6 @@
 		<label>Unknown</label>
 		<nb_visits>22</nb_visits>
 		<nb_actions>25</nb_actions>
-		<nb_users>9</nb_users>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>20</bounce_count>
@@ -18,6 +17,7 @@
 		<nb_conversions>20</nb_conversions>
 		<revenue>100</revenue>
 		<sum_daily_nb_uniq_visitors>22</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>9</sum_daily_nb_users>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>
@@ -28,7 +28,6 @@
 		<label>Virginia, United States</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
-		<nb_users>2</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
@@ -42,6 +41,7 @@
 		<nb_conversions>5</nb_conversions>
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<region>VA</region>
 		<country>us</country>
 		<country_name>United States</country_name>
