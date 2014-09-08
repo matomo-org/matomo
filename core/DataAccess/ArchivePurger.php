@@ -22,6 +22,36 @@ use Piwik\Piwik;
  */
 class ArchivePurger
 {
+    public static function purgeInvalidatedArchives()
+    {
+        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
+
+        foreach ($archiveTables as $archiveTable) {
+            $query  = '
+                SELECT t1.idarchive FROM `' . $archiveTable . '` t1
+                INNER JOIN `piwik_archive_numeric_2014_09` t2
+                    ON t1.idarchive != t2.idarchive AND t1.name = t2.name AND t1.idsite=t2.idsite
+                    AND t1.date1=t2.date1 AND t1.date2=t2.date2 AND t1.period=t2.period
+                WHERE t1.value = 4 AND t2.value IN(' . ArchiveWriter::DONE_OK . ', ' . ArchiveWriter::DONE_OK_TEMPORARY . ') AND t1.name LIKE \'done%\'';
+            $result = Db::fetchAll($query);
+
+            if (count($result) > 0) {
+                $archiveIds = array_map(
+                    function ($elm) {
+                        return $elm['idarchive'];
+                    },
+                    $result
+                );
+
+                Db::query(
+                    'DELETE FROM `' . $archiveTable . '` WHERE idarchive IN (' . implode(', ', $archiveIds) . ')'
+                );
+            }
+
+        }
+    }
+
+
     public static function purgeOutdatedArchives(Date $dateStart)
     {
         $purgeArchivesOlderThan = Rules::shouldPurgeOutdatedArchives($dateStart);
