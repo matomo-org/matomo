@@ -29,8 +29,6 @@ class Request
      */
     protected $params;
 
-    protected $forcedVisitorId = false;
-
     protected $isAuthenticated = null;
 
     protected $tokenAuth;
@@ -529,21 +527,14 @@ class Request
         }
     }
 
-    public function setForcedVisitorId($visitorId)
+    public function getForcedUserId()
     {
-        if (!empty($visitorId)) {
-            $this->forcedVisitorId = $visitorId;
-        }
+        return $this->getParam('uid');
     }
 
     public function getForcedVisitorId()
     {
-        return $this->forcedVisitorId;
-    }
-
-    public function getForcedUserId()
-    {
-        return $this->getParam('uid');
+        return $this->getParam('cid');
     }
 
     public function getPlugins()

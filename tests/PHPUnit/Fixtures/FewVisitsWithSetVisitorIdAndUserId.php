@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 use Piwik\Tracker\Visit;
 use Piwik\Tests\Fixture;
 use PiwikTracker;
@@ -19,6 +20,7 @@ use Exception;
 class FewVisitsWithSetVisitorId extends Fixture
 {
     public $idSite = 1;
+    public $idGoal = 1;
     public $dateTime = '2010-03-06 11:22:33';
 
     public function setUp()
@@ -36,8 +38,11 @@ class FewVisitsWithSetVisitorId extends Fixture
     private function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($this->idSite)) {
             self::createWebsite($this->dateTime);
+        }
+        if (!self::goalExists($this->idSite, $this->idGoal)) {
+            API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
         }
     }
 
@@ -47,7 +52,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
         // First, some basic tests
-        self::settingInvalidVisitorIdShouldThrow($t);
+        $this->settingInvalidVisitorIdShouldThrow($t);
 
         // We create VISITOR A
         $t->setUrl('http://example.org/index.htm');
@@ -74,7 +79,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
         // First, some basic tests
-        self::settingInvalidUserIdShouldThrow($t);
+        $this->settingInvalidUserIdShouldThrow($t);
 
         // A NEW VISIT
         // Setting both Visitor ID and User ID
@@ -93,7 +98,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $this->assertEquals($userId, $t->getUserId());
 
         // User ID takes precedence over any previously set Visitor ID
-        $hashUserId = $t->getIdHashed($userId);
+        $hashUserId = $t->getUserIdHashed($userId);
         $this->assertEquals($hashUserId, $t->getVisitorId());
 
         // Track a pageview with this user id
@@ -104,14 +109,45 @@ class FewVisitsWithSetVisitorId extends Fixture
         self::checkResponse($t->doTrackPageView('second page'));
 
 
-        // A NEW VISIT
+        // A NEW VISIT WITH A SET USER ID
         // Change User ID -> This will create a new visit
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.2)->getDatetime());
-        $t->setUserId('new-email@example.com');
+        $t->setNewVisitorId();
+        $anotherUserId = 'new-email@example.com';
+        $t->setUserId($anotherUserId);
         self::checkResponse($t->doTrackPageView('a new user id was set -> new visit'));
+
+        // A NEW VISIT BY THE SAME USER
+        // Few hours later, the same user ID comes in from a different place and computer
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5)->getDatetime());
+        // Make sure the computer and IP look really different from previous visit
+        $t->setIp('67.51.31.21');
+        $t->setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)");
+        $t->setBrowserLanguage('fr');
+        $t->setUserId($anotherUserId);
+        self::checkResponse($t->doTrackPageView('same user id was set -> this is the same unique user'));
+
+        // Do not pass User ID in this request, it should still attribute to previous visit
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5.1)->getDatetime());
+        $t->setUserId(false);
+        self::checkResponse($t->doTrackPageView('second pageview by this user id'));
+
+        // Trigger a goal conversion
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5.2)->getDatetime());
+        self::checkResponse($t->doTrackGoal(1));
+
+
+        // An ecommerce add to cart
+        // (helpful to test that &segment=userId==x will return all items purchased by a specific user ID
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5.3)->getDatetime());
+        $t->setUrl('http://nsa.gov/buy/prism');
+        $t->addEcommerceItem('sku-007-PRISM', 'My secret spy tech', 'Surveillance', '10000000000');
+        $t->doTrackEcommerceCartUpdate(10000000000 + 500 /* add some for shipping PRISM */);
+
     }
 
-    private static function settingInvalidVisitorIdShouldThrow(PiwikTracker $t)
+    private function settingInvalidVisitorIdShouldThrow(PiwikTracker $t)
     {
         try {
             $t->setVisitorId('test');
@@ -133,7 +169,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         }
     }
 
-    private static function settingInvalidUserIdShouldThrow(PiwikTracker $t)
+    private function settingInvalidUserIdShouldThrow(PiwikTracker $t)
     {
         try {
             $t->setUserId('');
