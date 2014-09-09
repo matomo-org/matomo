@@ -42,6 +42,7 @@ class ProcessedReport
             // todo: should use SettingsPiwik::isUniqueVisitorsEnabled instead
             if (($period && $period != 'day') && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
                 unset($report['metrics']['nb_uniq_visitors']);
+                unset($report['metrics']['nb_users']);
             }
             if ($report['module'] == $apiModule
                 && $report['action'] == $apiAction

@@ -101,10 +101,10 @@ disable_merged_assets = 0
 
 [General]
 
-; the following settings control whether Unique Visitors will be processed for different period types.
+; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
 ; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
-; it is recommended to always enable Unique Visitors processing for 'day' periods
+; it is recommended to always enable Unique Visitors and Unique Users processing for 'day' periods
 enable_processing_unique_visitors_day = 1
 enable_processing_unique_visitors_week = 1
 enable_processing_unique_visitors_month = 1

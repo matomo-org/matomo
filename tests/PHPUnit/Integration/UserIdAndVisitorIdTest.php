@@ -14,10 +14,10 @@ use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
 /**
  * This test tests that when using &cid=, the visitor ID is enforced
  *
- * @group TrackingAPISetVisitorIdTest
+ * @group UserIdAndVisitorIdTest
  * @group Integration
  */
-class TrackingAPISetVisitorIdTest extends IntegrationTestCase
+class UserIdAndVisitorIdTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -33,7 +33,7 @@ class TrackingAPISetVisitorIdTest extends IntegrationTestCase
 
     public static function getOutputPrefix()
     {
-        return "TrackingAPI_SetVisitorId";
+        return "UserId_VisitorId";
     }
 
     /**
@@ -47,17 +47,17 @@ class TrackingAPISetVisitorIdTest extends IntegrationTestCase
     public function getApiForTesting()
     {
         return array(
-            array('VisitsSummary.get',
-                                        array('idSite'     => self::$fixture->idSite,
-                                             'date'       => self::$fixture->dateTime,
-                                             'periods'    => 'day',
-                                             'testSuffix' => '',
-            )),
+            array(array('VisitsSummary.get', 'VisitsSummary.getUsers'),
+                  array('idSite'     => self::$fixture->idSite,
+                        'date'       => self::$fixture->dateTime,
+                        'periods'    => array( 'day', 'month', 'week', 'year' ),
+                        'testSuffix' => '',
+                  )),
 
             array('Live.getLastVisitsDetails',
                                         array('idSite'  => self::$fixture->idSite,
                                                      'date'    => self::$fixture->dateTime,
-                                                     'periods' => 'day',
+                                                     'periods' => 'month',
                                                      'keepLiveIds' => true,
                                                      'keepLiveDates' => true,
                                                      'otherRequestParameters' => array(
@@ -90,4 +90,4 @@ class TrackingAPISetVisitorIdTest extends IntegrationTestCase
     }
 }
 
-TrackingAPISetVisitorIdTest::$fixture = new FewVisitsWithSetVisitorId();
+UserIdAndVisitorIdTest::$fixture = new FewVisitsWithSetVisitorId();

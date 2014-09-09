@@ -225,7 +225,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $metrics = array();
         foreach ($metaData[0]['metrics'] as $id => $val) {
-            // should use SettingsPiwik::isUniqueVisitorsEnabled ?
+            // todo: should use SettingsPiwik::isUniqueVisitorsEnabled ?
             if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
                 $metrics[] = array($id, $val);
             }

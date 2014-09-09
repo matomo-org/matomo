@@ -208,7 +208,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // configure selectable columns
-        // should use SettingsPiwik::isUniqueVisitorsEnabled
+        // todo: should use SettingsPiwik::isUniqueVisitorsEnabled
         if (Common::getRequestVar('period', false) == 'day') {
             $selectable = array('nb_visits', 'nb_uniq_visitors', 'nb_users', 'nb_actions');
         } else {

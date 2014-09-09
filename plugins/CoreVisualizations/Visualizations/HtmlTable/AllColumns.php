@@ -43,8 +43,12 @@ class AllColumns extends HtmlTable
                 $columnsToDisplay[] = 'nb_uniq_visitors';
             }
 
+            if (in_array('nb_users', $dataTable->getColumns())) {
+                $columnsToDisplay[] = 'nb_users';
+            }
+
             $columnsToDisplay = array_merge(
-                $columnsToDisplay, array('nb_users', 'nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate')
+                $columnsToDisplay, array('nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate')
             );
 
             // only display conversion rate for the plugins that do not provide "per goal" metrics

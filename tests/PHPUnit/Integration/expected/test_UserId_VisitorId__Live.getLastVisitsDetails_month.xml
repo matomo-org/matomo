@@ -101,7 +101,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://localhost/</url>
+				<url>http://example.org/home</url>
 				<pageTitle>same user id was set -&gt; this is the same unique user</pageTitle>
 				<pageIdAction>8</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:22:33</serverTimePretty>
@@ -112,7 +112,7 @@
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://localhost/</url>
+				<url>http://example.org/home</url>
 				<pageTitle>second pageview - by this user id</pageTitle>
 				<pageIdAction>8</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
@@ -126,7 +126,7 @@
 				<revenue>0</revenue>
 				<goalPageId />
 				<serverTimePretty>Sat 6 Mar 16:34:33</serverTimePretty>
-				<url>http://localhost/</url>
+				<url>http://example.org/home</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
@@ -156,7 +156,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://localhost/</url>
+				<url>http://example.org/home</url>
 				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
 				<pageIdAction>8</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
@@ -165,6 +165,42 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
+		<actions>1</actions>
+	</row>
+	<row>
+		<idVisit>7</idVisit>
+		<userId>email@example.com</userId>
+		<visitorId>9395988394d4568d</visitorId>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Page view by email@example.com</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<serverTimePretty>Sun 14 Mar 11:22:33</serverTimePretty>
+				<pageId>10</pageId>
+				<icon />
+			</row>
+		</actionDetails>
+		<lastActionDateTime>2010-03-14 11:22:33</lastActionDateTime>
+		<actions>1</actions>
+	</row>
+	<row>
+		<idVisit>8</idVisit>
+		<userId>new-user-id@one-weeklater</userId>
+		<visitorId>72d4b5565daf5546</visitorId>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>A page view by new-user-id@one-weeklater</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<serverTimePretty>Sun 14 Mar 11:46:33</serverTimePretty>
+				<pageId>11</pageId>
+				<icon />
+			</row>
+		</actionDetails>
+		<lastActionDateTime>2010-03-14 11:46:33</lastActionDateTime>
 		<actions>1</actions>
 	</row>
 </result>

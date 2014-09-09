@@ -23,11 +23,16 @@ class FewVisitsWithSetVisitorId extends Fixture
     public $idGoal = 1;
     public $dateTime = '2010-03-06 11:22:33';
 
+    const USER_ID_EXAMPLE_COM = 'email@example.com';
+
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits_setVisitorId();
         $this->trackVisits_setUserId();
+
+        // generate data for the period = week, month, year use cases
+        $this->trackVisits_oneWeekLater_setUserId();
     }
 
     public function tearDown()
@@ -93,7 +98,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $this->assertEquals($generatedVisitorId, $t->getVisitorId());
 
         // Set User ID
-        $userId = 'email@example.com';
+        $userId = self::USER_ID_EXAMPLE_COM;
         $t->setUserId($userId);
         $this->assertEquals($userId, $t->getUserId());
 
@@ -126,6 +131,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)");
         $t->setBrowserLanguage('fr');
         $t->setUserId($secondUserId);
+        $t->setUrl('http://example.org/home');
         self::checkResponse($t->doTrackPageView('same user id was set -> this is the same unique user'));
 
         // Do not pass User ID in this request, it should still attribute to previous visit
@@ -154,6 +160,27 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setUrl('http://nsa.gov/buy/prism');
         $t->addEcommerceItem('sku-007-PRISM', 'My secret spy tech', 'Surveillance', '10000000000');
         $t->doTrackEcommerceCartUpdate(10000000000 + 500 /* add some for shipping PRISM */);
+
+    }
+
+    private function trackVisits_oneWeekLater_setUserId()
+    {
+        $oneWeekLater = Date::factory($this->dateTime)->addDay(8);
+
+        // Set User ID to a known user id
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t->setForceVisitDateTime($oneWeekLater->getDatetime());
+        $t->setUrl('http://example.org/index.htm');
+        $t->setUserId(self::USER_ID_EXAMPLE_COM);
+        self::checkResponse($t->doTrackPageView('Page view by ' . self::USER_ID_EXAMPLE_COM));
+
+        // Set a new User ID not set before
+        $t->setForceVisitDateTime($oneWeekLater->addHour(0.4)->getDatetime());
+        $t->setUrl('http://example.org/index.htm');
+        $userId = 'new-user-id@one-weeklater';
+        $t->setUserId($userId);
+        self::checkResponse($t->doTrackPageView('A page view by ' . $userId));
+        $t->setForceVisitDateTime($oneWeekLater->addHour(0.8)->getDatetime());
 
     }
 
