@@ -302,13 +302,36 @@ A typical example for a content block that displays a text ad.
 
 There are several ways to track a content impression and/or interaction manually, semi-automatically and automatically. Please be aware that content impressions will be tracked using bulk tracking which will always send a `POST` request, even if `GET` is configured which is the default.
 
-#### `trackContentImpressions()`
+#### `trackAllContentImpressions()`
 
 You can use this method to scan the entire DOM for content blocks.
-For each content block we will track a content impression immediately unless you enable `enableTrackOnlyVisibleContent` see below.
+For each content block we will track a content impression immediately unless you have called `trackVisibleContentImpressions()` before see below.
 
 Note: We will not send an impression of the same content block twice if you call this method multiple times unless `trackPageView()` is called meanwhile. This is useful for single page applications. The "same" content blocks means if a content block has the identical name, piece and target as an already tracked one.
 Note: At this stage we do not exeute this method automatically along with a trackPageView(), we can do this later once we know it works
+
+#### `trackVisibleContentImpressions(checkOnSroll, timeIntervalInMs)`
+If you enable to track only visible content we will only track an impression if a content block is actually visible. With visible we mean the content block has been in the view port, it is actually in the DOM and is not hidden via CSS (opacity, visibility, display, ...).
+
+* Optionally you can tell us to rescan the DOM automatically after each scroll event by passing `checkOnSroll=true`. We will then check whether the previously hidden content blocks are visible now and if so track the impression.
+  * Parameter defaults to boolean `true` if not specified.
+  * As the scroll event is triggered after each pixel scrolling would be very slow when checking for new visible content blocks each time the event is triggered. Instead we are checking every 100ms whether a scroll event was triggered and if so we scan the DOM for new visible content blocks
+  * Note: If a content block is placed within a scrollable element (`overflow: scroll`), we do currently not attach an event in case the user scrolls within this element. This means we would not detect that such an element becomes visible.
+* Optionally you can tell us to rescan the entire DOM for new impressions every X milliseconds by passing `timeIntervalInMs=500` (rescan DOM every 500ms).
+  * If parameter is not set, a default interval sof 750ms will be used.
+  * Rescanning the entire DOM and detecting the visible state of content blocks can take a while depending on the browser and amount of content
+  * We do not really rescan every X milliseconds. We will schedule the next rescan after a previous scan has finished. So if it takes 20ms to scan the DOM and you tell us to rescan every 50ms it can actually take 70ms.
+  * In case your frames per second goes down you might want to increase this value
+* If you do want to only track visible content but not want us to perform any checks automatically you can either call `trackVisibleContentImpressions()` manually at any time to rescan the entire DOM or `trackContentImpressionsWithinNode()` to check only a specific part of the DOM for visible content blocks.
+ * Call `trackVisibleContentImpressions(false, 0)` to initially track only visible content impressions
+ * Call `trackVisibleContentImpressions()` at any time again to rescan the entire DOM for newly visible content blocks or
+ * Call `trackContentImpressionsWithinNode(node)` at any time to rescan only a part of the DOM for newly visible content blocks
+
+Note: You can not change the `checkOnScroll` or `timeIntervalInMs` after this method was called the first time.
+
+#### `(checkOnSroll, timeIntervalInMs)`
+
+Is a shorthand for calling `enableTrackOnlyVisibleContent()` and `trackContentImpressions()`.
 
 #### `trackContentImpressionsWithinNode(domNode, contentTarget)`
 
@@ -325,26 +348,6 @@ _paq.push(['trackContentImpressionsWithinNode', div[0]]);
 We would detect two new content blocks in this example.
 
 Please note: In case you have enabled to only track visible content blocks we will respect this. In case it contains a content block that was already tracked we will not track it again.
-
-#### `enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs)`
-If you enable to track only visible content we will only track an impression if a content block is actually visible. With visible we mean the content block has been in the view port, it is actually in the DOM and is not hidden via CSS (opacity, visibility, display, ...).
-
-* Optionally you can tell us to rescan the DOM automatically after each scroll event by passing `checkOnSroll=true`. We will then check whether the previously hidden content blocks are visible now and if so track the impression.
-  * Parameter defaults to boolean `true` if not specified.
-  * As the scroll event is triggered after each pixel scrolling would be very slow when checking for new visible content blocks each time the event is triggered. Instead we are checking every 100ms whether a scroll event was triggered and if so we scan the DOM for new visible content blocks
-  * Note: If a content block is placed within a scrollable element (`overflow: scroll`), we do currently not attach an event in case the user scrolls within this element. This means we would not detect that such an element becomes visible.
-* Optionally you can tell us to rescan the entire DOM for new impressions every X milliseconds by passing `timeIntervalInMs=500` (rescan DOM every 500ms).
-  * If parameter is not set, a default interval sof 750ms will be used.
-  * Rescanning the entire DOM and detecting the visible state of content blocks can take a while depending on the browser and amount of content
-  * We do not really rescan every X milliseconds. We will schedule the next rescan after a previous scan has finished. So if it takes 20ms to scan the DOM and you tell us to rescan every 50ms it can actually take 70ms.
-  * In case your frames per second goes down you might want to increase this value
-* If you do not want us to perform any checks you can either call `trackContentImpressions()` manually at any time to rescan the entire DOM or `trackContentImpressionsWithinNode()` to check only a specific part of the DOM for visible content blocks.
-
-It is recommended to call this method once before any call to `trackContentImpressions` or `trackContentImpressionsWithinNode()`. If you call this method more than once it does not have any effect.
-
-#### `trackVisibleContentImpressions(checkOnSroll, timeIntervalInMs)`
-
-Is a shorthand for calling `enableTrackOnlyVisibleContent()` and `trackContentImpressions()`.
 
 #### trackContentInteractionNode(domNode, contentInteraction)
 

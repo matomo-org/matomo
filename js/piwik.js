@@ -447,12 +447,12 @@ if (typeof JSON2 !== 'object') {
     getQuery, getContent, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
     buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
     appendContentInteractionToRequestIfPossible, setupInteractionsTracking, trackContentImpressionClickInteraction,
-    internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackContentImpressions,
+    internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackAllContentImpressions,
     getTrackedContentImpressions, getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
-    trackVisibleContentImpressions
+    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled
  */
 /*global _paq:true */
 /*members push */
@@ -1812,7 +1812,13 @@ if (typeof Piwik !== 'object') {
             },
             getLocation: function ()
             {
-                return this.location || windowAlias.location;
+                var locationAlias = this.location || windowAlias.location;
+
+                if (!locationAlias.origin) {
+                    locationAlias.origin = locationAlias.protocol + "//" + locationAlias.hostname + (locationAlias.port ? ':' + locationAlias.port: '');
+                }
+
+                return locationAlias;
             },
             toAbsoluteUrl: function (url)
             {
@@ -2110,7 +2116,7 @@ if (typeof Piwik !== 'object') {
 
                 // Keeps track of previously tracked content impressions
                 trackedContentImpressions = [],
-                enableTrackOnlyVisibleContent = false,
+                isTrackOnlyVisibleContentEnabled = false,
 
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
@@ -3500,6 +3506,72 @@ if (typeof Piwik !== 'object') {
                     }
                 }
             }
+            function enableTrackOnlyVisibleContent (checkOnSroll, timeIntervalInMs, tracker) {
+
+                if (isTrackOnlyVisibleContentEnabled) {
+                    // already enabled, do not register intervals again
+                    return true;
+                }
+
+                isTrackOnlyVisibleContentEnabled = true;
+
+                var didScroll = false;
+                var events, index;
+
+                function setDidScroll() { didScroll = true; }
+
+                trackCallbackOnLoad(function () {
+
+                    function checkContent(intervalInMs) {
+                        setTimeout(function () {
+                            if (!isTrackOnlyVisibleContentEnabled) {
+                                return; // the tests stopped tracking only visible content
+                            }
+                            didScroll = false;
+                            tracker.trackVisibleContentImpressions();
+                            checkContent(intervalInMs);
+                        }, intervalInMs);
+                    }
+
+                    function checkContentIfDidScroll(intervalInMs) {
+
+                        setTimeout(function () {
+                            if (!isTrackOnlyVisibleContentEnabled) {
+                                return; // the tests stopped tracking only visible content
+                            }
+
+                            if (didScroll) {
+                                didScroll = false;
+                                tracker.trackVisibleContentImpressions();
+                            }
+
+                            checkContentIfDidScroll(intervalInMs);
+                        }, intervalInMs);
+                    }
+
+                    if (checkOnSroll) {
+
+                        // scroll event is executed after each pixel, so we make sure not to
+                        // execute event too often. otherwise FPS goes down a lot!
+                        events = ['scroll', 'resize'];
+                        for (index = 0; index < events.length; index++) {
+                            if (documentAlias.addEventListener) {
+                                documentAlias.addEventListener(events[index], setDidScroll);
+                            } else {
+                                windowAlias.attachEvent('on' + events[index], setDidScroll);
+                            }
+                        }
+
+                        checkContentIfDidScroll(100);
+                    }
+
+                    if (timeIntervalInMs && timeIntervalInMs > 0) {
+                        timeIntervalInMs = parseInt(timeIntervalInMs, 10);
+                        checkContent(timeIntervalInMs);
+                    }
+
+                });
+            }
 
             /*
              * Browser features (plugins, resolution, cookies)
@@ -3636,6 +3708,9 @@ if (typeof Piwik !== 'object') {
                 setupInteractionsTracking: setupInteractionsTracking,
                 trackContentImpressionClickInteraction: trackContentImpressionClickInteraction,
                 internalIsNodeVisible: isVisible,
+                enableTrackOnlyVisibleContent: function (checkOnScroll, timeIntervalInMs) {
+                    return enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
+                },
                 clearTrackedContentImpressions: function () {
                     trackedContentImpressions = [];
                 },
@@ -3646,9 +3721,8 @@ if (typeof Piwik !== 'object') {
                     return configTrackerUrl;
                 },
                 clearEnableTrackOnlyVisibleContent: function () {
-                    enableTrackOnlyVisibleContent = false;
+                    isTrackOnlyVisibleContentEnabled = false;
                 },
-
 /*</DEBUG>*/
 
                 /**
@@ -4360,18 +4434,19 @@ if (typeof Piwik !== 'object') {
                     }
                 },
 
-                enableTrackOnlyVisibleContent: function (checkOnSroll, timeIntervalInMs) {
-                    var self      = this;
-                    var didScroll = false;
+                trackAllContentImpressions: function () {
+                    trackCallback(function () {
+                        trackCallbackOnReady(function () {
+                            // we have to wait till DOM ready
+                            var contentNodes = content.findContentNodes();
 
-                    function setDidScroll() { didScroll = true; }
+                            var requests = getContentImpressionsRequestsFromNodes(contentNodes);
+                            sendBulkRequest(requests, configTrackerPause);
+                        });
+                    });
+                },
 
-                    if (enableTrackOnlyVisibleContent) {
-                        // already enabled, do not register intervals again
-                        return true;
-                    }
-
-                    enableTrackOnlyVisibleContent = true;
+                trackVisibleContentImpressions: function (checkOnSroll, timeIntervalInMs) {
 
                     if (!isDefined(checkOnSroll)) {
                         checkOnSroll = true;
@@ -4381,77 +4456,17 @@ if (typeof Piwik !== 'object') {
                         timeIntervalInMs = 750;
                     }
 
-                    trackCallbackOnLoad(function () {
-                        var events, index;
+                    enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs, this);
 
-                        function checkContent(intervalInMs) {
-                            setTimeout(function () {
-                                didScroll = false;
-                                self.trackContentImpressions();
-                                checkContent(intervalInMs);
-                            }, intervalInMs);
-                        }
-
-                        function checkContentIfDidScroll(intervalInMs) {
-                            setTimeout(function () {
-                                if (didScroll) {
-                                    didScroll = false;
-                                    self.trackContentImpressions();
-                                }
-
-                                checkContentIfDidScroll(intervalInMs);
-                            }, intervalInMs);
-                        }
-
-                        if (checkOnSroll) {
-
-                            // scroll event is executed after each pixel, so we make sure not to
-                            // execute event too often. otherwise FPS goes down a lot!
-                            events = ['scroll', 'resize'];
-                            for (index = 0; index < events.length; index++) {
-                                if (windowAlias.addEventListener) {
-                                    windowAlias.addEventListener(events[index], setDidScroll);
-                                } else {
-                                    windowAlias.attachEvent('on' + events[index], setDidScroll);
-                                }
-                            }
-
-                            checkContentIfDidScroll(100);
-                        }
-
-                        if (timeIntervalInMs && timeIntervalInMs > 0) {
-                            timeIntervalInMs = parseInt(timeIntervalInMs, 10);
-                            checkContent(timeIntervalInMs);
-                        }
-
-                    });
-                },
-
-                trackContentImpressions: function () {
                     trackCallback(function () {
-                        if (enableTrackOnlyVisibleContent) {
-                            trackCallbackOnLoad(function () {
-                                // we have to wait till CSS parsed and applied
-                                var contentNodes = content.findContentNodes();
+                        trackCallbackOnLoad(function () {
+                            // we have to wait till CSS parsed and applied
+                            var contentNodes = content.findContentNodes();
 
-                                var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
-                                sendBulkRequest(requests, configTrackerPause);
-                            });
-                        } else {
-                            trackCallbackOnReady(function () {
-                                // we have to wait till DOM ready
-                                var contentNodes = content.findContentNodes();
-
-                                var requests = getContentImpressionsRequestsFromNodes(contentNodes);
-                                sendBulkRequest(requests, configTrackerPause);
-                            });
-                        }
+                            var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
+                            sendBulkRequest(requests, configTrackerPause);
+                        });
                     });
-                },
-
-                trackVisibleContentImpressions: function (checkOnSroll, timeIntervalInMs) {
-                    this.enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs);
-                    this.trackContentImpressions();
                 },
 
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
@@ -4472,7 +4487,7 @@ if (typeof Piwik !== 'object') {
                 // we might remove this method again
                 trackContentImpressionsWithinNode: function (domNode) {
                     trackCallback(function () {
-                        if (enableTrackOnlyVisibleContent) {
+                        if (isTrackOnlyVisibleContentEnabled) {
                             trackCallbackOnLoad(function () {
                                 // we have to wait till CSS parsed and applied
                                 var contentNodes = content.findContentNodesWithinNode(domNode);
@@ -4540,7 +4555,6 @@ if (typeof Piwik !== 'object') {
                         logSiteSearch(keyword, category, resultsCount);
                     });
                 },
-
 
                 /**
                  * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
