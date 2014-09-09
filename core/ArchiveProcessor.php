@@ -99,13 +99,28 @@ class ArchiveProcessor
      * @var int
      */
     protected $numberOfVisits = false;
+
     protected $numberOfVisitsConverted = false;
+
+    /**
+     * If true, unique visitors are not calculated when we are aggregating data for multiple sites.
+     * The `[General] enable_processing_unique_visitors_multiple_sites` INI config option controls
+     * the value of this variable.
+     *
+     * @var bool
+     */
+    private $skipUniqueVisitorsCalculationForMultipleSites = true;
+
+    const SKIP_UNIQUE_VISITORS_FOR_MULTIPLE_SITES = 'enable_processing_unique_visitors_multiple_sites';
 
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter)
     {
         $this->params = $params;
         $this->logAggregator = new LogAggregator($params);
         $this->archiveWriter = $archiveWriter;
+
+        $this->skipUniqueVisitorsCalculationForMultipleSites =
+            Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] == 1;
     }
 
     protected function getArchive()
@@ -365,12 +380,15 @@ class ArchiveProcessor
 
     protected function enrichWithUniqueVisitorsMetric(Row $row)
     {
-        if(!$this->getParams()->isSingleSite() ) {
-            // we only compute unique visitors for a single site
+        // skip unique visitors metrics calculation if calculating for multiple sites is disabled
+        if (!$this->getParams()->isSingleSite()
+            && $this->skipUniqueVisitorsCalculationForMultipleSites
+        ) {
             return;
         }
-        if ( $row->getColumn('nb_uniq_visitors') !== false
-            || $row->getColumn('nb_users') !== false) {
+        if ($row->getColumn('nb_uniq_visitors') !== false
+            || $row->getColumn('nb_users') !== false
+        ) {
             if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
                 $metrics = array(Metrics::INDEX_NB_UNIQ_VISITORS, Metrics::INDEX_NB_USERS);
                 $uniques = $this->computeNbUniques( $metrics );
