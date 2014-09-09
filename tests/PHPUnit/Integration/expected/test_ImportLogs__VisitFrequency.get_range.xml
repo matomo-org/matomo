@@ -2,7 +2,6 @@
 <result>
 	<nb_visits_returning>10</nb_visits_returning>
 	<nb_actions_returning>12</nb_actions_returning>
-	<nb_users_returning>0</nb_users_returning>
 	<nb_visits_converted_returning>9</nb_visits_converted_returning>
 	<bounce_count_returning>8</bounce_count_returning>
 	<sum_visit_length_returning>115</sum_visit_length_returning>

@@ -4,7 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>35</idVisit>
 		<visitIp>194.57.91.215</visitIp>
-		<userId />
+		<userId>userid.email@example.org</userId>
 		
 		<actionDetails>
 			<row>

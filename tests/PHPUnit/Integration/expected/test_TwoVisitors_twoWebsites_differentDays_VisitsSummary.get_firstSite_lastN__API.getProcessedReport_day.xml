@@ -43,9 +43,9 @@
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
-			<nb_users>1</nb_users>
 			<max_actions>1</max_actions>
 			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
@@ -53,9 +53,9 @@
 		</result>
 		<result prettyDate="Monday 4 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>2</nb_actions>
-			<nb_users>1</nb_users>
 			<max_actions>2</max_actions>
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>2</nb_actions_per_visit>
@@ -63,9 +63,9 @@
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
-			<nb_users>1</nb_users>
 			<max_actions>5</max_actions>
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
@@ -73,9 +73,9 @@
 		</result>
 		<result prettyDate="Wednesday 6 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
-			<nb_users>1</nb_users>
 			<max_actions>5</max_actions>
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
@@ -83,9 +83,9 @@
 		</result>
 		<result prettyDate="Thursday 7 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
-			<nb_users>1</nb_users>
 			<max_actions>5</max_actions>
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
@@ -93,9 +93,9 @@
 		</result>
 		<result prettyDate="Friday 8 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
-			<nb_users>1</nb_users>
 			<max_actions>5</max_actions>
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
@@ -103,9 +103,9 @@
 		</result>
 		<result prettyDate="Saturday 9 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
-			<nb_users>1</nb_users>
 			<max_actions>5</max_actions>
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>

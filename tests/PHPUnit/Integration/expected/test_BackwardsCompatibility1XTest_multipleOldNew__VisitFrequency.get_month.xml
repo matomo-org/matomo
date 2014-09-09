@@ -2,9 +2,9 @@
 <results>
 	<result date="2012-03">
 		<nb_uniq_visitors_returning>0</nb_uniq_visitors_returning>
+		<nb_users_returning>0</nb_users_returning>
 		<nb_visits_returning>1</nb_visits_returning>
 		<nb_actions_returning>1</nb_actions_returning>
-		<nb_users_returning>0</nb_users_returning>
 		<nb_visits_converted_returning>1</nb_visits_converted_returning>
 		<bounce_count_returning>1</bounce_count_returning>
 		<sum_visit_length_returning>0</sum_visit_length_returning>
@@ -23,9 +23,9 @@
 	<result date="2012-11" />
 	<result date="2012-12">
 		<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+		<nb_users_returning>1</nb_users_returning>
 		<nb_visits_returning>1</nb_visits_returning>
 		<nb_actions_returning>1</nb_actions_returning>
-		<nb_users_returning>1</nb_users_returning>
 		<nb_visits_converted_returning>0</nb_visits_converted_returning>
 		<bounce_count_returning>1</bounce_count_returning>
 		<sum_visit_length_returning>0</sum_visit_length_returning>
