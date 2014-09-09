@@ -153,10 +153,7 @@ class Visitor
 
         $isNewVisitForced = $this->request->getParam('new_visit');
         $isNewVisitForced = !empty($isNewVisitForced);
-        $newVisitEnforcedAPI = $isNewVisitForced
-            && ($this->request->isAuthenticated()
-                || !Config::getInstance()->Tracker['new_visit_api_requires_admin']);
-        $enforceNewVisit = $newVisitEnforcedAPI || Config::getInstance()->Debug['tracker_always_new_visitor'];
+        $enforceNewVisit = $isNewVisitForced || Config::getInstance()->Debug['tracker_always_new_visitor'];
 
         if (!$enforceNewVisit
             && $visitRow

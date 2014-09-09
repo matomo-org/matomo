@@ -472,13 +472,6 @@ use_third_party_id_cookie = 0
 ; Once enabled (set to 1) messages will be logged to all loggers defined in "[log] log_writers" config.
 debug = 0
 
-; There is a feature in the Tracking API that lets you create new visit at any given time, for example if you know that a different user/customer is using
-; the app then you would want to tell Piwik to create a new visit (even though both users are using the same browser/computer).
-; To prevent abuse and easy creation of fake visits, this feature requires admin token_auth by default
-; If you wish to use this feature using the Javascript tracker, you can set the setting new_visit_api_requires_admin=0, and in Javascript write:
-; _paq.push(['appendToTrackingUrl', 'new_visit=1']);
-new_visit_api_requires_admin = 1
-
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
