@@ -30,6 +30,9 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
     {
         parent::setUpBeforeClass();
 
+        // note: not sure why I have to manually install plugin
+        \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomAlerts')->install();
+
         $result = Fixture::updateDatabase();
         if ($result === false) {
             throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
@@ -60,6 +63,12 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
      */
     public function testApi($api, $params)
     {
+        // note: not sure why I have to manually activate plugin in order for `./console tests:run BackwardsCompatibility1XTest` to work
+        try {
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('DevicesDetection');
+        } catch(\Exception $e) {
+        }
+
         $this->runApiTests($api, $params);
     }
 
@@ -87,7 +96,10 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
             array('all', array('idSite' => $idSite, 'date' => $dateTime,
                                'compareAgainst' => 'OneVisitorTwoVisits',
                                'disableArchiving' => true,
-                               'apiNotToCall' => $apiNotToCall)),
+                               'apiNotToCall' => $apiNotToCall,
+                               'otherRequestParameters' => array(
+                                   'hideColumns' => 'nb_users',
+                               ))),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
                                               'disableArchiving' => true, 'testSuffix' => '_multipleDates')),
