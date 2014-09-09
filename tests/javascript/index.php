@@ -61,6 +61,14 @@ testTrackPageViewAsync();
         height: 1px;
         width: 1px;
     }
+    .hideY {
+        overflow-x: hidden !important;
+    }
+    .ie #contenttest {
+        position: relative;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
 </style>
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
@@ -75,6 +83,10 @@ function _e(id){
     if (document.all)
         return document.all[id];
 }
+ function isIE () {
+     var myNav = navigator.userAgent.toLowerCase();
+     return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+ }
 
 function _s(selector) { // select node within content test scope
  $nodes = $('#contenttest ' + selector);
@@ -287,6 +299,19 @@ function setupContentTrackingFixture(name, targetNode) {
  <div id="main" style="display:none;"></div>
 
  <script>
+
+ if (isIE) {
+     (function () {
+         // otherwise because of position:absolute some nodes will be visible but should not... it will show scroll bars in IE
+         function fixWidthNode(tagName){
+             var node = document.getElementsByTagName(tagName)[0];
+             node.className = node.className + ' hideY ie';
+         }
+         fixWidthNode('html');
+         fixWidthNode('body');
+     })();
+ }
+
 var hasLoaded = false;
 function PiwikTest() {
     hasLoaded = true;

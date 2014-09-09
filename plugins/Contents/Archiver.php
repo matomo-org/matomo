@@ -265,6 +265,12 @@ class Archiver extends \Piwik\Plugin\Archiver
                 continue;
             }
 
+            // content piece is optional
+            if ($subDimension == 'contentPiece'
+                && empty($subLabel)) {
+                $subLabel = self::CONTENT_PIECE_NOT_SET;
+            }
+
             $dataArray->sumMetricsContentsImpressionPivot($mainLabel, $subLabel, $row);
         }
     }

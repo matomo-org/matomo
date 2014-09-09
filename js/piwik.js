@@ -3333,7 +3333,7 @@ if (typeof Piwik !== 'object') {
 
                 var linkParams = linkType + '=' + encodeWrapper(purify(url));
 
-                var interaction = getContentInteractionToRequestIfPossible(linkParams, sourceElement, 'click', url);
+                var interaction = getContentInteractionToRequestIfPossible(sourceElement, 'click', url);
 
                 if (interaction) {
                     linkParams += '&' + interaction;
