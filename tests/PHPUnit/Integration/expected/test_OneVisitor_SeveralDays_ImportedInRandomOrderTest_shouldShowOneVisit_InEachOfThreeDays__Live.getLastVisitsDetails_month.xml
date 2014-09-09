@@ -4,6 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>74.125.31.147</visitIp>
+		<userId />
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -96,6 +97,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>74.125.31.147</visitIp>
+		<userId />
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -188,6 +190,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>74.125.31.147</visitIp>
+		<userId />
 		<actionDetails>
 			<row>
 				<type>action</type>

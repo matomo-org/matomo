@@ -45,7 +45,6 @@ class Tracker
 
     protected static $forcedDateTime = null;
     protected static $forcedIpString = null;
-    protected static $forcedVisitorId = null;
 
     protected static $pluginsNotToLoad = array();
     protected static $pluginsToLoad = array();
@@ -92,7 +91,6 @@ class Tracker
     {
         self::$forcedIpString = null;
         self::$forcedDateTime = null;
-        self::$forcedVisitorId = null;
         $this->stateValid = self::STATE_NOTHING_TO_NOTICE;
     }
 
@@ -104,11 +102,6 @@ class Tracker
     public static function setForceDateTime($dateTime)
     {
         self::$forcedDateTime = $dateTime;
-    }
-
-    public static function setForceVisitorId($visitorId)
-    {
-        self::$forcedVisitorId = $visitorId;
     }
 
     /**
@@ -762,12 +755,6 @@ class Tracker
         if (!empty($customDatetime)) {
             $this->setForceDateTime($customDatetime);
         }
-
-        // Forced Visitor ID to record the visit / action
-        $customVisitorId = $request->getParam('cid');
-        if (!empty($customVisitorId)) {
-            $this->setForceVisitorId($customVisitorId);
-        }
     }
 
     public static function setTestEnvironment($args = null, $requestMethod = null)
@@ -826,11 +813,6 @@ class Tracker
             self::setForceDateTime($customDatetime);
         }
 
-        // Custom visitor id
-        $customVisitorId = Common::getRequestVar('cid', false, null, $args);
-        if (!empty($customVisitorId)) {
-            self::setForceVisitorId($customVisitorId);
-        }
         $pluginsDisabled = array('Provider');
 
         // Disable provider plugin, because it is so slow to do many reverse ip lookups
@@ -873,7 +855,6 @@ class Tracker
 
         try {
             if ($this->isVisitValid()) {
-                $request->setForcedVisitorId(self::$forcedVisitorId);
                 $request->setForceDateTime(self::$forcedDateTime);
                 $request->setForceIp(self::$forcedIpString);
 

@@ -4,6 +4,13 @@
         {{ 'General_NVisits'|translate("<strong>"~nbVisits~"</strong>")|raw }}{% if displayUniqueVisitors %},
             {{ 'VisitsSummary_NbUniqueVisitors'|translate("<strong>"~nbUniqVisitors~"</strong>")|raw }}{% endif %}
     </div>
+    {% if nbUsers > 0 %}
+        {# Most of users will not have used `setUserId` so this would be confusingly zero #}
+        <div class="sparkline">
+            {{ sparkline(urlSparklineNbUsers)|raw }}
+            {{ 'General_NUsers'|translate("<strong>"~nbUsers~"</strong>")|raw }}
+        </div>
+    {% endif %}
     <div class="sparkline">
         {{ sparkline(urlSparklineAvgVisitDuration)|raw }}
         {% set averageVisitDuration=averageVisitDuration|sumtime %}

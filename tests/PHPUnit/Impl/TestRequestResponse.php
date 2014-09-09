@@ -81,6 +81,10 @@ class TestRequestResponse
 
     private function normalizeApiResponse($apiResponse)
     {
+        if ($this->shouldDeleteLiveIds()) {
+            $apiResponse = $this->removeAllIdsFromXml($apiResponse);
+        }
+
         if ($this->shouldDeleteLiveDates()) {
             $apiResponse = $this->removeAllLiveDatesFromXml($apiResponse);
         } else if ($this->requestHasNonDeterministicDate()) {
@@ -123,6 +127,17 @@ class TestRequestResponse
         return preg_replace("/idSubtable=[0-9]+/", 'idSubtable=', $apiResponse);
     }
 
+    private function removeAllIdsFromXml($apiResponse)
+    {
+        $toRemove = array(
+            'visitorId',
+            'nextVisitorId',
+            'previousVisitorId',
+        );
+
+        return $this->removeXmlFields($apiResponse, $toRemove);
+    }
+
     private function removeAllLiveDatesFromXml($apiResponse)
     {
         $toRemove = array(
@@ -137,9 +152,6 @@ class TestRequestResponse
             'serverTimePrettyFirstAction',
             'goalTimePretty',
             'serverTimePretty',
-            'visitorId',
-            'nextVisitorId',
-            'previousVisitorId',
             'visitServerHour',
             'date',
             'prettyDate',
@@ -209,6 +221,11 @@ class TestRequestResponse
         return strpos($dateTime, 'last') !== false
             || strpos($dateTime, 'today') !== false
             || strpos($dateTime, 'now') !== false;
+    }
+
+    private function shouldDeleteLiveIds()
+    {
+        return empty($this->params['keepLiveIds']);
     }
 
     private function shouldDeleteLiveDates()

@@ -4,6 +4,7 @@
 		<nb_visits>Visits</nb_visits>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
+		<nb_users>Users</nb_users>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
@@ -31,6 +32,7 @@
 		<exit_bounce_count>Bounces</exit_bounce_count>
 		<exit_rate>Exit rate</exit_rate>
 		<sum_daily_nb_uniq_visitors>Unique visitors (daily sum)</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>Users (daily sum)</sum_daily_nb_users>
 		<sum_daily_entry_nb_uniq_visitors>Unique entrances (daily sum)</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>Unique exits (daily sum)</sum_daily_exit_nb_uniq_visitors>
 		<entry_nb_actions>Actions after entering here</entry_nb_actions>

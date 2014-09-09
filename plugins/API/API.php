@@ -154,6 +154,20 @@ class API extends \Piwik\Plugin\API
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik::translate('General_Visit'),
+            'name'           => 'General_UserId',
+            'segment'        => 'userId',
+            'acceptedValues' => 'any non empty unique string identifying the user (such as an email address or a username).',
+            'sqlSegment'     => 'log_visit.idvisitor',
+            'sqlFilterValue' => array('Piwik\Common', 'convertUserIdToVisitorIdBin'),
+            'permission'     => $isAuthenticatedWithViewAccess,
+
+            // TODO specify that this segment is not compatible with some operators
+//            'unsupportedOperators' = array(MATCH_CONTAINS, MATCH_DOES_NOT_CONTAIN),
+        );
+
+        $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => Piwik::translate('General_Visit'),
             'name'           => 'General_VisitorID',
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
@@ -161,6 +175,7 @@ class API extends \Piwik\Plugin\API
             'sqlFilterValue' => array('Piwik\Common', 'convertVisitorIdToBin'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
+
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik::translate('General_Visit'),

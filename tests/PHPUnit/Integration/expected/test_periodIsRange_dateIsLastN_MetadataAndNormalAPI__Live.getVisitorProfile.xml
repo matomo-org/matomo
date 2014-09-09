@@ -47,6 +47,7 @@
 			<idSite>1</idSite>
 			<idVisit>3</idVisit>
 			<visitIp>156.5.3.2</visitIp>
+			<userId />
 			
 			<actionDetails>
 				<row>
@@ -152,6 +153,7 @@
 			<idSite>1</idSite>
 			<idVisit>2</idVisit>
 			<visitIp>156.5.3.2</visitIp>
+			<userId />
 			
 			<actionDetails>
 				<row>
@@ -264,6 +266,7 @@
 			
 		</row>
 	</lastVisits>
+	<userId />
 	
 	
 </result>

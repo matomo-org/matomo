@@ -179,6 +179,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
         $t->setForceVisitDateTime(Date::factory($dateTime)->addDay(20)->getDatetime());
         $t->setIp('194.57.91.215');
+        $t->setUserId('userid.email@example.org');
         $t->setCountry('us');
         $t->setRegion('CA');
         $t->setCity('not a city');

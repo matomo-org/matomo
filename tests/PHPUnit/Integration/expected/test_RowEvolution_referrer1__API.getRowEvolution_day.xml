@@ -8,6 +8,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -22,6 +23,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -36,6 +38,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -50,6 +53,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -64,6 +68,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -78,6 +83,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_users>1</nb_users>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -103,6 +109,11 @@
 				<min>0</min>
 				<max>1</max>
 			</nb_actions>
+			<nb_users>
+				<name>Users</name>
+				<min>0</min>
+				<max>1</max>
+			</nb_users>
 			<nb_actions_per_visit>
 				<name>Actions per Visit</name>
 				<min>0</min>
