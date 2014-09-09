@@ -454,6 +454,24 @@ table.dataTable {
     &.dataTableVizVisitorLog {
 
     }
+
+    tr.subDataTable > td:first-child:before {
+        display: inline-block;
+        float: left;
+        top: 0;
+        width: 1.25em;
+        font-size: .8em;
+        font-style: italic;
+        color:#888;
+    }
+
+    tr.subDataTable:not(.expanded) > td:first-child:before {
+        content: '+';
+    }
+
+    tr.subDataTable.expanded > td:first-child:before {
+        content: '-';
+    }
 }
 
 table.dataTable tr.subDataTable:hover > td, table.dataTable tr.subDataTable:hover > td .dataTableRowActions {

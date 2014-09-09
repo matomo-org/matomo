@@ -1512,6 +1512,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
 
                 $(this).next().toggle();
+                $(this).toggleClass('expanded');
                 self.repositionRowActions($(this));
             }
         ).size();
