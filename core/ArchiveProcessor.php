@@ -120,7 +120,7 @@ class ArchiveProcessor
         $this->archiveWriter = $archiveWriter;
 
         $this->skipUniqueVisitorsCalculationForMultipleSites =
-            Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] == 1;
+            Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] == 1; // TODO: move logic to Rules
     }
 
     protected function getArchive()
