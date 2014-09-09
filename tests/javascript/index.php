@@ -15,6 +15,9 @@ if(file_exists("stub.tpl")) {
 function getToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getContentToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
@@ -73,12 +76,26 @@ function _e(id){
         return document.all[id];
 }
 
+function _s(selector) { // select node within content test scope
+ $nodes = $('#contenttest ' + selector);
+ if ($nodes.length) {
+     return $nodes[0];
+ } else {
+     ok(false, 'selector not found but should: #contenttest ' + selector);
+ }
+}
+
 function loadJash() {
     var jashDiv = _e('jashDiv');
 
     jashDiv.innerHTML = '';
     document.body.appendChild(document.createElement('script')).src='jash/Jash.js';
 }
+
+ function scrollToTop()
+ {
+     window.scroll(0, 0);
+ }
 
 function triggerEvent(element, type) {
  if ( document.createEvent ) {
@@ -91,7 +108,29 @@ function triggerEvent(element, type) {
  }
 }
 
-function dropCookie(cookieName, path, domain) {
+ function wait(msecs)
+ {
+     var start = new Date().getTime();
+     var cur = start
+     while(cur - start < msecs)
+     {
+         cur = new Date().getTime();
+     }
+ }
+
+ function fetchTrackedRequests(token)
+ {
+     var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
+         window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
+             null;
+
+     xhr.open("GET", "piwik.php?requests=" + token, false);
+     xhr.send(null);
+
+     return xhr.responseText;
+ }
+
+ function dropCookie(cookieName, path, domain) {
     var expiryDate = new Date();
 
     expiryDate.setTime(expiryDate.getTime() - 3600);
@@ -170,6 +209,11 @@ function deleteCookies() {
 
 var contentTestHtml = {};
 
+ function removeContentTrackingFixture()
+ {
+     $('#contenttest').remove();
+ }
+
 function setupContentTrackingFixture(name, targetNode) {
     var url = 'content-fixtures/' + name + '.html'
 
@@ -184,7 +228,7 @@ function setupContentTrackingFixture(name, targetNode) {
 
     var newNode = $('<div id="contenttest">' + contentTestHtml[name] + '</div>');
 
-    $('#contenttest').remove();
+    removeContentTrackingFixture();
 
     if (targetNode) {
         $(targetNode).prepend(newNode);
@@ -673,10 +717,6 @@ function PiwikTest() {
     });
 
     test("contentFindContentBlock", function() {
-        function _s(selector) { // select node within content test scope
-            $nodes = $('#contenttest ' + selector);
-            if ($nodes.length) return $nodes[0];
-        }
 
         var tracker = Piwik.getTracker();
         var content = tracker.getContent();
@@ -726,7 +766,11 @@ function PiwikTest() {
     test("contentFindContentNodes", function() {
         function ex(testNumber) { // select node within content test scope
             $nodes = $('#contenttest #ex' + testNumber);
-            if ($nodes.length) return $nodes[0];
+            if ($nodes.length) {
+                return $nodes[0];
+            } else {
+                ok(false, 'selector was not found but should be "#contenttest #ex' + selector + '"')
+            }
         }
 
         var tracker = Piwik.getTracker();
@@ -1030,21 +1074,13 @@ function PiwikTest() {
         var content = tracker.getContent();
         var actual;
 
-        function _s(selector) { // select node within content test scope
-            $nodes = $('#contenttest ' + selector);
-            if ($nodes.length) {
-                return $nodes[0];
-            } else {
-                ok(false, 'selector was not found but should be "#contenttest ' + selector + '"')
-            }
-        }
         function _ex(testnumber) { // select node within content test scope
             return _s('#ex' + testnumber);
         }
 
         function assertContentNodeVisible(node, message)
         {
-            window.scroll(0,0); // make sure content nodes are actually in view port
+            scrollToTop(); // make sure content nodes are actually in view port
 
             if (!message) {
                 message = '';
@@ -1054,7 +1090,7 @@ function PiwikTest() {
 
         function assertContentNodeNotVisible(node, message)
         {
-            window.scroll(0,0); // make sure content nodes are actually in view port
+            scrollToTop(); // make sure content nodes are actually in view port
 
             if (!message) {
                 message = '';
@@ -1064,7 +1100,7 @@ function PiwikTest() {
 
         function assertInternalNodeVisible(node, message)
         {
-            window.scroll(0,0); // make sure content nodes are actually in view port
+            scrollToTop(); // make sure content nodes are actually in view port
 
             if (!message) {
                 message = '';
@@ -1074,7 +1110,7 @@ function PiwikTest() {
 
         function assertInternalNodeNotVisible(node, message)
         {
-            window.scroll(0,0); // make sure content nodes are actually in view port
+            scrollToTop(); // make sure content nodes are actually in view port
 
             if (!message) {
                 message = '';
@@ -1084,7 +1120,7 @@ function PiwikTest() {
 
         function assertNodeNotInViewport(node, message)
         {
-            window.scroll(0,0); // make sure content nodes are actually in view port
+            scrollToTop(); // make sure content nodes are actually in view port
 
             if (!message) {
                 message = '';
@@ -1094,7 +1130,7 @@ function PiwikTest() {
 
         function assertNodeIsInViewport(node, message)
         {
-            window.scroll(0,0); // make sure content nodes are actually in view port
+            scrollToTop(); // make sure content nodes are actually in view port
 
             if (!message) {
                 message = '';
@@ -1178,10 +1214,6 @@ function PiwikTest() {
     });
 
     test("contentFindContentValues", function() {
-        function _s(selector) { // make sure to select node within content test scope
-            $nodes = $('#contenttest '  + selector);
-            if ($nodes.length) return $nodes[0];
-        }
 
         function _st(id) {
             return id && (''+id) === id ? _s('#' + id) : id;
@@ -1322,15 +1354,6 @@ function PiwikTest() {
 
         var origin = location.origin;
         var originEncoded = window.encodeURIComponent(origin);
-
-        function _s(selector) { // make sure to select node within content test scope
-            $nodes = $('#contenttest '  + selector);
-            if ($nodes.length) {
-                return $nodes[0];
-            } else {
-                ok(false, 'selector #contenttest '  + selector + ' is not found but should');
-            }
-        }
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -1549,7 +1572,7 @@ function PiwikTest() {
         var impression2 = {name: 'name2', piece: 'piece2', target: 'http://www.example.com'};
         var impression3 = {name: 'name3', piece: 'piece3', target: 'Anything'};
 
-        actual = tracker.buildContentImpressionsRequests([impression, impression2, impression, impression3], [_s('#ex101')]);
+        actual = tracker.buildContentImpressionsRequests([impression, impression, impression2, impression, impression3], [_s('#ex101')]);
         strictEqual(actual.length, 3, 'buildContentImpressionsRequests, should be only 3 requests as one impression was there twice and should be ignored once');
         assertTrackingRequest(actual[0], 'c_n=name&c_p=5&c_t=target');
         assertTrackingRequest(actual[1], 'c_n=name2&c_p=piece2&c_t=http%3A%2F%2Fwww.example.com');
@@ -1587,16 +1610,23 @@ function PiwikTest() {
         propEqual(actual, [], 'getVisibleImpressions, no nodes set');
 
         _s('#ex115').scrollIntoView(true);
+        tracker.clearTrackedContentImpressions();
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden')]);
         propEqual(actual, [], 'getVisibleImpressions, if all are hidden should not return anything');
 
         _s('#ex115').scrollIntoView(true);
+        tracker.clearTrackedContentImpressions();
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex115'),_s('#ex115'),  _s('#ex116_hidden')]);
         strictEqual(actual.length, 1, 'getVisibleImpressions, should not ignore the found requests but the visible ones, should not add the same one twice');
         assertTrackingRequest(actual[0], 'c_n=img115.jpg&c_p=img115.jpg&c_t=http%3A%2F%2Fwww.example.com');
 
-        $('#contenttest').remove();
+        _s('#ex115').scrollIntoView(true);
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden'), _s('#ex116_hidden'), _s('#ex115'),_s('#ex115')]);
+        strictEqual(actual.length, 1, 'getVisibleImpressions, two hidden ones before a visible ones to make sure removing hidden content block from array works and does not ignore one');
+        assertTrackingRequest(actual[0], 'c_n=img115.jpg&c_p=img115.jpg&c_t=http%3A%2F%2Fwww.example.com');
 
+        removeContentTrackingFixture();
     });
 
     test("Basic requirements", function() {
@@ -1622,7 +1652,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(57);
+        expect(64);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1684,6 +1714,14 @@ function PiwikTest() {
         equal( typeof tracker.trackGoal, 'function', 'trackGoal' );
         equal( typeof tracker.trackLink, 'function', 'trackLink' );
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
+        // content
+        equal( typeof tracker.enableTrackOnlyVisibleContent, 'function', 'enableTrackOnlyVisibleContent' );
+        equal( typeof tracker.trackContentImpressions, 'function', 'trackContentImpressions' );
+        equal( typeof tracker.trackVisibleContentImpressions, 'function', 'trackVisibleContentImpressions' );
+        equal( typeof tracker.trackContentImpression, 'function', 'trackContentImpression' );
+        equal( typeof tracker.trackContentImpressionsWithinNode, 'function', 'trackContentImpressionsWithinNode' );
+        equal( typeof tracker.trackContentInteraction, 'function', 'trackContentInteraction' );
+        equal( typeof tracker.trackContentInteractionNode, 'function', 'trackContentInteractionNode' );
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
@@ -2270,16 +2308,6 @@ if ($sqlite) {
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
 
-        function wait(msecs)
-        {
-            var start = new Date().getTime();
-            var cur = start
-            while(cur - start < msecs)
-            {
-                cur = new Date().getTime();
-            }
-        }
-
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
         wait(2000);
@@ -2620,6 +2648,240 @@ if ($sqlite) {
             start();
         }, 5000);
     });
+
+    test("trackingContent", function() {
+        expect(65);
+
+        function assertTrackingRequest(actual, expectedStartsWith, message)
+        {
+            if (!message) {
+                message = '';
+            } else {
+                message += ', ';
+            }
+
+            expectedStartsWith = '<span>/tests/javascript/piwik.php?' + expectedStartsWith;
+
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf('&idsite=1&rec=1'), expectedStartsWith.length);
+        }
+
+        var token = getContentToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token" : token });
+        tracker.clearEnableTrackOnlyVisibleContent();
+        tracker.clearTrackedContentImpressions();
+
+        var visitorIdStart = tracker.getVisitorId();
+        // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
+        wait(2000);
+
+        var actual, expected, trackerUrl;
+
+        tracker.trackContentImpressions();
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'getTrackedContentImpressions, there is no content block to track');
+        tracker.trackContentImpressionsWithinNode(_e('other'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'getTrackedContentImpressionsWithinNode, there is no content block to track');
+        tracker.trackContentInteractionNode();
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'trackContentInteractionNode, no node given should not track anything');
+
+        setupContentTrackingFixture('trackingContent', document.body);
+
+        tracker.trackContentImpressions();
+        strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should mark 7 content blocks as tracked');
+
+        wait(500);
+
+        var token2 = '2' + token;
+        tracker.clearTrackedContentImpressions();
+        tracker.setCustomData('token', token2);
+        tracker.trackContentImpressionsWithinNode(_s('#block1'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 3, 'should mark 3 content blocks as tracked');
+
+        tracker.clearTrackedContentImpressions();
+        tracker.trackContentImpressionsWithinNode(_e('click1'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track anything as does not contain content block');
+
+        wait(500);
+
+        var token3 = '3' + token;
+        tracker.clearTrackedContentImpressions();
+        tracker.setCustomData('token', token3);
+        tracker.trackContentImpression(); // should not track anything as name is required
+        tracker.trackContentImpression('MyName'); // piece should default to Unknown
+        wait(500);
+        tracker.trackContentImpression('Any://Name', 'AnyPiece?', 'http://www.example.com');
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'manual impression call should not be marked as already tracked');
+
+        wait(500);
+
+        var token4 = '4' + token;
+        tracker.setCustomData('token', token4);
+        tracker.trackContentInteraction(); // should not track anything as interaction and name is required
+        tracker.trackContentInteraction('Clicki'); // should not track anything as interaction and name is required
+        tracker.trackContentInteraction('Clicke', 'IntName'); // should use default for piece and ignore target as it is not set
+        wait(500);
+        tracker.trackContentInteraction('Clicki', 'IntN:/ame', 'IntPiece?', 'http://int.example.com');
+
+        wait(500);
+
+        var token5 = '5' + token;
+        tracker.clearTrackedContentImpressions();
+        tracker.setCustomData('token', token5);
+        tracker.trackContentInteractionNode(_s('#ex5'), 'Clicki?iii');
+
+        wait(500);
+
+        var token6 = '6' + token;
+        tracker.clearTrackedContentImpressions();
+        tracker.enableTrackOnlyVisibleContent(false, 0);
+        tracker.setCustomData('token', token6);
+        scrollToTop();
+        tracker.trackContentImpressions();
+        strictEqual(tracker.getTrackedContentImpressions().length, 3, 'should only track visible ones this time');
+
+        var token7 = '7' + token;
+        tracker.clearTrackedContentImpressions();
+        tracker.enableTrackOnlyVisibleContent();
+        tracker.setCustomData('token', token7);
+        scrollToTop();
+        tracker.trackContentImpressionsWithinNode();
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track anything, no node provided');
+        tracker.trackContentImpressionsWithinNode(_s('#block1'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track any block since all not visible');
+        tracker.trackContentImpressionsWithinNode(_s('#block2'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 2, 'should track the two visible ones');
+
+        wait(500);
+
+        var token8 = '8' + token;
+        tracker.clearTrackedContentImpressions();
+        tracker.clearEnableTrackOnlyVisibleContent();
+        tracker.setCustomData('token', token8);
+        scrollToTop();
+        tracker.trackVisibleContentImpressions(false, 0);
+        strictEqual(tracker.getTrackedContentImpressions().length, 3, 'should only track all visible impressions');
+
+
+        removeContentTrackingFixture();
+
+        stop();
+        setTimeout(function() {
+
+            // trackContentImpressions()
+            var results = fetchTrackedRequests(token);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count trackContentImpressions requests. all content blocks should be tracked" );
+
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
+            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
+            assertTrackingRequest(requests[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+            assertTrackingRequest(requests[3], 'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com');
+            assertTrackingRequest(requests[4], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[5], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
+            assertTrackingRequest(requests[6], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
+
+
+            // trackContentImpressionsWithinNode()
+            results = fetchTrackedRequests(token2);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "3", "count trackContentImpressionsWithinNode requests. should track only content blocks within node" );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+
+            // trackContentImpression()
+            results = fetchTrackedRequests(token3);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count trackContentImpression requests. " );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            var firstRequest  = 0;
+            var secondRequest = 1;
+            if (-1 === requests[0].indexOf('MyName')) {
+                firstRequest  = 1;
+                secondRequest = 0;
+            }
+
+            assertTrackingRequest(requests[firstRequest], 'c_n=MyName&c_p=Unknown');
+            assertTrackingRequest(requests[secondRequest], 'c_n=Any%3A%2F%2FName&c_p=AnyPiece%3F&c_t=http%3A%2F%2Fwww.example.com');
+
+
+            // trackContentInteraction()
+            results = fetchTrackedRequests(token4);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count trackContentInteraction requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            firstRequest  = 0;
+            secondRequest = 1;
+            if (-1 === requests[0].indexOf('IntName')) {
+                firstRequest  = 1;
+                secondRequest = 0;
+            }
+
+            assertTrackingRequest(requests[firstRequest], 'c_i=Clicke&c_n=IntName&c_p=Unknown');
+            assertTrackingRequest(requests[secondRequest], 'c_i=Clicki&c_n=IntN%3A%2Fame&c_p=IntPiece%3F&c_t=http%3A%2F%2Fint.example.com');
+
+
+            // trackContentInteractionNode()
+            results = fetchTrackedRequests(token5);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count trackContentInteractionNode requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
+
+
+            // enableTrackOnlyVisibleContent() && trackContentImpressions()
+            results = fetchTrackedRequests(token6);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "3", "count enabledVisibleContentImpressions requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
+            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
+            assertTrackingRequest(requests[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+
+
+            // enableTrackOnlyVisibleContent() && trackContentImpressionsWithinNode()
+            results = fetchTrackedRequests(token7);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count enabledVisibleContentImpressionsWithinNode requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
+            assertTrackingRequest(requests[1], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+
+
+            // trackVisibleContentImpressions()
+            results = fetchTrackedRequests(token8);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "3", "count enabledVisibleContentImpressions requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
+            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
+            assertTrackingRequest(requests[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+
+            start();
+        }, 5000);
+
+// enableTrackOnlyVisibleContent (checkOnSroll, timeIntervalInMs)
+    });
+
     <?php
 }
 ?>

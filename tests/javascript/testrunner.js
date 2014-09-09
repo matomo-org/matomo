@@ -22,10 +22,10 @@
 // IN THE SOFTWARE
 
 var fs  = require("fs");
-var url = 'http://localhost/tests/javascript';
+var url = 'http://localhost/tests/javascript/';
 
 function printError(message) {
-    fs.write("/dev/stderr", message + "\n", "w");
+   fs.write("/dev/stderr", message + "\n", "w");
 }
 
 var page = require("webpage").create();
@@ -38,7 +38,7 @@ page.onResourceReceived = function() {
     page.evaluate(function() {
         if (!window.QUnit || window.phantomAttached) return;
 
-        QUnit.config.done.push(function(obj) {
+        QUnit.done(function(obj) {
             console.log("Tests passed: " + obj.passed);
             console.log("Tests failed: " + obj.failed);
             console.log("Total tests:  " + obj.total);
@@ -46,6 +46,8 @@ page.onResourceReceived = function() {
             window.phantomComplete = true;
             window.phantomResults = obj;
         });
+
+        window.phantomAttached = true;
 
         QUnit.log(function(obj) {
             if (!obj.result) {
@@ -64,8 +66,6 @@ page.onResourceReceived = function() {
                 console.log(errorMessage);
             }
         });
-
-        window.phantomAttached = true;
     });
 }
 
