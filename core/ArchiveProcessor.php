@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -119,8 +120,7 @@ class ArchiveProcessor
         $this->logAggregator = new LogAggregator($params);
         $this->archiveWriter = $archiveWriter;
 
-        $this->skipUniqueVisitorsCalculationForMultipleSites =
-            Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] == 1; // TODO: move logic to Rules
+        $this->skipUniqueVisitorsCalculationForMultipleSites = Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
     }
 
     protected function getArchive()
