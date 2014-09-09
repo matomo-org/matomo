@@ -42,7 +42,7 @@ class Rss extends Renderer
      */
     function renderException()
     {
-        header('Content-type: text/plain');
+        Common::sendHeader('Content-type: text/plain');
         $exceptionMessage = $this->getExceptionMessage();
         return 'Error: ' . $exceptionMessage;
     }
@@ -105,7 +105,7 @@ class Rss extends Renderer
      */
     protected function renderHeader()
     {
-        @header('Content-Type: text/xml; charset=utf-8');
+        Common::sendHeader('Content-Type: text/xml; charset=utf-8');
     }
 
     /**

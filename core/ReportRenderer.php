@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
@@ -56,7 +57,7 @@ abstract class ReportRenderer
             return new $className;
         } catch (Exception $e) {
 
-            @header('Content-Type: text/html; charset=utf-8');
+            Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
             throw new Exception(
                 Piwik::translate(
@@ -173,17 +174,17 @@ abstract class ReportRenderer
         $filename = ReportRenderer::appendExtension($filename, $extension);
 
         ProxyHttp::overrideCacheControlHeaders();
-        header('Content-Description: File Transfer');
-        header('Content-Type: ' . $contentType);
-        header('Content-Disposition: attachment; filename="' . str_replace('"', '\'', basename($filename)) . '";');
-        header('Content-Length: ' . strlen($content));
+        Common::sendHeader('Content-Description: File Transfer');
+        Common::sendHeader('Content-Type: ' . $contentType);
+        Common::sendHeader('Content-Disposition: attachment; filename="' . str_replace('"', '\'', basename($filename)) . '";');
+        Common::sendHeader('Content-Length: ' . strlen($content));
 
         echo $content;
     }
 
     protected static function inlineToBrowser($contentType, $content)
     {
-        header('Content-Type: ' . $contentType);
+        Common::sendHeader('Content-Type: ' . $contentType);
         echo $content;
     }
 

@@ -620,7 +620,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getBaseCss()
     {
-        @header('Content-Type: text/css');
+        Common::sendHeader('Content-Type: text/css');
         return AssetManager::getInstance()->getCompiledBaseCss()->getContent();
     }
 

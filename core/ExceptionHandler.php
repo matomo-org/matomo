@@ -9,6 +9,8 @@
 namespace Piwik;
 
 use Piwik\API\ResponseBuilder;
+use Piwik\Common;
+use Piwik\Log;
 use Piwik\Plugin;
 
 /**
@@ -46,9 +48,7 @@ class ExceptionHandler
     public static function formatScreenMessage(&$message, $level, $tag, $datetime, $log)
     {
         if ($message instanceof \Exception) {
-            if (!Common::isPhpCliMode()) {
-                @header('Content-Type: text/html; charset=utf-8');
-            }
+            Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
             $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
             $response = new ResponseBuilder($outputFormat);

@@ -133,7 +133,7 @@ class Controller extends \Piwik\Plugin\Controller
         $site = $sitesManager->getSiteFromId($idSite);
         $urls = $sitesManager->getSiteUrlsFromId($idSite);
 
-        @header('Content-Type: text/html; charset=UTF-8');
+        Common::sendHeader('Content-Type: text/html; charset=UTF-8');
         return '
 			<html><head><title></title></head><body>
 			<script type="text/javascript">

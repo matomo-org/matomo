@@ -9,8 +9,8 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Db\Adapter;
-
 use Piwik\Db\Schema;
 use Piwik\Db;
 use Piwik\Plugin;
@@ -77,9 +77,7 @@ class Piwik
      */
     static public function exitWithErrorMessage($message)
     {
-        if (!Common::isPhpCliMode()) {
-            @header('Content-Type: text/html; charset=utf-8');
-        }
+        Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
         $output = "<style>a{color:red;}</style>\n" .
             "<div style='color:red;font-family:Georgia;font-size:120%'>" .

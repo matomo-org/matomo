@@ -99,7 +99,7 @@ class Csv extends Renderer
      */
     function renderException()
     {
-        @header('Content-Type: text/html; charset=utf-8');
+        Common::sendHeader('Content-Type: text/html; charset=utf-8');
         $exceptionMessage = $this->getExceptionMessage();
         return 'Error: ' . $exceptionMessage;
     }
@@ -353,8 +353,8 @@ class Csv extends Renderer
         }
 
         // silent fail otherwise unit tests fail
-        @header('Content-Type: application/vnd.ms-excel');
-        @header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        Common::sendHeader('Content-Type: application/vnd.ms-excel');
+        Common::sendHeader('Content-Disposition: attachment; filename="' . $fileName . '"');
         ProxyHttp::overrideCacheControlHeaders();
     }
 

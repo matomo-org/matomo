@@ -9,6 +9,7 @@
 namespace Piwik\DataTable;
 
 use Exception;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Loader;
 use Piwik\Metrics;
@@ -100,7 +101,7 @@ abstract class Renderer
      */
     protected function renderHeader()
     {
-        @header('Content-Type: text/plain; charset=utf-8');
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
 
     /**
@@ -203,7 +204,7 @@ abstract class Renderer
             return new $className;
         } catch (Exception $e) {
             $availableRenderers = implode(', ', self::getRenderers());
-            @header('Content-Type: text/plain; charset=utf-8');
+            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
             throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
         }
     }

@@ -85,7 +85,9 @@ if (!function_exists('Piwik_ExitWithMessage')) {
      */
     function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false)
     {
-        @header('Content-Type: text/html; charset=utf-8');
+        if(!headers_sent()) {
+            header('Content-Type: text/html; charset=utf-8');
+        }
         if ($optionalTrace) {
             $optionalTrace = '<span class="exception-backtrace">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
         }

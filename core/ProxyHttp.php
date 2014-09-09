@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Piwik\Common;
+
 /**
  * Http helper: static file server proxy, with compression, caching, isHttps() helper...
  *
@@ -73,12 +75,12 @@ class ProxyHttp
 
             // set HTTP response headers
             self::overrideCacheControlHeaders('public');
-            @header('Vary: Accept-Encoding');
-            @header('Content-Disposition: inline; filename=' . basename($file));
+            Common::sendHeader('Vary: Accept-Encoding');
+            Common::sendHeader('Content-Disposition: inline; filename=' . basename($file));
 
             if ($expireFarFuture) {
                 // Required by proxy caches potentially in between the browser and server to cache the request indeed
-                @header("Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * 100) . ' GMT');
+                Common::sendHeader("Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * 100) . ' GMT');
             }
 
             // Returns 304 if not modified since
@@ -131,18 +133,18 @@ class ProxyHttp
                     }
                 }
 
-                @header('Last-Modified: ' . $lastModified);
+                Common::sendHeader('Last-Modified: ' . $lastModified);
 
                 if (!$phpOutputCompressionEnabled) {
-                    @header('Content-Length: ' . filesize($file));
+                    Common::sendHeader('Content-Length: ' . filesize($file));
                 }
 
                 if (!empty($contentType)) {
-                    @header('Content-Type: ' . $contentType);
+                    Common::sendHeader('Content-Type: ' . $contentType);
                 }
 
                 if ($compressed) {
-                    @header('Content-Encoding: ' . $encoding);
+                    Common::sendHeader('Content-Encoding: ' . $encoding);
                 }
 
                 if (!_readfile($file)) {
@@ -202,12 +204,12 @@ class ProxyHttp
     public static function overrideCacheControlHeaders($override = null)
     {
         if ($override || self::isHttps()) {
-            @header('Pragma: ');
-            @header('Expires: ');
+            Common::sendHeader('Pragma: ');
+            Common::sendHeader('Expires: ');
             if (in_array($override, array('public', 'private', 'no-cache', 'no-store'))) {
-                @header("Cache-Control: $override, must-revalidate");
+                Common::sendHeader("Cache-Control: $override, must-revalidate");
             } else {
-                @header('Cache-Control: must-revalidate');
+                Common::sendHeader('Cache-Control: must-revalidate');
             }
         }
     }
@@ -222,10 +224,10 @@ class ProxyHttp
     protected static function setHttpStatus($status)
     {
         if (substr_compare(PHP_SAPI, '-fcgi', -5)) {
-            @header($_SERVER['SERVER_PROTOCOL'] . ' ' . $status);
+            Common::sendHeader($_SERVER['SERVER_PROTOCOL'] . ' ' . $status);
         } else {
             // FastCGI
-            @header('Status: ' . $status);
+            Common::sendHeader('Status: ' . $status);
         }
     }
 

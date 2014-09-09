@@ -234,7 +234,7 @@ class ResponseBuilder
         if (!ob_get_contents()) {
             switch ($this->outputFormat) {
                 case 'xml':
-                    @header("Content-Type: text/xml;charset=utf-8");
+                    Common::sendHeader("Content-Type: text/xml;charset=utf-8");
                     $return =
                         "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
                         "<result>\n" .
@@ -242,7 +242,7 @@ class ResponseBuilder
                         "</result>";
                     break;
                 case 'json':
-                    @header("Content-Type: application/json");
+                    Common::sendHeader("Content-Type: application/json");
                     $return = '{"result":"success", "message":"' . $message . '"}';
                     break;
                 case 'php':
@@ -253,8 +253,8 @@ class ResponseBuilder
                     break;
 
                 case 'csv':
-                    @header("Content-Type: application/vnd.ms-excel");
-                    @header("Content-Disposition: attachment; filename=piwik-report-export.csv");
+                    Common::sendHeader("Content-Type: application/vnd.ms-excel");
+                    Common::sendHeader("Content-Disposition: attachment; filename=piwik-report-export.csv");
                     $return = "message\n" . $message;
                     break;
 
@@ -391,7 +391,7 @@ class ResponseBuilder
                     if (is_array($value)) {
                         switch ($this->outputFormat) {
                             case 'json':
-                                @header("Content-Type: application/json");
+                                Common::sendHeader("Content-Type: application/json");
                                 return self::convertMultiDimensionalArrayToJson($array);
                                 break;
 
@@ -402,7 +402,7 @@ class ResponseBuilder
                                 return $array;
 
                             case 'xml':
-                                @header("Content-Type: text/xml;charset=utf-8");
+                                Common::sendHeader("Content-Type: text/xml;charset=utf-8");
                                 return $this->getRenderedDataTable($array);
                             default:
                                 break;

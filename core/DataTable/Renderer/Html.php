@@ -9,6 +9,7 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer;
 
@@ -39,7 +40,7 @@ class Html extends Renderer
      */
     protected function renderHeader()
     {
-        @header('Content-Type: text/html; charset=utf-8');
+        Common::sendHeader('Content-Type: text/html; charset=utf-8');
     }
 
     /**

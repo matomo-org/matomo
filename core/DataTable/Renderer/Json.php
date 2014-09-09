@@ -123,7 +123,7 @@ class Json extends Renderer
 
     public static function sendHeaderJSON()
     {
-        @header('Content-Type: application/json; charset=utf-8');
+        Common::sendHeader('Content-Type: application/json; charset=utf-8');
     }
 
     private function convertDataTableToArray($table)

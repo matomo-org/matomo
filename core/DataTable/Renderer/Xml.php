@@ -9,6 +9,7 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
+use Piwik\Common;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
@@ -438,6 +439,6 @@ class Xml extends Renderer
     protected function renderHeader()
     {
         // silent fail because otherwise it throws an exception in the unit tests
-        @header('Content-Type: text/xml; charset=utf-8');
+        Common::sendHeader('Content-Type: text/xml; charset=utf-8');
     }
 }

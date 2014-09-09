@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\Common;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
@@ -240,9 +241,9 @@ class View implements ViewInterface
 
         ProxyHttp::overrideCacheControlHeaders('no-store');
 
-        @header('Content-Type: ' . $this->contentType);
+        Common::sendHeader('Content-Type: ' . $this->contentType);
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
-        @header('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
 
         return $this->renderTwigTemplate();
     }

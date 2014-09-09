@@ -123,9 +123,8 @@ class Common
             return self::$isCliMode;
         }
 
-        $remoteAddr = @$_SERVER['REMOTE_ADDR'];
         return PHP_SAPI == 'cli' ||
-        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
+        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($_SERVER['REMOTE_ADDR']));
     }
 
     /**
@@ -1019,9 +1018,7 @@ class Common
      */
     public static function sendHeader($header, $replace = true)
     {
-        if (isset($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING']) && $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING']) {
-            @header($header, $replace);
-        } else {
+        if(!Common::isPhpCliMode() && !headers_sent()) {
             header($header, $replace);
         }
     }

@@ -114,9 +114,7 @@ if (!Common::isPhpCliMode()) {
 function geoipUpdateError($message)
 {
     Log::error($message);
-    if (!Common::isPhpCliMode()) {
-        @header('HTTP/1.1 500 Internal Server Error', $replace = true, $responseCode = 500);
-    }
+    Common::sendHeader('HTTP/1.1 500 Internal Server Error', $replace = true, $responseCode = 500);
     exit;
 }
 
