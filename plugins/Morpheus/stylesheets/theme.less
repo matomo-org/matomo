@@ -454,24 +454,28 @@ table.dataTable {
     &.dataTableVizVisitorLog {
 
     }
+}
 
-    tr.subDataTable > td:first-child:before {
-        display: inline-block;
-        float: left;
-        top: 0;
-        width: 1.25em;
-        font-size: .8em;
-        font-style: italic;
-        color:#888;
-    }
+div.dataTableVizHtmlTable:not(.dataTableActions) {
+  tr.subDataTable > td:first-child:before {
+    display: inline-block;
+    float: left;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    margin-left:-.5em;
+    margin-top:4px;
+    margin-right:8px;
+    content: '';
+  }
 
-    tr.subDataTable:not(.expanded) > td:first-child:before {
-        content: '+';
-    }
+  tr.subDataTable:not(.expanded) > td:first-child:before {
+    background-image: url(plugins/Morpheus/images/plus.png);
+  }
 
-    tr.subDataTable.expanded > td:first-child:before {
-        content: '-';
-    }
+  tr.subDataTable.expanded > td:first-child:before {
+    background-image: url(plugins/Morpheus/images/minus.png);
+  }
 }
 
 table.dataTable tr.subDataTable:hover > td, table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
