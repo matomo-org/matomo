@@ -88,7 +88,7 @@
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemCode>W81</operatingSystemCode>
 		<operatingSystemShortName>W81</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/UserSettings/images/os/W81.gif</operatingSystemIcon>
 		<browserFamily>webkit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browserName>Chrome 33.0</browserName>
