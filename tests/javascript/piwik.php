@@ -91,6 +91,11 @@ if (isset($_GET['requests'])) {
         if (!empty($requests) && isPost()) {
             $query = true;
             foreach ($requests['requests'] as $request) {
+                if (empty($data) && preg_match('/data=%7B%22token%22%3A%22([a-z0-9A-Z]*?)%22%7D/', $request, $matches)) {
+                    // safari and opera
+                    $data = array('token' => $matches[1]);
+                }
+
                 $query = $query && logRequest($sqlite, $uri . $request, $data);
             }
         } else {

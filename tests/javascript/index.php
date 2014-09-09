@@ -664,7 +664,7 @@ function PiwikTest() {
         propEqual(actual, [], "htmlCollectionToArray, should always return an array even if interger given"); // would still parse string to an array but we can live with that
 
         var htmlCollection = document.getElementsByTagName('a');
-        ok(htmlCollection instanceof HTMLCollection, 'htmlCollectionToArray, we need to make sure we handle an html collection in order to make test really useful')
+        ok((htmlCollection instanceof HTMLCollection) || (htmlCollection instanceof NodeList), 'htmlCollectionToArray, we need to make sure we handle an html collection in order to make test really useful')
         actual = query.htmlCollectionToArray(htmlCollection);
         ok($.isArray(actual), 'htmlCollectionToArray, should convert to array');
         ok(actual.length === htmlCollection.length, 'htmlCollectionToArray should have same amount of elements as before');

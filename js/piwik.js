@@ -452,7 +452,7 @@ if (typeof JSON2 !== 'object') {
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
-    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled
+    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port
  */
 /*global _paq:true */
 /*members push */
