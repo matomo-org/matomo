@@ -179,6 +179,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setUrl('http://example.org/index.htm');
         $userId = 'new-user-id@one-weeklater';
         $t->setUserId($userId);
+        $t->setVisitorId('6ccebef4faef4969'); // this should be ignored and User ID prevail
         self::checkResponse($t->doTrackPageView('A page view by ' . $userId));
         $t->setForceVisitDateTime($oneWeekLater->addHour(0.8)->getDatetime());
 
