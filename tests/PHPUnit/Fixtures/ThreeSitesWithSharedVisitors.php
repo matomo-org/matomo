@@ -18,6 +18,8 @@ use Piwik\Tests\Fixture;
 class ThreeSitesWithSharedVisitors extends Fixture
 {
     public $idSite = 1;
+    public $idSite1 = 2;
+    public $idSite2 = 3;
     public $dateTime = '2010-03-06 11:22:33';
 
     public function setUp()
@@ -33,15 +35,15 @@ class ThreeSitesWithSharedVisitors extends Fixture
 
     private function setUpWebsitesAndGoals()
     {
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($this->idSite)) {
             self::createWebsite($this->dateTime);
         }
 
-        if (!self::siteCreated($idSite = 2)) {
+        if (!self::siteCreated($this->idSite1)) {
             self::createWebsite($this->dateTime);
         }
 
-        if (!self::siteCreated($idSite = 3)) {
+        if (!self::siteCreated($this->idSite2)) {
             self::createWebsite($this->dateTime);
         }
     }
@@ -57,7 +59,7 @@ class ThreeSitesWithSharedVisitors extends Fixture
         $visitor1->setUrl('http://helios.org/alpha');
         $visitor1->doTrackPageView("page title");
 
-        $visitor1->setIdSite(3);
+        $visitor1->setIdSite($this->idSite2);
         $visitor1->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1)->getDatetime());
         $visitor1->setUrl('http://taura.org/');
         $visitor1->doTrackPageView("page title");
@@ -69,12 +71,12 @@ class ThreeSitesWithSharedVisitors extends Fixture
         $visitor2->doTrackPageView("page title 2");
 
         // two visits to site 2 and 3
-        $visitor3 = self::getTracker($idSite = 2, $dateTime, $defaultInit = true);
+        $visitor3 = self::getTracker($this->idSite1, $dateTime, $defaultInit = true);
         $visitor3->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(3)->getDatetime());
         $visitor3->setUrl('http://virgon.org/');
         $visitor3->doTrackPageView("page title 2");
 
-        $visitor3->setIdSite(3);
+        $visitor3->setIdSite($this->idSite2);
         $visitor3->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(4)->getDatetime());
         $visitor3->setUrl('http://taura.org/');
         $visitor3->doTrackPageView("page title");
