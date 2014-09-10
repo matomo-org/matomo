@@ -101,15 +101,20 @@ disable_merged_assets = 0
 
 [General]
 
-; the following settings control whether Unique Visitors will be processed for different period types.
+; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
 ; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
-; it is recommended to always enable Unique Visitors processing for 'day' periods
+; it is recommended to always enable Unique Visitors and Unique Users processing for 'day' periods
 enable_processing_unique_visitors_day = 1
 enable_processing_unique_visitors_week = 1
 enable_processing_unique_visitors_month = 1
 enable_processing_unique_visitors_year = 0
 enable_processing_unique_visitors_range = 0
+
+; controls whether Unique Visitors will be processed for groups of websites. these metrics describe the number
+; of unique visitors across the entire set of websites, so if a visitor visited two websites in the group, she
+; would still only be counted as one. only relevant when using plugins that group sites together
+enable_processing_unique_visitors_multiple_sites = 0
 
 ; The list of periods that are available in the Piwik calendar
 ; Example use case: custom date range requests are processed in real time,
@@ -171,6 +176,11 @@ enable_segment_suggested_values = 1
 ; Note: anonymous user (even if it has view access) is not allowed to create or edit segment.
 ; Possible values are "view", "admin", "superuser"
 adding_segment_requires_access = "view"
+
+; Whether it is allowed for users to add segments that affect all websites or not. If there are many websites
+; this admin option can be used to prevent users from performing an action that will have a major impact
+; on Piwik performance.
+allow_adding_segments_for_all_websites = 1
 
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
@@ -471,13 +481,6 @@ use_third_party_id_cookie = 0
 ; If tracking does not work for you or you are stuck finding an issue, you might want to enable the tracker debug mode.
 ; Once enabled (set to 1) messages will be logged to all loggers defined in "[log] log_writers" config.
 debug = 0
-
-; There is a feature in the Tracking API that lets you create new visit at any given time, for example if you know that a different user/customer is using
-; the app then you would want to tell Piwik to create a new visit (even though both users are using the same browser/computer).
-; To prevent abuse and easy creation of fake visits, this feature requires admin token_auth by default
-; If you wish to use this feature using the Javascript tracker, you can set the setting new_visit_api_requires_admin=0, and in Javascript write:
-; _paq.push(['appendToTrackingUrl', 'new_visit=1']);
-new_visit_api_requires_admin = 1
 
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)

@@ -9,6 +9,7 @@
 namespace Piwik\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\Common;
 use Piwik\DataArray;
 use Piwik\Db;
 use Piwik\Metrics;
@@ -128,8 +129,8 @@ class LogAggregator
     /** @var \Piwik\Date */
     protected $dateEnd;
 
-    /** @var \Piwik\Site */
-    protected $site;
+    /** @var int[] */
+    protected $sites;
 
     /** @var \Piwik\Segment */
     protected $segment;
@@ -144,12 +145,12 @@ class LogAggregator
         $this->dateStart = $params->getDateStart();
         $this->dateEnd = $params->getDateEnd();
         $this->segment = $params->getSegment();
-        $this->site = $params->getSite();
+        $this->sites = $params->getIdSites();
     }
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy)
     {
-        $bind = $this->getBindDatetimeSite();
+        $bind = $this->getGeneralQueryBindParams();
         $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
         return $query;
     }
@@ -164,6 +165,7 @@ class LogAggregator
             Metrics::INDEX_SUM_VISIT_LENGTH    => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_time)",
             Metrics::INDEX_BOUNCE_COUNT        => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
             Metrics::INDEX_NB_VISITS_CONVERTED => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
+            Metrics::INDEX_NB_USERS            => "count(distinct " . self::LOG_VISIT_TABLE . ".user_id)",
         );
     }
 
@@ -437,7 +439,7 @@ class LogAggregator
     {
         $where = "$tableName.$datetimeField >= ?
 				AND $tableName.$datetimeField <= ?
-				AND $tableName.idsite = ?";
+				AND $tableName.idsite IN (". Common::getSqlStringFieldsArray($this->sites) . ")";
         if (!empty($extraWhere)) {
             $extraWhere = sprintf($extraWhere, $tableName, $tableName);
             $where .= ' AND ' . $extraWhere;
@@ -452,9 +454,17 @@ class LogAggregator
         return $groupBy;
     }
 
-    protected function getBindDatetimeSite()
+    /**
+     * Returns general bind parameters for all log aggregation queries. This includes the datetime
+     * start of entities, datetime end of entities and IDs of all sites.
+     *
+     * @return array
+     */
+    protected function getGeneralQueryBindParams()
     {
-        return array($this->dateStart->getDateStartUTC(), $this->dateEnd->getDateEndUTC(), $this->site->getId());
+        $bind = array($this->dateStart->getDateStartUTC(), $this->dateEnd->getDateEndUTC());
+        $bind = array_merge($bind, $this->sites);
+        return $bind;
     }
 
     /**
@@ -544,7 +554,7 @@ class LogAggregator
                 array(
                     'log_conversion_item.server_time >= ?',
                     'log_conversion_item.server_time <= ?',
-                    'log_conversion_item.idsite = ?',
+                    'log_conversion_item.idsite IN (' . Common::getSqlStringFieldsArray($this->sites) . ')',
                     'log_conversion_item.deleted = 0'
                 )
             ),

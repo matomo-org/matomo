@@ -2,6 +2,18 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.7.0
+
+### Deprecations
+* The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/piwik/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
+
+### New APIs
+* It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
+
+### New commands
+* `core:clear-caches` Lets you easily delete all caches. This command can be useful for instance after updating Piwik files manually.
+
+
 ## Piwik 2.6.0
 
 ### New features
@@ -14,7 +26,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * If an API returns an indexed array, it is now possible to use `filter_limit` and `filter_offset`. This was before only possible if an API returned a DataTable.
 * The Live API now returns only visitor information of activated plugins. So if for instance the Referrers plugin is deactivated a visitor won't contain any referrers related properties. This is a bugfix as the API was crashing before if some core plugins were deactivated. Affected methods are for instance `getLastVisitDetails` or `getVisitorProfile`. If all core plugins are enabled as by default there will be no change at all except the order of the properties within one visitor.
 
-### New commmands
+### New commands
 * `core:run-scheduled-tasks` Let's you run all scheduled tasks due to run at this time. Useful for instance when testing tasks.
 
 #### Internal change
@@ -66,7 +78,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
   * [MenuUser](http://developer.piwik.org/api-reference/Piwik/Menu/MenuUser) to add or modify user menu items
 * [Tasks](http://developer.piwik.org/api-reference/Piwik/Plugin/Tasks) to add scheduled tasks
 
-### New commmands
+### New commands
 * `generate:theme` Let's you easily generate a new theme and customize colors, see the [Theming guide](http://developer.piwik.org/guides/theming)
 * `generate:update` Let's you generate an update file
 * `generate:report` Let's you generate a report
@@ -84,7 +96,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### Deprecations
 ### New features
 ### New APIs
-### New commmands
+### New commands
 ### New guides
 ### Internal change
  -->

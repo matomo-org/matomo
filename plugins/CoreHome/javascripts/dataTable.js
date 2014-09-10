@@ -1415,13 +1415,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 if (!maxWidth[nthChild]) {
                     maxWidth[nthChild] = 0;
-                    rows.find("td:nth-child(" + (nthChild) + ") .column .value").each(function (index, element) {
+                    rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
                         var width    = $(element).width();
                         if (width > maxWidth[nthChild]) {
                             maxWidth[nthChild] = width;
                         }
                     });
-                    rows.find("td:nth-child(" + (nthChild) + ") .column .value").each(function (index, element) {
+                    rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
                         $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
                     });
                 }
@@ -1512,6 +1512,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
 
                 $(this).next().toggle();
+                $(this).toggleClass('expanded');
                 self.repositionRowActions($(this));
             }
         ).size();

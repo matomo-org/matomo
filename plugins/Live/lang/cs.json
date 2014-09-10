@@ -32,7 +32,7 @@
         "VisitorLog": "Pohled na návštěvníky",
         "VisitorLogDocumentation": "Tato tabulka zobrazuje poslední návštěvy v daném období. Najetím na datum návštěvy zobrazíte čas, kdy tento návštěvník navštívil stránky naposledy. %s Pokud období zahrnuje dnešek, můžete vidět návštěvníky v reálném čase! %s Zde zobrazovaná data jsou vždy živá bez ohledu na to, jak a kdy probíhá archivační cron úloha.",
         "VisitorProfile": "Profil návštěvníka",
-        "VisitorsInRealTime": "Návstěv v reálném čase",
+        "VisitorsInRealTime": "Návštěvníci v reálném čase",
         "VisitorsLastVisit": "K poslední návštěvě tohoto návštěvníka došlo před %s dny.",
         "VisitsFrom": "%1$s%2$s návštěv%3$s z",
         "VisitSummary": "Strávil celkem %1$s%2$s na stránkách%3$s a %4$szobrazil %5$s stránek za %6$s návštěv.%7$s"

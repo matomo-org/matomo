@@ -5,6 +5,7 @@
 	<result date="2012-03-05" />
 	<result date="2012-03-06">
 		<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+		<nb_users_returning>0</nb_users_returning>
 		<nb_visits_returning>1</nb_visits_returning>
 		<nb_actions_returning>1</nb_actions_returning>
 		<nb_visits_converted_returning>1</nb_visits_converted_returning>

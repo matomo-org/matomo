@@ -58,6 +58,7 @@
         "UnFlattenDataTable": "The report is flat %s Make it hierarchical",
         "ViewAllPiwikVideoTutorials": "View all Piwik Video Tutorials",
         "WebAnalyticsReports": "Web Analytics Reports",
-        "YouAreUsingTheLatestVersion": "You are using the latest version of Piwik!"
+        "YouAreUsingTheLatestVersion": "You are using the latest version of Piwik!",
+        "ClickRowToExpandOrContract": "Click this row to expand or contract the subtable."
     }
 }

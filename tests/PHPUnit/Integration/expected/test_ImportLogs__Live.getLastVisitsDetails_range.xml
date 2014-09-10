@@ -4,6 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>40</idVisit>
 		<visitIp>174.97.139.63</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -84,10 +85,10 @@
 		<location>Raleigh, North Carolina, United States</location>
 		<latitude>35.771999</latitude>
 		<longitude>-78.639000</longitude>
-		<operatingSystem>Windows 8</operatingSystem>
-		<operatingSystemCode>WI8</operatingSystemCode>
-		<operatingSystemShortName>Win 8</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI8.gif</operatingSystemIcon>
+		<operatingSystem>Windows 8.1</operatingSystem>
+		<operatingSystemCode>W81</operatingSystemCode>
+		<operatingSystemShortName>W81</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/W81.gif</operatingSystemIcon>
 		<browserFamily>webkit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browserName>Chrome 33.0</browserName>
@@ -125,6 +126,7 @@
 		<idSite>1</idSite>
 		<idVisit>33</idVisit>
 		<visitIp>206.190.75.8</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -249,6 +251,7 @@
 		<idSite>1</idSite>
 		<idVisit>39</idVisit>
 		<visitIp>193.159.20.129</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -382,6 +385,7 @@
 		<idSite>1</idSite>
 		<idVisit>37</idVisit>
 		<visitIp>50.244.17.130</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -523,6 +527,7 @@
 		<idSite>1</idSite>
 		<idVisit>38</idVisit>
 		<visitIp>84.194.72.21</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -637,6 +642,7 @@
 		<idSite>1</idSite>
 		<idVisit>36</idVisit>
 		<visitIp>108.211.181.12</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -770,6 +776,7 @@
 		<idSite>1</idSite>
 		<idVisit>35</idVisit>
 		<visitIp>219.101.46.222</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -890,6 +897,7 @@
 		<idSite>1</idSite>
 		<idVisit>34</idVisit>
 		<visitIp>80.136.160.65</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1003,6 +1011,7 @@
 		<idSite>1</idSite>
 		<idVisit>32</idVisit>
 		<visitIp>188.107.238.9</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1136,6 +1145,7 @@
 		<idSite>1</idSite>
 		<idVisit>30</idVisit>
 		<visitIp>93.80.130.163</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1288,6 +1298,7 @@
 		<idSite>1</idSite>
 		<idVisit>31</idVisit>
 		<visitIp>176.41.226.154</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1413,6 +1424,7 @@
 		<idSite>1</idSite>
 		<idVisit>29</idVisit>
 		<visitIp>84.194.72.21</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1538,6 +1550,7 @@
 		<idSite>1</idSite>
 		<idVisit>41</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1804,6 +1817,7 @@
 		<idSite>1</idSite>
 		<idVisit>26</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1928,6 +1942,7 @@
 		<idSite>1</idSite>
 		<idVisit>27</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2060,6 +2075,7 @@
 		<idSite>1</idSite>
 		<idVisit>25</idVisit>
 		<visitIp>175.41.192.41</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2167,6 +2183,7 @@
 		<idSite>1</idSite>
 		<idVisit>24</idVisit>
 		<visitIp>175.41.192.43</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2291,6 +2308,7 @@
 		<idSite>1</idSite>
 		<idVisit>23</idVisit>
 		<visitIp>175.41.192.42</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2422,6 +2440,7 @@
 		<idSite>1</idSite>
 		<idVisit>22</idVisit>
 		<visitIp>72.44.32.11</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2529,6 +2548,7 @@
 		<idSite>1</idSite>
 		<idVisit>21</idVisit>
 		<visitIp>72.44.32.11</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2636,6 +2656,7 @@
 		<idSite>1</idSite>
 		<idVisit>18</idVisit>
 		<visitIp>1.2.3.4</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2733,6 +2754,7 @@
 		<idSite>1</idSite>
 		<idVisit>20</idVisit>
 		<visitIp>175.41.192.41</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2840,6 +2862,7 @@
 		<idSite>1</idSite>
 		<idVisit>19</idVisit>
 		<visitIp>175.41.192.41</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -2947,6 +2970,7 @@
 		<idSite>1</idSite>
 		<idVisit>17</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3050,6 +3074,7 @@
 		<idSite>1</idSite>
 		<idVisit>16</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3153,6 +3178,7 @@
 		<idSite>1</idSite>
 		<idVisit>15</idVisit>
 		<visitIp>177.71.128.21</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3256,6 +3282,7 @@
 		<idSite>1</idSite>
 		<idVisit>14</idVisit>
 		<visitIp>177.71.128.21</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3359,6 +3386,7 @@
 		<idSite>1</idSite>
 		<idVisit>13</idVisit>
 		<visitIp>177.71.128.21</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3462,6 +3490,7 @@
 		<idSite>1</idSite>
 		<idVisit>12</idVisit>
 		<visitIp>175.41.192.34</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3565,6 +3594,7 @@
 		<idSite>1</idSite>
 		<idVisit>11</idVisit>
 		<visitIp>175.41.192.34</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3668,6 +3698,7 @@
 		<idSite>1</idSite>
 		<idVisit>10</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3771,6 +3802,7 @@
 		<idSite>1</idSite>
 		<idVisit>9</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3874,6 +3906,7 @@
 		<idSite>1</idSite>
 		<idVisit>8</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -3977,6 +4010,7 @@
 		<idSite>1</idSite>
 		<idVisit>7</idVisit>
 		<visitIp>72.44.32.10</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -4080,6 +4114,7 @@
 		<idSite>1</idSite>
 		<idVisit>6</idVisit>
 		<visitIp>72.44.32.10</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -4183,6 +4218,7 @@
 		<idSite>1</idSite>
 		<idVisit>5</idVisit>
 		<visitIp>72.44.32.10</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -4286,6 +4322,7 @@
 		<idSite>1</idSite>
 		<idVisit>4</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -4389,6 +4426,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -4492,6 +4530,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>
@@ -4595,6 +4634,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		<userId />
 		
 		<actionDetails>
 			<row>

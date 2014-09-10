@@ -324,11 +324,13 @@ class Plugin_ReportTest extends DatabaseTestCase
                     'nb_visits' => 'General_ColumnNbVisits',
                     'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
                     'nb_actions' => 'General_ColumnNbActions',
+                    'nb_users' => 'General_ColumnNbUsers'
                 ),
                 'metricsDocumentation' => array(
                     'nb_visits' => 'General_ColumnNbVisitsDocumentation',
                     'nb_uniq_visitors' => 'General_ColumnNbUniqVisitorsDocumentation',
                     'nb_actions' => 'General_ColumnNbActionsDocumentation',
+                    'nb_users' => 'General_ColumnNbUsersDocumentation'
                 ),
                 'processedMetrics' => array(
                     'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
@@ -336,7 +338,7 @@ class Plugin_ReportTest extends DatabaseTestCase
                     'bounce_rate' => 'General_ColumnBounceRate',
                     'conversion_rate' => 'General_ColumnConversionRate',
                 ),
-                'order' => '20'
+                'order' => 20
             )
         ), $reports);
     }

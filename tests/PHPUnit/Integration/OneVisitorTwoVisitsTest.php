@@ -67,7 +67,7 @@ class OneVisitorTwoVisitsTest extends IntegrationTestCase
         $enExtraParam = array('expanded' => 1,
                               'flat' => 1,
                               'include_aggregate_rows' => 0,
-                              'translateColumnNames' => 1
+                              'translateColumnNames' => 1,
         );
         $bulkUrls = array(
             // Testing with several days
@@ -79,7 +79,12 @@ class OneVisitorTwoVisitsTest extends IntegrationTestCase
             $url = urlencode($url);
         }
         return array(
-            array('all', array('idSite' => $idSite, 'date' => $dateTime)),
+            array('all', array('idSite' => $idSite,
+                               'date' => $dateTime,
+                               'otherRequestParameters' => array(
+                                   'hideColumns' => 'nb_users',
+                               )
+            )),
 
             // test API.get (for bug that incorrectly reorders columns of CSV output)
             //   note: bug only affects rows after first

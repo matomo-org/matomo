@@ -24,10 +24,10 @@ class Menu extends \Piwik\Plugin\Menu
             \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')
                 ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip');
 
-        $menu->addManageItem(null, array('module' => '', 'action' => '', 'segment' => false), 10);
+        $menu->addManageItem(null, $this->urlForDefaultAction(array('segment' => false)), 10);
         $menu->addManageItem(
             $this->getTopMenuTranslationKey(),
-            array('module' => 'ScheduledReports', 'action' => 'index', 'segment' => false),
+            $this->urlForAction('index', array('segment' => false)),
             13,
             $tooltip
         );

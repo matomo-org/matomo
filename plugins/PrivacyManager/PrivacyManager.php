@@ -351,7 +351,7 @@ class PrivacyManager extends \Piwik\Plugin
      */
     private static function getMetricsToKeep()
     {
-        return array('nb_uniq_visitors', 'nb_visits', 'nb_actions', 'max_actions',
+        return array('nb_uniq_visitors', 'nb_visits', 'nb_users', 'nb_actions', 'max_actions',
                      'sum_visit_length', 'bounce_count', 'nb_visits_converted', 'nb_conversions',
                      'revenue', 'quantity', 'price', 'orders');
     }

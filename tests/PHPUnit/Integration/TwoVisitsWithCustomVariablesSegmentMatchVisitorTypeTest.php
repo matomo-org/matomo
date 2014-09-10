@@ -77,21 +77,21 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends Integratio
             //   )
             'archive_blob_2010_01'    => 28,
             // This contains all 'last N' weeks & days,
-            // (1 metrics
+            // (2 metrics
             //  + 2 referrer metrics
             //  + 3 done flag )
             //  * 2 segments
             // + 1 Done flag per Plugin, for each "Last N" date
-            'archive_numeric_2010_01' => 142,
+            'archive_numeric_2010_01' => 144,
 
             // 2) CHECK 'week' archive stored in December (week starts the month before)
             // We expect 2 segments * (1 custom variable name + 2 ref metrics + 5 subtable for the values of the name + 5 referrers blob)
             'archive_blob_2009_12'    => 28,
-            // 6 metrics,
+            // 7 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
             // 3 done flag (referrers, CustomVar, VisitsSummary),
             // X * 2 segments
-            'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
+            'archive_numeric_2009_12' => (7 + 2 + 3) * 2,
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);

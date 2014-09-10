@@ -35,6 +35,7 @@
             </div>
         </li>
         {% if visitData.resolution is defined %}<li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}
+        {% if visitData.userId is not empty %}<li><span>{{ 'General_UserId'|translate }}</span><strong>{{ visitData.userId|raw }}</strong></li>{% endif %}
         {% if visitReferralSummary is defined %}
         {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
         <li>

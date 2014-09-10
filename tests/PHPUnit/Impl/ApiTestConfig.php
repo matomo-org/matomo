@@ -176,12 +176,20 @@ class ApiTestConfig
     public $xmlFieldsToRemove = false;
 
     /**
-     * If true, XML fields that change on each request for Live API methods are retained.
+     * If true, Date times XML fields that change on each request for Live API methods are retained.
      * Normally, they are removed before comparing the API response w/ expected.
      *
      * @param bool
      */
     public $keepLiveDates = false;
+
+    /**
+     * If true, ID visitors/User ID/other IDs that change on each request for Live API methods are retained.
+     * Normally, they are removed before comparing the API response w/ expected.
+     *
+     * @param bool
+     */
+    public $keepLiveIds = false;
 
     /**
      * Constructor. Sets class properties using an associative array mapping property names w/ values.

@@ -17,6 +17,7 @@
 		<nb_conversions>10</nb_conversions>
 		<revenue>50</revenue>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<code>jp</code>
 		<logo>plugins/UserCountry/images/flags/jp.png</logo>
 		<logoWidth>16</logoWidth>
@@ -39,6 +40,7 @@
 		<nb_conversions>7</nb_conversions>
 		<revenue>35</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>4</sum_daily_nb_users>
 		<code>xx</code>
 		<logo>plugins/UserCountry/images/flags/xx.png</logo>
 		<logoWidth>16</logoWidth>
@@ -61,6 +63,7 @@
 		<nb_conversions>5</nb_conversions>
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<code>us</code>
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 		<logoWidth>16</logoWidth>
@@ -83,6 +86,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>br</code>
 		<logo>plugins/UserCountry/images/flags/br.png</logo>
 		<logoWidth>16</logoWidth>
@@ -97,6 +101,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>au</code>
 		<logo>plugins/UserCountry/images/flags/au.png</logo>
 		<logoWidth>16</logoWidth>

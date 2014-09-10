@@ -29,8 +29,6 @@ class Request
      */
     protected $params;
 
-    protected $forcedVisitorId = false;
-
     protected $isAuthenticated = null;
 
     protected $tokenAuth;
@@ -277,6 +275,7 @@ class Request
             'cip'          => array(false, 'string'),
             'cdt'          => array(false, 'string'),
             'cid'          => array(false, 'string'),
+            'uid'          => array(false, 'string'),
 
             // Actions / pages
             'cs'           => array(false, 'string'),
@@ -442,21 +441,37 @@ class Request
     }
 
     /**
-     * Is the request for a known VisitorId, based on 1st party, 3rd party (optional) cookies or Tracking API forced Visitor ID
+     * Returns the ID from  the request in this order:
+     * return from a given User ID,
+     * or from a Tracking API forced Visitor ID,
+     * or from a Visitor ID from 3rd party (optional) cookies,
+     * or from a given Visitor Id from 1st party?
+     *
      * @throws Exception
      */
     public function getVisitorId()
     {
         $found = false;
 
-        // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
-        $idVisitor = $this->getForcedVisitorId();
-        if (!empty($idVisitor)) {
-            if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
-                throw new Exception("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
-            }
-            Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+        // If User ID is set it takes precedence
+        $userId = $this->getForcedUserId();
+        if(strlen($userId) > 0) {
+            $userIdHashed = $this->getUserIdHashed($userId);
+            $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
+            Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
             $found = true;
+        }
+
+        // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
+        if (!$found) {
+            $idVisitor = $this->getForcedVisitorId();
+            if (!empty($idVisitor)) {
+                if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
+                    throw new Exception("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
+                }
+                Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+                $found = true;
+            }
         }
 
         // - If set to use 3rd party cookies for Visit ID, read the cookie
@@ -473,6 +488,7 @@ class Request
                 }
             }
         }
+
         // If a third party cookie was not found, we default to the first party cookie
         if (!$found) {
             $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
@@ -480,7 +496,7 @@ class Request
         }
 
         if ($found) {
-            $truncated = substr($idVisitor, 0, Tracker::LENGTH_HEX_ID_STRING);
+            $truncated = $this->truncateIdAsVisitorId($idVisitor);
             $binVisitorId = @Common::hex2bin($truncated);
             if (!empty($binVisitorId)) {
                 return $binVisitorId;
@@ -517,16 +533,14 @@ class Request
         }
     }
 
-    public function setForcedVisitorId($visitorId)
+    public function getForcedUserId()
     {
-        if (!empty($visitorId)) {
-            $this->forcedVisitorId = $visitorId;
-        }
+        return $this->getParam('uid');
     }
 
     public function getForcedVisitorId()
     {
-        return $this->forcedVisitorId;
+        return $this->getParam('cid');
     }
 
     public function getPlugins()
@@ -555,5 +569,25 @@ class Request
             return (int)$generationTime;
         }
         return false;
+    }
+
+    /**
+     * @param $idVisitor
+     * @return string
+     */
+    private function truncateIdAsVisitorId($idVisitor)
+    {
+        return substr($idVisitor, 0, Tracker::LENGTH_HEX_ID_STRING);
+    }
+
+    /**
+     * Matches implementation of PiwikTracker::getUserIdHashed
+     *
+     * @param $userId
+     * @return string
+     */
+    private function getUserIdHashed($userId)
+    {
+        return sha1($userId);
     }
 }

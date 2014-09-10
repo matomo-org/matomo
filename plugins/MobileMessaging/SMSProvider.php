@@ -10,13 +10,13 @@ namespace Piwik\Plugins\MobileMessaging;
 
 use Exception;
 use Piwik\Piwik;
-use Piwik\Factory;
+use Piwik\BaseFactory;
 
 /**
  * The SMSProvider abstract class is used as a base class for SMS provider implementations.
  *
  */
-abstract class SMSProvider extends Factory
+abstract class SMSProvider extends BaseFactory
 {
     const MAX_GSM_CHARS_IN_ONE_UNIQUE_SMS = 160;
     const MAX_GSM_CHARS_IN_ONE_CONCATENATED_SMS = 153;

@@ -17,7 +17,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (PluginManager::getInstance()->isPluginActivated('UserCountry')) {
             $menu->addVisitorsItem('UserCountryMap_RealTimeMap',
-                                   array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'),
+                                   $this->urlForAction('realtimeWorldMap'),
                                    $order = 70);
         }
     }

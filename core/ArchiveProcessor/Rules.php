@@ -285,6 +285,18 @@ class Rules
     }
 
     /**
+     * Returns true if the archiving process should skip the calculation of unique visitors
+     * across several sites. The `[General] enable_processing_unique_visitors_multiple_sites`
+     * INI config option controls the value of this variable.
+     *
+     * @return bool
+     */
+    public static function shouldSkipUniqueVisitorsCalculationForMultipleSites()
+    {
+        return Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] == 1;
+    }
+
+    /**
      * @param array $idSites
      * @param Segment $segment
      * @return bool

@@ -62,6 +62,7 @@ class DataArray
         return array(Metrics::INDEX_NB_UNIQ_VISITORS    => 0,
                      Metrics::INDEX_NB_VISITS           => 0,
                      Metrics::INDEX_NB_ACTIONS          => 0,
+                     Metrics::INDEX_NB_USERS            => 0,
                      Metrics::INDEX_MAX_ACTIONS         => 0,
                      Metrics::INDEX_SUM_VISIT_LENGTH    => 0,
                      Metrics::INDEX_BOUNCE_COUNT        => 0,
@@ -90,6 +91,7 @@ class DataArray
             if ($onlyMetricsAvailableInActionsTable) {
                 return;
             }
+            $oldRowToUpdate[Metrics::INDEX_NB_USERS] += $newRowToAdd['nb_users'];
             $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS]);
             $oldRowToUpdate[Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd['sum_visit_length'];
             $oldRowToUpdate[Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd['bounce_count'];
@@ -116,6 +118,7 @@ class DataArray
             }
         }
 
+        $oldRowToUpdate[Metrics::INDEX_NB_USERS] += $newRowToAdd[Metrics::INDEX_NB_USERS];
         $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd[Metrics::INDEX_MAX_ACTIONS], $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS]);
         $oldRowToUpdate[Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd[Metrics::INDEX_SUM_VISIT_LENGTH];
         $oldRowToUpdate[Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd[Metrics::INDEX_BOUNCE_COUNT];

@@ -14,16 +14,11 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $urlParams = array(
-            'module' => 'Actions',
-            'action' => 'menuGetPageUrls'
-        );
-
-        $menu->addActionsItem('', $urlParams, 15);
+        $menu->addActionsItem('', $this->urlForAction('menuGetPageUrls'), 15);
 
         $actions = new Actions();
         if ($actions->isSiteSearchEnabled()) {
-            $menu->addActionsItem('Actions_SubmenuSitesearch', array('module' => 'Actions', 'action' => 'indexSiteSearch'), 5);
+            $menu->addActionsItem('Actions_SubmenuSitesearch', $this->urlForAction('indexSiteSearch'), 5);
         }
     }
 
