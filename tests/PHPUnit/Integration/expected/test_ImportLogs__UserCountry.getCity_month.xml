@@ -17,6 +17,7 @@
 		<nb_conversions>20</nb_conversions>
 		<revenue>100</revenue>
 		<sum_daily_nb_uniq_visitors>22</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>9</sum_daily_nb_users>
 		<city_name>Unknown</city_name>
 		<city>xx</city>
 		<region>xx</region>
@@ -42,6 +43,7 @@
 		<nb_conversions>5</nb_conversions>
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<lat>39.044</lat>
 		<long>-77.488</long>
 		<city_name>Ashburn</city_name>

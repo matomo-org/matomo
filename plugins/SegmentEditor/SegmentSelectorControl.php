@@ -37,6 +37,8 @@ class SegmentSelectorControl extends UIControl
 
         $this->selectedSegment = Common::getRequestVar('segment', false, 'string');
 
+        $this->isAddingSegmentsForAllWebsitesEnabled = SegmentEditor::isAddingSegmentsForAllWebsitesEnabled();
+
         $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
 
         $segmentsByCategory = array();

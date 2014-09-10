@@ -97,7 +97,7 @@ class Report
      * @var array
      * @api
      */
-    protected $metrics = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+    protected $metrics = array('nb_visits', 'nb_uniq_visitors', 'nb_actions', 'nb_users');
     // for a little performance improvement we avoid having to call Metrics::getDefaultMetrics for each report
 
     /**

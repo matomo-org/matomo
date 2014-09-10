@@ -3,6 +3,7 @@
 	<row>
 		<row key="2010-03-06">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>2</nb_visits>
 			<nb_actions>8</nb_actions>
 			<nb_visits_converted>2</nb_visits_converted>
@@ -19,6 +20,7 @@
 	<row>
 		<row key="2010-03-06">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>2</nb_visits>
 			<nb_actions>8</nb_actions>
 			<nb_visits_converted>2</nb_visits_converted>

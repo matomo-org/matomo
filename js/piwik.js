@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    hook, getHook, getVisitorId, getVisitorInfo, setUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -1100,6 +1100,9 @@ if (typeof Piwik !== 'object') {
                 // Site ID
                 configTrackerSiteId = siteId || '',
 
+                // User ID
+                configUserId = '',
+
                 // Document URL
                 configCustomUrl,
 
@@ -1761,6 +1764,7 @@ if (typeof Piwik !== 'object') {
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    (configUserId.length ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount +
                     '&_idn=' + newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
@@ -2422,6 +2426,15 @@ if (typeof Piwik !== 'object') {
                  */
                 setSiteId: function (siteId) {
                     configTrackerSiteId = siteId;
+                },
+
+                /**
+                 * Sets a User ID to this user (such as an email address or a username)
+                 *
+                 * @param string User ID
+                 */
+                setUserId: function (userId) {
+                    configUserId = userId;
                 },
 
                 /**

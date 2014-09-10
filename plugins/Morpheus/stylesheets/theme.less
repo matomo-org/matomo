@@ -223,19 +223,10 @@ table.entityTable tr td a:hover {
   padding: 8px 10px 8px 10px;
   .border-radius(0px);
   .segmentationTitle {
-    background: none;
+    background: url(plugins/Morpheus/images/segment-users.png) no-repeat right 0;
     text-transform: uppercase;
     .font-default(10px, 12px);
     position: relative;
-    &:after {
-      content: '';
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 5px solid @theme-color-brand;
-      position: absolute;
-      top: 3px;
-      right: 0;
-    }
   }
   .dropdown-body {
     background:#fff;
@@ -463,6 +454,28 @@ table.dataTable {
     &.dataTableVizVisitorLog {
 
     }
+}
+
+div.dataTableVizHtmlTable:not(.dataTableActions) {
+  tr.subDataTable > td:first-child:before {
+    display: inline-block;
+    float: left;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    margin-left:-.5em;
+    margin-top:4px;
+    margin-right:8px;
+    content: '';
+  }
+
+  tr.subDataTable:not(.expanded) > td:first-child:before {
+    background-image: url(plugins/Morpheus/images/plus.png);
+  }
+
+  tr.subDataTable.expanded > td:first-child:before {
+    background-image: url(plugins/Morpheus/images/minus.png);
+  }
 }
 
 table.dataTable tr.subDataTable:hover > td, table.dataTable tr.subDataTable:hover > td .dataTableRowActions {

@@ -153,10 +153,7 @@ class Visitor
 
         $isNewVisitForced = $this->request->getParam('new_visit');
         $isNewVisitForced = !empty($isNewVisitForced);
-        $newVisitEnforcedAPI = $isNewVisitForced
-            && ($this->request->isAuthenticated()
-                || !Config::getInstance()->Tracker['new_visit_api_requires_admin']);
-        $enforceNewVisit = $newVisitEnforcedAPI || Config::getInstance()->Debug['tracker_always_new_visitor'];
+        $enforceNewVisit = $isNewVisitForced || Config::getInstance()->Debug['tracker_always_new_visitor'];
 
         if (!$enforceNewVisit
             && $visitRow
@@ -236,8 +233,12 @@ class Visitor
         // If a &cid= was set, we force to select this visitor (or create a new one)
         $isForcedVisitorIdMustMatch = ($this->request->getForcedVisitorId() != null);
 
+        // if &iud was set, we force to select this visitor (or create new one)
+        $isForcedUserIdMustMatch = ($this->request->getForcedUserId() != null);
+
         $shouldMatchOneFieldOnly = (($isVisitorIdToLookup && $trustCookiesOnly)
             || $isForcedVisitorIdMustMatch
+            || $isForcedUserIdMustMatch
             || !$isVisitorIdToLookup);
         return $shouldMatchOneFieldOnly;
     }
@@ -250,6 +251,8 @@ class Visitor
         $fields = array(
             'idvisitor',
             'idvisit',
+            'user_id',
+
             'visit_exit_idaction_url',
             'visit_exit_idaction_name',
             'visitor_returning',

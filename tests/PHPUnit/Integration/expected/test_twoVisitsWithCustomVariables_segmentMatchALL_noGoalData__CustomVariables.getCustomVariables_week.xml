@@ -24,6 +24,7 @@
 				<nb_conversions>3</nb_conversions>
 				<revenue>1000</revenue>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>2</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>LoggedIn</label>
@@ -42,6 +43,7 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 					<row>
 						<label>LoggedOut</label>
@@ -65,6 +67,7 @@
 						<nb_conversions>2</nb_conversions>
 						<revenue>1000</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>
@@ -85,6 +88,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>Value not defined</label>
@@ -103,6 +107,7 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>
@@ -141,6 +146,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</label>
@@ -159,6 +165,7 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>
@@ -179,6 +186,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>1000</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>1</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</label>
@@ -197,6 +205,7 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>1000</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>1</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>

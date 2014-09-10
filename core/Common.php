@@ -575,6 +575,18 @@ class Common
     }
 
     /**
+     * Converts a User ID string to the Visitor ID Binary representation.
+     *
+     * @param $userId
+     * @return string
+     */
+    public static function convertUserIdToVisitorIdBin($userId)
+    {
+        $userIdHashed = \PiwikTracker::getUserIdHashed($userId);
+        return self::convertVisitorIdToBin($userIdHashed);
+    }
+
+    /**
      * Convert IP address (in network address format) to presentation format.
      * This is a backward compatibility function for code that only expects
      * IPv4 addresses (i.e., doesn't support IPv6).

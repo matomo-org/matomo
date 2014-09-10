@@ -49,8 +49,8 @@
  *      $t->setIp( "134.10.22.1" );
  *      $t->setForceVisitDateTime( '2011-04-05 23:55:02' );
  *
- *      // if you wanted to force to record the page view or conversion to a specific visitorId
- *      // $t->setVisitorId( "33c31e01394bdc63" );
+ *      // if you wanted to force to record the page view or conversion to a specific User ID
+ *      // $t->setUserId( "username@example.org" );
  *      // Mandatory: set the URL being tracked
  *      $t->setUrl( $url = 'http://example.org/store/list-category-toys/' );
  *
@@ -196,6 +196,7 @@ class PiwikTracker
         $this->configReferralCookieTimeout = 15768000; // 6 months
 
         // Visitor Ids in order
+        $this->userId = false;
         $this->forcedVisitorId = false;
         $this->cookieVisitorId = false;
         $this->randomVisitorId = false;
@@ -380,6 +381,7 @@ class PiwikTracker
     public function setNewVisitorId()
     {
         $this->randomVisitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
+        $this->userId = false;
         $this->forcedVisitorId = false;
         $this->cookieVisitorId = false;
     }
@@ -924,9 +926,6 @@ class PiwikTracker
      * By default, Piwik will create a new visit if the last request by this user was more than 30 minutes ago.
      * If you call setForceNewVisit() before calling doTrack*, then a new visit will be created for this request.
      *
-     * Allowed only for Super User, must be used along with setTokenAuth()
-     *
-     * @see setTokenAuth()
      */
     public function setForceNewVisit()
     {
@@ -946,17 +945,48 @@ class PiwikTracker
     }
 
     /**
-     * Forces the requests to be recorded for the specified Visitor ID
-     * rather than using the heuristics based on IP and other attributes.
+     * Force the action to be recorded for a specific User. The User ID is a string representing a given user in your system.
      *
-     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
+     * A User ID can be a username, UUID or an email address, or any number or string that uniquely identifies a user or client.
      *
-     * You may set the Visitor ID based on a user attribute, for example the user email:
-     *      $v->setVisitorId( substr(md5( $userEmail ), 0, 16));
+     * @param string $userId  Any user ID string (eg. email address, ID, username). Must be non empty. Set to false to de-assign a user id previously set.
+     * @throws Exception
+     */
+    public function setUserId($userId)
+    {
+        if($userId === false) {
+            $this->setNewVisitorId();
+            return;
+        }
+        if($userId === '') {
+            throw new Exception("User ID cannot be empty.");
+        }
+        $this->userId = $userId;
+    }
+
+    /**
+     * Hash function used internally by Piwik to hash a User ID into the Visitor ID.
      *
+     * @param $id
+     * @return string
+     */
+    static public function getUserIdHashed($id)
+    {
+        return substr( sha1( $id ), 0, 16);
+    }
+
+
+    /**
+     * Forces the requests to be recorded for the specified Visitor ID.
+     * Note: it is recommended to use ->setUserId($userId); instead.
+     *
+     * Rather than letting Piwik attribute the user with a heuristic based on IP and other user fingeprinting attributes,
+     * force the action to be recorded for a particular visitor.
+     *
+     * If you use both setVisitorId and setUserId, setUserId will take precedence.
      * If not set, the visitor ID will be fetched from the 1st party cookie, or will be set to a random UUID.
      *
-     * @see setTokenAuth()
+     * @deprecated We recommend to use  ->setUserId($userId).
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
      * @throws Exception
      */
@@ -989,13 +1019,28 @@ class PiwikTracker
      */
     public function getVisitorId()
     {
+        if (!empty($this->userId)) {
+            return $this->getUserIdHashed($this->userId);
+        }
         if (!empty($this->forcedVisitorId)) {
             return $this->forcedVisitorId;
-        } else if ($this->loadVisitorIdCookie()) {
-            return $this->cookieVisitorId;
-        } else {
-            return $this->randomVisitorId;
         }
+        if ($this->loadVisitorIdCookie()) {
+            return $this->cookieVisitorId;
+        }
+        return $this->randomVisitorId;
+    }
+
+
+    /**
+     * Returns the User ID string, which may have been set via:
+     *     $v->setUserId('username@example.org');
+     *
+     * @return bool
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     /**
@@ -1061,7 +1106,6 @@ class PiwikTracker
      * The following features require access:
      * - force the visitor IP
      * - force the date & time of the tracking requests rather than track for the current datetime
-     * - force Piwik to track the requests to a specific VisitorId rather than use the standard visitor matching heuristic
      *
      * @param string $token_auth token_auth 32 chars token_auth string
      */
@@ -1308,7 +1352,7 @@ class PiwikTracker
 
             // Only allowed for Super User, token_auth required,
             (!empty($this->ip) ? '&cip=' . $this->ip : '') .
-            (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
+            (!empty($this->userId) ? '&uid=' . urlencode($this->userId) : '') .
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             (!empty($this->forcedNewVisit) ? '&new_visit=1' : '') .
             ((!empty($this->token_auth) && !$this->doBulkRequests) ? '&token_auth=' . urlencode($this->token_auth) : '') .
@@ -1332,6 +1376,7 @@ class PiwikTracker
             (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
             (!empty($this->eventCustomVar) ? '&e_cvar=' . urlencode(json_encode($this->eventCustomVar)) : '') .
             (!empty($this->generationTime) ? '&gt_ms=' . ((int)$this->generationTime) : '') .
+            (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
 
             // URL parameters
             '&url=' . urlencode($this->pageUrl) .

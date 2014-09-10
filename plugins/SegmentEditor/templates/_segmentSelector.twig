@@ -122,7 +122,7 @@
                 {{ 'SegmentEditor_SegmentIsDisplayedForWebsite'|translate }}<span class="visible_to_website"><strong>
                         <select class="visible_to_website_select">
                             <option selected="" value="{{ idSite }}">{{ 'SegmentEditor_SegmentDisplayedThisWebsiteOnly'|translate }}</option>
-                            <option value="0">{{ 'SegmentEditor_SegmentDisplayedAllWebsites'|translate }}</option>
+                            {% if isAddingSegmentsForAllWebsitesEnabled %}<option value="0">{{ 'SegmentEditor_SegmentDisplayedAllWebsites'|translate }}</option>{% endif %}
                         </select>
                     </strong></span>
                 {{ 'General_And'|translate }} <span class="auto_archive"><strong>
