@@ -310,18 +310,19 @@ table.dataTable img {
     .expandDataTableFooterDrawer {
       display: block;
       margin-top: 5px;
-      margin-bottom: 0px;
+      margin-bottom: -1px;
       margin-left: auto;
       margin-right: auto;
-      background-color: #D9D9D9;
+      background-color: @theme-color-background-base;
+      border: 1px solid @theme-color-background-tinyContrast;
       height: 7px;
       width: 70px;
-      -webkit-border-top-left-radius: 10px;
-      -webkit-border-top-right-radius: 10px;
-      -moz-border-radius-topleft: 10px;
-      -moz-border-radius-topright: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      -webkit-border-bottom-left-radius: 10px;
+      -webkit-border-bottom-right-radius: 10px;
+      -moz-border-radius-bottomleft: 10px;
+      -moz-border-radius-bottomright: 10px;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
       line-height: 0px;
 
       img {
@@ -329,6 +330,10 @@ table.dataTable img {
         line-height: 0px;
       }
     }
+  }
+
+  div:not(#dashboard) .dataTableFeatures {
+    border-bottom: 1px solid @theme-color-background-tinyContrast;
   }
 
   .dataTableFooterIcons {
@@ -344,10 +349,12 @@ table.dataTable img {
     .foldDataTableFooterDrawer {
       display: block;
       padding-bottom: 0px;
+      margin-bottom: -1px;
       margin-top: 0px;
       margin-left: auto;
       margin-right: auto;
-      background-color: #D9D9D9;
+      background-color: @theme-color-background-base;
+      border: 1px solid @theme-color-background-tinyContrast;
       -webkit-border-top-left-radius: 10px;
       -webkit-border-top-right-radius: 10px;
       -moz-border-radius-topleft: 10px;
@@ -373,12 +380,28 @@ table.dataTable img {
       color: #333;
     }
   }
+}
 
+#dashboard .dataTableFeatures {
+  .expandDataTableFooterDrawer {
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -moz-border-radius-bottomright: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
 }
 
 .dataTableFooterIcons .foldDataTableFooterDrawer,
 .dataTableFeatures .expandDataTableFooterDrawer {
-  display: none;
   cursor: pointer;
 }
 
