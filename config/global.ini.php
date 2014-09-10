@@ -177,6 +177,11 @@ enable_segment_suggested_values = 1
 ; Possible values are "view", "admin", "superuser"
 adding_segment_requires_access = "view"
 
+; Whether it is allowed for users to add segments that affect all websites or not. If there are many websites
+; this admin option can be used to prevent users from performing an action that will have a major impact
+; on Piwik performance.
+allow_adding_segments_for_all_websites = 1
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index

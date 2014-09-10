@@ -115,7 +115,13 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanAddNewSegment($idSite)
     {
-        if(!$this->isUserCanAddNewSegment($idSite)) {
+        if (empty($idSite)
+            && !SegmentEditor::isAddingSegmentsForAllWebsitesEnabled()
+        ) {
+            throw new Exception(Piwik::translate('SegmentEditor_AddingSegmentForAllWebsitesDisabled'));
+        }
+
+        if (!$this->isUserCanAddNewSegment($idSite)) {
             throw new Exception(Piwik::translate('SegmentEditor_YouDontHaveAccessToCreateSegments'));
         }
     }
