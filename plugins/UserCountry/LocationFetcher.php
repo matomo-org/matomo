@@ -16,8 +16,34 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
 class LocationFetcher
 {
-    private static $cachedLocations = array();
+    /**
+     * @var array
+     */
+    protected static $cachedLocations = array();
 
+    /**
+     * @var LocationFetcherProvider
+     */
+    protected $locationFetcherProvider;
+
+    /**
+     * @param LocationFetcherProvider|null $locationFetcherProvider
+     */
+    public function __construct(LocationFetcherProvider $locationFetcherProvider = null)
+    {
+        if ($locationFetcherProvider === null) {
+            $locationFetcherProvider = new LocationFetcherProvider();
+        }
+
+        $this->locationFetcherProvider = $locationFetcherProvider;
+    }
+
+    /**
+     * @param array $userInfo
+     * @param string $key
+     * @param bool $useClassCache
+     * @return bool
+     */
     public function getLocationDetail($userInfo, $key, $useClassCache = true)
     {
         $location = $this->getLocation($userInfo, $useClassCache);
@@ -37,16 +63,16 @@ class LocationFetcher
             return self::$cachedLocations[$userInfoKey];
         }
 
-        $provider = $this->getProvider();
+        $provider = $this->locationFetcherProvider->get();
         $location = $this->getLocationObject($provider, $userInfo);
 
         if (empty($location)) {
             $providerId = $provider->getId();
             Common::printDebug("GEO: couldn't find a location with Geo Module '$providerId'");
 
-            if (!$this->isDefaultProvider($provider)) {
+            if (!$this->locationFetcherProvider->isDefaultProvider($provider)) {
                 Common::printDebug("Using default provider as fallback...");
-                $provider = $this->getDefaultProvider();
+                $provider = $this->locationFetcherProvider->getDefaultProvider();
                 $location = $this->getLocationObject($provider, $userInfo);
             }
         }
@@ -55,7 +81,7 @@ class LocationFetcher
             $location = array();
         }
 
-        if (empty($location['country_code'])) { // sanity check
+        if (empty($location['country_code'])) {
             $location['country_code'] = Visit::UNKNOWN_CODE;
         }
 
@@ -82,41 +108,5 @@ class LocationFetcher
         Common::printDebug("GEO: Found IP $ipAddress location (provider '" . $providerId . "'): " . var_export($location, true));
 
         return $location;
-    }
-
-    /**
-     * @return false|LocationProvider
-     */
-    private function getDefaultProvider()
-    {
-        $id       = DefaultProvider::ID;
-        $provider = LocationProvider::getProviderById($id);
-
-        return $provider;
-    }
-
-    /**
-     * @param mixed $provider
-     * @return bool
-     */
-    private function isDefaultProvider($provider)
-    {
-        return !empty($provider) && DefaultProvider::ID == $provider->getId();
-    }
-
-    /**
-     * @return false|LocationProvider
-     */
-    private function getProvider()
-    {
-        $id       = Common::getCurrentLocationProviderId();
-        $provider = LocationProvider::getProviderById($id);
-
-        if ($provider === false) {
-            $provider = $this->getDefaultProvider();
-            Common::printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
-        }
-
-        return $provider;
     }
 } 
