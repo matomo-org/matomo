@@ -100,7 +100,7 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        if (tr.attr('id')) {
+        if (tr.hasClass('subDataTable')) {
             // not available on groups (i.e. folders)
             return false;
         }
