@@ -425,16 +425,38 @@ Yes it seems most logical to create an action entry for each Content.
 ## Reports
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with [.jpg, .png, .gif] it could be recognized as image content and show a banner in the report.
 
+## TODO
+* Redirect to URL in piwik.php only if trusted host
+* Would content impressions be tracked in overlay session?
+  * Overlay session should not trigger a content impression
+* Test scroll event in ie9, ie10, ie11, opera
+* Run JS tests  in ff3, ie7, ie8, ie9, ie10, ie11, opera, android, iphone, ms phone, safari
+* Write PHP tests
+* Show images on hover in report
+* Write JS tests for interaction click event listener
+* Better position #contenttest in JS tests to make isNodeVisible work on all platforms
+* makeNodesUnique should return same result on all browsers. It does currently but different order which is no problem at all but makes test work in all browsers
+* When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
+  * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
+  * Maybe v2
+
+
+## V2:
+* "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
+  * BTW I could implement this with a few lines
+* When we listen to scroll events we currently do not detect if user scrolls the entire page, not if within a div
+  * We need to check all parent elements of a content block whether it is scrollable and if so connect an event to this
+* We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
+
 
 ## Open questions
-* SHOULD WE ADD THE DOMAIN AND IN CASE OF A RELATIVE URL THE PATH AUTOMATICALLY TO "/" in content target?
-```
-  <img src="http://www.example.com/path/xyz.jpg" href="/" data-track-content />
-  // content name   = /path/xyz.jpg
-  // content piece  = http://www.example.com/xyz.jpg
-  // content target = /
-  //
-```
+
+* We might need a trackContentImpressionsOfContentBlock() to make sure to track a content block in case we do not detect it correct that a node is visible now
+* Referrer gets lost when using piwik.php
+* Single page applications will always want to disable interactions as redirect would not fit into their concept!!!
+
+
+## Notes:
 * User can decide to manually setup the proper redirect URL via piwik.php?rec=1&idsite=1&clickurl={$URL_HERE}&....
   * Currently, the user would also have to add event URL parameters and make sure to send the correct name and piece to match an impression.
   * If the user does not use any data-content-* attributes this is very likely to fail since the auto detected content name and piece can easily change and tracking would be broken
@@ -449,18 +471,11 @@ Nothing special here I think. We would probably automatically detect the type of
       * note to myself: They should be able to parse a node that we parse for all content as you maybe wanna parse only the replaced ajax content. maybe v2
     * index.php, /foo/bar --> will be directly replaced by piwik.php in case clickNode (element having clickAttribute/Class) is an "A" element
     * Need to think about possible XSS. If an attacker can set href attributes on that website and we replace attribute based on that but should be ok ...
-* "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
-   * You said this is V2 right?
 * FYI: Piwik Mobile displays currently only one metric, so people won't see impressions and number of interactions or ratio next to each other
 * If user wants to track only visible content we'll need to wait until the websites load (not DOMContentLoaded) event is triggered. Otherwise CSS might be not be applied yet and we cannot detect whether node is actually visible. Downside: Some websites might take > 10 seconds until this event is triggered. Depending on how good they are developed. During this time the user might be already no longer on that page or might have already scrolled to somewhere else.
 * If user wants to track all content impressions (not only the visible ones) we'd probably have to wait until at least DOMContentLoaded event is triggered
-* When we listen to scroll events we currently do not detect if user scrolls the entire page, not if within a div
 * If the load event takes like 10 seconds later, the user has maybe already scrolled and seen some content blocks but we cannot detect... so considering viewport we need to assume all above the deepest scrollpoint was seen
-* TODO we might need a trackContentImpressionsOfContentBlock() to make sure to track a content block in case we do not detect it correct that a node is visible now
-* Referrer gets lost when using piwik.php
-* We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
-* Would content impressions be tracked in overlay session?
-* Single page applications will always want to disable interactions as redirect would not fit into their concept!!!
+
 
 ## Answered Questions
 1. Can the same content piece have different names / targets? Can the same content name have different targets/pieces?
