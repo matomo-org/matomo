@@ -168,6 +168,8 @@ table.dataTable img {
 
 .dataTable > .dataTableWrapper {
   width: 450px;
+  margin-bottom: 9px; // same height as expand/contract button (so datatable height will encompass the
+                      // expand/contract button)
 }
 
 .subDataTable > .dataTableWrapper {
@@ -400,6 +402,22 @@ div:not(#dashboard) .dataTableFeatures {
 .dataTableFooterIcons .foldDataTableFooterDrawer,
 .dataTableFeatures .expandDataTableFooterDrawer {
   cursor: pointer;
+}
+
+// customizing footer appearance for row evolution graph
+.ui-dialog .dataTableVizEvolution {
+  .expandDataTableFooterDrawer,.foldDataTableFooterDrawer {
+    display: none !important;
+  }
+
+  .dataTableFooterIcons {
+    display: block;
+  }
+
+  .dataTableFeatures {
+    border-bottom-style: none !important;
+    margin-top: 0 !important;
+  }
 }
 
 @-moz-document url-prefix() {
