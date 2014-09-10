@@ -300,7 +300,7 @@ function setupContentTrackingFixture(name, targetNode) {
 
  <script>
 
- if (isIE) {
+ if (isIE()) {
      (function () {
          // otherwise because of position:absolute some nodes will be visible but should not... it will show scroll bars in IE
          function fixWidthNode(tagName){
@@ -966,9 +966,25 @@ function PiwikTest() {
             strictEqual(content.shouldIgnoreInteraction(node), false, message);
         }
 
+        function assertNodeAuthorizedToTriggerInteraction(contentNode, interactedNode, message) {
+            strictEqual(tracker.isNodeAuthorizedToTriggerInteraction(_s(contentNode), _s(interactedNode)), true, message);
+        }
+
+        function assertNodeNotAuthorizedToTriggerInteraction(contentNode, interactedNode, message) {
+            strictEqual(tracker.isNodeAuthorizedToTriggerInteraction(_s(contentNode), _s(interactedNode)), false, message);
+        }
+
         function assertFoundMediaUrl(id, expected, message) {
             var node = content.findPieceNode(_e(id));
             strictEqual(content.findMediaUrlInNode(node), expected, message);
+        }
+
+        function assertIsUrlToCurrentDomain(url, message) {
+            strictEqual(content.isUrlToCurrentDomain(url), true, message);
+        }
+
+        function assertNotUrlToCurrentDomain(url, message) {
+            strictEqual(content.isUrlToCurrentDomain(url), false, message);
         }
 
         var locationAlias = $.extend({}, window.location);
@@ -1021,6 +1037,29 @@ function PiwikTest() {
         assertDomainWillBeRemoved(origin, '/', 'should trim http domain without path that is the same as the current');
         assertDomainWillBeRemoved('https://' + host, '/', 'should trim https domain without path that is the same as the current');
         assertDomainWillBeRemoved('https://' + host + ':8080', '/', 'should trim https domain with port that is the same as the current');
+
+        ok("test isUrlToCurrentDomain(url)");
+
+        strictEqual(content.removeDomainIfIsInLink(), undefined, 'should not fail if nothing set / is undefined');
+        assertNotUrlToCurrentDomain(null, ' null is not a urls');
+        assertNotUrlToCurrentDomain(5, '5 is not a url');
+        assertIsUrlToCurrentDomain('', 'empty string is same as current url so same domain');
+        assertIsUrlToCurrentDomain('Any Text', 'relative url, same domain');
+        assertIsUrlToCurrentDomain('/path/img.jpg', 'absolute url same domain');
+        assertNotUrlToCurrentDomain('ftp://path/img.jpg', 'different protocol');
+        assertNotUrlToCurrentDomain('http://www.example.com', 'different domain');
+        assertNotUrlToCurrentDomain('http://www.example.com/', 'different domain with root path');
+        assertNotUrlToCurrentDomain('https://www.example.com/', 'different domain and protocol');
+        assertNotUrlToCurrentDomain('http://www.example.com/path/img.jpg', 'different domain, this time with path');
+        assertNotUrlToCurrentDomain('http://www.example.com:8080/path/img.jpg', 'different domain, this time with port');
+
+        assertIsUrlToCurrentDomain(origin + '/path/img.jpg?x=y', 'same domain with path');
+        assertIsUrlToCurrentDomain(origin + '?x=y', 'same domain with question mark');
+        assertNotUrlToCurrentDomain('https://' + host + '/path/img.jpg?x=y', 'different protocol and path is different url');
+        assertIsUrlToCurrentDomain(origin, '/', 'same domain with root path');
+        assertNotUrlToCurrentDomain('https://' + host, 'same domain but different protocol');
+        assertNotUrlToCurrentDomain('https://' + host + ':5959', 'different protocol and port');
+        assertNotUrlToCurrentDomain('http://' + host + ':5959', 'different protocol and port');
 
         ok("test toAbsoluteUrl(url) we need a lot of tests for this method as this will generate the redirect url");
 
@@ -1075,6 +1114,26 @@ function PiwikTest() {
         assertShouldIgnoreInteraction('ignoreInteraction4', 'should be ignored because of Attribute');
         assertShouldNotIgnoreInteraction('notIgnoreInteraction1', 'should not be ignored');
         assertShouldNotIgnoreInteraction('notIgnoreInteraction2', 'should not be ignored as set in wrong element');
+
+
+        ok("test isNodeAuthorizedToTriggerInteraction(targetNode)");
+        strictEqual(tracker.isNodeAuthorizedToTriggerInteraction(), false, 'nothing set');
+        strictEqual(tracker.isNodeAuthorizedToTriggerInteraction('#ignoreInteraction2'), false, 'no interacted node set');
+
+        var notAuthIgnoreNode = '#ignoreInteraction2 a';
+        assertNodeNotAuthorizedToTriggerInteraction(notAuthIgnoreNode, notAuthIgnoreNode, 'node has to be ignored');
+        $(_s(notAuthIgnoreNode)).attr('data-content-ignoreinteraction', null);
+        // node no longer ignored and it should be authorized!
+        assertNodeAuthorizedToTriggerInteraction(notAuthIgnoreNode, notAuthIgnoreNode, 'node no longer has to be ignored');
+        $(_s(notAuthIgnoreNode)).attr('data-content-ignoreinteraction', ''); // reset changed attribute
+
+        assertNodeAuthorizedToTriggerInteraction('#authorized1', '#authorized1', 'interacted with target node which is content block');
+        assertNodeAuthorizedToTriggerInteraction('#authorized1', '#authorized1_1', 'interacted with child of target node which is content block');
+        assertNodeAuthorizedToTriggerInteraction('#authorized2', '#authorized2_1', 'interacted with target node');
+        assertNodeAuthorizedToTriggerInteraction('#authorized2', '#authorized2_2', 'interacted with children of target node');
+        assertNodeNotAuthorizedToTriggerInteraction('#authorized3', '#authorized3', 'interacted with content block but it is not target node');
+        assertNodeNotAuthorizedToTriggerInteraction('#authorized3', '#authorized3_1', 'interacted with children of content block but not children of target node');
+        assertNodeAuthorizedToTriggerInteraction('#authorized3', '#authorized3_2', 'interacted with target node to make sure auth3 is not ignored');
 
 
         ok("test setHrefAttribute(node, url)");
@@ -1544,35 +1603,46 @@ function PiwikTest() {
 
         trackerUrl = tracker.getTrackerUrl();
         tracker.setTrackerUrl('piwik.php');
+        tracker.disableLinkTracking();
 
         ok(_s('#ignoreInteraction1') && _s('#ex108') && _s('#ex109'), 'make sure node exists otherwise test is useless');
         actual = (tracker.trackContentImpressionClickInteraction())();
         strictEqual(actual, undefined, 'trackContentImpressionClickInteraction, no target node set');
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ignoreInteraction1')))();
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ignoreInteraction1')))({target: _s('#ignoreInteraction1')});
         strictEqual(actual, undefined, 'trackContentImpressionClickInteraction, no target node set');
 
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))();
-        strictEqual(actual, 'link', 'trackContentImpressionClickInteraction, should not track as is an outlink');
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))();
-        strictEqual(actual, 'download', 'trackContentImpressionClickInteraction, should not track as is a download');
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))({target: _s('#ex108')});
+        assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com', 'trackContentImpressionClickInteraction, is outlink but should use xhr as link tracking not enabled');
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
+        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
+        assertTrackingRequest($(_s('#ex109')).attr('href'), 'piwik.php?redirecturl=http://apache.piwik/file.pdf&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
 
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))();
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))({target: _s('#ex110')});
         strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should be tracked using redirect');
         assertTrackingRequest($(_s('#ex110')).attr('href'), 'piwik.php?redirecturl=' + origin + '/example&c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, the href link should be replaced with a redirect link to tracker');
 
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex111')))();
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex111')))({target: _s('#ex111')});
         strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should detect it is a link to same page');
         strictEqual($(_s('#ex111')).attr('href'), 'piwik.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
 
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))();
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))({target: _s('#ex112')});
         assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + originEncoded + '%2Ftests%2Fjavascript%2F%23example', 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
 
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex113_target')))();
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex113_target')))({target: _s('#ex113_target')});
         assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg', 'trackContentImpressionClickInteraction, if element is not A or AREA it should always use xhr');
 
-        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex114')))();
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex114')))({target: _s('#ex114')});
         assertTrackingRequest(actual, 'c_i=click&c_n=imgnohref.jpg&c_p=imgnohref.jpg&c_t=%2Ftest', 'trackContentImpressionClickInteraction, if element is an A or AREA element but has no href attribute it should always use xhr');
 
+        tracker.enableLinkTracking();
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))({target: _s('#ex108')});
+        strictEqual(actual, 'link', 'trackContentImpressionClickInteraction, should not track as is an outlink and link tracking enabled');
+        $(_s('#ex109')).attr('href', '/file.pdf'); // reset download link as was replaced with piwik.php
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
+        strictEqual(actual, 'download', 'trackContentImpressionClickInteraction, should not track as is a download and link tracking enabled');
+
+        tracker.disableLinkTracking();
         tracker.setTrackerUrl(trackerUrl);
 
 
@@ -1658,6 +1728,47 @@ function PiwikTest() {
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden'), _s('#ex116_hidden'), _s('#ex115'),_s('#ex115')]);
         strictEqual(actual.length, 1, 'getVisibleImpressions, two hidden ones before a visible ones to make sure removing hidden content block from array works and does not ignore one');
         assertTrackingRequest(actual[0], 'c_n=img115.jpg&c_p=img115.jpg&c_t=http%3A%2F%2Fwww.example.com');
+
+
+        ok('test replaceHrefIfInternalLink()')
+
+        var trackerUrl = tracker.getTrackerUrl();
+        tracker.setTrackerUrl('piwik.php');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(), false, 'no content node set');
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), false, 'should be ignored');
+        $(_s('#ignoreInternalLink')).removeClass('piwikContentIgnoreInteraction'); // now it should be no longer ignored and as it is an intenral link replaced
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), true, 'should be replaced as is internal link');
+        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=http://apache.piwik/internallink&c_i=click&c_t=http%3A%2F%2Fapache.piwik%2Finternallink', 'internal link should be replaced');
+        strictEqual($(_s('#ignoreInternalLink')).attr('data-content-target'), origin + '/internallink', 'we need to set data-content-target when link is set otherwise a replace would not be found');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex122')), true, 'should be replaced');
+        strictEqual($(_s('#replacedLinkWithTarget')).attr('data-content-target'), '/test', 'should replace href but not a data-content-target if already exists');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex118')), true, 'should not replace already replaced link');
+        strictEqual($(_s('#ex118')).attr('href'), 'piwik.php?test=5', 'link should not be replaced');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex119')), false, 'anchor link should not be replaced');
+        strictEqual($(_s('#ex119')).attr('href'), '#test', 'link should not replace anchor link');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex120')), false, 'external link should not be replaced');
+        strictEqual($(_s('#ex120')).attr('href'), 'http://www.example.com', 'should not replace external link');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), true, 'should replace download link if link tracking not enabled');
+        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=http://apache.piwik/download.pdf&c_i=click&c_t=http%3A%2F%2Fapache.piwik%2Fdownload.pdf', 'should replace download link as link tracking disabled');
+
+        $(_s('#ex121')).attr('href', '/download.pdf'); // reset link
+        tracker.enableLinkTracking();
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), false, 'should not replace download link');
+        strictEqual($(_s('#ex121')).attr('href'), '/download.pdf', 'should not replace download link');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex123')), false, 'should not replace a link that has no href');
+        strictEqual($(_s('#ex123')).attr('href'), undefined, 'should still not have a href attribute');
+
+
+
+        tracker.setTrackerUrl(trackerUrl);
 
         removeContentTrackingFixture();
     });
@@ -2048,46 +2159,72 @@ function PiwikTest() {
     });
 
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
-        expect(25);
+        expect(54);
 
         var tracker = Piwik.getTracker();
 
-        equal( typeof tracker.hook.test._getLinkType, 'function', 'getLinkType' );
+        function runTests(messagePrefix) {
 
-        equal( tracker.hook.test._getLinkType('something', 'goofy.html', false), 'link', 'implicit link' );
-        equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false), 'download', 'external PDF files are downloads' );
-        equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true), 'download', 'local PDF are downloads' );
-        equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true), 'download', 'local PDF are downloads' );
+            equal( typeof tracker.hook.test._getLinkType, 'function', 'getLinkType' );
 
-        equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', 'piwik_download' );
-        equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true), 'download', 'abc piwik_download xyz' );
-        equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true), 'link', 'piwik_link' );
-        equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true), 'link', 'abc piwik_link xyz' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 'download', 'download extension' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true), 0, '[1] link (default)' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.html', false), 'link', messagePrefix + 'implicit link' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false), 'download', messagePrefix + 'external PDF files are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
 
-        equal( tracker.hook.test._getLinkType('something', 'file.zip', true), 'download', 'download file.zip' );
-        equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true), 'download', 'download file.zip (anchor)' );
-        equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true), 'download', 'download file.zip (is param)' );
-        equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true), 'download', 'download file.zip (with param)' );
+            equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'piwik_download' );
+            equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true), 'download', messagePrefix + 'abc piwik_download xyz' );
+            equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true), 'link', messagePrefix+ 'piwik_link' );
+            equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true), 'link', messagePrefix + 'abc piwik_link xyz' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 'download', messagePrefix + 'download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true), 0, messagePrefix + '[1] link (default)' );
 
-        tracker.setDownloadExtensions('pk');
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', '[1] .pk == download extension' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, '.txt =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip', true), 'download', messagePrefix + 'download file.zip' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true), 'download', messagePrefix + 'download file.zip (anchor)' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true), 'download', messagePrefix + 'download file.zip (is param)' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true), 'download', messagePrefix + 'download file.zip (with param)' );
 
-        tracker.addDownloadExtensions('xyz');
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', '[2] .pk == download extension' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', '.xyz == download extension' );
+            tracker.setDownloadExtensions('pk');
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[1] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, messagePrefix + '.txt =! download extension' );
 
-        tracker.setDownloadClasses(['a', 'b']);
-        equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', 'download (default)' );
-        equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', 'download (a)' );
-        equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', 'download (b)' );
+            tracker.addDownloadExtensions('xyz');
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[2] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', messagePrefix + '.xyz == download extension' );
 
-        tracker.setLinkClasses(['c', 'd']);
-        equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', 'link (default)' );
-        equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true), 'link', 'link (c)' );
-        equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', 'link (d)' );
+            tracker.setDownloadClasses(['a', 'b']);
+            equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'download (default)' );
+            equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', messagePrefix + 'download (a)' );
+            equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', messagePrefix + 'download (b)' );
+
+            tracker.setLinkClasses(['c', 'd']);
+            equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', messagePrefix + 'link (default)' );
+            equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true), 'link', messagePrefix + 'link (c)' );
+            equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', messagePrefix + 'link (d)' );
+        }
+
+        var trackerUrl = tracker.getTrackerUrl();
+        var downloadExtensions = tracker.getConfigDownloadExtensions();
+        tracker.setTrackerUrl('');
+        tracker.setDownloadClasses([]);
+        tracker.setLinkClasses([]);
+
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php', false), 'link', 'an empty tracker url should not match configtrackerurl' );
+
+        runTests('without tracker url, ');
+
+        tracker.setTrackerUrl('piwik.php');
+        tracker.setDownloadClasses([]);
+        tracker.setLinkClasses([]);
+        tracker.setDownloadExtensions(downloadExtensions);
+
+        runTests('with tracker url, ');
+
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php', true), 0, 'matches tracker url and should never return any tracker Url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/test.pdf', true), 0, 'should not match download as is config tracker url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/', true), 0, 'should not match link as is config tracker url' );
+
+        tracker.setTrackerUrl(trackerUrl);
     });
 
     test("utf8_encode(), sha1()", function() {
@@ -2698,7 +2835,7 @@ if ($sqlite) {
             strictEqual(actual.indexOf('&idsite=1&rec=1'), expectedStartsWith.length);
         }
 
-        function resetTracker(track, token)
+        function resetTracker(track, token, replace)
         {
             tracker.clearTrackedContentImpressions();
             tracker.clearEnableTrackOnlyVisibleContent();
@@ -2763,6 +2900,8 @@ if ($sqlite) {
         tracker.trackContentInteraction('Clicki', 'IntN:/ame', 'IntPiece?', 'http://int.example.com');
 
         wait(500);
+
+        setupContentTrackingFixture('trackingContent', document.body);
 
         var token5 = '5' + token;
         resetTracker(tracker, token5);
@@ -2950,6 +3089,138 @@ if ($sqlite) {
 
             start();
         }, 6000);
+
+    });
+
+    test("trackingContentInteractionInteractive", function() {
+        expect(17);
+
+        function assertTrackingRequest(actual, expectedStartsWith, message)
+        {
+            if (!message) {
+                message = '';
+            } else {
+                message += ', ';
+            }
+
+            expectedStartsWith = '<span>/tests/javascript/piwik.php?' + expectedStartsWith;
+
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf('&idsite=1&rec=1'), expectedStartsWith.length);
+        }
+
+        function resetTracker(track, token)
+        {
+            tracker.clearTrackedContentImpressions();
+            tracker.clearEnableTrackOnlyVisibleContent();
+            tracker.setCustomData('token', token);
+            scrollToTop();
+        }
+
+        function preventClickDefault(selector)
+        {
+            $(_s(selector)).on('click', function (event) { event.preventDefault(); })
+        }
+
+        var token = getContentToken();
+        var origin = getOrigin();
+        var originEncoded = window.encodeURIComponent(origin);
+        var actual, expected, trackerUrl;
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        resetTracker(tracker, token);
+
+        var visitorIdStart = tracker.getVisitorId();
+        // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
+        wait(2000);
+
+
+        setupContentTrackingFixture('trackingContent', document.body);
+
+        tracker.trackAllContentImpressions();
+        strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should mark 7 content blocks as tracked');
+
+
+        var token1 = '1' + token;
+        resetTracker(tracker, token1);
+        preventClickDefault('#isWithinOutlink');
+        triggerEvent(_s('#isWithinOutlink'), 'click'); // should only track interaction and no outlink as link tracking not enabled
+
+        tracker.enableLinkTracking();
+
+        var token2 = '2' + token;
+        resetTracker(tracker, token2);
+        preventClickDefault('#isWithinOutlink');
+        triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
+
+
+        var token3 = '3' + token;
+        resetTracker(tracker, token3);
+        preventClickDefault('#isOutlink');
+        triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
+
+
+        var token4 = '4' + token;
+        resetTracker(tracker, token4);
+        preventClickDefault('#notWithinTarget');
+        triggerEvent(_s('#notWithinTarget'), 'click'); // this element is in a content block, there is a content target, but this element is not child of content target
+
+
+        var token5 = '5' + token;
+        resetTracker(tracker, token5);
+        preventClickDefault('#internalLink');
+        var expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/anylink5&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded +'%2Fanylink5&idsite=1&rec=1';
+        var newHref = _s('#internalLink').href;
+        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
+        // now we are going to change the link to see whether it will be replaced again
+        tracker.getContent().setHrefAttribute(_s('#internalLink'), '/newlink');
+
+        triggerEvent(_s('#internalLink'), 'click'); // should replace href php
+        newHref = _s('#internalLink').href;
+        expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/newlink&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded +'%2Fnewlink&idsite=1&rec=1';
+        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href2 is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
+
+        stop();
+        setTimeout(function() {
+            removeContentTrackingFixture();
+
+            var results = fetchTrackedRequests(token1);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isWithinOutlink requests as interaction. " );
+
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+            assertTrackingRequest(requests[0], 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+
+
+            results = fetchTrackedRequests(token2);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isWithinOutlink requests as outlink + interaction. " );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+
+
+            results = fetchTrackedRequests(token3);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isOutlink requests as outlink + interaction. " );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+
+
+            results = fetchTrackedRequests(token4);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "0", "count #notWithinTarget requests." );
+
+
+            results = fetchTrackedRequests(token5);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "0", "count #internalLink requests. (would be tracked via redirect which we do not want to perform in test and it is tested above)" );
+
+            start();
+        }, 4000);
 
     });
 

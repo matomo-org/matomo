@@ -452,7 +452,9 @@ if (typeof JSON2 !== 'object') {
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
-    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port
+    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
+    isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
+    substr, setAnyAttribute
  */
 /*global _paq:true */
 /*members push */
@@ -1412,6 +1414,18 @@ if (typeof Piwik !== 'object') {
                 var pos = linkElementNames.indexOf(elementName);
 
                 return pos !== -1;
+            },
+            setAnyAttribute: function (node, attrName, attrValue)
+            {
+                if (!node || !attrName) {
+                    return;
+                }
+
+                if (node.setAttribute) {
+                    node.setAttribute(attrName, attrValue);
+                } else {
+                    node[attrName] = attrValue;
+                }
             }
         };
 
@@ -1866,17 +1880,36 @@ if (typeof Piwik !== 'object') {
                 var base = this.getLocation().origin + this.getLocation().pathname.match(new RegExp(regexMatchDir))[0];
                 return base + url;
             },
+            isUrlToCurrentDomain: function (url) {
+
+                var absoluteUrl = this.toAbsoluteUrl(url);
+
+                if (!absoluteUrl) {
+                    return false;
+                }
+
+                var origin = this.getLocation().origin;
+                if (origin === absoluteUrl) {
+                    return true;
+                }
+
+                if (0 === String(absoluteUrl).indexOf(origin)) {
+                    if (':' === String(absoluteUrl).substr(origin.length, 1)) {
+                        return false; // url has port whereas origin has not => different URL
+                    }
+
+                    return true;
+                }
+
+                return false;
+            },
             setHrefAttribute: function (node, url)
             {
                 if (!node || !url) {
                     return;
                 }
 
-                if (node.setAttribute) {
-                    node.setAttribute('href', url);
-                } else {
-                    node.href = url;
-                }
+                query.setAnyAttribute(node, 'href', url);
             },
             shouldIgnoreInteraction: function (targetNode)
             {
@@ -2937,6 +2970,10 @@ if (typeof Piwik !== 'object') {
              * Link or Download?
              */
             function getLinkType(className, href, isInLink) {
+                if (configTrackerUrl && href && 0 === String(href).indexOf(configTrackerUrl)) {
+                    return 0;
+                }
+
                 // does class indicate whether it is an (explicit/forced) outlink or a download?
                 var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
                     linkPattern = getClassesRegExp(configLinkClasses, 'link'),
@@ -2987,6 +3024,12 @@ if (typeof Piwik !== 'object') {
                 }
 
                 if (!isDefined(sourceElement.href)) {
+                    return;
+                }
+
+                var href = query.getAttributeValueFromNode(sourceElement, 'href');
+
+                if (configTrackerUrl && href && 0 === String(href).indexOf(configTrackerUrl)) {
                     return;
                 }
 
@@ -3044,6 +3087,33 @@ if (typeof Piwik !== 'object') {
                 return configTrackerUrl + separator + request;
             }
 
+            function isNodeAuthorizedToTriggerInteraction(contentNode, interactedNode)
+            {
+                if (!contentNode || !interactedNode) {
+                    return false;
+                }
+
+                var targetNode = content.findTargetNode(contentNode);
+
+                if (content.shouldIgnoreInteraction(targetNode)) {
+                    // interaction should be ignored
+                    return false;
+                }
+
+                targetNode = content.findTargetNodeNoDefault(contentNode);
+                if (targetNode && !targetNode.contains(interactedNode)) {
+                    /**
+                     * There is a target node defined but the clicked element is not within the target node. example:
+                     * <div data-track-content><a href="Y" data-content-target>Y</a><img src=""/><a href="Z">Z</a></div>
+                     *
+                     * The user clicked in this case on link Z and not on target Y
+                     */
+                    return false;
+                }
+
+                return true;
+            }
+
             function getContentInteractionToRequestIfPossible (anyNode, interaction, fallbackTarget)
             {
                 if (!anyNode) {
@@ -3057,21 +3127,7 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                var targetNode = content.findTargetNode(contentNode);
-
-                if (content.shouldIgnoreInteraction(targetNode)) {
-                    // interaction should be ignored
-                    return;
-                }
-
-                targetNode = content.findTargetNodeNoDefault(contentNode);
-                if (targetNode && !targetNode.contains(anyNode)) {
-                    /**
-                     * There is a target node defined but the clicked element is not within the target node. example:
-                     * <div data-track-content><a href="Y" data-content-target>Y</a><img src=""/><a href="Z">Z</a></div>
-                     *
-                     * The user clicked in this case on link Z and not on target Y
-                     */
+                if (!isNodeAuthorizedToTriggerInteraction(contentNode, anyNode)) {
                     return;
                 }
 
@@ -3110,42 +3166,108 @@ if (typeof Piwik !== 'object') {
                 return false;
             }
 
+            function replaceHrefIfInternalLink(contentBlock)
+            {
+                if (!contentBlock) {
+                    return false;
+                }
+
+                var targetNode = content.findTargetNode(contentBlock);
+
+                if (!targetNode || content.shouldIgnoreInteraction(targetNode)) {
+                    return false;
+                }
+
+                var link = getLinkIfShouldBeProcessed(targetNode);
+                if (linkTrackingInstalled && link && link.type) {
+
+                    return false; // it is an outlink or download.
+                }
+
+                if (query.isLinkElement(targetNode) &&
+                    query.hasNodeAttributeWithValue(targetNode, 'href')) {
+                    var url = String(query.getAttributeValueFromNode(targetNode, 'href'));
+
+                    if (0 === url.indexOf('#')) {
+                        return false;
+                    }
+
+                    if (configTrackerUrl && 0 === url.indexOf(configTrackerUrl)) {
+                        return true;
+                    }
+
+                    if (!content.isUrlToCurrentDomain(url)) {
+                        return false;
+                    }
+
+                    var contentName   = content.findContentName(contentBlock);
+                    var contentPiece  = content.findContentPiece(contentBlock);
+                    var contentTarget = content.findContentTarget(contentBlock);
+
+                    var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
+
+                    // make sure we still track the correct content target when an interaction is happening
+                    if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR)) {
+                        query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, content.toAbsoluteUrl(url));
+                    }
+                    // location.href does not respect target=_blank so we prefer to use this
+                    content.setHrefAttribute(targetNode, targetUrl);
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            function replaceHrefsIfInternalLink(contentNodes)
+            {
+                if (!contentNodes || !contentNodes.length) {
+                    return;
+                }
+
+                var index;
+                for (index = 0; index < contentNodes.length; index++) {
+                    replaceHrefIfInternalLink(contentNodes[index]);
+                }
+            }
+
             function trackContentImpressionClickInteraction (targetNode)
             {
-                return function () {
+                return function (event) {
 
-                    if (!targetNode || content.shouldIgnoreInteraction(targetNode)) {
+                    if (!targetNode) {
+                        return;
+                    }
+
+                    var contentBlock = content.findParentContentNode(targetNode);
+
+                    var interactedElement;
+                    if (event) {
+                        interactedElement = event.target || event.srcElement;
+                    }
+                    if (!interactedElement) {
+                        interactedElement = targetNode;
+                    }
+
+                    if (!isNodeAuthorizedToTriggerInteraction(contentBlock, interactedElement)) {
                         return;
                     }
 
                     var link = getLinkIfShouldBeProcessed(targetNode);
 
-                    if (link && link.type) {
+                    if (linkTrackingInstalled && link && link.type) {
                         // click ignore, will be tracked via processClick, we do not want to track it twice
 
                         return link.type;
                     }
 
-                    var contentBlock  = content.findParentContentNode(targetNode);
+                    if (replaceHrefIfInternalLink(contentBlock)) {
+                        return 'href';
+                    }
+
                     var contentName   = content.findContentName(contentBlock);
                     var contentPiece  = content.findContentPiece(contentBlock);
                     var contentTarget = content.findContentTarget(contentBlock);
-
-                    if (query.isLinkElement(targetNode) &&
-                        query.hasNodeAttributeWithValue(targetNode, 'href')) {
-                        var url = query.getAttributeValueFromNode(targetNode, 'href');
-
-                        if (0 !== String(url).indexOf('#')) {
-
-                            var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
-
-                            // location.href does not respect target=_blank so we prefer to use this
-                            content.setHrefAttribute(targetNode, targetUrl);
-
-                            return 'href';
-                        }
-
-                    }
 
                     // click on any non link element, or on a link element that has not an href attribute or on an anchor
                     var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
@@ -3171,7 +3293,6 @@ if (typeof Piwik !== 'object') {
 
                         addEventListener(targetNode, 'click', trackContentImpressionClickInteraction(targetNode));
                     }
-
                 }
             }
 
@@ -3200,6 +3321,7 @@ if (typeof Piwik !== 'object') {
                     return [];
                 }
 
+                replaceHrefsIfInternalLink(contentNodes);
                 setupInteractionsTracking(contentNodes);
 
                 var requests = [];
@@ -3708,6 +3830,11 @@ if (typeof Piwik !== 'object') {
                 setupInteractionsTracking: setupInteractionsTracking,
                 trackContentImpressionClickInteraction: trackContentImpressionClickInteraction,
                 internalIsNodeVisible: isVisible,
+                isNodeAuthorizedToTriggerInteraction: isNodeAuthorizedToTriggerInteraction,
+                replaceHrefIfInternalLink: replaceHrefIfInternalLink,
+                getConfigDownloadExtensions: function () {
+                    return configDownloadExtensions;
+                },
                 enableTrackOnlyVisibleContent: function (checkOnScroll, timeIntervalInMs) {
                     return enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
                 },
@@ -3722,6 +3849,9 @@ if (typeof Piwik !== 'object') {
                 },
                 clearEnableTrackOnlyVisibleContent: function () {
                     isTrackOnlyVisibleContentEnabled = false;
+                },
+                disableLinkTracking: function () {
+                    linkTrackingInstalled = false;
                 },
 /*</DEBUG>*/
 

@@ -227,6 +227,8 @@ As the target element has a `href` attribute we can detect the content target au
 Interactions can be detected declarative in case the detected target element is an `a` and `area` element with an `href` attribute. If not, you will have to track
 the interaction programmatically, see one of the next sections. We generally treat links to the same page differently than downloads or outlinks.
 
+We use `click` events do detect an interaction with a content. On mobile devices you might want to listen to `touch` events. In this case you may have to disable automatic content interaction tracking see below.
+
 #### Links to the same domain
 In case we detect a link to the same website we will replace the current `href` attribute with a link to the `piwik.php` tracker URL. Whenever a user clicks on such a link we will first send the user to the `piwik.php` of your Piwik installation and then redirect the user from there to the actual page. This click will be tracked as an event. Where the event category is the string `Content`, the event action is the value of the content interaction such as `click` and the event name will be the same as the content name.
 
@@ -299,8 +301,9 @@ A typical example for a content block that displays a text ad.
 
 ## Tracking the content programmatically
 
-
 There are several ways to track a content impression and/or interaction manually, semi-automatically and automatically. Please be aware that content impressions will be tracked using bulk tracking which will always send a `POST` request, even if `GET` is configured which is the default.
+
+Note: In case you have link tracking enabled you should call `enableLinkTracking()` before any of those functions.
 
 #### `trackAllContentImpressions()`
 
@@ -439,7 +442,7 @@ Nothing special here I think. We would probably automatically detect the type of
 * When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
   * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
   * Maybe v2
-
+* We should reorder _paq links to make sure enableLinkTracking is called before any trackContent*() calls
 
 ## V2:
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
