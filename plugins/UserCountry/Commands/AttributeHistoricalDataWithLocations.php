@@ -14,7 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\LocationFetcher;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Repository\Mysql\LogsRepository;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,9 +21,9 @@ use Piwik\Plugins\UserCountry\Repository\LogsRepository as LogsRepositoryInterfa
 
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
-    const FROM_ARGUMENT = 'from';
+    const DATES_RANGE_OPTION = 'dates-range';
 
-    const TO_ARGUMENT = 'to';
+    const DATES_RANGE_OPTION_SHORT = 'dr';
 
     const PERCENT_STEP_OPTION = 'percent-step';
 
@@ -55,16 +54,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     {
         $this->setName('usercountry:attribute');
 
-        $this->addArgument(
-            self::FROM_ARGUMENT,
-            InputArgument::REQUIRED,
-            'Attribute visits from this date.'
+        $this->addOption(
+            self::DATES_RANGE_OPTION,
+            self::DATES_RANGE_OPTION_SHORT,
+            InputOption::VALUE_REQUIRED,
+            'Attribute visits from this dates.'
         );
-        $this->addArgument(
-            self::TO_ARGUMENT,
-            InputArgument::REQUIRED,
-            'Attribute visits to this date.'
-        );
+
         $this->addOption(
             self::PERCENT_STEP_OPTION,
             self::PERCENT_STEP_OPTION_SHORT,
@@ -84,9 +80,19 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $from = $this->getDateArgument($input, self::FROM_ARGUMENT);
-        $to = $this->getDateArgument($input, self::TO_ARGUMENT);
+        $from = $this->getDateOption($input, self::DATES_RANGE_OPTION, 0);
+        $to = $this->getDateOption($input, self::DATES_RANGE_OPTION, 1);
         $percentStep = $this->getPercentStep($input);
+
+        if (!$from || !$to) {
+            $output->writeln(
+                sprintf('Invalid from [%s] or to [%s].',
+                    $from, $to
+                )
+            );
+
+            exit(1);
+        }
 
         $logsCursor = $this->repository->getVisitsWithDatesLimit(
             $from, $to,
@@ -187,11 +193,18 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     /**
      * @param InputInterface $input
      * @param string $name
+     * @param int $index
      * @return string
      */
-    protected function getDateArgument(InputInterface $input, $name)
+    protected function getDateOption(InputInterface $input, $name, $index)
     {
-        return date('Y-m-d', strtotime($input->getArgument($name)));
+        $option = explode(',', $input->getOption($name));
+
+        if (!isset($option[$index])) {
+            return false;
+        }
+
+        return date('Y-m-d', strtotime($option[$index]));
     }
 
     /**
