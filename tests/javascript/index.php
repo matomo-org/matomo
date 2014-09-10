@@ -1796,7 +1796,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(63);
+        expect(64);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1820,6 +1820,7 @@ function PiwikTest() {
         equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
+        equal( typeof tracker.setUserId, 'function', 'setUserId' );
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
@@ -2454,7 +2455,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(98);
+        expect(99);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -2685,6 +2686,9 @@ if ($sqlite) {
         // do not track
         tracker3.setDoNotTrack(false);
 
+        // User ID
+        tracker3.setUserId('userid@mydomain.org');
+
         // Append tracking url parameter
         tracker3.appendToTrackingUrl("appended=1&appended2=value");
 
@@ -2809,6 +2813,9 @@ if ($sqlite) {
 
             // Testing the Tracking URL append
             ok( /&appended=1&appended2=value/.test( results ), "appendToTrackingUrl(query) function");
+
+            // Testing the User ID setter
+            ok( /&uid=%40mydomain.org/.test( results ), "setUserId(userId) function");
 
             // Testing the JavaScript Error Tracking
             ok( /e_c=JavaScript%20Errors&e_a=http%3A%2F%2Fpiwik.org%2Fpath%2Fto%2Ffile.js%3Fcb%3D34343%3A44%3A12&e_n=Uncaught%20Error%3A%20The%20message&idsite=1/.test( results ), "enableJSErrorTracking() function with predefined onerror event");
