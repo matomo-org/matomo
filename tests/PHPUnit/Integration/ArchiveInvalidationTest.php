@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\Request;
 use Piwik\Config;
-use Piwik\Tests\Fixtures\SiteVisitsWithInvalidation;
+use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\IntegrationTestCase;
 use Exception;
 
@@ -22,6 +22,8 @@ use Exception;
 class ArchiveInvalidationTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
+
+    protected $suffix = '_NewDataShouldNotAppear';
 
     /**
      * @dataProvider getApiForTesting
@@ -36,64 +38,45 @@ class ArchiveInvalidationTest extends IntegrationTestCase
      */
     public function getApiForTesting()
     {
-        $idSite = self::$fixture->idSite;
-        $dateTimeDateInPastWebsite = self::$fixture->dateTimeFirstDateWebsite;
-
         // We test a typical Numeric and a Recursive blob reports
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
 
         // We also test a segment
-        //TODO
+//        $segmentsToTest = array(
+//            // array( SegmentString , TestSuffix , Array of API to test)
+//            array("pageUrl=@category/", '_SegmentPageUrlContains', $apiToCall),
+//        );
 
         // Build tests for the 2 websites
         return array(
-            array($apiToCall, array('idSite'                 => $idSite,
-                                    'testSuffix'             => 'Website' . $idSite . '_NewDataShouldNotAppear',
-                                    'date'                   => $dateTimeDateInPastWebsite,
+            array($apiToCall, array('idSite'                 => self::$fixture->idSite1,
+                                    'testSuffix'             => 'Website' . self::$fixture->idSite1 . $this->suffix,
+                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite1,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1)))
+                                    'otherRequestParameters' => array('expanded' => 1))),
+            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
+                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
+                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
+                                    'periods'                => 'month',
+                                    'segment'                => 'pageUrl=@category/',
+                                    'setDateLastN'           => 4, // 4months ahead
+                                    'otherRequestParameters' => array('expanded' => 1))),
         );
     }
 
     /**
      * @depends testApi
-     * @dataProvider getSameApiForTesting
+     * @dataProvider getApiForTesting
      */
     public function testSameApi($api, $params)
     {
+        $this->setBrowserArchivingTriggering(0);
+        self::$fixture->trackMoreVisits($params['idSite']);
 
-        self::$fixture->trackMoreVisits();
-
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
-        $idSite = self::$fixture->idSite;
-        $dateTimeDateInPastWebsite = new \DateTime(self::$fixture->dateTimeFirstDateWebsite);
-
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "&dates=" . $dateTimeDateInPastWebsite->format('Y-m-d'));
-        $this->assertApiResponseHasNoError($r->process());
-
-        // 2) Call API again, with an older date, which should now return data
+        $this->invalidateTestArchives();
         $this->runApiTests($api, $params);
 
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
-
-    }
-
-    public function getSameApiForTesting()
-    {
-        $idSite = self::$fixture->idSite;
-        $dateTimeFirstDateWebsite = self::$fixture->dateTimeFirstDateWebsite;
-
-        $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
-
-        return array(
-            array($apiToCall, array('idSite'                 => $idSite,
-                                    'testSuffix'             => 'Website' . $idSite . '_NewDataShouldNotAppear',
-                                    'date'                   => $dateTimeFirstDateWebsite,
-                                    'periods'                => 'month',
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))),
-        );
     }
 
     /**
@@ -103,14 +86,9 @@ class ArchiveInvalidationTest extends IntegrationTestCase
      */
     public function testAnotherApi($api, $params)
     {
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
-        $idSite = self::$fixture->idSite;
-        $dateTimeDateInPastWebsite = new \DateTime(self::$fixture->dateTimeFirstDateWebsite);
+        $this->setBrowserArchivingTriggering(1);
+        $this->invalidateTestArchives();
 
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "&dates=" . $dateTimeDateInPastWebsite->format('Y-m-d'));
-        $this->assertApiResponseHasNoError($r->process());
-
-        // 2) Call API again, with an older date, which should now return data
         $this->runApiTests($api, $params);
     }
 
@@ -120,25 +98,31 @@ class ArchiveInvalidationTest extends IntegrationTestCase
      */
     public function getAnotherApiForTesting()
     {
-        $idSite = self::$fixture->idSite;
-        $dateTimeFirstDateWebsite = self::$fixture->dateTimeFirstDateWebsite;
-
-        $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
-
-        return array(
-            array($apiToCall, array('idSite'                 => $idSite,
-                                    'testSuffix'             => 'Website' . $idSite . '_NewDataShouldAppear',
-                                    'date'                   => $dateTimeFirstDateWebsite,
-                                    'periods'                => 'month',
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))),
-        );
+        $this->suffix = '_NewDataShouldAppear';
+        return $this->getApiForTesting();
     }
 
     public static function getOutputPrefix()
     {
         return 'Archive_Invalidation';
     }
+
+    protected function setBrowserArchivingTriggering($value)
+    {
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = $value;
+    }
+
+    protected function invalidateTestArchives()
+    {
+        $dateToInvalidate1 = new \DateTime(self::$fixture->dateTimeFirstDateWebsite1);
+        $dateToInvalidate2 = new \DateTime(self::$fixture->dateTimeFirstDateWebsite2);
+
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format('Y-m-d'));
+        $this->assertApiResponseHasNoError($r->process());
+
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite2 . "&dates=" . $dateToInvalidate2->format('Y-m-d'));
+        $this->assertApiResponseHasNoError($r->process());
+    }
 }
 
-ArchiveInvalidationTest::$fixture = new SiteVisitsWithInvalidation();
+ArchiveInvalidationTest::$fixture = new VisitsTwoWebsitesWithAdditionalVisits();

@@ -21,7 +21,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->daily('purgeOutdatedArchives', null, self::HIGH_PRIORITY);
 
         // general data purge on invalidated archive records, executed daily
-        $this->daily('purgeInvalidatedArchives', null, self::HIGH_PRIORITY);
+        $this->daily('purgeInvalidatedArchives', null, self::LOW_PRIORITY);
 
         // lowest priority since tables should be optimized after they are modified
         $this->daily('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
