@@ -429,14 +429,13 @@ Yes it seems most logical to create an action entry for each Content.
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with [.jpg, .png, .gif] it could be recognized as image content and show a banner in the report.
 
 ## TODO
-* Redirect to URL in piwik.php only if trusted host
+* Redirect to URL in piwik.php only if a known site (site table in Piwik)
 * Would content impressions be tracked in overlay session?
   * Overlay session should not trigger a content impression
 * Test scroll event in ie9, ie10, ie11, opera
 * Run JS tests  in ff3, ie7, ie8, ie9, ie10, ie11, opera, android, iphone, ms phone, safari
 * Write PHP tests
 * Show images on hover in report
-* Write JS tests for interaction click event listener
 * Better position #contenttest in JS tests to make isNodeVisible work on all platforms
 * makeNodesUnique should return same result on all browsers. It does currently but different order which is no problem at all but makes test work in all browsers
 * When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
