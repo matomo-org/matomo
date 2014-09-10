@@ -220,7 +220,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $metaData = $request->process();
+        $metaData = unserialize($request->process());
 
         $metrics = array();
         foreach ($metaData[0]['metrics'] as $id => $val) {
