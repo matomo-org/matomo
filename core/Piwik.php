@@ -131,7 +131,7 @@ class Piwik
     public static function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                              $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                              $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                                             $doNotTrack = false)
+                                             $doNotTrack = false, $disableCookies = false)
     {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/templates/javascriptCode.tpl");
@@ -181,6 +181,9 @@ class Piwik
         }
         if ($doNotTrack) {
             $options .= '  _paq.push(["setDoNotTrack", true]);' . PHP_EOL;
+        }
+        if ($disableCookies) {
+            $options .= '  _paq.push(["disableCookies"]);' . PHP_EOL;
         }
 
         $codeImpl = array(

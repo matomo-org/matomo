@@ -150,6 +150,16 @@
                         </div>
                     </div>
 
+                    {# disable all cookies options #}
+                    <div class="tracking-option-section">
+                        <input type="checkbox" id="javascript-tracking-disable-cookies"/>
+                        <label for="javascript-tracking-disable-cookies">{{ 'CoreAdminHome_JSTracking_DisableCookies'|translate }}</label>
+
+                        <div class="small-form-description">
+                            {{ 'CoreAdminHome_JSTracking_DisableCookiesDesc'|translate }}
+                        </div>
+                    </div>
+
                     {# custom campaign name/keyword query params #}
                     <div class="tracking-option-section">
                         <input class="section-toggler-link" type="checkbox" id="custom-campaign-query-params-check"
