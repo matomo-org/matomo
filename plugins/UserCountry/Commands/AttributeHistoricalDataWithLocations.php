@@ -12,6 +12,7 @@ use PDORow;
 use Piwik\IP;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\LocationFetcher;
+use Piwik\Plugins\UserCountry\LocationFetcherProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Repository\Mysql\LogsRepository;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,6 +29,10 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     const PERCENT_STEP_OPTION = 'percent-step';
 
     const PERCENT_STEP_OPTION_SHORT = 'ps';
+
+    const PROVIDER_OPTION = 'provider';
+
+    const PROVIDER_OPTION_SHORT = 'p';
 
     /**
      * @var LogsRepositoryInterface
@@ -69,8 +74,14 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             5
         );
 
+        $this->addOption(
+            self::PROVIDER_OPTION,
+            self::PROVIDER_OPTION_SHORT,
+            InputOption::VALUE_OPTIONAL,
+            'Provider id which should be used to attribute visits. If empty then Piwik will use default provider.'
+        );
+
         $this->repository = new LogsRepository();
-        $this->locationFetcher = new LocationFetcher();
     }
 
     /**
@@ -94,6 +105,12 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             exit(1);
         }
 
+        $locationFetcherProvider = new LocationFetcherProvider(
+            $input->getOption(self::PROVIDER_OPTION)
+        );
+
+        $this->locationFetcher = new LocationFetcher($locationFetcherProvider);
+
         $logsCursor = $this->repository->getVisitsWithDatesLimit(
             $from, $to,
             array_keys($this->logVisitFieldsToUpdate)
@@ -101,8 +118,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $amountOfVisits = $this->repository->countVisitsWithDatesLimit($from, $to);
 
         $output->writeln(
-            sprintf('Re-attribution for date range: %s to %s. %d visits to process.',
-                $from, $to, $amountOfVisits
+            sprintf('Re-attribution for date range: %s to %s. %d visits to process with provider "%s".',
+                $from, $to, $amountOfVisits, $locationFetcherProvider->get()->getId()
             )
         );
 
