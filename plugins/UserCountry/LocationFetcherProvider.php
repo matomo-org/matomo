@@ -42,7 +42,7 @@ class LocationFetcherProvider
         $this->currentLocationProviderId = $currentLocationProviderId;
 
         if (!is_callable($getProviderByIdCallback)) {
-            $getProviderByIdCallback = array('LocationProvider', 'getProviderById');
+            $getProviderByIdCallback = '\Piwik\Plugins\UserCountry\LocationProvider::getProviderById';
         }
 
         $this->getProviderByIdCallback = $getProviderByIdCallback;
