@@ -285,104 +285,101 @@ table.dataTable img {
   padding-bottom: 4px;
 }
 
-#content {
-
-  .dataTableFeatures {
-    &.expanded {
-      .dataTableFooterIcons {
-        display: block;
-      }
-
-      .expandDataTableFooterDrawer {
-        display: none;
-      }
-    }
-
-    &.hasEvolution {
-      .dataTableFooterIcons {
-        margin-top: 17px;
-      }
-      .expandDataTableFooterDrawer {
-        margin-top: 20px;
-      }
+.dataTableFeatures {
+  &.expanded {
+    .dataTableFooterIcons {
+      display: block;
     }
 
     .expandDataTableFooterDrawer {
-      display: block;
-      margin-top: 5px;
-      margin-bottom: -1px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: @theme-color-background-base;
-      border: 1px solid @theme-color-background-tinyContrast;
-      height: 7px;
-      width: 70px;
-      -webkit-border-bottom-left-radius: 10px;
-      -webkit-border-bottom-right-radius: 10px;
-      -moz-border-radius-bottomleft: 10px;
-      -moz-border-radius-bottomright: 10px;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-      line-height: 0px;
-
-      img {
-        margin-bottom: 0px;
-        line-height: 0px;
-      }
+      display: none;
     }
   }
 
-  div:not(#dashboard) .dataTableFeatures {
-    border-bottom: 1px solid @theme-color-background-tinyContrast;
+  &.hasEvolution {
+    .dataTableFooterIcons {
+      margin-top: 17px;
+    }
+    .expandDataTableFooterDrawer {
+      margin-top: 20px;
+    }
   }
 
-  .dataTableFooterIcons {
-
-    display: none;
+  .expandDataTableFooterDrawer {
+    display: block;
     margin-top: 5px;
-    height: auto;
+    margin-bottom: -1px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: @theme-color-background-base;
+    border: 1px solid @theme-color-background-tinyContrast;
+    height: 7px;
+    width: 70px;
+    -webkit-border-bottom-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    line-height: 0px;
 
-    div {
-      padding-bottom: 2px;
-    }
-
-    .foldDataTableFooterDrawer {
-      display: block;
-      padding-bottom: 0px;
-      margin-bottom: -1px;
-      margin-top: 0px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: @theme-color-background-base;
-      border: 1px solid @theme-color-background-tinyContrast;
-      -webkit-border-top-left-radius: 10px;
-      -webkit-border-top-right-radius: 10px;
-      -moz-border-radius-topleft: 10px;
-      -moz-border-radius-topright: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+    img {
+      margin-bottom: 0px;
       line-height: 0px;
-      height: 7px;
-      width: 70px;
-      clear: both;
-
-      img {
-        margin-top: 2px;
-        margin-bottom: 0px;
-        line-height: 0px;
-      }
-    }
-
-    .controls {
-      clear: left;
-      padding: 0px 0px 15px;
-      text-align: left;
-      color: #333;
     }
   }
 }
 
-#dashboard .dataTableFeatures {
+div:not(#dashboard) .dataTableFeatures {
+  border-bottom: 1px solid @theme-color-background-tinyContrast;
+}
+
+.dataTableFooterIcons {
+
+  display: none;
+  margin-top: 5px;
+  height: auto;
+
+  div {
+    padding-bottom: 2px;
+  }
+
+  .foldDataTableFooterDrawer {
+    display: block;
+    padding-bottom: 0px;
+    margin-bottom: -1px;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: @theme-color-background-base;
+    border: 1px solid @theme-color-background-tinyContrast;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    line-height: 0px;
+    height: 7px;
+    width: 70px;
+    clear: both;
+
+    img {
+      margin-top: 2px;
+      margin-bottom: 0px;
+      line-height: 0px;
+    }
+  }
+
+  .controls {
+    clear: left;
+    padding: 0px 0px 15px;
+    text-align: left;
+    color: #333;
+  }
+}
+
+#dashboard .dataTableFeatures,.widget .dataTableFeatures {
   .expandDataTableFooterDrawer {
     -webkit-border-top-left-radius: 10px;
     -webkit-border-top-right-radius: 10px;
@@ -418,10 +415,10 @@ table.dataTable img {
 }
 
 .dataTableFooterIcons {
-  height: 20px;
+  min-height: 20px;
   white-space: nowrap;
   font-size: 10px;
-  padding: 6px 5px;
+  padding: 6px 5px 0px;
   border-top: 1px solid #B6B0A6;
 }
 
