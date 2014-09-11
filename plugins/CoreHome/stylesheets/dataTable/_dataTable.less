@@ -332,8 +332,12 @@ table.dataTable img {
   }
 }
 
-div:not(#dashboard) .dataTableFeatures {
+.dataTableFeatures {
   border-bottom: 1px solid @theme-color-background-tinyContrast;
+}
+
+.widget .dataTableFeatures {
+  border-bottom-style: none !important;
 }
 
 .dataTableFooterIcons {
@@ -402,6 +406,10 @@ div:not(#dashboard) .dataTableFeatures {
 .dataTableFooterIcons .foldDataTableFooterDrawer,
 .dataTableFeatures .expandDataTableFooterDrawer {
   cursor: pointer;
+}
+
+.widget .foldDataTableFooterDrawer {
+  margin-bottom: -9px;
 }
 
 // customizing footer appearance for row evolution graph
