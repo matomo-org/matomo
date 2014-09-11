@@ -235,6 +235,7 @@ class TableLogAction
             'contentPiece' => Action::TYPE_CONTENT_PIECE,
             'contentTarget' => Action::TYPE_CONTENT_TARGET,
             'contentName' => Action::TYPE_CONTENT_NAME,
+            'contentInteraction' => Action::TYPE_CONTENT_INTERACTION,
         );
         if(!empty($exactMatch[$segmentName])) {
             return $exactMatch[$segmentName];

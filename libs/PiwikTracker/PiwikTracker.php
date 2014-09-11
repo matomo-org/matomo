@@ -899,7 +899,7 @@ class PiwikTracker
             throw new Exception("You must specify a content name");
         }
 
-        $url .= 'c_n=' . urlencode($contentName);
+        $url .= '&c_n=' . urlencode($contentName);
 
         if (!empty($contentPiece) && strlen($contentPiece) > 0) {
             $url .= '&c_p=' . urlencode($contentPiece);
@@ -934,8 +934,8 @@ class PiwikTracker
             throw new Exception("You must specify a content name");
         }
 
-        $url .= 'c_i=' . urlencode($interaction);
-        $url .= 'c_n=' . urlencode($contentName);
+        $url .= '&c_i=' . urlencode($interaction);
+        $url .= '&c_n=' . urlencode($contentName);
 
         if (!empty($contentPiece) && strlen($contentPiece) > 0) {
             $url .= '&c_p=' . urlencode($contentPiece);
