@@ -1,10 +1,10 @@
 <?php
 namespace Piwik\ReportRenderer;
 
+use Piwik\DataTable\DataTableInterface;
+use Piwik\DataTable\Renderer\Csv as CsvDataTableRenderer;
 use Piwik\Piwik;
 use Piwik\ReportRenderer;
-use Piwik\DataTable\Renderer\Csv as CsvDataTableRenderer;
-use Piwik\DataTable\DataTableInterface;
 
 class Csv extends ReportRenderer
 {
@@ -147,5 +147,18 @@ class Csv extends ReportRenderer
     protected function getApiMethodNameFromUniqueId($uniqueId)
     {
         return str_replace("_", ".", $uniqueId);
+    }
+
+    /**
+     * Get report attachments, ex. graph images
+     *
+     * @param $report
+     * @param $processedReports
+     * @param $prettyDate
+     * @return array
+     */
+    public function getAttachments($report, $processedReports, $prettyDate)
+    {
+        return array();
     }
 }

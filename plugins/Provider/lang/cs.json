@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Poskytovatel",
+        "PluginDescription": "Zobrazí poskytovatele připojení návštěvníků",
+        "ProviderReportDocumentation": "Toto hlášení poskytuje informace o tom, jakého poskytovatele internetového připojení vaši návštěvníci při přístupu na stránky použili. Pokud kliknete na jméno poskytovatele, zobrazí se podrobnosti. %s Pokud Piwik nebyl schopen poskytovatele zjistit, je zobrazen jako IP.",
+        "SubmenuLocationsProvider": "Umístění a poskytovatel",
+        "WidgetProviders": "Poskytovatelé"
+    }
+}

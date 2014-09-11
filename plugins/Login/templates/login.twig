@@ -3,11 +3,12 @@
 <html class="old-ie"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
 <html><!--<![endif]-->
-<head>   
+<head>
     <meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE,chrome=1" >
     <title>{% if isCustomLogo == false %}Piwik &rsaquo; {% endif %}{{ 'Login_LogIn'|translate }}</title>
 
-    <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
+    {% include "@CoreHome/_favicon.twig" %}
     {% autoescape false %}
     {{ includeAssets({"type": "css"}) }}
     {% endautoescape %}
@@ -15,31 +16,25 @@
     <meta name="description" content="{{ 'General_OpenSourceWebAnalytics'|translate }}"/>
     <meta name="apple-itunes-app" content="app-id=737216887" />
     <meta name="google-play-app" content="app-id=org.piwik.mobile2">
+    {% include "_jsCssIncludes.twig" %}
+    <script type="text/javascript" src="libs/jquery/jquery.placeholder.js"></script>
     <!--[if lt IE 9]>
     <script src="libs/html5shiv/html5shiv.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="libs/jquery/jquery.js"></script>
-    <script type="text/javascript" src="libs/jquery/jquery.placeholder.js"></script>
     <script type="text/javascript" src="libs/jquery/jquery.smartbanner.js"></script>
     <link rel="stylesheet" type="text/css" href="libs/jquery/stylesheets/jquery.smartbanner.css" />
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/require.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/notification.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/notification_parser.js"></script>
+
     <script type="text/javascript">
         $(function () {
             $('#form_login').focus();
             $('input').placeholder();
-            $.smartbanner({
-  title: "Piwik Mobile 2", author: "Piwik team", icon: "plugins/CoreHome/images/googleplay.png"
-  });    
+            $.smartbanner({title: "Piwik Mobile 2", author: "Piwik team", icon: "plugins/CoreHome/images/googleplay.png"});
         });
 	</script>
-	    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
-	    {% if 'General_LayoutDirection'|translate =='rtl' %}
-		<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
-	    {% endif %}
 	</head>
 	<body id="loginPage">
+    {{ postEvent("Template.beforeTopBar", "login") }}
+    {{ postEvent("Template.beforeContent", "login") }}
 
     {% include "_iframeBuster.twig" %}
 
@@ -82,7 +77,7 @@
                 {% if form_data.errors %}
                     <div class="message_error">
                         {% for data in form_data.errors %}
-                            <strong>{{ 'General_Error'|translate }}</strong>: {{ data }}<br/>
+                            <strong>{{ 'General_Error'|translate }}</strong>: {{ data|raw }}<br/>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -125,17 +120,17 @@
                     <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
 
                     <input type="password" name="form_password" id="reset_form_password" class="input" value="" size="20"
-                           tabindex="20"
+                           tabindex="20" autocomplete="off"
                            placeholder="{{ 'General_Password'|translate }}"/>
 
                     <input type="password" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
-                           size="20" tabindex="30"
+                           size="20" tabindex="30" autocomplete="off"
                            placeholder="{{ 'Login_PasswordRepeat'|translate }}"/>
                 </fieldset>
 
                 <fieldset class="actions">
                     <span class="loadingPiwik" style="display:none;">
-                        <img alt="Loading" src="plugins/Zeitgeist/images/loading-blue.gif"/>
+                        <img alt="Loading" src="plugins/Morpheus/images/loading-blue.gif"/>
                     </span>
                     <input class="submit" id='reset_form_submit' type="submit"
                            value="{{ 'General_ChangePassword'|translate }}" tabindex="100"/>
@@ -148,7 +143,7 @@
                 <a id="login_form_nav" href="#"
                    title="{{ 'Login_LostYourPassword'|translate }}">{{ 'Login_LostYourPassword'|translate }}</a>
                 <a id="alternate_reset_nav" href="#" style="display:none;"
-                   title="{'Login_LogIn'|translate}">{{ 'Login_LogIn'|translate }}</a>
+                   title="{{'Login_LogIn'|translate}}">{{ 'Login_LogIn'|translate }}</a>
                 <a id="reset_form_nav" href="#" style="display:none;"
                    title="{{ 'Mobile_NavigationBack'|translate }}">{{ 'General_Cancel'|translate }}</a>
             </p>

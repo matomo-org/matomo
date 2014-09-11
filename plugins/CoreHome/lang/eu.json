@@ -1,0 +1,16 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Daturik ez kategoria honetan. Saiatu \"Sartu populazio guztia\" aukerarekin.",
+        "JavascriptDisabled": "JavaScript-ek gaituta egon behar du Piwik ikuspegi estandarrean erabiltzeko.<br \/>Badirudi ordea JavaScript desgaituta dagoela edo zure nabigatzaileak ez duela onartzen.<br \/>Ikuspegi estandarra erabiltzeako, gaitu JavaScript zure nabigatzailearen aukeretan eta ondoren %1$ssaiatu berriro%2$s.<br \/>",
+        "PageOf": "%1$s \/ %2$s",
+        "PeriodDay": "Eguna",
+        "PeriodDays": "egun",
+        "PeriodMonth": "Hilabetea",
+        "PeriodMonths": "hilabete",
+        "PeriodWeek": "Astea",
+        "PeriodWeeks": "aste",
+        "PeriodYear": "Urtea",
+        "PeriodYears": "urte",
+        "ShowJSCode": "Erakutsi txertatu beharreko JavaScript kodea"
+    }
+}

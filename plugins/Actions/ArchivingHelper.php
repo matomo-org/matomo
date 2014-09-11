@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,10 +10,10 @@ namespace Piwik\Plugins\Actions;
 
 use PDOStatement;
 use Piwik\Config;
+use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
-use Piwik\DataTable;
-use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Tracker\Action;
@@ -38,7 +38,7 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return int
      */
-    static public function updateActionsTableWithRowQuery($query, $fieldQueried, & $actionsTablesByType)
+    public static function updateActionsTableWithRowQuery($query, $fieldQueried, & $actionsTablesByType)
     {
         $rowsProcessed = 0;
         while ($row = $query->fetch()) {
@@ -284,17 +284,17 @@ class ArchivingHelper
         return $newValue;
     }
 
-    static public $maximumRowsInDataTableLevelZero;
-    static public $maximumRowsInSubDataTable;
-    static public $columnToSortByBeforeTruncation;
+    public static $maximumRowsInDataTableLevelZero;
+    public static $maximumRowsInSubDataTable;
+    public static $columnToSortByBeforeTruncation;
 
-    static protected $actionUrlCategoryDelimiter = null;
-    static protected $actionTitleCategoryDelimiter = null;
-    static protected $defaultActionName = null;
-    static protected $defaultActionNameWhenNotDefined = null;
-    static protected $defaultActionUrlWhenNotDefined = null;
+    protected static $actionUrlCategoryDelimiter = null;
+    protected static $actionTitleCategoryDelimiter = null;
+    protected static $defaultActionName = null;
+    protected static $defaultActionNameWhenNotDefined = null;
+    protected static $defaultActionUrlWhenNotDefined = null;
 
-    static public function reloadConfig()
+    public static function reloadConfig()
     {
         // for BC, we read the old style delimiter first (see #1067)Row
         $actionDelimiter = @Config::getInstance()->General['action_category_delimiter'];
@@ -320,7 +320,7 @@ class ArchivingHelper
      *
      * @return Row
      */
-    static private function getDefaultRow()
+    private static function getDefaultRow()
     {
         static $row = false;
         if ($row === false) {
@@ -390,7 +390,7 @@ class ArchivingHelper
      * @param $type
      * @return string
      */
-    static public function getUnknownActionName($type)
+    public static function getUnknownActionName($type)
     {
         if (empty(self::$defaultActionNameWhenNotDefined)) {
             self::$defaultActionNameWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageName'));
@@ -401,7 +401,6 @@ class ArchivingHelper
         }
         return self::$defaultActionUrlWhenNotDefined;
     }
-
 
     /**
      * Explodes action name into an array of elements.
@@ -425,7 +424,7 @@ class ArchivingHelper
      * @param int $urlPrefix url prefix (only used for TYPE_PAGE_URL)
      * @return array of exploded elements from $name
      */
-    static public function getActionExplodedNames($name, $type, $urlPrefix = null)
+    public static function getActionExplodedNames($name, $type, $urlPrefix = null)
     {
         // Site Search does not split Search keywords
         if ($type == Action::TYPE_SITE_SEARCH) {
@@ -477,7 +476,7 @@ class ArchivingHelper
     /**
      * Static cache to store Rows during processing
      */
-    static protected $cacheParsedAction = array();
+    protected static $cacheParsedAction = array();
 
     public static function clearActionsCache()
     {

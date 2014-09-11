@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Peringkat Alexa",
+        "Bing_IndexedPages": "Halaman terindeks Bing",
+        "Dmoz": "Msukan DMOZ",
+        "DomainAge": "Umut Ranah",
+        "ExternalBacklinks": "Tautal Kembali Luar (Majestic)",
+        "Google_IndexedPages": "Halaman terindeks Google",
+        "Rank": "Peringkat",
+        "ReferrerDomains": "Ranah Pengarah (Majestic)",
+        "SeoRankings": "Peringkat SEO",
+        "SEORankingsFor": "Peringkat SEO untuk %s",
+        "ViewBacklinksOnMajesticSEO": "Lihat Tautan Kembali Luar dalam MajesticSEO.com"
+    }
+}

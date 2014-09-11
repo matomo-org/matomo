@@ -1,11 +1,10 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\ScheduledTime\Daily;
 
 /**
  * @group Core
@@ -98,11 +97,9 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
         $timeUTC = $mock->getRescheduledTime();
         $this->assertEquals(self::$_JANUARY_02_1971_00_00_00, $timeUTC);
 
-
         $mock->setTimezone('Pacific/Auckland');
         $timeAuckland = $mock->getRescheduledTime();
         $this->assertEquals(-13 * $oneHourInSeconds, $timeAuckland - $timeUTC);
-
 
         $mock->setTimezone('America/Los_Angeles');
         $timeLosAngeles = $mock->getRescheduledTime();

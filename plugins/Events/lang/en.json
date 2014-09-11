@@ -1,0 +1,31 @@
+{
+    "Events": {
+        "AvgEventValue": "Average Event value is: %s",
+        "AvgValue": "Average value",
+        "AvgValueDocumentation": "The average of all values for this event",
+        "Event": "Event",
+        "EventAction": "Event Action",
+        "EventActions": "Event Actions",
+        "EventCategories": "Event Categories",
+        "EventCategory": "Event Category",
+        "EventName": "Event Name",
+        "EventNames": "Event Names",
+        "Events": "Events",
+        "EventsWithValue": "Events with a value",
+        "EventsWithValueDocumentation": "Number of events where an Event value was set",
+        "EventValue": "Event Value",
+        "EventValueTooltip": "Total Event value is the sum of %s events values %s between minimum of %s and maximum of %s.",
+        "MaxValue": "Maximum value",
+        "MaxValueDocumentation": "The maximum value for this event",
+        "MinValue": "Minimum value",
+        "MinValueDocumentation": "The minimum value for this event",
+        "SecondaryDimension": "Secondary dimension is %s.",
+        "SwitchToSecondaryDimension": "Switch to %s",
+        "TopEvents": "Top Events",
+        "TotalEvents": "Total events",
+        "TotalEventsDocumentation": "Total number of events",
+        "TotalValue": "Total value",
+        "TotalValueDocumentation": "The sum of event values",
+        "ViewEvents": "View Events"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s 平均生成时间",
+        "AverageVisitDuration": "%s 平均停留时间",
+        "GenerateQueries": "%s 查询已执行",
+        "GenerateTime": "%s 秒来生成这个页面",
+        "MaxNbActions": "%s 单次访问的最大活动量",
+        "NbActionsDescription": "%s 次活动",
+        "NbActionsPerVisit": "%s 次活动 (查看页面、下载、离站链接和内部搜索)",
+        "NbDownloadsDescription": "%s 次下载",
+        "NbKeywordsDescription": "%s 个关键词",
+        "NbOutlinksDescription": "%s 次离站链接",
+        "NbPageviewsDescription": "%s 次浏览",
+        "NbSearchesDescription": "%s 次站内搜索",
+        "NbUniqueDownloadsDescription": "%s 次唯一下载",
+        "NbUniqueOutlinksDescription": "%s 个唯一离站链接",
+        "NbUniquePageviewsDescription": "%s 次唯一浏览",
+        "NbUniqueVisitors": "%s 个独立访客数",
+        "NbVisitsBounced": "%s 的跳出率 (查看一个页面后就离开)",
+        "PluginDescription": "显示常见的分析数据: 访问次数、访客人数、活动次数、跳出率等。",
+        "VisitsSummary": "访客总表",
+        "VisitsSummaryDocumentation": "这是访客趋势总表。",
+        "WidgetLastVisits": "访客趋势图",
+        "WidgetOverviewGraph": "趋势图总表",
+        "WidgetVisits": "访客总表"
+    }
+}

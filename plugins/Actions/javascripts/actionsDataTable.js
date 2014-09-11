@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,17 +26,17 @@
 
     // helper function for ActionDataTable
     function setImageMinus(domElem) {
-        $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/minus.png');
+        $('img.plusMinus', domElem).attr('src', 'plugins/Morpheus/images/minus.png');
     }
 
     // helper function for ActionDataTable
     function setImagePlus(domElem) {
-        $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/plus.png');
+        $('img.plusMinus', domElem).attr('src', 'plugins/Morpheus/images/plus.png');
     }
 
     /**
      * UI control that handles extra functionality for Actions datatables.
-     * 
+     *
      * @constructor
      */
     exports.ActionsDataTable = function (element) {
@@ -54,7 +54,7 @@
             var self = this;
 
             self.cleanParams();
-            
+
             if (!rows) {
                 rows = $('tr', domElem);
             }
@@ -67,7 +67,6 @@
                     self.onClickActionSubDataTable(this)
                 }).size();
             }
-
             self.applyCosmetics(domElem, rows);
             self.handleColumnHighlighting(domElem);
             self.handleRowActions(domElem, rows);
@@ -86,10 +85,11 @@
             }
 
             self.handleColumnDocumentation(domElem);
-            self.handleReportDocumentation(domElem);
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);
+            self.handleExpandFooter(domElem);
+            self.setFixWidthToMakeEllipsisWork(domElem);
         },
 
         //see dataTable::applyCosmetics
@@ -100,7 +100,6 @@
             rowsWithSubtables.css('font-weight', 'bold');
 
             $("th:first-child", domElem).addClass('label');
-            $('td span.label', domElem).each(function () { self.truncate($(this)); });
             var imagePlusMinusWidth = 12;
             var imagePlusMinusHeight = 12;
             $('td:first-child', rowsWithSubtables)
@@ -115,11 +114,11 @@
                 });
 
             var rootRow = rows.first().prev();
-            
+
             // we look at the style of the row before the new rows to determine the rows'
             // level
             var level = rootRow.length ? getLevelFromClass(rootRow.attr('class')) + 1 : 0;
-            
+
             rows.each(function () {
                 var currentStyle = $(this).attr('class') || '';
 
@@ -134,10 +133,10 @@
                     return self.parentAttributeParent + ' ' + self.parentId;
                 });
             });
-            
+
             self.addOddAndEvenClasses(domElem);
         },
-        
+
         addOddAndEvenClasses: function(domElem) {
             // Add some styles on the cells even/odd
             // label (first column of a data row) or not
@@ -182,7 +181,7 @@
                 $(domElem).after('\
                 <tr id="' + divIdToReplaceWithSubTable + '" class="cellSubDataTable">\
                     <td colspan="' + numberOfColumns + '">\
-                            <span class="loadingPiwik" style="display:inline"><img src="plugins/Zeitgeist/images/loading-blue.gif" /> Loading...</span>\
+                            <span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" /> Loading...</span>\
                     </td>\
                 </tr>\
                 ');
@@ -213,7 +212,7 @@
             else {
                 var plusDetected = $('td img.plusMinus', domElem).attr('src').indexOf('plus') >= 0;
                 var stripingNeeded = false;
-                
+
                 $(domElem).siblings().each(function () {
                     var parents = $(this).prop('parent').split(' ');
                     if (parents) {
@@ -222,7 +221,7 @@
                             if (plusDetected) {
                                 $(this).css('display', '').removeClass('hidden');
                                 stripingNeeded = !stripingNeeded;
-                                
+
                                 //unroll everything and display '-' sign
                                 //if the row is already opened
                                 var NextStyle = $(this).next().attr('class');
@@ -242,7 +241,7 @@
                         }
                     }
                 });
-                
+
                 var table = $(domElem);
                 if (!table.hasClass('dataTable')) {
                     table = table.closest('.dataTable');
@@ -250,6 +249,8 @@
                 if (stripingNeeded) {
                     self.addOddAndEvenClasses(table);
                 }
+
+                self.$element.trigger('piwik:actionsSubTableToggled');
             }
 
             // toggle the +/- image
@@ -278,6 +279,9 @@
             $('.datatableRelatedReports', content).replaceWith(oldReportsElem);
 
             dataTableSel.replaceWith(content);
+
+            content.trigger('piwik:dataTableLoaded');
+
             piwikHelper.lazyScrollTo(content[0], 400);
 
             return content;
@@ -310,6 +314,8 @@
 
             // we execute the bindDataTableEvent function for the new DIV
             self.bindEventsAndApplyStyle($('#' + self.workingDivId), response);
+
+            self.$element.trigger('piwik:actionsSubDataTableLoaded');
 
             //bind back the click event (disabled to avoid double-click problem)
             self.disabledRowDom.click(

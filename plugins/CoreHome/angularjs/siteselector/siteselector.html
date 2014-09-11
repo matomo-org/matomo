@@ -1,0 +1,62 @@
+<div piwik-focus-anywhere-but-here="view.showSitesList=false" class="custom_select"
+     ng-class="{'sites_autocomplete--dropdown': (model.hasMultipleWebsites || showAllSitesItem || !model.sites.length)}">
+
+    <script type="text/ng-template" id="siteselector_allsiteslink.html">
+        <div ng-click="switchSite({idsite: 'all', name: allSitesText});view.showSitesList=false;"
+             class="custom_select_all">
+            <a href="{{ getUrlAllSites() }}"
+               piwik-ignore-click
+               ng-bind-html="allSitesText"></a>
+        </div>
+    </script>
+
+    <input ng-if="inputName" type="hidden" name="{{ inputName }}" ng-value="selectedSite.id"/>
+
+    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites();"
+       href="javascript:void(0)"
+       class="custom_select_main_link"
+       ng-class="{'loading': model.isLoading}">
+        <span ng-bind-html="selectedSite.name || model.firstSiteName">?</span>
+    </a>
+
+    <div ng-show="view.showSitesList" class="custom_select_block">
+        <div ng-if="allSitesLocation=='top' && showAllSitesItem"
+             ng-include="'siteselector_allsiteslink.html'"></div>
+
+        <div class="custom_select_container">
+            <ul class="custom_select_ul_list" ng-click="view.showSitesList=false;">
+                <li ng-click="switchSite(site)"
+                    ng-repeat="site in model.sites"
+                    ng-hide="!showSelectedSite && activeSiteId==site.idsite">
+                    <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
+                       piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
+                </li>
+            </ul>
+            <ul ng-show="!model.sites.length && view.searchTerm" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
+                <li class="ui-menu-item">
+                    <a class="ui-corner-all" tabindex="-1">{{ ('SitesManager_NotFound' | translate) + ' ' + view.searchTerm }}</a>
+                </li>
+            </ul>
+        </div>
+
+        <div ng-if="allSitesLocation=='bottom' && showAllSitesItem"
+             ng-include="'siteselector_allsiteslink.html'"></div>
+
+        <div class="custom_select_search" ng-show="autocompleteMinSites <= model.sites.length || view.searchTerm">
+            <input type="text"
+                   piwik-focus-if="view.showSitesList"
+                   ng-click="view.searchTerm=''"
+                   ng-model="view.searchTerm"
+                   ng-change="model.searchSite(view.searchTerm)"
+                   class="websiteSearch inp"/>
+            <input type="submit"
+                   ng-click="model.searchSite(view.searchTerm)"
+                   value="{{ 'General_Search' | translate }}" class="but"/>
+            <img title="Clear"
+                 ng-show="view.searchTerm"
+                 ng-click="view.searchTerm=''; model.loadInitialSites()"
+                 class="reset"
+                 src="plugins/CoreHome/images/reset_search.png"/>
+        </div>
+    </div>
+</div>

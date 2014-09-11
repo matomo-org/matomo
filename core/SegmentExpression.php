@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -63,7 +63,7 @@ class SegmentExpression
     public function parseSubExpressions()
     {
         $parsedSubExpressions = array();
-        foreach ($this->tree as $id => $leaf) {
+        foreach ($this->tree as $leaf) {
             $operand = $leaf[self::INDEX_OPERAND];
 
             $operand = urldecode($operand);
@@ -339,7 +339,6 @@ class SegmentExpression
         if (count($this->tree) == 0) {
             throw new Exception("Invalid segment, please specify a valid segment.");
         }
-        $bind = array();
         $sql = '';
         $subExpression = false;
         foreach ($this->tree as $expression) {

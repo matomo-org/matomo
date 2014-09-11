@@ -2171,7 +2171,6 @@ Element._attributeTranslations = {
   }
 };
 
-
 if (!document.createRange || Prototype.Browser.Opera) {
   Element.Methods.insert = function(element, insertions) {
     element = $(element);

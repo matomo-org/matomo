@@ -5,7 +5,7 @@
  * @version $Revision: 498 $
  */
 XMLDOC = {
-	
+
 };
 
 /** The current version string of this application. */
@@ -18,9 +18,9 @@ IO.includeDir("handlers/XMLDOC/");
  * @type Symbol[]
  */
 XMLDOC.handle = function(srcFile, src) {
-	
+
 };
 
 XMLDOC.publish = function(symbolgroup) {
-	
+
 }

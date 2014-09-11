@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,12 +18,12 @@ use Piwik\DataTable\BaseFilter;
  * _NOTE: This filter should never be queued, it must be applied directly on a {@link DataTable}._
  *
  * **Basic usage example**
- * 
+ *
  *     // group URLs by host
  *     $dataTable->filter('GroupBy', array('label', function ($labelUrl) {
  *         return parse_url($labelUrl, PHP_URL_HOST);
  *     }));
- * 
+ *
  * @api
  */
 class GroupBy extends BaseFilter

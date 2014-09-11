@@ -1,0 +1,9 @@
+{
+    "ZenMode": {
+        "SearchForAnything": "Search for anything",
+        "QuickAccessTitle": "Search for menu entries, reports and websites",
+        "HowToSearch": "To search for menu items, reports or websites use the search box on the top right or press 'alt+f'.",
+        "HowToToggleZenMode": "To leave or enter the zen mode click the arrow on the top right or press 'alt+z'.",
+        "Activated": "Zen mode activated"
+    }
+}

@@ -2,16 +2,28 @@
     "DevicesDetection": {
         "BrowserVersions": "Version av webbläsare",
         "Camera": "Kamera",
+        "CarBrowser": "Car browser",
+        "Console": "Konsol",
         "dataTableLabelBrands": "Märke",
+        "dataTableLabelBrowserFamily": "Webbläsare familj",
         "dataTableLabelModels": "Modell",
+        "dataTableLabelSystemVersion": "Hanterar Systemets version",
         "dataTableLabelTypes": "Sort",
         "Device": "Enhet",
         "DeviceBrand": "Typ av utrustning",
+        "DeviceDetection": "Utrustning upptäcks",
+        "DeviceModel": "Utrustning model",
         "DevicesDetection": "Besöksutrustning",
+        "DeviceType": "Utrustningstyp",
         "FeaturePhone": "Telefonmodell",
+        "OperatingSystemFamilies": "Hanterar System familjer",
         "OperatingSystemVersions": "Nuvarande System version",
+        "PluginDescription": "Det här pluginet innehåller förlängd information om mobilverktyg, så som märke (tillvärkare), modell (modellens version), tv, konsol, smart phones, laptops och annat. Det här pluginet lägger till nya rapporter i 'Visitors > Verktyg'.",
         "SmartDisplay": "Smart skärm",
+        "Smartphone": "Smartphone",
         "submenu": "Utrustning",
-        "TV": "TV"
+        "Tablet": "Bord",
+        "TV": "TV",
+        "UserAgent": "Användar-Agent"
     }
 }

@@ -1,0 +1,128 @@
+<div>
+    <h2 piwik-enriched-headline
+        help-url="http://piwik.org/docs/manage-websites/#all-websites-dashboard"
+        feature-name="{{ 'General_AllWebsitesDashboard'|translate }}">
+        {{ 'General_AllWebsitesDashboard'|translate }}
+        <span class='smallTitle'
+              title="{{ 'General_EvolutionSummaryGeneric'|translate:('General_NVisits'|translate:model.totalVisits):date:model.lastVisits:model.lastVisitsDate:(model.totalVisits|evolution:model.lastVisits)}}"
+              ng-bind-html="'General_TotalVisitsPageviewsRevenue' | translate:('<strong>'+model.totalVisits+'</strong>'):('<strong>'+model.totalActions+'</strong>'):('<strong>' + model.totalRevenue + '</strong>')">
+        </span>
+    </h2>
+
+    <table id="mt" class="dataTable" cellspacing="0">
+        <thead>
+        <tr>
+            <th id="names" class="label" ng-click="sortBy('label')" ng-class="{columnSorted: 'label' == predicate}">
+                <span class="heading">{{ 'General_Website'|translate }}</span>
+                <span ng-class="{multisites_asc: !reverse && 'label' == predicate, multisites_desc: reverse && 'label' == predicate}" class="arrow"></span>
+            </th>
+            <th id="visits" class="multisites-column" ng-click="sortBy('nb_visits')" ng-class="{columnSorted: 'nb_visits' == predicate}">
+                <span class="heading">{{ 'General_ColumnNbVisits'|translate }}</span>
+                <span ng-class="{multisites_asc: !reverse && 'nb_visits' == predicate, multisites_desc: reverse && 'nb_visits' == predicate}" class="arrow"></span>
+            </th>
+            <th id="pageviews" class="multisites-column" ng-click="sortBy('nb_pageviews')" ng-class="{columnSorted: 'nb_pageviews' == predicate}">
+                <span class="heading">{{ 'General_ColumnPageviews'|translate }}</span>
+                <span ng-class="{multisites_asc: !reverse && 'nb_pageviews' == predicate, multisites_desc: reverse && 'nb_pageviews' == predicate}" class="arrow"></span>
+            </th>
+
+            <th ng-if="displayRevenueColumn" id="revenue" class="multisites-column" ng-click="sortBy('revenue')" ng-class="{columnSorted: 'revenue' == predicate}">
+                <span class="heading">{{ 'General_ColumnRevenue'|translate }}</span>
+                <span ng-class="{multisites_asc: !reverse && 'revenue' == predicate, multisites_desc: reverse && 'revenue' == predicate}" class="arrow"></span>
+            </th>
+
+            <th id="evolution" colspan="{{ showSparklines ? 2 : 1 }}" ng-class="{columnSorted: evolutionSelector == predicate}">
+                <span class="arrow" ng-class="{multisites_asc: !reverse && evolutionSelector == predicate, multisites_desc: reverse && evolutionSelector == predicate}"></span>
+                <span class="evolution"
+                      ng-click="sortBy(evolutionSelector)"> {{ 'MultiSites_Evolution'|translate }}</span>
+                <select class="selector" id="evolution_selector" ng-model="evolutionSelector"
+                        ng-change="predicate = evolutionSelector">
+                    <option value="visits_evolution">{{ 'General_ColumnNbVisits'|translate }}</option>
+                    <option value="pageviews_evolution">{{ 'General_ColumnPageviews'|translate }}</option>
+                    <option ng-if="displayRevenueColumn" value="revenue_evolution">{{ 'General_ColumnRevenue'|translate }}</option>
+                </select>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody id="tb" ng-if="model.isLoading">
+            <tr>
+                <td colspan="7" class="allWebsitesLoading">
+                    {{ 'MultiSites_LoadingWebsites' | translate }}
+                    <span class="allWebsitesLoadingIndicator"> </span>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody id="tb" ng-if="!model.isLoading">
+
+            <tr ng-if="model.errorLoadingSites">
+                <td colspan="7">
+                    <div class="notification system notification-error">
+                        {{ 'General_ErrorRequest'|translate }}
+                    </div>
+                </td>
+            </tr>
+
+            <tr website="website"
+                evolution-metric="evolutionSelector"
+                piwik-multisites-site
+                date-sparkline="dateSparkline"
+                show-sparklines="showSparklines"
+                metric="predicate"
+                ng-class-odd="'columnodd'"
+                display-revenue-column="displayRevenueColumn"
+                ng-repeat="website in model.sites | orderBy:predicate:reverse | multiSitesGroupFilter:model.getCurrentPagingOffsetStart():model.pageSize">
+            </tr>
+        </tbody>
+
+        <tfoot>
+
+        <tr ng-if="hasSuperUserAccess">
+            <td colspan="8" class="add_new_site">
+                <a href="{{ url }}?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}">
+                    <img src='plugins/Morpheus/images/add.png' alt=""/> {{ 'SitesManager_AddSite'|translate }}
+                </a>
+            </td>
+        </tr>
+
+        <tr ng-if="!hasSuperUserAccess">
+            <td colspan="8">
+                <br/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" class="paging" ng-hide="model.numberOfPages() <= 1">
+                <span id="prev" class="previous" ng-hide="model.currentPage == 0" ng-click="model.previousPage()">
+                    <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
+                </span>
+                <span class="dataTablePages">
+                    <span id="counter">
+                        {{ 'MultiSites_Pagination'|translate:model.getCurrentPagingOffsetStart():model.getCurrentPagingOffsetEnd():model.getNumberOfFilteredSites() }}
+                    </span>
+                </span>
+                <span id="next" class="next" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
+                    <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
+                </span>
+            </td>
+        </tr>
+        <tr row_id="last">
+            <td colspan="8" class="site_search">
+                <input type="text"
+                       ng-change="model.searchSite(searchTerm)"
+                       ng-model="searchTerm"
+                       placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}">
+                <img title="Search"
+                     ng-show="!searchTerm"
+                     class="search_ico"
+                     src="plugins/Morpheus/images/search_ico.png"/>
+                <img title="Clear"
+                     ng-show="searchTerm"
+                     ng-click="searchTerm='';model.searchSite('')"
+                     class="reset"
+                     src="plugins/CoreHome/images/reset_search.png"/>
+            </td>
+        </tr>
+
+        </tfoot>
+    </table>
+</div>

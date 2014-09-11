@@ -1,0 +1,36 @@
+{% if form_data.errors %}
+	<div class="warning">
+		<img src="plugins/Morpheus/images/warning_medium.png">
+		<strong>{{ 'Installation_PleaseFixTheFollowingErrors'|translate }}:</strong>
+		<ul>
+            {% for data in form_data.errors %}
+				<li>{{ data|raw }}</li>
+            {% endfor %}
+		</ul>
+	</div>
+{% endif %}
+
+<form {{ form_data.attributes|raw }}>
+	<div class="centrer">
+		<table class="centrer">
+            {% for fieldname in element_list %}
+				{% if form_data[fieldname].type == 'checkbox' %}
+					<tr>
+						<td colspan=2>{{ form_data[fieldname].html|raw }}</td>
+					</tr>
+				{% elseif form_data[fieldname].label %}
+					<tr>
+						<td>{{ form_data[fieldname].label|raw }}</td>
+						<td>{{ form_data[fieldname].html|raw }}</td>
+					</tr>
+				{% elseif form_data[fieldname].type == 'hidden' %}
+					<tr>
+						<td colspan=2>{{ form_data[fieldname].html|raw }}</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</table>
+	</div>
+
+	{{ form_data.submit.html|raw }}
+</form>

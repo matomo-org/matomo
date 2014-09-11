@@ -1,0 +1,14 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Звяжыцеся з камандай Piwik!",
+        "DoYouHaveBugReportOrFeatureRequest": "Ці ёсць у вас памылка аб якой неабходна певедаміць?",
+        "IWantTo": "Я хачу, каб:",
+        "LearnWaysToParticipate": "Даведайцеся пра ўсе спосабы %s ўдзельнічыства %s",
+        "ManuallySendEmailTo": "Калі ласка, уручную адпраўце паведамленне да",
+        "PluginDescription": "Водгук для каманды Piwik. Падзяліцеся сваімі ідэямі і прапановамі з намі!",
+        "SendFeedback": "Адправіць водгук",
+        "SpecialRequest": "У вас ёсць спецыяльны запыт для каманды Piwik?",
+        "ThankYou": "Дзякуй за дапамогу нам зрабіць Piwik лепш!",
+        "VisitTheForums": "Наведайце %s форумы %s"
+    }
+}

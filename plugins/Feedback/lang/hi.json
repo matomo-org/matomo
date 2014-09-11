@@ -1,0 +1,15 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Piwik टीम से संपर्क!",
+        "DoYouHaveBugReportOrFeatureRequest": "क्या आपके पास एक बग की रिपोर्ट या एक सुविधा का अनुरोध है?",
+        "IWantTo": "मैं चाहता हूँ:",
+        "LearnWaysToParticipate": "सभी तरीकों के बारे में जानें, आप %s भाग %s ले सकते हैं",
+        "ManuallySendEmailTo": "अपने संदेश को स्वेक्षा से भेजने के लिए कृपया",
+        "PluginDescription": "Piwik टीम के लिए अपने प्रतिक्रिया भेजें. हमारे साथ अपने विचारों और सुझावों को साझा करें!",
+        "SendFeedback": "प्रतिक्रिया भेजें",
+        "SpecialRequest": "आपका Piwik टीम के लिए एक विशेष अनुरोध है?",
+        "ThankYou": "Piwik बेहतर बनाने में हमें मदद करने के लिए आपका शुक्रिया",
+        "TopLinkTooltip": "आप क्या सोचते हैं हमें बताओ,या व्यावसायिक सहायता का अनुरोध करे",
+        "VisitTheForums": "%s विचार मंच %s पर जाएँ"
+    }
+}

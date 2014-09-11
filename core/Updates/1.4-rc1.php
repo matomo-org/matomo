@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ class Updates_1_4_rc1 extends Updates
     {
         return array(
             'UPDATE `' . Common::prefixTable('pdf') . '`
-		    	SET format = "pdf"'                                                                         => '42S22',
+		    	SET format = "pdf"'              => '42S22',
             'ALTER TABLE `' . Common::prefixTable('pdf') . '`
 		    	ADD COLUMN `format` VARCHAR(10)' => '42S22',
         );

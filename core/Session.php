@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,6 +17,8 @@ use Zend_Session;
  */
 class Session extends Zend_Session
 {
+    const SESSION_NAME = 'PIWIK_SESSID';
+
     protected static $sessionStarted = false;
 
     /**
@@ -62,8 +64,7 @@ class Session extends Zend_Session
         @ini_set('session.cookie_httponly', '1');
 
         // don't use the default: PHPSESSID
-        $sessionName = defined('PIWIK_SESSION_NAME') ? PIWIK_SESSION_NAME : 'PIWIK_SESSID';
-        @ini_set('session.name', $sessionName);
+        @ini_set('session.name', self::SESSION_NAME);
 
         // proxies may cause the referer check to fail and
         // incorrectly invalidate the session
@@ -89,15 +90,12 @@ class Session extends Zend_Session
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
-            $db = Db::get();
-
             $config = array(
                 'name'           => Common::prefixTable('session'),
                 'primary'        => 'id',
                 'modifiedColumn' => 'modified',
                 'dataColumn'     => 'data',
                 'lifetimeColumn' => 'lifetime',
-                'db'             => $db,
             );
 
             $saveHandler = new DbTable($config);
@@ -112,7 +110,7 @@ class Session extends Zend_Session
         }
 
         try {
-            Zend_Session::start();
+            parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
             Log::warning('Unable to start session: ' . $e->getMessage());
@@ -124,7 +122,7 @@ class Session extends Zend_Session
             }
 
             $pathToSessions = Filechecks::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/');
-            $pathToSessions = SettingsPiwik::rewriteTmpPathWithHostname($pathToSessions);
+            $pathToSessions = SettingsPiwik::rewriteTmpPathWithInstanceId($pathToSessions);
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
@@ -132,7 +130,7 @@ class Session extends Zend_Session
                 $e->getMessage()
             );
 
-            Piwik_ExitWithMessage($message);
+            Piwik_ExitWithMessage($message, $e->getTraceAsString());
         }
     }
 
@@ -144,6 +142,11 @@ class Session extends Zend_Session
     public static function getSessionsDirectory()
     {
         $path = PIWIK_USER_PATH . '/tmp/sessions';
-        return SettingsPiwik::rewriteTmpPathWithHostname($path);
+        return SettingsPiwik::rewriteTmpPathWithInstanceId($path);
+    }
+
+    public static function close()
+    {
+        parent::writeClose();
     }
 }

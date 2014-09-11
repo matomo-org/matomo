@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,13 +8,9 @@
  */
 namespace Piwik\Plugins\VisitFrequency;
 
-use Piwik\Menu\MenuMain;
-use Piwik\Piwik;
-use Piwik\WidgetsList;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-/**
- *
- */
 class VisitFrequency extends \Piwik\Plugin
 {
     /**
@@ -22,49 +18,23 @@ class VisitFrequency extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
-            'WidgetsList.addWidgets'  => 'addWidgets',
-            'Menu.Reporting.addItems' => 'addMenu',
-            'API.getReportMetadata'   => 'getReportMetadata',
-        );
-        return $hooks;
-    }
-
-    public function getReportMetadata(&$reports)
-    {
-        $reports[] = array(
-            'category'         => Piwik::translate('General_Visitors'),
-            'name'             => Piwik::translate('VisitFrequency_ColumnReturningVisits'),
-            'module'           => 'VisitFrequency',
-            'action'           => 'get',
-            'metrics'          => array(
-                'nb_visits_returning'            => Piwik::translate('VisitFrequency_ColumnReturningVisits'),
-                'nb_actions_returning'           => Piwik::translate('VisitFrequency_ColumnActionsByReturningVisits'),
-                'avg_time_on_site_returning'     => Piwik::translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
-                'bounce_rate_returning'          => Piwik::translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
-                'nb_actions_per_visit_returning' => Piwik::translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
-                'nb_uniq_visitors_returning'     => Piwik::translate('VisitFrequency_ColumnUniqueReturningVisitors'),
-// Not displayed
-//    			'nb_visits_converted_returning',
-//    			'sum_visit_length_returning',
-//    			'max_actions_returning',
-//    			'bounce_count_returning',
-            ),
-            'processedMetrics' => false,
-            'order'            => 40
+        return array(
+            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations'
         );
     }
 
-    function addWidgets()
+    public function addMetricTranslations(&$translations)
     {
-        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
-        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph',
-                            array('columns' => array('nb_visits_returning')));
+        $metrics = array(
+            'nb_visits_returning'  => 'VisitFrequency_ColumnReturningVisits',
+            'nb_actions_returning' => 'VisitFrequency_ColumnActionsByReturningVisits',
+            'avg_time_on_site_returning' => 'VisitFrequency_ColumnAverageVisitDurationForReturningVisitors',
+            'bounce_rate_returning'      => 'VisitFrequency_ColumnBounceRateForReturningVisits',
+            'nb_actions_per_visit_returning' => 'VisitFrequency_ColumnAvgActionsPerReturningVisit',
+            'nb_uniq_visitors_returning'     => 'VisitFrequency_ColumnUniqueReturningVisitors'
+        );
+
+        $translations = array_merge($translations, $metrics);
     }
 
-    function addMenu()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'VisitFrequency_SubmenuFrequency',
-            array('module' => 'VisitFrequency', 'action' => 'index'), true, $order = 55);
-    }
 }

@@ -1,0 +1,29 @@
+{
+    "Events": {
+        "AvgEventValue": "イベントの平均値: %s",
+        "AvgValue": "平均値",
+        "AvgValueDocumentation": "このイベントのすべての値の平均値",
+        "Event": "イベント",
+        "EventAction": "イベントのアクション",
+        "EventActions": "イベントのアクション",
+        "EventCategories": "イベントのカテゴリ",
+        "EventCategory": "イベントのカテゴリー",
+        "EventName": "イベントの名称",
+        "EventNames": "イベント名",
+        "Events": "イベント",
+        "EventsWithValue": "値を持つイベント",
+        "EventsWithValueDocumentation": "イベントの値が設定されたイベント数",
+        "EventValue": "イベントの値",
+        "MaxValue": "最大値",
+        "MaxValueDocumentation": "このイベントの最大値",
+        "MinValue": "最小値",
+        "MinValueDocumentation": "このイベントの最小値",
+        "SwitchToSecondaryDimension": "%s へ切替",
+        "TopEvents": "トップイベント",
+        "TotalEvents": "イベントの合計",
+        "TotalEventsDocumentation": "イベントの総数",
+        "TotalValue": "合計の値",
+        "TotalValueDocumentation": "イベント値の合計",
+        "ViewEvents": "イベントをみる"
+    }
+}

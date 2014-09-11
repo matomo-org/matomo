@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "IP tiekėjas",
+        "PluginDescription": "Nurodo lankytojų interneto paslaugų tiekėją.",
+        "SubmenuLocationsProvider": "Vietovės ir IP tiekėjas",
+        "WidgetProviders": "IP tiekėjai"
+    }
+}

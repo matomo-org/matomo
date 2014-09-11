@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s average generation time",
+        "AverageVisitDuration": "%s average visit duration",
+        "GenerateQueries": "%s queries executed",
+        "GenerateTime": "%s seconds to generate the page",
+        "MaxNbActions": "%s max actions in one visit",
+        "NbActionsDescription": "%s actions",
+        "NbActionsPerVisit": "%s actions (page views, downloads, outlinks and internal site searches) per visit",
+        "NbDownloadsDescription": "%s downloads",
+        "NbKeywordsDescription": "%s unique keywords",
+        "NbOutlinksDescription": "%s outlinks",
+        "NbPageviewsDescription": "%s pageviews",
+        "NbSearchesDescription": "%s total searches on your website",
+        "NbUniqueDownloadsDescription": "%s unique downloads",
+        "NbUniqueOutlinksDescription": "%s unique outlinks",
+        "NbUniquePageviewsDescription": "%s unique pageviews",
+        "NbUniqueVisitors": "%s unique visitors",
+        "NbVisitsBounced": "%s visits have bounced (left the website after one page)",
+        "PluginDescription": "Reports the general Analytics numbers: visits, unique visitors, number of actions, Bounce Rate, etc.",
+        "VisitsSummary": "Visits Summary",
+        "VisitsSummaryDocumentation": "This is an overview of the visit evolution.",
+        "WidgetLastVisits": "Visits Over Time",
+        "WidgetOverviewGraph": "Visits Overview (with graph)",
+        "WidgetVisits": "Visits Overview"
+    }
+}

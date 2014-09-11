@@ -1,0 +1,22 @@
+{% macro errorDiv(id='ajaxError') %}
+    <div id="{{ id }}" style="display:none"></div>
+{% endmacro %}
+
+{% macro loadingDiv(id='ajaxLoadingDiv') %}
+<div id="{{ id }}" style="display:none;">
+    <div class="loadingPiwik">
+        <img src="plugins/Morpheus/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />{{ 'General_LoadingData'|translate }}
+    </div>
+    <div class="loadingSegment">
+        {{ 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime'|translate }}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro requestErrorDiv(emailSuperUser) %}
+    {% if emailSuperUser is defined and emailSuperUser %}
+        <div id="loadingError">{{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}</div>
+    {% else %}
+        <div id="loadingError">{{ 'General_ErrorRequest'|translate('', '') }}</div>
+    {% endif %}
+{% endmacro %}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,14 +15,14 @@ use Piwik\DataTable\Row;
 /**
  * Calculates the quotient of two columns and adds the result as a new column
  * for each row of a DataTable.
- * 
+ *
  * This filter is used to calculate rate values (eg, `'bounce_rate'`), averages
  * (eg, `'avg_time_on_page'`) and other types of values.
  *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('bounce_rate', 'bounce_count', 'nb_visits', $precision = 2));
- * 
+ *
  * @api
  */
 class ColumnCallbackAddColumnQuotient extends BaseFilter
@@ -38,7 +38,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The DataTable that will eventually be filtered.
      * @param string $columnNameToAdd The name of the column to add the quotient value to.
      * @param string $columnValueToRead The name of the column that holds the dividend.
@@ -52,7 +52,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
      *                                       row iteration.
      */
     public function __construct($table, $columnNameToAdd, $columnValueToRead, $divisorValueOrDivisorColumnName,
-                                $quotientPrecision = 0,$shouldSkipRows = false, $getDivisorFromSummaryRow = false)
+                                $quotientPrecision = 0, $shouldSkipRows = false, $getDivisorFromSummaryRow = false)
     {
         parent::__construct($table);
         $this->table = $table;
@@ -75,7 +75,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $key => $row) {
+        foreach ($table->getRows() as $row) {
             $value = $this->getDividend($row);
             if ($value === false && $this->shouldSkipRows) {
                 continue;

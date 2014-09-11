@@ -1,0 +1,38 @@
+<div class="insightsDataTable dataTable"
+     data-table-type="InsightsDataTable"
+     data-table-onlyinsightsinit="1">
+    {% if reports.getColumns|length > 0 %}
+
+        <table class="dataTable"
+               title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+            {% for dataTable in reports.getDataTables() if dataTable.getRowsCount > 0 %}
+                {% set metadata = dataTable.getAllTableMetadata %}
+
+                <thead>
+                    {% include "@Insights/table_header.twig" %}
+                </thead>
+
+                <tbody>
+                    {% for row in dataTable.getRows %}
+                        {% include "@Insights/table_row.twig" %}
+                    {% endfor %}
+                </tbody>
+
+            {% endfor %}
+        </table>
+
+        <script type="text/javascript" defer="defer">
+            $(document).ready(function () {
+                require('piwik/UI/DataTable').initNewDataTables();
+            });
+        </script>
+
+    {% else %}
+
+        <div class="pk-emptyDataTable"
+             title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+            {{ 'Insights_NoResultMatchesCriteria'|translate }}
+        </div>
+
+    {% endif %}
+</div>

@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nome de variável personalizado",
+        "ColumnCustomVariableValue": "Valor de variável personalizado",
+        "CustomVariables": "Variáveis personalizadas",
+        "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as suas variáveis ​​personalizadas. Clique em um nome de variável para ver a distribuição dos valores. %s para mais informações sobre variáveis ​​personalizadas em geral, leia a documentação %sCustom Variáveis ​​em piwik.org%s",
+        "PluginDescription": "Variáveis ​​personalizados são nome, pares de valores que podem ser definidos para uma visita usando a função setVisitCustomVariables() da API Javascript. Piwik irá relatar quantas visitas, páginas, conversões para cada um desses nomes personalizados e valores.",
+        "ScopePage": "página escopo",
+        "ScopeVisit": "visita escopo"
+    }
+}

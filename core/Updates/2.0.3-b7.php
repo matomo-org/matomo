@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,14 +9,10 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
-use Piwik\Site;
-use Piwik\Updater;
-use Piwik\Updates;
 use Piwik\Filesystem;
-
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
+use Piwik\Updates;
 
 /**
  */
@@ -43,7 +39,11 @@ class Updates_2_0_3_b7 extends Updates
         // disable & delete old plugins
         $oldPlugins = array('DoNotTrack', 'AnonymizeIP');
         foreach ($oldPlugins as $plugin) {
-            \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($plugin);
+            try {
+                \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($plugin);
+            } catch(\Exception $e) {
+
+            }
 
             $dir = PIWIK_INCLUDE_PATH . "/plugins/$plugin";
 

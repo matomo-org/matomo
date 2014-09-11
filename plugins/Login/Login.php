@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,8 +31,14 @@ class Login extends \Piwik\Plugin
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
+            'AssetManager.getJavaScriptFiles'  => 'getJsFiles'
         );
         return $hooks;
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/Login/javascripts/login.js";
     }
 
     /**
@@ -56,7 +62,7 @@ class Login extends \Piwik\Plugin
         \Piwik\Registry::get('auth')->setTokenAuth($tokenAuth);
     }
 
-    static protected function isModuleIsAPI()
+    protected static function isModuleIsAPI()
     {
         return Piwik::getModule() === 'API'
                 && (Piwik::getAction() == '' || Piwik::getAction() == 'index');

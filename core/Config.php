@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,13 +13,13 @@ use Exception;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
- * 
+ *
  * This class reads and writes to the `config/config.ini.php` file. If config
  * options are missing from that file, this class will look for their default
  * values in `config/global.ini.php`.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Getting a value:**
  *
  *     // read the minimum_memory_limit option under the [General] section
@@ -30,16 +30,20 @@ use Exception;
  *     // set the minimum_memory_limit option
  *     Config::getInstance()->General['minimum_memory_limit'] = 256;
  *     Config::getInstance()->forceSave();
- * 
+ *
  * **Setting an entire section:**
- * 
+ *
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
- * 
+ *
  * @method static \Piwik\Config getInstance()
  */
 class Config extends Singleton
 {
+    const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
+    const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';
+    const DEFAULT_GLOBAL_CONFIG_PATH = '/config/global.ini.php';
+
     /**
      * Contains configuration files values
      *
@@ -55,17 +59,49 @@ class Config extends Singleton
     protected $pathLocal = null;
 
     /**
-     * Constructor
-     */
-    protected function __construct()
-    {
-        $this->clear();
-    }
-
-    /**
      * @var boolean
      */
     protected $isTest = false;
+
+    /**
+     * Constructor
+     */
+    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
+    {
+        $this->pathGlobal = $pathGlobal ?: self::getGlobalConfigPath();
+        $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
+        $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
+    }
+
+    /**
+     * Returns the path to the local config file used by this instance.
+     *
+     * @return string
+     */
+    public function getLocalPath()
+    {
+        return $this->pathLocal;
+    }
+
+    /**
+     * Returns the path to the global config file used by this instance.
+     *
+     * @return string
+     */
+    public function getGlobalPath()
+    {
+        return $this->pathGlobal;
+    }
+
+    /**
+     * Returns the path to the common config file used by this instance.
+     *
+     * @return string
+     */
+    public function getCommonPath()
+    {
+        return $this->pathCommon;
+    }
 
     /**
      * Enable test environment
@@ -74,23 +110,17 @@ class Config extends Singleton
      * @param string $pathGlobal
      * @param string $pathCommon
      */
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null)
+    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
     {
-        $this->isTest = true;
+        if (!$allowSaving) {
+            $this->isTest = true;
+        }
 
         $this->clear();
 
-        if ($pathLocal) {
-            $this->pathLocal = $pathLocal;
-        }
-
-        if ($pathGlobal) {
-            $this->pathGlobal = $pathGlobal;
-        }
-
-        if ($pathCommon) {
-            $this->pathCommon = $pathCommon;
-        }
+        $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
+        $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
+        $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
 
         $this->init();
 
@@ -104,7 +134,7 @@ class Config extends Singleton
         }
 
         // Ensure local mods do not affect tests
-        if (is_null($pathGlobal)) {
+        if (empty($pathGlobal)) {
             $this->configCache['Debug'] = $this->configGlobal['Debug'];
             $this->configCache['mail'] = $this->configGlobal['mail'];
             $this->configCache['General'] = $this->configGlobal['General'];
@@ -112,24 +142,12 @@ class Config extends Singleton
             $this->configCache['Tracker'] = $this->configGlobal['Tracker'];
             $this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
             $this->configCache['Deletereports'] = $this->configGlobal['Deletereports'];
+            $this->configCache['Development'] = $this->configGlobal['Development'];
         }
 
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
         $this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
-
-        // DevicesDetection plugin is not yet enabled by default
-        if (isset($configGlobal['Plugins'])) {
-            $this->configCache['Plugins'] = $this->configGlobal['Plugins'];
-            $this->configCache['Plugins']['Plugins'][] = 'DevicesDetection';
-        }
-        if (isset($configGlobal['Plugins_Tracker'])) {
-            $this->configCache['Plugins_Tracker'] = $this->configGlobal['Plugins_Tracker'];
-            $this->configCache['Plugins_Tracker']['Plugins_Tracker'][] = 'DevicesDetection';
-        }
-
-        // to avoid weird session error in travis
-        $this->configCache['General']['session_save_handler'] = 'dbtables';
     }
 
     /**
@@ -139,7 +157,7 @@ class Config extends Singleton
      */
     protected static function getGlobalConfigPath()
     {
-        return PIWIK_USER_PATH . '/config/global.ini.php';
+        return PIWIK_USER_PATH . self::DEFAULT_GLOBAL_CONFIG_PATH;
     }
 
     /**
@@ -149,7 +167,7 @@ class Config extends Singleton
      */
     public static function getCommonConfigPath()
     {
-        return PIWIK_USER_PATH . '/config/common.config.ini.php';
+        return PIWIK_USER_PATH . self::DEFAULT_COMMON_CONFIG_PATH;
     }
 
     /**
@@ -163,11 +181,13 @@ class Config extends Singleton
         if ($path) {
             return $path;
         }
-        return PIWIK_USER_PATH . '/config/config.ini.php';
+        return PIWIK_USER_PATH . self::DEFAULT_LOCAL_CONFIG_PATH;
     }
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
+        // Remove any port number to get actual hostname
+        $hostname = Url::getHostSanitized($hostname);
         $perHostFilename  = $hostname . '.config.ini.php';
         $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
 
@@ -180,6 +200,30 @@ class Config extends Singleton
             return false;
         }
         return $this->getHostname();
+    }
+
+    public function getClientSideOptions()
+    {
+        $general = $this->General;
+
+        return array(
+            'action_url_category_delimiter' => $general['action_url_category_delimiter'],
+            'autocomplete_min_sites' => $general['autocomplete_min_sites'],
+            'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
+            'datatable_row_limits' => $this->getDatatableRowLimits()
+        );
+    }
+
+    /**
+     * @param $general
+     * @return mixed
+     */
+    private function getDatatableRowLimits()
+    {
+        $limits = $this->General['datatable_row_limits'];
+        $limits = explode(",", $limits);
+        $limits = array_map('trim', $limits);
+        return $limits;
     }
 
     protected static function getByDomainConfigPath()
@@ -195,9 +239,19 @@ class Config extends Singleton
         return false;
     }
 
-    protected static function getHostname()
+    /**
+     * Returns the hostname of the current request (without port number)
+     *
+     * @return string
+     */
+    public static function getHostname()
     {
-        $host = Url::getHost($checkIfTrusted = false); // Check trusted requires config file which is not ready yet
+        // Check trusted requires config file which is not ready yet
+        $host = Url::getHost($checkIfTrusted = false);
+
+        // Remove any port number to get actual hostname
+        $host = Url::getHostSanitized($host);
+
         return $host;
     }
 
@@ -246,10 +300,6 @@ class Config extends Singleton
         $this->configLocal = array();
         $this->configCache = array();
         $this->initialized = false;
-
-        $this->pathGlobal = self::getGlobalConfigPath();
-        $this->pathCommon = self::getCommonConfigPath();
-        $this->pathLocal = self::getLocalConfigPath();
     }
 
     /**
@@ -260,7 +310,7 @@ class Config extends Singleton
     public function init()
     {
         $this->initialized = true;
-        $reportError = !empty($GLOBALS['PIWIK_TRACKER_MODE']);
+        $reportError = SettingsServer::isTrackerApiRequest();
 
         // read defaults from global.ini.php
         if (!is_readable($this->pathGlobal) && $reportError) {
@@ -275,9 +325,9 @@ class Config extends Singleton
 
         $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
-        if ($reportError) {
-            $this->checkLocalConfigFound();
-        }
+        // Check config.ini.php last
+        $this->checkLocalConfigFound();
+
         $this->configLocal = _parse_ini_file($this->pathLocal, true);
         if (empty($this->configLocal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
@@ -287,6 +337,12 @@ class Config extends Singleton
     public function existsLocalConfig()
     {
         return is_readable($this->pathLocal);
+    }
+
+    public function deleteLocalConfig()
+    {
+        $configLocal = $this->getLocalPath();
+        unlink($configLocal);
     }
 
     public function checkLocalConfigFound()
@@ -327,6 +383,7 @@ class Config extends Singleton
             }
         } else {
             $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
+            $values = str_replace('$', '&#36;', $values);
         }
         return $values;
     }
@@ -347,7 +404,8 @@ class Config extends Singleton
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            Piwik::postTestEvent('Config.createConfigSingleton', array( $this ));
+            Piwik::postTestEvent('Config.createConfigSingleton',
+                array($this, &$this->configCache, &$this->configLocal));
         }
 
         // check cache for merged section
@@ -578,7 +636,6 @@ class Config extends Singleton
         return false;
     }
 
-
     /**
      * Write user configuration file
      *
@@ -587,10 +644,11 @@ class Config extends Singleton
      * @param array $configCommon
      * @param array $configCache
      * @param string $pathLocal
+     * @param bool $clear
      *
      * @throws \Exception if config file not writable
      */
-    protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal)
+    protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal, $clear = true)
     {
         if ($this->isTest) {
             return;
@@ -604,13 +662,15 @@ class Config extends Singleton
             }
         }
 
-        $this->clear();
+        if ($clear) {
+            $this->clear();
+        }
     }
 
     /**
      * Writes the current configuration to the **config.ini.php** file. Only writes options whose
      * values are different from the default.
-     * 
+     *
      * @api
      */
     public function forceSave()

@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "SettingsIntroduction": "The left menu plugin will move the reporting menu from the top to the left if enabled. This is especially useful for large displays.",
+        "GlobalSettingTitle": "Left menu enabled by default",
+        "GlobalSettingDescription": "Defines the system default for all of your users.",
+        "GlobalSettingInlineHelp": "Users are able to disable/enable the left menu independent of the system default.",
+        "UserSettingTitle": "Enable left reporting menu",
+        "UserSettingInlineHelp": "This will enable or disable the left menu only for you and not affect any other users. A Super User can change the default for all users."
+    }
+}

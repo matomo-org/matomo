@@ -1,70 +1,115 @@
-#feedback-faq, #feedback-form, #feedback-sent {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #5e5e5c;
-    font-size: 14px;
-    line-height: 24px;
-    padding: 0 20px 15px 0;
-}
+#feedback-faq {
+  color: #5e5e5c;
+  width: 675px;
+  font-size: 14px;
 
-#feedback-faq strong, #feedback-sent strong {
+   strong {
     color: #5e5e5c;
-}
+  }
 
-#feedback-faq ul, #feedback-sent ul {
+  ul {
     list-style: none;
     padding: 0 0 0 20px;
     font-size: 12px;
     line-height: 18px;
-}
+  }
 
-#feedback-faq a, #feedback-sent a {
+  p {
+    padding-bottom: 0px;
+    line-height: 1.7em;
+  }
+
+  a {
     color: #5176a0;
     text-decoration: none;
-    font-weight: bold;
-}
+  }
 
-#feedback-error {
-    color: red;
-    text-align: center;
-    border: 2px solid red;
-    background-color: #FFFBFB;
-    margin: 10px;
-    padding: 10px;
-}
+  .piwik-donate-call {
+    border: 0px;
+    padding-left: 0px;
+    padding-top: 0px;
+  }
 
-#feedback-success {
-    color: #468847;
-    background-color: #dff0d8;
-    text-align: center;
-    border: 1px solid #d6e9c6;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 10px;
-}
+  .donate-form-instructions {
+    margin: 0 1.25em 0 0em;
+    color: #5E5E5C;
+  }
 
-#feedback-form {
-    font-size: 12px;
-    line-height: 18px;
-}
+  .piwik-donate-slider {
+    margin: 1em 0 1em 0em;
+  }
 
-#feedback-form label {
-    float: left;
-    width: 135px;
-    padding: 4px 15px 0 0;
-    text-align: right;
-    position: relative;
-}
-
-#feedback-form label em {
+  #piwik-worth {
+    margin: 0 1em 0 0em;
+    font-size: 1em;
     font-style: normal;
-    color: #cbcbcb;
-}
+  }
 
-#feedback-form br {
-    clear: both;
-}
+  .footer {
+    text-align: center;
 
-#feedback-home {
-    float: left;
-    margin: -7px 0 0 20px;
+    a {
+      color: black;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    hr {
+      background-color: #CCC;
+      height: 1px;
+      border: 0px;
+    }
+  }
+
+  .claim {
+    font-size: 13px;
+    line-height: 16px;
+    color: #808080;
+    margin-bottom: 50px;
+    margin-top: 15px;
+  }
+
+  .menu {
+    li {
+      margin: 0 10px 10px 0px
+    }
+
+    li:not(:first-child) {
+      &:before {
+        color: #333;
+        content: '· ';
+      }
+    }
+
+    a {
+      display: inline-block;
+      padding-right: 10px;
+      padding-left: 18px;
+    }
+  }
+
+  .social {
+    margin-top: 22px;
+
+    li {
+      margin: 0 20px 10px;
+    }
+  }
+
+  .menu,
+  .social {
+    margin: 15px 0 10px;
+    display: block;
+
+    .icon {
+      width: 15px;
+      height: 15px;
+      margin-bottom: 2px;
+    }
+
+    li {
+      display: inline-block;
+    }
+  }
 }

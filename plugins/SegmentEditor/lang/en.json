@@ -1,0 +1,30 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Add %s condition",
+        "AddNewSegment": "Add new segment",
+        "AreYouSureDeleteSegment": "Are you sure you want to delete this segment?",
+        "AutoArchivePreProcessed": "segmented reports are pre-processed (faster, requires cron)",
+        "AutoArchiveRealTime": "segmented reports are processed in real time",
+        "ChooseASegment": "Choose a segment",
+        "DataAvailableAtLaterDate": "Your segmented analytics reports will be available later. We apologize for the inconvenience.",
+        "DefaultAllVisits": "All visits",
+        "DragDropCondition": "Drag & Drop condition",
+        "LoadingSegmentedDataMayTakeSomeTime": "Processing segmented visitor data may take a few minutes...",
+        "OperatorAND": "AND",
+        "OperatorOR": "OR",
+        "SaveAndApply": "Save & Apply",
+        "SegmentDisplayedAllWebsites": "all websites",
+        "SegmentDisplayedThisWebsiteOnly": "this website only",
+        "SegmentIsDisplayedForWebsite": "and displayed for",
+        "SegmentNotApplied": "Segment '%s' not applied",
+        "SegmentNotAppliedMessage": "You are requesting data for the Custom Segment '%s', this Piwik configuration currently prevents real time processing of reports for performance reasons.",
+        "SelectSegmentOfVisitors": "Select a segment of visitors:",
+        "ThisSegmentIsVisibleTo": "This segment is visible to:",
+        "VisibleToAllUsers": "all users",
+        "VisibleToMe": "me",
+        "YouMayChangeSetting": "Alternatively you may change the setting in the config file (%s), or edit this Segment and choose '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "You must be logged in to create and edit custom visitor segments.",
+        "YouDontHaveAccessToCreateSegments": "You don't have the required access level to create and edit segments.",
+        "AddingSegmentForAllWebsitesDisabled": "Adding segments for all websites has been disabled."
+    }
+}

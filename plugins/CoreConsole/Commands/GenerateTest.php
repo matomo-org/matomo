@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,10 +31,10 @@ class GenerateTest extends GeneratePluginBase
     {
         $pluginName = $this->getPluginName($input, $output);
         $testName   = $this->getTestName($input, $output);
-        $testType = $this->getTestType($input, $output);
+        $testType   = $this->getTestType($input, $output);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array(
+        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $replace       = array(
             'ExamplePlugin'               => $pluginName,
             'SimpleTest'                  => $testName,
             'SimpleIntegrationTest'       => $testName,
@@ -69,7 +69,7 @@ class GenerateTest extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return string
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     private function getTestName(InputInterface $input, OutputInterface $output)
     {
@@ -103,7 +103,7 @@ class GenerateTest extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
@@ -153,7 +153,7 @@ class GenerateTest extends GeneratePluginBase
 
         if (empty($testtype)) {
             $dialog   = $this->getHelperSet()->get('dialog');
-            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate);
+            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate, false, null, $this->getValidTypes());
         } else {
             $validate($testtype);
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,6 +29,8 @@ class Mysql extends Db
     protected $username;
     protected $password;
     protected $charset;
+
+    protected $activeTransaction = false;
 
     /**
      * Builds the DB object
@@ -234,4 +236,55 @@ class Mysql extends Db
     {
         return $queryResult->rowCount();
     }
+
+	/**
+	 * Start Transaction
+	 * @return string TransactionID
+	 */
+
+	public function beginTransaction()
+	{
+		if(!$this->activeTransaction === false ) {
+			return;
+		}
+
+		if( $this->connection->beginTransaction() ) {
+			$this->activeTransaction = uniqid();
+			return $this->activeTransaction;
+		}
+	}
+
+	/**
+	 * Commit Transaction
+	 * @param string TransactionID from beginTransaction
+	 */
+
+	public function commit($xid)
+	{
+		if($this->activeTransaction != $xid || $this->activeTransaction === false ) {
+			return;
+		}
+		$this->activeTransaction = false;
+
+		if(!$this->connection->commit() ) {
+			throw new DbException("Commit failed");
+		}
+	}
+
+	/**
+	 * Rollback Transaction
+	 * @param string TransactionID from beginTransaction
+	 */
+
+	public function rollBack($xid)
+	{
+		if($this->activeTransaction != $xid || $this->activeTransaction === false ) {
+			return;
+		}
+		$this->activeTransaction = false;
+
+		if(!$this->connection->rollBack() ) {
+			throw new DbException("Rollback failed");
+		}
+	}
 }

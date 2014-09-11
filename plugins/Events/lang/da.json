@@ -1,0 +1,31 @@
+{
+    "Events": {
+        "AvgEventValue": "Genomsnitlig værdi for hændelsen er: %s",
+        "AvgValue": "Gennemsnitsværdi",
+        "AvgValueDocumentation": "Gennemsnittet af alle værdier for denne hændelse",
+        "Event": "Hændelse",
+        "EventAction": "Hændelsesaktion",
+        "EventActions": "Hændelsesforløb",
+        "EventCategories": "Hændelseskategorier",
+        "EventCategory": "Hændelseskategori",
+        "EventName": "Hændelsesnavn",
+        "EventNames": "Hændelsesnavn",
+        "Events": "Hændelser",
+        "EventsWithValue": "Hændelser med en værdi",
+        "EventsWithValueDocumentation": "Antal hændelser, hvor en hændelseværdi blev fastsat",
+        "EventValue": "Hændelsesværdi",
+        "EventValueTooltip": "Samlet hændelsesværdi er summen af ​​%s hændelsesværdier %s mellem mindst %s og maksimalt %s.",
+        "MaxValue": "Max værdi",
+        "MaxValueDocumentation": "Den maksimale værdi for hændelsen",
+        "MinValue": "Min værdi",
+        "MinValueDocumentation": "Den mindste værdi for hændelsen",
+        "SecondaryDimension": "Sekundær dimension er %s.",
+        "SwitchToSecondaryDimension": "Skift til %s",
+        "TopEvents": "Tophændelser",
+        "TotalEvents": "Totale hændelser",
+        "TotalEventsDocumentation": "Total antal hændelser",
+        "TotalValue": "Total værdi",
+        "TotalValueDocumentation": "Summen af hændelserværdier",
+        "ViewEvents": "Vis hændelser"
+    }
+}

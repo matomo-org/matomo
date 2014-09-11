@@ -1,16 +1,19 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site with a non UTC timezone and tracks a couple visits near the end of the day.
  */
-class Test_Piwik_Fixture_VisitsInDifferentTimezones extends Test_Piwik_BaseFixture
+class VisitsInDifferentTimezones extends Fixture
 {
     public $idSite = 1;
     public $dateTime = '2010-03-06';

@@ -148,18 +148,13 @@ div.pk-emptyGraph {
  * Popover
  * @see popover.js
  */
-
-#Piwik_Popover {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 .Piwik_Popover_Loading_Name {
     padding: 50px 0 65px 0;
     font-size: 16px;
     line-height: 20px;
     font-weight: normal;
     text-align: center;
-    background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat center 20px;
+    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat center 20px;
 }
 
 .Piwik_Popover_Loading_NameWithSubject {
@@ -179,7 +174,7 @@ div.pk-emptyGraph {
 }
 
 .Piwik_Popover_Error_Title {
-    color: #E87500;
+    color: @theme-color-link;
     font-weight: bold;
     font-size: 16px;
 }
@@ -208,23 +203,56 @@ a.Piwik_Popover_Error_Back {
     margin: 10px auto 5px !important;
 }
 
+.header_short #updateCheckLinkContainer .icon {
+  display: none;
+}
+
+.header_full #updateCheckLinkContainer {
+  margin-top: -2px;
+}
+
+@-moz-document url-prefix() {
+  .header_full #updateCheckLinkContainer {
+    margin-top: -3px;
+  }
+}
+
+#userMenu .items {
+  margin-left: -50px;
+  width: 160px;
+}
+
+#updateCheckLinkContainer {
+  opacity: 0.7;
+}
+
+#updateCheckLinkContainer:hover {
+  opacity: 1;
+}
+
 #updateCheckLinkContainer {
     float: right;
     cursor: pointer;
 }
 
 #updateCheckLinkContainer>* {
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
 #header_message #checkForUpdates {
-    font-size: .8em;
+    font-size: 10px;
     line-height: 16px;
     display: inline-block;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+
+#header_message #checkForUpdates {
+  text-decoration: none;
 }
 
 #header_message #checkForUpdates:hover {
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 /* Used to link within content text, without adding visual clutter */

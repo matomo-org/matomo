@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,14 +11,13 @@ namespace Piwik\Plugins\Goals;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as APIReferrers;
-use Piwik\View\ReportsByDimension;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
+use Piwik\View\ReportsByDimension;
 
 /**
  *
@@ -140,12 +139,12 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idGoal = $idGoal;
         $view->goalName = $goalDefinition['name'];
         $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
-        $view->graphEvolution = $this->getEvolutionGraph(array('nb_conversions'), $idGoal);
+        $view->graphEvolution = $this->getEvolutionGraph(array(), $idGoal, array('nb_conversions'));
         $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
         // conversion rate for new and returning visitors
-        $segment = \Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENT;
+        $segment = urldecode(\Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENT);
         $conversionRateReturning = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
         $segment = 'visitorType==new';
@@ -189,7 +188,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/getOverviewView');
         $this->setGeneralVariablesView($view);
 
-        $view->graphEvolution = $this->getEvolutionGraph(array('nb_conversions'));
+        $view->graphEvolution = $this->getEvolutionGraph(array(), false, array('nb_conversions'));
         $view->nameGraphEvolution = 'GoalsgetEvolutionGraph';
 
         // sparkline for the historical data of the above values
@@ -247,14 +246,18 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph(array $columns = array(), $idGoal = false)
+    public function getEvolutionGraph(array $columns = array(), $idGoal = false, array $defaultColumns = array())
     {
         if (empty($columns)) {
-            $columns = Common::getRequestVar('columns');
-            $columns = Piwik::getArrayFromApiParameter($columns);
+            $columns = Common::getRequestVar('columns', false);
+            if (false !== $columns) {
+                $columns = Piwik::getArrayFromApiParameter($columns);
+            }
         }
 
-        $columns = !is_array($columns) ? array($columns) : $columns;
+        if (false !== $columns) {
+            $columns = !is_array($columns) ? array($columns) : $columns;
+        }
 
         if (empty($idGoal)) {
             $idGoal = Common::getRequestVar('idGoal', false, 'string');
@@ -278,7 +281,7 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns[] = 'avg_order_revenue';
         }
 
-        foreach (array_merge($columns, $selectableColumns) as $columnName) {
+        foreach (array_merge($columns ? $columns : array(), $selectableColumns) as $columnName) {
             $columnTranslation = '';
             // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
             foreach ($nameToLabel as $metric => $metricTranslation) {
@@ -294,7 +297,13 @@ class Controller extends \Piwik\Plugin\Controller
             }
             $view->config->translations[$columnName] = $columnTranslation;
         }
-        $view->config->columns_to_display = $columns;
+
+        if (!empty($columns)) {
+            $view->config->columns_to_display = $columns;
+        } elseif (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
+            $view->config->columns_to_display = $defaultColumns;
+        }
+
         $view->config->selectable_columns = $selectableColumns;
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
@@ -461,34 +470,5 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         return $goalReportsByDimension->render();
-    }
-
-    //
-    // Report rendering actions
-    //
-
-    public function getItemsSku()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getItemsName()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getItemsCategory()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getVisitsUntilConversion()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getDaysToConversion()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 }

@@ -1,24 +1,27 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
 
 /**
  * Tests API methods after ecommerce orders are tracked.
+ *
+ * @group EcommerceOrderWithItemsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
+class EcommerceOrderWithItemsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    /**
-     * @group        Integration
-     * *
-     */
     public function testImagesIncludedInTests()
     {
         $this->alertWhenImagesExcludedFromTests();
@@ -26,8 +29,6 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
-     * *
      */
     public function testApi($api, $params)
     {
@@ -85,15 +86,19 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                 ),
 
                 // day tests
-                array($dayApi, array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('day'), 'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1))),
+                array($dayApi, array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('day'),
+                                     'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1))),
 
                 // goals API week tests
                 array($goalWeekApi, array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('week'))),
 
                 // abandoned carts tests
                 array($goalItemApi, array('idSite'     => $idSite, 'date' => $dateTime,
-                                          'periods'    => array('day', 'week'), 'abandonedCarts' => 1,
-                                          'testSuffix' => '_AbandonedCarts')),
+                                          'periods'    => array('day', 'week'),
+                                          'testSuffix' => '_AbandonedCarts',
+                                          'otherRequestParameters' => array(
+                                              'abandonedCarts' => 1
+                                          ))),
 
                 // multiple periods tests
                 array($goalItemApi, array('idSite'       => $idSite, 'date' => $dateTime, 'periods' => array('day'),
@@ -209,9 +214,20 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                           'segment' => 'visitConvertedGoalId==666',
                           'testSuffix' => '_SegmentNoVisit_HaveConvertedNonExistingGoal')),
 
+                // test segment visitEcommerceStatus and visitConvertedGoalId
+                array($apiWithSegments_visitConvertedGoal,
+                      array(
+                          'idSite' => $idSite,
+                          'date' => $dateTime,
+                          'periods' => array('week'),
+                          'segment' => 'visitEcommerceStatus!=ordered;visitConvertedGoalId==1',
+                          'testSuffix' => '_SegmentVisitHasNotOrderedAndConvertedGoal')),
+
                 // test segment pageTitle
-                array('VisitsSummary.get', array('idSite'     => $idSite, 'date' => $dateTime,
-                                                 'periods'    => array('day'), 'segment' => 'pageTitle==incredible title!',
+                array('VisitsSummary.get', array('idSite'     => $idSite,
+                                                 'date' => $dateTime,
+                                                 'periods'    => array('day'),
+                                                 'segment' => 'pageTitle==incredible title!',
                                                  'testSuffix' => '_SegmentPageTitleMatch')),
 
                 // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
@@ -240,5 +256,4 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_EcommerceOrderWithItems::$fixture = new Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems();
-
+EcommerceOrderWithItemsTest::$fixture = new TwoSitesEcommerceOrderWithItems();

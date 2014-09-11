@@ -9,12 +9,12 @@
 * modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation; either version 2
 * of the License, or (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -60,7 +60,7 @@
     color: white !important;
     position: absolute;
     background: #bbb;
-    width: 20px; 
+    width: 20px;
     text-align: center;
     display: block;
     right: 3px; _right: 1px;
@@ -70,7 +70,7 @@
     cursor: pointer;
 }
 a.JashXButton:hover {
-	background: #ddd; 
+	background: #ddd;
 }
 #JashTextareaWrap {
 	width: 100%;
@@ -89,7 +89,7 @@ html>body #JashTextareaWrap {
 	PADDING: 2px;
 	height: 60%;
 	height: expression(parseInt(this.parentNode.parentNode.offsetHeight * (3/5)) + 'px');
-	
+
 }
 #JashInput {
 	padding: 2px;

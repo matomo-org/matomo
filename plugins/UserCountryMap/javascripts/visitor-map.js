@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Visitors Map with zoom in continents / countries. Cities + Region view.
  * Using Kartograph.js http://kartograph.org/
@@ -247,7 +247,6 @@
                 return colscale;
             }
 
-
             function formatPercentage(val) {
                 if (val < 0.001) return '< 0.1%';
                 return Math.round(1000 * val) / 10 + '%';
@@ -333,7 +332,6 @@
                     });
                 $('.UserCountryMap-tooltip').hide();
             }
-
 
             /*
              * updateState, called whenever the view changes
@@ -561,7 +559,6 @@
                 });
             }
 
-
             /*
              * updateMap is called by renderCountryMap() and renderWorldMap()
              */
@@ -646,7 +643,7 @@
                 return groupBy ? groups : groups.X;
             }
 
-            function displayUnlocatableCount(unlocated, total) {
+            function displayUnlocatableCount(unlocated, total, regionOrCity) {
                 $('.unlocated-stats').html(
                     $('.unlocated-stats').data('tpl')
                         .replace('%s', unlocated)
@@ -654,6 +651,21 @@
                         .replace('%c', UserCountryMap.countriesByIso[self.lastSelected].name)
                 );
                 $('.UserCountryMap-info-btn').show();
+
+                var zoomTitle = '';
+                if (regionOrCity == 'region') {
+                    zoomTitle = ' ' + _pk_translate('UserCountryMap_WithUnknownRegion', [unlocated]);
+                } else if (regionOrCity == 'city') {
+                    zoomTitle = ' ' + _pk_translate('UserCountryMap_WithUnknownCity', [unlocated]);
+                }
+
+                if (unlocated && zoomTitle) {
+                    if ($('.map-stats .unlocatableCount').length) {
+                        $('.map-stats .unlocatableCount').html(zoomTitle);
+                    } else {
+                        $('.map-stats').append('<small class="unlocatableCount">' + zoomTitle + '</small>');
+                    }
+                }
             }
 
             /*
@@ -727,7 +739,7 @@
                             $.each(regionDict, function (key, region) {
                                 if (regionExistsInMap(key)) unlocated -= region.nb_visits;
                             });
-                            displayUnlocatableCount(unlocated, totalCountryVisits);
+                            displayUnlocatableCount(unlocated, totalCountryVisits, 'region');
 
                             // create color scale
                             colscale = getColorScale(regionDict, 'curMetric', null, true);
@@ -823,7 +835,7 @@
                                 }));
                             });
 
-                            displayUnlocatableCount(unlocated, totalCountryVisits);
+                            displayUnlocatableCount(unlocated, totalCountryVisits, 'city');
 
                             // sort by current metric
                             cities.sort(function (a, b) { return b.curMetric - a.curMetric; });
@@ -941,7 +953,6 @@
                             });
                         });
                 }
-
 
                 _updateMap(iso + '.svg', function () {
 
@@ -1200,7 +1211,6 @@
 
         },
 
-
         /*
          * resizes the map
          */
@@ -1230,7 +1240,6 @@
     });
 
 }());
-
 
 /*
  * Some static data used both by VisitorMap and RealtimeMap

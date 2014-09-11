@@ -2,9 +2,7 @@ Count the download for 'latest.zip' on the 20th March
 
 # cat access.log | grep "20/Mar" | grep "latest.zip" | awk '{print $1}' | sort | uniq | wc -l
 
-
 Value to be compared with the one given by Piwik in Actions > Downloads
-
 
 Count the no of hits by referrers, excluding piwik.org as a referer
 # cat /var/log/apache2/access.log | awk '{print $11}' | grep -vE "(^"-"$|/dev.piwik.org|/piwik.org)" | sort | uniq -c | sort -rn | head -n20

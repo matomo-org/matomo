@@ -1,0 +1,19 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
+        "JavascriptDisabled": "JavaScript tem que estar activado para poder usar Piwik no esquema padrão.<br \/>No entanto, parece que JavaScript está desactivado ou não é suportado pelo seu navegador.<br \/>Para usar o esquema padrão, active JavaScript nas opções do seu navegador, depois %1$stente de novo%2$s.<br \/>",
+        "PageOf": "%1$s de %2$s",
+        "PeriodDay": "Dia",
+        "PeriodDays": "dias",
+        "PeriodMonth": "Mês",
+        "PeriodMonths": "meses",
+        "PeriodWeek": "Semana",
+        "PeriodWeeks": "semanas",
+        "PeriodYear": "Ano",
+        "PeriodYears": "anos",
+        "PluginDescription": "Estrutura de Relatórios de Analíticas Web",
+        "ShowJSCode": "Mostrar o código JavaScript para inserir",
+        "ThereIsNoDataForThisReport": "Não há dados para este relatório.",
+        "WebAnalyticsReports": "Relatórios de Analíticas Web"
+    }
+}

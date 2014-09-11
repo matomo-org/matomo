@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Provider",
+        "PluginDescription": "Riporta i Provider dei visitatori.",
+        "ProviderReportDocumentation": "Questo reports mostra quali prvider Internet Service (ISP)i tuoi visitatori hanno utilizzato per accedere al sito web. È possibile fare clic su un nome per maggiori dettagli. %s Se Piwik non può determinare il provider di un visitatore, questo viene elencato come IP.",
+        "SubmenuLocationsProvider": "Località & Provider",
+        "WidgetProviders": "Providers"
+    }
+}

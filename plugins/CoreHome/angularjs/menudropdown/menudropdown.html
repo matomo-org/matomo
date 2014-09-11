@@ -1,0 +1,31 @@
+<div piwik-focus-anywhere-but-here="view.showItems=false" class="menuDropdown">
+
+    <span class="title"
+          ng-click="view.showItems=!view.showItems"
+          title="{{ tooltip }}"
+          ng-bind-html="menuTitle"/>
+
+    <div class="items" ng-show="view.showItems">
+        <div class="search" ng-if="showSearch && view.showItems">
+            <input type="text"
+                   piwik-focus-if="view.showItems"
+                   ng-model="view.searchTerm"
+                   placeholder="{{ 'General_Search'|translate }}"
+                   ng-change="searchItems(view.searchTerm)">
+
+            <img title="{{ 'General_Search'|translate }}"
+                 ng-show="!view.searchTerm"
+                 class="search_ico"
+                 src="plugins/Morpheus/images/search_ico.png"/>
+            <img title="{{ 'General_Clear'|translate }}"
+                 ng-show="view.searchTerm"
+                 ng-click="view.searchTerm='';searchItems('')"
+                 class="reset"
+                 src="plugins/CoreHome/images/reset_search.png"/>
+        </div>
+        <div ng-transclude>
+
+        </div>
+    </div>
+
+</div>

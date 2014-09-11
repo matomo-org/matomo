@@ -1,14 +1,14 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\DataTable\Manager;
+use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Xml;
 use Piwik\DataTable\Row;
-use Piwik\DataTable;
 use Piwik\DataTable\Simple;
 
 class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
@@ -89,7 +89,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         $table->addRowsFromArray($array);
         return $table;
     }
-
 
     /**
      * @group Core
@@ -222,7 +221,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-
     /**
      * DATA OF DATATABLE_ARRAY
      * -------------------------
@@ -241,7 +239,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         $table1 = new DataTable();
         $table1->addRowsFromArray($array1);
 
-
         $array2 = array(
             array(Row::COLUMNS  => array('label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110,),
                   Row::METADATA => array('url' => 'http://www.google.com1', 'logo' => './plugins/Referrers/images/searchEngines/www.google.com.png1'),
@@ -254,7 +251,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         $table2->addRowsFromArray($array2);
 
         $table3 = new DataTable();
-
 
         $table = new DataTable\Map();
         $table->setKeyName('testKey');

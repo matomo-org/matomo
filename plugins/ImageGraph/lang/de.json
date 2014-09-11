@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Die Spalte '%s' wurde in diesem Bericht nicht gefunden. Probieren Sie es mit einer hiervon: %s",
+        "PluginDescription": "Plugin zum Generieren von statischen Graphen (PNG-Bilder) für jeden Piwik Bericht."
+    }
+}

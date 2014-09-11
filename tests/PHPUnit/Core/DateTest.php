@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,6 +8,9 @@
 use Piwik\Date;
 use Piwik\SettingsServer;
 
+/**
+ * @group Core_DateTest
+ */
 class DateTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -55,14 +58,14 @@ class DateTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryTimezone()
     {
-        // now in UTC converted to UTC+10 means adding 10 hours 
+        // now in UTC converted to UTC+10 means adding 10 hours
         $date = Date::factory('now', 'UTC+10');
         $dateExpected = Date::now()->addHour(10);
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
         // Congo is in UTC+1 all year long (no DST)
-        $date = Date::factory('now', 'Africa/Brazzaville');
         $dateExpected = Date::factory('now')->addHour(1);
+        $date = Date::factory('now', 'Africa/Brazzaville');
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
         // yesterday same time in Congo is the same as today in Congo - 24 hours
@@ -144,7 +147,6 @@ class DateTest extends PHPUnit_Framework_TestCase
         $timestamp = $date->getTimestamp();
         $date = $date->addHour(0)->addHour(0)->addHour(0);
         $this->assertEquals($timestamp, $date->getTimestamp());
-
 
         if (SettingsServer::isTimezoneSupportEnabled()) {
             $date = Date::factory('2010-01-01')->setTimezone('Europe/Paris');
@@ -242,6 +244,28 @@ class DateTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testAddPeriodMonthRespectsMaxDaysInMonth()
+    {
+        $date = Date::factory('2014-07-31');
+        $dateExpected = Date::factory('2014-06-30');
+        $dateActual = $date->subPeriod(1, 'month');
+        $this->assertEquals($dateExpected->toString(), $dateActual->toString());
+
+        // test leap year
+        $date = Date::factory('2000-03-31');
+        $dateExpected = Date::factory('2000-02-29');
+        $dateActual = $date->subPeriod(1, 'month');
+        $this->assertEquals($dateExpected->toString(), $dateActual->toString());
+
+        $date = Date::factory('2000-01-31');
+        $dateExpected = Date::factory('2000-02-29');
+        $dateActual = $date->addPeriod(1, 'month');
+        $this->assertEquals($dateExpected->toString(), $dateActual->toString());
+    }
+
+    /**
+     * @group Core
+     */
     public function testIsLeapYear()
     {
         $date = Date::factory('2011-03-01');
@@ -261,8 +285,9 @@ class DateTest extends PHPUnit_Framework_TestCase
         $date = Date::factory('2013-12-31');
         $this->assertFalse($date->isLeapYear());
 
-        $date = Date::factory('2052-01-01');
-        $this->assertTrue($date->isLeapYear());
-
+        if (PHP_INT_SIZE > 4) { // dates after 19/01/2038 03:14:07 fail on 32-bit arch
+            $date = Date::factory('2052-01-01');
+            $this->assertTrue($date->isLeapYear());
+        }
     }
 }

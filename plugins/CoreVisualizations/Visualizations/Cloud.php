@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,7 +26,7 @@ class Cloud extends Visualization
 {
     const ID = 'cloud';
     const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
-    const FOOTER_ICON       = 'plugins/Zeitgeist/images/tagcloud.png';
+    const FOOTER_ICON       = 'plugins/Morpheus/images/tagcloud.png';
     const FOOTER_ICON_TITLE = 'General_TagCloud';
 
     /** Used by integration tests to make sure output is consistent. */
@@ -143,7 +143,7 @@ class Cloud extends Visualization
             $tmpArray = $this->wordsArray;
 
             $this->wordsArray = array();
-            foreach ($keys as $key => $value) {
+            foreach ($keys as $value) {
                 $this->wordsArray[$value] = $tmpArray[$value];
             }
 

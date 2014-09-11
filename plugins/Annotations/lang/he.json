@@ -1,0 +1,15 @@
+{
+    "Annotations": {
+        "Annotations": "הערות הסבר",
+        "ClickToDelete": "לחץ כדי למחוק הערה זו.",
+        "ClickToEdit": "לחץ כדי לערוך הערה זו.",
+        "ClickToEditOrAdd": "לחץ כדי לערוך או להוסיף הערה חדשה.",
+        "ClickToStarOrUnstar": "לחץ כדי לסמן או להוריד סימון מהערה זו.",
+        "CreateNewAnnotation": "יצירת הערה חדשה..",
+        "EnterAnnotationText": "הקלידו הערה...",
+        "IconDesc": "הראה הערות לטווח תאריכים המבוקש",
+        "IconDescHideNotes": "הסתר הערות של טווח תאריכים זה",
+        "LoginToAnnotate": "יש להתחבר כדי ליצור הערה.",
+        "NoAnnotations": "אין הסברים על טווח תאריכים זה"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s klik",
+        "ClicksFromXLinks": "%1$s klik dari salah satu %2$s tautan",
+        "Domain": "Ranah",
+        "ErrorNotLoading": "Sesi Penghampar Halaman belum dapat diluncurkan.",
+        "ErrorNotLoadingDetails": "Kemungkinan yang dimuat di kanan tidak memiliki kode pelcakan Piwik. Dalam hal ini, silakan mencoba meluncurkan Penghampar untuk halaman yang berbeda dari laporan halaman.",
+        "ErrorNotLoadingDetailsSSL": "Sejak Anda menggunakan Piwik melalui https, kemungkinan besar penyebabnya adalah situs Anda tidak mendukung SSL. Silakan menggunakan Piwik melalui http.",
+        "ErrorNotLoadingLink": "Klik di sini untuk memperoleh kiat-kiat pemecahan masalah",
+        "Link": "Tautan",
+        "Location": "Lokasi",
+        "NoData": "Tidak ada data untuk halaman ini selama periode terpilih.",
+        "OneClick": "1 kilik",
+        "OpenFullScreen": "Menuju halaman penuh (tanpa batang sisi)",
+        "Overlay": "Penghampar Halaman",
+        "PluginDescription": "Lihat data analitis sebagai penghampar dalam situs Anda sebenarnya.",
+        "RedirectUrlError": "Anda mencoba membuka Penghampar Halaman dari URL \"%s\". %s Tidak ada ranah dari pengaturan Piwik sesuai dengan tautan.",
+        "RedirectUrlErrorAdmin": "Anda dapat menambah ranah sebagai URL tambahan di %spengaturan%s.",
+        "RedirectUrlErrorUser": "Silakan bertanya kepada pengelola Anda untuk menambah ranah sebagai URL tambahan."
+    }
+}

@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * DataTable UI class for JqplotGraph.
  *
@@ -12,11 +12,21 @@
 
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
-        dataTablePrototype = DataTable.prototype;
+        dataTablePrototype = DataTable.prototype,
+        getLabelFontFamily = function () {
+            if (!window.piwik.jqplotLabelFont) {
+                window.piwik.jqplotLabelFont = $('<p/>').hide().appendTo('body').css('font-family');
+            }
+
+            return window.piwik.jqplotLabelFont || 'Arial';
+        }
+        ;
+
+    exports.getLabelFontFamily = getLabelFontFamily;
 
     /**
      * DataTable UI class for jqPlot graph datatable visualizations.
-     * 
+     *
      * @constructor
      */
     exports.JqplotGraphDataTable = function (element) {
@@ -95,7 +105,7 @@
                     tickOptions: {
                         showMark: false,
                         fontSize: '11px',
-                        fontFamily: window.piwik.jqplotLabelFont || 'Arial'
+                        fontFamily: getLabelFontFamily()
                     },
                     rendererOptions: {
                         drawBaseline: false
@@ -120,13 +130,15 @@
 
             for (var seriesIdx = 0; seriesIdx != this.data.length; ++seriesIdx) {
                 var series = this.data[seriesIdx];
-                var sum = series.reduce(function (previousValue, currentValue) {
-                    if ($.isArray(currentValue) && currentValue[1]) {
-                        return previousValue + currentValue[1];
-                    }
+                var sum = 0;
 
-                    return previousValue + currentValue;
-                }, 0);
+                $.each(series, function(index, value) {
+                    if ($.isArray(value) && value[1]) {
+                        sum = sum + value[1];
+                    } else if (!$.isArray(value)) {
+                        sum = sum + value;
+                    }
+                });
 
                 var percentages = this.tooltip.percentages[seriesIdx] = [];
                 for (var valueIdx = 0; valueIdx != series.length; ++valueIdx) {
@@ -134,7 +146,7 @@
                     if ($.isArray(value) && value[1]) {
                         value = value[1];
                     }
-                    
+
                     percentages[valueIdx] = sum > 0 ? Math.round(100 * value / sum) : 0;
                 }
             }
@@ -353,10 +365,10 @@
             });
 
             var popover = $(document.createElement('div'));
-            
+
             popover.append('<div style="font-size: 13px; margin-bottom: 10px;">'
                 + lang.exportText + '</div>').append($(img));
-                
+
             popover.dialog({
                 title: lang.exportTitle,
                 modal: true,
@@ -462,6 +474,7 @@
                 // initially, show only the first series
                 this.data = [this.data[0]];
                 this.jqplotParams.series = [this.jqplotParams.series[0]];
+                this.setYTicks();
             }
         },
 
@@ -483,7 +496,7 @@
             } else if (viewDataTable == 'graphVerticalBar') {
                 graphType = 'bar';
             }
-            
+
             var namespace = graphType + '-graph-colors';
 
             this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
@@ -596,6 +609,7 @@ JQPlotExternalSeriesToggle.prototype = {
 
         this.jqplotObject.data = config.data;
         this.jqplotObject.jqplotParams = config.params;
+        this.jqplotObject.setYTicks();
         this.jqplotObject.render();
     },
 
@@ -603,7 +617,6 @@ JQPlotExternalSeriesToggle.prototype = {
     beforeReplot: function () {}
 
 };
-
 
 // ROW EVOLUTION SERIES TOGGLE
 
@@ -619,7 +632,7 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
 
     this.seriesPickers.each(function (i) {
         var el = $(this);
-        el.click(function (e) {
+        el.off('click').on('click', function (e) {
             if (e.shiftKey) {
                 self.toggleSeries(i);
 
@@ -660,7 +673,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         }
     }
 };
-
 
 // ------------------------------------------------------------
 //  PIWIK TICKS PLUGIN FOR JQPLOT
@@ -821,7 +833,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
 })(jQuery);
 
-
 // ------------------------------------------------------------
 //  LEGEND PLUGIN FOR JQPLOT
 //  Render legend on canvas
@@ -876,7 +887,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var ctx = legend.legendCanvas._ctx;
         ctx.save();
-        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
 
         // render series names
         var x = 0;
@@ -919,7 +930,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.postDrawHooks.push($.jqplot.CanvasLegendRenderer.postDraw);
 
 })(jQuery);
-
 
 // ------------------------------------------------------------
 //  SERIES PICKER
@@ -1015,7 +1025,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var ctx = legend.pieLegendCanvas._ctx;
         ctx.save();
 
-        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
 
         // render labels
         var height = legend.pieLegendCanvas._elem.height();

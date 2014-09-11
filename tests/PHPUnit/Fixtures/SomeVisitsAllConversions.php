@@ -1,17 +1,20 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site and tracks a couple conversions.
  */
-class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
+class SomeVisitsAllConversions extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;
@@ -50,12 +53,25 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
                 $revenue = 10, $allowMultipleConversions = true
             );
         }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 3)) {
+            API::getInstance()->addGoal($this->idSite, 'click event', 'event_action', 'click', 'contains');
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 4)) {
+            API::getInstance()->addGoal($this->idSite, 'category event', 'event_category', 'The_Category', 'exact', true);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 5)) {
+            // including a few characters that are HTML entitiable
+            API::getInstance()->addGoal($this->idSite, 'name event', 'event_name', '<the_\'"name>', 'exact');
+        }
     }
 
     private function trackVisits()
     {
         $dateTime = $this->dateTime;
-        $idSite = $this->idSite;
+        $idSite = 1;
         $idGoal_OneConversionPerVisit = $this->idGoal_OneConversionPerVisit;
         $idGoal_MultipleConversionPerVisit = $this->idGoal_MultipleConversionPerVisit;
 
@@ -84,5 +100,23 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
         // 1st goal should Now be tracked
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.61)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 656));
+
+        // few minutes later, create a new_visit
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.7)->getDatetime());
+        $t->setTokenAuth($this->getTokenAuth());
+        $t->setForceNewVisit();
+        $t->doTrackPageView('This is tracked in a new visit.');
+
+        // should trigger two goals at once (event_category, event_action)
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
+        self::checkResponse($t->doTrackEvent('The_Category', 'click_action', 'name'));
+
+        // should not trigger a goal (the_category is case senstive goal)
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        self::checkResponse($t->doTrackEvent('the_category', 'click_action', 'name'));
+
+        // should trigger a goal for event_name, including a few characters that are HTML entitiable
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        self::checkResponse($t->doTrackEvent('other_category', 'other_action', '<the_\'"name>'));
     }
 }

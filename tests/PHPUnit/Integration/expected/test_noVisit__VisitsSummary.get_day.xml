@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<nb_uniq_visitors>0</nb_uniq_visitors>
+	<nb_users>0</nb_users>
 	<nb_visits>0</nb_visits>
 	<nb_actions>0</nb_actions>
 	<nb_visits_converted>0</nb_visits_converted>

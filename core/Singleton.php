@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,7 @@ namespace Piwik;
 
 /**
  * The singleton base class restricts the instantiation of derived classes to one object only.
- * 
+ *
  * All plugin APIs are singletons and thus extend this class.
  *
  * @api

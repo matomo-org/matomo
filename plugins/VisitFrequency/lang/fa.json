@@ -1,0 +1,24 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "اقدامات انجام شده توسط مشاهدات بازگشتی",
+        "ColumnAverageVisitDurationForReturningVisitors": "AVG. مدت بازدید بازگشتی (در ثانیه)",
+        "ColumnAvgActionsPerReturningVisit": "متوسط عملیات در هر بازدید بازگشتی",
+        "ColumnBounceCountForReturningVisits": "تعداد بونس برای بازدید های تکراری",
+        "ColumnBounceRateForReturningVisits": "نرخ بونس برای بازدید های تکراری",
+        "ColumnMaxActionsInReturningVisit": "حداکثر عملیات در 1 بازدید بازگشتی",
+        "ColumnNbReturningVisitsConverted": "تعداد بازدید های بازگشتی تبدیل شده",
+        "ColumnReturningVisits": "بازدید کننده بازگشتی",
+        "ColumnSumVisitLengthReturning": "مجموع مدت زمان حضور توسط بازدید کنندگان باز می گردند (بر حسب ثانیه)",
+        "ColumnUniqueReturningVisitors": "بازدید بازگشتی یکتا",
+        "PluginDescription": "گزارش آمار مختلف در مورد بازدید کنندگان بازگشتی در مقابل بازدید کننده بار اول است.",
+        "ReturnActions": "%s فعالیت توسط بازدیدهای برگشتی",
+        "ReturnAverageVisitDuration": "%s متوسط مدت بازدید بازدیدکنندگان برگشتی",
+        "ReturnAvgActions": "%s فعالیت به ازای هر بازدید بازگشتی",
+        "ReturningVisitDocumentation": "سفر بازگشت است (به عنوان مخالف به یک سفر جدید) با کسی است که حداقل یک بار قبل از بازدید از وب سایت ساخته شده است.",
+        "ReturningVisitsDocumentation": "این یک نمای کلی از بازدیدکننده داشته است بازگشت است.",
+        "ReturnVisits": "%s بازدید های بازگشتی",
+        "SubmenuFrequency": "تکرار",
+        "WidgetGraphReturning": "گراف بازدید کننده بازگشتی",
+        "WidgetOverview": "نمایش تکرار"
+    }
+}

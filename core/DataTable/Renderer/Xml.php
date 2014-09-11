@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,29 +31,9 @@ class Xml extends Renderer
      *
      * @return string
      */
-    function render()
+    public function render()
     {
-        $this->renderHeader();
         return '<?xml version="1.0" encoding="utf-8" ?>' . "\n" . $this->renderTable($this->table);
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        $this->renderHeader();
-
-        $exceptionMessage = $this->getExceptionMessage();
-
-        $return = '<?xml version="1.0" encoding="utf-8" ?>' . "\n" .
-            "<result>\n" .
-            "\t<error message=\"" . $exceptionMessage . "\" />\n" .
-            "</result>";
-
-        return $return;
     }
 
     /**
@@ -371,10 +351,9 @@ class Xml extends Renderer
                 continue;
             }
 
-
             // Handing case idgoal=7, creating a new array for that one
             $rowAttribute = '';
-            if (($equalFound = strstr($rowId, '=')) !== false) {
+            if (strstr($rowId, '=') !== false) {
                 $rowAttribute = explode('=', $rowId);
                 $rowAttribute = " " . $rowAttribute[0] . "='" . $rowAttribute[1] . "'";
             }
@@ -431,14 +410,5 @@ class Xml extends Renderer
             }
         }
         return $out;
-    }
-
-    /**
-     * Sends the XML headers
-     */
-    protected function renderHeader()
-    {
-        // silent fail because otherwise it throws an exception in the unit tests
-        Common::sendHeader('Content-Type: text/xml; charset=utf-8');
     }
 }

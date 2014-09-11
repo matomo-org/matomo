@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Series Picker control addition for DataTable visualizations.
  *
@@ -11,30 +11,30 @@
 
     /**
      * This class creates and manages the Series Picker for certain DataTable visualizations.
-     * 
+     *
      * To add the series picker to your DataTable visualization, create a SeriesPicker instance
      * and after your visualization has been rendered, call the 'init' method.
-     * 
+     *
      * To customize SeriesPicker placement and behavior, you can bind callbacks to the following
      * events before calling 'init':
-     * 
+     *
      * 'placeSeriesPicker': Triggered after the DOM element for the series picker link is created.
      *                      You must use this event to add the link to the dataTable. YOu can also
      *                      use this event to position the link however you want.
-     * 
+     *
      *                      Callback Signature: function () {}
-     * 
+     *
      * 'seriesPicked':      Triggered when the user selects one or more columns/rows.
-     * 
+     *
      *                      Callback Signature: function (eventInfo, columns, rows) {}
-     * 
+     *
      * Events are triggered via jQuery, so you bind callbacks to them like this:
-     * 
+     *
      * var picker = new SeriesPicker(dataTable);
      * $(picker).bind('placeSeriesPicker', function () {
      *   $(this.domElem).doSomething(...);
      * });
-     * 
+     *
      * @param {dataTable} dataTable  The dataTable instance to add a series picker to.
      * @constructor
      */
@@ -51,7 +51,7 @@
         // render the picker?
         this.show = !! dataTable.props.show_series_picker
                  && (this.selectableColumns || this.selectableRows);
-        
+
         // can multiple rows we selected?
         this.multiSelect = !! dataTable.props.allow_multi_select_series_picker;
 
@@ -118,7 +118,7 @@
 
         /**
          * Returns the translation of a metric that can be selected.
-         * 
+         *
          * @param {String} metric The name of the metric, ie, 'nb_visits' or 'nb_actions'.
          * @return {String} The metric translation. If one cannot be found, the metric itself
          *                  is returned.
@@ -272,7 +272,11 @@
                     $(this).trigger('seriesPicked', [columns, rows]);
 
                     // inform dashboard widget about changed parameters (to be restored on reload)
-                    $('#' + this.dataTableId).closest('[widgetId]').trigger('setParameters', {columns: columns, rows: rows});
+                    var UI = require('piwik/UI')
+                    var params = {columns: columns,  columns_to_display: columns,
+                                  rows: rows, rows_to_display: rows};
+                    var tableNode = $('#' + this.dataTableId);
+                    UI.DataTable.prototype.notifyWidgetParametersChange(tableNode, params);
                 }
             }
 
@@ -332,7 +336,7 @@
                 ;
 
             $body.prepend(popover);
-            
+
             var neededSpace = popover.outerWidth() + 10;
 
             var linkOffset = pickerLink.offset();

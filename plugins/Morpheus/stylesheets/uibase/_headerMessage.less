@@ -1,0 +1,67 @@
+/* About Piwik box top right */
+#header_message {
+  z-index: 0;
+  cursor: default;
+  position: absolute;
+  right: 1px;
+  overflow: hidden;
+  display: block;
+  height: 20px;
+  line-height: 20px;
+  padding: 5px 8px 5px 38px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+#header_message:hover,
+#header_message.active {
+  width: auto;
+  height: auto;
+  z-index: 150;
+}
+
+#header_message .header_short {
+  display: block;
+  white-space: nowrap;
+}
+
+#header_message .header_full {
+  display: none;
+}
+
+#header_message:hover .header_short,
+#header_message.active .header_short {
+  display: none;
+}
+
+#header_message:hover .header_full,
+#header_message.active .header_full {
+  display: block;
+}
+
+.header_full {
+  padding-bottom: 5px;
+  line-height: 1.7em;
+}
+
+/* Orange alerts box */
+.header_alert {
+  background: #FFFDF7 url(plugins/Morpheus/images/ico_alert.png) no-repeat 7px 4px;
+  border: 1px solid #FF7F00;
+  font-weight: bold;
+}
+
+.header_alert,
+.header_alert  a {
+  color: #FF7F00;
+}
+
+/* Blue info box */
+.header_info {
+  background: #FAFAFA url(plugins/Morpheus/images/ico_info.png) no-repeat 7px 4px;
+  border: 1px solid #CBD9EB;
+}
+
+.header_info, .header_info  a {
+  color: @theme-color-text-light;
+}

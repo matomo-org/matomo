@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -46,7 +46,7 @@ class Weekly extends ScheduledTime
             date('j', $currentTime) + $daysFromNow,
             date('Y', $currentTime)
         );
- 
+
         // Adjusts the scheduled hour
         $rescheduledTime = $this->adjustHour($rescheduledTime);
         $rescheduledTime = $this->adjustTimezone($rescheduledTime);

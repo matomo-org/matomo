@@ -110,6 +110,6 @@
 				<max>100</max>
 			</bounce_rate>
 		</metrics>
-		<dimension>Page Name</dimension>
+		<dimension>Entry Page title</dimension>
 	</metadata>
 </result>

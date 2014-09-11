@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,20 +31,7 @@ class Console extends Renderer
      */
     public function render()
     {
-        $this->renderHeader();
         return $this->renderTable($this->table);
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    public function renderException()
-    {
-        $this->renderHeader();
-        $exceptionMessage = $this->getExceptionMessage();
-        return 'Error: ' . $exceptionMessage;
     }
 
     /**
@@ -152,11 +139,13 @@ class Console extends Renderer
         $metadata = $table->getAllTableMetadata();
         if (!empty($metadata)) {
             $output .= "<hr />Metadata<br />";
-            foreach ($metadata as $id => $metadata) {
+            foreach ($metadata as $id => $metadataIn) {
                 $output .= "<br />";
                 $output .= $prefix . " <b>$id</b><br />";
-                foreach ($metadata as $name => $value) {
-                    $output .= $prefix . $prefix . "$name => $value";
+                if(is_array($metadataIn)) {
+                    foreach ($metadataIn as $name => $value) {
+                        $output .= $prefix . $prefix . "$name => $value";
+                    }
                 }
             }
         }

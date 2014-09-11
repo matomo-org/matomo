@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Sloupec %s nebyl v tomto hlášení nalezen. Zkuste některé z %s",
+        "PluginDescription": "Generuje nádherné statické PNG grafy pro jakékoli Piwik hlášení."
+    }
+}

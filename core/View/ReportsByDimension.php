@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -90,10 +90,10 @@ class ReportsByDimension extends View
     {
         /**
          * Triggered before rendering {@link ReportsByDimension} views.
-         * 
+         *
          * Plugins can use this event to configure {@link ReportsByDimension} instances by
          * adding or removing reports to display.
-         * 
+         *
          * @param ReportsByDimension $this The view instance.
          */
         Piwik::postEvent('View.ReportsByDimension.render', array($this));

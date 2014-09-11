@@ -1,0 +1,34 @@
+{% if cannotDisplayReport is defined and cannotDisplayReport %}
+    {% include "@Insights/cannotDisplayReport.twig" %}
+{% else %}
+    {% set metadata = dataTable.getAllTableMetadata%}
+    {% set consideredGrowth = 'Insights_TitleConsideredInsightsGrowth'|translate(metadata.minGrowthPercentPositive, metadata.lastDate|prettyDate(metadata.period)) %}
+    {% set consideredChanges = '' %}
+
+    {% if metadata.minChangeMovers and metadata.minChangeMovers > 1 %}
+        {% set consideredChanges = 'Insights_IgnoredChanges'|translate(metadata.minChangeMovers) %}
+    {% endif %}
+
+    <div class="insightsDataTable" title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+        {% if dataTable.getRowsCount %}
+            <table class="dataTable">
+
+                <thead>
+                    {% include "@Insights/table_header.twig" %}
+                </thead>
+
+                <tbody>
+                    {% for row in dataTable.getRows %}
+                        {% include "@Insights/table_row.twig" %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="pk-emptyDataTable">
+                {{ 'Insights_NoResultMatchesCriteria'|translate }}
+            </div>
+        {% endif %}
+
+        {% include "@Insights/insightControls.twig" %}
+    </div>
+{% endif %}

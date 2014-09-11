@@ -387,11 +387,11 @@ var Piwik_Overlay_FollowingPages = (function () {
             offset = linkTag.offset();
             height = linkTag.outerHeight();
         }
-        
+
         var numLinks = linksOnPage[linkUrl].length;
 
         putBoxAroundLink(offset, width, height, numLinks, data.referrals);
-        
+
         // highlight tags
         for (var j = 0; j < numLinks; j++) {
             var tag = linksOnPage[linkUrl][j][0].piwikTagElement;
@@ -407,11 +407,11 @@ var Piwik_Overlay_FollowingPages = (function () {
         linkTag[0].piwikHideNotification = Piwik_Overlay_Client.notification(
             Piwik_Overlay_Translations.get('link') + ': ' + linkUrl, 'LinkLocation');
     }
-    
+
     function putBoxAroundLink(offset, width, height, numLinks, numReferrals) {
         var borderWidth = 2;
         var padding = 4; // the distance between the link and the border
-        
+
         // top border
         highlightElements[0]
             .width(width + 2 * padding)
@@ -419,7 +419,7 @@ var Piwik_Overlay_FollowingPages = (function () {
                 top: offset.top - borderWidth - padding,
                 left: offset.left - padding
             }).show();
-        
+
         // right border
         highlightElements[1]
             .height(height + 2 * borderWidth + 2 * padding)
@@ -427,7 +427,7 @@ var Piwik_Overlay_FollowingPages = (function () {
                 top: offset.top - borderWidth - padding,
                 left: offset.left + width + padding
             }).show();
-        
+
         // left border
         highlightElements[2]
             .height(height + 2 * borderWidth + 2 * padding)
@@ -456,7 +456,7 @@ var Piwik_Overlay_FollowingPages = (function () {
             top: offset.top + height + padding,
             left: offset.left - borderWidth - padding
         }).show();
-        
+
         var minBoxWidth = width + 2 * borderWidth + 2 * padding;
         if (highlightElements[3].width() < minBoxWidth) {
             // we cannot use minWidth because of IE7
@@ -484,7 +484,6 @@ var Piwik_Overlay_FollowingPages = (function () {
             linkTag[0].piwikHideNotification = null;
         }
     }
-
 
     return {
 

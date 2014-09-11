@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s 次跳出",
+        "DirectEntries": "直接输入",
+        "ErrorBack": "返回上次的活动",
+        "ExitsInline": "%s 次退出",
+        "FromCampaigns": "来自广告",
+        "FromPreviousPages": "来自内部页面",
+        "FromPreviousPagesInline": "%s 次来自站内页面",
+        "FromPreviousSiteSearches": "来自站内搜索",
+        "FromPreviousSiteSearchesInline": "%s 次来自站内搜索",
+        "FromSearchEngines": "来自搜索引擎",
+        "FromWebsites": "来自网站",
+        "IncomingTraffic": "入口流量",
+        "LoopsInline": "%s 次刷新页面",
+        "NoDataForAction": "没有 %s 数据",
+        "NoDataForActionDetails": "本活动在 %s 期间没有被访问过或者不正确。",
+        "OutgoingTraffic": "出口流量",
+        "PluginDescription": "本报表显示每个页面网址之前和之后的活动。",
+        "ShareOfAllPageviews": "本页面被访问 %s 次 (总访问量的 %s)",
+        "ToFollowingPages": "转向站内页面",
+        "ToFollowingPagesInline": "%s 次转向站内页面",
+        "ToFollowingSiteSearches": "站内搜索",
+        "ToFollowingSiteSearchesInline": "%s 次站内搜索",
+        "XOfAllPageviews": "%s 的本页浏览量",
+        "XOutOfYVisits": "%s (共 %s)"
+    }
+}

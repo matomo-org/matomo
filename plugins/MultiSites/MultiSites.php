@@ -1,19 +1,15 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\MultiSites;
-use Piwik\Menu\MenuTop;
+
 use Piwik\Piwik;
 
-
-/**
- *
- */
 class MultiSites extends \Piwik\Plugin
 {
     public function getInformation()
@@ -31,60 +27,60 @@ class MultiSites extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Menu.Top.addItems'               => 'addTopMenu',
-            'API.getReportMetadata'           => 'getReportMetadata',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
         );
     }
 
-    public function getReportMetadata(&$reports)
+    public function addMetricTranslations(&$translations)
     {
-        $metadataMetrics = array();
-        foreach (API::getApiMetrics($enhanced = true) as $metricName => $metricSettings) {
-            $metadataMetrics[$metricName] =
-                Piwik::translate($metricSettings[API::METRIC_TRANSLATION_KEY]);
-            $metadataMetrics[$metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY]] =
-                Piwik::translate($metricSettings[API::METRIC_TRANSLATION_KEY]) . " " . Piwik::translate('MultiSites_Evolution');
-        }
-
-        $reports[] = array(
-            'category'          => Piwik::translate('General_MultiSitesSummary'),
-            'name'              => Piwik::translate('General_AllWebsitesDashboard'),
-            'module'            => 'MultiSites',
-            'action'            => 'getAll',
-            'dimension'         => Piwik::translate('General_Website'), // re-using translation
-            'metrics'           => $metadataMetrics,
-            'processedMetrics'  => false,
-            'constantRowsCount' => false,
-            'order'             => 4
+        $appendix = " " . Piwik::translate('MultiSites_Evolution');
+        $metrics = array(
+            'visits_evolution'    => Piwik::translate('General_ColumnNbVisits') . $appendix,
+            'actions_evolution'   => Piwik::translate('General_ColumnNbActions') . $appendix,
+            'pageviews_evolution' => Piwik::translate('General_ColumnPageviews') . $appendix,
+            'revenue_evolution'   => Piwik::translate('General_ColumnRevenue') . $appendix,
+            'nb_conversions_evolution' => Piwik::translate('Goals_ColumnConversions') . $appendix,
+            'orders_evolution'         => Piwik::translate('General_EcommerceOrders') . $appendix,
+            'ecommerce_revenue_evolution' => Piwik::translate('General_ProductRevenue') . $appendix,
         );
 
-        $reports[] = array(
-            'category'          => Piwik::translate('General_MultiSitesSummary'),
-            'name'              => Piwik::translate('General_SingleWebsitesDashboard'),
-            'module'            => 'MultiSites',
-            'action'            => 'getOne',
-            'dimension'         => Piwik::translate('General_Website'), // re-using translation
-            'metrics'           => $metadataMetrics,
-            'processedMetrics'  => false,
-            'constantRowsCount' => false,
-            'order'             => 5
-        );
+        $translations = array_merge($translations, $metrics);
     }
 
-    public function addTopMenu()
+    public function getClientSideTranslationKeys(&$translations)
     {
-        $urlParams = array('module' => 'MultiSites', 'action' => 'index', 'segment' => false);
-        $tooltip = Piwik::translate('MultiSites_TopLinkTooltip');
-        MenuTop::addEntry('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
+        $translations[] = 'General_Website';
+        $translations[] = 'General_ColumnNbVisits';
+        $translations[] = 'General_ColumnPageviews';
+        $translations[] = 'General_ColumnRevenue';
+        $translations[] = 'General_TotalVisitsPageviewsRevenue';
+        $translations[] = 'General_EvolutionSummaryGeneric';
+        $translations[] = 'General_AllWebsitesDashboard';
+        $translations[] = 'General_NVisits';
+        $translations[] = 'MultiSites_Evolution';
+        $translations[] = 'SitesManager_AddSite';
+        $translations[] = 'General_Next';
+        $translations[] = 'General_Previous';
+        $translations[] = 'General_GoTo';
+        $translations[] = 'Dashboard_DashboardOf';
+        $translations[] = 'Actions_SubmenuSitesearch';
+        $translations[] = 'MultiSites_LoadingWebsites';
+        $translations[] = 'General_ErrorRequest';
+        $translations[] = 'MultiSites_Pagination';
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/MultiSites/javascripts/multiSites.js";
+        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-model.js";
+        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-controller.js";
+        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-filter.js";
+        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-directive.js";
+        $jsFiles[] = "plugins/MultiSites/angularjs/site/site-directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/MultiSites/stylesheets/multiSites.less";
+        $stylesheets[] = "plugins/MultiSites/angularjs/dashboard/dashboard.less";
     }
 }

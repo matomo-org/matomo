@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Local time",
+        "ColumnServerTime": "Server time",
+        "DayOfWeek": "Day of the week",
+        "LocalTime": "Visits per local time",
+        "NHour": "%sh",
+        "PluginDescription": "Reports the Local and Server time. Server time information can be useful to schedule a maintenance on the Website.",
+        "ServerTime": "Visits per server time",
+        "SubmenuTimes": "Times",
+        "VisitsByDayOfWeek": "Visits by Day of Week",
+        "WidgetByDayOfWeekDocumentation": "This graph shows the number of visits your website received on each day of the week.",
+        "WidgetLocalTime": "Visits by Local Time",
+        "WidgetLocalTimeDocumentation": "This graph shows what time it was in the %s visitors' time zones %s during their visits.",
+        "WidgetServerTime": "Visits by Server Time",
+        "WidgetServerTimeDocumentation": "This graph shows what time it was in the %s server's time zone %s during the visits."
+    }
+}

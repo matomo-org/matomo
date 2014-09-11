@@ -1,23 +1,27 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAsset;
+use Piwik\AssetManager;
 use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\Config;
-use Piwik\Plugin\Manager;
 use Piwik\Plugin;
+use Piwik\Plugin\Manager;
+use Piwik\EventDispatcher;
 
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/UIAssetCacheBusterMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/PluginManagerMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/PluginMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/ThemeMock.php";
 
+/**
+ * @group AssetManagerTest
+ */
 class AssetManagerTest extends PHPUnit_Framework_TestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
@@ -117,6 +121,8 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->pluginManager = PluginManagerMock::getInstance();
         Manager::setSingletonInstance($this->pluginManager);
+
+        EventDispatcher::unsetInstance(); // EventDispatcher stores a reference to Plugin Manager
     }
 
     private function setUpPlugins()
@@ -414,7 +420,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         return
             '<script type="text/javascript">' . PHP_EOL .
             'var translations = [];' . PHP_EOL .
-            'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }for(var i in translations) { piwik_translations[i] = translations[i];} function _pk_translate(translationStringId) { if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }return "The string "+translationStringId+" was not loaded in javascript. Make sure it is added in the Translate.getClientSideTranslationKeys hook.";}' . PHP_EOL .
+            'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }for(var i in translations) { piwik_translations[i] = translations[i];} ' . PHP_EOL .
             '</script>';
     }
 
@@ -538,7 +544,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_Stale()
     {
         $this->activateMergedAssets();
-        
+
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
         $this->triggerGetMergedStylesheet();
@@ -576,7 +582,6 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->validateMergedStylesheet();
     }
-
 
     /**
      * @group Core

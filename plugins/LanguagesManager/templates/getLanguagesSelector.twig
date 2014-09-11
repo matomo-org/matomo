@@ -1,21 +1,19 @@
 <span class="topBarElem">
-	<span id="languageSelection">
-		<form action="index.php?module=LanguagesManager&amp;action=saveLanguage" method="post">
-            <select name="language" id="language">
-                <option title="" value=""
-                        href="?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/translations/">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</option>
-                {% for language in languages %}
-                    <option value="{{ language.code }}" {% if language.code == currentLanguageCode %}selected="selected"{% endif %}
-                            title="{{ language.name }} ({{ language.english_name }})">{{ language.name }}</option>
-                {% endfor %}
-            </select>
+    <div class="languageSelection"
+         menu-title="{{ currentLanguageName|e('html_attr') }}"
+         piwik-menudropdown>
+        <a class="item"
+            href="?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/translations/">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
+        {% for language in languages %}
+            <a class="item {% if language.code == currentLanguageCode %}active{% endif %}"
+               value="{{ language.code }}"
+               title="{{ language.name }} ({{ language.english_name }})">{{ language.name }}</a>
+        {% endfor %}
+
+        <form action="index.php?module=LanguagesManager&amp;action=saveLanguage" method="post">
+            <input type="hidden" name="language" id="language">
             {# During installation token_auth is not set #}
             {% if token_auth is defined %}<input type="hidden" name="token_auth" value="{{ token_auth }}"/>{% endif %}
-            <input type="submit" value="go"/>
         </form>
-	</span>
-	
-	<script type="text/javascript">
-        piwik.languageName = "{{ currentLanguageName }}";
-    </script>
+    </div>
 </span>

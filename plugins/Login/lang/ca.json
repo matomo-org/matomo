@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "S'ha enviat un enllaç de confirmació a la vostra bústia d'entrada. Reviseu el vostre correu electrònic i visiteu l'enllaç per autoritzar la sol·licitud de canvi de password.",
+        "ContactAdmin": "Possiblement sigui perquè el vostre proveïdor d'allotjament ha desactivat la funció mail().<br \/>Contacteu amb l'administrador del lloc.",
+        "ExceptionPasswordMD5HashExpected": "El paràmetre contrasenya hauria de ser un hash MD5 de la contrasenya.",
+        "InvalidNonceOrHeadersOrReferrer": "El formulari de seguretat ha fallat. Sisuplau recarregeu el formaulari i reviseu que teniu les cookies activades. Si feu servir un proxy, heu de %s configurar el Piwik per a que accepti la capcelera del proxy %s que conté la capçalera del host. També reviseu que el la vostra capçalera de referent s'envia correctament.",
+        "InvalidOrExpiredToken": "El codi és invàlid o ha caducat",
+        "InvalidUsernameEmail": "Aquest usuari i\/o direcció de correu-e és invàlid.",
+        "LogIn": "Inicia la sessió",
+        "LoginOrEmail": "Nom d'usuari o correu-e",
+        "LoginPasswordNotCorrect": "L'usuari o la contrasenya no són correctes",
+        "LostYourPassword": "Heu perdut la contrasenya?",
+        "MailPasswordChangeBody": "Hola %1$s,\n\nS'ha rebut una petició per restablir la contrasenya de %2$s. Per confirmar aquest canvi de contrasenya (per a que pogueu entrar amb les noves credencials), visiteu el següent enllaç:\n\n%3$s\n\nNota: aquest enllaç caduca en 24 hores.\n\nUs donem les gràcies per utiltizar el Piwik!",
+        "MailTopicPasswordChange": "Confirmeu el canvi de contrasenya",
+        "PasswordChanged": "S'ha canviat la vostra contrasenya",
+        "PasswordRepeat": "Contrasenya (torneu-la a escriure)",
+        "PasswordsDoNotMatch": "Les contrasenyes no coincideixen",
+        "RememberMe": "Recorda'm",
+        "ResetPasswordInstructions": "Introduiu una nova contrasenya pel vostre compte."
+    }
+}

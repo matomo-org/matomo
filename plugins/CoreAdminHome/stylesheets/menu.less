@@ -9,14 +9,6 @@
 }
 
 .Menu--admin > .Menu-tabList {
-    background-image: linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-    background-image: -o-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-    background-image: -moz-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-    background-image: -webkit-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-    background-image: -ms-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FECB00), color-stop(0.25, #FE9800), color-stop(0.5, #FE6702), color-stop(0.75, #CA0000), color-stop(1, #670002));
-
     -moz-background-size: 5px 100%;
     background-size: 5px 100%;
     background-position: 0 0, 100% 0;
@@ -53,7 +45,7 @@
 .Menu--admin > .Menu-tabList li li a {
     text-decoration: none;
     padding: 0.6em 0.9em;
-    font: 14px Arial, Helvetica, sans-serif;
+    font-size: 14px;
     display: block;
 }
 
@@ -64,8 +56,8 @@
 
 .Menu--admin > .Menu-tabList li li a:hover,
 .Menu--admin > .Menu-tabList li li a.active {
-    color: #e87500;
-    background: #f1f1f1;
+    color: @theme-color-menu-contrast-textActive !important;
+    background: @theme-color-menu-contrast-background;
     border-color: #000;
 }
 

@@ -495,14 +495,12 @@ proto = {
             done = Y.Env._attached,
             len = r.length, loader;
 
-
         for (i = 0; i < len; i++) {
             if (!done[r[i]]) {
                 name = r[i];
                 mod = mods[name];
                 if (!mod) {
                     loader = Y.Env._loader;
-
 
                     if (!loader || !loader.moduleInfo[name]) {
                         Y.message('NOT loaded: ' + name, 'warn', 'yui');
@@ -724,7 +722,6 @@ proto = {
                     ret = true,
                     data = response.data;
 
-
                 Y._loading = false;
 
                 if (data) {
@@ -763,7 +760,6 @@ proto = {
 
             };
 
-
         // YUI().use('*'); // bind everything available
         if (firstArg === '*') {
             ret = Y._attach(Y.Object.keys(mods));
@@ -772,7 +768,6 @@ proto = {
             }
             return Y;
         }
-
 
         // use loader to expand dependencies and sort the
         // requirements if it is available.
@@ -848,7 +843,6 @@ proto = {
 
         return Y;
     },
-
 
     /**
      * Returns the namespace specified and creates it if it doesn't exist
@@ -994,8 +988,6 @@ proto = {
      */
 };
 
-
-
     YUI.prototype = proto;
 
     // inheritance utilities are not available yet
@@ -1027,7 +1019,6 @@ proto = {
     }
 
 }());
-
 
 /**
  * The config object contains all of the configuration options for
@@ -1867,7 +1858,6 @@ L.now = Date.now || function () {
  * @submodule yui-base
  */
 
-
 var Native = Array.prototype, LENGTH = 'length',
 
 /**
@@ -2176,7 +2166,6 @@ _iefix = function(r, s) {
         r.toString = fn;
     }
 };
-
 
 /**
  * Returns a new object containing all of the properties of
@@ -2621,7 +2610,7 @@ O.isEmpty = function(o) {
 * @returns {Object} The Y.UA object
 */
 YUI.Env.parseUA = function(subUA) {
-    
+
     var numberify = function(s) {
             var c = 0;
             return parseFloat(s.replace(/\./g, function() {
@@ -2900,13 +2889,10 @@ YUI.Env.parseUA = function(subUA) {
     return o;
 };
 
-
 Y.UA = YUI.Env.UA || YUI.Env.parseUA();
-
 
 }, '3.3.0' );
 YUI.add('get', function(Y) {
-
 
 /**
  * Provides a mechanism to fetch remote resources and
@@ -2953,7 +2939,6 @@ Y.Get = function() {
      * @private
      */
     purging,
-
 
     /**
      * Generates an HTML element, this is not appended to a document
@@ -3136,7 +3121,6 @@ Y.Get = function() {
         _end(id, 'timeout', 'timeout');
     },
 
-
     /**
      * Loads the next item for a given request
      * @method _next
@@ -3191,7 +3175,6 @@ Y.Get = function() {
             return _next(id);
         }
 
-
         if (q.timeout) {
             // q.timer = L.later(q.timeout, q, _timeout, id);
             q.timer = setTimeout(function() {
@@ -3225,7 +3208,6 @@ Y.Get = function() {
         } else {
             h.appendChild(n);
         }
-
 
         // FireFox does not support the onload event for link nodes, so
         // there is no way to make the css requests synchronous. This means
@@ -3654,8 +3636,6 @@ Y.Get = function() {
     };
 }();
 
-
-
 }, '3.3.0' ,{requires:['yui-base']});
 YUI.add('features', function(Y) {
 
@@ -3737,7 +3717,7 @@ add('load', '0', {
     // no point loading the -keys module even when a bluetooth keyboard may be
     // available.
     return !(Y.UA.ios || Y.UA.android);
-}, 
+},
     "trigger": "autocomplete-list"
 });
 // ie-style-test.js
@@ -3767,12 +3747,12 @@ add('load', '1', {
             !testFeature('style', 'computedStyle'));
 
     return ret;
-}, 
+},
     "trigger": "dom-style"
 });
 // 0
 add('load', '2', {
-    "trigger": "widget-base", 
+    "trigger": "widget-base",
     "ua": "ie"
 });
 // ie-base-test.js
@@ -3780,14 +3760,14 @@ add('load', '3', {
     "test": function(Y) {
     var imp = Y.config.doc && Y.config.doc.implementation;
     return (imp && (!imp.hasFeature('Events', '2.0')));
-}, 
+},
     "trigger": "node-base"
 });
 // dd-gestures-test.js
 add('load', '4', {
     "test": function(Y) {
     return (Y.config.win && ('ontouchstart' in Y.config.win && !Y.UA.chrome));
-}, 
+},
     "trigger": "dd-drag"
 });
 // history-hash-ie-test.js
@@ -3797,10 +3777,9 @@ add('load', '5', {
 
     return Y.UA.ie && (!('onhashchange' in Y.config.win) ||
             !docMode || docMode < 8);
-}, 
+},
     "trigger": "history-hash"
 });
-
 
 }, '3.3.0' ,{requires:['yui-base']});
 YUI.add('rls', function(Y) {
@@ -3860,8 +3839,6 @@ Y._rls = function(what) {
     // console.log(url);
     return url;
 };
-
-
 
 }, '3.3.0' ,{requires:['get','features']});
 YUI.add('intl-base', function(Y) {
@@ -3949,7 +3926,6 @@ Y.mix(Y.namespace('Intl'), {
         return '';
     }
 });
-
 
 }, '3.3.0' ,{requires:['yui-base']});
 YUI.add('yui-log', function(Y) {
@@ -4056,7 +4032,6 @@ INSTANCE.message = function() {
     return INSTANCE.log.apply(INSTANCE, arguments);
 };
 
-
 }, '3.3.0' ,{requires:['yui-base']});
 YUI.add('yui-later', function(Y) {
 
@@ -4119,8 +4094,6 @@ Y.later = function(when, o, fn, data, periodic) {
 
 Y.Lang.later = Y.later;
 
-
-
 }, '3.3.0' ,{requires:['yui-base']});
 YUI.add('yui-throttle', function(Y) {
 
@@ -4162,9 +4135,7 @@ Y.throttle = function(fn, ms) {
     });
 };
 
-
 }, '3.3.0' ,{requires:['yui-base']});
-
 
 YUI.add('yui', function(Y){}, '3.3.0' ,{use:['yui-base','get','features','rls','intl-base','yui-log','yui-later','yui-throttle']});
 

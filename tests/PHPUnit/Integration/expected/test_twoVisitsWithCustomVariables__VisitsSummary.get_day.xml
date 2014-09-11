@@ -3,6 +3,7 @@
 	<result idSite="1">
 		<result date="2010-01-03">
 			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>3</nb_visits>
 			<nb_actions>6</nb_actions>
 			<nb_visits_converted>2</nb_visits_converted>

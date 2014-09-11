@@ -5,7 +5,7 @@ JSDOC.PluginManager.registerPlugin(
 			comment.src = comment.src.replace(/@methodOf\b/i, "@function\n@memberOf");
 			comment.src = comment.src.replace(/@fieldOf\b/i, "@field\n@memberOf");
 		},
-		
+
 		onDocCommentTags: function(comment) {
 			for (var i = 0, l = comment.tags.length; i < l; i++) {
 				var title = comment.tags[i].title.toLowerCase();

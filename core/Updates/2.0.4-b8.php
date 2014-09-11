@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,12 +9,12 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Db;
 use Piwik\Config;
-use Piwik\Updates;
-use Piwik\UpdaterErrorException;
+use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\UpdaterErrorException;
+use Piwik\Updates;
 
 /**
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -117,6 +117,7 @@ class Settings extends \Piwik\Plugin\Settings
         $this->metric->introduction  = 'Only Super Users can change the following settings:';
         $this->metric->description   = 'Choose the metric that should be displayed in the browser tab';
         $this->metric->defaultValue  = 'nb_visits';
+        $this->metric->readableByCurrentUser = true;
 
         $this->addSetting($this->metric);
     }
@@ -129,6 +130,7 @@ class Settings extends \Piwik\Plugin\Settings
         $this->browsers->availableValues  = array('firefox' => 'Firefox', 'chromium' => 'Chromium', 'safari' => 'safari');
         $this->browsers->description   = 'The value will be only displayed in the following browsers';
         $this->browsers->defaultValue  = array('firefox', 'chromium', 'safari');
+        $this->browsers->readableByCurrentUser = true;
 
         $this->addSetting($this->browsers);
     }
@@ -136,6 +138,7 @@ class Settings extends \Piwik\Plugin\Settings
     private function createDescriptionSetting()
     {
         $this->description = new SystemSetting('description', 'Description for value');
+        $this->description->readableByCurrentUser = true;
         $this->description->uiControlType = static::CONTROL_TEXTAREA;
         $this->description->description   = 'This description will be displayed next to the value';
         $this->description->defaultValue  = "This is the value: \nAnother line";
@@ -146,6 +149,7 @@ class Settings extends \Piwik\Plugin\Settings
     private function createPasswordSetting()
     {
         $this->password = new SystemSetting('password', 'API password');
+        $this->password->readableByCurrentUser = true;
         $this->password->uiControlType = static::CONTROL_PASSWORD;
         $this->password->description   = 'Password for the 3rd API where we fetch the value';
         $this->password->transform     = function ($value) {

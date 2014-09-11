@@ -1,0 +1,7 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Om Piwik oversættelser",
+        "PluginDescription": " Programudvidelsen viser en liste over de tilgængelige sprog for Piwik brugerflade. Det valgte sprog vil blive gemt i præferencer for hver bruger.",
+        "TranslationSearch": "Oversættelse søgning"
+    }
+}

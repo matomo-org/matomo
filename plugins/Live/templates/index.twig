@@ -35,11 +35,11 @@
 
 {% spaceless %}
 <div class="visitsLiveFooter">
-    <a title="Pause Live!" href="javascript:void(0);" onclick="onClickPause();">
-        <img id="pauseImage" border="0" src="plugins/Live/images/pause_disabled.gif" />
+    <a title="Start Live!" href="javascript:void(0);" onclick="onClickPause();">
+        <img id="pauseImage" border="0" src="plugins/Live/images/pause.gif" />
     </a>
-    <a title="Start Live!" href="javascript:void(0);" onclick="onClickPlay();">
-        <img id="playImage" border="0" src="plugins/Live/images/play.gif" />
+    <a title="Pause Live!" href="javascript:void(0);" onclick="onClickPlay();">
+        <img id="playImage" style="display: none;" border="0" src="plugins/Live/images/play.gif" />
     </a>
     {% if not disableLink %}
         &nbsp;

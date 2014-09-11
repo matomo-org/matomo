@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,9 +11,9 @@ namespace Piwik\Plugins\Installation;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\FrontController;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Translate;
+use Piwik\View as PiwikView;
 
 /**
  *
@@ -30,11 +30,19 @@ class Installation extends \Piwik\Plugin
         $hooks = array(
             'Config.NoConfigurationFile'      => 'dispatch',
             'Config.badConfigurationFile'     => 'dispatch',
+            'Db.cannotConnectToDb'            => 'displayDbConnectionMessage',
             'Request.dispatch'                => 'dispatchIfNotInstalledYet',
-            'Menu.Admin.addItems'             => 'addMenu',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
         return $hooks;
+    }
+
+    public function displayDbConnectionMessage($exception = null)
+    {
+        $view = new PiwikView("@Installation/cannotConnectToDb");
+        $view->exceptionMessage = $exception->getMessage();
+
+        Piwik_ExitWithMessage($view->render());
     }
 
     public function dispatchIfNotInstalledYet(&$module, &$action, &$parameters)
@@ -79,7 +87,7 @@ class Installation extends \Piwik\Plugin
             $message = '';
         }
 
-        Translate::loadCoreTranslation();
+        Translate::reloadLanguage();
 
         $action = Common::getRequestVar('action', 'welcome', 'string');
 
@@ -90,17 +98,6 @@ class Installation extends \Piwik\Plugin
         }
 
         exit;
-    }
-
-    /**
-     * Adds the 'System Check' admin page if the user is the Super User.
-     */
-    public function addMenu()
-    {
-        MenuAdmin::addEntry('Installation_SystemCheck',
-            array('module' => 'Installation', 'action' => 'systemCheckPage'),
-            Piwik::hasUserSuperUserAccess(),
-            $order = 15);
     }
 
     /**

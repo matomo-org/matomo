@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s 分",
+        "BetweenXYSeconds": "%1$s-%2$s 秒",
+        "ColumnPagesPerVisit": "每次访问浏览的页面数",
+        "ColumnVisitDuration": "访问停留时间",
+        "Engagement": "忠诚度",
+        "NPages": "%s 页",
+        "OneMinute": "1分钟",
+        "OnePage": "1 页",
+        "PluginDescription": "关于访客兴趣的报表: 页面浏览次数、停留时间。",
+        "PlusXMin": "%s 分",
+        "VisitNum": "访问次数",
+        "VisitsByDaysSinceLast": "基于距离上次访问天数的统计",
+        "visitsByVisitCount": "基于访问次数的统计",
+        "VisitsPerDuration": "基于停留时间段的访问次数",
+        "VisitsPerNbOfPages": "基于浏览页面数的访问次数",
+        "WidgetLengths": "访问停留时间",
+        "WidgetLengthsDocumentation": "本报表显示某停留时间段的访客量。报表默认以标签云形式显示，常见的停留时间段用较大的字体显示。",
+        "WidgetPages": "每次访问查看的页面数",
+        "WidgetPagesDocumentation": "本报表显示查看了某个数量的页面的访客数。报表默认以标签云形式显示，常见的页面数量用较大的字体显示。",
+        "WidgetVisitsByDaysSinceLast": "距离上次访问天数的访问量",
+        "WidgetVisitsByDaysSinceLastDocumentation": "本报表显示距离上次访问特定天数的访客量。",
+        "WidgetVisitsByNumDocumentation": "本报表显示第N次访问的访客量。"
+    }
+}

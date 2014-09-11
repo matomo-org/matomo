@@ -1,0 +1,16 @@
+{
+    "Installation": {
+        "Congratulations": "అభినందనలు",
+        "DatabaseSetupLogin": "వాడుకరి పేరు",
+        "Email": "ఈమెయిలు",
+        "Installation": "స్థాపన",
+        "InstallationStatus": "స్థాపన స్థితి",
+        "Optional": "ఐచ్చికం",
+        "Password": "సంకేతపదం",
+        "PasswordRepeat": "సంకేతపదం (మళ్ళీ)",
+        "PercentDone": "%s %% పూర్తి",
+        "PleaseFixTheFollowingErrors": "దయచేసి ఈ కింది పొరపాట్లను సరిదిద్దండి",
+        "Requirements": "పివిక్ ఆవశ్యకాలు",
+        "Welcome": "స్వాగతం!"
+    }
+}

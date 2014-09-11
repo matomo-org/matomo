@@ -1,0 +1,21 @@
+{
+    "Insights": {
+        "DayComparedToPreviousDay": "vorige dag",
+        "DayComparedToPreviousWeek": "zelfde dag vorige week",
+        "DayComparedToPreviousYear": "zelfde dag vorig jaar",
+        "Filter": "Filter",
+        "FilterIncreaserAndDecreaser": "Toename & afname",
+        "FilterOnlyDecreaser": "Alleen afname",
+        "FilterOnlyDisappeared": "Alleen verdwenen",
+        "FilterOnlyIncreaser": "Alleen toename",
+        "FilterOnlyMovers": "Alleen verschoven",
+        "FilterOnlyNew": "Alleen nieuwe",
+        "MonthComparedToPreviousMonth": "vorige maand",
+        "MonthComparedToPreviousYear": "zelfde maand vorig jaar",
+        "NoResultMatchesCriteria": "Er komen geen rijen overeen met de criteria",
+        "TitleRowNewDetails": "'%1$s' is toegenomen met %2$s en is nieuw vergeleken met %3$s.",
+        "WeekComparedToPreviousWeek": "vorige week",
+        "WidgetCategory": "Inzichten",
+        "YearComparedToPreviousYear": "vorig jaar"
+    }
+}

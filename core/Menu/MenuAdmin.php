@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,15 +11,15 @@ namespace Piwik\Menu;
 use Piwik\Piwik;
 
 /**
- * Contains menu entries for the Admin menu. Plugins can subscribe to the 
- * {@hook Menu.Admin.addItems} event to add new pages to the admin menu.
- * 
+ * Contains menu entries for the Admin menu.
+ * Plugins can implement the `configureAdminMenu()` method of the `Menu` plugin class to add, rename of remove
+ * items. If your plugin does not have a `Menu` class yet you can create one using `./console generate:menu`.
+ *
  * **Example**
- * 
- *     // add a new page in an observer to Menu.Admin.addItems
- *     public function addAdminMenuItem()
+ *
+ *     public function configureAdminMenu(MenuAdmin $menu)
  *     {
- *         MenuAdmin::getInstance()->add(
+ *         $menu->add(
  *             'MyPlugin_MyTranslatedAdminMenuCategory',
  *             'MyPlugin_MyTranslatedAdminPageName',
  *             array('module' => 'MyPlugin', 'action' => 'index'),
@@ -27,7 +27,7 @@ use Piwik\Piwik;
  *             $order = 2
  *         );
  *     }
- * 
+ *
  * @method static \Piwik\Menu\MenuAdmin getInstance()
  */
 class MenuAdmin extends MenuAbstract
@@ -41,11 +41,81 @@ class MenuAdmin extends MenuAbstract
      * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
-     * @api
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
      */
     public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
     {
         self::getInstance()->add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the development section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addDevelopmentItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CoreAdminHome_MenuDevelopment', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the diagnostic section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addDiagnosticItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CoreAdminHome_MenuDiagnostic', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the platform section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addPlatformItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CorePluginsAdmin_MenuPlatform', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the settings section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addSettingsItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('General_Settings', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the manage section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('CoreAdminHome_MenuManage', $menuName, $url, true, $order, $tooltip);
     }
 
     /**
@@ -58,28 +128,16 @@ class MenuAdmin extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * Triggered when collecting all available admin menu items. Subscribe to this event if you want
-             * to add one or more items to the Piwik admin menu.
-             *
-             * Menu items should be added via the {@link add()} method.
-             *
-             * **Example**
-             * 
-             *     use Piwik\Menu\MenuAdmin;
-             * 
-             *     public function addMenuItems()
-             *     {
-             *         MenuAdmin::getInstance()->add(
-             *             'MenuName',
-             *             'SubmenuName',
-             *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
-             *             $order = 6
-             *         );
-             *     }
+             * @ignore
+             * @deprecated
              */
-            Piwik::postEvent('Menu.Admin.addItems');
+            Piwik::postEvent('Menu.Admin.addItems', array());
+
+            foreach ($this->getAllMenus() as $menu) {
+                $menu->configureAdminMenu($this);
+            }
         }
+
         return parent::getMenu();
     }
 
@@ -106,8 +164,11 @@ class MenuAdmin extends MenuAbstract
         return false;
     }
 
-    public static function removeEntry($menuName)
+    /**
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
+     */
+    public static function removeEntry($menuName, $subMenuName = false)
     {
-        MenuAdmin::getInstance()->remove('General_Settings', $menuName);
+        MenuAdmin::getInstance()->remove($menuName, $subMenuName);
     }
 }

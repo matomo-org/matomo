@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,11 +11,8 @@ namespace Piwik\API\DataTableManipulator;
 use Piwik\API\DataTableManipulator;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\DataTable\BaseFilter;
-use Piwik\Period\Range;
-use Piwik\Period;
-use Piwik\Piwik;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Plugins\API\API;
 
 /**
@@ -44,7 +41,14 @@ class ReportTotalsCalculator extends DataTableManipulator
             return $table;
         }
 
-        return $this->manipulate($table);
+        try {
+            return $this->manipulate($table);
+        } catch(\Exception $e) {
+            // eg. requests with idSubtable may trigger this exception
+            // (where idSubtable was removed in
+            // ?module=API&method=Events.getNameFromCategoryId&idSubtable=1&secondaryDimension=eventName&format=XML&idSite=1&period=day&date=yesterday&flat=0
+            return $table;
+        }
     }
 
     /**
@@ -157,7 +161,13 @@ class ReportTotalsCalculator extends DataTableManipulator
             }
         }
 
-        return $this->callApiAndReturnDataTable($module, $action, $request);
+        $table = $this->callApiAndReturnDataTable($module, $action, $request);
+
+        if ($table instanceof DataTable\Map) {
+            $table = $table->mergeChildren();
+        }
+
+        return $table;
     }
 
     private function sumColumnValueToTotal(Row $row, $metricId, $totalValues)
@@ -192,14 +202,17 @@ class ReportTotalsCalculator extends DataTableManipulator
         $request['filter_limit']  = -1;
         $request['filter_offset'] = 0;
 
-        $parametersToRemove = array('flat', 'idSubtable');
+        $parametersToRemove = array('flat');
+
+        if (!array_key_exists('idSubtable', $this->request)) {
+            $parametersToRemove[] = 'idSubtable';
+        }
 
         foreach ($parametersToRemove as $param) {
             if (array_key_exists($param, $request)) {
                 unset($request[$param]);
             }
         }
-
         return $request;
     }
 

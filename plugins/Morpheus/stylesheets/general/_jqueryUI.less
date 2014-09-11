@@ -1,0 +1,262 @@
+/* jQuery Tooltip */
+#tooltip h3 {
+  font-weight: normal;
+  font-size: .85em;
+  font-style: italic;
+  color: #162540;
+  margin: 0;
+  padding: 0;
+}
+
+#tooltip {
+  position: absolute;
+  z-index: 3000;
+  border: 1px solid #E4E2D7 /*#111*/;
+  padding: 5px 7px 5px 7px;
+  background-color: #F5F7FF;
+  opacity: 0.95;
+}
+
+/* jQuery Ajax */
+.ajaxError {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  width: 550px;
+  border: 3px solid red;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 9px;
+}
+
+.ajaxSuccess {
+  font-size: 14px;
+  margin: 10px;
+  padding: 15px;
+  color: #301901;
+  display: inline-block;
+  background-color: #ffffe0;
+  border: 1px solid #e6db55;
+  border-radius: 3px;
+}
+
+/* extending the jquery UI css, for visitor Log popover */
+.ui-widget .dataTable {
+  font-size: 14px;
+}
+
+/* for inline help */
+.ui-widget {
+  text-align: justify;
+}
+
+.ui-inline-help {
+  display: inline-block;
+  background-color: #f4f8fa;
+  margin: 0px;
+  font-size: 12px;
+  padding: 20px;
+  color: #3a87ad;
+  opacity: 1.0;
+  border-left: 1px solid #bce8f1;
+  text-align: justify;
+  line-height: 1.3em;
+  max-width: 550px;
+}
+
+div.ui-state-highlight {
+  border-color: #545903;
+  background-color: #FFFFD6;
+}
+
+.ui-datepicker {
+  border: 1px solid #fff !important;
+  border-radius: 0 !important;
+  font-size: 11px !important;
+  padding: 0 !important;
+  width: 160px !important;
+}
+
+.ui-datepicker-header {
+  color: #fff !important;
+  border-radius: 0 !important;
+}
+
+.ui-datepicker select {
+  padding: 0;
+}
+
+.ui-datepicker-header .ui-icon-circle-triangle-w,
+.ui-datepicker-header .ui-icon-circle-triangle-e {
+  content: " \25BC";
+  font-size: 1px;
+  color: @theme-color-brand;
+  border-top: 4px solid rgba(0, 0, 0, 0);
+  border-bottom: 4px solid rgba(0, 0, 0, 0);
+  border-left: 5px solid @theme-color-brand;
+  margin-left: 7px;
+  display: inline-block;
+  vertical-align: sub;
+  background: none !important;
+  height: auto;
+  width: auto;
+}
+
+.ui-datepicker-header .ui-icon-circle-triangle-w {
+  border-left: 0px;
+  border-right: 5px solid @theme-color-brand;
+}
+
+.ui-datepicker-prev {
+  background: none !important;
+  left: 5px !important;
+  top: 3px !important;
+}
+.ui-datepicker-next {
+  background: none !important;
+  right: 2px !important;
+  top: 3px !important;
+}
+
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+  margin-left: -5px;
+  margin-top: -5px;
+}
+
+.ui-datepicker .ui-datepicker-next-hover,
+.ui-datepicker .ui-datepicker-prev-hover {
+  background: none !important;
+  border-color: #f1f0eb !important;
+}
+
+.ui-datepicker table {
+  font-size: 11px !important;
+  margin: 0 !important;
+}
+
+.ui-datepicker th {
+  color: #887f71 !important;
+  font-weight: normal !important;
+  background: #f1f0eb !important;
+  padding: 3px 0 !important;
+}
+
+.ui-datepicker th.ui-datepicker-week-end {
+  background: #d4d0c7 !important;
+}
+
+.ui-datepicker td {
+  padding: 0 !important;
+}
+
+.ui-state-default {
+  border: 1px solid #f2f6f9 !important;
+  border-right: 0 !important;
+  background: #fff !important;
+  color: #000 !important;
+  text-align: center !important;
+}
+
+.ui-datepicker td.ui-datepicker-week-end .ui-state-default {
+  background: #f6f6f6 !important;
+}
+
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+  border-color: #887f71 !important;
+  background: #887f71 !important;
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+.ui-datepicker td .ui-state-hover, .ui-datepicker .ui-datepicker td.ui-datepicker-current-period a.ui-state-hover, .ui-datepicker td.ui-datepicker-week-end .ui-state-hover {
+  background: #e5e3e0 !important;
+  color: #000 !important;
+}
+
+.ui-datepicker td.ui-datepicker-current-period .ui-state-default.ui-state-hover, .ui-datepicker td.ui-datepicker-current-period .ui-state-hover:hover {
+  background: #978c7c !important;
+  border-color: #978c7c !important;
+}
+
+td.ui-datepicker-other-month.ui-state-hover {
+  background: #e5e3e0 !important;
+  color: #000 !important;
+  opacity: 1 !important;
+  border-style: none;
+  cursor: pointer !important;
+}
+
+td.ui-datepicker-other-month.ui-state-hover.ui-datepicker-current-period {
+  background: #978c7c !important;
+}
+
+.ui-datepicker-month:disabled {
+  border-color: #ccc !important;
+  background: #f5f3f0 !important;
+}
+
+/* Piwik jQuery UI Tooltips */
+
+.ui-tooltip {
+  position: absolute;
+  z-index: 2000;
+  text-align: left;
+  background: #f7f7f7;
+  color: @theme-color-text-light;
+  font-size: 12px;
+  font-weight: normal;
+  border: 1px solid #e4e5e4;
+  padding: 5px 10px 6px 10px;
+  border-radius: 4px;
+  -moz-box-shadow: 1px 1px 2px @theme-color-text-lighter;
+  -webkit-box-shadow: 1px 1px 2px @theme-color-text-lighter;
+  box-shadow: 1px 1px 2px @theme-color-text-lighter;
+  overflow: hidden;
+  max-width: 600px;
+  min-width: 50px;
+  line-height: 14px;
+  left: -28000px;
+  top: -28000px;
+  display: none;
+}
+
+.ui-tooltip h3 {
+  font-weight: bold;
+  color: #7E7363;
+}
+
+.ui-tooltip h3 {
+  font-size: 12px;
+  margin: 0 0 2px 0;
+}
+
+body .ui-tooltip.small {
+  font-size: 11px;
+  padding: 3px 5px 3px 6px;
+}
+
+/* Popover */
+
+.ui-dialog .ui-widget-header {
+  background: none;
+  border: 0;
+  font: bold 18px @theme-fontFamily-base;
+  color: #7e7363;
+  clear: both;
+}
+
+.ui-dialog-titlebar-help {
+  position: absolute;
+  right: 33px;
+  top: 50%;
+  width: 16px;
+  margin: -8px 0 0 0;
+  padding: 0;
+  height: 16px;
+  background: url(plugins/Morpheus/images/help.png);
+  overflow: hidden;
+}
+
+.ui-dialog ~ .ui-dialog {
+  border: 1px solid #aaa;
+}

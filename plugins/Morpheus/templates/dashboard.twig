@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]>
+<html class="old-ie" id="ng-app" ng-app="piwikApp"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html id="ng-app" ng-app="piwikApp"><!--<![endif]-->
+    <head>
+        {% block head %}
+            <meta charset="utf-8">
+            <title>{{ siteName|raw }} - {% if isCustomLogo == false %}Piwik &rsaquo; {% endif %} {{ 'CoreHome_WebAnalyticsReports'|translate }}</title>
+            <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
+            <meta name="viewport" content="initial-scale=1.0" />
+            <meta name="generator" content="Piwik - free/libre analytics platform"/>
+            <meta name="description" content="Web Analytics report for '{{ siteName|escape("html_attr") }}' - Piwik"/>
+            <meta name="apple-itunes-app" content="app-id=737216887" />
+{% include "@CoreHome/_favicon.twig" %}
+{% include "_jsGlobalVariables.twig" %}
+{% include "_piwikTag.twig" %}
+            <!--[if lt IE 9]>
+            <script language="javascript" type="text/javascript" src="libs/jqplot/excanvas.min.js"></script>
+            <![endif]-->
+{% include "_jsCssIncludes.twig" %}
+            <!--[if IE]>
+            <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/ieonly.css"/>
+            <![endif]-->
+        {% endblock %}
+    </head>
+    <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'dashboard') }}">
+    {% include "_iframeBuster.twig" %}
+    {% include "@CoreHome/_javaScriptDisabled.twig" %}
+
+    <div id="root">
+        {% include "@CoreHome/_warningInvalidHost.twig" %}
+        {% include "@CoreHome/_topScreen.twig" %}
+
+        {% block notification %}
+            {% include "@CoreHome/_notifications.twig" %}
+        {% endblock %}
+
+        <div class="ui-confirm" id="alert">
+            <h2></h2>
+            <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+        </div>
+
+    {{ postEvent("Template.beforeContent", "dashboard", currentModule) }}
+        {% block content %}
+        {% endblock %}
+    </div>
+    {{ postEvent("Template.footer") }}
+    </body>
+</html>

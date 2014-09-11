@@ -1,0 +1,7 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "O Piwik prevodima",
+        "PluginDescription": "Ovaj dodatak prikazuje sve raspoložive jezike za Piwik interfejs. Izabrani jezik će biti sačuvan za svakog korisnika ponaosob.",
+        "TranslationSearch": "Pretraživanje prevoda"
+    }
+}

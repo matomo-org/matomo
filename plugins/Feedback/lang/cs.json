@@ -1,0 +1,26 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Kontaktujte tým Piwiku",
+        "DoYouHaveBugReportOrFeatureRequest": "Máte hlášení chyby, nebo námět na vylepšení?",
+        "GetInTouch": "Jsme rádi za vaši zpětnou vazbu a vždy čteme všechny zprávy. Možná chcete nabídnout podnikatelskou příležitost, najmout Piwik konzultanta, podělit se o váš úspěch, nebo prostě pozdravit.",
+        "HowToCreateTicket": "Prosím, přečtěte si doporučení, jak dobře nahlásit %1$schybu%2$s nebo %3$sžádost o vlastnost%4$s. Potom se zaregistrujte nebo přihlaste do %5$ssystému pro sledování problémů%6$s a vytvořte %7$snový problém%8$s.",
+        "IWantTo": "Chci:",
+        "LearnWaysToParticipate": "Naučit způsoby jak %s spolupracovat %s",
+        "ManuallySendEmailTo": "Prosím pošlete ručně zprávu",
+        "PluginDescription": "Pošlete ohlas teamu Piwiku. Sdílejte s námi vaše nápady a návrhy!",
+        "PrivacyClaim": "Piwik respektuje vaše %1$ssoukromí%2$s a dává vám plnou kontrolu nad vašimi daty.",
+        "RateFeatureLeaveMessageDislike": "Je nám líto, že se vám to nelíbí. Řekněte nám, jak se můžeme zlepšit.",
+        "RateFeatureLeaveMessageLike": "Jsme rádi, že se vám to líbí. Řekněte nám, co se vám líbí nejvíc, nebo jestli máte nějaký návrh na novou funkci.",
+        "RateFeatureSendFeedbackInformation": "Piwik platforma nám (týmu Piwiku) pošle e-mail s vaší e-mailovou adresou, abychom vás v případě otázek mohli kontaktovat.",
+        "RateFeatureThankYouTitle": "Děkujeme za ohodnocení %s.",
+        "RateFeatureTitle": "Líbí se vám vlastnost %s? Ohodnoťte ji a zanechte komentář",
+        "SendFeedback": "Odeslat odezvu",
+        "SpecialRequest": "Máte speciální požadavek na tým Piwiku?",
+        "ThankYou": "Děkujeme vám, že pomáháte Piwik dělat lepším!",
+        "TopLinkTooltip": "Řekni co si myslíš, nebo požádej o pomoc profesionála.",
+        "ViewAnswersToFAQ": "Zobrazit odpovědi na %sčasto kladené otázky%s",
+        "ViewUserGuides": "Naučte se, jak konfigurovat Piwik a efektivně analyzovat data s našimi %1$suživatelskými příručkami%2$s",
+        "VisitTheForums": "Navštivte %s forum%s",
+        "WantToThankConsiderDonating": "Myslíte si, že je Piwik úžasný a chcete nám poděkovat?"
+    }
+}

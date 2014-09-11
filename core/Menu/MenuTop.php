@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,18 +9,16 @@
 namespace Piwik\Menu;
 use Piwik\Piwik;
 
-
 /**
  * Contains menu entries for the Top menu (the menu at the very top of the page).
- * Plugins can subscribe to the {@hook Menu.Top.addItems} event to add new pages to
- * the top menu.
- * 
+ * Plugins can implement the `configureTopMenu()` method of the `Menu` plugin class to add, rename of remove
+ * items. If your plugin does not have a `Menu` class yet you can create one using `./console generate:menu`.
+ *
  * **Example**
- * 
- *     // add a new page in an observer to Menu.Admin.addItems
- *     public function addTopMenuItem()
+ *
+ *     public function configureTopMenu(MenuTop $menu)
  *     {
- *         MenuTop::getInstance()->add(
+ *         $menu->add(
  *             'MyPlugin_MyTranslatedMenuCategory',
  *             'MyPlugin_MyTranslatedMenuName',
  *             array('module' => 'MyPlugin', 'action' => 'index'),
@@ -28,7 +26,7 @@ use Piwik\Piwik;
  *             $order = 2
  *         );
  *     }
- * 
+ *
  * @method static \Piwik\Menu\MenuTop getInstance()
  */
 class MenuTop extends MenuAbstract
@@ -45,7 +43,7 @@ class MenuTop extends MenuAbstract
      * @param int $order The order hint.
      * @param bool $isHTML Whether `$url` is an HTML string or a URL that will be rendered as a link.
      * @param bool|string $tooltip Optional tooltip to display.
-     * @api
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
      */
     public static function addEntry($topMenuName, $url, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
     {
@@ -56,11 +54,13 @@ class MenuTop extends MenuAbstract
         }
     }
 
+    /**
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
+     */
     public static function removeEntry($menuName, $subMenuName = false)
     {
         MenuTop::getInstance()->remove($menuName, $subMenuName);
     }
-
 
     /**
      * Directly adds a menu entry containing html.
@@ -70,11 +70,13 @@ class MenuTop extends MenuAbstract
      * @param boolean $displayedForCurrentUser
      * @param int $order
      * @param string $tooltip Tooltip to display.
+     * @api
      */
     public function addHtml($menuName, $data, $displayedForCurrentUser, $order, $tooltip)
     {
         if ($displayedForCurrentUser) {
             if (!isset($this->menu[$menuName])) {
+                $this->menu[$menuName]['_name'] = $menuName;
                 $this->menu[$menuName]['_html'] = $data;
                 $this->menu[$menuName]['_order'] = $order;
                 $this->menu[$menuName]['_hasSubmenu'] = false;
@@ -93,29 +95,16 @@ class MenuTop extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * Triggered when collecting all available menu items that are be displayed on the very top of every
-             * page, next to the login/logout links.
-             * 
-             * Subscribe to this event if you want to add one or more items to the top menu.
-             * 
-             * Menu items should be added via the {@link addEntry()} method.
-             *
-             * **Example**
-             * 
-             *     use Piwik\Menu\MenuTop;
-             *
-             *     public function addMenuItems()
-             *     {
-             *         MenuTop::addEntry(
-             *             'TopMenuName',
-             *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
-             *             $order = 6
-             *         );
-             *     }
+             * @ignore
+             * @deprecated
              */
-            Piwik::postEvent('Menu.Top.addItems');
+            Piwik::postEvent('Menu.Top.addItems', array());
+
+            foreach ($this->getAllMenus() as $menu) {
+                $menu->configureTopMenu($this);
+            }
         }
+
         return parent::getMenu();
     }
 }

@@ -1,0 +1,38 @@
+<div title="{{ 'Feedback_RateFeatureTitle'|translate:title }}" class="ratefeature">
+
+    <div class="iconContainer"
+         ng-mouseenter="view.expanded=true;"
+         ng-mouseleave="view.expanded=false">
+
+        <img ng-click="likeFeature();view.showFeedbackForm=true;"
+             class="like-icon"
+             src="plugins/Feedback/angularjs/ratefeature/thumbs-up.png"/>
+
+        <img ng-click="dislikeFeature();view.showFeedbackForm=true;"
+             class="dislike-icon"
+             ng-show="view.expanded"
+             src="plugins/Feedback/angularjs/ratefeature/thumbs-down.png"/>
+    </div>
+
+    <div class="ui-confirm ratefeatureDialog" piwik-dialog="view.showFeedbackForm" yes="sendFeedback(view.feedbackMessage)">
+        <h2>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h2>
+        <p ng-if="like">{{ 'Feedback_RateFeatureLeaveMessageLike'|translate }}</p>
+        <p ng-if="!like">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>
+        <br />
+
+        <div class="messageContainer">
+            <textarea ng-model="view.feedbackMessage"></textarea>
+        </div>
+
+        <input type="button"
+               title="{{ 'Feedback_RateFeatureSendFeedbackInformation'|translate }}"
+               value="{{ 'Feedback_SendFeedback'|translate }}" role="yes"/>
+    </div>
+
+    <div class="ui-confirm ratefeatureDialog" piwik-dialog="ratingDone" yes="">
+        <h2>{{ 'Feedback_ThankYou'|translate:title }}</h2>
+
+        <input type="button" value="{{ 'General_Ok'|translate }}" role="yes"/>
+    </div>
+
+</div>

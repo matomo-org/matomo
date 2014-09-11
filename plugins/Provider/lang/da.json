@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Udbyder",
+        "PluginDescription": "Rapporter de besøgendes udbyder.",
+        "ProviderReportDocumentation": "Rapporten viser hvilken Internet udbyder de besøgende bruger. Klik på en udbyders navn for flere oplysninger. %s Hvis Piwik ikke kan bestemme besøgendes udbyder, er den opført som IP.",
+        "SubmenuLocationsProvider": "Sted og udbyder",
+        "WidgetProviders": "Udbydere"
+    }
+}

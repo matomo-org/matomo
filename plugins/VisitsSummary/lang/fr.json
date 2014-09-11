@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s délais de génération moyen",
+        "AverageVisitDuration": "%s durée moyenne de la visite",
+        "GenerateQueries": "%s requêtes exécutées",
+        "GenerateTime": "%s secondes pour générer la page",
+        "MaxNbActions": "%s actions maximums en une visite",
+        "NbActionsDescription": "%s actions (pages vues, téléchargements et liens de sortie)",
+        "NbActionsPerVisit": "%s actions par visite",
+        "NbDownloadsDescription": "%s téléchargements",
+        "NbKeywordsDescription": "%s mots clés unique",
+        "NbOutlinksDescription": "%s liens sortant",
+        "NbPageviewsDescription": "%s pages vues",
+        "NbSearchesDescription": "%s au total recherches sur votre site web",
+        "NbUniqueDownloadsDescription": "%s téléchargements unique",
+        "NbUniqueOutlinksDescription": "%s liens sortant unique",
+        "NbUniquePageviewsDescription": "%s pages vues uniques",
+        "NbUniqueVisitors": "%s visiteurs uniques",
+        "NbVisitsBounced": "%s visiteurs ont survolé (quitté le site après une page)",
+        "PluginDescription": "Effectue des rapports sur les valeurs générales des statistiques: visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.",
+        "VisitsSummary": "Récapitulatif des visites",
+        "VisitsSummaryDocumentation": "Ceci est un aperçu de l'évolution de la visite.",
+        "WidgetLastVisits": "Graphique des dernières visites",
+        "WidgetOverviewGraph": "Graphique récapitulatif",
+        "WidgetVisits": "Récapitulatif des visites"
+    }
+}

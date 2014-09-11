@@ -1,12 +1,17 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\API\Proxy;
 use Piwik\Archive;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Exception;
 
 /**
  * This use case covers many simple tracking features.
@@ -17,8 +22,11 @@ use Piwik\Archive;
  * - In a returning visit, tracks a Goal conversion
  *   URL matching, with custom referrer and keyword
  *   NO cookie support
+ *
+ * @group Integration
+ * @group OneVisitorTwoVisitsTest
  */
-class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
+class OneVisitorTwoVisitsTest extends IntegrationTestCase
 {
     /**
      * @var Test_Piwik_Fixture_OneVisitorTwoVisits
@@ -35,9 +43,13 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         Proxy::getInstance()->setHideIgnoredFunctions(true);
     }
 
+    public static function getOutputPrefix()
+    {
+        return "OneVisitorTwoVisits";
+    }
+
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -55,7 +67,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         $enExtraParam = array('expanded' => 1,
                               'flat' => 1,
                               'include_aggregate_rows' => 0,
-                              'translateColumnNames' => 1
+                              'translateColumnNames' => 1,
         );
         $bulkUrls = array(
             // Testing with several days
@@ -67,7 +79,12 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
             $url = urlencode($url);
         }
         return array(
-            array('all', array('idSite' => $idSite, 'date' => $dateTime)),
+            array('all', array('idSite' => $idSite,
+                               'date' => $dateTime,
+                               'otherRequestParameters' => array(
+                                   'hideColumns' => 'nb_users',
+                               )
+            )),
 
             // test API.get (for bug that incorrectly reorders columns of CSV output)
             //   note: bug only affects rows after first
@@ -178,8 +195,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 
     /**
      * Test that Archive::getBlob won't fetch extra unnecessary blobs.
-     *
-     * @group        Integration
      */
     public function testArchiveSingleGetBlob()
     {
@@ -199,12 +214,10 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 
         $this->assertTrue($foundSubtable, "Actions_actions subtable was not loaded");
     }
-    
+
     /**
      * Test that restricting the number of sites to those viewable to another login
      * works when building an archive query object.
-     * 
-     * @group        Integration
      */
     public function testArchiveSitesWhenRestrictingToLogin()
     {
@@ -221,5 +234,5 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_OneVisitorTwoVisits::$fixture = new Test_Piwik_Fixture_OneVisitorTwoVisits();
-Test_Piwik_Integration_OneVisitorTwoVisits::$fixture->excludeMozilla = true;
+OneVisitorTwoVisitsTest::$fixture = new OneVisitorTwoVisits();
+OneVisitorTwoVisitsTest::$fixture->excludeMozilla = true;

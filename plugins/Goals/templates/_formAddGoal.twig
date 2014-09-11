@@ -25,6 +25,9 @@
                     <input type="radio" id="match_attribute_title" value="title" name="match_attribute"/>
                     <label for="match_attribute_title">{{ 'Goals_VisitPageTitle'|translate }}</label>
                     <br/>
+                    <input type="radio" id="match_attribute_event" value="event" name="match_attribute"/>
+                    <label for="match_attribute_event">{{ 'Goals_SendEvent'|translate }}</label>
+                    <br/>
                     <input type="radio" id="match_attribute_file" value="file" name="match_attribute"/>
                     <label for="match_attribute_file">{{ 'Goals_Download'|translate }}</label>
                     <br/>
@@ -35,13 +38,19 @@
             </tbody>
             <tbody id="match_attribute_section">
             <tr>
-                <td class="first">{{ 'Goals_WhereThe'|translate }} <span id="match_attribute_name"></span></td>
+                <td class="first">{{ 'Goals_WhereThe'|translate }} <span class="whereUrl" id="match_attribute_name"></span><select name="event_type" class="whereEvent inp">
+                        <option value="event_category">{{ 'Events_EventCategory'|translate }}</option>
+                        <option value="event_action">{{ 'Events_EventAction'|translate }}</option>
+                        <option value="event_name">{{ 'Events_EventName'|translate }}</option>
+                    </select></td>
                 <td>
                     <select name="pattern_type" class="inp">
                         <option value="contains">{{ 'Goals_Contains'|translate("") }}</option>
                         <option value="exact">{{ 'Goals_IsExactly'|translate("") }}</option>
                         <option value="regex">{{ 'Goals_MatchesExpression'|translate("") }}</option>
                     </select>
+
+                    {{ 'Goals_Pattern'|translate }}
 
                     <input type="text" name="pattern" value="" size="16" class="inp"/>
                     <br/>

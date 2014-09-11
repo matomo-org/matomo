@@ -1,11 +1,18 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Translate;
 
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,7 +30,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      * @var Model
      */
     private $model;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -582,7 +589,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
         $this->assertEquals($wanted1, $access1);
         $this->assertEquals($wanted2, $access2);
-
 
         $access1 = $this->api->getUsersAccessFromSite($id1);
         $access2 = $this->api->getUsersAccessFromSite($id2);

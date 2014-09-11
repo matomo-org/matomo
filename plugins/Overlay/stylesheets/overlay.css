@@ -36,7 +36,7 @@ a#Overlay_Title {
 
 #Overlay_DateRangeSelection {
     padding: 30px 0 20px 23px;
-    background: url(../../Zeitgeist/images/icon-calendar.gif) 2px 33px no-repeat;
+    background: url(../../Morpheus/images/icon-calendar.gif) 2px 33px no-repeat;
     margin-left: 5px;
 }
 
@@ -48,7 +48,7 @@ a#Overlay_Title {
 }
 
 #Overlay_Loading {
-    background: url(../../Zeitgeist/images/loading-blue.gif) no-repeat center 10px;
+    background: url(../../Morpheus/images/loading-blue.gif) no-repeat center 10px;
     width: 190px;
     padding-top: 30px;
     margin-top: 30px;
@@ -82,7 +82,7 @@ a#Overlay_Transitions {
 
 a#Overlay_RowEvolution {
     margin-top: 20px;
-    background: url(../../Zeitgeist/images/row_evolution_hover.png) no-repeat 0 7px;
+    background: url(../../Morpheus/images/row_evolution_hover.png) no-repeat 0 7px;
 }
 
 a#Overlay_Transitions {
@@ -91,7 +91,7 @@ a#Overlay_Transitions {
 
 a#Overlay_FullScreen {
     margin-top: 20px;
-    background: url(../../Zeitgeist/images/fullscreen.png) no-repeat 3px 8px;
+    background: url(../../Morpheus/images/fullscreen.png) no-repeat 3px 8px;
 }
 
 a#Overlay_FullScreen:hover,
@@ -152,4 +152,8 @@ body .ui-tooltip.Overlay_Tooltip {
 
 #topBars {
     display: none;
+}
+
+.overlay-sidebar-container {
+    width: 220px;
 }

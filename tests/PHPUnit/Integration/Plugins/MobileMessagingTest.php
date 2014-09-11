@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -37,7 +37,6 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging', 'MultiSites'));
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
     }
-
 
     /**
      * When the MultiSites plugin is not activated, the SMS content should invite the user to activate it back
@@ -174,7 +173,6 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
             SMSProvider::truncate($stringToTruncate, $maximumNumberOfConcatenatedSMS, $appendedString)
         );
     }
-
 
     /**
      * Dataprovider for testContainsUCS2Characters

@@ -12,7 +12,7 @@
 	</head>
 
 	<body>
-<!-- ============================== header ================================= -->	
+<!-- ============================== header ================================= -->
 		<!-- begin static/header.html -->
 		{+include("static/header.html")+}
 		<!-- end static/header.html -->
@@ -23,17 +23,17 @@
 			{+publish.classesIndex+}
 			<!-- end publish.classesIndex -->
 		</div>
-		
+
 		<div id="content">
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				{!
 					var classType = "";
-					
+
 					if (data.isBuiltin()) {
 						classType += "Built-In ";
 					}
-					
+
 					if (data.isNamespace) {
 						if (data.is('FUNCTION')) {
 							classType += "Function ";
@@ -47,7 +47,7 @@
 				{+classType+}{+data.alias+}
 			</h1>
 
-<!-- ============================== class summary ========================== -->			
+<!-- ============================== class summary ========================== -->
 			<p class="description">
 				<if test="data.version"><br />Version
 					{+ data.version +}.<br />
@@ -62,15 +62,15 @@
 						.join(", ")
 					+}.<br />
 				</if>
-			
+
 				{+resolveLinks(data.classDesc)+}
-				
+
 				<if test="!data.isBuiltin()">{# isn't defined in any file #}
 					<br /><i>Defined in: </i> {+new Link().toSrc(data.srcFile)+}.
 				</if>
 			</p>
 
-<!-- ============================== constructor summary ==================== -->			
+<!-- ============================== constructor summary ==================== -->
 			<if test="!data.isBuiltin() && (data.isNamespace || data.is('CONSTRUCTOR'))">
 			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class {+data.alias+}.">
 				<caption>{+classType+}Summary</caption>
@@ -129,12 +129,12 @@
 					</tbody>
 				</table>
 				</if>
-				
+
 				<if test="data.inheritsFrom.length">
 				<dl class="inheritsList">
 				{!
 					var borrowedMembers = data.properties.filter(function($) {return $.memberOf != data.alias});
-					
+
 					var contributers = [];
 					borrowedMembers.map(function($) {if (contributers.indexOf($.memberOf) < 0) contributers.push($.memberOf)});
 					for (var i = 0, l = contributers.length; i < l; i++) {
@@ -189,7 +189,7 @@
 					</tbody>
 				</table>
 				</if>
-				
+
 				<if test="data.inheritsFrom.length">
 				<dl class="inheritsList">
 				{!
@@ -213,7 +213,7 @@
 							+
 							"</dd>";
 					}
-				
+
 				!}
 				</dl>
 				</if>
@@ -248,7 +248,7 @@
 					</tbody>
 				</table>
 				</if>
-				
+
 				<if test="data.inheritsFrom.length">
 				<dl class="inheritsList">
 				{!
@@ -272,38 +272,37 @@
 							+
 							"</dd>";
 					}
-				
+
 				!}
 				</dl>
 				</if>
 			</if>
 
-<!-- ============================== constructor details ==================== -->		
+<!-- ============================== constructor details ==================== -->
 			<if test="!data.isBuiltin() && (data.isNamespace || data.is('CONSTRUCTOR'))">
 			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
 					{+classType+}Detail
 				</div>
-				
+
 				<div class="fixedFont">{!
 					if (data.isPrivate) output += "&lt;private&gt; ";
 					if (data.isInner) output += "&lt;inner&gt; ";
 				!}
 						<b>{+ data.alias +}</b><if test="classType != 'Namespace '">{+ makeSignature(data.params) +}</if>
 				</div>
-				
+
 				<div class="description">
 					{+resolveLinks(data.desc)+}
 					<if test="data.author"><br /><i>Author: </i>{+data.author+}.</if>
 				</div>
-				
+
 				<if test="data.example.length">
 				<for each="example" in="data.example">
 				<pre class="code">{+example+}</pre>
 				</for>
 				</if>
-				
-				
+
 					<if test="data.params.length">
 						<dl class="detailList">
 						<dt class="heading">Parameters:</dt>
@@ -369,7 +368,7 @@
 			</div>
 			</if>
 
-<!-- ============================== field details ========================== -->		
+<!-- ============================== field details ========================== -->
 			<if test="defined(ownProperties) && ownProperties.length">
 				<div class="sectionTitle">
 					Field Detail
@@ -382,10 +381,10 @@
 						if (member.isStatic) output += "&lt;static&gt; ";
 						if (member.isConstant) output += "&lt;constant&gt; ";
 					!}
-					
+
 					<if test="member.type"><span class="light">{{+new Link().toSymbol(member.type)+}}</span></if>
 					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if><b>{+member.name+}</b>
-					
+
 					</div>
 					<div class="description">
 						{+resolveLinks(member.desc)+}
@@ -395,7 +394,7 @@
 						</if>
 						<if test="member.author"><br /><i>Author: </i>{+member.author+}.</if>
 					</div>
-					
+
 					<if test="member.example.length">
 					<for each="example" in="member.example">
 					<pre class="code">{+example+}</pre>
@@ -437,7 +436,7 @@
 				</for>
 			</if>
 
-<!-- ============================== method details ========================= -->		
+<!-- ============================== method details ========================= -->
 			<if test="defined(ownMethods) && ownMethods.length">
 				<div class="sectionTitle">
 					Method Detail
@@ -449,10 +448,10 @@
 						if (member.isInner) output += "&lt;inner&gt; ";
 						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
-					
+
 					<if test="member.type"><span class="light">{{+new Link().toSymbol(member.type)+}}</span></if>
 					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if><b>{+member.name.replace(/\^\d+$/, '')+}</b>{+makeSignature(member.params)+}
-					
+
 					</div>
 					<div class="description">
 						{+resolveLinks(member.desc)+}
@@ -462,13 +461,13 @@
 						</if>
 						<if test="member.author"><br /><i>Author: </i>{+member.author+}.</if>
 					</div>
-					
+
 					<if test="member.example.length">
 					<for each="example" in="member.example">
 					<pre class="code">{+example+}</pre>
 					</for>
 					</if>
-					
+
 						<if test="member.params.length">
 							<dl class="detailList">
 							<dt class="heading">Parameters:</dt>
@@ -535,8 +534,8 @@
 					<if test="!$member_last"><hr /></if>
 				</for>
 			</if>
-			
-<!-- ============================== event details ========================= -->		
+
+<!-- ============================== event details ========================= -->
 			<if test="defined(ownEvents) && ownEvents.length">
 				<div class="sectionTitle">
 					Event Detail
@@ -548,10 +547,10 @@
 						if (member.isInner) output += "&lt;inner&gt; ";
 						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
-					
+
 					<if test="member.type"><span class="light">{{+new Link().toSymbol(member.type)+}}</span></if>
 					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if><b>{+member.name+}</b>{+makeSignature(member.params)+}
-					
+
 					</div>
 					<div class="description">
 						{+resolveLinks(member.desc)+}
@@ -561,13 +560,13 @@
 						</if>
 						<if test="member.author"><br /><i>Author: </i>{+member.author+}.</if>
 					</div>
-					
+
 					<if test="member.example.length">
 					<for each="example" in="member.example">
 					<pre class="code">{+example+}</pre>
 					</for>
 					</if>
-					
+
 						<if test="member.params.length">
 							<dl class="detailList">
 							<dt class="heading">Parameters:</dt>
@@ -634,11 +633,10 @@
 					<if test="!$member_last"><hr /></if>
 				</for>
 			</if>
-			
+
 			<hr />
 		</div>
 
-		
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			<if test="JSDOC.opt.D.copyright">&copy;{+JSDOC.opt.D.copyright+}<br /></if>

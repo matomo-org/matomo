@@ -1,21 +1,27 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
 
 /**
  * Testing Custom Events
+ *
+ * @group CustomEventsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
+class CustomEventsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -25,6 +31,9 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
     protected function getApiToCall()
     {
         return array(
+            'Events.getCategory',
+            'Events.getAction',
+            'Events.getName',
             'Actions.get',
             'Live.getLastVisitsDetails',
             'Actions.getPageUrls',
@@ -41,29 +50,21 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
         $dateTime = self::$fixture->dateTime;
         $idSite1 = self::$fixture->idSite;
 
-        $apiToCall = $this->getApiToCall();
+        $apiToCallProcessedReportMetadata = $this->getApiToCall();
 
         $dayPeriod = 'day';
         $periods = array($dayPeriod, 'month');
 
+        $apiEventAndAction = array('Events', 'Actions.getPageUrls');
         $result = array(
-            array($apiToCall, array(
+            array($apiToCallProcessedReportMetadata, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $periods,
                 'setDateLastN' => false,
                 'testSuffix'   => '')),
 
-            array('Actions.getPageUrls', array(
-                'idSite'       => $idSite1,
-                'date'         => $dateTime,
-                'periods'      => $dayPeriod,
-                'segment'      => "events>0",
-                'setDateLastN' => false,
-                'testSuffix'   => '')
-            ),
-            // FIXMEA: Add Events.get* here
-            array('Actions.getPageUrls', array(
+            array($apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
@@ -73,13 +74,13 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
             ),
 
             // eventAction should not match any page view
-            array('Actions.getPageUrls', array(
+            array($apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
                 'segment'      => "eventAction=@play",
                 'setDateLastN' => false,
-                'testSuffix'   => '_eventSegmentMatchNoAction')
+                'testSuffix'   => '_segmentMatchesEventActionPlay')
             ),
 
             // eventValue should not match any page view
@@ -93,10 +94,13 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
 //            ),
         );
 
-        // testing metadata API for one metadata report
-        $apiToCall = array ( end($apiToCall) );
-
-        foreach ($apiToCall as $api) {
+        $apiToCallProcessedReportMetadata = array(
+            'Events.getCategory',
+            'Events.getAction',
+            'Events.getName',
+        );
+        // testing metadata API for Events reports
+        foreach ($apiToCallProcessedReportMetadata as $api) {
             list($apiModule, $apiAction) = explode(".", $api);
 
             $result[] = array(
@@ -109,6 +113,22 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
                                                 'testSuffix'   => '_' . $api . '_lastN')
             );
         }
+
+        // Test secondary dimensions
+        $secondaryDimensions = array('eventCategory', 'eventAction', 'eventName');
+        foreach($secondaryDimensions as $secondaryDimension) {
+            $result[] = array(array('Events'), array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $periods,
+                'otherRequestParameters' => array(
+                    'secondaryDimension' => $secondaryDimension
+                ),
+                'setDateLastN' => false,
+                'testSuffix'   => '_secondaryDimensionIs' . ucfirst($secondaryDimension))
+            );
+        }
+
         return $result;
     }
 
@@ -118,6 +138,4 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_CustomEvents::$fixture = new Test_Piwik_Fixture_TwoVisitsWithCustomEvents();
-
-
+CustomEventsTest::$fixture = new TwoVisitsWithCustomEvents();

@@ -1,5 +1,5 @@
 ###############
-# Piwik - Open source web analytics
+# Piwik - free/libre analytics platform
 #
 # @link http://piwik.org
 # @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,9 +30,9 @@
 - url: 'http://www.google.fr/search?hl=en&q=%3C%3E+%26test%3B+piwik+%26quot%3B&ei=GcXJSb-VKoKEsAPmnIjzBw&sa=X&oi=revisions_inline&ct=unquoted-query-link'
   engine: 'Google'
   keywords: '<> &test; piwik &quot;'
-  
+
 # testing Baidu special case (several variable names possible, and custom encoding)
-# see http://dev.piwik.org/trac/ticket/589
+# see https://github.com/piwik/piwik/issues/589
 
 # keyword is in "wd"
 - url: 'http://www.baidu.com/s?ie=gb2312&bs=%BF%D5%BC%E4+hao123+%7C+%B8%FC%B6%E0%3E%3E&sr=&z=&cl=3&f=8&tn=baidu&wd=%BF%D5%BC%E4+%BA%C3123+%7C+%B8%FC%B6%E0%3E%3E&ct=0'
@@ -200,7 +200,6 @@
   engine: 'Yahoo! Directory'
   keywords: 'analytics'
 
-
 # Bing mobile image search has a special URL
 #- url: 'http://m.bing.com/search/search.aspx?A=imageresults&Q=piwik&D=Image&MID=8015&SI=0&PN=0&SCO=0'
 #  engine: 'Bing Images'
@@ -214,7 +213,6 @@
 #- url: 'http://74.6.239.185/search/srpcache?ei=UTF-8&p=piwik&fr=yfp-t-964&fp_ip=ca&u=http://cc.bingj.com/cache.aspx?q=piwik&d=4770519086662477&mkt=en-US&setlang=en-US&w=f4bc05d8,8c8af2e3&icp=1&.intl=us&sig=PXmPDNqapxSQ.scsuhIpZA--'
 #  engine: 'Yahoo'
 #  keywords: 'piwik'
-
 
 # InfoSpace
 - url: 'http://www.infospace.com/search/web?fcoid=417&fcop=topnav&fpid=27&q=piwik&ql='
@@ -328,7 +326,7 @@
   keywords: false
 
 # Google images no keyword
-- url: 'http://www.google.com/imgres?hl=en&client=ubuntu&hs=xDb&sa=X&channel=fs&biw=1920&bih=1084&tbm=isch&prmd=imvns&tbnid=5i7iz7u4LPSSrM:&imgrefurl=http://dev.piwik.org/trac/wiki/HowToSetupDevelopmentEnvironmentWindows&docid=tWN9OesMyOTqsM&imgurl=http://dev.piwik.org/trac/raw-attachment/wiki/HowToSetupDevelopmentEnvironmentWindows/eclipse-preview.jpg&w=1000&h=627&ei=pURoT67BEdT74QTUzYiSCQ&zoom=1&iact=hc&vpx=1379&vpy=548&dur=513&hovh=178&hovw=284&tx=134&ty=105&sig=108396332168858896950&page=1&tbnh=142&tbnw=227&start=0&ndsp=37&ved=1t:429,r:5,s:0'
+- url: 'http://www.google.com/imgres?hl=en&client=ubuntu&hs=xDb&sa=X&channel=fs&biw=1920&bih=1084&tbm=isch&prmd=imvns&tbnid=5i7iz7u4LPSSrM:&imgrefurl=http://helloworld/trac/wiki/HowToSetupDevelopmentEnvironmentWindows&docid=tWN9OesMyOTqsM&imgurl=http://helloworld.org/trac/raw-attachment/wiki/HowToSetupDevelopmentEnvironmentWindows/eclipse-preview.jpg&w=1000&h=627&ei=pURoT67BEdT74QTUzYiSCQ&zoom=1&iact=hc&vpx=1379&vpy=548&dur=513&hovh=178&hovw=284&tx=134&ty=105&sig=108396332168858896950&page=1&tbnh=142&tbnw=227&start=0&ndsp=37&ved=1t:429,r:5,s:0'
   engine: 'Google Images'
   keywords: false
 
@@ -379,8 +377,28 @@
   keywords: 'searchterm'
 
 - url: 'http://image.search.yahoo.co.jp/search?ei=UTF-8&fr=top_ga1_sa&p=%EF%BD%94%EF%BD%8F+%EF%BD%88%EF%BD%85%EF%BD%81%EF%BD%92%EF%BD%94+%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BD%8F'
-  engine: 'Yahoo!'
+  engine: 'Yahoo! Japan Images'
   keywords: 'ｔｏ ｈｅａｒｔ ｌｏｇｏ'
+
+- url: 'http://video.search.yahoo.co.jp/search?tt=c&ei=UTF-8&fr=sfp_as&aq=-1&oq=&p=piwik&meta=vc%3D'
+  engine: 'Yahoo! Japan Videos'
+  keywords: 'piwik'
+
+- url: 'http://search.yahoo.co.jp/search?ei=UTF-8&p=piwik'
+  engine: 'Yahoo! Japan'
+  keywords: 'piwik'
+
+- url: 'http://search.auone.jp/?q=piwik&sr=0001&ie=UTF-8&lr='
+  engine: 'auone'
+  keywords: 'piwik'
+
+- url: 'http://search.nifty.com/websearch/search?select=2&ss=up&cflg=%E6%A4%9C%E7%B4%A2&chartype=&Text=%E3%82%A6%E3%82%A7%E3%83%96%E6%A4%9C%E7%B4%A2%E7%B5%90%E6%9E%9C%E7%B4%84'
+  engine: 'Nifty'
+  keywords: 'ウェブ検索結果約'
+
+- url: 'http://videosearch.nifty.com/search?kw=piwik'
+  engine: 'Nifty Videos'
+  keywords: 'piwik'
 
 - url: 'http://www.claro-search.com/?q=logiciels+pour+%C3%A9crire+en+japonais+avec+windows+xp&s=web&as=0&rlz=0&babsrc=SP_clro'
   engine: 'Claro Search'
@@ -394,9 +412,49 @@
   engine: 'Google'
   keywords: 'ふたりはプリキュアmaxheart'
 
+- url: 'http://cgi.search.biglobe.ne.jp/cgi-bin/search-st?search=%E6%A4%9C%E7%B4%A2&web_s.x=1&q=piwik&x=0&y=0&ie=utf8'
+  engine: 'Biglobe'
+  keywords: 'piwik'
+
+- url: 'http://images.search.biglobe.ne.jp/cgi-bin/search?q=%E3%82%B5%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%AF%EF%BC%88'
+  engine: 'Biglobe Images'
+  keywords: 'サーリンク（'
+
+- url: 'http://www.so-net.ne.jp/search/web/?query=piwik&from=gp&kz=&suggest=gp_suggest_on'
+  engine: 'So-net'
+  keywords: 'piwik'
+
+- url: 'http://video.so-net.ne.jp/search/?kw=piwik&from='
+  engine: 'So-net Videos'
+  keywords: 'piwik'
+
+- url: 'http://search.seesaa.jp/%E6%97%A5%E6%9C%AC%E3%83%86%E3%83%AC%E3%83%93%E6%94%BE%E9%80%81%E7%B6%B2/index.html'
+  engine: 'SeeSaa'
+  keywords: '日本テレビ放送網'
+
+- url: 'http://chercherfr.aguea.com/s.py?q=piwik'
+  engine: 'Aguea'
+  keywords: 'piwik'
+
+- url: 'http://www.lookany.com/search/piwik+guide'
+  engine: 'LookAny'
+  keywords: 'piwik guide'
+
+- url: 'http://www.lookany.com/images/piwik+guide'
+  engine: 'LookAny'
+  keywords: 'piwik guide'
+
+- url: 'http://search.tb.ask.com/search/GGmain.jhtml?searchfor=Drinkable+sunscreen&tpr=tt-pop-h&n=&st=hp&qs='
+  engine: 'Ask'
+  keywords: 'drinkable sunscreen'
+
 - url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
   engine: 'SmartAddressbar'
   keywords: 'habillage aikatsu'
+
+- url: 'http://www.woopie.jp/search?kw=piwik&return=authorization&res=fail&code=213'
+  engine: 'Woopie'
+  keywords: 'piwik'
 
 - url: 'http://lemoteur.ke.voila.fr/?module=orange&bhv=images&kw=negi%20ma%20ala%20alba%20eva'
   engine: 'Orange'
@@ -405,6 +463,31 @@
 - url: 'http://search.v9.com/image/?q=saeko&hl=mx&yahoo=0&pn=2&ab=default'
   engine: 'InfoSpace'
   keywords: 'saeko'
+
+- url: 'http://www.k9safesearch.com/search.jsp?q=amagami+sae+nakata'
+  engine: 'K9 Safe Search'
+  keywords: 'amagami sae nakata'
+
+- url: 'http://sp-image.search.auone.jp/search?q=school%20days%20%E7%94%BB%E5%83%8F&query=p2Abo29fVTEurKZt55F75LBCWzygLJqypj&page=6'
+  engine: 'auone Images'
+  keywords: 'school days 画像'
+
+- url: 'http://search.iminent.com/SearchTheWeb/v6/1036/homepage/Default.aspx#q=rest&s=images'
+  engine: 'InfoSpace'
+  keywords: 'rest'
+
+- url: 'http://www.sputnik.ru/search?q=%D0%BC%D0%B8%D0%BA%D1%80%D0%BE'
+  engine: 'Sputnik'
+  keywords: 'микро'
+
+# No keyword
+- url: 'http://yandex.ru/clck/jsredir?from=yandex.ru;yandsearch;web;;&text=&etext=385.4_2Hh6u_q9NEfpXpGpdVughcGncWYG-_kwHJA-7QxQ8v4xvt5Q2aAB7TvvUxHLtacHMltCoYGQFFmIdiXaIT-_yiHqjEJoZKVdHIXJylYsQ5TJuxRtqCDA0zUi_xlatVD6kx219rIP4Q4a7j9E7-2U88ZpCZwGXuhRws6LASTZUIJRfiPbVdxjIn2Qu5bCtcGKIQBqGa567Czx019cxaPvNAWQQ_8MIJjUgFHzg2vO_XvlSMmKOcooZNX5UzqgJAnaioMW7884jsYEKwXebrij39unXyWKnLXDX15607fkXqQFGIC_tp8zvjXq0ynizqcdQcfkHnZG-zxxPqCoALAWj47hwRCZtLGinfqMatmzFWG7Yo7eWxScEHyMI2J89OU2ZjpuHog0VyZpSb3hN17-CdHWEeN_ii1mLG_J24ftGMEpbWOeH-M3fZeAtCzmq0XUFchFAbVvm9Xmk8I2M-4A.66cd118e1c9292f7ec030c8580f6912eae4ac700&uuid=&state=AiuY0DBWFJ4ePaEse6rgeAjgs2pI3DW99KUdgowt9XsGes-COYeAtjuEaMUoBSHP2gxXC4630Mz4aEvXYUCXRTGAgAQwM7IGD-gsizkhSmBNCEfle91ZI3guOwMFOli3aeHzkqoQeuyYhvz_XwXodFz8gB8yMp6IgAL52sHwR5edKVNpZtbPIFNbLDRYIxJbYQciYGnLnCw_i584OfCtQO-zjBBGMlwoQFtGet-Xvmw&data=UlNrNmk5WktYejR0eWJFYk1LdmtxdE5aS05CUWU0alhkSkF1MEpOb0Jrc0dpbmNsUGhaVjljRWt6R0VackFURk5sM1psNlVKMWh6djhYazhRT1psQTdHamFGSFJacDFhQjdfbHJQU05jeDJMRHV0MTJmRG53Zw&b64e=2&sign=9072743a841f27dd5e766c4b57fa5138&keyno=0&l10n=ru'
+  engine: 'Yandex'
+  keywords: ''
+
+- url: 'http://r.search.yahoo.com/_ylt=A9mSs2YFMt1ThykAAaOA3YlQ;_ylu=X3oDMTBydWpobjZlBHNlYwNzcgRwb3MDMQRjb2xvA2lyMgR2dGlkAw--/RV=2/RE=1407033989/RO=10/RU=http://www.something.com//RK=0/RS=YOw3nEcdnM8kysqLyl4DzpAHnDo-'
+  engine: 'Yahoo!'
+  keywords: false
 
 # No search
 - url: 'http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-x&output=html&h=15&slotname=2973049897&adk=3777420323&w=728&lmt=1381755030&flash=11.9.900.117&url=http%3A%2F%2Fexample.com%2F&dt=1381755030169&bpp=8&bdt=2592&shv=r20131008&cbv=r20130906&saldr=sa&correlator=1381755030200&frm=20&ga_vid=1659309719.1381755030&ga_sid=1381755030&ga_hid=1569070879&ga_fc=0&u_tz=660&u_his=3&u_java=1&u_h=768&u_w=1366&u_ah=728&u_aw=1366&u_cd=24&u_nplug=0&u_nmime=0&dff=times%20new%20roman&dfs=13&adx=311&ady=107&biw=1349&bih=673&oid=2&ref=http%3A%2F%2Fwww.google.com.au%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26frm%3D1%26source%3Dweb%26cd%3D10%26ved%3D0CGcQFjAJ%26url%3Dhttp%253A%252F%252Fexample.com%252F%26ei%3DXNtbUvrJPKXOiAfw1IH4Bw%26usg%3DAFQjCNE66zRf2zaUw8FKf0JWxiM1FiXHVg&vis=1&fu=0&ifi=1&pfi=32&dtd=122&xpc=tBekiCZTWM&p=http%3A//example.com&rl_rc=true&adsense_enabled=true&ad_type=text_image&oe=utf8&height=15&width=728&format=fp_al_lp&kw_type=radlink&prev_fmts=728x15_0ads_al&rt=ChBSW-iYAADltAqmmOfZAA2SEg1BbmltYXRlZCBUZXh0Ggj019wBciBqgSgBUhMI8OHhzq6WugIVhJOmCh2NYQBO&hl=en&kw0=Animated+Text&kw1=Animated+GIF&kw2=Animated+Graphics&kw3=Fonts&okw=Animated+Text'

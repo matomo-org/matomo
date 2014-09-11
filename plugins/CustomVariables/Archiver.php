@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,8 +13,8 @@ use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\Metrics;
-use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
+use Piwik\Tracker;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -22,6 +22,10 @@ class Archiver extends \Piwik\Plugin\Archiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
+
+    // Ecommerce reports use custom variables.
+    // We specifically set the limits high to get accurate Ecommerce reports
+    const MAX_ROWS_WHEN_ECOMMERCE = 50000;
 
     /**
      * @var DataArray
@@ -34,8 +38,14 @@ class Archiver extends \Piwik\Plugin\Archiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
-        $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
+
+        if($processor->getParams()->getSite()->isEcommerceEnabled()) {
+            $this->maximumRowsInDataTableLevelZero = self::MAX_ROWS_WHEN_ECOMMERCE;
+            $this->maximumRowsInSubDataTable = self::MAX_ROWS_WHEN_ECOMMERCE;
+        } else {
+            $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
+            $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
+        }
     }
 
     public function aggregateMultipleReports()
@@ -49,7 +59,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $this->dataArray = new DataArray();
 
-        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
             $this->aggregateCustomVariable($i);
         }
 

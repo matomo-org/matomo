@@ -1,0 +1,10 @@
+{
+    "Login": {
+        "ContactAdmin": "Posible razón: o seu aloxamento pode ter deshabilitado a función mail().<br>Por favor contacte co seu administrador de piwik.",
+        "InvalidUsernameEmail": "O nome do usuario ou o enderezo de correo electrónicoo son incorrectos",
+        "LogIn": "Conectar",
+        "LoginOrEmail": "Login ou E-mail",
+        "LoginPasswordNotCorrect": "Usuario e contrasinal incorrectos",
+        "LostYourPassword": "Esqueceu o contrasinal?"
+    }
+}

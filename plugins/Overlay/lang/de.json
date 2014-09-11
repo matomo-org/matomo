@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s Klicks",
+        "ClicksFromXLinks": "%1$s klicks von einem von %2$s Verweisen",
+        "Domain": "Domain",
+        "ErrorNotLoading": "Die Seiten Overlay Sitzung kann gerade nicht aufgerufen werden.",
+        "ErrorNotLoadingDetails": "Möglicherweise hat die rechte Seite keinen Piwik Tracking Code. In diesem Fall bitte versuchen das Overlay für eine andere Seite aus dem Seitenbericht zu benutzen.",
+        "ErrorNotLoadingDetailsSSL": "Da Sie Piwik über https nutzen, ist es wahrscheinlich dass Ihre Webseite kein SSL unterstützt. Bitte benutzen Sie Piwik über http.",
+        "ErrorNotLoadingLink": "Klicken Sie hier für weitere Tipps zur Fehlerbehebung",
+        "Link": "Link",
+        "Location": "Seite",
+        "NoData": "Für den gewählten Zeitraum gibt es keine Daten für diese Seite.",
+        "OneClick": "1-click",
+        "OpenFullScreen": "Vollbildmodus starten (keine Sidebar)",
+        "Overlay": "Seiten Overlay",
+        "PluginDescription": "Sehen Sie analytische Daten als Überlagung auf Ihrer eigentlichen Webseite.",
+        "RedirectUrlError": "Sie versuchen, eine Seiten Overlay Sitzung für die URL \"%s\" zu starten. %s Keine der in den Piwik Einstellungen hinterlegten Domains passt zu diesem Link.",
+        "RedirectUrlErrorAdmin": "Sie können diese Domain %sin den Einstellungen%s als zusätzliche URL hinzufügen.",
+        "RedirectUrlErrorUser": "Bitten Sie Ihren Administrator diese Domain als zusätzliche URL hinzuzufügen."
+    }
+}

@@ -1,0 +1,181 @@
+<td sites-manager-edit-trigger>
+    {{ site.idsite }}
+</td>
+
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
+
+    <span ng-switch-default>
+        {{ site.name }}
+    </span>
+
+    <span ng-switch-when="true">
+
+        <input type="text" ng-model="site.name"/>
+
+        <br/>
+        <br/>
+
+        <input type="submit" class="submit" value="{{ 'General_Save' | translate }}" ng-click="saveSite()"/>
+
+        <br/>
+        <br/>
+
+        <span class="link_but" ng-click="cancelEditSite($event)">
+            <span>{{ 'General_OrCancel' | translate:'':'' }}</span>
+        </span>
+    </span>
+
+</td>
+
+<td
+    sites-manager-edit-trigger
+    ng-include="'plugins/SitesManager/templates/sites-list/alias-urls-field.html'"
+    ng-switch="site.editMode">
+</td>
+
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
+
+    <span ng-switch-default>
+        <div ng-repeat="ip in site.excluded_ips">
+            {{ ip }}
+        </div>
+    </span>
+
+    <span ng-switch-when="true">
+
+        <div sites-manager-multiline-field field="site.excluded_ips" cols="20" rows="4"></div>
+
+        <div ng-include="'plugins/SitesManager/templates/help/excluded-ip-help.html'"></div>
+    </span>
+
+</td>
+
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
+
+    <span ng-switch-default>
+        <div ng-repeat="parameter in site.excluded_parameters">
+            {{ parameter }}
+        </div>
+    </span>
+
+    <span ng-switch-when="true">
+
+        <div sites-manager-multiline-field field="site.excluded_parameters" cols="20" rows="4"></div>
+
+        <div ng-include="'plugins/SitesManager/templates/help/excluded-query-parameters-help.html'"></div>
+    </span>
+
+</td>
+
+<td ng-show="globalSettings.siteSpecificUserAgentExcludeEnabled" ng-switch="site.editMode" sites-manager-edit-trigger>
+
+    <span ng-switch-default>
+        <div ng-repeat="userAgent in site.excluded_user_agents">
+            {{ userAgent }}
+        </div>
+    </span>
+
+    <span ng-switch-when="true">
+
+        <div sites-manager-multiline-field field="site.excluded_user_agents" cols="20" rows="4"></div>
+
+        <div ng-include="'plugins/SitesManager/templates/help/excluded-user-agents-help.html'"></div>
+    </span>
+
+</td>
+
+<td
+    sites-manager-edit-trigger
+    ng-include="'plugins/SitesManager/templates/sites-list/site-search-field.html'"
+    ng-switch="site.editMode">
+</td>
+
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
+
+    <span ng-switch-default>
+        {{ site.timezone }}
+    </span>
+
+    <span ng-switch-when="true">
+        <select
+                ng-model="site.timezone"
+                ng-options="t.code as t.label group by t.group for t in timezones">
+        </select>
+
+        <div ng-include="'plugins/SitesManager/templates/help/timezone-help.html'"></div>
+
+    </span>
+</td>
+
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
+
+    <span ng-switch-default>
+        {{ site.currency }}
+    </span>
+
+    <span ng-switch-when="true">
+
+        <select
+                ng-model="site.currency"
+                ng-options="k as v for (k, v) in currencies">
+        </select>
+
+        <div class="ui-inline-help">
+            {{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}
+        </div>
+
+    </span>
+</td>
+
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
+
+    <span ng-switch-default ng-switch="site.ecommerce">
+
+        <span ng-switch-default>-</span>
+        <span ng-switch-when="1">{{ 'General_Yes'|translate }}</span>
+    </span>
+
+    <span ng-switch-when="true">
+
+        <select ng-options="option.key as option.value for option in eCommerceptions" ng-model="site.ecommerce">
+        </select>
+
+        <div class="ui-inline-help">
+            {{ 'SitesManager_EcommerceHelp' | translate }}
+            <br/>
+            <span ng-bind-html="'SitesManager_PiwikOffersEcommerceAnalytics'|translate:'<a href=\'http://piwik.org/docs/ecommerce-analytics/\' target=\'_blank\'>':'</a>'"></span>
+        </div>
+    </span>
+</td>
+
+<td ng-switch="site.editMode">
+
+    <span ng-switch-default class="link_but" ng-click="editSite()">
+        <img src='plugins/Morpheus/images/ico_edit.png'
+             title="{{ 'General_Edit'|translate }}"
+             border="0"
+                />
+        <span>{{ 'General_Edit'|translate }}</span>
+    </span>
+
+    <span ng-switch-when="true">
+
+        <input type="submit" class="submit" value="{{ 'General_Save' | translate }}" ng-click="saveSite()"/>
+    </span>
+</td>
+
+<td>
+    <span ng-show="site.idsite" class="link_but" ng-click="openDeleteDialog()">
+        <img
+                src='plugins/Morpheus/images/ico_delete.png'
+                title="{{ 'General_Delete'|translate }}"
+                border="0"/>
+        <span>{{ 'General_Delete'|translate }}</span>
+    </span>
+</td>
+
+<td>
+    <a ng-show="site.idsite" href="?module=CoreAdminHome&action=trackingCodeGenerator&idSite={{ site.idsite }}&updated=false">
+        {{ 'SitesManager_ShowTrackingTag'|translate }}
+    </a>
+</td>

@@ -2,6 +2,7 @@
     "DevicesDetection": {
         "BrowserVersions": "Browser Versionen",
         "Camera": "Digitalcamera",
+        "CarBrowser": "PKW-Browser",
         "Console": "Konsole",
         "dataTableLabelBrands": "Marke",
         "dataTableLabelBrowserFamily": "Browser Familie",

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,12 +16,12 @@ use Piwik\DataTable\Row\DataTableSummaryRow;
  * Adds a summary row to {@link DataTable}s that contains the sum of all other table rows.
  *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->filter('AddSummaryRow');
- * 
+ *
  *     // use a human readable label for the summary row (instead of '-1')
  *     $dataTable->filter('AddSummaryRow', array($labelSummaryRow = Piwik::translate('General_Total')));
- * 
+ *
  * @api
  */
 class AddSummaryRow extends BaseFilter

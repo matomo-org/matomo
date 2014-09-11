@@ -25,7 +25,7 @@
 }
 
 #logo .description .arrow {
-    background: url(../../Zeitgeist/images/affix-arrow.png);
+    background: url(../../Morpheus/images/affix-arrow.png);
     width: 50px;
     height: 68px;
     position: absolute;
@@ -47,7 +47,6 @@
     font-size: 45pt;
     text-transform: none;
 }
-
 
 /* LAYOUT
 ***********************/
@@ -75,12 +74,14 @@
     text-align: center;
     color: #666;
     margin: 0 0 30px 0;
-    font: normal 26px/1 Verdana, Helvetica;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 26px;
+    line-height: 1;
     position: relative;
 }
 
-
-/* FORM 
+/* FORM
 ***********************/
 .loginSection form {
     margin: 0 5px;
@@ -110,7 +111,6 @@
     vertical-align: middle;
 }
 
-
 /* FIELDS
 ***********************/
 .loginSection form input[type="text"],
@@ -132,7 +132,7 @@
 #reset_form_password_bis,
 #login_form_login,
 #reset_form_login {
-    background: #fff url(../../Zeitgeist/images/login-sprite.png) no-repeat;
+    background: #fff url(../../Morpheus/images/login-sprite.png) no-repeat;
 }
 
 #login_form_password,
@@ -146,8 +146,7 @@
     background-position: 10px 11px;
 }
 
-
-/* MESSAGE 
+/* MESSAGE
 ***********************/
 #loginPage .message_error,
 #loginPage .message {
@@ -166,10 +165,9 @@
     border-color: #e6db55;
 }
 
-
-/* NAVIGATION 
+/* NAVIGATION
 ***********************/
-#nav, 
+#nav,
 #piwik {
     margin: 0 0 0 8px;
     padding: 16px;

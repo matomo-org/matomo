@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
  */
 
 namespace Piwik\Translate\Filter;
-
 
 /**
  */
@@ -37,9 +36,9 @@ class ByParameterCount extends FilterAbstract
     {
         $cleanedTranslations = array();
 
-        foreach ($translations AS $pluginName => $pluginTranslations) {
+        foreach ($translations as $pluginName => $pluginTranslations) {
 
-            foreach ($pluginTranslations AS $key => $translation) {
+            foreach ($pluginTranslations as $key => $translation) {
 
                 if (isset($this->baseTranslations[$pluginName][$key])) {
                     $baseTranslation = $this->baseTranslations[$pluginName][$key];

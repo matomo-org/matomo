@@ -1,0 +1,31 @@
+{
+    "Events": {
+        "AvgEventValue": "Durchschnittlicher Ereigniswert ist: %s",
+        "AvgValue": "Durchschnittswert",
+        "AvgValueDocumentation": "Der Durchschnitt von allen Werten für dieses Event.",
+        "Event": "Ereignis",
+        "EventAction": "Ereignisaktion",
+        "EventActions": "Ereignisaktionen",
+        "EventCategories": "Ereigniskategorien",
+        "EventCategory": "Ereigniskategorie",
+        "EventName": "Ereignisname",
+        "EventNames": "Ereignisnamen",
+        "Events": "Ereignisse",
+        "EventsWithValue": "Ereignisse mit einem Wert",
+        "EventsWithValueDocumentation": "Anzahl der Ereignisse bei denen ein Ereigniswert gesetzt war",
+        "EventValue": "Ereigniswert",
+        "EventValueTooltip": "Der Total Ereigniswert ist die Summe von %s %s Ereigniswerten zwischen dem Minimum von %s und dem Maximum von %s.",
+        "MaxValue": "Maximaler Wert",
+        "MaxValueDocumentation": "Maximaler Wert für dieses Ereignis",
+        "MinValue": "Minimaler Wert",
+        "MinValueDocumentation": "Minimaler Wert für dieses Ereignis",
+        "SecondaryDimension": "Die sekundäre Dimension ist %s.",
+        "SwitchToSecondaryDimension": "Zu %s wechseln",
+        "TopEvents": "Häufigste Ereignisse",
+        "TotalEvents": "Gesamtzahl an Ereignissen",
+        "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse",
+        "TotalValue": "Gesamtwert",
+        "TotalValueDocumentation": "Summe der Ereigniswerte",
+        "ViewEvents": "Ereignisse ansehen"
+    }
+}

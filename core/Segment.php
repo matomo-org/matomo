@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,26 +13,26 @@ use Piwik\Plugins\API\API;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
- * 
+ *
  * A segment is a condition used to filter visits. They can, for example,
  * select visits that have a specific browser or come from a specific
  * country, or both.
- * 
+ *
  * Individual segment dimensions (such as `browserCode` and `countryCode`)
  * are defined by plugins. Read about the {@hook API.getSegmentDimensionMetadata}
  * event to learn more.
- * 
+ *
  * Plugins that aggregate data stored in Piwik can support segments by
  * using this class when generating aggregation SQL queries.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Basic usage**
- * 
+ *
  *     $idSites = array(1,2,3);
  *     $segmentStr = "browserCode==ff;countryCode==CA";
  *     $segment = new Segment($segmentStr, $idSites);
- * 
+ *
  *     $query = $segment->getSelectQuery(
  *         $select = "table.col1, table2.col2",
  *         $from = array("table", "table2"),
@@ -41,15 +41,15 @@ use Piwik\Plugins\API\API;
  *         $orderBy = "table.col1 DESC",
  *         $groupBy = "table2.col2"
  *     );
- *     
+ *
  *     Db::fetchAll($query['sql'], $query['bind']);
- * 
+ *
  * **Creating a _null_ segment**
- * 
+ *
  *     $idSites = array(1,2,3);
  *     $segment = new Segment('', $idSites);
  *     // $segment->getSelectQuery will return a query that selects all visits
- * 
+ *
  * @api
  */
 class Segment
@@ -66,7 +66,7 @@ class Segment
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
      * @param array $idSites The list of sites the segment will be used with. Some segments are
      *                       dependent on the site, such as goal segments.
@@ -186,7 +186,7 @@ class Segment
 
     /**
      * Returns the segment condition.
-     * 
+     *
      * @return string
      */
     public function getString()
@@ -197,7 +197,7 @@ class Segment
     /**
      * Returns a hash of the segment condition, or the empty string if the segment
      * condition is empty.
-     * 
+     *
      * @return string
      */
     public function getHash()
@@ -364,10 +364,12 @@ class Segment
             $conversionItemAvailable = ($conversionItemAvailable || $table == "log_conversion_item");
         }
 
-        return array(
+        $return = array(
             'sql'               => $sql,
             'joinWithSubSelect' => $joinWithSubSelect
         );
+        return $return;
+
     }
 
     /**
@@ -421,7 +423,8 @@ class Segment
      */
     private function buildWrappedSelectQuery($select, $from, $where, $orderBy, $groupBy)
     {
-        preg_match_all("/(log_visit|log_conversion|log_action).[a-z0-9_\*]+/", $select, $matches);
+        $matchTables = "(log_visit|log_conversion_item|log_conversion|log_action)";
+        preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
         $neededFields = array_unique($matches[0]);
 
         if (count($neededFields) == 0) {
@@ -429,9 +432,9 @@ class Segment
                 . "Please use a table prefix.");
         }
 
-        $select = preg_replace('/(log_visit|log_conversion|log_action)\./', 'log_inner.', $select);
-        $orderBy = preg_replace('/(log_visit|log_conversion|log_action)\./', 'log_inner.', $orderBy);
-        $groupBy = preg_replace('/(log_visit|log_conversion|log_action)\./', 'log_inner.', $groupBy);
+        $select = preg_replace('/'.$matchTables.'\./', 'log_inner.', $select);
+        $orderBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $orderBy);
+        $groupBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $groupBy);
 
         $from = "(
 			SELECT
@@ -445,6 +448,7 @@ class Segment
 				) AS log_inner";
 
         $where = false;
-        return $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
+        $query = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
+        return $query;
     }
 }

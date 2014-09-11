@@ -1,0 +1,13 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Pridať widget",
+        "AddPreviewedWidget": "Pridať prezeranú miniaplikáciu do panelu",
+        "Dashboard": "Nástenka",
+        "DeleteWidgetConfirm": "Ste si istý, že chcete odstrániť miniaplikáciu z panela?",
+        "LoadingWidget": "Načítavanie miniaplikácie, prosím čakajte…",
+        "PluginDescription": "Váš Web Analytická Nástenka. Môžete si prisp§sobiť Vašu nástenku: Pridať nový nástroj, zmeniť poradie vašich nástrojov. Každý používateľ môže mať prístup k jeho vlastnej nástenke.",
+        "SelectWidget": "Vyberte miniaplikáciu, ktorá sa pridá na panel",
+        "WidgetNotFound": "Miniaplikácia nebola nájdená",
+        "WidgetPreview": "Náhľad na miniaplikáciu"
+    }
+}

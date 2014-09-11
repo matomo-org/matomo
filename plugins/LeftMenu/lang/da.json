@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Definerer systemets standard indstillinger for alle brugerne.",
+        "GlobalSettingInlineHelp": "Brugerne er i stand til at aktivere\/deaktivere venstremenuen uafhængigt af systemets standard indstillinger.",
+        "GlobalSettingTitle": "Venstre menu aktiveret som standard",
+        "SettingsIntroduction": "Venstre menu udvidelsen vil flytte rapportmenuen fra toppen til venstre, hvis aktiveret. Dette er især nyttigt for store skærme.",
+        "UserSettingInlineHelp": "Dette vil kun aktivere eller deaktivere venstre menuen for dig og påvirker ikke andre brugere. En superbruger kan ændre standardindstillingen for alle brugere.",
+        "UserSettingTitle": "Aktiver rapportmenu til venstre"
+    }
+}

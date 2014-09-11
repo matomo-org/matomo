@@ -1,0 +1,31 @@
+{
+    "Events": {
+        "AvgEventValue": "Genomsnittligt värde för händelse är: %s",
+        "AvgValue": "Genomsnittligt värde",
+        "AvgValueDocumentation": "Medelvärdet för alla värden för denna händelse",
+        "Event": "Händelse",
+        "EventAction": "Händelse Åtgärd",
+        "EventActions": "Händelseförlopp",
+        "EventCategories": "Händelse kategorier",
+        "EventCategory": "Händelsekategori",
+        "EventName": "Händelse Namn",
+        "EventNames": "Händelsenamn",
+        "Events": "Händelser",
+        "EventsWithValue": "Händelser med ett värde",
+        "EventsWithValueDocumentation": "Antal händelser där en händelses värde fastställdes",
+        "EventValue": "Händelse Värde",
+        "EventValueTooltip": "Totalt händelsevärde är summan av %shändelsevärden%s mellan minst %s och högst %s.",
+        "MaxValue": "Högsta värde",
+        "MaxValueDocumentation": "Det maximala värdet för denna händelse",
+        "MinValue": "Minsta värde",
+        "MinValueDocumentation": "Det lägsta värdet för denna händelse",
+        "SecondaryDimension": "Sekundär dimension är %s.",
+        "SwitchToSecondaryDimension": "Växla till %s",
+        "TopEvents": "Topphändelser",
+        "TotalEvents": "Totala händelser",
+        "TotalEventsDocumentation": "Totala antalet händelser",
+        "TotalValue": "Sammanlagda värdet",
+        "TotalValueDocumentation": "Summan av händelse värdena",
+        "ViewEvents": "Visa händelser"
+    }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]>
+<html class="old-ie" id="ng-app" ng-app="piwikApp"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html id="ng-app" ng-app="piwikApp"><!--<![endif]-->
+    <head>
+{% block head %}
+            <meta charset="utf-8">
+			<meta http-equiv="x-ua-compatible" content="IE=EDGE,chrome=1" >
+            <title>{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}</title>
+            <meta name="generator" content="Piwik - free/libre analytics platform"/>
+            <link rel="shortcut icon" href="{{ customFavicon|default('plugins/CoreHome/images/favicon.ico') }}"/>
+
+{% include "@CoreHome/_favicon.twig" %}
+{% include "_jsGlobalVariables.twig" %}
+{% include "_piwikTag.twig" %}
+{% include "_jsCssIncludes.twig" %}
+
+            <!--[if IE]>
+            <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/ieonly.css"/>
+            <![endif]-->
+        {% endblock %}
+    </head>
+    <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'admin') }}">
+    {% set isAdminLayout = true %}
+    {% include "_iframeBuster.twig" %}
+    {% include "@CoreHome/_javaScriptDisabled.twig" %}
+
+        <div id="root">
+            {% include "@CoreHome/_topScreen.twig" %}
+
+            {% import 'ajaxMacros.twig' as ajax %}
+            {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
+            {{ postEvent("Template.beforeContent", "admin", currentModule) }}
+
+            <div id="container">
+
+                {% if showMenu is not defined or showMenu %}
+                    {% include "@CoreAdminHome/_menu.twig" %}
+                {% endif %}
+
+                <div id="content" class="admin">
+
+                    {% include "@CoreHome/_headerMessage.twig" %}
+                    {% include "@CoreHome/_notifications.twig" %}
+
+                    <div class="ui-confirm" id="alert">
+                        <h2></h2>
+                        <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+                    </div>
+
+                    {% include "@CoreHome/_warningInvalidHost.twig" %}
+
+                    {% block content %}
+                    {% endblock %}
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,7 +27,7 @@
             $('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('General_YearShort'));
 
             // set the right smiley face
-            $('.slider-smiley-face').attr('src', 'plugins/Zeitgeist/images/smileyprog_' + pos + '.png');
+            $('.slider-smiley-face').attr('src', 'plugins/Morpheus/images/smileyprog_' + pos + '.png');
 
             // set the hidden option input for paypal
             var option = Math.max(1, pos);

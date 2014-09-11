@@ -1,0 +1,14 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Lokaalne aeg",
+        "ColumnServerTime": "Serveri aeg",
+        "DayOfWeek": "Nädalapäev",
+        "LocalTime": "Külastused kohaliku kellaaja järgi",
+        "NHour": "%s",
+        "ServerTime": "Külastused serveri kellaaja järgi",
+        "SubmenuTimes": "Külastusajad",
+        "VisitsByDayOfWeek": "Külastused nädalapäeva järgi",
+        "WidgetLocalTime": "Külastused kohaliku kellaaja järgi",
+        "WidgetServerTime": "Külastused serveri kellaaja järgi"
+    }
+}

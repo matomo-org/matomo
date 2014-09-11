@@ -3,6 +3,9 @@
  "version": "0.1.0",
  "description": "ExampleDescription",
  "theme": false,
+ "require": {
+    "piwik": ">=PIWIK_VERSION"
+ },
  "authors": [
      {
          "name": "Piwik",

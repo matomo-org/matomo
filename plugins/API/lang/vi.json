@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Nếu bạn không có dữ liệu cho ngày hôm nay, bạn có thể sinh một số dữ liệu (về người thăm website) bằng cách sử dụng plugin %s. Bạn có thể khởi động plugin %s, sau đó click vào menu \"Visitor Generator\" trên khu vực quản trị Piwik.",
+        "KeepTokenSecret": "token_auth này chặt chẽ như mật khẩu đăng nhập của bạn, %s không thể chia sẻ nó %s!",
+        "LoadedAPIs": "Nạp thành công API %s",
+        "MoreInformation": "Để biết thêm thông tin về các API của Piwik, vui lòng xem ở Giới thiệu %s về %s API Piwik và API %s Piwik Reference %s",
+        "PluginDescription": "Tất cả dữ liệu trong Piwik được cung cấp thông qua những API đơn giản. Thông qua các plugin này, bạn có thể truy cập để lấy thông tin phân tích trang web hiển thị dưới dạng xml, json, php, csv, vv...",
+        "QuickDocumentationTitle": "Tài liệu hướng dẫn nhanh API",
+        "TopLinkTooltip": "Truy cập dữ liệu lập trình Web Analytics của bạn thông qua một API đơn giản trong JSON, xml, vv",
+        "UserAuthentication": "Xác thực người dùng",
+        "UsingTokenAuth": "Nếu bạn muốn %s truy vấn dữ liệu trong script hoặc crontab, ... %s bạn cần phải thêm tham số %s vào các API call URL yêu cầu xác thực."
+    }
+}

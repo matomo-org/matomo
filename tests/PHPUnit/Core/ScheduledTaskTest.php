@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,7 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
     public function testGetClassName()
     {
         $scheduledTask = new ScheduledTask (new ScheduledReports(), null, null, null);
-        $this->assertEquals('ScheduledReports', $scheduledTask->getClassName());
+        $this->assertEquals('Piwik\Plugins\ScheduledReports\ScheduledReports', $scheduledTask->getClassName());
     }
 
     /**
@@ -36,7 +36,7 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getTaskNameTestCases
      */
     public function testGetTaskName($expectedTaskName, $className, $methodName, $methodParameter)

@@ -1,0 +1,15 @@
+{
+ "name": "Insights",
+ "version": "0.1.0",
+ "description": "Get insights",
+ "theme": false,
+ "license": "GPL v3+",
+ "homepage": "http://piwik.org",
+ "authors": [
+     {
+         "name": "Piwik",
+         "email": "hello@piwik.org",
+         "homepage": "http://piwik.org"
+     }
+ ]
+}

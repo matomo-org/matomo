@@ -1,0 +1,21 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s דקות",
+        "BetweenXYSeconds": "%1$s-%2$s שניות",
+        "ColumnPagesPerVisit": "עמודים לביקור",
+        "ColumnVisitDuration": "משך ביקור",
+        "Engagement": "מעורבות",
+        "NPages": "%s עמודים",
+        "OneMinute": "דקה 1",
+        "OnePage": "עמוד 1",
+        "PlusXMin": "%s דקות",
+        "VisitNum": "מספר ביקור",
+        "VisitsByDaysSinceLast": "ביקורים לפי ימים מאז ביקור אחרון",
+        "visitsByVisitCount": "ביקורים לפי מספר ביקור",
+        "VisitsPerDuration": "ביקורים למשך ביקור",
+        "VisitsPerNbOfPages": "ביקורים למספר עמודים",
+        "WidgetLengths": "משך ביקורים",
+        "WidgetPages": "עמודים לביקור",
+        "WidgetVisitsByDaysSinceLast": "ביקורים לפי ימים מאז ביקור אחרון"
+    }
+}

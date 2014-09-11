@@ -1,0 +1,29 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "ブラウザのバージョン",
+        "Camera": "カメラ",
+        "CarBrowser": "車載ブラウザ",
+        "Console": "コンソール",
+        "dataTableLabelBrands": "ブランド",
+        "dataTableLabelBrowserFamily": "ブラウザファミリー",
+        "dataTableLabelModels": "モデル",
+        "dataTableLabelSystemVersion": "オペレーティングシステムのバージョン",
+        "dataTableLabelTypes": "タイプ",
+        "Device": "デバイス",
+        "DeviceBrand": "デバイスのブランド",
+        "DeviceDetection": "デバイス検出",
+        "DeviceModel": "デバイスのモデル",
+        "DevicesDetection": "ビジターのデバイス",
+        "DeviceType": "デバイスタイプ",
+        "FeaturePhone": "携帯電話",
+        "OperatingSystemFamilies": "オペレーティングシステムファミリー",
+        "OperatingSystemVersions": "オペレーティングシステムのバージョン",
+        "PluginDescription": "このプラグインは、訪問者の使用する接続機器情報を表示します。モバイル端末のブランド（メーカー）やモデル（デバイスのバージョン）や、また多くの機種（テレビ、コンソール、スマートフォン、デスクトップPCなど）も検出します。このプラグインはメニューの「ビジター > デバイス」に新しいレポートが追加されます。",
+        "SmartDisplay": "スマートディスプレイ",
+        "Smartphone": "スマートフォン",
+        "submenu": "デバイス",
+        "Tablet": "タブレット",
+        "TV": "TV",
+        "UserAgent": "ユーザーエージェント"
+    }
+}

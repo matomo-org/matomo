@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -145,11 +145,9 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
         $timeUTC = $mock->getRescheduledTime();
         $this->assertEquals(self::$_JANUARY_04_1971_00_00_00, $timeUTC);
 
-
         $mock->setTimezone('Pacific/Auckland');
         $timeAuckland = $mock->getRescheduledTime();
         $this->assertEquals(-13 * $oneHourInSeconds, $timeAuckland - $timeUTC);
-
 
         $mock->setTimezone('America/Los_Angeles');
         $timeLosAngeles = $mock->getRescheduledTime();
@@ -158,12 +156,12 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests getRescheduledTime on Weekly with unspecified hour and specified day
-     * 
+     *
      * Context :
      *  - getRescheduledTime called Monday January 4 1971 09:00:00 UTC
      *  - setHour is not called, defaulting to midnight
      *  - setDay is set to $dayToSet
-     * 
+     *
      * @dataProvider getSetDayParametersToTest
      */
     public function testGetRescheduledTimeWeeklyUnspecifiedHourSpecifiedDay($dayToSet, $expectedRescheduledTime)

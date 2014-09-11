@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "La columan '%s' no s'ha trobat en aquest informe. Proveu algun dels següents: %s",
+        "PluginDescription": "Generar belles imatges estàtiques en gràfic PNG per qualsevol informe del Piwik."
+    }
+}

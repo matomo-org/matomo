@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,7 @@ use Exception;
 
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
- * the number of results while aggregating the rest in an a new "Others" row. It als
+ * the number of results while aggregating the rest in an a new "Others" row. It also
  * allows for some more fancy things that can be configured via method calls of this
  * class. The advanced use cases are explained in the doc comments of the methods.
  *
@@ -88,7 +88,7 @@ class RankingQuery
 
     /**
      * Constructor.
-     * 
+     *
      * @param int|false $limit The result row limit. See {@link setLimit()}.
      */
     public function __construct($limit = false)
@@ -178,7 +178,7 @@ class RankingQuery
      * for each possible value you provide (where the rows of each set have a column value
      * that equals a possible value). Each of these new sets of rows will be individually
      * limited resulting in several limited result sets.
-     * 
+     *
      * For example, you can run a query aggregating some data on the log_action table and
      * partition by log_action.type with the possible values of {@link Piwik\Tracker\Action::TYPE_PAGE_URL},
      * {@link Piwik\Tracker\Action::TYPE_OUTLINK}, {@link Piwik\Tracker\Action::TYPE_DOWNLOAD}.

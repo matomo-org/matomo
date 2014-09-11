@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,14 +14,14 @@ use Piwik\Metrics;
 
 /**
  * This is what a {@link Piwik\DataTable} is composed of.
- * 
+ *
  * DataTable rows contain columns, metadata and a subtable ID. Columns and metadata
  * are stored as an array of name => value mappings.
  *
  *
  * @api
  */
-class Row
+class Row implements \ArrayAccess, \IteratorAggregate
 {
     /**
      * List of columns that cannot be summed. An associative array for speed.
@@ -30,7 +30,7 @@ class Row
      */
     private static $unsummableColumns = array(
         'label'    => true,
-        'full_url' => true // column used w/ old Piwik versions
+        'full_url' => true // column used w/ old Piwik versions,
     );
 
     /**
@@ -59,7 +59,7 @@ class Row
      * Constructor.
      *
      * @param array $row An array with the following structure:
-     *                   
+     *
      *                       array(
      *                           Row::COLUMNS => array('label' => 'Piwik',
      *                                                 'column1' => 42,
@@ -165,7 +165,7 @@ class Row
      */
     public function deleteColumn($name)
     {
-        if (!array_key_exists($name, $this->c[self::COLUMNS])) {
+        if (!$this->hasColumn($name)) {
             return false;
         }
         unset($this->c[self::COLUMNS][$name]);
@@ -198,7 +198,32 @@ class Row
         if (!isset($this->c[self::COLUMNS][$name])) {
             return false;
         }
+
+        if ($this->isColumnValueCallable($this->c[self::COLUMNS][$name])) {
+            $value = $this->resolveCallableColumn($name);
+
+            if (!isset($value)) {
+                return false;
+            }
+
+            return $value;
+        }
+
         return $this->c[self::COLUMNS][$name];
+    }
+
+    private function isColumnValueCallable($name)
+    {
+        if (is_object($name) && ($name instanceof \Closure)) {
+            return true;
+        }
+
+        return is_array($name) && array_key_exists(0, $name) && is_object($name[0]) && is_callable($name);
+    }
+
+    private function resolveCallableColumn($columnName)
+    {
+        return call_user_func($this->c[self::COLUMNS][$columnName], $this);
     }
 
     /**
@@ -218,11 +243,28 @@ class Row
         return $this->c[self::METADATA][$name];
     }
 
+    private function getColumnsRaw()
+    {
+        return $this->c[self::COLUMNS];
+    }
+
+    /**
+     * Returns true if a column having the given name is already registered. The value will not be evaluated, it will
+     * just check whether a column exists independent of its value.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function hasColumn($name)
+    {
+        return array_key_exists($name, $this->c[self::COLUMNS]);
+    }
+
     /**
      * Returns the array containing all the columns.
      *
      * @return array  Example:
-     *                
+     *
      *                    array(
      *                        'column1'   => VALUE,
      *                        'label'     => 'www.php.net'
@@ -231,7 +273,16 @@ class Row
      */
     public function getColumns()
     {
-        return $this->c[self::COLUMNS];
+        $values = array();
+        foreach ($this->c[self::COLUMNS] as $columnName => $val) {
+            if ($this->isColumnValueCallable($val)) {
+                $values[$columnName] = $this->resolveCallableColumn($columnName);
+            } else {
+                $values[$columnName] = $val;
+            }
+        }
+
+        return $values;
     }
 
     /**
@@ -264,9 +315,9 @@ class Row
     /**
      * Sums a DataTable to this row's subtable. If this row has no subtable a new
      * one is created.
-     * 
+     *
      * See {@link Piwik\DataTable::addDataTable()} to learn how DataTables are summed.
-     * 
+     *
      * @param DataTable $subTable Table to sum to this row's subtable.
      */
     public function sumSubtable(DataTable $subTable)
@@ -388,7 +439,7 @@ class Row
      * Add a new column to the row. If the column already exists, throws an exception.
      *
      * @param string $name name of the column to add.
-     * @param mixed $value value of the column to set.
+     * @param mixed $value value of the column to set or a PHP callable.
      * @throws Exception if the column already exists.
      */
     public function addColumn($name, $value)
@@ -396,7 +447,7 @@ class Row
         if (isset($this->c[self::COLUMNS][$name])) {
             throw new Exception("Column $name already in the array!");
         }
-        $this->c[self::COLUMNS][$name] = $value;
+        $this->setColumn($name, $value);
     }
 
     /**
@@ -432,14 +483,19 @@ class Row
         if (isset($this->c[self::METADATA][$name])) {
             throw new Exception("Metadata $name already in the array!");
         }
-        $this->c[self::METADATA][$name] = $value;
+        $this->setMetadata($name, $value);
+    }
+
+    private function isSummableColumn($columnName)
+    {
+        return empty(self::$unsummableColumns[$columnName]);
     }
 
     /**
      * Sums the given `$rowToSum` columns values to the existing row column values.
      * Only the int or float values will be summed. Label columns will be ignored
      * even if they have a numeric value.
-     * 
+     *
      * Columns in `$rowToSum` that don't exist in `$this` are added to `$this`.
      *
      * @param \Piwik\DataTable\Row $rowToSum The row to sum to this row.
@@ -450,26 +506,35 @@ class Row
      */
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
-        foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
-            if (!isset(self::$unsummableColumns[$columnToSumName])) // make sure we can add this column
-            {
-                $thisColumnValue = $this->getColumn($columnToSumName);
-
-                $operation = (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName]) ?
-                    strtolower($aggregationOperations[$columnToSumName]) : 'sum');
-
-                // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
-                // present in any data table and is not part of the $aggregationOperations mechanism.
-                if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
-                    $operation = 'max';
-                }
-                if(empty($operation)) {
-                    throw new Exception("Unknown aggregation operation for column $columnToSumName.");
-                }
-                $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
-
-                $this->setColumn($columnToSumName, $newValue);
+        foreach ($rowToSum->getColumnsRaw() as $columnToSumName => $columnToSumValue) {
+            if (!$this->isSummableColumn($columnToSumName)) {
+                continue;
             }
+
+            if ($this->isColumnValueCallable($columnToSumValue)) {
+                $this->setColumn($columnToSumName, $columnToSumValue);
+                continue;
+            }
+
+            $thisColumnValue = $this->getColumn($columnToSumName);
+
+            $operation = 'sum';
+            if (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName])) {
+                $operation = strtolower($aggregationOperations[$columnToSumName]);
+            }
+
+            // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
+            // present in any data table and is not part of the $aggregationOperations mechanism.
+            if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
+                $operation = 'max';
+            }
+            if(empty($operation)) {
+                throw new Exception("Unknown aggregation operation for column $columnToSumName.");
+            }
+
+            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
+
+            $this->setColumn($columnToSumName, $newValue);
         }
 
         if ($enableCopyMetadata) {
@@ -508,7 +573,7 @@ class Row
 
     /**
      * Sums the metadata in `$rowToSum` with the metadata in `$this` row.
-     * 
+     *
      * @param Row $rowToSum
      */
     public function sumRowMetadata($rowToSum)
@@ -532,7 +597,7 @@ class Row
     /**
      * Returns `true` if this row is the summary row, `false` if otherwise. This function
      * depends on the label of the row, and so, is not 100% accurate.
-     * 
+     *
      * @return bool
      */
     public function isSummaryRow()
@@ -558,10 +623,15 @@ class Row
             return $thisColumnValue + $columnToSumValue;
         }
 
+        if ($columnToSumValue === false) {
+            return $thisColumnValue;
+        }
+
+        if ($thisColumnValue === false) {
+            return $columnToSumValue;
+        }
+
         if (is_array($columnToSumValue)) {
-            if ($thisColumnValue == false) {
-                return $columnToSumValue;
-            }
             $newValue = $thisColumnValue;
             foreach ($columnToSumValue as $arrayIndex => $arrayValue) {
                 if (!isset($newValue[$arrayIndex])) {
@@ -573,14 +643,8 @@ class Row
         }
 
         if (is_string($columnToSumValue)) {
-            if ($thisColumnValue === false) {
-                return $columnToSumValue;
-            } else if ($columnToSumValue === false) {
-                return $thisColumnValue;
-            } else {
-                throw new Exception("Trying to add two strings values in DataTable\Row::sumRowArray: "
-                    . "'$thisColumnValue' + '$columnToSumValue'");
-            }
+            throw new Exception("Trying to add two strings in DataTable\Row::sumRowArray: "
+                              . "'$thisColumnValue' + '$columnToSumValue'" . " for row " . $this->__toString());
         }
 
         return 0;
@@ -594,7 +658,7 @@ class Row
      * @return bool
      * @ignore
      */
-    static public function compareElements($elem1, $elem2)
+    public static function compareElements($elem1, $elem2)
     {
         if (is_array($elem1)) {
             if (is_array($elem2)) {
@@ -615,17 +679,17 @@ class Row
      * Helper function that tests if two rows are equal.
      *
      * Two rows are equal if:
-     * 
+     *
      * - they have exactly the same columns / metadata
      * - they have a subDataTable associated, then we check that both of them are the same.
-     * 
+     *
      * Column order is not important.
      *
      * @param \Piwik\DataTable\Row $row1 first to compare
      * @param \Piwik\DataTable\Row $row2 second to compare
      * @return bool
      */
-    static public function isEqual(Row $row1, Row $row2)
+    public static function isEqual(Row $row1, Row $row2)
     {
         //same columns
         $cols1 = $row1->getColumns();
@@ -661,5 +725,29 @@ class Row
             }
         }
         return true;
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->hasColumn($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->getColumn($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->setColumn($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->deleteColumn($offset);
+    }
+
+    public function getIterator() {
+        return new \ArrayIterator($this->c[self::COLUMNS]);
     }
 }

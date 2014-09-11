@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -32,7 +32,6 @@ class Updates_1_9_b19 extends Updates
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
-
 
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Transitions');

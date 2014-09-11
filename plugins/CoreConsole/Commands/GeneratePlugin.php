@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-
 use Piwik\Filesystem;
+use Piwik\Version;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,7 +46,8 @@ class GeneratePlugin extends GeneratePluginBase
             $replace       = array(
                 'ExampleTheme'       => $pluginName,
                 'ExampleDescription' => $description,
-                '0.1.0'              => $version
+                '0.1.0'              => $version,
+                'PIWIK_VERSION'      => Version::VERSION
             );
             $whitelistFiles = array();
 
@@ -56,13 +57,13 @@ class GeneratePlugin extends GeneratePluginBase
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,
                 'ExampleDescription' => $description,
-                '0.1.0'              => $version
+                '0.1.0'              => $version,
+                'PIWIK_VERSION'      => Version::VERSION
             );
             $whitelistFiles = array(
                 '/ExamplePlugin.php',
                 '/plugin.json',
                 '/README.md',
-                '/.travis.yml',
                 '/screenshots',
                 '/screenshots/.gitkeep',
                 '/javascripts',
@@ -110,14 +111,14 @@ class GeneratePlugin extends GeneratePluginBase
     protected function generatePluginFolder($pluginName)
     {
         $pluginPath = $this->getPluginPath($pluginName);
-        Filesystem::mkdir($pluginPath, true);
+        Filesystem::mkdir($pluginPath);
     }
 
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
@@ -125,17 +126,17 @@ class GeneratePlugin extends GeneratePluginBase
 
         $validate = function ($pluginName) use ($self) {
             if (empty($pluginName)) {
-                throw new \RunTimeException('You have to enter a plugin name');
+                throw new \RuntimeException('You have to enter a plugin name');
             }
 
             if (!Filesystem::isValidFilename($pluginName)) {
-                throw new \RunTimeException(sprintf('The plugin name %s is not valid', $pluginName));
+                throw new \RuntimeException(sprintf('The plugin name %s is not valid', $pluginName));
             }
 
             $pluginPath = $self->getPluginPath($pluginName);
 
             if (file_exists($pluginPath)) {
-                throw new \RunTimeException('A plugin with this name already exists');
+                throw new \RuntimeException('A plugin with this name already exists');
             }
 
             return $pluginName;
@@ -159,16 +160,16 @@ class GeneratePlugin extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return mixed
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginDescription(InputInterface $input, OutputInterface $output)
     {
         $validate = function ($description) {
             if (empty($description)) {
-                throw new \RunTimeException('You have to enter a description');
+                throw new \RuntimeException('You have to enter a description');
             }
             if (150 < strlen($description)) {
-                throw new \RunTimeException('Description is too long, max 150 characters allowed.');
+                throw new \RuntimeException('Description is too long, max 150 characters allowed.');
             }
 
             return $description;

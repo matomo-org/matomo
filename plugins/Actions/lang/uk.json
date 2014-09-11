@@ -1,0 +1,15 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "URL по якому клацнули",
+        "ColumnClicks": "Клацання",
+        "ColumnDownloadURL": "URL завантаження",
+        "ColumnPageName": "Назва сторінки",
+        "ColumnPageURL": "URL сторінки",
+        "ColumnUniqueClicks": "Унікальні клацання",
+        "ColumnUniqueDownloads": "Унікальні завантаження",
+        "PluginDescription": "Звіти про перегляди сторінок, переходи по посиланнях та завантаження. Відслідковування переходів по посиланнях та завантаження автоматизовано.",
+        "SubmenuPagesEntry": "Сторінки входу",
+        "SubmenuPagesExit": "Сторінки виходу",
+        "SubmenuPageTitles": "Заголовки сторінок"
+    }
+}

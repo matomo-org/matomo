@@ -1,0 +1,8 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Définit les valeurs système par défaut pour tous les utilisateurs.",
+        "GlobalSettingInlineHelp": "Les utilisateurs peuvent activer\/désactiver le menu de gauche indépendant des valeurs par défaut du système.",
+        "GlobalSettingTitle": "Menu de gauche activé par défaut",
+        "SettingsIntroduction": "Le composant de menu à gauche va déplacer le menu de rapport d'en haut vers la gauche s'il est activé. C'est particulièrement utile pour les affichages larges."
+    }
+}

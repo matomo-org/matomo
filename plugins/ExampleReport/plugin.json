@@ -1,0 +1,13 @@
+{
+ "name": "ExampleReport",
+ "version": "0.1.0",
+ "description": "A plugin that shows how to define a report",
+ "theme": false,
+ "authors": [
+     {
+         "name": "Piwik",
+         "email": "",
+         "homepage": ""
+     }
+ ]
+}

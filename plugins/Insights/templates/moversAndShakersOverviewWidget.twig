@@ -1,0 +1,13 @@
+{% if reports.getRowsCount %}
+    {% set allMetadata = reports.getFirstRow.getAllTableMetadata %}
+
+    {% set consideredGrowth = 'Insights_TitleConsideredMoversAndShakersGrowth'|translate(allMetadata.metricName, allMetadata.lastTotalValue, allMetadata.totalValue, allMetadata.lastDate|prettyDate(allMetadata.period), allMetadata.evolutionTotal) %}
+    {% set consideredChanges = 'Insights_TitleConsideredMoversAndShakersChanges'|translate(allMetadata.minGrowthPercentPositive, allMetadata.minGrowthPercentNegative, allMetadata.minNewPercent, allMetadata.minIncreaseNew, allMetadata.minDisappearedPercent, allMetadata.minDecreaseDisappeared, allMetadata.totalValue) %}
+{% else %}
+    {% set allMetadata = {} %}
+
+    {% set consideredGrowth = '' %}
+    {% set consideredChanges = '' %}
+{% endif %}
+
+{% include "@Insights/overviewWidget.twig" %}

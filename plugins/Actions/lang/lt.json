@@ -1,0 +1,15 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "Paspausti URL",
+        "ColumnClicks": "Paspaudimai",
+        "ColumnDownloadURL": "Atsisiuntimų URL",
+        "ColumnPageName": "Puslapio pavadinimas",
+        "ColumnPageURL": "Puslapio URL",
+        "ColumnUniqueClicks": "Unikalūs paspaudimai",
+        "ColumnUniqueDownloads": "Unikalūs atsisiuntimai",
+        "PluginDescription": "Puslapių peržiūros, išorinių nuorodų ir atsisiuntimų ataskaitos. Išorinių nuorodų ir atsisiuntimų stebėjimas yra įgalinamas automatiškai!",
+        "SubmenuPagesEntry": "Užėjimo puslapiai",
+        "SubmenuPagesExit": "Išėjimo puslapiai",
+        "SubmenuPageTitles": "Puslapių antraštės"
+    }
+}

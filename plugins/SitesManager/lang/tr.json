@@ -1,0 +1,33 @@
+{
+    "SitesManager": {
+        "AddSite": "Websitesi ekle",
+        "AdvancedTimezoneSupportNotFound": "Gelişmiş saat dilimini sizin PHP'niz desteklemiyor. (Desteklenen PHP>=5.2) Siz manuel şekilde UTC ayarlayabilirsiniz.",
+        "ChooseCityInSameTimezoneAsYou": "Sizinle aynı zaman dilimini paylaşan bir şehir seçiniz.",
+        "Currency": "Para Birimi",
+        "CurrencySymbolWillBeUsedForGoals": "Para birim simgesi Goals yanında gösterilir.",
+        "DefaultCurrencyForNewWebsites": "Yeni websiteler için varsayılan para birimi",
+        "DefaultTimezoneForNewWebsites": "Yeni websiteler için saat dilimi",
+        "DeleteConfirm": "'%s' Websitesini silmekten emin misiniz?",
+        "ExceptionEmptyName": "Web sitesi adı boş olamaz.",
+        "ExceptionInvalidTimezone": "\"%s\" saat dilimi geçersiz. Lütfen saat dilimi giriniz.",
+        "ExceptionInvalidUrl": "'%s' site URL'si geçersizdir.",
+        "ExceptionNoUrl": "Websitesi için en az bir URL belirtmek zorundasiniz.",
+        "ExcludedIps": "Hariç Tutulan IP'ler",
+        "ExcludedParameters": "Hariç Birakılan Parametreler",
+        "GlobalListExcludedIps": "IP'ler Hariç",
+        "GlobalWebsitesSettings": "Global websitelerin ayarlari",
+        "JsTrackingTagHelp": "Burada tüm sayfalarınıza ekleyebilieceğiniz JavaScript kodudur.",
+        "MainDescription": "Websitelerinizin Web Analizi için raporara ihtiyaçı vardir. Website ekleme, güncelleme, kaldirma ve sayfalarınızın içindeki JavaScript Kodunu görebilirsiniz.",
+        "NotFound": "Hiçbir web sitesi bulunamadı",
+        "NoWebsites": "Yönetmek için bir websitesi yok.",
+        "SelectACity": "Şehir seçiniz",
+        "SelectDefaultCurrency": "Ekleyeceğiniz websitelerin varsayılan para birimini seçiniz.",
+        "SelectDefaultTimezone": "Ekleyeceğiniz yeni websitelerin varsayılan saat dilimini seçiniz.",
+        "ShowTrackingTag": "Takip kodunu göster",
+        "Sites": "Websiteler",
+        "Timezone": "Saat dilimi",
+        "UTCTimeIs": "UTC zamani '%s'",
+        "WebsitesManagement": "Website Yönetimleri",
+        "YourCurrentIpAddressIs": "Şuan ki IP numaranız %s"
+    }
+}

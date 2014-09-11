@@ -3,7 +3,8 @@
 {% block content %}
 {% import 'macros.twig' as piwik %}
 {% if isSuperUser %}
-    <h2>{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
+    <h2 piwik-enriched-headline
+        help-url="http://piwik.org/docs/privacy/">{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
         {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<strong><a href="http://piwik.org/privacy/" target="_blank">','</a></strong>')|raw }}</p>
     <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
@@ -220,7 +221,7 @@
                 <td width="500">
                     <div id="deleteDataEstimate"></div>
                     <span class="loadingPiwik" style="display:none;"><img
-                                src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+                                src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
                 </td>
                 <td width="200">
                     {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
@@ -257,7 +258,7 @@
                         <br/>
                         <em><a id="purgeDataNowLink" href="#">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
                         <span class="loadingPiwik" style="display:none;"><img
-                                    src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
+                                    src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
                         <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
                     {% endset %}
                     {{ piwik.inlineHelp(purgeStats) }}
@@ -268,7 +269,6 @@
     </form>
 
     {% endif %}
-
 
     <h2 id="DNT">{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate }}</h2>
     <table class="adminTable" style='width:800px;'>
@@ -304,7 +304,7 @@
 <h2 id="optOutAnchor">{{ 'CoreAdminHome_OptOutForYourVisitors'|translate }}</h2>
 <p>{{ 'CoreAdminHome_OptOutExplanation'|translate }}
     {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
-    {% set iframeOptOut %}<iframe frameborder="no" width="600px" height="200px" src="{{ optOutUrl }}"></iframe>{% endset %}
+    {% set iframeOptOut %}<iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>{% endset %}
     <code>{{ iframeOptOut|e('html') }}</code>
     <br/>
     {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}

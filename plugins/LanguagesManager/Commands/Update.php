@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link     http://piwik.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -47,7 +47,7 @@ class Update extends ConsoleCommand
         $languages = API::getInstance()->getAvailableLanguageNames();
 
         $languageCodes = array();
-        foreach ($languages AS $languageInfo) {
+        foreach ($languages as $languageInfo) {
             $languageCodes[] = $languageInfo['code'];
         }
 
@@ -65,7 +65,7 @@ class Update extends ConsoleCommand
 
         $progress->start($output, count($files));
 
-        foreach ($files AS $filename) {
+        foreach ($files as $filename) {
 
             $progress->advance();
 
@@ -106,7 +106,7 @@ class Update extends ConsoleCommand
             // update core modules that aren't in their own repo
             if (empty($plugin)) {
 
-                foreach (self::getPluginsInCore() AS $pluginName) {
+                foreach (self::getPluginsInCore() as $pluginName) {
 
                     // update translation files
                     $command = $this->getApplication()->find('translations:set');

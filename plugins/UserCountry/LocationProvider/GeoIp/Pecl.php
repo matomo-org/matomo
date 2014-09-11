@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,6 +22,11 @@ class Pecl extends GeoIp
 {
     const ID = 'geoip_pecl';
     const TITLE = 'GeoIP (PECL)';
+
+    /**
+     * For tests.
+     */
+    public static $forceDisable = false;
 
     /**
      * Uses the GeoIP PECL module to get a visitor's location based on their IP address.
@@ -105,7 +110,7 @@ class Pecl extends GeoIp
      */
     public function isAvailable()
     {
-        return function_exists('geoip_db_avail');
+        return !self::$forceDisable && function_exists('geoip_db_avail');
     }
 
     /**

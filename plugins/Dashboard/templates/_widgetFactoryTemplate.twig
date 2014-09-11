@@ -1,0 +1,22 @@
+<div id="widgetTemplate" style="display:none;">
+  <div class="widget">
+    <div class="widgetTop">
+      <div class="button" id="close">
+        <img src="plugins/Morpheus/images/close.png" title="{{ 'General_Close'|translate }}" />
+      </div>
+      <div class="button" id="maximise">
+        <img src="plugins/Morpheus/images/maximise.png" title="{{ 'Dashboard_Maximise'|translate }}" />
+      </div>
+      <div class="button" id="minimise">
+        <img src="plugins/Morpheus/images/minimise.png" title="{{ 'Dashboard_Minimise'|translate }}" />
+      </div>
+      <div class="button" id="refresh">
+        <img src="plugins/Morpheus/images/refresh.png" title="{{ 'General_Refresh'|translate }}" />
+      </div>
+      <div class="widgetName">{% if widgetName is defined %}{{ widgetName }}{% endif %}</div>
+    </div>
+    <div class="widgetContent">
+      <div class="widgetLoading">{{ 'Dashboard_LoadingWidget'|translate }}</div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,7 +30,7 @@ class API extends \Piwik\Plugin\API
      * @param string $provider
      * @return SMSProvider
      */
-    static private function getSMSProviderInstance($provider)
+    private static function getSMSProviderInstance($provider)
     {
         return SMSProvider::factory($provider);
     }

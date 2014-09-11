@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,11 +9,10 @@
 namespace Piwik\DataTable;
 
 use Exception;
-use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Loader;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\BaseFactory;
 
 /**
  * A DataTable Renderer can produce an output given a DataTable object.
@@ -23,7 +22,7 @@ use Piwik\Piwik;
  *  $render->setTable($dataTable);
  *  echo $render;
  */
-abstract class Renderer
+abstract class Renderer extends BaseFactory
 {
     protected $table;
 
@@ -112,22 +111,6 @@ abstract class Renderer
     abstract public function render();
 
     /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    abstract public function renderException();
-
-    protected function getExceptionMessage()
-    {
-        $message = $this->exception->getMessage();
-        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-            $message .= "\n" . $this->exception->getTraceAsString();
-        }
-        return self::renderHtmlEntities($message);
-    }
-
-    /**
      * @see render()
      * @return string
      */
@@ -145,32 +128,17 @@ abstract class Renderer
     public function setTable($table)
     {
         if (!is_array($table)
-            && !($table instanceof DataTable)
-            && !($table instanceof DataTable\Map)
+            && !($table instanceof DataTableInterface)
         ) {
-            throw new Exception("DataTable renderers renderer accepts only DataTable and Map instances, and arrays.");
+            throw new Exception("DataTable renderers renderer accepts only DataTable, Simple and Map instances, and arrays.");
         }
         $this->table = $table;
     }
 
     /**
-     * Set the Exception to be rendered
-     *
-     * @param Exception $exception to be rendered
-     * @throws Exception
-     */
-    public function setException($exception)
-    {
-        if (!($exception instanceof Exception)) {
-            throw new Exception("The exception renderer accepts only an Exception object.");
-        }
-        $this->exception = $exception;
-    }
-
-    /**
      * @var array
      */
-    static protected $availableRenderers = array('xml',
+    protected static $availableRenderers = array('xml',
                                                  'json',
                                                  'csv',
                                                  'tsv',
@@ -183,41 +151,22 @@ abstract class Renderer
      *
      * @return array
      */
-    static public function getRenderers()
+    public static function getRenderers()
     {
         return self::$availableRenderers;
     }
 
-    /**
-     * Returns the DataTable associated to the output format $name
-     *
-     * @param string $name
-     * @throws Exception If the renderer is unknown
-     * @return \Piwik\DataTable\Renderer
-     */
-    static public function factory($name)
+    protected static function getClassNameFromClassId($id)
     {
-        $className = ucfirst(strtolower($name));
+        $className = ucfirst(strtolower($id));
         $className = 'Piwik\DataTable\Renderer\\' . $className;
-        try {
-            Loader::loadClass($className);
-            return new $className;
-        } catch (Exception $e) {
-            $availableRenderers = implode(', ', self::getRenderers());
-            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
-            throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
-        }
+        return $className;
     }
 
-    /**
-     * Returns $rawData after all applicable characters have been converted to HTML entities.
-     *
-     * @param String $rawData data to be converted
-     * @return String
-     */
-    static protected function renderHtmlEntities($rawData)
+    protected static function getInvalidClassIdExceptionMessage($id)
     {
-        return self::formatValueXml($rawData);
+        $availableRenderers = implode(', ', self::getRenderers());
+        return Piwik::translate('General_ExceptionInvalidRendererFormat', array(self::getClassNameFromClassId($id), $availableRenderers));
     }
 
     /**

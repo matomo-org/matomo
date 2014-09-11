@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,7 +31,6 @@ class Common
 
     public static $isCliMode = null;
 
-
     /*
      * Database
      */
@@ -49,7 +48,7 @@ class Common
 
     /**
      * Returns a prefixed table name.
-     * 
+     *
      * The table prefix is determined by the `[database] tables_prefix` INI config
      * option.
      *
@@ -83,7 +82,7 @@ class Common
      *
      * The table prefix is determined by the `[database] tables_prefix` INI config
      * option.
-     * 
+     *
      * @param string $table The prefixed table name, eg "piwik-production_log_visit".
      * @return string The unprefixed table name, eg "log_visit".
      * @api
@@ -111,6 +110,11 @@ class Common
         return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals');
     }
 
+    public static function isActionsPluginEnabled()
+    {
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Actions');
+    }
+
     /**
      * Returns true if PHP was invoked from command-line interface (shell)
      *
@@ -124,19 +128,36 @@ class Common
         }
 
         return PHP_SAPI == 'cli' ||
-        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($_SERVER['REMOTE_ADDR']));
+        (self::isPhpCgiType() && empty($_SERVER['REMOTE_ADDR']));
     }
 
     /**
-     * Returns true if the current request is a console command, eg. ./console xx:yy
+     * Returns true if PHP is executed as CGI type.
+     *
+     * @since added in 0.4.4
+     * @return bool true if PHP invoked as a CGI
+     */
+    public static function isPhpCgiType()
+    {
+        $sapiType = php_sapi_name();
+
+        return substr($sapiType, 0, 3) === 'cgi';
+    }
+
+    /**
+     * Returns true if the current request is a console command, eg.
+     * ./console xx:yy
+     * or
+     * php console xx:yy
+     *
      * @return bool
      */
     public static function isRunningConsoleCommand()
     {
-        $searched = '/console';
+        $searched = 'console';
         $consolePos = strpos($_SERVER['SCRIPT_NAME'], $searched);
         $expectedConsolePos = strlen($_SERVER['SCRIPT_NAME']) - strlen($searched);
-        $isScriptIsConsole = $consolePos == $expectedConsolePos;
+        $isScriptIsConsole = ($consolePos === $expectedConsolePos);
         return self::isPhpCliMode() && $isScriptIsConsole;
     }
 
@@ -146,7 +167,7 @@ class Common
 
     /**
      * Multi-byte substr() - works with UTF-8.
-     * 
+     *
      * Calls `mb_substr` if available and falls back to `substr` if it's not.
      *
      * @param string $string
@@ -170,7 +191,7 @@ class Common
 
     /**
      * Multi-byte strlen() - works with UTF-8
-     * 
+     *
      * Calls `mb_substr` if available and falls back to `substr` if not.
      *
      * @param string $string
@@ -188,9 +209,9 @@ class Common
 
     /**
      * Multi-byte strtolower() - works with UTF-8.
-     * 
+     *
      * Calls `mb_strtolower` if available and falls back to `strtolower` if not.
-     * 
+     *
      * @param string $string
      * @return string
      * @api
@@ -210,18 +231,18 @@ class Common
 
     /**
      * Sanitizes a string to help avoid XSS vulnerabilities.
-     * 
+     *
      * This function is automatically called when {@link getRequestVar()} is called,
      * so you should not normally have to use it.
-     * 
+     *
      * This function should be used when outputting data that isn't escaped and was
      * obtained from the user (for example when using the `|raw` twig filter on goal names).
-     * 
+     *
      * _NOTE: Sanitized input should not be used directly in an SQL query; SQL placeholders
      * should still be used._
-     * 
+     *
      * **Implementation Details**
-     * 
+     *
      * - [htmlspecialchars](http://php.net/manual/en/function.htmlspecialchars.php) is used to escape text.
      * - Single quotes are not escaped so **Piwik's amazing community** will still be
      *   **Piwik's amazing community**.
@@ -296,7 +317,7 @@ class Common
 
     /**
      * Unsanitizes a single input value and returns the result.
-     * 
+     *
      * @param string $value
      * @return string  unsanitized input
      */
@@ -310,10 +331,10 @@ class Common
      *
      * This method should be used when you need to unescape data that was obtained from
      * the user.
-     * 
+     *
      * Some data in Piwik is stored sanitized (such as site name). In this case you may
      * have to use this method to unsanitize it in order to, for example, output it in JSON.
-     * 
+     *
      * @param string|array $value The data to unsanitize. If an array is passed, the
      *                            array is sanitized recursively. Key values are not unsanitized.
      * @return string|array The unsanitized data.
@@ -359,9 +380,9 @@ class Common
 
     /**
      * Gets a sanitized request parameter by name from the `$_GET` and `$_POST` superglobals.
-     * 
+     *
      * Use this function to get request parameter values. **_NEVER use `$_GET` and `$_POST` directly._**
-     * 
+     *
      * If the variable cannot be found, and a default value was not provided, an exception is raised.
      *
      * _See {@link sanitizeInputValues()} to learn more about sanitization._
@@ -371,7 +392,7 @@ class Common
      * @param string|null $varDefault The value to return if the request parameter cannot be found or has an empty value.
      * @param string|null $varType Expected type of the request variable. This parameters value must be one of the following:
      *                             `'array'`, `'int'`, `'integer'`, `'string'`, `'json'`.
-     *                             
+     *
      *                             If `'json'`, the string value will be `json_decode`-d and then sanitized.
      * @param array|null $requestArrayToUse The array to use instead of `$_GET` and `$_POST`.
      * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
@@ -550,6 +571,18 @@ class Common
             throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
         }
         return self::hex2bin($id);
+    }
+
+    /**
+     * Converts a User ID string to the Visitor ID Binary representation.
+     *
+     * @param $userId
+     * @return string
+     */
+    public static function convertUserIdToVisitorIdBin($userId)
+    {
+        $userIdHashed = \PiwikTracker::getUserIdHashed($userId);
+        return self::convertVisitorIdToBin($userIdHashed);
     }
 
     /**
@@ -835,7 +868,7 @@ class Common
             }
         }
 
-        if (is_null($browserLang)) {
+        if (empty($browserLang)) {
             // a fallback might be to infer the language in HTTP_USER_AGENT (i.e., localized build)
             $browserLang = "";
         } else {
@@ -990,10 +1023,10 @@ class Common
     /**
      * Returns a string with a comma separated list of placeholders for use in an SQL query. Used mainly
      * to fill the `IN (...)` part of a query.
-     * 
+     *
      * @param array|string $fields The names of the mysql table fields to bind, e.g.
      *                             `array(fieldName1, fieldName2, fieldName3)`.
-     * 
+     *
      *                             _Note: The content of the array isn't important, just its length._
      * @return string The placeholder string, e.g. `"?, ?, ?"`.
      * @api
@@ -1018,6 +1051,7 @@ class Common
      */
     public static function sendHeader($header, $replace = true)
     {
+        // don't send header in CLI mode
         if(!Common::isPhpCliMode() && !headers_sent()) {
             header($header, $replace);
         }
@@ -1038,11 +1072,11 @@ class Common
     /**
      * Marks an orphaned object for garbage collection.
      *
-     * For more information: {@link http://dev.piwik.org/trac/ticket/374}
+     * For more information: {@link https://github.com/piwik/piwik/issues/374}
      * @param $var The object to destroy.
      * @api
      */
-    static public function destroy(&$var)
+    public static function destroy(&$var)
     {
         if (is_object($var) && method_exists($var, '__destruct')) {
             $var->__destruct();
@@ -1051,20 +1085,26 @@ class Common
         $var = null;
     }
 
-    static public function printDebug($info = '')
+    public static function printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            if(is_object($info)) {
+
+            if (is_object($info)) {
                 $info = var_export($info, true);
             }
-            if (is_array($info)) {
-                print("<pre>");
+
+            Log::getInstance()->setLogLevel(Log::DEBUG);
+
+            if (is_array($info) || is_object($info)) {
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
-                echo $out;
-                print("</pre>");
+                foreach (explode("\n", $out) as $line) {
+                    Log::debug($line);
+                }
             } else {
-                print(htmlspecialchars($info, ENT_QUOTES) . "<br />\n");
+                foreach (explode("\n", $info) as $line) {
+                    Log::debug(htmlspecialchars($line, ENT_QUOTES));
+                }
             }
         }
     }

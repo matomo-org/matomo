@@ -1,0 +1,31 @@
+{
+    "Installation": {
+        "DatabaseAbilities": "தரவுத்தள திறன்கள்",
+        "DatabaseCreation": "தரவுத்தள உருவாக்கம்",
+        "DatabaseServerVersion": "தரவுத்தள சர்வர் பதிப்பு",
+        "DatabaseSetup": "தரவுத்தள அமைப்பு முறை",
+        "DatabaseSetupAdapter": "இசைவாக்கி",
+        "DatabaseSetupDatabaseName": "தரவுத்தளதின் பெயர்",
+        "DatabaseSetupLogin": "புகுபதிகை",
+        "DatabaseSetupServer": "தரவுத்தள சர்வர்",
+        "DatabaseSetupTablePrefix": "அட்டவணை முன்வை",
+        "Email": "ஈமெயில்",
+        "Extension": "நீட்டிப்பு",
+        "Filesystem": "கோப்பு முறை",
+        "Installation": "நிறுவல்",
+        "InstallationStatus": "நிறுவுதல் நிலை",
+        "Optional": "விருப்பத்தேர்வு",
+        "Password": "கடவுச்சொல்",
+        "PasswordDoNotMatch": "கடவுச்சொல் பொருந்தவில்லை",
+        "PasswordRepeat": "கடவுச்சொல் (மீண்டும்)",
+        "SetupWebsiteError": "இணையதளத்தை சேர்ப்பதில் பிழை உள்ளது",
+        "SetupWebSiteName": "இணையதளத்தின் பெயர்",
+        "SetupWebsiteSetupSuccess": "இணையதளம் %s வெற்றிகரமாக உருவாக்கப்பட்டது!",
+        "SetupWebSiteURL": "இணையதளத்தின் முகவரி(உரல்)",
+        "SystemCheckOpenURL": "வெளிப்படையான இணைப்புகள்(உரலி)",
+        "SystemCheckOtherExtensions": "மற்ற நீட்டிப்புகள்",
+        "SystemCheckOtherFunctions": "மற்ற செயல்பாடுகள்",
+        "SystemCheckPhp": "பிஎச்பி பதிப்பு",
+        "SystemCheckTracker": "கண்காணிப்பு நிலை"
+    }
+}

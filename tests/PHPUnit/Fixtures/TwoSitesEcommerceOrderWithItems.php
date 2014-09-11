@@ -1,17 +1,20 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds two sites and tracks some visits with ecommerce orders.
  */
-class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_BaseFixture
+class TwoSitesEcommerceOrderWithItems extends Fixture
 {
     public $dateTime = '2011-04-05 00:11:42';
     public $idSite = 1;
@@ -34,15 +37,15 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
 
     private function setUpWebsitesAndGoals()
     {
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($this->idSite)) {
             $this->idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
         }
 
-        if (!self::siteCreated($idSite = 2)) {
+        if (!self::siteCreated($this->idSite2)) {
             $this->idSite2 = self::createWebsite($this->dateTime);
         }
 
-        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+        if (!self::goalExists($this->idSite, $this->idGoalStandard)) {
             API::getInstance()->addGoal(
                 $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
                 $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
@@ -207,9 +210,5 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(30.9)->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after', $category = 'Tools', $price = 100, $quantity = 2);
         self::checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
-        //------------------------------------- End tracking
-
-
     }
 }
-

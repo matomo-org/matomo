@@ -8,6 +8,7 @@
 		<module>Actions</module>
 		<action>getPageTitles</action>
 		<dimension>Page Name</dimension>
+		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
 			<nb_visits>Unique Pageviews</nb_visits>
@@ -24,7 +25,6 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
-		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>

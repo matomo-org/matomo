@@ -1,0 +1,29 @@
+<div class="enrichedHeadline"
+    ng-mouseenter="view.showIcons=true" ng-mouseleave="view.showIcons=false">
+    <span ng-transclude></span>
+
+    <span ng-show="view.showIcons">
+        <a ng-if="helpUrl && !inlineHelp"
+           target="_blank"
+           href="{{ helpUrl }}"
+           title="{{ 'CoreHome_ExternalHelp'|translate }}"
+           class="helpIcon"></a>
+
+        <a ng-if="inlineHelp"
+           title="{{ 'General_Help'|translate }}"
+           ng-click="view.showInlineHelp=!view.showInlineHelp"
+           class="helpIcon"></a>
+
+        <div class="ratingIcons"
+             piwik-rate-feature
+             title="{{ featureName }}"></div>
+    </span>
+
+    <div class="inlineHelp" ng-show="view.showIcons && view.showInlineHelp">
+        <div ng-bind-html="inlineHelp"></div>
+        <a ng-if="helpUrl"
+           target="_blank"
+           href="{{ helpUrl }}"
+           class="readMore">{{ 'General_MoreDetails'|translate }}</a>
+    </div>
+</div>

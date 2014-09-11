@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,12 +11,11 @@ namespace Piwik\Plugins\Live;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\Plugins\Live\Reports\GetLastVisitsDetails;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  */
@@ -40,31 +39,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->render($view);
     }
 
-    public function getSimpleLastVisitCount()
-    {
-        $lastMinutes = Config::getInstance()->General[self::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY];
-
-        $lastNData = Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
-
-        $view = new View('@Live/getSimpleLastVisitCount');
-        $view->lastMinutes = $lastMinutes;
-        $view->visitors = MetricsFormatter::getPrettyNumber($lastNData[0]['visitors']);
-        $view->visits = MetricsFormatter::getPrettyNumber($lastNData[0]['visits']);
-        $view->actions = MetricsFormatter::getPrettyNumber($lastNData[0]['actions']);
-        $view->refreshAfterXSecs = Config::getInstance()->General['live_widget_refresh_after_seconds'];
-        $view->translations = array(
-            'one_visitor' => Piwik::translate('Live_NbVisitor'),
-            'visitors'    => Piwik::translate('Live_NbVisitors'),
-            'one_visit'   => Piwik::translate('General_OneVisit'),
-            'visits'      => Piwik::translate('General_NVisits'),
-            'one_action'  => Piwik::translate('General_OneAction'),
-            'actions'     => Piwik::translate('VisitsSummary_NbActionsDescription'),
-            'one_minute'  => Piwik::translate('General_OneMinute'),
-            'minutes'     => Piwik::translate('General_NMinutes')
-        );
-        return $this->render($view);
-    }
-
     public function ajaxTotalVisitors()
     {
         $view = new View('@Live/ajaxTotalVisitors');
@@ -84,13 +58,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Live/indexVisitorLog.twig');
         $view->filterEcommerce = Common::getRequestVar('filterEcommerce', 0, 'int');
-        $view->visitorLog = $this->getLastVisitsDetails();
+        $view->visitorLog = $this->renderReport(new GetLastVisitsDetails());
         return $view->render();
-    }
-
-    public function getLastVisitsDetails()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 
     /**
@@ -98,14 +67,16 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getVisitorLog()
     {
-        return $this->getLastVisitsDetails();
+        return $this->renderReport(new GetLastVisitsDetails());
     }
 
     public function getLastVisitsStart()
     {
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
+        \Piwik\Period\Factory::checkPeriodIsEnabled('day');
         $_GET['period'] = 'day';
+
         $view = new View('@Live/getLastVisitsStart');
         $view->idSite = $this->idSite;
         $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
@@ -143,7 +114,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->exportLink = $this->getVisitorProfileExportLink();
 
         if (Common::getRequestVar('showMap', 1) == 1
-            && $view->visitorData['hasLatLong']
+            && !empty($view->visitorData['hasLatLong'])
             && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
         ) {
             $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();

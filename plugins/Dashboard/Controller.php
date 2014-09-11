@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link     http://piwik.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Session\SessionNamespace;
 use Piwik\View;
 use Piwik\WidgetsList;
+use Piwik\FrontController;
 
 /**
  * Dashboard Controller
@@ -42,7 +43,10 @@ class Controller extends \Piwik\Plugin\Controller
         $view->availableLayouts = $this->getAvailableLayouts();
 
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
-        $view->dashboardLayout = $this->getLayout($view->dashboardId);
+
+        // get the layout via FrontController so controller events are posted
+        $view->dashboardLayout = FrontController::getInstance()->dispatch('Dashboard', 'getDashboardLayout',
+            array($checkToken = false));
 
         return $view;
     }
@@ -50,7 +54,6 @@ class Controller extends \Piwik\Plugin\Controller
     public function embeddedIndex()
     {
         $view = $this->_getDashboardView('@Dashboard/embeddedIndex');
-
         return $view->render();
     }
 
@@ -67,12 +70,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getDashboardSettingsControl()
-    {
-        $view = new DashboardManagerControl();
-        return $view->render();
-    }
-
     public function getAvailableWidgets()
     {
         $this->checkTokenInUrl();
@@ -81,9 +78,11 @@ class Controller extends \Piwik\Plugin\Controller
         return Common::json_encode(WidgetsList::get());
     }
 
-    public function getDashboardLayout()
+    public function getDashboardLayout($checkToken = true)
     {
-        $this->checkTokenInUrl();
+        if ($checkToken) {
+            $this->checkTokenInUrl();
+        }
 
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
 
@@ -335,5 +334,4 @@ class Controller extends \Piwik\Plugin\Controller
         );
     }
 }
-
 

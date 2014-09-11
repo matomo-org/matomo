@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "プロバイダ",
+        "PluginDescription": "ビジターのプロバイダをリポートします。",
+        "ProviderReportDocumentation": "このリポートは、ウェブサイトにアクセスする訪問者が使っているインターネットサービスプロバイダを示しています。詳細については、プロバイダ名をクリックしてください。 %s Piwikが訪問者のプロバイダを判別できない場合は、IPとして表示されます。",
+        "SubmenuLocationsProvider": "所在地とプロバイダ",
+        "WidgetProviders": "プロバイダ"
+    }
+}

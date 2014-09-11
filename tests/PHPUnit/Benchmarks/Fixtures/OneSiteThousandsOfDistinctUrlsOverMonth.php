@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,23 +22,23 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
     public function setUp()
     {
         // add one site
-        Test_Piwik_BaseFixture::createWebsite(
+        Fixture::createWebsite(
             $this->date, $ecommerce = 1, $siteName = "Site #0", $siteUrl = "http://whatever.com/");
 
         // add two goals
         $goals = API::getInstance();
         $goals->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         $goals->addGoal($this->idSite, 'all', 'url', 'thing2', 'contains');
-        
+
         $start = Date::factory($this->date);
-        
+
         $dates = array();
         for ($day = 0; $day != 31; ++$day) {
             $dates[] = $start->addDay($day);
         }
-        
+
         $t = BenchmarkTestCase::getLocalTracker($this->idSite);
-        
+
         $actionNum = 0;
         foreach ($dates as $date) {
             for ($visitNum = 0; $visitNum != 1000; ++$visitNum) {
@@ -50,13 +50,13 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
                     $referrerUrl = "http://";
                 }
                 $title = "A page title / $actionNum / 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 /9";
-                
+
                 $t->setNewVisitorId();
                 $t->setForceVisitDateTime($date);
-                
+
                 $t->setUrl($url);
                 $t->setUrlReferrer($referrerUrl);
-                Test_Piwik_BaseFixture::checkResponse($t->doTrackPageView($title));
+                Fixture::checkResponse($t->doTrackPageView($title));
                 ++$actionNum;
             }
         }

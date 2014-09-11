@@ -1,14 +1,14 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Unzip\Gzip;
+use Piwik\Unzip;
 use Piwik\Unzip\PclZip;
 use Piwik\Unzip\Tar;
-use Piwik\Unzip;
 use Piwik\Unzip\ZipArchive;
 
 class UnzipTest extends PHPUnit_Framework_TestCase
@@ -121,7 +121,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
     {
         clearstatcache();
         $filename = dirname(__FILE__) . '/Unzip/zaabs.zip';
-        $extractDir = PIWIK_USER_PATH . '/tmp/latest/';
 
         $unzip = new ZipArchive($filename);
         $this->assertContains('No error', $unzip->errorInfo());
@@ -150,7 +149,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/NotExisting.zip';
 
         try {
-            $unzip = new ZipArchive($filename);
+            new ZipArchive($filename);
         } catch (Exception $e) {
             return;
         }

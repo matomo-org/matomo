@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,7 @@ use Exception;
 /**
  * Contains HTTP client related helper methods that can retrieve content from remote servers
  * and optionally save to a local file.
- * 
+ *
  * Used to check for the latest Piwik version and download updates.
  *
  */
@@ -21,7 +21,7 @@ class Http
 {
     /**
      * Returns the "best" available transport method for {@link sendHttpRequest()} calls.
-     * 
+     *
      * @return string Either `'curl'`, `'fopen'` or `'socket'`.
      * @api
      */
@@ -70,11 +70,11 @@ class Http
      *                     is returned on failure.
      *                     If `$getExtendedInfo` is `true` and `$destinationPath` is not specified an array with
      *                     the following information is returned on success:
-     * 
+     *
      *                     - **status**: the HTTP status code
      *                     - **headers**: the HTTP headers
      *                     - **data**: the HTTP response data
-     * 
+     *
      *                     `false` is still returned on failure.
      * @api
      */
@@ -161,6 +161,8 @@ class Http
         $proxyPort = Config::getInstance()->proxy['port'];
         $proxyUser = Config::getInstance()->proxy['username'];
         $proxyPassword = Config::getInstance()->proxy['password'];
+
+        $aUrl = trim($aUrl);
 
         // other result data
         $status = null;
@@ -443,7 +445,7 @@ class Http
                 CURLOPT_HEADER         => is_resource($file) ? false : true,
                 CURLOPT_CONNECTTIMEOUT => $timeout,
             );
-            // Case archive.php is triggering archiving on https:// and the certificate is not valid
+            // Case core:archive command is triggering archiving on https:// and the certificate is not valid
             if ($acceptInvalidSslCertificate) {
                 $curl_options += array(
                     CURLOPT_SSL_VERIFYHOST => false,
@@ -488,7 +490,8 @@ class Http
             } else if ($response === false) {
                 $errstr = curl_error($ch);
                 if ($errstr != '') {
-                    throw new Exception('curl_exec: ' . $errstr);
+                    throw new Exception('curl_exec: ' . $errstr
+                        . '. Hostname requested was: ' . UrlHelper::getHostFromUrl($aUrl));
                 }
                 $response = '';
             } else {
@@ -543,17 +546,17 @@ class Http
      * is determined by the existing file's size and the expected file size, which
      * is stored in the piwik_option table before starting a download. The expected
      * file size is obtained through a `HEAD` HTTP request.
-     * 
+     *
      * _Note: this function uses the **Range** HTTP header to accomplish downloading in
      * parts. Not every server supports this header._
-     * 
+     *
      * The proper use of this function is to call it once per request. The browser
      * should continue to send requests to Piwik which will in turn call this method
      * until the file has completely downloaded. In this way, the user can be informed
      * of a download's progress.
-     * 
+     *
      * **Example Usage**
-     * 
+     *
      * ```
      * // browser JavaScript
      * var downloadFile = function (isStart) {
@@ -571,10 +574,10 @@ class Http
      *     });
      *     ajax.send();
      * }
-     * 
+     *
      * downloadFile(true);
      * ```
-     * 
+     *
      * ```
      * // PHP controller action
      * public function myAction()
@@ -584,7 +587,7 @@ class Http
      *     Http::downloadChunk("http://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
      * }
      * ```
-     * 
+     *
      * @param string $url The url to download from.
      * @param string $outputPath The path to the file to save/append to.
      * @param bool $isContinuation `true` if this is the continuation of a download,
@@ -750,5 +753,25 @@ class Http
             return substr($str, 0, $limit) . '...';
         }
         return $str;
+    }
+
+    /**
+     * Returns the If-Modified-Since HTTP header if it can be found. If it cannot be
+     * found, an empty string is returned.
+     *
+     * @return string
+     */
+    public static function getModifiedSinceHeader()
+    {
+        $modifiedSince = '';
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+            $modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+
+            // strip any trailing data appended to header
+            if (false !== ($semicolonPos = strpos($modifiedSince, ';'))) {
+                $modifiedSince = substr($modifiedSince, 0, $semicolonPos);
+            }
+        }
+        return $modifiedSince;
     }
 }

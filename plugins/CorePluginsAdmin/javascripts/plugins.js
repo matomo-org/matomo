@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -28,12 +28,12 @@ $(document).ready(function () {
         var filterStatus = getCurrentFilterStatus();
 
         updateNumberOfMatchingPluginsInFilter('[data-filter-status="all"]', filterOrigin, 'all');
-        updateNumberOfMatchingPluginsInFilter('[data-filter-status="active"]', filterOrigin, 'active')
-        updateNumberOfMatchingPluginsInFilter('[data-filter-status="inactive"]', filterOrigin, 'inactive')
+        updateNumberOfMatchingPluginsInFilter('[data-filter-status="active"]', filterOrigin, 'active');
+        updateNumberOfMatchingPluginsInFilter('[data-filter-status="inactive"]', filterOrigin, 'inactive');
 
-        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="all"]', 'all', filterStatus)
-        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="core"]', 'core', filterStatus)
-        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="noncore"]', 'noncore', filterStatus)
+        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="all"]', 'all', filterStatus);
+        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="core"]', 'core', filterStatus);
+        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="noncore"]', 'noncore', filterStatus);
     }
 
     function updateNumberOfMatchingPluginsInFilter(selectorFilterToUpdate, filterOrigin, filterStatus)

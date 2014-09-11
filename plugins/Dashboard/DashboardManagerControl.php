@@ -1,13 +1,11 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link     http://piwik.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Dashboard;
-
-use Piwik\View\UIControl;
 
 /**
  * Generates the HTML for the dashboard manager control.
@@ -20,9 +18,9 @@ class DashboardManagerControl extends DashboardSettingsControlBase
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->jsClass = "DashboardManagerControl";
-        $this->cssIdentifier = "dashboardSettings";
+        $this->cssIdentifier = "dashboard-manager";
 
         $this->addDashboardActions();
         $this->addGeneralActions();

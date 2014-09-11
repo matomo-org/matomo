@@ -1,0 +1,175 @@
+
+/*sites_autocomplete*/
+.sites_autocomplete {
+  position: absolute;
+  font-size: 12px;
+  display: inline-block;
+  height: 30px; /* Hack to not push the dashboard widget below */
+}
+
+.sites_selector_in_dashboard {
+  margin-top:10px;
+}
+.top_bar_sites_selector {
+  float: right
+}
+
+.top_bar_sites_selector > label {
+  display: inline-block;
+  padding: 7px 0 6px 0;
+  float: left;
+  font-size: 12px;
+}
+
+.top_bar_sites_selector > .sites_autocomplete {
+  position: static;
+  padding-left: 12px;
+}
+
+.autocompleteMatched {
+  color: #5256BE;
+  font-weight: bold;
+}
+
+.sites_autocomplete .custom_select {
+  float: left;
+  position: relative;
+  z-index: 19;
+  background: #fff url(plugins/Morpheus/images/sites_selection.png) repeat-x 0 0;
+  border: 1px solid #d4d4d4;
+  color: #255792;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 165px;
+  padding: 5px 6px 4px;
+}
+
+.sites_autocomplete .custom_select_main_link {
+  display: block;
+  text-decoration: none;
+  background: none;
+  cursor: default;
+  height:1.4em;
+}
+
+.sites_autocomplete .custom_select_ul_list li a,
+.sites_autocomplete .custom_select_all a,
+.sites_autocomplete .custom_select_main_link > span {
+  display: inline-block;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 20px 0 4px;
+}
+
+.sites_autocomplete--dropdown .custom_select_main_link:not(.loading):before {
+  content: " \25BC";
+  position: absolute;
+  right: 0;
+  font-size: 0.8em;
+  margin-top: 0.2em;
+  color: @theme-color-text-light;
+}
+
+.sites_autocomplete--dropdown .custom_select_main_link {
+  cursor: pointer;
+  position: relative;
+}
+
+.sites_autocomplete .custom_select_main_link.loading {
+  background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat right 3px;
+}
+
+.sites_autocomplete .custom_select_ul_list,
+.sites_autocomplete ul.ui-autocomplete {
+  position: relative;
+  list-style: none;
+  line-height: 18px;
+  padding: 0 0 15px 0;
+}
+
+.sites_autocomplete .custom_select_ul_list li a,
+.sites_autocomplete .custom_select_all a {
+  line-height: 18px;
+  height: auto;
+  display: block;
+  text-decoration: none;
+}
+
+.sites_autocomplete .custom_select_ul_list li a:hover,
+.sites_autocomplete .custom_select_all a:hover {
+  background: #ebeae6;
+}
+
+.sites_autocomplete .custom_select_all a {
+  text-decoration: none;
+  margin: 0 0 5px 0;
+}
+
+.sites_autocomplete .custom_select_search {
+  margin: 0 0 0 4px;
+  height: 26px;
+  display: block;
+  white-space: nowrap;
+  background: url(plugins/Morpheus/images/search_bg.png) no-repeat 0 0;
+}
+
+.sites_autocomplete .custom_select_search .inp {
+  vertical-align: top;
+  width: 114px;
+  padding: 2px 6px;
+  border: 0;
+  background: transparent;
+  font-size: 10px;
+  color: #454545;
+
+}
+.sites_autocomplete {
+  width: 165px;
+}
+
+.sites_autocomplete .custom_select_search .but {
+  vertical-align: top;
+  font-size: 10px;
+  border: 0;
+  background: transparent;
+  width: 21px;
+  height: 17px;
+  overflow: hidden;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sites_selector_container>.sites_autocomplete {
+  padding-left: 12px;
+}
+
+.custom_selector_container .ui-menu-item,
+.custom_selector_container .ui-menu-item a {
+  float:none;position:static
+}
+
+.custom_select_search .reset {
+  position: relative; top: 4px; left: -44px; cursor: pointer;
+}
+
+.custom_select_block {
+  overflow: hidden;
+  max-width: inherit
+}
+
+.custom_select_block_show {
+  height: auto;
+  overflow: visible;
+  max-width:inherit;
+}
+
+.sites_selector_container {
+  padding-top: 5px;
+}
+
+.siteSelect a {
+  white-space: normal;
+  text-align: left;
+}

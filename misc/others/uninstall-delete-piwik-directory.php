@@ -5,7 +5,7 @@
 //    For example if the piwik/ folder is at http://your-site/piwik/ you put the file in http://your-site/uninstall-delete-piwik-directory.php
 // 3) Go with your browser to http://your-site/uninstall-delete-piwik-directory.php
 // 4) The folder http://your-site/piwik/ should now be deleted!
-// We hope you enjoyed Piwik. If you have any feedback why you stopped using Piwik, 
+// We hope you enjoyed Piwik. If you have any feedback why you stopped using Piwik,
 // please let us know at hello@piwik.org - we are interested by your experience
 function unlinkRecursive($dir)
 {

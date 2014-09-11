@@ -8,11 +8,11 @@
         {% for annotation in annotations %}
             {% include "@Annotations/_annotation.twig" %}
         {% endfor %}
-        <tr class="new-annotation-row" style="display:none;" data-date="{{ startDate }}">
+        <tr class="new-annotation-row" style="display:none;" data-date="{{ today }}">
             <td class="annotation-meta">
                 <div class="annotation-star">&nbsp;</div>
                 <div class="annotation-period-edit">
-                    <a href="#">{{ startDate }}</a>
+                    <a href="#">{{ today }}</a>
 
                     <div class="datepicker" style="display:none;"/>
                 </div>

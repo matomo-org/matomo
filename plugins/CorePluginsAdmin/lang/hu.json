@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Bekapcsol",
+        "Activated": "Bekapcsolva",
+        "Active": "Bekapcsolt",
+        "AuthorHomepage": "Fejlesztő honlapja",
+        "Deactivate": "Kikapcsol",
+        "Inactive": "Kikapcsolt",
+        "LicenseHomepage": "Licencinformációk",
+        "MainDescription": "A bővítmények kiterjesztik a Piwik alapfunkcióit. A már telepített bővítményeket itt kapcsolhatod ki vagy be.",
+        "PluginDescription": "Bővítmény-adminisztrációs felület",
+        "PluginHomepage": "Bővítmény honlapja",
+        "PluginsManagement": "Bővítménykezelés",
+        "Status": "Állapot",
+        "Version": "Verzió"
+    }
+}

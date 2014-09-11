@@ -1,0 +1,13 @@
+<tr>
+    <th class="label">
+        {{ metadata.reportName }}
+    </th>
+    <th class="label orderBy {% if 'absolute' == properties.order_by %}active{% endif %}"
+        name="orderBy" value="absolute">
+        {{ metadata.metricName }}
+    </th>
+    <th class="label orderBy {% if 'relative' == properties.order_by %}active{% endif %}"
+        name="orderBy" value="relative">
+        {{ 'MultiSites_Evolution'|translate }}
+    </th>
+</tr>

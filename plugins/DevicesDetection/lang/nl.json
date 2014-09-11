@@ -1,6 +1,9 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Browser versies",
+        "Camera": "Fototoestel",
+        "CarBrowser": "Auto browser",
+        "Console": "Console",
         "dataTableLabelBrands": "Merk",
         "dataTableLabelBrowserFamily": "Browser familie",
         "dataTableLabelModels": "Model",
@@ -14,6 +17,11 @@
         "DeviceType": "Apparaat type",
         "OperatingSystemFamilies": "Besturingssysteem families",
         "OperatingSystemVersions": "Besturingssysteem versies",
-        "submenu": "Apparaten"
+        "PluginDescription": "Deze plugin geeft uitgebreide informatie over mobile apparaten, zoals Merk (fabrikant), Model (apparaat versie), betere Apparaat type detectie (tv, consoles, smart phones, desktop, enz) en meer. Deze plugin voegt een nieuw rapport toe in 'Bezoekers > Devices'.",
+        "SmartDisplay": "Slim scherm",
+        "Smartphone": "Smartphone",
+        "submenu": "Apparaten",
+        "Tablet": "Tablet",
+        "TV": "Tv"
     }
 }

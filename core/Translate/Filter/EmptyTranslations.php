@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
  */
 
 namespace Piwik\Translate\Filter;
-
 
 /**
  */
@@ -25,7 +24,7 @@ class EmptyTranslations extends FilterAbstract
     {
         $translationsBefore = $translations;
 
-        foreach ($translations AS $plugin => &$pluginTranslations) {
+        foreach ($translations as $plugin => &$pluginTranslations) {
 
             $pluginTranslations = array_filter($pluginTranslations, function ($value) {
                 return !empty($value) && '' != trim($value);

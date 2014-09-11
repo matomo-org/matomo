@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa Rank",
+        "Bing_IndexedPages": "Bing geindexeerde pagina's",
+        "Dmoz": "DMOZ items",
+        "DomainAge": "Domein leeftijd",
+        "Google_IndexedPages": "Google geindexeerde pagina's",
+        "Rank": "Ranking",
+        "SeoRankings": "SEO rankings",
+        "SEORankingsFor": "SEO rankings voor %s"
+    }
+}

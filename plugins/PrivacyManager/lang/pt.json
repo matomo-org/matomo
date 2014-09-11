@@ -1,0 +1,21 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpDescription": "Selecione \"Sim\" para o Piwik não rastrear totalmente endereços IP qualificados.",
+        "AnonymizeIpInlineHelp": "Torna o último byte dos endereços IP de visitantes anónimo para obedecer às suas leis\/regulamentos de privacidade locais.",
+        "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes dos IPs dos visitantes devem ser mascarados.",
+        "AnonymizeIpMaskLength": "%s byte(s) - por exemplo %s",
+        "ClickHereSettings": "Clique aqui para aceder às %s definições",
+        "DeleteLogDescription2": "Quando você activa a ​​eliminação automática de logs, você deve garantir que todos os relatórios diários anteriores tenham sido processados​​, de modo que nenhuns dados sejam perdidos.",
+        "DeleteLogInfo": "Logs das seguintes tabelas serão apagados: %s",
+        "DeleteLogsOlderThan": "Apagar logs mais antigos que",
+        "DeleteMaxRows": "Número máximo de linhas para apagar de uma vez:",
+        "LastDelete": "Última eliminação foi em",
+        "LeastDaysInput": "Por favor, especifique um número de dias maior que %s.",
+        "MenuPrivacySettings": "Privacidade",
+        "NextDelete": "Próxima eliminação agendada em",
+        "PluginDescription": "Customize Piwik para torná-lo compatível com as legislações de privacidade existentes.",
+        "TeaserHeadline": "Definições de Privacidade",
+        "UseAnonymizeIp": "Tornar anónimos os endereços IP dos visitantes",
+        "UseDeleteLog": "Apagar logs de antigos visitantes da base de dados regularmente."
+    }
+}

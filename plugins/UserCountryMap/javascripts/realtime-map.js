@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Real time visitors map
  * Using Kartograph.js http://kartograph.org/
@@ -449,7 +449,7 @@
 
                         visitSymbols.layout().render();
 
-                        if (!enableAnimation) {
+                        if (enableAnimation) {
                             $.each(newSymbols, function (i, s) {
                                 if (i > 10) return false;
 

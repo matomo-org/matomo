@@ -1,0 +1,13 @@
+{
+    "Live": {
+        "GoalType": "Rodzaj",
+        "KeywordRankedOnSearchResultForThisVisitor": "Słowo kluczowe %1$s zdobyło pozycję %2$s w %3$s wynikach wyszukania strony dla tego odwiedzającego",
+        "LastHours": "w czasie ostatnich %s godzin",
+        "LastMinutes": "w czasie ostatnich %s minut",
+        "LinkVisitorLog": "Zobacz szczegółowy log twoich odwiedzających",
+        "PluginDescription": "Szpieguje odwiedzających, na żywo, w czasie rzeczywistym!",
+        "Referrer_URL": "Przysyłający adres URL",
+        "VisitorLog": "Log odwiedzających",
+        "VisitorsInRealTime": "Odwiedzający w czasie rzeczywistym"
+    }
+}

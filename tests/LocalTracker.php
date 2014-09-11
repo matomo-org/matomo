@@ -47,12 +47,9 @@ class Piwik_LocalTracker extends PiwikTracker
         Cache::$trackerCache = null;
         Tracker::setForceIp(null);
         Tracker::setForceDateTime(null);
-        Tracker::setForceVisitorId(null);
 
         // save some values
         $plugins = Config::getInstance()->Plugins['Plugins'];
-        $plugins[] = 'DevicesDetection';
-        $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         $oldTrackerConfig = Config::getInstance()->Tracker;
 
         \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
@@ -86,7 +83,6 @@ class Piwik_LocalTracker extends PiwikTracker
         ob_end_clean();
 
         // restore vars
-        Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
         Config::getInstance()->Tracker = $oldTrackerConfig;
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $oldLang;
         $_SERVER['HTTP_USER_AGENT'] = $oldUserAgent;

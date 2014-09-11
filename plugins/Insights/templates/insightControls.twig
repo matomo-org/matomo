@@ -1,0 +1,65 @@
+<div class="controls">
+
+    {% if period != 'range' %}
+
+        {{ 'Insights_ControlComparedToDescription'|translate }}
+
+        {% if period == 'day' %}
+            <select size="1" name="comparedToXPeriodsAgo">
+                <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
+                   {{ 'Insights_DayComparedToPreviousDay'|translate }}
+                </option>
+                <option value="7" {% if properties.compared_to_x_periods_ago == 7 %}selected{% endif %}>
+                    {{ 'Insights_DayComparedToPreviousWeek'|translate }}
+                </option>
+                <option value="365" {% if properties.compared_to_x_periods_ago == 365 %}selected{% endif %}>
+                    {{ 'Insights_DayComparedToPreviousYear'|translate }}
+                </option>
+            </select>
+        {% elseif period == 'month' %}
+            <select size="1" name="comparedToXPeriodsAgo">
+                <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
+                    {{ 'Insights_MonthComparedToPreviousMonth'|translate }}
+                </option>
+                <option value="12" {% if properties.compared_to_x_periods_ago == 12 %}selected{% endif %}>
+                    {{ 'Insights_MonthComparedToPreviousYear'|translate }}
+                </option>
+            </select>
+        {% elseif period == 'week' %}
+            {{ 'Insights_WeekComparedToPreviousWeek'|translate }}
+        {% elseif period == 'year' %}
+            {{ 'Insights_YearComparedToPreviousYear'|translate }}
+        {% endif %}
+    {% endif %}
+
+    <hr class="controlSeparator" />
+
+    {{ 'Insights_Filter'|translate }}
+
+    <select size="1" name="filterBy" title="{{ 'Insights_ControlFilterByDescription'|translate|e('html_attr') }}">
+        <option {% if not properties.filter_by %}selected{% endif %} value="">
+            {{ 'General_All'|translate }}
+        </option>
+        <option {% if properties.filter_by == 'movers' %}selected{% endif %} value="movers">
+            {{ 'Insights_FilterOnlyMovers'|translate }}
+        </option>
+        <option {% if properties.filter_by == 'new' %}selected{% endif %} value="new">
+            {{ 'Insights_FilterOnlyNew'|translate }}
+        </option>
+        <option {% if properties.filter_by == 'disappeared' %}selected{% endif %} value="disappeared">
+            {{ 'Insights_FilterOnlyDisappeared'|translate }}
+        </option>
+    </select>
+
+    <select size="1" name="showIncreaseOrDecrease" title="Show increaser and/or decreaser">
+        <option value="both" {% if properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>
+            {{ 'Insights_FilterIncreaserAndDecreaser'|translate }}
+        </option>
+        <option value="increase" {% if properties.limit_increaser and not properties.limit_decreaser %}selected{%endif%}>
+            {{ 'Insights_FilterOnlyIncreaser'|translate }}
+        </option>
+        <option value="decrease" {% if not properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>
+            {{ 'Insights_FilterOnlyDecreaser'|translate }}
+        </option>
+    </select>
+</div>

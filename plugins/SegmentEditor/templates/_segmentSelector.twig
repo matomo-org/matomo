@@ -1,24 +1,33 @@
 <div class="SegmentEditor" style="display:none;">
     <div class="segmentationContainer listHtml">
         <span class="segmentationTitle"></span>
-
-        <ul class="submenu">
-            <li>{{ 'SegmentEditor_SelectSegmentOfVisitors'|translate }}
-                <div class="segmentList">
-                    <ul>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-        {% if authorizedToCreateSegments %}
-            <a class="add_new_segment">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
-        {% else %}
+        <div class="dropdown-body">
+            <div class="segmentFilterContainer">
+                <input class="segmentFilter" type="text" value="{{ 'General_Search'|translate }}"/>
+                <span/>
+            </div>
             <ul class="submenu">
-            <li> <span class='youMustBeLoggedIn'>{{ 'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate }}
-                <br/>&rsaquo; <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a> </span>
-            </li>
+                <li>{{ 'SegmentEditor_SelectSegmentOfVisitors'|translate }}
+                    <div class="segmentList">
+                        <ul>
+                        </ul>
+                    </div>
+                </li>
             </ul>
-        {% endif %}
+
+            {% if authorizedToCreateSegments %}
+                <a class="add_new_segment">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
+            {% else %}
+                <ul class="submenu">
+                <li>
+                    {% if isUserAnonymous %}
+                        <span class='youMustBeLoggedIn'>{{ 'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate }}
+                        <br/>&rsaquo; <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a> </span>
+                    {% endif %}
+                </li>
+                </ul>
+            {% endif %}
+        </div>
     </div>
 
     <div class="initial-state-rows">{# no space here important for jquery #}<div class="segment-add-row initial"><div>
@@ -113,7 +122,7 @@
                 {{ 'SegmentEditor_SegmentIsDisplayedForWebsite'|translate }}<span class="visible_to_website"><strong>
                         <select class="visible_to_website_select">
                             <option selected="" value="{{ idSite }}">{{ 'SegmentEditor_SegmentDisplayedThisWebsiteOnly'|translate }}</option>
-                            <option value="0">{{ 'SegmentEditor_SegmentDisplayedAllWebsites'|translate }}</option>
+                            {% if isAddingSegmentsForAllWebsitesEnabled %}<option value="0">{{ 'SegmentEditor_SegmentDisplayedAllWebsites'|translate }}</option>{% endif %}
                         </select>
                     </strong></span>
                 {{ 'General_And'|translate }} <span class="auto_archive"><strong>
@@ -129,6 +138,7 @@
             <h3>{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
         </div>
         <div class="segment-footer">
+            <div piwik-rate-feature title="Segment Editor" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>
             <span class="segmentFooterNote">The Segment Editor was <a class='crowdfundingLink' href='http://crowdfunding.piwik.org/custom-segments-editor/' target='_blank'>crowdfunded</a> with the awesome support of 80 companies and Piwik users worldwide!</span>
             <a class="delete" href="#">{{ 'General_Delete'|translate }}</a>
             <a class="close" href="#">{{ 'General_Close'|translate }}</a>
@@ -136,7 +146,7 @@
         </div>
     </div>
 </div>
-<div class="segmentListContainer"></div>
+<div class="segmentListContainer">
 <div class="ui-confirm segment-delete-confirm">
     <h2>{{ 'SegmentEditor_AreYouSureDeleteSegment'|translate }}</h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
@@ -145,6 +155,14 @@
 <div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
     <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
     {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
-    <p class="description">{{ 'SegmentEditor_SegmentNotAppliedExplanation'|translate(nameOfCurrentSegment, 'browser_archiving_disabled_enforce', segmentSetting)|raw }}</p>
     <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+    <p class="description">
+        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|raw }}
+        <br/>
+        {{ 'SegmentEditor_DataAvailableAtLaterDate'|translate }}
+        {% if isSuperUser %}
+            <br/> <br/> {{ 'SegmentEditor_YouMayChangeSetting'|translate('browser_archiving_disabled_enforce', segmentSetting) }}
+        {% endif %}
+    </p>
+</div>
 </div>

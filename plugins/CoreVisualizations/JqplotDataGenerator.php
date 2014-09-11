@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
-
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -32,7 +31,6 @@ class JqplotDataGenerator
      * @var array
      */
     protected $properties;
-
 
     protected $graphType;
 
@@ -139,7 +137,10 @@ class JqplotDataGenerator
 
         // the bar charts contain the labels a first series
         // this series has to be removed from the units
-        if ($this->graphType == 'bar') {
+        reset($units);
+        if ($this->graphType == 'bar'
+            && key($units) == 'label'
+        ) {
             array_shift($units);
         }
 

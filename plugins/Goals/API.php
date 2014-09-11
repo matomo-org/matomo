@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -79,7 +79,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param string $name
-     * @param string $matchAttribute 'url', 'title', 'file', 'external_website' or 'manually'
+     * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'event_action', 'event_category' or 'event_name'
      * @param string $pattern eg. purchase-confirmation.htm
      * @param string $patternType 'regex', 'contains', 'exact'
      * @param bool $caseSensitive
@@ -91,7 +91,7 @@ class API extends \Piwik\Plugin\API
     public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
     {
         Piwik::checkUserHasAdminAccess($idSite);
-        $this->checkPatternIsValid($patternType, $pattern);
+        $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name = $this->checkName($name);
         $pattern = $this->checkPattern($pattern);
 
@@ -141,7 +141,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasAdminAccess($idSite);
         $name = $this->checkName($name);
         $pattern = $this->checkPattern($pattern);
-        $this->checkPatternIsValid($patternType, $pattern);
+        $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         Db::get()->update(Common::prefixTable('goal'),
             array(
                  'name'            => $name,
@@ -157,10 +157,11 @@ class API extends \Piwik\Plugin\API
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
-    private function checkPatternIsValid($patternType, $pattern)
+    private function checkPatternIsValid($patternType, $pattern, $matchAttribute)
     {
         if ($patternType == 'exact'
             && substr($pattern, 0, 4) != 'http'
+            && substr($matchAttribute, 0, 6) != 'event_'
         ) {
             throw new Exception(Piwik::translate('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
         }

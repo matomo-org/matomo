@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,9 +15,9 @@ use Piwik\ScheduledTime;
 /**
  * Contains metadata referencing PHP code that should be executed at regular
  * intervals.
- * 
+ *
  * See the {@link TaskScheduler} docs to learn more about scheduled tasks.
- * 
+ *
  *
  * @api
  */
@@ -67,7 +67,7 @@ class ScheduledTask
 
     /**
      * Constructor.
-     * 
+     *
      * @param mixed $objectInstance The object or class that contains the method to execute regularly.
      *                              Usually this will be a {@link Plugin} instance.
      * @param string $methodName The name of the method that will be regularly executed.
@@ -101,14 +101,14 @@ class ScheduledTask
         }
 
         $namespaced = get_class($_objectInstance);
-        $class = explode('\\', $namespaced);
-        return end($class);
+
+        return $namespaced;
     }
 
     /**
      * Returns the object instance that contains the method to execute. Returns a class
      * name if the method is static.
-     * 
+     *
      * @return mixed
      */
     public function getObjectInstance()
@@ -118,7 +118,7 @@ class ScheduledTask
 
     /**
      * Returns the name of the class that contains the method to execute.
-     * 
+     *
      * @return string
      */
     public function getClassName()
@@ -128,7 +128,7 @@ class ScheduledTask
 
     /**
      * Returns the name of the method that will be executed.
-     * 
+     *
      * @return string
      */
     public function getMethodName()
@@ -139,7 +139,7 @@ class ScheduledTask
     /**
      * Returns the value that will be passed to the method when executed, or `null` if
      * no value will be supplied.
-     * 
+     *
      * @return string|null
      */
     public function getMethodParameter()
@@ -160,7 +160,7 @@ class ScheduledTask
 
     /**
      * Returns the time in milliseconds when this task will be executed next.
-     * 
+     *
      * @return int
      */
     public function getRescheduledTime()
@@ -182,11 +182,11 @@ class ScheduledTask
     /**
      * Returns a unique name for this scheduled task. The name is stored in the DB and is used
      * to store a task's previous execution time. The name is created using:
-     * 
+     *
      * - the name of the class that contains the method to execute,
      * - the name of the method to regularly execute,
      * - and the value that is passed to the executed task.
-     * 
+     *
      * @return string
      */
     public function getName()

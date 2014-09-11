@@ -1,0 +1,29 @@
+{
+    "Events": {
+        "AvgEventValue": "Keskimääräinen tapahtuman arvo on %s",
+        "AvgValue": "Keskiarvo",
+        "AvgValueDocumentation": "Kaikkien arvojen keskiarvo tälle tapahtumalle",
+        "Event": "Tapahtuma",
+        "EventAction": "Tapahtuman toiminto",
+        "EventActions": "Tapahtuman toiminnot",
+        "EventCategories": "Tapahtuman kategoriat",
+        "EventCategory": "Tapahtuman kategoria",
+        "EventName": "Tapahtuman nimi",
+        "EventNames": "Tapahtuman nimet",
+        "Events": "Tapahtumat",
+        "EventsWithValue": "Tapahtumat joilla on arvo",
+        "EventValue": "Tapahtuman arvo",
+        "MaxValue": "Suurin arvo",
+        "MaxValueDocumentation": "Suurin arvo tälle tapahtumalle",
+        "MinValue": "Pienin arvo",
+        "MinValueDocumentation": "Pienin arvo tälle tapahtumalle",
+        "SecondaryDimension": "Toisarvoinen koko on %s.",
+        "SwitchToSecondaryDimension": "Vaihda %s:ään",
+        "TopEvents": "Tärkeimmät tapahtumat",
+        "TotalEvents": "Tapahtumia yhteensä",
+        "TotalEventsDocumentation": "Tapahtumia yhteensä",
+        "TotalValue": "Arvo yhteensä",
+        "TotalValueDocumentation": "Arvojen summa",
+        "ViewEvents": "Näytä tapahtumat"
+    }
+}

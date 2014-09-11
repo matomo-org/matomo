@@ -1,0 +1,29 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Aggiungi %s condizione",
+        "AddNewSegment": "Aggiungi un nuovo segmento",
+        "AreYouSureDeleteSegment": "Sei sicuro di voler eliminare questo segmento?",
+        "AutoArchivePreProcessed": "i reports segmentati sono pre-elaborati (più veloce, richiede archive.php cron)",
+        "AutoArchiveRealTime": "i reports segmentati sono elaborati in tempo reale",
+        "ChooseASegment": "Scegli un segmento",
+        "DataAvailableAtLaterDate": "I report delle statistiche segmentate saranno disponibili più tardi. Ci scusiamo per l'inconveniente.",
+        "DefaultAllVisits": "Tutte le visite",
+        "DragDropCondition": "Copia & Incolla condizione",
+        "LoadingSegmentedDataMayTakeSomeTime": "L'elaborazione dei dati visitatore segmentati può richiedere qualche minuto...",
+        "OperatorAND": "E",
+        "OperatorOR": "O",
+        "SaveAndApply": "Salva & Applica",
+        "SegmentDisplayedAllWebsites": "tutti i siti",
+        "SegmentDisplayedThisWebsiteOnly": "solo questo sito",
+        "SegmentIsDisplayedForWebsite": "e mostrato per",
+        "SegmentNotApplied": "Segmento '%s' non applicato",
+        "SegmentNotAppliedMessage": "Stai richiedendo i dati per il Segmento Personalizzato '%s', questa configurazione di Piwik attualmente esclude l'elaborazione in tempo reale dei report per ragioni di prestazioni.",
+        "SelectSegmentOfVisitors": "Seleziona un segmento di visitatori:",
+        "ThisSegmentIsVisibleTo": "Questo segmento è visibile a:",
+        "VisibleToAllUsers": "tutti gli utenti",
+        "VisibleToMe": "me",
+        "YouDontHaveAccessToCreateSegments": "Non hai un livello d'accesso adeguato per creare e modificare i segmenti.",
+        "YouMayChangeSetting": "In alternativa, puoi cambiare le impostazioni nel file di configurazione (%s) o modificare questo Segmento e scegliere '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Devi avere effettuato l'accesso per creare e modificare i segmenti personalizzati dei visitatori."
+    }
+}

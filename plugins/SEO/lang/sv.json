@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa Rank",
+        "Bing_IndexedPages": "Bing indexerade sidor",
+        "Dmoz": "DMOZ poster",
+        "DomainAge": "Domänålder",
+        "ExternalBacklinks": "Externa tillbakalänkar (Majestic)",
+        "Google_IndexedPages": "Google indexerade sidor",
+        "Rank": "Rank",
+        "ReferrerDomains": "Refererande Domäner (Majestic)",
+        "SeoRankings": "SEO Ranking",
+        "SEORankingsFor": "SEO Ranking för %s",
+        "ViewBacklinksOnMajesticSEO": "Se externa länkrapporter på den här sidan: MajesticSEO.com"
+    }
+}

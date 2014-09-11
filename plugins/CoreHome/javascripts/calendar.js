@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,6 +29,10 @@
         currentWeek = currentDate.getWeek();
     }
 
+    if(!piwik.currentDateString) {
+        // eg. Login form
+        return;
+    }
     setCurrentDate(piwik.currentDateString);
 
     var todayDate = new Date;
@@ -350,10 +354,6 @@
             }
         });
 
-        // Hack to get around firefox bug. When double clicking a label in firefox, the 'click'
-        // event of its associated input will not be fired twice. We want to change the period
-        // if clicking the select period's label OR input, so we catch the click event on the
-        // label & the input.
         var reloading = false;
         var changePeriodOnClick = function (periodInput) {
             if (reloading) // if a click event resulted in reloading, don't reload again
@@ -378,7 +378,7 @@
             return false;
         };
 
-        $("#otherPeriods").find("label").on('click', function (e) {
+        $("#otherPeriods").find("label,input").on('dblclick', function (e) {
             var id = $(e.target).attr('for');
             changePeriodOnClick($('#' + id));
         });
@@ -484,7 +484,6 @@
             $('#calendarTo').datepicker(options).datepicker("setDate", $.datepicker.parseDate('yy-mm-dd', piwik.endDateString));
             onDateRangeSelect(piwik.endDateString, { "id": "calendarTo" });
 
-
             // If not called, the first date appears light brown instead of dark brown
             $('.ui-state-hover').removeClass('ui-state-hover');
 
@@ -508,7 +507,6 @@
                     broadcast.propagateNewPage('period=range&date=' + dateFrom + ',' + dateTo);
                 })
                 .show();
-
 
             // Bind the input fields to update the calendar's date when date is manually changed
             $('#inputCalendarFrom, #inputCalendarTo')

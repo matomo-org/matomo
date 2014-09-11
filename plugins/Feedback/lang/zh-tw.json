@@ -1,0 +1,15 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "聯絡 Piwik 團隊！",
+        "DoYouHaveBugReportOrFeatureRequest": "你有一個臭蟲回報或功能請求？",
+        "IWantTo": "我想要：",
+        "LearnWaysToParticipate": "瞭解所有你可以 %s 參與%s 的方法",
+        "ManuallySendEmailTo": "請手動寄送你的訊息至",
+        "PluginDescription": "傳送你的意見反應給 Piwik 小組。與我們分享你的點子及建議！",
+        "SendFeedback": "送出意見",
+        "SpecialRequest": "你對於 Piwik 小組有特殊的請求？",
+        "ThankYou": "謝謝你協助我們使 Piwik 變得更好！",
+        "TopLinkTooltip": "請分享您的意見，或提出專業支援要求。",
+        "VisitTheForums": "訪問 %s 論壇%s"
+    }
+}

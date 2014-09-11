@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link     http://piwik.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,8 +22,8 @@ abstract class DashboardSettingsControlBase extends UIControl
     public function __construct()
     {
         parent::__construct();
-        
-        $this->cssClass = "js-autoLeftPanel";
+
+        $this->cssClass = "piwikTopControl dashboardSettings";
         $this->dashboardActions = array();
         $this->generalActions = array();
     }

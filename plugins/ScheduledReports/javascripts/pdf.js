@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -51,7 +51,6 @@ function formSetEditReport(idReport) {
             displayOptionsSelector.show();
         }
     }
-
 
     $('[name=reportsList] input').prop('checked', false);
 

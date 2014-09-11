@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -27,6 +28,7 @@ class Controller extends \Piwik\Plugin\Controller
         if (!isset($_GET['filter_limit'])) {
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
         }
+
         $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
         return $request->process();
     }
@@ -62,7 +64,10 @@ class Controller extends \Piwik\Plugin\Controller
                 $segment['type'] = 'dimension';
             }
 
-            $onlyDisplay = array('customVariableName1', 'customVariableName2', 'customVariableValue1', 'customVariableValue2', 'customVariablePageName1', 'customVariablePageValue1');
+            $onlyDisplay = array('customVariableName1', 'customVariableName2',
+                                 'customVariableValue1', 'customVariableValue2',
+                                 'customVariablePageName1', 'customVariablePageValue1');
+
             $customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay);
             // Don't display more than 4 custom variables name/value rows
             if ($segment['category'] == 'Custom Variables'

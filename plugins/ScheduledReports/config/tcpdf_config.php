@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,7 @@
 define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/libs/tcpdf/');
 
 $pathTmpTCPDF = PIWIK_USER_PATH . '/tmp/tcpdf/';
-$pathTmpTCPDF = \Piwik\SettingsPiwik::rewriteTmpPathWithHostname($pathTmpTCPDF);
+$pathTmpTCPDF = \Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId($pathTmpTCPDF);
 
 define('K_PATH_CACHE', $pathTmpTCPDF);
 define('K_PATH_IMAGES', $pathTmpTCPDF);

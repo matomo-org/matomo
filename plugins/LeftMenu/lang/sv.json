@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Definierar systemets standardinställning för alla dina användare.",
+        "GlobalSettingInlineHelp": "Användare har möjlighet att aktivera\/deaktivera vänstermenyn oavhängigt systeminställningarna.",
+        "GlobalSettingTitle": "Vänster meny aktiverad som standard",
+        "SettingsIntroduction": "Tillägget för vänstermeny kommer, ifall det är aktiverat, flytta rapportmenyn till den vänstra sidan. Detta är speciellt användbart för större skärmar.",
+        "UserSettingInlineHelp": "Detta kommer aktivera\/deaktivera för dig utan att påverka andra användare. En Super User kan ändra inställningen för samtliga användare.",
+        "UserSettingTitle": "Aktivera vänster rapporteringsmeny"
+    }
+}

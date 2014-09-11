@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
-use Piwik\Config;
 
 /**
  * Class Core_PiwikTest
@@ -43,29 +42,28 @@ class Core_PiwikTest extends DatabaseTestCase
   var _paq = _paq || [];
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
-  _paq.push([\"setCustomVariable\", 0, \"name\", \"value\", \"visit\"]);
-  _paq.push([\"setCustomVariable\", 1, \"name 2\", \"value 2\", \"visit\"]);
+  _paq.push([\"setCustomVariable\", 1, \"name\", \"value\", \"visit\"]);
+  _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
-  _paq.push([\"setCustomVariable\", 0, \"page cvar\", \"page cvar value\", \"page\"]);
+  _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u=((&quot;https:&quot; == document.location.protocol) ? &quot;https&quot; : &quot;http&quot;) + &quot;://localhost/piwik&quot;;
+    var u=&quot;//localhost/piwik/&quot;;
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', 1]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
-
 &lt;/script&gt;
-&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;http://localhost/piwikpiwik.php?idsite=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
+&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//localhost/piwik/piwik.php?idsite=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
 &lt;!-- End Piwik Code --&gt;
 ";
 
-        $this->assertEquals($jsTag, $expected);
+        $this->assertEquals($expected, $jsTag);
     }
 
     /**
@@ -80,7 +78,7 @@ class Core_PiwikTest extends DatabaseTestCase
             '-1', '0', '1', '1.5', '-1.5', '21111', '89898', '99999999999', '-4565656',
             '1e3', '0x123', "-1e-2",
         );
-        foreach ($valid AS $key => $value) {
+        foreach ($valid as $key => $value) {
             $valid[$key] = array($value);
         }
         return $valid;
@@ -102,7 +100,7 @@ class Core_PiwikTest extends DatabaseTestCase
         $notValid = array(
             '-1.0.0', '1,2', '--1', '-.', '- 1', '1-',
         );
-        foreach ($notValid AS $key => $value) {
+        foreach ($notValid as $key => $value) {
             $notValid[$key] = array($value);
         }
         return $notValid;
@@ -191,7 +189,7 @@ class Core_PiwikTest extends DatabaseTestCase
             'alpha>beta',
             'alpha?beta',
         );
-        foreach ($notValid AS $key => $value) {
+        foreach ($notValid as $key => $value) {
             $notValid[$key] = array($value);
         }
         return $notValid;
@@ -216,7 +214,7 @@ class Core_PiwikTest extends DatabaseTestCase
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             'shoot_puck@the-goal.com',
         );
-        foreach ($valid AS $key => $value) {
+        foreach ($valid as $key => $value) {
             $valid[$key] = array($value);
         }
         return $valid;

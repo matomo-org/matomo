@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -108,7 +108,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param string $url
      * @return bool True if valid; false otherwise
      */
-    static public function isPiwikUrl($url)
+    public static function isPiwikUrl($url)
     {
         // guard for IE6 meta refresh parsing weakness (OSVDB 19029)
         if (strpos($url, ';') !== false

@@ -27,13 +27,6 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
-		<name>Number of Events</name>
-		<segment>events</segment>
-		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visit</category>
 		<name>Number of Internal Searches</name>
 		<segment>searches</segment>
 		<acceptedValues>To select all visits who used internal Site Search, use: &amp;segment=searches&gt;0</acceptedValues>
@@ -43,6 +36,13 @@
 		<category>Visit</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Total events</name>
+		<segment>events</segment>
+		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
@@ -159,6 +159,14 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>User ID</name>
+		<segment>userId</segment>
+		<acceptedValues>any non empty unique string identifying the user (such as an email address or a username).</acceptedValues>
+		<permission>1</permission>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Visit Ecommerce status at the end of the visit</name>
 		<segment>visitEcommerceStatus</segment>
 		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
@@ -225,8 +233,8 @@
 		<type>dimension</type>
 		<category>Referrers</category>
 		<name>Referrer URL</name>
-		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
 		<segment>referrerUrl</segment>
+		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

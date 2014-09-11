@@ -1,17 +1,20 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one website and tracks several visits from one visitor on
  * different days that span about a month apart.
  */
-class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
+class VisitsOverSeveralDays extends Fixture
 {
     public $dateTimes = array(
         '2010-12-14 01:00:00',
@@ -85,7 +88,8 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
             $visitor->setIp('200.1.15.22');
 
             $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
-            $visitor->setUrl('http://example.org/news');
+            $urlWithThreeSubdirectories = 'http://example.org/sub1/sub2/sub3/news';
+            $visitor->setUrl($urlWithThreeSubdirectories);
             self::checkResponse($visitor->doTrackPageView('ou pas'));
 
             // SECOND VISIT THIS DAY

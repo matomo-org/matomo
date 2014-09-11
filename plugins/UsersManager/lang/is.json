@@ -1,0 +1,20 @@
+{
+    "UsersManager": {
+        "AddUser": "Bæta nýjum notanda við",
+        "Alias": "Alias",
+        "AllWebsites": "Allir vefir",
+        "ApplyToAllWebsites": "Virkja fyrir alla vefi",
+        "Email": "Netfang",
+        "ExcludeVisitsViaCookie": "Útiloka þínar heimsóknir með því að nota smáköku",
+        "ForAnonymousUsersReportDateToLoadByDefault": "Sjálfgefið að sýna skýrslu fyrir notendur sem ekki eru auðkenndir",
+        "MenuUsers": "Notendur",
+        "MenuUserSettings": "Stillingar notenda",
+        "PrivNone": "Engin aðgangur",
+        "PrivView": "Sýn",
+        "ReportToLoadByDefault": "Skýrsla sem sjálfgefið er að sækja",
+        "TheLoginScreen": "Skjár fyrir auðkenningu",
+        "User": "Notandi",
+        "UsersManagement": "Notendastjórnun",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Vefsíðan sem óauðkenndir notendur fá"
+    }
+}

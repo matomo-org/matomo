@@ -7,14 +7,15 @@
         "IndexSize": "Velikost indexu",
         "LearnMore": "Abyste lépe zjistili, jak Piwik zpracovává data a jak jej nastavit pro weby se středním a velkým provozem, podívejte se do dokumentace %s.",
         "MainDescription": "Piwik ukládá všechny vaše data webové analýzy v MySQL databázi. Nyní tabulky Piwiku využívají %s.",
-        "MetricDataByYear": "Měření tabulek za rok",
-        "MetricTables": "Měřené tabulky",
-        "OtherTables": "Osttaní tabulky",
+        "MetricDataByYear": "Tabulky metrik za rok",
+        "MetricTables": "Tabulky metrik",
+        "OtherTables": "Ostatní tabulky",
         "PluginDescription": "Tento zásuvný modul hlásí využití databáze MySQL tabulkami Piwiku",
         "ReportDataByYear": "Hlášení tabulek za rok",
         "ReportTables": "Hlášení tabulek",
         "RowCount": "Počet řádků",
         "Table": "Tabulka",
-        "TotalSize": "Celková velikost"
+        "TotalSize": "Celková velikost",
+        "TrackerTables": "Sledovací tabulky"
     }
 }

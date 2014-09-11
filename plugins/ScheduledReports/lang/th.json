@@ -1,0 +1,24 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "นอกจากนี้ ส่งรายงานไปยังอีเมล์ของเหล่านี้ (หนึ่งอีเมล์ต่อบรรทัด):",
+        "CreateReport": "สร้างรายงาน",
+        "EmailHello": "สวัสดี",
+        "EmailReports": "รายงานอีเมล์",
+        "EmailSchedule": "ตารางการทำงานของอีเมล์",
+        "MonthlyScheduleHelp": "ตารางเวลารายเดือน: รายงานจะถูกส่งไปวันแรกของแต่ละเดือน",
+        "OClock": "นาฬิกา",
+        "Pagination": "หน้า %s จาก %s",
+        "PiwikReports": "รายงาน Piwik",
+        "PleaseFindAttachedFile": "กรุณาหาในไฟล์แนบของคุณ %1$s รายงานสำหรับ %2$s",
+        "ReportFormat": "รูปแบบรายงาน",
+        "ReportHour": "ส่งรายงานที่",
+        "ReportType": "ส่งรายงานผ่านทาง",
+        "SendReportNow": "ส่งรายงาน",
+        "SendReportTo": "ส่งรายงานไปยัง",
+        "SentToMe": "ส่งถึงฉัน",
+        "TableOfContent": "รายการรายงาน",
+        "TopOfReport": "กลับด้านบน",
+        "UpdateReport": "ปรับปรุงรายงาน",
+        "WeeklyScheduleHelp": "ตารางเวลารายสัปดาห์: รายงานจะถูกส่งไปวันแรกของแต่ละสัปดาห์"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "Dashboard": {
+        "AddAWidget": "הוספת וידג'ט",
+        "AddPreviewedWidget": "הוספת היישומון המוצג לפאנל הסקירה",
+        "CreateNewDashboard": "יצירת לוח בקרה חדש",
+        "Dashboard": "פאנל סקירה",
+        "DashboardName": "שם לוח בקרה:",
+        "DeleteWidgetConfirm": "למחוק את היישומון מפאנל הסקירה? 100%?",
+        "LoadingWidget": "טוען יישומון, נא להמתין...",
+        "ManageDashboard": "ניהול לוח בקרה",
+        "Maximise": "הגדלה",
+        "PluginDescription": "סקירה כללית של ניתוח פעילות אתרך. ניתן להתאים אישית את פאנל הסקירה: הוספת יישומונים, שינוי סדר הופעתם. כל משתמש יכול לגש ללוח סקירה כללית משל עצמו.",
+        "RenameDashboard": "שינוי שם לוח בקרה",
+        "SelectWidget": "בחירת היישומון להוספה לפאנל הסקירה",
+        "WidgetNotFound": "יישומון לא נמצא",
+        "WidgetPreview": "הצגת יישומון",
+        "WidgetsAndDashboard": "וידג'טים ולוח בקרה"
+    }
+}

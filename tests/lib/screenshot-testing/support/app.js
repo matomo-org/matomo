@@ -1,0 +1,213 @@
+/*!
+ * Piwik - free/libre analytics platform
+ *
+ * UI screenshot test runner Application class
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var fs = require('fs'),
+    path = require('./path'),
+    DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator
+
+var walk = function (dir, pattern, result) {
+    result = result || [];
+
+    fs.list(dir).forEach(function (item) {
+        if (item == '.'
+            || item == '..'
+        ) {
+            return;
+        }
+
+        var wholePath = path.join(dir, item);
+
+        if (fs.isDirectory(wholePath)) {
+            walk(wholePath, pattern, result);
+        } else if (wholePath.match(pattern)) {
+            result.push(wholePath);
+        }
+    });
+
+    return result;
+};
+
+var Application = function () {
+    this.runner = null;
+
+    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
+};
+
+Application.prototype.printHelpAndExit = function () {
+    console.log("Usage: phantomjs run-tests.js [options] [test-files]");
+    console.log();
+    console.log("Available options:");
+    console.log("  --help:                   Prints this message.");
+    console.log("  --persist-fixture-data:   Persists test data in a database and does not execute tear down.");
+    console.log("                            After the first run, the database setup will not be called, which");
+    console.log("                            Makes running tests faster.");
+    console.log("  --plugin=name:            Runs all tests for a plugin.");
+    console.log("  --keep-symlinks:          If supplied, the recursive symlinks created in tests/PHPUnit/proxy");
+    console.log("                            aren't deleted after tests are run. Specify this option if you'd like");
+    console.log("                            to view pages phantomjs captures in a browser.");
+    console.log("  --print-logs:             Prints webpage logs even if tests succeed.");
+    console.log("  --store-in-ui-tests-repo: Stores processed screenshots within the UI tests repository even if");
+    console.log("                            the tests are in another plugin. For use with travis build.");
+    console.log("  --assume-artifacts:       Assume the diffviewer and processed screenshots will be stored on the.");
+    console.log("                            builds artifacts server. For use with travis build.");
+    console.log("  --screenshot-repo:        Specifies the github repository that contains the expected screenshots");
+    console.log("                            to link to in the diffviewer. For use with travis build.");
+
+    phantom.exit(0);
+};
+
+Application.prototype.init = function () {
+    var app = this;
+
+    // overwrite describe function so we can inject the base directory of a suite
+    var oldDescribe = describe;
+    describe = function () {
+        var suite = oldDescribe.apply(null, arguments);
+        suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
+        if (options['assume-artifacts']) {
+            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+        } else {
+            suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
+        }
+        return suite;
+    };
+};
+
+Application.prototype.loadTestModules = function () {
+    var self = this,
+        pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
+
+    // find all installed plugins
+    var plugins = fs.list(pluginDir).map(function (item) {
+        return path.join(pluginDir, item);
+    }).filter(function (path) {
+        return fs.isDirectory(path) && !path.match(/\/\.*$/);
+    });
+
+    // load all UI tests we can find
+    var modulePaths = walk(uiTestsDir, /_spec\.js$/);
+
+    plugins.forEach(function (pluginPath) {
+        walk(path.join(pluginPath, 'Test'), /_spec\.js$/, modulePaths);
+        walk(path.join(pluginPath, 'tests'), /_spec\.js$/, modulePaths);
+    });
+
+    modulePaths.forEach(function (path) {
+        self.currentModulePath = path;
+
+        require(path);
+    });
+
+    // filter suites to run
+    if (options.tests.length) {
+        mocha.suite.suites = mocha.suite.suites.filter(function (suite) {
+            return options.tests.indexOf(suite.title) != -1;
+        });
+    }
+
+    if (options.plugin) {
+        mocha.suite.suites = mocha.suite.suites.filter(function (suite) {
+            return suite.baseDirectory.match(new RegExp("\/plugins\/" + options.plugin + "\/"));
+        });
+    }
+
+    // configure suites (auto-add fixture setup/teardown)
+    mocha.suite.suites.forEach(function (suite) {
+        var fixture = typeof suite.fixture === 'undefined' ? 'UITestFixture' : suite.fixture;
+
+        suite.beforeAll(function (done) {
+            var oldOptions = JSON.parse(JSON.stringify(options));
+            if (suite.optionsOverride) {
+                for (var key in suite.optionsOverride) {
+                    options[key] = suite.optionsOverride[key];
+                }
+            }
+
+            // remove existing diffs
+            fs.list(suite.diffDir).forEach(function (item) {
+                var file = path.join(suite.diffDir, item);
+                if (fs.exists(file)
+                    && item.slice(-4) == '.png'
+                ) {
+                    fs.remove(file);
+                }
+            });
+
+            testEnvironment.setupFixture(fixture, done);
+
+            options = oldOptions;
+        });
+
+        // move to before other hooks
+        suite._beforeAll.unshift(suite._beforeAll.pop());
+
+        suite.afterAll(function (done) {
+            var oldOptions = JSON.parse(JSON.stringify(options));
+            if (suite.optionsOverride) {
+                for (var key in suite.optionsOverride) {
+                    options[key] = suite.optionsOverride[key];
+                }
+            }
+
+            testEnvironment.teardownFixture(fixture, done);
+
+            options = oldOptions;
+        });
+    });
+};
+
+Application.prototype.runTests = function () {
+    var self = this;
+
+    // make sure all necessary directories exist (symlinks handled by PHP since phantomjs can't create any)
+    var dirsToCreate = [
+        path.join(PIWIK_INCLUDE_PATH, 'tmp/sessions')
+    ];
+
+    dirsToCreate.forEach(function (path) {
+        if (!fs.isDirectory(path)) {
+            fs.makeTree(path);
+        }
+    });
+
+    this.doRunTests();
+};
+
+Application.prototype.doRunTests = function () {
+    var self = this;
+
+    testEnvironment.reload();
+
+    // run tests
+    this.runner = mocha.run(function () {
+        // remove symlinks
+        if (!options['keep-symlinks']) {
+            var symlinks = ['libs', 'plugins', 'tests', 'piwik.js'];
+
+            symlinks.forEach(function (item) {
+                var file = path.join(uiTestsDir, '..', 'proxy', item);
+                if (fs.exists(file)) {
+                    fs.remove(file);
+                }
+            });
+        }
+
+        // build diffviewer
+        self.diffViewerGenerator.generate(function () {
+            self.finish();
+        });
+    });
+};
+
+Application.prototype.finish = function () {
+    phantom.exit(this.runner ? this.runner.failures : -1);
+};
+
+exports.Application = new Application();

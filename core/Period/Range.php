@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -23,7 +23,7 @@ use Piwik\Piwik;
  * date=2007-07-24,2013-11-15).
  *
  * The range period differs from other periods mainly in that since it is arbitrary,
- * range periods are not pre-archived by the **archive.php** cron script.
+ * range periods are not pre-archived by the cron core:archive command.
  *
  * @api
  */
@@ -220,7 +220,7 @@ class Range extends Period
      * @param string $dateString
      * @return mixed  array(1 => dateStartString, 2 => dateEndString) or `false` if the input was not a date range.
      */
-    static public function parseDateRange($dateString)
+    public static function parseDateRange($dateString)
     {
         $matched = preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),(([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})|today|now|yesterday)$/D', trim($dateString), $regs);
         if (empty($matched)) {
@@ -338,14 +338,14 @@ class Range extends Period
     protected function fillArraySubPeriods($startDate, $endDate, $period)
     {
         $arrayPeriods = array();
-        $endSubperiod = Period::factory($period, $endDate);
+        $endSubperiod = Period\Factory::build($period, $endDate);
         $arrayPeriods[] = $endSubperiod;
 
         // set end date to start of end period since we're comparing against start date.
         $endDate = $endSubperiod->getDateStart();
         while ($endDate->isLater($startDate)) {
             $endDate = $endDate->addPeriod(-1, $period);
-            $subPeriod = Period::factory($period, $endDate);
+            $subPeriod = Period\Factory::build($period, $endDate);
             $arrayPeriods[] = $subPeriod;
         }
         $arrayPeriods = array_reverse($arrayPeriods);
@@ -366,6 +366,24 @@ class Range extends Period
      */
     public static function getLastDate($date = false, $period = false)
     {
+        return self::getDateXPeriodsAgo(1, $date, $period);
+    }
+
+    /**
+     * Returns the date that is X periods before the supplied date.
+     *
+     * @param bool|string $date The date to get the last date of.
+     * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
+     * @param int         $subXPeriods How many periods in the past the date should be, for instance 1 or 7.
+     *                    If sub period is 365 days and the current year is a leap year we assume you want to get the
+     *                    day one year ago and change the value to 366 days therefore.
+     *
+     * @return array An array with two elements, a string for the date before $date and
+     *               a Period instance for the period before $date.
+     * @api
+     */
+    public static function getDateXPeriodsAgo($subXPeriods, $date = false, $period = false)
+    {
         if ($date === false) {
             $date = Common::getRequestVar('date');
         }
@@ -374,20 +392,24 @@ class Range extends Period
             $period = Common::getRequestVar('period');
         }
 
+        if (365 == $subXPeriods && 'day' == $period && Date::today()->isLeapYear()) {
+            $subXPeriods = 366;
+        }
+
         // can't get the last date for range periods & dates that use lastN/previousN
         $strLastDate = false;
-        $lastPeriod = false;
+        $lastPeriod  = false;
         if ($period != 'range' && !preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
             if (strpos($date, ',')) // date in the form of 2011-01-01,2011-02-02
             {
                 $rangePeriod = new Range($period, $date);
 
-                $lastStartDate = $rangePeriod->getDateStart()->addPeriod(-1, $period);
-                $lastEndDate = $rangePeriod->getDateEnd()->addPeriod(-1, $period);
+                $lastStartDate = $rangePeriod->getDateStart()->subPeriod($subXPeriods, $period);
+                $lastEndDate   = $rangePeriod->getDateEnd()->subPeriod($subXPeriods, $period);
 
                 $strLastDate = "$lastStartDate,$lastEndDate";
             } else {
-                $lastPeriod = Date::factory($date)->addPeriod(-1, $period);
+                $lastPeriod  = Date::factory($date)->subPeriod($subXPeriods, $period);
                 $strLastDate = $lastPeriod->toString();
             }
         }

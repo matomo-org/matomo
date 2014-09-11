@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "och %s andra",
+        "Cities": "Städer",
+        "Countries": "Länder",
+        "DaysAgo": "%s dagar sedan",
+        "GoalConversions": "%s målomvandlingar",
+        "Hours": "timmar",
+        "HoursAgo": "%s timmar sedan",
+        "map": "karta",
+        "Minutes": "minuter",
+        "MinutesAgo": "%s minuter sedan",
+        "None": "Ingen",
+        "NoVisit": "Inga besök",
+        "RealTimeMap": "Realtidskarta",
+        "Regions": "Regioner",
+        "Searches": "%s sökningar",
+        "Seconds": "sekunder",
+        "SecondsAgo": "%s sekunder sedan",
+        "ShowingVisits": "Geolokaliserade besök de senaste",
+        "Unlocated": "<b>%s<\/b> %p av besöken från %c kunde inte geolokaliseras.",
+        "VisitorMap": "Besökskarta",
+        "WorldWide": "Hela världen"
+    }
+}

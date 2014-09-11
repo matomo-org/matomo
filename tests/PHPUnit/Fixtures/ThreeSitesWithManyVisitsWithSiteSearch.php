@@ -1,18 +1,21 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds three websites with different site search configurations and adds
  * several visits to each of them.
  */
-class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piwik_BaseFixture
+class ThreeSitesWithManyVisitsWithSiteSearch extends Fixture
 {
     public $idSite1 = 1;
     public $idSite2 = 2;
@@ -184,7 +187,6 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
         return array($defaultInit, $visitor);
     }
 
-
     protected function recordVisitorSite3()
     {
         // Third new visitor on Idsite 3
@@ -205,6 +207,4 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
         $visitor->setUrl('http://example.org/index.htm?' . $crazyTitle);
         self::checkResponse($visitor->doTrackPageView('Pageview: ' . $crazyTitle));
     }
-
 }
-

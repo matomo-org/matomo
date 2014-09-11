@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,18 +16,28 @@ namespace Piwik;
 class SettingsServer
 {
     /**
-     * Returns true if the current script execution was triggered by the cron archiving
-     * script (**misc/cron/archive.php**).
+     * Returns true if the current script execution was triggered by the cron archiving script.
      *
      * Helpful for error handling: directly throw error without HTML (eg. when DB is down).
-     * 
+     *
      * @return bool
      * @api
      */
     public static function isArchivePhpTriggered()
     {
         return !empty($_GET['trigger'])
-        && $_GET['trigger'] == 'archivephp';
+                && $_GET['trigger'] == 'archivephp'
+                && Piwik::hasUserSuperUserAccess();
+    }
+
+    /**
+     * Returns true if the current request is a Tracker request.
+     *
+     * @return bool true if the current request is a Tracking API Request (ie. piwik.php)
+     */
+    public static function isTrackerApiRequest()
+    {
+        return !empty($GLOBALS['PIWIK_TRACKER_MODE']);
     }
 
     /**
@@ -91,7 +101,7 @@ class SettingsServer
 
     /**
      * Returns `true` if the GD PHP extension is available, `false` if otherwise.
-     * 
+     *
      * _Note: ImageGraph and the sparkline report visualization depend on the GD extension._
      *
      * @return bool
@@ -120,10 +130,8 @@ class SettingsServer
         }
         $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
 
-        if (self::isArchivePhpTriggered()
-            && Piwik::hasUserSuperUserAccess()
-        ) {
-            // archive.php: no time limit, high memory limit
+        if (self::isArchivePhpTriggered()) {
+            // core:archive command: no time limit, high memory limit
             self::setMaxExecutionTime(0);
             $minimumMemoryLimitWhenArchiving = Config::getInstance()->General['minimum_memory_limit_when_archiving'];
             if ($memoryLimit < $minimumMemoryLimitWhenArchiving) {

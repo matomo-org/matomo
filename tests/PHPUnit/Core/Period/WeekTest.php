@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -123,7 +123,7 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $week = new Week(Date::factory('2024-10-09'));
         $shouldBe = '7 Oct - 13 Oct 24';
         $this->assertEquals($shouldBe, $week->getLocalizedShortString());
@@ -134,7 +134,7 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $week = new Week(Date::factory('2024-10-09'));
         $shouldBe = 'Week 7 October - 13 October 2024';
         $this->assertEquals($shouldBe, $week->getLocalizedLongString());
@@ -145,9 +145,14 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        Translate::loadEnglishTranslation();
+        $this->loadEnglishTranslation();
         $week = new Week(Date::factory('2024-10-09'));
         $shouldBe = 'From 2024-10-07 to 2024-10-13';
         $this->assertEquals($shouldBe, $week->getPrettyString());
+    }
+
+    private function loadEnglishTranslation()
+    {
+        Translate::reloadLanguage('en');
     }
 }

@@ -1,0 +1,22 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "и %s других",
+        "Cities": "Города",
+        "Countries": "Страны",
+        "DaysAgo": "%s дней назад",
+        "GoalConversions": "%s целей достигнуто",
+        "Hours": "часов",
+        "HoursAgo": "%s часов назад",
+        "map": "карта",
+        "Minutes": "минуты",
+        "MinutesAgo": "%s минут назад",
+        "NoVisit": "Без посещений",
+        "RealTimeMap": "Карта в реальном времени",
+        "Regions": "Регионы",
+        "Searches": "%s поисковых запросов",
+        "Seconds": "секунд",
+        "SecondsAgo": "%s секунд назад",
+        "VisitorMap": "Карта посещений",
+        "WorldWide": "Весь мир"
+    }
+}

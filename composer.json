@@ -1,7 +1,7 @@
 {
     "name": "piwik/piwik",
     "type": "application",
-    "description": "Open Source Real Time Web Analytics Platform",
+    "description": "the leading free/libre analytics platform",
     "keywords": ["piwik","web","analytics"],
     "homepage": "http://piwik.org",
     "license": "GPL-3.0+",
@@ -14,15 +14,75 @@
     ],
     "support": {
         "forum": "http://forum.piwik.org/",
-        "issues": "http://dev.piwik.org/trac/roadmap",
+        "issues": "https://github.com/piwik/piwik/issues",
         "wiki": "http://dev.piwik.org/",
         "source": "https://github.com/piwik/piwik"
+    },
+    "autoload": {
+        "psr-4": {
+            "Piwik\\Plugins\\": "plugins/",
+            "Piwik\\": "core/"
+        },
+        "psr-0": {
+            "Zend_": "libs/",
+            "HTML_": "libs/",
+            "PEAR_": "libs/",
+            "Archive_": "libs/"
+        }
     },
     "require": {
         "php": ">=5.3.2",
         "twig/twig": "1.*",
-        "leafo/lessphp": "~0.3",
+        "leafo/lessphp": "0.4",
         "symfony/console": ">=v2.3.5",
-        "tedivm/jshrink": "v0.5.1"
+        "tedivm/jshrink": "v0.5.1",
+        "mustangostang/spyc": "0.5.*",
+        "piwik/device-detector": "2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.1",
+        "facebook/xhprof": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "facebook/xhprof",
+                "type": "library",
+                "description": "XHProf: A Hierarchical Profiler for PHP",
+                "keywords": ["profiling", "performance"],
+                "homepage": "http://pecl.php.net/package/xhprof",
+                "license": "Apache-2.0",
+                "version": "master",
+                "require": {
+                    "php": ">=5.2.0"
+                },
+                "autoload": {
+                    "files": [
+                        "xhprof_lib/utils/xhprof_lib.php",
+                        "xhprof_lib/utils/xhprof_runs.php"
+                    ]
+                },
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/phacility/xhprof",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
+    "scripts": {
+        "pre-update-cmd": [
+            "misc/composer/clean-xhprof.sh"
+        ],
+        "pre-install-cmd": [
+            "misc/composer/clean-xhprof.sh"
+        ],
+        "post-update-cmd": [
+            "misc/composer/build-xhprof.sh"
+        ],
+        "post-install-cmd": [
+            "misc/composer/build-xhprof.sh"
+        ]
     }
 }

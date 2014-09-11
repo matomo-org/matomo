@@ -9,7 +9,7 @@ JSDOC.Token = function(data, type, name) {
 	this.name = name;
 }
 
-JSDOC.Token.prototype.toString = function() { 
+JSDOC.Token.prototype.toString = function() {
 	return "<"+this.type+" name=\""+this.name+"\">"+this.data+"</"+this.type+">";
 }
 

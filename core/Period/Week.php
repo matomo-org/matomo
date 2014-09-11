@@ -1,13 +1,12 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Period;
-
 
 use Piwik\Period;
 use Piwik\Piwik;
@@ -53,7 +52,7 @@ class Week extends Period
      *
      * @return mixed
      */
-    static protected function getTranslatedRange($format, $dateStart, $dateEnd)
+    protected static function getTranslatedRange($format, $dateStart, $dateEnd)
     {
         $string = str_replace('From%', '%', $format);
         $string = $dateStart->getLocalized($string);

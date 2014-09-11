@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,9 +22,9 @@ class Updates_0_6_3 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-				CHANGE `location_ip` `location_ip` INT UNSIGNED NOT NULL'                                                           => false,
+				CHANGE `location_ip` `location_ip` INT UNSIGNED NOT NULL'                   => 1054,
             'ALTER TABLE `' . Common::prefixTable('logger_api_call') . '`
-				CHANGE `caller_ip` `caller_ip` INT UNSIGNED' => false,
+				CHANGE `caller_ip` `caller_ip` INT UNSIGNED'                                => array(1054, 1146),
         );
     }
 

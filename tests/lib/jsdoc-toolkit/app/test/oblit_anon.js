@@ -1,6 +1,6 @@
 /** the options */
 opt = Opt.get(
-	arguments, 
+	arguments,
 	{
 	 d: "directory",
 	 c: "conf",
@@ -15,6 +15,4 @@ opt.conf = {
 	/** base */
 	base: getBase(this, {p: properties})
 }
-
-
 

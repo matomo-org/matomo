@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Postavljanje podrazumevanih vrednosti za sve korisnike.",
+        "GlobalSettingInlineHelp": "Korisnici mogu da uključuju i isključuju levi meni nezavisno od podrazumevanih sistemskih podešavanja.",
+        "GlobalSettingTitle": "Levi meni je podrazumevano uključen",
+        "SettingsIntroduction": "Dodatak za levi meni će pomeriti meni za izveštaje sa vrha na levu stranu. Ovo je praktično od velikih monitora.",
+        "UserSettingInlineHelp": "Ova opcija će uključiti ili isključiti meni sa leve strane samo za vas a ne i za ostale korisnike. Superkorisnik može da promeni podrazumevane vrednosti za sve korisnike.",
+        "UserSettingTitle": "Omogući meni sa leve strane"
+    }
+}

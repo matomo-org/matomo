@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -56,27 +56,9 @@ class FakeAccess
         }
     }
 
-    /**
-     * @see FakeAccess::checkUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function checkUserIsSuperUser()
-    {
-        self::checkUserHasSuperUserAccess();
-    }
-
     public static function setSuperUserAccess($bool = true)
     {
         self::$superUser = $bool;
-    }
-
-    /**
-     * @see FakeAccess::setSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public static function setSuperUser($bool = true)
-    {
-        self::setSuperUserAccess($bool);
     }
 
     public static function reloadAccess()
@@ -102,11 +84,11 @@ class FakeAccess
     //means at least view access
     public static function checkUserHasViewAccess($idSites)
     {
-        if (!self::$superUser) {
-            $websitesAccess = array_merge(self::$idSitesView, self::$idSitesAdmin);
-        } else {
-            $websitesAccess = API::getInstance()->getAllSitesId();
+        if (self::$superUser) {
+            return;
         }
+
+        $websitesAccess = array_merge(self::$idSitesView, self::$idSitesAdmin);
 
         if (!is_array($idSites)) {
             if ($idSites == 'all') {
@@ -178,7 +160,7 @@ class FakeAccess
         }
         return array_merge(self::$idSitesView, self::$idSitesAdmin);
     }
-    
+
     public function getRawSitesWithSomeViewAccess($login)
     {
         $result = array();
@@ -186,13 +168,5 @@ class FakeAccess
             $result[] = array('idsite' => $idSite);
         }
         return $result;
-    }
-
-    /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function getSuperUserLogin()
-    {
-        return self::$superUserLogin;
     }
 }

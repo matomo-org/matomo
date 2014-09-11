@@ -1,0 +1,13 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Itzulerako bisiten ekintzak",
+        "ColumnBounceRateForReturningVisits": "Itzulerako bisiten errebotatze-tasa",
+        "ColumnReturningVisits": "Itzulerako bisitak",
+        "ReturnActions": "%s ekintza itzulerako bisitek",
+        "ReturnBounceRate": "%s itzulerako bisita errebotatu dira (webgunea utzi dute orri bat ikusi ondoren)",
+        "ReturnVisits": "%s itzulerako bisita",
+        "SubmenuFrequency": "Maiztasuna",
+        "WidgetGraphReturning": "Itzulerako bisiten grafikoa",
+        "WidgetOverview": "Maiztasunaren ikuspegi orokorra"
+    }
+}

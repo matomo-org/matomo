@@ -1,20 +1,22 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ExamplePlugin\tests;
+
 use Piwik\Plugins\ExamplePlugin\tests\fixtures\SimpleFixtureTrackFewVisits;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * @group ExamplePlugin
  * @group SimpleIntegrationTest
  * @group Plugins
  */
-class SimpleIntegrationTest extends \IntegrationTestCase
+class SimpleIntegrationTest extends IntegrationTestCase
 {
     /**
      * @var SimpleFixtureTrackFewVisits
@@ -60,4 +62,3 @@ class SimpleIntegrationTest extends \IntegrationTestCase
 }
 
 SimpleIntegrationTest::$fixture = new SimpleFixtureTrackFewVisits();
-

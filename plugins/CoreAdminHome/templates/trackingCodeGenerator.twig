@@ -7,9 +7,11 @@
 {% endblock %}
 
 {% block content %}
-<div id="js-tracking-generator-data" data-currencies="{{ currencySymbols|json_encode }}"></div>
+<div id="js-tracking-generator-data" max-custom-variables="{{ maxCustomVariables|e('html_attr') }}" data-currencies="{{ currencySymbols|json_encode }}"></div>
 
-<h2>{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
+<h2 piwik-enriched-headline
+    feature-name="{{ 'CoreAdminHome_TrackingCode'|translate }}"
+    help-url="http://piwik.org/docs/tracking-api/">{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
 
 <div id="js-code-options" class="adminTable">
 
@@ -26,8 +28,15 @@
     <div>
         {# website #}
         <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
-        {% include "@CoreHome/_siteSelect.twig" with {'siteName':defaultReportSiteName, 'idSite':idSite, 'showAllSitesItem':false, 'switchSiteOnSelect':false,
-        'siteSelectorId':"js-tracker-website", 'showSelectedSite':true} %}
+
+        <div piwik-siteselector
+             class="sites_autocomplete"
+             siteid="{{ idSite }}"
+             sitename="{{ defaultReportSiteName }}"
+             show-all-sites-item="false"
+             switch-site-on-select="false"
+             id="js-tracker-website"
+             show-selected-site="true"></div>
 
         <br/><br/><br/>
     </div>
@@ -141,6 +150,16 @@
                         </div>
                     </div>
 
+                    {# disable all cookies options #}
+                    <div class="tracking-option-section">
+                        <input type="checkbox" id="javascript-tracking-disable-cookies"/>
+                        <label for="javascript-tracking-disable-cookies">{{ 'CoreAdminHome_JSTracking_DisableCookies'|translate }}</label>
+
+                        <div class="small-form-description">
+                            {{ 'CoreAdminHome_JSTracking_DisableCookiesDesc'|translate }}
+                        </div>
+                    </div>
+
                     {# custom campaign name/keyword query params #}
                     <div class="tracking-option-section">
                         <input class="section-toggler-link" type="checkbox" id="custom-campaign-query-params-check"
@@ -193,10 +212,14 @@
     <div>
         {# website #}
         <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
-        {% include "@CoreHome/_siteSelect.twig" with {
-            'siteName': defaultReportSiteName, 'idSite': idSite, 'showAllSitesItem': false,
-            'switchSiteOnSelect': false, 'showSelectedSite': true, 'siteSelectorId':"image-tracker-website"
-        } %}
+        <div piwik-siteselector
+             class="sites_autocomplete"
+             siteid="{{ idSite }}"
+             sitename="{{ defaultReportSiteName }}"
+             id="image-tracker-website"
+             show-all-sites-item="false"
+             switch-site-on-select="false"
+             show-selected-site="true"></div>
 
         <br/><br/><br/>
     </div>

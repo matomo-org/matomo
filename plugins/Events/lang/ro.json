@@ -1,0 +1,30 @@
+{
+    "Events": {
+        "AvgEventValue": "Media valorii Evenimentului este: %s",
+        "AvgValue": "Valoarea medie",
+        "AvgValueDocumentation": "Media tuturor valorilor pentru acest eveniment",
+        "Event": "Eveniment",
+        "EventAction": "Actiunea Evenimentului",
+        "EventActions": "Actiunile Evenimentului",
+        "EventCategories": "Categoriile Evenimentului",
+        "EventCategory": "Categoria Evenimentului",
+        "EventName": "Numele Evenimentului",
+        "EventNames": "Numele Evenimentelor",
+        "Events": "Evenimente",
+        "EventsWithValue": "Evenimente cu valoare",
+        "EventsWithValueDocumentation": "Numărul de evenimente în care a fost stabilit o valoare Eveniment",
+        "EventValue": "Valoarea Evenimentului",
+        "MaxValue": "Valoarea maxima",
+        "MaxValueDocumentation": "Valoarea maxima pentru acest eveniment",
+        "MinValue": "Valoarea minima",
+        "MinValueDocumentation": "Valoarea minima pentru acest eveniment",
+        "SecondaryDimension": "Dimensiunea secundara este %s.",
+        "SwitchToSecondaryDimension": "Trece la %s",
+        "TopEvents": "Top Evenimente",
+        "TotalEvents": "Totalul evenimentelor",
+        "TotalEventsDocumentation": "Numarul total al evenimentelor",
+        "TotalValue": "Valoarea totala",
+        "TotalValueDocumentation": "suma valorilor evenimentelor",
+        "ViewEvents": "Vezi Evenimente"
+    }
+}

@@ -4,16 +4,8 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
+		<userId />
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -23,7 +15,7 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://example.org/store/purchase.htm</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -36,35 +28,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>2</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -76,6 +64,17 @@
 		<referrerUrl>http://search.yahoo.com/search?p=purchase</referrerUrl>
 		<referrerSearchEngineUrl>http://search.yahoo.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/search.yahoo.com.png</referrerSearchEngineIcon>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -87,7 +86,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -101,6 +99,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		
@@ -111,16 +112,8 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
+		<userId />
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>0</events>
-		<actions>8</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -155,7 +148,7 @@
 				<pageId>3</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/link.gif</icon>
+				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 			<row>
 				<type>download</type>
@@ -166,7 +159,7 @@
 				<pageId>4</pageId>
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -177,7 +170,7 @@
 				<pageId>5</pageId>
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/link.gif</icon>
+				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -188,7 +181,7 @@
 				<pageId>6</pageId>
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/link.gif</icon>
+				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -198,7 +191,7 @@
 				<goalPageId />
 				
 				<url>http://example.org/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -210,7 +203,7 @@
 				<generationTime>0.81s</generationTime>
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -223,35 +216,31 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>8</actions>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -263,6 +252,17 @@
 		<referrerUrl>http://referrer.com/page.htm?param=valuewith some spaces</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -274,7 +274,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -288,6 +287,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		

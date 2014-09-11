@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
 use Piwik\EventDispatcher;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTaskTimetable;
-use Piwik\ScheduledTime\Daily;
 use Piwik\TaskScheduler;
 
 class TaskSchedulerTest extends PHPUnit_Framework_TestCase
@@ -74,7 +73,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider taskHasBeenScheduledOnceTestCases
      */
     public function testTaskHasBeenScheduledOnce($expectedDecision, $taskName, $timetable)
@@ -133,7 +132,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider taskShouldBeExecutedTestCases
      */
     public function testTaskShouldBeExecuted($expectedDecision, $taskName, $timetable)
@@ -158,7 +157,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider executeTaskTestCases
      */
     public function testExecuteTask($methodName, $parameterValue)
@@ -271,7 +270,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider testRunTasksTestCases
      */
     public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
@@ -281,7 +280,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $plugins = array_map(function ($p) { return $p->getPluginName(); }, $plugins);
 
         \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
-        
+
         // make sure the get tasks event returns our configured tasks
         \Piwik\Piwik::addAction(TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
             $tasks = $configuredTasks;

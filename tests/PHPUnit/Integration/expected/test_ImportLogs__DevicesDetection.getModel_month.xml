@@ -9,6 +9,7 @@
 		<bounce_count>23</bounce_count>
 		<nb_visits_converted>23</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>4</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Vision</label>
@@ -19,5 +20,6 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 	</row>
 </result>

@@ -1,0 +1,14 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "አግብር",
+        "Activated": "የተገበረ",
+        "Active": "ገባሪ",
+        "Deactivate": "አቦዝን",
+        "Inactive": "ያልተመረጠ",
+        "MainDescription": "ተሰኪዎች የፒዊክን አገልግሎት ያራዝማሉ ያሰፋሉ። ተሰኪዎች አንዴ ከተጫኑ እዚሁ ጋር መገበርም ማቦዘንም ይቻላል።",
+        "PluginHomepage": "የተሰኪ መነሻ ገፅ",
+        "PluginsManagement": "ተሰኪዎች መመነጅ",
+        "Status": "ሁኔታ",
+        "Version": "ስሪት"
+    }
+}

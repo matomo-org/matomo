@@ -1,18 +1,21 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one website and tracks visits on different days over a month
  * using referrer URLs with search engines.
  */
-class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Test_Piwik_BaseFixture
+class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
 {
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;

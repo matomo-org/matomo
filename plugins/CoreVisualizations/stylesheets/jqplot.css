@@ -1,5 +1,5 @@
 .jqplot-loading {
-    background: url(../../Zeitgeist/images/loading-blue.gif) no-repeat center center white;
+    background: url(../../Morpheus/images/loading-blue.gif) no-repeat center center white;
     position: absolute;
     z-index: 10;
 }
@@ -169,7 +169,7 @@
     margin: 2px 0 5px 0;
     padding: 5px 0 5px 23px;
     color: #888;
-    background: url(../../Zeitgeist/images/help.png) no-repeat left center;
+    background: url(../../Morpheus/images/help.png) no-repeat left center;
 }
 
 .rowevolution .metric-selectbox,
@@ -206,7 +206,7 @@ a.rowevolution-startmulti:hover {
     width: 24px;
     height: 16px;
     margin-top: 3px;
-    background: url(../../Zeitgeist/images/chart_line_edit.png) no-repeat center center;
+    background: url(../../Morpheus/images/chart_line_edit.png) no-repeat center center;
     overflow: hidden;
     text-indent: -999px;
 }
@@ -216,7 +216,7 @@ a.rowevolution-startmulti:hover {
     position: absolute;
     z-index: 1010; /* must be above ui dialog */
     margin-top: -2px;
-    background: url(../../Zeitgeist/images/chart_line_edit.png) no-repeat 7px 4px #f7f7f7;
+    background: url(../../Morpheus/images/chart_line_edit.png) no-repeat 7px 4px #f7f7f7;
     font-size: 11px;
     font-weight: normal;
     border: 1px solid #e4e5e4;
@@ -251,6 +251,7 @@ a.rowevolution-startmulti:hover {
 
 .jqplot-seriespicker-popover input.select {
     margin-right: 8px;
+    min-height: 5px;
 }
 
 .jqplot-seriespicker-popover p.pickColumn,

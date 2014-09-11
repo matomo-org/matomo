@@ -2,24 +2,24 @@ function Jash() {
 	/* location of source code (used to find css file) */
 	this.jashRoot = "http://www.billyreisinger.com/jash/source/latest/";
 
-	/* functions that take element ids or class names as pricincipal arguments */	
+	/* functions that take element ids or class names as pricincipal arguments */
 	this.domGetElFunctions = {
 		id: new Array("document.getElementById","$"),
 		className: new Array("getElementsByClassName","$C")
 	};
-	
+
 	/* output line separator for major blocks of content */
 	var line = "-------------------------------------------------";
-	
+
 	/* this is returned by internal methods to avoid printing null output */
-	var _null = "nooutput";	
+	var _null = "nooutput";
 	var self = this;
 
 	this.version = "1.35.7";
 	this.versionDate = "2009/09/05 09:10";
-	
+
 	/**
-	* Set environment, create HTML 
+	* Set environment, create HTML
 	*/
 	this.main = function() {
 		this.browser = this.returnBrowserType();		/* User's browser type */
@@ -47,7 +47,7 @@ function Jash() {
 		this.defaultText += line + "\n" + this.tips[(parseInt((Math.random()*10)%this.tips.length))] + "\n" + line + "\n";
 		this.loopOnDomInserts();
 	}
-	
+
 	this.loopOnDomInserts = function() {
 		try {
 			self.testDomInsert();
@@ -62,7 +62,7 @@ function Jash() {
 		self.doDomInserts();
 		self.finishInit();
 	}
-	
+
 	this.testDomInsert = function() {
 		document.body.appendChild(document.createElement("em")).id = "JashTestElement";
 	}
@@ -70,18 +70,18 @@ function Jash() {
 		/* create tab complete object */
 		Jash.TabComplete.prototype = this;
 		this.tabComplete = new Jash.TabComplete();
-		
+
 		/* create new evaluation instance */
 		Jash.Evaluator.prototype = this;
-		this.evaluation = new Jash.Evaluator();	
-		
+		this.evaluation = new Jash.Evaluator();
+
 		/* create new history object */
 		this.history = new Jash.History();
 		window.setTimeout(function() {
 			self.input.focus();
 		},500);
 	}
-	
+
 	/**
 	 * Import stylesheet and insert dom nodes
 	 */
@@ -98,7 +98,7 @@ function Jash() {
 */
 		self.create();
 	}
-	
+
 	/**
 	* return string representing browser type
 	*/
@@ -129,11 +129,11 @@ function Jash() {
 			return "linux";
 		}
 	}
-	
+
 	/**
-	* return access key text based on what browser we're using. Access keys are 
-	* different for every browser, and even between the same browsers on 
-	* different platforms. 
+	* return access key text based on what browser we're using. Access keys are
+	* different for every browser, and even between the same browsers on
+	* different platforms.
 	*/
 	this.getAccessKeyText = function() {
 	    var txt;
@@ -142,17 +142,17 @@ function Jash() {
 		case "ie":
 			txt = "Alt";
 			break;
-		case "ff": 
+		case "ff":
 			/* FF/Win = alt/shift; FF/Mac = ctrl; FF/Linux/x86 = alt */
 			if (agt == "mac") {
 				txt = "Ctrl";
-			} else if(agt == "linux") { 
+			} else if(agt == "linux") {
 				txt = "Alt";
-			} else { 
+			} else {
 				txt = "Alt-Shift";
 			}
 			break;
-		case "op": 
+		case "op":
 			txt = "Shift-Esc";
 			break;
 		case "sa":
@@ -168,9 +168,7 @@ function Jash() {
 	    }
 	    return txt;
 	}
-	
-	
-	
+
 	/**
 	* Print simple output to the console
 	* @param 	{string}	text			text to print
@@ -181,7 +179,7 @@ function Jash() {
 	this.print = function(text,clear,suppressLineNumbers,autoscroll) {
 		clear = (typeof clear != "undefined") ? clear : false;
 		autoscroll = (typeof autoscroll != "undefined") ? autoscroll : true;
-		
+
 		if(this.output == null || document.getElementById("JashParent") == null) {
 			this.create();
 			this.output = document.getElementById("JashOutput");
@@ -211,7 +209,7 @@ function Jash() {
 		this.print(line,false,true);
 		var out = "";
 		this.lineNumber = 0;
-		
+
 		for(var p in obj) {
 			if(typeof obj[p] == "function") {
 				var t = obj[p].toString();
@@ -228,7 +226,7 @@ function Jash() {
 		this.output.scrollTop = this.output.scrollHeight;
 		return _null;
 	}
-	
+
 	/**
 	* Dump - show verbose output of all of an object's members
 	* @param 	{object}	obj			object whose members should be dumped
@@ -251,10 +249,10 @@ function Jash() {
 					out.push(++this.lineNumber + ". " + obj[i]);
 				}
 			}
-			this.print(out.join("\n"),false,true);	
+			this.print(out.join("\n"),false,true);
 			this.print(line,false,true);
 			this.output.scrollTop = this.output.scrollHeight;
-		}		
+		}
 		return _null;
 	}
 	/**
@@ -266,7 +264,7 @@ function Jash() {
 		this.input.focus();
 		return _null;
 	}
-	
+
 	/**
 	* Shows everything that has gone in the output console during this session
 	*/
@@ -274,9 +272,7 @@ function Jash() {
 	    this.outputHistory.push(this.output.value);
 	    this.dump(this.outputHistory);
 	}
-	
-	
-	
+
 	/**
 	* Map input keystrokes
 	* @param {int} keyCode		number representing keycode of key pressed in event object
@@ -306,7 +302,7 @@ function Jash() {
 			return false;
 		}
 	}
-	
+
 	/**
 	* Get the Y scrolling offset of the current page for whatever browser
 	* @returns {int} 	Y scrolling offset of current page
@@ -331,9 +327,9 @@ function Jash() {
 		/*  Temporary variables to hold mouse x-y pos.s */
 		var tempX = 0
 		var tempY = 0
-		
+
 		/*  IE */
-		if (window.event) { 
+		if (window.event) {
 		    /* doctype present in IE6/7 */
 		    if(document.documentElement && document.documentElement.scrollTop) {
 			    tempX = window.event.clientX + document.documentElement.scrollLeft;
@@ -345,8 +341,8 @@ function Jash() {
 		} else {  /*  grab the x-y pos.s if browser is NS */
 			tempX = e.pageX;
 			tempY = e.pageY;
-		} 
-		
+		}
+
 		return {x:tempX,y:tempY};
 	}
 	/**
@@ -386,7 +382,7 @@ function Jash() {
 	* @returns {array} 		[x,y] offset of html element 'obj'
 	*/
 	this.findElementPosition = function(obj) {
-		var curleft = 0 ; 
+		var curleft = 0 ;
 		var curtop = 0;
 		if (obj.offsetParent) {
 			curleft = obj.offsetLeft
@@ -398,7 +394,7 @@ function Jash() {
 		}
 		return [curleft,curtop];
 	}
-	
+
 	/**
 	* Create HTML necessary for Debugger, assign events to buttons and window
 	*/
@@ -408,11 +404,11 @@ function Jash() {
 			return;
 		}
 		var self = this;
-		
+
 		/* outermost container */
 		var debugParent = document.createElement("div");
 		var windowScrollY = 0;
-		
+
 		if (document.documentElement && document.documentElement.scrollTop) {
 			windowScrollY = document.documentElement.scrollTop;
 		} else if (document.body) {
@@ -422,7 +418,7 @@ function Jash() {
 		}
 		debugParent.style.top = windowScrollY + 50 + "px";
 		debugParent.id = "JashParent";
-		
+
 		/* close on ESC key press */
 		this.addEvent(document,"keydown", function(e) {
 			e = (typeof window.event != "undefined") ? window.event : e;
@@ -433,32 +429,30 @@ function Jash() {
 			    }
 			}
 		});
-		
+
 		/* WRAPPERS FOR TEXTAREAS */
 		var textareaWrap = document.createElement("div");
 		textareaWrap.id = "JashTextareaWrap";
-		
-		
+
 		/* OUTPUT FIELD */
 		var debugOutput = document.createElement("textarea");
 		debugOutput.id = "JashOutput";
 		debugOutput.wrap = "off";
 		debugOutput.readOnly = "true";
 		debugOutput.value = this.defaultText;
-		
+
 		/* INPUT FIELD */
 		var inp = document.createElement("textarea");
 		inp.id = "JashInput";
 		var last = "";
-		
-		
-		/* listen for certain keystrokes, map them */ 
+
+		/* listen for certain keystrokes, map them */
 		inp.onkeydown = function(e) {
 			e = (typeof window.event != "undefined") ? window.event : e;
 			return self.assignInputKeyEvent(e);
 		}
 		/* Supress certain keystrokes */
-		inp.onkeypress = function(e) { 
+		inp.onkeypress = function(e) {
 			e = (typeof window.event != "undefined") ? window.event : e;
 			var k = e.keyCode;
 			/* suppress certain key strokes */
@@ -474,7 +468,7 @@ function Jash() {
 				return false;
 			}
 		}
-		
+
 		/* DRAG / TITLE BAR */
 		var dragBut = document.createElement("div");
 		dragBut.innerHTML = "Jash";
@@ -483,7 +477,7 @@ function Jash() {
 			e = (typeof window.event != "undefined") ? window.event : e;
 			var xplus = (typeof e.layerX == "undefined") ? e.offsetX : e.layerX;
 			var yplus = (typeof e.layerY == "undefined") ? e.offsetY : e.layerY;
-			document.onmousemove = function(e) {	
+			document.onmousemove = function(e) {
 				var coords = self.getMouseXY(e);
 				document.getElementById("JashParent").style.top = coords.y - yplus + "px";
 				document.getElementById("JashParent").style.left = coords.x - xplus + "px";
@@ -495,7 +489,7 @@ function Jash() {
 		};
 		/* cancel click event to prevent text selection */
 		dragBut.onclick = function() { return false; }
-		
+
 		/**
 		* BUTTONS
 		*/
@@ -508,7 +502,7 @@ function Jash() {
 		    self.close();
 		    return false;
 		}
-		
+
 		/* CLEAR BUTTON */
 		var clearBut = document.createElement("a");
 		clearBut.innerHTML = "Clear (" + this.accessKeyText + "-C)";
@@ -519,7 +513,7 @@ function Jash() {
 			return false;
 		}
 		this.setCrossBrowserAccessKeyFunctionForAnchor(clearBut);
-		
+
 		/* EVALUATE BUTTON */
 		var evalBut = document.createElement("a");
 		evalBut.value = "Evaluate (" + this.accessKeyText + "-Z)";
@@ -536,7 +530,7 @@ function Jash() {
 			return false;
 		}
 		this.setCrossBrowserAccessKeyFunctionForAnchor(evalBut);
-		
+
 		/* HELP BUTTON */
 		var helpBut = document.createElement("a");
 		helpBut.innerHTML = "Help";
@@ -545,7 +539,7 @@ function Jash() {
 		helpBut.onclick = function() {
 			self.help();
 		}
-		
+
 		/* DOM BUTTON */
 		var domBut = document.createElement("a");
 		domBut.innerHTML = "Mouseover DOM (" + this.accessKeyText + "-X)";
@@ -570,7 +564,7 @@ function Jash() {
 			return _null;
 		}
 		this.setCrossBrowserAccessKeyFunctionForAnchor(domBut);
-		
+
 		/* INNER HTML INSPECT BUTTON */
 		var innerHtmlInspectBut = document.createElement("a");
 		innerHtmlInspectBut.innerHTML = "innerHTML Dump (" + this.accessKeyText + "-A)";
@@ -585,7 +579,7 @@ function Jash() {
 			return _null;
 		}
 		this.setCrossBrowserAccessKeyFunctionForAnchor(innerHtmlInspectBut);
-		
+
 		/* CSS BUTTON  */
 		var cssBut = document.createElement("a");
 		cssBut.innerHTML = "CSS Input (" + this.accessKeyText + "-S)";
@@ -614,7 +608,7 @@ function Jash() {
 			return _null;
 		}
 		this.setCrossBrowserAccessKeyFunctionForAnchor(cssBut);
-		
+
 		/* RESIZE BUTTON */
 		var resizeBut = document.createElement("div");
 		resizeBut.id = "JashResizeButton";
@@ -629,8 +623,7 @@ function Jash() {
 				if(newWidth < self.minDims.x) { newWidth = self.minDims.x; }
 				textareaWrap.style.width = newWidth + "px";
 				debugParent.style.width = newWidth + "px";
-				
-				
+
 				var newHeight = originalDims.y + (newMouseDims.y - originMouseDims.y);
 				if(newHeight < self.minDims.y) { newHeight = self.minDims.y; }
 				textareaWrap.style.height = newHeight + "px";
@@ -640,16 +633,15 @@ function Jash() {
 				document.onmousemove = "";
 			}
 		}
-		
-		
+
 		var bottomBar = document.createElement("div");
 		bottomBar.id = "JashBottomBar";
-		
+
 		/* append nodes to DOM */
-		
+
 		debugParent.appendChild(dragBut);
 		debugParent.appendChild(xBut);
-		
+
 		bottomBar.appendChild(evalBut);
 		bottomBar.appendChild(cssBut);
 		bottomBar.appendChild(domBut);
@@ -657,27 +649,27 @@ function Jash() {
 		bottomBar.appendChild(clearBut);
 		bottomBar.appendChild(helpBut);
 		debugParent.appendChild(bottomBar);
-		
+
 		debugParent.appendChild(resizeBut);
 		document.body.appendChild(debugParent);
-		
+
 		/* the textareas should be last to get w/h calculated correctly */
 		textareaWrap.appendChild(debugOutput);
 		textareaWrap.appendChild(inp);
 		debugParent.appendChild(textareaWrap);
-		
+
 		this.bottomBar = document.getElementById("JashBottomBar");
 		this.dragBar = document.getElementById("JashDragBar")
 		this.output = document.getElementById("JashOutput");
 		this.input = document.getElementById("JashInput");
 		this.mainBlock = debugParent;
-		
-		/* When user scrolls page, move debug window, too */ 
+
+		/* When user scrolls page, move debug window, too */
 		this.addEvent(window,'scroll',function() {
 			debugParent.style.top = 50 + self.getXBrowserYOffset() + 'px';
 		});
 	}
-	
+
 	/**
 	* set the visual state of a button
 	* @param {HTML Element} button		element to change visual state of
@@ -722,9 +714,9 @@ function Jash() {
 		out.push("press " + this.accessKeyText + "-A to activate/deactivate innerHTML dump (only works w/ DOM inspector)");
 		out.push("press " + this.accessKeyText + "-C to clear output and input");
 		out.push("press " + this.accessKeyText + "-S to turn on/off CSS input mode. In CSS input mode, you can enter arbitrary CSS selectors and rules, as you would normally do in a CSS stylesheet.");
-		
+
 		this.print(out.join("\n"));
-		
+
 		return _null;
 	}
 	/**
@@ -738,7 +730,7 @@ function Jash() {
 			this.mainBlock.style.display = "none";
 		}
 	}
-	
+
 	/**
 	* Cross-browser access key
 	* @param {HTML Element} el	element to simulate access key event on
@@ -756,9 +748,9 @@ function Jash() {
 				self.input.focus();
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	* Time execution in ms
 	*/
@@ -770,7 +762,7 @@ function Jash() {
 		* Start the timer
 		* @returns {int} 	epoch time in ms
 		*/
-		start: function() { 
+		start: function() {
 			t_start = new Date().getTime();
 			return t_start;
 		},
@@ -784,8 +776,7 @@ function Jash() {
 			return (t_total);
 		}
 	}
-	
-	
+
 	/**
 	* DOM inspection: Show parent node structure, and possibly innerHTML, of node
 	* under mouse cursor.
@@ -796,10 +787,10 @@ function Jash() {
 		var el = typeof e.target == "undefined" ? e.srcElement : e.target;
 		/* store first node for later use */
 		this.currentNode = el;
-		
+
 		/* see what first node is */
 		var childMost = this.identifyNode(el,false);
-		
+
 		/* step through parent nodes */
 		var out = "";
 		var childmostTxt = "childmost..... " + childMost.txt + "\n";
@@ -821,7 +812,7 @@ function Jash() {
 				this.print(this.currentNode.innerHTML,false,true,false);
 			}
 		}
-		
+
 		if(!this.evaluation.cssEvalFlag) {
 			if(childMost.id != "") {
 				if(typeof $ != "undefined") {
@@ -830,26 +821,26 @@ function Jash() {
 					this.input.value = 'document.getElementById("' + childMost.id + '")';
 				}
 			} else {
-				
+
 				this.input.value = "this.currentNode";
 			}
 		}
 	}
-	
+
 	/**
 	* Return a string containing information about HTML element 'el' - node name, id, class, etc.
 	* @param {HTML Element} el	Element to inspect
 	* @param {bool} showDots	precede returned text with dots
 	* @returns {object} 		{txt: string <node class="" id="">,id: string elementId}
 	*/
-	this.identifyNode = function(el,showDots) { 
+	this.identifyNode = function(el,showDots) {
 		showDots = typeof showDots == "boolean" ? showDots : true;
-		
+
 		var out = {
 			txt: "",
 			id: ""
 		};
-		
+
 		if(showDots) out.txt += ".............. ";
 		out.txt += "<" + el.nodeName.toLowerCase();
 		if(el.id != "") {
@@ -865,9 +856,9 @@ function Jash() {
 		if(el.href) {
 		    out.txt += ' href="' + el.href + '"';
 		}
-		
+
 		out.txt += ">";
-		
+
 		return out;
 	}
 	/**
@@ -879,7 +870,7 @@ function Jash() {
 }
 /**
 * Class to evaluate input text as javascript or CSS
-* @class Jash.Evaluator 
+* @class Jash.Evaluator
 * @inherits Jash
 * @returns {object} 	a new copy of Evaluator
 */
@@ -887,7 +878,7 @@ Jash.Evaluator = function() {
 	/* are we in CSS-edit mode? bool */
 	this.cssEvalFlag = false;
 	/* this is returned by internal methods to avoid printing null output */
-	var _null = "nooutput";	
+	var _null = "nooutput";
 	/**
 	* Delegate evaluation of input string appropriately
 	* @param {string} input 	input string to evaluate
@@ -926,10 +917,10 @@ Jash.Evaluator = function() {
 			}
 		} catch(e) {
 			return(e.message);
-		} 
+		}
 	}
-	/** 
-	* evaluate 'input' string as css 
+	/**
+	* evaluate 'input' string as css
 	* @param {string} input		an input string to evaluate as css (selector(s) followed by rules)
 	* @returns {sring} 		the input string unmodified
 	*/
@@ -955,7 +946,7 @@ Jash.Evaluator = function() {
 			document.body.appendChild(this.styleInputTag);
 		}
 		if(this.browser == "ff" || this.browser == "op") {
-			/* wow, I can't believe this works in FF and Opera. It shouldn't */ 
+			/* wow, I can't believe this works in FF and Opera. It shouldn't */
 			this.styleInputTag.innerHTML += rule + "\n";
 		} else if (this.browser == "ie" || this.browser == "sa") {
 			/* in IE, stylesheets are added to the top of the stack */
@@ -981,8 +972,8 @@ Jash.Evaluator = function() {
 }
 
 /**
-* Store input for later retrieval.  Provide methods for retrieving input in a 
-* linear fashion.  
+* Store input for later retrieval.  Provide methods for retrieving input in a
+* linear fashion.
 * @class	Jash.History
 */
 Jash.History = function() {
@@ -1001,7 +992,7 @@ Jash.History.prototype = {
 	},
 	/**
 	* Find the previous input in history relative to current position
-	* @returns {string} 	blank if no history value, or string 
+	* @returns {string} 	blank if no history value, or string
 	*/
 	getPreviousInput: function() {
 		if(this.position < 0) {
@@ -1029,7 +1020,7 @@ Jash.History.prototype = {
 }
 /**
 * Indent, add line breaks, and close tags in an HTML string
-* Example usage: 
+* Example usage:
 * <pre>
 * Jash.Indenter.indent(document.getElementById("someDiv").innerHTML);
 * </pre>
@@ -1041,7 +1032,7 @@ Jash.Indenter = {
 	nodesCommonlyUnclosed: new Array("link ", "img ", "meta ", "!DOCTYPE ", "input ", "param", "hr", "br"),
 	/**
 	* repeat stringToRepeat times times and return concatenated string with no separator
-	* @param {string} stringToRepeat	a string that should be repeated times times 
+	* @param {string} stringToRepeat	a string that should be repeated times times
 	* @param {int} times 			number of times to repeat string
 	* @returns {string}			string repeated times times
 	*/
@@ -1054,7 +1045,7 @@ Jash.Indenter = {
 	},
 	/**
 	* Find unclosed tags (a list of which is in this.nodesCommonlyUnclosed) in str and
-	* close them. 
+	* close them.
 	* @param {string} str 	string representing one node
 	* @returns {str} 		string with tag(s) closed
 	*/
@@ -1087,20 +1078,20 @@ Jash.Indenter = {
 	indent: function(source) {
 		var source = source;
 		var arr = new Array();
-		
+
 		/* remove new lines and tabs */
 		source = source.replace(/[\n\r\t]/g, '');
 		/* remove spaces before and after html tags */
 		source = source.replace(/>\s+/g, ">");
 		source = source.replace(/\s+</g, "<");
-		
+
 		/* Close some nodes */
 		var splitsrc = source.split("<");
 		for(i=0;i<splitsrc.length;i++) {
 			splitsrc[i] = this.closeUnclosedNode(splitsrc[i]);
 		}
 		source = splitsrc.join("<");
-		
+
 		/* indent code */
 		var level = 0;
 		var sourceLength = source.length;
@@ -1153,19 +1144,19 @@ Jash.Indenter = {
 
 /**
 * Time exectuion of a given function.  Store results and report average
-* resuls.  Allow single or multiple-pass execution using a variety of 
-* loop styles. 
-* Example usage: 
+* resuls.  Allow single or multiple-pass execution using a variety of
+* loop styles.
+* Example usage:
 * <pre>
-* var profile = new Jash.Profiler(function() { 
-*	document.getElementById("something"); 
+* var profile = new Jash.Profiler(function() {
+*	document.getElementById("something");
 * });
 * profile.multiPass(1000);
 * </pre>
-* 
-* @class 	Jash.Profiler 
+*
+* @class 	Jash.Profiler
 * @param 	{function} 	func	Function to profile
-* @param	{function} 	func	(optional) callback function to fire when profiler is done 
+* @param	{function} 	func	(optional) callback function to fire when profiler is done
 * @returns	{object}		an instance of this object
 */
 Jash.Profiler = function(func,onFinish) {
@@ -1178,7 +1169,7 @@ Jash.Profiler = function(func,onFinish) {
 	this.results = new Array();
 	this.onFinish = typeof onFinish != "function" ? this.defaultOnFinish : onFinish;
 	var self = this;
-	
+
 	/**
 	* Do this.func 'reps' times in a reverse while loop
 	* @param {int} reps	Amount of times to execute this.func
@@ -1219,12 +1210,12 @@ Jash.Profiler = function(func,onFinish) {
 		if(!this.results[kind][repsMemberName]) {
 			this.results[kind][repsMemberName] = new Array();
 		}
-		
-		var time = this[kind](reps);		
+
+		var time = this[kind](reps);
 		this.results[kind][repsMemberName].push(time);
 	}
 	/**
-	* Run this.func only one time, store resulting time in milliseconds in 
+	* Run this.func only one time, store resulting time in milliseconds in
 	* this.results.runOnce[]
 	*/
 	this.runOnce = function() {
@@ -1242,7 +1233,7 @@ Jash.Profiler = function(func,onFinish) {
 		t_start: 0,
 		t_end: 0,
 		t_total: 0,
-		start: function() { 
+		start: function() {
 			t_start = new Date().getTime();
 			return t_start;
 		},
@@ -1278,7 +1269,7 @@ Jash.Profiler = function(func,onFinish) {
 			jash.print("Error: the loop type '" + type + "' does not exist");
 			return false;
 		}
-				
+
 		var self = this;
 		if(type == "runOnce") {
 			if(passes < 1) {
@@ -1289,9 +1280,9 @@ Jash.Profiler = function(func,onFinish) {
 					self.multiPass(--passes,type);
 				},50);
 			}
-			
+
 		} else {
-		
+
 		    if(passes < 1) {
 			    var repsMemberName = "r_" + reps;
 			    self.reportProfile(Math.round(this.average(this.results[type][repsMemberName])),type,reps);
@@ -1313,16 +1304,16 @@ Jash.Profiler = function(func,onFinish) {
 		var line = "-------PROFILER----------------------------------------------";
 		var str = line + "\n" + this.func + "\n" + line + "\n";
 		str += "Type of profile: " + type + "\n";
-		
+
 		if(typeof reps != "undefined") {
 			str += "Loop iterations: " + reps + "\n";
 		}
-		
+
 		str += "Average execution time: " + avgMs + "ms" + "\n";
-		
+
 		if(type == "runOnce") {
 		    howManyTimes = this.results.runOnce.length;
-		} else { 
+		} else {
 		    repsMemberName = "r_" + reps;
 		    howManyTimes = this.results[type][repsMemberName].length;
 		}
@@ -1332,25 +1323,25 @@ Jash.Profiler = function(func,onFinish) {
 	}
 }
 /**
-* Tab completion of javascript objects, HTML Element ids, and HTML Element 
-* class names. 
+* Tab completion of javascript objects, HTML Element ids, and HTML Element
+* class names.
 * @class 	Jash.TabComplete
 * @returns	{object}	an object that is a new instance of Jash.TabComplete class
 */
 Jash.TabComplete = function() {
 	/***
-	* Begin completion process by delegating event based on what is found to 
-	* be the context of the request. 
+	* Begin completion process by delegating event based on what is found to
+	* be the context of the request.
 	* @param {object}	e	Event object
 	* @returns {boolean}		False if tab delegated to a id or class name completion function, null if not
 	***/
 	this.tabComplete = function(e) {
 		e = (typeof window.event != "undefined") ? window.event : e;
 		var inputText = this.input.value;
-		
+
 		/* see if input is a dom selector function */
 		var match = null;
-		if(match = this.searchInputForDomGetElFunctions(inputText)) { 
+		if(match = this.searchInputForDomGetElFunctions(inputText)) {
 			this.tabCompleteIdOrClassInJavascript(match.match[0], match.type);
 			this.focusCaretAtEndOfInput();
 			return false;
@@ -1358,11 +1349,11 @@ Jash.TabComplete = function() {
 			this.tabCompleteIdOrClassInCss(inputText);
 			this.focusCaretAtEndOfInput();
 			return false;
-		} else { 
+		} else {
 		    this.tabCompleteJavascript(e,inputText);
 		    this.focusCaretAtEndOfInput();
 		}
-	
+
 	}
 	this.focusCaretAtEndOfInput = function() {
 		this.input.selectionEnd = this.input.selectionStart = this.input.value.length;
@@ -1377,20 +1368,20 @@ Jash.TabComplete = function() {
 		/*get last word of input */
 		var words = inputText.split(/\s+/);
 		var lastWord = words[(words.length - 1)];
-		
+
 		var numOpeningParens = lastWord.split("(").length - 1;
 		var numClosingParens = lastWord.split(")").length - 1;
-		
+
 		var scope;
 		var sentinel = 0;
-		
+
 		var diff = numOpeningParens - numClosingParens;
-		
+
 		if(diff > 0) {
 			/*how many )'s are after the last ( ?*/
 			numClosingParens = lastWord.split("(")[numOpeningParens].split(")").length - 1;
 			/*now we can figure out how many )'s we care about*/
-			var numRealDanglers = numOpeningParens - numClosingParens;	
+			var numRealDanglers = numOpeningParens - numClosingParens;
 			scope = lastWord.split("(").slice(numRealDanglers).join("(");
 		} else if (diff < 0) {
 			this.print("error: too many closing parentheses");
@@ -1398,16 +1389,16 @@ Jash.TabComplete = function() {
 		} else 	{
 			scope = lastWord;
 		}
-		
+
 		scope = scope.split(".");
 		var fragment = scope.pop();
 		scope = scope.join(".");
-		
+
 		if(scope == "") scope = "window";
-		
+
 		var members = this.getMembers(scope);
 		var results = this.findTextMatchesInArray(members,fragment);
-		
+
 		/*no match was found*/
 		if(results == false) {
 			/*no match*/
@@ -1426,13 +1417,13 @@ Jash.TabComplete = function() {
 			var reggie = new RegExp(fragment + "$");
 			this.input.value = this.input.value.replace(reggie,results);
 		}
-		
+
 		return false;
 	}
 	/**
 	* Return true if all characters in an array of strings at a certain position
 	* are the same
-	* 
+	*
 	* @param 	{int}	index 	0 start int position of character to look at
 	* @param 	{array}	arr 	array of strings to test
 	* @returns	{boolean}	True if all characters match at position 'index', false if not
@@ -1448,9 +1439,9 @@ Jash.TabComplete = function() {
 	    }
 	    return true;
 	}
-	
+
 	/**
-	* Try to find the longest possible match in an array of strings starting from the 
+	* Try to find the longest possible match in an array of strings starting from the
 	* left
 	*
 	* @param 	{str}	str	String to look for
@@ -1468,20 +1459,20 @@ Jash.TabComplete = function() {
 	}
 	/**
 	* Attempt to complete an element id or class name based on what is available in all
-	* elements in the current DOM; assume the input text is a javascript function call containing (" before 
-	* the string in question. 
+	* elements in the current DOM; assume the input text is a javascript function call containing (" before
+	* the string in question.
 	* @param	{string}	inputText	Text to try to complete
 	* @param	{string} 	type		"id" | "class" : element id or class name completion
 	**/
 	this.tabCompleteIdOrClassInJavascript = function(inputText,type) {
-	    
+
 	    /*parse out query*/
 	    var query = inputText.split("(");
 	    query = query[query.length - 1].replace(/\W/g,'');
-	    
+
 	    /*loop through dom to find els that match query*/
 	    var matches = new Array();
-	    
+
 	    var els = document.getElementsByTagName("*");
 	    if(type == "id") {
 			for(var i = 0; i<els.length; i++) {
@@ -1489,7 +1480,7 @@ Jash.TabComplete = function() {
 					matches.push(els[i].id);
 				}
 			}
-		
+
 	    } else if (type == "class") {
 			for(var i = 0; i<els.length; i++) {
 				if(els[i].className && els[i].className != '') {
@@ -1514,7 +1505,7 @@ Jash.TabComplete = function() {
 			this.dump(matches.sort());
 			var bestMatch = this.findBestStringMatch(query,matches);
 			if(query != '') {
-				/* do the same string splitting operation that 
+				/* do the same string splitting operation that
 				was used to find the query text in the first place */
 				var replacement = inputText.split("(");
 				replacement[replacement.length - 1] = replacement[replacement.length - 1].replace(query,bestMatch);
@@ -1524,7 +1515,7 @@ Jash.TabComplete = function() {
 			}
 	    }
 	}
-	
+
 	/**
 	* Attempt to complete an element id or class name based on what is available in all
 	* elements in the current DOM; assume the input text is a css-style selector, i.e. ".someth" or "#someth"
@@ -1536,7 +1527,7 @@ Jash.TabComplete = function() {
 		var lastSelector = selectors[selectors.length-1];
 		var els = document.getElementsByTagName("*");
 		var matches = new Array();
-		
+
 		/* class name */
 		if(lastSelector.match(/^\./)) {
 			for(var i = 0; i<els.length; i++) {
@@ -1575,7 +1566,7 @@ Jash.TabComplete = function() {
 			}
 	    }
 	}
-	
+
 	/**
 	* scan inputText to determine if a dom get el fct was typed in.  If so, return match
 	* and type of match (class or id)
@@ -1601,20 +1592,20 @@ Jash.TabComplete = function() {
 	* @param {array} arrayToTest	array of strings to match against
 	* @param {string} findMe	string to look for in array
 	* @returns {array}	array of matches (if matches > 1)
-	* @returns {str}	string match (if matches == 1) 
+	* @returns {str}	string match (if matches == 1)
 	* @returns {boolean}	false (if matches == 0)
 	**/
 	this.findTextMatchesInArray = function(arrayToTest,findMe) {
 		var resultsArray = new Array();
 		var tester = new RegExp("^" + findMe);
-		
+
 		for(var i=0;i<arrayToTest.length;i++) {
 			if(tester.test(arrayToTest[i])) {
 				resultsArray.push(arrayToTest[i]);
 			}
 		}
 		if(resultsArray.length > 1) {
-			resultsArray.sort(); 
+			resultsArray.sort();
 			return resultsArray;
 		} else if (resultsArray.length == 1) {
 			return resultsArray[0];
@@ -1624,7 +1615,7 @@ Jash.TabComplete = function() {
 	}
 	/**
 	* Scan an object and return just the member names
-	* @param {string} 	context		name of object to scan	
+	* @param {string} 	context		name of object to scan
 	**/
 	this.getMembers = function(context) {
 		var members = new Array();

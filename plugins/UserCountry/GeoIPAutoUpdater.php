@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,9 +17,9 @@ use Piwik\Http;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTaskTimetable;
 use Piwik\ScheduledTime\Monthly;
@@ -128,6 +128,8 @@ class GeoIPAutoUpdater extends ScheduledTask
      */
     protected function downloadFile($dbType, $url)
     {
+        $url = trim($url);
+
         $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
 
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity
@@ -332,7 +334,7 @@ class GeoIPAutoUpdater extends ScheduledTask
         // set period option
         if (!empty($options['period'])) {
             $period = $options['period'];
-            
+
             if ($period != self::SCHEDULE_PERIOD_MONTHLY
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
@@ -622,7 +624,7 @@ class GeoIPAutoUpdater extends ScheduledTask
 
     /**
      * Returns the next scheduled time for the auto updater.
-     * 
+     *
      * @return Date|false
      */
     public static function getNextRunTime()

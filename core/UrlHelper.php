@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,7 @@ namespace Piwik;
 
 /**
  * Contains less commonly needed URL helper methods.
- * 
+ *
  */
 class UrlHelper
 {
@@ -108,9 +108,9 @@ class UrlHelper
     /**
      * Returns a URL created from the result of the [parse_url](http://php.net/manual/en/function.parse-url.php)
      * function.
-     * 
+     *
      * Copied from the PHP comments at [http://php.net/parse_url](http://php.net/parse_url).
-     * 
+     *
      * @param array $parsed Result of [parse_url](http://php.net/manual/en/function.parse-url.php).
      * @return false|string The URL or `false` if `$parsed` isn't an array.
      * @api
@@ -234,7 +234,6 @@ class UrlHelper
         return $result;
     }
 
-
     /**
      * Extracts a keyword from a raw not encoded URL.
      * Will only extract keyword if a known search engine has been detected.
@@ -286,8 +285,18 @@ class UrlHelper
         $searchEngines = Common::getSearchEngineUrls();
 
         $hostPattern = self::getLossyUrl($referrerHost);
+        /*
+         * Try to get the best matching 'host' in definitions
+         * 1. check if host + path matches an definition
+         * 2. check if host only matches
+         * 3. check if host pattern + path matches
+         * 4. check if host pattern matches
+         * 5. special handling
+         */
         if (array_key_exists($referrerHost . $referrerPath, $searchEngines)) {
             $referrerHost = $referrerHost . $referrerPath;
+        } elseif (array_key_exists($referrerHost, $searchEngines)) {
+            // no need to change host
         } elseif (array_key_exists($hostPattern . $referrerPath, $searchEngines)) {
             $referrerHost = $hostPattern . $referrerPath;
         } elseif (array_key_exists($hostPattern, $searchEngines)) {
@@ -384,20 +393,23 @@ class UrlHelper
                     $key = self::getParameterFromQueryString($query, $variableName);
                     $key = trim(urldecode($key));
 
-                    // Special case: Google & empty q parameter
+                    // Special cases: empty or no keywords
                     if (empty($key)
-                        && $variableName == 'q'
-
                         && (
                             // Google search with no keyword
                             ($searchEngineName == 'Google'
-                                && ( // First, they started putting an empty q= parameter
-                                    strpos($query, '&q=') !== false
-                                    || strpos($query, '?q=') !== false
-                                    // then they started sending the full host only (no path/query string)
-                                    || (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
-                                )
+                                && (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
                             )
+
+                            // Yahoo search with no keyword
+                            || ($searchEngineName == 'Yahoo!'
+                                && ($referrerParsed['host'] == 'r.search.yahoo.com')
+                            )
+
+                            // empty keyword parameter
+                            || strpos($query, sprintf('&%s=', $variableName)) !== false
+                            || strpos($query, sprintf('?%s=', $variableName)) !== false
+
                             // search engines with no keyword
                             || $searchEngineName == 'Google Images'
                             || $searchEngineName == 'DuckDuckGo')

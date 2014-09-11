@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,16 +9,18 @@
 namespace Piwik\Menu;
 
 use Piwik\Common;
+use Piwik\Log;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Base class for classes that manage one of Piwik's menus.
- * 
+ *
  * There are three menus in Piwik, the main menu, the top menu and the admin menu.
  * Each menu has a class that manages the menu's content. Each class invokes
  * a different event to allow plugins to add new menu items.
- * 
+ *
  * @static \Piwik\Menu\MenuAbstract getInstance()
  */
 abstract class MenuAbstract extends Singleton
@@ -30,6 +32,7 @@ abstract class MenuAbstract extends Singleton
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
+    protected static $menus = array();
 
     /**
      * Builds the menu, applies edits, renames
@@ -48,6 +51,22 @@ abstract class MenuAbstract extends Singleton
     }
 
     /**
+     * Returns a list of available plugin menu instances.
+     *
+     * @return \Piwik\Plugin\Menu[]
+     */
+    protected function getAllMenus()
+    {
+        if (!empty(self::$menus)) {
+            return self::$menus;
+        }
+
+        self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+
+        return self::$menus;
+    }
+
+    /**
      * Adds a new entry to the menu.
      *
      * @param string $menuName The menu's category name. Can be a translation token.
@@ -57,8 +76,9 @@ abstract class MenuAbstract extends Singleton
      * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
-     * @param false|string $tooltip An optional tooltip to display.
-     * @api
+     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
+     *
+     * @deprecated since 2.7.0 Use {@link addItem() instead}. Method will be removed in Piwik 3.0
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
     {
@@ -66,6 +86,23 @@ abstract class MenuAbstract extends Singleton
             return;
         }
 
+        $this->addItem($menuName, $subMenuName, $url, $order, $tooltip);
+    }
+
+    /**
+     * Adds a new entry to the menu.
+     *
+     * @param string $menuName The menu's category name. Can be a translation token.
+     * @param string $subMenuName The menu item's name. Can be a translation token.
+     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     *                          that can be used to build the URL.
+     * @param int $order The order hint.
+     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
+     * @since 2.7.0
+     * @api
+     */
+    public function addItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
+    {
         // make sure the idSite value used is numeric (hack-y fix for #3426)
         if (!is_numeric(Common::getRequestVar('idSite', false))) {
             $idSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
@@ -81,6 +118,13 @@ abstract class MenuAbstract extends Singleton
         );
     }
 
+    /**
+     * Removes an existing entry from the menu.
+     *
+     * @param string      $menuName    The menu's category name. Can be a translation token.
+     * @param bool|string $subMenuName The menu item's name. Can be a translation token.
+     * @api
+     */
     public function remove($menuName, $subMenuName = false)
     {
         $this->menuEntriesToRemove[] = array(
@@ -100,21 +144,29 @@ abstract class MenuAbstract extends Singleton
      */
     private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
     {
-        if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
-            $this->menu[$menuName]['_url'] = $url;
-            if (empty($subMenuName)) {
-                $this->menu[$menuName]['_order'] = $order;
-            }
-            $this->menu[$menuName]['_name'] = $menuName;
-            $this->menu[$menuName]['_hasSubmenu'] = false;
+        if (!isset($this->menu[$menuName])) {
+            $this->menu[$menuName] = array(
+                '_hasSubmenu' => false,
+                '_order' => $order
+            );
+        }
+
+        if (empty($subMenuName)) {
+            $this->menu[$menuName]['_url']   = $url;
+            $this->menu[$menuName]['_order'] = $order;
+            $this->menu[$menuName]['_name']  = $menuName;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
         }
         if (!empty($subMenuName)) {
             $this->menu[$menuName][$subMenuName]['_url'] = $url;
             $this->menu[$menuName][$subMenuName]['_order'] = $order;
             $this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
+            $this->menu[$menuName][$subMenuName]['_tooltip'] = $tooltip;
             $this->menu[$menuName]['_hasSubmenu'] = true;
-            $this->menu[$menuName]['_tooltip'] = $tooltip;
+
+            if (!array_key_exists('_tooltip', $this->menu[$menuName])) {
+                $this->menu[$menuName]['_tooltip'] = $tooltip;
+            }
         }
     }
 
@@ -135,6 +187,7 @@ abstract class MenuAbstract extends Singleton
      * @param $subMenuOriginal
      * @param $mainMenuRenamed
      * @param $subMenuRenamed
+     * @api
      */
     public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
     {
@@ -148,6 +201,7 @@ abstract class MenuAbstract extends Singleton
      * @param $mainMenuToEdit
      * @param $subMenuToEdit
      * @param $newUrl
+     * @api
      */
     public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
     {
@@ -163,10 +217,17 @@ abstract class MenuAbstract extends Singleton
             $mainMenuToEdit = $edit[0];
             $subMenuToEdit = $edit[1];
             $newUrl = $edit[2];
-            if (!isset($this->menu[$mainMenuToEdit][$subMenuToEdit])) {
+
+            if ($subMenuToEdit === null) {
+                $menuDataToEdit = @$this->menu[$mainMenuToEdit];
+            } else {
+                $menuDataToEdit = @$this->menu[$mainMenuToEdit][$subMenuToEdit];
+            }
+
+            if (empty($menuDataToEdit)) {
                 $this->buildMenuItem($mainMenuToEdit, $subMenuToEdit, $newUrl);
             } else {
-                $this->menu[$mainMenuToEdit][$subMenuToEdit]['_url'] = $newUrl;
+                $menuDataToEdit['_url'] = $newUrl;
             }
         }
     }
@@ -248,15 +309,36 @@ abstract class MenuAbstract extends Singleton
      */
     protected function menuCompare($itemOne, $itemTwo)
     {
-        if (!is_array($itemOne) || !is_array($itemTwo)
-            || !isset($itemOne['_order']) || !isset($itemTwo['_order'])
-        ) {
+        if (!is_array($itemOne) && !is_array($itemTwo)) {
             return 0;
         }
 
-        if ($itemOne['_order'] == $itemTwo['_order']) {
-            return strcmp($itemOne['_name'], $itemTwo['_name']);
+        if (!is_array($itemOne) && is_array($itemTwo)) {
+            return -1;
         }
+
+        if (is_array($itemOne) && !is_array($itemTwo)) {
+            return 1;
+        }
+
+        if (!isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 0;
+        }
+
+        if (!isset($itemOne['_order']) && isset($itemTwo['_order'])) {
+            return -1;
+        }
+
+        if (isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 1;
+        }
+
+        if ($itemOne['_order'] == $itemTwo['_order']) {
+            return strcmp(
+                @$itemOne['_name'],
+                @$itemTwo['_name']);
+        }
+
         return ($itemOne['_order'] < $itemTwo['_order']) ? -1 : 1;
     }
 }

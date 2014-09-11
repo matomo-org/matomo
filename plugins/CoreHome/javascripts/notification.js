@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -86,7 +86,7 @@
             return;
         }
 
-        var $existingNode = $('.system.notification[data-id=' + options.id + ']')
+        var $existingNode = $('.system.notification[data-id=' + options.id + ']');
         if ($existingNode && $existingNode.length) {
             $existingNode.remove();
         }
@@ -105,7 +105,7 @@
 
         template += message;
         template += buildNotificationEnd();
-        
+
         return template;
     }
 

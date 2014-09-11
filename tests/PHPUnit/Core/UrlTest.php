@@ -1,10 +1,9 @@
 <?php
 use Piwik\Config;
 use Piwik\Url;
-use Piwik\UrlHelper;
 
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -259,7 +258,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getQueryParameters
      */
     public function testGetQueryStringFromParameters($params, $queryString)
@@ -280,6 +279,5 @@ class UrlTest extends PHPUnit_Framework_TestCase
             array(array('key' => 'val', 'k2' => array('k1' => 'v1', 'k2' => 'v2')), 'key=val&k2[]=v1&k2[]=v2'),
         );
     }
-
 
 }

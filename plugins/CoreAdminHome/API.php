@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,17 +9,14 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
-use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
-use Piwik\Period;
 use Piwik\Period\Week;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Plugins\SitesManager\SitesManager;
-use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\TaskScheduler;
 
@@ -39,14 +36,8 @@ class API extends \Piwik\Plugin\API
         return TaskScheduler::runTasks();
     }
 
-    public function getKnownSegmentsToArchive()
-    {
-        Piwik::checkUserHasSuperUserAccess();
-        return SettingsPiwik::getKnownSegmentsToArchive();
-    }
-
     /*
-     * stores the list of websites IDs to re-reprocess in archive.php
+     * stores the list of websites IDs to re-reprocess in core:archive command
      */
     const OPTION_INVALIDATED_IDSITES = 'InvalidatedOldReports_WebsiteIds';
 
@@ -60,7 +51,7 @@ class API extends \Piwik\Plugin\API
      *      to be reprocessed by visiting the script as the Super User:
      *      http://example.net/piwik/misc/cron/archive.php?token_auth=$SUPER_USER_TOKEN_AUTH_HERE
      * REQUIREMENTS: On large piwik setups, you will need in PHP configuration: max_execution_time = 0
-     *    We recommend to use an hourly schedule of the script at misc/cron/archive.php
+     *    We recommend to use an hourly schedule of the script.
      *    More information: http://piwik.org/setup-auto-archiving/
      *
      * @param string $idSites Comma separated list of idSite that have had data imported for the specified dates
@@ -78,9 +69,10 @@ class API extends \Piwik\Plugin\API
 
         // Ensure the specified dates are valid
         $toInvalidate = $invalidDates = array();
-        $dates = explode(',', $dates);
+        $dates = explode(',', trim($dates));
         $dates = array_unique($dates);
         foreach ($dates as $theDate) {
+            $theDate = trim($theDate);
             try {
                 $date = Date::factory($theDate);
             } catch (Exception $e) {
@@ -129,7 +121,7 @@ class API extends \Piwik\Plugin\API
 
             // but also weeks overlapping several months stored in the month where the week is starting
             /* @var $week Week */
-            $week = Period::factory('week', $date);
+            $week = Period\Factory::build('week', $date);
             $weekAsString = $week->getDateStart()->toString('Y_m');
             $datesByMonth[$weekAsString][] = $date->toString();
 
@@ -139,6 +131,10 @@ class API extends \Piwik\Plugin\API
             ) {
                 $minDate = $date;
             }
+        }
+
+        if(empty($minDate)) {
+            throw new Exception("Check the 'dates' parameter is a valid date.");
         }
 
         // In each table, invalidate day/week/month/year containing this date
@@ -169,7 +165,7 @@ class API extends \Piwik\Plugin\API
         }
         \Piwik\Plugins\SitesManager\API::getInstance()->updateSiteCreatedTime($idSites, $minDate);
 
-        // Force to re-process data for these websites in the next archive.php cron run
+        // Force to re-process data for these websites in the next cron core:archive command run
         $invalidatedIdSites = self::getWebsiteIdsToInvalidate();
         $invalidatedIdSites = array_merge($invalidatedIdSites, $idSites);
         $invalidatedIdSites = array_unique($invalidatedIdSites);
@@ -192,14 +188,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns array of idSites to force re-process next time archive.php runs
+     * Returns array of idSites to force re-process next time core:archive command runs
      *
      * @ignore
      * @return mixed
      */
-    static public function getWebsiteIdsToInvalidate()
+    public static function getWebsiteIdsToInvalidate()
     {
         Piwik::checkUserHasSomeAdminAccess();
+
+        Option::clearCachedOption(self::OPTION_INVALIDATED_IDSITES);
         $invalidatedIdSites = Option::get(self::OPTION_INVALIDATED_IDSITES);
         if ($invalidatedIdSites
             && ($invalidatedIdSites = unserialize($invalidatedIdSites))
@@ -210,4 +208,15 @@ class API extends \Piwik\Plugin\API
         return array();
     }
 
+    /**
+     * Return true if plugin is activated, false otherwise
+     *
+     * @param string $pluginName
+     * @return bool
+     */
+    public function isPluginActivated($pluginName)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+    }
 }

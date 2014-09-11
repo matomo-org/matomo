@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,37 +9,31 @@
 namespace Piwik;
 
 use Piwik\Db;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
 
 /**
  * Singleton that manages user access to Piwik resources.
- * 
+ *
  * To check whether a user has access to a resource, use one of the {@link Piwik Piwik::checkUser...}
  * methods.
  *
  * In Piwik there are four different access levels:
- * 
+ *
  * - **no access**: Users with this access level cannot view the resource.
  * - **view access**: Users with this access level can view the resource, but cannot modify it.
  * - **admin access**: Users with this access level can view and modify the resource.
  * - **Super User access**: Only the Super User has this access level. It means the user can do
  *                          whatever he/she wants.
- * 
+ *
  *                          Super user access is required to set some configuration options.
  *                          All other options are specific to the user or to a website.
  *
  * Access is granted per website. Uses with access for a website can view all
  * data associated with that website.
- * 
+ *
  */
 class Access
 {
     private static $instance = null;
-
-    /**
-     * @var string
-     */
-    private $previousLogin;
 
     /**
      * Gets the singleton instance. Creates it if necessary.
@@ -215,10 +209,6 @@ class Access
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
 
-        $this->setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess();
-
-        Piwik::postTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
-
         return true;
     }
 
@@ -231,26 +221,12 @@ class Access
     public function setSuperUserAccess($bool = true)
     {
         if ($bool) {
-            $this->previousLogin = self::getLogin();
             $this->reloadAccessSuperUser();
         } else {
             $this->hasSuperUserAccess = false;
             $this->idsitesByAccess['superuser'] = array();
 
-            if(!empty($this->previousLogin)) {
-                $this->login = $this->previousLogin;
-                $this->previousLogin = null;
-            }
         }
-    }
-
-    /**
-     * @see Access::setSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function setSuperUser($bool = true)
-    {
-        self::setSuperUserAccess($bool);
     }
 
     /**
@@ -261,15 +237,6 @@ class Access
     public function hasSuperUserAccess()
     {
         return $this->hasSuperUserAccess;
-    }
-
-    /**
-     * @see Access::hasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function isSuperUser()
-    {
-        return $this->hasSuperUserAccess();
     }
 
     /**
@@ -290,35 +257,6 @@ class Access
     public function getTokenAuth()
     {
         return $this->token_auth;
-    }
-
-    protected function getAnySuperUserAccessLogin()
-    {
-        try {
-            $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
-        } catch (\Exception $e) {
-            return;
-        }
-
-        if (empty($superUsers)) {
-            return;
-        }
-
-        $firstSuperUser = array_shift($superUsers);
-
-        if (empty($firstSuperUser)) {
-            return;
-        }
-
-        return $firstSuperUser['login'];
-    }
-
-    /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function getSuperUserLogin()
-    {
-        return $this->getAnySuperUserAccessLogin();
     }
 
     /**
@@ -351,7 +289,6 @@ class Access
         );
     }
 
-
     /**
      * Returns an array of ID sites for which the user has a VIEW access only.
      *
@@ -374,15 +311,6 @@ class Access
         if (!$this->hasSuperUserAccess()) {
             throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
         }
-    }
-
-    /**
-     * @see Access::checkUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function checkUserIsSuperUser()
-    {
-        self::checkUserHasSuperUserAccess();
     }
 
     /**
@@ -475,13 +403,6 @@ class Access
             throw new NoAccessException("The parameter 'idSite=' is missing from the request.");
         }
         return $idSites;
-    }
-
-    private function setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess()
-    {
-        if (!Piwik::hasTheUserSuperUserAccess($this->login) || Piwik::isUserIsAnonymous()) {
-            $this->login = $this->getAnySuperUserAccessLogin();
-        }
     }
 }
 

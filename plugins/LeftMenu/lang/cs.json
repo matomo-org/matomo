@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Definuje systémovou výchozí hodnotu pro všechny uživatele.",
+        "GlobalSettingInlineHelp": "Uživatelé si mohou zakázat\/povolit levé menu nezávisle na systémové výchozí hodnotě.",
+        "GlobalSettingTitle": "Levé menu je ve výchozím stavu povoleno",
+        "SettingsIntroduction": "Zásuvný modul levé menu přesune menu hlášení na levou stranu (je-li povolen). To je především užitečné na velkých displejích.",
+        "UserSettingInlineHelp": "Toto povolí nebo zakáže levé menu jen pro vás bez ohledu na jiné uživatele. Super uživatel může nastavit výchozí systémovou hodnotu.",
+        "UserSettingTitle": "Povolit levé menu hlášení"
+    }
+}

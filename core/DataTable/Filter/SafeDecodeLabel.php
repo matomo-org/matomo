@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,7 @@ use Piwik\DataTable\BaseFilter;
 
 /**
  * Sanitizes DataTable labels as an extra precaution. Called internally by Piwik.
- * 
+ *
  */
 class SafeDecodeLabel extends BaseFilter
 {

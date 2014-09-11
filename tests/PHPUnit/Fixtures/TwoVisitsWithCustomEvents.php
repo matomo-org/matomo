@@ -1,17 +1,21 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Tests\Fixture;
+use PiwikTracker;
 
 /**
  * Tracks custom events
  */
-class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixture
+class TwoVisitsWithCustomEvents extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;
@@ -31,7 +35,9 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
-            APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+            // These two goals are to check events don't trigger for URL or Title matching
+            APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'url', 'webradio', 'contains');
+            APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'title', 'Music', 'contains');
         }
     }
 
@@ -133,6 +139,17 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
         $this->moveTimeForward($vis, 244);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'play75%', 'Spirited Away (千と千尋の神隠し)'));
+
+        // trackEvent without a name
+        $this->moveTimeForward($vis, 150);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
+        $this->moveTimeForward($vis, 251);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search', 'Search query here'));
+        $this->moveTimeForward($vis, 352);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
+        $this->moveTimeForward($vis, 453);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Purchase'));
+
         $this->moveTimeForward($vis, 266);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'playEnd', 'Spirited Away (千と千尋の神隠し)'));
@@ -173,5 +190,4 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
     public function tearDown()
     {
     }
-
 }

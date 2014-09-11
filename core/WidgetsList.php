@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,29 +8,41 @@
  */
 namespace Piwik;
 
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\Widgets;
+
 /**
  * Manages the global list of reports that can be displayed as dashboard widgets.
- * 
+ *
  * Reports are added as dashboard widgets through the {@hook WidgetsList.addWidgets}
  * event. Observers for this event should call the {@link add()} method to add reports.
- * 
+ *
  * @api
+ * @method static \Piwik\WidgetsList getInstance()
  */
-class WidgetsList
+class WidgetsList extends Singleton
 {
     /**
      * List of widgets
      *
      * @var array
      */
-    static protected $widgets = null;
+    protected static $widgets = array();
 
     /**
      * Indicates whether the hook was posted or not
      *
      * @var bool
      */
-    static protected $hookCalled = false;
+    protected static $hookCalled = false;
+
+    /**
+     * In get() we won't use a cached result in case this is true. Instead we will sort the widgets again and cache
+     * a new result. To make tests work...
+     * @var bool
+     */
+    private static $listCacheToBeInvalidated = false;
 
     /**
      * Returns all available widgets.
@@ -49,19 +61,31 @@ class WidgetsList
      *               )
      *               ```
      */
-    static public function get()
+    public static function get()
     {
+        $cache = self::getCacheForCompleteList();
+        if (!self::$listCacheToBeInvalidated && $cache->has()) {
+            return $cache->get();
+        }
+
         self::addWidgets();
 
         uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
 
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
-            if (isset($widgets[Piwik::translate($key)])) {
-                $v = array_merge($widgets[Piwik::translate($key)], $v);
+            $category = Piwik::translate($key);
+
+            if (isset($widgets[$category])) {
+                $v = array_merge($widgets[$category], $v);
             }
-            $widgets[Piwik::translate($key)] = $v;
+
+            $widgets[$category] = $v;
         }
+
+        $cache->set($widgets);
+        self::$listCacheToBeInvalidated = false;
+
         return $widgets;
     }
 
@@ -71,20 +95,31 @@ class WidgetsList
             self::$hookCalled = true;
 
             /**
-             * Used to collect all available dashboard widgets.
-             * 
-             * Subscribe to this event to make your plugin's reports or other controller actions available
-             * as dashboard widgets. Event handlers should call the {@link WidgetsList::add()} method for each
-             * new dashboard widget.
-             *
-             * **Example**
-             * 
-             *     public function addWidgets()
-             *     {
-             *         WidgetsList::add('General_Actions', 'General_Pages', 'Actions', 'getPageUrls');
-             *     }
+             * @ignore
+             * @deprecated
              */
             Piwik::postEvent('WidgetsList.addWidgets');
+
+            $widgetsList = self::getInstance();
+
+            foreach (Report::getAllReports() as $report) {
+                if ($report->isEnabled()) {
+                    $report->configureWidget($widgetsList);
+                }
+            }
+
+            $widgetContainers = Widgets::getAllWidgets();
+            foreach ($widgetContainers as $widgetContainer) {
+                $widgets = $widgetContainer->getWidgets();
+
+                foreach ($widgets as $widget) {
+                    $widgetsList->add($widget['category'], $widget['name'], $widget['module'], $widget['method'], $widget['params']);
+                }
+            }
+
+            foreach ($widgetContainers as $widgetContainer) {
+                $widgetContainer->configureWidgetsList($widgetsList);
+            }
         }
     }
 
@@ -104,6 +139,7 @@ class WidgetsList
             'UserSettings_VisitorSettings',
             'DevicesDetection_DevicesDetection',
             'General_Actions',
+            'Events_Events',
             'Actions_SubmenuSitesearch',
             'Referrers_Referrers',
             'Goals_Goals',
@@ -132,10 +168,11 @@ class WidgetsList
      * @param array $customParameters Extra query parameters that should be sent while getting
      *                                this report.
      */
-    static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
+    public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
-        $widgetName = Piwik::translate($widgetName);
+        $widgetName     = Piwik::translate($widgetName);
         $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+
         foreach ($customParameters as $name => $value) {
             if (is_array($value)) {
                 // use 'Array' for backward compatibility;
@@ -144,6 +181,12 @@ class WidgetsList
             }
             $widgetUniqueId .= $name . $value;
         }
+
+        if (!array_key_exists($widgetCategory, self::$widgets)) {
+            self::$widgets[$widgetCategory] = array();
+        }
+
+        self::$listCacheToBeInvalidated = true;
         self::$widgets[$widgetCategory][] = array(
             'name'       => $widgetName,
             'uniqueId'   => $widgetUniqueId,
@@ -155,21 +198,27 @@ class WidgetsList
 
     /**
      * Removes one or more widgets from the widget list.
-     * 
+     *
      * @param string $widgetCategory The widget category. Can be a translation token.
-     * @param string|false $widgetName The name of the widget to remove. Cannot be a 
+     * @param string|false $widgetName The name of the widget to remove. Cannot be a
      *                                 translation token. If not supplied, the entire category
      *                                 will be removed.
      */
-    static public function remove($widgetCategory, $widgetName = false)
+    public static function remove($widgetCategory, $widgetName = false)
     {
+        if (!isset(self::$widgets[$widgetCategory])) {
+            return;
+        }
+
         if (empty($widgetName)) {
             unset(self::$widgets[$widgetCategory]);
+            self::$listCacheToBeInvalidated = true;
             return;
         }
         foreach (self::$widgets[$widgetCategory] as $id => $widget) {
             if ($widget['name'] == $widgetName || $widget['name'] == Piwik::translate($widgetName)) {
                 unset(self::$widgets[$widgetCategory][$id]);
+                self::$listCacheToBeInvalidated = true;
                 return;
             }
         }
@@ -182,10 +231,10 @@ class WidgetsList
      * @param string $controllerAction The controller action of the report.
      * @return bool
      */
-    static public function isDefined($controllerName, $controllerAction)
+    public static function isDefined($controllerName, $controllerAction)
     {
         $widgetsList = self::get();
-        foreach ($widgetsList as $widgetCategory => $widgets) {
+        foreach ($widgetsList as $widgets) {
             foreach ($widgets as $widget) {
                 if ($widget['parameters']['module'] == $controllerName
                     && $widget['parameters']['action'] == $controllerAction
@@ -204,7 +253,13 @@ class WidgetsList
      */
     public static function _reset()
     {
-        self::$widgets = null;
+        self::$widgets    = array();
         self::$hookCalled = false;
+        self::getCacheForCompleteList()->clear();
+    }
+
+    private static function getCacheForCompleteList()
+    {
+        return new PluginAwareStaticCache('WidgetsList');
     }
 }

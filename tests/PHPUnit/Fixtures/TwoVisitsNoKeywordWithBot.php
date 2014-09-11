@@ -1,18 +1,21 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site and tracks two visits. One visit is a bot and one has no keyword
  * but is from a search engine.
  */
-class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Test_Piwik_BaseFixture
+class TwoVisitsNoKeywordWithBot extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;
@@ -59,13 +62,12 @@ class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Test_Piwik_BaseFixtur
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 
-        // VISIT 2 = Referrer has keyword, but the URL should be rewritten 
+        // VISIT 2 = Referrer has keyword, but the URL should be rewritten
         // in Live Output to point to google search result page
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
         $t->setUrlReferrer('http://www.google.com.vn/url?sa=t&rct=j&q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&source=web&cd=4&ved=0FjAD&url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&ei=y-HHAQ&usg=AFQjCN2-nt5_GgDeg&cad=rja');
 
         // Test with empty title, that the output of Live is valid
         self::checkResponse($t->doTrackPageView(''));
-
     }
 }

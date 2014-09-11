@@ -1,0 +1,26 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Voeg %s voorwaarde toe",
+        "AddNewSegment": "Voeg nieuw segment toe",
+        "AreYouSureDeleteSegment": "Weet je zeker dat je dit segment wilt verwijderen?",
+        "AutoArchivePreProcessed": "gesegmenteerde rapporten worden voor verwerkt (sneller, vereist archive.php cron)",
+        "AutoArchiveRealTime": "gesegmenteerde rapporten worden realtime verwerkt",
+        "ChooseASegment": "Kies een segment",
+        "DefaultAllVisits": "Alle bezoeken",
+        "DragDropCondition": "Sleep en verplaats voorwaarde",
+        "LoadingSegmentedDataMayTakeSomeTime": "Verwerking van gesegmenteerde bezoeker gegevens kan enkele minuten duren ...",
+        "OperatorAND": "EN",
+        "OperatorOR": "OF",
+        "SaveAndApply": "Bewaar & Pas Toe",
+        "SegmentDisplayedAllWebsites": "alle websites",
+        "SegmentDisplayedThisWebsiteOnly": "alleen deze website",
+        "SegmentIsDisplayedForWebsite": "en getoond voor",
+        "SegmentNotApplied": "Segment '%s' niet toegepast",
+        "SelectSegmentOfVisitors": "Selecteer een segment van bezoekers:",
+        "ThisSegmentIsVisibleTo": "Dit segment is zichtbaar voor:",
+        "VisibleToAllUsers": "alle gebruikers",
+        "VisibleToMe": "mij",
+        "YouDontHaveAccessToCreateSegments": "U heeft niet het benodigde toegangsniveau om segmenten te maken en bewerken.",
+        "YouMustBeLoggedInToCreateSegments": "Je moet ingelogd zijn om Bezoekers segmenten te bewerken of aan te maken."
+    }
+}

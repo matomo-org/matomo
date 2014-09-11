@@ -1,0 +1,22 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Dodaj gradnik",
+        "AddPreviewedWidget": "Kliknite, če želite dodati gradnik na kontrolno ploščo",
+        "ChangeDashboardLayout": "Spremeni postavitev nadzorne plošče",
+        "Dashboard": "Nadzorna Plošča",
+        "DashboardOf": "Nadzorna plošča od %s",
+        "DeleteWidgetConfirm": "Ste prepričani da želite izbrisati ta gradnik s kontrolne plošče?",
+        "LoadingWidget": "Nalagam gradnik...",
+        "Maximise": "Povečaj",
+        "Minimise": "Pomanjšaj",
+        "NotUndo": "Te operacije ne bo mogoče razveljaviti.",
+        "PluginDescription": "Nadzorna plošča vaše spletne analitike. Nadzorno ploščo lahko prilagajate: dodajate nove gradnike, spreminjate njihov vrstni red. Vsak uporabnik lahko dostopa do svoje lastne kontrolne plošče.",
+        "ResetDashboard": "Ponastavi kontrolno ploščo",
+        "ResetDashboardConfirm": "Ste prepričani da želite ponastaviti postavitev kontrolne plošče na privzeti izbor gradnikov?",
+        "SelectDashboardLayout": "Prosimo, izberite vašo novo postavitev nadzorne plošče",
+        "SelectWidget": "Izberite gradnik, ki ga želite dodati na kontrolno ploščo.",
+        "WidgetNotFound": "Gradnik ni bil najden",
+        "WidgetPreview": "Predogled gradnika",
+        "WidgetsAndDashboard": "Gradniki & Kontrolna Plošča"
+    }
+}

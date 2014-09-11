@@ -1,0 +1,14 @@
+{% if reports.getRowsCount %}
+    {% set allMetadata = reports.getFirstRow.getAllTableMetadata %}
+    {% set consideredGrowth  = 'Insights_TitleConsideredInsightsGrowth'|translate(allMetadata.minGrowthPercentPositive, allMetadata.lastDate|prettyDate(allMetadata.period)) %}
+
+{% else %}
+    {% set allMetadata = {} %}
+    {% set consideredGrowth = '' %}
+{% endif %}
+
+{% set consideredChanges = '' %}
+
+{% include "@Insights/overviewWidget.twig" %}
+
+

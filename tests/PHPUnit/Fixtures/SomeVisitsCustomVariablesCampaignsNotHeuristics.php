@@ -1,18 +1,22 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
+use PiwikTracker;
 
 /**
  * Add one site and track many visits with custom variables & campaign IDs and
  * use visit ID instead of heuristics.
  */
-class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends Test_Piwik_BaseFixture
+class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;
@@ -21,15 +25,12 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
 
     public function setUp()
     {
-        $this->tmpHost = $_SERVER['HTTP_HOST'];
-        $_SERVER['HTTP_HOST'] = 'localhost';
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
     public function tearDown()
     {
-        $_SERVER['HTTP_HOST'] = $this->tmpHost;
     }
 
     private function setUpWebsitesAndGoals()
@@ -60,7 +61,6 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
 
         $this->testFirstPartyCookies($t);
 
-
         // Create a new Tracker object, with different attributes
         $t2 = self::getTracker($idSite, $dateTime, $defaultInit = false);
 
@@ -68,10 +68,10 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         $visitorId2 = $t2->getVisitorId();
         self::assertTrue($visitorId != $visitorId2);
 
-        // Then force the visitor ID 
+        // Then force the visitor ID
         $t2->setVisitorId($visitorId);
 
-        // And Record a Goal: The previous visit should be updated rather than a new visit Created 
+        // And Record a Goal: The previous visit should be updated rather than a new visit Created
         $t2->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t2->doTrackGoal($idGoal, $revenue = 42.256));
 
@@ -79,7 +79,7 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         $t3 = self::getTracker($idSite, $dateTime);
         $t3->setUrlReferrer('http://example.org/referrer');
         $t3->setForceVisitDateTime(Date::factory($dateTime)->addHour(1.3)->getDatetime());
-        // fake a website ref cookie, the campaign should be credited for conversion, not referrer.example.com nor example.org 
+        // fake a website ref cookie, the campaign should be credited for conversion, not referrer.example.com nor example.org
         $t3->DEBUG_APPEND_URL = '&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3';
         $t3->setUrl('http://example.org/index.htm#pk_campaign=CREDITED TO GOAL PLEASE');
         self::checkResponse($t3->doTrackGoal($idGoal, 42));
@@ -126,22 +126,35 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         self::checkResponse($t4->doTrackPageView('Bonjour le monde'));
     }
 
+    // see updateDomainHash() in piwik.js
+    private function getFirstPartyCookieDomainHash()
+    {
+        $host = \Piwik\Url::getHost();
+        $cookiePath = PiwikTracker::DEFAULT_COOKIE_PATH;
+        return substr(sha1( $host . $cookiePath), 0, 4);
+    }
+
     /**
      * Test setting/getting the first party cookie via the PHP Tracking Client
      * @param $t
      */
     private function testFirstPartyCookies(PiwikTracker $t)
     {
+        $domainHash = $this->getFirstPartyCookieDomainHash();
+        $idCookieName = '_pk_id_1_' . $domainHash;
+        $refCookieName = '_pk_ref_1_' . $domainHash;
+        $customVarCookieName = '_pk_cvar_1_' . $domainHash;
+
         $viewts = '1302307497';
         $uuid = 'ca0afe7b6b692ff5';
-        $_COOKIE['_pk_id_1_1fff'] = $uuid . '.1302307497.1.' . $viewts . '.1302307497';
-        $_COOKIE['_pk_ref_1_1fff'] = '["YEAH","RIGHT!",1302307497,"http://referrer.example.org/page/sub?query=test&test2=test3"]';
-        $_COOKIE['_pk_cvar_1_1fff'] = '{"1":["VAR 1 set, var 2 not set","yes"],"3":["var 3 set","yes!!!!"]}';
+        $_COOKIE[$idCookieName] = $uuid . '.1302307497.1.' . $viewts . '.1302307497';
+        $_COOKIE[$refCookieName] = '["YEAH","RIGHT!",1302307497,"http://referrer.example.org/page/sub?query=test&test2=test3"]';
+        $_COOKIE[$customVarCookieName] = '{"1":["VAR 1 set, var 2 not set","yes"],"3":["var 3 set","yes!!!!"]}';
 
         // test loading 'id' cookie
         self::assertContains("_viewts=" . $viewts, $t->getUrlTrackPageView());
         self::assertEquals($uuid, $t->getVisitorId());
-        self::assertEquals($t->getAttributionInfo(), $_COOKIE['_pk_ref_1_1fff']);
+        self::assertEquals($t->getAttributionInfo(), $_COOKIE[$refCookieName]);
         self::assertEquals(array("VAR 1 set, var 2 not set", "yes"), $t->getCustomVariable(1));
         self::assertFalse($t->getCustomVariable(2));
         self::assertEquals(array("var 3 set", "yes!!!!"), $t->getCustomVariable(3));
@@ -150,8 +163,8 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         self::assertFalse($t->getCustomVariable(6));
         self::assertFalse($t->getCustomVariable(-1));
 
-        unset($_COOKIE['_pk_id_1_1fff']);
-        unset($_COOKIE['_pk_ref_1_1fff']);
-        unset($_COOKIE['_pk_cvar_1_1fff']);
+        unset($_COOKIE[$idCookieName]);
+        unset($_COOKIE[$refCookieName]);
+        unset($_COOKIE[$customVarCookieName]);
     }
 }

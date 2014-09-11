@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
 
@@ -135,7 +135,7 @@ abstract class Graph extends Visualization
         // set default selectable columns, if none specified
         $selectableColumns = $this->config->selectable_columns;
         if (false === $selectableColumns) {
-            $selectableColumns = array('nb_visits', 'nb_actions', 'nb_uniq_visitors');
+            $selectableColumns = array('nb_visits', 'nb_actions', 'nb_uniq_visitors', 'nb_users');
 
             if ($this->config->show_goals) {
                 $goalMetrics       = array('nb_conversions', 'revenue');

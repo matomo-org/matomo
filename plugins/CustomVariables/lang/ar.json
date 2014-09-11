@@ -1,0 +1,8 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "اسم المتغير المخصص",
+        "ColumnCustomVariableValue": "قيمة المتغير المخصص",
+        "CustomVariables": "المتغيرات المخصصة",
+        "PluginDescription": "المتغيرات المخصصة هي أزواج اسم،قيمة يمكنك تعيينها لزيارة باستخدام واجهة تطبيقات كافاسكريبت باستخدام الدالة setVisitCustomVariables(). سيقوم Piwik بعدها عدد الزيارات، الصفحات ومعدلات التحويل لكل من هذه الأسماء والقيم."
+    }
+}

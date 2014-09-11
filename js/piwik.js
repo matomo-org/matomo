@@ -1,13 +1,13 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * JavaScript tracking client
  *
  * @link http://piwik.org
  * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
- * @license http://piwik.org/free-software/bsd/ Simplified BSD (also in js/LICENSE.txt)
+ * @license http://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
+ * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
-
 // Refer to README.md for build instructions when minifying this file for distribution.
 
 /*
@@ -391,11 +391,11 @@ if (typeof JSON2 !== 'object') {
 /*global unescape */
 /*global ActiveXObject */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift,
+    shift, unshift, piwikAsyncInit,
     createElement, appendChild, characterSet, charset,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
-    location, top, document, referrer, parent, links, href, protocol, name, GearsFactory,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
@@ -408,13 +408,14 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, appendToTrackingUrl, setSiteId,
+    hook, getHook, getVisitorId, getVisitorInfo, setUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
-    setCustomVariable, getCustomVariable, deleteCustomVariable,
+    setCustomRequestProcessing,
+    setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie,
     setDownloadExtensions, addDownloadExtensions,
-    setDomains, setIgnoreClasses, setRequestMethod,
+    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
@@ -424,7 +425,7 @@ if (typeof JSON2 !== 'object') {
     setConversionAttributionFirstReferrer,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack,
-    addListener, enableLinkTracking, setLinkTrackingTimer,
+    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
@@ -435,9 +436,12 @@ if (typeof JSON2 !== 'object') {
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker */
 /*global Piwik_Overlay_Client */
+/*global AnalyticsTracker:true */
 /*members initialize */
 /*global define */
 /*members amd */
+/*global console:true */
+/*members error */
 
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
@@ -999,7 +1003,7 @@ if (typeof Piwik !== 'object') {
 
             // check whether we were redirected from the piwik overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
-                               + '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
+                               + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
 
             var match = referrerRegExp.exec(documentAlias.referrer);
 
@@ -1072,8 +1076,17 @@ if (typeof Piwik !== 'object') {
                 locationHrefAlias = locationArray[1],
                 configReferrerUrl = locationArray[2],
 
+                enableJSErrorTracking = false,
+
+                defaultRequestMethod = 'GET',
+
                 // Request method (GET or POST)
-                configRequestMethod = 'GET',
+                configRequestMethod = defaultRequestMethod,
+
+                defaultRequestContentType = 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                // Request Content-Type header value; applicable when POST request method is used for submitting tracking events
+                configRequestContentType = defaultRequestContentType,
 
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
@@ -1081,11 +1094,14 @@ if (typeof Piwik !== 'object') {
                 // API URL (only set if it differs from the Tracker URL)
                 configApiUrl = '',
 
-                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existin setters/getters)
+                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existing setters/getters)
                 configAppendToTrackingUrl = '',
 
                 // Site ID
                 configTrackerSiteId = siteId || '',
+
+                // User ID
+                configUserId = '',
 
                 // Document URL
                 configCustomUrl,
@@ -1094,7 +1110,7 @@ if (typeof Piwik !== 'object') {
                 configTitle = documentAlias.title,
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = '7z|aac|apk|ar[cj]|as[fx]|avi|bin|csv|deb|dmg|docx?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|pptx?|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xlsx?|xml|z|zip',
+                configDownloadExtensions = '7z|aac|apk|ar[cj]|as[fx]|avi|azw3|bin|csv|deb|dmg|docx?|epub|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mobi|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|pptx?|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xlsx?|xml|z|zip',
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -1167,8 +1183,13 @@ if (typeof Piwik !== 'object') {
                 // Generation time set from the server
                 configPerformanceGenerationTime = 0,
 
+                // Whether Custom Variables scope "visit" should be stored in a cookie during the time of the visit
+                configStoreCustomVariablesInCookie = false,
+
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
+
+                configCustomRequestContentProcessing,
 
                 // Custom Variables, scope "page"
                 customVariablesPage = {},
@@ -1206,7 +1227,6 @@ if (typeof Piwik !== 'object') {
 
                 // Visitor UUID
                 visitorUUID;
-
 
             /*
              * Set cookie value
@@ -1330,11 +1350,12 @@ if (typeof Piwik !== 'object') {
              * Send image request to Piwik server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
-            function getImage(request) {
+            function getImage(request, callback) {
                 var image = new Image(1, 1);
 
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
+                    if (typeof callback === 'function') { callback(); }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -1342,7 +1363,7 @@ if (typeof Piwik !== 'object') {
             /*
              * POST request to Piwik server using XMLHttpRequest.
              */
-            function sendXmlHttpRequest(request) {
+            function sendXmlHttpRequest(request, callback) {
                 try {
                     // we use the progid Microsoft.XMLHTTP because
                     // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
@@ -1357,33 +1378,33 @@ if (typeof Piwik !== 'object') {
 
                     // fallback on error
                     xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status !== 200) {
-                            getImage(request);
+                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
+                            getImage(request, callback);
+                        } else {
+                            if (typeof callback === 'function') { callback(); }
                         }
                     };
 
-                    // see XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
-                    // @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                    xhr.setRequestHeader('Content-Type', configRequestContentType);
 
                     xhr.send(request);
                 } catch (e) {
                     // fallback
-                    getImage(request);
+                    getImage(request, callback);
                 }
             }
 
             /*
              * Send request
              */
-            function sendRequest(request, delay) {
+            function sendRequest(request, delay, callback) {
                 var now = new Date();
 
                 if (!configDoNotTrack) {
                     if (configRequestMethod === 'POST') {
-                        sendXmlHttpRequest(request);
+                        sendXmlHttpRequest(request, callback);
                     } else {
-                        getImage(request);
+                        getImage(request, callback);
                     }
 
                     expireDateTime = now.getTime() + delay;
@@ -1743,6 +1764,7 @@ if (typeof Piwik !== 'object') {
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    (configUserId.length ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount +
                     '&_idn=' + newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
@@ -1752,7 +1774,6 @@ if (typeof Piwik !== 'object') {
                     (String(lastEcommerceOrderTs).length ? '&_ects=' + lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '');
-
 
                 // browser features
                 for (i in browserFeatures) {
@@ -1796,7 +1817,9 @@ if (typeof Piwik !== 'object') {
                         }
                     }
 
-                    setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                    if (configStoreCustomVariablesInCookie) {
+                        setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                    }
                 }
 
                 // performance tracking
@@ -1819,6 +1842,11 @@ if (typeof Piwik !== 'object') {
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
                 }
+
+                if (isFunction(configCustomRequestContentProcessing)) {
+                    request = configCustomRequestContentProcessing(request);
+                }
+
                 return request;
             }
 
@@ -1996,10 +2024,10 @@ if (typeof Piwik !== 'object') {
             /*
              * Log the link or click with the server
              */
-            function logLink(url, linkType, customData) {
+            function logLink(url, linkType, customData, callback) {
                 var request = getRequest(linkType + '=' + encodeWrapper(purify(url)), customData, 'link');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, (callback ? 0 : configTrackerPause), callback);
             }
 
             /*
@@ -2086,25 +2114,6 @@ if (typeof Piwik !== 'object') {
 
                 // optimization of the if..elseif..else construct below
                 return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
-
-/*
-                var linkType = 0;
-
-                if (linkPattern.test(className)) {
-                    // class attribute contains 'piwik_link' (or user's override)
-                    linkType = 'link';
-                } else if (downloadPattern.test(className)) {
-                    // class attribute contains 'piwik_download' (or user's override)
-                    linkType = 'download';
-                } else if (downloadExtensionsPattern.test(sourceHref)) {
-                    // file extension matches a defined download extension
-                    linkType = 'download';
-                } else if (!isInLink) {
-                    linkType = 'link';
-                }
-
-                return linkType;
- */
             }
 
             /*
@@ -2420,6 +2429,15 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Sets a User ID to this user (such as an email address or a username)
+                 *
+                 * @param string User ID
+                 */
+                setUserId: function (userId) {
+                    configUserId = userId;
+                },
+
+                /**
                  * Pass custom data to the server
                  *
                  * Examples:
@@ -2441,6 +2459,36 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Get custom data
+                 *
+                 * @return mixed
+                 */
+                getCustomData: function () {
+                    return configCustomData;
+                },
+
+                /**
+                 * Configure function with custom request content processing logic.
+                 * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
+                 *
+                 * Examples:
+                 *   tracker.setCustomRequestProcessing(function(request){
+                 *     var pairs = request.split('&');
+                 *     var result = {};
+                 *     pairs.forEach(function(pair) {
+                 *       pair = pair.split('=');
+                 *       result[pair[0]] = decodeURIComponent(pair[1] || '');
+                 *     });
+                 *     return JSON.stringify(result);
+                 *   });
+                 *
+                 * @param function customRequestContentProcessingLogic
+                 */
+                setCustomRequestProcessing: function (customRequestContentProcessingLogic) {
+                    configCustomRequestContentProcessing = customRequestContentProcessingLogic;
+                },
+
+                /**
                  * Appends the specified query string to the piwik.php?... Tracking API URL
                  *
                  * @param string queryString eg. 'lat=140&long=100'
@@ -2450,14 +2498,27 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Get custom data
+                 * Returns the query string for the current HTTP Tracking API request.
+                 * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+                 * prior to sending the request.
                  *
-                 * @return mixed
+                 * @param request eg. "param=value&param2=value2"
                  */
-                getCustomData: function () {
-                    return configCustomData;
+                getRequest: function (request) {
+                    return getRequest(request);
                 },
 
+                /**
+                 * Add plugin defined by a name and a callback function.
+                 * The callback function will be called whenever a tracking request is sent.
+                 * This can be used to append data to the tracking request, or execute other custom logic.
+                 *
+                 * @param string pluginName
+                 * @param Object pluginObj
+                 */
+                addPlugin: function (pluginName, pluginObj) {
+                    plugins[pluginName] = pluginObj;
+                },
 
                 /**
                  * Set custom variable within this visit
@@ -2476,15 +2537,21 @@ if (typeof Piwik !== 'object') {
                     if (!isDefined(scope)) {
                         scope = 'visit';
                     }
-
+                    if (!isDefined(name)) {
+                        return;
+                    }
+                    if (!isDefined(value)) {
+                        value = "";
+                    }
                     if (index > 0) {
-                        name = isDefined(name) && !isString(name) ? String(name) : name;
-                        value = isDefined(value) && !isString(value) ? String(value) : value;
+                        name = !isString(name) ? String(name) : name;
+                        value = !isString(value) ? String(value) : value;
                         toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
-                        if (scope === 'visit' || scope === 2) { /* GA compatibility/misuse */
+                        // numeric scope is there for GA compatibility
+                        if (scope === 'visit' || scope === 2) {
                             loadCustomVariables();
                             customVariables[index] = toRecord;
-                        } else if (scope === 'page' || scope === 3) { /* GA compatibility/misuse */
+                        } else if (scope === 'page' || scope === 3) {
                             customVariablesPage[index] = toRecord;
                         } else if (scope === 'event') { /* GA does not have 'event' scope but we do */
                             customVariablesEvent[index] = toRecord;
@@ -2532,6 +2599,16 @@ if (typeof Piwik !== 'object') {
                     if (this.getCustomVariable(index, scope)) {
                         this.setCustomVariable(index, '', '', scope);
                     }
+                },
+
+                /**
+                 * When called then the Custom Variables of scope "visit" will be stored (persisted) in a first party cookie
+                 * for the duration of the visit. This is useful if you want to call getCustomVariable later in the visit.
+                 *
+                 * By default, Custom Variables of scope "visit" are not stored on the visitor's computer.
+                 */
+                storeCustomVariablesInCookie: function () {
+                    configStoreCustomVariablesInCookie = true;
                 },
 
                 /**
@@ -2586,7 +2663,18 @@ if (typeof Piwik !== 'object') {
                  * @param string method GET or POST; default is GET
                  */
                 setRequestMethod: function (method) {
-                    configRequestMethod = method || 'GET';
+                    configRequestMethod = method || defaultRequestMethod;
+                },
+
+                /**
+                 * Set request Content-Type header value, applicable when POST request method is used for submitting tracking events.
+                 * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
+                 * @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
+                 *
+                 * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
+                 */
+                setRequestContentType: function (requestContentType) {
+                    configRequestContentType = requestContentType || defaultRequestContentType;
                 },
 
                 /**
@@ -2708,6 +2796,7 @@ if (typeof Piwik !== 'object') {
 
                 /**
                  * Set visitor cookie timeout (in seconds)
+                 * Defaults to 2 years (timeout=63072000000)
                  *
                  * @param int timeout
                  */
@@ -2716,7 +2805,8 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set session cookie timeout (in seconds)
+                 * Set session cookie timeout (in seconds).
+                 * Defaults to 30 minutes (timeout=1800000)
                  *
                  * @param int timeout
                  */
@@ -2725,7 +2815,8 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set referral cookie timeout (in seconds)
+                 * Set referral cookie timeout (in seconds).
+                 * Defaults to 6 months (15768000000)
                  *
                  * @param int timeout
                  */
@@ -2817,6 +2908,51 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Enable tracking of uncatched JavaScript errors
+                 *
+                 * If enabled, uncaught JavaScript Errors will be tracked as an event by defining a
+                 * window.onerror handler. If a window.onerror handler is already defined we will make
+                 * sure to call this previously registered error handler after tracking the error.
+                 *
+                 * By default we return false in the window.onerror handler to make sure the error still
+                 * appears in the browser's console etc. Note: Some older browsers might behave differently
+                 * so it could happen that an actual JavaScript error will be suppressed.
+                 * If a window.onerror handler was registered we will return the result of this handler.
+                 *
+                 * Make sure not to overwrite the window.onerror handler after enabling the JS error
+                 * tracking as the error tracking won't work otherwise. To capture all JS errors we
+                 * recommend to include the Piwik JavaScript tracker in the HTML as early as possible.
+                 * If possible directly in <head></head> before loading any other JavaScript.
+                 */
+                enableJSErrorTracking: function () {
+                    if (enableJSErrorTracking) {
+                        return;
+                    }
+
+                    enableJSErrorTracking = true;
+                    var onError = windowAlias.onerror;
+
+                    windowAlias.onerror = function (message, url, linenumber, column, error) {
+                        trackCallback(function () {
+                            var category = 'JavaScript Errors';
+
+                            var action = url + ':' + linenumber;
+                            if (column) {
+                                action += ':' + column;
+                            }
+
+                            logEvent(category, action, message);
+                        });
+
+                        if (onError) {
+                            return onError(message, url, linenumber, column, error);
+                        }
+
+                        return false;
+                    };
+                },
+
+                /**
                  * Disable automatic performance tracking
                  */
                 disablePerformanceTracking: function () {
@@ -2826,7 +2962,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set the server generation time.
                  * If set, the browser's performance.timing API in not used anymore to determine the time.
-                 * 
+                 *
                  * @param int generationTime
                  */
                 setGenerationTimeMs: function (generationTime) {
@@ -2894,10 +3030,11 @@ if (typeof Piwik !== 'object') {
                  * @param string sourceUrl
                  * @param string linkType
                  * @param mixed customData
+                 * @param function callback
                  */
-                trackLink: function (sourceUrl, linkType, customData) {
+                trackLink: function (sourceUrl, linkType, customData, callback) {
                     trackCallback(function () {
-                        logLink(sourceUrl, linkType, customData);
+                        logLink(sourceUrl, linkType, customData, callback);
                     });
                 },
 
@@ -2936,8 +3073,9 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Log special pageview: Internal search
                  *
-                 * @param string customTitle
-                 * @param mixed customData
+                 * @param string keyword
+                 * @param string category
+                 * @param int resultsCount
                  */
                 trackSiteSearch: function (keyword, category, resultsCount) {
                     trackCallback(function () {
@@ -3066,12 +3204,24 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
+        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1};
+        var methodName;
+
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
         for (iterator = 0; iterator < _paq.length; iterator++) {
-            if (_paq[iterator][0] === 'setTrackerUrl'
-                    || _paq[iterator][0] === 'setSiteId') {
+            methodName = _paq[iterator][0];
+
+            if (applyFirst[methodName]) {
                 apply(_paq[iterator]);
                 delete _paq[iterator];
+
+                if (applyFirst[methodName] > 1) {
+                    if (console !== undefined && console && console.error) {
+                        console.error('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/api-reference/tracking-javascript#multiple-piwik-trackers');
+                    }
+                }
+
+                applyFirst[methodName]++;
             }
         }
 
@@ -3130,9 +3280,22 @@ if (typeof Piwik !== 'object') {
     }());
 }
 
+if (window && window.piwikAsyncInit) {
+    window.piwikAsyncInit();
+}
+
+/*jslint sloppy: true */
+(function () {
+    var jsTrackerType = (typeof AnalyticsTracker);
+    if (jsTrackerType === 'undefined') {
+        AnalyticsTracker = Piwik;
+    }
+}());
+/*jslint sloppy: false */
+
 /************************************************************
  * Deprecated functionality below
- * - for legacy piwik.js compatibility
+ * Legacy piwik.js compatibility ftw
  ************************************************************/
 
 /*
@@ -3221,3 +3384,5 @@ if (typeof piwik_log !== 'function') {
         }
     };
 }
+
+/*! @license-end */

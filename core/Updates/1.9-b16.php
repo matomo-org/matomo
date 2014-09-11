@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -28,7 +28,6 @@ class Updates_1_9_b16 extends Updates
             'ALTER TABLE  `' . Common::prefixTable('log_link_visit_action') . '`
 			CHANGE `idaction_url` `idaction_url` INT( 10 ) UNSIGNED NULL DEFAULT NULL'
             => false,
-
 
             'ALTER TABLE  `' . Common::prefixTable('log_visit') . '`
 			ADD visit_total_searches SMALLINT(5) UNSIGNED NOT NULL AFTER `visit_total_actions`'

@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s 分",
+        "BetweenXYSeconds": "%1$s-%2$s 秒",
+        "ColumnPagesPerVisit": "ビジット単位のページ数",
+        "ColumnVisitDuration": "ビジットの継続時間",
+        "Engagement": "利用状況",
+        "NPages": "%s ページ",
+        "OneMinute": "1分",
+        "OnePage": "1 ページ",
+        "PluginDescription": "ビジターの興味（表示したページ数、ウェブサイト滞在時間）についてリポートします。",
+        "PlusXMin": "%s 分",
+        "VisitNum": "訪問回数",
+        "VisitsByDaysSinceLast": "最後の訪問からの日数別のビジット",
+        "visitsByVisitCount": "訪問回数別のビジット",
+        "VisitsPerDuration": "ビジット継続時間単位のビジット",
+        "VisitsPerNbOfPages": "ページ数単位のビジット",
+        "WidgetLengths": "ビジットの長さ",
+        "WidgetLengthsDocumentation": "ある特定の継続時間毎にどれだけのビジットがあったかを示すリポートです。初期状態はタグクラウド表示で、ビジットの多い継続時間ほど大きなフォントで表示されます。",
+        "WidgetPages": "ビジット単位のページ数",
+        "WidgetPagesDocumentation": "ある特定のページビュー数毎にどれだけのビジットがあったかを示すリポートです。初期状態はタグクラウド表示で、ビジットの多いページビュー数ほど大きなフォントで表示されます。",
+        "WidgetVisitsByDaysSinceLast": "前回の訪問からの日数",
+        "WidgetVisitsByDaysSinceLastDocumentation": "ある特定の日数以前に最後の訪問をしたビジターの数を示すリポートです。",
+        "WidgetVisitsByNumDocumentation": "N回目の訪問をしたビジット数を示すリポートです。すなわち少なくともN回ウェブサイトを訪問したビジターです。"
+    }
+}

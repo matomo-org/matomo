@@ -13,7 +13,7 @@
             </thead>
             <tbody id="plugins">
             {% for name,plugin in pluginsHavingUpdate %}
-                <tr {% if plugin.isActivated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
+                <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                     <td class="name">
                         <a href="javascript:void(0);" data-pluginName="{{ plugin.name|e('html_attr') }}">
                             {{ plugin.name }}
@@ -28,7 +28,7 @@
                     </td>
                     <td class="desc">
                         {{ plugin.description }}
-                        {{ _self.missingRequirementsNotice(plugin) }}
+                        {{ _self.missingRequirementsPleaseUpdateNotice(plugin) }}
                     </td>
                     <td class="status">
                         {% if plugin.isActivated %}
@@ -53,7 +53,7 @@
 {% endmacro %}
 
 {% macro pluginDeveloper(owner) %}
-    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="plugins/Zeitgeist/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
+    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="plugins/Morpheus/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
 {% endmacro %}
 
 {% macro featuredIcon(align='') %}
@@ -93,7 +93,7 @@
 
 {% endmacro %}
 
-{% macro missingRequirementsNotice(plugin) %}
+{% macro missingRequirementsPleaseUpdateNotice(plugin) %}
     {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
         {% for req in plugin.missingRequirements -%}
             <p class="missingRequirementsNotice">
@@ -104,6 +104,25 @@
                 {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(requirement, req.actualVersion, req.requiredVersion) }}
             </p>
         {%- endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro missingRequirementsInfo(pluginName, metadata, missingRequirements, marketplacePluginNames) %}
+    {% set causedBy = '' %}
+    {% for dependency in missingRequirements %}
+        {% set causedBy = causedBy ~ dependency.requirement|capitalize ~ ' ' ~ dependency.causedBy  %}
+        {% if not loop.last %}
+            {% set causedBy = causedBy ~ ', '  %}
+        {% endif %}
+    {% endfor %}
+
+    {{ 'CorePluginsAdmin_PluginRequirement'|translate(pluginName, causedBy) }}
+
+    {% if metadata is defined
+        and metadata.support is defined
+        and metadata.support.email
+        and pluginName not in marketplacePluginNames %}
+        {{ 'CorePluginsAdmin_EmailToEnquireUpdatedVersion'|translate('<a href="mailto:' ~ metadata.support.email|e('html_attr') ~'">' ~ metadata.support.email ~ '</a>', pluginName)|raw }}
     {% endif %}
 {% endmacro %}
 
@@ -131,7 +150,7 @@
         </thead>
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
-            {% set isZeitgeist = isTheme and name == 'Zeitgeist' %}
+            {% set isDefaultTheme = isTheme and name == 'Morpheus' %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name" style="white-space:nowrap;">
@@ -151,8 +170,16 @@
                         {% endif %}
                     </td>
                     <td class="desc">
+                        <div class="plugin-desc-missingrequirements">
+                            {% if plugin.missingRequirements is defined and plugin.missingRequirements %}
+                                {{ _self.missingRequirementsInfo(name, plugin.info, plugin.missingRequirements, marketplacePluginNames) }}
+                                <br />
+                            {% endif %}
+                        </div>
                         <div class="plugin-desc-text">
+
                             {{ plugin.info.description|raw|nl2br }}
+
                             {% if plugin.info.homepage|default is not empty and plugin.info.homepage not in [
                                   'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/'
                             ] %}
@@ -186,8 +213,8 @@
                         </div>
                         {% endif %}
                     </td>
-                    <td class="status" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
-                        {% if not isZeitgeist -%}
+                    <td class="status" {% if isDefaultTheme %}style="border-left-width:0px;"{% endif %}>
+                        {% if not isDefaultTheme -%}
 
                         {% if plugin.activated %}
                             {{ 'CorePluginsAdmin_Active'|translate }}
@@ -200,14 +227,16 @@
                     </td>
 
                     {% if displayAdminLinks %}
-                    <td class="togl action-links" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
-                        {% if not isZeitgeist -%}
+                    <td class="togl action-links" {% if isDefaultTheme %}style="border-left-width:0px;"{% endif %}>
+                        {% if not isDefaultTheme -%}
 
                         {% if plugin.invalid is defined or plugin.alwaysActivated %}
                             -
                         {% else %}
                             {% if plugin.activated %}
                                 <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&nonce={{ deactivateNonce }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
+                            {% elseif plugin.missingRequirements %}
+                                -
                             {% else %}
                                 <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&nonce={{  activateNonce }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
                             {% endif %}

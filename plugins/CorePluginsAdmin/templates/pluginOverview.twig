@@ -14,7 +14,6 @@
     {% endif %}
 {% endif %}
 
-
 <h3 class="header" title="{{ 'General_MoreDetails'|translate }}">
     <a href="javascript:void(0);" class="more">{{ plugin.name }}</a>
 </h3>
@@ -27,4 +26,4 @@
     <p class="updateAvailableNotice" data-activePluginTab="changelog">{{ 'CorePluginsAdmin_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}</p>
 {% endif %}
 
-{{ plugins.missingRequirementsNotice(plugin) }}
+{{ plugins.missingRequirementsPleaseUpdateNotice(plugin) }}

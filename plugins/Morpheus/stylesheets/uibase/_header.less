@@ -1,0 +1,69 @@
+#header {
+  min-height: 60px;
+}
+
+/* Clear fix */
+#header:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+#root {
+  #logo {
+    padding: 5px 0 0;
+    float: left;
+  }
+
+  #logo  {
+    img.default-piwik-logo {
+      width: 82px;
+      margin-top: 14px;
+    }
+
+    img {
+      max-height: 50px;
+    }
+  }
+
+  #logo > a {
+    text-decoration: none;
+  }
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  #root #logo {
+    width: 80px;
+  }
+  #root #logo img.default-piwik-logo {
+    width: 100%;
+  }
+}
+
+#javascriptDisabled,
+#javascriptDisabled a {
+  font-weight: bold;
+  color: #F88D22;
+  padding: 15px;
+  clear: both;
+}
+
+#topBars {
+  right: 0px;
+  position: absolute;
+  padding-left: 110px;
+  color: #9c9c9c;
+  margin: 4px 10px 8px;
+  font-size: 13px;
+  z-index: 140;
+}
+
+#topRightBar {
+  margin-bottom: 4px;
+  float: right;
+}
+
+.topBarElem {
+  padding: 0 5px;
+  display: inline-block;
+}

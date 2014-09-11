@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -170,9 +170,8 @@ class IP
      */
     public static function isIPv4($ip)
     {
-        // in case mbstring overloads strlen and substr functions
+        // in case mbstring overloads strlen function
         $strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-        $substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
 
         // IPv4
         if ($strlen($ip) == 4) {
@@ -247,7 +246,7 @@ class IP
 
     /**
      * Returns an IPv4 address from a 'mapped' IPv6 address.
-     * 
+     *
      * @param string $ip eg, `'::ffff:192.0.2.128'`
      * @return string eg, `'192.0.2.128'`
      */

@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Acciones por un visitante que ha vuelto",
+        "ColumnAverageVisitDurationForReturningVisitors": "Promedio. Duración de la visita de los Visitantes que han Vuelto (en segundos)",
+        "ColumnAvgActionsPerReturningVisit": "Promedio. Acciones por visitante que ha vuelto",
+        "ColumnBounceCountForReturningVisits": "Cuenta de rebote para las visitas de retorno",
+        "ColumnBounceRateForReturningVisits": "Porcentaje de rebote por un visitante que ha vuelto",
+        "ColumnMaxActionsInReturningVisit": "Máximas acciones en una visita de retorno",
+        "ColumnNbReturningVisitsConverted": "Número de visitas retornantes convertidas",
+        "ColumnReturningVisits": "Visitante que ha vuelto",
+        "ColumnSumVisitLengthReturning": "Tiempo total transcurrido por visitantes usuales (en segundos)",
+        "ColumnUniqueReturningVisitors": "Visitantes únicos que regresan",
+        "PluginDescription": "Reporta varias estadísticas sobre los Visitante que ha vuelto versus los Visitantes Nuevos.",
+        "ReturnActions": "%s acciones realizadas por los visitantes que han vuelto",
+        "ReturnAverageVisitDuration": "%s duración promedio de la visita para los visitantes que han vuelto",
+        "ReturnAvgActions": "%s acciones por visitante que ha vuelto",
+        "ReturnBounceRate": "%s rebotes visitas que han vuelto (abandonaron el sitio después de una página)",
+        "ReturningVisitDocumentation": "Una visita de regreso es (como oposición del nuevo visitante) aquel que ha visitado anteriormente su sitio de internet al menos una vez.",
+        "ReturningVisitsDocumentation": "Esta es una visión en conjunto de los visitantes que regresan.",
+        "ReturnVisits": "%s visitantes que han vuelto",
+        "SubmenuFrequency": "Frecuencia",
+        "WidgetGraphReturning": "Gráfica de visitantes que han vuelto",
+        "WidgetOverview": "Vista general de frecuencia"
+    }
+}

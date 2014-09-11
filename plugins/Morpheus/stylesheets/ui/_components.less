@@ -1,0 +1,357 @@
+//colors calendar
+@calendarHeaderBackground: #fff;
+@calendarHeaderColor: #999;
+@calendarCurrentStateHover: #f5f5f5;
+@calendarBorder: #ccc;
+
+.ui-datepicker {
+
+    th, th.ui-datepicker-week-end {
+        background: @calendarHeaderBackground !important;
+        color: @calendarHeaderColor !important;
+    }
+
+    .ui-state-default {
+        border-color: @calendarBorder !important;
+        background: @brad-black !important;
+    }
+
+    .ui-datepicker-header {
+        background: @calendarHeaderBackground !important;
+        border-color: @color-gray;
+        border-bottom-width: 0px;
+    }
+
+    .ui-datepicker-calendar {
+        border: 1px solid @color-gray;
+        thead {
+            border-bottom: 1px solid @color-gray;
+        }
+    }
+
+    .ui-datepicker-title select {
+        font-size: 10px;
+    }
+}
+
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+    background: @theme-color-text !important;
+}
+
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+    background: @calendarCurrentStateHover;
+}
+
+//add new segment
+.add_new_segment,
+#calendarRangeApply {
+    font-size: 12px !important;
+    padding: 0 10px !important;
+    margin-left: 0px !important;
+}
+
+.segment-element {
+    background: @color-white;
+    border-color: @color-silver-l80;
+
+    .segment-add-row {
+        .border-radius(5px);
+    }
+
+    .segment-nav {
+        h4.visits {
+            background: url('plugins/Morpheus/images/segment-users.png') no-repeat 3px 0px;
+        }
+    }
+
+    .custom_select_search {
+        input {
+            margin-top: -10px;
+        }
+    }
+
+    .segment-content {
+        h3 {
+            font-weight: normal;
+            .font-default(13px, 15px);
+            color: @theme-color-text;
+        }
+
+        .segment-add-row > div a span,
+        .segment-add-or > div a span {
+            color: @theme-color-brand;
+            text-shadow: none;
+        }
+
+        .segment-input {
+            select, input {
+                .font-default(12px, 14px);
+                color: @theme-color-text;
+                font-weight: 500;
+                margin: 0px;
+                min-height: auto;
+            }
+        }
+    }
+    .segment-nav {
+        div > ul > li {
+            padding: 5px 0;
+            a {
+                font-weight: normal;
+                color: #333333;
+                text-shadow: none;
+            }
+            li {
+                padding: 3px 0 ;
+                &:hover {
+                    background: #f2f2f2;
+                    border: 0;
+                     padding: 4px 0 3px;
+
+                    a {
+                        border: 0;
+                        background-color: #f2f2f2;
+                        padding-right: 15px;
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    .segment-top {
+        .font-default(10px, 12px);
+        color: @theme-color-text-light;
+        text-transform: uppercase;
+
+        h4 {
+            color: @color-silver-l30;
+            text-transform: uppercase;
+            .font-default(10px, 12px);
+            a.dropdown {
+                color: @color-silver-l30;
+                text-transform: uppercase;
+                .font-default(10px, 12px);
+            }
+        }
+
+        a.dropdown {
+            color: @theme-color-text;
+            background: url('plugins/Morpheus/images/sort_subtable_desc.png') 100% -2px no-repeat;
+            &.ui-autocomplete-input {
+                background-position: 100% -2px;
+            }
+        }
+    }
+    .segment-footer {
+        background: @color-white;
+        button {
+            height: auto;
+            font-weight: normal;
+            min-width: 100px;
+        }
+
+        a.delete {
+            color: @theme-color-brand;
+        }
+        .segmentFooterNote, .segment-element .segment-footer .segmentFooterNote a {
+            color: @theme-color-text-light;
+        }
+    }
+}
+
+.available_segments a.dropdown  {
+    color: @theme-color-text !important;
+    text-transform: uppercase;
+    .font-default(10px, 12px);
+}
+
+#periodString {
+    border: 1px solid @theme-color-background-lowContrast;
+    .border-radius(0px);
+    background: @theme-color-background-base;
+    &:hover {
+        background: @theme-color-background-base;
+        border-color: @color-silver-l80;
+    }
+
+    select {
+      min-height: 0;
+    }
+
+    .calendar-icon {
+        width: 17px;
+        height: 17px;
+    }
+
+    label.selected-period-label {
+        text-decoration: none !important;
+    }
+
+    h6 {
+        .font-default(13px, 16px);
+        font-weight: normal;
+        color: @theme-color-text;
+    }
+
+    #periodMore {
+        .period-range {
+            .ui-datepicker-header {
+                background: red;
+            }
+        }
+    }
+
+    #date {
+        .border-radius(0px);
+        .box-shadow(~"inset 1px 1px 3px #d8d8d8");
+        padding: 8px 10px;
+        color: @theme-color-text-lighter;
+        text-transform: uppercase;
+        .font-default(10px, 12px);
+
+        strong {
+            color: @theme-color-text;
+
+        }
+    }
+}
+
+#header_message {
+    border: 1px solid @color-silver-l80;
+    padding: 8px 10px 8px 10px;
+    height: auto;
+    background: #fff;
+    .border-radius(0px);
+    .header_short {
+        .font-default(10px, 12px);
+        text-transform: uppercase;
+    }
+
+    .header_full {
+        .font-default(12px, 18px);
+    }
+}
+
+.ui-menu {
+    .ui-menu-item {
+        a {
+            color: @color-silver-l20;
+            text-transform: uppercase;
+            .font-default(10px, 18px);
+            padding: 2px;
+        }
+    }
+}
+
+.loadingPiwikBelow,
+.loadingPiwik {
+    .font-default(10px, 12px);
+    color: @color-silver-l60;
+    font-weight: normal;
+}
+
+.annotations {
+    table {
+        td {
+            .font-default(12px, 14px) !important;
+            color: @theme-color-text;
+            padding: 6px 5px;
+        }
+    }
+}
+
+//reports box
+.reports {
+    border: 1px solid @color-gray;
+    .border-radius(6px);
+
+    h2 {
+        background: #f2f2f2;
+        border-bottom: 1px solid @color-gray;
+        padding: 11px 15px 10px;
+    }
+}
+
+.jqplot-seriespicker-popover {
+    .box-shadow-1(none);
+}
+
+// transition box
+#Transitions_Container {
+    #Transitions_CenterBox {
+        border: 1px solid @color-gray;
+        .box-shadow-1(none);
+        .border-radius(6px);
+        margin: 27px 0 0 319px;
+        width: 258px;
+        height: 390px;
+        background: #fff;
+        h2 {
+            color: #1e93d1;
+            border-bottom: 1px solid @color-gray;
+            font-weight: normal;
+            padding: 15px;
+            background: #f5f5f5;
+            .border-radius(6px 6px 0 0);
+        }
+
+        .Transitions_CenterBoxMetrics {
+            padding: 0;
+            p.Transitions_Margin {
+                text-align: left;
+                .font-default(15px, 20px);
+                border-bottom: 1px solid @color-gray;
+                padding: 13px;
+                .Transitions_Metric {
+                    font-weight: normal;
+                }
+            }
+            .Transitions_IncomingTraffic {
+                padding: 0 15px;
+
+                h3 {
+                    font-weight: normal;
+                    color: #000;
+                    .font-default(15px, 20px);
+                    margin-bottom: 10px;
+                }
+            }
+            .Transitions_OutgoingTraffic {
+                padding: 0 15px;
+                h3 {
+                    font-weight: normal;
+                    color: #000;
+                    .font-default(15px, 20px);
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+
+    .Transitions_TitleOfOpenGroup {
+        color: #000;
+        .font-default(15px, 20px);
+        font-weight: normal;
+        margin-top: -4px;
+    }
+}
+
+table.dataTable tr td .dataTableRowActions {
+  a.rightmost, a {
+    background-color: #f2f2f2 !important;
+    margin: 6px 0px 6px 0;
+    padding: 0px 4px 0px 0px;
+  }
+}
+
+table.dataTable tr td.labeleven .dataTableRowActions {
+  a.rightmost, a {
+    background-color: #fff !important;
+  }
+}
+
+table.dataTable th .columnDocumentation {
+    color: @color-silver-l90;
+}

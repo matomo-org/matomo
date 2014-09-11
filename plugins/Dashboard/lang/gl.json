@@ -1,0 +1,9 @@
+{
+    "Dashboard": {
+        "Dashboard": "Tableiro",
+        "DeleteWidgetConfirm": "¿Está seguro de que desexa borrar este widget desde el tablón?",
+        "LoadingWidget": "Cargando widget, agarde por favor...",
+        "SelectWidget": "Seleccione un widget para engadilo no tablón",
+        "WidgetNotFound": "Widget non atopado"
+    }
+}

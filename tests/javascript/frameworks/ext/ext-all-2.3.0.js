@@ -5,10 +5,9 @@ Ext.lib={};
  * Ext JS Library 2.3.0
  * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
- * 
+ *
  * http://extjs.com/license
  */
-
 
 Ext.DomHelper=function(){var tempTableEl=null;var emptyTags=/^(?:br|frame|hr|img|input|link|meta|range|spacer|wbr|area|param|col)$/i;var tableRe=/^table|tbody|tr|td$/i;var createHtml=function(o){if(typeof o=='string'){return o;}
 var b="";if(Ext.isArray(o)){for(var i=0,l=o.length;i<l;i++){b+=createHtml(o[i]);}

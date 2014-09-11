@@ -1,0 +1,12 @@
+{
+    "Login": {
+        "ContactAdmin": "Mulig grunn: tenaren din hev slått av mail() funksjonen. <br \/>Kontakt din Piwik administrator.",
+        "InvalidUsernameEmail": "Ugyldig brukarnamn og\/eller epost-adresse",
+        "LogIn": "Logg på",
+        "LoginOrEmail": "Brukarnamn eller epost",
+        "LoginPasswordNotCorrect": "Brukarnamn og passord er feil",
+        "LostYourPassword": "Hev du gløymd passordet?",
+        "PasswordRepeat": "Passord (gjenta)",
+        "PasswordsDoNotMatch": "Passorda stemmer ikkje"
+    }
+}

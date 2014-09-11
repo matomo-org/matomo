@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -400,7 +400,6 @@
             $('object', this).show();
             $('.widgetHover', this).removeClass('widgetHover');
             $('.widgetTopHover', this).removeClass('widgetTopHover');
-            $('.button#close, .button#maximise', this).hide();
             if ($('.widget:has(".piwik-graph")', ui.item).length) {
                 reloadWidget($('.widget', ui.item).attr('id'));
             }
@@ -434,11 +433,12 @@
             var dashboardMenuListItems = dashboardMenuList.find('>li');
 
             dashboardMenuListItems.filter(function () {
-                return $(this).attr('id').indexOf('Dashboard_embeddedIndex') === 0;
+                return $(this).attr('id').indexOf('Dashboard_embeddedIndex') == 0;
             }).remove();
 
-            if (dashboards.length > 1) {
-                dashboardMenuList.show();
+            if (dashboards.length > 1
+                || dashboardMenuListItems.length >= 1
+            ) {
                 var items = [];
                 for (var i = 0; i < dashboards.length; i++) {
                     var $link = $('<a/>').attr('data-idDashboard', dashboards[i].iddashboard).text(dashboards[i].name);
@@ -488,7 +488,6 @@
      * @param {string}  [action]  action to perform (defaults to saveLayout)
      */
     function saveLayout(action) {
-
         var columns = [];
 
         var columnNumber = 0;

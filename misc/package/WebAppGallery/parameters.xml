@@ -44,10 +44,10 @@
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="host\s*=\s*&quot;([^&quot;]*)&quot;" 
+      match="host\s*=\s*&quot;([^&quot;]*)&quot;"
     />
   </parameter>
-  
+
    <!-- Database name -->
   <parameter
     name="DbName"
@@ -71,7 +71,7 @@
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="dbname\s*=\s*&quot;([^&quot;]*)&quot;" 
+      match="dbname\s*=\s*&quot;([^&quot;]*)&quot;"
     />
   </parameter>
 
@@ -98,7 +98,7 @@
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="username\s*=\s*&quot;([^&quot;]*)&quot;" 
+      match="username\s*=\s*&quot;([^&quot;]*)&quot;"
     />
   </parameter>
 
@@ -127,7 +127,7 @@
       match="password\s*=\s*&quot;([^&quot;]{6,20})&quot;"
     />
   </parameter>
-  
+
   <!-- Database admin user name -->
   <parameter
     name="DbAdminUsername"
@@ -142,7 +142,7 @@
     description="Password for the database administrator account. Required for site security. This may be predefined by your hosting provider."
     tags="Password,MySQL,DbAdminPassword">
   </parameter>
- 
+
   <!-- Execute install.sql -->
   <parameter
     name="Connection String"
@@ -164,7 +164,7 @@
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="adapter\s*=\s*[^\r\n]*" 
+      match="adapter\s*=\s*[^\r\n]*"
     />
   </parameter>
 </parameters>

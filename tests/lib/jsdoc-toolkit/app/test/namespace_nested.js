@@ -1,9 +1,9 @@
-/** 
+/**
 	@namespace This is the first namespace.
 */
 ns1 = {};
 
-/** 
+/**
 	This is the second namespace.
 	@namespace
 */

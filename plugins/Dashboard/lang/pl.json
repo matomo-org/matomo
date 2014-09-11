@@ -1,0 +1,19 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Dodaj Widżet",
+        "AddPreviewedWidget": "Dodaj obejrzane widżety do tablicy",
+        "ChangeDashboardLayout": "Zmień wygląd tablicy analiz",
+        "Dashboard": "Tablica statystyk",
+        "DeleteWidgetConfirm": "Czy jesteś pewien, że chcesz usunąć ten widżet z tej tablicy statystyk?",
+        "LoadingWidget": "Ładowanie widżetu, proszę czekać...",
+        "Maximise": "Maksymalizuj",
+        "PluginDescription": "Tablica analityki. Możesz skonfigurować swoją tablicę tak jak zaplanujesz: możesz dodać nowe widżety, zmienić porządek ich wyświetlania. Każdy z uprawnionych użytkowników może posiadać własną zindywidualizowaną tablicę statystyk.",
+        "ResetDashboard": "Resetuj tablice analiz",
+        "ResetDashboardConfirm": "Czy na pewno chcesz zresetować układ tablicy analiz?",
+        "SelectDashboardLayout": "Proszę wybrać swój nowy wygląd tablicy analiz",
+        "SelectWidget": "Wybierz widżet który chcesz dodać do tablicy statystyk",
+        "WidgetNotFound": "Widżet nie został znaleziony",
+        "WidgetPreview": "Podgląd widżetu",
+        "WidgetsAndDashboard": "Widżety i Tablica analiz"
+    }
+}

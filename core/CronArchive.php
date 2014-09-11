@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,65 +8,25 @@
  */
 namespace Piwik;
 
-use Piwik\ArchiveProcessor\Rules;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\CronArchive\FixedSiteIds;
+use Piwik\CronArchive\SharedSiteIds;
+use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
- * archive.php runs as a cron and is a useful tool for general maintenance,
+ * ./console core:archive runs as a cron and is a useful tool for general maintenance,
  * and pre-process reports for a Fast dashboard rendering.
  */
 class CronArchive
 {
-    static public function getUsage()
-    {
-        return "Usage:
-	/path/to/cli/php \"" . @$_SERVER['argv'][0] . "\" --url=http://your-website.org/path/to/piwik/ [arguments]
-
-Arguments:
-	--url=[piwik-server-url]
-			Mandatory argument. Must be set to the Piwik base URL.
-			For example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/
-	--force-all-websites
-			If specified, the script will trigger archiving on all websites and all past dates.
-			You may use --force-all-periods=[seconds] to trigger archiving on those websites that had visits in the last [seconds] seconds.
-	--force-all-periods[=seconds]
-			Limits archiving to websites with some traffic in the last [seconds] seconds.
-			For example --force-all-periods=86400 will archive websites that had visits in the last 24 hours.
-			If [seconds] is not specified, all websites with visits in the last ". CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
-            . " seconds (" . round( CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE/86400 ) ." days) will be archived.
-	--force-timeout-for-periods=[seconds]
-			The current week/ current month/ current year will be processed at most every [seconds].
-			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
-	--force-date-last-n=M
-			This script calls the API with period=lastN. You can force the N in lastN by specifying this value.
-	--force-idsites=1,2,n
-			Restricts archiving to the specified website IDs, comma separated list.
-	--skip-idsites=1,2,n
-			If the specified websites IDs were to be archived, skip them instead.
-	--disable-scheduled-tasks
-			Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).
-	--xhprof
-			Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).
-	--accept-invalid-ssl-certificate
-			It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!
-			It can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1
-	--help
-			Displays usage
-
-Notes:
-	* It is recommended to run the script with the argument --url=[piwik-server-url] only. Other arguments are not required.
-	* This script should be executed every hour via crontab, or as a deamon.
-	* You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
-	  but it is recommended to run it via command line/CLI instead.
-	* If you have any suggestion about this script, please let the team know at hello@piwik.org
-	* Enjoy!
-";
-    }
-
     // the url can be set here before the init, and it will be used instead of --url=
-    static public $url = false;
+    public static $url = false;
+
+    // Max parallel requests for a same site's segments
+    const MAX_CONCURRENT_API_REQUESTS = 3;
 
     // force-timeout-for-periods default (1 hour)
     const SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES = 3600;
@@ -89,8 +49,11 @@ Notes:
     // Flag used to record timestamp in Option::
     const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 
+    // Name of option used to store starting timestamp
+    const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
+
     // Show only first N characters from Piwik API output in case of errors
-    const TRUNCATE_ERROR_MESSAGE_SUMMARY = 4000 ;
+    const TRUNCATE_ERROR_MESSAGE_SUMMARY = 6000;
 
     // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
     private $shouldArchiveOnlySitesWithTrafficSince;
@@ -100,41 +63,164 @@ Notes:
     private $todayArchiveTimeToLive;
     private $websiteDayHasFinishedSinceLastRun = array();
     private $idSitesInvalidatedOldReports = array();
-    private $shouldArchiveSpecifiedSites = array();
-    private $shouldSkipSpecifiedSites = array();
+    private $shouldArchiveOnlySpecificPeriods = array();
+    /**
+     * @var SharedSiteIds|FixedSiteIds
+     */
     private $websites = array();
     private $allWebsites = array();
     private $segments = array();
     private $piwikUrl = false;
     private $token_auth = false;
-    private $visits = 0;
+    private $visitsToday = 0;
     private $requests = 0;
     private $output = '';
     private $archiveAndRespectTTL = true;
-    private $shouldArchiveAllSites = false;
-    private $shouldStartProfiler = false;
-    private $acceptInvalidSSLCertificate = false;
+
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
+    private $isCoreInited = false;
+
+    const NO_ERROR = "no error";
+
+    public $testmode = false;
 
     /**
-     * Returns the option name of the option that stores the time the archive.php script was last run.
+     * The list of IDs for sites for whom archiving should be initiated. If supplied, only these
+     * sites will be archived.
      *
-     * @param int $idsite
+     * @var int[]
+     */
+    public $shouldArchiveSpecifiedSites = array();
+
+    /**
+     * The list of IDs of sites to ignore when launching archiving. Archiving will not be launched
+     * for any site whose ID is in this list (even if the ID is supplied in {@link $shouldArchiveSpecifiedSites}
+     * or if {@link $shouldArchiveAllSites} is true).
+     *
+     * @var int[]
+     */
+    public $shouldSkipSpecifiedSites = array();
+
+    /**
+     * If true, archiving will be launched for every site.
+     *
+     * @var bool
+     */
+    public $shouldArchiveAllSites = false;
+
+    /**
+     * If true, xhprof will be initiated for the archiving run. Only for development/testing.
+     *
+     * @var bool
+     */
+    public $shouldStartProfiler = false;
+
+    /**
+     * If HTTP requests are used to initiate archiving, this controls whether invalid SSL certificates should
+     * be accepted or not by each request.
+     *
+     * @var bool
+     */
+    public $acceptInvalidSSLCertificate = false;
+
+    /**
+     * If set to true, scheduled tasks will not be run.
+     *
+     * @var bool
+     */
+    public $disableScheduledTasks = false;
+
+    /**
+     * The amount of seconds between non-day period archiving. That is, if archiving has been launched within
+     * the past [$forceTimeoutPeriod] seconds, Piwik will not initiate archiving for week, month and year periods.
+     *
+     * @var int|false
+     */
+    public $forceTimeoutPeriod = false;
+
+    /**
+     * If supplied, archiving will be launched for sites that have had visits within the last [$shouldArchiveAllPeriodsSince]
+     * seconds. If set to `true`, the value defaults to {@link ARCHIVE_SITES_WITH_TRAFFIC_SINCE}.
+     *
+     * @var int|bool
+     */
+    public $shouldArchiveAllPeriodsSince = false;
+
+    /**
+     * If supplied, archiving will be launched only for periods that fall within this date range. For example,
+     * `"2012-01-01,2012-03-15"` would result in January 2012, February 2012 being archived but not April 2012.
+     *
+     * @var string|false eg, `"2012-01-01,2012-03-15"`
+     */
+    public $restrictToDateRange = false;
+
+    /**
+     * A list of periods to launch archiving for. By default, day, week, month and year periods
+     * are considered. This variable can limit the periods to, for example, week & month only.
+     *
+     * @var string[] eg, `array("day","week","month","year")`
+     */
+    public $restrictToPeriods = array();
+
+    /**
+     * Forces CronArchive to retrieve data for the last [$dateLastForced] periods when initiating archiving.
+     * When archiving weeks, for example, if 10 is supplied, the API will be called w/ last10. This will potentially
+     * initiate archiving for the last 10 weeks.
+     *
+     * @var int|false
+     */
+    public $dateLastForced = false;
+
+    /**
+     * The number of concurrent requests to issue per website. Defaults to {@link MAX_CONCURRENT_API_REQUESTS}.
+     *
+     * Used when archiving a site's segments concurrently.
+     *
+     * @var int|false
+     */
+    public $concurrentRequestsPerWebsite = false;
+
+    /**
+     * Returns the option name of the option that stores the time core:archive was last executed.
+     *
+     * @param int $idSite
      * @param string $period
      * @return string
      */
-    static public function lastRunKey($idsite, $period)
+    public static function lastRunKey($idSite, $period)
     {
-        return "lastRunArchive" . $period . "_" . $idsite;
+        return "lastRunArchive" . $period . "_" . $idSite;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param string|false $piwikUrl The URL to the Piwik installation to initiate archiving for. If `false`,
+     *                               we determine it using the current request information.
+     *
+     *                               If invoked via the command line, $piwikUrl cannot be false.
+     */
+    public function __construct($piwikUrl = false)
+    {
+        $this->initLog();
+        $this->initPiwikHost($piwikUrl);
+    }
+
+    /**
+     * Initializes and runs the cron archiver.
+     */
+    public function main()
+    {
+        $this->init();
+        $this->run();
+        $this->runScheduledTasks();
+        $this->end();
     }
 
     public function init()
     {
         // Note: the order of methods call matters here.
-        $this->displayHelp();
-        $this->initPiwikHost();
-        $this->initLog();
         $this->initCore();
         $this->initTokenAuth();
         $this->initCheckCli();
@@ -145,22 +231,47 @@ Notes:
         $this->checkPiwikUrlIsValid();
         $this->logArchiveTimeoutInfo();
 
+        // record archiving start time
+        Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
+
         $this->segments = $this->initSegmentsToArchive();
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
+
+        if(!empty($this->shouldArchiveOnlySpecificPeriods)) {
+            $this->log("- Will process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
+        }
+
         $websitesIds = $this->initWebsiteIds();
         $this->filterWebsiteIds($websitesIds);
-        $this->websites = $websitesIds;
 
-        if($this->shouldStartProfiler) {
+        if (!empty($this->shouldArchiveSpecifiedSites)
+            || !empty($this->shouldArchiveAllSites)
+            || !SharedSiteIds::isSupported()) {
+            $this->websites = new FixedSiteIds($websitesIds);
+        } else {
+            $this->websites = new SharedSiteIds($websitesIds);
+            if ($this->websites->getInitialSiteIds() != $websitesIds) {
+                $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
+            }
+        }
+
+        if ($this->shouldStartProfiler) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
             $this->log("XHProf profiling is enabled.");
         }
+
+        /**
+         * This event is triggered after a CronArchive instance is initialized.
+         *
+         * @param array $websiteIds The list of website IDs this CronArchive instance is processing.
+         *                          This will be the entire list of IDs regardless of whether some have
+         *                          already been processed.
+         */
+        Piwik::postEvent('CronArchive.init.finish', array($this->websites->getInitialSiteIds()));
     }
 
     public function runScheduledTasksInTrackerMode()
     {
-        $this->initPiwikHost();
-        $this->initLog();
         $this->initCore();
         $this->initTokenAuth();
         $this->logInitInfo();
@@ -168,230 +279,89 @@ Notes:
         $this->runScheduledTasks();
     }
 
+    private $websitesWithVisitsSinceLastRun = 0;
+    private $skippedPeriodsArchivesWebsite = 0;
+    private $skippedDayArchivesWebsites = 0;
+    private $skipped = 0;
+    private $processed = 0;
+    private $archivedPeriodsArchivesWebsite = 0;
+
     /**
      * Main function, runs archiving on all websites with new activity
      */
     public function run()
     {
-        $websitesWithVisitsSinceLastRun =
-        $skippedPeriodsArchivesWebsite =
-        $skippedDayArchivesWebsites =
-        $skipped =
-        $processed =
-        $archivedPeriodsArchivesWebsite = 0;
         $timer = new Timer;
 
         $this->logSection("START");
-        foreach ($this->websites as $idsite) {
-            flush();
-            $requestsBefore = $this->requests;
-            if ($idsite <= 0) {
-                continue;
-            }
-
-            $skipWebsiteForced = in_array($idsite, $this->shouldSkipSpecifiedSites);
-            if($skipWebsiteForced) {
-                $this->log("Skipped website id $idsite, found in --skip-idsites ");
-                $skipped++;
-                continue;
-            }
-
-            $timerWebsite = new Timer;
-
-            $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
-            if ($this->archiveAndRespectTTL) {
-                $lastTimestampWebsiteProcessedPeriods = Option::get($this->lastRunKey($idsite, "periods"));
-                $lastTimestampWebsiteProcessedDay = Option::get($this->lastRunKey($idsite, "day"));
-            }
-
-            // For period other than days, we only re-process the reports at most
-            // 1) every $processPeriodsMaximumEverySeconds
-            $secondsSinceLastExecution = time() - $lastTimestampWebsiteProcessedPeriods;
-
-            // if timeout is more than 10 min, we account for a 5 min processing time, and allow trigger 1 min earlier
-            if ($this->processPeriodsMaximumEverySeconds > 10 * 60) {
-                $secondsSinceLastExecution += 5 * 60;
-            }
-            $shouldArchivePeriods = $secondsSinceLastExecution > $this->processPeriodsMaximumEverySeconds;
-            if (empty($lastTimestampWebsiteProcessedPeriods)) {
-                // 2) OR always if script never executed for this website before
-                $shouldArchivePeriods = true;
-            }
-
-            // (*) If the website is archived because it is a new day in its timezone
-            // We make sure all periods are archived, even if there is 0 visit today
-            $dayHasEndedMustReprocess = in_array($idsite, $this->websiteDayHasFinishedSinceLastRun);
-            if ($dayHasEndedMustReprocess) {
-                $shouldArchivePeriods = true;
-            }
-
-            // (*) If there was some old reports invalidated for this website
-            // we make sure all these old reports are triggered at least once
-            $websiteIsOldDataInvalidate = in_array($idsite, $this->idSitesInvalidatedOldReports);
-            if ($websiteIsOldDataInvalidate) {
-                $shouldArchivePeriods = true;
-            }
-
-            $websiteIdIsForced = in_array($idsite, $this->shouldArchiveSpecifiedSites);
-            if($websiteIdIsForced) {
-                $shouldArchivePeriods = true;
-            }
-
-            // Test if we should process this website at all
-            $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
-
-            // Skip this day archive if last archive was older than TTL
-            $existingArchiveIsValid = ($elapsedSinceLastArchiving < $this->todayArchiveTimeToLive);
-
-            $skipDayArchive = $existingArchiveIsValid;
-
-            // Invalidate old website forces the archiving for this site
-            $skipDayArchive = $skipDayArchive && !$websiteIsOldDataInvalidate;
-
-            // Also reprocess when day has ended since last run
-            if($dayHasEndedMustReprocess
-                && !$existingArchiveIsValid) {
-                $skipDayArchive = false;
-            }
-
-            if($websiteIdIsForced) {
-                $skipDayArchive = false;
-            }
-
-             if ($skipDayArchive) {
-                $this->log("Skipped website id $idsite, already processed today's report in recent run, "
-                    . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
-                    . " ago, " . $timerWebsite->__toString());
-                $skippedDayArchivesWebsites++;
-                $skipped++;
-                continue;
-            }
-
-            // Fake that the request is already done, so that other archive.php
-            // running do not grab the same website from the queue
-            Option::set($this->lastRunKey($idsite, "day"), time());
-
-            // when some data was purged from this website
-            // we make sure we query all previous days/weeks/months
-            $processDaysSince = $lastTimestampWebsiteProcessedDay;
-            if($websiteIsOldDataInvalidate
-                // when --force-all-websites option,
-                // also forces to archive last52 days to be safe
-                || $this->shouldArchiveAllSites) {
-                $processDaysSince = false;
-            }
-
-            $url = $this->getVisitsRequestUrl($idsite, "day", $processDaysSince);
-            $content = $this->request($url);
-            $response = @unserialize($content);
-
-            if (empty($content)
-                || !is_array($response)
-                || count($response) == 0
-            ) {
-                // cancel the succesful run flag
-                Option::set($this->lastRunKey($idsite, "day"), 0);
-
-                $this->log("WARNING: Empty or invalid response '$content' for website id $idsite, " . $timerWebsite->__toString() . ", skipping");
-                $skipped++;
-                continue;
-            }
-            $visitsToday = end($response);
-            if(empty($visitsToday)) {
-                $visitsToday = 0;
-            }
-            $this->requests++;
-            $processed++;
-
-            // If there is no visit today and we don't need to process this website, we can skip remaining archives
-            if ($visitsToday == 0
-                && !$shouldArchivePeriods
-            ) {
-                $this->log("Skipped website id $idsite, no visit today, " . $timerWebsite->__toString());
-                $skipped++;
-                continue;
-            }
-
-            $visitsAllDays = array_sum($response);
-            if ($visitsAllDays == 0
-                && !$shouldArchivePeriods
-                && $this->shouldArchiveAllSites
-            ) {
-                $this->log("Skipped website id $idsite, no visits in the last " . count($response) . " days, " . $timerWebsite->__toString());
-                $skipped++;
-                continue;
-            }
-            $this->visits += $visitsToday;
-            $websitesWithVisitsSinceLastRun++;
-            $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite);
-
-            if (!$shouldArchivePeriods) {
-                $this->log("Skipped website id $idsite, already processed period reports in recent run, "
-                    . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
-                    . " ago, " . $timerWebsite->__toString());
-                $skippedDayArchivesWebsites++;
-                $skipped++;
-                continue;
-            }
-
-            $success = true;
-            foreach (array('week', 'month', 'year') as $period) {
-                $success = $this->archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessedPeriods)
-                    && $success;
-            }
-            // Record succesful run of this website's periods archiving
-            if ($success) {
-                Option::set($this->lastRunKey($idsite, "periods"), time());
-
-                // Remove this website from the list of websites to be invalidated
-                // since it's now just been re-processing the reports, job is done!
-                if ($websiteIsOldDataInvalidate) {
-                    $this->setSiteIsArchived($idsite);
-                }
-            }
-            $archivedPeriodsArchivesWebsite++;
-
-            $requestsWebsite = $this->requests - $requestsBefore;
-            $debug = $this->shouldArchiveAllSites ? ", last days = $visitsAllDays visits" : "";
-            Log::info("Archived website id = $idsite, today = $visitsToday visits"
-                . $debug . ", $requestsWebsite API requests, "
-                . $timerWebsite->__toString()
-                . " [" . ($websitesWithVisitsSinceLastRun + $skipped) . "/"
-                . count($this->websites)
-                . " done]");
-
-        }
         $this->log("Starting Piwik reports archiving...");
 
+        do {
+            $idSite = $this->websites->getNextSiteId();
+
+            if (null === $idSite) {
+                break;
+            }
+
+            flush();
+            $requestsBefore = $this->requests;
+            if ($idSite <= 0) {
+                continue;
+            }
+
+            $skipWebsiteForced = in_array($idSite, $this->shouldSkipSpecifiedSites);
+            if($skipWebsiteForced) {
+                $this->log("Skipped website id $idSite, found in --skip-idsites ");
+                $this->skipped++;
+                continue;
+            }
+
+            /**
+             * This event is triggered before the cron archiving process starts archiving data for a single
+             * site.
+             *
+             * @param int $idSite The ID of the site we're archiving data for.
+             */
+            Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idSite));
+
+            $completed = $this->archiveSingleSite($idSite, $requestsBefore);
+
+            /**
+             * This event is triggered immediately after the cron archiving process starts archiving data for a single
+             * site.
+             *
+             * @param int $idSite The ID of the site we're archiving data for.
+             */
+            Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idSite, $completed));
+        } while (!empty($idSite));
 
         $this->log("Done archiving!");
 
         $this->logSection("SUMMARY");
-        $this->log("Total daily visits archived: " . $this->visits);
+        $this->log("Total visits for today across archived websites: " . $this->visitsToday);
 
         $totalWebsites = count($this->allWebsites);
-        $skipped = $totalWebsites - $websitesWithVisitsSinceLastRun;
-        $this->log("Archived today's reports for $websitesWithVisitsSinceLastRun websites");
-        $this->log("Archived week/month/year for $archivedPeriodsArchivesWebsite websites");
-        $this->log("Skipped $skipped websites: no new visit since the last script execution");
-        $this->log("Skipped $skippedDayArchivesWebsites websites day archiving: existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
-        $this->log("Skipped $skippedPeriodsArchivesWebsite websites week/month/year archiving: existing periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
-        $this->log("Total API requests: $this->requests");
+        $this->skipped = $totalWebsites - $this->websitesWithVisitsSinceLastRun;
+        $this->log("Archived today's reports for {$this->websitesWithVisitsSinceLastRun} websites");
+        $this->log("Archived week/month/year for {$this->archivedPeriodsArchivesWebsite} websites");
+        $this->log("Skipped {$this->skipped} websites: no new visit since the last script execution");
+        $this->log("Skipped {$this->skippedDayArchivesWebsites} websites day archiving: existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
+        $this->log("Skipped {$this->skippedPeriodsArchivesWebsite} websites week/month/year archiving: existing periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
+        $this->log("Total API requests: {$this->requests}");
 
         //DONE: done/total, visits, wtoday, wperiods, reqs, time, errors[count]: first eg.
-        $percent = count($this->websites) == 0
+        $percent = $this->websites->getNumSites() == 0
             ? ""
-            : " " . round($processed * 100 / count($this->websites), 0) . "%";
+            : " " . round($this->processed * 100 / $this->websites->getNumSites(), 0) . "%";
         $this->log("done: " .
-            $processed . "/" . count($this->websites) . "" . $percent . ", " .
-            $this->visits . " v, $websitesWithVisitsSinceLastRun wtoday, $archivedPeriodsArchivesWebsite wperiods, " .
+            $this->processed . "/" . $this->websites->getNumSites() . "" . $percent . ", " .
+            $this->visitsToday . " vtoday, $this->websitesWithVisitsSinceLastRun wtoday, {$this->archivedPeriodsArchivesWebsite} wperiods, " .
             $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
             (empty($this->errors)
-                ? "no error"
-                : (count($this->errors) . " errors. eg. '" . reset($this->errors) . "'"))
+                ? self::NO_ERROR
+                : (count($this->errors) . " errors."))
         );
         $this->log($timer->__toString());
-
     }
 
     /**
@@ -399,44 +369,36 @@ Notes:
      */
     public function end()
     {
-        // How to test the error handling code?
-        // - Generate some hits since last archive.php run
-        // - Start the script, in the middle, shutdown apache, then restore
-        // Some errors should be logged and script should successfully finish and then report the errors and trigger a PHP error
-        if (!empty($this->errors)) {
-            $this->logSection("SUMMARY OF ERRORS");
-
-            foreach ($this->errors as $error) {
-                $this->log("Error: " . $error);
-            }
-            $summary = count($this->errors) . " total errors during this script execution, please investigate and try and fix these errors";
-            $this->log($summary);
-
-            $summary .= '. First error was: ' . reset($this->errors);
-            $this->logFatalError($summary);
-        } else {
+        if (empty($this->errors)) {
             // No error -> Logs the successful script execution until completion
             Option::set(self::OPTION_ARCHIVING_FINISHED_TS, time());
+            return;
         }
+
+        $this->logSection("SUMMARY OF ERRORS");
+        foreach ($this->errors as $error) {
+            // do not logError since errors are already in stderr
+            $this->log("Error: " . $error);
+        }
+        $summary = count($this->errors) . " total errors during this script execution, please investigate and try and fix these errors.";
+        $this->logFatalError($summary);
     }
 
-    public function logFatalError($m, $backtrace = true)
+    public function logFatalError($m)
     {
         $this->logError($m);
-        $fe = fopen('php://stderr', 'w');
-        fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m . "\n"
-            . ($backtrace ? "\n\n Here is the full errors output:\n\n" . $this->output : '')
-        );
         exit(1);
     }
 
     public function runScheduledTasks()
     {
         $this->logSection("SCHEDULED TASKS");
-        if($this->getParameterFromCli('--disable-scheduled-tasks')) {
+
+        if ($this->disableScheduledTasks) {
             $this->log("Scheduled tasks are disabled with --disable-scheduled-tasks");
             return;
         }
+
         $this->log("Starting Scheduled tasks... ");
 
         $tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=" . $this->token_auth);
@@ -446,6 +408,130 @@ Notes:
         $this->log($tasksOutput);
         $this->log("done");
         $this->logSection("");
+    }
+
+    private function archiveSingleSite($idSite, $requestsBefore)
+    {
+        $timerWebsite = new Timer;
+
+        $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
+        if ($this->archiveAndRespectTTL) {
+            Option::clearCachedOption($this->lastRunKey($idSite, "periods"));
+            $lastTimestampWebsiteProcessedPeriods = Option::get($this->lastRunKey($idSite, "periods"));
+
+            Option::clearCachedOption($this->lastRunKey($idSite, "day"));
+            $lastTimestampWebsiteProcessedDay = Option::get($this->lastRunKey($idSite, "day"));
+        }
+
+        $this->updateIdSitesInvalidatedOldReports();
+
+        // For period other than days, we only re-process the reports at most
+        // 1) every $processPeriodsMaximumEverySeconds
+        $secondsSinceLastExecution = time() - $lastTimestampWebsiteProcessedPeriods;
+
+        // if timeout is more than 10 min, we account for a 5 min processing time, and allow trigger 1 min earlier
+        if ($this->processPeriodsMaximumEverySeconds > 10 * 60) {
+            $secondsSinceLastExecution += 5 * 60;
+        }
+        $shouldArchivePeriods = $secondsSinceLastExecution > $this->processPeriodsMaximumEverySeconds;
+        if (empty($lastTimestampWebsiteProcessedPeriods)) {
+            // 2) OR always if script never executed for this website before
+            $shouldArchivePeriods = true;
+        }
+
+        // (*) If the website is archived because it is a new day in its timezone
+        // We make sure all periods are archived, even if there is 0 visit today
+        $dayHasEndedMustReprocess = in_array($idSite, $this->websiteDayHasFinishedSinceLastRun);
+        if ($dayHasEndedMustReprocess) {
+            $shouldArchivePeriods = true;
+        }
+
+        // (*) If there was some old reports invalidated for this website
+        // we make sure all these old reports are triggered at least once
+        $websiteIsOldDataInvalidate = $this->isOldReportInvalidatedForWebsite($idSite);
+
+        if ($websiteIsOldDataInvalidate) {
+            $shouldArchivePeriods = true;
+        }
+
+        $websiteIdIsForced = in_array($idSite, $this->shouldArchiveSpecifiedSites);
+        if($websiteIdIsForced) {
+            $shouldArchivePeriods = true;
+        }
+
+        // Test if we should process this website at all
+        $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
+
+        // Skip this day archive if last archive was older than TTL
+        $existingArchiveIsValid = ($elapsedSinceLastArchiving < $this->todayArchiveTimeToLive);
+
+        $skipDayArchive = $existingArchiveIsValid;
+
+        // Invalidate old website forces the archiving for this site
+        $skipDayArchive = $skipDayArchive && !$websiteIsOldDataInvalidate;
+
+        // Also reprocess when day has ended since last run
+        if ($dayHasEndedMustReprocess
+            // it might have reprocessed for that day by another cron
+            && !$this->hasBeenProcessedSinceMidnight($idSite, $lastTimestampWebsiteProcessedDay)
+            && !$existingArchiveIsValid) {
+            $skipDayArchive = false;
+        }
+
+        if ($websiteIdIsForced) {
+            $skipDayArchive = false;
+        }
+
+        if ($skipDayArchive) {
+            $this->log("Skipped website id $idSite, already done "
+                . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
+                . " ago, " . $timerWebsite->__toString());
+            $this->skippedDayArchivesWebsites++;
+            $this->skipped++;
+            return false;
+        }
+
+        $shouldProceed = $this->processArchiveDays($idSite, $lastTimestampWebsiteProcessedDay, $shouldArchivePeriods, $timerWebsite);
+        if(!$shouldProceed) {
+            return false;
+        }
+
+        if (!$shouldArchivePeriods) {
+            $this->log("Skipped website id $idSite periods processing, already done "
+                . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
+                . " ago, " . $timerWebsite->__toString());
+            $this->skippedDayArchivesWebsites++;
+            $this->skipped++;
+            return false;
+        }
+
+        $success = true;
+        foreach (array('week', 'month', 'year') as $period) {
+
+            if(!$this->shouldProcessPeriod($period)) {
+                // if any period was skipped, we do not mark the Periods archiving as successful
+                $success = false;
+                continue;
+            }
+
+            $success = $this->archiveVisitsAndSegments($idSite, $period, $lastTimestampWebsiteProcessedPeriods)
+                && $success;
+        }
+        // Record succesful run of this website's periods archiving
+        if ($success) {
+            Option::set($this->lastRunKey($idSite, "periods"), time());
+        }
+        $this->archivedPeriodsArchivesWebsite++;
+
+        $requestsWebsite = $this->requests - $requestsBefore;
+        Log::info("Archived website id = $idSite, "
+            . $requestsWebsite . " API requests, "
+            . $timerWebsite->__toString()
+            . " [" . $this->websites->getNumProcessedWebsites() . "/"
+            . $this->websites->getNumSites()
+            . " done]");
+
+        return true;
     }
 
     /**
@@ -472,37 +558,16 @@ Notes:
     }
 
     /**
-     * Returns base URL to process reports for the $idsite on a given $period
+     * Returns base URL to process reports for the $idSite on a given $period
      */
-    private function getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed = false)
+    private function getVisitsRequestUrl($idSite, $period, $date)
     {
-        $dateLastMax = self::DEFAULT_DATE_LAST;
-        if($period=='year') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
-        } elseif($period == 'week') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
-        }
-        if (empty($lastTimestampWebsiteProcessed)) {
-            $lastTimestampWebsiteProcessed = strtotime( \Piwik\Site::getCreationDateFor($idsite) );
-        }
-
-        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
-        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
-        if ($dateLast > $dateLastMax) {
-            $dateLast = $dateLastMax;
-        }
-
-        $dateLastForced = $this->getParameterFromCli('--force-date-last-n', true);
-        if(!empty($dateLastForced)){
-            $dateLast = $dateLastForced;
-        }
-
-        return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
+        return "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
     }
 
     private function initSegmentsToArchive()
     {
-        $segments = APICoreAdminHome::getInstance()->getKnownSegmentsToArchive();
+        $segments = \Piwik\SettingsPiwik::getKnownSegmentsToArchive();
         if (empty($segments)) {
             return array();
         }
@@ -510,56 +575,143 @@ Notes:
         return $segments;
     }
 
-    private function getSegmentsForSite($idsite)
+    /**
+     * @param $idSite
+     * @param $lastTimestampWebsiteProcessedDay
+     * @param $shouldArchivePeriods
+     * @param $timerWebsite
+     * @return bool
+     */
+    protected function processArchiveDays($idSite, $lastTimestampWebsiteProcessedDay, $shouldArchivePeriods, Timer $timerWebsite)
+    {
+        if (!$this->shouldProcessPeriod("day")) {
+            // skip day archiving and proceed to period processing
+            return true;
+        }
+
+        // Fake that the request is already done, so that other core:archive commands
+        // running do not grab the same website from the queue
+        Option::set($this->lastRunKey($idSite, "day"), time());
+
+        // Remove this website from the list of websites to be invalidated
+        // since it's now just about to being re-processed, makes sure another running cron archiving process
+        // does not archive the same idSite
+        if ($this->isOldReportInvalidatedForWebsite($idSite)) {
+            $this->setSiteIsArchived($idSite);
+        }
+
+        // when some data was purged from this website
+        // we make sure we query all previous days/weeks/months
+        $processDaysSince = $lastTimestampWebsiteProcessedDay;
+        if($this->isOldReportInvalidatedForWebsite($idSite)
+            // when --force-all-websites option,
+            // also forces to archive last52 days to be safe
+            || $this->shouldArchiveAllSites) {
+            $processDaysSince = false;
+        }
+
+        $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
+        $url = $this->getVisitsRequestUrl($idSite, "day", $date);
+        $content = $this->request($url);
+        $daysResponse = @unserialize($content);
+
+        if (empty($content)
+            || !is_array($daysResponse)
+            || count($daysResponse) == 0
+        ) {
+            // cancel the succesful run flag
+            Option::set($this->lastRunKey($idSite, "day"), 0);
+
+            $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+            $this->skipped++;
+            return false;
+        }
+
+        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
+        $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
+
+        $this->requests++;
+        $this->processed++;
+
+        // If there is no visit today and we don't need to process this website, we can skip remaining archives
+        if ($visitsToday == 0
+            && !$shouldArchivePeriods
+        ) {
+            $this->log("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
+            $this->skipped++;
+            return false;
+        }
+
+        if ($visitsLastDays == 0
+            && !$shouldArchivePeriods
+            && $this->shouldArchiveAllSites
+        ) {
+            $this->log("Skipped website id $idSite, no visits in the last " . $date . " days, " . $timerWebsite->__toString());
+            $this->skipped++;
+            return false;
+        }
+
+        $this->visitsToday += $visitsToday;
+        $this->websitesWithVisitsSinceLastRun++;
+        $this->archiveVisitsAndSegments($idSite, "day", $processDaysSince);
+        $this->logArchivedWebsite($idSite, "day", $date, $visitsLastDays, $visitsToday, $timerWebsite);
+
+        return true;
+    }
+
+    private function getSegmentsForSite($idSite)
     {
         $segmentsAllSites = $this->segments;
-        $segmentsThisSite = \Piwik\SettingsPiwik::getKnownSegmentsToArchiveForSite($idsite);
+        $segmentsThisSite = \Piwik\SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
         if (!empty($segmentsThisSite)) {
-            $this->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idsite): " . implode(", ", $segmentsThisSite));
+            $this->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idSite): " . implode(", ", $segmentsThisSite));
         }
         $segments = array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
         return $segments;
     }
 
     /**
-     * Will trigger API requests for the specified Website $idsite,
+     * Will trigger API requests for the specified Website $idSite,
      * for the specified $period, for all segments that are pre-processed for this website.
      * Requests are triggered using cURL multi handle
      *
-     * @param $idsite int
+     * @param $idSite int
      * @param $period
      * @param $lastTimestampWebsiteProcessed
-     * @param Timer $timerWebsite
      * @return bool True on success, false if some request failed
      */
-    private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Timer $timerWebsite = null)
+    private function archiveVisitsAndSegments($idSite, $period, $lastTimestampWebsiteProcessed)
     {
         $timer = new Timer();
 
         $url  = $this->piwikUrl;
-        $url .= $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed);
+
+        $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed);
+        $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
+
         $url .= self::APPEND_TO_API_REQUEST;
 
-        $visitsAllDaysInPeriod = false;
-        $noSegmentUrl = '';
+        $visitsInLastPeriods = $visitsLastPeriod = 0;
         $success = true;
 
         $urls = array();
 
+        $noSegmentUrl = $url;
         // already processed above for "day"
         if ($period != "day") {
-            $noSegmentUrl = $url;
-            $urls [] = $url;
+            $urls[] = $url;
             $this->requests++;
         }
 
-        foreach ($this->getSegmentsForSite($idsite) as $segment) {
-            $urls[] = $url . '&segment=' . urlencode($segment);
+        foreach ($this->getSegmentsForSite($idSite) as $segment) {
+            $urlWithSegment = $url . '&segment=' . urlencode($segment);
+            $urls[] = $urlWithSegment;
             $this->requests++;
         }
 
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+        $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
@@ -572,13 +724,16 @@ Notes:
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
                 }
-                $visitsAllDaysInPeriod = @array_sum($stats);
+
+                $visitsInLastPeriods = $this->getVisitsFromApiResponse($stats);
+                $visitsLastPeriod = $this->getVisitsLastPeriodFromApiResponse($stats);
             }
         }
 
-        $this->log("Archived website id = $idsite, period = $period, "
-            . ($period != "day" ? (int)$visitsAllDaysInPeriod . " visits, " : "")
-            . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
+        // we have already logged the daily archive above
+        if($period != "day") {
+            $this->logArchivedWebsite($idSite, $period, $date, $visitsInLastPeriods, $visitsLastPeriod, $timer);
+        }
 
         return $success;
     }
@@ -594,7 +749,7 @@ Notes:
         }
     }
 
-    private function log($m)
+    public function log($m)
     {
         $this->output .= $m . "\n";
         try {
@@ -602,6 +757,28 @@ Notes:
         } catch(Exception $e) {
             print($m . "\n");
         }
+    }
+
+    public function logError($m)
+    {
+        if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
+            $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
+        }
+        $m = str_replace(array("\n", "\t"), " ", $m);
+        $this->errors[] = $m;
+        Log::error($m);
+    }
+
+    private function logNetworkError($url, $response)
+    {
+        $message = "Got invalid response from API request: $url. ";
+        if (empty($response)) {
+            $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
+        } else {
+            $message .= "Response was '$response'";
+        }
+        $this->logError($message);
+        return false;
     }
 
     /**
@@ -613,6 +790,10 @@ Notes:
 
         if($this->shouldStartProfiler) {
             $url .= "&xhprof=2";
+        }
+
+        if ($this->testmode) {
+            $url .= "&testmode=1";
         }
 
         try {
@@ -642,50 +823,23 @@ Notes:
         return true;
     }
 
-    private function logError($m)
-    {
-        if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
-            $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
-        }
-
-        $this->errors[] = $m;
-        $this->log("ERROR: $m");
-    }
-
-    private function logNetworkError($url, $response)
-    {
-        $message = "Got invalid response from API request: $url. ";
-        if (empty($response)) {
-            $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
-        } else {
-            $message .= "Response was '$response'";
-        }
-        $this->logError($message);
-        return false;
-    }
-
-    /**
-     * Displays script usage
-     */
-    private function usage()
-    {
-        echo self::getUsage();
-    }
-
     /**
      * Configures Piwik\Log so messages are written in output
      */
     private function initLog()
     {
         $config = Config::getInstance();
-        $config->log['log_only_when_debug_parameter'] = 0;
-        $config->log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
-        $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
 
-        if (!function_exists("curl_multi_init")) {
-            $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");
-            $this->usage();
-            exit;
+        $log = $config->log;
+        $log['log_only_when_debug_parameter'] = 0;
+        $log[Log::LOG_WRITERS_CONFIG_OPTION][] = "screen";
+
+        $config->log = $log;
+
+        // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
+        $logLevel = Log::getInstance()->getLogLevel();
+        if ($logLevel < Log::INFO) {
+            Log::getInstance()->setLogLevel(Log::INFO);
         }
     }
 
@@ -698,13 +852,13 @@ Notes:
             return;
         }
         $token_auth = Common::getRequestVar('token_auth', '', 'string');
-        if ($token_auth != $this->token_auth
+        if ($token_auth !== $this->token_auth
             || strlen($token_auth) != 32
         ) {
             die('<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>?token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>
                 However it is recommended to run it <a href="http://piwik.org/docs/setup-auto-archiving/">via cron in the command line</a>, since it can take a long time to run.<br/>
                 In a shell, execute for example the following to trigger archiving on the local Piwik server:<br/>
-                <code>$ /path/to/php /path/to/piwik/misc/cron/archive.php --url=http://your-website.org/path/to/piwik/</code>');
+                <code>$ /path/to/php /path/to/piwik/console core:archive --url=http://your-website.org/path/to/piwik/</code>');
         }
     }
 
@@ -715,21 +869,15 @@ Notes:
     {
         try {
             FrontController::getInstance()->init();
+            $this->isCoreInited = true;
         } catch (Exception $e) {
-            echo "ERROR: During Piwik init, Message: " . $e->getMessage();
-            //echo $e->getTraceAsString();
-            exit(1);
+            throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
         }
     }
 
-    private function displayHelp()
+    public function isCoreInited()
     {
-        $displayHelp = $this->getParameterFromCli('help') || $this->getParameterFromCli('h');
-
-        if ($displayHelp) {
-            $this->usage();
-            exit;
-        }
+        return $this->isCoreInited;
     }
 
     /**
@@ -739,16 +887,10 @@ Notes:
     private function initStateFromParameters()
     {
         $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
-        $this->acceptInvalidSSLCertificate = $this->getParameterFromCli("accept-invalid-ssl-certificate");
         $this->processPeriodsMaximumEverySeconds = $this->getDelayBetweenPeriodsArchives();
-        $this->shouldArchiveAllSites = (bool) $this->getParameterFromCli("force-all-websites");
-        $this->shouldStartProfiler = (bool) $this->getParameterFromCli("xhprof");
-        $restrictToIdSites = $this->getParameterFromCli("force-idsites", true);
-        $skipIdSites = $this->getParameterFromCli("skip-idsites", true);
-        $this->shouldArchiveSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($restrictToIdSites);
-        $this->shouldSkipSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($skipIdSites);
         $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
+        $this->shouldArchiveOnlySpecificPeriods = $this->getPeriodsToProcess();
 
         if($this->shouldArchiveOnlySitesWithTrafficSince === false) {
             // force-all-periods is not set here
@@ -770,18 +912,18 @@ Notes:
         }
     }
 
-    private function filterWebsiteIds(&$websiteIds)
+    public function filterWebsiteIds(&$websiteIds)
     {
         // Keep only the websites that do exist
         $websiteIds = array_intersect($websiteIds, $this->allWebsites);
 
         /**
-         * Triggered by the **archive.php** cron script so plugins can modify the list of
+         * Triggered by the **core:archive** console command so plugins can modify the list of
          * websites that the archiving process will be launched for.
-         * 
+         *
          * Plugins can use this hook to add websites to archive, remove websites to archive, or change
          * the order in which websites will be archived.
-         * 
+         *
          * @param array $websiteIds The list of website IDs to launch the archiving process for.
          */
         Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));
@@ -791,7 +933,7 @@ Notes:
      *  Returns the list of sites to loop over and archive.
      *  @return array
      */
-    private function initWebsiteIds()
+    public function initWebsiteIds()
     {
         if(count($this->shouldArchiveSpecifiedSites) > 0) {
             $this->log("- Will process " . count($this->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
@@ -805,7 +947,7 @@ Notes:
 
         $websiteIds = array_merge(
             $this->addWebsiteIdsWithVisitsSinceLastRun(),
-            $this->addWebsiteIdsToReprocess()
+            $this->getWebsiteIdsToInvalidate()
         );
         $websiteIds = array_merge($websiteIds, $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds));
         return array_unique($websiteIds);
@@ -817,42 +959,37 @@ Notes:
                                           FROM " . Common::prefixTable("user") . "
                                           WHERE superuser_access = 1
                                           ORDER BY date_registered ASC");
-        $this->login      = $superUser['login'];
         $this->token_auth = $superUser['token_auth'];
     }
 
-    private function initPiwikHost()
+    private function initPiwikHost($piwikUrl = false)
     {
-        // If archive.php run as a web cron, we use the current hostname+path
-        if (!Common::isPhpCliMode()) {
+        // If core:archive command run as a web cron, we use the current hostname+path
+        if (empty($piwikUrl)) {
             if (!empty(self::$url)) {
                 $piwikUrl = self::$url;
             } else {
-                // example.org/piwik/misc/cron/
-                $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
                 // example.org/piwik/
-                $piwikUrl = $piwikUrl . "../../";
+                $piwikUrl = SettingsPiwik::getPiwikUrl();
             }
-        } else {
-            // If archive.php run as CLI/shell we require the piwik url to be set
-            $piwikUrl = $this->getParameterFromCli("url", true);
+        }
 
-            if (!$piwikUrl) {
-                $this->logFatalErrorUrlExpected();
-            }
+        if (!$piwikUrl) {
+            $this->logFatalErrorUrlExpected();
+        }
 
-            if(!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
-                // try adding http:// in case it's missing
-                $piwikUrl = "http://" . $piwikUrl;
-            }
-            if(!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
-                $this->logFatalErrorUrlExpected();
-            }
+        if(!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
+            // try adding http:// in case it's missing
+            $piwikUrl = "http://" . $piwikUrl;
+        }
 
-            // ensure there is a trailing slash
-            if ($piwikUrl[strlen($piwikUrl) - 1] != '/' && !Common::stringEndsWith($piwikUrl, 'index.php')) {
-                $piwikUrl .= '/';
-            }
+        if(!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
+            $this->logFatalErrorUrlExpected();
+        }
+
+        // ensure there is a trailing slash
+        if ($piwikUrl[strlen($piwikUrl) - 1] != '/' && !Common::stringEndsWith($piwikUrl, 'index.php')) {
+            $piwikUrl .= '/';
         }
 
         $this->initConfigObject($piwikUrl);
@@ -868,45 +1005,9 @@ Notes:
         $this->piwikUrl = $piwikUrl;
     }
 
-    /**
-     * Returns if the requested parameter is defined in the command line arguments.
-     * If $valuePossible is true, then a value is possibly set for this parameter,
-     * ie. --force-timeout-for-periods=3600 would return 3600
-     *
-     * @param $parameter
-     * @param bool $valuePossible
-     * @return true or the value (int,string) if set, false otherwise
-     */
-    public static function getParameterFromCli($parameter, $valuePossible = false)
+    private function updateIdSitesInvalidatedOldReports()
     {
-        if (!Common::isPhpCliMode()) {
-            return false;
-        }
-        if($parameter == 'url' && self::$url) {
-            return self::$url;
-        }
-        $parameters = array(
-            "--$parameter",
-            "-$parameter",
-            $parameter
-        );
-        foreach ($parameters as $parameter) {
-            foreach ($_SERVER['argv'] as $arg) {
-                if (strpos($arg, $parameter) === 0) {
-                    if ($valuePossible) {
-                        $parameterFound = $arg;
-                        if (($posEqual = strpos($parameterFound, '=')) !== false) {
-                            $return = substr($parameterFound, $posEqual + 1);
-                            if ($return !== false) {
-                                return $return;
-                            }
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
+        $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
     }
 
     /**
@@ -916,9 +1017,9 @@ Notes:
      *
      * @return array
      */
-    private function addWebsiteIdsToReprocess()
+    private function getWebsiteIdsToInvalidate()
     {
-        $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
+        $this->updateIdSitesInvalidatedOldReports();
 
         if (count($this->idSitesInvalidatedOldReports) > 0) {
             $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
@@ -926,6 +1027,7 @@ Notes:
                 . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
                 . $ids);
         }
+
         return $this->idSitesInvalidatedOldReports;
     }
 
@@ -954,7 +1056,7 @@ Notes:
      */
     private function getTimezonesHavingNewDay()
     {
-        $timestamp = time() - $this->shouldArchiveOnlySitesWithTrafficSince;
+        $timestamp = $this->lastSuccessRunTimestamp;
         $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
         $timezoneToProcess = array();
         foreach ($uniqueTimezones as &$timezone) {
@@ -966,6 +1068,22 @@ Notes:
             }
         }
         return $timezoneToProcess;
+    }
+
+    private function hasBeenProcessedSinceMidnight($idSite, $lastTimestampWebsiteProcessedDay)
+    {
+        if (false === $lastTimestampWebsiteProcessedDay) {
+            return true;
+        }
+
+        $timezone = Site::getTimezoneFor($idSite);
+
+        $dateInTimezone     = Date::factory('now', $timezone);
+        $midnightInTimezone = $dateInTimezone->setTime('00:00:00');
+
+        $lastProcessedDateInTimezone = Date::factory((int) $lastTimestampWebsiteProcessedDay, $timezone);
+
+        return $lastProcessedDateInTimezone->getTimestamp() >= $midnightInTimezone->getTimestamp();
     }
 
     /**
@@ -1007,8 +1125,8 @@ Notes:
     private function logInitInfo()
     {
         $this->logSection("INIT");
-        $this->log("Querying Piwik API at: {$this->piwikUrl}");
-        $this->log("Running Piwik " . Version::VERSION . " as Super User: " . $this->login);
+        $this->log("Piwik is installed at: {$this->piwikUrl}");
+        $this->log("Running Piwik " . Version::VERSION . " as Super User");
     }
 
     private function logArchiveTimeoutInfo()
@@ -1040,17 +1158,16 @@ Notes:
      */
     private function getDelayBetweenPeriodsArchives()
     {
-        $forceTimeoutPeriod = $this->getParameterFromCli("force-timeout-for-periods", $valuePossible = true);
-        if (empty($forceTimeoutPeriod) || $forceTimeoutPeriod === true) {
+        if (empty($this->forceTimeoutPeriod)) {
             return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
         }
 
         // Ensure the cache for periods is at least as high as cache for today
-        if ($forceTimeoutPeriod > $this->todayArchiveTimeToLive) {
-            return $forceTimeoutPeriod;
+        if ($this->forceTimeoutPeriod > $this->todayArchiveTimeToLive) {
+            return $this->forceTimeoutPeriod;
         }
 
-        $this->log("WARNING: Automatically increasing --force-timeout-for-periods from $forceTimeoutPeriod to "
+        $this->log("WARNING: Automatically increasing --force-timeout-for-periods from {$this->forceTimeoutPeriod} to "
             . $this->todayArchiveTimeToLive
             . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
         return $this->todayArchiveTimeToLive;
@@ -1058,29 +1175,27 @@ Notes:
 
     private function isShouldArchiveAllSitesWithTrafficSince()
     {
-        $shouldArchiveAllPeriodsSince = $this->getParameterFromCli("force-all-periods", $valuePossible = true);
-        if(empty($shouldArchiveAllPeriodsSince)) {
+        if (empty($this->shouldArchiveAllPeriodsSince)) {
             return false;
         }
-        if ( is_numeric($shouldArchiveAllPeriodsSince)
-            && $shouldArchiveAllPeriodsSince > 1
+        if (is_numeric($this->shouldArchiveAllPeriodsSince)
+            && $this->shouldArchiveAllPeriodsSince > 1
         ) {
-            return (int)$shouldArchiveAllPeriodsSince;
+            return (int)$this->shouldArchiveAllPeriodsSince;
         }
         return true;
     }
 
     /**
-     * @param $idsite
+     * @param $idSite
      */
-    protected function setSiteIsArchived($idsite)
+    protected function setSiteIsArchived($idSite)
     {
         $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
         if (count($websiteIdsInvalidated)) {
-            $found = array_search($idsite, $websiteIdsInvalidated);
+            $found = array_search($idSite, $websiteIdsInvalidated);
             if ($found !== false) {
                 unset($websiteIdsInvalidated[$found]);
-//								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
                 Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
             }
         }
@@ -1088,9 +1203,158 @@ Notes:
 
     private function logFatalErrorUrlExpected()
     {
-        $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
-            . "\n--help for more information", $backtrace = false);
+        $this->logFatalError("./console core:archive expects the argument 'url' to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
+            . "\n--help for more information");
     }
 
-}
+    private function getVisitsLastPeriodFromApiResponse($stats)
+    {
+        if(empty($stats)) {
+            return 0;
+        }
+        $today = end($stats);
+        return $today['nb_visits'];
+    }
 
+    private function getVisitsFromApiResponse($stats)
+    {
+        if(empty($stats)) {
+            return 0;
+        }
+        $visits = 0;
+        foreach($stats as $metrics) {
+            if(empty($metrics['nb_visits'])) {
+                continue;
+            }
+            $visits += $metrics['nb_visits'];
+        }
+        return $visits;
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $lastTimestampWebsiteProcessed
+     * @return float|int|true
+     */
+    private function getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed = false)
+    {
+        $dateRangeForced = $this->getDateRangeToProcess();
+        if(!empty($dateRangeForced)) {
+            return $dateRangeForced;
+        }
+        return $this->getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed);
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param $visitsInLastPeriods
+     * @param $visitsToday
+     * @param $timer
+     */
+    private function logArchivedWebsite($idSite, $period, $date, $visitsInLastPeriods, $visitsToday, Timer $timer)
+    {
+        if(substr($date, 0, 4) === 'last') {
+            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
+            $thisPeriod = $period == "day" ? "today" : "this " . $period;
+            $visitsInLastPeriod = (int)$visitsToday . " visits " . $thisPeriod . ", ";
+        } else {
+            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in " . $period . "s included in: $date, ";
+            $visitsInLastPeriod = '';
+        }
+
+        $this->log("Archived website id = $idSite, period = $period, "
+            . $visitsInLastPeriods
+            . $visitsInLastPeriod
+            . $timer->__toString());
+    }
+
+    private function getDateRangeToProcess()
+    {
+        if (empty($this->restrictToDateRange)) {
+            return false;
+        }
+        if (strpos($this->restrictToDateRange, ',') === false) {
+            throw new Exception("--force-date-range expects a date range ie. YYYY-MM-DD,YYYY-MM-DD");
+        }
+        return $this->restrictToDateRange;
+    }
+
+    /**
+     * @return array
+     */
+    private function getPeriodsToProcess()
+    {
+        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, $this->getDefaultPeriodsToProcess());
+        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, PeriodFactory::getPeriodsEnabledForAPI());
+        return $this->restrictToPeriods;
+    }
+
+    /**
+     * @return array
+     */
+    private function getDefaultPeriodsToProcess()
+    {
+        return array('day', 'week', 'month', 'year');
+    }
+
+    /**
+     * @param $idSite
+     * @return bool
+     */
+    private function isOldReportInvalidatedForWebsite($idSite)
+    {
+        return in_array($idSite, $this->idSitesInvalidatedOldReports);
+    }
+
+    private function shouldProcessPeriod($period)
+    {
+        if(empty($this->shouldArchiveOnlySpecificPeriods)) {
+            return true;
+        }
+        return in_array($period, $this->shouldArchiveOnlySpecificPeriods);
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $lastTimestampWebsiteProcessed
+     * @return string
+     */
+    private function getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed)
+    {
+        $dateLastMax = self::DEFAULT_DATE_LAST;
+        if ($period == 'year') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
+        } elseif ($period == 'week') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
+        }
+        if (empty($lastTimestampWebsiteProcessed)) {
+            $lastTimestampWebsiteProcessed = strtotime(\Piwik\Site::getCreationDateFor($idSite));
+        }
+
+        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
+        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
+        if ($dateLast > $dateLastMax) {
+            $dateLast = $dateLastMax;
+        }
+
+        if (!empty($this->dateLastForced)) {
+            $dateLast = $this->dateLastForced;
+        }
+        return "last" . $dateLast;
+    }
+
+    /**
+     * @return int
+     */
+    private function getConcurrentRequestsPerWebsite()
+    {
+        if ($this->concurrentRequestsPerWebsite !== false) {
+            return $this->concurrentRequestsPerWebsite;
+        }
+        return self::MAX_CONCURRENT_API_REQUESTS;
+    }
+}

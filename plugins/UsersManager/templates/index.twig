@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<h2>{{ 'UsersManager_ManageAccess'|translate }}</h2>
+<h2 piwik-enriched-headline
+    help-url="http://piwik.org/docs/manage-users/">{{ 'UsersManager_ManageAccess'|translate }}</h2>
 <div id="sites" class="usersManager">
     <section class="sites_selector_container">
         <p>{{ 'UsersManager_MainDescription'|translate }}</p>
@@ -12,14 +13,15 @@
         {% set applyAllSitesText %}
             <strong>{{ 'UsersManager_ApplyToAllWebsites'|translate }}</strong>
         {% endset %}
-        {% include "@CoreHome/_siteSelect.twig" with {
-            'siteName': defaultReportSiteName,
-            'idSite':idSiteSelected,
-            'allSitesItemText': applyAllSitesText,
-            'allWebsitesLinkLocation': 'top',
-            'siteSelectorId':"usersManagerSiteSelect",
-            'switchSiteOnSelect':false
-        } %}
+
+        <div piwik-siteselector
+             class="sites_autocomplete"
+             siteid="{{ idSiteSelected }}"
+             sitename="{{ defaultReportSiteName }}"
+             all-sites-text="{{ applyAllSitesText|raw }}"
+             all-sites-location="top"
+             id="usersManagerSiteSelect"
+             switch-site-on-select="false"></div>
     </section>
 </div>
 
@@ -117,6 +119,9 @@
                 <th>{{ 'UsersManager_Email'|translate }}</th>
                 <th>{{ 'UsersManager_Alias'|translate }}</th>
                 <th>token_auth</th>
+                {% if showLastSeen is defined and showLastSeen %}
+                <th>{{ 'UsersManager_LastSeen'|translate }}</th>
+                {% endif %}
                 <th>{{ 'General_Edit'|translate }}</th>
                 <th>{{ 'General_Delete'|translate }}</th>
             </tr>
@@ -131,15 +136,18 @@
                         <td id="email" class="editable">{{ user.email }}</td>
                         <td id="alias" class="editable">{{ user.alias|raw }}</td>
                         <td id="token_auth">{{ user.token_auth }}</td>
+                        {% if user.last_seen is defined %}
+                        <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
+                        {% endif %}
                         <td>
                             <span class="edituser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Edit'|translate }}" src='plugins/Zeitgeist/images/ico_edit.png'/>
+                                <img title="{{ 'General_Edit'|translate }}" src='plugins/Morpheus/images/ico_edit.png'/>
                                 <span>{{ 'General_Edit'|translate }}</span>
                             </span>
                         </td>
                         <td>
                             <span class="deleteuser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Delete'|translate }}" src='plugins/Zeitgeist/images/ico_delete.png'/>
+                                <img title="{{ 'General_Delete'|translate }}" src='plugins/Morpheus/images/ico_delete.png'/>
                                 <span>{{ 'General_Delete'|translate }}</span>
                             </span>
                         </td>
@@ -148,11 +156,10 @@
             {% endfor %}
             </tbody>
         </table>
-        <div class="addrow"><img src='plugins/UsersManager/images/add.png'/> {{ 'UsersManager_AddUser'|translate }}</div>
+        <div class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'UsersManager_AddUser'|translate }}</div>
     </div>
 
-
-    <h2>{{ 'UsersManager_SuperUserAccessManagement'|translate }}</h2>
+    <h2 id="super_user_access">{{ 'UsersManager_SuperUserAccessManagement'|translate }}</h2>
     <p>{{ 'UsersManager_SuperUserAccessManagementMainDescription'|translate }} <br/>
     {{ 'UsersManager_SuperUserAccessManagementGrantMore'|translate }}</p>
 

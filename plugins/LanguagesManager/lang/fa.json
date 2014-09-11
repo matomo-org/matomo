@@ -1,0 +1,7 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "درباره ترجمه های پیویک",
+        "PluginDescription": "این پلاگین یک لیست از زبانهای در دسترس برای رابط Piwik را نمایش می دهد. زبان انتخاب شده در تنظیمات برای هر کاربر ذخیره خواهد شد.",
+        "TranslationSearch": "جستجوی ترجمه"
+    }
+}

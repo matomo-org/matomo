@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Jos sinulla ei ole yhtään tietoja tälle päivälle, voit generoida satunnaisia tietoja käyttämällä lisäosaa %s. Voit ottaa käyttöön %s-lisäosan ja painaa 'Vierailijoiden luominen'-linkkiä Piwikin ylläpitosivulla.",
+        "KeepTokenSecret": "Tämä token_auth on yhtä salainen kuin salasanasi, %s älä jaa sitä%s!",
+        "LoadedAPIs": "Ladattiin %s APIa",
+        "MoreInformation": "Lisätietoa Piwikin APIsta löytyy sivulta %sJohdatus Piwikin APIin%s ja %sPiwikin API%s.",
+        "PluginDescription": "Kaikki Piwikin tiedot ovat saatavilla yksinkertaisella API:lla. Tämä lisäosa on API:n aloituspiste, josta voit hakea tietoja xml:ksi, json:ksi, php:ksi, csv:ksi jne.",
+        "QuickDocumentationTitle": "API:n pikadokumentaatio",
+        "TopLinkTooltip": "Hae analytiikkatietoja automaattisesti yksinkertaisella API:lla JSON:lla, XML:llä jne.",
+        "UserAuthentication": "Käyttäjän autentikointi",
+        "UsingTokenAuth": "Jos haluat %s hakea tietoja skriptillä, crontabista jne. %s sinun täytyy lisätä parametri %s API-kutsujen osoitteisiin, jos kutsu vaatii autentikoinnin."
+    }
+}

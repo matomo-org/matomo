@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,22 +14,22 @@ use Exception;
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
  * be easier than using `date`, `time`, `date_default_timezone_set`, etc.
- * 
+ *
  * ### Performance concerns
- * 
+ *
  * The helper methods in this class are instance methods and thus `Date` instances
  * need to be constructed before they can be used. The memory allocation can result
  * in noticeable performance degradation if you construct thousands of Date instances,
  * say, in a loop.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Basic usage**
- * 
+ *
  *     $date = Date::factory('2007-07-24 14:04:24', 'EST');
  *     $date->addHour(5);
  *     echo $date->getLocalized("%longDay% the %day% of %longMonth% at %time%");
- * 
+ *
  * @api
  */
 class Date
@@ -39,6 +39,26 @@ class Date
 
     /** The default date time string format. */
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+
+    /**
+     * Max days for months (non-leap-year). See {@link addPeriod()} implementation.
+     *
+     * @var int[]
+     */
+    private static $maxDaysInMonth = array(
+        '1' => 31,
+        '2' => 28,
+        '3' => 31,
+        '4' => 30,
+        '5' => 31,
+        '6' => 30,
+        '7' => 31,
+        '8' => 31,
+        '9' => 30,
+        '10' => 31,
+        '11' => 30,
+        '12' => 31
+    );
 
     /**
      * The stored timestamp is always UTC based.
@@ -164,7 +184,7 @@ class Date
     /**
      * Returns a new date object with the same timestamp as `$this` but with a new
      * timezone.
-     * 
+     *
      * See {@link getTimestamp()} to see how the timezone is used.
      *
      * @param string $timezone eg, `'UTC'`, `'Europe/London'`, etc.
@@ -383,7 +403,7 @@ class Date
 
     /**
      * Returns `true` if current date is today.
-     * 
+     *
      * @return bool
      */
     public function isToday()
@@ -560,9 +580,9 @@ class Date
     /**
      * Returns a localized date string using the given template.
      * The template should contain tags that will be replaced with localized date strings.
-     * 
+     *
      * Allowed tags include:
-     * 
+     *
      * - **%day%**: replaced with the day of the month without leading zeros, eg, **1** or **20**.
      * - **%shortMonth%**: the short month in the current language, eg, **Jan**, **Feb**.
      * - **%longMonth%**: the whole month name in the current language, eg, **January**, **February**.
@@ -673,12 +693,39 @@ class Date
      */
     public function addPeriod($n, $period)
     {
-        if ($n < 0) {
-            $ts = strtotime("$n $period", $this->timestamp);
+        if (strtolower($period) == 'month') { // TODO: comments
+            $dateInfo = getdate($this->timestamp);
+
+            $ts = mktime(
+                $dateInfo['hours'],
+                $dateInfo['minutes'],
+                $dateInfo['seconds'],
+                $dateInfo['mon'] + (int)$n,
+                1,
+                $dateInfo['year']
+            );
+
+            $daysToAdd = min($dateInfo['mday'], self::getMaxDaysInMonth($ts)) - 1;
+            $ts += self::NUM_SECONDS_IN_DAY * $daysToAdd;
         } else {
-            $ts = strtotime("+$n $period", $this->timestamp);
+            $time = $n < 0 ? "$n $period" : "+$n $period";
+
+            $ts = strtotime($time, $this->timestamp);
         }
+
         return new Date($ts, $this->timezone);
+    }
+
+    private static function getMaxDaysInMonth($timestamp)
+    {
+        $month = (int)date('m', $timestamp);
+        if (date('L', $timestamp) == 1
+            && $month == 2
+        ) {
+            return 29;
+        } else {
+            return self::$maxDaysInMonth[$month];
+        }
     }
 
     /**

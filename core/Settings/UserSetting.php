@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,7 +24,7 @@ class UserSetting extends Setting
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $name The setting's persisted name.
      * @param string $title The setting's display name.
      * @param null|string $userLogin The user this setting applies to. Will default to the current user login.
@@ -35,12 +35,13 @@ class UserSetting extends Setting
 
         $this->setUserLogin($userLogin);
 
-        $this->displayedForCurrentUser = Piwik::isUserHasSomeViewAccess();
+        $this->writableByCurrentUser = Piwik::isUserHasSomeViewAccess();
+        $this->readableByCurrentUser = Piwik::isUserHasSomeViewAccess();
     }
 
     /**
      * Returns the display order. User settings are displayed after system settings.
-     * 
+     *
      * @return int
      */
     public function getOrder()

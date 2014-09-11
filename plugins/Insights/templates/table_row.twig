@@ -1,0 +1,29 @@
+{% if row.getColumn('isDisappeared') %}
+    {% set rowTitle = 'Insights_TitleRowDisappearedDetails'|translate(row.getColumn('label'), row.getColumn('value_old'), metadata.date|prettyDate(metadata.period), metadata.lastDate|prettyDate(metadata.period)) %}
+{% elseif row.getColumn('isNew') %}
+    {% set rowTitle = 'Insights_TitleRowNewDetails'|translate(row.getColumn('label'), row.getColumn('value_new'), metadata.lastDate|prettyDate(metadata.period)) %}
+{% else %}
+    {% set rowTitle = 'Insights_TitleRowChangeDetails'|translate(row.getColumn('label'), row.getColumn('value_old'), metadata.lastDate|prettyDate(metadata.period), row.getColumn('value_new'), metadata.date|prettyDate(metadata.period), metadata.metricName) %}
+{% endif %}
+
+{% set rowTitleShaker = '' %}
+{% if row.getColumn('isMoverAndShaker') %}
+    {% set rowTitleShaker = 'Insights_TitleRowMoverAndShaker'|translate %}
+{% endif %}
+
+<tr title="{{ rowTitle|e('html_attr') }} {{ rowTitleShaker|e('html_attr') }}"
+    class="{% if row.getColumn('isMoverAndShaker') %}isMoverAndShaker{% endif %}">
+    <td class="label">
+        <span class="title">
+            {{ row.getColumn('label') }}
+        </span>
+    </td>
+
+    {% if row.getColumn('grown') %}
+        <td>+{{ row.getColumn('difference') }}</td>
+        <td class="grown">+{{ row.getColumn('growth_percent') }}</td>
+    {% else %}
+        <td>{{ row.getColumn('difference') }}</td>
+        <td class="notGrown">{{ row.getColumn('growth_percent') }}</td>
+    {% endif %}
+</tr>

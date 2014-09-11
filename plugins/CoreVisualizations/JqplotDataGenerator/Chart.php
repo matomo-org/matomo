@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,13 +8,12 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
-use Piwik\Common;
 use Piwik\ProxyHttp;
 
 /**
  *
  */
-class Chart 
+class Chart
 {
     // the data kept here conforms to the jqplot data layout
     // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
@@ -54,10 +53,7 @@ class Chart
     {
         foreach ($values as $label => &$data) {
             $this->series[] = array(
-                // unsanitize here is safe since data gets outputted as JSON, not HTML
-                // NOTE: this is a quick fix for a double-encode issue. if this file is refactored,
-                // this fix can probably be removed (or at least made more understandable).
-                'label'         => Common::unsanitizeInputValue($label),
+                'label'         => $label,
                 'internalLabel' => $label
             );
 

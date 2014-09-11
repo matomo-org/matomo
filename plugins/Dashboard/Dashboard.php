@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,14 +8,10 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
-use Exception;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Menu\MenuMain;
-use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Site;
 use Piwik\WidgetsList;
 
 /**
@@ -31,8 +27,6 @@ class Dashboard extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'UsersManager.deleteUser'                => 'deleteDashboardLayout',
-            'Menu.Reporting.addItems'                => 'addMenus',
-            'Menu.Top.addItems'                      => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
@@ -94,6 +88,18 @@ class Dashboard extends \Piwik\Plugin
             ]';
         }
 
+        /**
+         * Allows other plugins to modify the default dashboard layout.
+         *
+         * @param string &$defaultLayout JSON encoded string of the default dashboard layout. Contains an
+         *                               array of columns where each column is an array of widgets. Each
+         *                               widget is an associative array w/ the following elements:
+         *
+         *                               * **uniqueId**: The widget's unique ID.
+         *                               * **parameters**: The array of query parameters that should be used to get this widget's report.
+         */
+        Piwik::postEvent("Dashboard.changeDefaultDashboardLayout", array(&$defaultLayout));
+
         $defaultLayout = $this->removeDisabledPluginFromLayout($defaultLayout);
 
         return $defaultLayout;
@@ -106,7 +112,7 @@ class Dashboard extends \Piwik\Plugin
             ' WHERE login = ? ORDER BY iddashboard', array($login));
 
         $nameless = 1;
-        foreach ($dashboards AS &$dashboard) {
+        foreach ($dashboards as &$dashboard) {
 
             if (empty($dashboard['name'])) {
                 $dashboard['name'] = Piwik::translate('Dashboard_DashboardOf', $login);
@@ -194,38 +200,6 @@ class Dashboard extends \Piwik\Plugin
     public function encodeLayout($layout)
     {
         return Common::json_encode($layout);
-    }
-
-    public function addMenus()
-    {
-        MenuMain::getInstance()->add('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => 1), true, 5);
-
-        if (!Piwik::isUserIsAnonymous()) {
-            $login = Piwik::getCurrentUserLogin();
-
-            $dashboards = $this->getAllDashboards($login);
-            if (count($dashboards) > 1) {
-                $pos = 0;
-                foreach ($dashboards AS $dashboard) {
-                    MenuMain::getInstance()->add('Dashboard_Dashboard', $dashboard['name'], array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
-                    $pos++;
-                }
-            }
-        }
-    }
-
-    public function addTopMenu()
-    {
-        $tooltip = false;
-        try {
-            $idSite = Common::getRequestVar('idSite');
-            $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
-        } catch (Exception $ex) {
-            // if no idSite parameter, show no tooltip
-        }
-
-        $urlParams = array('module' => 'CoreHome', 'action' => 'index');
-        MenuTop::addEntry('Dashboard_Dashboard', $urlParams, true, 1, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

@@ -1,18 +1,27 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 function initTopControls() {
-    if ($('#periodString').length) {
-        var left=0;
-        $('.top_controls').children('.js-autoLeftPanel').each(function(i, el){
-            var control = $(el);
-            if (left) {
-                control.css({left: left});
+    var $topControlsContainer = $('.top_controls'),
+        left = 0;
+
+    if ($topControlsContainer.length) {
+        $('.piwikTopControl').each(function () {
+            var $control = $(this);
+            if ($control.css('display') == 'none') {
+                return;
             }
-            left+=control.outerWidth(true);
+
+            $control.css('left', left);
+
+            if (!$.contains($topControlsContainer[0], this)) {
+                $control.detach().appendTo($topControlsContainer);
+            }
+
+            left += $control.outerWidth(true);
         });
     }
 }

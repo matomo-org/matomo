@@ -1,3 +1,15 @@
+@-moz-document url-prefix() {
+  // see bug in Firefox 30+
+  // https://github.com/piwik/piwik/issues/5242
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1012640
+  .tagCloud + .dataTableFeatures {
+    clear: left;
+  }
+  .tagCloud .word {
+    float: left;
+  }
+}
+
 .tagCloud {
     padding: 10px;
 

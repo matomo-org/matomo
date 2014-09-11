@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Visitor profile popup control.
  *
@@ -15,7 +15,7 @@
 
     /**
      * Sets up and handles events for the visitor profile popup.
-     * 
+     *
      * @param {Element} element The HTML element returned by the Live.getVisitorLog controller
      *                          action. Should have the CSS class 'visitor-profile'.
      * @constructor
@@ -39,7 +39,7 @@
      * Instead broadcast.propagateNewPopoverParameter('visitorProfile', visitorId) should be
      * called. This would make sure the popover would be opened if the URL is copied and pasted
      * in a new tab/window.
-     * 
+     *
      * @param {String} visitorId The string visitor ID.
      */
     VisitorProfileControl.showPopover = function (visitorId) {
@@ -50,7 +50,7 @@
         if ($('.RealTimeMap').length > 0) {
             url += '&showMap=0';
         }
-        
+
         Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
     };
 
@@ -132,6 +132,28 @@
                 } else {
                     $exportLink.css('visibility', 'hidden');
                 }
+            });
+
+            var tooltipIsOpened = false;
+
+            $('a', $element).on('focus', function () {
+                // see https://github.com/piwik/piwik/issues/4099
+                if (tooltipIsOpened) {
+                    $element.tooltip('close');
+                }
+            });
+
+            $element.tooltip({
+                track: true,
+                show: false,
+                hide: false,
+                content: function() {
+                    var title = $(this).attr('title');
+                    return $('<a>').text( title ).html().replace(/\n/g, '<br />');
+                },
+                tooltipClass: 'small',
+                open: function() { tooltipIsOpened = true; },
+                close: function() { tooltipIsOpened = false; }
             });
         },
 
@@ -251,7 +273,7 @@
         },
 
         _loadNextVisitor: function () {
-            this._gotoAdjacentVisitor(this.$element.attr('data-next-visitor')); 
+            this._gotoAdjacentVisitor(this.$element.attr('data-next-visitor'));
         },
 
         _gotoAdjacentVisitor: function (idVisitor) {

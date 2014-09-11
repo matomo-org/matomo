@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -37,7 +37,7 @@ function getPathFromUrl($url)
 function getSocialMainUrl($url)
 {
     $social  = getSocialNetworkFromDomain($url);
-    foreach (Common::getSocialUrls() AS $domain => $name) {
+    foreach (Common::getSocialUrls() as $domain => $name) {
 
         if($name == $social) {
 
@@ -55,7 +55,7 @@ function getSocialMainUrl($url)
  */
 function getSocialNetworkFromDomain($url)
 {
-    foreach (Common::getSocialUrls() AS $domain => $name) {
+    foreach (Common::getSocialUrls() as $domain => $name) {
 
         if(preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url)) {
 
@@ -76,7 +76,7 @@ function getSocialNetworkFromDomain($url)
  */
 function isSocialUrl($url, $socialName = false)
 {
-    foreach (Common::getSocialUrls() AS $domain => $name) {
+    foreach (Common::getSocialUrls() as $domain => $name) {
 
         if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
 

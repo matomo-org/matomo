@@ -1,0 +1,25 @@
+{
+    "Live": {
+        "ConvertedNGoals": "Dönüştürülen %s Hedef",
+        "FirstVisit": "İlk ziyaret",
+        "GoalType": "Tür",
+        "HideMap": "haritayı gizle",
+        "LastHours": "Son %s saat",
+        "LastMinutes": "Son %s dakika",
+        "LastVisit": "Son ziyaret",
+        "LinkVisitorLog": "Ayrıntılı ziyaretçi kayitlari",
+        "LoadMoreVisits": "Daha fazla ziyaretçi yükle",
+        "NbVisitor": "1 ziyaretçi",
+        "NbVisitors": "%s ziyaretçi",
+        "NextVisitor": "Sonraki ziyaretçi",
+        "NoMoreVisits": "Bu ziyaretçi için daha fazla ziyaret bilgisi yok.",
+        "PluginDescription": "Ziyaretçilerinizi gözleyin, canlı, gerçek zamanlı!",
+        "PreviousVisitor": "Önceki ziyaretçi",
+        "RealTimeVisitorCount": "Gerçek Zamanlı Ziyaretçi Sayacı",
+        "Referrer_URL": "Yönlendirme Siteleri",
+        "ViewVisitorProfile": "Ziyaretçi profiline bak",
+        "VisitedPages": "Ziyaret edilmiş sayfalar",
+        "VisitorLog": "Ziyaretçi kayıtları",
+        "VisitorsInRealTime": "Gerçek Zamanlı Ziyaretçiler"
+    }
+}

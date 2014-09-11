@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,6 @@ var Piwik_Overlay = (function () {
     var iframeCurrentPageNormalized = '';
     var iframeCurrentActionLabel = '';
     var updateComesFromInsideFrame = false;
-
 
     /** Load the sidebar for a url */
     function loadSidebar(currentUrl) {

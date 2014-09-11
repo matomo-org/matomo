@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Visitor profile popup control.
  *
@@ -14,10 +14,14 @@
     /**
      * Base type for Piwik UI controls. Provides functionality that all controls need (such as
      * cleanup on destruction).
-     * 
+     *
      * @param {Element} element The root element of the control.
      */
     var UIControl = function (element) {
+        if (!element) {
+            throw new Error("no element passed to UIControl constructor");
+        }
+
         this._controlId = UIControl._controls.length;
         UIControl._controls.push(this);
 
@@ -31,7 +35,7 @@
             }
         }
         this.param = params;
-        
+
         this.props = JSON.parse($element.attr('data-props') || '{}');
     };
 
@@ -43,7 +47,7 @@
     /**
      * Utility method that will clean up all piwik UI controls whose elements are not attached
      * to the DOM.
-     * 
+     *
      * TODO: instead of having other pieces of the UI manually calling cleanupUnusedControls,
      *       MutationObservers should be used
      */
@@ -91,8 +95,8 @@
 
         /**
          * Handle the widget resize event, if we're currently in a widget.
-         * 
-         * TODO: should use proper resize detection (see 
+         *
+         * TODO: should use proper resize detection (see
          * http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/ )
          * with timeouts (since resizing widgets can be expensive)
          */

@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+coverage
+.grunt
+build/Release
+pids
+*.pid
+*.seed
+*.log
+logs

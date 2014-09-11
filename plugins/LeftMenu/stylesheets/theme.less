@@ -1,139 +1,147 @@
-#container {
-  clear: left;
-}
+.leftMenuPlugin {
 
-#content.home {
+  #container {
+    clear: left;
+  }
+
+  #root .Menu--dashboard {
+    border: 0px;
+
+    > .Menu-tabList {
+      margin-left: 5px;
+      margin-bottom: 0;
+      margin-top: 0.1em;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  }
+
+  #content.home {
     padding-top: 15px;
     display:inline-block;
     width:100%;
-}
+  }
 
-.Menu--dashboard {
-  padding: 0;
-  float: left;
-  width: 240px;
-  padding-top: 10px;
-}
+  .Menu--dashboard {
+    padding: 0;
+    float: left;
+    width: 240px;
+    padding-top: 10px;
+    clear: left;
 
-.Menu--dashboard > .Menu-tabList {
-  background-image: linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-  background-image: -o-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-  background-image: -moz-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-  background-image: -webkit-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-  background-image: -ms-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
+    > .Menu-tabList {
+      -moz-background-size: 5px 100%;
+      background-size: 5px 100%;
+      background-position: 0 0, 100% 0;
+      background-repeat: no-repeat;
 
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FECB00), color-stop(0.25, #FE9800), color-stop(0.5, #FE6702), color-stop(0.75, #CA0000), color-stop(1, #670002));
+      > li {
+        > ul {
+          min-height: 0;
+          max-height: 0;
+          padding: 0;
+          overflow: hidden;
+          position: static;
+          float: none;
+        }
 
-  -moz-background-size: 5px 100%;
-  background-size: 5px 100%;
-  background-position: 0 0, 100% 0;
-  background-repeat: no-repeat;
-}
+        > span,
+        > a {
+          display: block;
+          padding: 5px 10px;
+          font-size: 18px;
+          line-height: 24px;
+          text-decoration: none;
+          float: none;
+        }
+      }
 
-.Menu--dashboard > .Menu-tabList {
-  padding-left: 5px;
-  margin-bottom: 0;
-  margin-top: 0.1em;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
+      > .sfActive > ul {
+        padding-bottom: 5px;
+        max-height: 500px; /* That's a hack for CSS transitions */
+      }
 
-.Menu--dashboard > .Menu-tabList > li > ul {
-  min-height: 0;
-  max-height: 0;
-  padding: 0;
-  overflow: hidden;
-  position: static;
-  float: none;
-}
+      li {
+        list-style: none;
+        margin: 0;
+        float: none;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
 
-.Menu--dashboard > .Menu-tabList > .sfActive > ul {
-  padding-bottom: 5px;
-  max-height: 500px; /* That's a hack for CSS transitions */
-}
+        a:hover {
+          text-decoration: underline;
+        }
 
-.Menu--dashboard > .Menu-tabList li {
-  list-style: none;
-  margin: 0;
-  float: none;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
+        li {
+          float: none;
+          text-align: left;
 
-.Menu--dashboard > .Menu-tabList li a:hover {
-  text-decoration: underline;
-}
+          a {
+            text-decoration: none;
+            padding: 0.6em 0.9em;
+            font: 14px Arial, Helvetica, sans-serif;
+            display: block;
 
-.Menu--dashboard > .Menu-tabList > li > span,
-.Menu--dashboard > .Menu-tabList > li > a {
-  border-bottom: 1px dotted #778;
-  display: block;
-  padding: 5px 10px;
-  font-size: 18px;
-  line-height: 24px;
-  color: #7E7363;
-  text-decoration: none;
-  float: none;
-}
+            &.current {
+              background: #defdbb;
+            }
 
-.Menu--dashboard > .Menu-tabList li li {
-  float: none;
-  text-align: left;
-}
+            &:link,
+            &:visited {
+              text-decoration: none;
+            }
+          }
 
-.Menu--dashboard > .Menu-tabList li li a {
-  text-decoration: none;
-  padding: 0.6em 0.9em;
-  font: 14px Arial, Helvetica, sans-serif;
-  display: block;
-}
+        }
+      }
 
-.Menu--dashboard > .Menu-tabList li li a:link,
-.Menu--dashboard > .Menu-tabList li li a:visited {
-  color: #000;
-}
+      a {
+        height: auto;
+      }
 
-.Menu--dashboard > .Menu-tabList > .sfActive > a,
-.Menu--dashboard > .Menu-tabList > li > a:hover {
-  background: #f1f1f1;
-  border-bottom: 1px dotted #777788 !important;
-}
+      > .sfActive > a,
+      > li > a:hover {
+        background: #f1f1f1;
+      }
 
-.Menu--dashboard > .Menu-tabList li li a:hover,
-.Menu--dashboard > .Menu-tabList li li a.active {
-  color: #e87500;
-}
+      > .sfActive .sfHover > a {
+        font-weight: bold;
+      }
+    }
+  }
 
-.Menu--dashboard > .Menu-tabList > .sfActive .sfHover > a {
-  color: #E87500;
-  font-weight: bold;
-}
+  .top_controls {
+    clear: none;
+  }
 
-.Menu--dashboard > .Menu-tabList li li a.current {
-  background: #defdbb;
-}
+  .nav_sep {
+    display: none;
+  }
 
-/* Fixes */
-.nav_sep {
-  display: none;
-}
+  .top_bar_sites_selector {
+    float: left;
+  }
 
-.top_bar_sites_selector {
-  float: left;
-}
+  .pageWrap {
+    margin-left: 240px;
+    border-width: 0;
+    padding-top: 0;
+    max-height: none;
+  }
 
-.Menu--dashboard {
-  clear: left;
-}
-
-.pageWrap {
-  margin-left: 240px;
-  border-width: 0;
-  padding-top: 0;
-  max-height: none;
-}
-
-.widget:first-child {
+  .widget:first-child {
     margin-top: 0;
+  }
+
+  .sites_selector_in_dashboard {
+    margin-top: 0px;
+    margin-left: 5px;
+  }
+
+  .sites_autocomplete .custom_select_main_link {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
 }

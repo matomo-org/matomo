@@ -12,7 +12,7 @@
 <div class="visitor-profile-latest-visit-column">
     <ul>
         <li>
-            <span>{{ 'General_IP'|translate }}</span><strong {% if visitData.providerName is not empty %}title="{{ 'Provider_ColumnProvider'|translate }}: {{ visitData.providerName }}"{% endif %}>{{ visitData.visitIp }}</strong>
+            <span>{{ 'General_IP'|translate }}</span><strong {% if visitData.providerName is defined and visitData.providerName is not empty %}title="{{ 'Provider_ColumnProvider'|translate }}: {{ visitData.providerName }}"{% endif %}>{{ visitData.visitIp }}</strong>
         </li>
         <li class="visitor-profile-id">
             <span>{{ 'General_Id'|translate|upper }}</span>
@@ -20,18 +20,22 @@
                 <strong>{{ visitData.visitorId }}</strong>
             {% if widgetizedLink is defined %}</a>{% endif %}
             <a class="visitor-profile-export" href="{{ exportLink }}" target="_blank" title="{{ 'General_ExportThisReport'|translate }}" style="visibility:hidden">
-                <img src="plugins/Zeitgeist/images/export.png"/>
+                <img src="plugins/Morpheus/images/export.png"/>
             </a>
         </li>
         <li>
+            {% if visitData.browserName is defined %}
             <div class="visitor-profile-browser" title="{% if visitData.plugins is defined %}{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitData.browserName, visitData.plugins) }}{% else %}{{ 'UserSettings_BrowserWithNoPluginsEnabled'|translate(visitData.browserName) }}{% endif %}">
-                <img src="{{ visitData.browserIcon }}"/><span>{{ visitData.browserName|split(' ')[0] }}</span>
+                {% if visitData.browserIcon is defined %}<img src="{{ visitData.browserIcon }}"/>{% endif %}<span>{{ visitData.browserName|split(' ')[0] }}</span>
             </div>
+            {% endif %}
+
             <div class="visitor-profile-os">
-                <img src="{{ visitData.operatingSystemIcon }}"/><span>{{ visitData.operatingSystemShortName }}</span>
+                {% if visitData.operatingSystemIcon is defined %}<img src="{{ visitData.operatingSystemIcon }}"/>{% endif %}{% if visitData.operatingSystemShortName is defined %}<span>{{ visitData.operatingSystemShortName }}</span>{% endif %}
             </div>
         </li>
-        <li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>
+        {% if visitData.resolution is defined %}<li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}
+        {% if visitData.userId is not empty %}<li><span>{{ 'General_UserId'|translate }}</span><strong>{{ visitData.userId|raw }}</strong></li>{% endif %}
         {% if visitReferralSummary is defined %}
         {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
         <li>
@@ -42,6 +46,7 @@
     </ul>
 </div>
 <div class="visitor-profile-latest-visit-column">
+    {% if visitData.customVariables is defined %}
     <ul>
         {% for id,customVariable in visitData.customVariables %}
         {% if loop.index0 < 4 %}
@@ -49,7 +54,8 @@
         {% endif %}
         {% endfor %}
     </ul>
-    {% if visitData.customVariables|length > 4 %}
+    {% endif %}
+    {% if visitData.customVariables is defined and visitData.customVariables|length > 4 %}
     <ul class="visitor-profile-extra-cvars" style="display:none;">
         {% for id,customVariable in visitData.customVariables %}
         {% if loop.index0 >= 4 %}

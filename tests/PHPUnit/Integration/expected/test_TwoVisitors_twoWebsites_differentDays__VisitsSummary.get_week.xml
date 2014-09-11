@@ -3,6 +3,7 @@
 	<result idSite="1">
 		<result date="From 2009-12-28 to 2010-01-03">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
 			<nb_visits_converted>0</nb_visits_converted>
@@ -15,6 +16,7 @@
 		</result>
 		<result date="From 2010-01-04 to 2010-01-10">
 			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>7</nb_visits>
 			<nb_actions>32</nb_actions>
 			<nb_visits_converted>0</nb_visits_converted>
@@ -27,6 +29,7 @@
 		</result>
 		<result date="From 2010-01-11 to 2010-01-17">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>2</nb_visits>
 			<nb_actions>10</nb_actions>
 			<nb_visits_converted>0</nb_visits_converted>
@@ -46,6 +49,7 @@
 		<result date="From 2009-12-28 to 2010-01-03" />
 		<result date="From 2010-01-04 to 2010-01-10">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_users>1</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>3</nb_actions>
 			<nb_visits_converted>0</nb_visits_converted>

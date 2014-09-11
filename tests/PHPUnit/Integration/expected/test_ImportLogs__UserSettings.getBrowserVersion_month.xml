@@ -9,6 +9,7 @@
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/EP.gif</logo>
 		<shortLabel>Epiphany 2.30</shortLabel>
 	</row>
@@ -21,6 +22,7 @@
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
 		<shortLabel>Internet Explorer 9.0</shortLabel>
 	</row>
@@ -33,6 +35,7 @@
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
 		<shortLabel>RockMelt 0.9</shortLabel>
 	</row>
@@ -45,6 +48,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/AN.gif</logo>
 		<shortLabel>Android Browser </shortLabel>
 	</row>
@@ -57,6 +61,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 		<shortLabel>Chrome 19.0</shortLabel>
 	</row>
@@ -69,6 +74,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 		<shortLabel>Chrome 20.0</shortLabel>
 	</row>
@@ -81,6 +87,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
 		<shortLabel>Firefox 6.0</shortLabel>
 	</row>
@@ -93,6 +100,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
 		<shortLabel>Unknown</shortLabel>
 	</row>
@@ -105,6 +113,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 		<shortLabel>Chrome 11.0</shortLabel>
 	</row>
@@ -117,6 +126,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
 		<shortLabel>Internet Explorer 6.0</shortLabel>
 	</row>

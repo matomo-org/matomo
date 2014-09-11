@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,26 +16,26 @@ use Piwik\Piwik;
 /**
  * Truncates a {@link DataTable} by merging all rows after a certain index into a new summary
  * row. If the count of rows is less than the index, nothing happens.
- * 
+ *
  * The {@link ReplaceSummaryRowLabel} filter will be queued after the table is truncated.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Basic usage**
- * 
+ *
  *     $dataTable->filter('Truncate', array($truncateAfter = 500));
- * 
+ *
  * **Using a custom summary row label**
- * 
+ *
  *     $dataTable->filter('Truncate', array($truncateAfter = 500, $summaryRowLabel = Piwik::translate('General_Total')));
- * 
+ *
  * @api
  */
 class Truncate extends BaseFilter
 {
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The table that will be filtered eventually.
      * @param int $truncateAfter The row index to truncate at. All rows passed this index will
      *                           be removed.

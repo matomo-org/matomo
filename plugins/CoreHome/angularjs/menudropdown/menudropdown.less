@@ -1,0 +1,106 @@
+
+.menuDropdown {
+  display: inline-block;
+  padding-right: 14px;
+  color: @theme-color-link;
+
+  .title {
+    position: relative;
+    cursor: pointer;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      right: -15px;
+      color: @theme-color-link;
+      display: inline;
+      content: " \25BC";
+      font-size: 1px;
+      height: 0px;
+      width: 0px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid @theme-color-link;
+    }
+  }
+
+  .items {
+    z-index: 21;
+    position: absolute;
+    border: 1px solid @color-silver-l80 !important;
+    background: @theme-color-background-base;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+
+    .search {
+      margin: 15px 6px 10px 6px;
+      display: block;
+
+      .search_ico {
+        position: absolute;
+        right: 25px;
+        top: 22px;
+        margin: 0px;
+        left: initial;
+      }
+      .reset {
+        position: absolute;
+        top: 25px;
+        cursor: pointer;
+        margin: 0px;
+        right: 25px;
+        left: initial;
+      }
+
+      input {
+        margin: 0px;
+        width: 100%;
+
+        &::-ms-clear {
+          display: none;
+        }
+      }
+    }
+
+    .item {
+      display: block;
+      color: @theme-color-text !important;
+      text-decoration: none !important;
+      padding: 6px 25px 6px 6px !important;
+      font-size: 11px;
+      float: none;
+      text-align: left;
+
+      &:hover {
+        background: @color-silver-l80;
+      }
+
+      &.active {
+        background-color: @color-silver-l80;
+      }
+
+      &.category {
+        color: @theme-color-text-light !important
+      }
+
+      &.separator {
+        padding: 0px !important;
+        border-bottom: 0px;
+        margin: 0px;
+      }
+
+      &.separator,
+      &.disabled {
+        opacity: 0.5;
+        cursor: default;
+
+        &:hover {
+          background: @theme-color-background-base;
+        }
+      }
+    }
+  }
+}

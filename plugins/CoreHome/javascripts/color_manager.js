@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,28 +29,28 @@
      * components that don't manage HTML (like jqPlot or sparklines). Such components
      * can't use CSS colors directly since the colors are used to generate images
      * or by <canvas> elements.
-     * 
+     *
      * Colors obtained via ColorManager are defined in CSS like this:
-     * 
+     *
      * .my-color-namespace[data-name=color-name] {
      *     color: #fff
      * }
-     * 
+     *
      * and can be accessed in JavaScript like this:
-     * 
+     *
      * piwik.ColorManager.getColor("my-color-namespace", "color-name");
-     * 
+     *
      * The singleton instance of this class can be accessed via piwik.ColorManager.
      */
     var ColorManager = function () {
         // empty
     };
-    
+
     ColorManager.prototype = {
 
         /**
          * Returns the color for a namespace and name.
-         * 
+         *
          * @param {String} namespace The string identifier that groups related colors
          *                           together. For example, 'sparkline-colors'.
          * @param {String} name The name of the color to retrieve. For example, 'lineColor'.
@@ -63,10 +63,10 @@
 
             return this._normalizeColor(element.css('color'));
         },
-        
+
         /**
          * Returns the colors for a namespace and a list of names.
-         * 
+         *
          * @param {String} namespace The string identifier that groups related colors
          *                           together. For example, 'sparkline-colors'.
          * @param {Array} names An array of color names to retrieve.
@@ -92,7 +92,7 @@
 
         /**
          * Returns a color that is N % between two other colors.
-         * 
+         *
          * @param {String|Array} spectrumStart The start color. If percentFromStart is 0, this color will
          *                                     be returned. Can be either a hex color or RGB array.
          *                                     It will be converted to an RGB array if a hex color is supplied.
@@ -125,7 +125,7 @@
         /**
          * Utility function that converts a hex color (ie, #fff or #1a1a1a) to an array of
          * RGB values.
-         * 
+         *
          * @param {String} hexColor The color to convert.
          * @return {Array} An array with three integers between 0 and 255.
          */
@@ -151,7 +151,7 @@
 
         /**
          * Utility function that converts an RGB array to a hex color.
-         * 
+         *
          * @param {Array} rgbColor An array with three integers between 0 and 255.
          * @return {String} The hex color, eg, #1a1a1a.
          */
@@ -190,7 +190,7 @@
             }
             return color;
         },
-        
+
         /**
          * Returns the manufactured <div> element used to obtain color data. When
          * getting color data the class and data-name attribute of this element are
@@ -219,7 +219,7 @@
             return this.transparentColor;
         }
     };
-    
+
     piwik.ColorManager = new ColorManager();
 
 }(jQuery));

@@ -9,7 +9,6 @@ a = new function() {
     }
 }
 
-
 /**
 	named function executed inline
 */
@@ -30,7 +29,7 @@ bar2 = new function Zoola2() {
 module = (function () {
 	/** won't appear in documentation */
 	var priv = 1;
-	
+
 	/** @scope module */
 	return {
 		/** will appear as a property of module */

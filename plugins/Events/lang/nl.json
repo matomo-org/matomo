@@ -1,0 +1,28 @@
+{
+    "Events": {
+        "AvgEventValue": "Gemiddelde gebeurtenis waarde is: %s",
+        "AvgValue": "Gemiddelde waarde",
+        "AvgValueDocumentation": "Het gemiddelde voor alle waardes van deze gebeurtenis",
+        "Event": "Gebeurtenis",
+        "EventAction": "Gebeurtenis Actie",
+        "EventActions": "Gebeurtenis acties",
+        "EventCategory": "Gebeurtenis Categorie",
+        "EventName": "Gebeurtenis Naam",
+        "EventNames": "Gebeurtenis Namen",
+        "Events": "Gebeurtenissen",
+        "EventsWithValue": "Gebeurtenissen met een waarde",
+        "EventsWithValueDocumentation": "Aantal events waar een Event waarde is bepaald",
+        "EventValue": "Gebeurtenis Waarde",
+        "MaxValue": "Maximale waarde",
+        "MaxValueDocumentation": "De maximale waarde voor deze gebeurtenis",
+        "MinValue": "Minimale waarde",
+        "MinValueDocumentation": "De minimale waarde voor deze gebeurtenis",
+        "SecondaryDimension": "Tweede dimensie is %s.",
+        "SwitchToSecondaryDimension": "Omschakelen naar %s",
+        "TopEvents": "Top Gebeurtenissen",
+        "TotalEvents": "Totaal gebeurtenissen",
+        "TotalEventsDocumentation": "Totaal aantal gebeurtenissen",
+        "TotalValue": "Totale waarde",
+        "TotalValueDocumentation": "De som van gebeurtenis waardes"
+    }
+}

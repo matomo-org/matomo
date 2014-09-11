@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,17 +30,9 @@ class Html extends Renderer
      *
      * @param string $id
      */
-    function setTableId($id)
+    public function setTableId($id)
     {
         $this->tableId = str_replace('.', '_', $id);
-    }
-
-    /**
-     * Output HTTP Content-Type header
-     */
-    protected function renderHeader()
-    {
-        Common::sendHeader('Content-Type: text/html; charset=utf-8');
     }
 
     /**
@@ -48,26 +40,13 @@ class Html extends Renderer
      *
      * @return string
      */
-    function render()
+    public function render()
     {
-        $this->renderHeader();
         $this->tableStructure = array();
         $this->allColumns = array();
         $this->i = 0;
 
         return $this->renderTable($this->table);
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        $this->renderHeader();
-        $exceptionMessage = $this->getExceptionMessage();
-        return nl2br($exceptionMessage);
     }
 
     /**

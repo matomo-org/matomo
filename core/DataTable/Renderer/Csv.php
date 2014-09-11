@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -90,18 +90,6 @@ class Csv extends Renderer
             $str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
         }
         return $str;
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        Common::sendHeader('Content-Type: text/html; charset=utf-8');
-        $exceptionMessage = $this->getExceptionMessage();
-        return 'Error: ' . $exceptionMessage;
     }
 
     /**
@@ -341,7 +329,7 @@ class Csv extends Renderer
             } else if (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
             } else {
-                $period = Period::factory($period, Date::factory($date));
+                $period = Period\Factory::build($period, Date::factory($date));
             }
 
             $prettyDate = $period->getLocalizedLongString();
@@ -353,8 +341,7 @@ class Csv extends Renderer
         }
 
         // silent fail otherwise unit tests fail
-        Common::sendHeader('Content-Type: application/vnd.ms-excel');
-        Common::sendHeader('Content-Disposition: attachment; filename="' . $fileName . '"');
+        Common::sendHeader('Content-Disposition: attachment; filename="' . $fileName . '"', true);
         ProxyHttp::overrideCacheControlHeaders();
     }
 

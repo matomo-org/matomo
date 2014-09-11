@@ -1,0 +1,31 @@
+{
+    "Events": {
+        "AvgEventValue": "La valeur moyenne de l'évènement est : %s",
+        "AvgValue": "Valeur moyenne",
+        "AvgValueDocumentation": "Moyenne de toutes les valeurs pour cet évènement",
+        "Event": "Evènement",
+        "EventAction": "Action de l'évènement",
+        "EventActions": "Actions de l'évènement",
+        "EventCategories": "Catégories d'évènement",
+        "EventCategory": "Catégorie d'évènement",
+        "EventName": "Nom d'évènement",
+        "EventNames": "Noms d'évènement",
+        "Events": "Evènements",
+        "EventsWithValue": "Evènements avec une valeur",
+        "EventsWithValueDocumentation": "Nombre d'évènements qui ont une valeur de définie",
+        "EventValue": "Valeur d'évènement",
+        "EventValueTooltip": "La valeur totale de l'évènement est la somme des %s valeurs d'évènements %s entre un minimum de %s et un maximum de %s.",
+        "MaxValue": "Valeur maximum",
+        "MaxValueDocumentation": "Valeur maximale pour cet évènement",
+        "MinValue": "Valeur minimum",
+        "MinValueDocumentation": "Valeur minimale pour cet évènement",
+        "SecondaryDimension": "La seconde dimension est %s.",
+        "SwitchToSecondaryDimension": "Passer à %s",
+        "TopEvents": "Principaux évènements",
+        "TotalEvents": "Nombre total d'évènements",
+        "TotalEventsDocumentation": "Nombre total des évènements",
+        "TotalValue": "Valeur totale",
+        "TotalValueDocumentation": "Somme des valeurs d'évènement",
+        "ViewEvents": "Afficher les évènements"
+    }
+}

@@ -1,0 +1,39 @@
+<tr ng-class="{'groupedWebsite': website.group, 'website': !website.group, 'group': website.isGroup}">
+    <td ng-if="!website.isGroup" class="multisites-label label">
+        <a title="View reports" ng-href="index.php?module=CoreHome&action=index&date={{ date }}&period={{ period }}&idSite={{ website.idsite }}">{{ website.label }}</a>
+
+        <span style="width: 10px; margin-left:3px;">
+            <a target="_blank" title="{{ 'General_GoTo'|translate:website.main_url }}" ng-href="{{ website.main_url }}">
+            <img src="plugins/Morpheus/images/link.gif"/></a>
+        </span>
+    </td>
+    <td ng-if="website.isGroup" class="multisites-label label">
+        {{ website.label }}
+    </td>
+    <td class="multisites-column">
+        {{ website.nb_visits }}
+    </td>
+    <td class="multisites-column">
+        {{ website.nb_pageviews }}
+    </td>
+    <td ng-if="displayRevenueColumn" class="multisites-column">
+        {{ website.revenue }}
+    </td>
+
+    <td ng-if="period != 'range'" style="width:170px;">
+        <div class="visits" ng-if="!website.isGroup">
+            <span ng-show="website[evolutionMetric] > 0"><img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <span style="color: green;">{{ website[evolutionMetric] }}%&nbsp;</span></span>
+            <span ng-show="website[evolutionMetric] == 0"><img src="plugins/MultiSites/images/stop.png" alt="" /> <span>{{ website[evolutionMetric] }}%</span></span>
+            <span ng-show="website[evolutionMetric] < 0"><img src="plugins/MultiSites/images/arrow_down.png" alt="" /> <span style="color: red;">{{ website[evolutionMetric] }}%&nbsp;</span></span>
+        </div>
+    </td>
+
+    <td ng-if="showSparklines" style="width:180px;">
+        <div ng-if="!website.isGroup" class="sparkline" style="width: 100px; margin: auto;">
+            <a target="_blank" ng-href="index.php?module=CoreHome&action=index&date={{ date }}&period={{ period }}&idSite={{ website.idsite }}"
+               title="{{ 'General_GoTo'|translate:('Dashboard_DashboardOf'|translate:website.label) }}">
+                <img alt="" ng-src="{{ sparklineImage(website) }}" width="100" height="25" />
+            </a>
+        </div>
+    </td>
+</tr>

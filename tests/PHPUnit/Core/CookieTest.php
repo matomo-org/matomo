@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -36,7 +36,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getJsonSerializeData
      */
     public function testJsonSerialize($testData, $id)
@@ -78,7 +78,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getSafeSerializeData
      */
     public function testSafeSerialize($id, $testData)
@@ -98,7 +98,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
          * serialize() uses its internal maachine representation when floats expressed in E-notation,
          * which may vary between php versions, OS, and hardware platforms
          */
-        $testData = $tests['exp float'] = -5.0E+142;
+        $testData = -5.0E+142;
         // intentionally disabled; this doesn't work
 //        $this->assertEquals( safe_serialize($testData), serialize($testData) );
         $this->assertEquals($testData, unserialize(safe_serialize($testData)));

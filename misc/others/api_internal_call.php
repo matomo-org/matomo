@@ -17,7 +17,8 @@ FrontController::getInstance()->init();
 
 // This inits the API Request with the specified parameters
 $request = new Request('
-			method=UserSettings.getResolution
+			module=API
+			&method=UserSettings.getResolution
 			&idSite=7
 			&date=yesterday
 			&period=week

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,10 @@
 namespace Piwik\Plugins\UserCountryMap;
 
 use Piwik\FrontController;
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Version;
 use Piwik\WidgetsList;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  */
@@ -35,13 +35,15 @@ class UserCountryMap extends \Piwik\Plugin
 
     public function postLoad()
     {
-        WidgetsList::add('General_Visitors', Piwik::translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
-        WidgetsList::add('Live!', Piwik::translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
+        if (PluginManager::getInstance()->isPluginActivated('UserCountry')) {
+            WidgetsList::add('General_Visitors', Piwik::translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
+            WidgetsList::add('Live!', Piwik::translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
+        }
 
         Piwik::addAction('Template.leftColumnUserCountry', array('Piwik\Plugins\UserCountryMap\UserCountryMap', 'insertMapInLocationReport'));
     }
 
-    static public function insertMapInLocationReport(&$out)
+    public static function insertMapInLocationReport(&$out)
     {
         $out = '<h2>' . Piwik::translate('UserCountryMap_VisitorMap') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
@@ -52,15 +54,9 @@ class UserCountryMap extends \Piwik\Plugin
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Menu.Reporting.addItems'         => 'addMenu',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
         return $hooks;
-    }
-
-    public function addMenu()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'UserCountryMap_RealTimeMap',
-            array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
     }
 
     public function getJsFiles(&$jsFiles)
@@ -77,5 +73,11 @@ class UserCountryMap extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/UserCountryMap/stylesheets/visitor-map.less";
         $stylesheets[] = "plugins/UserCountryMap/stylesheets/realtime-map.less";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'UserCountryMap_WithUnknownRegion';
+        $translationKeys[] = 'UserCountryMap_WithUnknownCity';
     }
 }

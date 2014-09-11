@@ -1,10 +1,9 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 
 //
 // TRANSITIONS ROW ACTION FOR DATA TABLES
@@ -46,11 +45,12 @@ DataTable_RowActions_Transitions.prototype.trigger = function (tr, e, subTableLa
     }
 };
 
-DataTable_RowAction.prototype.performAction = function (label, tr, e) {
+DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, e) {
     var separator = ' > '; // LabelFilter::SEPARATOR_RECURSIVE_LABEL
     var labelParts = label.split(separator);
     for (var i = 0; i < labelParts.length; i++) {
-        labelParts[i] = $.trim(decodeURIComponent(labelParts[i]));
+        var labelPart = labelParts[i].replace('@', '');
+        labelParts[i] = $.trim(decodeURIComponent(labelPart));
     }
     label = labelParts.join(piwik.config.action_url_category_delimiter);
     this.openPopover('title:' + label);
@@ -100,7 +100,7 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        if (tr.attr('id')) {
+        if (tr.hasClass('subDataTable')) {
             // not available on groups (i.e. folders)
             return false;
         }
@@ -113,7 +113,6 @@ DataTable_RowActions_Registry.register({
     }
 
 });
-
 
 //
 // TRANSITIONS IMPLEMENTATION
@@ -616,7 +615,7 @@ Piwik_Transitions.prototype.renderClosedGroup = function (groupName, side, onlyB
         boxText: self.model.getGroupTitle(groupName),
         boxTextNumLines: 1,
         boxTextCssClass: 'SingleLine',
-        boxIcon: 'plugins/Zeitgeist/images/plus_blue.png',
+        boxIcon: 'plugins/Morpheus/images/plus_blue.png',
         smallBox: true,
         onClick: function () {
             self.unHighlightGroup(groupName, side);
@@ -715,7 +714,6 @@ Piwik_Transitions.prototype.openExternalUrl = function (url) {
     url = piwik.piwik_url + '?module=Proxy&action=redirect&url=' + encodeURIComponent(url);
     window.open(url, '_newtab');
 };
-
 
 // --------------------------------------
 // CANVAS
@@ -1220,7 +1218,6 @@ Piwik_Transitions_Canvas.prototype.clearSide = function (side, onlyBg) {
     }
 };
 
-
 // --------------------------------------
 // MODEL
 // --------------------------------------
@@ -1407,7 +1404,6 @@ Piwik_Transitions_Model.prototype.roundPercentage = function (value) {
     }
 };
 
-
 // --------------------------------------
 // AJAX
 // --------------------------------------
@@ -1491,7 +1487,6 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
     );
     ajaxRequest.send(false);
 };
-
 
 // --------------------------------------
 // STATIC UTIL FUNCTIONS

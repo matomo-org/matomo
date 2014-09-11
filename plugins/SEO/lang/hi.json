@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "एलेक्सा दरजा",
+        "Bing_IndexedPages": "बिंग अनुक्रमित पृष्ठों",
+        "Dmoz": "डीमॉज़ प्रविष्टियां",
+        "DomainAge": "डोमेन आयु",
+        "ExternalBacklinks": "बाह्य बैकलिंक (राजसी)",
+        "Google_IndexedPages": "गूगल पृष्ठों से अनुक्रमित",
+        "Rank": "श्रेणी",
+        "ReferrerDomains": "संदर्भ डोमेन (राजसी)",
+        "SeoRankings": "एसईओ रैंकिंग",
+        "SEORankingsFor": "%s के लिए एसईओ रैंकिंग",
+        "ViewBacklinksOnMajesticSEO": "MajesticSEO.com पर बाह्य बैकलिंक रिपोर्ट देखें"
+    }
+}

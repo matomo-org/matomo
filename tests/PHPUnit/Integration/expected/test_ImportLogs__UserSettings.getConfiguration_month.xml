@@ -9,6 +9,7 @@
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Mac OS / RockMelt / unknown</label>
@@ -19,6 +20,7 @@
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Windows 7 / Internet Explorer / unknown</label>
@@ -29,6 +31,7 @@
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Android / Android Browser / unknown</label>
@@ -39,6 +42,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Linux / Firefox / unknown</label>
@@ -49,6 +53,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Windows 7 / Chrome / unknown</label>
@@ -59,6 +64,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Bot / Unknown / unknown</label>
@@ -69,6 +75,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Linux / Chrome / unknown</label>
@@ -79,6 +86,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Mac OS / Chrome / unknown</label>
@@ -89,6 +97,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Unknown / Unknown / unknown</label>
@@ -99,6 +108,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Windows XP / Chrome / 1280x800</label>
@@ -109,6 +119,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Windows XP / Internet Explorer / 1024x768</label>
@@ -119,5 +130,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 </result>

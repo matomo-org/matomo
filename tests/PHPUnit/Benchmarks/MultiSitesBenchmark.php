@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 class MultiSitesBenchmark extends BenchmarkTestCase
 {
     private $archivingLaunched = false;
-    
+
     public function setUp()
     {
         $archivingTables = ArchiveTableCreator::getTablesArchivesInstalled();
@@ -37,7 +37,7 @@ class MultiSitesBenchmark extends BenchmarkTestCase
         if ($this->archivingLaunched) {
             echo "NOTE: Had to archive data, memory results will not be accurate. Run again for better results.";
         }
-        
+
         Rules::$archivingDisabledByTests = true;
         APIMultiSites::getInstance()->getAll(self::$fixture->period, self::$fixture->date);
     }

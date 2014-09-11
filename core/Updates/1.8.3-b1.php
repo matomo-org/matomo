@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -60,7 +60,7 @@ class Updates_1_8_3_b1 extends Updates
             // - delete Common::prefixTable('pdf')
 
             $reports = Db::fetchAll('SELECT * FROM `' . Common::prefixTable('pdf') . '`');
-            foreach ($reports AS $report) {
+            foreach ($reports as $report) {
 
                 $idreport = $report['idreport'];
                 $idsite = $report['idsite'];

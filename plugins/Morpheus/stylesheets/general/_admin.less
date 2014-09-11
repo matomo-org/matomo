@@ -1,0 +1,118 @@
+.Menu--admin {
+    .Menu-tabList {
+        .border-radius(0px);
+        border-color: @color-gray;
+        background-image: none;
+        padding-left: 0;
+        border-top: 0;
+        > li {
+            padding-bottom: 0px;
+            > span {
+                color: @theme-color-text;
+                .font-default(18px, 26px);
+                border-top: 1px solid @color-gray;
+                border-bottom: 1px solid @color-gray;
+                padding: 12px 15px;
+            }
+            ul {
+                li {
+                    a {
+                        color: @theme-color-text-lighter !important;
+                        padding: 0.6em 1.1em;
+                        &:hover {
+                            color: @theme-color-text;
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.admin {
+    h2 {
+        border-bottom: 1px solid @color-gray;
+        margin-right:0;
+    }
+    h3 {
+        color: @theme-color-text;
+        .font-default(18px, 24px);
+        font-weight: normal;
+    }
+    a:hover {
+        text-decoration:underline;
+    }
+}
+
+.ui-state-highlight {
+    border-color: @color-silver-l80 !important;
+    background: @color-silver-l95 !important;
+    .ui-icon {
+        background-image: url('plugins/Morpheus/images/info.png');
+        background-position: 0 0;
+    }
+}
+
+.adminTable {
+    td {
+        padding: 0;
+    }
+    label {
+        cursor: pointer;
+        min-height: 30px;
+    }
+
+    .sites_autocomplete {
+        position: static !important;
+    }
+}
+
+.sites_autocomplete  {
+    vertical-align: middle;
+}
+
+#loadingError {
+    color: @theme-color-brand;
+    font-weight: normal;
+}
+
+.sites_autocomplete .custom_select .custom_select_block .custom_select_container .custom_select_ul_list {
+    margin-top: 5px;
+    padding-bottom: 0;
+}
+
+.form-description {
+    margin-left: 0;
+}
+
+.adminTable a {
+    color: @theme-color-link;
+}
+
+.addRowSite,
+.addrow {
+    cursor: pointer;
+}
+
+.addrow {
+    margin-top: 10px;
+}
+
+.addRowSite {
+    display: inline-block;
+    margin: 5px 0;
+    &:before {
+        content: url(plugins/Morpheus/images/add.png) !important;
+    }
+}
+
+code {
+    border-color: @color-silver-l80;
+    border-left: 5px solid @theme-color-brand;
+}
+
+#geoipdb-screen1>div>p {
+    line-height: 1.4em;
+    height: 6em;
+}

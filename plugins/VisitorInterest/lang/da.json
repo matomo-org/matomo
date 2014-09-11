@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min.",
+        "BetweenXYSeconds": "%1$s-%2$s sek.",
+        "ColumnPagesPerVisit": "Sider pr. besøg",
+        "ColumnVisitDuration": "Besøgslængde",
+        "Engagement": "Engagement",
+        "NPages": "%s sider",
+        "OneMinute": "1 min.",
+        "OnePage": "1 side",
+        "PluginDescription": " Rapporter om besøgendes interesser: antal besøgte sider, tidsforbrug på hjemmesiden.",
+        "PlusXMin": "%s min.",
+        "VisitNum": "Besøg nummer",
+        "VisitsByDaysSinceLast": "Besøgende pr. dage siden sidste besøg.",
+        "visitsByVisitCount": "Besøg af besøg antal",
+        "VisitsPerDuration": "Besøgsvarighed pr. besøg",
+        "VisitsPerNbOfPages": "Besøg pr. antal sider",
+        "WidgetLengths": "Besøgslængde",
+        "WidgetLengthsDocumentation": "Rapporten viser, hvor mange besøg der har haft en vis samlet varighed. Rapporten vises som en emnesky, mere almindelige varigheder vises med større skrifttype.",
+        "WidgetPages": "Sidevisninger pr. besøg",
+        "WidgetPagesDocumentation": "Rapporten viser, hvor mange besøg, der er involveret i et bestemt antal sidevisninger. Rapporten vises som en emnesky, mere almindelige antal sider vises med en større skrifttype.",
+        "WidgetVisitsByDaysSinceLast": "Besøgende pr. dage siden sidste besøg.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Rapporten viser, hvor mange besøg var fra besøgende, hvis sidste besøg var et bestemt antal dage siden.",
+        "WidgetVisitsByNumDocumentation": "Rapporten viser antallet af besøg, som var det N'te besøg, dvs. besøgende, der besøgte hjemmesiden mindst N gange."
+    }
+}

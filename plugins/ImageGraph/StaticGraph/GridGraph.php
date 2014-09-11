@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -416,7 +416,7 @@ abstract class GridGraph extends StaticGraph
     // can not currently be used because pChart's label design is not flexible enough
     // e.g: it is not possible to remove the box border & the square icon
     // it would require modifying pChart code base which we try to avoid
-    // see http://dev.piwik.org/trac/ticket/3396
+    // see https://github.com/piwik/piwik/issues/3396
 //	protected function displayMinMaxValues()
 //	{
 //		if($displayMinMax)

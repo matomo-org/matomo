@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,11 +14,11 @@ use Piwik\DataTable\BaseFilter;
 /**
  * Executes a callback for each row of a {@link DataTable} and adds the result as a new
  * row metadata value.
- * 
+ *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik\Plugins\MyPlugin\getLogoFromLabel'));
- * 
+ *
  * @api
  */
 class ColumnCallbackAddMetadata extends BaseFilter
@@ -31,7 +31,7 @@ class ColumnCallbackAddMetadata extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The DataTable instance that will be filtered.
      * @param string|array $columnsToRead The columns to read from each row and pass on to the callback.
      * @param string $metadataToAdd The name of the metadata field that will be added to each row.

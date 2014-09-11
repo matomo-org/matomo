@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,7 +27,7 @@ class Unzip
      * @param string $filename Name of .zip archive
      * @return \Piwik\Unzip\UncompressInterface
      */
-    static public function factory($name, $filename)
+    public static function factory($name, $filename)
     {
         switch ($name) {
             case 'ZipArchive':

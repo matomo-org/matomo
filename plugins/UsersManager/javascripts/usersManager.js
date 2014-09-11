@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -60,7 +60,7 @@ function sendAddUserAJAX(row) {
 }
 
 function getIdSites() {
-    return $('.custom_select_main_link').attr('data-siteid');
+    return $('#usersManagerSiteSelect').attr('siteid');
 }
 
 function sendUpdateUserAccess(login, access, successCallback) {
@@ -143,7 +143,7 @@ function bindUpdateSuperUserAccess() {
     }
 
     message = _pk_translate(message);
-    message = message.replace('%s', login)
+    message = message.replace('%s', login);
 
     $('#superUserAccessConfirm h2').text(message);
 
@@ -229,7 +229,11 @@ $(document).ready(function () {
             $(this)
                 .toggle()
                 .parent()
-                .prepend($('<input type="submit" class="submit updateuser"  value="' + _pk_translate('General_Save') + '" />')
+                .prepend($('<a class="canceluser">' + _pk_translate('General_OrCancel', ['', '']) + '</a>')
+                    .click(function () {
+                        piwikHelper.redirect();
+                    })
+                ).prepend($('<input type="submit" class="submit updateuser"  value="' + _pk_translate('General_Save') + '" />')
                     .click(function () {
                         var onValidate = function () {
                             sendUpdateUserAJAX($('tr#' + idRow));
@@ -240,7 +244,7 @@ $(document).ready(function () {
                             onValidate();
                         }
                     })
-                );
+            );
         });
 
     $('.editable').keypress(submitOnEnter);
@@ -273,6 +277,7 @@ $(document).ready(function () {
 				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
 				<td><input id="useradd_alias" value="alias" size="15" /></td>\
 				<td>-</td>\
+                <td>-</td>\
 				<td><input type="submit" class="submit adduser"  value="' + _pk_translate('General_Save') + '" /></td>\
 	  			<td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</span></td>\
 	 		</tr>'))
@@ -293,14 +298,9 @@ $(document).ready(function () {
     $('#superUserAccess .accessGranted, #superUserAccess .updateAccess').click(bindUpdateSuperUserAccess);
 
     // when a site is selected, reload the page w/o showing the ajax loading element
-    $('#usersManagerSiteSelect').bind('piwik:siteSelected', function (e, site) {
+    $('#usersManagerSiteSelect').bind('change', function (e, site) {
         if (site.id != piwik.idSite) {
-            switchSite(
-                site.id,
-                site.name,
-                false /* do not show main ajax loading animation */,
-                true /* do not go to all websites dash */
-            );
+            piwik.broadcast.propagateNewPage('segment=&idSite=' + site.id, false);
         }
     });
 });

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -40,7 +40,7 @@ class API extends \Piwik\Plugin\API
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
-    static private $instance = null;
+    private static $instance = null;
 
     protected function __construct()
     {
@@ -57,7 +57,7 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         try {
             $instance = \Piwik\Registry::get('UsersManager_API');
@@ -341,10 +341,10 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered after a new user is created.
-         * 
+         *
          * @param string $userLogin The new user's login handle.
          */
-        Piwik::postEvent('UsersManager.addUser.end', array($userLogin));
+        Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password, $alias));
     }
 
     /**
@@ -374,6 +374,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Detect whether the current user has super user access or not.
+     *
+     * @return bool
+     */
+    public function hasSuperUserAccess()
+    {
+        return Piwik::hasUserSuperUserAccess();
+    }
+
+    /**
      * Returns a list of all Super Users containing there userLogin and email address.
      *
      * @return array
@@ -399,6 +409,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
         $userInfo = $this->getUser($userLogin);
+        $passwordHasBeenUpdated = false;
 
         if (empty($password)) {
             $password = $userInfo['password'];
@@ -408,6 +419,8 @@ class API extends \Piwik\Plugin\API
                 UsersManager::checkPassword($password);
                 $password = UsersManager::getPasswordHash($password);
             }
+
+            $passwordHasBeenUpdated = true;
         }
 
         if (empty($alias)) {
@@ -431,10 +444,12 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered after an existing user has been updated.
-         * 
+         * Event notify about password change.
+         *
          * @param string $userLogin The user's login handle.
+         * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
-        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin));
+        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
     }
 
     /**
@@ -552,6 +567,12 @@ class API extends \Piwik\Plugin\API
         // when no access are specified
         if ($access != 'noaccess') {
             $this->model->addUserAccess($userLogin, $access, $idSites);
+        } else {
+            if (!empty($idSites) && !is_array($idSites)) {
+                $idSites = array($idSites);
+            }
+
+            Piwik::postEvent('UsersManager.removeSiteAccess', array($userLogin, $idSites));
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access

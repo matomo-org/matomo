@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -38,7 +38,6 @@ session_cache_limiter('nocache');
 require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
     ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
     : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
 if(!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
     define('PIWIK_PRINT_ERROR_BACKTRACE', false);

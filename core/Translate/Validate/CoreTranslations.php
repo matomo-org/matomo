@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
  */
 
 namespace Piwik\Translate\Validate;
-
 
 use Piwik\Common;
 
@@ -19,7 +18,6 @@ class CoreTranslations extends ValidateAbstract
     /**
      * Error States
      */
-    const ERRORSTATE_MINIMUMTRANSLATIONS = 'At least 250 translations required';
     const ERRORSTATE_LOCALEREQUIRED = 'Locale required';
     const ERRORSTATE_TRANSLATORINFOREQUIRED = 'Translator info required';
     const ERRORSTATE_TRANSLATOREMAILREQUIRED = 'Translator email required';
@@ -54,11 +52,6 @@ class CoreTranslations extends ValidateAbstract
     public function isValid($translations)
     {
         $this->message = null;
-
-        if (250 > count($translations, COUNT_RECURSIVE)) {
-            $this->message = self::ERRORSTATE_MINIMUMTRANSLATIONS;
-            return false;
-        }
 
         if (empty($translations['General']['Locale'])) {
             $this->message = self::ERRORSTATE_LOCALEREQUIRED;

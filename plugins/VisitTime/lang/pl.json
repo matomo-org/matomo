@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Czas lokalny",
+        "ColumnServerTime": "Czas serwera",
+        "LocalTime": "Odwiedziny według lokalnego czasu",
+        "NHour": "%sh",
+        "PluginDescription": "Raporty związane z czasem lokalnym i czasem serwera. Informacje uwzględniające czas serwera mogą być użyteczne do ustalenia czasu przerw technicznych serwisu.",
+        "ServerTime": "Odwiedziny według czasu serwera",
+        "SubmenuTimes": "Czas",
+        "WidgetLocalTime": "Odwiedziny według lokalnego czasu",
+        "WidgetServerTime": "Odwiedziny według czasu serwera"
+    }
+}

@@ -3,7 +3,9 @@
 {% block content %}
 {% import 'macros.twig' as piwik %}
 
-<h2 id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
+<h2 piwik-enriched-headline
+    help-url="http://piwik.org/docs/geo-locate/"
+    id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
 
 <div style="width:900px;">
 
@@ -29,12 +31,12 @@
         </tr>
         {% for id,provider in locationProviders %}
         <tr>
-            <td width="140">
+            <td width="150">
                 <p>
                     <input class="location-provider" name="location-provider" value="{{ id }}" type="radio" {% if currentProviderId == id %}checked="checked"{% endif %}
                            id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
                     <label for="provider_input_{{ id }}">{{ provider.title|translate }}</label><br/>
-                    <span class="loadingPiwik" style="display:none;"><img src="./plugins/Zeitgeist/images/loading-blue.gif"/></span>
+                    <span class="loadingPiwik" style="display:none;"><img src="./plugins/Morpheus/images/loading-blue.gif"/></span>
                     <span class="success" ></span>
                 </p>
 
@@ -64,7 +66,7 @@
                             <div style="text-align:left;">
                                 <br/>
                                 <span class="loadingPiwik" style="display:none;position:absolute;">
-                                    <img src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_Loading'|translate }}</span>
+                                    <img src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_Loading'|translate }}</span>
                                 <span class="location"><strong><em>{{ provider.location|raw }}</em></strong></span>
                             </div>
                             <div style="text-align:right;">
@@ -118,7 +120,7 @@
             </div>
         </div>
         <div id="geoipdb-screen2-download" style="display:none;">
-            <p class='loadingPiwik'><img src='./plugins/Zeitgeist/images/loading-blue.gif'/>
+            <p class='loadingPiwik'><img src='./plugins/Morpheus/images/loading-blue.gif'/>
             {{ 'UserCountry_DownloadingDb'|translate('<a href="'~geoLiteUrl~'">GeoLiteCity.dat</a>')|raw }}...</p>
 	        <div id="geoip-download-progress"></div>
         </div>

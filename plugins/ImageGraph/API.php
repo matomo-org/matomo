@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -41,7 +41,7 @@ class API extends \Piwik\Plugin\API
     const MAX_WIDTH = 2048;
     const MAX_HEIGHT = 2048;
 
-    static private $DEFAULT_PARAMETERS = array(
+    private static $DEFAULT_PARAMETERS = array(
         StaticGraph::GRAPH_TYPE_BASIC_LINE     => array(
             self::FILENAME_KEY => 'BasicLine',
             self::TRUNCATE_KEY => 6,
@@ -74,7 +74,7 @@ class API extends \Piwik\Plugin\API
         ),
     );
 
-    static private $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
+    private static $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
         'UserSettings_getPlugin'    => array(
             false // override if !$isMultiplePeriod
             => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,

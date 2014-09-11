@@ -1,0 +1,28 @@
+{
+    "UsersManager": {
+        "AddUser": "አዲስ ተጤቃሚ ጨምር",
+        "Alias": "ተለዋጭ ስም",
+        "AllWebsites": "ሁሉንም ድር ጣቢያዎች",
+        "ApplyToAllWebsites": "በሁሉም ድር ጣቢያዎች ላይ ተግብር",
+        "ChangeAllConfirm": "እርግጠኛ ነህ '%s' የሁሉንም ድር ጣቢያዎች ፈቃድ መቀየር ትፈልጋለህ?",
+        "DeleteConfirm": "እርግጠኛ ነህ ተጠቃሚዎቹን መሰረዝ ትፈልጋለህ %s?",
+        "Email": "ኢ-ሜይል",
+        "ExceptionAccessValues": "የግቤት መድረሻ ከሚከተሉት አንዱ እሴት ሊኖረው ይገባል: [ %s ]",
+        "ExceptionAdminAnonymous": "የአስተዳዳሪን ፈቃድ ላልታወቀ ሰው መስጠት አይቻልም",
+        "ExceptionDeleteDoesNotExist": "ተጠቃሚው '%s' የለም ስለዚህ ሊሰረዝ አይችልም",
+        "ExceptionEditAnonymous": "ያልታወቀው ተጠቃሚን መሰረዝ ወይም አርትእ አይቻልም። በፒዊክ ያልገባን ተጤቃሚ ለመግለፅ ይጠቅማል። ለምሳሌ የርስዎን ስታቲስቲክ 'የትይታ' ፈቃድ 'ላልታወቀ' ተጠቃሚ በመስጠት ግልፅ ማድረግ ትችላለህ።",
+        "ExceptionEmailExists": "በዚህ ኢ-ሜይል ተጠቃሚ '%s'አለ.",
+        "ExceptionInvalidEmail": "ኢ-ሜይሉ ትክክለኛ ቅርፀት የለውም",
+        "ExceptionInvalidLoginFormat": "ገባ በ %1$s እና %2$s በ ቁምፊ መካከል መሆን አለበት እንዲሁም ፊደላት፣ቁጥሮች ወይም ቁምፊ ብቻ መያዝ አለበት '_' ወይም '-' ወይም '.'",
+        "ExceptionLoginExists": "ግባ '%s' አስቀድሞ ማለት.",
+        "MainDescription": "የትኞቹ ተጠቃሚዎች የትኛው በድር ጣቢያህ ላይ የፒዊክ መድረሻ እንዳላቸው ወስን። በሁሉም ድር ጣቢያዎች ላይ ፈቃዳቸውን በአንድ ጊዜ ማዘጋጀት ይቻላል።",
+        "ManageAccess": "መድረሻ መንጅ",
+        "MenuUsers": "ተጠቃሚዎች",
+        "PrivAdmin": "አስተዳዳሪ",
+        "PrivNone": "መድረሻ የለም",
+        "PrivView": "ትእይታ",
+        "User": "ተጠቃሚ",
+        "UsersManagement": "የተጠቃሚዎች ምነጃ",
+        "UsersManagementMainDescription": "አዳዲስ ተጤቃሚዎችን ይፍጠሩ ወይም ያሉትን ያልቁ።ፈቃዳቸውን ከላይ ማዘጋጀት ይቻላል."
+    }
+}

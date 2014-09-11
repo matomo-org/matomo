@@ -1,0 +1,19 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Šioje kategorijoje duomenų nėra. Pabandykite \"Įtraukti visą populiaciją\"",
+        "JavascriptDisabled": "JavaScript turi būti įjungta, kad būtų galima naudoti standartinę Piwik išvaizdą.<br \/>Tačiau panašu, kad JavaScript yra arba išjungta, arba nepalaikoma Jūsų naršyklės.<br \/>Norėdami matyti standartinę išvaizdą, įjunkite JavaScript keisdami savo naršyklės nustatymus, tada %1$sbandykite dar kartą%2$s.<br \/>",
+        "PageOf": "%1$s iš %2$s",
+        "PeriodDay": "Diena",
+        "PeriodDays": "dienos",
+        "PeriodMonth": "Mėnuo",
+        "PeriodMonths": "mėnesiai",
+        "PeriodWeek": "Savaitė",
+        "PeriodWeeks": "savaitės",
+        "PeriodYear": "Metai",
+        "PeriodYears": "metai",
+        "PluginDescription": "Žiniatinklio analizės sprendimo ataskaitų struktūra.",
+        "ShowJSCode": "Parodyti JavaScript kodą įvedimui",
+        "ThereIsNoDataForThisReport": "Nėra duomenų šiai ataskaitai.",
+        "WebAnalyticsReports": "Žiniatinklio analizės sprendimo ataskaitos"
+    }
+}

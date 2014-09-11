@@ -17,7 +17,7 @@
         {% if error is defined %}
             {{ error.message }}
         {% else %}
-            {% if dataTable is empty or dataTable.getRowsCount() == 0 or dataTableHasNoData|default(false) %}
+            {% if dataTable is empty or dataTableHasNoData|default(false) %}
                 <div class="pk-emptyDataTable">
                 {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
                     {{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}

@@ -1,0 +1,16 @@
+{
+    "CoreHome": {
+        "DateFormat": "%longDay% %day% %longMonth% %longYear%",
+        "Default": "అప్రమేయం",
+        "LongMonthFormat": "%longYear%, %longMonth%",
+        "PageOf": "%2$sలో %1$sవది",
+        "PeriodDay": "రోజు",
+        "PeriodDays": "రోజులు",
+        "PeriodMonth": "నెల",
+        "PeriodMonths": "నెలలు",
+        "PeriodWeek": "వారం",
+        "PeriodWeeks": "వారాలు",
+        "PeriodYear": "సంవత్సరం",
+        "PeriodYears": "సంవత్సరాలు"
+    }
+}

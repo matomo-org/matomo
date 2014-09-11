@@ -5,13 +5,17 @@
         "DBSize": "Mărimea bazei de date",
         "EstimatedSize": "Mărimea anticipată",
         "IndexSize": "Marime index",
+        "LearnMore": "Pentru a invata mai multe despre cum proceseaza datele Piwik si cum sa faceti ca Piwik sa functioneze bine cu siteurile care au trafic mediu si mare, vedeti documentatia: %s.",
         "MainDescription": "Piwik stocheaza toate datele statistice in baza de date Mysql . Curent, tabela Piwik utilizeaza %s.",
+        "MetricDataByYear": "Tabelele cu Parametri dupa An",
         "MetricTables": "Tabele Metrici",
         "OtherTables": "Alte tablete",
+        "PluginDescription": "Acest plugin arata raportul cu gradul de utilizare a bazei de date MySQL pentru fiecare tabela Piwik in parte",
         "ReportDataByYear": "Tabele din raport pentru anul",
         "ReportTables": "Tabele din raport",
         "RowCount": "Numărul de înregistrări",
         "Table": "Tabel",
-        "TotalSize": "Marime totala"
+        "TotalSize": "Marime totala",
+        "TrackerTables": "Mese Tracker"
     }
 }

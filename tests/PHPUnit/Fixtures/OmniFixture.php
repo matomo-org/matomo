@@ -1,19 +1,25 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tracker\Visit;
+use Piwik\Access;
+use Piwik\Option;
+use ReflectionClass;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\Tests\Fixture;
+use Piwik\Tests\OverrideLogin;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
  * with year periods.
  */
-class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
+class OmniFixture extends Fixture
 {
     public $month = '2012-01';
     public $idSite = 'all';
@@ -34,14 +40,27 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
         $date = $this->month . '-01';
 
         $classes = get_declared_classes();
+        sort($classes);
         foreach ($classes as $className) {
-            if (is_subclass_of($className, 'Test_Piwik_BaseFixture')
+            if (is_subclass_of($className, 'Fixture')
+                && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
+                && $className != "Piwik_Test_Fixture_SqlDump"
+                && $className != "Piwik\\Tests\\Fixtures\\UpdaterTestFixture"
+                && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
             ) {
+                $klassReflect = new ReflectionClass($className);
+                if (!strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
+                    && $className != "CustomAlerts"
+                    && $className != "Piwik\\Plugins\\Insights\\tests\\Fixtures\\SomeVisitsDifferentPathsOnTwoDays"
+                ) {
+                    continue;
+                }
+
                 $fixture = new $className();
                 if (!property_exists($fixture, 'dateTime')) {
                     continue;
-                }   
+                }
 
                 $fixture->dateTime = $this->adjustDateTime($fixture->dateTime, $date);
 
@@ -51,12 +70,12 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
             }
         }
 
-        $this->now = $this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts']->now;
+        $this->now = $this->fixtures['ManySitesImportedLogsWithXssAttempts']->now;
 
-        // make sure Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts is the first fixture
-        $fixture = $this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts'];
-        unset($this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts']);
-        $this->fixtures = array_merge(array('Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts' => $fixture), $this->fixtures);
+        // make sure ManySitesImportedLogsWithXssAttempts is the first fixture
+        $fixture = $this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts'];
+        unset($this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts']);
+        $this->fixtures = array_merge(array('Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts' => $fixture), $this->fixtures);
     }
 
     private function adjustDateTime($dateTime, $adjustToDate)
@@ -71,14 +90,16 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
 
     public function setUp()
     {
-        foreach ($this->fixtures as $name => $fixture) {
+        foreach ($this->fixtures as $fixture) {
             $fixture->setUp();
         }
 
-        $this->visitorIdDeterministic = bin2hex(\Piwik\Db::fetchOne(
-            "SELECT idvisitor FROM " . \Piwik\Common::prefixTable('log_visit')
-            . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
+        Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
 
+        // launch archiving so tests don't run out of time
+        $date = Date::factory($this->dateTime)->toString();
+        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
+        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
     }
 
     public function tearDown()
@@ -86,5 +107,11 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
         foreach ($this->fixtures as $fixture) {
             $fixture->tearDown();
         }
+    }
+
+    public static function createAccessInstance()
+    {
+        Access::setSingletonInstance($access = new OverrideLogin());
+        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

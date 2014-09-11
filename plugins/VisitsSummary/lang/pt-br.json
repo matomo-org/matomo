@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s tempo médio de geração",
+        "AverageVisitDuration": "duração média da visita %s",
+        "GenerateQueries": "%s consultas executadas",
+        "GenerateTime": "%s segundos para gerar a página",
+        "MaxNbActions": "%s ações máximas em uma visita",
+        "NbActionsDescription": "%s ações (visualizações de páginas, downloads e links externos)",
+        "NbActionsPerVisit": "%s ações (exibições de página, downloads, outlinks e pesquisas internas no website) por visita",
+        "NbDownloadsDescription": "%s downloads",
+        "NbKeywordsDescription": "%s palavras-chave únicas",
+        "NbOutlinksDescription": "%s outlinks",
+        "NbPageviewsDescription": "%s exibições de página",
+        "NbSearchesDescription": "%s pesquisas totais no seu website",
+        "NbUniqueDownloadsDescription": "%s downloads únicos",
+        "NbUniqueOutlinksDescription": "%s outlinks únicos",
+        "NbUniquePageviewsDescription": "%s exibições de página únicas",
+        "NbUniqueVisitors": "%s visitantes únicos",
+        "NbVisitsBounced": "%s visitantes saíram (deixaram o website após uma página)",
+        "PluginDescription": "Relata os números gerais Analytics: visitas, visitantes únicos, número de ações, taxas, etc.",
+        "VisitsSummary": "Resumo dos Visitantes",
+        "VisitsSummaryDocumentation": "Esta é uma visão geral da evolução da visita.",
+        "WidgetLastVisits": "Gráfico dos últimos visitantes",
+        "WidgetOverviewGraph": "Visão Geral com Gráfico",
+        "WidgetVisits": "Visão Geral dos Visitantes"
+    }
+}

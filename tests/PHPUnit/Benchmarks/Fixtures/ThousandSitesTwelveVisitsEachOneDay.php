@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,24 +19,10 @@ class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
 
     public function setUp()
     {
-        $goals = APIGoals::getInstance();
-
         // add one thousand sites
         $allIdSites = array();
         for ($i = 0; $i < 1000; ++$i) {
-            $allIdSites[] = Test_Piwik_BaseFixture::createWebsite($this->date, $ecommerce = 1, $siteName = "Site #$i");
-        }
-
-        // add goals to 500 sites
-        $idGoals = array();
-        foreach ($allIdSites as $idSite) {
-            if ($idSite % 2 == 0) {
-                $idGoal1 = $goals->addGoal($idSite, 'all', 'url', 'http', 'contains', false, 5);
-                $idGoal2 = $goals->addGoal($idSite, 'all', 'url', 'http', 'contains');
-                $idGoals[$idSite] = array($idGoal1, $idGoal2);
-            } else {
-                $idGoals[$idSite] = array();
-            }
+            $allIdSites[] = Fixture::createWebsite($this->date, $ecommerce = 1, $siteName = "Site #$i");
         }
 
         $urls = array();

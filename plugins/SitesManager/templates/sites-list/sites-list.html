@@ -1,0 +1,39 @@
+<div class="entityContainer">
+
+    <div ng-repeat="site in sites" ng-include="'plugins/SitesManager/templates/dialogs/dialogs.html'"></div>
+
+    <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
+
+    <table class="entityTable dataTable">
+        <thead>
+        <tr>
+            <th>{{ 'General_Id'|translate }}</th>
+            <th>{{ 'General_Name'|translate }}</th>
+            <th>{{ 'SitesManager_Urls'|translate }}</th>
+            <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
+            <th>{{ 'SitesManager_ExcludedParameters'|translate }}</th>
+            <th ng-show="globalSettings.siteSpecificUserAgentExcludeEnabled">
+                {{ 'SitesManager_ExcludedUserAgents'|translate }}
+            </th>
+            <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
+            <th>{{ 'SitesManager_Timezone'|translate }}</th>
+            <th>{{ 'SitesManager_Currency'|translate }}</th>
+            <th>{{ 'Goals_Ecommerce'|translate }}</th>
+            <th></th>
+            <th></th>
+            <th>{{ 'General_JsTrackingTag'|translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr
+                    sites-manager-scroll
+                    ng-controller="SitesManagerSiteController"
+                    ng-repeat="site in sites"
+                    ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html'">
+            </tr>
+        </tbody>
+    </table>
+
+    <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
+
+</div>

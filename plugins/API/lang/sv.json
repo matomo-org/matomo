@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Om du inte har data för idag så kan du först skapa några data med hjälp av %s plugin. Du kan aktivera %s plugin, klicka sedan på 'Besöksgeneratorn'-menyn i Piwik administrationsområdet.",
+        "KeepTokenSecret": "Detta token_auth är lika hemligt som ditt användarnamn och lösenord, %s dela inte med dig av detta! %s!",
+        "LoadedAPIs": "Laddade in %s API'er utan problem",
+        "MoreInformation": "För mer information om Piwiks API'er, ta en titt i %s Introduction to Piwik API %s och %s Piwik API Reference %s.",
+        "PluginDescription": "All data i Piwik finns tillgängligt via enkla API'er. Denna plugin är webbtjänstens ingångspunkt som du kan anropa för att få tillgång till din webbanalysdata i xml, json, php, csv, osv.",
+        "QuickDocumentationTitle": "API snabbdokumentation",
+        "TopLinkTooltip": "Få åtkomst till webbanalysdata programmatiskt genom ett enkelt API i t.ex. json, xml etc.",
+        "UserAuthentication": "Användarautentisering",
+        "UsingTokenAuth": "Om du vill %s begära uppgifter inom ett skript, ett crontab-jobb, etc. %s måste du lägga till parametern %s till API-anrop webbadresser som kräver autentisering."
+    }
+}

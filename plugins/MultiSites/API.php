@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,12 +12,12 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
 use Piwik\Site;
 use Piwik\TaskScheduler;
 
@@ -41,7 +41,7 @@ class API extends \Piwik\Plugin\API
     const ECOMMERCE_ORDERS_METRIC = 'orders';
     const ECOMMERCE_REVENUE_METRIC = 'ecommerce_revenue';
 
-    static private $baseMetrics = array(
+    private static $baseMetrics = array(
         self::NB_VISITS_METRIC   => array(
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbVisits',
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'visits_evolution',
@@ -52,12 +52,6 @@ class API extends \Piwik\Plugin\API
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbActions',
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'actions_evolution',
             self::METRIC_RECORD_NAME_KEY        => self::NB_ACTIONS_METRIC,
-            self::METRIC_IS_ECOMMERCE_KEY       => false,
-        ),
-        self::NB_PAGEVIEWS_LABEL => array(
-            self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
-            self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
-            self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
             self::METRIC_IS_ECOMMERCE_KEY       => false,
         )
     );
@@ -171,12 +165,15 @@ class API extends \Piwik\Plugin\API
                 // Instead, we make sure that only the right set of data is returned
                 && !TaskScheduler::isTaskBeingExecuted()
             ) {
-                $sites = APISitesManager::getInstance()->getAllSites();
+                APISitesManager::getInstance()->getAllSites();
             } else {
-                $sites = APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
+                APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
             // Both calls above have called Site::setSitesFromArray. We now get these sites:
             $sitesToProblablyAdd = Site::getSites();
+        } else if (is_array($idSitesOrIdSite)) {
+            $model = new ModelSitesManager();
+            $sitesToProblablyAdd = $model->getSitesFromIds($idSitesOrIdSite);
         } else {
             $sitesToProblablyAdd = array(APISitesManager::getInstance()->getSiteFromId($idSitesOrIdSite));
         }
@@ -208,7 +205,7 @@ class API extends \Piwik\Plugin\API
         // $dataTable instanceOf Set
         $dataTable = $archive->getDataTableFromNumeric($fieldsToGet);
 
-        $dataTable= $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $dataTable);
+        $dataTable = $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $dataTable);
 
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $table) {
@@ -242,8 +239,7 @@ class API extends \Piwik\Plugin\API
 
             // use past data to calculate evolution percentages
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
-
-            $this->setPastDataMetadata($dataTable, $pastData, $apiMetrics);
+            Common::destroy($pastData);
         }
 
         // remove eCommerce related metrics on non eCommerce Piwik sites
@@ -259,6 +255,8 @@ class API extends \Piwik\Plugin\API
         }
 
         // move the site id to a metadata column
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'group', array('\Piwik\Site', 'getGroupFor'), array()));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'main_url', array('\Piwik\Site', 'getMainUrlFor'), array()));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'idsite'));
 
         // set the label of each row to the site name
@@ -267,6 +265,8 @@ class API extends \Piwik\Plugin\API
         } else {
             $dataTable->filter('ColumnDelete', array('label'));
         }
+
+        Site::clearCache();
 
         // replace record names with user friendly metric names
         $dataTable->filter('ReplaceColumnNames', array($columnNameRewrites));
@@ -290,6 +290,13 @@ class API extends \Piwik\Plugin\API
                      }
                 )
             );
+        }
+
+        if ($multipleWebsitesRequested && $dataTable->getRowsCount() === 1 && $dataTable instanceof DataTable\Simple) {
+            $simpleTable = $dataTable;
+            $dataTable   = $simpleTable->getEmptyClone();
+            $dataTable->addRow($simpleTable->getFirstRow());
+            unset($simpleTable);
         }
 
         return $dataTable;
@@ -333,89 +340,21 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets the total visits, actions & revenue for a DataTable returned by
-     * $this->buildDataTable.
-     *
-     * @param DataTable $dataTable
-     * @param array $apiMetrics Metrics info.
-     * @return array Array of three values: total visits, total actions, total revenue
-     */
-    private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $table) {
-                $this->setMetricsTotalsMetadata($table, $apiMetrics);
-            }
-        } else {
-            $revenueMetric = '';
-            if (Common::isGoalPluginEnabled()) {
-                $revenueMetric = Archiver::getRecordName(self::GOAL_REVENUE_METRIC);
-            }
-
-            $totals = array();
-            foreach ($apiMetrics as $label => $metricInfo) {
-                $totalMetadataName = self::getTotalMetadataName($label);
-                $totals[$totalMetadataName] = 0;
-            }
-
-            foreach ($dataTable->getRows() as $row) {
-                foreach ($apiMetrics as $label => $metricInfo) {
-                    $totalMetadataName = self::getTotalMetadataName($label);
-                    $totals[$totalMetadataName] += $row->getColumn($metricInfo[self::METRIC_RECORD_NAME_KEY]);
-                }
-            }
-
-            foreach ($totals as $name => $value) {
-                $dataTable->setMetadata($name, $value);
-            }
-        }
-    }
-
-    /**
-     * Sets the total evolution metadata for a datatable returned by $this->buildDataTable
-     * given data for the last period.
-     *
-     * @param DataTable|DataTable\Map $dataTable
-     * @param DataTable|DataTable\Map $pastData
-     * @param array $apiMetrics Metrics info.
-     */
-    private function setPastDataMetadata($dataTable, $pastData, $apiMetrics)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            $pastArray = $pastData->getDataTables();
-            foreach ($dataTable->getDataTables() as $subTable) {
-                $this->setPastDataMetadata($subTable, current($pastArray), $apiMetrics);
-                next($pastArray);
-            }
-        } else {
-            // calculate total visits/actions/revenue for past data
-            $this->setMetricsTotalsMetadata($pastData, $apiMetrics);
-
-            foreach ($apiMetrics as $label => $metricInfo) {
-                // get the names of metadata to set
-                $totalMetadataName = self::getTotalMetadataName($label);
-                $lastPeriodTotalMetadataName = self::getLastPeriodMetadataName($totalMetadataName);
-                $totalEvolutionMetadataName =
-                    self::getTotalMetadataName($metricInfo[self::METRIC_EVOLUTION_COL_NAME_KEY]);
-
-                // set last period total
-                $pastTotal = $pastData->getMetadata($totalMetadataName);
-                $dataTable->setMetadata($lastPeriodTotalMetadataName, $pastTotal);
-
-                // calculate & set evolution
-                $currentTotal = $dataTable->getMetadata($totalMetadataName);
-                $evolution = CalculateEvolutionFilter::calculate($currentTotal, $pastTotal);
-                $dataTable->setMetadata($totalEvolutionMetadataName, $evolution);
-            }
-        }
-    }
-
-    /**
      * @ignore
      */
     public static function getApiMetrics($enhanced)
     {
         $metrics = self::$baseMetrics;
+
+        if(Common::isActionsPluginEnabled()) {
+            $metrics[self::NB_PAGEVIEWS_LABEL] = array(
+                self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
+                self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
+                self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
+                self::METRIC_IS_ECOMMERCE_KEY       => false,
+            );
+        }
+
         if (Common::isGoalPluginEnabled()) {
             // goal revenue metric
             $metrics[self::GOAL_REVENUE_METRIC] = array(
@@ -453,6 +392,40 @@ class API extends \Piwik\Plugin\API
         }
 
         return $metrics;
+    }
+
+    /**
+     * Sets the total visits, actions & revenue for a DataTable returned by
+     * $this->buildDataTable.
+     *
+     * @param DataTable $dataTable
+     * @param array $apiMetrics Metrics info.
+     * @return array Array of three values: total visits, total actions, total revenue
+     */
+    private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
+    {
+        if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $table) {
+                $this->setMetricsTotalsMetadata($table, $apiMetrics);
+            }
+        } else {
+            $totals = array();
+            foreach ($apiMetrics as $label => $metricInfo) {
+                $totalMetadataName = self::getTotalMetadataName($label);
+                $totals[$totalMetadataName] = 0;
+            }
+
+            foreach ($dataTable->getRows() as $row) {
+                foreach ($apiMetrics as $label => $metricInfo) {
+                    $totalMetadataName = self::getTotalMetadataName($label);
+                    $totals[$totalMetadataName] += $row->getColumn($metricInfo[self::METRIC_RECORD_NAME_KEY]);
+                }
+            }
+
+            foreach ($totals as $name => $value) {
+                $dataTable->setMetadata($name, $value);
+            }
+        }
     }
 
     private static function getTotalMetadataName($name)

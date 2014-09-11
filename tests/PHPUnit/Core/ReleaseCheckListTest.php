@@ -1,21 +1,26 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 use Piwik\Filesystem;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsServer;
 
 /**
- * Piwik - Open source web analytics
- *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @group ReleaseCheckListTest
  */
 class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
+
         parent::setUp();
     }
+
     /**
      * @group Core
      */
@@ -62,9 +67,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInJpgFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.jpeg');
         $this->checkFilesAreInJpgFormat($files);
-
     }
-
 
     /**
      * @group Core
@@ -74,7 +77,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Debug' => 'always_archive_data_day'), '0');
         $this->_checkEqual(array('Debug' => 'always_archive_data_period'), '0');
         $this->_checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
-        $this->_checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '10');
+        $this->_checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '150');
         $this->_checkEqual(array('General' => 'enable_browser_archiving_triggering'), '1');
         $this->_checkEqual(array('General' => 'default_language'), 'en');
         $this->_checkEqual(array('Tracker' => 'record_statistics'), '1');
@@ -85,12 +88,13 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
-
         require_once PIWIK_INCLUDE_PATH . "/core/TaskScheduler.php";
         $this->assertFalse(DEBUG_FORCE_SCHEDULED_TASKS);
 
-        require_once PIWIK_INCLUDE_PATH . "/core/API/ResponseBuilder.php";
-        $this->assertFalse(\Piwik\API\ResponseBuilder::DISPLAY_BACKTRACE_DEBUG);
+        // Check the index.php has "backtrace disabled"
+        $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");
+        $expected = "define('PIWIK_PRINT_ERROR_BACKTRACE', false);";
+        $this->assertTrue( false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
     }
 
     private function _checkEqual($key, $valueExpected)
@@ -112,6 +116,10 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $patternFailIfFound = 'dump(';
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
+            if ($file == PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/templates/travis.yml.twig') {
+                continue;
+            }
+
             $content = file_get_contents($file);
             $this->assertFalse(strpos($content, $patternFailIfFound), 'found in ' . $file);
         }
@@ -149,20 +157,8 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testPiwikTrackerDebugIsOff()
     {
         $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
-
-        $oldGet = $_GET;
-        $_GET = array('idsite' => 1);
-
-        // hiding echoed out message on empty request
-        ob_start();
-        include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
-        ob_end_clean();
-
-        $_GET = $oldGet;
-
-        $this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
+        $this->assertEquals(0, $this->globalConfig['Tracker']['debug']);
     }
-
 
     /**
      * This tests that all PHP files start with <?php
@@ -177,7 +173,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
 
-
             $isIniFile = strpos($file, ".ini.php") !== false || strpos($file, ".ini.travis.php") !== false;
             if($isIniFile) {
                 $expectedStart = "; <?php exit;";
@@ -191,6 +186,37 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
             $start = fgets($handle, strlen($expectedStart) + 1 );
             $this->assertEquals($start, $expectedStart, "File $file does not start with $expectedStart");
+        }
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_directoriesShouldBeChmod755()
+    {
+        $pluginsPath = realpath(PIWIK_INCLUDE_PATH . '/plugins/');
+
+        $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pluginsPath), RecursiveIteratorIterator::SELF_FIRST);
+        $paths = array();
+        foreach($objects as $name => $object){
+            if (is_dir($name)
+                && strpos($name, "/.") === false) {
+                $paths[] = $name;
+            }
+        }
+
+        $this->assertGreaterThan(50, count($paths), 'test at latest 50 directories, got ' . count($paths));
+
+        // to prevent errors with un-readable assets,
+        // we ensure all directories in plugins/* are added to git with CHMOD 755
+        foreach($paths as $pathToTest) {
+
+            $chmod = substr(decoct(fileperms($pathToTest)), -3);
+            $valid = array('777', '775', '755');
+            $command = "find $pluginsPath -type d -exec chmod 755 {} +";
+            $this->assertTrue(in_array($chmod, $valid),
+                    "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n".
+                    "Run this command to set all directories to 755: \n$command\n");;
         }
     }
 
@@ -213,15 +239,14 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         foreach($plugins as $pluginPath) {
             $pluginName = basename($pluginPath);
 
-            $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
-            $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
+            $addedToGit = $this->isPathAddedToGit($pluginPath);
 
             if(!$addedToGit) {
                 // if not added to git, then it is not part of the release checklist.
                 continue;
             }
             $manager = \Piwik\Plugin\Manager::getInstance();
-            $isGitSubmodule = Manager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
+            $isGitSubmodule = $manager->isPluginOfficialAndNotBundledWithCore($pluginName);
             $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
 
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
@@ -235,16 +260,11 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($count > $magicPlugins);
     }
 
-
     /**
      * @group Core
      */
     public function testEndOfLines()
     {
-        if (SettingsServer::isWindows()) {
-            // SVN native does not make this work on windows
-            return;
-        }
         foreach (Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*') as $file) {
             // skip files in these folders
             if (strpos($file, '/.git/') !== false ||
@@ -258,7 +278,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc)$/', $file)) {
                 continue;
             }
 
@@ -286,7 +306,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testPiwikJavaScript()
     {
         // check source against Snort rule 8443
-        // @see http://dev.piwik.org/trac/ticket/2203
+        // @see https://github.com/piwik/piwik/issues/2203
         $pattern = '/\x5b\x5c{2}.*\x5c{2}[\x22\x27]/';
         $contents = file_get_contents(PIWIK_DOCUMENT_ROOT . '/js/piwik.js');
 
@@ -322,6 +342,10 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $errors = array();
         foreach ($files as $file) {
             $function = "imagecreatefrom" . $format;
+            if (!function_exists($function)) {
+                throw new \Exception("Unexpected error: $function function does not exist!");
+            }
+
             $handle = @$function($file);
             if (empty($handle)) {
                 $errors[] = $file;
@@ -346,11 +370,22 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $isTestResultFile = strpos($file, "/Integration/expected") !== false
             || strpos($file, "/Integration/processed") !== false
             || strpos($file, "tests/resources/Updater/") !== false
-            || strpos($file, "Twig/Tests/") !== false;
-        $isLib = strpos($file, "lib/xhprof") !== false;
+            || strpos($file, "Twig/Tests/") !== false
+            || strpos($file, "/vendor/") !== false;
+        $isLib = strpos($file, "lib/xhprof") !== false || strpos($file, "phpunit/phpunit") !== false;
 
         return ($isIniFile && $isIniFileInTests) || $isTestResultFile || $isLib;
     }
 
+    /**
+     * @param $pluginPath
+     * @return bool
+     */
+    protected function isPathAddedToGit($pluginPath)
+    {
+        $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
+        $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
+        return $addedToGit;
+    }
 
 }

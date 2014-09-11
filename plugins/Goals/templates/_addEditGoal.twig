@@ -1,5 +1,5 @@
 {% if onlyShowAddNewGoal is defined %}
-    <h2>{{ 'Goals_AddNewGoal'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Goals_AddNewGoal'|translate }}</h2>
     <p>{{ 'Goals_NewGoalIntro'|translate }}</p>
     <p>{{ 'Goals_NewGoalDescription'|translate }}
         {{ 'Goals_NewWhatDoYouWantUsersToDo'|translate }}
@@ -8,7 +8,7 @@
     </p>
 {% else %}
     <div class="clear"></div>
-    <h2>{{ 'Goals_GoalsManagement'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Goals_GoalsManagement'|translate }}</h2>
     <div class="entityList">
         <ul class='listCircle'>
             <li><a onclick='' name='linkAddNewGoal'>{{ 'Goals_CreateNewGOal'|translate }}</a></li>
@@ -55,7 +55,8 @@
         "url": "{{ 'Goals_URL'|translate }}",
         "title": "{{ 'Goals_PageTitle'|translate }}",
         "file": "{{ 'Goals_Filename'|translate }}",
-        "external_website": "{{ 'Goals_ExternalWebsiteUrl'|translate }}"
+        "external_website": "{{ 'Goals_ExternalWebsiteUrl'|translate }}",
+        "event": "{{ 'Events_Event'|translate }}"
     };
     var mappingMatchTypeExamples = {
         "url": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'checkout/confirmation'") }} \
@@ -67,7 +68,10 @@
 		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)\\\.zip'") }}",
         "external_website": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'amazon.com'") }} \
 		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://mypartner.com/landing.html'") }} \
-		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'") }}"
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'") }}",
+        "event": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'video'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'click'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)_banner'") }}"
     };
     bindGoalForm();
 

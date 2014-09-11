@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -71,8 +71,6 @@ class Php extends Renderer
      */
     public function render($dataTable = null)
     {
-        $this->renderHeader();
-
         if (is_null($dataTable)) {
             $dataTable = $this->table;
         }
@@ -85,26 +83,6 @@ class Php extends Renderer
             $toReturn = "<pre>" . var_export($toReturn, true) . "</pre>";
         }
         return $toReturn;
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    public function renderException()
-    {
-        $this->renderHeader();
-
-        $exceptionMessage = $this->getExceptionMessage();
-
-        $return = array('result' => 'error', 'message' => $exceptionMessage);
-
-        if ($this->serialize) {
-            $return = serialize($return);
-        }
-
-        return $return;
     }
 
     /**

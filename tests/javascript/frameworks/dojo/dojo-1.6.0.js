@@ -19,7 +19,7 @@
 		["dojo", "fojo"],
 		["dijit", "fijit"],
 		["dojox", "fojox"]
-	
+
 	]
 	*/
 
@@ -258,7 +258,7 @@ dojo.global = {
 	// FIXME: 2.0, drop djConfig support. Use dojoConfig exclusively for global config.
 	var cfg = typeof djConfig != "undefined" ? djConfig :
 		typeof dojoConfig != "undefined" ? dojoConfig : null;
-		
+
 	if(cfg){
 		for(var c in cfg){
 			d.config[c] = cfg[c];
@@ -310,7 +310,7 @@ dojo.global = {
 	if(typeof OpenAjax != "undefined"){
 		OpenAjax.hub.registerLibrary(dojo._scopeName, "http://dojotoolkit.org", d.version.toString());
 	}
-	
+
 	var extraNames, extraLen, empty = {};
 	for(var i in {toString: 1}){ extraNames = []; break; }
 	dojo._extraNames = extraNames = extraNames || ["hasOwnProperty", "valueOf", "isPrototypeOf",
@@ -598,7 +598,6 @@ dojo.global = {
 		_loadNotifying: false
 	});
 
-
 		dojo._loadPath = function(/*String*/relpath, /*String?*/module, /*Function?*/cb){
 		// 	summary:
 		//		Load a Javascript module given a relative path
@@ -683,7 +682,7 @@ dojo.global = {
 		}
 		return !!contents; // Boolean: contents? true : false
 	}
-	
+
 	// FIXME: probably need to add logging to this method
 	dojo._loadUriAndCheck = function(/*String*/uri, /*String*/moduleName, /*Function?*/cb){
 		// summary: calls loadUri then findModule and returns true if both succeed
@@ -717,7 +716,7 @@ dojo.global = {
 		}
 
 		d._loadNotifying = false;
-		
+
 		//Make sure nothing else got added to the onload queue
 		//after this first run. If something did, and we are not waiting for any
 		//more inflight resources, run again.
@@ -1071,7 +1070,7 @@ dojo.global = {
 		//
 		// example:
 		//	|	dojo.requireIf(dojo.isBrowser, "my.special.Module");
-		
+
 		if(condition === true){
 			// FIXME: why do we support chained require()'s here? does the build system?
 			var args = [];
@@ -1114,7 +1113,7 @@ dojo.global = {
 		//	|	</script>
 		d._modulePrefixes[module] = { name: module, value: prefix };
 	};
-	
+
 	dojo.requireLocalization = function(/*String*/moduleName, /*String*/bundleName, /*String?*/locale, /*String?*/availableFlatLocales){
 		// summary:
 		//		Declares translated resources and loads them if necessary, in the
@@ -1190,7 +1189,6 @@ dojo.global = {
 		d.require("dojo.i18n");
 		d.i18n._requireLocalization.apply(d.hostenv, arguments);
 	};
-
 
 	var ore = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?$"),
 		ire = new RegExp("^((([^\\[:]+):)?([^@]+)@)?(\\[([^\\]]+)\\]|([^\\[:]*))(:([0-9]+))?$");
@@ -1341,7 +1339,7 @@ dojo.global = {
 		if(loc.lastIndexOf("/") != loc.length-1){
 			loc += "/";
 		}
-		
+
 		//If the path is an absolute path (starts with a / or is on another
 		//domain/xdomain) then don't add the baseUrl.
 		var colonIndex = loc.indexOf(":");
@@ -1351,8 +1349,6 @@ dojo.global = {
 
 		return new d._Url(loc, url); // dojo._Url
 	};
-
-
 
 })();
 
@@ -1425,7 +1421,6 @@ dojo = {
 if(typeof window != 'undefined'){
 	dojo.isBrowser = true;
 	dojo._name = "browser";
-
 
 	// attempt to figure out the path to dojo if it isn't set in the config
 	(function(){
@@ -1512,7 +1507,7 @@ if(typeof window != 'undefined'){
 		if(dojo.isIE && window.location.protocol === "file:"){
 			dojo.config.ieForceActiveXXhr=true;
 		}
-		
+
 		d.isQuirks = document.compatMode == "BackCompat";
 
 		// TODO: is the HTML LANG attribute relevant?
@@ -1520,7 +1515,7 @@ if(typeof window != 'undefined'){
 
 		// These are in order of decreasing likelihood; this will change in time.
 				d._XMLHTTP_PROGIDS = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'];
-		
+
 		d._xhrObj = function(){
 			// summary:
 			//		does the work of portably generating a new XMLHTTPRequest object.
@@ -1543,7 +1538,7 @@ if(typeof window != 'undefined'){
 					}
 				}
 			}
-			
+
 			if(!http){
 				throw new Error("XMLHTTP not available: "+last_e);
 			}
@@ -1612,7 +1607,6 @@ if(typeof window != 'undefined'){
 			}
 			return http.responseText; // String
 		}
-		
 
 		var _w = window;
 		var _handleNodeEvent = function(/*String*/evtName, /*Function*/fp){
@@ -1628,9 +1622,8 @@ if(typeof window != 'undefined'){
 			}, false);
 		};
 
-
 		d._windowUnloaders = [];
-		
+
 		d.windowUnloaded = function(){
 			// summary:
 			//		signal fired by impending window destruction. You may use
@@ -1784,7 +1777,6 @@ if(typeof window != 'undefined'){
 	}
 		//END DOMContentLoaded
 
-
 	/*
 	OpenAjax.subscribe("OpenAjax", "onload", function(){
 		if(dojo._inFlightCount == 0){
@@ -1824,11 +1816,9 @@ if(dojo.config.debugAtAllCosts){
 	dojo.require("dojo.i18n");
 }
 
-
 if(!dojo._hasResource["dojo._base.lang"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.lang"] = true;
 dojo.provide("dojo._base.lang");
-
 
 (function(){
 	var d = dojo, opts = Object.prototype.toString;
@@ -1944,7 +1934,7 @@ dojo.provide("dojo._base.lang");
 		//	|	var foo = { bar: 2 };
 		//	|	dojo.hitch(foo, function(){ this.bar = 10; })();
 		//		execute an anonymous function in scope of foo
-		
+
 		if(arguments.length > 2){
 			return d._hitchArgs.apply(d, arguments); // Function
 		}
@@ -2035,7 +2025,7 @@ dojo.provide("dojo._base.lang");
 		}
 		return arr;
 	};
-	
+
 	dojo._toArray =
 				d.isIE ?  function(obj){
 			return ((obj.item) ? slow : efficient).apply(this, arguments);
@@ -2219,8 +2209,6 @@ dojo.provide("dojo._base.lang");
 if(!dojo._hasResource["dojo._base.array"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.array"] = true;
 dojo.provide("dojo._base.array");
-
-
 
 (function(){
 	var _getParts = function(arr, obj, cb){
@@ -2476,9 +2464,6 @@ dojo.provide("dojo._base.array");
 if(!dojo._hasResource["dojo._base.declare"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.declare"] = true;
 dojo.provide("dojo._base.declare");
-
-
-
 
 (function(){
 	var d = dojo, mix = d._mixin, op = Object.prototype, opts = op.toString,
@@ -2800,7 +2785,6 @@ dojo.provide("dojo._base.declare");
 			}
 		};
 	}
-
 
 	// chained constructor compatible with the legacy dojo.declare()
 	function singleConstructor(ctor, ctorSpecial){
@@ -3519,8 +3503,6 @@ if(!dojo._hasResource["dojo._base.connect"]){ //_hasResource checks added by bui
 dojo._hasResource["dojo._base.connect"] = true;
 dojo.provide("dojo._base.connect");
 
-
-
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 // low-level delegation machinery
@@ -3824,8 +3806,6 @@ if(!dojo._hasResource["dojo._base.Deferred"]){ //_hasResource checks added by bu
 dojo._hasResource["dojo._base.Deferred"] = true;
 dojo.provide("dojo._base.Deferred");
 
-
-
 (function(){
 	var mutator = function(){};
 	var freeze = Object.freeze || function(){};
@@ -3974,7 +3954,7 @@ dojo.provide("dojo._base.Deferred");
 	//		handle the asynchronous case.
 		var result, finished, isError, head, nextListener;
 		var promise = (this.promise = {});
-		
+
 		function complete(value){
 			if(finished){
 				throw new Error("This deferred has already been resolved");
@@ -4025,8 +4005,7 @@ dojo.provide("dojo._base.Deferred");
 			this.results = [value, null];
 			complete(value);
 		};
-		
-		
+
 		// calling error will indicate that the promise failed
 		this.reject = this.errback = function(error){
 			// summary:
@@ -4117,11 +4096,11 @@ dojo.provide("dojo._base.Deferred");
 		addCallback: function (/*Function*/callback) {
 			return this.addCallbacks(dojo.hitch.apply(dojo, arguments));
 		},
-	
+
 		addErrback: function (/*Function*/errback) {
 			return this.addCallbacks(null, dojo.hitch.apply(dojo, arguments));
 		},
-	
+
 		addBoth: function (/*Function*/callback) {
 			var enclosed = dojo.hitch.apply(dojo, arguments);
 			return this.addCallbacks(enclosed, enclosed);
@@ -4151,7 +4130,7 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	//		And now all three of his functions can be used sync or async.
 	//		|	printFirstAndLast([1,2,3,4]) will work just as well as
 	//		|	printFirstAndLast(dojo.xhrGet(...));
-	
+
 	if(promiseOrValue && typeof promiseOrValue.then === "function"){
 		return promiseOrValue.then(callback, errback, progressHandler);
 	}
@@ -4163,7 +4142,6 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 if(!dojo._hasResource["dojo._base.json"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.json"] = true;
 dojo.provide("dojo._base.json");
-
 
 dojo.fromJson = function(/*String*/ json){
 	// summary:
@@ -4312,9 +4290,6 @@ dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _ind
 if(!dojo._hasResource["dojo._base.Color"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.Color"] = true;
 dojo.provide("dojo._base.Color");
-
-
-
 
 (function(){
 
@@ -4535,7 +4510,6 @@ if(!dojo._hasResource["dojo._base.window"]){ //_hasResource checks added by buil
 dojo._hasResource["dojo._base.window"] = true;
 dojo.provide("dojo._base.window");
 
-
 /*=====
 dojo.doc = {
 	// summary:
@@ -4637,8 +4611,6 @@ if(!dojo._hasResource["dojo._base.event"]){ //_hasResource checks added by build
 dojo._hasResource["dojo._base.event"] = true;
 dojo.provide("dojo._base.event");
 
-
-
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 (function(){
@@ -4734,7 +4706,7 @@ dojo.provide("dojo._base.event");
 	});
 
 	// DOM events
-	
+
 	dojo.fixEvent = function(/*Event*/ evt, /*DOMNode*/ sender){
 		// summary:
 		//		normalizes properties on the event object including event
@@ -4759,7 +4731,7 @@ dojo.provide("dojo._base.event");
 
 	// the default listener to use on dontFix nodes, overriden for IE
 	var node_listener = dojo._listener;
-	
+
 	// Unify connect and event listeners
 	dojo._connect = function(obj, event, context, method, dontFix){
 		// FIXME: need a more strict test
@@ -4851,9 +4823,9 @@ dojo.provide("dojo._base.event");
 		// virtual key mapping
 		copyKey: dojo.isMac && !dojo.isAIR ? (dojo.isSafari ? 91 : 224 ) : 17
 	};
-	
+
 	var evtCopyKey = dojo.isMac ? "metaKey" : "ctrlKey";
-	
+
 	dojo.isCopyKey = function(e){
 		// summary:
 		//		Checks an event for the copy key (meta on Mac, and ctrl anywhere else)
@@ -4875,7 +4847,7 @@ dojo.provide("dojo._base.event");
 		// RIGHT: Number
 		//		Numeric value of the right mouse button for the platform.
 		RIGHT:  2,
-	
+
 		isButton: function(e, button){
 			// summary:
 			//		Checks an event object for a pressed button
@@ -4932,7 +4904,7 @@ dojo.provide("dojo._base.event");
 			isRight:  function(e){ return e.button == 2; }
 		};
 		}
-	
+
 		// IE event normalization
 	if(dojo.isIE){
 		var _trySetKeyCode = function(e, code){
@@ -5130,7 +5102,7 @@ dojo.provide("dojo._base.event");
 				this.returnValue = false;
 			}
 		});
-				
+
 		// override stopEvent for IE
 		dojo.stopEvent = (dojo.isIE < 9 || dojo.isQuirks) ? function(evt){
 			evt = evt || window.event;
@@ -5138,7 +5110,7 @@ dojo.provide("dojo._base.event");
 			del._preventDefault.call(evt);
 		} : dojo.stopEvent;
 	}
-	
+
 	del._synthesizeEvent = function(evt, props){
 			var faux = dojo.mixin({}, evt, props);
 			del._setKeyChar(faux);
@@ -5149,7 +5121,7 @@ dojo.provide("dojo._base.event");
 			faux.stopPropagation = function(){ evt.stopPropagation(); };
 			return faux;
 	};
-	
+
 		// Opera event normalization
 	if(dojo.isOpera){
 		dojo.mixin(del, {
@@ -5173,7 +5145,7 @@ dojo.provide("dojo._base.event");
 			}
 		});
 	}
-	
+
 		// Webkit event normalization
 	if(dojo.isWebKit){
 				del._add = del.add;
@@ -5279,8 +5251,6 @@ if(!dojo._hasResource["dojo._base.html"]){ //_hasResource checks added by build.
 dojo._hasResource["dojo._base.html"] = true;
 dojo.provide("dojo._base.html");
 
-
-
 // FIXME: need to add unit tests for all the semi-public methods
 
 try{
@@ -5369,7 +5339,7 @@ if(dojo.isIE){
 		d.addOnWindowUnload(function(){
 		_destroyContainer = null; //prevent IE leak
 	});
-	
+
 /*=====
 	dojo._destroyElement = function(node){
 		// summary:
@@ -5587,7 +5557,7 @@ if(dojo.isIE){
 		// client code may have to adjust if compatMode varies across iframes
 		d.boxModel = document.compatMode == "BackCompat" ? "border-box" : "content-box";
 	}
-	
+
 	// =============================
 	// Style Functions
 	// =============================
@@ -6065,7 +6035,7 @@ if(dojo.isIE){
 			h: node.offsetHeight + me.h
 		};
 	}
-	
+
 	dojo._getMarginSize = function(/*DomNode*/node, /*Object*/computedStyle){
 		// summary:
 		//	returns an object that encodes the width and height of
@@ -6260,7 +6230,7 @@ if(dojo.isIE){
 		//	Set a node's marginbox to the size of another node
 		//	|	var box = dojo.marginBox("someNodeId");
 		//	|	dojo.marginBox("someOtherNode", box);
-		
+
 		var n = byId(node), s = gcs(n), b = box;
 		return !b ? d._getMarginBox(n, s) : d._setMarginBox(n, b.l, b.t, b.w, b.h, s); // Object
 	};
@@ -6367,7 +6337,7 @@ if(dojo.isIE){
 		}
 
 	};
-	
+
 	dojo._fixIeBiDiScrollLeft = function(/*Integer*/ scrollLeft){
 		// In RTL direction, scrollLeft should be a negative value, but IE
 		// returns a positive one. All codes using documentElement.scrollLeft
@@ -7108,11 +7078,6 @@ if(dojo.isIE){
 if(!dojo._hasResource["dojo._base.NodeList"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.NodeList"] = true;
 dojo.provide("dojo._base.NodeList");
-
-
-
-
-
 
 (function(){
 
@@ -8075,7 +8040,7 @@ dojo.provide("dojo._base.NodeList");
 		"keyup", "load", "mousedown", "mouseenter", "mouseleave", "mousemove",
 		"mouseout", "mouseover", "mouseup", "submit"
 	];
-	
+
 	// FIXME: pseudo-doc the above automatically generated on-event functions
 
 	// syntactic sugar for DOM events
@@ -8123,7 +8088,7 @@ dojo._hasResource["dojo._base.query"] = true;
 		designed to take any valid CSS3 selector and return the nodes matching
 		the selector. To do this quickly, it processes queries in several
 		steps, applying caching where profitable.
-		
+
 		The steps (roughly in reverse order of the way they appear in the code):
 			1.) check to see if we already have a "query dispatcher"
 				- if so, use that with the given parameterization. Skip to step 4.
@@ -8177,7 +8142,6 @@ var defineQuery= function(d){
 	// Global utilities
 	////////////////////////////////////////////////////////////////////////
 
-
 	// on browsers that support the "children" collection we can avoid a lot of
 	// iteration on chaff (non-element) nodes.
 	// why.
@@ -8213,7 +8177,6 @@ var defineQuery= function(d){
 		//		expression. The structure for parts is documented in the code
 		//		below.
 
-
 		// NOTE:
 		//		this code is designed to run fast and compress well. Sacrifices
 		//		to readability and maintainability have been made.  Your best
@@ -8241,7 +8204,6 @@ var defineQuery= function(d){
 
 		// the overall data graph of the full query, as represented by queryPart objects
 		var queryParts = [];
-
 
 		// state keeping vars
 		var inBrackets = -1, inParens = -1, inMatchFor = -1,
@@ -8315,7 +8277,6 @@ var defineQuery= function(d){
 					currentPart.classes.length	);
 
 			currentPart.oquery = currentPart.query = ts(pStart, x); // save the full expression as a string
-
 
 			// otag/tag are hints to suggest to the system whether or not
 			// it's an operator or a tag. We save a copy of otag since the
@@ -8496,7 +8457,6 @@ var defineQuery= function(d){
 		}
 		return queryParts;
 	};
-	
 
 	////////////////////////////////////////////////////////////////////////
 	// DOM query infrastructure
@@ -8921,7 +8881,7 @@ var defineQuery= function(d){
 			return ret;
 		};
 	};
-	
+
 	/*
 	// thanks, Dean!
 	var itemIsAfterRoot = d.isIE ? function(item, root){
@@ -9286,7 +9246,6 @@ var defineQuery= function(d){
 		//		trivially rewrite the query to the form "#synid > .thinger" to
 		//		use the QSA branch
 
-
 		if(useQSA){
 			var tq = (specials.indexOf(query.charAt(query.length-1)) >= 0) ?
 						(query + " *") : query;
@@ -9380,7 +9339,7 @@ var defineQuery= function(d){
 		if(arr.length < 2){ return ret; }
 
 		_zipIdx++;
-		
+
 		// we have to fork here for IE and XML docs because we can't set
 		// expandos on their nodes (apparently). *sigh*
 		if(d.isIE && caseSensitive){
@@ -9693,8 +9652,7 @@ var defineAcme= function(){
 	//prefers queryPortability, then acme, then dojo
 	if(this["dojo"]){
 		dojo.provide("dojo._base.query");
-		
-		
+
 		defineQuery(this["queryPortability"]||this["acme"]||dojo);
 	}else{
 		defineQuery(this["queryPortability"]||this["acme"]||defineAcme());
@@ -9710,11 +9668,6 @@ var defineAcme= function(){
 if(!dojo._hasResource["dojo._base.xhr"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.xhr"] = true;
 dojo.provide("dojo._base.xhr");
-
-
-
-
-
 
 (function(){
 	var _d = dojo, cfg = _d.config;
@@ -9739,7 +9692,7 @@ dojo.provide("dojo._base.xhr");
 			obj[name] = value;
 		}
 	}
-	
+
 	dojo.fieldToObject = function(/*DOMNode||String*/ inputNode){
 		// summary:
 		//		Serialize a form field to a JavaScript object.
@@ -10144,7 +10097,6 @@ dojo.provide("dojo._base.xhr");
 	}
 	=====*/
 
-
 	/*=====
 	dojo.__IoPublish = function(){
 		// 	summary:
@@ -10184,7 +10136,6 @@ dojo.provide("dojo._base.xhr");
 	}
 	=====*/
 
-
 	dojo._ioSetArgs = function(/*dojo.__IoArgs*/args,
 			/*Function*/canceller,
 			/*Function*/okHandler,
@@ -10223,7 +10174,7 @@ dojo.provide("dojo._base.xhr");
 
 		// set up the query params
 		var miArgs = [{}];
-	
+
 		if(formObject){
 			// potentially over-ride url-provided params w/ form values
 			miArgs.push(formObject);
@@ -10236,7 +10187,7 @@ dojo.provide("dojo._base.xhr");
 			miArgs.push({"dojo.preventCache": new Date().valueOf()});
 		}
 		ioArgs.query = _d.objectToQuery(_d.mixin.apply(null, miArgs));
-	
+
 		// .. and the real work of getting the deferred in order, etc.
 		ioArgs.handleAs = args.handleAs || "text";
 		var d = new _d.Deferred(canceller);
@@ -10286,7 +10237,7 @@ dojo.provide("dojo._base.xhr");
 		}
 
 		d.ioArgs = ioArgs;
-	
+
 		// FIXME: need to wire up the xhr object's abort method to something
 		// analagous in the Deferred
 		return d;
@@ -10294,7 +10245,7 @@ dojo.provide("dojo._base.xhr");
 
 	var _deferredCancel = function(/*Deferred*/dfd){
 		// summary: canceller function for dojo._ioSetArgs call.
-		
+
 		dfd.canceled = true;
 		var xhr = dfd.ioArgs.xhr;
 		var _at = typeof xhr.abort;
@@ -10327,8 +10278,7 @@ dojo.provide("dojo._base.xhr");
 	// something fierece if we don't use unified loops.
 	var _inFlightIntvl = null;
 	var _inFlight = [];
-	
-	
+
 	//Use a separate count for knowing if we are starting/stopping io calls.
 	//Cannot use _inFlight.length since it can change at a different time than
 	//when we want to do this kind of test. We only want to decrement the count
@@ -10348,7 +10298,7 @@ dojo.provide("dojo._base.xhr");
 		//summary:
 		//		internal method that checks each inflight XMLHttpRequest to see
 		//		if it has completed or if the timeout situation applies.
-		
+
 		var now = (new Date()).getTime();
 		// make sure sync calls stay thread safe, if this callback is called
 		// during a sync call and this results in another sync call before the
@@ -10417,7 +10367,7 @@ dojo.provide("dojo._base.xhr");
 		if(_d.isIE){
 		_d.addOnWindowUnload(_d._ioCancelAll);
 	}
-	
+
 	_d._ioNotifyStart = function(/*Deferred*/dfd){
 		// summary:
 		// 		If dojo.publish is available, publish topics
@@ -10453,7 +10403,7 @@ dojo.provide("dojo._base.xhr");
 		if(args.timeout){
 			dfd.startTime = (new Date()).getTime();
 		}
-		
+
 		_inFlight.push({dfd: dfd, validCheck: validCheck, ioCheck: ioCheck, resHandle: resHandle});
 		if(!_inFlightIntvl){
 			_inFlightIntvl = setInterval(_watchInFlight, 50);
@@ -10646,11 +10596,6 @@ dojo.provide("dojo._base.xhr");
 if(!dojo._hasResource["dojo._base.fx"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.fx"] = true;
 dojo.provide("dojo._base.fx");
-
-
-
-
-
 
 /*
 	Animation loosely package based on Dan Pupius' work, contributed under CLA:
@@ -11311,14 +11256,6 @@ if(!dojo._hasResource["dojo._base.browser"]){ //_hasResource checks added by bui
 dojo._hasResource["dojo._base.browser"] = true;
 dojo.provide("dojo._base.browser");
 
-
-
-
-
-
-
-
-
 	//Need this to be the last code segment in base, so do not place any
 	//dojo/requireIf calls in this file/ Otherwise, due to how the build system
 	//puts all requireIf dependencies after the current file, the require calls
@@ -11332,16 +11269,6 @@ dojo.provide("dojo._base.browser");
 if(!dojo._hasResource["dojo._base"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base"] = true;
 dojo.provide("dojo._base");
-
-
-
-
-
-
-
-
-
-
 
 }
 

@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,7 +24,7 @@ function sendUserSettingsAJAX() {
     var defaultReport = $('input[name=defaultReport]:checked').val();
 
     if (defaultReport == 1) {
-        defaultReport = $('#userSettingsTable').find('.custom_select_main_link').attr('data-siteid');
+        defaultReport = $('#defaultReportSiteSelector').attr('siteid');
     }
     var postParams = {};
     postParams.alias = alias;
@@ -37,6 +37,7 @@ function sendUserSettingsAJAX() {
     }
     postParams.defaultReport = defaultReport;
     postParams.defaultDate = defaultDate;
+    postParams.language = $('#userSettingsTable #language').val();
 
     var ajaxHandler = new ajaxHelper();
     ajaxHandler.addParams({

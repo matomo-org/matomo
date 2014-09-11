@@ -1,0 +1,14 @@
+{
+    "MobileMessaging": {
+        "PhoneNumbers": "தொலைபேசி எண்கள்",
+        "Settings_APIKey": "ஏபிஐ சாவி",
+        "Settings_CountryCode": "தேசக் குறியீட்டெண்",
+        "Settings_ManagePhoneNumbers": "தொலைபேசி எண்களை மேலாண்மைசெய்",
+        "Settings_PhoneNumber": "தொலைபேசி எண்",
+        "Settings_PhoneNumbers_Add": "ஒரு புதிய தொலைபேசி எண்ணை சேர்க்க",
+        "Settings_SuperAdmin": "உயர் பயனர் அமைப்புகள்",
+        "Settings_ValidatePhoneNumber": "செல்லத்தக்கதாக்கு",
+        "SettingsMenu": "அலைபேசி செய்தியனுப்பு",
+        "SMS_Content_Too_Long": "[மிக நீண்ட]"
+    }
+}

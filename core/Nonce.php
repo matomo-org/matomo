@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,11 +16,11 @@ use Piwik\Session\SessionNamespace;
  * A cryptographic nonce -- "number used only once" -- is often recommended as
  * part of a robust defense against cross-site request forgery (CSRF/XSRF). This
  * class provides static methods that create and manage nonce values.
- * 
+ *
  * Nonces in Piwik are stored as a session variable and have a configurable expiration.
  *
  * Learn more about nonces [here](http://en.wikipedia.org/wiki/Cryptographic_nonce).
- * 
+ *
  * @api
  */
 class Nonce
@@ -33,7 +33,7 @@ class Nonce
      *                 the nonce will no longer be valid).
      * @return string
      */
-    static public function getNonce($id, $ttl = 600)
+    public static function getNonce($id, $ttl = 600)
     {
         // save session-dependent nonce
         $ns = new SessionNamespace($id);
@@ -56,10 +56,10 @@ class Nonce
 
     /**
      * Returns if a nonce is valid and comes from a valid request.
-     * 
+     *
      * A nonce is valid if it matches the current nonce and if the current nonce
      * has not expired.
-     * 
+     *
      * The request is valid if the referrer is a local URL (see {@link Url::isLocalUrl()})
      * and if the HTTP origin is valid (see {@link getAcceptableOrigins()}).
      *
@@ -67,7 +67,7 @@ class Nonce
      * @param string $cnonce Nonce sent from client.
      * @return bool `true` if valid; `false` otherwise.
      */
-    static public function verifyNonce($id, $cnonce)
+    public static function verifyNonce($id, $cnonce)
     {
         $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
@@ -100,7 +100,7 @@ class Nonce
      *
      * @param string $id The unique nonce ID.
      */
-    static public function discardNonce($id)
+    public static function discardNonce($id)
     {
         $ns = new SessionNamespace($id);
         $ns->unsetAll();
@@ -108,10 +108,10 @@ class Nonce
 
     /**
      * Returns the **Origin** HTTP header or `false` if not found.
-     * 
+     *
      * @return string|bool
      */
-    static public function getOrigin()
+    public static function getOrigin()
     {
         if (!empty($_SERVER['HTTP_ORIGIN'])) {
             return $_SERVER['HTTP_ORIGIN'];
@@ -124,7 +124,7 @@ class Nonce
      *
      * @return array
      */
-    static public function getAcceptableOrigins()
+    public static function getAcceptableOrigins()
     {
         $host = Url::getCurrentHost(null);
         $port = '';
@@ -140,8 +140,10 @@ class Nonce
         }
 
         // standard ports
-        $origins[] = 'http://' . $host;
-        $origins[] = 'https://' . $host;
+        $origins = array(
+            'http://' . $host,
+            'https://' . $host,
+        );
 
         // non-standard ports
         if (!empty($port) && $port != 80 && $port != 443) {
@@ -154,13 +156,13 @@ class Nonce
 
     /**
      * Verifies and discards a nonce.
-     * 
+     *
      * @param string $nonceName The nonce's unique ID. See {@link getNonce()}.
      * @param string|null $nonce The nonce from the client. If `null`, the value from the
      *                           **nonce** query parameter is used.
      * @throws Exception if the nonce is invalid. See {@link verifyNonce()}.
      */
-    static public function checkNonce($nonceName, $nonce = null)
+    public static function checkNonce($nonceName, $nonce = null)
     {
         if ($nonce === null) {
             $nonce = Common::getRequestVar('nonce', null, 'string');

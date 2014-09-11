@@ -11,6 +11,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>7</sum_daily_nb_users>
 			<subtable>
 				<row>
 					<label>http://referrer.com/Other_Page.htm</label>
@@ -21,6 +22,7 @@
 					<bounce_count>0</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+					<sum_daily_nb_users>6</sum_daily_nb_users>
 				</row>
 				<row>
 					<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
@@ -31,6 +33,7 @@
 					<bounce_count>0</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					<sum_daily_nb_users>1</sum_daily_nb_users>
 				</row>
 			</subtable>
 		</row>
@@ -45,6 +48,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>2</sum_daily_nb_users>
 			<subtable>
 				<row>
 					<label>http://referrer.com/Other_Page.htm</label>
@@ -55,6 +59,7 @@
 					<bounce_count>0</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+					<sum_daily_nb_users>2</sum_daily_nb_users>
 				</row>
 			</subtable>
 		</row>

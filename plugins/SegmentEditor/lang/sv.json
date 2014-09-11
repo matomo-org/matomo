@@ -1,0 +1,29 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Lägg till %s villkor",
+        "AddNewSegment": "Lägg till nytt segment",
+        "AreYouSureDeleteSegment": "Vill du verkligen radera detta segment?",
+        "AutoArchivePreProcessed": "Segmenterade rapporter processas i förväg (för att det ska gå fortare krävs archive.php data)",
+        "AutoArchiveRealTime": "Segmenterade rapporter processas i realtid",
+        "ChooseASegment": "Välj ett segment",
+        "DataAvailableAtLaterDate": "Dina segmenterade analysrapporter kommer att finnas tillgänglig senare. Vi ber om ursäkt för besväret.",
+        "DefaultAllVisits": "Alla besök",
+        "DragDropCondition": "Dra & Droppa villkor",
+        "LoadingSegmentedDataMayTakeSomeTime": "Att processa data för segmenterade besökare kan ta några minuter...",
+        "OperatorAND": "OCH",
+        "OperatorOR": "ELLER",
+        "SaveAndApply": "Spara & Använd",
+        "SegmentDisplayedAllWebsites": "alla webbsidor",
+        "SegmentDisplayedThisWebsiteOnly": "endast denna webbsida",
+        "SegmentIsDisplayedForWebsite": "och visas för",
+        "SegmentNotApplied": "Segment '%s' tillämpas inte",
+        "SegmentNotAppliedMessage": "Du begär data för det Anpassade Segmentet '%s', denna Piwik konfiguration förhindrar realtidsbearbetning av rapporter pga prestandaskäl.",
+        "SelectSegmentOfVisitors": "Välj ett besökarsegment",
+        "ThisSegmentIsVisibleTo": "Det här segmentet är synligt för:",
+        "VisibleToAllUsers": "alla användare",
+        "VisibleToMe": "jag",
+        "YouDontHaveAccessToCreateSegments": "Du har inte rättigheter för att skapa och redigera segment.",
+        "YouMayChangeSetting": "Alternativt kan du ändra inställningarna i konfigurationsfilen (%s), eller redigera detta Segment och välj '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Du måste vara inloggad för att skapa och redigera besökssegment."
+    }
+}

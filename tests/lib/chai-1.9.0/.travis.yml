@@ -1,0 +1,14 @@
+language: node_js
+
+node_js:
+- 0.1
+
+env:
+  global:
+  - secure: h4eLQ2jkR1p2O5BEyscLtbNT/84LDGFnj977SeKmg3flVTpRR+ZiYb5YvIUIYfnwsw1jlr11xv0cya23nJjJA5DQjrVS1/kg4sWrLD9Gs6TTqpSNSk0HrFpxhrHZ/uSSPfV9fbyxfDLxgq72fc55WCuY5Osy1kXmsPdJX79/cOU=
+  - secure: GXrMWPVtgAG4ICawbVdzh3R+Q+tHwYT1FcgtFbn4w7s6NZUKRdDodBM0yuDZA8pxqhQvSj/HlLjkNQI4G1wPhkHESlMWzrH5737eaJ1PHQvYV/XEnpjawQXYTOg3OYEx07mHGm+mqbAaDDHulgkeI5J4NXFMQO+JG7eYTqpotXE=
+  - SAUCE_CONNECT_READY_FILE=/tmp/sauce-connect-ready
+  - LOGS_DIR=/tmp/chai-build/logs
+
+script:
+- make test-travisci

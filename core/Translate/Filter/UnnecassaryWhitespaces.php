@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,7 +8,6 @@
  */
 
 namespace Piwik\Translate\Filter;
-
 
 /**
  */
@@ -35,8 +34,8 @@ class UnnecassaryWhitespaces extends FilterAbstract
      */
     public function filter($translations)
     {
-        foreach ($translations AS $pluginName => $pluginTranslations) {
-            foreach ($pluginTranslations AS $key => $translation) {
+        foreach ($translations as $pluginName => $pluginTranslations) {
+            foreach ($pluginTranslations as $key => $translation) {
 
                 $baseTranslation = '';
                 if (isset($this->baseTranslations[$pluginName][$key])) {

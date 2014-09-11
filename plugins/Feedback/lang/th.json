@@ -1,0 +1,14 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "ติดต่อทีมงาน Piwik",
+        "DoYouHaveBugReportOrFeatureRequest": "คุณมีข้อบกพร่องในการรายงานหรือการร้องขอคุณลักษณะหรือไม่",
+        "IWantTo": "ฉันอยากจะ:",
+        "LearnWaysToParticipate": "เรียนรู้เกี่ยวกับทั้งหมดด้วยวิธี %s คุณสามารถ %s มีส่วนร่วมได้",
+        "ManuallySendEmailTo": "กรุณาส่งข้อความของคุณด้วยตนเอง",
+        "PluginDescription": "ส่งคำติชมของคุณเพื่อทีมงาน Piwik แบ่งปันทำการความคิดเห็นและข้อเสนอแนะของคุณกับเรา",
+        "SendFeedback": "ส่งคำติชม",
+        "SpecialRequest": "คุณมีการร้องขอที่พิเศษสำหรับทีม Piwik ได้อย่างไร",
+        "ThankYou": "ขอบคุณที่ช่วยให้เราสามารถทำให้ Piwik ดีกว่า",
+        "VisitTheForums": "เข้าชม %s เว็บบอร์ด %s"
+    }
+}

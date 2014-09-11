@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Proveïdor",
+        "PluginDescription": "Informació del Proveïdor dels visitants.",
+        "ProviderReportDocumentation": "Aquest informe mostra quin Proveïdor d'Internet han utiltizat els vostres visitants per accedir al lloc. Podeu click al nom del proveïdor per més detalls. %s Si el Piwik no pot determinar el proveïdor del visitant, es mostra la seva adreça IP.",
+        "SubmenuLocationsProvider": "Localitzacions i proveïdors",
+        "WidgetProviders": "Proveïdors"
+    }
+}

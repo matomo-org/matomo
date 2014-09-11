@@ -1,13 +1,12 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
-
 
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
@@ -78,7 +77,7 @@ class Evolution extends JqplotDataGenerator
 
             $axisXOnClick = array();
             $queryStringAsHash = $this->getQueryStringAsHash();
-            foreach ($dataTable->getDataTables() as $idDataTable => $metadataDataTable) {
+            foreach ($dataTable->getDataTables() as $metadataDataTable) {
                 $dateInUrl = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart();
                 $parameters = array(
                     'idSite'  => $idSite,

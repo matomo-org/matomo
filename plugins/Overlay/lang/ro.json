@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s click-uri",
+        "ClicksFromXLinks": "%1$s click-uri de la unul dintre %2$s link-uri",
+        "Domain": "Domeniu",
+        "ErrorNotLoading": "Sesiunea de acoperire pagina nu a putut fi lansata încă.",
+        "ErrorNotLoadingDetails": "Poate pagina încărcată din dreapta nu are codul de urmărire Piwik. În acest caz, încercați lansarea Overlay pentru o altă pagină din raportul de pagini.",
+        "ErrorNotLoadingDetailsSSL": "Din moment ce utilizați Piwik peste https, cauza cea mai probabilă este că site-ul dvs. nu suporta SSL. Încercați să folosiți Piwik peste http.",
+        "ErrorNotLoadingLink": "Click aici pentru a obține mai multe sfaturi pentru depanare",
+        "Link": "Legătură",
+        "Location": "Localitate",
+        "NoData": "Nu există date pentru această pagină în perioada selectată.",
+        "OneClick": "1 click",
+        "OpenFullScreen": "Tot ecranul (fără bara laterală)",
+        "Overlay": "Acoperire Pagina",
+        "PluginDescription": "A se vedea,o analiză a datelor ca o suprapunere pe site-ul real.",
+        "RedirectUrlError": "Încercați să deschideți Acoperire Pagina pentru URL-ul \"%s\". %s Niciunul dintre domeniile de setările Piwik nu se potrivește lcu acest link.",
+        "RedirectUrlErrorAdmin": "Puteți adăuga domeniul ca o suplimentare de URL-ul %s in setarile%s.",
+        "RedirectUrlErrorUser": "Adresați-vă administratorului pentru a adăuga un domeniu ca un URL suplimentar."
+    }
+}

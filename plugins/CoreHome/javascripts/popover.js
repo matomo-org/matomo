@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -20,7 +20,7 @@ var Piwik_Popover = (function () {
     var openPopover = function (title, dialogClass) {
         createContainer();
 
-        var options = 
+        var options =
         {
             title: title,
             modal: true,
@@ -209,11 +209,11 @@ var Piwik_Popover = (function () {
 
         /**
          * Create a Popover and load the specified URL in it.
-         * 
+         *
          * Note: If you want the popover to be persisted in the URL (so if the URL is copy/pasted
          * to a new window/tab it will be opened there), use broadcast.propagateNewPopoverParameter
          * with a popover handler function that calls this one.
-         * 
+         *
          * @param {string} url
          * @param {string} loadingName
          * @param {string} [dialogClass]      css class to add to dialog

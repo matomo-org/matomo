@@ -9,11 +9,11 @@
     {%- set rowMetadata=reportRowsMetadata[rowId].columns -%}
 
     {%- if displaySiteName -%}{{ rowMetrics.label|raw }}: {% endif -%}
-    
+
     {# visits #}
     {{- rowMetrics.nb_visits }} {{ 'General_ColumnNbVisits'|translate }}
     {%- if rowMetrics.visits_evolution != 0 %} ({{ rowMetrics.visits_evolution }}%){%- endif -%}
-    
+
     {%- if rowMetrics.nb_visits != 0 -%}
         {#- actions -#}
         , {{ rowMetrics.nb_actions }} {{ 'General_ColumnNbActions'|translate }}
@@ -39,7 +39,7 @@
                 , {{ rowMetrics.orders }} {{ 'General_EcommerceOrders'|translate }}
                 {%- if rowMetrics.orders_evolution != 0 %} ({{ rowMetrics.orders_evolution }}%){%- endif -%}
             {%- endif -%}
-        
+
         {%- endif -%}
 
     {%- endif -%}

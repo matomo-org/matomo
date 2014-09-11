@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,9 +14,9 @@ use Piwik\DataTable\Row;
 
 /**
  * A special row whose column values are the aggregate of the row's subtable.
- * 
+ *
  * This class creates sets its own columns to the sum of each row in the row's subtable.
- * 
+ *
  * Non-numeric columns are bypassed during summation and do not appear in this
  * rows columns.
  *
@@ -27,7 +27,7 @@ class DataTableSummaryRow extends Row
 {
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable|null $subTable The subtable of this row. This parameter is mostly for
      *                                 convenience. If set, its rows will be summed to this one,
      *                                 but it will not be set as this row's subtable (so

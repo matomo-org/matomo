@@ -1,8 +1,0 @@
-			<enableJavaScript description="Disable JS verification for external resources" enable="false" />
-				<ifStep description="production tests" test="${wt.config.verifyLinks}">
-					<verifyLinks />	
-				</ifStep>
-				<ifStep description="production tests" test="${wt.config.verifyImages}">
-					<verifyImages />
-				</ifStep>
-			<enableJavaScript description="Turn back JS verification for further testing" enable="true" />

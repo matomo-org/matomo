@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,14 +13,15 @@ use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Url;
+use Piwik\View;
 
 /**
  */
-class Controller extends \Piwik\Plugin\Controller
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
      * anonymous = in the session
-     * authenticated user = in the session and in DB
+     * authenticated user = in the session
      */
     public function saveLanguage()
     {
@@ -30,13 +31,15 @@ class Controller extends \Piwik\Plugin\Controller
         if (DbHelper::isInstalled()) {
             $this->checkTokenInUrl();
         }
+
         LanguagesManager::setLanguageForSession($language);
-        if (\Piwik\Registry::isRegistered('access')) {
-            $currentUser = Piwik::getCurrentUserLogin();
-            if ($currentUser && $currentUser !== 'anonymous') {
-                API::getInstance()->setLanguageForUser($currentUser, $language);
-            }
-        }
         Url::redirectToReferrer();
+    }
+
+    public function searchTranslation()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('searchTranslation');
     }
 }

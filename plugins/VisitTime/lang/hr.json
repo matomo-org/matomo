@@ -1,0 +1,7 @@
+{
+    "VisitTime": {
+        "ColumnServerTime": "Vrijeme servera",
+        "LocalTime": "Posjete po lokalnom vremenu",
+        "WidgetServerTime": "Posjete po vremenu servera"
+    }
+}

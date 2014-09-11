@@ -2,10 +2,9 @@
  * Ext JS Library 2.3.0
  * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
- * 
+ *
  * http://extjs.com/license
  */
-
 
 Ext={version:'2.3.0'};window["undefined"]=window["undefined"];Ext.apply=function(o,c,defaults){if(defaults){Ext.apply(o,defaults);}
 if(o&&c&&typeof c=='object'){for(var p in c){o[p]=c[p];}}

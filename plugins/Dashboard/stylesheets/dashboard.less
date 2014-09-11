@@ -100,7 +100,7 @@
 
 .widgetContent.loading {
   opacity: 0.5;
-  background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat top right;
+  background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat top right;
 }
 
 .widget h2 {
@@ -114,7 +114,6 @@
 }
 
 .widgetTop {
-  background: #b5b0a7 url(plugins/Zeitgeist/images/dashboard_h_bg.png) repeat-x 0 0;
   cursor: move;
   font-size: 10pt;
   font-weight: bold;
@@ -122,7 +121,6 @@
 }
 
 .widgetTopHover {
-  background: #C4BBAD url(plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0;
 }
 
 .widgetName {
@@ -138,13 +136,9 @@
   width: 100% !important;
 }
 
-.button {
+.widgetTop .button {
   cursor: pointer;
-}
-
-#close.button, #maximise.button, #minimise.button, #refresh.button {
   float: right;
-  display: none;
   margin: 6px 6px 0 0;
 }
 
@@ -152,10 +146,9 @@
   display: none;
   width: 630px;
   background: #fff;
-  color: #444;
+  color: @theme-color-text-light;
   cursor: default;
   font-size: 12px !important;
-  font-family: Arial, Verdana, Arial, Helvetica, sans-serif;
   border-radius: 4px;
   padding: 20px 10px;
   border-radius: 4px;
@@ -182,7 +175,6 @@
 }
 
 .ui-dialog-buttonset input[type=button], .ui-dialog-buttonset button {
-  background: #B5B0A7 url(plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0 !important;
   color: #fff !important;
   border: 0 !important;
   font-size: 12px !important;
@@ -214,9 +206,17 @@
 
 .widgetLoading {
   cursor: wait;
-  padding: 10px;
   text-align: center;
+}
+
+.widgetLoading, .widgetLoadingError, .dimensionLoadingError {
+  padding: 10px;
   font-size: 10pt;
+}
+
+.widgetLoadingError, .dimensionLoadingError {
+  color: @theme-color-brand;
+  text-align: left;
 }
 
 #closeMenuIcon {
@@ -237,7 +237,7 @@
   border: 1px solid #e4e5e4;
   padding: 5px 10px 6px 10px;
   border-radius: 4px;
-  color: #444;
+  color: @theme-color-text-light;
   font-size: 14px;
   cursor: pointer;
   overflow: hidden;
@@ -250,10 +250,11 @@
 
 .dashboardSettings.visible {
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
+  min-width: 700px;
 }
 
 .dashboardSettings > span {
-  background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) right center no-repeat;
+  background: url(plugins/Morpheus/images/sort_subtable_desc.png) right center no-repeat;
   padding-right: 20px;
   display: block;
 }
@@ -276,7 +277,7 @@
 }
 
 .dashboardSettings > ul.submenu > li:hover {
-  color: #e87500;
+  color:@theme-color-link;
 }
 
 #changeDashboardLayout h2 {
@@ -388,7 +389,7 @@ ul.widgetpreview-widgetlist li {
 }
 
 .widgetpreview-base li.widgetpreview-choosen {
-  background: #e4e2d7 url(plugins/Zeitgeist/images/arr_r.png) no-repeat right 6px;
+  background: #e4e2d7 url(plugins/Morpheus/images/arr_r.png) no-repeat right 6px;
   color: #255792;
   font-weight: bold;
 }
@@ -439,11 +440,11 @@ div.widgetpreview-preview {
 .dashboardSettings .submenu ul li {
   line-height: 20px;
   padding: 0 25px 0 5px;
-  color: #444;
+  color: @theme-color-text-light;
 }
 
 .dashboardSettings .submenu ul li:hover {
-  color: #e87500;
+  color: @theme-color-link;
 }
 
 .dashboardSettings .widgetpreview-widgetlist {
@@ -521,4 +522,24 @@ div.widgetpreview-preview {
     }
   }
 
+}
+
+.widgetTop .button {
+  display:none;
+}
+
+.widgetTop.widgetTopHover .button {
+  display:block;
+}
+
+.widget.hiddenContent .widgetTop.widgetTopHover {
+  .button#minimise,.button#refresh {
+    display:none;
+  }
+}
+
+.ui-dialog .widget {
+  .button#close,.button#maximise {
+    display:none;
+  }
 }

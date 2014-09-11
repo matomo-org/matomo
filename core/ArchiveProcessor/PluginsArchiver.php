@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
-use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
@@ -93,6 +92,9 @@ class PluginsArchiver
             /** @var Archiver $archiver */
             $archiver = new $archiverClass($this->archiveProcessor);
 
+            if(!$archiver->isEnabled()) {
+                continue;
+            }
             if($this->shouldProcessReportsForPlugin($pluginName)) {
                 if($this->isSingleSiteDayArchive) {
                     $archiver->aggregateDayReport();
@@ -121,7 +123,7 @@ class PluginsArchiver
     protected function getPluginArchivers()
     {
         if (empty(static::$archivers)) {
-            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
+            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
             $archivers = array();
             foreach ($pluginNames as $pluginName) {
                 $archivers[$pluginName] = self::getPluginArchiverClass($pluginName);

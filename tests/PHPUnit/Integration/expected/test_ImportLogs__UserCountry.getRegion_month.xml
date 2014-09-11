@@ -17,6 +17,7 @@
 		<nb_conversions>20</nb_conversions>
 		<revenue>100</revenue>
 		<sum_daily_nb_uniq_visitors>22</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>9</sum_daily_nb_users>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>
@@ -40,6 +41,7 @@
 		<nb_conversions>5</nb_conversions>
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<region>VA</region>
 		<country>us</country>
 		<country_name>United States</country_name>

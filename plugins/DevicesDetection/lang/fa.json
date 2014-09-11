@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "نسخه مرورگر",
+        "Camera": "دوربین",
         "CarBrowser": "مرورگر خودرو",
         "Console": "کنسول",
         "dataTableLabelBrands": "مارک",

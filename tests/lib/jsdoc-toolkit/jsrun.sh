@@ -29,7 +29,6 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 #
 
-
 if [[ -n "$JSDOCDIR" ]]; then
         _DOCDIR="-Djsdoc.dir=$JSDOCDIR"
         _APPDIR="$JSDOCDIR/app"

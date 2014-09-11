@@ -1,0 +1,29 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Verzije pretraživača",
+        "Camera": "Kamera",
+        "CarBrowser": "Pretraživač za auto",
+        "Console": "Konzola",
+        "dataTableLabelBrands": "Marka",
+        "dataTableLabelBrowserFamily": "Porodica brauzera",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Verzija operativnog sistema",
+        "dataTableLabelTypes": "Tip",
+        "Device": "Uređaj",
+        "DeviceBrand": "Marka uređaja",
+        "DeviceDetection": "Prepoznavanje uređaja",
+        "DeviceModel": "Model uređaja",
+        "DevicesDetection": "Uređaji posetilaca",
+        "DeviceType": "Tip uređaja",
+        "FeaturePhone": "Telefon",
+        "OperatingSystemFamilies": "Porodice operativnih sistema",
+        "OperatingSystemVersions": "Verzije operativnog sistema",
+        "PluginDescription": "Ovaj dodatak omogućuje dodatne informacije o mobilnim uređajima kao što su marka (proizvođača), model (verzija uređaja), bolju detekciju tipa uređaja (TV, konzola, pametni telefon, stoni računar itd.) i još toga. Ovaj dodatak dodaje novi izveštaj u 'Posetioci > Uređaji'.",
+        "SmartDisplay": "Pametan displej",
+        "Smartphone": "Pametni telefon",
+        "submenu": "Uređaji",
+        "Tablet": "Tablet",
+        "TV": "TV",
+        "UserAgent": "Korisnički agent"
+    }
+}

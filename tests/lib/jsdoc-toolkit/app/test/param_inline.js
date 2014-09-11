@@ -12,19 +12,19 @@ function Layout(/**int*/columns){
 		/** number|string */ id
 	) {
 	};
-	
-	/** 
+
+	/**
 		@constructor
 	 */
 	this.Canvas = function(top, left, /**int*/width, height) {
 		/** Is it initiated yet? */
 		this.initiated = true;
 	}
-	
+
 	this.rotate = function(/**nothing*/) {
 	}
-	
-	/** 
+
+	/**
 	@param x
 	@param y
 	@param {zoppler} z*/

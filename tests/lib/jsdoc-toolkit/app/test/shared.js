@@ -4,13 +4,13 @@
  * @class
  * @name Array
  */
- 
+
 /**#@+
  * Extension to builtin array.
  * @memberOf Array
  * @method
  */
- 
+
 /**
  * @returns Boolen if some array members...
  */
@@ -23,7 +23,6 @@ Array.prototype.some = function(){};
 Array.prototype.filter = function(){};
 
 /**#@-*/
-
 
 /**
  * A first in, first out data structure.

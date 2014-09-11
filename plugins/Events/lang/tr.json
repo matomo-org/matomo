@@ -1,0 +1,30 @@
+{
+    "Events": {
+        "AvgEventValue": "Ortalama etkinlik değeri: %s",
+        "AvgValue": "Ortalama değer",
+        "AvgValueDocumentation": "Bu etkinlik için ortalama tüm değerler",
+        "Event": "Etkinlik",
+        "EventAction": "Etkinlik Aksiyonu",
+        "EventActions": "Etkinlik Aksiyonu",
+        "EventCategories": "Etkinlik Kategorileri",
+        "EventCategory": "Etkinlik Kategorisi",
+        "EventName": "Etkinlik Adı",
+        "EventNames": "Etkinlik Adı",
+        "Events": "Etkinlikler",
+        "EventsWithValue": "Değeri olan etkinlikler",
+        "EventsWithValueDocumentation": "Etkinlik değeri ayarlanmış olan etkinlik sayısı",
+        "EventValue": "Etkinlik Değeri",
+        "MaxValue": "Maksimum değer",
+        "MaxValueDocumentation": "Bu etkinlik için maksimum değer",
+        "MinValue": "Minimum değer",
+        "MinValueDocumentation": "Bu etkinlik için minimum değer",
+        "SecondaryDimension": "İkincil boyut %s.",
+        "SwitchToSecondaryDimension": "Değiştir %s",
+        "TopEvents": "Top Etkinlikler",
+        "TotalEvents": "Toplam etkinlikler",
+        "TotalEventsDocumentation": "Toplam etkinlik sayısı",
+        "TotalValue": "Toplam değer",
+        "TotalValueDocumentation": "Etkinlik değerleri toplamı",
+        "ViewEvents": "Etkinliklere Bak"
+    }
+}

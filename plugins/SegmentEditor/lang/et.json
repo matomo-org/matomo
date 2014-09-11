@@ -1,0 +1,21 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Lisa %s tingimus",
+        "AddNewSegment": "Lisa uus segment",
+        "AutoArchivePreProcessed": "segmentide raportid protsessitakse ette (kiirem, aga vajab archive.php cron seadistust)",
+        "AutoArchiveRealTime": "segmentide raportid protsessitakse reaalajas",
+        "ChooseASegment": "Vali segment",
+        "DefaultAllVisits": "Kõik külastused",
+        "DragDropCondition": "Lohista hiirega tingimused siia",
+        "OperatorAND": "JA",
+        "OperatorOR": "VÕI",
+        "SaveAndApply": "Salvesta ja rakenda",
+        "SegmentDisplayedAllWebsites": "kõik veebilehed",
+        "SegmentDisplayedThisWebsiteOnly": "ainult see veebileht",
+        "SegmentIsDisplayedForWebsite": "ja kuvatakse veebilehele",
+        "SelectSegmentOfVisitors": "Vali külastajate segment:",
+        "ThisSegmentIsVisibleTo": "Antud segment on nähtav:",
+        "VisibleToAllUsers": "kõik kasutajad",
+        "VisibleToMe": "mina"
+    }
+}

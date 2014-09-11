@@ -1,15 +1,15 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
@@ -71,7 +71,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
     /**
      * Test that redundant checks work.
-     * 
+     *
      * @group Plugins
      */
     public function testGeoIpUpdaterRedundantChecks()
@@ -169,7 +169,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends GeoIPAutoUpdater
     {
         // empty
     }
-    
+
     public function performRedundantDbChecks()
     {
         parent::performRedundantDbChecks();

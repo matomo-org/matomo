@@ -1,4 +1,10 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
@@ -6,9 +12,9 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Translate;
-
+use Piwik\Plugin\Manager as PluginManager;
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -30,8 +36,8 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         $section['campaign_keyword_var_name']     = 'piwik_kwd,utm_term,test_piwik_kwd';
         Config::getInstance()->Tracker = $section;
 
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
-        
+        PluginManager::getInstance()->loadPlugins(array('SitesManager'));
+
         Translate::loadEnglishTranslation();
     }
 
@@ -150,7 +156,6 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         $this->assertEquals(PageUrl::reconstructNormalizedUrl($url, PageUrl::$urlPrefixMap['http://']), $expectedUrl);
     }
 
-
     /**
      * Testing with some website specific parameters excluded
      * @group Core
@@ -174,7 +179,7 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
      */
     public function testExcludeQueryParametersSiteAndGlobalExcluded($url, $filteredUrl)
     {
-        // testing also that query parameters are case insensitive 
+        // testing also that query parameters are case insensitive
         $excludedQueryParameters = 'P2,var[value][date]';
         $excludedGlobalParameters = 'blabla, P4';
         $this->setUpRootAccess();
@@ -185,7 +190,6 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
         $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
-
 
     public function getExtractUrlData()
     {
@@ -364,6 +368,7 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
      */
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {
+        PluginManager::getInstance()->loadPlugins(array('Actions', 'SitesManager'));
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
         $request['idsite'] = $idSite;

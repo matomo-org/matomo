@@ -1,0 +1,13 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Nettleser-versjoner",
+        "Camera": "Kamera",
+        "dataTableLabelBrowserFamily": "Nettleserfamilie",
+        "dataTableLabelModels": "Modell",
+        "Device": "Enhet",
+        "Smartphone": "Smarttelefon",
+        "submenu": "Enheter",
+        "Tablet": "Nettbrett",
+        "TV": "TV"
+    }
+}

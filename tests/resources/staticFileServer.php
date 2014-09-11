@@ -39,7 +39,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
-require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH .'/vendor/autoload.php';
 
 // This is Piwik logo, the static file used in this test suit
 define("TEST_FILE_LOCATION", dirname(__FILE__) . "/lipsum.txt");
@@ -54,7 +54,11 @@ define("ZLIB_OUTPUT_REQUEST_VAR", "zlibOutput");
 define("NULL_FILE_SRV_MODE", "nullFile");
 define("GHOST_FILE_SRV_MODE", "ghostFile");
 define("TEST_FILE_SRV_MODE", "testFile");
+define("PARTIAL_TEST_FILE_SRV_MODE", "partialTestFile");
+define("WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE", "wholeTestFileWithRange");
 
+define("PARTIAL_BYTE_START", 1204);
+define("PARTIAL_BYTE_END", 14724);
 
 /**
  * If the static file server has been requested, the response sent back to the browser will be the content produced by
@@ -88,5 +92,15 @@ switch ($staticFileServerMode) {
     case TEST_FILE_SRV_MODE:
 
         ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE);
+        break;
+
+    case PARTIAL_TEST_FILE_SRV_MODE:
+
+        ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE, $expireFarFutureDays = 100, PARTIAL_BYTE_START, PARTIAL_BYTE_END);
+        break;
+
+    case WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE:
+
+        ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE, $expireFarFutureDays = 100, 0, filesize(TEST_FILE_LOCATION));
         break;
 }

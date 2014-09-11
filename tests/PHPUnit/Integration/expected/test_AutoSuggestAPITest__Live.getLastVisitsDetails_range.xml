@@ -4,16 +4,8 @@
 		<idSite>1</idSite>
 		<idVisit>35</idVisit>
 		<visitIp>194.57.91.215</visitIp>
+		<userId>userid.email@example.org</userId>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -23,7 +15,7 @@
 				<goalPageId>61</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -35,38 +27,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>not a city</city>
-		<location>not a city, California, United States</location>
-		<latitude>1</latitude>
-		<longitude>2</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -86,7 +67,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -100,6 +80,27 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>not a city</city>
+		<location>not a city, California, United States</location>
+		<latitude>1</latitude>
+		<longitude>2</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -110,16 +111,8 @@
 		<idSite>1</idSite>
 		<idVisit>18</idVisit>
 		<visitIp>1.2.4.8</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -129,7 +122,7 @@
 				<goalPageId>30</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -157,7 +150,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -167,7 +160,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -179,49 +172,30 @@
 				<eventAction>Action8</eventAction>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -241,7 +215,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -255,6 +228,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -265,16 +267,8 @@
 		<idSite>1</idSite>
 		<idVisit>17</idVisit>
 		<visitIp>1.2.4.8</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -284,7 +278,7 @@
 				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -306,46 +300,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -365,7 +340,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -379,6 +353,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -389,16 +392,8 @@
 		<idSite>1</idSite>
 		<idVisit>16</idVisit>
 		<visitIp>1.2.4.7</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -408,7 +403,7 @@
 				<goalPageId>27</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -429,7 +424,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -441,49 +436,30 @@
 				<eventAction>Action7</eventAction>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Macedonia, the Former Yugoslav Republic of</country>
-		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -503,7 +479,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -517,6 +492,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -527,16 +531,8 @@
 		<idSite>1</idSite>
 		<idVisit>15</idVisit>
 		<visitIp>1.2.4.7</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -546,7 +542,7 @@
 				<goalPageId>26</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -568,46 +564,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Macedonia, the Former Yugoslav Republic of</country>
-		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -627,7 +604,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -641,6 +617,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -651,16 +656,8 @@
 		<idSite>1</idSite>
 		<idVisit>14</idVisit>
 		<visitIp>1.2.4.6</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -670,7 +667,7 @@
 				<goalPageId>23</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -698,7 +695,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -708,7 +705,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -720,49 +717,30 @@
 				<eventAction>Action6</eventAction>
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -782,7 +760,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -796,6 +773,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -806,16 +812,8 @@
 		<idSite>1</idSite>
 		<idVisit>13</idVisit>
 		<visitIp>1.2.4.6</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -825,7 +823,7 @@
 				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -847,46 +845,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -906,7 +885,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -920,6 +898,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -930,16 +937,8 @@
 		<idSite>1</idSite>
 		<idVisit>12</idVisit>
 		<visitIp>1.2.4.5</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -949,7 +948,7 @@
 				<goalPageId>20</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -970,7 +969,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -982,49 +981,30 @@
 				<eventAction>Action5</eventAction>
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1044,7 +1024,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1058,6 +1037,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -1068,16 +1076,8 @@
 		<idSite>1</idSite>
 		<idVisit>11</idVisit>
 		<visitIp>1.2.4.5</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1087,7 +1087,7 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1109,46 +1109,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1168,7 +1149,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1182,6 +1162,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -1192,16 +1201,8 @@
 		<idSite>1</idSite>
 		<idVisit>10</idVisit>
 		<visitIp>1.2.4.4</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1211,7 +1212,7 @@
 				<goalPageId>16</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1239,7 +1240,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1249,7 +1250,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1261,49 +1262,30 @@
 				<eventAction>Action4</eventAction>
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Kent</region>
-		<regionCode>G5</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
-		<latitude />
-		<longitude />
-		<provider>awesomeisp.com</provider>
-		<providerName>Awesomeisp</providerName>
-		<providerUrl>http://www.awesomeisp.com/</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1323,7 +1305,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1337,6 +1318,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Kent</region>
+		<regionCode>G5</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>awesomeisp.com</provider>
+		<providerName>Awesomeisp</providerName>
+		<providerUrl>http://www.awesomeisp.com/</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -1347,16 +1357,8 @@
 		<idSite>1</idSite>
 		<idVisit>9</idVisit>
 		<visitIp>1.2.4.4</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1366,7 +1368,7 @@
 				<goalPageId>15</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1388,46 +1390,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Kent</region>
-		<regionCode>G5</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
-		<latitude />
-		<longitude />
-		<provider>awesomeisp.com</provider>
-		<providerName>Awesomeisp</providerName>
-		<providerUrl>http://www.awesomeisp.com/</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1447,7 +1430,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1461,6 +1443,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Kent</region>
+		<regionCode>G5</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>awesomeisp.com</provider>
+		<providerName>Awesomeisp</providerName>
+		<providerUrl>http://www.awesomeisp.com/</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -1471,16 +1482,8 @@
 		<idSite>1</idSite>
 		<idVisit>8</idVisit>
 		<visitIp>1.2.4.3</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1490,7 +1493,7 @@
 				<goalPageId>13</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1511,7 +1514,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1523,49 +1526,30 @@
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>London, City of</region>
-		<regionCode>H9</regionCode>
-		<city>London</city>
-		<location>London, London, City of, United Kingdom</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1585,7 +1569,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1599,6 +1582,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>London, City of</region>
+		<regionCode>H9</regionCode>
+		<city>London</city>
+		<location>London, London, City of, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -1609,16 +1621,8 @@
 		<idSite>1</idSite>
 		<idVisit>30</idVisit>
 		<visitIp>113.62.1.1</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1628,7 +1632,7 @@
 				<goalPageId>52</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1649,7 +1653,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1661,49 +1665,30 @@
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Tibet</country>
-		<countryCode>ti</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
-		<region>Unknown</region>
-		<regionCode>1</regionCode>
-		<city>Lhasa</city>
-		<location>Lhasa, Unknown, Tibet</location>
-		<latitude>29.650000</latitude>
-		<longitude>91.099998</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1712,18 +1697,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1737,6 +1721,27 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Unknown</deviceType>
+		<events>1</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Tibet</country>
+		<countryCode>ti</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
+		<region>Unknown</region>
+		<regionCode>1</regionCode>
+		<city>Lhasa</city>
+		<location>Lhasa, Unknown, Tibet</location>
+		<latitude>29.650000</latitude>
+		<longitude>91.099998</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -1747,16 +1752,8 @@
 		<idSite>1</idSite>
 		<idVisit>7</idVisit>
 		<visitIp>1.2.4.3</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1766,7 +1763,7 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1788,46 +1785,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>London, City of</region>
-		<regionCode>H9</regionCode>
-		<city>London</city>
-		<location>London, London, City of, United Kingdom</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1847,7 +1825,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1861,6 +1838,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>London, City of</region>
+		<regionCode>H9</regionCode>
+		<city>London</city>
+		<location>London, London, City of, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -1871,16 +1877,8 @@
 		<idSite>1</idSite>
 		<idVisit>29</idVisit>
 		<visitIp>113.62.1.1</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -1890,7 +1888,7 @@
 				<goalPageId>51</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1912,46 +1910,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Tibet</country>
-		<countryCode>ti</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
-		<region>Unknown</region>
-		<regionCode>1</regionCode>
-		<city>Lhasa</city>
-		<location>Lhasa, Unknown, Tibet</location>
-		<latitude>29.650000</latitude>
-		<longitude>91.099998</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1960,18 +1939,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1985,6 +1963,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Unknown</deviceType>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Tibet</country>
+		<countryCode>ti</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
+		<region>Unknown</region>
+		<regionCode>1</regionCode>
+		<city>Lhasa</city>
+		<location>Lhasa, Unknown, Tibet</location>
+		<latitude>29.650000</latitude>
+		<longitude>91.099998</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -1995,16 +2002,8 @@
 		<idSite>1</idSite>
 		<idVisit>6</idVisit>
 		<visitIp>1.2.4.2</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2014,7 +2013,7 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2042,7 +2041,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2052,7 +2051,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2064,49 +2063,30 @@
 				<eventAction>Action2</eventAction>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>124.456001</latitude>
-		<longitude>22.231001</longitude>
-		<provider>comcast.net</provider>
-		<providerName>Comcast</providerName>
-		<providerUrl>http://www.comcast.net/</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2126,7 +2106,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2140,6 +2119,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
+		<latitude>124.456001</latitude>
+		<longitude>22.231001</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>comcast.net</provider>
+		<providerName>Comcast</providerName>
+		<providerUrl>http://www.comcast.net/</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -2150,16 +2158,8 @@
 		<idSite>1</idSite>
 		<idVisit>28</idVisit>
 		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2169,7 +2169,7 @@
 				<goalPageId>48</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2197,7 +2197,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2207,7 +2207,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2219,49 +2219,30 @@
 				<eventAction>Action2</eventAction>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2270,18 +2251,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2295,6 +2275,27 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Unknown</deviceType>
+		<events>1</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -2305,16 +2306,8 @@
 		<idSite>1</idSite>
 		<idVisit>5</idVisit>
 		<visitIp>1.2.4.2</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2324,7 +2317,7 @@
 				<goalPageId>8</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2346,46 +2339,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>124.456001</latitude>
-		<longitude>22.231001</longitude>
-		<provider>comcast.net</provider>
-		<providerName>Comcast</providerName>
-		<providerUrl>http://www.comcast.net/</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2405,7 +2379,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2419,6 +2392,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
+		<latitude>124.456001</latitude>
+		<longitude>22.231001</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>comcast.net</provider>
+		<providerName>Comcast</providerName>
+		<providerUrl>http://www.comcast.net/</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -2429,16 +2431,8 @@
 		<idSite>1</idSite>
 		<idVisit>27</idVisit>
 		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2448,7 +2442,7 @@
 				<goalPageId>47</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2470,46 +2464,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2518,18 +2493,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2543,6 +2517,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Unknown</deviceType>
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -2553,16 +2556,8 @@
 		<idSite>1</idSite>
 		<idVisit>4</idVisit>
 		<visitIp>1.2.4.1</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2572,7 +2567,7 @@
 				<goalPageId>6</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2593,7 +2588,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2605,49 +2600,30 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Nuneaton and Bedworth</city>
-		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2667,7 +2643,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2681,6 +2656,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Nuneaton and Bedworth</city>
+		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -2691,16 +2695,8 @@
 		<idSite>1</idSite>
 		<idVisit>22</idVisit>
 		<visitIp>::ffff:137.82.130.49</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2710,7 +2706,7 @@
 				<goalPageId>38</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2731,7 +2727,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2743,49 +2739,30 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2805,7 +2782,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2819,6 +2795,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -2829,16 +2834,8 @@
 		<idSite>1</idSite>
 		<idVisit>26</idVisit>
 		<visitIp>137.82.0.0</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2848,7 +2845,7 @@
 				<goalPageId>45</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2869,7 +2866,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2881,49 +2878,30 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2932,18 +2910,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2957,6 +2934,27 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Unknown</deviceType>
+		<events>1</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -2967,16 +2965,8 @@
 		<idSite>1</idSite>
 		<idVisit>34</idVisit>
 		<visitIp>103.29.196.229</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>1</events>
-		<actions>2</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -2986,7 +2976,7 @@
 				<goalPageId>59</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3007,7 +2997,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3019,49 +3009,30 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Indonesia</country>
-		<countryCode>id</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/id.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Indonesia</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3081,7 +3052,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3095,6 +3065,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Indonesia</country>
+		<countryCode>id</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/id.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Indonesia</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -3105,16 +3104,8 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>1.2.4.1</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3124,7 +3115,7 @@
 				<goalPageId>5</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3146,46 +3137,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Nuneaton and Bedworth</city>
-		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3205,7 +3177,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3219,6 +3190,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Nuneaton and Bedworth</city>
+		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -3229,16 +3229,8 @@
 		<idSite>1</idSite>
 		<idVisit>21</idVisit>
 		<visitIp>::ffff:137.82.130.49</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3248,7 +3240,7 @@
 				<goalPageId>37</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3270,46 +3262,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3329,7 +3302,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3343,6 +3315,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -3353,16 +3354,8 @@
 		<idSite>1</idSite>
 		<idVisit>25</idVisit>
 		<visitIp>137.82.0.0</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3372,7 +3365,7 @@
 				<goalPageId>44</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3394,46 +3387,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3442,18 +3416,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3467,6 +3440,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Unknown</deviceType>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -3477,16 +3479,8 @@
 		<idSite>1</idSite>
 		<idVisit>33</idVisit>
 		<visitIp>103.29.196.229</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3496,7 +3490,7 @@
 				<goalPageId>58</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3518,46 +3512,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Indonesia</country>
-		<countryCode>id</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/id.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Indonesia</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3577,7 +3552,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3591,6 +3565,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Indonesia</country>
+		<countryCode>id</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/id.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Indonesia</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -3601,16 +3604,8 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>1.2.4.0</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3620,7 +3615,7 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3648,7 +3643,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3658,7 +3653,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3670,49 +3665,30 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3732,7 +3708,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3746,6 +3721,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
+		<latitude>123.456001</latitude>
+		<longitude>21.320999</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -3756,16 +3760,8 @@
 		<idSite>1</idSite>
 		<idVisit>20</idVisit>
 		<visitIp>194.57.91.215</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3775,7 +3771,7 @@
 				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3803,7 +3799,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3813,7 +3809,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3825,49 +3821,30 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
-		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
-		<longitude>6.018000</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3887,7 +3864,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3901,6 +3877,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region>Franche-Comte</region>
+		<regionCode>A6</regionCode>
+		<city>Besançon</city>
+		<location>Besançon, Franche-Comte, France</location>
+		<latitude>47.249001</latitude>
+		<longitude>6.018000</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -3911,16 +3916,8 @@
 		<idSite>1</idSite>
 		<idVisit>24</idVisit>
 		<visitIp>137.82.130.0</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -3930,7 +3927,7 @@
 				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3958,7 +3955,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3968,7 +3965,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3980,49 +3977,30 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4031,18 +4009,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4056,6 +4033,27 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Unknown</deviceType>
+		<events>1</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -4066,16 +4064,8 @@
 		<idSite>1</idSite>
 		<idVisit>32</idVisit>
 		<visitIp>151.100.101.92</visitIp>
+		<userId />
 		
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>1</searches>
-		<events>1</events>
-		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4085,7 +4075,7 @@
 				<goalPageId>55</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4113,7 +4103,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -4123,7 +4113,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -4135,49 +4125,30 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>1262</visitDuration>
-		<visitDurationPretty>21 min 2s</visitDurationPretty>
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Italy</country>
-		<countryCode>it</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Italy</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>1261</visitDuration>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>3</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4197,7 +4168,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4211,6 +4181,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Italy</country>
+		<countryCode>it</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Italy</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -4221,16 +4220,8 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>1.2.4.0</visitIp>
+		<userId />
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4240,7 +4231,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4262,46 +4253,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4321,7 +4293,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4335,6 +4306,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
+		<latitude>123.456001</latitude>
+		<longitude>21.320999</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -4345,16 +4345,8 @@
 		<idSite>1</idSite>
 		<idVisit>19</idVisit>
 		<visitIp>194.57.91.215</visitIp>
+		<userId />
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4364,7 +4356,7 @@
 				<goalPageId>33</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4386,46 +4378,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
-		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
-		<longitude>6.018000</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4445,7 +4418,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4459,6 +4431,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region>Franche-Comte</region>
+		<regionCode>A6</regionCode>
+		<city>Besançon</city>
+		<location>Besançon, Franche-Comte, France</location>
+		<latitude>47.249001</latitude>
+		<longitude>6.018000</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -4469,16 +4470,8 @@
 		<idSite>1</idSite>
 		<idVisit>23</idVisit>
 		<visitIp>137.82.130.0</visitIp>
+		<userId />
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4488,7 +4481,7 @@
 				<goalPageId>40</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4510,46 +4503,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>Canada</country>
-		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
-		<region>British Columbia</region>
-		<regionCode>BC</regionCode>
-		<city>Vancouver</city>
-		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4569,7 +4543,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4583,6 +4556,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>Canada</country>
+		<countryCode>ca</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<region>British Columbia</region>
+		<regionCode>BC</regionCode>
+		<city>Vancouver</city>
+		<location>Vancouver, British Columbia, Canada</location>
+		<latitude>49.250000</latitude>
+		<longitude>-123.133003</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		
@@ -4593,16 +4595,8 @@
 		<idSite>1</idSite>
 		<idVisit>31</idVisit>
 		<visitIp>151.100.101.92</visitIp>
+		<userId />
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -4612,7 +4606,7 @@
 				<goalPageId>54</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4634,46 +4628,27 @@
 				<icon />
 			</row>
 		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
 		
 		
 		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Italy</country>
-		<countryCode>it</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Italy</location>
-		<latitude />
-		<longitude />
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4693,7 +4668,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4707,6 +4681,35 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Italy</country>
+		<countryCode>it</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Italy</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		
 		
 		

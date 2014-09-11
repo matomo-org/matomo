@@ -1,23 +1,29 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 
 /**
  * Tests the log importer.
+ *
+ * @group ImportLogsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
+class ImportLogsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
-    
+
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -26,7 +32,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 
     public function getApiForTesting()
     {
-        return array(
+        $apis = array(
             array('all', array('idSite'  => self::$fixture->idSite,
                                'date'    => '2012-08-09',
                                'periods' => 'month')),
@@ -48,12 +54,27 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
                                              'periods'    => 'month',
                                              'testSuffix' => '_siteIdTwo_TrackedUsingLogReplay')),
         );
+
+        // Running a few interesting tests for Log Replay use case
+        $apiMethods = array();
+        if (getenv('MYSQL_ADAPTER') != 'MYSQLI') {
+            // Mysqli rounds latitude/longitude
+            $apiMethods = array('Live.getLastVisitsDetails');
+        }
+        $apiMethods[] = 'Actions';
+        $apiMethods[] = 'VisitorInterest';
+        $apiMethods[] = 'VisitFrequency';
+        $apis[] = array($apiMethods, array(
+            'idSite'  => self::$fixture->idSite,
+            'date'    => '2012-08-09,2014-04-01',
+            'periods' => 'range',
+            'otherRequestParameters' => array(
+                'filter_limit' => 1000
+        )));
+        return $apis;
     }
 
     /**
-     * @group        Integration
-     *
-     * 
      * NOTE: This test must be last since the new sites that get added are added in
      *       random order.
      */
@@ -81,5 +102,4 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_ImportLogs::$fixture = new Test_Piwik_Fixture_ManySitesImportedLogs();
-
+ImportLogsTest::$fixture = new ManySitesImportedLogs();

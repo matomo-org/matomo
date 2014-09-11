@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -31,7 +31,9 @@ if (!Common::isPhpCliMode()) {
 
 $testmode = in_array('--testmode', $_SERVER['argv']);
 if ($testmode) {
-    Config::getInstance()->setTestEnvironment();
+    require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/TestingEnvironment.php";
+
+    \Piwik_TestingEnvironment::addHooks();
 }
 
 $token = Db::get()->fetchOne("SELECT token_auth

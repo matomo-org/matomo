@@ -1,0 +1,30 @@
+{
+    "Events": {
+        "AvgEventValue": "Prosečna vrednost događaja je: %s",
+        "AvgValue": "Prosečna vrednost",
+        "AvgValueDocumentation": "Prosek svih vrednosti ovog događaja",
+        "Event": "Događaj",
+        "EventAction": "Akcija događaja",
+        "EventActions": "Akcije događaja",
+        "EventCategories": "Kategorije događaja",
+        "EventCategory": "Kategorije događaja",
+        "EventName": "Naziv događaja",
+        "EventNames": "Nazivi događaja",
+        "Events": "Događaji",
+        "EventsWithValue": "Događaji sa vrednošću",
+        "EventsWithValueDocumentation": "Broj događaja u kojima je vrednost postavljena",
+        "EventValue": "Vrednost događaja",
+        "MaxValue": "Maksimalna vrednost",
+        "MaxValueDocumentation": "Maksimalna vrednost za ovaj događaj",
+        "MinValue": "Minimalna vrednost",
+        "MinValueDocumentation": "Minimalna vrednost za ovaj događaj",
+        "SecondaryDimension": "Sekundarna dimenzija je %s.",
+        "SwitchToSecondaryDimension": "Prebaci na %s",
+        "TopEvents": "Vodeći događaji",
+        "TotalEvents": "Ukupno događaja",
+        "TotalEventsDocumentation": "Ukupan broj događaja",
+        "TotalValue": "Ukupna vrednost",
+        "TotalValueDocumentation": "suma vrednosti događaja",
+        "ViewEvents": "Prikaži događaje"
+    }
+}

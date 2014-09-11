@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,11 +24,11 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.
- * 
+ *
  * Report visualizations that extend from this class will be displayed like all others in
  * the Piwik UI. The following extra UI controls will be displayed around the visualization
  * itself:
- * 
+ *
  * - report documentation,
  * - a footer message (if {@link Piwik\ViewDataTable\Config::$show_footer_message} is set),
  * - a list of links to related reports (if {@link Piwik\ViewDataTable\Config::$related_reports} is set),
@@ -37,33 +37,33 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
  * - a limit control that allows users to change the amount of rows displayed (if
  *   {@link Piwik\ViewDataTable\Config::$show_limit_control} is true),
  * - and more depending on the visualization.
- * 
+ *
  * ### Rendering Process
- * 
+ *
  * The following process is used to render reports:
- * 
+ *
  * - The report is loaded through Piwik's Reporting API.
  * - The display and request properties that require report data in order to determine a default
  *   value are defaulted. These properties are:
- * 
+ *
  *   - {@link Piwik\ViewDataTable\Config::$columns_to_display}
  *   - {@link Piwik\ViewDataTable\RequestConfig::$filter_sort_column}
  *   - {@link Piwik\ViewDataTable\RequestConfig::$filter_sort_order}
- * 
+ *
  * - Priority filters are applied to the report (see {@link Piwik\ViewDataTable\Config::$filters}).
  * - The filters that are applied to every report in the Reporting API (called **generic filters**)
  *   are applied. (see {@link Piwik\API\Request})
  * - The report's queued filters are applied.
  * - A {@link Piwik\View} instance is created and rendered.
- * 
+ *
  * ### Rendering Hooks
- * 
+ *
  * The Visualization class defines several overridable methods that are called at specific
  * points during the rendering process. Derived classes can override these methods change
  * the data that is displayed or set custom properties.
- * 
+ *
  * The overridable methods (called **rendering hooks**) are as follows:
- * 
+ *
  * - **beforeLoadDataTable**: Called at the start of the rendering process before any data
  *                            is loaded.
  * - **beforeGenericFiltersAreAppliedToLoadedDataTable**: Called after data is loaded and after priority
@@ -76,20 +76,20 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
  * - **beforeRender**: Called immediately before a {@link Piwik\View} is created and rendered.
  * - **isThereDataToDisplay**: Called after a {@link Piwik\View} is created to determine if the report has
  *                             data or not. If not, a message is displayed to the user.
- * 
+ *
  * ### The DataTable JavaScript class
- * 
+ *
  * In the UI, visualization behavior is provided by logic in the **DataTable** JavaScript class.
  * When creating new visualizations, the **DataTable** JavaScript class (or one of its existing
  * descendants) should be extended.
- * 
+ *
  * To learn more read the [Visualizing Report Data](/guides/visualizing-report-data#creating-new-visualizations)
  * guide.
  *
  * ### Examples
- * 
+ *
  * **Changing the data that is loaded**
- * 
+ *
  *     class MyVisualization extends Visualization
  *     {
  *         // load the previous period's data as well as the requested data. this will change
@@ -101,20 +101,20 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
  *
  *             $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
  *         }
- * 
+ *
  *         // since we load the previous period's data too, we need to override the logic to
  *         // check if there is data or not.
  *         public function isThereDataToDisplay()
  *         {
  *             $tables = $this->dataTable->getDataTables()
  *             $requestedDataTable = end($tables);
- * 
+ *
  *             return $requestedDataTable->getRowsCount() != 0;
  *         }
  *     }
- * 
+ *
  * **Force properties to be set to certain values**
- * 
+ *
  *     class MyVisualization extends Visualization
  *     {
  *         // ensure that some properties are set to certain values before rendering.
@@ -133,9 +133,9 @@ class Visualization extends ViewDataTable
 {
     /**
      * The Twig template file to use when rendering, eg, `"@MyPlugin/_myVisualization.twig"`.
-     * 
+     *
      * Must be defined by classes that extend Visualization.
-     * 
+     *
      * @api
      */
     const TEMPLATE_FILE = '';
@@ -144,7 +144,7 @@ class Visualization extends ViewDataTable
     private $reportLastUpdatedMessage = null;
     private $metadata = null;
 
-    final public function __construct($controllerAction, $apiMethodToRequestDataTable)
+    final public function __construct($controllerAction, $apiMethodToRequestDataTable, $params = array())
     {
         $templateFile = static::TEMPLATE_FILE;
 
@@ -152,7 +152,7 @@ class Visualization extends ViewDataTable
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
 
-        parent::__construct($controllerAction, $apiMethodToRequestDataTable);
+        parent::__construct($controllerAction, $apiMethodToRequestDataTable, $params);
     }
 
     protected function buildView()
@@ -179,7 +179,12 @@ class Visualization extends ViewDataTable
         } catch (\Exception $e) {
             Log::warning("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 
-            $loadingError = array('message' => $e->getMessage());
+            $message = $e->getMessage();
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $message .= "\n" . $e->getTraceAsString();
+            }
+
+            $loadingError = array('message' => $message);
         }
 
         $view = new View("@CoreHome/_dataTable");
@@ -248,14 +253,14 @@ class Visualization extends ViewDataTable
 
     /**
      * Returns `true` if there is data to display, `false` if otherwise.
-     * 
+     *
      * Derived classes should override this method if they change the amount of data that is loaded.
-     * 
+     *
      * @api
      */
     protected function isThereDataToDisplay()
     {
-        return true;
+        return !empty($this->dataTable) && 0 < $this->dataTable->getRowsCount();
     }
 
     /**
@@ -304,6 +309,11 @@ class Visualization extends ViewDataTable
         }
 
         $this->beforeGenericFiltersAreAppliedToLoadedDataTable();
+
+        if (!in_array($this->requestConfig->filter_sort_column, $this->config->columns_to_display)) {
+            $hasNbUniqVisitors = in_array('nb_uniq_visitors', $this->config->columns_to_display);
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
+        }
 
         if (!$this->requestConfig->areGenericFiltersDisabled()) {
             $this->applyGenericFilters();
@@ -497,9 +507,11 @@ class Visualization extends ViewDataTable
 
     /**
      * Hook that is called before loading report data from the API.
-     * 
+     *
      * Use this method to change the request parameters that is sent to the API when requesting
      * data.
+     *
+     * @api
      */
     public function beforeLoadDataTable()
     {
@@ -507,9 +519,11 @@ class Visualization extends ViewDataTable
 
     /**
      * Hook that is executed before generic filters are applied.
-     * 
+     *
      * Use this method if you need access to the entire dataset (since generic filters will
      * limit and truncate reports).
+     *
+     * @api
      */
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
@@ -517,6 +531,8 @@ class Visualization extends ViewDataTable
 
     /**
      * Hook that is executed after generic filters are applied.
+     *
+     * @api
      */
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
@@ -525,6 +541,8 @@ class Visualization extends ViewDataTable
     /**
      * Hook that is executed after the report data is loaded and after all filters have been applied.
      * Use this method to format the report data before the view is rendered.
+     *
+     * @api
      */
     public function afterAllFiltersAreApplied()
     {
@@ -533,6 +551,8 @@ class Visualization extends ViewDataTable
     /**
      * Hook that is executed directly before rendering. Use this hook to force display properties to
      * be a certain value, despite changes from plugins and query parameters.
+     *
+     * @api
      */
     public function beforeRender()
     {
@@ -562,6 +582,15 @@ class Visualization extends ViewDataTable
 
         $diff = array_diff_assoc($this->makeSureArrayContainsOnlyStrings($requestProperties),
                                  $this->makeSureArrayContainsOnlyStrings($requestPropertiesBefore));
+
+        if (!empty($diff['filter_sort_column'])) {
+            // this here might be ok as it can be changed after data loaded but before filters applied
+            unset($diff['filter_sort_column']);
+        }
+        if (!empty($diff['filter_sort_order'])) {
+            // this here might be ok as it can be changed after data loaded but before filters applied
+            unset($diff['filter_sort_order']);
+        }
 
         if (empty($diff)) {
             return;

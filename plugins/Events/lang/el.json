@@ -1,0 +1,30 @@
+{
+    "Events": {
+        "AvgEventValue": "Η μέση τιμή του γεγονότος είναι: %s",
+        "AvgValue": "Μέση τιμή",
+        "AvgValueDocumentation": "Ο μέσος όρος τιμών για το γεγονός",
+        "Event": "Γεγονός",
+        "EventAction": "Ενέργεια Συμβάντος",
+        "EventActions": "Ενέργειες Συμβάντος",
+        "EventCategories": "Κατηγορίες Συμβάντος",
+        "EventCategory": "Κατηγορία Συμβάντος",
+        "EventName": "Όνομα Συμβάντος",
+        "EventNames": "Ονόματα Συμβάντος",
+        "Events": "Συμβάντα",
+        "EventsWithValue": "Γεγονότα με τιμή",
+        "EventsWithValueDocumentation": "Αριθμός γεγονότων στα οποία έχει οριστεί μια τιμή",
+        "EventValue": "Τιμή Συμβάντος",
+        "MaxValue": "Μέγιστη τιμή",
+        "MaxValueDocumentation": "Μέγιστη τιμή για το συμβάν",
+        "MinValue": "Ελάχιστη τιμή",
+        "MinValueDocumentation": "Ελάχιστη τιμή για το συμβάν",
+        "SecondaryDimension": "Η δευτερεύουσα διάσταση είναι %s.",
+        "SwitchToSecondaryDimension": "Αλλαγή σε %s",
+        "TopEvents": "Κορυφαία Γεγονότα",
+        "TotalEvents": "Σύνολο συμβάντων",
+        "TotalEventsDocumentation": "Συνολικός αριθμός συμβάντων",
+        "TotalValue": "Τιμή συνόλου",
+        "TotalValueDocumentation": "άθροισμα των τιμών συμβάντων",
+        "ViewEvents": "Εμφάνιση Γεγονότων"
+    }
+}

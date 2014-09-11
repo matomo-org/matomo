@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,15 +15,31 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
 {
     protected function getPriorityOrder()
     {
-        return array(
+        $theme = $this->getTheme();
+        $themeName = $theme->getThemeName();
+
+        $themeName = $this->getTheme()->getThemeName();
+        $order = array(
             'libs/',
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
-            'plugins/Zeitgeist/stylesheets/base.less',
-            'plugins/Zeitgeist/stylesheets/',
-            'plugins/',
-            'plugins/Dashboard/stylesheets/dashboard.less',
-            'tests/',
+            'plugins/Morpheus/stylesheets/base.less',
         );
+
+        if ($themeName === 'Morpheus') {
+            $order[] = 'plugins\/((?!Morpheus).)*\/';
+        } else {
+            $order[] = sprintf('plugins\/((?!(Morpheus)|(%s)).)*\/', $themeName);
+        }
+
+        $order = array_merge(
+            $order,
+            array(
+                'plugins/Dashboard/stylesheets/dashboard.less',
+                'tests/',
+            )
+        );
+
+        return $order;
     }
 
     protected function retrieveFileLocations()
@@ -55,9 +71,13 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
 
     protected function addThemeFiles()
     {
+        $theme = $this->getTheme();
+        if(!$theme) {
+            return;
+        }
         $themeStylesheet = $this->getTheme()->getStylesheet();
 
-        if($themeStylesheet) {
+        if ($themeStylesheet) {
             $this->fileLocations[] = $themeStylesheet;
         }
     }

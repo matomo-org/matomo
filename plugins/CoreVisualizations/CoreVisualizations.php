@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,9 @@
 
 namespace Piwik\Plugins\CoreVisualizations;
 
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Cloud.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph.php';
 
 /**
  * This plugin contains all core visualizations, such as the normal HTML table and
@@ -28,20 +27,14 @@ class CoreVisualizations extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'UsersManager.deleteUser'                => 'deleteUser'
         );
     }
 
-    public function getAvailableDataTableVisualizations(&$visualizations)
+    public function deleteUser($userLogin)
     {
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Sparkline';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable\\AllColumns';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Cloud';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Pie';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Bar';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Evolution';
+        ViewDataTableManager::clearUserViewDataTableParameters($userLogin);
     }
 
     public function getStylesheetFiles(&$stylesheets)

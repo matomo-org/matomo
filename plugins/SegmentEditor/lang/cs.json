@@ -1,0 +1,29 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Přidat podmínku %s",
+        "AddNewSegment": "Přidat nový segment",
+        "AreYouSureDeleteSegment": "Opravdu chcete odstranit tento segment?",
+        "AutoArchivePreProcessed": "Segmentovaná hlášení jsou předzpracována rychleji (vyžadují cron)",
+        "AutoArchiveRealTime": "Segmentovaná hlášení jsou zpracována v reálném čase",
+        "ChooseASegment": "Zvolte segment",
+        "DataAvailableAtLaterDate": "Vaše segmentovaná analytická hlášení budou dostupná později. Omlouváme se za tuto nepříjemnost.",
+        "DefaultAllVisits": "Všechny návštěvy",
+        "DragDropCondition": "Přetáhněte podmínku",
+        "LoadingSegmentedDataMayTakeSomeTime": "Zpracování segmentovaných dat návštěvníků může pár minut trvat...",
+        "OperatorAND": "AND",
+        "OperatorOR": "OR",
+        "SaveAndApply": "Uložit & použít",
+        "SegmentDisplayedAllWebsites": "Všechny webové stránky",
+        "SegmentDisplayedThisWebsiteOnly": "Pouze tyto webové stránky",
+        "SegmentIsDisplayedForWebsite": "A zobrazený po",
+        "SegmentNotApplied": "Segment %s není aplikován",
+        "SegmentNotAppliedMessage": "Požadujete data pro vlastní segment %s, ale konfigurace Piwiku aktuálně nedovoluje z důvodů výkonu zpracování hlášení v reálném čase.",
+        "SelectSegmentOfVisitors": "Vyberte segment návštěvníků",
+        "ThisSegmentIsVisibleTo": "Tento segment je viditelný",
+        "VisibleToAllUsers": "Všem uživatelům",
+        "VisibleToMe": "Mně",
+        "YouDontHaveAccessToCreateSegments": "Pro vytváření a úpravu segmentů nemáte požadovanou přístupovou úroveň.",
+        "YouMayChangeSetting": "Jinak můžete nastavení změnit v souboru %s, nebo můžete upravit tento segment a zvolit %s.",
+        "YouMustBeLoggedInToCreateSegments": "Pro vytváření a úpravu vlastních segmentů návštěvníků musíte být přihlášen."
+    }
+}

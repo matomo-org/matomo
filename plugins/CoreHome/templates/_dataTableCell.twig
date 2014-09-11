@@ -2,17 +2,18 @@
 {% set tooltipIndex = column ~ '_tooltip' %}
 {% if row.getMetadata(tooltipIndex) %}<span class="cell-tooltip" data-tooltip="{{ row.getMetadata(tooltipIndex) }}">{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
-    <a target="_blank" href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url') }}'>
+    <a target="_blank" href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
     {% if not row.getMetadata('logo') %}
-        <img class="link" width="10" height="9" src="plugins/Zeitgeist/images/link.gif"/>
+        <img class="link" width="10" height="9" src="plugins/Morpheus/images/link.gif"/>
     {% endif %}
 {% endif %}
 {% if column=='label' %}
     {% import 'macros.twig' as piwik %}
-    {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
-    {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
-        <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
-        {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
+
+    <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
+    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
+        {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
+        {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
         {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
 {% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}</span>
 {% if column=='label' %}</span>{% endif %}

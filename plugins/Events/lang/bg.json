@@ -1,0 +1,23 @@
+{
+    "Events": {
+        "AvgValue": "Средна стойност",
+        "Event": "Събитие",
+        "EventAction": "Действие на събитието",
+        "EventCategory": "Категория на събитие",
+        "EventName": "Име на събитие",
+        "Events": "Събития",
+        "EventValue": "Стойност за събитие",
+        "MaxValue": "Максимална стойност",
+        "MaxValueDocumentation": "Максималната стойност за това събитие",
+        "MinValue": "Минимална стойност",
+        "MinValueDocumentation": "Минималната стойност за това събитие",
+        "SecondaryDimension": "Второстепенното измерение е %s.",
+        "SwitchToSecondaryDimension": "Превключване към %s",
+        "TopEvents": "Най-важните събития",
+        "TotalEvents": "Общо събития",
+        "TotalEventsDocumentation": "Общ брой събития",
+        "TotalValue": "Обща стойност",
+        "TotalValueDocumentation": "Сумата от стойностите за събитие",
+        "ViewEvents": "Преглед на събития"
+    }
+}

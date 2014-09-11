@@ -1,0 +1,14 @@
+{
+    "Annotations": {
+        "Annotations": "Beležke",
+        "ClickToDelete": "Kliknite za izbris te beležke.",
+        "ClickToEdit": "Kliknite za urejanje te beležke.",
+        "ClickToEditOrAdd": "Kliknite za urejanje ali dodajanje nove beležke.",
+        "EnterAnnotationText": "Dodajte svojo opombo...",
+        "HideAnnotationsFor": "Skrij opombe za %s...",
+        "IconDesc": "Preglej opombe za ta časovni razpon.",
+        "IconDescHideNotes": "Skrij opombe za ta časovni razpon.",
+        "LoginToAnnotate": "Za kreiranje beležke se morate prijaviti.",
+        "ViewAndAddAnnotations": "Preglej in dodaj opombe za %s..."
+    }
+}

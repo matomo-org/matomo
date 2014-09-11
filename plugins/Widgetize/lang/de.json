@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "In neuem Fenster öffnen",
+        "PluginDescription": "Dieses Plugin macht es sehr einfach, Piwik-Widgets für einen Blog, eine Webseite oder IGoogle und Netvibes zu exportieren.",
+        "TopLinkTooltip": "Exportieren Sie Berichte als Widgets und binden Sie das Dashboard in Ihrer Applikation als iframe ein."
+    }
+}

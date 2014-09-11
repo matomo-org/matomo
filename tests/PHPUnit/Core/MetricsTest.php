@@ -3,7 +3,7 @@ use Piwik\Access;
 use Piwik\Metrics;
 
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -19,6 +19,7 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
         $expectedNames = array(
             1 => 'nb_uniq_visitors',
             2 => 'nb_visits',
+            39 => 'nb_users',
             3 => 'nb_actions',
             4 => 'max_actions',
             5 => 'sum_visit_length',
@@ -41,11 +42,13 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
             'max_actions' => 4,
             'sum_visit_length' => 5,
             'bounce_count' => 6,
+            'nb_users' => 39,
             'nb_visits_converted' => 7,
             'nb_conversions' => 8,
             'revenue' => 23,
             'goals' => 10,
             'sum_daily_nb_uniq_visitors' => 11,
+            'sum_daily_nb_users' => 40,
             'nb_hits' => 12,
             'sum_time_spent' => 13,
             'sum_time_generation' => 30,
@@ -66,6 +69,11 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
             'price' => 25,
             'price_viewed' => 27,
             'orders' => 26,
+            'nb_events' => 34,
+            'sum_event_value' => 35,
+            'min_event_value' => 36,
+            'max_event_value' => 37,
+            'nb_events_with_value' => 38,
         );
         $this->assertEquals($expectedMapping, $mapping);
     }
@@ -89,7 +97,6 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
         $actual = Metrics::isLowerValueBetter($column);
         $this->assertEquals($expected, $actual);
     }
-
 
     public function getUnitColumns()
     {
@@ -119,6 +126,5 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
         $actual = Metrics::getUnit($column, 1);
         $this->assertEquals($expected, $actual);
     }
-
 
 }

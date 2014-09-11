@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ class Updates_1_2_5_rc7 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-		    	ADD INDEX index_idsite_idvisitor (idsite, idvisitor)' => false,
+		    	ADD INDEX index_idsite_idvisitor (idsite, idvisitor)' => 1061,
         );
     }
 
@@ -30,5 +30,4 @@ class Updates_1_2_5_rc7 extends Updates
         Updater::updateDatabase(__FILE__, self::getSql());
     }
 }
-
 

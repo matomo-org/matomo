@@ -1,21 +1,27 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
 
 /**
  * Tests the method API.getRowEvolution
+ *
+ * @group RowEvolutionTest
+ * @group Integration
  */
-class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
+class RowEvolutionTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -82,7 +88,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $config['periods'] = array('day', 'week');
         $config['otherRequestParameters']['apiModule'] = 'Actions';
         $config['otherRequestParameters']['apiAction'] = 'getPageTitles';
-        $config['otherRequestParameters']['label'] = urlencode('incredible title 0');
+        $config['otherRequestParameters']['label'] = ('incredible title 0');
         $config['otherRequestParameters']['filter_limit'] = 1; // should have no effect
         $return[] = array('API.getRowEvolution', $config);
 
@@ -91,7 +97,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $label = urlencode('incredible title 0') . ',' . urlencode('incredible title 2');
         $config['otherRequestParameters']['label'] = ($label);
         $return[] = array('API.getRowEvolution', $config);
-        
+
         // standard label, entry page titles
         $config['testSuffix'] = '_entryPageTitles';
         $config['periods'] = 'day';
@@ -177,7 +183,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
                 'label'     => 'Desktop,Mobile'
             )
         ));
-        
+
         // test multi row evolution w/ filter_limit to limit all available labels
         $return[] = array('API.getRowEvolution', array(
             'testSuffix'             => '_multiWithFilterLimit',
@@ -192,7 +198,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
                 'filter_limit' => 3, // only 3 labels should show up
             )
         ));
-        
+
         // test multi row evolution when there is no data
         $return[] = array('API.getRowEvolution', array(
             'testSuffix'             => '_multiWithNoData',
@@ -207,7 +213,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
                 // no label
             )
         ));
-        
+
         // (non-rowevolution test) test flattener w/ search engines to make sure
         // queued filters are not applied twice
         $return[] = array('Referrers.getSearchEngines', array(
@@ -230,5 +236,4 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_RowEvolution::$fixture
-    = new Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers();
+RowEvolutionTest::$fixture = new TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers();

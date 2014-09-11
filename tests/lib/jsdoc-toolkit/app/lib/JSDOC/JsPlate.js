@@ -3,7 +3,7 @@
 */
 JSDOC.JsPlate = function(templateFile) {
 	if (templateFile) this.template = IO.readFile(templateFile);
-	
+
 	this.templateFile = templateFile;
 	this.code = "";
 	this.parse();
@@ -14,11 +14,11 @@ JSDOC.JsPlate.prototype.parse = function() {
 	this.code = "var output=\u001e"+this.template;
 
 	this.code = this.code.replace(
-		/<for +each="(.+?)" +in="(.+?)" *>/gi, 
+		/<for +each="(.+?)" +in="(.+?)" *>/gi,
 		function (match, eachName, inName) {
 			return "\u001e;\rvar $"+eachName+"_keys = keys("+inName+");\rfor(var $"+eachName+"_i = 0; $"+eachName+"_i < $"+eachName+"_keys.length; $"+eachName+"_i++) {\rvar $"+eachName+"_last = ($"+eachName+"_i == $"+eachName+"_keys.length-1);\rvar $"+eachName+"_key = $"+eachName+"_keys[$"+eachName+"_i];\rvar "+eachName+" = "+inName+"[$"+eachName+"_key];\routput+=\u001e";
 		}
-	);	
+	);
 	this.code = this.code.replace(/<if test="(.+?)">/g, "\u001e;\rif ($1) { output+=\u001e");
 	this.code = this.code.replace(/<elseif test="(.+?)"\s*\/>/g, "\u001e;}\relse if ($1) { output+=\u001e");
 	this.code = this.code.replace(/<else\s*\/>/g, "\u001e;}\relse { output+=\u001e");
@@ -83,7 +83,7 @@ JSDOC.JsPlate.values = function(obj) {
 JSDOC.JsPlate.prototype.process = function(data, compact) {
 	var keys = JSDOC.JsPlate.keys;
 	var values = JSDOC.JsPlate.values;
-	
+
 	try {
 		eval(this.code);
 	}
@@ -95,7 +95,7 @@ JSDOC.JsPlate.prototype.process = function(data, compact) {
 		print("line "+e.lineNumber+": "+lines[e.lineNumber-1]);
 		print("");
 	}
-	
+
 	if (compact) { // patch by mcbain.asm
  		// Remove lines that contain only space-characters, usually left by lines in the template
  		// which originally only contained JSPlate tags or code. This makes it easier to write
@@ -103,7 +103,7 @@ JSDOC.JsPlate.prototype.process = function(data, compact) {
  		// Lines purposely left blank (just a line ending) are left alone.
  		output = output.replace(/\s+?(\r?)\n/g, "$1\n");
  	}
- 	
+
 	/*debug*///print(this.code);
 	return output;
 }

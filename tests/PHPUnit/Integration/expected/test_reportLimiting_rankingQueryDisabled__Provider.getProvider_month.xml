@@ -9,6 +9,7 @@
 		<bounce_count>52</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<url>http://www.comcast.net/</url>
 	</row>
 	<row>
@@ -20,6 +21,7 @@
 		<bounce_count>26</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<url>http://www.awesomeisp.com/</url>
 	</row>
 	<row>
@@ -31,6 +33,7 @@
 		<bounce_count>22</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<url>http://piwik.org/faq/general/#faq_52</url>
 	</row>
 </result>
