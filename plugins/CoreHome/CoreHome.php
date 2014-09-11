@@ -49,6 +49,8 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "libs/jquery/themes/base/jquery-ui.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
         $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
+        $stylesheets[] = "libs/angularjs/ngDialog/css/ngDialog.min.css";
+        $stylesheets[] = "libs/angularjs/ngDialog/css/ngDialog-theme-default.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/theme.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/coreHome.less";
@@ -84,6 +86,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/angularjs/angular-sanitize.min.js";
         $jsFiles[] = "libs/angularjs/angular-animate.min.js";
         $jsFiles[] = "libs/angularjs/angular-cookies.min.js";
+        $jsFiles[] = "libs/angularjs/ngDialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
@@ -139,6 +142,10 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown-directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline-directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-urllistener-service.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

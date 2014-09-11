@@ -9,6 +9,7 @@ angular.module('piwikApp', [
     'ngSanitize',
     'ngAnimate',
     'ngCookies',
+    'ngDialog',
     'piwikApp.config',
     'piwikApp.service',
     'piwikApp.directive',
