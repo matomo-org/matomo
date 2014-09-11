@@ -1,0 +1,40 @@
+{
+  "name": "ng-dialog",
+  "version": "0.2.14",
+  "homepage": "https://github.com/likeastore/ngDialog",
+  "description": "Modal dialogs and popups provider for Angular.js applications",
+  "main": "./js/ngDialog.js",
+  "keywords": [
+    "angular.js",
+    "modals",
+    "popups",
+    "dialog",
+    "ng",
+    "provider",
+    "factory",
+    "directive"
+  ],
+  "author": {
+    "name": "Dmitri Voronianski",
+    "email": "dmitri.voronianski@gmail.com",
+    "web": "http://pixelhunter.me",
+    "twitter": "voronianski"
+  },
+  "bugs": "https://github.com/likeastore/ngDialog/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/likeastore/ngDialog"
+  },
+  "readmeFilename": "README.md",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-cssmin": "^0.9.0",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-myth": "~0.1.0",
+    "myth": "~0.1.6",
+    "network-address": "0.0.4",
+    "strata": "~0.20.1"
+  }
+}
