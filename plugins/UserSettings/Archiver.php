@@ -34,6 +34,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const CONFIGURATION_RECORD_NAME = 'UserSettings_configuration';
 
     const LANGUAGE_DIMENSION = "log_visit.location_browser_lang";
+    const LOCATION_COUNTRY_DIMENSION = "log_visit.location_country";
     const RESOLUTION_DIMENSION = "log_visit.config_resolution";
     const BROWSER_VERSION_DIMENSION = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
     const OS_DIMENSION = "log_visit.config_os";
@@ -149,12 +150,23 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateByLanguage()
     {
-        $query = $this->getLogAggregator()->queryVisitsByDimension(array("label" => self::LANGUAGE_DIMENSION));
+        $query = $this->getLogAggregator()->queryVisitsByDimension(
+            $dimensions = array(
+                "label" => self::LANGUAGE_DIMENSION
+            ),
+            $where = false,
+            $additionalSelects = array(
+                "country" => self::LOCATION_COUNTRY_DIMENSION
+            )
+        );
+
         $languageCodes = array_keys(Common::getLanguagesList());
         $metricsByLanguage = new DataArray();
         while ($row = $query->fetch()) {
             $code = Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
-            $metricsByLanguage->sumMetricsVisits($code, $row);
+            $country = $row['location_country'];
+            $key =  $code . '-' . $country;
+            $metricsByLanguage->sumMetricsVisits($key, $row);
         }
 
         $report = $metricsByLanguage->asDataTable();

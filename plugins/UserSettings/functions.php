@@ -266,3 +266,35 @@ function languageTranslate($label)
 
     return $translation;
 }
+
+/**
+ * @param $label
+ * @return string
+ */
+function languageTranslateWithCode($label)
+{
+
+    $ex = explode('-', $label);
+
+    $lang = languageTranslate($ex[0]);
+
+    $countryKey = 'UserCountry_country_' . $ex[1];
+
+    $country = Piwik::translate($countryKey);
+
+    if ($country == $countryKey) {
+        $country = 'Unknown';
+    }
+
+    return $lang . ' - ' . $country . ' - (' . $label . ')';
+}
+
+/**
+ * @param $lang
+ * @return mixed
+ */
+function groupByLangCallback($lang)
+{
+    $ex = explode('-', $lang);
+    return $ex[0];
+}
