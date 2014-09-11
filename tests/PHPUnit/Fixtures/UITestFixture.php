@@ -62,8 +62,6 @@ class UITestFixture extends SqlDump
         $this->createSegments();
         $this->setupDashboards();
 
-        AssetManager::getInstance()->removeMergedAssets();
-
         $visitorIdDeterministic = bin2hex(Db::fetchOne(
             "SELECT idvisitor FROM " . Common::prefixTable('log_visit')
             . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
