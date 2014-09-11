@@ -80,6 +80,10 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
                     }
                 });
 
+                scope.$watch('view.showSitesList', function (newValue) {
+                    element.toggleClass('expanded', !! newValue);
+                });
+
                 /** use observe to monitor attribute changes
                 attrs.$observe('maxsitenamewidth', function(val) {
                     // for instance trigger a function or whatever
