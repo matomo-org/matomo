@@ -280,4 +280,54 @@ class UrlTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group Core
+     *
+     * @dataProvider getHostsFromUrl
+     */
+    public function testGetHostsFromUrl($url, $expectedHost)
+    {
+        $this->assertEquals($expectedHost, Url::getHostFromUrl($url));
+    }
+
+    public function getHostsFromUrl()
+    {
+        return array(
+            array(null, null),
+            array('http://', null),
+            array('http://www.example.com', 'www.example.com'),
+            array('http://www.ExaMplE.cOm', 'www.example.com'),
+            array('http://www.example.com/test/foo?bar=xy', 'www.example.com'),
+            array('http://127.0.0.1', '127.0.0.1'),
+            array('example.com', null),
+        );
+    }
+
+    /**
+     * @group Core
+     *
+     * @dataProvider getIsHostInUrls
+     */
+    public function testIsHostInUrlsl($isHost, $host, $urls)
+    {
+        $this->assertEquals($isHost, Url::isHostInUrls($host, $urls));
+    }
+
+    public function getIsHostInUrls()
+    {
+        return array(
+            array(false, null, null),
+            array(false, 'http://', array()),
+            array(false, 'example.com', array()),
+            array(false, 'www.example.com', array()),
+            array(false, 'example.com', array('www.example.com')),
+            array(false, 'example.com', array('http://www.example.com')),
+            array(true, 'example.com', array('example.com')),
+            array(true, 'eXamPle.com', array('exaMple.com')),
+            array(true, 'eXamPle.com', array('http://exaMple.com')),
+            array(true, 'example.com', array('http://example.com/test')),
+            array(true, '127.0.0.1', array()), // always trusted host
+        );
+    }
+
 }

@@ -598,4 +598,44 @@ class Url
         }
         return $hosts;
     }
+
+    public static function getHostFromUrl($url)
+    {
+        $parsedUrl = parse_url($url);
+
+        if (empty($parsedUrl['host'])) {
+            return;
+        }
+
+        return Common::mb_strtolower($parsedUrl['host']);
+    }
+
+    public static function isHostInUrls($host, $urls)
+    {
+        if (empty($host)) {
+            return false;
+        }
+
+        $host = Common::mb_strtolower($host);
+
+        if (!empty($urls)) {
+            foreach ($urls as $url) {
+                if (Common::mb_strtolower($url) === $host) {
+                    return true;
+                }
+
+                $siteHost = self::getHostFromUrl($url);
+
+                if ($siteHost === $host) {
+                    return true;
+                }
+
+                if (Common::stringEndsWith($siteHost, $host)) {
+                    return;
+                }
+            }
+        }
+
+        return in_array($host, self::$alwaysTrustedHosts);
+    }
 }

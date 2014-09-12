@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\SitesManager\Model;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Db\Mysqli;
@@ -912,7 +913,6 @@ class Tracker
 
     private function getRedirectUrl()
     {
-        // TODO only redirecti if domain is trusted in config?
         return Common::getRequestVar('redirecturl', false, 'string');
     }
 
@@ -925,10 +925,33 @@ class Tracker
 
     private function performRedirectToUrlIfSet()
     {
-        if ($this->hasRedirectUrl()) {
-            $redirectUrl = $this->getRedirectUrl();
-            header('Location: ' . $redirectUrl);
+        if (!$this->hasRedirectUrl()) {
+            return;
+        }
+
+        $redirectUrl = $this->getRedirectUrl();
+        $host        = Url::getHostFromUrl($redirectUrl);
+
+        if (empty($host)) {
+            return;
+        }
+
+        $model   = new Model();
+        $siteIds = $model->getSitesId();
+
+        foreach ($siteIds as $siteId) {
+            $siteUrls = $model->getSiteUrlsFromId($siteId);
+
+            if (Url::isHostInUrls($host, $siteUrls)) {
+                Url::redirectToUrl($redirectUrl);
+            }
+        }
+
+        $trustedHosts = Url::getTrustedHosts();
+        if (Url::isHostInUrls($host, $trustedHosts)) {
+            Url::redirectToUrl($redirectUrl);
         }
     }
+
 
 }
