@@ -19,6 +19,17 @@ describe('piwikApiClient', function () {
 
         $httpBackend = $injector.get('$httpBackend');
 
+        $httpBackend.when('POST', /.*getBulkRequest.*/).respond(function (method, url, data, headers) {
+            url = url.replace(/date=[^&]+/, "date=");
+
+            var responses = [
+                "Response #1: " + url + " - " + data,
+                "Response #2: " + url + " - " + data
+            ];
+
+            return [200, JSON.stringify(responses)];
+        });
+
         $httpBackend.when('POST', /.*/).respond(function (method, url, data, headers) {
             url = url.replace(/date=[^&]+/, "date=");
             return [200, "Request url: " + url];
@@ -182,6 +193,32 @@ describe('piwikApiClient', function () {
         });
 
         piwikApi.abortAll();
+
+        $httpBackend.flush();
+    });
+
+    it("should perform a bulk request correctly when bulkFetch is called on the piwikApi", function (done) {
+        piwikApi.bulkFetch([
+            {
+                method: "SomePlugin.action",
+                param: "value"
+            },
+            {
+                method: "SomeOtherPlugin.action"
+            }
+        ]).then(function (response) {
+            var restOfExpected = "index.php?date=&format=JSON2&idSite=1&method=API.getBulkRequest&" +
+                "module=API&period=day - urls%5B%5D=%3Fmethod%3DSomePlugin.action%26param%3D" +
+                "value&urls%5B%5D=%3Fmethod%3DSomeOtherPlugin.action&token_auth=100bf5eeeed1468f3f9d93750044d3dd";
+
+            expect(response.length).to.equal(2);
+            expect(response[0]).to.equal("Response #1: " + restOfExpected);
+            expect(response[1]).to.equal("Response #2: " + restOfExpected);
+
+            done();
+        }).catch(function (ex) {
+            done(ex);
+        });
 
         $httpBackend.flush();
     });

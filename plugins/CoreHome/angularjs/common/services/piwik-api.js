@@ -125,10 +125,9 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
      * @return {object}
      * @private
      */
-     function getPostParams () {
-        return {
-            token_auth: piwik.token_auth
-        };
+     function getPostParams (params) {
+        params.token_auth = piwik.token_auth;
+        return params;
     }
 
     /**
@@ -210,6 +209,29 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         }
 
         return this.fetch(getParams);
+    };
+
+    /**
+     * Convenience method that will perform a bulk request using Piwik's API.getBulkRequest method.
+     * Bulk requests allow you to execute multiple Piwik requests with one HTTP request.
+     *
+     * @param {object[]} requests
+     * @return {HttpPromise} a promise that is resolved when the request finishes. The argument passed
+     *                       to the .then(...) callback will be an array with one element per request
+     *                       made.
+     */
+    piwikApi.bulkFetch = function (requests) {
+        var bulkApiRequestParams = {
+            urls: requests.map(function (requestObj) { return '?' + $.param(requestObj); })
+        };
+
+        return this.post({method: "API.getBulkRequest"}, bulkApiRequestParams).then(function (response) {
+            if (!(response instanceof Array)) {
+                response = [response];
+            }
+
+            return response;
+        });
     };
 
     return piwikApi;
