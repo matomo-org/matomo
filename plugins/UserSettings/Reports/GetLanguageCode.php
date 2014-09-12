@@ -18,7 +18,7 @@ class GetLanguageCode extends GetLanguage
         parent::init();
         $this->dimension     = new Language();
         $this->name          = Piwik::translate('UserSettings_LanguageCode');
-        $this->documentation = ''; // TODO
+        $this->documentation = '';
         $this->order = 11;
         $this->widgetTitle  = 'UserSettings_LanguageCode';
     }

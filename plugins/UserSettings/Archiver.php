@@ -164,8 +164,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $metricsByLanguage = new DataArray();
         while ($row = $query->fetch()) {
             $code = Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
-            $country = $row['location_country'];
-            $key =  $code . '-' . $country;
+            $key =  $code . '-' . $row['location_country'];
             $metricsByLanguage->sumMetricsVisits($key, $row);
         }
 

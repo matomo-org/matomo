@@ -273,20 +273,16 @@ function languageTranslate($label)
  */
 function languageTranslateWithCode($label)
 {
-
     $ex = explode('-', $label);
-
     $lang = languageTranslate($ex[0]);
-
     $countryKey = 'UserCountry_country_' . $ex[1];
-
     $country = Piwik::translate($countryKey);
 
     if ($country == $countryKey) {
-        $country = 'Unknown';
+        $country = Piwik::translate('General_Unknown');
     }
 
-    return $lang . ' - ' . $country . ' - (' . $label . ')';
+    return sprintf("%s - %s - (%s)", $lang, $country, $label);
 }
 
 /**
