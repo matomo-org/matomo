@@ -8,6 +8,7 @@
 namespace Piwik\Tests;
 
 use Piwik\Access;
+use Piwik\Authorization\Authorization;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -842,7 +843,7 @@ class Fixture extends PHPUnit_Framework_Assert
 }
 
 // needed by tests that use stored segments w/ the proxy index.php
-class OverrideLogin extends Access
+class OverrideLogin extends Authorization
 {
     public function getLogin()
     {
