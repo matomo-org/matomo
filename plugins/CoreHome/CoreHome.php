@@ -67,6 +67,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/dialogtoggler/ngdialog.less";
     }
 
     public function getJsFiles(&$jsFiles)

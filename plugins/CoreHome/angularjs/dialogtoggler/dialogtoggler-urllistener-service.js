@@ -58,7 +58,7 @@ angular.module('piwikApp').factory('piwikDialogtogglerUrllistener', function ($r
             var dialog = ngDialog.open({
                 template: getHtmlFromDialogQueryParam(dialogParamValue),
                 plain: true,
-                className: 'ngdialog-theme-default'
+                className: ''//'ngdialog-theme-default'
             });
 
             dialog.closePromise.then(function () {

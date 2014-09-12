@@ -1,0 +1,70 @@
+.ngdialog {
+  position:absolute;
+}
+
+.ngdialog-overlay {
+  opacity: 0.6;
+  background: none #000;
+  position: fixed;
+  z-index: 1000;
+}
+
+.ngdialog-content {
+  z-index: 1001;
+  width: 950px;
+  border-radius: 4px;
+  margin: 0 auto;
+  max-width: 100%;
+  background-color: #fff;
+  padding: 1em 18px;
+  position: relative;
+  top: 100px;
+
+  h2:first-of-type {
+    line-height:24px;
+    padding:0 0 1em;
+  }
+}
+
+// remove some ngdialog animations (the remaining one is required for closing the dialog)
+.ngdialog-overlay, .ngdialog.ngdialog-closing .ngdialog-overlay,.ngdialog-content {
+  -webkit-animation: none;
+  animation: none;
+}
+
+.ngdialog-close {
+  // close button should be styled the same as other buttons
+  .submit;
+
+  position: absolute;
+  right: 9px;
+  top: 18px;
+  width: 21px;
+  margin: 0 0 0 0;
+  height: 20px;
+
+  &:before {
+    font-family:inherit;
+    content:'';
+
+    display:inline-block;
+
+    // center in div
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+
+    // from jquery-ui css
+    background-image: url(libs/jquery/themes/base/images/ui-icons_888888_256x240.png);
+    background-position: -96px -128px;
+    width: 16px;
+    height: 16px;
+    opacity:0.5;
+  }
+
+  &:hover:before {
+    background-image: url(libs/jquery/themes/base/images/ui-icons_454545_256x240.png);
+  }
+}
