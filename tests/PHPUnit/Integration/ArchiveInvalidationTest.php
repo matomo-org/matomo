@@ -41,12 +41,6 @@ class ArchiveInvalidationTest extends IntegrationTestCase
         // We test a typical Numeric and a Recursive blob reports
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
 
-        // We also test a segment
-//        $segmentsToTest = array(
-//            // array( SegmentString , TestSuffix , Array of API to test)
-//            array("pageUrl=@category/", '_SegmentPageUrlContains', $apiToCall),
-//        );
-
         // Build tests for the 2 websites
         return array(
             array($apiToCall, array('idSite'                 => self::$fixture->idSite1,
