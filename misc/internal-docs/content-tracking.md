@@ -442,6 +442,8 @@ Nothing special here I think. We would probably automatically detect the type of
   * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
   * Maybe v2
 * We should reorder _paq links to make sure enableLinkTracking is called before any trackContent*() calls
+* Create issue for not installed core dimensions if they are disabled by default (Action / Contents dependency)
+* Content piece undefined vs Unknown?
 
 ## V2:
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
