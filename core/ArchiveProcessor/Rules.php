@@ -293,7 +293,7 @@ class Rules
      */
     public static function shouldSkipUniqueVisitorsCalculationForMultipleSites()
     {
-        return Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] == 1;
+        return Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] != 1;
     }
 
     /**

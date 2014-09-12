@@ -45,18 +45,24 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
             allSitesText: '@',
             allSitesLocation: '@'
         },
+        require: "?ngModel",
         templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.html?cb=' + piwik.cacheBuster,
         controller: 'SiteSelectorController',
         compile: function (element, attrs) {
 
             for (var index in defaults) {
-               if (!attrs[index]) { attrs[index] = defaults[index]; }
+               if (attrs[index] === undefined) {
+                   attrs[index] = defaults[index];
+               }
             }
 
-            return function (scope, element, attrs) {
+            return function (scope, element, attrs, ngModel) {
+                if (ngModel) {
+                    scope.selectedSite.id = ngModel.$viewValue;
+                }
 
                 // selectedSite.id|.name + model is hard-coded but actually the directive should not know about this
-                scope.selectedSite.id   = attrs.siteid;
+                scope.selectedSite.id   = scope.selectedSite.id || attrs.siteid;
                 scope.selectedSite.name = attrs.sitename;
 
                 if (!attrs.siteid || !attrs.sitename) {
@@ -67,7 +73,15 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
                     if (newValue != oldValue) {
                         element.attr('siteid', newValue);
                         element.trigger('change', scope.selectedSite);
+
+                        if (ngModel) {
+                            ngModel.$setViewValue(newValue);
+                        }
                     }
+                });
+
+                scope.$watch('view.showSitesList', function (newValue) {
+                    element.toggleClass('expanded', !! newValue);
                 });
 
                 /** use observe to monitor attribute changes

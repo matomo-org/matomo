@@ -50,6 +50,7 @@ class Segment
     private $sqlFilterValue;
     private $acceptValues;
     private $permission;
+    private $suggestedValuesCallback;
 
     /**
      * @ignore
@@ -186,6 +187,15 @@ class Segment
     }
 
     /**
+     * Set callback which will be executed when user will call for suggested values for segment.
+     *
+     * @param callable $suggestedValuesCallback
+     */
+    public function setSuggestedValuesCallback($suggestedValuesCallback) {
+        $this->suggestedValuesCallback = $suggestedValuesCallback;
+    }
+
+    /**
      * You can restrict the access to this segment by passing a boolean `false`. For instance if you want to make
      * a certain segment only available to users having super user access you could do the following:
      * `$segment->setPermission(Piwik::hasUserSuperUserAccess());`
@@ -225,6 +235,10 @@ class Segment
 
         if (isset($this->permission)) {
             $segment['permission'] = $this->permission;
+        }
+
+        if (is_callable($this->suggestedValuesCallback)) {
+            $segment['suggestedValuesCallback'] = $this->suggestedValuesCallback;
         }
 
         return $segment;

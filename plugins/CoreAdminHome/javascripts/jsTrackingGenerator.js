@@ -161,7 +161,8 @@
                     pageCustomVariables: getCustomVariables('javascript-tracking-page-cv'),
                     customCampaignNameQueryParam: null,
                     customCampaignKeywordParam: null,
-                    doNotTrack: $('#javascript-tracking-do-not-track').is(':checked') ? 1 : 0
+                    doNotTrack: $('#javascript-tracking-do-not-track').is(':checked') ? 1 : 0,
+                    disableCookies: $('#javascript-tracking-disable-cookies').is(':checked') ? 1 : 0
                 };
 
                 if ($('#custom-campaign-query-params-check').is(':checked')) {

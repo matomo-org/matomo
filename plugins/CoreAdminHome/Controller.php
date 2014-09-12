@@ -263,6 +263,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // an error when setBasicVariablesAdminView is called, and MenuTop is requested (the idSite query
         // parameter is required)
         $view = new View("@CoreAdminHome/optOut");
+        $view->setXFrameOptions('allow');
         $view->trackVisits = $trackVisits;
         $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
         $view->language = $lang;

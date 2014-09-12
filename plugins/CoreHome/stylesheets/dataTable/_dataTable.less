@@ -170,6 +170,11 @@ table.dataTable img {
   width: 450px;
 }
 
+div.dataTable, div.dataTable > .dataTableWrapper {
+  margin-bottom: 9px; // same height as expand/contract button (so datatable height will encompass the
+                      // expand/contract button)
+}
+
 .subDataTable > .dataTableWrapper {
   width: 95%;
 }
@@ -285,101 +290,145 @@ table.dataTable img {
   padding-bottom: 4px;
 }
 
-#content {
-
-  .dataTableFeatures {
-    &.expanded {
-      .dataTableFooterIcons {
-        display: block;
-      }
-
-      .expandDataTableFooterDrawer {
-        display: none;
-      }
-    }
-
-    &.hasEvolution {
-      .dataTableFooterIcons {
-        margin-top: 17px;
-      }
-      .expandDataTableFooterDrawer {
-        margin-top: 20px;
-      }
+.dataTableFeatures {
+  &.expanded {
+    .dataTableFooterIcons {
+      display: block;
     }
 
     .expandDataTableFooterDrawer {
-      display: block;
-      margin-top: 5px;
-      margin-bottom: 0px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: #D9D9D9;
-      height: 7px;
-      width: 70px;
-      -webkit-border-top-left-radius: 10px;
-      -webkit-border-top-right-radius: 10px;
-      -moz-border-radius-topleft: 10px;
-      -moz-border-radius-topright: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      line-height: 0px;
-
-      img {
-        margin-bottom: 0px;
-        line-height: 0px;
-      }
+      display: none;
     }
   }
 
-  .dataTableFooterIcons {
+  &.hasEvolution {
+    .dataTableFooterIcons {
+      margin-top: 17px;
+    }
+    .expandDataTableFooterDrawer {
+      margin-top: 20px;
+    }
+  }
 
-    display: none;
+  .expandDataTableFooterDrawer {
+    display: block;
     margin-top: 5px;
-    height: auto;
+    margin-bottom: -1px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: @theme-color-background-base;
+    border: 1px solid @theme-color-background-tinyContrast;
+    height: 7px;
+    width: 70px;
+    -webkit-border-bottom-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    line-height: 0px;
 
-    div {
-      padding-bottom: 2px;
-    }
-
-    .foldDataTableFooterDrawer {
-      display: block;
-      padding-bottom: 0px;
-      margin-top: 0px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: #D9D9D9;
-      -webkit-border-top-left-radius: 10px;
-      -webkit-border-top-right-radius: 10px;
-      -moz-border-radius-topleft: 10px;
-      -moz-border-radius-topright: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+    img {
+      margin-bottom: 0px;
       line-height: 0px;
-      height: 7px;
-      width: 70px;
-      clear: both;
-
-      img {
-        margin-top: 2px;
-        margin-bottom: 0px;
-        line-height: 0px;
-      }
     }
+  }
+}
 
-    .controls {
-      clear: left;
-      padding: 0px 0px 15px;
-      text-align: left;
-      color: #333;
+.dataTableFeatures {
+  border-bottom: 1px solid @theme-color-background-tinyContrast;
+}
+
+.widget .dataTableFeatures {
+  border-bottom-style: none !important;
+}
+
+.dataTableFooterIcons {
+
+  display: none;
+  margin-top: 5px;
+  height: auto;
+
+  div {
+    padding-bottom: 2px;
+  }
+
+  .foldDataTableFooterDrawer {
+    display: block;
+    padding-bottom: 0px;
+    margin-bottom: -1px;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: @theme-color-background-base;
+    border: 1px solid @theme-color-background-tinyContrast;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    line-height: 0px;
+    height: 7px;
+    width: 70px;
+    clear: both;
+
+    img {
+      margin-top: 2px;
+      margin-bottom: 0px;
+      line-height: 0px;
     }
   }
 
+  .controls {
+    clear: left;
+    padding: 0px 0px 15px;
+    text-align: left;
+    color: #333;
+  }
+}
+
+#dashboard .dataTableFeatures,.widget .dataTableFeatures {
+  .expandDataTableFooterDrawer {
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -moz-border-radius-bottomright: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
 }
 
 .dataTableFooterIcons .foldDataTableFooterDrawer,
 .dataTableFeatures .expandDataTableFooterDrawer {
-  display: none;
   cursor: pointer;
+}
+
+.widget .foldDataTableFooterDrawer {
+  margin-bottom: -9px;
+}
+
+// customizing footer appearance for row evolution graph
+.ui-dialog .dataTableVizEvolution {
+  .expandDataTableFooterDrawer,.foldDataTableFooterDrawer {
+    display: none !important;
+  }
+
+  .dataTableFooterIcons {
+    display: block;
+  }
+
+  .dataTableFeatures {
+    border-bottom-style: none !important;
+    margin-top: 0 !important;
+  }
 }
 
 @-moz-document url-prefix() {
@@ -395,10 +444,10 @@ table.dataTable img {
 }
 
 .dataTableFooterIcons {
-  height: 20px;
+  min-height: 20px;
   white-space: nowrap;
   font-size: 10px;
-  padding: 6px 5px;
+  padding: 6px 5px 0px;
   border-top: 1px solid #B6B0A6;
 }
 

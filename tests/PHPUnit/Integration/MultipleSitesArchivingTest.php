@@ -33,7 +33,7 @@ class MultipleSitesArchivingTest extends IntegrationTestCase
             }
         });
 
-        Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] = 0;
+        Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] = 1;
     }
 
     public function getApiForTesting()

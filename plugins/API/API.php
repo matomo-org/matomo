@@ -515,6 +515,11 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("Requested segment not found.");
         }
 
+        // if segment has suggested values callback then return result from it instead
+        if (isset($segmentFound['suggestedValuesCallback'])) {
+            return call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
+        }
+
         // if period=range is disabled, do not proceed
         if(!Period\Factory::isPeriodEnabledForAPI('range')) {
             return array();
