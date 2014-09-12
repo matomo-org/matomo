@@ -12,17 +12,10 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
     $scope.autocompleteMinSites = AUTOCOMPLETE_MIN_SITES;
     $scope.selectedSite = {id: '', name: ''};
     $scope.activeSiteId = piwik.idSite;
+    $scope.selectedSiteNameHtml = '';
 
     $scope.switchSite = function (site) {
-        $scope.selectedSite.id  = site.idsite;
-
-        if (site.name === $scope.allSitesText) {
-            $scope.selectedSite.name = $scope.allSitesText;
-        } else {
-            $scope.selectedSite.name = site.name.replace(/[\u0000-\u2666]/g, function(c) {
-                return '&#'+c.charCodeAt(0)+';';
-            });
-        }
+        $scope.selectedSite = {id: site.idsite, name: site.name};
 
         if (!$scope.switchSiteOnSelect || $scope.activeSiteId == site.idsite) {
             return;
@@ -42,6 +35,12 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
         return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters) +
             '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
     };
+
+    $scope.$watch('selectedSite', function (site) {
+        $scope.selectedSiteNameHtml = site.name.replace(/[\u0000-\u2666]/g, function(c) {
+            return '&#'+c.charCodeAt(0)+';';
+        });
+    });
 
     siteSelectorModel.loadInitialSites();
 });
