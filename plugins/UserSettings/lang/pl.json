@@ -1,6 +1,7 @@
 {
     "UserSettings": {
         "BrowserFamilies": "Rodzina przeglądarek",
+        "BrowserLanguage": "Język przeglądarki",
         "Browsers": "Przeglądarki",
         "ColumnBrowser": "Przeglądarka",
         "ColumnBrowserFamily": "Rodzina przeglądarek",
@@ -195,6 +196,7 @@
         "Language_zh": "chiński",
         "Language_zu": "zulu",
         "LanguageCode": "Kod języka",
+        "OperatingSystemFamily": "Rodzina systemu operacyjnego",
         "OperatingSystems": "Systemy operacyjne",
         "PluginDescription": "Raporty rozmaitych konfiguracji użytkownika: przeglądarki, rodziny przeglądarek, systemów operacyjnych, wtyczek, rozdzielczości, ogólnej konfiguracji.",
         "PluginDetectionDoesNotWorkInIE": "Uwaga: wykrywanie wtyczek nie działa w przypadku Internet Explorera. Raport ten pokaże tylko wyniki w oparciu o badanie innych przeglądarek, nie opartych na silniku IE.",

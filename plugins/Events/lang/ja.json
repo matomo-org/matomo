@@ -18,6 +18,7 @@
         "MaxValueDocumentation": "このイベントの最大値",
         "MinValue": "最小値",
         "MinValueDocumentation": "このイベントの最小値",
+        "SecondaryDimension": "セカンダリディメンションは %s です。",
         "SwitchToSecondaryDimension": "%s へ切替",
         "TopEvents": "トップイベント",
         "TotalEvents": "イベントの合計",

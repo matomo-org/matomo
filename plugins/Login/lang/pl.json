@@ -1,5 +1,6 @@
 {
     "Login": {
+        "ConfirmationLinkSent": "Potwierdzenie zostało wysłane na skrzynkę odbiorczą. Sprawdź swój e-mail i odwiedzić link do autoryzacji żądania zmiany hasła.",
         "ContactAdmin": "Prawdopodobny powód: twój host mógł wyłączyć działanie funkcji mail(). <br \/>Skontaktuj się w tej sprawie ze swoim administratorem statystyk Piwik.",
         "ExceptionPasswordMD5HashExpected": "Oczekiwanym parametrem hasła jest hash z MD5 uzyskany z hasła.",
         "InvalidOrExpiredToken": "Token jest błędny lub już wygasł.",
@@ -8,8 +9,11 @@
         "LoginOrEmail": "Nazwa użytkownika lub e-mail",
         "LoginPasswordNotCorrect": "Nazwa użytkownika & hasło nie są poprawne",
         "LostYourPassword": "Nie pamiętam hasła",
+        "MailTopicPasswordChange": "Zatwierdź zmianę hasła",
+        "PasswordChanged": "Twoje hasło zostało zmienione.",
         "PasswordRepeat": "Hasło (powtórz)",
         "PasswordsDoNotMatch": "Hasła nie pasują.",
-        "RememberMe": "Zapamiętaj mnie"
+        "RememberMe": "Zapamiętaj mnie",
+        "ResetPasswordInstructions": "Wprowadź nowe haslo dla twojego konta."
     }
 }

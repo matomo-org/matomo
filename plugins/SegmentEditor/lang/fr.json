@@ -6,6 +6,7 @@
         "AutoArchivePreProcessed": "les rapports segmentés sont pré-traités (plus rapide, requiert un cron sur archive.php)",
         "AutoArchiveRealTime": "les rapports segmentés sont traités en temps réel",
         "ChooseASegment": "Choisir un segment",
+        "DataAvailableAtLaterDate": "Votre rapport d'analyse segmenté sera disponible plus tard. Veuillez nous excuser pour le désagrément.",
         "DefaultAllVisits": "Toutes les visites",
         "DragDropCondition": "Condition de Drag & Drop",
         "LoadingSegmentedDataMayTakeSomeTime": "Le traitement des données visiteurs segmentées peut prendre quelques minutes...",
@@ -16,10 +17,13 @@
         "SegmentDisplayedThisWebsiteOnly": "ce site web uniquement",
         "SegmentIsDisplayedForWebsite": "et affiché pour",
         "SegmentNotApplied": "Segment \"%s\" non appliqué",
+        "SegmentNotAppliedMessage": "Vous êtes en train de demander des données for le segment personnalisé '%s', la configuration actuelle de Piwik empêche la génération en temps réelle de rapport pour des raisons de performance.",
         "SelectSegmentOfVisitors": "Choisir un segment de visiteurs :",
         "ThisSegmentIsVisibleTo": "Ce segment est visible pour :",
         "VisibleToAllUsers": "tous les utilisateurs",
         "VisibleToMe": "moi",
+        "YouDontHaveAccessToCreateSegments": "Vous n'avez pas les permissions requises pour créer et modifier des segments.",
+        "YouMayChangeSetting": "Vous pouvez ou changer le paramètre depuis le fichier de configuration (%s) ou bien modifier ce segment et choisir '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Vous devez être identifié(e) pour créer et modifier des segments de visiteurs personnalisés."
     }
 }

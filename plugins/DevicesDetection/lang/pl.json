@@ -1,0 +1,24 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Wersje przeglądarek",
+        "CarBrowser": "Przeglądarka samochodowa",
+        "Console": "Konsola",
+        "dataTableLabelBrands": "Marka",
+        "dataTableLabelBrowserFamily": "Rodzina przeglądarki",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Wersja systemu operacyjnego",
+        "dataTableLabelTypes": "Typ",
+        "Device": "Urządzenie",
+        "DeviceDetection": "Wykrywanie urządzeń",
+        "DeviceModel": "Model urządzenia",
+        "DeviceType": "Typ urządzenia",
+        "FeaturePhone": "Zaawansowany telefon",
+        "OperatingSystemFamilies": "Rodzaj systemu operacyjnego",
+        "OperatingSystemVersions": "Wersja systemu operacyjnego",
+        "SmartDisplay": "Inteligentny wyświetlacz",
+        "Smartphone": "Smartfon",
+        "submenu": "Urządzenia",
+        "Tablet": "Tablet",
+        "TV": "TV"
+    }
+}

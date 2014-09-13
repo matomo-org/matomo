@@ -1,0 +1,16 @@
+{
+    "SegmentEditor": {
+        "AddNewSegment": "Dodaj nowy segment",
+        "AreYouSureDeleteSegment": "Czy jesteś pewny, że chcesz usunąć ten segment?",
+        "ChooseASegment": "Wybierz segment",
+        "DefaultAllVisits": "Wszystkie wizyty",
+        "OperatorAND": "I",
+        "OperatorOR": "LUB",
+        "SaveAndApply": "Zapisz i zatwierdź zmiany",
+        "SegmentDisplayedAllWebsites": "wszystkie strony",
+        "SegmentDisplayedThisWebsiteOnly": "jedynie ta strona",
+        "ThisSegmentIsVisibleTo": "Ten segment jest widoczny dla",
+        "VisibleToAllUsers": "wszyscy użytkownicy",
+        "VisibleToMe": "mnie"
+    }
+}

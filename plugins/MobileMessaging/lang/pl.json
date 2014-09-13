@@ -1,0 +1,13 @@
+{
+    "MobileMessaging": {
+        "PhoneNumbers": "Numery telefonu",
+        "Settings_CountryCode": "Kod Państwa",
+        "Settings_DeleteAccountConfirm": "Czy jesteś pewny, że chcesz skasowac to konto SMS?",
+        "Settings_ManagePhoneNumbers": "Zarządzaj numerami telefonów",
+        "Settings_PhoneNumber": "Numer telefonu",
+        "Settings_PhoneNumbers_Add": "Dodaj nowy numer telefonu",
+        "Settings_ValidatePhoneNumber": "Zatwierdź",
+        "SMS_Content_Too_Long": "[zbyt długie]",
+        "TopMenu": "Raporty Email & SMS"
+    }
+}

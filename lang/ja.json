@@ -1,4 +1,7 @@
 {
+    "DoNotTrack": {
+        "PluginDescription": "X-Do-Not-Track または DNT ヘッダーでの訪問を無視します。"
+    },
     "General": {
         "AbandonedCarts": "放棄された買い物かご",
         "AboutPiwikX": "Piwik %s について",
@@ -29,6 +32,7 @@
         "ChooseLanguage": "言語を選択",
         "ChoosePeriod": "期間を選択",
         "ChooseWebsite": "ウェブサイトを選択",
+        "Clear": "クリア",
         "ClickHere": "詳細はこちらをクリック",
         "ClickToChangePeriod": "期間を変更するには、もう一度クリックしてください",
         "Close": "閉じる",
@@ -62,6 +66,7 @@
         "ColumnNbActionsDocumentation": "ビジターが実行したアクションの数。アクションとは、ページビュー、ダウンロード、または外部リンク。",
         "ColumnNbUniqVisitors": "ユニークビジター数",
         "ColumnNbUniqVisitorsDocumentation": "サイトを訪問した重複しないビジター数。全てのユーザーは、一日に複数回訪問しても、一度だけカウントされます。",
+        "ColumnNbUsers": "ユーザー",
         "ColumnNbVisits": "ビジット",
         "ColumnNbVisitsDocumentation": "初めてサイトに来た訪問者、もしくは最後にページを見てから30分以上経ってからページを訪問した場合は新規ビジットとして記録される。",
         "ColumnPageBounceRateDocumentation": "このページから閲覧を開始して、直接サイトを離れたビジットの割合",
@@ -77,6 +82,7 @@
         "ColumnUniquePageviewsDocumentation": "このページを含むビジットの数。一回の訪問で複数回みられた場合は、一回としてカウントされる",
         "ColumnValuePerVisit": "ビジット単位の収益",
         "ColumnViewedAfterSearch": "クリックされた検索結果",
+        "ColumnViewedAfterSearchDocumentation": "ビジターがあなたのウェブサイト上で検索した後に、このページを訪れた回数と、検索結果でこのページがクリックされた回数",
         "ColumnVisitDuration": "滞在時間（秒単位）",
         "ColumnVisitsWithConversions": "コンバージョン付きビジット",
         "ConfigFileIsNotWritable": "Piwik 設定ファイル %s が書き込み可能ではないため、いくつかの変更が保存されない可能性があります。%s設定ファイルのパーミッションを書き込み可能に変更してください。",
@@ -90,6 +96,7 @@
         "DailyReports": "日次レポート",
         "DailySum": "日計",
         "DashboardForASpecificWebsite": "特定ウェブサイトのダッシュボード",
+        "DataForThisGraphHasBeenPurged": "このグラフのデータは、%s ヶ月以上前のもので、パージされました。",
         "DataForThisTagCloudHasBeenPurged": "このタグクラウドのデータは、%s ヶ月以上経過しているためパージされました。",
         "Date": "日付",
         "DateRange": "期間：",
@@ -123,6 +130,8 @@
         "Done": "完了",
         "Download": "ダウンロード",
         "DownloadFail_FileExists": "%s のファイルは既に存在しています！",
+        "DownloadFail_FileExistsContinue": "%s のダウンロードを続行しようとしていますが、完全にダウンロードされたファイルがすでに存在しています!",
+        "DownloadFail_HttpRequestFail": "ファイルをダウンロードできませんでした! ダウンロード元のウェブサイトに何らかの誤りがあるかもしれません。後でもう一度試すか、自分自身でファイルを取得してください。",
         "DownloadFullVersion": "フルバージョンを%1$sダウンロード%2$s！ %3$s を確認してください",
         "Downloads": "ダウンロード数",
         "EcommerceOrders": "eコマース受注",
