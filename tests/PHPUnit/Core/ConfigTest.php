@@ -1,12 +1,14 @@
 <?php
-use Piwik\Config;
-
 /**
  * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ */
+
+use Piwik\Config;
+
+/**
  * @group Core
  */
 class ConfigTest extends PHPUnit_Framework_TestCase
