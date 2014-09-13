@@ -454,7 +454,7 @@ if (typeof JSON2 !== 'object') {
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute
+    substr, setAnyAttribute, wasContentTargetAttrReplaced
  */
 /*global _paq:true */
 /*members push */
@@ -1190,12 +1190,20 @@ if (typeof Piwik !== 'object') {
             },
             makeNodesUnique: function (nodes)
             {
+                var copy = [].concat(nodes);
                 nodes.sort(function(n1, n2){
                     if (n1 === n2) {
                         return 0;
                     }
 
-                    return n1.innerHTML > n2.innerHTML ? 1 : -1;
+                    var index1 = copy.indexOf(n1);
+                    var index2 = copy.indexOf(n2);
+
+                    if (index1 === index2) {
+                        return 0;
+                    }
+
+                    return index1 > index2 ? -1 : 1;
                 });
 
                 if (nodes.length <= 1) {
@@ -2970,11 +2978,15 @@ if (typeof Piwik !== 'object') {
                 return new RegExp(classesRegExp);
             }
 
+            function startsUrlWithTrackerUrl(url) {
+                return (configTrackerUrl && url && 0 === String(url).indexOf(configTrackerUrl));
+            }
+
             /*
              * Link or Download?
              */
             function getLinkType(className, href, isInLink) {
-                if (configTrackerUrl && href && 0 === String(href).indexOf(configTrackerUrl)) {
+                if (startsUrlWithTrackerUrl(href)) {
                     return 0;
                 }
 
@@ -3033,7 +3045,7 @@ if (typeof Piwik !== 'object') {
 
                 var href = query.getAttributeValueFromNode(sourceElement, 'href');
 
-                if (configTrackerUrl && href && 0 === String(href).indexOf(configTrackerUrl)) {
+                if (startsUrlWithTrackerUrl(href)) {
                     return;
                 }
 
@@ -3075,7 +3087,7 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                if (url && configTrackerUrl && 0 === String(url).indexOf(configTrackerUrl)) {
+                if (startsUrlWithTrackerUrl(url)) {
                     return url;
                 }
 
@@ -3196,7 +3208,7 @@ if (typeof Piwik !== 'object') {
                         return false;
                     }
 
-                    if (configTrackerUrl && 0 === url.indexOf(configTrackerUrl)) {
+                    if (startsUrlWithTrackerUrl(url)) {
                         return true;
                     }
 
@@ -3208,12 +3220,15 @@ if (typeof Piwik !== 'object') {
                     var contentPiece  = content.findContentPiece(contentBlock);
                     var contentTarget = content.findContentTarget(contentBlock);
 
+                    if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR) || targetNode.wasContentTargetAttrReplaced) {
+                        // make sure we still track the correct content target when an interaction is happening
+                        targetNode.wasContentTargetAttrReplaced = true;
+                        contentTarget = content.toAbsoluteUrl(url);
+                        query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, contentTarget);
+                    }
+
                     var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
 
-                    // make sure we still track the correct content target when an interaction is happening
-                    if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR)) {
-                        query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, content.toAbsoluteUrl(url));
-                    }
                     // location.href does not respect target=_blank so we prefer to use this
                     content.setHrefAttribute(targetNode, targetUrl);
 
@@ -3255,6 +3270,16 @@ if (typeof Piwik !== 'object') {
 
                     if (!isNodeAuthorizedToTriggerInteraction(contentBlock, interactedElement)) {
                         return;
+                    }
+
+                    if (query.isLinkElement(targetNode) &&
+                        query.hasNodeAttributeWithValue(targetNode, 'href') &&
+                        query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR)) {
+                        // there is a href attribute, the link was replaced with piwik.php but later the href was changed again by the application.
+                        var href = query.getAttributeValueFromNode(targetNode, 'href');
+                        if (!startsUrlWithTrackerUrl(href) && targetNode.wasContentTargetAttrReplaced) {
+                            query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, '');
+                        }
                     }
 
                     var link = getLinkIfShouldBeProcessed(targetNode);
@@ -4819,7 +4844,7 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1, enableLinkTracking: 1};
+        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1};
         var methodName;
 
         // find the call to setTrackerUrl or setSiteid (if any) and call them first

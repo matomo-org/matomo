@@ -726,7 +726,7 @@ function PiwikTest() {
         propEqual(actual, [_e('image2'), _e('click5')], "findMultiple, two selectors passed");
 
         actual = query.findMultiple(['.piwik_link', '[data-content-piece]', '#image2', '#div1']);
-        propEqual(actual, [_e('image2'), _e('div1'), _e('click5')], "findMultiple, should make nodes unique in case we select the same multiple times");
+        propEqual(actual, [_e('div1'), _e('image2'), _e('click5')], "findMultiple, should make nodes unique in case we select the same multiple times");
 
 
         actual = query.findNodesByTagName();
@@ -773,7 +773,12 @@ function PiwikTest() {
 
         setupContentTrackingFixture('findContentBlockTest');
 
-        expected = [_s('#isOneWithClass'), _s('#isOneWithAttribute'), _s('[href="http://www.example.com"]'), _s('#containsOneWithAttribute [data-track-content]')];
+        var isOneWithClass = _s('#isOneWithClass');
+        var isOneWithAttr  = _s('#isOneWithAttribute');
+        var isHrefUrl      = _s('[href="http://www.example.com"]');
+        var containsOneWithAttr = _s('#containsOneWithAttribute [data-track-content]');
+
+        expected = [containsOneWithAttr, isOneWithAttr, isHrefUrl, isOneWithClass];
         actual = content.findContentNodes();
         propEqual(actual, expected, "findContentNodes, should find all content blocks within the DOM");
 
@@ -781,19 +786,19 @@ function PiwikTest() {
         propEqual(actual, expected, "findContentNodesWithinNode, should find all content blocks within the DOM");
 
         actual = content.findContentNodesWithinNode(_s('#containsOneWithAttribute'));
-        propEqual(actual, [expected[3]], "findContentNodesWithinNode, should find content blocks within a node");
+        propEqual(actual, [containsOneWithAttr], "findContentNodesWithinNode, should find content blocks within a node");
 
-        actual = content.findContentNodesWithinNode(expected[0]);
-        propEqual(actual, [expected[0]], "findContentNodesWithinNode, should find one content block in the node itself");
+        actual = content.findContentNodesWithinNode(isOneWithClass);
+        propEqual(actual, [isOneWithClass], "findContentNodesWithinNode, should find one content block in the node itself");
 
         actual = content.findParentContentNode(_s('#isOneWithClass'));
-        strictEqual(actual, expected[0], "findParentContentNode, should find itself in case the passed node is a content block with class");
+        strictEqual(actual, isOneWithClass, "findParentContentNode, should find itself in case the passed node is a content block with class");
 
         actual = content.findParentContentNode(_s('#isOneWithAttribute'));
-        strictEqual(actual, expected[1], "findParentContentNode, should find itself in case the passed node is a content block with attribute");
+        strictEqual(actual, isOneWithAttr, "findParentContentNode, should find itself in case the passed node is a content block with attribute");
 
         actual = content.findParentContentNode(_s('#innerNode'));
-        strictEqual(actual, expected[2], "findParentContentNode, should find parent content block");
+        strictEqual(actual, isHrefUrl, "findParentContentNode, should find parent content block");
     });
 
     test("contentFindContentNodes", function() {
@@ -1615,7 +1620,7 @@ function PiwikTest() {
         assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com', 'trackContentImpressionClickInteraction, is outlink but should use xhr as link tracking not enabled');
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
         strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
-        assertTrackingRequest($(_s('#ex109')).attr('href'), 'piwik.php?redirecturl=http://apache.piwik/file.pdf&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
+        assertTrackingRequest($(_s('#ex109')).attr('href'), 'piwik.php?redirecturl=' + origin + '/file.pdf&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))({target: _s('#ex110')});
         strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should be tracked using redirect');
@@ -1739,7 +1744,7 @@ function PiwikTest() {
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), false, 'should be ignored');
         $(_s('#ignoreInternalLink')).removeClass('piwikContentIgnoreInteraction'); // now it should be no longer ignored and as it is an intenral link replaced
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), true, 'should be replaced as is internal link');
-        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=http://apache.piwik/internallink&c_i=click&c_t=http%3A%2F%2Fapache.piwik%2Finternallink', 'internal link should be replaced');
+        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=' + origin + '/internallink&c_i=click&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
         strictEqual($(_s('#ignoreInternalLink')).attr('data-content-target'), origin + '/internallink', 'we need to set data-content-target when link is set otherwise a replace would not be found');
 
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex122')), true, 'should be replaced');
@@ -1755,7 +1760,7 @@ function PiwikTest() {
         strictEqual($(_s('#ex120')).attr('href'), 'http://www.example.com', 'should not replace external link');
 
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), true, 'should replace download link if link tracking not enabled');
-        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=http://apache.piwik/download.pdf&c_i=click&c_t=http%3A%2F%2Fapache.piwik%2Fdownload.pdf', 'should replace download link as link tracking disabled');
+        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=' + origin + '/download.pdf&c_i=click&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
 
         $(_s('#ex121')).attr('href', '/download.pdf'); // reset link
         tracker.enableLinkTracking();
@@ -2826,7 +2831,7 @@ if ($sqlite) {
     });
 
     test("trackingContent", function() {
-        expect(77);
+        expect(81);
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -2861,7 +2866,48 @@ if ($sqlite) {
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
         wait(2000);
 
+        var origin = getOrigin();
+        var originEncoded = window.encodeURIComponent(origin);
         var actual, expected, trackerUrl;
+
+        var contentBlocks = [
+            null,
+            {
+                "name": "img1-en.jpg",
+                "piece": "img1-en.jpg",
+                "target": ""
+            },
+            {
+                "name": "img.jpg",
+                "piece": "img.jpg",
+                "target": "http://img2.example.com"
+            },
+            {
+                "name": "img3-en.jpg",
+                "piece": "img3-en.jpg",
+                "target": "http://img3.example.com"
+            },
+            {
+                "name": "My content 4",
+                "piece": "My content 4",
+                "target": "http://img4.example.com"
+            },
+            {
+                "name": "My Ad 5",
+                "piece": "http://img5.example.com/path/xyz.jpg",
+                "target": origin + "/anylink5"
+            },
+            {
+                "name": "http://www.example.com/path/xyz.jpg",
+                "piece": "http://www.example.com/path/xyz.jpg",
+                "target": "http://img6.example.com"
+            },
+            {
+                "name": "My Ad 7",
+                "piece": "Unknown",
+                "target": "http://img7.example.com"
+            }
+        ];
 
         tracker.trackAllContentImpressions();
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'getTrackedContentImpressions, there is no content block to track');
@@ -2875,28 +2921,29 @@ if ($sqlite) {
         tracker.trackAllContentImpressions();
         strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should mark 7 content blocks as tracked');
 
-        wait(500);
+        wait(300);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
         tracker.trackContentImpressionsWithinNode(_s('#block1'));
-        strictEqual(tracker.getTrackedContentImpressions().length, 3, 'should mark 3 content blocks as tracked');
+        expected = [contentBlocks[4], contentBlocks[3], contentBlocks[2]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should mark 3 content blocks as tracked');
 
         tracker.clearTrackedContentImpressions();
         tracker.trackContentImpressionsWithinNode(_e('click1'));
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track anything as does not contain content block');
 
-        wait(500);
+        wait(300);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
         tracker.trackContentImpression(); // should not track anything as name is required
         tracker.trackContentImpression('MyName'); // piece should default to Unknown
-        wait(500);
+        wait(300);
         tracker.trackContentImpression('Any://Name', 'AnyPiece?', 'http://www.example.com');
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'manual impression call should not be marked as already tracked');
 
-        wait(500);
+        wait(300);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
@@ -2906,7 +2953,7 @@ if ($sqlite) {
         wait(500);
         tracker.trackContentInteraction('Clicki', 'IntN:/ame', 'IntPiece?', 'http://int.example.com');
 
-        wait(500);
+        wait(300);
 
         setupContentTrackingFixture('trackingContent', document.body);
 
@@ -2914,7 +2961,7 @@ if ($sqlite) {
         resetTracker(tracker, token5);
         tracker.trackContentInteractionNode(_s('#ex5'), 'Clicki?iii');
 
-        wait(500);
+        wait(300);
 
         var token6 = '6' + token;
         resetTracker(tracker, token6);
@@ -2930,29 +2977,35 @@ if ($sqlite) {
         tracker.trackContentImpressionsWithinNode(_s('#block1'));
         strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track any block since all not visible');
         tracker.trackContentImpressionsWithinNode(_s('#block2'));
-        strictEqual(tracker.getTrackedContentImpressions().length, 2, 'should track the two visible ones');
+        expected = [contentBlocks[6], contentBlocks[5]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should track the two visible ones');
 
-        wait(500);
+
+        wait(300);
 
         var token8 = '8' + token;
         resetTracker(tracker, token8);
         tracker.trackVisibleContentImpressions(false, 0, tracker);
-        strictEqual(tracker.getTrackedContentImpressions().length, 3, 'should only track all visible impressions');
+        expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should only track all visible impressions');
 
 
-        wait(500);
+        wait(300);
 
         // test detection of content via interval
         var token9  = '9' + token;
         var token10 = '10' + token;
         resetTracker(tracker, token9);
         tracker.trackVisibleContentImpressions(false, 500);
-        strictEqual(tracker.getTrackedContentImpressions().length, 3, 'should only track all visible impressions, timeInterval');
+        expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should only track all visible impressions, timeInterval');
         _s('#block1').style.display = 'block';
         scrollToTop();
 
+        stop();
         setTimeout(function () {
-            strictEqual(tracker.getTrackedContentImpressions().length, 6, 'should now have tracked 6 impressions via time interval');
+            expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1], contentBlocks[4], contentBlocks[3], contentBlocks[2]];
+            propEqual(tracker.getTrackedContentImpressions(), expected, 'should now have tracked 6 impressions via time interval');
             tracker.clearEnableTrackOnlyVisibleContent(); // stop visible content time interval check
 
             // test detection of content via scroll
@@ -2960,15 +3013,18 @@ if ($sqlite) {
                 _s('#block1').style.display = 'none';
                 resetTracker(tracker, token10);
                 tracker.trackVisibleContentImpressions(true, 0);
-                strictEqual(tracker.getTrackedContentImpressions().length, 3, 'should trak 3 initial visible impressions, scroll');
+                expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
+                propEqual(tracker.getTrackedContentImpressions(), expected, 'should track 3 initial visible impressions, scroll');
                 _s('#block1').style.display = 'block';
-                window.scrollTo(0, 200); // should trigger scroll event
+                window.scrollTo(0, 10); // should trigger scroll event
                 setTimeout(function () {
                     strictEqual(tracker.getTrackedContentImpressions().length, 6, 'should detect 3 more afer scroll');
                     tracker.clearEnableTrackOnlyVisibleContent(); // stop visible content scroll interval check
-                }, 500);
 
-            }, 250); // wait for time interval to stop.
+                    start();
+                }, 700);
+
+            }, 400); // wait for time interval to stop.
 
         }, 1500);
 
@@ -2983,13 +3039,13 @@ if ($sqlite) {
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
-            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
-            assertTrackingRequest(requests[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
-            assertTrackingRequest(requests[3], 'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com');
-            assertTrackingRequest(requests[4], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
-            assertTrackingRequest(requests[5], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
-            assertTrackingRequest(requests[6], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
+            assertTrackingRequest(requests[0], 'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com');
+            assertTrackingRequest(requests[1], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+            assertTrackingRequest(requests[2], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
+            assertTrackingRequest(requests[3], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
+            assertTrackingRequest(requests[4], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
+            assertTrackingRequest(requests[5], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[6], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
 
 
             // trackContentImpressionsWithinNode()
@@ -2999,7 +3055,9 @@ if ($sqlite) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
+            assertTrackingRequest(requests[1], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
+            assertTrackingRequest(requests[2], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
 
             // trackContentImpression()
             results = fetchTrackedRequests(token3);
@@ -3044,7 +3102,7 @@ if ($sqlite) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
+            assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
 
 
             // enableTrackOnlyVisibleContent() && trackAllContentImpressions()
@@ -3059,8 +3117,8 @@ if ($sqlite) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
-            assertTrackingRequest(requests[1], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+            assertTrackingRequest(requests[0], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
 
 
             // trackVisibleContentImpressions()
@@ -3070,9 +3128,9 @@ if ($sqlite) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
-            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
-            assertTrackingRequest(requests[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+            assertTrackingRequest(requests[0], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
+            assertTrackingRequest(requests[2], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
 
 
             // enableTrackOnlyVisibleContent(false, 500)
@@ -3082,12 +3140,12 @@ if ($sqlite) {
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
-            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fapache.piwik%2Fanylink5');
-            assertTrackingRequest(requests[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
-            assertTrackingRequest(requests[3], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
+            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
+            assertTrackingRequest(requests[2], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
+            assertTrackingRequest(requests[3], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
             assertTrackingRequest(requests[4], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
-            assertTrackingRequest(requests[5], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
+            assertTrackingRequest(requests[5], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
 
 
             // enableTrackOnlyVisibleContent(true, 0)
@@ -3095,12 +3153,12 @@ if ($sqlite) {
             equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests, via scroll. " );
 
             start();
-        }, 6000);
+        }, 7000);
 
     });
 
     test("trackingContentInteractionInteractive", function() {
-        expect(17);
+        expect(18);
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -3129,7 +3187,7 @@ if ($sqlite) {
             $(_s(selector)).on('click', function (event) { event.preventDefault(); })
         }
 
-        var token = getContentToken();
+        var token = getContentToken() + 'i'; // interactive namespace
         var origin = getOrigin();
         var originEncoded = window.encodeURIComponent(origin);
         var actual, expected, trackerUrl;
@@ -3157,16 +3215,22 @@ if ($sqlite) {
 
         tracker.enableLinkTracking();
 
+        wait(300);
+
         var token2 = '2' + token;
         resetTracker(tracker, token2);
         preventClickDefault('#isWithinOutlink');
         triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
+
+        wait(300);
 
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
         preventClickDefault('#isOutlink');
         triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
+
+        wait(300);
 
 
         var token4 = '4' + token;
@@ -3178,16 +3242,21 @@ if ($sqlite) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        var expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/anylink5&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded +'%2Fanylink5&idsite=1&rec=1';
+        var expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/anylink5&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&idsite=1&rec=1';
         var newHref = _s('#internalLink').href;
         strictEqual(0, newHref.indexOf(expectedLink), 'replaced href is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
+        strictEqual(_s('#internalLink').wasContentTargetAttrReplaced, true, 'has to be marked as replaced so we know we have to update content target again in case the url changes meanwhile');
         // now we are going to change the link to see whether it will be replaced again
         tracker.getContent().setHrefAttribute(_s('#internalLink'), '/newlink');
 
+        wait(300);
+
         triggerEvent(_s('#internalLink'), 'click'); // should replace href php
         newHref = _s('#internalLink').href;
-        expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/newlink&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded +'%2Fnewlink&idsite=1&rec=1';
-        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href2 is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
+        expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/newlink&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fnewlink&idsite=1&rec=1';
+        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href2 is replaced again: ' + newHref); // make sure was already replace by trackContentImpressions()
+
+        wait(300);
 
         stop();
         setTimeout(function() {
