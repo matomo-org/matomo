@@ -434,12 +434,10 @@ Nothing special here I think. We would probably automatically detect the type of
 * Cache allowed site urls for redirects
 * Test scroll event in ie9, ie10, ie11, opera
 * Run JS tests  in ff3, ie7, ie8, ie9, ie11, android, iphone, ms phone
-* Write UI test
 * Show images on hover in report
 * When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
   * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
   * Maybe v2
-* Create issue for not installed core dimensions if they are disabled by default (Action / Contents dependency)
 * Content piece undefined vs Unknown?
 
 ## V2:

@@ -443,23 +443,27 @@ function PiwikTest() {
         var query   = tracker.getQuery();
         var actual;
 
-        actual = query.findFirstNodeHavingClass();
-        strictEqual(actual, undefined, "findFirstNodeHavingClass, no node set");
 
-        actual = query.findFirstNodeHavingClass(document.body);
-        strictEqual(actual, undefined, "findFirstNodeHavingClass, no classname set");
+        actual = query.hasNodeCssClass();
+        strictEqual(actual, false, "hasNodeCssClass, no element set");
 
-        actual = query.findFirstNodeHavingClass(document.body, 'notExistingClass');
-        strictEqual(actual, undefined, "findFirstNodeHavingClass, no such classname exists");
+        actual = query.hasNodeCssClass(_e('clickDiv'));
+        strictEqual(actual, false, "hasNodeCssClass, no classname set");
 
-        actual = query.findFirstNodeHavingClass(document.body, 'piwik_ignore');
-        strictEqual(actual, _e('click2'), "findFirstNodeHavingClass, find matching within body");
+        actual = query.hasNodeCssClass(_e('clickDiv'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has no class at all");
 
-        actual = query.findFirstNodeHavingClass(_e('other'), 'clicktest');
-        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, find matching within node");
+        actual = query.hasNodeCssClass(_e('click3'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has one classes and it does not match");
 
-        actual = query.findFirstNodeHavingClass(_e('click1'), 'clicktest');
-        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, passed node has class itself");
+        actual = query.hasNodeCssClass(_e('click3'), 'clicktest');
+        strictEqual(actual, true, "hasNodeCssClass, element has one classes and it matches");
+
+        actual = query.hasNodeCssClass(_e('click7'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has many classes but not this one");
+
+        actual = query.hasNodeCssClass(_e('click7'), 'piwik_download');
+        strictEqual(actual, true, "hasNodeCssClass, element has many classes and it matches");
 
 
         actual = query.findNodesHavingCssClass();
@@ -489,26 +493,23 @@ function PiwikTest() {
 
 
 
-        actual = query.hasNodeCssClass();
-        strictEqual(actual, false, "hasNodeCssClass, no element set");
+        actual = query.findFirstNodeHavingClass();
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no node set");
 
-        actual = query.hasNodeCssClass(_e('clickDiv'));
-        strictEqual(actual, false, "hasNodeCssClass, no classname set");
+        actual = query.findFirstNodeHavingClass(document.body);
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no classname set");
 
-        actual = query.hasNodeCssClass(_e('clickDiv'), 'anyClass');
-        strictEqual(actual, false, "hasNodeCssClass, element has no class at all");
+        actual = query.findFirstNodeHavingClass(document.body, 'notExistingClass');
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no such classname exists");
 
-        actual = query.hasNodeCssClass(_e('click3'), 'anyClass');
-        strictEqual(actual, false, "hasNodeCssClass, element has one classes and it does not match");
+        actual = query.findFirstNodeHavingClass(document.body, 'piwik_ignore');
+        strictEqual(actual, _e('click2'), "findFirstNodeHavingClass, find matching within body");
 
-        actual = query.hasNodeCssClass(_e('click3'), 'clicktest');
-        strictEqual(actual, true, "hasNodeCssClass, element has one classes and it matches");
+        actual = query.findFirstNodeHavingClass(_e('other'), 'clicktest');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, find matching within node");
 
-        actual = query.hasNodeCssClass(_e('click7'), 'anyClass');
-        strictEqual(actual, false, "hasNodeCssClass, element has many classes but not this one");
-
-        actual = query.hasNodeCssClass(_e('click7'), 'piwik_download');
-        strictEqual(actual, true, "hasNodeCssClass, element has many classes and it matches");
+        actual = query.findFirstNodeHavingClass(_e('click1'), 'clicktest');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, passed node has class itself");
 
 
 
