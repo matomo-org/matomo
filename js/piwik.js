@@ -1379,8 +1379,8 @@ if (typeof Piwik !== 'object') {
                     return this.htmlCollectionToArray(foundNodes);
                 }
 
-                if (!nodeToSearch.children) {
-                    return;
+                if (!nodeToSearch.children || !nodeToSearch.children.length) {
+                    return [];
                 }
 
                 var index, child;
