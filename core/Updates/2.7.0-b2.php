@@ -9,15 +9,27 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
+use Piwik\Updater;
 use Piwik\Updates;
 
 /**
  */
 class Updates_2_7_0_b2 extends Updates
 {
+    static function getSql()
+    {
+        return array(
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+			    ADD `user_id` varchar(200) NULL AFTER `config_id`
+			   ' => array(1060),
+        );
+    }
 
     static function update()
     {
+        Updater::updateDatabase(__FILE__, self::getSql());
+
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {

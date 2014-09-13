@@ -454,7 +454,7 @@ if (typeof JSON2 !== 'object') {
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute, wasContentTargetAttrReplaced
+    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs
  */
 /*global _paq:true */
 /*members push */
@@ -1000,6 +1000,53 @@ if (typeof Piwik !== 'object') {
             return title;
         }
 
+        // Polyfill for IndexOf for IE6-IE8
+        function indexOfArray(theArray, searchElement)
+        {
+            if (theArray && theArray.indexOf) {
+                return theArray.indexOf(searchElement);
+            }
+
+            // 1. Let O be the result of calling ToObject passing
+            //    the this value as the argument.
+            if (!isDefined(theArray) || theArray === null) {
+                return -1;
+            }
+
+            if (!theArray.length) {
+                return -1;
+            }
+
+            var len = theArray.length;
+
+            if (len === 0) {
+                return -1;
+            }
+
+            var k = 0;
+
+            // 9. Repeat, while k < len
+            while (k < len) {
+                // a. Let Pk be ToString(k).
+                //   This is implicit for LHS operands of the in operator
+                // b. Let kPresent be the result of calling the
+                //    HasProperty internal method of O with argument Pk.
+                //   This step can be combined with c
+                // c. If kPresent is true, then
+                //    i.  Let elementK be the result of calling the Get
+                //        internal method of O with the argument ToString(k).
+                //   ii.  Let same be the result of applying the
+                //        Strict Equality Comparison Algorithm to
+                //        searchElement and elementK.
+                //  iii.  If same is true, return k.
+                if (theArray[k] === searchElement) {
+                    return k;
+                }
+                k++;
+            }
+            return -1;
+        }
+
         /************************************************************
          * Element Visiblility
          ************************************************************/
@@ -1196,8 +1243,8 @@ if (typeof Piwik !== 'object') {
                         return 0;
                     }
 
-                    var index1 = copy.indexOf(n1);
-                    var index2 = copy.indexOf(n2);
+                    var index1 = indexOfArray(copy, n1);
+                    var index2 = indexOfArray(copy, n2);
 
                     if (index1 === index2) {
                         return 0;
@@ -1296,7 +1343,7 @@ if (typeof Piwik !== 'object') {
             {
                 if (node && className && node.className) {
                     var classes = node.className.split(' ');
-                    if (-1 !== classes.indexOf(className)) {
+                    if (-1 !== indexOfArray(classes, className)) {
                         return true;
                     }
                 }
@@ -1419,7 +1466,7 @@ if (typeof Piwik !== 'object') {
 
                 var elementName      = String(node.nodeName).toLowerCase();
                 var linkElementNames = ['a', 'area'];
-                var pos = linkElementNames.indexOf(elementName);
+                var pos = indexOfArray(linkElementNames, elementName);
 
                 return pos !== -1;
             },
@@ -1683,7 +1730,7 @@ if (typeof Piwik !== 'object') {
                 var mediaElements = ['img', 'embed', 'video', 'audio'];
                 var elementName   = node.nodeName.toLowerCase();
 
-                if (-1 !== mediaElements.indexOf(elementName) &&
+                if (-1 !== indexOfArray(mediaElements, elementName) &&
                     query.findFirstNodeHavingAttributeWithValue(node, 'src')) {
 
                     var sourceNode = query.findFirstNodeHavingAttributeWithValue(node, 'src');

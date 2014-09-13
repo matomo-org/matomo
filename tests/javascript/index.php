@@ -99,6 +99,52 @@ function _s(selector) { // select node within content test scope
  }
 }
 
+ // Polyfill for IndexOf for IE6-IE8
+ function indexOfArray(theArray, searchElement)
+ {
+     if (theArray && theArray.indexOf) {
+         return theArray.indexOf(searchElement);
+     }
+
+     // 1. Let O be the result of calling ToObject passing
+     //    the this value as the argument.
+     if (!isDefined(theArray) || theArray === null) {
+         return -1;
+     }
+
+     if (!theArray.length) {
+         return -1;
+     }
+
+     var len = theArray.length;
+
+     if (len === 0) {
+         return -1;
+     }
+
+     var k = 0;
+
+     // 9. Repeat, while k < len
+     while (k < len) {
+         // a. Let Pk be ToString(k).
+         //   This is implicit for LHS operands of the in operator
+         // b. Let kPresent be the result of calling the
+         //    HasProperty internal method of O with argument Pk.
+         //   This step can be combined with c
+         // c. If kPresent is true, then
+         //    i.  Let elementK be the result of calling the Get
+         //        internal method of O with the argument ToString(k).
+         //   ii.  Let same be the result of applying the
+         //        Strict Equality Comparison Algorithm to
+         //        searchElement and elementK.
+         //  iii.  If same is true, return k.
+         if (theArray[k] === searchElement) {
+             return k;
+         }
+         k++;
+     }
+     return -1;
+ }
  function getOrigin()
  {
      if (window.location.origin) {
@@ -672,7 +718,7 @@ function PiwikTest() {
         ok($.isArray(actual), 'htmlCollectionToArray, should convert to array');
         ok(actual.length === htmlCollection.length, 'htmlCollectionToArray should have same amount of elements as before');
         ok(actual.length > 10, 'htmlCollectionToArray, just make sure there are many a elements found. otherwise test is useless');
-        ok(-1 !== actual.indexOf(_e('click1')), 'htmlCollectionToArray, random check to make sure it contains a link');
+        ok(-1 !== indexOfArray(actual, _e('click1')), 'htmlCollectionToArray, random check to make sure it contains a link');
 
 
         actual = query.isLinkElement();
@@ -708,11 +754,11 @@ function PiwikTest() {
 
         actual = query.find('[href]');
         ok(actual.length > 10, "find, should find many elements by attribute");
-        ok(-1 !== actual.indexOf(_e('click1')), 'find, random check to make sure it contains a link');
+        ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
 
         actual = query.find('.clicktest');
         ok(actual.length === 8, "find, should find many elements by class");
-        ok(-1 !== actual.indexOf(_e('click1')), 'find, random check to make sure it contains a link');
+        ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
 
 
 
@@ -749,7 +795,7 @@ function PiwikTest() {
 
         actual = query.findNodesByTagName(document.body, 'a');
         ok(actual.length > 10, "findNodesByTagName, find many, even nested ones");
-        ok(actual.indexOf(_e('click1')), "findNodesByTagName, just a random test to make sure it actually contains a link");
+        ok(indexOfArray(actual, _e('click1')), "findNodesByTagName, just a random test to make sure it actually contains a link");
     });
 
     test("contentFindContentBlock", function() {
