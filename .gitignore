@@ -34,6 +34,7 @@ vendor/
 tests/javascript/enable_sqlite
 tests/javascript/enable_sqlite
 tests/javascript/unittest.dbf
+tests/javascript/unittest2.dbf
 tests/lib/geoip-files/*.dat*
 tests/lib/xhprof*
 tests/PHPUnit/Integration/processed/

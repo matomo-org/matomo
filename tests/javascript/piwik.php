@@ -24,16 +24,27 @@ if (!class_exists('SQLite')) {
 	exit;
 }
 
-$sqlite = new SQLite( 'unittest.dbf' );
+$sqlite = new SQLite( 'unittest2.dbf' );
 if (!$sqlite) {
 	header("HTTP/1.0 500 Internal Server Error");
 	exit;
 }
 
-if (filesize(dirname(__FILE__).'/unittest.dbf') == 0)
+function getNextRequestId($sqlite, $token)
+{
+    $requests = $sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\"");
+
+    if (empty($requests)) {
+        return 1;
+    }
+
+    return count($requests) + 1;
+}
+
+if (filesize(dirname(__FILE__).'/unittest2.dbf') == 0)
 {
 	try {
-		$query = @$sqlite->exec( 'CREATE TABLE requests (token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT)' );
+		$query = @$sqlite->exec( 'CREATE TABLE requests (requestid TEXT, token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT)' );
 	} catch (Exception $e) {
 		header("HTTP/1.0 500 Internal Server Error");
 		exit;
@@ -51,7 +62,9 @@ function logRequest($sqlite, $uri, $data) {
 
     $token = isset($data['token']) ? $data['token'] : '';
 
-    $query = $sqlite->exec("INSERT INTO requests (token, ip, ts, uri, referer, ua) VALUES (\"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referrer\", \"$ua\")");
+    $id = getNextRequestId($sqlite, $token);
+
+    $query = $sqlite->exec("INSERT INTO requests (requestid, token, ip, ts, uri, referer, ua) VALUES (\"$id\", \"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referrer\", \"$ua\")");
 
     return $query;
 }
@@ -65,7 +78,7 @@ if (isset($_GET['requests'])) {
 	sleep(5);
 
 //	$result = $sqlite->query_array("SELECT uri FROM requests");
-	$result = @$sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC");
+	$result = @$sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
 	if ($result !== false) {
 		$nofRows = count($result);
 		echo "<span>$nofRows</span>\n";

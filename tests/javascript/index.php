@@ -2970,7 +2970,8 @@ if ($sqlite) {
         resetTracker(tracker, token6);
         tracker.enableTrackOnlyVisibleContent(false, 0);
         tracker.trackAllContentImpressions();
-        strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should still track all impressions even if visible enabled');
+        expected = [contentBlocks[7], contentBlocks[6], contentBlocks[5], contentBlocks[1], contentBlocks[4], contentBlocks[3], contentBlocks[2]];
+        propEqual(tracker.getTrackedContentImpressions().length, 7, 'should still track all impressions even if visible enabled');
 
         var token7 = '7' + token;
         resetTracker(tracker, token7);
