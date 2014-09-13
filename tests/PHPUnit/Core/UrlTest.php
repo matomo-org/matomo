@@ -320,12 +320,17 @@ class UrlTest extends PHPUnit_Framework_TestCase
             array(false, 'http://', array()),
             array(false, 'example.com', array()),
             array(false, 'www.example.com', array()),
-            array(false, 'example.com', array('www.example.com')),
-            array(false, 'example.com', array('http://www.example.com')),
+            array(false, 'example.com', array('www.example.com')), // not a domain so no "host"
             array(true, 'example.com', array('example.com')),
             array(true, 'eXamPle.com', array('exaMple.com')),
             array(true, 'eXamPle.com', array('http://exaMple.com')),
-            array(true, 'example.com', array('http://example.com/test')),
+            array(true, 'eXamPle.com', array('http://piwik.org', 'http://www.exaMple.com', 'http://exaMple.com')), // multiple urls one or more are valid but not first one
+            array(true, 'example.com', array('http://example.com/test')), // url with path but correct host
+            array(true, 'example.com', array('http://www.example.com')), // subdomains are allowed
+            array(false, 'example.com', array('http://wwwexample.com')), // it should not be possible to create a similar host and make redirects work again. we allow only subdomains
+            array(true, 'example.com', array('http://ftp.exAmple.com/test')),
+            array(true, 'example.com', array('http://www.exAmple.com/test')),
+            array(false, 'ftp.example.com', array('http://www.example.com/test')),
             array(true, '127.0.0.1', array()), // always trusted host
         );
     }

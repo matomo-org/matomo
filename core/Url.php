@@ -630,8 +630,9 @@ class Url
                     return true;
                 }
 
-                if (Common::stringEndsWith($siteHost, $host)) {
-                    return;
+                if (Common::stringEndsWith($siteHost, '.' . $host)) {
+                    // allow subdomains
+                    return true;
                 }
             }
         }
