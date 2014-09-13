@@ -929,6 +929,10 @@ class Tracker
             return;
         }
 
+        if (empty($this->requests)) {
+            return;
+        }
+
         $redirectUrl = $this->getRedirectUrl();
         $host        = Url::getHostFromUrl($redirectUrl);
 
@@ -936,8 +940,15 @@ class Tracker
             return;
         }
 
-        $model   = new Model();
-        $siteIds = $model->getSitesId();
+        $siteIds = array();
+
+        foreach ($this->requests as $request) {
+            $siteIds[] = (int) $request['idsite'];
+        }
+
+        $siteIds = array_unique($siteIds);
+
+        $model = new Model();
 
         foreach ($siteIds as $siteId) {
             $siteUrls = $model->getSiteUrlsFromId($siteId);
@@ -945,11 +956,6 @@ class Tracker
             if (Url::isHostInUrls($host, $siteUrls)) {
                 Url::redirectToUrl($redirectUrl);
             }
-        }
-
-        $trustedHosts = Url::getTrustedHosts();
-        if (Url::isHostInUrls($host, $trustedHosts)) {
-            Url::redirectToUrl($redirectUrl);
         }
     }
 

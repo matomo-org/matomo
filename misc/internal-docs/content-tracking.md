@@ -431,6 +431,7 @@ Nothing special here I think. We would probably automatically detect the type of
 ## TODO
 * Would content impressions be tracked in overlay session?
   * Overlay session should not trigger a content impression
+* Cache allowed site urls for redirects
 * Test scroll event in ie9, ie10, ie11, opera
 * Run JS tests  in ff3, ie7, ie8, ie9, ie11, android, iphone, ms phone
 * Write UI test
