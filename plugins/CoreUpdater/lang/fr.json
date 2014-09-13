@@ -39,6 +39,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "La base de données de Piwik sera mise à jour depuis la version %1$s vers la version %2$s.",
         "PluginDescription": "Mécanisme de mise à jour Piwik",
         "ReadyToGo": "Prêt à démarrer?",
+        "TheFollowingDimensionsWillBeUpgradedX": "Les dimensions suivantes vont être mises à jour: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Les plugins suivants seront mis à jour : %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Certains de vos plugins ont été mis à jour sur le Marketplace :",
         "ThereIsNewVersionAvailableForUpdate": "Il y a une nouvelle mise à jour de Piwik disponible",

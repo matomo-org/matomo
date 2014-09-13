@@ -1,0 +1,16 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Wzrost stosunku do",
+        "DayComparedToPreviousDay": "poprzedniego dnia",
+        "DayComparedToPreviousWeek": "tego samego dnia w poprzednim tygodniu",
+        "DayComparedToPreviousYear": "ten sam dzień w poprzednim roku",
+        "Filter": "Filtr",
+        "FilterOnlyNew": "Tylko nowe",
+        "MonthComparedToPreviousMonth": "poprzedni miesiąc",
+        "MonthComparedToPreviousYear": "ten sam miesiąc w poprzednim roku",
+        "NoResultMatchesCriteria": "Żaden wiesz nie spełnia kryteria",
+        "OverviewWidgetTitle": "Spostrzeżenia Ogólne",
+        "WeekComparedToPreviousWeek": "poprzedni tydzień",
+        "YearComparedToPreviousYear": "poprzedni rok"
+    }
+}

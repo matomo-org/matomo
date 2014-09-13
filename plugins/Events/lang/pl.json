@@ -1,0 +1,19 @@
+{
+    "Events": {
+        "AvgValue": "Średnia wartość",
+        "AvgValueDocumentation": "Średnia wszystkich wartości w tym przypadku",
+        "Event": "Zdarzenie",
+        "EventCategories": "Kategorie zdarzeń",
+        "EventName": "Nazwa wydarzenia",
+        "Events": "Zdarzenia",
+        "EventsWithValue": "Zdarzenia z wartością",
+        "EventValue": "Wartość wydarzenia",
+        "MaxValue": "Wartość maksymalna",
+        "MaxValueDocumentation": "Maksymalna wartość dla tego zdarzenia",
+        "MinValue": "Minimalna wartość",
+        "MinValueDocumentation": "Minimalna wartość tego wydarzenia",
+        "TotalEventsDocumentation": "Łączna liczba zdarzeń",
+        "TotalValueDocumentation": "Suma wartości zdarzeń",
+        "ViewEvents": "Pokaż zdarzenia"
+    }
+}

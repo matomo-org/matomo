@@ -28,6 +28,8 @@
         "JSTracking_CodeNote": "Βεβαιωθείτε ότι ο κώδικας αυτός είναι σε κάθε σελίδα της ιστοσελίδας σας πριν από την ετικέτα %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Χρήση προσαρμοσμένων ονομάτων παραμέτρων αναζητήσεων για το όνομα της καμπάνιας και τις λέξεις-κλειδιά",
         "JSTracking_CustomCampaignQueryParamDesc": "Σημείωση: %1$sΤο Piwik θα ανιχνεύσει αυτόματα τις παραμέτρους του Google Analytics.%2$s",
+        "JSTracking_DisableCookies": "Απενεργοποίηση όλων των cookies παρακολούθησης",
+        "JSTracking_DisableCookiesDesc": "Απενεργοποιεί όλα τα cookies. Τα υπάρχοντα cookies του Piwik για αυτό τον ιστοτόπο θα διαγραφούν στην επόμενη ανάγνωση σελίδας.",
         "JSTracking_EnableDoNotTrack": "Ενεργοποίηση ανίχνευσης DoNotTrack στην πλευρά του πελάτη",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Σημείωση: Έχει ενεργοποιηθεί η υποστήριξη DoNotTrack στην πλευρά του διακομιστή, οπότε αυτή η επιλογή δεν θα έχει καμία επίδραση.",
         "JSTracking_EnableDoNotTrackDesc": "Έτσι τα αιτήματα παρακολούθησης δεν θα σταλούν εάν οι επισκέπτες δεν επιθυμούν να παρακολουθούνται.",

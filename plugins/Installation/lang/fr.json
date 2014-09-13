@@ -1,5 +1,7 @@
 {
     "Installation": {
+        "CannotConnectToDb": "Impossible de se connecter à la base de données",
+        "CannotConnectToDbResolvingExplanation": "Cela peut être un problème temporaire, essayer de %1$srafraichir la page%2$s. Si le problème persiste veuillez contacter votre administrateur Piwik.",
         "CollaborativeProject": "Piwik est un projet collaboratif, construit avec amour par des personnes du monde entier.",
         "ConfigurationHelp": "Votre configuration de Piwik semble être erronée. Vous pouvez ou bien supprimer config\/config.inc.php et reprendre l'installation ou corriger les paramètres de connexion.",
         "ConfirmDeleteExistingTables": "Êtes vous sûr de vouloir supprimer les tables : %s de votre base de données? ATTENTION: LES DONNÉES SERONT DÉFINITIVEMENT PERDUES!",
@@ -82,6 +84,7 @@
         "SystemCheckJsonHelp": "L'extension php5-json est nécéssaire pour lire et écrire des données au format JSON.",
         "SystemCheckMailHelp": "Les Feedback (commentaires) et mots de passe perdus ne pourront être envoyés sans la fonciton mail().",
         "SystemCheckMbstring": "mbstring",
+        "SystemCheckMbstringHelp": "L'extension msstring est requise pour gérer les caractères sur plusieurs octets dans l'interface utilisateur et dans les réponses de l'API. Veuillez aussi vérifier que mbstring.func_overload est définit à \"0\" dans php.ini.",
         "SystemCheckMemoryLimit": "Limite mémoire",
         "SystemCheckMemoryLimitHelp": "Sur un site à trafic important, le processus d'archivage peut prendre plus de mémoire que la limite actuelle autorisée.<br \/>Référez-vous à la configuration memory_limit de votre php.ini si nécessaire.",
         "SystemCheckOpenURL": "Ouvrez l'URL",
