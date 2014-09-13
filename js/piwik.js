@@ -1092,7 +1092,7 @@ if (typeof Piwik !== 'object') {
                     h = el.offsetHeight;
                 }
 
-                if ((0 === h || 0 === w) && 'hidden' === _getStyle(el, 'overflow')) {
+                if (node === el && (0 === h || 0 === w) && 'hidden' === _getStyle(el, 'overflow')) {
                     return false;
                 }
 
@@ -1738,11 +1738,23 @@ if (typeof Piwik !== 'object') {
                     wasVisible = (node.offsetTop + rect.height) > 0;
                 }
 
+                var docWidth = html.clientWidth; // The clientWidth attribute returns the viewport width excluding the size of a rendered scroll bar
+
+                if (windowAlias.innerWidth && docWidth > windowAlias.innerWidth) {
+                    docWidth = windowAlias.innerWidth; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
+                }
+
+                var docHeight = html.clientHeight; // The clientWidth attribute returns the viewport width excluding the size of a rendered scroll bar
+
+                if (windowAlias.innerHeight && docHeight > windowAlias.innerHeight) {
+                    docWidth = windowAlias.innerHeight; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
+                }
+
                 return (
                     (rect.bottom > 0 || wasVisible) &&
                     rect.right  > 0 &&
-                    rect.left   < (windowAlias.innerWidth || html.clientWidth) &&
-                    ((rect.top   < (windowAlias.innerHeight || html.clientHeight)) || wasVisible) // rect.top < 0 we assume user has seen all the ones that are above the current viewport
+                    rect.left   < docWidth &&
+                    ((rect.top  < docHeight) || wasVisible) // rect.top < 0 we assume user has seen all the ones that are above the current viewport
                 );
             },
             isNodeVisible: function (node)

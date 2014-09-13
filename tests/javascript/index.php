@@ -64,10 +64,12 @@ testTrackPageViewAsync();
     .hideY {
         overflow-x: hidden !important;
     }
-    .ie #contenttest {
-        position: relative;
-        margin-left: 8px;
-        margin-right: 8px;
+    #contenttest {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
     }
 </style>
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
@@ -1259,7 +1261,6 @@ function PiwikTest() {
         assertInternalNodeNotVisible(_ex(16), 'parent is hidden via width:0, overflow is hidden');
         assertInternalNodeNotVisible(_ex(17), 'parent is hidden via height:0, overflow is hidden');
 
-        assertInternalNodeVisible(_ex(18), 'element is visible by 0px');
         assertNodeNotInViewport(_ex(18), 'element is not visible, ends directly at left:0px');
 
         assertInternalNodeVisible(_ex(19), 'element is visible by one px');
@@ -1280,6 +1281,7 @@ function PiwikTest() {
         assertNodeIsInViewport(_ex(31), 'element is position fixed and partially visible bottom');
         assertNodeNotInViewport(_ex(32), 'element is position fixed and position too far top');
         assertNodeNotInViewport(_ex(33), 'element is position fixed and position too far left');
+
         assertNodeNotInViewport(_ex(34), 'element is position fixed and position too far right');
         assertNodeNotInViewport(_ex(35), 'element is position fixed and position too far bottom');
 
@@ -2452,6 +2454,7 @@ if ($sqlite) {
             ok(true, "request.setup");
 
             deleteCookies();
+            wait(500);
             ok(document.cookie === "", "deleteCookies");
         },
         teardown: function () {
