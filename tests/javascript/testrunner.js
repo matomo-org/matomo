@@ -25,7 +25,7 @@ var fs  = require("fs");
 var url = 'http://localhost/tests/javascript/';
 
 function printError(message) {
-   fs.write("/dev/stderr", message + "\n", "w");
+   console.error(message + "\n");
 }
 
 var page = require("webpage").create();
@@ -64,6 +64,10 @@ page.onResourceReceived = function() {
                 errorMessage += " \nSource: " + obj.source + "\n\n";
 
                 console.log(errorMessage);
+            } else {
+                if (obj && obj.message) {
+                    console.log(obj.message);
+                }
             }
         });
     });
