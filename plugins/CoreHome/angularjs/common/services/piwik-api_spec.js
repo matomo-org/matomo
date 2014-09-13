@@ -9,8 +9,14 @@ describe('piwikApiClient', function () {
     var piwikApi,
         $httpBackend;
 
-    function extendHttpBackendMock($httpBackend) {
-        return $httpBackend;
+    if (!window.piwik) window.piwik = {};
+    if (!window.piwik.UI) window.piwik.UI = {};
+    if (!window.piwik.UI.Notification) {
+        window.piwik.UI.Notification = function () {
+            this.show = function () {};
+            this.scrollToNotification = function () {};
+            return this;
+        };
     }
 
     beforeEach(module('piwikApp.service'));
@@ -18,6 +24,15 @@ describe('piwikApiClient', function () {
         piwikApi = $injector.get('piwikApi');
 
         $httpBackend = $injector.get('$httpBackend');
+
+        $httpBackend.when('POST', /.*getBulkRequest.*/, /.*errorAction.*/).respond(function (method, url, data, headers) {
+            url = url.replace(/date=[^&]+/, "date=");
+
+            var errorResponse = {result: 'error', message: "error message"},
+                successResponse= "Response #2: " + url + " - " + data;
+
+            return [200, [errorResponse, successResponse]];
+        });
 
         $httpBackend.when('POST', /.*getBulkRequest.*/).respond(function (method, url, data, headers) {
             url = url.replace(/date=[^&]+/, "date=");
@@ -218,6 +233,44 @@ describe('piwikApiClient', function () {
             done();
         }).catch(function (ex) {
             done(ex);
+        });
+
+        $httpBackend.flush();
+    });
+
+    it("should correctly handle errors in a bulk request response", function (done) {
+        piwikApi.bulkFetch([
+            {
+                method: "SomePlugin.errorAction"
+            },
+            {
+                method: "SomeOtherPlugin.whatever"
+            }
+        ]).then(function (response) {
+            done(new Error("promise resolved after bulkFetch request returned an error (response = " + JSON.stringify(response) + ")"));
+        }).catch(function (error) {
+            expect(error).to.equal("error message");
+
+            done();
+        });
+
+        $httpBackend.flush();
+    });
+
+    it("shuld correctly handle errors in a bulk request response, regardless of error location", function (done) {
+        piwikApi.bulkFetch([
+            {
+                method: "SomeOtherPlugin.whatever"
+            },
+            {
+                method: "SomePlugin.errorAction"
+            }
+        ]).then(function (response) {
+            done(new Error("promise resolved after bulkFetch request returned an error (response = " + JSON.stringify(response) + ")"));
+        }).catch(function (error) {
+            expect(error).to.equal("error message");
+
+            done();
         });
 
         $httpBackend.flush();
