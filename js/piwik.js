@@ -29,7 +29,7 @@
  * @version 2012-10-08
  * @link http://www.JSON.org/js.html
  ************************************************************/
-/*jslint evil: true, regexp: false, bitwise: true*/
+/*jslint evil: true, regexp: false, bitwise: true, white: true */
 /*global JSON2:true */
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
@@ -429,7 +429,32 @@ if (typeof JSON2 !== 'object') {
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
-    deleteCookies
+    deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
+    innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
+    getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
+    findPieceNode, findTargetNodeNoDefault, findTargetNode, findContentPiece, children, hasNodeCssClass,
+    getAttributeValueFromNode, hasNodeAttributeWithValue, hasNodeAttribute, findNodesByTagName, findMultiple,
+    makeNodesUnique, concat, find, htmlCollectionToArray, offsetParent, value, nodeValue, findNodesHavingAttribute,
+    findFirstNodeHavingAttribute, findFirstNodeHavingAttributeWithValue, getElementsByClassName,
+    findNodesHavingCssClass, findFirstNodeHavingClass, isLinkElement, findParentContentNode, removeDomainIfIsInLink,
+    findContentName, findMediaUrlInNode, toAbsoluteUrl, findContentTarget, getLocation, origin, host, isSameDomain,
+    search, trim, getBoundingClientRect, bottom, right, left, innerWidth, innerHeight, clientWidth, clientHeight,
+    isOrWasNodeInViewport, isNodeVisible, buildInteractionRequestParams, buildImpressionRequestParams,
+    shouldIgnoreInteraction, setHrefAttribute, setAttribute, buildContentBlock, collectContent, setLocation,
+    CONTENT_ATTR, CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS,
+    CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS,
+    trackCallbackOnLoad, trackCallbackOnReady, buildContentImpressionsRequests, wasContentImpressionAlreadyTracked,
+    getQuery, getContent, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
+    buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
+    appendContentInteractionToRequestIfPossible, setupInteractionsTracking, trackContentImpressionClickInteraction,
+    internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackAllContentImpressions,
+    getTrackedContentImpressions, getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
+    contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
+    trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
+    enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
+    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
+    isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
+    substr, setAnyAttribute, wasContentTargetAttrReplaced
  */
 /*global _paq:true */
 /*members push */
@@ -976,6 +1001,945 @@ if (typeof Piwik !== 'object') {
         }
 
         /************************************************************
+         * Element Visiblility
+         ************************************************************/
+
+        /**
+         * Author: Jason Farrell
+         * Author URI: http://useallfive.com/
+         *
+         * Description: Checks if a DOM element is truly visible.
+         * Package URL: https://github.com/UseAllFive/true-visibility
+         * License: MIT (https://github.com/UseAllFive/true-visibility/blob/master/LICENSE.txt)
+         */
+        function isVisible(node) {
+
+            if (!node) {
+                return false;
+            }
+
+            //-- Cross browser method to get style properties:
+            function _getStyle(el, property) {
+                if (windowAlias.getComputedStyle) {
+                    return documentAlias.defaultView.getComputedStyle(el,null)[property];
+                }
+                if (el.currentStyle) {
+                    return el.currentStyle[property];
+                }
+            }
+
+            function _elementInDocument(element) {
+                element = element.parentNode;
+
+                while (element) {
+                    if (element === documentAlias) {
+                        return true;
+                    }
+                    element = element.parentNode;
+                }
+                return false;
+            }
+
+            /**
+             * Checks if a DOM element is visible. Takes into
+             * consideration its parents and overflow.
+             *
+             * @param (el)      the DOM element to check if is visible
+             *
+             * These params are optional that are sent in recursively,
+             * you typically won't use these:
+             *
+             * @param (t)       Top corner position number
+             * @param (r)       Right corner position number
+             * @param (b)       Bottom corner position number
+             * @param (l)       Left corner position number
+             * @param (w)       Element width number
+             * @param (h)       Element height number
+             */
+            function _isVisible(el, t, r, b, l, w, h) {
+                var p = el.parentNode,
+                    VISIBLE_PADDING = 1; // has to be visible at least one px of the element
+
+                if (!_elementInDocument(el)) {
+                    return false;
+                }
+
+                //-- Return true for document node
+                if (9 === p.nodeType) {
+                    return true;
+                }
+
+                //-- Return false if our element is invisible
+                if (
+                    '0' === _getStyle(el, 'opacity') ||
+                    'none' === _getStyle(el, 'display') ||
+                    'hidden' === _getStyle(el, 'visibility')
+                ) {
+                    return false;
+                }
+
+                if (!isDefined(t) ||
+                        !isDefined(r) ||
+                        !isDefined(b) ||
+                        !isDefined(l) ||
+                        !isDefined(w) ||
+                        !isDefined(h)) {
+                    t = el.offsetTop;
+                    l = el.offsetLeft;
+                    b = t + el.offsetHeight;
+                    r = l + el.offsetWidth;
+                    w = el.offsetWidth;
+                    h = el.offsetHeight;
+                }
+
+                if (node === el && (0 === h || 0 === w) && 'hidden' === _getStyle(el, 'overflow')) {
+                    return false;
+                }
+
+                //-- If we have a parent, let's continue:
+                if (p) {
+                    //-- Check if the parent can hide its children.
+                    if (('hidden' === _getStyle(p, 'overflow') || 'scroll' === _getStyle(p, 'overflow'))) {
+                        //-- Only check if the offset is different for the parent
+                        if (
+                            //-- If the target element is to the right of the parent elm
+                        l + VISIBLE_PADDING > p.offsetWidth + p.scrollLeft ||
+                            //-- If the target element is to the left of the parent elm
+                        l + w - VISIBLE_PADDING < p.scrollLeft ||
+                            //-- If the target element is under the parent elm
+                        t + VISIBLE_PADDING > p.offsetHeight + p.scrollTop ||
+                            //-- If the target element is above the parent elm
+                        t + h - VISIBLE_PADDING < p.scrollTop
+                        ) {
+                            //-- Our target element is out of bounds:
+                            return false;
+                        }
+                    }
+                    //-- Add the offset parent's left/top coords to our element's offset:
+                    if (el.offsetParent === p) {
+                        l += p.offsetLeft;
+                        t += p.offsetTop;
+                    }
+                    //-- Let's recursively check upwards:
+                    return _isVisible(p, t, r, b, l, w, h);
+                }
+                return true;
+            }
+
+            return _isVisible(node);
+        }
+
+        /************************************************************
+         * Query
+         ************************************************************/
+
+        var query = {
+            htmlCollectionToArray: function (foundNodes)
+            {
+                var nodes = [], index;
+
+                if (!foundNodes || !foundNodes.length) {
+                    return nodes;
+                }
+
+                for (index = 0; index < foundNodes.length; index++) {
+                    nodes.push(foundNodes[index]);
+                }
+
+                return nodes;
+            },
+            find: function (selector)
+            {
+                // we use querySelectorAll only on document, not on nodes because of its unexpected behavior. See for
+                // instance http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall and
+                // http://jsfiddle.net/QdMc5/ and http://ejohn.org/blog/thoughts-on-queryselectorall
+                if (!document.querySelectorAll || !selector) {
+                    return []; // we do not support all browsers
+                }
+
+                var foundNodes = document.querySelectorAll(selector);
+
+                return this.htmlCollectionToArray(foundNodes);
+            },
+            findMultiple: function (selectors)
+            {
+                if (!selectors || !selectors.length) {
+                    return [];
+                }
+
+                var index, foundNodes;
+                var nodes = [];
+                for (index = 0; index < selectors.length; index++) {
+                    foundNodes = this.find(selectors[index]);
+                    nodes = nodes.concat(foundNodes);
+                }
+
+                nodes = this.makeNodesUnique(nodes);
+
+                return nodes;
+            },
+            findNodesByTagName: function (node, tagName)
+            {
+                if (!node || !tagName || !node.getElementsByTagName) {
+                    return [];
+                }
+
+                var foundNodes = node.getElementsByTagName(tagName);
+
+                return this.htmlCollectionToArray(foundNodes);
+            },
+            makeNodesUnique: function (nodes)
+            {
+                var copy = [].concat(nodes);
+                nodes.sort(function(n1, n2){
+                    if (n1 === n2) {
+                        return 0;
+                    }
+
+                    var index1 = copy.indexOf(n1);
+                    var index2 = copy.indexOf(n2);
+
+                    if (index1 === index2) {
+                        return 0;
+                    }
+
+                    return index1 > index2 ? -1 : 1;
+                });
+
+                if (nodes.length <= 1) {
+                    return nodes;
+                }
+
+                var index = 0;
+                var numDuplicates = 0;
+                var duplicates = [];
+                var node;
+
+                node = nodes[index++];
+
+                while (node) {
+                    if (node === nodes[index]) {
+                        numDuplicates = duplicates.push(index);
+                    }
+
+                    node = nodes[index++] || null;
+                }
+
+                while (numDuplicates--) {
+                    nodes.splice(duplicates[numDuplicates], 1);
+                }
+
+                return nodes;
+            },
+            getAttributeValueFromNode: function (node, attributeName)
+            {
+                if (!this.hasNodeAttribute(node, attributeName)) {
+                    return;
+                }
+
+                if (node && node.getAttribute) {
+                    return node.getAttribute(attributeName);
+                }
+
+                if (!node || !node.attributes) {
+                    return;
+                }
+
+                var typeOfAttr = (typeof node.attributes[attributeName]);
+                if ('undefined' === typeOfAttr) {
+                    return;
+                }
+
+                if (node.attributes[attributeName].value) {
+                    return node.attributes[attributeName].value; // nodeValue is deprecated ie Chrome
+                }
+
+                if (node.attributes[attributeName].nodeValue) {
+                    return node.attributes[attributeName].nodeValue;
+                }
+
+                var index;
+                var attrs = node.attributes;
+
+                if (!attrs) {
+                    return;
+                }
+
+                for (index = 0; index < attrs.length; index++) {
+                    if (attrs[index].nodeName === attributeName) {
+                        return attrs[index].nodeValue;
+                    }
+                }
+
+                return null;
+            },
+            hasNodeAttributeWithValue: function (node, attributeName)
+            {
+                var value = this.getAttributeValueFromNode(node, attributeName);
+
+                return !!value;
+            },
+            hasNodeAttribute: function (node, attributeName)
+            {
+                if (node && node.hasAttribute) {
+                    return node.hasAttribute(attributeName);
+                }
+
+                if (node && node.attributes) {
+                    var typeOfAttr = (typeof node.attributes[attributeName]);
+                    return 'undefined' !== typeOfAttr;
+                }
+
+                return false;
+            },
+            hasNodeCssClass: function (node, className)
+            {
+                if (node && className && node.className) {
+                    var classes = node.className.split(' ');
+                    if (-1 !== classes.indexOf(className)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+            findNodesHavingAttribute: function (nodeToSearch, attributeName, nodes)
+            {
+                if (!nodes) {
+                    nodes = [];
+                }
+
+                if (!nodeToSearch || !attributeName || !nodeToSearch.children) {
+                    return nodes;
+                }
+
+                var index, child;
+                for (index = 0; index < nodeToSearch.children.length; index++) {
+                    child = nodeToSearch.children[index];
+                    if (this.hasNodeAttribute(child, attributeName)) {
+                        nodes.push(child);
+                    }
+
+                    nodes = this.findNodesHavingAttribute(child, attributeName, nodes);
+                }
+
+                return nodes;
+            },
+            findFirstNodeHavingAttribute: function (node, attributeName)
+            {
+                if (!node || !attributeName) {
+                    return;
+                }
+
+                if (this.hasNodeAttribute(node, attributeName)) {
+                    return node;
+                }
+
+                var nodes = this.findNodesHavingAttribute(node, attributeName);
+
+                if (nodes && nodes.length) {
+                    return nodes[0];
+                }
+            },
+            findFirstNodeHavingAttributeWithValue: function (node, attributeName)
+            {
+                if (!node || !attributeName) {
+                    return;
+                }
+
+                if (this.hasNodeAttributeWithValue(node, attributeName)) {
+                    return node;
+                }
+
+                var nodes = this.findNodesHavingAttribute(node, attributeName);
+
+                if (!nodes || !nodes.length) {
+                    return;
+                }
+
+                var index;
+                for (index = 0; index < nodes.length; index++) {
+                    if (this.getAttributeValueFromNode(nodes[index], attributeName)) {
+                        return nodes[index];
+                    }
+                }
+            },
+            findNodesHavingCssClass: function (nodeToSearch, className, nodes)
+            {
+                if (!nodes) {
+                    nodes = [];
+                }
+
+                if (!nodeToSearch || !className) {
+                    return nodes;
+                }
+
+                if (nodeToSearch.getElementsByClassName) {
+                    var foundNodes = nodeToSearch.getElementsByClassName(className);
+                    return this.htmlCollectionToArray(foundNodes);
+                }
+
+                if (!nodeToSearch.children) {
+                    return;
+                }
+
+                var index, child;
+                for (index = 0; index < nodeToSearch.children.length; index++) {
+                    child = nodeToSearch.children[index];
+                    if (this.hasNodeCssClass(child, className)) {
+                        nodes.push(child);
+                    }
+
+                    nodes = this.findNodesHavingCssClass(child, className, nodes);
+                }
+
+                return nodes;
+            },
+            findFirstNodeHavingClass: function (node, className)
+            {
+                if (!node || !className) {
+                    return;
+                }
+
+                if (this.hasNodeCssClass(node, className)) {
+                    return node;
+                }
+
+                var nodes = this.findNodesHavingCssClass(node, className);
+
+                if (nodes && nodes.length) {
+                    return nodes[0];
+                }
+            },
+            isLinkElement: function (node)
+            {
+                if (!node) {
+                    return false;
+                }
+
+                var elementName      = String(node.nodeName).toLowerCase();
+                var linkElementNames = ['a', 'area'];
+                var pos = linkElementNames.indexOf(elementName);
+
+                return pos !== -1;
+            },
+            setAnyAttribute: function (node, attrName, attrValue)
+            {
+                if (!node || !attrName) {
+                    return;
+                }
+
+                if (node.setAttribute) {
+                    node.setAttribute(attrName, attrValue);
+                } else {
+                    node[attrName] = attrValue;
+                }
+            }
+        };
+
+        /************************************************************
+         * Content Tracking
+         ************************************************************/
+
+        var content = {
+            CONTENT_ATTR: 'data-track-content',
+            CONTENT_CLASS: 'piwikTrackContent',
+            CONTENT_NAME_ATTR: 'data-content-name',
+            CONTENT_PIECE_ATTR: 'data-content-piece',
+            CONTENT_PIECE_CLASS: 'piwikContentPiece',
+            CONTENT_TARGET_ATTR: 'data-content-target',
+            CONTENT_TARGET_CLASS: 'piwikContentTarget',
+            CONTENT_IGNOREINTERACTION_ATTR: 'data-content-ignoreinteraction',
+            CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
+            location: undefined,
+
+            findContentNodes: function ()
+            {
+
+                var cssSelector  = '.' + this.CONTENT_CLASS;
+                var attrSelector = '[' + this.CONTENT_ATTR + ']';
+                var contentNodes = query.findMultiple([cssSelector, attrSelector]);
+
+                return contentNodes;
+            },
+            findContentNodesWithinNode: function (node)
+            {
+                if (!node) {
+                    return [];
+                }
+
+                // NOTE: we do not use query.findMultiple here as querySelectorAll would most likely not deliver the result we want
+
+                var nodes1 = query.findNodesHavingCssClass(node, this.CONTENT_CLASS);
+                var nodes2 = query.findNodesHavingAttribute(node, this.CONTENT_ATTR);
+
+                if (nodes2 && nodes2.length) {
+                    var index;
+                    for (index = 0; index < nodes2.length; index++) {
+                        nodes1.push(nodes2[index]);
+                    }
+                }
+
+                if (query.hasNodeAttribute(node, this.CONTENT_ATTR)) {
+                    nodes1.push(node);
+                } else if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
+                    nodes1.push(node);
+                }
+
+                nodes1 = query.makeNodesUnique(nodes1);
+
+                return nodes1;
+            },
+            findParentContentNode: function (anyNode)
+            {
+                if (!anyNode) {
+                    return;
+                }
+
+                var node    = anyNode;
+                var counter = 0;
+
+                while (node && node !== documentAlias && node.parentNode) {
+                    if (query.hasNodeAttribute(node, this.CONTENT_ATTR)) {
+                        return node;
+                    }
+                    if (query.hasNodeCssClass(node, this.CONTENT_CLASS)) {
+                        return node;
+                    }
+
+                    node = node.parentNode;
+
+                    if (counter > 1000) {
+                        break; // prevent loop, should not happen anyway but better we do this
+                    }
+                    counter++;
+                }
+            },
+            findPieceNode: function (node)
+            {
+                var contentPiece;
+
+                contentPiece = query.findFirstNodeHavingAttribute(node, this.CONTENT_PIECE_ATTR);
+
+                if (!contentPiece) {
+                    contentPiece = query.findFirstNodeHavingClass(node, this.CONTENT_PIECE_CLASS);
+                }
+
+                if (contentPiece) {
+                    return contentPiece;
+                }
+
+                return node;
+            },
+            findTargetNodeNoDefault: function (node)
+            {
+                if (!node) {
+                    return;
+                }
+
+                var target = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_TARGET_ATTR);
+                if (target) {
+                    return target;
+                }
+
+                target = query.findFirstNodeHavingAttribute(node, this.CONTENT_TARGET_ATTR);
+                if (target) {
+                    return target;
+                }
+
+                target = query.findFirstNodeHavingClass(node, this.CONTENT_TARGET_CLASS);
+                if (target) {
+                    return target;
+                }
+            },
+            findTargetNode: function (node)
+            {
+                var target = this.findTargetNodeNoDefault(node);
+                if (target) {
+                    return target;
+                }
+
+                return node;
+            },
+            findContentName: function (node)
+            {
+                if (!node) {
+                    return;
+                }
+
+                var nameNode = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_NAME_ATTR);
+
+                if (nameNode) {
+                    return query.getAttributeValueFromNode(nameNode, this.CONTENT_NAME_ATTR);
+                }
+
+                var contentPiece = this.findContentPiece(node);
+                if (contentPiece) {
+                    return this.removeDomainIfIsInLink(contentPiece);
+                }
+
+                if (query.hasNodeAttributeWithValue(node, 'title')) {
+                    return query.getAttributeValueFromNode(node, 'title');
+                }
+
+                var clickUrlNode = this.findPieceNode(node);
+
+                if (query.hasNodeAttributeWithValue(clickUrlNode, 'title')) {
+                    return query.getAttributeValueFromNode(clickUrlNode, 'title');
+                }
+
+                var targetNode = this.findTargetNode(node);
+
+                if (query.hasNodeAttributeWithValue(targetNode, 'title')) {
+                    return query.getAttributeValueFromNode(targetNode, 'title');
+                }
+            },
+            findContentPiece: function (node)
+            {
+                if (!node) {
+                    return;
+                }
+
+                var nameNode = query.findFirstNodeHavingAttributeWithValue(node, this.CONTENT_PIECE_ATTR);
+
+                if (nameNode) {
+                    return query.getAttributeValueFromNode(nameNode, this.CONTENT_PIECE_ATTR);
+                }
+
+                var contentNode = this.findPieceNode(node);
+
+                var media = this.findMediaUrlInNode(contentNode);
+                if (media) {
+                    return media;
+                }
+            },
+            findContentTarget: function (node)
+            {
+                if (!node) {
+                    return;
+                }
+
+                var targetNode = this.findTargetNode(node);
+
+                if (query.hasNodeAttributeWithValue(targetNode, this.CONTENT_TARGET_ATTR)) {
+                    return query.getAttributeValueFromNode(targetNode, this.CONTENT_TARGET_ATTR);
+                }
+
+                var href;
+                if (query.hasNodeAttributeWithValue(targetNode, 'href')) {
+                    href = query.getAttributeValueFromNode(targetNode, 'href');
+                    return this.toAbsoluteUrl(href);
+                }
+
+                var contentNode = this.findPieceNode(node);
+
+                if (query.hasNodeAttributeWithValue(contentNode, 'href')) {
+                    href = query.getAttributeValueFromNode(contentNode, 'href');
+                    return this.toAbsoluteUrl(href);
+                }
+            },
+            isSameDomain: function (url)
+            {
+                if (!url || !url.indexOf) {
+                    return false;
+                }
+
+                if (0 === url.indexOf(this.getLocation().origin)) {
+                    return true;
+                }
+
+                var posHost = url.indexOf(this.getLocation().host);
+                if (8 >= posHost && 0 <= posHost) {
+                    return true;
+                }
+
+                return false;
+            },
+            removeDomainIfIsInLink: function (text)
+            {
+                // we will only remove if domain === location.origin meaning is not an outlink
+                var regexContainsProtocol = '^https?:\/\/[^\/]+';
+                var regexReplaceDomain = '^.*\/\/[^\/]+';
+
+                if (text &&
+                    text.search &&
+                    -1 !== text.search(new RegExp(regexContainsProtocol))
+                    && this.isSameDomain(text)) {
+
+                    text = text.replace(new RegExp(regexReplaceDomain), '');
+                    if (!text) {
+                        text = '/';
+                    }
+                }
+
+                return text;
+            },
+            findMediaUrlInNode: function (node)
+            {
+                if (!node) {
+                    return;
+                }
+
+                var mediaElements = ['img', 'embed', 'video', 'audio'];
+                var elementName   = node.nodeName.toLowerCase();
+
+                if (-1 !== mediaElements.indexOf(elementName) &&
+                    query.findFirstNodeHavingAttributeWithValue(node, 'src')) {
+
+                    var sourceNode = query.findFirstNodeHavingAttributeWithValue(node, 'src');
+
+                    return query.getAttributeValueFromNode(sourceNode, 'src');
+                }
+
+                if (elementName === 'object' &&
+                    query.hasNodeAttributeWithValue(node, 'data')) {
+
+                    return query.getAttributeValueFromNode(node, 'data');
+                }
+
+                if (elementName === 'object') {
+                    var params = query.findNodesByTagName(node, 'param');
+                    if (params && params.length) {
+                        var index;
+                        for (index = 0; index < params.length; index++) {
+                            if ('movie' === query.getAttributeValueFromNode(params[index], 'name') &&
+                                query.hasNodeAttributeWithValue(params[index], 'value')) {
+
+                                return query.getAttributeValueFromNode(params[index], 'value');
+                            }
+                        }
+                    }
+
+                    var embed = query.findNodesByTagName(node, 'embed');
+                    if (embed && embed.length) {
+                        return this.findMediaUrlInNode(embed[0]);
+                    }
+                }
+            },
+            trim: function (text)
+            {
+                if (text && String(text) === text) {
+                    return text.replace(/^\s+|\s+$/g, '');
+                }
+
+                return text;
+            },
+            isOrWasNodeInViewport: function (node)
+            {
+                if (!node || !node.getBoundingClientRect || node.nodeType !== 1) {
+                    return true;
+                }
+
+                var rect = node.getBoundingClientRect();
+                var html = documentAlias.documentElement || {};
+
+                var wasVisible = rect.top < 0;
+                if (wasVisible && node.offsetTop) {
+                    wasVisible = (node.offsetTop + rect.height) > 0;
+                }
+
+                var docWidth = html.clientWidth; // The clientWidth attribute returns the viewport width excluding the size of a rendered scroll bar
+
+                if (windowAlias.innerWidth && docWidth > windowAlias.innerWidth) {
+                    docWidth = windowAlias.innerWidth; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
+                }
+
+                var docHeight = html.clientHeight; // The clientWidth attribute returns the viewport width excluding the size of a rendered scroll bar
+
+                if (windowAlias.innerHeight && docHeight > windowAlias.innerHeight) {
+                    docWidth = windowAlias.innerHeight; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
+                }
+
+                return (
+                    (rect.bottom > 0 || wasVisible) &&
+                    rect.right  > 0 &&
+                    rect.left   < docWidth &&
+                    ((rect.top  < docHeight) || wasVisible) // rect.top < 0 we assume user has seen all the ones that are above the current viewport
+                );
+            },
+            isNodeVisible: function (node)
+            {
+                var isItVisible  = isVisible(node);
+                var isInViewport = this.isOrWasNodeInViewport(node);
+                return isItVisible && isInViewport;
+            },
+            buildInteractionRequestParams: function (interaction, name, piece, target)
+            {
+                var params = '';
+
+                if (interaction) {
+                    params += 'c_i='+ encodeWrapper(interaction);
+                }
+                if (name) {
+                    if (params) {
+                        params += '&';
+                    }
+                    params += 'c_n='+ encodeWrapper(name);
+                }
+                if (piece) {
+                    if (params) {
+                        params += '&';
+                    }
+                    params += 'c_p='+ encodeWrapper(piece);
+                }
+                if (target) {
+                    if (params) {
+                        params += '&';
+                    }
+                    params += 'c_t='+ encodeWrapper(target);
+                }
+
+                return params;
+            },
+            buildImpressionRequestParams: function (name, piece, target)
+            {
+                var params = 'c_n=' + encodeWrapper(name) +
+                             '&c_p=' + encodeWrapper(piece);
+
+                if (target) {
+                    params += '&c_t=' + encodeWrapper(target);
+                }
+
+                return params;
+            },
+            buildContentBlock: function (node)
+            {
+                if (!node) {
+                    return;
+                }
+
+                var name   = this.findContentName(node);
+                var piece  = this.findContentPiece(node);
+                var target = this.findContentTarget(node);
+
+                name   = this.trim(name);
+                piece  = this.trim(piece);
+                target = this.trim(target);
+
+                return {
+                    name: name || 'Unknown',
+                    piece: piece || 'Unknown',
+                    target: target || ''
+                };
+            },
+            collectContent: function (contentNodes)
+            {
+                if (!contentNodes || !contentNodes.length) {
+                    return [];
+                }
+
+                var contents = [];
+
+                var index, contentBlock;
+                for (index = 0; index < contentNodes.length; index++) {
+                    contentBlock = this.buildContentBlock(contentNodes[index]);
+                    if (isDefined(contentBlock)) {
+                        contents.push(contentBlock);
+                    }
+                }
+
+                return contents;
+            },
+            setLocation: function (location)
+            {
+                this.location = location;
+            },
+            getLocation: function ()
+            {
+                var locationAlias = this.location || windowAlias.location;
+
+                if (!locationAlias.origin) {
+                    locationAlias.origin = locationAlias.protocol + "//" + locationAlias.hostname + (locationAlias.port ? ':' + locationAlias.port: '');
+                }
+
+                return locationAlias;
+            },
+            toAbsoluteUrl: function (url)
+            {
+                if ((!url || String(url) !== url) && url !== '') {
+                    // we only handle strings
+                    return url;
+                }
+
+                if ('' === url) {
+                    return this.getLocation().href;
+                }
+
+                // Eg //example.com/test.jpg
+                if (url.search(/^\/\//) !== -1) {
+                    return this.getLocation().protocol + url;
+                }
+
+                // Eg http://example.com/test.jpg
+                if (url.search(/:\/\//) !== -1) {
+                    return url;
+                }
+
+                // Eg #test.jpg
+                if (0 === url.indexOf('#')) {
+                    return this.getLocation().origin + this.getLocation().pathname + url;
+                }
+
+                // Eg ?x=5
+                if (0 === url.indexOf('?')) {
+                    return this.getLocation().origin + this.getLocation().pathname + url;
+                }
+
+                // Eg mailto:x@y.z tel:012345, ... market:... sms:..., javasript:... ecmascript: ... and many more
+                if (0 === url.search('^[a-zA-Z]{2,11}:')) {
+                    return url;
+                }
+
+                // Eg /test.jpg
+                if (url.search(/^\//) !== -1) {
+                    return this.getLocation().origin + url;
+                }
+
+                // Eg test.jpg
+                var regexMatchDir = '(.*\/)';
+                var base = this.getLocation().origin + this.getLocation().pathname.match(new RegExp(regexMatchDir))[0];
+                return base + url;
+            },
+            isUrlToCurrentDomain: function (url) {
+
+                var absoluteUrl = this.toAbsoluteUrl(url);
+
+                if (!absoluteUrl) {
+                    return false;
+                }
+
+                var origin = this.getLocation().origin;
+                if (origin === absoluteUrl) {
+                    return true;
+                }
+
+                if (0 === String(absoluteUrl).indexOf(origin)) {
+                    if (':' === String(absoluteUrl).substr(origin.length, 1)) {
+                        return false; // url has port whereas origin has not => different URL
+                    }
+
+                    return true;
+                }
+
+                return false;
+            },
+            setHrefAttribute: function (node, url)
+            {
+                if (!node || !url) {
+                    return;
+                }
+
+                query.setAnyAttribute(node, 'href', url);
+            },
+            shouldIgnoreInteraction: function (targetNode)
+            {
+                var hasAttr  = query.hasNodeAttribute(targetNode, this.CONTENT_IGNOREINTERACTION_ATTR);
+                var hasClass = query.hasNodeCssClass(targetNode, this.CONTENT_IGNOREINTERACTION_CLASS);
+                return hasAttr || hasClass;
+            }
+        };
+
+        /************************************************************
          * Page Overlay
          ************************************************************/
 
@@ -1206,6 +2170,10 @@ if (typeof Piwik !== 'object') {
                 // Browser features via client-side data collection
                 browserFeatures = {},
 
+                // Keeps track of previously tracked content impressions
+                trackedContentImpressions = [],
+                isTrackOnlyVisibleContentEnabled = false,
+
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
 
@@ -1400,7 +2368,7 @@ if (typeof Piwik !== 'object') {
             function sendRequest(request, delay, callback) {
                 var now = new Date();
 
-                if (!configDoNotTrack) {
+                if (!configDoNotTrack && request) {
                     if (configRequestMethod === 'POST') {
                         sendXmlHttpRequest(request, callback);
                     } else {
@@ -1409,6 +2377,29 @@ if (typeof Piwik !== 'object') {
 
                     expireDateTime = now.getTime() + delay;
                 }
+            }
+
+            /*
+             * Send requests using bulk
+             */
+            function sendBulkRequest(requests, delay) {
+
+                if (configDoNotTrack) {
+                    return;
+                }
+
+                if (!requests || !requests.length) {
+                    return;
+                }
+
+                // here we have to prevent 414 request uri too long error in case someone tracks like 1000
+
+                var now  = new Date();
+                var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
+
+                sendXmlHttpRequest(bulk);
+
+                expireDateTime = now.getTime() + delay;
             }
 
             /*
@@ -1982,18 +2973,495 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
+             * Construct regular expression of classes
+             */
+            function getClassesRegExp(configClasses, defaultClass) {
+                var i,
+                    classesRegExp = '(^| )(piwik[_-]' + defaultClass;
+
+                if (configClasses) {
+                    for (i = 0; i < configClasses.length; i++) {
+                        classesRegExp += '|' + configClasses[i];
+                    }
+                }
+
+                classesRegExp += ')( |$)';
+
+                return new RegExp(classesRegExp);
+            }
+
+            function startsUrlWithTrackerUrl(url) {
+                return (configTrackerUrl && url && 0 === String(url).indexOf(configTrackerUrl));
+            }
+
+            /*
+             * Link or Download?
+             */
+            function getLinkType(className, href, isInLink) {
+                if (startsUrlWithTrackerUrl(href)) {
+                    return 0;
+                }
+
+                // does class indicate whether it is an (explicit/forced) outlink or a download?
+                var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
+                    linkPattern = getClassesRegExp(configLinkClasses, 'link'),
+
+                // does file extension indicate that it is a download?
+                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
+
+                if (linkPattern.test(className)) {
+                    return 'link';
+                }
+
+                if (downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
+                    return 'download';
+                }
+
+                if (isInLink) {
+                    return 0;
+                }
+
+                return 'link';
+            }
+
+            function getSourceElement(sourceElement)
+            {
+                var parentElement;
+
+                parentElement = sourceElement.parentNode;
+                while (parentElement !== null &&
+                    /* buggy IE5.5 */
+                isDefined(parentElement)) {
+
+                    if (query.isLinkElement(sourceElement)) {
+                        break;
+                    }
+                    sourceElement = parentElement;
+                    parentElement = sourceElement.parentNode;
+                }
+
+                return sourceElement;
+            }
+
+            function getLinkIfShouldBeProcessed(sourceElement)
+            {
+                sourceElement = getSourceElement(sourceElement);
+
+                if (!query.hasNodeAttribute(sourceElement, 'href')) {
+                    return;
+                }
+
+                if (!isDefined(sourceElement.href)) {
+                    return;
+                }
+
+                var href = query.getAttributeValueFromNode(sourceElement, 'href');
+
+                if (startsUrlWithTrackerUrl(href)) {
+                    return;
+                }
+
+                // browsers, such as Safari, don't downcase hostname and href
+                var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
+                var sourceHostName = originalSourceHostName.toLowerCase();
+                var sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName);
+
+                // browsers, such as Safari, don't downcase hostname and href
+                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
+
+                if (!scriptProtocol.test(sourceHref)) {
+                    // track outlinks and all downloads
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
+
+                    if (linkType) {
+                        return {
+                            type: linkType,
+                            href: sourceHref
+                        };
+                    }
+                }
+            }
+
+            function buildContentInteractionRequest(interaction, name, piece, target)
+            {
+                var params = content.buildInteractionRequestParams(interaction, name, piece, target);
+
+                if (!params) {
+                    return;
+                }
+
+                return getRequest(params, null, 'contentInteraction');
+            }
+
+            function buildContentInteractionTrackingRedirectUrl(url, contentInteraction, contentName, contentPiece, contentTarget)
+            {
+                if (!isDefined(url)) {
+                    return;
+                }
+
+                if (startsUrlWithTrackerUrl(url)) {
+                    return url;
+                }
+
+                var redirectUrl = content.toAbsoluteUrl(url);
+                var request  = 'redirecturl=' + redirectUrl + '&';
+                request     += buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
+
+                var separator = '&';
+                if (configTrackerUrl.indexOf('?') < 0) {
+                    separator = '?';
+                }
+
+                return configTrackerUrl + separator + request;
+            }
+
+            function isNodeAuthorizedToTriggerInteraction(contentNode, interactedNode)
+            {
+                if (!contentNode || !interactedNode) {
+                    return false;
+                }
+
+                var targetNode = content.findTargetNode(contentNode);
+
+                if (content.shouldIgnoreInteraction(targetNode)) {
+                    // interaction should be ignored
+                    return false;
+                }
+
+                targetNode = content.findTargetNodeNoDefault(contentNode);
+                if (targetNode && !targetNode.contains(interactedNode)) {
+                    /**
+                     * There is a target node defined but the clicked element is not within the target node. example:
+                     * <div data-track-content><a href="Y" data-content-target>Y</a><img src=""/><a href="Z">Z</a></div>
+                     *
+                     * The user clicked in this case on link Z and not on target Y
+                     */
+                    return false;
+                }
+
+                return true;
+            }
+
+            function getContentInteractionToRequestIfPossible (anyNode, interaction, fallbackTarget)
+            {
+                if (!anyNode) {
+                    return;
+                }
+
+                var contentNode = content.findParentContentNode(anyNode);
+
+                if (!contentNode) {
+                    // we are not within a content block
+                    return;
+                }
+
+                if (!isNodeAuthorizedToTriggerInteraction(contentNode, anyNode)) {
+                    return;
+                }
+
+                var contentBlock = content.buildContentBlock(contentNode);
+
+                if (!contentBlock) {
+                    return;
+                }
+
+                if (!contentBlock.target && fallbackTarget) {
+                    contentBlock.target = fallbackTarget;
+                }
+
+                return content.buildInteractionRequestParams(interaction, contentBlock.name, contentBlock.piece, contentBlock.target);
+            }
+
+            function wasContentImpressionAlreadyTracked(contentBlock)
+            {
+                if (!trackedContentImpressions || !trackedContentImpressions.length) {
+                    return false;
+                }
+
+                var index, trackedContent;
+
+                for (index = 0; index < trackedContentImpressions.length; index++) {
+                    trackedContent = trackedContentImpressions[index];
+
+                    if (trackedContent &&
+                        trackedContent.name === contentBlock.name &&
+                        trackedContent.piece === contentBlock.piece &&
+                        trackedContent.target === contentBlock.target) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function replaceHrefIfInternalLink(contentBlock)
+            {
+                if (!contentBlock) {
+                    return false;
+                }
+
+                var targetNode = content.findTargetNode(contentBlock);
+
+                if (!targetNode || content.shouldIgnoreInteraction(targetNode)) {
+                    return false;
+                }
+
+                var link = getLinkIfShouldBeProcessed(targetNode);
+                if (linkTrackingInstalled && link && link.type) {
+
+                    return false; // it is an outlink or download.
+                }
+
+                if (query.isLinkElement(targetNode) &&
+                    query.hasNodeAttributeWithValue(targetNode, 'href')) {
+                    var url = String(query.getAttributeValueFromNode(targetNode, 'href'));
+
+                    if (0 === url.indexOf('#')) {
+                        return false;
+                    }
+
+                    if (startsUrlWithTrackerUrl(url)) {
+                        return true;
+                    }
+
+                    if (!content.isUrlToCurrentDomain(url)) {
+                        return false;
+                    }
+
+                    var contentName   = content.findContentName(contentBlock);
+                    var contentPiece  = content.findContentPiece(contentBlock);
+                    var contentTarget = content.findContentTarget(contentBlock);
+
+                    if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR) || targetNode.wasContentTargetAttrReplaced) {
+                        // make sure we still track the correct content target when an interaction is happening
+                        targetNode.wasContentTargetAttrReplaced = true;
+                        contentTarget = content.toAbsoluteUrl(url);
+                        query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, contentTarget);
+                    }
+
+                    var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
+
+                    // location.href does not respect target=_blank so we prefer to use this
+                    content.setHrefAttribute(targetNode, targetUrl);
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            function replaceHrefsIfInternalLink(contentNodes)
+            {
+                if (!contentNodes || !contentNodes.length) {
+                    return;
+                }
+
+                var index;
+                for (index = 0; index < contentNodes.length; index++) {
+                    replaceHrefIfInternalLink(contentNodes[index]);
+                }
+            }
+
+            function trackContentImpressionClickInteraction (targetNode)
+            {
+                return function (event) {
+
+                    if (!targetNode) {
+                        return;
+                    }
+
+                    var contentBlock = content.findParentContentNode(targetNode);
+
+                    var interactedElement;
+                    if (event) {
+                        interactedElement = event.target || event.srcElement;
+                    }
+                    if (!interactedElement) {
+                        interactedElement = targetNode;
+                    }
+
+                    if (!isNodeAuthorizedToTriggerInteraction(contentBlock, interactedElement)) {
+                        return;
+                    }
+
+                    if (query.isLinkElement(targetNode) &&
+                        query.hasNodeAttributeWithValue(targetNode, 'href') &&
+                        query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR)) {
+                        // there is a href attribute, the link was replaced with piwik.php but later the href was changed again by the application.
+                        var href = query.getAttributeValueFromNode(targetNode, 'href');
+                        if (!startsUrlWithTrackerUrl(href) && targetNode.wasContentTargetAttrReplaced) {
+                            query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, '');
+                        }
+                    }
+
+                    var link = getLinkIfShouldBeProcessed(targetNode);
+
+                    if (linkTrackingInstalled && link && link.type) {
+                        // click ignore, will be tracked via processClick, we do not want to track it twice
+
+                        return link.type;
+                    }
+
+                    if (replaceHrefIfInternalLink(contentBlock)) {
+                        return 'href';
+                    }
+
+                    var contentName   = content.findContentName(contentBlock);
+                    var contentPiece  = content.findContentPiece(contentBlock);
+                    var contentTarget = content.findContentTarget(contentBlock);
+
+                    // click on any non link element, or on a link element that has not an href attribute or on an anchor
+                    var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
+                    sendRequest(request, configTrackerPause);
+
+                    return request;
+                };
+
+            }
+
+            function setupInteractionsTracking(contentNodes)
+            {
+                if (!contentNodes || !contentNodes.length) {
+                    return;
+                }
+
+                var index, targetNode;
+                for (index = 0; index < contentNodes.length; index++) {
+                    targetNode = content.findTargetNode(contentNodes[index]);
+
+                    if (targetNode && !targetNode.contentInteractionTrackingSetupDone) {
+                        targetNode.contentInteractionTrackingSetupDone = true;
+
+                        addEventListener(targetNode, 'click', trackContentImpressionClickInteraction(targetNode));
+                    }
+                }
+            }
+
+            /*
+             * Log all content pieces
+             */
+            function buildContentImpressionsRequests(contents, contentNodes)
+            {
+                if (!contents || !contents.length) {
+                    return [];
+                }
+
+                var index, request;
+
+                for (index = 0; index < contents.length; index++) {
+
+                    if (wasContentImpressionAlreadyTracked(contents[index])) {
+                        contents.splice(index, 1);
+                        index--;
+                    } else {
+                        trackedContentImpressions.push(contents[index]);
+                    }
+                }
+
+                if (!contents || !contents.length) {
+                    return [];
+                }
+
+                replaceHrefsIfInternalLink(contentNodes);
+                setupInteractionsTracking(contentNodes);
+
+                var requests = [];
+
+                for (index = 0; index < contents.length; index++) {
+
+                    request = getRequest(
+                        content.buildImpressionRequestParams(contents[index].name, contents[index].piece, contents[index].target),
+                        undefined,
+                        'contentImpressions'
+                    );
+
+                    requests.push(request);
+                }
+
+                return requests;
+            }
+
+            /*
+             * Log all content pieces
+             */
+            function getContentImpressionsRequestsFromNodes(contentNodes)
+            {
+                var contents = content.collectContent(contentNodes);
+
+                return buildContentImpressionsRequests(contents, contentNodes);
+            }
+
+            /*
+             * Log currently visible content pieces
+             */
+            function getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes)
+            {
+                if (!contentNodes || !contentNodes.length) {
+                    return [];
+                }
+
+                var index;
+
+                for (index = 0; index < contentNodes.length; index++) {
+                    if (!content.isNodeVisible(contentNodes[index])) {
+                        contentNodes.splice(index, 1);
+                        index--;
+                    }
+                }
+
+                if (!contentNodes || !contentNodes.length) {
+                    return [];
+                }
+
+                return getContentImpressionsRequestsFromNodes(contentNodes);
+            }
+
+            function buildContentImpressionRequest(contentName, contentPiece, contentTarget)
+            {
+                var params = content.buildImpressionRequestParams(contentName, contentPiece, contentTarget);
+
+                return getRequest(params, null, 'contentImpression');
+            }
+
+            function buildContentInteractionRequestNode(node, contentInteraction)
+            {
+                if (!node) {
+                    return;
+                }
+
+                var contentNode  = content.findParentContentNode(node);
+                var contentBlock = content.buildContentBlock(contentNode);
+
+                if (!contentBlock) {
+                    return;
+                }
+
+                if (!contentInteraction) {
+                    contentInteraction = 'Unknown';
+                }
+
+                return buildContentInteractionRequest(contentInteraction, contentBlock.name, contentBlock.piece, contentBlock.target);
+            }
+
+            function buildEventRequest(category, action, name, value)
+            {
+                return 'e_c=' + encodeWrapper(category)
+                     + '&e_a=' + encodeWrapper(action)
+                     + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
+                     + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
+            }
+
+            /*
              * Log the event
              */
-            function logEvent(category, action, name, value, customData) {
+            function logEvent(category, action, name, value, customData)
+            {
                 // Category and Action are required parameters
                 if (String(category).length === 0 || String(action).length === 0) {
                     return false;
                 }
                 var request = getRequest(
-                        'e_c=' + encodeWrapper(category)
-                            + '&e_a=' + encodeWrapper(action)
-                            + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
-                            + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : ''),
+                        buildEventRequest(category, action, name, value),
                         customData,
                         'event'
                     );
@@ -2024,8 +3492,17 @@ if (typeof Piwik !== 'object') {
             /*
              * Log the link or click with the server
              */
-            function logLink(url, linkType, customData, callback) {
-                var request = getRequest(linkType + '=' + encodeWrapper(purify(url)), customData, 'link');
+            function logLink(url, linkType, customData, callback, sourceElement) {
+
+                var linkParams = linkType + '=' + encodeWrapper(purify(url));
+
+                var interaction = getContentInteractionToRequestIfPossible(sourceElement, 'click', url);
+
+                if (interaction) {
+                    linkParams += '&' + interaction;
+                }
+
+                var request = getRequest(linkParams, customData, 'link');
 
                 sendRequest(request, (callback ? 0 : configTrackerPause), callback);
             }
@@ -2083,77 +3560,46 @@ if (typeof Piwik !== 'object') {
                 callback();
             }
 
-            /*
-             * Construct regular expression of classes
-             */
-            function getClassesRegExp(configClasses, defaultClass) {
-                var i,
-                    classesRegExp = '(^| )(piwik[_-]' + defaultClass;
-
-                if (configClasses) {
-                    for (i = 0; i < configClasses.length; i++) {
-                        classesRegExp += '|' + configClasses[i];
-                    }
+            function trackCallbackOnLoad(callback)
+            {
+                if (documentAlias.readyState === 'complete') {
+                    callback();
+                } else if (windowAlias.addEventListener) {
+                    windowAlias.addEventListener('load', callback);
+                } else if (windowAlias.attachEvent) {
+                    windowAlias.attachEvent('onLoad', callback);
                 }
-
-                classesRegExp += ')( |$)';
-
-                return new RegExp(classesRegExp);
             }
 
-            /*
-             * Link or Download?
-             */
-            function getLinkType(className, href, isInLink) {
-                // does class indicate whether it is an (explicit/forced) outlink or a download?
-                var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
-                    linkPattern = getClassesRegExp(configLinkClasses, 'link'),
+            function trackCallbackOnReady(callback)
+            {
+                var loaded = false;
 
-                    // does file extension indicate that it is a download?
-                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
+                if (documentAlias.attachEvent) {
+                    loaded = documentAlias.readyState === "complete";
+                } else {
+                    loaded = documentAlias.readyState !== "loading";
+                }
 
-                // optimization of the if..elseif..else construct below
-                return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
+                if (loaded) {
+                    callback();
+                } else if (documentAlias.addEventListener) {
+                    documentAlias.addEventListener('DOMContentLoaded', callback);
+                } else if (documentAlias.attachEvent) {
+                    documentAlias.attachEvent('onreadystatechange', callback);
+                }
             }
 
             /*
              * Process clicks
              */
             function processClick(sourceElement) {
-                var parentElement,
-                    tag,
-                    linkType;
+                var link = getLinkIfShouldBeProcessed(sourceElement);
 
-                parentElement = sourceElement.parentNode;
-                while (parentElement !== null &&
-                        /* buggy IE5.5 */
-                        isDefined(parentElement)) {
-                    tag = sourceElement.tagName.toUpperCase();
-                    if (tag === 'A' || tag === 'AREA') {
-                        break;
-                    }
-                    sourceElement = parentElement;
-                    parentElement = sourceElement.parentNode;
-                }
-
-                if (isDefined(sourceElement.href)) {
-                    // browsers, such as Safari, don't downcase hostname and href
-                    var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href),
-                        sourceHostName = originalSourceHostName.toLowerCase(),
-                        sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName),
-                        scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
-
-                    // ignore script pseudo-protocol links
-                    if (!scriptProtocol.test(sourceHref)) {
-                        // track outlinks and all downloads
-                        linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
-
-                        if (linkType) {
-                            // urldecode %xx
-                            sourceHref = urldecode(sourceHref);
-                            logLink(sourceHref, linkType);
-                        }
-                    }
+                if (link && link.type) {
+                    // urldecode %xx
+                    link.href = urldecode(link.href);
+                    logLink(link.href, link.type, undefined, null, sourceElement);
                 }
             }
 
@@ -2222,6 +3668,72 @@ if (typeof Piwik !== 'object') {
                         }
                     }
                 }
+            }
+            function enableTrackOnlyVisibleContent (checkOnSroll, timeIntervalInMs, tracker) {
+
+                if (isTrackOnlyVisibleContentEnabled) {
+                    // already enabled, do not register intervals again
+                    return true;
+                }
+
+                isTrackOnlyVisibleContentEnabled = true;
+
+                var didScroll = false;
+                var events, index;
+
+                function setDidScroll() { didScroll = true; }
+
+                trackCallbackOnLoad(function () {
+
+                    function checkContent(intervalInMs) {
+                        setTimeout(function () {
+                            if (!isTrackOnlyVisibleContentEnabled) {
+                                return; // the tests stopped tracking only visible content
+                            }
+                            didScroll = false;
+                            tracker.trackVisibleContentImpressions();
+                            checkContent(intervalInMs);
+                        }, intervalInMs);
+                    }
+
+                    function checkContentIfDidScroll(intervalInMs) {
+
+                        setTimeout(function () {
+                            if (!isTrackOnlyVisibleContentEnabled) {
+                                return; // the tests stopped tracking only visible content
+                            }
+
+                            if (didScroll) {
+                                didScroll = false;
+                                tracker.trackVisibleContentImpressions();
+                            }
+
+                            checkContentIfDidScroll(intervalInMs);
+                        }, intervalInMs);
+                    }
+
+                    if (checkOnSroll) {
+
+                        // scroll event is executed after each pixel, so we make sure not to
+                        // execute event too often. otherwise FPS goes down a lot!
+                        events = ['scroll', 'resize'];
+                        for (index = 0; index < events.length; index++) {
+                            if (documentAlias.addEventListener) {
+                                documentAlias.addEventListener(events[index], setDidScroll);
+                            } else {
+                                windowAlias.attachEvent('on' + events[index], setDidScroll);
+                            }
+                        }
+
+                        checkContentIfDidScroll(100);
+                    }
+
+                    if (timeIntervalInMs && timeIntervalInMs > 0) {
+                        timeIntervalInMs = parseInt(timeIntervalInMs, 10);
+                        checkContent(timeIntervalInMs);
+                    }
+
+                });
             }
 
             /*
@@ -2338,6 +3850,50 @@ if (typeof Piwik !== 'object') {
                 getHook: function (hookName) {
                     return registeredHooks[hookName];
                 },
+                getQuery: function () {
+                    return query;
+                },
+                getContent: function () {
+                    return content;
+                },
+
+                buildContentImpressionRequest: buildContentImpressionRequest,
+                buildContentInteractionRequest: buildContentInteractionRequest,
+                buildContentInteractionRequestNode: buildContentInteractionRequestNode,
+                buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
+                getContentImpressionsRequestsFromNodes: getContentImpressionsRequestsFromNodes,
+                getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet: getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
+                trackCallbackOnLoad: trackCallbackOnLoad,
+                trackCallbackOnReady: trackCallbackOnReady,
+                buildContentImpressionsRequests: buildContentImpressionsRequests,
+                wasContentImpressionAlreadyTracked: wasContentImpressionAlreadyTracked,
+                appendContentInteractionToRequestIfPossible: getContentInteractionToRequestIfPossible,
+                setupInteractionsTracking: setupInteractionsTracking,
+                trackContentImpressionClickInteraction: trackContentImpressionClickInteraction,
+                internalIsNodeVisible: isVisible,
+                isNodeAuthorizedToTriggerInteraction: isNodeAuthorizedToTriggerInteraction,
+                replaceHrefIfInternalLink: replaceHrefIfInternalLink,
+                getConfigDownloadExtensions: function () {
+                    return configDownloadExtensions;
+                },
+                enableTrackOnlyVisibleContent: function (checkOnScroll, timeIntervalInMs) {
+                    return enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
+                },
+                clearTrackedContentImpressions: function () {
+                    trackedContentImpressions = [];
+                },
+                getTrackedContentImpressions: function () {
+                    return trackedContentImpressions;
+                },
+                getTrackerUrl: function () {
+                    return configTrackerUrl;
+                },
+                clearEnableTrackOnlyVisibleContent: function () {
+                    isTrackOnlyVisibleContentEnabled = false;
+                },
+                disableLinkTracking: function () {
+                    linkTrackingInstalled = false;
+                },
 /*</DEBUG>*/
 
                 /**
@@ -2452,7 +4008,7 @@ if (typeof Piwik !== 'object') {
                         configCustomData = key_or_obj;
                     } else {
                         if (!configCustomData) {
-                            configCustomData = [];
+                            configCustomData = {};
                         }
                         configCustomData[key_or_obj] = opt_value;
                     }
@@ -3045,6 +4601,8 @@ if (typeof Piwik !== 'object') {
                  * @param mixed customData
                  */
                 trackPageView: function (customTitle, customData) {
+                    trackedContentImpressions = [];
+
                     if (isOverlaySession(configTrackerSiteId)) {
                         trackCallback(function () {
                             injectOverlayScripts(configTrackerUrl, configApiUrl, configTrackerSiteId);
@@ -3054,6 +4612,101 @@ if (typeof Piwik !== 'object') {
                             logPageView(customTitle, customData);
                         });
                     }
+                },
+
+                trackAllContentImpressions: function () {
+                    trackCallback(function () {
+                        trackCallbackOnReady(function () {
+                            // we have to wait till DOM ready
+                            var contentNodes = content.findContentNodes();
+
+                            var requests = getContentImpressionsRequestsFromNodes(contentNodes);
+                            sendBulkRequest(requests, configTrackerPause);
+                        });
+                    });
+                },
+
+                trackVisibleContentImpressions: function (checkOnSroll, timeIntervalInMs) {
+
+                    if (!isDefined(checkOnSroll)) {
+                        checkOnSroll = true;
+                    }
+
+                    if (!isDefined(timeIntervalInMs)) {
+                        timeIntervalInMs = 750;
+                    }
+
+                    enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs, this);
+
+                    trackCallback(function () {
+                        trackCallbackOnLoad(function () {
+                            // we have to wait till CSS parsed and applied
+                            var contentNodes = content.findContentNodes();
+
+                            var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
+                            sendBulkRequest(requests, configTrackerPause);
+                        });
+                    });
+                },
+
+                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                trackContentImpression: function (contentName, contentPiece, contentTarget) {
+                    if (!contentName) {
+                        return;
+                    }
+
+                    contentPiece = contentPiece || 'Unknown';
+
+                    trackCallback(function () {
+                        var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
+                        sendRequest(request, configTrackerPause);
+                    });
+                },
+
+                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                // we might remove this method again
+                trackContentImpressionsWithinNode: function (domNode) {
+                    trackCallback(function () {
+                        if (isTrackOnlyVisibleContentEnabled) {
+                            trackCallbackOnLoad(function () {
+                                // we have to wait till CSS parsed and applied
+                                var contentNodes = content.findContentNodesWithinNode(domNode);
+
+                                var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
+                                sendBulkRequest(requests, configTrackerPause);
+                            });
+                        } else {
+                            trackCallbackOnReady(function () {
+                                // we have to wait till DOM ready
+                                var contentNodes = content.findContentNodesWithinNode(domNode);
+
+                                var requests = getContentImpressionsRequestsFromNodes(contentNodes);
+                                sendBulkRequest(requests, configTrackerPause);
+                            });
+                        }
+                    });
+                },
+
+                // name and piece has to be same as previously used on an impression
+                trackContentInteraction: function (contentInteraction, contentName, contentPiece, contentTarget) {
+                    if (!contentInteraction || !contentName) {
+                        return;
+                    }
+
+                    contentPiece = contentPiece || 'Unknown';
+
+                    trackCallback(function () {
+                        var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
+                        sendRequest(request, configTrackerPause);
+                    });
+                },
+                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                // we might remove this method again
+                trackContentInteractionNode: function (domNode, contentInteraction) {
+                    trackCallback(function () {
+                        var request = buildContentInteractionRequestNode(domNode, contentInteraction);
+                        sendRequest(request, configTrackerPause);
+                    });
                 },
 
                 /**
@@ -3082,7 +4735,6 @@ if (typeof Piwik !== 'object') {
                         logSiteSearch(keyword, category, resultsCount);
                     });
                 },
-
 
                 /**
                  * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.

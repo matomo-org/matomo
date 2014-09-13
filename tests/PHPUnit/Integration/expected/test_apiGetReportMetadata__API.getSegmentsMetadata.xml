@@ -377,6 +377,24 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
+		<name>Content Name</name>
+		<segment>contentName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Content Piece</name>
+		<segment>contentPiece</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Content Target</name>
+		<segment>contentTarget</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
 		<name>Entry Page URL</name>
 		<segment>entryPageUrl</segment>
 	</row>
@@ -397,6 +415,12 @@
 		<category>Actions</category>
 		<name>Exit Page URL</name>
 		<segment>exitPageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Interaction</name>
+		<segment>contentInteraction</segment>
 	</row>
 	<row>
 		<type>dimension</type>

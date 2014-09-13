@@ -8,10 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Reports;
 
-use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Events\API;
-use Piwik\Plugins\Events\Events;
 
 abstract class Base extends \Piwik\Plugin\Report
 {

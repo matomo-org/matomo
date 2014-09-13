@@ -670,6 +670,7 @@ Plugins[] = Insights
 Plugins[] = ZenMode
 Plugins[] = LeftMenu
 Plugins[] = Morpheus
+Plugins[] = Contents
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

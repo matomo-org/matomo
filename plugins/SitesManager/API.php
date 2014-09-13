@@ -193,26 +193,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of alias URLs registered for the given idSite.
-     * The website ID must be valid when calling this method!
-     *
-     * @param int $idSite
-     * @return array list of alias URLs
-     */
-    private function getAliasSiteUrlsFromId($idSite)
-    {
-        $db = Db::get();
-        $result = $db->fetchAll("SELECT url
-								FROM " . Common::prefixTable("site_url") . "
-								WHERE idsite = ?", $idSite);
-        $urls = array();
-        foreach ($result as $url) {
-            $urls[] = $url['url'];
-        }
-        return $urls;
-    }
-
-    /**
      * Returns the list of all URLs registered for the given idSite (main_url + alias URLs).
      *
      * @throws Exception if the website ID doesn't exist or the user doesn't have access to it
@@ -222,25 +202,12 @@ class API extends \Piwik\Plugin\API
     public function getSiteUrlsFromId($idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $site = new Site($idSite);
-        $urls = $this->getAliasSiteUrlsFromId($idSite);
-        return array_merge(array($site->getMainUrl()), $urls);
+        return $this->getModel()->getSiteUrlsFromId($idSite);
     }
 
-    /**
-     * Returns the list of all the website IDs registered.
-     * Caller must check access.
-     *
-     * @return array The list of website IDs
-     */
     private function getSitesId()
     {
-        $result = Db::fetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
-        $idSites = array();
-        foreach ($result as $idSite) {
-            $idSites[] = $idSite['idsite'];
-        }
-        return $idSites;
+        return $this->getModel()->getSitesId();
     }
 
     /**

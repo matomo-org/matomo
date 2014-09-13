@@ -319,7 +319,7 @@ class Report
     public function configureReportingMenu(MenuReporting $menu)
     {
         if ($this->menuTitle) {
-            $action = 'menu' . ucfirst($this->action);
+            $action = $this->getMenuControllerAction();
             $menu->add($this->category,
                        $this->menuTitle,
                        array('module' => $this->module, 'action' => $action),
@@ -661,5 +661,10 @@ class Report
         }
 
         return $metrics;
+    }
+
+    private function getMenuControllerAction()
+    {
+        return 'menu' . ucfirst($this->action);
     }
 }

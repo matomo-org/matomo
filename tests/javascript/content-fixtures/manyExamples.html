@@ -1,0 +1,80 @@
+<div>
+    <img id="ex1" src="img-en.jpg" data-track-content/>
+    <img id="ex2" src="img-en.jpg" class="piwikTrackContent"/>
+    <a   id="ex3" href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece="img.jpg"/></a>
+    <a   id="ex4" href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece/></a>
+    <a   id="ex5" href="http://www.example.com" data-track-content><img src="img-en.jpg" class="piwikContentPiece"/></a>
+    <a   id="ex6" href="http://www.example.com" data-track-content><p data-content-piece>Lorem ipsum dolor sit amet</p></a>
+    <a   id="ex7" href="http://www.example.com" data-track-content><p class="piwikContentPiece">Lorem ipsum dolor sit amet</p></a>
+    <a   id="ex8" href="http://www.example.com" data-track-content><p data-content-piece="My content">Lorem ipsum dolor sit amet...</p></a>
+    <img id="ex9" src="img-en.jpg" data-track-content data-content-name="Image1"/>
+    <!-- make sure we will not remove domain from src for content name as different domain -->
+    <img id="ex10" src="http://www.example.com/path/img-en.jpg" data-track-content/>
+    <a id="ex11" href="http://www.example.com" data-track-content>Lorem ipsum dolor sit amet...</p></a>
+    <!-- test fallback to title attribute, content block title should win over other titles -->
+    <a id="ex12" href="http://www.example.com" data-track-content title="Block Title"><span title="Inner Title" data-content-piece>Lorem ipsum dolor sit amet...</span></a>
+    <a id="ex13" onclick="location.href='http://www.example.com'" data-content-target="http://manual.example.com" data-track-content>Click me</a>
+    <div id="ex14" data-track-content><input type="submit"/></div>
+    <div id="ex15" data-track-content><input type="submit" data-content-target="http://attr.example.com"/></div>
+    <div id="ex16" data-track-content><a href="http://www.example.com" data-content-target>Click me</a></div>
+    <div id="ex17" data-track-content><a href="http://www.example.com" class="piwikContentTarget">Click me</a></div>
+    <div id="ex18" data-track-content data-content-name="My Ad">
+        <img src="http://www.example.com/path/xyz.jpg" data-content-piece />
+        <a href="/anylink" data-content-target>Add to shopping cart</a>
+        <!-- we should automatically add domain to content target in this example -->
+    </div>
+    <a id="ex19" href="http://ad.example.com" data-track-content>
+        <img src="http://www.example.com/path/xyz.jpg" data-content-piece />
+    </a>
+    <a id="ex20" href="http://ad.example.com" data-track-content data-content-name="My Ad">
+        Lorem ipsum....
+    </a>
+    <!-- test fallback to title attribute of content block -->
+    <a id="ex21" href="http://www.example.com" data-track-content title="Block Title"><span data-content-piece>Lorem ipsum dolor sit amet...</span></a>
+    <!-- test fallback to title attribute of content piece -->
+    <a id="ex22" href="http://www.example.com" data-track-content><span title="Piece Title" data-content-piece>Lorem ipsum dolor sit amet...</span></a>
+    <!-- test fallback to title attribute of content target -->
+    <a id="ex23" href="http://www.example.com" data-track-content><span title="Target Title" data-content-target>Lorem ipsum dolor sit amet...</span></a>
+    <!-- test fallback title... content piece title should win over content target title -->
+    <div id="ex24" data-track-content>
+        <a title="Target Title" data-content-target="http://target.example.com">Lorem ipsum dolor sit amet...</a>
+        <span title="Piece Title" data-content-piece>Lorem ipsum dolor sit amet...</span>
+    </div>
+    <!-- Mix of attributes and classes -->
+    <div id="ex25" data-track-content data-content-name="My Ad">
+        <img src="http://www.example.com/path/xyz.jpg" class="piwikContentPiece" />
+        <a href="/anylink" class="piwikContentTarget">Add to shopping cart</a>
+    </div>
+    <!-- If no href attribute in content target detected, we try to find one in the content piece, different domain -->
+    <div id="ex26" data-track-content data-content-name="My Ad">
+        <a href="http://fallback.example.com" class="piwikContentPiece" >Test</a>
+    </div>
+    <!-- If no href attribute in content target detected, we try to find one in the content piece, absolute url -->
+    <div id="ex27" data-track-content data-content-name="My Ad">
+        <a href="/test" class="piwikContentPiece">Test</a>
+    </div>
+    <!-- If no href attribute in content target detected, we try to find one in the content piece, relative url -->
+    <div id="ex28" data-track-content data-content-name="My Ad">
+        <a href="test" class="piwikContentPiece">Test</a>
+    </div>
+    <div id="ex29" data-track-content data-content-name="My Video">
+        <video width="320" height="240" controls data-content-piece data-content-target="videoplayer">
+            <source src="movie.mp4" type="video/mp4">
+            <source src="movie.ogg" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div id="ex30" data-track-content>
+        <audio data-content-target="audioplayer" class="piwikContentPiece" controls>
+            <source src="audio.ogg" type="audio/ogg">
+            <source src="audio.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <!-- example with whitespace -->
+    <div id="ex31" data-track-content
+                   data-content-piece="   pie ce  "
+                   data-content-target="  targ et  "
+                   data-content-name="   name   ">
+    </div>
+</div>
