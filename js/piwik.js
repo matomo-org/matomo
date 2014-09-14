@@ -4708,6 +4708,10 @@ if (typeof Piwik !== 'object') {
                 },
 
                 trackAllContentImpressions: function () {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     trackCallback(function () {
                         trackCallbackOnReady(function () {
                             // we have to wait till DOM ready
@@ -4720,6 +4724,9 @@ if (typeof Piwik !== 'object') {
                 },
 
                 trackVisibleContentImpressions: function (checkOnSroll, timeIntervalInMs) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
 
                     if (!isDefined(checkOnSroll)) {
                         checkOnSroll = true;
@@ -4744,6 +4751,10 @@ if (typeof Piwik !== 'object') {
 
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
                 trackContentImpression: function (contentName, contentPiece, contentTarget) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     if (!contentName) {
                         return;
                     }
@@ -4759,6 +4770,10 @@ if (typeof Piwik !== 'object') {
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
                 // we might remove this method again
                 trackContentImpressionsWithinNode: function (domNode) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     trackCallback(function () {
                         if (isTrackOnlyVisibleContentEnabled) {
                             trackCallbackOnLoad(function () {
@@ -4782,6 +4797,10 @@ if (typeof Piwik !== 'object') {
 
                 // name and piece has to be same as previously used on an impression
                 trackContentInteraction: function (contentInteraction, contentName, contentPiece, contentTarget) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     if (!contentInteraction || !contentName) {
                         return;
                     }
@@ -4796,6 +4815,10 @@ if (typeof Piwik !== 'object') {
                 // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
                 // we might remove this method again
                 trackContentInteractionNode: function (domNode, contentInteraction) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     trackCallback(function () {
                         var request = buildContentInteractionRequestNode(domNode, contentInteraction);
                         sendRequest(request, configTrackerPause);

@@ -429,8 +429,6 @@ Yes it seems most logical to create an action entry for each Content.
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with [.jpg, .png, .gif] it could be recognized as image content and show a banner in the report.
 
 ## TODO
-* Would content impressions be tracked in overlay session?
-  * Overlay session should not trigger a content impression
 * Cache allowed site urls for redirects
 * When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
   * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
