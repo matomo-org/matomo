@@ -31,10 +31,13 @@
 
                 if (text.search('^https?:\/\/[^\/]+') !== -1) {
                     if (text.match(/(.jpg|.gif|.png|.svg)$/)) {
+                        if (window.encodeURI) {
+                            text = window.encodeURI(text);
+                        }
                         $td.tooltip({
                             track: true,
                             items: 'span',
-                            content: '<p><img style="max-width: 150px;max-height:150px;" src="' + text + '"/></p>',
+                            content: '<p><img style="max-width: 150px;max-height:150px;" src="' + text + '"/><br />' + text + '</p>',
                             tooltipClass: 'rowActionTooltip',
                             show: false,
                             hide: false

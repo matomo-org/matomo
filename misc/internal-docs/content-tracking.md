@@ -308,7 +308,7 @@ Note: In case you have link tracking enabled you should call `enableLinkTracking
 #### `trackAllContentImpressions()`
 
 You can use this method to scan the entire DOM for content blocks.
-For each content block we will track a content impression immediately unless you have called `trackVisibleContentImpressions()` before see below.
+For each content block we will track a content impression immediately. If you only want to track visible content impression have a look at `trackVisibleContentImpressions()`.
 
 Note: We will not send an impression of the same content block twice if you call this method multiple times unless `trackPageView()` is called meanwhile. This is useful for single page applications. The "same" content blocks means if a content block has the identical name, piece and target as an already tracked one.
 Note: At this stage we do not exeute this method automatically along with a trackPageView(), we can do this later once we know it works
@@ -442,7 +442,7 @@ Nothing special here I think. We would probably automatically detect the type of
 * When we listen to scroll events we currently do not detect if user scrolls the entire page, not if within a div
   * We need to check all parent elements of a content block whether it is scrollable and if so connect an event to this
 * We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
-
+* Provide more reports like which interactions, which targets, and more possible
 
 ## Open questions
 

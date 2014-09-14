@@ -25,6 +25,7 @@ class ContentTarget extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('contentTarget');
         $segment->setName('Contents_ContentTarget');
+        $segment->setAcceptedValues('For instance the URL of a landing page: "http://landingpage.example.com"');
         $this->addSegment($segment);
     }
 

@@ -24,6 +24,7 @@ class ContentName extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('contentName');
         $segment->setName('Contents_ContentName');
+        $segment->setAcceptedValues('The name of a content block, for instance "Ad Sale"');
         $this->addSegment($segment);
     }
 
