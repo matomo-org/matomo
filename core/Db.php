@@ -683,6 +683,7 @@ class Db
 
     private static function logSql($functionName, $sql, $parameters = array())
     {
-        Log::verbose("Db::%s() executing SQL:\n%s\nwith bind = %s", $functionName, $sql, $parameters);
+        // NOTE: at the moment we dont log bind in order to avoid sensitive information leaks
+        Log::verbose("Db::%s() executing SQL:\n%s", $functionName, $sql);
     }
 }
