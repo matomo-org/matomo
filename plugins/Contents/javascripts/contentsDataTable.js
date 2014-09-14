@@ -36,7 +36,7 @@
                             items: 'span',
                             content: '<p><img style="max-width: 150px;max-height:150px;" src="' + text + '"/></p>',
                             tooltipClass: 'rowActionTooltip',
-                            show: true,
+                            show: false,
                             hide: false
                         });
                     }
