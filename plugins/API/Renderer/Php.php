@@ -56,7 +56,7 @@ class Php extends ApiRenderer
 
     public function sendHeader()
     {
-        @header('Content-Type: text/plain; charset=utf-8');
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
 
     /**

@@ -19,13 +19,13 @@ class Csv extends ApiRenderer
 
     public function renderSuccess($message)
     {
-        @header("Content-Disposition: attachment; filename=piwik-report-export.csv");
+        Common::sendHeader("Content-Disposition: attachment; filename=piwik-report-export.csv");
         return "message\n" . $message;
     }
 
     public function renderException($message, \Exception $exception)
     {
-        @header('Content-Type: text/html; charset=utf-8', true);
+        Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
         return 'Error: ' . $message;
     }
 
@@ -54,7 +54,7 @@ class Csv extends ApiRenderer
 
     public function sendHeader()
     {
-        @header("Content-Type: application/vnd.ms-excel", true);
+        Common::sendHeader("Content-Type: application/vnd.ms-excel", true);
         ProxyHttp::overrideCacheControlHeaders();
     }
 }

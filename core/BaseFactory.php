@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Common;
 
 /**
  * Base class for all factory types.
@@ -34,7 +35,7 @@ abstract class BaseFactory
         $className = static::getClassNameFromClassId($classId);
 
         if (!class_exists($className)) {
-            @header('Content-Type: text/plain; charset=utf-8');
+            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
             throw new Exception(static::getInvalidClassIdExceptionMessage($classId));
         }
 
