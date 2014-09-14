@@ -321,7 +321,7 @@ class Fixture extends PHPUnit_Framework_Assert
             }
         }
 
-        Log::info("Plugins to load during tests: " . implode(', ', $plugins));
+        Log::debug("Plugins to load during tests: " . implode(', ', $plugins));
 
         $pluginsManager->loadPlugins($plugins);
     }
