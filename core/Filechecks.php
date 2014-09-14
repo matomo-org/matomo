@@ -138,13 +138,13 @@ class Filechecks
 
             if (!file_exists($file) || !is_readable($file)) {
                 $messages[] = Piwik::translate('General_ExceptionMissingFile', $file);
-            } else if (filesize($file) != $props[0]) {
+            } else if (!$props[0]) {
                 if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
                     // files that contain binary data (e.g., images) must match the file size
                     $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                 } else {
                     // convert end-of-line characters and re-test text files
-                    $content = @file_get_contents($file);
+                    $content = file_get_contents($file);
                     $content = str_replace("\r\n", "\n", $content);
                     if ((strlen($content) != $props[0])
                         || (@md5($content) !== $props[1])

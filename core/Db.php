@@ -98,7 +98,11 @@ class Db
     {
         $dbConfig = self::getDatabaseConfig($dbConfig);
 
-        $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
+        if (empty($dbConfig['adapter'])) {
+            $dbConfig['adapter'] = 'PDO\MYSQL';
+        }
+
+        $db = Adapter::factory($dbConfig['adapter'], $dbConfig);
 
         self::$connection = $db;
     }

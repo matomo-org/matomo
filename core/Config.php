@@ -10,6 +10,9 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Common;
+use Piwik\Filesystem;
+use Piwik\Url;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -118,9 +121,9 @@ class Config extends Singleton
 
         $this->clear();
 
-        $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
-        $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
-        $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
+        $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
+        $this->pathGlobal = $pathGlobal ?: self::getGlobalConfigPath();
+        $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
 
         $this->init();
 
@@ -655,11 +658,8 @@ class Config extends Singleton
         }
 
         $output = $this->dumpConfig($configLocal, $configGlobal, $configCommon, $configCache);
-        if ($output !== false) {
-            $success = @file_put_contents($pathLocal, $output);
-            if (!$success) {
-                throw $this->getConfigNotWritableException();
-            }
+        if ($output !== false && !Filesystem::writeFile($pathLocal, $output)) {
+            throw $this->getConfigNotWritableException();
         }
 
         if ($clear) {
