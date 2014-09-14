@@ -153,6 +153,41 @@ function _s(selector) { // select node within content test scope
      return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
  }
 
+ function toAbsoluteUrl(url, encoded)
+ {
+     var origin = getOrigin();
+     var path   = origin;
+
+     if (0 !== url.indexOf('/')) {
+         path += '/tests/javascript/';
+     }
+
+     var absoluteUrl = path + url;
+
+     if (encoded) {
+        return window.encodeURIComponent(absoluteUrl);
+     }
+
+     return absoluteUrl;
+ }
+
+ function toAbsolutePath(url, encoded)
+ {
+     var path = '';
+
+     if (0 !== url.indexOf('/')) {
+         path += '/tests/javascript/';
+     }
+
+     var absolutePath = path + url;
+
+     if (encoded) {
+         return window.encodeURIComponent(absolutePath);
+     }
+
+     return absolutePath;
+ }
+
 function loadJash() {
     var jashDiv = _e('jashDiv');
 
@@ -1428,17 +1463,18 @@ function PiwikTest() {
 
         var origin = getOrigin();
         var host   = location.host;
+        var path   = origin + '/tests/javascript';
 
         assertFoundContent(undefined, undefined, undefined, undefined, 'No node set');
-        assertFoundContent('ex1', 'img-en.jpg', 'img-en.jpg', undefined);
-        assertFoundContent('ex2', 'img-en.jpg', 'img-en.jpg', undefined);
+        assertFoundContent('ex1', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), undefined);
+        assertFoundContent('ex2', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), undefined);
         assertFoundContent('ex3', 'img.jpg', 'img.jpg', 'http://www.example.com');
-        assertFoundContent('ex4', 'img-en.jpg', 'img-en.jpg', 'http://www.example.com');
-        assertFoundContent('ex5', 'img-en.jpg', 'img-en.jpg', 'http://www.example.com');
+        assertFoundContent('ex4', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), 'http://www.example.com');
+        assertFoundContent('ex5', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), 'http://www.example.com');
         assertFoundContent('ex6', undefined, undefined, 'http://www.example.com');
         assertFoundContent('ex7', undefined, undefined, 'http://www.example.com');
         assertFoundContent('ex8', 'My content', 'My content', 'http://www.example.com');
-        assertFoundContent('ex9', 'Image1', 'img-en.jpg', undefined);
+        assertFoundContent('ex9', 'Image1', toAbsoluteUrl('img-en.jpg'), undefined);
         assertFoundContent('ex10', 'http://www.example.com/path/img-en.jpg', 'http://www.example.com/path/img-en.jpg', undefined);
         assertFoundContent('ex11', undefined, undefined, 'http://www.example.com');
         assertFoundContent('ex12', 'Block Title', undefined, 'http://www.example.com');
@@ -1472,17 +1508,17 @@ function PiwikTest() {
         assertFoundContent('ex26', 'My Ad', undefined, 'http://fallback.example.com');
         assertFoundContent('ex27', 'My Ad', undefined, origin + '/test');
         assertFoundContent('ex28', 'My Ad', undefined, origin + '/tests/javascript/test');
-        assertFoundContent('ex29', 'My Video', 'movie.mp4', 'videoplayer');
-        assertFoundContent('ex30', 'audio.ogg', 'audio.ogg', 'audioplayer');
+        assertFoundContent('ex29', 'My Video', toAbsoluteUrl('movie.mp4'), 'videoplayer');
+        assertFoundContent('ex30', toAbsolutePath('audio.ogg'), toAbsoluteUrl('audio.ogg'), 'audioplayer');
         assertFoundContent('ex31', '   name   ', '   pie ce  ', '  targ et  ', 'Should not trim');
 
 
         ok('test buildContentBlock(node)');
         strictEqual(content.buildContentBlock(), undefined, 'no node set');
         assertBuiltContent('ex31', 'name', 'pie ce', 'targ et', 'Should trim values');
-        assertBuiltContent('ex30', 'audio.ogg', 'audio.ogg', 'audioplayer', 'All values set');
+        assertBuiltContent('ex30', toAbsolutePath('audio.ogg'), toAbsoluteUrl('audio.ogg'), 'audioplayer', 'All values set');
         assertBuiltContent(_e('div1'), 'Unknown', 'Unknown', '', 'It is not a content block, so should use defaults');
-        assertBuiltContent('ex1', 'img-en.jpg', 'img-en.jpg', '', 'Should use default for target');
+        assertBuiltContent('ex1', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), '', 'Should use default for target');
         assertBuiltContent('ex12', 'Block Title', 'Unknown', 'http://www.example.com', 'Should use default for piece');
         assertBuiltContent('ex15', 'Unknown', 'Unknown', 'http://attr.example.com', 'Should use default for name and piece');
 
@@ -1492,9 +1528,9 @@ function PiwikTest() {
 
         var expected = [
             buildContentStruct('name', 'pie ce', 'targ et'),
-            buildContentStruct('audio.ogg', 'audio.ogg', 'audioplayer'),
+            buildContentStruct(toAbsolutePath('audio.ogg'), toAbsoluteUrl('audio.ogg'), 'audioplayer'),
             buildContentStruct('Unknown', 'Unknown', ''),
-            buildContentStruct('img-en.jpg', 'img-en.jpg', ''),
+            buildContentStruct(toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), ''),
             buildContentStruct('Block Title', 'Unknown', 'http://www.example.com'),
             buildContentStruct('Unknown', 'Unknown', 'http://attr.example.com'),
         ];
@@ -1633,25 +1669,25 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, the content block node was clicked but it is not the target');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'));
-        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
+        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'), 'clicki');
-        strictEqual(actual, 'c_i=clicki&c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, with interaction');
+        strictEqual(actual, 'c_i=clicki&c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, with interaction');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
-        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
+        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
-        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg', 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
+        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_target'));
-        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
+        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_withinTarget'));
-        strictEqual(actual, 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
+        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'), 'click', 'fallbacktarget');
-        strictEqual(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=fallbacktarget', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
+        strictEqual(actual, 'c_i=click&c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true) + '&c_t=fallbacktarget', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
 
 
 
@@ -1760,12 +1796,12 @@ function PiwikTest() {
         tracker.clearTrackedContentImpressions();
         actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), _s('#ex2')]);
         strictEqual(actual.length, 1, 'getContentImpressionsRequestsFromNodes, should ignore a duplicated node that has same content');
-        assertTrackingRequest(actual[0], 'c_n=img-en.jpg&c_p=img-en.jpg');
+        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img-en.jpg', true));
 
         tracker.clearTrackedContentImpressions();
         actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), undefined, _s('#ex2'), _s('#ex8'), _s('#ex19')]);
         strictEqual(actual.length, 3, 'getContentImpressionsRequestsFromNodes, should only build requests for nodes that are content nodes');
-        assertTrackingRequest(actual[0], 'c_n=img-en.jpg&c_p=img-en.jpg');
+        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img-en.jpg', true));
         assertTrackingRequest(actual[1], 'c_n=My%20content&c_p=My%20content&c_t=http%3A%2F%2Fwww.example.com');
         assertTrackingRequest(actual[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com');
 
@@ -1785,13 +1821,13 @@ function PiwikTest() {
         tracker.clearTrackedContentImpressions();
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex115'),_s('#ex115'),  _s('#ex116_hidden')]);
         strictEqual(actual.length, 1, 'getVisibleImpressions, should not ignore the found requests but the visible ones, should not add the same one twice');
-        assertTrackingRequest(actual[0], 'c_n=img115.jpg&c_p=img115.jpg&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img115.jpg', true) + '&c_p=' + toAbsoluteUrl('img115.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com');
 
         _s('#ex115').scrollIntoView(true);
         tracker.clearTrackedContentImpressions();
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden'), _s('#ex116_hidden'), _s('#ex115'),_s('#ex115')]);
         strictEqual(actual.length, 1, 'getVisibleImpressions, two hidden ones before a visible ones to make sure removing hidden content block from array works and does not ignore one');
-        assertTrackingRequest(actual[0], 'c_n=img115.jpg&c_p=img115.jpg&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img115.jpg', true) + '&c_p=' + toAbsoluteUrl('img115.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com');
 
 
         ok('test replaceHrefIfInternalLink()')
@@ -2933,8 +2969,8 @@ if ($sqlite) {
         var contentBlocks = [
             null,
             {
-                "name": "img1-en.jpg",
-                "piece": "img1-en.jpg",
+                "name": toAbsolutePath("img1-en.jpg"),
+                "piece": toAbsoluteUrl("img1-en.jpg"),
                 "target": ""
             },
             {
@@ -2943,8 +2979,8 @@ if ($sqlite) {
                 "target": "http://img2.example.com"
             },
             {
-                "name": "img3-en.jpg",
-                "piece": "img3-en.jpg",
+                "name": toAbsolutePath("img3-en.jpg"),
+                "piece": toAbsoluteUrl("img3-en.jpg"),
                 "target": "http://img3.example.com"
             },
             {
@@ -3089,6 +3125,17 @@ if ($sqlite) {
 
         }, 1500);
 
+        var trackingRequests = [
+            null,
+            'c_n=' + toAbsolutePath('img1-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img1-en.jpg', true),
+            'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com',
+            'c_n=' + toAbsolutePath('img3-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img3-en.jpg', true) + '&c_t=http%3A%2F%2Fimg3.example.com',
+            'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com',
+            'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5',
+            'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com',
+            'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com'
+        ];
+
         stop();
         setTimeout(function() {
             removeContentTrackingFixture();
@@ -3100,13 +3147,13 @@ if ($sqlite) {
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com');
-            assertTrackingRequest(requests[1], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
-            assertTrackingRequest(requests[2], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
-            assertTrackingRequest(requests[3], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
-            assertTrackingRequest(requests[4], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
-            assertTrackingRequest(requests[5], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
-            assertTrackingRequest(requests[6], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
+            assertTrackingRequest(requests[0], trackingRequests[7]);
+            assertTrackingRequest(requests[1], trackingRequests[6]);
+            assertTrackingRequest(requests[2], trackingRequests[5]);
+            assertTrackingRequest(requests[3], trackingRequests[4]);
+            assertTrackingRequest(requests[4], trackingRequests[3]);
+            assertTrackingRequest(requests[5], trackingRequests[2]);
+            assertTrackingRequest(requests[6], trackingRequests[1]);
 
 
             // trackContentImpressionsWithinNode()
@@ -3116,9 +3163,9 @@ if ($sqlite) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
-            assertTrackingRequest(requests[1], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
-            assertTrackingRequest(requests[2], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], trackingRequests[4]);
+            assertTrackingRequest(requests[1], trackingRequests[3]);
+            assertTrackingRequest(requests[2], trackingRequests[2]);
 
             // trackContentImpression()
             results = fetchTrackedRequests(token3);
@@ -3178,8 +3225,8 @@ if ($sqlite) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
-            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
 
 
             // trackVisibleContentImpressions()
@@ -3189,9 +3236,9 @@ if ($sqlite) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
-            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
-            assertTrackingRequest(requests[2], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+            assertTrackingRequest(requests[2], trackingRequests[1]);
 
 
             // enableTrackOnlyVisibleContent(false, 500)
@@ -3201,12 +3248,12 @@ if ($sqlite) {
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com');
-            assertTrackingRequest(requests[1], 'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
-            assertTrackingRequest(requests[2], 'c_n=img1-en.jpg&c_p=img1-en.jpg');
-            assertTrackingRequest(requests[3], 'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com');
-            assertTrackingRequest(requests[4], 'c_n=img3-en.jpg&c_p=img3-en.jpg&c_t=http%3A%2F%2Fimg3.example.com');
-            assertTrackingRequest(requests[5], 'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+            assertTrackingRequest(requests[2], trackingRequests[1]);
+            assertTrackingRequest(requests[3], trackingRequests[4]);
+            assertTrackingRequest(requests[4], trackingRequests[3]);
+            assertTrackingRequest(requests[5], trackingRequests[2]);
 
 
             // enableTrackOnlyVisibleContent(true, 0)

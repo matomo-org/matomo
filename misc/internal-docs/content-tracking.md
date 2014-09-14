@@ -38,13 +38,13 @@ You can use either the attribute `data-track-content` or the CSS class `piwikTra
 Examples:
 ```
 <img src="img-en.jpg" data-track-content/>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 
 <img src="img-en.jpg" class="piwikTrackContent"/>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 ```
 
@@ -61,7 +61,7 @@ If we do not find any specific content piece element, we will use the content bl
 ### How do we detect the content piece?
 
 * The simplest scenario is to provide an HTML attribute `data-content-piece="foo"` including a value anywhere within the content block or in the content block element itself.
-* If there is no such attribute we will check whether the content piece element is a media (audio, video, image) and we will try to detect the URL to the media automatically. For instance using the `src` attribute.
+* If there is no such attribute we will check whether the content piece element is a media (audio, video, image) and we will try to detect the URL to the media automatically. For instance using the `src` attribute. If a found media URL does not include a domain or is not an absolute URL we will make sure to have a fully qualified URL.
   * In case of video and audio elements, when there are multiple sources defined, we will choose the URL of the first source
 * If we haven't found anything we will fall back to use the value "Unknown". In such a case you should set the attribute `data-content-piece` telling us explicitly what the content is.
 
@@ -78,8 +78,8 @@ This time we can also automatically detect the content target since we have set 
 ```
 <a href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece/></a>
 <a href="http://www.example.com" data-track-content><img src="img-en.jpg" class="piwikContentPiece"/></a>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = http://www.example.com
 ```
 
@@ -119,7 +119,7 @@ Examples:
 ```
 <img src="img-en.jpg" data-track-content data-content-name="Image1"/>
 // content name   = Image1
-// content piece  = img-en.jpg
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 ```
 
@@ -127,8 +127,8 @@ This example would be the way to go by defining a `data-content-name` attribute 
 
 ```
 <img src="img-en.jpg" data-track-content/>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 ```
 
@@ -432,12 +432,12 @@ Nothing special here I think. We would probably automatically detect the type of
 * Would content impressions be tracked in overlay session?
   * Overlay session should not trigger a content impression
 * Cache allowed site urls for redirects
-* Run JS tests ms phone
 * Show images on hover in report
 * When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
   * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
   * Maybe v2
 * Content piece undefined vs Unknown?
+* Make JS tests work if piwik is installed in a path such as localhost/piwik
 
 ## V2:
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."

@@ -1703,7 +1703,7 @@ if (typeof Piwik !== 'object') {
 
                 var media = this.findMediaUrlInNode(contentNode);
                 if (media) {
-                    return media;
+                    return this.toAbsoluteUrl(media);
                 }
             },
             findContentTarget: function (node)
