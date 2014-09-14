@@ -454,7 +454,7 @@ if (typeof JSON2 !== 'object') {
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs
+    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body
  */
 /*global _paq:true */
 /*members push */
@@ -1000,6 +1000,44 @@ if (typeof Piwik !== 'object') {
             return title;
         }
 
+        function getChildrenFromNode(node)
+        {
+            if (!node) {
+                return [];
+            }
+
+            if (!isDefined(node.children) && isDefined(node.childNodes)) {
+                return node.children;
+            }
+
+            if (isDefined(node.children)) {
+                return node.children;
+            }
+
+            return [];
+        }
+
+        function containsNodeElement(node, containedNode)
+        {
+            if (!node || !containedNode) {
+                return false;
+            }
+
+            if (node.contains) {
+                return node.contains(containedNode);
+            }
+
+            if (node === containedNode) {
+                return true;
+            }
+
+            if (node.compareDocumentPosition) {
+                return !!(node.compareDocumentPosition(containedNode) & 16);
+            }
+
+            return false;
+        }
+
         // Polyfill for IndexOf for IE6-IE8
         function indexOfArray(theArray, searchElement)
         {
@@ -1356,13 +1394,19 @@ if (typeof Piwik !== 'object') {
                     nodes = [];
                 }
 
-                if (!nodeToSearch || !attributeName || !nodeToSearch.children) {
+                if (!nodeToSearch || !attributeName) {
+                    return nodes;
+                }
+
+                var children = getChildrenFromNode(nodeToSearch);
+
+                if (!children || !children.length) {
                     return nodes;
                 }
 
                 var index, child;
-                for (index = 0; index < nodeToSearch.children.length; index++) {
-                    child = nodeToSearch.children[index];
+                for (index = 0; index < children.length; index++) {
+                    child = children[index];
                     if (this.hasNodeAttribute(child, attributeName)) {
                         nodes.push(child);
                     }
@@ -1425,14 +1469,16 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
+                
+                var children = getChildrenFromNode(nodeToSearch);
 
-                if (!nodeToSearch.children || !nodeToSearch.children.length) {
+                if (!children || !children.length) {
                     return [];
                 }
 
                 var index, child;
-                for (index = 0; index < nodeToSearch.children.length; index++) {
-                    child = nodeToSearch.children[index];
+                for (index = 0; index < children.length; index++) {
+                    child = children[index];
                     if (this.hasNodeCssClass(child, className)) {
                         nodes.push(child);
                     }
@@ -1794,7 +1840,7 @@ if (typeof Piwik !== 'object') {
                 var docHeight = html.clientHeight; // The clientWidth attribute returns the viewport width excluding the size of a rendered scroll bar
 
                 if (windowAlias.innerHeight && docHeight > windowAlias.innerHeight) {
-                    docWidth = windowAlias.innerHeight; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
+                    docHeight = windowAlias.innerHeight; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
                 }
 
                 return (
@@ -3176,7 +3222,7 @@ if (typeof Piwik !== 'object') {
                 }
 
                 targetNode = content.findTargetNodeNoDefault(contentNode);
-                if (targetNode && !targetNode.contains(interactedNode)) {
+                if (targetNode && !containsNodeElement(targetNode, interactedNode)) {
                     /**
                      * There is a target node defined but the clicked element is not within the target node. example:
                      * <div data-track-content><a href="Y" data-content-target>Y</a><img src=""/><a href="Z">Z</a></div>

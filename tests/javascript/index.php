@@ -51,7 +51,7 @@ testTrackPageViewAsync();
 }
 ?>
  </script>
- <script src="../../js/piwik.js" type="text/javascript"></script>
+ <script src="../../js/piwik.js?rand=<?php echo md5(uniqid(mt_rand(), true)) ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
@@ -534,7 +534,9 @@ function PiwikTest() {
         propEqual(actual, [], "findNodesHavingCssClass, should not find if passed node has class itself");
 
         actual = query.findNodesHavingCssClass(_e('clickDiv'), 'clicktest');
-        ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        if (_e('clickDiv').children) {
+            ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        }
         propEqual(actual, [], "findNodesHavingCssClass, should not find anything");
 
 
@@ -646,7 +648,9 @@ function PiwikTest() {
         propEqual(actual, [], "findNodesHavingAttribute, should not find itself if the passed element has the attribute");
 
         actual = query.findNodesHavingAttribute(_e('clickDiv'), 'id');
-        ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        if (_e('clickDiv').children) {
+            ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        }
         propEqual(actual, [], "findNodesHavingAttribute, this element does not have children");
 
         actual = query.findNodesHavingAttribute(document.body, 'href');
@@ -713,7 +717,13 @@ function PiwikTest() {
         propEqual(actual, [], "htmlCollectionToArray, should always return an array even if interger given"); // would still parse string to an array but we can live with that
 
         var htmlCollection = document.getElementsByTagName('a');
-        ok((htmlCollection instanceof HTMLCollection) || (htmlCollection instanceof NodeList), 'htmlCollectionToArray, we need to make sure we handle an html collection in order to make test really useful')
+
+        if ('undefined' !== typeof HTMLCollection) {
+            ok(htmlCollection instanceof HTMLCollection, 'htmlCollectionToArray, we need to make sure we handle an html collection in order to make test really useful')
+        } else if ('undefined' !== typeof NodeList) {
+            ok(htmlCollection instanceof NodeList, 'htmlCollectionToArray, we need to make sure we handle an html collection in order to make test really useful')
+        }
+
         actual = query.htmlCollectionToArray(htmlCollection);
         ok($.isArray(actual), 'htmlCollectionToArray, should convert to array');
         ok(actual.length === htmlCollection.length, 'htmlCollectionToArray should have same amount of elements as before');
@@ -1261,7 +1271,7 @@ function PiwikTest() {
             if (!message) {
                 message = '';
             }
-            strictEqual(tracker.internalIsNodeVisible(node), false, 'internalIsNodeVisible, ' + message);
+            strictEqual(tracker.internalIsNodeVisible(node), false, 'internalNodeIsVisible, ' + message);
         }
 
         function assertNodeNotInViewport(node, message)
@@ -1271,7 +1281,7 @@ function PiwikTest() {
             if (!message) {
                 message = '';
             }
-            strictEqual(content.isOrWasNodeInViewport(node), false, 'internalIsNodeVisible, ' + message);
+            strictEqual(content.isOrWasNodeInViewport(node), false, 'internalNodeNotVisible, ' + message);
         }
 
         function assertNodeIsInViewport(node, message)
@@ -1716,7 +1726,7 @@ function PiwikTest() {
         propEqual(tracker.getTrackedContentImpressions(), [impression], 'buildContentImpressionsRequests, impression should be ignored as it was already tracked before');
 
         tracker.clearTrackedContentImpressions();
-        delete _s('#ignoreInteraction1').contentInteractionTrackingSetupDone;
+        _s('#ignoreInteraction1').contentInteractionTrackingSetupDone = false;
         tracker.buildContentImpressionsRequests([impression], [_s('#ex101')]);
         strictEqual(_s('#ignoreInteraction1').contentInteractionTrackingSetupDone, true, 'buildContentImpressionsRequests, should trigger setup of interaction tracking');
 
