@@ -30,6 +30,8 @@ abstract class Base extends Report
      */
     public function configureView(ViewDataTable $view)
     {
+        $view->config->datatable_js_type = 'ContentsDataTable';
+
         if (!empty($this->dimension)) {
             $view->config->addTranslations(array('label' => $this->dimension->getName()));
         }

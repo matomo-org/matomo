@@ -16,7 +16,8 @@ class Contents extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
         );
     }
 
@@ -25,6 +26,11 @@ class Contents extends \Piwik\Plugin
         $translations['nb_impressions']   = 'Contents_Impressions';
         $translations['nb_interactions']  = 'Contents_Interactions';
         $translations['interaction_rate'] = 'Contents_InteractionRate';
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/Contents/javascripts/contentsDataTable.js";
     }
 
 }
