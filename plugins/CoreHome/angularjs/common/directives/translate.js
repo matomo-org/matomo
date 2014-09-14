@@ -14,7 +14,7 @@
  *
  * Usage:
  * <span piwik-translate="Plugin_TranslationToken">
- *     first arg:<strong>second arg</strong>:{{ unsafeDataThatWillBeSanitized }}
+ *     first arg::<strong>second arg</strong>::{{ unsafeDataThatWillBeSanitized }}
  * </span>
  */
 angular.module('piwikApp.directive').directive('piwikTranslate', function() {
@@ -24,7 +24,7 @@ angular.module('piwikApp.directive').directive('piwikTranslate', function() {
             piwikTranslate: '@'
         },
         compile: function(element, attrs) {
-            var parts = element.html().split(':'),
+          var parts = element.html().split('::'),
                 translated = _pk_translate(attrs.piwikTranslate, parts);
             element.html(translated);
         }
