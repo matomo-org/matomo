@@ -507,6 +507,9 @@ class Tracker
                 'status' => 'success',
                 'tracked' => $this->countOfLoggedRequests
             );
+
+            $this->outputAccessControlHeaders();
+
             Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
             exit;
