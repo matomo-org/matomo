@@ -2424,7 +2424,11 @@ if (typeof Piwik !== 'object') {
             /*
              * POST request to Piwik server using XMLHttpRequest.
              */
-            function sendXmlHttpRequest(request, callback) {
+            function sendXmlHttpRequest(request, callback, fallbackToGet) {
+                if (!isDefined(fallbackToGet) || null === fallbackToGet) {
+                    fallbackToGet = true;
+                }
+
                 try {
                     // we use the progid Microsoft.XMLHTTP because
                     // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
@@ -2439,7 +2443,7 @@ if (typeof Piwik !== 'object') {
 
                     // fallback on error
                     xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
+                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
                             getImage(request, callback);
                         } else {
                             if (typeof callback === 'function') { callback(); }
@@ -2450,8 +2454,10 @@ if (typeof Piwik !== 'object') {
 
                     xhr.send(request);
                 } catch (e) {
-                    // fallback
-                    getImage(request, callback);
+                    if (fallbackToGet) {
+                        // fallback
+                        getImage(request, callback);
+                    }
                 }
             }
 
@@ -2490,7 +2496,7 @@ if (typeof Piwik !== 'object') {
                 var now  = new Date();
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
 
-                sendXmlHttpRequest(bulk);
+                sendXmlHttpRequest(bulk, null, false);
 
                 expireDateTime = now.getTime() + delay;
             }
