@@ -599,6 +599,12 @@ class Url
         return $hosts;
     }
 
+    /**
+     * Returns the host part of any valid URL.
+     *
+     * @param string $url  Any fully qualified URL
+     * @return string|null The actual host in lower case or null if $url is not a valid fully qualified URL.
+     */
     public static function getHostFromUrl($url)
     {
         $parsedUrl = parse_url($url);
@@ -610,6 +616,15 @@ class Url
         return Common::mb_strtolower($parsedUrl['host']);
     }
 
+    /**
+     * Checks whether any of the given URLs has the given host. If not, we will also check whether any URL uses a
+     * subdomain of the given host. For instance if host is "example.com" and a URL is "http://www.example.com" we
+     * consider this as valid and return true. The always trusted hosts such as "127.0.0.1" are considered valid as well.
+     *
+     * @param $host
+     * @param $urls
+     * @return bool
+     */
     public static function isHostInUrls($host, $urls)
     {
         if (empty($host)) {
