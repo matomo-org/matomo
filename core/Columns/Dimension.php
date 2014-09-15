@@ -8,6 +8,8 @@
  */
 namespace Piwik\Columns;
 
+use Exception;
+use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -20,6 +22,8 @@ use Piwik\Translate;
  */
 abstract class Dimension
 {
+    const COMPONENT_SUBNAMESPACE = 'Columns';
+
     // TODO that we have quite a few @ignore in public methods might show we should maybe split some code into two
     // classes.
 
@@ -137,6 +141,31 @@ abstract class Dimension
     }
 
     /**
+     * Returns a unique string ID for this dimension. The ID is built using the namespaced class name
+     * of the dimension, but is modified to be more human readable
+     *
+     * @return string eg, `"Referrers.Keywords"`
+     * @throws Exception if the plugin and simple class name of this instance cannot be determined.
+     *                   This would only happen if the dimension is located in the wrong directory.
+     * @api
+     */
+    public function getId()
+    {
+        $className = get_class($this);
+
+        // parse plugin name & dimension name
+        $regex = "/Piwik\\\\Plugins\\\\([^\\\\]+)\\\\" . self::COMPONENT_SUBNAMESPACE . "\\\\([^\\\\]+)/";
+        if (!preg_match($regex, $className, $matches)) {
+            throw new Exception("'$className' is located in the wrong directory.");
+        }
+
+        $pluginName = $matches[1];
+        $dimensionName = $matches[2];
+
+        return $pluginName . '.' . $dimensionName;
+    }
+
+    /**
      * Gets an instance of all available visit, action and conversion dimension.
      * @return Dimension[]
      */
@@ -157,5 +186,19 @@ abstract class Dimension
         }
 
         return $dimensions;
+    }
+
+    /**
+     * Creates a Dimension instance from a string ID (see {@link getId()}).
+     *
+     * @param string $dimensionId See {@link getId()}.
+     * @return Dimension|null The created instance or null if there is no Dimension for
+     *                        $dimensionId or if the plugin that contains the Dimension is
+     *                        not loaded.
+     */
+    public static function factory($dimensionId)
+    {
+        list($module, $dimension) = explode('.', $dimensionId);
+        return ComponentFactory::factory($module, $dimension, __CLASS__);
     }
 }
