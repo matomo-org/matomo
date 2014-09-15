@@ -21,7 +21,11 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
             return;
         }
 
-        $scope.model.loadSite(site.idsite);
+        if (angular.isFunction($scope.switchSiteOnSelect)) {
+            $scope.switchSiteOnSelect(site);
+        } else {
+            $scope.model.loadSite(site.idsite);
+        }
     };
 
     $scope.getUrlAllSites = function () {
