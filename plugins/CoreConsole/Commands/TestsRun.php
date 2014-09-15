@@ -28,6 +28,7 @@ class TestsRun extends ConsoleCommand
         $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,integration', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
+        $this->addOption('file', null, InputOption::VALUE_REQUIRED, 'Execute tests within this file. Should be a path relative to the tests/PHPUnit directory.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -70,14 +71,33 @@ class TestsRun extends ConsoleCommand
             $command = sprintf('php -d zend_extension=%s %s', $xdebugFile, $phpunitPath);
         }
 
-        if (empty($groups)) {
-            $groups = $this->getTestsGroups();
-        }
-
         if ($input->getOption('xhprof')) {
             Profiler::setupProfilerXHProf($isMainRun = true);
 
             putenv('PIWIK_USE_XHPROF=1');
+        }
+
+        $testFile = $input->getOption('file');
+        if (!empty($testFile)) {
+            $this->executeTestFile($testFile, $options, $command, $output);
+        } else {
+            $this->executeTestGroups($groups, $options, $command, $output);
+        }
+    }
+
+    private function executeTestFile($testFile, $options, $command, OutputInterface $output)
+    {
+        $params = $testFile . " " . $options;
+        $cmd = sprintf("cd %s/tests/PHPUnit && %s %s", PIWIK_DOCUMENT_ROOT, $command, $params);
+        $output->writeln('Executing command: <info>' . $cmd . '</info>');
+        passthru($cmd);
+        $output->writeln("");
+    }
+
+    private function executeTestGroups($groups, $options, $command, OutputInterface $output)
+    {
+        if (empty($groups)) {
+            $groups = $this->getTestsGroups();
         }
 
         foreach ($groups as $group) {
