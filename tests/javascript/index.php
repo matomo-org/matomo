@@ -153,37 +153,43 @@ function _s(selector) { // select node within content test scope
      return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
  }
 
- function toAbsoluteUrl(url, encoded)
+ function encodeWrapper(url)
+ {
+     return window.encodeURIComponent(url);
+ }
+
+ function toEncodedAbsoluteUrl(url)
+ {
+     return encodeWrapper(toAbsoluteUrl(url));
+ }
+
+ function toAbsoluteUrl(url)
  {
      var origin = getOrigin();
-     var path   = origin;
+     var path   = toAbsolutePath(url);
 
-     if (0 !== url.indexOf('/')) {
-         path += '/tests/javascript/';
-     }
-
-     var absoluteUrl = path + url;
-
-     if (encoded) {
-        return window.encodeURIComponent(absoluteUrl);
-     }
+     var absoluteUrl = origin + path;
 
      return absoluteUrl;
  }
 
- function toAbsolutePath(url, encoded)
+ function toEncodedAbsolutePath(url)
+ {
+     return encodeWrapper(toAbsolutePath(url));
+ }
+
+ function toAbsolutePath(url)
  {
      var path = '';
 
      if (0 !== url.indexOf('/')) {
-         path += '/tests/javascript/';
+         path += location.pathname;
+         if (!path.match(/\/$/)) {
+             path += '/';
+         }
      }
 
      var absolutePath = path + url;
-
-     if (encoded) {
-         return window.encodeURIComponent(absolutePath);
-     }
 
      return absolutePath;
  }
@@ -1169,16 +1175,16 @@ function PiwikTest() {
         assertBuildsAbsoluteUrl('/', origin + '/', 'root path');
         assertBuildsAbsoluteUrl('/test', origin + '/test', 'absolute url');
         assertBuildsAbsoluteUrl('/test/', origin + '/test/', 'absolute url');
-        assertBuildsAbsoluteUrl('?x=5', origin + '/tests/javascript/?x=5', 'absolute url');
-        assertBuildsAbsoluteUrl('path', origin + '/tests/javascript/path', 'relative path');
-        assertBuildsAbsoluteUrl('path/x?p=5', origin + '/tests/javascript/path/x?p=5', 'relative path');
-        assertBuildsAbsoluteUrl('#test', origin + '/tests/javascript/#test', 'anchor url');
+        assertBuildsAbsoluteUrl('?x=5', toAbsoluteUrl('?x=5'), 'absolute url');
+        assertBuildsAbsoluteUrl('path', toAbsoluteUrl('path'), 'relative path');
+        assertBuildsAbsoluteUrl('path/x?p=5', toAbsoluteUrl('path/x?p=5'), 'relative path');
+        assertBuildsAbsoluteUrl('#test', toAbsoluteUrl('#test'), 'anchor url');
         assertBuildsAbsoluteUrl('//' + locationAlias.host + '/test/img.jpg', origin + '/test/img.jpg', 'inherit protocol url');
         assertBuildsAbsoluteUrl('mailto:test@example.com', 'mailto:test@example.com', 'mailto pseudo-protocol url');
         assertBuildsAbsoluteUrl('javascript:void 0', 'javascript:void 0', 'javascript pseudo-protocol url');
         assertBuildsAbsoluteUrl('tel:0123456789', 'tel:0123456789', 'tel pseudo-protocol url');
-        assertBuildsAbsoluteUrl('anythinggggggggg:test', origin + '/tests/javascript/anythinggggggggg:test', 'we do not treat this one as pseudo-protocol url as there are too many characters before colon');
-        assertBuildsAbsoluteUrl('k1dm:test', origin + '/tests/javascript/k1dm:test', 'we do not treat this one as pseudo-protocol url as it contains a number');
+        assertBuildsAbsoluteUrl('anythinggggggggg:test', toAbsoluteUrl('anythinggggggggg:test'), 'we do not treat this one as pseudo-protocol url as there are too many characters before colon');
+        assertBuildsAbsoluteUrl('k1dm:test', toAbsoluteUrl('k1dm:test'), 'we do not treat this one as pseudo-protocol url as it contains a number');
 
         locationAlias.pathname = '/test/';
         content.setLocation(locationAlias);
@@ -1463,7 +1469,7 @@ function PiwikTest() {
 
         var origin = getOrigin();
         var host   = location.host;
-        var path   = origin + '/tests/javascript';
+        var path   = origin + location.pathname;
 
         assertFoundContent(undefined, undefined, undefined, undefined, 'No node set');
         assertFoundContent('ex1', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), undefined);
@@ -1507,7 +1513,7 @@ function PiwikTest() {
         assertFoundContent('ex25', 'My Ad', 'http://www.example.com/path/xyz.jpg', origin + '/anylink');
         assertFoundContent('ex26', 'My Ad', undefined, 'http://fallback.example.com');
         assertFoundContent('ex27', 'My Ad', undefined, origin + '/test');
-        assertFoundContent('ex28', 'My Ad', undefined, origin + '/tests/javascript/test');
+        assertFoundContent('ex28', 'My Ad', undefined, toAbsoluteUrl('test'));
         assertFoundContent('ex29', 'My Video', toAbsoluteUrl('movie.mp4'), 'videoplayer');
         assertFoundContent('ex30', toAbsolutePath('audio.ogg'), toAbsoluteUrl('audio.ogg'), 'audioplayer');
         assertFoundContent('ex31', '   name   ', '   pie ce  ', '  targ et  ', 'Should not trim');
@@ -1612,29 +1618,29 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'nothing set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + origin + '/path?a=b&c_t=%2Fpath%3Fa%3Db', 'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, '?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db', 'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + origin + '/tests/javascript/path?a=b&c_t=path%3Fa%3Db', 'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db', 'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, '?redirecturl=' + origin + '/tests/javascript/#test&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
+        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
 
         trackerUrl = tracker.getTrackerUrl();
         tracker.setTrackerUrl('piwik.php?test=1');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'piwik.php?test=1&redirecturl=' + origin + '/tests/javascript/#test&c_i=click&c_n=name&c_p=piece&c_t=target', 'should use & if tracker url already contains question mark');
+        assertTrackingRequest(actual, 'piwik.php?test=1&redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'should use & if tracker url already contains question mark');
 
         tracker.setTrackerUrl('piwik.php');
         actual = tracker.buildContentInteractionTrackingRedirectUrl('piwik.php?redirecturl=http://www.example.com', 'click', 'name', 'piece', 'target');
         strictEqual(actual, 'piwik.php?redirecturl=http://www.example.com', 'should return unmodified url if it is already a tracker url so users can set piwik.php link in href');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('http://www.example.com', 'click', 'name');
-        assertTrackingRequest(actual, 'piwik.php?redirecturl=http://www.example.com&c_i=click&c_n=name&c_t=http%3A%2F%2Fwww.example.com', 'should not change url if absolute');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + encodeWrapper('http://www.example.com') + '&c_i=click&c_n=name&c_t=http%3A%2F%2Fwww.example.com', 'should not change url if absolute');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl(origin, 'something', 'name', undefined, 'target');
-        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + origin + '&c_i=something&c_n=name&c_t=target', 'should not change url if same domain');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + originEncoded + '&c_i=something&c_n=name&c_t=target', 'should not change url if same domain');
 
         tracker.setTrackerUrl(trackerUrl);
 
@@ -1669,25 +1675,25 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, the content block node was clicked but it is not the target');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'));
-        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'), 'clicki');
-        strictEqual(actual, 'c_i=clicki&c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, with interaction');
+        strictEqual(actual, 'c_i=clicki&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, with interaction');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
-        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
-        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true), 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_target'));
-        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_withinTarget'));
-        strictEqual(actual, 'c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'), 'click', 'fallbacktarget');
-        strictEqual(actual, 'c_i=click&c_n=' + toAbsolutePath('img.jpg', true) + '&c_p=' + toAbsoluteUrl('img.jpg', true) + '&c_t=fallbacktarget', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
+        strictEqual(actual, 'c_i=click&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=fallbacktarget', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
 
 
 
@@ -1715,11 +1721,11 @@ function PiwikTest() {
         assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com', 'trackContentImpressionClickInteraction, is outlink but should use xhr as link tracking not enabled');
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
         strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
-        assertTrackingRequest($(_s('#ex109')).attr('href'), 'piwik.php?redirecturl=' + origin + '/file.pdf&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
+        assertTrackingRequest($(_s('#ex109')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/file.pdf') + '&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))({target: _s('#ex110')});
         strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should be tracked using redirect');
-        assertTrackingRequest($(_s('#ex110')).attr('href'), 'piwik.php?redirecturl=' + origin + '/example&c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, the href link should be replaced with a redirect link to tracker');
+        assertTrackingRequest($(_s('#ex110')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/example') + '&c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, the href link should be replaced with a redirect link to tracker');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex111')))({target: _s('#ex111')});
         strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should detect it is a link to same page');
@@ -1796,12 +1802,12 @@ function PiwikTest() {
         tracker.clearTrackedContentImpressions();
         actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), _s('#ex2')]);
         strictEqual(actual.length, 1, 'getContentImpressionsRequestsFromNodes, should ignore a duplicated node that has same content');
-        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img-en.jpg', true));
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img-en.jpg'));
 
         tracker.clearTrackedContentImpressions();
         actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), undefined, _s('#ex2'), _s('#ex8'), _s('#ex19')]);
         strictEqual(actual.length, 3, 'getContentImpressionsRequestsFromNodes, should only build requests for nodes that are content nodes');
-        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img-en.jpg', true));
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img-en.jpg'));
         assertTrackingRequest(actual[1], 'c_n=My%20content&c_p=My%20content&c_t=http%3A%2F%2Fwww.example.com');
         assertTrackingRequest(actual[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com');
 
@@ -1821,13 +1827,13 @@ function PiwikTest() {
         tracker.clearTrackedContentImpressions();
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex115'),_s('#ex115'),  _s('#ex116_hidden')]);
         strictEqual(actual.length, 1, 'getVisibleImpressions, should not ignore the found requests but the visible ones, should not add the same one twice');
-        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img115.jpg', true) + '&c_p=' + toAbsoluteUrl('img115.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img115.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img115.jpg') + '&c_t=http%3A%2F%2Fwww.example.com');
 
         _s('#ex115').scrollIntoView(true);
         tracker.clearTrackedContentImpressions();
         actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden'), _s('#ex116_hidden'), _s('#ex115'),_s('#ex115')]);
         strictEqual(actual.length, 1, 'getVisibleImpressions, two hidden ones before a visible ones to make sure removing hidden content block from array works and does not ignore one');
-        assertTrackingRequest(actual[0], 'c_n=' + toAbsolutePath('img115.jpg', true) + '&c_p=' + toAbsoluteUrl('img115.jpg', true) + '&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img115.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img115.jpg') + '&c_t=http%3A%2F%2Fwww.example.com');
 
 
         ok('test replaceHrefIfInternalLink()')
@@ -1839,7 +1845,7 @@ function PiwikTest() {
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), false, 'should be ignored');
         $(_s('#ignoreInternalLink')).removeClass('piwikContentIgnoreInteraction'); // now it should be no longer ignored and as it is an intenral link replaced
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), true, 'should be replaced as is internal link');
-        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=' + origin + '/internallink&c_i=click&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
+        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/internallink') + '&c_i=click&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
         strictEqual($(_s('#ignoreInternalLink')).attr('data-content-target'), origin + '/internallink', 'we need to set data-content-target when link is set otherwise a replace would not be found');
 
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex122')), true, 'should be replaced');
@@ -1855,7 +1861,7 @@ function PiwikTest() {
         strictEqual($(_s('#ex120')).attr('href'), 'http://www.example.com', 'should not replace external link');
 
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), true, 'should replace download link if link tracking not enabled');
-        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=' + origin + '/download.pdf&c_i=click&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
+        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/download.pdf') + '&c_i=click&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
 
         $(_s('#ex121')).attr('href', '/download.pdf'); // reset link
         tracker.enableLinkTracking();
@@ -2937,7 +2943,7 @@ if ($sqlite) {
                 message += ', ';
             }
 
-            expectedStartsWith = '<span>/tests/javascript/piwik.php?' + expectedStartsWith;
+            expectedStartsWith = '<span>' + toAbsolutePath('piwik.php') + '?' + expectedStartsWith;
 
             strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
             strictEqual(actual.indexOf('&idsite=1&rec=1'), expectedStartsWith.length);
@@ -3127,9 +3133,9 @@ if ($sqlite) {
 
         var trackingRequests = [
             null,
-            'c_n=' + toAbsolutePath('img1-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img1-en.jpg', true),
+            'c_n=' + toEncodedAbsolutePath('img1-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img1-en.jpg'),
             'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com',
-            'c_n=' + toAbsolutePath('img3-en.jpg', true) + '&c_p=' + toAbsoluteUrl('img3-en.jpg', true) + '&c_t=http%3A%2F%2Fimg3.example.com',
+            'c_n=' + toEncodedAbsolutePath('img3-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img3-en.jpg') + '&c_t=http%3A%2F%2Fimg3.example.com',
             'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com',
             'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5',
             'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com',
@@ -3276,7 +3282,7 @@ if ($sqlite) {
                 message += ', ';
             }
 
-            expectedStartsWith = '<span>/tests/javascript/piwik.php?' + expectedStartsWith;
+            expectedStartsWith = '<span>' + toAbsolutePath('piwik.php') + '?' + expectedStartsWith;
 
             strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
             strictEqual(actual.indexOf('&idsite=1&rec=1'), expectedStartsWith.length);
@@ -3350,7 +3356,7 @@ if ($sqlite) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        var expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/anylink5&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&idsite=1&rec=1';
+        var expectedLink = toAbsoluteUrl('piwik.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/anylink5') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&idsite=1&rec=1';
         var newHref = _s('#internalLink').href;
         strictEqual(0, newHref.indexOf(expectedLink), 'replaced href is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
         strictEqual(_s('#internalLink').wasContentTargetAttrReplaced, true, 'has to be marked as replaced so we know we have to update content target again in case the url changes meanwhile');
@@ -3361,7 +3367,7 @@ if ($sqlite) {
 
         triggerEvent(_s('#internalLink'), 'click'); // should replace href php
         newHref = _s('#internalLink').href;
-        expectedLink = origin + '/tests/javascript/piwik.php?redirecturl=' + origin + '/newlink&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fnewlink&idsite=1&rec=1';
+        expectedLink = toAbsoluteUrl('piwik.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/newlink') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fnewlink&idsite=1&rec=1';
         strictEqual(0, newHref.indexOf(expectedLink), 'replaced href2 is replaced again: ' + newHref); // make sure was already replace by trackContentImpressions()
 
         wait(300);

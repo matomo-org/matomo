@@ -3197,7 +3197,7 @@ if (typeof Piwik !== 'object') {
                 }
 
                 var redirectUrl = content.toAbsoluteUrl(url);
-                var request  = 'redirecturl=' + redirectUrl + '&';
+                var request  = 'redirecturl=' + encodeWrapper(redirectUrl) + '&';
                 request     += buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
 
                 var separator = '&';

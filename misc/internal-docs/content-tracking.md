@@ -434,7 +434,6 @@ Nothing special here I think. We would probably automatically detect the type of
   * Maybe v2
 * Content piece undefined vs Unknown?
 * UI / PHP tests
-* Make JS tests work if piwik is installed in a path such as localhost/piwik
 
 ## V2:
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
