@@ -41,10 +41,6 @@ class ContentTarget extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        if (!($action instanceof ActionContent)) {
-            return false;
-        }
-
         $contentTarget = $request->getParam('c_t');
         $contentTarget = trim($contentTarget);
 

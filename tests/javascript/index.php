@@ -1838,7 +1838,7 @@ function PiwikTest() {
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), false, 'should be ignored');
         $(_s('#ignoreInternalLink')).removeClass('piwikContentIgnoreInteraction'); // now it should be no longer ignored and as it is an intenral link replaced
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), true, 'should be replaced as is internal link');
-        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/internallink') + '&c_i=click&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
+        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/internallink') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
         strictEqual($(_s('#ignoreInternalLink')).attr('data-content-target'), origin + '/internallink', 'we need to set data-content-target when link is set otherwise a replace would not be found');
 
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex122')), true, 'should be replaced');
@@ -1854,7 +1854,7 @@ function PiwikTest() {
         strictEqual($(_s('#ex120')).attr('href'), 'http://www.example.com', 'should not replace external link');
 
         strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), true, 'should replace download link if link tracking not enabled');
-        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/download.pdf') + '&c_i=click&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
+        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/download.pdf') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
 
         $(_s('#ex121')).attr('href', '/download.pdf'); // reset link
         tracker.enableLinkTracking();

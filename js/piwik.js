@@ -3321,9 +3321,15 @@ if (typeof Piwik !== 'object') {
                         return false;
                     }
 
-                    var contentName   = content.findContentName(contentBlock);
-                    var contentPiece  = content.findContentPiece(contentBlock);
-                    var contentTarget = content.findContentTarget(contentBlock);
+                    var block = content.buildContentBlock(contentBlock);
+
+                    if (!block) {
+                        return;
+                    }
+
+                    var contentName   = block.name;
+                    var contentPiece  = block.piece;
+                    var contentTarget = block.target;
 
                     if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR) || targetNode.wasContentTargetAttrReplaced) {
                         // make sure we still track the correct content target when an interaction is happening
@@ -3399,9 +3405,16 @@ if (typeof Piwik !== 'object') {
                         return 'href';
                     }
 
-                    var contentName   = content.findContentName(contentBlock);
-                    var contentPiece  = content.findContentPiece(contentBlock);
-                    var contentTarget = content.findContentTarget(contentBlock);
+
+                    var block = content.buildContentBlock(contentBlock);
+
+                    if (!block) {
+                        return;
+                    }
+
+                    var contentName   = block.name;
+                    var contentPiece  = block.piece;
+                    var contentTarget = block.target;
 
                     // click on any non link element, or on a link element that has not an href attribute or on an anchor
                     var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
@@ -3409,7 +3422,6 @@ if (typeof Piwik !== 'object') {
 
                     return request;
                 };
-
             }
 
             function setupInteractionsTracking(contentNodes)
