@@ -239,7 +239,7 @@ class ProxyHttp
      * Returns a formatted Expires HTTP header for a certain number of days in the future. The result
      * can be used in a call to `header()`.
      */
-    private function getExpiresHeaderForFutureDay($expireFarFutureDays)
+    private static function getExpiresHeaderForFutureDay($expireFarFutureDays)
     {
         return "Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * (int)$expireFarFutureDays) . ' GMT';
     }
