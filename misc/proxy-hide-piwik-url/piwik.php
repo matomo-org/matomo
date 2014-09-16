@@ -47,7 +47,7 @@ if (empty($_GET)) {
         header(sprintf("%s 304 Not Modified", $_SERVER['SERVER_PROTOCOL']));
     } else {
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        @header('Content-Type: application/javascript; charset=UTF-8');
+        header('Content-Type: application/javascript; charset=UTF-8');
         if ($piwikJs = file_get_contents($PIWIK_URL . 'piwik.js')) {
             echo $piwikJs;
         } else {

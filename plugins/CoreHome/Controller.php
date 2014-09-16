@@ -252,9 +252,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $url = "https://www.paypal.com/cgi-bin/webscr?" . Url::getQueryStringFromParameters($parameters);
-
         Url::redirectToUrl($url);
-        exit;
     }
 
     public function saveViewDataTableParameters()

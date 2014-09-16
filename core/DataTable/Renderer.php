@@ -100,7 +100,7 @@ abstract class Renderer extends BaseFactory
      */
     protected function renderHeader()
     {
-        @header('Content-Type: text/plain; charset=utf-8');
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
 
     /**

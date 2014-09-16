@@ -341,7 +341,7 @@ class Csv extends Renderer
         }
 
         // silent fail otherwise unit tests fail
-        @header('Content-Disposition: attachment; filename="' . $fileName . '"', true);
+        Common::sendHeader('Content-Disposition: attachment; filename="' . $fileName . '"', true);
         ProxyHttp::overrideCacheControlHeaders();
     }
 

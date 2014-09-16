@@ -9,6 +9,7 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
+use Piwik\Common;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
