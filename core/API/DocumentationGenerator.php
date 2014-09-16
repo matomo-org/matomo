@@ -153,7 +153,12 @@ class DocumentationGenerator
      */
     public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
     {
-        return strstr($rClass->getDocComment(), '@hideExceptForSuperUser');
+        if (strstr($rClass->getDocComment(), '@hideExceptForSuperUser') === false) {
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
