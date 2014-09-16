@@ -275,7 +275,17 @@ function languageTranslateWithCode($label)
 {
     $ex = explode('-', $label);
     $lang = languageTranslate($ex[0]);
-    $countryKey = 'UserCountry_country_' . $ex[1];
+
+    if (count($ex) == 2)
+    {
+        $countryKey = 'UserCountry_country_' . $ex[1];
+    }
+    else
+    {
+        $countryKey = 'UserCountry_country_' . $label;
+        $label = $label . '-' . $label;
+    }
+
     $country = Piwik::translate($countryKey);
 
     if ($country == $countryKey) {
