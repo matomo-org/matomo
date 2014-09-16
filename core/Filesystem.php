@@ -54,28 +54,6 @@ class Filesystem
     }
 
     /**
-     * Returns true if the file with input path can be wrote or put
-     *
-     * @param string $path
-     * @return bool
-     */
-    public static function isWritableFile($path)
-    {
-        return (file_exists($path) ? is_file($path) && is_writable($path) : is_writable(dirname($path)));
-    }
-
-    /**
-     * Returns true if we was able to write the given path
-     *
-     * @param string $path
-     * @return bool
-     */
-    public static function writeFile($path, $data)
-    {
-        return self::isWritableFile($path) && file_put_contents($path, $ata);
-    }
-
-    /**
      * Get canonicalized absolute path
      * See http://php.net/realpath
      *
