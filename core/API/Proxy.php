@@ -211,9 +211,9 @@ class Proxy extends Singleton
             $endHookParams = array(
                 &$returnedValue,
                 array('className'  => $className,
-                      'module'     => $pluginName,
-                      'action'     => $methodName,
-                      'parameters' => $finalParameters)
+                    'module'     => $pluginName,
+                    'action'     => $methodName,
+                    'parameters' => $finalParameters)
             );
 
             /**
@@ -433,7 +433,7 @@ class Proxy extends Singleton
             && $method->getName() != 'getInstance'
             && false === strstr($method->getDocComment(), '@deprecated')
             && (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
-            && (Piwik::hasUserSuperUserAccess() || false === strstr($method->getDocComment(), '@hideExceptForSuperUser'))
+            && (Piwik::hasUserSuperUserAccess() || false === $this->checkIfMethodContainsHideAnnotation($method))
         ) {
             $name = $method->getName();
             $parameters = $method->getParameters();
@@ -452,6 +452,17 @@ class Proxy extends Singleton
             $this->metadataArray[$class][$name]['parameters'] = $aParameters;
             $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         }
+    }
+
+    /**
+     * Check if method contains @hideExceptForSuperUser
+     *
+     * @param ReflectionMethod $method instance of ReflectionMethod
+     * @return bool
+     */
+    public function checkIfMethodContainsHideAnnotation($method)
+    {
+        return strstr($method->getDocComment(), '@hideExceptForSuperUser');
     }
 
     /**
