@@ -12,7 +12,7 @@ use Exception;
 
 use Piwik\Config;
 use Piwik\Common;
-use Piwik\Ip;
+use Piwik\IP;
 use Piwik\ProxyHttp;
 use Piwik\Session;
 use Piwik\UrlHelper;
