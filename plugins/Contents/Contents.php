@@ -18,6 +18,7 @@ class Contents extends \Piwik\Plugin
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
     }
 
@@ -31,6 +32,11 @@ class Contents extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Contents/javascripts/contentsDataTable.js";
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/Contents/stylesheets/datatable.less";
     }
 
 }

@@ -14,6 +14,7 @@ use Piwik\Plugins\API\Renderer\Php;
 /**
  * @group Plugin
  * @group API
+ * @group PhpRendererTest
  */
 class PhpRendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -161,23 +162,39 @@ class PhpRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $response);
     }
 
-    public function test_renderArray_ShouldReturnSameArrayAndNotSerializeByDefault()
+    public function test_renderArray_ShouldReturnSameArrayNotSerialize()
     {
         $input = array(1, 2, 5, 'string', 10);
 
+        // builder has serialize=0
         $response = $this->builder->renderArray($input);
 
         $this->assertSame($input, $response);
     }
 
-    public function test_renderArray_ShouldSerializeIfEnabled()
+    public function test_renderArray_ShouldSerializeByDefault()
     {
-        $builder  = $this->makeBuilder(array('serialize' => 1));
+        $builder  = $this->makeBuilder(array());
         $input    = array(1, 2, 5, 'string', 10);
 
         $response = $builder->renderArray($input);
 
         $this->assertSame('a:5:{i:0;i:1;i:1;i:2;i:2;i:5;i:3;s:6:"string";i:4;i:10;}', $response);
+    }
+
+    public function test_renderArray_ShouldSerializeByDefaulMultiDimensionalArray()
+    {
+        $input = array(
+            "firstElement"  => "isFirst",
+            "secondElement" => array(
+                "firstElement"  => "isFirst",
+                "secondElement" => "isSecond",
+            ),
+            "thirdElement"  => "isThird");
+
+        $builder  = $this->makeBuilder(array());
+        $actual = $builder->renderArray($input);
+        $this->assertSame( serialize($input), $actual);
     }
 
     public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
