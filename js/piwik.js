@@ -454,7 +454,7 @@ if (typeof JSON2 !== 'object') {
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs
+    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body
  */
 /*global _paq:true */
 /*members push */
@@ -1000,6 +1000,44 @@ if (typeof Piwik !== 'object') {
             return title;
         }
 
+        function getChildrenFromNode(node)
+        {
+            if (!node) {
+                return [];
+            }
+
+            if (!isDefined(node.children) && isDefined(node.childNodes)) {
+                return node.children;
+            }
+
+            if (isDefined(node.children)) {
+                return node.children;
+            }
+
+            return [];
+        }
+
+        function containsNodeElement(node, containedNode)
+        {
+            if (!node || !containedNode) {
+                return false;
+            }
+
+            if (node.contains) {
+                return node.contains(containedNode);
+            }
+
+            if (node === containedNode) {
+                return true;
+            }
+
+            if (node.compareDocumentPosition) {
+                return !!(node.compareDocumentPosition(containedNode) & 16);
+            }
+
+            return false;
+        }
+
         // Polyfill for IndexOf for IE6-IE8
         function indexOfArray(theArray, searchElement)
         {
@@ -1356,13 +1394,19 @@ if (typeof Piwik !== 'object') {
                     nodes = [];
                 }
 
-                if (!nodeToSearch || !attributeName || !nodeToSearch.children) {
+                if (!nodeToSearch || !attributeName) {
+                    return nodes;
+                }
+
+                var children = getChildrenFromNode(nodeToSearch);
+
+                if (!children || !children.length) {
                     return nodes;
                 }
 
                 var index, child;
-                for (index = 0; index < nodeToSearch.children.length; index++) {
-                    child = nodeToSearch.children[index];
+                for (index = 0; index < children.length; index++) {
+                    child = children[index];
                     if (this.hasNodeAttribute(child, attributeName)) {
                         nodes.push(child);
                     }
@@ -1425,14 +1469,16 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
+                
+                var children = getChildrenFromNode(nodeToSearch);
 
-                if (!nodeToSearch.children || !nodeToSearch.children.length) {
+                if (!children || !children.length) {
                     return [];
                 }
 
                 var index, child;
-                for (index = 0; index < nodeToSearch.children.length; index++) {
-                    child = nodeToSearch.children[index];
+                for (index = 0; index < children.length; index++) {
+                    child = children[index];
                     if (this.hasNodeCssClass(child, className)) {
                         nodes.push(child);
                     }
@@ -1657,7 +1703,7 @@ if (typeof Piwik !== 'object') {
 
                 var media = this.findMediaUrlInNode(contentNode);
                 if (media) {
-                    return media;
+                    return this.toAbsoluteUrl(media);
                 }
             },
             findContentTarget: function (node)
@@ -1794,7 +1840,7 @@ if (typeof Piwik !== 'object') {
                 var docHeight = html.clientHeight; // The clientWidth attribute returns the viewport width excluding the size of a rendered scroll bar
 
                 if (windowAlias.innerHeight && docHeight > windowAlias.innerHeight) {
-                    docWidth = windowAlias.innerHeight; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
+                    docHeight = windowAlias.innerHeight; // The innerWidth attribute must return the viewport width including the size of a rendered scroll bar
                 }
 
                 return (
@@ -2378,7 +2424,11 @@ if (typeof Piwik !== 'object') {
             /*
              * POST request to Piwik server using XMLHttpRequest.
              */
-            function sendXmlHttpRequest(request, callback) {
+            function sendXmlHttpRequest(request, callback, fallbackToGet) {
+                if (!isDefined(fallbackToGet) || null === fallbackToGet) {
+                    fallbackToGet = true;
+                }
+
                 try {
                     // we use the progid Microsoft.XMLHTTP because
                     // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
@@ -2393,7 +2443,7 @@ if (typeof Piwik !== 'object') {
 
                     // fallback on error
                     xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
+                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
                             getImage(request, callback);
                         } else {
                             if (typeof callback === 'function') { callback(); }
@@ -2404,8 +2454,10 @@ if (typeof Piwik !== 'object') {
 
                     xhr.send(request);
                 } catch (e) {
-                    // fallback
-                    getImage(request, callback);
+                    if (fallbackToGet) {
+                        // fallback
+                        getImage(request, callback);
+                    }
                 }
             }
 
@@ -2444,7 +2496,7 @@ if (typeof Piwik !== 'object') {
                 var now  = new Date();
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
 
-                sendXmlHttpRequest(bulk);
+                sendXmlHttpRequest(bulk, null, false);
 
                 expireDateTime = now.getTime() + delay;
             }
@@ -3151,7 +3203,7 @@ if (typeof Piwik !== 'object') {
                 }
 
                 var redirectUrl = content.toAbsoluteUrl(url);
-                var request  = 'redirecturl=' + redirectUrl + '&';
+                var request  = 'redirecturl=' + encodeWrapper(redirectUrl) + '&';
                 request     += buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
 
                 var separator = '&';
@@ -3176,7 +3228,7 @@ if (typeof Piwik !== 'object') {
                 }
 
                 targetNode = content.findTargetNodeNoDefault(contentNode);
-                if (targetNode && !targetNode.contains(interactedNode)) {
+                if (targetNode && !containsNodeElement(targetNode, interactedNode)) {
                     /**
                      * There is a target node defined but the clicked element is not within the target node. example:
                      * <div data-track-content><a href="Y" data-content-target>Y</a><img src=""/><a href="Z">Z</a></div>
@@ -3275,9 +3327,15 @@ if (typeof Piwik !== 'object') {
                         return false;
                     }
 
-                    var contentName   = content.findContentName(contentBlock);
-                    var contentPiece  = content.findContentPiece(contentBlock);
-                    var contentTarget = content.findContentTarget(contentBlock);
+                    var block = content.buildContentBlock(contentBlock);
+
+                    if (!block) {
+                        return;
+                    }
+
+                    var contentName   = block.name;
+                    var contentPiece  = block.piece;
+                    var contentTarget = block.target;
 
                     if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR) || targetNode.wasContentTargetAttrReplaced) {
                         // make sure we still track the correct content target when an interaction is happening
@@ -3353,9 +3411,16 @@ if (typeof Piwik !== 'object') {
                         return 'href';
                     }
 
-                    var contentName   = content.findContentName(contentBlock);
-                    var contentPiece  = content.findContentPiece(contentBlock);
-                    var contentTarget = content.findContentTarget(contentBlock);
+
+                    var block = content.buildContentBlock(contentBlock);
+
+                    if (!block) {
+                        return;
+                    }
+
+                    var contentName   = block.name;
+                    var contentPiece  = block.piece;
+                    var contentTarget = block.target;
 
                     // click on any non link element, or on a link element that has not an href attribute or on an anchor
                     var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
@@ -3363,7 +3428,6 @@ if (typeof Piwik !== 'object') {
 
                     return request;
                 };
-
             }
 
             function setupInteractionsTracking(contentNodes)
@@ -4661,7 +4725,19 @@ if (typeof Piwik !== 'object') {
                     }
                 },
 
+                /**
+                 * Scans the entire DOM for all content blocks and tracks all impressions once the DOM ready event has
+                 * been triggered.
+                 *
+                 * If you only want to track visible content impressions have a look at `trackVisibleContentImpressions()`.
+                 * We do not track an impression of the same content block twice if you call this method multiple times
+                 * unless `trackPageView()` is called meanwhile. This is useful for single page applications.
+                 */
                 trackAllContentImpressions: function () {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     trackCallback(function () {
                         trackCallbackOnReady(function () {
                             // we have to wait till DOM ready
@@ -4673,7 +4749,44 @@ if (typeof Piwik !== 'object') {
                     });
                 },
 
+                /**
+                 * Scans the entire DOM for all content blocks as soon as the page is loaded. It tracks an impression
+                 * only if a content block is actually visible. Meaning it is not hidden and the content is or was at
+                 * some point in the viewport.
+                 *
+                 * If you want to track all content blocks have a look at `trackAllContentImpressions()`.
+                 * We do not track an impression of the same content block twice if you call this method multiple times
+                 * unless `trackPageView()` is called meanwhile. This is useful for single page applications.
+                 *
+                 * Once you have called this method you can no longer change `checkOnScroll` or `timeIntervalInMs`.
+                 *
+                 * If you do want to only track visible content blocks but not want us to perform any automatic checks
+                 * as they can slow down your frames per second you can call `trackVisibleContentImpressions()` or
+                 * `trackContentImpressionsWithinNode()` manually at  any time to rescan the entire DOM for newly
+                 * visible content blocks.
+                 * o Call `trackVisibleContentImpressions(false, 0)` to initially track only visible content impressions
+                 * o Call `trackVisibleContentImpressions()` at any time again to rescan the entire DOM for newly visible content blocks or
+                 * o Call `trackContentImpressionsWithinNode(node)` at any time to rescan only a part of the DOM for newly visible content blocks
+                 *
+                 * @param boolean [checkOnScroll=true] Optional, you can disable rescanning the entire DOM automatically
+                 *                                     after each scroll event by passing the value `false`. If enabled,
+                 *                                     we check whether a previously hidden content blocks became visible
+                 *                                     after a scroll and if so track the impression.
+                 *                                     Note: If a content block is placed within a scrollable element
+                 *                                     (`overflow: scroll`), we can currently not detect when this block
+                 *                                     becomes visible.
+                 * @param integer [timeIntervalInMs=750] Optional, you can define an interval to rescan the entire DOM
+                 *                                     for new impressions every X milliseconds by passing
+                 *                                     for instance `timeIntervalInMs=500` (rescan DOM every 500ms).
+                 *                                     Rescanning the entire DOM and detecting the visible state of content
+                 *                                     blocks can take a while depending on the browser and amount of content.
+                 *                                     In case your frames per second goes down you might want to increase
+                 *                                     this value or disable it by passing the value `0`.
+                 */
                 trackVisibleContentImpressions: function (checkOnSroll, timeIntervalInMs) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
 
                     if (!isDefined(checkOnSroll)) {
                         checkOnSroll = true;
@@ -4696,8 +4809,19 @@ if (typeof Piwik !== 'object') {
                     });
                 },
 
-                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
+                /**
+                 * Tracks a content impression using the specified values. You should not call this method too often
+                 * as each call causes an XHR tracking request and can slow down your site or your server.
+                 *
+                 * @param string contentName  For instance "Ad Sale".
+                 * @param string [contentPiece='Unknown'] For instance a path to an image or the text of a text ad.
+                 * @param string [contentTarget] For instance the URL of a landing page.
+                 */
                 trackContentImpression: function (contentName, contentPiece, contentTarget) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     if (!contentName) {
                         return;
                     }
@@ -4710,9 +4834,19 @@ if (typeof Piwik !== 'object') {
                     });
                 },
 
-                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
-                // we might remove this method again
+                /**
+                 * Scans the given DOM node and its children for content blocks and tracks an impression for them if
+                 * no impression was already tracked for it. If you have called `trackVisibleContentImpressions()`
+                 * upfront only visible content blocks will be tracked. You can use this method if you, for instance,
+                 * dynamically add an element using JavaScript to your DOM after we have tracked the initial impressions.
+                 *
+                 * @param Element domNode
+                 */
                 trackContentImpressionsWithinNode: function (domNode) {
+                    if (isOverlaySession(configTrackerSiteId) || !domNode) {
+                        return;
+                    }
+
                     trackCallback(function () {
                         if (isTrackOnlyVisibleContentEnabled) {
                             trackCallbackOnLoad(function () {
@@ -4734,8 +4868,21 @@ if (typeof Piwik !== 'object') {
                     });
                 },
 
-                // name and piece has to be same as previously used on an impression
+                /**
+                 * Tracks a content interaction using the specified values. You should use this method only in conjunction
+                 * with `trackContentImpression()`. The specified `contentName` and `contentPiece` has to be exactly the
+                 * same as the ones that were used in `trackContentImpression()`. Otherwise the interaction will not count.
+                 *
+                 * @param string contentInteraction The type of interaction that happened. For instance 'click' or 'submit'.
+                 * @param string contentName  The name of the content. For instance "Ad Sale".
+                 * @param string [contentPiece='Unknown'] The actual content. For instance a path to an image or the text of a text ad.
+                 * @param string [contentTarget] For instance the URL of a landing page.
+                 */
                 trackContentInteraction: function (contentInteraction, contentName, contentPiece, contentTarget) {
+                    if (isOverlaySession(configTrackerSiteId)) {
+                        return;
+                    }
+
                     if (!contentInteraction || !contentName) {
                         return;
                     }
@@ -4747,9 +4894,24 @@ if (typeof Piwik !== 'object') {
                         sendRequest(request, configTrackerPause);
                     });
                 },
-                // it must be a node that is set to .piwikTrackContent or [data-track-content] or one of its parents nodes
-                // we might remove this method again
+
+                /**
+                 * By default we track interactions on click but sometimes you might want to track interactions yourself.
+                 * For instance you might want to track an interaction manually on a double click or a form submit.
+                 * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
+                 * class `piwikContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
+                 *
+                 * @param Element domNode  This element itself or any of its parent elements has to be a content block
+                 *                         element. Meaning one of those has to have a `piwikTrackContent` CSS class or
+                 *                         a `data-track-content` attribute.
+                 * @param string [contentInteraction='Unknown] The name of the interaction that happened. For instance
+                 *                                             'click', 'formSubmit', 'DblClick', ...
+                 */
                 trackContentInteractionNode: function (domNode, contentInteraction) {
+                    if (isOverlaySession(configTrackerSiteId) || !domNode) {
+                        return;
+                    }
+
                     trackCallback(function () {
                         var request = buildContentInteractionRequestNode(domNode, contentInteraction);
                         sendRequest(request, configTrackerPause);

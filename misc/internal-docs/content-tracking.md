@@ -38,13 +38,13 @@ You can use either the attribute `data-track-content` or the CSS class `piwikTra
 Examples:
 ```
 <img src="img-en.jpg" data-track-content/>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 
 <img src="img-en.jpg" class="piwikTrackContent"/>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 ```
 
@@ -61,7 +61,7 @@ If we do not find any specific content piece element, we will use the content bl
 ### How do we detect the content piece?
 
 * The simplest scenario is to provide an HTML attribute `data-content-piece="foo"` including a value anywhere within the content block or in the content block element itself.
-* If there is no such attribute we will check whether the content piece element is a media (audio, video, image) and we will try to detect the URL to the media automatically. For instance using the `src` attribute.
+* If there is no such attribute we will check whether the content piece element is a media (audio, video, image) and we will try to detect the URL to the media automatically. For instance using the `src` attribute. If a found media URL does not include a domain or is not an absolute URL we will make sure to have a fully qualified URL.
   * In case of video and audio elements, when there are multiple sources defined, we will choose the URL of the first source
 * If we haven't found anything we will fall back to use the value "Unknown". In such a case you should set the attribute `data-content-piece` telling us explicitly what the content is.
 
@@ -78,8 +78,8 @@ This time we can also automatically detect the content target since we have set 
 ```
 <a href="http://www.example.com" data-track-content><img src="img-en.jpg" data-content-piece/></a>
 <a href="http://www.example.com" data-track-content><img src="img-en.jpg" class="piwikContentPiece"/></a>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = http://www.example.com
 ```
 
@@ -119,7 +119,7 @@ Examples:
 ```
 <img src="img-en.jpg" data-track-content data-content-name="Image1"/>
 // content name   = Image1
-// content piece  = img-en.jpg
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 ```
 
@@ -127,8 +127,8 @@ This example would be the way to go by defining a `data-content-name` attribute 
 
 ```
 <img src="img-en.jpg" data-track-content/>
-// content name   = img-en.jpg
-// content piece  = img-en.jpg
+// content name   = absolutePath(img-en.jpg)
+// content piece  = absoluteUrl(img-en.jpg)
 // content target = ""
 ```
 
@@ -308,7 +308,7 @@ Note: In case you have link tracking enabled you should call `enableLinkTracking
 #### `trackAllContentImpressions()`
 
 You can use this method to scan the entire DOM for content blocks.
-For each content block we will track a content impression immediately unless you have called `trackVisibleContentImpressions()` before see below.
+For each content block we will track a content impression immediately. If you only want to track visible content impression have a look at `trackVisibleContentImpressions()`.
 
 Note: We will not send an impression of the same content block twice if you call this method multiple times unless `trackPageView()` is called meanwhile. This is useful for single page applications. The "same" content blocks means if a content block has the identical name, piece and target as an already tracked one.
 Note: At this stage we do not exeute this method automatically along with a trackPageView(), we can do this later once we know it works
@@ -429,16 +429,8 @@ Yes it seems most logical to create an action entry for each Content.
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with [.jpg, .png, .gif] it could be recognized as image content and show a banner in the report.
 
 ## TODO
-* Would content impressions be tracked in overlay session?
-  * Overlay session should not trigger a content impression
-* Cache allowed site urls for redirects
-* Test scroll event in ie9, ie10, ie11, opera
-* Run JS tests  in ff3, ie9, ie11, android, iphone, ms phone
-* Show images on hover in report
-* When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
-  * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
-  * Maybe v2
 * Content piece undefined vs Unknown?
+* UI / PHP tests
 
 ## V2:
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
@@ -446,7 +438,12 @@ Nothing special here I think. We would probably automatically detect the type of
 * When we listen to scroll events we currently do not detect if user scrolls the entire page, not if within a div
   * We need to check all parent elements of a content block whether it is scrollable and if so connect an event to this
 * We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
-
+* Provide more reports like which interactions, which targets, and more possible
+* Do not track the same interaction twice unless trackPageView is called?
+  * For instance if target=_blank used interaction would be tracked multiple times currently
+  * Alternatively provide "interactions" and "unique interactions"
+* When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
+  * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
 
 ## Open questions
 

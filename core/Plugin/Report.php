@@ -34,6 +34,11 @@ use Exception;
 class Report
 {
     /**
+     * The sub-namespace name in a plugin where Report components are stored.
+     */
+    const COMPONENT_SUBNAMESPACE = 'Reports';
+
+    /**
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected
      * automatically.
      * @var string
@@ -579,31 +584,7 @@ class Report
      */
     public static function factory($module, $action)
     {
-        if (empty($module) || empty($action)) {
-            return;
-        }
-
-        $pluginManager = PluginManager::getInstance();
-
-        try {
-            if (!$pluginManager->isPluginActivated($module)) {
-                return;
-            }
-
-            $plugin = $pluginManager->getLoadedPlugin($module);
-
-        } catch (Exception $e) {
-            return;
-        }
-
-        $reports = $plugin->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
-        $action  = ucfirst($action);
-
-        foreach ($reports as $reportClass) {
-            if ($reportClass == 'Piwik\\Plugins\\' . $module . '\\Reports\\' . $action) {
-                return new $reportClass();
-            }
-        }
+        return ComponentFactory::factory($module, ucfirst($action), __CLASS__);
     }
 
     /**

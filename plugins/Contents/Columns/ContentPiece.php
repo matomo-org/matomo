@@ -24,6 +24,7 @@ class ContentPiece extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('contentPiece');
         $segment->setName('Contents_ContentPiece');
+        $segment->setAcceptedValues('The actual content. For instance "ad.jpg" or "My text ad"');
         $this->addSegment($segment);
     }
 

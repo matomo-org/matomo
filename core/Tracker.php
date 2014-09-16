@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
-use Piwik\Plugins\SitesManager\Model;
+use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Db\Mysqli;
@@ -507,6 +507,9 @@ class Tracker
                 'status' => 'success',
                 'tracked' => $this->countOfLoggedRequests
             );
+
+            $this->outputAccessControlHeaders();
+
             Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
             exit;
@@ -940,24 +943,34 @@ class Tracker
             return;
         }
 
+        $urls     = new SiteUrls();
+        $siteUrls = $urls->getAllCachedSiteUrls();
+        $siteIds  = $this->getAllSiteIdsWithinRequest();
+
+        foreach ($siteIds as $siteId) {
+            if (empty($siteUrls[$siteId])) {
+                continue;
+            }
+
+            if (Url::isHostInUrls($host, $siteUrls[$siteId])) {
+                Url::redirectToUrl($redirectUrl);
+            }
+        }
+    }
+
+    private function getAllSiteIdsWithinRequest()
+    {
+        if (empty($this->requests)) {
+            return array();
+        }
+
         $siteIds = array();
 
         foreach ($this->requests as $request) {
             $siteIds[] = (int) $request['idsite'];
         }
 
-        $siteIds = array_unique($siteIds);
-
-        $model = new Model();
-
-        foreach ($siteIds as $siteId) {
-            $siteUrls = $model->getSiteUrlsFromId($siteId);
-
-            if (Url::isHostInUrls($host, $siteUrls)) {
-                Url::redirectToUrl($redirectUrl);
-            }
-        }
+        return array_unique($siteIds);
     }
-
 
 }

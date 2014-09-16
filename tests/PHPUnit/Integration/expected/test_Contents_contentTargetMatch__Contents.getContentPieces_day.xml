@@ -5,8 +5,8 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_impressions>2</nb_impressions>
-		<nb_interactions>0</nb_interactions>
-		<interaction_rate>0%</interaction_rate>
+		<nb_interactions>2</nb_interactions>
+		<interaction_rate>100%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
 	</row>
 	<row>

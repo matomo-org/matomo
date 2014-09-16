@@ -24,6 +24,7 @@ class ContentInteraction extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('contentInteraction');
         $segment->setName('Contents_Interaction');
+        $segment->setAcceptedValues('The type of interaction with the content. For instance "click" or "submit".');
         $this->addSegment($segment);
     }
 

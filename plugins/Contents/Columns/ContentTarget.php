@@ -25,6 +25,7 @@ class ContentTarget extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('contentTarget');
         $segment->setName('Contents_ContentTarget');
+        $segment->setAcceptedValues('For instance the URL of a landing page: "http://landingpage.example.com"');
         $this->addSegment($segment);
     }
 
@@ -40,10 +41,6 @@ class ContentTarget extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        if (!($action instanceof ActionContent)) {
-            return false;
-        }
-
         $contentTarget = $request->getParam('c_t');
         $contentTarget = trim($contentTarget);
 

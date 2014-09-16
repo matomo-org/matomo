@@ -378,16 +378,7 @@ class Plugin_ReportTest extends DatabaseTestCase
         ), $reports);
     }
 
-    public function test_factory_shouldNotFindAReportIfReportExistsButPluginIsNotLoaded()
-    {
-        $this->unloadAllPlugins();
-
-        $report = Report::factory('ExampleReport', 'getExampleReport');
-
-        $this->assertNull($report);
-    }
-
-    public function test_factory_shouldFindAReport_ThatExists()
+    public function test_factory_shouldCreateReport_WhenActionNameUsed()
     {
         $this->loadExampleReportPlugin();
 
@@ -402,31 +393,10 @@ class Plugin_ReportTest extends DatabaseTestCase
 
         // action ucfirst should work as well
         $report = Report::factory($module, ucfirst($action));
+
         $this->assertInstanceOf('Piwik\Plugins\ExampleReport\Reports\GetExampleReport', $report);
-    }
-
-    public function test_factory_shouldNotFindAReport_IfPluginIsActivatedButReportNotExists()
-    {
-        $this->loadExampleReportPlugin();
-
-        $module = 'ExampleReport';
-        $action = 'NotExistingReport';
-
-        $report = Report::factory($module, $action);
-
-        $this->assertNull($report);
-    }
-
-    public function test_factory_shouldNotFindAReport_IfPluginIsLoadedButNotActivated()
-    {
-        PluginManager::getInstance()->loadPlugin('ExampleReport');
-
-        $module = 'ExampleReport';
-        $action = 'getExampleReport';
-
-        $report = Report::factory($module, $action);
-
-        $this->assertNull($report);
+        $this->assertEquals($module, $report->getModule());
+        $this->assertEquals($action, $report->getAction());
     }
 
     public function test_getAllReports_shouldNotFindAReport_IfNoPluginLoaded()

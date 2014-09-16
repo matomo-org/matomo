@@ -22,6 +22,7 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\TaskScheduler;
+use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -594,6 +595,7 @@ class API extends \Piwik\Plugin\API
     {
         Site::clearCache();
         Cache::regenerateCacheWebsiteAttributes($idSite);
+        SiteUrls::clearSitesCache();
     }
 
     /**
