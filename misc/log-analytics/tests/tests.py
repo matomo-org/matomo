@@ -63,6 +63,7 @@ class Options(object):
     force_lowercase_path = False
     included_paths = []
     enable_http_errors = False
+    download_extensions = 'doc,pdf'
 
 class Config(object):
     """Mock configuration."""
