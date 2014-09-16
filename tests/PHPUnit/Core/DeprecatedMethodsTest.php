@@ -17,17 +17,17 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
 
     public function test_version2_0_4()
     {
-        $validTill = '2014-09-15';
+        $validTill = '2014-10-20';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Period', 'factory', $validTill);
 
-        $validTill = '2014-10-01';
+        $validTill = '2014-10-20';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Config', 'getConfigSuperUserForBackwardCompatibility', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'addEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'removeEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'addEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'removeEntry', $validTill);
 
-        $validTill = '2014-10-15';
+        $validTill = '2014-10-20';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\SettingsPiwik', 'rewriteTmpPathWithHostname', $validTill);
 
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
