@@ -1,6 +1,6 @@
 All Websites dashboard
 label,nb_visits,nb_actions,nb_pageviews,revenue,nb_conversions,orders,ecommerce_revenue,visits_evolution,actions_evolution,pageviews_evolution,revenue_evolution,nb_conversions_evolution,orders_evolution,ecommerce_revenue_evolution
-Piwik test,5,16,16,$ 12250,5,4,$ 12240,100%,100%,100%,100%,100%,100%,100%
+Piwik test,5,16,16,$ 13361.11,5,4,$ 13351.11,100%,100%,100%,100%,100%,100%,100%
 Piwik test,2,1,1,$ 250,1,0,$ 0,100%,100%,100%,100%,100%,0,0
 
 Visits Summary
@@ -11,7 +11,7 @@ Visits by Server Time
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
 0h,1,4,$ 10,4,00:12:01,0%
 1h,0,0,$ 0,0,00:00:00,0%
-2h,2,9,$ 2000,4.5,00:42:01,0%
+2h,2,9,$ 3111.11,4.5,00:42:01,0%
 3h,0,0,$ 0,0,00:00:00,0%
 4h,0,0,$ 0,0,00:00:00,0%
 5h,0,0,$ 0,0,00:00:00,0%
@@ -133,7 +133,7 @@ French - France - (fr-fr),1,4,100%,4,00:12:01,0%
 
 Ecommerce Orders
 nb_conversions,nb_visits_converted,conversion_rate,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue
-4,2,40%,$ 12240,$ 2700,$ 531,$ 120,$ 686,12,$ 3060
+4,2,40%,$ 13351.11,$ 2700,$ 531,$ 120.11,$ 686,12,$ 3337.78
 
 Ecommerce Orders - Visits to Conversion
 label,nb_conversions
@@ -170,7 +170,7 @@ label,nb_conversions
 
 Abandoned Carts
 nb_conversions,conversion_rate,revenue,items
-3,60%,$ 0,12
+3,60%,$ 7530.33,12
 
 Abandoned Carts - Visits to Conversion
 label,nb_conversions
@@ -288,7 +288,7 @@ No data available
 
 Referrer Type
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Direct Entry,5,16,$ 12250,3.2,00:22:49,20%
+Direct Entry,5,16,$ 13361.11,3.2,00:22:49,20%
 
 All Referrers
 No data available
@@ -310,7 +310,7 @@ No data available
 
 Goals
 nb_conversions,nb_visits_converted,conversion_rate,revenue
-5,4,80%,$ 12250
+5,4,80%,$ 13361.11
 
 Visits to Conversion
 label,nb_conversions,revenue
@@ -384,26 +384,26 @@ label,nb_conversions
 
 Country
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Poland,4,12,$ 12240,3,00:25:32,25%
+Poland,4,12,$ 13351.11,3,00:25:32,25%
 France,1,4,$ 10,4,00:12:01,0%
 
 Continent
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Europe,5,16,$ 12250,3.2,00:22:49,20%
+Europe,5,16,$ 13361.11,3.2,00:22:49,20%
 
 Region
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,$ 12250,3.2,00:22:49,20%
+Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
 
 City
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,$ 12250,3.2,00:22:49,20%
+Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
 
 Custom Variables
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-ValueIsZero,5,16,$ 12250,3.2,00:22:49,20%
-VisitorType,5,16,$ 12250,3.2,00:22:49,20%
-VisitorName,4,12,$ 12240,3,00:25:32,25%
+ValueIsZero,5,16,$ 13361.11,3.2,00:22:49,20%
+VisitorType,5,16,$ 13361.11,3.2,00:22:49,20%
+VisitorName,4,12,$ 13351.11,3,00:25:32,25%
 
 Length of Visits
 label,nb_visits
