@@ -47,7 +47,7 @@ class Php extends ApiRenderer
             return $this->renderDataTable($array);
         }
 
-        if ($this->shouldSerialize(0)) {
+        if ($this->shouldSerialize(1)) {
             return serialize($array);
         }
 
