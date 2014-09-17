@@ -3,6 +3,7 @@
         "AnonymizeIpDescription": "Wybierz \"Tak\" jeśli chcesz aby nie śledzić w pełni wykwalifikowanych adresów IP.",
         "AnonymizeIpInlineHelp": "Anonimizacja ostatniego bajtu w adresie IP odwiedzających, by dostosować się do być może lokalnego prawa do prywatności\/wytycznych o prywatności.",
         "AnonymizeIpMaskLengtDescription": "Wybierz ile bajtów z odwiedzających' adresów IP powinny być zamaskowane.",
+        "AnonymizeIpMaskLength": "%s bajt(ów) - np. %s",
         "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
         "CurrentDBSize": "Obecny rozmiar bazy danych",
         "DeleteDataInterval": "Usuń stare dane co",

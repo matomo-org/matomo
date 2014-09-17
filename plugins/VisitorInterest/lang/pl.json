@@ -11,6 +11,8 @@
         "PluginDescription": "Raporty o zainteresowaniach odwiedzających: ilość odwiedzonych stron, czas spędzony w serwisie.",
         "PlusXMin": "%s min",
         "VisitNum": "Liczba wizyt",
+        "VisitsByDaysSinceLast": "Odwiedziny wg. dni od ostatnich odwiedzin",
+        "visitsByVisitCount": "Odwiedziy wg. liczby odwiedzin",
         "VisitsPerDuration": "Odwiedzin w czasie trwania wizyty",
         "VisitsPerNbOfPages": "Liczba wizyt na stronach",
         "WidgetLengths": "Czas wizyt",

@@ -3,6 +3,7 @@
         "CategoryNoData": "V této kategorii nejsou k dispozici žádná data. Zkuste \"Zobrazit všechny výsledky\".",
         "CheckForUpdates": "Zkontrolovat aktualizace",
         "CheckPiwikOut": "Vyzkoušejte Piwik!",
+        "ClickRowToExpandOrContract": "Klikněte na tento řádek pro rozbalení nebo zbalení podtabulky.",
         "CloseWidgetDirections": "Tento widget můžete zavřít kliknutím na ikonu X na horní části widgetu.",
         "DataForThisReportHasBeenPurged": "Data pro toto hlášení jsou starší než %s měsíců a byla odstraněna.",
         "DataTableExcludeAggregateRows": "Agregované řádky jsou zobrazeny %s Skrýt",
