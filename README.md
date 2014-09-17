@@ -103,3 +103,4 @@ Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.
 
 Code Coverage: [![Coverage Status](https://coveralls.io/repos/piwik/piwik/badge.png?branch=master)](https://coveralls.io/r/piwik/piwik?branch=master)
 
+Issue tracker metrics: [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue") - [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
