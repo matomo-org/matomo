@@ -10,6 +10,13 @@ namespace Piwik;
 
 use Exception;
 
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\IP;
+use Piwik\ProxyHttp;
+use Piwik\Session;
+use Piwik\UrlHelper;
+
 /**
  * Provides URL related helper methods.
  *
@@ -478,7 +485,7 @@ class Url
         if (UrlHelper::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {
-            @header("Location: $url");
+            Common::sendHeader("Location: $url");
         } else {
             echo "Invalid URL to redirect to.";
         }

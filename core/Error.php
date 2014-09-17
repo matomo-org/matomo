@@ -8,6 +8,11 @@
  */
 namespace Piwik;
 
+use Piwik\Common;
+use Piwik\Log;
+use Piwik\Piwik;
+use Piwik\Version;
+
 require_once PIWIK_INCLUDE_PATH . '/core/Log.php';
 
 /**
@@ -143,9 +148,7 @@ class Error
                 return;
             }
 
-            if (!Common::isPhpCliMode()) {
-                @header('Content-Type: text/html; charset=utf-8');
-            }
+            Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
             $htmlString = '';
             $htmlString .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>

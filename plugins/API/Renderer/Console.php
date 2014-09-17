@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
+use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
 
@@ -17,14 +18,14 @@ class Console extends ApiRenderer
 
     public function renderException($message, \Exception $exception)
     {
-        @header('Content-Type: text/plain; charset=utf-8');
+        self::sendHeader();
 
         return 'Error: ' . $message;
     }
 
     public function sendHeader()
     {
-        @header('Content-Type: text/plain; charset=utf-8');
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
 
 }
