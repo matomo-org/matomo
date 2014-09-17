@@ -1,5 +1,6 @@
 {
     "Goals": {
+        "AbandonedCart": "Opuszczony Koszyk",
         "AddGoal": "Dodaj założenia",
         "AddNewGoal": "Dodaj nowy cel",
         "AddNewGoalOrEditExistingGoal": "%sDodaj nowe założenie celu%s lub %sedytuj%s istniejące trafienia",
@@ -11,6 +12,8 @@
         "CaseSensitive": "dopasowanie czułości",
         "ChooseGoal": "Wybierz cel",
         "ClickOutlink": "kliknij na link do zewnętrznej strony",
+        "ColumnAveragePriceDocumentation": "Średni dochód dla tego %s.",
+        "ColumnConversionRateDocumentation": "Procent odwiedzin, które wywołało cel %s.",
         "ColumnConversions": "Zmiany",
         "ColumnPurchasedProductsDocumentation": "Ilość zakupionych produktów jest sumą ilości produktów sprzedawanych we wszystkich zamówień E-commerce.",
         "Contains": "zawiera %s",
@@ -19,6 +22,7 @@
         "ConversionsOverview": "Opis zamian",
         "ConversionsOverviewBy": "Przegląd przepływów pod kątem typu odwiedzin",
         "CreateNewGOal": "Utwórz nowe założenie osiągnięcia celu",
+        "DaysToConv": "Dni do konwersji",
         "DefaultGoalConvertedOncePerVisit": "(domyślnie) założenie może zostać zamienione tylko raz w trakcie odwiedzin",
         "DefaultRevenue": "domyślnym przychodem z trafienia jest",
         "DefaultRevenueHelp": "Dla przykładu, formularz kontaktowy wypełniony przez odwiedzającego może być nawet wart średnio $10. Piwik pomaga więc zrozumieć i przeanalizować wszelkie zachowania odwiedzających.",
@@ -46,6 +50,7 @@
         "ManuallyTriggeredUsingJavascriptFunction": "Założenie osiągnięcia celu jest ręcznie uruchamiane używając API Javascript z funkcją trackGoal()",
         "MatchesExpression": "odpowiada wyrażeniu %s",
         "NewVisitorsConversionRateIs": "Współczynnik przejść dla nowych odwiedzających to %s",
+        "NewWhatDoYouWantUsersToDo": "Co chcesz żeby twoi użytkownicy robili na twojej stronie?",
         "Optional": "(opcjonalnie)",
         "OverallConversionRate": "%s ogólny współczynnik zmian (wizyty z osiągniętym pełnym trafieniem)",
         "OverallRevenue": "%s ogólnych przychodów",

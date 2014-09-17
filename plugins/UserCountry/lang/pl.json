@@ -1,5 +1,7 @@
 {
     "UserCountry": {
+        "CannotListContent": "Błąd wyświetlenia zawartości %1$s: %2$s",
+        "CannotUnzipDatFile": "Błąd rozpakowania pliki dat w %1$s: %2$s",
         "City": "Miasto",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontynent",
@@ -287,6 +289,9 @@
         "country_zw": "Zimbabwe",
         "DistinctCountries": "%s wyróżniających się krajów",
         "DownloadingDb": "Pobieranie %s",
+        "DownloadNewDatabasesEvery": "Zaktualizuj bazę danych co",
+        "FoundApacheModules": "Piwik znalazł następujące moduły Apache",
+        "FromDifferentCities": "różne miasta",
         "GeoIPDatabases": "Baza danych GeoIP",
         "Geolocation": "Geolokalizacja",
         "getCountryDocumentation": "Ten raport pokazuje, w którym kraju był odwiedzający kiedy wchodził na twoją stronę.",

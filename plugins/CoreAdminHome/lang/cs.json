@@ -25,6 +25,8 @@
         "JSTracking_CampaignNameParam": "Název kampaně",
         "JSTracking_CustomCampaignQueryParam": "Pro jméno kampaně a klíčové slovo použít vlastní parametry dotazu",
         "JSTracking_CustomCampaignQueryParamDesc": "Poznámka: %1$sPiwik automaticky detekuje parametry pro Google analitics.%2$s",
+        "JSTracking_DisableCookies": "Zakázat všechny sledovací cookies",
+        "JSTracking_DisableCookiesDesc": "Zakáže všechny vlastní cookies. Existující cookies Piwiku pro tyto stránky budou smazány při další návštěvě.",
         "JSTracking_EnableDoNotTrack": "Povolit detekci klientů s povolenou volbou \"nesledovat\"",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Poznámka: Serverová detekce volby \"nesledovat\" byla povolena, takže tato volba nebude mít vliv.",
         "JSTracking_EnableDoNotTrackDesc": "Sledovací požadavky nebudou zaslány, pokud si to návštěvníci nepřejí.",

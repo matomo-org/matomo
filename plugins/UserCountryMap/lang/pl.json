@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "AndNOthers": "i %s innych",
         "Cities": "Miasta",
         "Countries": "Państw",
         "DaysAgo": "%s dni temu",

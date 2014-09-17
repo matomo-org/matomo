@@ -3,6 +3,8 @@
         "ColumnCustomVariableName": "Nazwa zmiennej niestandardowej",
         "ColumnCustomVariableValue": "Wartość zmiennej niestandardowej",
         "CustomVariables": "Zmienne niestandardowe",
-        "PluginDescription": "Zmienne niestandardowe to pary nazwa-wartość, które możesz ustawić dla odwiedzin używając javaskryptu przy wykorzystaniu API dla funkcji setVisitCustomVariables(). Piwik będzie raportować ilość odwiedzin, strony, przejścia przez strony za pomocą takich niestandardowych nazw i wartości."
+        "PluginDescription": "Zmienne niestandardowe to pary nazwa-wartość, które możesz ustawić dla odwiedzin używając javaskryptu przy wykorzystaniu API dla funkcji setVisitCustomVariables(). Piwik będzie raportować ilość odwiedzin, strony, przejścia przez strony za pomocą takich niestandardowych nazw i wartości.",
+        "ScopePage": "strona zakresu",
+        "ScopeVisit": "zakres wizyt"
     }
 }
