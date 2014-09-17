@@ -81,7 +81,6 @@ class ArchiveInvalidationTest extends IntegrationTestCase
     public function testAnotherApi($api, $params)
     {
         $this->setBrowserArchivingTriggering(1);
-        $this->invalidateTestArchives();
 
         $this->runApiTests($api, $params);
     }
