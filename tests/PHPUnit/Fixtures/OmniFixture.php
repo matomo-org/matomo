@@ -42,10 +42,10 @@ class OmniFixture extends Fixture
         $classes = get_declared_classes();
         sort($classes);
         foreach ($classes as $className) {
-            if (is_subclass_of($className, 'Fixture')
+            if (is_subclass_of($className, 'Piwik\\Tests\\Fixture')
                 && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
-                && $className != "Piwik_Test_Fixture_SqlDump"
+                && $className != "Piwik\\Tests\\Fixtures\\SqlDump"
                 && $className != "Piwik\\Tests\\Fixtures\\UpdaterTestFixture"
                 && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
             ) {
@@ -70,7 +70,7 @@ class OmniFixture extends Fixture
             }
         }
 
-        $this->now = $this->fixtures['ManySitesImportedLogsWithXssAttempts']->now;
+        $this->now = $this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts']->now;
 
         // make sure ManySitesImportedLogsWithXssAttempts is the first fixture
         $fixture = $this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts'];

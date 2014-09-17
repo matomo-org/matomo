@@ -1,0 +1,9 @@
+{
+    "Overlay": {
+        "Clicks": "%s kliknięć",
+        "Domain": "Domena",
+        "Link": "Link",
+        "Location": "Lokalizacja",
+        "OneClick": "1 kliknięcie"
+    }
+}

@@ -377,6 +377,27 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
+		<name>Content Name</name>
+		<segment>contentName</segment>
+		<acceptedValues>The name of a content block, for instance &quot;Ad Sale&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Content Piece</name>
+		<segment>contentPiece</segment>
+		<acceptedValues>The actual content. For instance &quot;ad.jpg&quot; or &quot;My text ad&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Content Target</name>
+		<segment>contentTarget</segment>
+		<acceptedValues>For instance the URL of a landing page: &quot;http://landingpage.example.com&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
 		<name>Entry Page URL</name>
 		<segment>entryPageUrl</segment>
 	</row>
@@ -397,6 +418,13 @@
 		<category>Actions</category>
 		<name>Exit Page URL</name>
 		<segment>exitPageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Interaction</name>
+		<segment>contentInteraction</segment>
+		<acceptedValues>The type of interaction with the content. For instance &quot;click&quot; or &quot;submit&quot;.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

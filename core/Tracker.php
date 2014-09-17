@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Db\Mysqli;
@@ -165,7 +166,7 @@ class Tracker
             $requests = $jsonData['requests'];
         }
 
-        return array( $requests, $tokenAuth);
+        return array($requests, $tokenAuth);
     }
 
     private function isBulkTrackingRequireTokenAuth()
@@ -178,8 +179,8 @@ class Tracker
         list($this->requests, $tokenAuth) = $this->getRequestsArrayFromBulkRequest($rawData);
 
         $bulkTrackingRequireTokenAuth = $this->isBulkTrackingRequireTokenAuth();
-        if($bulkTrackingRequireTokenAuth) {
-            if(empty($tokenAuth)) {
+        if ($bulkTrackingRequireTokenAuth) {
+            if (empty($tokenAuth)) {
                 throw new Exception("token_auth must be specified when using Bulk Tracking Import. "
                     . " See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
             }
@@ -201,8 +202,9 @@ class Tracker
                 $requestObj = new Request($request, $tokenAuth);
                 $this->loadTrackerPlugins($requestObj);
 
-                if($bulkTrackingRequireTokenAuth
-                    && !$requestObj->isAuthenticated()) {
+                if ($bulkTrackingRequireTokenAuth
+                    && !$requestObj->isAuthenticated()
+                ) {
                     throw new Exception(sprintf("token_auth specified does not have Admin permission for idsite=%s", $requestObj->getIdSite()));
                 }
                 $request = $requestObj;
@@ -239,7 +241,7 @@ class Tracker
                 }
                 $this->runScheduledTasksIfAllowed($isAuthenticated);
                 $this->commitTransaction();
-            } catch(DbException $e) {
+            } catch (DbException $e) {
                 Common::printDebug($e->getMessage());
                 $this->rollbackTransaction();
             }
@@ -253,6 +255,8 @@ class Tracker
         $this->end();
 
         $this->flushOutputBuffer();
+
+        $this->performRedirectToUrlIfSet();
     }
 
     protected function initOutputBuffer()
@@ -273,7 +277,7 @@ class Tracker
     protected function beginTransaction()
     {
         $this->transactionId = null;
-        if(!$this->shouldUseTransactions()) {
+        if (!$this->shouldUseTransactions()) {
             return;
         }
         $this->transactionId = self::getDatabase()->beginTransaction();
@@ -281,7 +285,7 @@ class Tracker
 
     protected function commitTransaction()
     {
-        if(empty($this->transactionId)) {
+        if (empty($this->transactionId)) {
             return;
         }
         self::getDatabase()->commit($this->transactionId);
@@ -289,7 +293,7 @@ class Tracker
 
     protected function rollbackTransaction()
     {
-        if(empty($this->transactionId)) {
+        if (empty($this->transactionId)) {
             return;
         }
         self::getDatabase()->rollback($this->transactionId);
@@ -309,7 +313,7 @@ class Tracker
      */
     protected function isTransactionSupported()
     {
-        return (bool) Config::getInstance()->Tracker['bulk_requests_use_transaction'];
+        return (bool)Config::getInstance()->Tracker['bulk_requests_use_transaction'];
     }
 
     protected function shouldRunScheduledTasks()
@@ -426,13 +430,18 @@ class Tracker
      */
     protected function exitWithException($e, $authenticated = false)
     {
+        if ($this->hasRedirectUrl()) {
+            $this->performRedirectToUrlIfSet();
+            exit;
+        }
+
         Common::sendHeader('HTTP/1.1 500 Internal Server Error');
         error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
 
         if ($this->usingBulkTracking) {
             // when doing bulk tracking we return JSON so the caller will know how many succeeded
             $result = array(
-                'status'  => 'error',
+                'status' => 'error',
                 'tracked' => $this->countOfLoggedRequests
             );
             // send error when in debug mode or when authenticated (which happens when doing log importing,
@@ -495,9 +504,12 @@ class Tracker
     {
         if ($this->usingBulkTracking) {
             $result = array(
-                'status'  => 'success',
+                'status' => 'success',
                 'tracked' => $this->countOfLoggedRequests
             );
+
+            $this->outputAccessControlHeaders();
+
             Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
             exit;
@@ -786,7 +798,8 @@ class Tracker
         // Tests using window_look_back_for_visitor
         if (Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1
             // also look for this in bulk requests (see fake_logs_replay.log)
-            || strpos( json_encode($args, true), '"forceLargeWindowLookBackForVisitor":"1"' ) !== false) {
+            || strpos(json_encode($args, true), '"forceLargeWindowLookBackForVisitor":"1"') !== false
+        ) {
             self::updateTrackerConfig('window_look_back_for_visitor', 2678400);
         }
 
@@ -899,6 +912,65 @@ class Tracker
     protected static function getRawBulkRequest()
     {
         return file_get_contents("php://input");
+    }
+
+    private function getRedirectUrl()
+    {
+        return Common::getRequestVar('redirecturl', false, 'string');
+    }
+
+    private function hasRedirectUrl()
+    {
+        $redirectUrl = $this->getRedirectUrl();
+
+        return !empty($redirectUrl);
+    }
+
+    private function performRedirectToUrlIfSet()
+    {
+        if (!$this->hasRedirectUrl()) {
+            return;
+        }
+
+        if (empty($this->requests)) {
+            return;
+        }
+
+        $redirectUrl = $this->getRedirectUrl();
+        $host        = Url::getHostFromUrl($redirectUrl);
+
+        if (empty($host)) {
+            return;
+        }
+
+        $urls     = new SiteUrls();
+        $siteUrls = $urls->getAllCachedSiteUrls();
+        $siteIds  = $this->getAllSiteIdsWithinRequest();
+
+        foreach ($siteIds as $siteId) {
+            if (empty($siteUrls[$siteId])) {
+                continue;
+            }
+
+            if (Url::isHostInUrls($host, $siteUrls[$siteId])) {
+                Url::redirectToUrl($redirectUrl);
+            }
+        }
+    }
+
+    private function getAllSiteIdsWithinRequest()
+    {
+        if (empty($this->requests)) {
+            return array();
+        }
+
+        $siteIds = array();
+
+        foreach ($this->requests as $request) {
+            $siteIds[] = (int) $request['idsite'];
+        }
+
+        return array_unique($siteIds);
     }
 
 }

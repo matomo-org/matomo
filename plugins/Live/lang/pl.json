@@ -1,13 +1,27 @@
 {
     "Live": {
+        "ClickToViewMoreAboutVisit": "Kliknij po więcej informacji o tej wizycie",
+        "FirstVisit": "Pierwsza wizyta",
         "GoalType": "Rodzaj",
+        "HideMap": "ukryj mapę",
         "KeywordRankedOnSearchResultForThisVisitor": "Słowo kluczowe %1$s zdobyło pozycję %2$s w %3$s wynikach wyszukania strony dla tego odwiedzającego",
         "LastHours": "w czasie ostatnich %s godzin",
         "LastMinutes": "w czasie ostatnich %s minut",
+        "LastVisit": "Ostatnia wizyta",
         "LinkVisitorLog": "Zobacz szczegółowy log twoich odwiedzających",
+        "LoadMoreVisits": "Załaduj więcej odwiedzin",
+        "NbVisitor": "1 gość",
+        "NbVisitors": "%s gości",
+        "NextVisitor": "Następny gość",
+        "PageRefreshed": "Ile razy ta strona została oglądana\/ odświeżana z rzędu.",
         "PluginDescription": "Szpieguje odwiedzających, na żywo, w czasie rzeczywistym!",
+        "PreviousVisitor": "Poprzedni odwiedzający",
         "Referrer_URL": "Przysyłający adres URL",
+        "ShowMap": "Pokaż mapę",
+        "ViewVisitorProfile": "Zobacz profil odwiedzającego",
+        "VisitedPages": "Odwiedzone strony",
         "VisitorLog": "Log odwiedzających",
+        "VisitorProfile": "Profil odwiedzającego",
         "VisitorsInRealTime": "Odwiedzający w czasie rzeczywistym"
     }
 }

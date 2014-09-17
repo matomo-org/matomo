@@ -67,6 +67,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/dialogtoggler/ngdialog.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -130,6 +131,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focusif.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dialog.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";

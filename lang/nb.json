@@ -341,6 +341,7 @@
         "AnonymousAccess": "Anonym tilgang",
         "ChooseHttpTimeout": "Velg HTTP-tidsavbrudd verdi",
         "ChooseReport": "Velg en rapport",
+        "ChooseSegment": "Velg segment",
         "DefaultReportDate": "Rapportdato",
         "EnableGraphsLabel": "Vis grafer",
         "EvolutionGraph": "Historisk graf",
@@ -361,6 +362,7 @@
         "ReleaseToRefresh": "Slipp for å oppdatere...",
         "ShowAll": "Vis alle",
         "ShowLess": "Vis mindre",
+        "ValidateSslCertificate": "Valider SSL-sertifikat",
         "VerifyLoginData": "Sørg for at ditt brukernavn- og passordkombinasjon er riktig."
     },
     "RowEvolution": {

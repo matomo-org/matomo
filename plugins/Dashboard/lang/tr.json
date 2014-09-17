@@ -22,6 +22,7 @@
         "RemoveDashboardConfirm": "\"%s\" panelini kaldırmak istediğinize emin misiniz?",
         "RenameDashboard": "Panel yeniden adlandır",
         "ResetDashboard": "Paneli sıfırla",
+        "ResetDashboardConfirm": "Kontrol paneli şablonunuzu varsayılan widget seçimlerine sıfırlamak istediğinizden emin misiniz?",
         "SelectDashboardLayout": "Lütfen yeni panel düzenini seçiniz.",
         "SelectWidget": "Panoya eklemek için bileşen seçiniz.",
         "WidgetNotFound": "Bileşen bulunamadı",

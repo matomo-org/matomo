@@ -223,6 +223,11 @@ abstract class ViewDataTable implements ViewInterface
                 $this->config->addTranslations($metrics);
             }
 
+            $processedMetrics = $report->getProcessedMetrics();
+            if (!empty($processedMetrics)) {
+                $this->config->addTranslations($processedMetrics);
+            }
+
             $report->configureView($this);
         }
 

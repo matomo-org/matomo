@@ -451,4 +451,14 @@ class Segment
         $query = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
         return $query;
     }
+
+    /**
+     * Returns the segment string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getString();
+    }
 }

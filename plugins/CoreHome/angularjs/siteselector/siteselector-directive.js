@@ -57,37 +57,29 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
             }
 
             return function (scope, element, attrs, ngModel) {
+                scope.selectedSite = {id: attrs.siteid, name: attrs.sitename};
+                scope.model.loadInitialSites();
+
                 if (ngModel) {
-                    scope.selectedSite.id = ngModel.$viewValue;
-                }
-
-                // selectedSite.id|.name + model is hard-coded but actually the directive should not know about this
-                scope.selectedSite.id   = scope.selectedSite.id || attrs.siteid;
-                scope.selectedSite.name = attrs.sitename;
-
-                if (!attrs.siteid || !attrs.sitename) {
-                    scope.model.loadInitialSites();
+                    ngModel.$setViewValue(scope.selectedSite);
                 }
 
                 scope.$watch('selectedSite.id', function (newValue, oldValue, scope) {
                     if (newValue != oldValue) {
                         element.attr('siteid', newValue);
                         element.trigger('change', scope.selectedSite);
+                    }
+                });
 
-                        if (ngModel) {
-                            ngModel.$setViewValue(newValue);
-                        }
+                scope.$watch('selectedSite', function (newValue) {
+                    if (ngModel) {
+                        ngModel.$setViewValue(newValue);
                     }
                 });
 
                 scope.$watch('view.showSitesList', function (newValue) {
                     element.toggleClass('expanded', !! newValue);
                 });
-
-                /** use observe to monitor attribute changes
-                attrs.$observe('maxsitenamewidth', function(val) {
-                    // for instance trigger a function or whatever
-                }) */
             };
         }
     };

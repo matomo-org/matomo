@@ -1,6 +1,7 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Aggiungi %s condizione",
+        "AddingSegmentForAllWebsitesDisabled": "L'aggiunta di segmenti per tutti i siti è stata disabilitata.",
         "AddNewSegment": "Aggiungi un nuovo segmento",
         "AreYouSureDeleteSegment": "Sei sicuro di voler eliminare questo segmento?",
         "AutoArchivePreProcessed": "i reports segmentati sono pre-elaborati (più veloce, richiede archive.php cron)",

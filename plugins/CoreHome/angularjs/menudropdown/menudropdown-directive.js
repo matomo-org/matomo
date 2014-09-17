@@ -25,7 +25,8 @@ angular.module('piwikApp').directive('piwikMenudropdown', function(){
         scope: {
             menuTitle: '@',
             tooltip: '@',
-            showSearch: '='
+            showSearch: '=',
+            menuTitleChangeOnClick: '='
         },
         templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster,
         link: function(scope, element, attrs) {
@@ -37,9 +38,11 @@ angular.module('piwikApp').directive('piwikMenudropdown', function(){
                     return;
                 }
 
-                scope.menuTitle = $self.text().replace(/[\u0000-\u2666]/g, function(c) {
-                    return '&#'+c.charCodeAt(0)+';';
-                });
+                if (scope.menuTitleChangeOnClick !== false) {
+                    scope.menuTitle = $self.text().replace(/[\u0000-\u2666]/g, function(c) {
+                        return '&#'+c.charCodeAt(0)+';';
+                    });
+                }
                 scope.$eval('view.showItems = false');
                 scope.$apply();
 

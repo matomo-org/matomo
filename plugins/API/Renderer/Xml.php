@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
+use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
 
@@ -33,7 +34,7 @@ class Xml extends ApiRenderer
 
     public function sendHeader()
     {
-        @header('Content-Type: text/xml; charset=utf-8');
+        Common::sendHeader('Content-Type: text/xml; charset=utf-8');
     }
 
 }

@@ -2,12 +2,17 @@
     "VisitTime": {
         "ColumnLocalTime": "Czas lokalny",
         "ColumnServerTime": "Czas serwera",
+        "DayOfWeek": "Dzień tygodnia",
         "LocalTime": "Odwiedziny według lokalnego czasu",
         "NHour": "%sh",
         "PluginDescription": "Raporty związane z czasem lokalnym i czasem serwera. Informacje uwzględniające czas serwera mogą być użyteczne do ustalenia czasu przerw technicznych serwisu.",
         "ServerTime": "Odwiedziny według czasu serwera",
         "SubmenuTimes": "Czas",
+        "VisitsByDayOfWeek": "Odwiedziny w poszczególnych dniach tygodnia",
+        "WidgetByDayOfWeekDocumentation": "Ten wykres pokazuje liczbe odwiedzin twojej stony otrzymanych każdego dnia tygodnia",
         "WidgetLocalTime": "Odwiedziny według lokalnego czasu",
-        "WidgetServerTime": "Odwiedziny według czasu serwera"
+        "WidgetLocalTimeDocumentation": "Ten wykres pokazuje jaki czas był %s w strefie czasowej odwiedzających %s podczas ich wizyty.",
+        "WidgetServerTime": "Odwiedziny według czasu serwera",
+        "WidgetServerTimeDocumentation": "Ten wykres pokazuje jaki czas był w %s strefie czasowej serwera %s podczas odwiedzin."
     }
 }

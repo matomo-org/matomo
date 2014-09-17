@@ -18,7 +18,7 @@ class Html extends ApiRenderer
 
     public function renderException($message, \Exception $exception)
     {
-        @header('Content-Type: text/plain; charset=utf-8', true);
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8', true);
 
         return nl2br($message);
     }
@@ -45,7 +45,7 @@ class Html extends ApiRenderer
 
     public function sendHeader()
     {
-        @header('Content-Type: text/html; charset=utf-8', true);
+        Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
     }
 
 }

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\API\Renderer;
 
+use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
 
@@ -16,7 +17,7 @@ class Tsv extends Csv
 
     public function renderSuccess($message)
     {
-        @header("Content-Disposition: attachment; filename=piwik-report-export.csv");
+        Common::sendHeader("Content-Disposition: attachment; filename=piwik-report-export.csv");
         return "message\t" . $message;
     }
 

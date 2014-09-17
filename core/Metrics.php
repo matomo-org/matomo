@@ -82,6 +82,10 @@ class Metrics
     const INDEX_NB_USERS = 39;
     const INDEX_SUM_DAILY_NB_USERS = 40;
 
+    // Contents
+    const INDEX_CONTENT_NB_IMPRESSIONS = 41;
+    const INDEX_CONTENT_NB_INTERACTIONS = 42;
+
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
     const INDEX_GOAL_REVENUE = 2;
@@ -141,6 +145,9 @@ class Metrics
         Metrics::INDEX_EVENT_MAX_EVENT_VALUE                 => 'max_event_value',
         Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE              => 'nb_events_with_value',
 
+        // Contents
+        Metrics::INDEX_CONTENT_NB_IMPRESSIONS                => 'nb_impressions',
+        Metrics::INDEX_CONTENT_NB_INTERACTIONS               => 'nb_interactions'
     );
 
     public static $mappingFromIdToNameGoal = array(

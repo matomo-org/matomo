@@ -15,6 +15,9 @@ if(file_exists("stub.tpl")) {
 function getToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getContentToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
@@ -48,14 +51,32 @@ testTrackPageViewAsync();
 }
 ?>
  </script>
- <script src="../../js/piwik.js" type="text/javascript"></script>
+ <script src="../../js/piwik.js?rand=<?php echo md5(uniqid(mt_rand(), true)) ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
+<style>
+    .assertSize {
+        height: 1px;
+        width: 1px;
+    }
+    .hideY {
+        overflow-x: hidden !important;
+    }
+    #contenttest {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+    }
+</style>
+ <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/jslint.js" type="text/javascript"></script>
  <script type="text/javascript">
+ QUnit.config.reorder = false;
 function _e(id){
     if (document.getElementById)
         return document.getElementById(id);
@@ -64,6 +85,114 @@ function _e(id){
     if (document.all)
         return document.all[id];
 }
+ function isIE () {
+     var myNav = navigator.userAgent.toLowerCase();
+     return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+ }
+
+function _s(selector) { // select node within content test scope
+ $nodes = $('#contenttest ' + selector);
+ if ($nodes.length) {
+     return $nodes[0];
+ } else {
+     ok(false, 'selector not found but should: #contenttest ' + selector);
+ }
+}
+
+ // Polyfill for IndexOf for IE6-IE8
+ function indexOfArray(theArray, searchElement)
+ {
+     if (theArray && theArray.indexOf) {
+         return theArray.indexOf(searchElement);
+     }
+
+     // 1. Let O be the result of calling ToObject passing
+     //    the this value as the argument.
+     if (!isDefined(theArray) || theArray === null) {
+         return -1;
+     }
+
+     if (!theArray.length) {
+         return -1;
+     }
+
+     var len = theArray.length;
+
+     if (len === 0) {
+         return -1;
+     }
+
+     var k = 0;
+
+     // 9. Repeat, while k < len
+     while (k < len) {
+         // a. Let Pk be ToString(k).
+         //   This is implicit for LHS operands of the in operator
+         // b. Let kPresent be the result of calling the
+         //    HasProperty internal method of O with argument Pk.
+         //   This step can be combined with c
+         // c. If kPresent is true, then
+         //    i.  Let elementK be the result of calling the Get
+         //        internal method of O with the argument ToString(k).
+         //   ii.  Let same be the result of applying the
+         //        Strict Equality Comparison Algorithm to
+         //        searchElement and elementK.
+         //  iii.  If same is true, return k.
+         if (theArray[k] === searchElement) {
+             return k;
+         }
+         k++;
+     }
+     return -1;
+ }
+ function getOrigin()
+ {
+     if (window.location.origin) {
+         return window.location.origin;
+     }
+     return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+ }
+
+ function encodeWrapper(url)
+ {
+     return window.encodeURIComponent(url);
+ }
+
+ function toEncodedAbsoluteUrl(url)
+ {
+     return encodeWrapper(toAbsoluteUrl(url));
+ }
+
+ function toAbsoluteUrl(url)
+ {
+     var origin = getOrigin();
+     var path   = toAbsolutePath(url);
+
+     var absoluteUrl = origin + path;
+
+     return absoluteUrl;
+ }
+
+ function toEncodedAbsolutePath(url)
+ {
+     return encodeWrapper(toAbsolutePath(url));
+ }
+
+ function toAbsolutePath(url)
+ {
+     var path = '';
+
+     if (0 !== url.indexOf('/')) {
+         path += location.pathname;
+         if (!path.match(/\/$/)) {
+             path += '/';
+         }
+     }
+
+     var absolutePath = path + url;
+
+     return absolutePath;
+ }
 
 function loadJash() {
     var jashDiv = _e('jashDiv');
@@ -72,7 +201,45 @@ function loadJash() {
     document.body.appendChild(document.createElement('script')).src='jash/Jash.js';
 }
 
-function dropCookie(cookieName, path, domain) {
+ function scrollToTop()
+ {
+     window.scroll(0, 0);
+ }
+
+function triggerEvent(element, type) {
+ if ( document.createEvent ) {
+     var event = document.createEvent( "MouseEvents" );
+     event.initMouseEvent(type, true, true, element.ownerDocument.defaultView,
+         0, 0, 0, 0, 0, false, false, false, false, 0, null);
+     element.dispatchEvent( event );
+ } else if ( element.fireEvent ) {
+     element.fireEvent( "on" + type );
+ }
+}
+
+ function wait(msecs)
+ {
+     var start = new Date().getTime();
+     var cur = start
+     while(cur - start < msecs)
+     {
+         cur = new Date().getTime();
+     }
+ }
+
+ function fetchTrackedRequests(token)
+ {
+     var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
+         window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
+             null;
+
+     xhr.open("GET", "piwik.php?requests=" + token, false);
+     xhr.send(null);
+
+     return xhr.responseText;
+ }
+
+ function dropCookie(cookieName, path, domain) {
     var expiryDate = new Date();
 
     expiryDate.setTime(expiryDate.getTime() - 3600);
@@ -148,10 +315,41 @@ function deleteCookies() {
         }
     }
 }
+
+var contentTestHtml = {};
+
+ function removeContentTrackingFixture()
+ {
+     $('#contenttest').remove();
+ }
+
+function setupContentTrackingFixture(name, targetNode) {
+    var url = 'content-fixtures/' + name + '.html'
+
+    if (!contentTestHtml[name]) {
+        $.ajax({
+            url: url,
+            success: function( content ) { contentTestHtml[name] = content; },
+            dataType: 'html',
+            async: false
+        });
+    }
+
+    var newNode = $('<div id="contenttest">' + contentTestHtml[name] + '</div>');
+
+    removeContentTrackingFixture();
+
+    if (targetNode) {
+        $(targetNode).prepend(newNode);
+    } else {
+        $('#other').append(newNode);
+    }
+}
+
  </script>
 </head>
 <body>
-<div style="display:none;"><a href="http://piwik.org/qa">First anchor link</a></div>
+<div style="display:none;"><a id="firstLink" href="http://piwik.org/qa">First anchor link</a></div>
 
  <h1 id="qunit-header">piwik.js: Unit Tests</h1>
  <h2 id="qunit-banner"></h2>
@@ -166,6 +364,8 @@ function deleteCookies() {
   <iframe name="iframe5"></iframe>
   <iframe name="iframe6"></iframe>
   <iframe name="iframe7"></iframe>
+  <img id="image1" src=""/> <!-- Test require this empty source attribute before image2!! -->
+  <img id="image2" data-content-piece src="img.jpg"/>
   <ul>
     <li><a id="click1" href="javascript:_e('div1').innerHTML='&lt;iframe src=&quot;http://click.example.com&quot;&gt;&lt;/iframe&gt;';void(0)" class="clicktest">ignore: implicit (JavaScript href)</a></li>
     <li><a id="click2" href="http://example.org" target="iframe2" class="piwik_ignore clicktest">ignore: explicit</a></li>
@@ -178,12 +378,29 @@ function deleteCookies() {
   </ul>
   <div id="clickDiv"></div>
  </div>
+ <map name="map">
+     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Piwik">
+     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Piwik2">
+ </map>
 
  <ol id="qunit-tests"></ol>
 
  <div id="main" style="display:none;"></div>
 
  <script>
+
+ if (isIE()) {
+     (function () {
+         // otherwise because of position:absolute some nodes will be visible but should not... it will show scroll bars in IE
+         function fixWidthNode(tagName){
+             var node = document.getElementsByTagName(tagName)[0];
+             node.className = node.className + ' hideY ie';
+         }
+         fixWidthNode('html');
+         fixWidthNode('body');
+     })();
+ }
+
 var hasLoaded = false;
 function PiwikTest() {
     hasLoaded = true;
@@ -196,7 +413,9 @@ function PiwikTest() {
             $src = file_get_contents('../../js/piwik.js');
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
             echo "$src"; ?>';
-        ok( JSLINT(src), "JSLint" );
+
+        var result = JSLINT(src);
+        ok( result, "JSLint" );
 //      alert(JSLINT.report(true));
     });
 
@@ -297,7 +516,1361 @@ function PiwikTest() {
             [ {'domains' : ['example.com', 'example.ca']}, {'names' : ['Sean', 'Cathy'] } ], 'Nested members' );
     });
 
-    module("core");
+    module("core", {
+        setup: function () {
+            Piwik.getTracker().clearTrackedContentImpressions();
+        },
+        teardown: function () {
+            $('#other #content').remove();
+        }
+    });
+
+    test("Query", function() {
+        var tracker = Piwik.getTracker();
+        var query   = tracker.getQuery();
+        var actual;
+
+
+        actual = query.hasNodeCssClass();
+        strictEqual(actual, false, "hasNodeCssClass, no element set");
+
+        actual = query.hasNodeCssClass(_e('clickDiv'));
+        strictEqual(actual, false, "hasNodeCssClass, no classname set");
+
+        actual = query.hasNodeCssClass(_e('clickDiv'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has no class at all");
+
+        actual = query.hasNodeCssClass(_e('click3'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has one classes and it does not match");
+
+        actual = query.hasNodeCssClass(_e('click3'), 'clicktest');
+        strictEqual(actual, true, "hasNodeCssClass, element has one classes and it matches");
+
+        actual = query.hasNodeCssClass(_e('click7'), 'anyClass');
+        strictEqual(actual, false, "hasNodeCssClass, element has many classes but not this one");
+
+        actual = query.hasNodeCssClass(_e('click7'), 'piwik_download');
+        strictEqual(actual, true, "hasNodeCssClass, element has many classes and it matches");
+
+
+        actual = query.findNodesHavingCssClass();
+        propEqual(actual, [], "findNodesHavingCssClass, no node set");
+
+        actual = query.findNodesHavingCssClass(document.body);
+        propEqual(actual, [], "findNodesHavingCssClass, no classname set");
+
+        actual = query.findNodesHavingCssClass(document.body, 'piwik_ignore');
+        propEqual(actual, [_e('click2')], "findNodesHavingCssClass, find matching within body");
+
+        actual = query.findNodesHavingCssClass(_e('other'), 'piwik_ignore');
+        propEqual(actual, [_e('click2')], "findNodesHavingCssClass, ffind matching within div");
+
+        actual = query.findNodesHavingCssClass(_e('other'), 'piwik_download');
+        propEqual(actual, [_e('click7')], "findNodesHavingCssClass, find matching within div different class");
+
+        actual = query.findNodesHavingCssClass(_e('other'), 'clicktest');
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingCssClass, find many matching within div");
+
+        actual = query.findNodesHavingCssClass(_e('click7'), 'piwik_download');
+        propEqual(actual, [], "findNodesHavingCssClass, should not find if passed node has class itself");
+
+        actual = query.findNodesHavingCssClass(_e('clickDiv'), 'clicktest');
+        if (_e('clickDiv').children) {
+            ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        }
+        propEqual(actual, [], "findNodesHavingCssClass, should not find anything");
+
+
+
+        actual = query.findFirstNodeHavingClass();
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no node set");
+
+        actual = query.findFirstNodeHavingClass(document.body);
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no classname set");
+
+        actual = query.findFirstNodeHavingClass(document.body, 'notExistingClass');
+        strictEqual(actual, undefined, "findFirstNodeHavingClass, no such classname exists");
+
+        actual = query.findFirstNodeHavingClass(document.body, 'piwik_ignore');
+        strictEqual(actual, _e('click2'), "findFirstNodeHavingClass, find matching within body");
+
+        actual = query.findFirstNodeHavingClass(_e('other'), 'clicktest');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, find matching within node");
+
+        actual = query.findFirstNodeHavingClass(_e('click1'), 'clicktest');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingClass, passed node has class itself");
+
+
+
+        actual = query.hasNodeAttribute();
+        strictEqual(actual, false, "hasNodeAttribute, no element set");
+
+        actual = query.hasNodeAttribute(_e('clickDiv'));
+        strictEqual(actual, false, "hasNodeAttribute, no attribute set");
+
+        actual = query.hasNodeAttribute(document.body, 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttribute, element has no attribute at all");
+
+        actual = query.hasNodeAttribute(_e('click2'), 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttribute, element has attributes and it does not match");
+
+        actual = query.hasNodeAttribute(_e('click2'), 'href');
+        strictEqual(actual, true, "hasNodeAttribute, element has attributes and it does match");
+
+        actual = query.hasNodeAttribute(_e('image1'), 'src');
+        strictEqual(actual, true, "hasNodeAttribute, element has attributes and it does match other attribute");
+
+        actual = query.hasNodeAttribute(_e('image2'), 'data-content-piece');
+        strictEqual(actual, true, "hasNodeAttribute, element has attribute and no value");
+
+
+
+        actual = query.hasNodeAttributeWithValue();
+        strictEqual(actual, false, "hasNodeAttributeWithValue, no element set");
+
+        actual = query.hasNodeAttributeWithValue(_e('clickDiv'));
+        strictEqual(actual, false, "hasNodeAttributeWithValue, no attribute set");
+
+        actual = query.hasNodeAttributeWithValue(document.body, 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has no attribute at all");
+
+        actual = query.hasNodeAttributeWithValue(_e('click2'), 'anyAttribute');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has attributes but not this one");
+
+        actual = query.hasNodeAttributeWithValue(_e('click2'), 'href');
+        strictEqual(actual, true, "hasNodeAttributeWithValue, element has attribute and value");
+
+        actual = query.hasNodeAttributeWithValue(_e('image1'), 'src');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has attribute but no value");
+
+        actual = query.hasNodeAttributeWithValue(_e('image2'), 'data-content-piece');
+        strictEqual(actual, false, "hasNodeAttributeWithValue, element has attribute but no value");
+
+
+        actual = query.getAttributeValueFromNode();
+        strictEqual(actual, undefined, "getAttributeValueFromNode, no element set");
+
+        actual = query.getAttributeValueFromNode(_e('clickDiv'));
+        strictEqual(actual, undefined, "getAttributeValueFromNode, no attribute set");
+
+        actual = query.getAttributeValueFromNode(document.body, 'anyAttribute');
+        strictEqual(actual, undefined, "getAttributeValueFromNode, element has no attribute at all");
+
+        actual = query.getAttributeValueFromNode(_e('click2'), 'anyAttribute');
+        strictEqual(actual, undefined, "getAttributeValueFromNode, element has attributes but not this one");
+
+        actual = query.getAttributeValueFromNode(_e('click2'), 'href');
+        strictEqual(actual, 'http://example.org', "getAttributeValueFromNode, element has attribute and value");
+
+        actual = query.getAttributeValueFromNode(_e('image1'), 'src');
+        strictEqual(actual, '', "getAttributeValueFromNode, element has attribute but no value");
+
+        actual = query.getAttributeValueFromNode(_e('image2'), 'data-content-piece');
+        strictEqual(actual, '', "getAttributeValueFromNode, element has attribute but no value");
+
+        actual = query.getAttributeValueFromNode(_e('click2'), 'class');
+        strictEqual(actual, 'piwik_ignore clicktest', "getAttributeValueFromNode, element has attribute class and value");
+
+
+
+        actual = query.findNodesHavingAttribute();
+        propEqual(actual, [], "findNodesHavingAttribute, no node set");
+
+        actual = query.findNodesHavingAttribute(document.body);
+        propEqual(actual, [], "findNodesHavingAttribute, no attribute set");
+
+        actual = query.findNodesHavingAttribute(document.body, 'anyAttribute');
+        propEqual(actual, [], "findNodesHavingAttribute, should not find any such attribute within body");
+
+        actual = query.findNodesHavingAttribute(document.body, 'style');
+        strictEqual(actual.length, 3, "findNodesHavingAttribute, should find a few");
+
+        actual = query.findNodesHavingAttribute(_e('click1'), 'href');
+        propEqual(actual, [], "findNodesHavingAttribute, should not find itself if the passed element has the attribute");
+
+        actual = query.findNodesHavingAttribute(_e('clickDiv'), 'id');
+        if (_e('clickDiv').children) {
+            ok(_e('clickDiv').children.length === 0, "clickDiv should not have any children");
+        }
+        propEqual(actual, [], "findNodesHavingAttribute, this element does not have children");
+
+        actual = query.findNodesHavingAttribute(document.body, 'href');
+        ok(actual.length > 11, "findNodesHavingAttribute, should find many elements within body");
+
+        actual = query.findNodesHavingAttribute(_e('other'), 'href');
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingAttribute, should find many elements within node");
+
+        actual = query.findNodesHavingAttribute(_e('other'), 'anyAttribute');
+        propEqual(actual, [], "findNodesHavingAttribute, should not find any such attribute within div");
+
+
+// TODO it is a bit confusing that findNodesHavingAttribute/CssClass does not include the passed node in the search but findFirstNodeHavingAttribute/CssClass does
+        actual = query.findFirstNodeHavingAttribute();
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, no node set");
+
+        actual = query.findFirstNodeHavingAttribute(document.body);
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, no attribute set");
+
+        actual = query.findFirstNodeHavingAttribute(document.body, 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, should not find any such attribute within body");
+
+        actual = query.findFirstNodeHavingAttribute(_e('click1'), 'href');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingAttribute, element has the attribute itself and not a children");
+
+        actual = query.findFirstNodeHavingAttribute(_e('clickDiv'), 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttribute, this element does not have children");
+
+        actual = query.findFirstNodeHavingAttribute(document.body, 'href');
+        strictEqual(actual, _e('firstLink'), "findFirstNodeHavingAttribute, should find first link within body");
+
+        actual = query.findFirstNodeHavingAttribute(_e('other'), 'href');
+        strictEqual(actual, _e('click1'), "findFirstNodeHavingAttribute, should find fist link within node");
+
+
+
+        actual = query.findFirstNodeHavingAttributeWithValue();
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, no node set");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body);
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, no attribute set");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body, 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, should not find any such attribute within body");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(_e('click2'), 'href');
+        strictEqual(actual, _e('click2'), "findFirstNodeHavingAttributeWithValue, element has the attribute itself and not a children");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(_e('clickDiv'), 'anyAttribute');
+        strictEqual(actual, undefined, "findFirstNodeHavingAttributeWithValue, this element does not have children");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body, 'href');
+        strictEqual(actual, _e('firstLink'), "findFirstNodeHavingAttributeWithValue, should find first link within body");
+
+        actual = query.findFirstNodeHavingAttributeWithValue(document.body, 'src');
+        strictEqual(actual, _e('image2'), "findFirstNodeHavingAttributeWithValue, should not return first image which has empty src attribute");
+
+
+
+        actual = query.htmlCollectionToArray();
+        propEqual(actual, [], "htmlCollectionToArray, should always return an array even if nothing given");
+
+        actual = query.htmlCollectionToArray(5);
+        propEqual(actual, [], "htmlCollectionToArray, should always return an array even if interger given"); // would still parse string to an array but we can live with that
+
+        var htmlCollection = document.getElementsByTagName('a');
+        actual = query.htmlCollectionToArray(htmlCollection);
+        ok($.isArray(actual), 'htmlCollectionToArray, should convert to array');
+        ok(actual.length === htmlCollection.length, 'htmlCollectionToArray should have same amount of elements as before');
+        ok(actual.length > 10, 'htmlCollectionToArray, just make sure there are many a elements found. otherwise test is useless');
+        ok(-1 !== indexOfArray(actual, _e('click1')), 'htmlCollectionToArray, random check to make sure it contains a link');
+
+
+        actual = query.isLinkElement();
+        strictEqual(actual, false, "isLinkElement, no element set");
+
+        actual = query.isLinkElement(_e('div1'));
+        strictEqual(actual, false, "isLinkElement, a div is not a link element");
+
+        actual = query.isLinkElement(document.createTextNode('ff'));
+        strictEqual(actual, false, "isLinkElement, a text node is not a link element");
+
+        actual = query.isLinkElement(document.createComment('tt'));
+        strictEqual(actual, false, "isLinkElement, a comment is not a link element");
+
+        actual = query.isLinkElement(_e('area1'));
+        strictEqual(actual, true, "isLinkElement, an area element is a link element");
+
+        actual = query.isLinkElement(_e('click1'));
+        strictEqual(actual, true, "isLinkElement, an a element is a link element");
+
+
+        actual = query.find();
+        propEqual(actual, [], "find, no selector passed should return an empty array");
+
+        actual = query.find('[data-content-piece]');
+        propEqual(actual, [_e('image2')], "find, should find elements by attribute");
+
+        actual = query.find('.piwik_link');
+        propEqual(actual, [_e('click5')], "find, should find elements by class");
+
+        actual = query.find('#image1');
+        propEqual(actual, [_e('image1')], "find, should find elements by id");
+
+        actual = query.find('[href]');
+        ok(actual.length > 10, "find, should find many elements by attribute");
+        ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
+
+        actual = query.find('.clicktest');
+        ok(actual.length === 8, "find, should find many elements by class");
+        ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
+
+
+
+        actual = query.findMultiple();
+        propEqual(actual, [], "findMultiple, no selectors passed should return an empty array");
+
+        actual = query.findMultiple([]);
+        propEqual(actual, [], "findMultiple, empty selectors passed should return an empty array");
+
+        actual = query.findMultiple(['.piwik_link']);
+        propEqual(actual, [_e('click5')], "findMultiple, only one selector passed");
+
+        actual = query.findMultiple(['.piwik_link', '[data-content-piece]']);
+        propEqual(actual, [_e('image2'), _e('click5')], "findMultiple, two selectors passed");
+
+        actual = query.findMultiple(['.piwik_link', '[data-content-piece]', '#image2', '#div1']);
+        propEqual(actual, [_e('div1'), _e('image2'), _e('click5')], "findMultiple, should make nodes unique in case we select the same multiple times");
+
+
+        actual = query.findNodesByTagName();
+        propEqual(actual, [], "findNodesByTagName, no element and no tag name set");
+
+        actual = query.findNodesByTagName(document.body);
+        propEqual(actual, [], "findNodesByTagName, no tag name set");
+
+        actual = query.findNodesByTagName(document.body, 'notExistingOne');
+        propEqual(actual, [], "findNodesByTagName, should not find any such element");
+
+        actual = query.findNodesByTagName(document.body, 'a');
+        ok($.isArray(actual), "findNodesByTagName, should always return an array");
+
+        actual = query.findNodesByTagName(document.body, 'h1');
+        propEqual(actual, [_e('qunit-header')], "findNodesByTagName, find exactly one");
+
+        actual = query.findNodesByTagName(document.body, 'a');
+        ok(actual.length > 10, "findNodesByTagName, find many, even nested ones");
+        ok(indexOfArray(actual, _e('click1')), "findNodesByTagName, just a random test to make sure it actually contains a link");
+    });
+
+    test("contentFindContentBlock", function() {
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual, expected;
+
+        actual = content.findContentNodes();
+        propEqual(actual, [], "findContentNodes, should not find any content node when there is none");
+
+        actual = content.findContentNodesWithinNode();
+        propEqual(actual, [], "findContentNodesWithinNode, should not find any content node when no node passed");
+
+        actual = content.findContentNodesWithinNode(_e('other'));
+        ok(_e('other'), "if we do not get an element here test is not useful");
+        propEqual(actual, [], "findContentNodesWithinNode, should not find any content node when there is none");
+
+        actual = content.findParentContentNode(_e('click1'));
+        ok(_e('click1'), "if we do not get an element here test is not useful");
+        strictEqual(actual, undefined, "findParentContentNode, should not find any content node when there is none");
+
+
+
+        setupContentTrackingFixture('findContentBlockTest');
+
+        var isOneWithClass = _s('#isOneWithClass');
+        var isOneWithAttr  = _s('#isOneWithAttribute');
+        var isHrefUrl      = _s('[href="http://www.example.com"]');
+        var containsOneWithAttr = _s('#containsOneWithAttribute [data-track-content]');
+
+        expected = [containsOneWithAttr, isOneWithAttr, isHrefUrl, isOneWithClass];
+        actual = content.findContentNodes();
+        propEqual(actual, expected, "findContentNodes, should find all content blocks within the DOM");
+
+        actual = content.findContentNodesWithinNode(_s(''));
+        propEqual(actual, expected, "findContentNodesWithinNode, should find all content blocks within the DOM");
+
+        actual = content.findContentNodesWithinNode(_s('#containsOneWithAttribute'));
+        propEqual(actual, [containsOneWithAttr], "findContentNodesWithinNode, should find content blocks within a node");
+
+        actual = content.findContentNodesWithinNode(isOneWithClass);
+        propEqual(actual, [isOneWithClass], "findContentNodesWithinNode, should find one content block in the node itself");
+
+        actual = content.findParentContentNode(_s('#isOneWithClass'));
+        strictEqual(actual, isOneWithClass, "findParentContentNode, should find itself in case the passed node is a content block with class");
+
+        actual = content.findParentContentNode(_s('#isOneWithAttribute'));
+        strictEqual(actual, isOneWithAttr, "findParentContentNode, should find itself in case the passed node is a content block with attribute");
+
+        actual = content.findParentContentNode(_s('#innerNode'));
+        strictEqual(actual, isHrefUrl, "findParentContentNode, should find parent content block");
+    });
+
+    test("contentFindContentNodes", function() {
+        function ex(testNumber) { // select node within content test scope
+            $nodes = $('#contenttest #ex' + testNumber);
+            if ($nodes.length) {
+                return $nodes[0];
+            } else {
+                ok(false, 'selector was not found but should be "#contenttest #ex' + selector + '"')
+            }
+        }
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual;
+
+        var unrelatedNode = _e('other');
+        ok(unrelatedNode, 'Make sure this element exists');
+
+        actual = content.findTargetNodeNoDefault();
+        strictEqual(actual, undefined, "findTargetNodeNoDefault, should not find anything if no node set");
+
+        actual = content.findTargetNode();
+        strictEqual(actual, undefined, "findTargetNode, should not find anything if no node set");
+
+        actual = content.findPieceNode();
+        strictEqual(actual, undefined, "findPieceNode, should not find anything if no node set");
+
+
+
+        setupContentTrackingFixture('findContentNodesTest');
+
+        var example1 = ex(1);
+        ok(example1, 'Make sure this element exists to verify setup');
+
+        ok("test fall back to content block node");
+
+        actual = content.findTargetNodeNoDefault(example1);
+        strictEqual(actual, undefined, "findTargetNodeNoDefault, should return nothing as no target set");
+
+        actual = content.findTargetNode(example1);
+        strictEqual(actual, example1, "findTargetNode, should fall back to content block node as no target set");
+
+        actual = content.findPieceNode(example1);
+        strictEqual(actual, example1, "findPieceNode, should not find anything if no node set");
+
+
+
+        ok("test actually detects the attributes within a content block");
+
+        actual = content.findTargetNodeNoDefault(ex(3));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNodeNoDefault, should have the attribute");
+        strictEqual(actual, ex('3 a'), "findTargetNodeNoDefault, should find actual target node via attribute");
+
+        actual = content.findTargetNode(ex(3));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
+        strictEqual(actual, ex('3 a'), "findTargetNode, should find actual target node via attribute");
+
+        actual = content.findPieceNode(ex(3));
+        ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
+        strictEqual(actual, ex('3 img'), "findPieceNode, should find actual target piece via attribute");
+
+
+
+        ok("test actually detects the CSS class within a content block");
+
+        actual = content.findTargetNodeNoDefault(ex(4));
+        ok($(actual).hasClass(content.CONTENT_TARGET_CLASS), "findTargetNodeNoDefault, should have the CSS class");
+        strictEqual(actual, ex('4 a'), "findTargetNodeNoDefault, should find actual target node via class");
+
+        actual = content.findTargetNode(ex(4));
+        ok($(actual).hasClass(content.CONTENT_TARGET_CLASS), "findTargetNode, should have the CSS class");
+        strictEqual(actual, ex('4 a'), "findTargetNode, should find actual target node via class");
+
+        actual = content.findPieceNode(ex(4));
+        ok($(actual).hasClass(content.CONTENT_PIECE_CLASS), "findPieceNode, should have the CSS class");
+        strictEqual(actual, ex('4 img'), "findPieceNode, should find actual target piece via class");
+
+
+
+        ok("test actually attributes takes precendence over class");
+
+        actual = content.findTargetNodeNoDefault(ex(5));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNodeNoDefault, should have the attribute");
+        strictEqual(actual.textContent, 'Target with attribute', "findTargetNodeNoDefault, should igonre node with class and pick attribute node");
+
+        actual = content.findTargetNode(ex(5));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
+        strictEqual(actual.textContent, 'Target with attribute', "findTargetNode, should igonre node with class and pick attribute node");
+
+        actual = content.findPieceNode(ex(5));
+        ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
+        strictEqual(actual.textContent, 'Piece with attribute', "findPieceNode, should igonre node with class and pick attribute node");
+
+
+
+        ok("make sure it picks always the first one with multiple nodes have same class or same attribute");
+
+        actual = content.findTargetNode(ex(6));
+        ok($(actual).hasClass(content.CONTENT_TARGET_CLASS), "findTargetNode, should have the CSS class");
+        strictEqual(actual.textContent, 'Target with class1', "findTargetNode, should igonre node with class and pick attribute node");
+
+        actual = content.findPieceNode(ex(6));
+        ok($(actual).hasClass(content.CONTENT_PIECE_CLASS), "findPieceNode, should have the CSS class");
+        strictEqual(actual.textContent, 'Piece with class1', "findPieceNode, should igonre node with class and pick attribute node");
+
+        actual = content.findTargetNode(ex(7));
+        ok(undefined !== $(actual).attr(content.CONTENT_TARGET_ATTR), "findTargetNode, should have the attribute");
+        strictEqual(actual.textContent, 'Target with attribute1', "findTargetNode, should igonre node with class and pick attribute node");
+
+        actual = content.findPieceNode(ex(7));
+        ok(undefined !== $(actual).attr(content.CONTENT_PIECE_ATTR), "findPieceNode, should have the attribute");
+        strictEqual(actual.textContent, 'Piece with attribute1', "findPieceNode, should igonre node with class and pick attribute node");
+    });
+
+    test("contentUtilities", function() {
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var query   = tracker.getQuery();
+        content.setLocation(); // clear possible previous location
+        var actual, expected;
+
+        function assertTrimmed(value, expected, message)
+        {
+            strictEqual(content.trim(value), expected, message);
+        }
+
+        function assertRemoveDomainKeepsValueUntouched(value, message)
+        {
+            strictEqual(content.removeDomainIfIsInLink(value), value, message);
+        }
+
+        function assertIsSameDomain(url, message)
+        {
+            strictEqual(content.isSameDomain(url), true, message);
+        }
+
+        function assertIsNotSameDomain(url, message)
+        {
+            strictEqual(content.isSameDomain(url), false, 'isSameDomain, ' + message);
+        }
+
+        function assertDomainWillBeRemoved(url, expected, message)
+        {
+            strictEqual(content.removeDomainIfIsInLink(url), expected, message);
+        }
+
+        function assertBuildsAbsoluteUrl(url, expected, message)
+        {
+            strictEqual(content.toAbsoluteUrl(url), expected, message);
+        }
+
+        function assertImpressionRequestParams(name, piece, target, expected, message) {
+            strictEqual(content.buildImpressionRequestParams(name, piece, target), expected, message);
+        }
+
+        function assertInteractionRequestParams(interaction, name, piece, target, expected, message) {
+            strictEqual(content.buildInteractionRequestParams(interaction, name, piece, target), expected, message);
+        }
+
+        function assertShouldIgnoreInteraction(id, message) {
+            var node = content.findTargetNode(_e(id));
+            strictEqual(content.shouldIgnoreInteraction(node), true, message);
+            ok($(node).hasClass(content.CONTENT_IGNOREINTERACTION_CLASS) || undefined !== $(node).attr(content.CONTENT_IGNOREINTERACTION_ATTR), "needs to have either attribute or class");
+        }
+
+        function assertShouldNotIgnoreInteraction(id, message) {
+            var node = content.findTargetNode(_e(id));
+            strictEqual(content.shouldIgnoreInteraction(node), false, message);
+        }
+
+        function assertNodeAuthorizedToTriggerInteraction(contentNode, interactedNode, message) {
+            strictEqual(tracker.isNodeAuthorizedToTriggerInteraction(_s(contentNode), _s(interactedNode)), true, message);
+        }
+
+        function assertNodeNotAuthorizedToTriggerInteraction(contentNode, interactedNode, message) {
+            strictEqual(tracker.isNodeAuthorizedToTriggerInteraction(_s(contentNode), _s(interactedNode)), false, message);
+        }
+
+        function assertFoundMediaUrl(id, expected, message) {
+            var node = content.findPieceNode(_e(id));
+            strictEqual(content.findMediaUrlInNode(node), expected, message);
+        }
+
+        function assertIsUrlToCurrentDomain(url, message) {
+            strictEqual(content.isUrlToCurrentDomain(url), true, message);
+        }
+
+        function assertNotUrlToCurrentDomain(url, message) {
+            strictEqual(content.isUrlToCurrentDomain(url), false, message);
+        }
+
+        var locationAlias = $.extend({}, window.location);
+        var origin = getOrigin();
+        var host   = locationAlias.host;
+
+        ok("test trim(text)");
+
+        strictEqual(undefined, content.trim(), 'should not fail if nothing set / is undefined');
+        assertTrimmed(null, null, 'should not trim if null');
+        assertTrimmed(5, 5, 'should not trim a number');
+        assertTrimmed('', '', 'should not change an empty string');
+        assertTrimmed('   ', '', 'should remove all whitespace');
+        assertTrimmed('   xxxx', 'xxxx', 'should remove left whitespace');
+        assertTrimmed('   xxxx   ', 'xxxx', 'should remove left and right whitespace');
+        assertTrimmed(" \t  xxxx   \t", 'xxxx', 'should remove tabs and whitespace');
+        assertTrimmed('  xx    xx  ', 'xx    xx', 'should keep whitespace between text untouched');
+
+        ok("test isSameDomain(url)");
+        assertIsNotSameDomain(undefined, 'no url given');
+        assertIsNotSameDomain(5, 'a number, not a url');
+        assertIsNotSameDomain('foo bar', 'not a url');
+        assertIsNotSameDomain('http://example.com', 'not same domain');
+        assertIsNotSameDomain('https://www.example.com', 'not same domain and different protocol');
+        assertIsNotSameDomain('http://www.example.com:8080', 'not same domain and different port');
+        assertIsNotSameDomain('http://www.example.com/path/img.jpg', 'not same domain with path');
+
+        assertIsSameDomain(origin, 'same protocol and same domain');
+        assertIsSameDomain(origin + '/path/img.jpg', 'same protocol and same domain with path');
+        assertIsSameDomain('https://' + host + '/path/img.jpg', 'different protocol is still same domain');
+        assertIsSameDomain('http://' + host + ':8080/path/img.jpg', 'different port is still same domain');
+
+        ok("test removeDomainIfIsInLink(url)");
+
+        strictEqual(content.removeDomainIfIsInLink(), undefined, 'should not fail if nothing set / is undefined');
+        assertRemoveDomainKeepsValueUntouched(null, 'should keep null untouched');
+        assertRemoveDomainKeepsValueUntouched(5, 'should keep number untouched');
+        assertRemoveDomainKeepsValueUntouched('', 'should keep empty string untouched');
+        assertRemoveDomainKeepsValueUntouched('Any Text', 'should keep string untouched that is not a url');
+        assertRemoveDomainKeepsValueUntouched('/path/img.jpg', 'should keep string untouched that looks like a path');
+        assertRemoveDomainKeepsValueUntouched('ftp://path/img.jpg', 'should keep string untouched that looks like a path');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com', 'should keep string untouched as it is different domain');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com/', 'should keep string untouched as it is different domain');
+        assertRemoveDomainKeepsValueUntouched('https://www.example.com/', 'should keep string untouched as it is different domain');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com/path/img.jpg', 'should keep string untouched as it is different domain, this time with path');
+        assertRemoveDomainKeepsValueUntouched('http://www.example.com:8080/path/img.jpg', 'should keep string untouched as it is different domain, this time with port');
+
+        assertDomainWillBeRemoved(origin + '/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim http domain with path that is the same as the current');
+        assertDomainWillBeRemoved('https://' + host + '/path/img.jpg?x=y', '/path/img.jpg?x=y', 'should trim https domain with path that is the same as the current');
+        assertDomainWillBeRemoved(origin, '/', 'should trim http domain without path that is the same as the current');
+        assertDomainWillBeRemoved('https://' + host, '/', 'should trim https domain without path that is the same as the current');
+        assertDomainWillBeRemoved('https://' + host + ':8080', '/', 'should trim https domain with port that is the same as the current');
+
+        ok("test isUrlToCurrentDomain(url)");
+
+        strictEqual(content.removeDomainIfIsInLink(), undefined, 'should not fail if nothing set / is undefined');
+        assertNotUrlToCurrentDomain(null, ' null is not a urls');
+        assertNotUrlToCurrentDomain(5, '5 is not a url');
+        assertIsUrlToCurrentDomain('', 'empty string is same as current url so same domain');
+        assertIsUrlToCurrentDomain('Any Text', 'relative url, same domain');
+        assertIsUrlToCurrentDomain('/path/img.jpg', 'absolute url same domain');
+        assertNotUrlToCurrentDomain('ftp://path/img.jpg', 'different protocol');
+        assertNotUrlToCurrentDomain('http://www.example.com', 'different domain');
+        assertNotUrlToCurrentDomain('http://www.example.com/', 'different domain with root path');
+        assertNotUrlToCurrentDomain('https://www.example.com/', 'different domain and protocol');
+        assertNotUrlToCurrentDomain('http://www.example.com/path/img.jpg', 'different domain, this time with path');
+        assertNotUrlToCurrentDomain('http://www.example.com:8080/path/img.jpg', 'different domain, this time with port');
+
+        assertIsUrlToCurrentDomain(origin + '/path/img.jpg?x=y', 'same domain with path');
+        assertIsUrlToCurrentDomain(origin + '?x=y', 'same domain with question mark');
+        assertNotUrlToCurrentDomain('https://' + host + '/path/img.jpg?x=y', 'different protocol and path is different url');
+        assertIsUrlToCurrentDomain(origin, '/', 'same domain with root path');
+        assertNotUrlToCurrentDomain('https://' + host, 'same domain but different protocol');
+        assertNotUrlToCurrentDomain('https://' + host + ':5959', 'different protocol and port');
+        assertNotUrlToCurrentDomain('http://' + host + ':5959', 'different protocol and port');
+
+        ok("test toAbsoluteUrl(url) we need a lot of tests for this method as this will generate the redirect url");
+
+        strictEqual(undefined, content.toAbsoluteUrl(), 'should not fail if nothing set / is undefined');
+        assertBuildsAbsoluteUrl(null, null, 'null should be untouched');
+        assertBuildsAbsoluteUrl(5, 5, 'number should be untouched');
+        assertBuildsAbsoluteUrl('', locationAlias.href, 'an empty string should generate the same URL as it is currently');
+        assertBuildsAbsoluteUrl('/', origin + '/', 'root path');
+        assertBuildsAbsoluteUrl('/test', origin + '/test', 'absolute url');
+        assertBuildsAbsoluteUrl('/test/', origin + '/test/', 'absolute url');
+        assertBuildsAbsoluteUrl('?x=5', toAbsoluteUrl('?x=5'), 'absolute url');
+        assertBuildsAbsoluteUrl('path', toAbsoluteUrl('path'), 'relative path');
+        assertBuildsAbsoluteUrl('path/x?p=5', toAbsoluteUrl('path/x?p=5'), 'relative path');
+        assertBuildsAbsoluteUrl('#test', toAbsoluteUrl('#test'), 'anchor url');
+        assertBuildsAbsoluteUrl('//' + locationAlias.host + '/test/img.jpg', origin + '/test/img.jpg', 'inherit protocol url');
+        assertBuildsAbsoluteUrl('mailto:test@example.com', 'mailto:test@example.com', 'mailto pseudo-protocol url');
+        assertBuildsAbsoluteUrl('javascript:void 0', 'javascript:void 0', 'javascript pseudo-protocol url');
+        assertBuildsAbsoluteUrl('tel:0123456789', 'tel:0123456789', 'tel pseudo-protocol url');
+        assertBuildsAbsoluteUrl('anythinggggggggg:test', toAbsoluteUrl('anythinggggggggg:test'), 'we do not treat this one as pseudo-protocol url as there are too many characters before colon');
+        assertBuildsAbsoluteUrl('k1dm:test', toAbsoluteUrl('k1dm:test'), 'we do not treat this one as pseudo-protocol url as it contains a number');
+
+        locationAlias.pathname = '/test/';
+        content.setLocation(locationAlias);
+        assertBuildsAbsoluteUrl('?x=5', origin + '/test/?x=5', 'should add query param');
+        assertBuildsAbsoluteUrl('link2', origin + '/test/link2', 'relative url in existing path');
+
+        locationAlias.pathname = '/test';
+        content.setLocation(locationAlias);
+        assertBuildsAbsoluteUrl('?x=5', origin + '/test?x=5', 'should add query param');
+        assertBuildsAbsoluteUrl('link2', origin + '/link2', 'relative url replaces other relative url');
+
+        ok("test buildImpressionRequestParams(name, piece, target)");
+        assertImpressionRequestParams('name', 'piece', 'target', 'c_n=name&c_p=piece&c_t=target', "all parameters set");
+        assertImpressionRequestParams('name', 'piece', null, 'c_n=name&c_p=piece', "no target set");
+        assertImpressionRequestParams('http://example.com.com', '/?x=1', '&target=1', 'c_n=http%3A%2F%2Fexample.com.com&c_p=%2F%3Fx%3D1&c_t=%26target%3D1', "should encode values");
+
+        ok("test buildInteractionRequestParams(interaction, name, piece, target)");
+        assertInteractionRequestParams(null, null, null, null, '', "nothing set");
+        assertInteractionRequestParams('interaction', null, null, null, 'c_i=interaction', "only interaction set");
+        assertInteractionRequestParams('interaction', 'name', null, null, 'c_i=interaction&c_n=name', "no piece and no target set");
+        assertInteractionRequestParams('interaction', 'name', 'piece', null, 'c_i=interaction&c_n=name&c_p=piece', "no target set");
+        assertInteractionRequestParams('interaction', 'name', 'piece', 'target', 'c_i=interaction&c_n=name&c_p=piece&c_t=target', "all parameters set");
+        assertInteractionRequestParams(null, 'name', 'piece', null, 'c_n=name&c_p=piece', "only name and piece set");
+        assertInteractionRequestParams('http://', 'http://example.com.com', '/?x=1', '&target=1', 'c_i=http%3A%2F%2F&c_n=http%3A%2F%2Fexample.com.com&c_p=%2F%3Fx%3D1&c_t=%26target%3D1', "should encode values");
+
+        setupContentTrackingFixture('contentUtilities');
+
+        ok("test shouldIgnoreInteraction(targetNode)");
+        assertShouldIgnoreInteraction('ignoreInteraction1', 'should be ignored because of CSS class');
+        assertShouldIgnoreInteraction('ignoreInteraction2', 'should be ignored because of Attribute');
+        assertShouldIgnoreInteraction('ignoreInteraction3', 'should be ignored because of CSS class');
+        assertShouldIgnoreInteraction('ignoreInteraction4', 'should be ignored because of Attribute');
+        assertShouldNotIgnoreInteraction('notIgnoreInteraction1', 'should not be ignored');
+        assertShouldNotIgnoreInteraction('notIgnoreInteraction2', 'should not be ignored as set in wrong element');
+
+
+        ok("test isNodeAuthorizedToTriggerInteraction(targetNode)");
+        strictEqual(tracker.isNodeAuthorizedToTriggerInteraction(), false, 'nothing set');
+        strictEqual(tracker.isNodeAuthorizedToTriggerInteraction('#ignoreInteraction2'), false, 'no interacted node set');
+
+        var notAuthIgnoreNode = '#ignoreInteraction2 a';
+        assertNodeNotAuthorizedToTriggerInteraction(notAuthIgnoreNode, notAuthIgnoreNode, 'node has to be ignored');
+        $(_s(notAuthIgnoreNode)).attr('data-content-ignoreinteraction', null);
+        // node no longer ignored and it should be authorized!
+        assertNodeAuthorizedToTriggerInteraction(notAuthIgnoreNode, notAuthIgnoreNode, 'node no longer has to be ignored');
+        $(_s(notAuthIgnoreNode)).attr('data-content-ignoreinteraction', ''); // reset changed attribute
+
+        assertNodeAuthorizedToTriggerInteraction('#authorized1', '#authorized1', 'interacted with target node which is content block');
+        assertNodeAuthorizedToTriggerInteraction('#authorized1', '#authorized1_1', 'interacted with child of target node which is content block');
+        assertNodeAuthorizedToTriggerInteraction('#authorized2', '#authorized2_1', 'interacted with target node');
+        assertNodeAuthorizedToTriggerInteraction('#authorized2', '#authorized2_2', 'interacted with children of target node');
+        assertNodeNotAuthorizedToTriggerInteraction('#authorized3', '#authorized3', 'interacted with content block but it is not target node');
+        assertNodeNotAuthorizedToTriggerInteraction('#authorized3', '#authorized3_1', 'interacted with children of content block but not children of target node');
+        assertNodeAuthorizedToTriggerInteraction('#authorized3', '#authorized3_2', 'interacted with target node to make sure auth3 is not ignored');
+
+
+        ok("test setHrefAttribute(node, url)");
+        var aElement = _e('aLinkToBeChanged');
+        content.setHrefAttribute(); // should not fail if no arguments
+        strictEqual(query.getAttributeValueFromNode(aElement, 'href'), 'http://www.example.com', 'setHrefAttribute, check initial link value');
+        content.setHrefAttribute(aElement);
+        content.setHrefAttribute(aElement, '');
+        strictEqual(query.getAttributeValueFromNode(aElement, 'href'), 'http://www.example.com', 'setHrefAttribute, an empty URL should not be set');
+        content.setHrefAttribute(aElement, '/test');
+        strictEqual(query.getAttributeValueFromNode(aElement, 'href'), '/test', 'setHrefAttribute, link should be changed now');
+
+        strictEqual(content.findMediaUrlInNode(), undefined, 'should not fail if no node passed');
+        ok(_e('click1') && _e('mediaDiv'), 'make sure both nodes exist otherwise following two assertions to not test what we want');
+        assertFoundMediaUrl('click1', undefined, 'should not find anything in a link as it is not a media');
+        assertFoundMediaUrl('mediaDiv', undefined, 'should not find anything in a non media element even if it defines a src attribute');
+        assertFoundMediaUrl('mediaImg', 'test/img.jpg', 'should find url of image');
+        assertFoundMediaUrl('mediaVideo', 'movie.mp4', 'should find url of video, first one should be used');
+        assertFoundMediaUrl('mediaAudio', 'audio.ogg', 'should find url of audio, first one should be used');
+        assertFoundMediaUrl('mediaEmbed', 'embed.swf', 'should find url of embed element');
+        assertFoundMediaUrl('mediaObjectSimple', 'objectSimple.swf', 'should find url of a simple object element');
+        assertFoundMediaUrl('mediaObjectParam', 'movie_param1.swf', 'should find url of a simple object element');
+        assertFoundMediaUrl('mediaObjectPdf', 'document.pdf', 'should find url of an object that contains non flash resources such as pdf');
+        assertFoundMediaUrl('mediaObjectEmbed', 'document2.pdf', 'should fallback to an embed in an object');
+    });
+
+    test("contentVisibleNodeTests", function() {
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        var actual;
+
+        function _ex(testnumber) { // select node within content test scope
+            return _s('#ex' + testnumber);
+        }
+
+        function assertContentNodeVisible(node, message)
+        {
+            scrollToTop(); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isNodeVisible(node), true, 'isNodeVisible, ' + message);
+        }
+
+        function assertContentNodeNotVisible(node, message)
+        {
+            scrollToTop(); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isNodeVisible(node), false, 'isNodeVisible, ' + message);
+        }
+
+        function assertInternalNodeVisible(node, message)
+        {
+            scrollToTop(); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(tracker.internalIsNodeVisible(node), true, 'internalIsNodeVisible, ' + message);
+        }
+
+        function assertInternalNodeNotVisible(node, message)
+        {
+            scrollToTop(); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(tracker.internalIsNodeVisible(node), false, 'internalNodeIsVisible, ' + message);
+        }
+
+        function assertNodeNotInViewport(node, message)
+        {
+            scrollToTop(); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isOrWasNodeInViewport(node), false, 'internalNodeNotVisible, ' + message);
+        }
+
+        function assertNodeIsInViewport(node, message)
+        {
+            scrollToTop(); // make sure content nodes are actually in view port
+
+            if (!message) {
+                message = '';
+            }
+            strictEqual(content.isOrWasNodeInViewport(node), true, 'internalIsNodeVisible, ' + message);
+
+            window.scroll(0,200); // if we scroll done it was visible
+
+            strictEqual(content.isOrWasNodeInViewport(node), true, 'internalIsNodeVisible, ' + message);
+        }
+
+        setupContentTrackingFixture('visibleNodes', document.body); // #contenttest is placed by default in #other but #other is not visible so all tests would return false.
+
+        ok('test internalIsNodeVisible()');
+        assertInternalNodeNotVisible(undefined, 'no node set, cannot be visible');
+        assertInternalNodeNotVisible(_e('click1'), 'parent other is hidden');
+        assertInternalNodeNotVisible(document.createElement('div'), 'element is not in DOM');
+        assertInternalNodeVisible(_ex(1), 'node exists and should be visible');
+        assertInternalNodeNotVisible(_ex(2), 'hidden via opacity');
+        assertInternalNodeNotVisible(_ex(3), 'hidden via visibility');
+        assertInternalNodeNotVisible(_ex(4), 'hidden via display');
+        assertInternalNodeVisible(_ex(5), 'width is 0 but overflow can make it visible again?!?');
+        assertInternalNodeVisible(_ex(6), 'height is 0 but overflow can make it visible again?!?');
+        assertInternalNodeNotVisible(_ex(7), 'hidden via width:0, overflow is hidden');
+        assertInternalNodeNotVisible(_ex(8), 'hidden via height:0, overflow is hidden');
+        assertInternalNodeNotVisible(_ex(13), 'parent is hidden via opacity');
+        assertInternalNodeNotVisible(_ex(14), 'parent is hidden via visibility');
+        assertInternalNodeNotVisible(_ex(15), 'parent is hidden via display');
+        assertInternalNodeNotVisible(_ex(16), 'parent is hidden via width:0, overflow is hidden');
+        assertInternalNodeNotVisible(_ex(17), 'parent is hidden via height:0, overflow is hidden');
+
+        assertNodeNotInViewport(_ex(18), 'element is not visible, ends directly at left:0px');
+
+        assertInternalNodeVisible(_ex(19), 'element is visible by one px');
+        assertNodeIsInViewport(_ex(19), 'element is visible by one px');
+
+        assertNodeIsInViewport(_ex(20), 'element is position absolute and partially visible top');
+        assertNodeIsInViewport(_ex(21), 'element is position absolute and partially visible left');
+        assertNodeIsInViewport(_ex(22), 'element is position absolute and partially visible right');
+        assertNodeIsInViewport(_ex(23), 'element is position absolute and partially visible bottom');
+        assertNodeNotInViewport(_ex(24), 'element is position absolute and position too far top');
+        assertNodeNotInViewport(_ex(25), 'element is position absolute and position too far left');
+        assertNodeNotInViewport(_ex(26), 'element is position absolute and position too far right');
+        assertNodeNotInViewport(_ex(27), 'element is position absolute and position too far bottom');
+
+        assertNodeIsInViewport(_ex(28), 'element is position fixed and partially visible top');
+        assertNodeIsInViewport(_ex(29), 'element is position fixed and partially visible left');
+        assertNodeIsInViewport(_ex(30), 'element is position fixed and partially visible right');
+        assertNodeIsInViewport(_ex(31), 'element is position fixed and partially visible bottom');
+        assertNodeNotInViewport(_ex(32), 'element is position fixed and position too far top');
+        assertNodeNotInViewport(_ex(33), 'element is position fixed and position too far left');
+
+        assertNodeNotInViewport(_ex(34), 'element is position fixed and position too far right');
+        assertNodeNotInViewport(_ex(35), 'element is position fixed and position too far bottom');
+
+
+        assertInternalNodeVisible(_ex(37), 'element is within overflow scroll and it is visible');
+        assertInternalNodeNotVisible(_ex(38), 'element is within overflow scroll but not visible');
+        _ex(36).scrollTop = 35;_ex(36).scrolltop = 35; // scroll within div
+        assertInternalNodeVisible(_ex(38), 'element is within overflow scroll but not visible');
+
+        var nodesThatShouldBeInViewPort = [1,2,3,5,6,7,8,13,14,16,17];
+        var index;
+        for (index = 1; index < nodesThatShouldBeInViewPort.length; index++) {
+            if (4 === index) {
+                continue; // display:none will not be in view port
+            }
+            var exampleId = nodesThatShouldBeInViewPort[index];
+            assertNodeIsInViewport(_ex(exampleId), 'example ' + exampleId + ' the nodes have to be in view port otherwise we might test something else than expected');
+        }
+
+        assertNodeNotInViewport(_ex(9), 'margin left position is so far left it cannot be visible');
+        assertNodeNotInViewport(_ex(10), 'margin left position is so far right it cannot be visible');
+
+
+        assertContentNodeNotVisible(undefined, 'no node set');
+        assertContentNodeNotVisible(_ex(3), 'element is not visible but in viewport');
+        assertContentNodeNotVisible(_ex(18), 'element is visible but not viewport');
+        assertContentNodeNotVisible(_ex(4), 'element is neither visible nor in viewport');
+        assertContentNodeVisible(_ex(19), 'element is visible and in viewport');
+    });
+
+    test("contentFindContentValues", function() {
+
+        function _st(id) {
+            return id && (''+id) === id ? _s('#' + id) : id;
+        }
+
+        function assertFoundContent(id, expectedName, expectedPiece, expectedTarget, message) {
+            var node = _st(id)
+            if (!message) {
+                message = 'Id: ' + id;
+            }
+
+            strictEqual(content.findContentTarget(node), expectedTarget, 'findContentTarget, ' + message + ', expected ' + expectedTarget);
+            strictEqual(content.findContentPiece(node), expectedPiece, 'findContentPiece, ' + message + ', expected ' + expectedPiece);
+            strictEqual(content.findContentName(node), expectedName, 'findContentName, ' + message + ', expected ' + expectedName);
+        }
+
+        function buildContentStruct(name, piece, target) {
+            return {
+                name: name,
+                piece: piece,
+                target: target
+            };
+        }
+
+        function assertBuiltContent(id, expectedName, expectedPiece, expectedTarget, message) {
+            var node = _st(id);
+            if (!message) {
+                message = 'Id: ' + id;
+            }
+
+            var expected = buildContentStruct(expectedName, expectedPiece, expectedTarget);
+
+            propEqual(content.buildContentBlock(node), expected, 'buildContentBlock, ' + message);
+        }
+
+        function assertCollectedContent(ids, expected, message) {
+            var nodes = [];
+            var index;
+            for (index = 0; index < ids.length; index++) {
+                nodes.push(_st(ids[index]));
+            }
+
+            if (!message) {
+                message = 'Id: ' + id;
+            }
+
+            propEqual(content.collectContent(nodes), expected, 'collectContent  , ' + message);
+        }
+
+        var tracker = Piwik.getTracker();
+        var content = tracker.getContent();
+        content.setLocation();
+        var actual;
+
+        setupContentTrackingFixture('manyExamples');
+
+        var origin = getOrigin();
+        var host   = location.host;
+        var path   = origin + location.pathname;
+
+        assertFoundContent(undefined, undefined, undefined, undefined, 'No node set');
+        assertFoundContent('ex1', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), undefined);
+        assertFoundContent('ex2', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), undefined);
+        assertFoundContent('ex3', 'img.jpg', 'img.jpg', 'http://www.example.com');
+        assertFoundContent('ex4', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), 'http://www.example.com');
+        assertFoundContent('ex5', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), 'http://www.example.com');
+        assertFoundContent('ex6', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex7', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex8', 'My content', 'My content', 'http://www.example.com');
+        assertFoundContent('ex9', 'Image1', toAbsoluteUrl('img-en.jpg'), undefined);
+        assertFoundContent('ex10', 'http://www.example.com/path/img-en.jpg', 'http://www.example.com/path/img-en.jpg', undefined);
+        assertFoundContent('ex11', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex12', 'Block Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex13', undefined, undefined, 'http://manual.example.com');
+        assertFoundContent('ex14', undefined, undefined, undefined);
+        assertFoundContent('ex15', undefined, undefined, 'http://attr.example.com');
+        assertFoundContent('ex16', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex17', undefined, undefined, 'http://www.example.com');
+        assertFoundContent('ex18', 'My Ad', 'http://www.example.com/path/xyz.jpg', origin + '/anylink');
+        assertFoundContent('ex19', 'http://www.example.com/path/xyz.jpg', 'http://www.example.com/path/xyz.jpg', 'http://ad.example.com');
+
+        // test removal of domain if url === current domain
+        var newUrl = origin + '/path/xyz.jpg';
+        $(_s('#ex19 img')).attr('src', newUrl);
+        assertFoundContent('ex19', '/path/xyz.jpg', newUrl, 'http://ad.example.com', 'Should remove domain if the same as current');
+
+        newUrl = 'http://' + host + '/path/xyz.jpg';
+        $(_s('#ex19 img')).attr('src', newUrl);
+        assertFoundContent('ex19', '/path/xyz.jpg', newUrl, 'http://ad.example.com', 'Should remove domain if the same as current');
+
+        newUrl = 'https://' + host + '/path/xyz.jpg';
+        $(_s('#ex19 img')).attr('src', newUrl);
+        assertFoundContent('ex19', '/path/xyz.jpg', newUrl, 'http://ad.example.com', 'Should remove domain if the same as current');
+
+        assertFoundContent('ex20', 'My Ad', undefined, 'http://ad.example.com');
+        assertFoundContent('ex21', 'Block Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex22', 'Piece Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex23', 'Target Title', undefined, 'http://www.example.com');
+        assertFoundContent('ex24', 'Piece Title', undefined, 'http://target.example.com');
+        assertFoundContent('ex25', 'My Ad', 'http://www.example.com/path/xyz.jpg', origin + '/anylink');
+        assertFoundContent('ex26', 'My Ad', undefined, 'http://fallback.example.com');
+        assertFoundContent('ex27', 'My Ad', undefined, origin + '/test');
+        assertFoundContent('ex28', 'My Ad', undefined, toAbsoluteUrl('test'));
+        assertFoundContent('ex29', 'My Video', toAbsoluteUrl('movie.mp4'), 'videoplayer');
+        assertFoundContent('ex30', toAbsolutePath('audio.ogg'), toAbsoluteUrl('audio.ogg'), 'audioplayer');
+        assertFoundContent('ex31', '   name   ', '   pie ce  ', '  targ et  ', 'Should not trim');
+
+
+        ok('test buildContentBlock(node)');
+        strictEqual(content.buildContentBlock(), undefined, 'no node set');
+        assertBuiltContent('ex31', 'name', 'pie ce', 'targ et', 'Should trim values');
+        assertBuiltContent('ex30', toAbsolutePath('audio.ogg'), toAbsoluteUrl('audio.ogg'), 'audioplayer', 'All values set');
+        assertBuiltContent(_e('div1'), 'Unknown', 'Unknown', '', 'It is not a content block, so should use defaults');
+        assertBuiltContent('ex1', toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), '', 'Should use default for target');
+        assertBuiltContent('ex12', 'Block Title', 'Unknown', 'http://www.example.com', 'Should use default for piece');
+        assertBuiltContent('ex15', 'Unknown', 'Unknown', 'http://attr.example.com', 'Should use default for name and piece');
+
+
+        ok('test collectContent(node)');
+        propEqual(content.collectContent(), [], 'no node set should still return array');
+
+        var expected = [
+            buildContentStruct('name', 'pie ce', 'targ et'),
+            buildContentStruct(toAbsolutePath('audio.ogg'), toAbsoluteUrl('audio.ogg'), 'audioplayer'),
+            buildContentStruct('Unknown', 'Unknown', ''),
+            buildContentStruct(toAbsolutePath('img-en.jpg'), toAbsoluteUrl('img-en.jpg'), ''),
+            buildContentStruct('Block Title', 'Unknown', 'http://www.example.com'),
+            buildContentStruct('Unknown', 'Unknown', 'http://attr.example.com'),
+        ];
+        var ids = ['ex31', 'ex30', _e('div1'), 'ex1', 'ex12', 'ex15'];
+        assertCollectedContent(ids, expected, 'should collect all content, make sure it trims values and it uses default values');
+    });
+
+    test("ContentTrackerInternals", function() {
+        var tracker = Piwik.getTracker();
+        var actual, expected, trackerUrl;
+
+        var impression = {name: 'name', piece: '5', target: 'target'};
+
+        var origin = getOrigin();
+        var originEncoded = window.encodeURIComponent(origin);
+
+        function assertTrackingRequest(actual, expectedStartsWith, message)
+        {
+            if (!message) {
+                message = '';
+            } else {
+                message += ', ';
+            }
+
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf('&idsite=&rec=1'), expectedStartsWith.length);
+            // make sure it contains all those other tracking stuff directly afterwards so we can assume it did append
+            // the other request stuff and we also make sure to compare the whole custom string as we check from
+            // expectedStartsWith.length
+        }
+
+        ok('test buildContentImpressionRequest()');
+        actual = tracker.buildContentImpressionRequest();
+        assertTrackingRequest(actual, 'c_n=undefined&c_p=undefined', 'nothing set');
+        actual = tracker.buildContentImpressionRequest('name', 'piece');
+        assertTrackingRequest(actual, 'c_n=name&c_p=piece', 'only name and piece');
+        actual = tracker.buildContentImpressionRequest('name', 'piece', 'target');
+        assertTrackingRequest(actual, 'c_n=name&c_p=piece&c_t=target');
+        actual = tracker.buildContentImpressionRequest('name://', 'x=5', '?x=5');
+        assertTrackingRequest(actual, 'c_n=name%3A%2F%2F&c_p=x%3D5&c_t=%3Fx%3D5', 'should encode values');
+
+        ok('test buildContentInteractionRequest()');
+        actual = tracker.buildContentInteractionRequest();
+        strictEqual(actual, undefined, 'nothing set should not build request');
+        actual = tracker.buildContentInteractionRequest('interaction');
+        assertTrackingRequest(actual, 'c_i=interaction');
+        actual = tracker.buildContentInteractionRequest('interaction', 'name', 'piece');
+        assertTrackingRequest(actual, 'c_i=interaction&c_n=name&c_p=piece');
+        actual = tracker.buildContentInteractionRequest('interaction', 'name', 'piece', 'target');
+        assertTrackingRequest(actual, 'c_i=interaction&c_n=name&c_p=piece&c_t=target', 'all params');
+        actual = tracker.buildContentInteractionRequest('interaction://', 'name://', 'p?=iece', 'tar=get');
+        assertTrackingRequest(actual, 'c_i=interaction%3A%2F%2F&c_n=name%3A%2F%2F&c_p=p%3F%3Diece&c_t=tar%3Dget', 'should encode');
+
+
+        setupContentTrackingFixture('manyExamples');
+
+
+        ok('test buildContentInteractionRequestNode()');
+        actual = tracker.buildContentInteractionRequestNode();
+        strictEqual(actual, undefined, 'nothing set should not build request');
+
+        actual = tracker.buildContentInteractionRequestNode(_e('div1'));
+        strictEqual(actual, undefined, 'does not contain a content block, should not build anything');
+
+        actual   = tracker.buildContentInteractionRequestNode(_e('ex18'));
+        expected = 'c_i=Unknown&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
+        assertTrackingRequest(actual, expected, 'no interaction set should default to unknown and recognize all other values');
+
+        actual   = tracker.buildContentInteractionRequestNode(_e('ex18'), 'CustomInteraction://');
+        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
+        assertTrackingRequest(actual, expected, 'custom interaction');
+
+        actual   = tracker.buildContentInteractionRequestNode($('#ex18 a')[0], 'CustomInteraction://');
+        expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
+        assertTrackingRequest(actual, expected, 'should automatically find parent and search for content from there');
+
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl();
+        strictEqual(actual, undefined, 'nothing set');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
+        assertTrackingRequest(actual, '?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db', 'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
+        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db', 'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
+        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
+
+        trackerUrl = tracker.getTrackerUrl();
+        tracker.setTrackerUrl('piwik.php?test=1');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
+        assertTrackingRequest(actual, 'piwik.php?test=1&redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'should use & if tracker url already contains question mark');
+
+        tracker.setTrackerUrl('piwik.php');
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('piwik.php?redirecturl=http://www.example.com', 'click', 'name', 'piece', 'target');
+        strictEqual(actual, 'piwik.php?redirecturl=http://www.example.com', 'should return unmodified url if it is already a tracker url so users can set piwik.php link in href');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl('http://www.example.com', 'click', 'name');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + encodeWrapper('http://www.example.com') + '&c_i=click&c_n=name&c_t=http%3A%2F%2Fwww.example.com', 'should not change url if absolute');
+
+        actual = tracker.buildContentInteractionTrackingRedirectUrl(origin, 'something', 'name', undefined, 'target');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + originEncoded + '&c_i=something&c_n=name&c_t=target', 'should not change url if same domain');
+
+        tracker.setTrackerUrl(trackerUrl);
+
+        ok('test wasContentImpressionAlreadyTracked()');
+        actual = tracker.wasContentImpressionAlreadyTracked(impression);
+        strictEqual(actual, false, 'wasContentImpressionAlreadyTracked, content impression was not tracked before');
+        tracker.buildContentImpressionsRequests([impression], []);
+        actual = tracker.wasContentImpressionAlreadyTracked(impression);
+        strictEqual(actual, true, 'wasContentImpressionAlreadyTracked, should be marked as already tracked now');
+        actual = tracker.wasContentImpressionAlreadyTracked({name: 'name', piece: 5, target: 'target'});
+        strictEqual(actual, false, 'wasContentImpressionAlreadyTracked, should compare with === equal parameter');
+        tracker.trackPageView();
+        actual = tracker.wasContentImpressionAlreadyTracked(impression);
+        strictEqual(actual, false, 'wasContentImpressionAlreadyTracked, trackPageView should reset tracked impressions');
+
+        setupContentTrackingFixture('trackerInternals');
+
+        ok('test appendContentInteractionToRequestIfPossible()');
+        ok(_e('notClickedTargetNode') && _e('ignoreInteraction2') && _e('ignoreInteraction1') && _e('click1') && _s('#ex103') && _s('#ex104'),
+            'Make sure the nodes we are using for testing actually exist. Otherwise tests would be useless');
+        actual = tracker.appendContentInteractionToRequestIfPossible();
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, nothing set');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('click1'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, no content block');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('ignoreInteraction1'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, contains block but should be ignored in target node');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('ignoreInteraction2'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, contains block but should be ignored in block node as no target node');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_e('notClickedTargetNode'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, not a node within target node was clicked');
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex103'));
+        strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, the content block node was clicked but it is not the target');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'));
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'), 'clicki');
+        strictEqual(actual, 'c_i=clicki&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, with interaction');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_target'));
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_withinTarget'));
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
+
+        actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'), 'click', 'fallbacktarget');
+        strictEqual(actual, 'c_i=click&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=fallbacktarget', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
+
+
+
+        ok('test setupInteractionsTracking()');
+        actual = tracker.setupInteractionsTracking();
+        strictEqual(actual, undefined, 'setupInteractionsTracking, no nodes set');
+        actual = tracker.setupInteractionsTracking([_s('#ex106'), _s('#ex107')]);
+        strictEqual(_s('#ex106_target').contentInteractionTrackingSetupDone, true, 'setupInteractionsTracking, should add event to target node');
+        strictEqual(_s('#ex107').contentInteractionTrackingSetupDone, true, 'setupInteractionsTracking, should add event to block node if no target node specified');
+
+
+        ok('test trackContentImpressionClickInteraction()');
+
+        trackerUrl = tracker.getTrackerUrl();
+        tracker.setTrackerUrl('piwik.php');
+        tracker.disableLinkTracking();
+
+        ok(_s('#ignoreInteraction1') && _s('#ex108') && _s('#ex109'), 'make sure node exists otherwise test is useless');
+        actual = (tracker.trackContentImpressionClickInteraction())();
+        strictEqual(actual, undefined, 'trackContentImpressionClickInteraction, no target node set');
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ignoreInteraction1')))({target: _s('#ignoreInteraction1')});
+        strictEqual(actual, undefined, 'trackContentImpressionClickInteraction, no target node set');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))({target: _s('#ex108')});
+        assertTrackingRequest(actual, 'c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com', 'trackContentImpressionClickInteraction, is outlink but should use xhr as link tracking not enabled');
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
+        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, is internal download but should use href as link tracking not enabled');
+        assertTrackingRequest($(_s('#ex109')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/file.pdf') + '&c_i=click&c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Ffile.pdf', 'trackContentImpressionClickInteraction, the href download link should be replaced with a redirect link to tracker');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex110')))({target: _s('#ex110')});
+        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should be tracked using redirect');
+        assertTrackingRequest($(_s('#ex110')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/example') + '&c_i=click&c_n=MyName&c_p=img.jpg&c_t=' + originEncoded + '%2Fexample', 'trackContentImpressionClickInteraction, the href link should be replaced with a redirect link to tracker');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex111')))({target: _s('#ex111')});
+        strictEqual(actual, 'href', 'trackContentImpressionClickInteraction, should detect it is a link to same page');
+        strictEqual($(_s('#ex111')).attr('href'), 'piwik.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))({target: _s('#ex112')});
+        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + originEncoded + '%2Ftests%2Fjavascript%2F%23example', 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex113_target')))({target: _s('#ex113_target')});
+        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg', 'trackContentImpressionClickInteraction, if element is not A or AREA it should always use xhr');
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex114')))({target: _s('#ex114')});
+        assertTrackingRequest(actual, 'c_i=click&c_n=imgnohref.jpg&c_p=imgnohref.jpg&c_t=%2Ftest', 'trackContentImpressionClickInteraction, if element is an A or AREA element but has no href attribute it should always use xhr');
+
+        tracker.enableLinkTracking();
+
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex108')))({target: _s('#ex108')});
+        strictEqual(actual, 'link', 'trackContentImpressionClickInteraction, should not track as is an outlink and link tracking enabled');
+        $(_s('#ex109')).attr('href', '/file.pdf'); // reset download link as was replaced with piwik.php
+        actual = (tracker.trackContentImpressionClickInteraction(_s('#ex109')))({target: _s('#ex109')});
+        strictEqual(actual, 'download', 'trackContentImpressionClickInteraction, should not track as is a download and link tracking enabled');
+
+        tracker.disableLinkTracking();
+        tracker.setTrackerUrl(trackerUrl);
+
+
+        ok('test buildContentImpressionsRequests()');
+        ok(impression, 'we should have an impression');
+        tracker.clearTrackedContentImpressions();
+
+        actual = tracker.buildContentImpressionsRequests();
+        propEqual(actual, [], 'buildContentImpressionsRequests, nothing set');
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'buildContentImpressionsRequests, tracked impressions should be empty');
+
+        actual = tracker.buildContentImpressionsRequests([impression]);
+        propEqual(tracker.getTrackedContentImpressions(), [impression], 'buildContentImpressionsRequests, should have marked content as tracked');
+
+        actual = tracker.buildContentImpressionsRequests([impression]);
+        propEqual(actual, [], 'buildContentImpressionsRequests, nothing tracked as supposed to be ignored');
+        propEqual(tracker.getTrackedContentImpressions(), [impression], 'buildContentImpressionsRequests, impression should be ignored as it was already tracked before');
+
+        tracker.clearTrackedContentImpressions();
+        _s('#ignoreInteraction1').contentInteractionTrackingSetupDone = false;
+        tracker.buildContentImpressionsRequests([impression], [_s('#ex101')]);
+        strictEqual(_s('#ignoreInteraction1').contentInteractionTrackingSetupDone, true, 'buildContentImpressionsRequests, should trigger setup of interaction tracking');
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.buildContentImpressionsRequests([impression], [_s('#ex101')]);
+        strictEqual(actual.length, 1, 'buildContentImpressionsRequests, should generate a request for one request');
+        assertTrackingRequest(actual[0], 'c_n=name&c_p=5&c_t=target');
+
+        tracker.clearTrackedContentImpressions();
+        var impression2 = {name: 'name2', piece: 'piece2', target: 'http://www.example.com'};
+        var impression3 = {name: 'name3', piece: 'piece3', target: 'Anything'};
+
+        actual = tracker.buildContentImpressionsRequests([impression, impression, impression2, impression, impression3], [_s('#ex101')]);
+        strictEqual(actual.length, 3, 'buildContentImpressionsRequests, should be only 3 requests as one impression was there twice and should be ignored once');
+        assertTrackingRequest(actual[0], 'c_n=name&c_p=5&c_t=target');
+        assertTrackingRequest(actual[1], 'c_n=name2&c_p=piece2&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[2], 'c_n=name3&c_p=piece3&c_t=Anything');
+
+
+        setupContentTrackingFixture('manyExamples');
+
+
+        ok('test getContentImpressionsRequestsFromNodes()');
+        actual = tracker.getContentImpressionsRequestsFromNodes();
+        propEqual(actual, [], 'getContentImpressionsRequestsFromNodes, no nodes set');
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getContentImpressionsRequestsFromNodes([undefined, null]);
+        propEqual(actual, [], 'getContentImpressionsRequestsFromNodes, no nodes set that are actually content nodes');
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), _s('#ex2')]);
+        strictEqual(actual.length, 1, 'getContentImpressionsRequestsFromNodes, should ignore a duplicated node that has same content');
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img-en.jpg'));
+
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getContentImpressionsRequestsFromNodes([_s('#ex1'), undefined, _s('#ex2'), _s('#ex8'), _s('#ex19')]);
+        strictEqual(actual.length, 3, 'getContentImpressionsRequestsFromNodes, should only build requests for nodes that are content nodes');
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img-en.jpg'));
+        assertTrackingRequest(actual[1], 'c_n=My%20content&c_p=My%20content&c_t=http%3A%2F%2Fwww.example.com');
+        assertTrackingRequest(actual[2], 'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fad.example.com');
+
+        setupContentTrackingFixture('trackerInternals', document.body);
+
+        ok('test getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet()');
+
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet();
+        propEqual(actual, [], 'getVisibleImpressions, no nodes set');
+
+        _s('#ex115').scrollIntoView(true);
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden')]);
+        propEqual(actual, [], 'getVisibleImpressions, if all are hidden should not return anything');
+
+        _s('#ex115').scrollIntoView(true);
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex115'),_s('#ex115'),  _s('#ex116_hidden')]);
+        strictEqual(actual.length, 1, 'getVisibleImpressions, should not ignore the found requests but the visible ones, should not add the same one twice');
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img115.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img115.jpg') + '&c_t=http%3A%2F%2Fwww.example.com');
+
+        _s('#ex115').scrollIntoView(true);
+        tracker.clearTrackedContentImpressions();
+        actual = tracker.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet([_s('#ex116_hidden'), _s('#ex116_hidden'), _s('#ex115'),_s('#ex115')]);
+        strictEqual(actual.length, 1, 'getVisibleImpressions, two hidden ones before a visible ones to make sure removing hidden content block from array works and does not ignore one');
+        assertTrackingRequest(actual[0], 'c_n=' + toEncodedAbsolutePath('img115.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img115.jpg') + '&c_t=http%3A%2F%2Fwww.example.com');
+
+
+        ok('test replaceHrefIfInternalLink()')
+
+        var trackerUrl = tracker.getTrackerUrl();
+        tracker.setTrackerUrl('piwik.php');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(), false, 'no content node set');
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), false, 'should be ignored');
+        $(_s('#ignoreInternalLink')).removeClass('piwikContentIgnoreInteraction'); // now it should be no longer ignored and as it is an intenral link replaced
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex117')), true, 'should be replaced as is internal link');
+        assertTrackingRequest($(_s('#ignoreInternalLink')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/internallink') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Finternallink', 'internal link should be replaced');
+        strictEqual($(_s('#ignoreInternalLink')).attr('data-content-target'), origin + '/internallink', 'we need to set data-content-target when link is set otherwise a replace would not be found');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex122')), true, 'should be replaced');
+        strictEqual($(_s('#replacedLinkWithTarget')).attr('data-content-target'), '/test', 'should replace href but not a data-content-target if already exists');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex118')), true, 'should not replace already replaced link');
+        strictEqual($(_s('#ex118')).attr('href'), 'piwik.php?test=5', 'link should not be replaced');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex119')), false, 'anchor link should not be replaced');
+        strictEqual($(_s('#ex119')).attr('href'), '#test', 'link should not replace anchor link');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex120')), false, 'external link should not be replaced');
+        strictEqual($(_s('#ex120')).attr('href'), 'http://www.example.com', 'should not replace external link');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), true, 'should replace download link if link tracking not enabled');
+        assertTrackingRequest($(_s('#ex121')).attr('href'), 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('/download.pdf') + '&c_i=click&c_n=Unknown&c_p=Unknown&c_t=' + originEncoded + '%2Fdownload.pdf', 'should replace download link as link tracking disabled');
+
+        $(_s('#ex121')).attr('href', '/download.pdf'); // reset link
+        tracker.enableLinkTracking();
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex121')), false, 'should not replace download link');
+        strictEqual($(_s('#ex121')).attr('href'), '/download.pdf', 'should not replace download link');
+
+        strictEqual(tracker.replaceHrefIfInternalLink(_s('#ex123')), false, 'should not replace a link that has no href');
+        strictEqual($(_s('#ex123')).attr('href'), undefined, 'should still not have a href attribute');
+
+
+
+        tracker.setTrackerUrl(trackerUrl);
+
+        removeContentTrackingFixture();
+    });
 
     test("Basic requirements", function() {
         expect(3);
@@ -322,7 +1895,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(58);
+        expect(64);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -346,8 +1919,8 @@ function PiwikTest() {
         equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
-        equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setUserId, 'function', 'setUserId' );
+        equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
         equal( typeof tracker.setCustomRequestProcessing, 'function', 'setCustomRequestProcessing' );
@@ -385,6 +1958,13 @@ function PiwikTest() {
         equal( typeof tracker.trackGoal, 'function', 'trackGoal' );
         equal( typeof tracker.trackLink, 'function', 'trackLink' );
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
+        // content
+        equal( typeof tracker.trackAllContentImpressions, 'function', 'trackAllContentImpressions' );
+        equal( typeof tracker.trackVisibleContentImpressions, 'function', 'trackVisibleContentImpressions' );
+        equal( typeof tracker.trackContentImpression, 'function', 'trackContentImpression' );
+        equal( typeof tracker.trackContentImpressionsWithinNode, 'function', 'trackContentImpressionsWithinNode' );
+        equal( typeof tracker.trackContentInteraction, 'function', 'trackContentInteraction' );
+        equal( typeof tracker.trackContentInteractionNode, 'function', 'trackContentInteractionNode' );
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
@@ -679,46 +2259,72 @@ function PiwikTest() {
     });
 
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
-        expect(25);
+        expect(54);
 
         var tracker = Piwik.getTracker();
 
-        equal( typeof tracker.hook.test._getLinkType, 'function', 'getLinkType' );
+        function runTests(messagePrefix) {
 
-        equal( tracker.hook.test._getLinkType('something', 'goofy.html', false), 'link', 'implicit link' );
-        equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false), 'download', 'external PDF files are downloads' );
-        equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true), 'download', 'local PDF are downloads' );
-        equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true), 'download', 'local PDF are downloads' );
+            equal( typeof tracker.hook.test._getLinkType, 'function', 'getLinkType' );
 
-        equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', 'piwik_download' );
-        equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true), 'download', 'abc piwik_download xyz' );
-        equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true), 'link', 'piwik_link' );
-        equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true), 'link', 'abc piwik_link xyz' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 'download', 'download extension' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true), 0, '[1] link (default)' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.html', false), 'link', messagePrefix + 'implicit link' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false), 'download', messagePrefix + 'external PDF files are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
 
-        equal( tracker.hook.test._getLinkType('something', 'file.zip', true), 'download', 'download file.zip' );
-        equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true), 'download', 'download file.zip (anchor)' );
-        equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true), 'download', 'download file.zip (is param)' );
-        equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true), 'download', 'download file.zip (with param)' );
+            equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'piwik_download' );
+            equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true), 'download', messagePrefix + 'abc piwik_download xyz' );
+            equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true), 'link', messagePrefix+ 'piwik_link' );
+            equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true), 'link', messagePrefix + 'abc piwik_link xyz' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 'download', messagePrefix + 'download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true), 0, messagePrefix + '[1] link (default)' );
 
-        tracker.setDownloadExtensions('pk');
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', '[1] .pk == download extension' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, '.txt =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip', true), 'download', messagePrefix + 'download file.zip' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true), 'download', messagePrefix + 'download file.zip (anchor)' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true), 'download', messagePrefix + 'download file.zip (is param)' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true), 'download', messagePrefix + 'download file.zip (with param)' );
 
-        tracker.addDownloadExtensions('xyz');
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', '[2] .pk == download extension' );
-        equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', '.xyz == download extension' );
+            tracker.setDownloadExtensions('pk');
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[1] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, messagePrefix + '.txt =! download extension' );
 
-        tracker.setDownloadClasses(['a', 'b']);
-        equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', 'download (default)' );
-        equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', 'download (a)' );
-        equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', 'download (b)' );
+            tracker.addDownloadExtensions('xyz');
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[2] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', messagePrefix + '.xyz == download extension' );
 
-        tracker.setLinkClasses(['c', 'd']);
-        equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', 'link (default)' );
-        equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true), 'link', 'link (c)' );
-        equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', 'link (d)' );
+            tracker.setDownloadClasses(['a', 'b']);
+            equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'download (default)' );
+            equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', messagePrefix + 'download (a)' );
+            equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', messagePrefix + 'download (b)' );
+
+            tracker.setLinkClasses(['c', 'd']);
+            equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', messagePrefix + 'link (default)' );
+            equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true), 'link', messagePrefix + 'link (c)' );
+            equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', messagePrefix + 'link (d)' );
+        }
+
+        var trackerUrl = tracker.getTrackerUrl();
+        var downloadExtensions = tracker.getConfigDownloadExtensions();
+        tracker.setTrackerUrl('');
+        tracker.setDownloadClasses([]);
+        tracker.setLinkClasses([]);
+
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php', false), 'link', 'an empty tracker url should not match configtrackerurl' );
+
+        runTests('without tracker url, ');
+
+        tracker.setTrackerUrl('piwik.php');
+        tracker.setDownloadClasses([]);
+        tracker.setLinkClasses([]);
+        tracker.setDownloadExtensions(downloadExtensions);
+
+        runTests('with tracker url, ');
+
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php', true), 0, 'matches tracker url and should never return any tracker Url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/test.pdf', true), 0, 'should not match download as is config tracker url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/', true), 0, 'should not match link as is config tracker url' );
+
+        tracker.setTrackerUrl(trackerUrl);
     });
 
     test("utf8_encode(), sha1()", function() {
@@ -940,6 +2546,7 @@ if ($sqlite) {
             ok(true, "request.setup");
 
             deleteCookies();
+            wait(500);
             ok(document.cookie === "", "deleteCookies");
         },
         teardown: function () {
@@ -970,16 +2577,6 @@ if ($sqlite) {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
-
-        function wait(msecs)
-        {
-            var start = new Date().getTime();
-            var cur = start
-            while(cur - start < msecs)
-            {
-                cur = new Date().getTime();
-            }
-        }
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
@@ -1044,7 +2641,7 @@ if ($sqlite) {
         piwik_log("CompatibilityLayer", 1, "piwik.php", { "token" : getToken() });
 
         tracker.hook.test._addEventListener(_e("click8"), "click", stopEvent);
-        QUnit.triggerEvent( _e("click8"), "click" );
+        triggerEvent(_e("click8"), 'click');
 
         tracker.enableLinkTracking();
 
@@ -1052,7 +2649,7 @@ if ($sqlite) {
         var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
         for (var i=0; i < buttons.length; i++) {
             tracker.hook.test._addEventListener(_e(buttons[i]), "click", stopEvent);
-            QUnit.triggerEvent( _e(buttons[i]), "click" );
+            triggerEvent(_e(buttons[i]), 'click');
         }
 
         var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
@@ -1068,7 +2665,7 @@ if ($sqlite) {
         clickDiv.appendChild(anchor);
         tracker.addListener(anchor);
         tracker.hook.test._addEventListener(anchor, "click", stopEvent);
-        QUnit.triggerEvent( _e("click9"), "click" );
+        triggerEvent(_e('click9'), 'click');
 
         var visitorId1, visitorId2;
 
@@ -1327,6 +2924,489 @@ if ($sqlite) {
             start();
         }, 5000);
     });
+
+    test("trackingContent", function() {
+        expect(81);
+
+        function assertTrackingRequest(actual, expectedStartsWith, message)
+        {
+            if (!message) {
+                message = '';
+            } else {
+                message += ', ';
+            }
+
+            expectedStartsWith = '<span>' + toAbsolutePath('piwik.php') + '?' + expectedStartsWith;
+
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf('&idsite=1&rec=1'), expectedStartsWith.length);
+        }
+
+        function resetTracker(track, token, replace)
+        {
+            tracker.clearTrackedContentImpressions();
+            tracker.clearEnableTrackOnlyVisibleContent();
+            tracker.setCustomData('token', token);
+            scrollToTop();
+        }
+
+        var token = getContentToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        resetTracker(tracker, token);
+
+        var visitorIdStart = tracker.getVisitorId();
+        // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
+        wait(2000);
+
+        var origin = getOrigin();
+        var originEncoded = window.encodeURIComponent(origin);
+        var actual, expected, trackerUrl;
+
+        var contentBlocks = [
+            null,
+            {
+                "name": toAbsolutePath("img1-en.jpg"),
+                "piece": toAbsoluteUrl("img1-en.jpg"),
+                "target": ""
+            },
+            {
+                "name": "img.jpg",
+                "piece": "img.jpg",
+                "target": "http://img2.example.com"
+            },
+            {
+                "name": toAbsolutePath("img3-en.jpg"),
+                "piece": toAbsoluteUrl("img3-en.jpg"),
+                "target": "http://img3.example.com"
+            },
+            {
+                "name": "My content 4",
+                "piece": "My content 4",
+                "target": "http://img4.example.com"
+            },
+            {
+                "name": "My Ad 5",
+                "piece": "http://img5.example.com/path/xyz.jpg",
+                "target": origin + "/anylink5"
+            },
+            {
+                "name": "http://www.example.com/path/xyz.jpg",
+                "piece": "http://www.example.com/path/xyz.jpg",
+                "target": "http://img6.example.com"
+            },
+            {
+                "name": "My Ad 7",
+                "piece": "Unknown",
+                "target": "http://img7.example.com"
+            }
+        ];
+
+        tracker.trackAllContentImpressions();
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'getTrackedContentImpressions, there is no content block to track');
+        tracker.trackContentImpressionsWithinNode(_e('other'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'getTrackedContentImpressionsWithinNode, there is no content block to track');
+        tracker.trackContentInteractionNode();
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'trackContentInteractionNode, no node given should not track anything');
+
+        setupContentTrackingFixture('trackingContent', document.body);
+
+        tracker.trackAllContentImpressions();
+        strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should mark 7 content blocks as tracked');
+
+        wait(300);
+
+        var token2 = '2' + token;
+        resetTracker(tracker, token2);
+        tracker.trackContentImpressionsWithinNode(_s('#block1'));
+        expected = [contentBlocks[4], contentBlocks[3], contentBlocks[2]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should mark 3 content blocks as tracked');
+
+        tracker.clearTrackedContentImpressions();
+        tracker.trackContentImpressionsWithinNode(_e('click1'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track anything as does not contain content block');
+
+        wait(300);
+
+        var token3 = '3' + token;
+        resetTracker(tracker, token3);
+        tracker.trackContentImpression(); // should not track anything as name is required
+        tracker.trackContentImpression('MyName'); // piece should default to Unknown
+        wait(300);
+        tracker.trackContentImpression('Any://Name', 'AnyPiece?', 'http://www.example.com');
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'manual impression call should not be marked as already tracked');
+
+        wait(300);
+
+        var token4 = '4' + token;
+        resetTracker(tracker, token4);
+        tracker.trackContentInteraction(); // should not track anything as interaction and name is required
+        tracker.trackContentInteraction('Clicki'); // should not track anything as interaction and name is required
+        tracker.trackContentInteraction('Clicke', 'IntName'); // should use default for piece and ignore target as it is not set
+        wait(500);
+        tracker.trackContentInteraction('Clicki', 'IntN:/ame', 'IntPiece?', 'http://int.example.com');
+
+        wait(300);
+
+        setupContentTrackingFixture('trackingContent', document.body);
+
+        var token5 = '5' + token;
+        resetTracker(tracker, token5);
+        tracker.trackContentInteractionNode(_s('#ex5'), 'Clicki?iii');
+
+        wait(300);
+
+        var token6 = '6' + token;
+        resetTracker(tracker, token6);
+        tracker.enableTrackOnlyVisibleContent(false, 0);
+        tracker.trackAllContentImpressions();
+        expected = [contentBlocks[7], contentBlocks[6], contentBlocks[5], contentBlocks[1], contentBlocks[4], contentBlocks[3], contentBlocks[2]];
+        propEqual(tracker.getTrackedContentImpressions().length, 7, 'should still track all impressions even if visible enabled');
+
+        var token7 = '7' + token;
+        resetTracker(tracker, token7);
+        tracker.enableTrackOnlyVisibleContent(false, 0);
+        tracker.trackContentImpressionsWithinNode();
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track anything, no node provided');
+        tracker.trackContentImpressionsWithinNode(_s('#block1'));
+        strictEqual(tracker.getTrackedContentImpressions().length, 0, 'should not track any block since all not visible');
+        tracker.trackContentImpressionsWithinNode(_s('#block2'));
+        expected = [contentBlocks[6], contentBlocks[5]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should track the two visible ones');
+
+
+        wait(300);
+
+        var token8 = '8' + token;
+        resetTracker(tracker, token8);
+        tracker.trackVisibleContentImpressions(false, 0, tracker);
+        expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should only track all visible impressions');
+
+
+        wait(300);
+
+        // test detection of content via interval
+        var token9  = '9' + token;
+        var token10 = '10' + token;
+        resetTracker(tracker, token9);
+        tracker.trackVisibleContentImpressions(false, 500);
+        expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
+        propEqual(tracker.getTrackedContentImpressions(), expected, 'should only track all visible impressions, timeInterval');
+        _s('#block1').style.display = 'block';
+        scrollToTop();
+
+        stop();
+        setTimeout(function () {
+            expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1], contentBlocks[4], contentBlocks[3], contentBlocks[2]];
+            propEqual(tracker.getTrackedContentImpressions(), expected, 'should now have tracked 6 impressions via time interval');
+            tracker.clearEnableTrackOnlyVisibleContent(); // stop visible content time interval check
+
+            // test detection of content via scroll
+            setTimeout(function () {
+                _s('#block1').style.display = 'none';
+                resetTracker(tracker, token10);
+                tracker.trackVisibleContentImpressions(true, 0);
+                expected = [contentBlocks[6], contentBlocks[5], contentBlocks[1]];
+                propEqual(tracker.getTrackedContentImpressions(), expected, 'should track 3 initial visible impressions, scroll');
+                _s('#block1').style.display = 'block';
+                window.scrollTo(0, 10); // should trigger scroll event
+                setTimeout(function () {
+                    strictEqual(tracker.getTrackedContentImpressions().length, 6, 'should detect 3 more afer scroll');
+                    tracker.clearEnableTrackOnlyVisibleContent(); // stop visible content scroll interval check
+
+                    start();
+                }, 700);
+
+            }, 400); // wait for time interval to stop.
+
+        }, 1500);
+
+        var trackingRequests = [
+            null,
+            'c_n=' + toEncodedAbsolutePath('img1-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img1-en.jpg'),
+            'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com',
+            'c_n=' + toEncodedAbsolutePath('img3-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img3-en.jpg') + '&c_t=http%3A%2F%2Fimg3.example.com',
+            'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com',
+            'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5',
+            'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com',
+            'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com'
+        ];
+
+        stop();
+        setTimeout(function() {
+            removeContentTrackingFixture();
+
+            // trackAllContentImpressions()
+            var results = fetchTrackedRequests(token);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count trackAllContentImpressions requests. all content blocks should be tracked" );
+
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], trackingRequests[7]);
+            assertTrackingRequest(requests[1], trackingRequests[6]);
+            assertTrackingRequest(requests[2], trackingRequests[5]);
+            assertTrackingRequest(requests[3], trackingRequests[4]);
+            assertTrackingRequest(requests[4], trackingRequests[3]);
+            assertTrackingRequest(requests[5], trackingRequests[2]);
+            assertTrackingRequest(requests[6], trackingRequests[1]);
+
+
+            // trackContentImpressionsWithinNode()
+            results = fetchTrackedRequests(token2);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "3", "count trackContentImpressionsWithinNode requests. should track only content blocks within node" );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], trackingRequests[4]);
+            assertTrackingRequest(requests[1], trackingRequests[3]);
+            assertTrackingRequest(requests[2], trackingRequests[2]);
+
+            // trackContentImpression()
+            results = fetchTrackedRequests(token3);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count trackContentImpression requests. " );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            var firstRequest  = 0;
+            var secondRequest = 1;
+            if (-1 === requests[0].indexOf('MyName')) {
+                firstRequest  = 1;
+                secondRequest = 0;
+            }
+
+            assertTrackingRequest(requests[firstRequest], 'c_n=MyName&c_p=Unknown');
+            assertTrackingRequest(requests[secondRequest], 'c_n=Any%3A%2F%2FName&c_p=AnyPiece%3F&c_t=http%3A%2F%2Fwww.example.com');
+
+
+            // trackContentInteraction()
+            results = fetchTrackedRequests(token4);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count trackContentInteraction requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            firstRequest  = 0;
+            secondRequest = 1;
+            if (-1 === requests[0].indexOf('IntName')) {
+                firstRequest  = 1;
+                secondRequest = 0;
+            }
+
+            assertTrackingRequest(requests[firstRequest], 'c_i=Clicke&c_n=IntName&c_p=Unknown');
+            assertTrackingRequest(requests[secondRequest], 'c_i=Clicki&c_n=IntN%3A%2Fame&c_p=IntPiece%3F&c_t=http%3A%2F%2Fint.example.com');
+
+
+            // trackContentInteractionNode()
+            results = fetchTrackedRequests(token5);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count trackContentInteractionNode requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
+
+
+            // enableTrackOnlyVisibleContent() && trackAllContentImpressions()
+            results = fetchTrackedRequests(token6);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count enabledVisibleContentImpressions requests." );
+
+
+            // enableTrackOnlyVisibleContent() && trackContentImpressionsWithinNode()
+            results = fetchTrackedRequests(token7);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count enabledVisibleContentImpressionsWithinNode requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+
+
+            // trackVisibleContentImpressions()
+            results = fetchTrackedRequests(token8);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "3", "count enabledVisibleContentImpressions requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+            assertTrackingRequest(requests[2], trackingRequests[1]);
+
+
+            // enableTrackOnlyVisibleContent(false, 500)
+            results = fetchTrackedRequests(token9);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests via time interval. " );
+
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+            assertTrackingRequest(requests[2], trackingRequests[1]);
+            assertTrackingRequest(requests[3], trackingRequests[4]);
+            assertTrackingRequest(requests[4], trackingRequests[3]);
+            assertTrackingRequest(requests[5], trackingRequests[2]);
+
+
+            // enableTrackOnlyVisibleContent(true, 0)
+            results = fetchTrackedRequests(token10);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests, via scroll. " );
+
+            start();
+        }, 7000);
+
+    });
+
+    test("trackingContentInteractionInteractive", function() {
+        expect(18);
+
+        function assertTrackingRequest(actual, expectedStartsWith, message)
+        {
+            if (!message) {
+                message = '';
+            } else {
+                message += ', ';
+            }
+
+            expectedStartsWith = '<span>' + toAbsolutePath('piwik.php') + '?' + expectedStartsWith;
+
+            strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
+            strictEqual(actual.indexOf('&idsite=1&rec=1'), expectedStartsWith.length);
+        }
+
+        function resetTracker(track, token)
+        {
+            tracker.clearTrackedContentImpressions();
+            tracker.clearEnableTrackOnlyVisibleContent();
+            tracker.setCustomData('token', token);
+            scrollToTop();
+        }
+
+        function preventClickDefault(selector)
+        {
+            $(_s(selector)).on('click', function (event) { event.preventDefault(); })
+        }
+
+        var token = getContentToken() + 'i'; // interactive namespace
+        var origin = getOrigin();
+        var originEncoded = window.encodeURIComponent(origin);
+        var actual, expected, trackerUrl;
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        resetTracker(tracker, token);
+
+        var visitorIdStart = tracker.getVisitorId();
+        // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
+        wait(2000);
+
+
+        setupContentTrackingFixture('trackingContent', document.body);
+
+        tracker.trackAllContentImpressions();
+        strictEqual(tracker.getTrackedContentImpressions().length, 7, 'should mark 7 content blocks as tracked');
+
+
+        var token1 = '1' + token;
+        resetTracker(tracker, token1);
+        preventClickDefault('#isWithinOutlink');
+        triggerEvent(_s('#isWithinOutlink'), 'click'); // should only track interaction and no outlink as link tracking not enabled
+
+        tracker.enableLinkTracking();
+
+        wait(300);
+
+        var token2 = '2' + token;
+        resetTracker(tracker, token2);
+        preventClickDefault('#isWithinOutlink');
+        triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
+
+        wait(300);
+
+
+        var token3 = '3' + token;
+        resetTracker(tracker, token3);
+        preventClickDefault('#isOutlink');
+        triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
+
+        wait(300);
+
+
+        var token4 = '4' + token;
+        resetTracker(tracker, token4);
+        preventClickDefault('#notWithinTarget');
+        triggerEvent(_s('#notWithinTarget'), 'click'); // this element is in a content block, there is a content target, but this element is not child of content target
+
+
+        var token5 = '5' + token;
+        resetTracker(tracker, token5);
+        preventClickDefault('#internalLink');
+        var expectedLink = toAbsoluteUrl('piwik.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/anylink5') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&idsite=1&rec=1';
+        var newHref = _s('#internalLink').href;
+        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href is replaced: ' + newHref); // make sure was already replace by trackContentImpressions()
+        strictEqual(_s('#internalLink').wasContentTargetAttrReplaced, true, 'has to be marked as replaced so we know we have to update content target again in case the url changes meanwhile');
+        // now we are going to change the link to see whether it will be replaced again
+        tracker.getContent().setHrefAttribute(_s('#internalLink'), '/newlink');
+
+        wait(300);
+
+        triggerEvent(_s('#internalLink'), 'click'); // should replace href php
+        newHref = _s('#internalLink').href;
+        expectedLink = toAbsoluteUrl('piwik.php') + '?redirecturl=' + toEncodedAbsoluteUrl('/newlink') + '&c_i=click&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fnewlink&idsite=1&rec=1';
+        strictEqual(0, newHref.indexOf(expectedLink), 'replaced href2 is replaced again: ' + newHref); // make sure was already replace by trackContentImpressions()
+
+        wait(300);
+
+        stop();
+        setTimeout(function() {
+            removeContentTrackingFixture();
+
+            var results = fetchTrackedRequests(token1);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isWithinOutlink requests as interaction. " );
+
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+            assertTrackingRequest(requests[0], 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+
+
+            results = fetchTrackedRequests(token2);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isWithinOutlink requests as outlink + interaction. " );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+
+
+            results = fetchTrackedRequests(token3);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isOutlink requests as outlink + interaction. " );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+
+
+            results = fetchTrackedRequests(token4);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "0", "count #notWithinTarget requests." );
+
+
+            results = fetchTrackedRequests(token5);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "0", "count #internalLink requests. (would be tracked via redirect which we do not want to perform in test and it is tested above)" );
+
+            start();
+        }, 4000);
+
+    });
+
     <?php
 }
 ?>
