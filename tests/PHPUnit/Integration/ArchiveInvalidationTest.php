@@ -60,7 +60,7 @@ class ArchiveInvalidationTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testApi
+     * @depends      testApi
      * @dataProvider getApiForTesting
      */
     public function testSameApi($api, $params)
