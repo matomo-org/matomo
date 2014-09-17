@@ -154,7 +154,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         $this->assertEquals(200, $responseInfo["http_code"]);
 
         // Tests content type
-        $this->assertEquals(TEST_FILE_CONTENT_TYPE, $responseInfo["content_type"]);
+        $this->assertContains(TEST_FILE_CONTENT_TYPE, $responseInfo["content_type"]);
 
         // Tests no compression has been applied
         $this->assertNull($this->getContentEncodingValue($fullResponse));
