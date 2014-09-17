@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Overlay;
 
+use Piwik\API\CORSHandler;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
@@ -44,6 +45,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->ssl = ProxyHttp::isHttps();
 
+        $this->outputCORSHeaders();
         return $view->render();
     }
 
@@ -117,6 +119,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idSite = $idSite;
         $view->period = $period;
         $view->date = $date;
+
+        $this->outputCORSHeaders();
         return $view->render();
     }
 
@@ -133,6 +137,7 @@ class Controller extends \Piwik\Plugin\Controller
         $site = $sitesManager->getSiteFromId($idSite);
         $urls = $sitesManager->getSiteUrlsFromId($idSite);
 
+        $this->outputCORSHeaders();
         Common::sendHeader('Content-Type: text/html; charset=UTF-8');
         return '
 			<html><head><title></title></head><body>
@@ -218,6 +223,7 @@ class Controller extends \Piwik\Plugin\Controller
             $view->troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorUser'));
         }
 
+        $this->outputCORSHeaders();
         return $view->render();
     }
 
@@ -232,6 +238,13 @@ class Controller extends \Piwik\Plugin\Controller
     public function notifyParentIframe()
     {
         $view = new View('@Overlay/notifyParentIframe');
+        $this->outputCORSHeaders();
         return $view->render();
+    }
+
+    protected function outputCORSHeaders()
+    {
+        $corsHandler = new CORSHandler();
+        $corsHandler->handle();
     }
 }
