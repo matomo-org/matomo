@@ -5,16 +5,17 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Integration;
+namespace Piwik\Plugins\Contents\tests;
 
 use Piwik\Tests\IntegrationTestCase;
-use Piwik\Tests\Fixtures\TwoVisitsWithContents;
+use Piwik\Plugins\Contents\tests\fixtures\TwoVisitsWithContents;
 
 /**
  * Testing Contents
  *
  * @group ContentsTest
  * @group Integration
+ * @group Plugins
  */
 class ContentsTest extends IntegrationTestCase
 {
@@ -116,6 +117,11 @@ class ContentsTest extends IntegrationTestCase
     public static function getOutputPrefix()
     {
         return 'Contents';
+    }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
     }
 }
 
