@@ -13,7 +13,7 @@ use Piwik\API\Proxy;
 /**
  * @group Core
  */
-class HideModulesAndMethodsTest extends PHPUnit_Framework_TestCase
+class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
     public function testCheckIfModuleContainsHideAnnotation()
     {
@@ -194,5 +194,37 @@ class HideModulesAndMethodsTest extends PHPUnit_Framework_TestCase
             array($excelElement, $examples),
             array($rss, $examples)
         );
+    }
+
+    public function testGetExampleUrl()
+    {
+        $class = '\Piwik\Plugins\VisitTime\API';
+        $methodName = 'getVisitInformationPerLocalTime';
+        $parametersToSet = array(
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => 'yesterday'
+        );
+
+        $expectedExampleUrl =
+            '?module=API&method=VisitTime.getVisitInformationPerLocalTime&idSite=1&period=day&date=yesterday';
+
+        $documentationGenerator = new DocumentationGenerator();
+
+        $this->assertEquals(
+            $expectedExampleUrl,
+            $documentationGenerator->getExampleUrl($class, $methodName, $parametersToSet));
+    }
+
+    public function testGetParametersString()
+    {
+        $class = '\Piwik\Plugins\VisitTime\API';
+        $name = 'getVisitInformationPerLocalTime';
+
+        $parameters = "(idSite, period, date, segment = '')";
+
+        $documentationGenerator = new DocumentationGenerator();
+
+        $this->assertEquals($parameters, $documentationGenerator->getParametersString($class, $name));
     }
 }
