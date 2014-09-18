@@ -9,7 +9,9 @@
 
 namespace Piwik\ViewDataTable;
 use Piwik\API\Request as ApiRequest;
+use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
 
 /**
@@ -83,7 +85,8 @@ class Config
      * The list of ViewDataTable properties that are 'Client Side Properties'.
      */
     public $clientSideProperties = array(
-        'show_limit_control'
+        'show_limit_control',
+        'pivot_by_dimension'
     );
 
     /**
@@ -93,6 +96,7 @@ class Config
         'show_goals',
         'show_exclude_low_population',
         'show_flatten_table',
+        'show_pivot_by_subtable',
         'show_table',
         'show_table_all_columns',
         'show_footer',
@@ -183,6 +187,18 @@ class Config
      * 'cog' icon).
      */
     public $show_flatten_table = true;
+
+    /**
+     * Whether to show the 'Pivot by subtable' option (visible in the popup that displays after clicking
+     * the 'cog' icon).
+     */
+    public $show_pivot_by_subtable;
+
+    /**
+     * The ID of the dimension to pivot by when the 'pivot by subtable' option is clicked. Defaults
+     * to the subtable dimension of the report being displayed.
+     */
+    public $pivot_by_dimension;
 
     /**
      * Controls whether the footer icon that allows users to switch to the 'normal' DataTable view
@@ -447,6 +463,7 @@ class Config
         $this->report_id        = $controllerName . '.' . $controllerAction;
 
         $this->loadDocumentation();
+        $this->setShouldShowPivotBySubtable();
     }
 
     /** Load documentation from the API */
@@ -633,6 +650,21 @@ class Config
     {
         foreach ($translations as $key => $translation) {
             $this->addTranslation($key, $translation);
+        }
+    }
+
+    private function setShouldShowPivotBySubtable()
+    {
+        $report = Report::factory($this->controllerName, $this->controllerAction);
+
+        if (empty($report)) {
+            $this->show_pivot_by_subtable = false;
+            $this->pivot_by_dimension = false;
+        } else {
+            $this->show_pivot_by_subtable =  PivotByDimension::isPivotingReportBySubtableSupported($report);
+
+            $subtableDimension = $report->getSubtableDimension();
+            $this->pivot_by_dimension = $subtableDimension ? $subtableDimension->getId() : false;
         }
     }
 }

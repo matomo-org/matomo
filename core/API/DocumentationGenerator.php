@@ -190,6 +190,9 @@ class DocumentationGenerator
         $aParameters['hideColumns'] = false;
         $aParameters['showColumns'] = false;
         $aParameters['filter_pattern_recursive'] = false;
+        $aParameters['pivotBy'] = false;
+        $aParameters['pivotByColumn'] = false;
+        $aParameters['pivotByColumnLimit'] = false;
 
         $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
         $aParameters = array_merge(array('module' => 'API', 'method' => $moduleName . '.' . $methodName), $aParameters);

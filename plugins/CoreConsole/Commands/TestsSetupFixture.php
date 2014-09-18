@@ -134,7 +134,7 @@ class TestsSetupFixture extends ConsoleCommand
 
     private function createSqlDump($sqlDumpPath, OutputInterface $output)
     {
-        $output->write("<info>Creating SQL dump...</info>");
+        $output->writeln("<info>Creating SQL dump...</info>");
 
         $databaseConfig = Config::getInstance()->database;
         $dbUser = $databaseConfig['username'];
@@ -143,6 +143,7 @@ class TestsSetupFixture extends ConsoleCommand
         $dbName = $databaseConfig['dbname'];
 
         $command = "mysqldump --user='$dbUser' --password='$dbPass' --host='$dbHost' '$dbName' > '$sqlDumpPath'";
+        $output->writeln("<info>Executing $command...</info>");
         passthru($command);
 
         $this->writeSuccessMessage($output, array("SQL dump created!"));

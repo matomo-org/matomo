@@ -6,11 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\API\Proxy;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
 use Piwik\Piwik;
 use Piwik\Metrics;
+use Piwik\Plugins\ExampleTracker\Columns\ExampleDimension;
+use Piwik\Plugins\Referrers\Columns\Keyword;
 use Piwik\WidgetsList;
 use Piwik\Translate;
 use Piwik\Menu\MenuReporting;
@@ -28,6 +31,7 @@ class GetBasicReport extends Report
         $this->module = 'TestPlugin';
         $this->action = 'getBasicReport';
         $this->category = 'Goals_Goals';
+        $this->actionToLoadSubTables = 'invalidReport';
     }
 }
 
@@ -101,6 +105,8 @@ class Plugin_ReportTest extends DatabaseTestCase
         $this->disabledReport = new GetDisabledReport();
         $this->basicReport    = new GetBasicReport();
         $this->advancedReport = new GetAdvancedReport();
+
+        Proxy::unsetInstance();
     }
 
     public function tearDown()
@@ -338,6 +344,7 @@ class Plugin_ReportTest extends DatabaseTestCase
                     'bounce_rate' => 'General_ColumnBounceRate',
                     'conversion_rate' => 'General_ColumnConversionRate',
                 ),
+                'actionToLoadSubTables' => 'invalidReport',
                 'order' => 20
             )
         ), $reports);
@@ -422,6 +429,97 @@ class Plugin_ReportTest extends DatabaseTestCase
         }
     }
 
+    public function test_getSubtableDimension_ShouldReturnNullIfNoSubtableActionExists()
+    {
+        $report = new GetExampleReport();
+        $this->assertNull($report->getSubtableDimension());
+    }
+
+    public function test_getSubtableDimension_ShouldReturnNullIfSubtableActionIsInvalid()
+    {
+        $report = new GetBasicReport();
+        $this->assertNull($report->getSubtableDimension());
+    }
+
+    public function test_getSubtableDimension_ShouldReturnCorrectDimensionIfSubtableActionIsDefinedAndCorrect()
+    {
+        PluginManager::getInstance()->loadPlugins(array('Referrers'));
+
+        $report = Report::factory('Referrers', 'getSearchEngines');
+        $subtableDimension = $report->getSubtableDimension();
+
+        $this->assertNotNull($subtableDimension);
+        $this->assertInstanceOf("Piwik\\Plugins\\Referrers\\Columns\\Keyword", $subtableDimension);
+    }
+
+    public function test_fetch_ShouldUseCorrectApiUrl()
+    {
+        PluginManager::getInstance()->loadPlugins(array('API', 'ExampleReport'));
+
+        $proxyMock = $this->getMock('stdClass', array('call', '__construct'));
+        $proxyMock->expects($this->once())->method('call')->with(
+            '\\Piwik\\Plugins\\ExampleReport\\API', 'getExampleReport', array(
+                'idSite' => 1,
+                'date' => '2012-01-02',
+                'format' => 'original',
+                'module' => 'API',
+                'method' => 'ExampleReport.getExampleReport'
+            )
+        )->willReturn("result");
+        Proxy::setSingletonInstance($proxyMock);
+
+        $report = new GetExampleReport();
+        $result = $report->fetch(array('idSite' => 1, 'date' => '2012-01-02'));
+        $this->assertEquals("result", $result);
+    }
+
+    public function test_fetchSubtable_ShouldUseCorrectApiUrl()
+    {
+        PluginManager::getInstance()->loadPlugins(array('API', 'Referrers'));
+
+        $proxyMock = $this->getMock('stdClass', array('call', '__construct'));
+        $proxyMock->expects($this->once())->method('call')->with(
+            '\\Piwik\\Plugins\\Referrers\\API', 'getSearchEnginesFromKeywordId', array(
+                'idSubtable' => 23,
+                'idSite' => 1,
+                'date' => '2012-01-02',
+                'format' => 'original',
+                'module' => 'API',
+                'method' => 'Referrers.getSearchEnginesFromKeywordId'
+            )
+        )->willReturn("result");
+        Proxy::setSingletonInstance($proxyMock);
+
+        $report = new \Piwik\Plugins\Referrers\Reports\GetKeywords();
+        $result = $report->fetchSubtable(23, array('idSite' => 1, 'date' => '2012-01-02'));
+        $this->assertEquals("result", $result);
+    }
+
+    public function test_getForDimension_ShouldReturnCorrectInstanceTypeIfAssociatedReportExists()
+    {
+        PluginManager::getInstance()->loadPlugins(array('Referrers'));
+
+        $report = Report::getForDimension(new Keyword());
+        $this->assertInstanceOf("Piwik\\Plugins\\Referrers\\Reports\\GetKeywords", $report);
+    }
+
+    public function test_getForDimension_ShouldReturnNullIfNoReportExistsForDimension()
+    {
+        $this->loadExampleReportPlugin();
+        $this->loadMorePlugins();
+
+        $report = Report::getForDimension(new ExampleDimension());
+        $this->assertNull($report);
+    }
+
+    public function test_getForDimension_ShouldReturnNullIfReportPluginNotLoaded()
+    {
+        PluginManager::getInstance()->loadPlugins(array());
+
+        $report = Report::getForDimension(new Keyword());
+        $this->assertNull($report);
+    }
+
     private function loadExampleReportPlugin()
     {
         PluginManager::getInstance()->loadPlugins(array('ExampleReport'));
@@ -441,6 +539,4 @@ class Plugin_ReportTest extends DatabaseTestCase
     {
         Translate::reloadLanguage('en');
     }
-
-
 }

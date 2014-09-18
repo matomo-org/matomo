@@ -201,12 +201,14 @@ class EventDispatcher extends Singleton
     }
 
     /**
-     * TODO
+     * Returns the Plugin\Manager instance used by the event dispatcher.
+     *
+     * @return Plugin\Manager
      */
     private function getPluginManager()
     {
         if ($this->pluginManager === null) {
-            $this->pluginManager = \Piwik\Plugin\Manager::getInstance();
+            $this->pluginManager = Plugin\Manager::getInstance();
         }
         return $this->pluginManager;
     }

@@ -155,7 +155,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'columns',
             'flat',
             'include_aggregate_rows',
-            'totalRows'
+            'totalRows',
+            'pivotBy'
         ];
 
         for (var key = 0; key < filters.length; key++) {
@@ -1089,6 +1090,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 } else {
                     str += '&expanded=1';
                 }
+                if (self.param.pivotBy) {
+                    str += '&pivotBy=' + self.param.pivotBy;
+                }
                 if (format == 'CSV' || format == 'TSV' || format == 'RSS') {
                     str += '&translateColumnNames=1&language=' + piwik.language;
                 }
@@ -1171,10 +1175,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         };
         $('div.tableConfiguration', domElem).hover(open, close);
 
-        var generateClickCallback = function (paramName, callbackAfterToggle) {
+        var generateClickCallback = function (paramName, callbackAfterToggle, setParamCallback) {
             return function () {
                 close();
-                self.param[paramName] = (1 - self.param[paramName]) + '';
+                if (setParamCallback) {
+                    setParamCallback();
+                } else {
+                    self.param[paramName] = (1 - self.param[paramName]) + '';
+                }
                 self.param.filter_offset = 0;
                 delete self.param.totalRows;
                 if (callbackAfterToggle) callbackAfterToggle();
@@ -1244,6 +1252,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     // this way, the aggregate rows appear directly before their children
                     self.param.filter_sort_column = '';
                     self.notifyWidgetParametersChange(domElem, {filter_sort_column: ''});
+                }
+            }));
+
+        // handle pivot by
+        $('.dataTablePivotBySubtable', domElem)
+            .each(function () {
+                if (self.param.pivotBy) {
+                    $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
+                } else {
+                    $(this).html(getText('CoreHome_PivotBySubtable'));
+                }
+            })
+            .click(generateClickCallback('pivotBy', null, function () {
+                if (self.param.pivotBy) {
+                    self.param.pivotBy = '';
+                } else {
+                    self.param.pivotBy = self.props.pivot_by_dimension;
                 }
             }));
 

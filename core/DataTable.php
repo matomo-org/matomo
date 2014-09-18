@@ -1635,6 +1635,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Unsets all queued filters.
+     */
+    public function clearQueuedFilters()
+    {
+        $this->queuedFilters = array();
+    }
+
+    /**
      * @return \ArrayIterator|Row[]
      */
     public function getIterator() {

@@ -274,10 +274,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
 
+        $originalGET = $_GET;
+        $_GET = $requestUrl;
+        unset($_GET['serialize']);
+
         $processedResponse = TestRequestResponse::loadFromApi($params, $requestUrl);
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
         }
+
+        $_GET = $originalGET;
 
         try {
             $expectedResponse = TestRequestResponse::loadFromFile($expectedFilePath, $params, $requestUrl);
@@ -395,6 +401,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             'idSite' => $queryParams['idSite'],
             'date' => $queryParams['date'],
             'periods' => $queryParams['period'],
+            'format' => isset($queryParams['format']) ? $queryParams['format'] : 'xml',
             'testSuffix' => '_' . $this->getName(), // TODO: instead of using a test suffix, the whole file name should just be the test method
             'otherRequestParameters' => $queryParams
         ));
