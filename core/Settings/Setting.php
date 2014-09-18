@@ -178,7 +178,8 @@ abstract class Setting
     }
 
     /**
-     * Returns `true` if this setting can be displayed for the current user, `false` if otherwise.
+     * Returns `true` if this setting is writable for the current user, `false` if otherwise. In case it returns
+     * writable for the current user it will be visible in the Plugin settings UI.
      *
      * @return bool
      */
