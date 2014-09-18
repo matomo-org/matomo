@@ -208,7 +208,7 @@ class Visitor implements VisitorInterface
             }
 
             // API.getSuggestedValuesForSegment
-            $flatten = array( 'pageTitle', 'siteSearchKeyword', 'eventCategory', 'eventAction', 'eventName', 'eventValue', 'contentName', 'contentPiece', 'contentTarget', 'contentInteraction');
+            $flatten = array( 'pageTitle', 'siteSearchKeyword', 'eventCategory', 'eventAction', 'eventName', 'eventValue');
             foreach($flatten as $toFlatten) {
                 if (!empty($action[$toFlatten])) {
                     $flattenedKeyName = $toFlatten . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
@@ -265,7 +265,7 @@ class Visitor implements VisitorInterface
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
         $sql = "
 				SELECT
-					COALESCE(log_action_content_interaction.type, log_action_event_category.type, log_action.type, log_action_title.type) AS type,
+					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
 					log_action.name AS url,
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
@@ -276,10 +276,7 @@ class Visitor implements VisitorInterface
 					log_link_visit_action.custom_float
 					". $sqlCustomVariables . ",
 					log_action_event_category.name AS eventCategory,
-					log_action_event_action.name as eventAction,
-					log_action_content_name.name AS contentName,
-					log_action_content_piece.name as contentPiece,
-					log_action_content_interaction.name as contentInteraction
+					log_action_event_action.name as eventAction
 				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
@@ -289,12 +286,6 @@ class Visitor implements VisitorInterface
 					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_action
 					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_content_name
-					ON  log_link_visit_action.idaction_content_name = log_action_content_name.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_content_piece
-					ON  log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_content_interaction
-					ON  log_link_visit_action.idaction_content_interaction = log_action_content_interaction.idaction
 				WHERE log_link_visit_action.idvisit = ?
 				ORDER BY server_time ASC
 				LIMIT 0, $actionsLimit
@@ -321,17 +312,7 @@ class Visitor implements VisitorInterface
                 $actionDetail['customVariables'] = $customVariablesPage;
             }
 
-            if ($actionDetail['type'] !== Action::TYPE_CONTENT_INTERACTION) {
-                unset($actionDetail['contentName']);
-                unset($actionDetail['contentPiece']);
-                unset($actionDetail['contentInteraction']);
-            }
-
-            if ($actionDetail['type'] == Action::TYPE_CONTENT_INTERACTION) {
-
-                // $actionDetails[$actionIdx];
-
-            } elseif ($actionDetail['type'] == Action::TYPE_CONTENT) {
+            if ($actionDetail['type'] == Action::TYPE_CONTENT) {
 
                 unset($actionDetails[$actionIdx]);
 
@@ -359,7 +340,7 @@ class Visitor implements VisitorInterface
             }
             unset($actionDetail['custom_float']);
 
-            if($actionDetail['type'] != Action::TYPE_EVENT_CATEGORY) {
+            if ($actionDetail['type'] != Action::TYPE_EVENT_CATEGORY) {
                 unset($actionDetail['eventCategory']);
                 unset($actionDetail['eventAction']);
             }
@@ -501,10 +482,6 @@ class Visitor implements VisitorInterface
                 case Action::TYPE_EVENT_CATEGORY:
                     $details['type'] = 'event';
                     $details['icon'] = 'plugins/Morpheus/images/event.png';
-                    break;
-                case Action::TYPE_CONTENT_INTERACTION:
-                    $details['type'] = 'content_interaction';
-                    $details['icon'] = '';
                     break;
                 default:
                     $details['type'] = 'action';
