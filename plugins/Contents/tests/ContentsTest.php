@@ -35,8 +35,8 @@ class ContentsTest extends IntegrationTestCase
             'Contents.getContentNames',
             'Contents.getContentPieces',
             'Actions.get',
-      //      'Live.getLastVisitsDetails',
-      //      'Actions.getPageUrls',
+            'Live.getLastVisitsDetails',
+            'Actions.getPageUrls',
         );
     }
 

@@ -37,7 +37,7 @@ class ActionContent extends Action
     protected function getActionsToLookup()
     {
         return array(
-            'idaction_url' => $this->getUrlAndType()
+            'idaction_url' => array($this->getActionUrl(), $this->getActionType())
         );
     }
 

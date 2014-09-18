@@ -265,7 +265,7 @@ class Visitor implements VisitorInterface
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
         $sql = "
 				SELECT
-					COALESCE(log_action_content_interaction.type, log_action_content_name.type, log_action_event_category.type, log_action.type, log_action_title.type) AS type,
+					COALESCE(log_action_content_interaction.type, log_action_event_category.type, log_action.type, log_action_title.type) AS type,
 					log_action.name AS url,
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,

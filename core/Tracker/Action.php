@@ -45,7 +45,7 @@ abstract class Action
     const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
     private static $factoryPriority = array(
-        self::TYPE_PAGE_URL, self::TYPE_SITE_SEARCH, self::TYPE_EVENT, self::TYPE_CONTENT, self::TYPE_OUTLINK, self::TYPE_DOWNLOAD
+        self::TYPE_PAGE_URL, self::TYPE_CONTENT, self::TYPE_SITE_SEARCH, self::TYPE_EVENT, self::TYPE_OUTLINK, self::TYPE_DOWNLOAD
     );
 
     /**
