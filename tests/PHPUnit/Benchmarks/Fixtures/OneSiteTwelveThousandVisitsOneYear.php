@@ -7,6 +7,7 @@
  */
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Reusable fixture. Tracks twelve thousand page views over a year for one site.
