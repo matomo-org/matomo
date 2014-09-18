@@ -8,7 +8,7 @@
 namespace Piwik\Plugins\Contents\tests;
 
 use Piwik\Tests\IntegrationTestCase;
-use Piwik\Plugins\Contents\tests\fixtures\TwoVisitsWithContents;
+use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
 
 /**
  * Testing Contents
