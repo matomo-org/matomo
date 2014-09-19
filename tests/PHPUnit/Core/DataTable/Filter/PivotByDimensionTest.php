@@ -72,7 +72,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructionFailsWhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
     {
-        PluginManager::getInstance()->loadPlugins(array('ExampleReport', 'UserCountry'));
+        $this->loadPlugins('ExampleReport', 'UserCountry');
 
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "UserCountry.City", 'nb_visits', $columnLimit = -1, $enableFetchBySegment = false);
     }
@@ -83,7 +83,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructionFailsWhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry'));
+        $this->loadPlugins('Referrers', 'UserCountry');
 
         new PivotByDimension(new DataTable(), "Referrers.getKeywords", "UserCountry.City", "nb_visits", $columnLimit = -1, $enableFetchBySegment = false);
     }
@@ -94,7 +94,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructionFailsWhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserSettings'));
+        $this->loadPlugins('Referrers', 'UserSettings');
 
         new PivotByDimension(new DataTable(), "UserSettings.getBrowserType", "Referrers.Keyword", "nb_visits");
     }
@@ -105,7 +105,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructionFailsWhenDimensionDoesNotExist()
     {
-        PluginManager::getInstance()->loadPlugins(array('ExampleReport', 'ExampleTracker'));
+        $this->loadPlugins('ExampleReport', 'ExampleTracker');
 
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "ExampleTracker.InvalidDimension", 'nb_visits');
     }
@@ -116,7 +116,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructionFailsWhenThereIsNoReportForADimension()
     {
-        PluginManager::getInstance()->loadPlugins(array('ExampleReport', 'ExampleTracker'));
+        $this->loadPlugins('ExampleReport', 'ExampleTracker');
 
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "ExampleTracker.ExampleDimension", "nb_visits");
     }
@@ -127,27 +127,26 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructionFailsWhenSpecifiedReportIsNotValid()
     {
-        PluginManager::getInstance()->loadPlugins(array('ExampleReport', 'Referrers'));
+        $this->loadPlugins('ExampleReport', 'Referrers');
 
         new PivotByDimension(new DataTable(), "ExampleReport.InvalidReport", "Referrers.Keyword", "nb_visits");
     }
 
     public function testFilterReturnsEmptyResultWhenTableToFilterIsEmpty()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = new DataTable();
 
         $pivotFilter = new PivotByDimension($table, "Referrers.getKeywords", "Referrers.SearchEngine", 'nb_visits');
         $pivotFilter->filter($table);
 
-        $expectedRows = array();
-        $this->assertEquals($expectedRows, $table->getRows());
+        $this->assertEquals(array(), $table->getRows());
     }
 
     public function testFilterCorrectlyCreatesPivotTableUsingSubtableReport()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(true);
 
@@ -164,7 +163,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function testFilterCorrectlyCreatesPivotTableUsingSegment()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(true);
 
@@ -184,7 +183,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function testFilterUsesCorrectSegmentWhenPivotingSegmentedReport()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(true);
 
@@ -203,7 +202,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function testFilterCorrectlyCreatesPivotTableWhenPivotMetricDoesNotExistInTable()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(true);
 
@@ -220,7 +219,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function testFilterCorrectlyCreatesPivotTableWhenSubtablesHaveNoRows()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(false);
 
@@ -238,7 +237,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function testFilterCorrectlyDefaultsPivotByColumnWhenNoneProvided()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(true);
 
@@ -255,7 +254,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function testFilterCorrectlyLimitsTheColumnNumberWhenColumnLimitProvided()
     {
-        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+        $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(true);
 
@@ -381,5 +380,10 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $actualRows = $renderer->render($table);
 
         $this->assertEquals($expectedRows, $actualRows);
+    }
+
+    private function loadPlugins()
+    {
+        PluginManager::getInstance()->loadPlugins(func_get_args());
     }
 }
