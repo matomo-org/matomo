@@ -154,16 +154,16 @@ class Xml extends Renderer
         foreach ($array as $key => $value) {
             // based on the type of array & the key, determine how this node will look
             if ($isAssociativeArray) {
-                if (!self::isValidXmlTagName($key)) {
-                    $prefix = "<row key=\"$key\">";
-                    $suffix = "</row>";
-                    $emptyNode = "<row key=\"$key\"/>";
-                } else if (strpos($key, '=') !== false) {
+                if (strpos($key, '=') !== false) {
                     list($keyAttributeName, $key) = explode('=', $key, 2);
 
                     $prefix = "<row $keyAttributeName=\"$key\">";
                     $suffix = "</row>";
                     $emptyNode = "<row $keyAttributeName=\"$key\">";
+                } else if (!self::isValidXmlTagName($key)) {
+                    $prefix = "<row key=\"$key\">";
+                    $suffix = "</row>";
+                    $emptyNode = "<row key=\"$key\"/>";
                 } else {
                     $prefix = "<$key>";
                     $suffix = "</$key>";
