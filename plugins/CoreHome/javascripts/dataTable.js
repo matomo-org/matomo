@@ -1643,6 +1643,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     self.param[key] = decodeURIComponent(newParams[key]);
                 }
 
+                delete self.param.pivotBy;
+
                 // do ajax request
                 self.reloadAjaxDataTable(true, function (newReport) {
                     var newDomElem = self.dataTableLoaded(newReport, self.workingDivId);
