@@ -11,9 +11,6 @@ use Piwik\DataTable\Renderer\Xml;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 
-/**
- * @group Only
- */
 class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()

@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
@@ -17,7 +18,6 @@ use Exception;
 
 /**
  * @group Core
- * @group PivotByDimensionTest
  */
 class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 {
@@ -46,6 +46,8 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         Proxy::setSingletonInstance($proxyMock);
 
         $this->segmentTableCount = 0;
+
+        Config::getInstance()->setTestEnvironment();
     }
 
     public function tearDown()
