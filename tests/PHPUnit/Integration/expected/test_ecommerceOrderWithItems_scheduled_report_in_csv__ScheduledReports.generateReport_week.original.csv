@@ -128,8 +128,8 @@ French,1,4,100%,4,00:12:01,0%
 
 Language code
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Polish - Poland - (pl-pl),4,12,75%,3,00:25:32,25%
-French - France - (fr-fr),1,4,100%,4,00:12:01,0%
+Polish (pl),4,12,75%,3,00:25:32,25%
+French (fr),1,4,100%,4,00:12:01,0%
 
 Ecommerce Orders
 nb_conversions,nb_visits_converted,conversion_rate,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue

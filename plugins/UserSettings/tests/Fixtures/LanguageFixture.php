@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UserSettings\tests\Fixtures;
 
 use Piwik\Tests\Fixture;
 use Piwik\Date;
+use Piwik\Common;
 
 class LanguageFixture extends Fixture
 {
@@ -39,16 +40,10 @@ class LanguageFixture extends Fixture
 
     private function getBrowserLangs() {
         return array(
-            'fr-be', 'ar_QA', 'fr-ch', 'ha_GH', 'th_TH', 'zh_SG', 'eu_ES', 
-            'sr_CS', 'el,fi', 'ug_CN', 'hi_IN', 'nso_ZA', 'cs_CZ', 'pl,en-us,en;q=', 
-            'kpe_LR', 'mk_MK', 'en_NA'
-        );
-    }
-
-    private function getCountries() {
-        return array(
-            'be', 'ca', 'ch', 'cn', 'de', 'es', 'fr', 'gb', 'gr',
-            'ie', 'in,', 'it', 'mx', 'pl', 'pt', 'ru', 'us'
+            'fr-be', 'ar_QA', 'fr-ch', 'pl', 'pl', 'th_TH', 'zh_SG', 'eu_ES',
+            'sr_CS', 'el,fi', 'fr,en-us,en;q=', 'fr-be', 'en,en-us,en;q=',
+            'de,en-us,en;q=', 'cs_CZ', 'pl,en-us,en;q=',
+            'kpe_LR', 'en,en-us,en;q=',
         );
     }
 
@@ -60,15 +55,13 @@ class LanguageFixture extends Fixture
             $defaultInit = false
         );
 
-        $countryForBrowserLang = array_combine($this->getCountries(), $this->getBrowserLangs());
-
         $hour = 1;
-        foreach ($countryForBrowserLang as $country => $browserLang) {
+        foreach ($this->getBrowserLangs() as $browserLang) {
 
             $tracker->setForceVisitDateTime(
                 Date::factory($this->dateTime)->addHour($hour++)->getDatetime()
             );
-            $tracker->setCountry($country);
+
             $tracker->setBrowserLanguage($browserLang);
 
             self::checkResponse($tracker->doTrackPageView("Viewing homepage"));

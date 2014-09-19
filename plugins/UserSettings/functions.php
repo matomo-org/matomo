@@ -276,23 +276,20 @@ function languageTranslateWithCode($label)
     $ex = explode('-', $label);
     $lang = languageTranslate($ex[0]);
 
-    if (count($ex) == 2)
-    {
+    if (count($ex) == 2 && $ex[0] != $ex[1]) {
         $countryKey = 'UserCountry_country_' . $ex[1];
-    }
-    else
-    {
-        $countryKey = 'UserCountry_country_' . $label;
-        $label = $label . '-' . $label;
+        $country = Piwik::translate($countryKey);
+
+        if ($country == $countryKey) {
+            return sprintf("%s (%s)", $lang, $ex[0]);
+        }
+
+        return sprintf("%s - %s (%s)", $lang, $country, $label);
+
+    } else {
+        return sprintf("%s (%s)", $lang, $ex[0]);
     }
 
-    $country = Piwik::translate($countryKey);
-
-    if ($country == $countryKey) {
-        $country = Piwik::translate('General_Unknown');
-    }
-
-    return sprintf("%s - %s - (%s)", $lang, $country, $label);
 }
 
 /**

@@ -42,7 +42,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
             'Live!'                        => 4,
             'General_Visitors'             => 12,
             'UserSettings_VisitorSettings' => 12,
-            'General_Actions'              => 8,
+            'General_Actions'              => 10,
             'Events_Events'                => 3,
             'Actions_SubmenuSitesearch'    => 5,
             'Referrers_Referrers'            => 7,

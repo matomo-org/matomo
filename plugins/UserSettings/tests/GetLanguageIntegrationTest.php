@@ -15,9 +15,9 @@ use Piwik\Tests\IntegrationTestCase;
 /**
  * Class GetLanguageIntegrationTest
  * @package Piwik\Plugins\UserSettings\tests
- * @group UserSettings
  * @group GetLanguageIntegrationTest
  * @group Plugins
+ * @group UserSettings
  */
 class GetLanguageIntegrationTest extends IntegrationTestCase {
 

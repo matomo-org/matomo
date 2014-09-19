@@ -23,7 +23,8 @@ class GetLanguageCode extends GetLanguage
         $this->widgetTitle  = 'UserSettings_LanguageCode';
     }
 
-    public function getRelatedReports() {
+    public function getRelatedReports()
+    {
         return array(
             new GetLanguage()
         );
