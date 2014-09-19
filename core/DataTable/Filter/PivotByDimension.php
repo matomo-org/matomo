@@ -300,6 +300,12 @@ class PivotByDimension extends BaseFilter
     {
         $segmentStr = $this->thisReportDimensionSegment->getSegment() . "==" . urlencode($segmentValue);
 
+        // TODO: segment + report API method query params should be stored in DataTable metadata so we don't have to access it here
+        $originalSegment = Common::getRequestVar('segment', false);
+        if (!empty($originalSegment)) {
+            $segmentStr = $originalSegment . ';' . $segmentStr;
+        }
+
         Log::debug("PivotByDimension: Fetching intersected with segment '%s'", $segmentStr);
 
         $params = array('segment' => $segmentStr) + $this->getRequestParamOverride($table);

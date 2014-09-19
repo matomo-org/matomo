@@ -29,6 +29,14 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      */
     private $segmentTableCount;
 
+    /**
+     * Segment query params used to fetch intersected tables in PivotByDimension filter. Captured by mock
+     * API\Proxy class.
+     *
+     * @var array
+     */
+    public $segmentUsedToGetIntersected = array();
+
     public function setUp()
     {
         $self = $this;
@@ -38,6 +46,8 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
             if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
                 && $methodName == 'getCity'
             ) {
+                $self->segmentUsedToGetIntersected[] = $parameters['segment'];
+
                 return $self->getSegmentTable();
             } else {
                 throw new Exception("Unknown API request: $className::$methodName.");
@@ -161,12 +171,34 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $pivotFilter = new PivotByDimension($table, "Referrers.getKeywords", "UserCountry.City", 'nb_visits');
         $pivotFilter->filter($table);
 
+        $expectedSegmentParams = array('referrerKeyword==row+1', 'referrerKeyword==row+2', 'referrerKeyword==row+3');
+        $this->assertEquals($expectedSegmentParams, $this->segmentUsedToGetIntersected);
+
         $expectedRows = array(
             array('label' => 'row 1', 'col 0' => 2, 'col 1' => false, 'col 2' => false),
             array('label' => 'row 2', 'col 0' => 2, 'col 1' => 4, 'col 2' => false),
             array('label' => 'row 3', 'col 0' => 2, 'col 1' => 4, 'col 2' => 6)
         );
         $this->assertTableRowsEquals($expectedRows, $table);
+    }
+
+    public function testFilterUsesCorrectSegmentWhenPivotingSegmentedReport()
+    {
+        PluginManager::getInstance()->loadPlugins(array('Referrers', 'UserCountry', 'CustomVariables'));
+
+        $table = $this->getTableToFilter(true);
+
+        $_GET['segment'] = 'asegment==value';
+
+        $pivotFilter = new PivotByDimension($table, "Referrers.getKeywords", "UserCountry.City", 'nb_visits');
+        $pivotFilter->filter($table);
+
+        $expectedSegmentParams = array(
+            'asegment==value;referrerKeyword==row+1',
+            'asegment==value;referrerKeyword==row+2',
+            'asegment==value;referrerKeyword==row+3'
+        );
+        $this->assertEquals($expectedSegmentParams, $this->segmentUsedToGetIntersected);
     }
 
     public function testFilterCorrectlyCreatesPivotTableWhenPivotMetricDoesNotExistInTable()

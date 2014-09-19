@@ -67,6 +67,19 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
+    public function testPivotBySegmentCreatesCorrectPivotTableWhenSegmentUsedInRequest()
+    {
+        $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
+            'idSite' => self::$fixture->idSite,
+            'date' => Date::factory(self::$fixture->dateTime)->toString(),
+            'period' => 'week',
+            'segment' => 'browserCode==FF',
+            'pivotBy' => 'UserCountry.City',
+            'pivotByColumn' => 'nb_visits',
+            'pivotByColumnLimit' => -1
+        ));
+    }
+
     public function testPivotByParamPlaysNiceWithOtherQueryParams()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
