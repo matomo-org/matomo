@@ -55,8 +55,6 @@ use Piwik\Plugin\Segment;
  */
 class PivotByDimension extends BaseFilter
 {
-    const DEFAULT_COLUMN_LIMIT = 7;
-
     /**
      * The pivot-by Dimension. The metadata in this class is used to determine if we can
      * pivot the report and used to fetch intersected tables.
@@ -157,7 +155,7 @@ class PivotByDimension extends BaseFilter
             $pivotColumn, $pivotByColumnLimit, $isFetchingBySegmentEnabled);
 
         $this->pivotColumn = $pivotColumn;
-        $this->pivotByColumnLimit = $pivotByColumnLimit ?: self::DEFAULT_COLUMN_LIMIT;
+        $this->pivotByColumnLimit = $pivotByColumnLimit ?: self::getDefaultColumnLimit();
         $this->isFetchingBySegmentEnabled = $isFetchingBySegmentEnabled;
 
         $namesToId = Metrics::getMappingFromIdToName();
@@ -455,5 +453,16 @@ class PivotByDimension extends BaseFilter
     public static function isSegmentFetchingEnabledInConfig()
     {
         return Config::getInstance()->General['pivot_by_filter_enable_fetch_by_segment'];
+    }
+
+    /**
+     * Returns the default maximum number of columns to allow in a pivot table from the INI config.
+     * Uses the **pivot_by_filter_default_column_limit** INI config option.
+     *
+     * @return int
+     */
+    public static function getDefaultColumnLimit()
+    {
+        return Config::getInstance()->General['pivot_by_filter_default_column_limit'];
     }
 }
