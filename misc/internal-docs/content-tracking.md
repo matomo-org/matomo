@@ -429,8 +429,7 @@ Yes it seems most logical to create an action entry for each Content.
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with [.jpg, .png, .gif] it could be recognized as image content and show a banner in the report.
 
 ## TODO
-* Content piece undefined vs Unknown?
-* UI / PHP tests
+* UI tests
 
 ## V2:
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
