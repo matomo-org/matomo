@@ -85,7 +85,7 @@ class Manager extends Singleton
         'ExampleVisualization',
         'ExamplePluginTemplate',
         'ExampleTracker',
-        'ExampleReport',
+        'ExampleReport'
     );
 
     // Themes bundled with core package, disabled by default

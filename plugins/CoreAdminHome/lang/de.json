@@ -27,6 +27,8 @@
         "JSTracking_CodeNote": "Stellen Sie sicher, dass sich dieser Code auf jeder Seite Ihrer Webseite vor dem %1$s Tag befindet.",
         "JSTracking_CustomCampaignQueryParam": "Eigene Anfrage-Parameter für Kampagnen Name & Stichwort verwenden",
         "JSTracking_CustomCampaignQueryParamDesc": "Hinweis: %1$sPiwik erkennt Parameter von Google Analytics automatisch.%2$s",
+        "JSTracking_DisableCookies": "Alle Tracking Cookies deaktivieren",
+        "JSTracking_DisableCookiesDesc": "Deaktiviert alle First-Party Cookies. Bestehende Piwik Cookies für diese Website werden beim nächsten Seitenaufruf gelöscht.",
         "JSTracking_EnableDoNotTrack": "Clientseitige Do-Not-Track Erkennung aktivieren",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Hinweis: Diese Einstellung hat keine Auswirkung, da die Do-Not-Track Unterstützung serverseitig aktiviert ist.",
         "JSTracking_EnableDoNotTrackDesc": "Hierdurch werden Tracking-Anfragen nicht gesendet, falls der Benutzer nicht getrackt werden möchte.",

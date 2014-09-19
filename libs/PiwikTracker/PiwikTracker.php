@@ -554,6 +554,36 @@ class PiwikTracker
     }
 
     /**
+     * Tracks a content impression
+     *
+     * @param string $contentName The name of the content. For instance 'Ad Foo Bar'
+     * @param string $contentPiece The actual content. For instance the path to an image, video, audio, any text
+     * @param string|false $contentTarget (optional) The target of the content. For instance the URL of a landing page.
+     * @return mixed Response string or true if using bulk requests.
+     */
+    public function doTrackContentImpression($contentName, $contentPiece = 'Unknown', $contentTarget = false)
+    {
+        $url = $this->getUrlTrackContentImpression($contentName, $contentPiece, $contentTarget);
+        return $this->sendRequest($url);
+    }
+
+    /**
+     * Tracks a content interaction. Make sure you have tracked a content impression using the same content name and
+     * content piece, otherwise it will not count. To do so you should call the method doTrackContentImpression();
+     *
+     * @param string $interaction The name of the interaction with the content. For instance a 'click'
+     * @param string $contentName The name of the content. For instance 'Ad Foo Bar'
+     * @param string $contentPiece The actual content. For instance the path to an image, video, audio, any text
+     * @param string|false $contentTarget (optional) The target the content leading to when an interaction occurs. For instance the URL of a landing page.
+     * @return mixed Response string or true if using bulk requests.
+     */
+    public function doTrackContentInteraction($interaction, $contentName, $contentPiece = 'Unknown', $contentTarget = false)
+    {
+        $url = $this->getUrlTrackContentInteraction($interaction, $contentName, $contentPiece, $contentTarget);
+        return $this->sendRequest($url);
+    }
+
+    /**
      * Tracks an internal Site Search query, and optionally tracks the Search Category, and Search results Count.
      * These are used to populate reports in Actions > Site Search.
      *
@@ -848,6 +878,72 @@ class PiwikTracker
         if(strlen($value) > 0) {
             $url .= '&e_v=' . $value;
         }
+        return $url;
+    }
+
+    /**
+     * Builds URL to track a content impression.
+     *
+     * @see doTrackContentImpression()
+     * @param string $contentName The name of the content. For instance 'Ad Foo Bar'
+     * @param string $contentPiece The actual content. For instance the path to an image, video, audio, any text
+     * @param string|false $contentTarget (optional) The target of the content. For instance the URL of a landing page.
+     * @throws Exception In case $contentName is empty
+     * @return string URL to piwik.php with all parameters set to track the pageview
+     */
+    public function getUrlTrackContentImpression($contentName, $contentPiece, $contentTarget)
+    {
+        $url = $this->getRequest($this->idSite);
+
+        if (strlen($contentName) == 0) {
+            throw new Exception("You must specify a content name");
+        }
+
+        $url .= '&c_n=' . urlencode($contentName);
+
+        if (!empty($contentPiece) && strlen($contentPiece) > 0) {
+            $url .= '&c_p=' . urlencode($contentPiece);
+        }
+        if (!empty($contentTarget) && strlen($contentTarget) > 0) {
+            $url .= '&c_t=' . urlencode($contentTarget);
+        }
+
+        return $url;
+    }
+
+    /**
+     * Builds URL to track a content impression.
+     *
+     * @see doTrackContentInteraction()
+     * @param string $interaction The name of the interaction with the content. For instance a 'click'
+     * @param string $contentName The name of the content. For instance 'Ad Foo Bar'
+     * @param string $contentPiece The actual content. For instance the path to an image, video, audio, any text
+     * @param string|false $contentTarget (optional) The target the content leading to when an interaction occurs. For instance the URL of a landing page.
+     * @throws Exception In case $interaction or $contentName is empty
+     * @return string URL to piwik.php with all parameters set to track the pageview
+     */
+    public function getUrlTrackContentInteraction($interaction, $contentName, $contentPiece, $contentTarget)
+    {
+        $url = $this->getRequest($this->idSite);
+
+        if (strlen($interaction) == 0) {
+            throw new Exception("You must specify a name for the interaction");
+        }
+
+        if (strlen($contentName) == 0) {
+            throw new Exception("You must specify a content name");
+        }
+
+        $url .= '&c_i=' . urlencode($interaction);
+        $url .= '&c_n=' . urlencode($contentName);
+
+        if (!empty($contentPiece) && strlen($contentPiece) > 0) {
+            $url .= '&c_p=' . urlencode($contentPiece);
+        }
+        if (!empty($contentTarget) && strlen($contentTarget) > 0) {
+            $url .= '&c_t=' . urlencode($contentTarget);
+        }
+
         return $url;
     }
 

@@ -132,6 +132,8 @@ class Db
         $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);
 
         try {
+            self::logSql(__FUNCTION__, $sql);
+
             $return = self::get()->exec($sql);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -157,6 +159,8 @@ class Db
     public static function query($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->query($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -176,6 +180,8 @@ class Db
     public static function fetchAll($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchAll($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -195,6 +201,8 @@ class Db
     public static function fetchRow($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchRow($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -214,6 +222,8 @@ class Db
     public static function fetchOne($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchOne($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -237,6 +247,8 @@ class Db
     public static function fetchAssoc($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchAssoc($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -667,5 +679,11 @@ class Db
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
         }
+    }
+
+    private static function logSql($functionName, $sql, $parameters = array())
+    {
+        // NOTE: at the moment we dont log bind in order to avoid sensitive information leaks
+        Log::verbose("Db::%s() executing SQL:\n%s", $functionName, $sql);
     }
 }

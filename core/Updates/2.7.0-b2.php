@@ -28,8 +28,14 @@ class Updates_2_7_0_b2 extends Updates
 
     static function update()
     {
-        // Run the SQL
         Updater::updateDatabase(__FILE__, self::getSql());
+
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+
+        try {
+            $pluginManager->activatePlugin('Contents');
+        } catch(\Exception $e) {
+        }
     }
 }
 

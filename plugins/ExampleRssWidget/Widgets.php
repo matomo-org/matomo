@@ -57,7 +57,7 @@ class Widgets extends \Piwik\Plugin\Widgets
     private function error($e)
     {
         return '<div class="pk-emptyDataTable">'
-             . Piwik::translate('General_ErrorRequest')
+             . Piwik::translate('General_ErrorRequest', array('', ''))
              . ' - ' . $e->getMessage() . '</div>';
     }
 }

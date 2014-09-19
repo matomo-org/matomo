@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "%s średni czas generacji",
         "AverageVisitDuration": "%s średniego czasu trwania odwiedzin",
         "GenerateQueries": "%s wykonanych zapytań",
         "GenerateTime": "%s sekund do wygenerowania strony",
@@ -7,8 +8,12 @@
         "NbActionsDescription": "%s działań (przeglądania stron, pobrań i linków kolejnych)",
         "NbActionsPerVisit": "%s działań na wizytę",
         "NbDownloadsDescription": "%s pobrań",
+        "NbKeywordsDescription": "%s unikalne słowa kluczowe",
+        "NbOutlinksDescription": "%s outlinków",
         "NbPageviewsDescription": "%s wejść",
+        "NbSearchesDescription": "%s wszystkich wyszukań na twojej strony",
         "NbUniqueDownloadsDescription": "%s unikalnych pobrań",
+        "NbUniqueOutlinksDescription": "%s unikalne outlinki",
         "NbUniquePageviewsDescription": "%s unikalnych wejść",
         "NbUniqueVisitors": "%s jednorazowych gości",
         "NbVisitsBounced": "%s odwiedzin powróciło (opuszczając serwis po jednej stronie)",

@@ -3,6 +3,7 @@
         "CategoryNoData": "Non ci sono dati in questa categoria. Prova ad includere tutte le categorie.",
         "CheckForUpdates": "Cerca aggiornamenti",
         "CheckPiwikOut": "Controlla Piwik!",
+        "ClickRowToExpandOrContract": "Clicca su questa riga per espandere o restringere la sotto-tabella.",
         "CloseWidgetDirections": "Potete chiudere questo widget cliccando sull'icona 'X' nella parte alta del widget stesso.",
         "DataForThisReportHasBeenPurged": "I dati di questo report hanno più di un mese %s e sono stati eliminato.",
         "DataTableExcludeAggregateRows": "Le righe di aggregazione vengono visualizzate %s Nascondile",

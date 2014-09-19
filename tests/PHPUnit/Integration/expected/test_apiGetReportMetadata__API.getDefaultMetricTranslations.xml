@@ -48,6 +48,9 @@
 		<avg_time_generation>Avg. generation time</avg_time_generation>
 		<nb_pages_per_search>Search Results pages</nb_pages_per_search>
 		<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
+		<nb_impressions>Impressions</nb_impressions>
+		<nb_interactions>Interactions</nb_interactions>
+		<interaction_rate>Interaction Rate</interaction_rate>
 		<nb_events>Total events</nb_events>
 		<sum_event_value>Total value</sum_event_value>
 		<min_event_value>Minimum value</min_event_value>

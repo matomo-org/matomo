@@ -1,6 +1,7 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "%s Bedingung hinzufügen",
+        "AddingSegmentForAllWebsitesDisabled": "Das Hinzufügen von Segmenten wurde für alle Webseiten deaktiviert.",
         "AddNewSegment": "Neues Segment hinzufügen",
         "AreYouSureDeleteSegment": "Möchten Sie dieses Segment wirklich löschen?",
         "AutoArchivePreProcessed": "Segmentierte Berichte werden im Voraus verarbeitet (schneller, benötigt archive.php Cron)",

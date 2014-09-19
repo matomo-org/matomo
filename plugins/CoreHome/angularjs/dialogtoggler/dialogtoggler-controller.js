@@ -29,11 +29,11 @@ angular.module('piwikApp').controller('DialogTogglerController', function ($scop
         if (typeof(contentsInfo) == 'object') { // is info to pass directly to ngDialog
             ngDialogInfo = contentsInfo;
         } else if (contentsInfo.substr(0, 1) == '#') { // is ID of an element
-            ngDialogInfo = {template: contentsInfo.substr(1), className: 'ngdialog-theme-default'};
+            ngDialogInfo = {template: contentsInfo.substr(1)};
         } else if (contentsInfo.substr(-4) == '.html') { // is a link to an .html file
-            ngDialogInfo = {template: contentsInfo, className: 'ngdialog-theme-default'};
+            ngDialogInfo = {template: contentsInfo};
         } else { // is a raw HTML string
-            ngDialogInfo = {template: contentsInfo, plain: true, className: 'ngdialog-theme-default'};
+            ngDialogInfo = {template: contentsInfo, plain: true};
         }
 
         return ngDialog.open(ngDialogInfo);

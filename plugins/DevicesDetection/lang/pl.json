@@ -1,0 +1,29 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Wersje przeglądarek",
+        "Camera": "Aparat fotograficzny",
+        "CarBrowser": "Przeglądarka samochodowa",
+        "Console": "Konsola",
+        "dataTableLabelBrands": "Marka",
+        "dataTableLabelBrowserFamily": "Rodzina przeglądarki",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Wersja systemu operacyjnego",
+        "dataTableLabelTypes": "Typ",
+        "Device": "Urządzenie",
+        "DeviceBrand": "Urządzenie marki",
+        "DeviceDetection": "Wykrywanie urządzeń",
+        "DeviceModel": "Model urządzenia",
+        "DevicesDetection": "Urządzenia gości",
+        "DeviceType": "Typ urządzenia",
+        "FeaturePhone": "Zaawansowany telefon",
+        "OperatingSystemFamilies": "Rodzaj systemu operacyjnego",
+        "OperatingSystemVersions": "Wersja systemu operacyjnego",
+        "PluginDescription": "Wtyczka zapewnia rozszerzone informacje na temat urządzeń mobilnych , takich jak marki (producenta ) , model (wersja urządzenia), lepsze wykrywanie typu urządzenia (TV, konsole , smartfony, pulpit , etc) i więcej . Wtyczka dodaje nowy raport 'Goście > Urządzenia \" .",
+        "SmartDisplay": "Inteligentny wyświetlacz",
+        "Smartphone": "Smartfon",
+        "submenu": "Urządzenia",
+        "Tablet": "Tablet",
+        "TV": "TV",
+        "UserAgent": "User-Agent"
+    }
+}

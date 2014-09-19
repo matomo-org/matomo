@@ -24,6 +24,19 @@ $TOKEN_AUTH = 'xyz';
 // Maximum time, in seconds, to wait for the Piwik server to return the 1*1 GIF
 $timeout = 5;
 
+function sendHeader($header, $replace = true)
+{
+    headers_sent() || header($head, $replace);
+}
+
+function arrayValue($array, $key, $value = null)
+{
+    if (!empty($array[$key])) {
+        $value = $array[$key];
+    }
+    return $value;
+}
+
 // DO NOT MODIFY BELOW
 // ---------------------------
 // 1) PIWIK.JS PROXY: No _GET parameter, we serve the JS file
@@ -40,18 +53,18 @@ if (empty($_GET)) {
     $lastModified = time() - 86400;
 
     // set HTTP response headers
-    header('Vary: Accept-Encoding');
+    sendHeader('Vary: Accept-Encoding');
 
     // Returns 304 if not modified since
     if (!empty($modifiedSince) && $modifiedSince < $lastModified) {
-        header(sprintf("%s 304 Not Modified", $_SERVER['SERVER_PROTOCOL']));
+        sendHeader(sprintf("%s 304 Not Modified", $_SERVER['SERVER_PROTOCOL']));
     } else {
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        @header('Content-Type: application/javascript; charset=UTF-8');
+        sendHeader('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        sendHeader('Content-Type: application/javascript; charset=UTF-8');
         if ($piwikJs = file_get_contents($PIWIK_URL . 'piwik.js')) {
             echo $piwikJs;
         } else {
-            header($_SERVER['SERVER_PROTOCOL'] . '505 Internal server error');
+            sendHeader($_SERVER['SERVER_PROTOCOL'] . '505 Internal server error');
         }
     }
     exit;
@@ -65,10 +78,10 @@ $url = sprintf("%spiwik.php?cip=%s&token_auth=%s&", $PIWIK_URL, getVisitIp(), $T
 foreach ($_GET as $key => $value) {
     $url .= $key . '=' . urlencode($value) . '&';
 }
-header("Content-Type: image/gif");
+sendHeader("Content-Type: image/gif");
 $stream_options = array('http' => array(
-    'user_agent' => @$_SERVER['HTTP_USER_AGENT'],
-    'header'     => sprintf("Accept-Language: %s\r\n", @str_replace(array("\n", "\t", "\r"), "", $_SERVER['HTTP_ACCEPT_LANGUAGE'])),
+    'user_agent' => arrayValue($_SERVER, 'HTTP_USER_AGENT', ''),
+    'header'     => sprintf("Accept-Language: %s\r\n", str_replace(array("\n", "\t", "\r"), "", arrayValue($_SERVER, 'HTTP_ACCEPT_LANGUAGE', ''))),
     'timeout'    => $timeout
 ));
 $ctx = stream_context_create($stream_options);
@@ -88,5 +101,5 @@ function getVisitIp()
             return $_SERVER[$ipKey];
         }
     }
-    return @$_SERVER['REMOTE_ADDR'];
+    return arrayValue($_SERVER, 'REMOTE_ADDR');
 }

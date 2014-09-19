@@ -1,6 +1,7 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Προσθήκη της %s συνθήκης",
+        "AddingSegmentForAllWebsitesDisabled": "Η προσθήκη τμημάτων έχει απενεργοποιηθεί για όλους τους ιστοτόπους.",
         "AddNewSegment": "Προσθήκη νέου τμήματος",
         "AreYouSureDeleteSegment": "Είστε σίγουροι για τη διαγραφή του τμήματος;",
         "AutoArchivePreProcessed": "οι αναφορές τμημάτων προεπεξεργάζονται (γρηγορότερα, απαιτείται το archive.php με cron)",

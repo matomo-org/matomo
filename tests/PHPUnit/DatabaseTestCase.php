@@ -18,6 +18,9 @@ use Piwik\Tests\Fixture;
  */
 class DatabaseTestCase extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Fixture
+     */
     protected $fixture = null;
 
     /**

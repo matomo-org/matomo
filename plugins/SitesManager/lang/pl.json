@@ -33,6 +33,7 @@
         "OnlyOneSiteAtTime": "W danym momencie możesz edytować tylko jedną ze stron. Zapisz lub zrezygnuj z wprowadzonych teraz modyfikacji dla strony %s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik automatycznie wyklucza wspólne parametry sesji (%s).",
         "PluginDescription": "Zarządzanie stronami w Piwik: dodanie nowej strony, edycja istniejącej, wyświetlanie kodu JavaScript który należy dodać do stron. Wszystkie te działania są dostępne przez interfejs API.",
+        "SearchKeywordLabel": "Parametr zapytania",
         "SelectACity": "Wybierz miasto",
         "SelectDefaultCurrency": "Możesz wybrać walutę jako domyślną dla nowych stron.",
         "SelectDefaultTimezone": "Możesz wybrać strefę czasową jako domyślną dla nowych stron.",

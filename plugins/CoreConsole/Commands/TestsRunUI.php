@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\AssetManager;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +27,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('drop', null, InputOption::VALUE_NONE, "Drop the existing database and re-setup a persisted fixture.");
         $this->addOption('assume-artifacts', null, InputOption::VALUE_NONE, "Assume the diffviewer and processed screenshots will be stored on the builds artifacts server. For use with travis build.");
         $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, "Execute all tests for a plugin.");
+        $this->addOption('skip-delete-assets', null, InputOption::VALUE_NONE, "Skip deleting of merged assets (will speed up a test run, but not by a lot).");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -37,6 +39,11 @@ class TestsRunUI extends ConsoleCommand
         $drop = $input->getOption('drop');
         $assumeArtifacts = $input->getOption('assume-artifacts');
         $plugin = $input->getOption('plugin');
+        $skipDeleteAssets = $input->getOption('skip-delete-assets');
+
+        if (!$skipDeleteAssets) {
+            AssetManager::getInstance()->removeMergedAssets();
+        }
 
         $options = array();
         if ($persistFixtureData) {

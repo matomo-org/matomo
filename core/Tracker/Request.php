@@ -286,6 +286,12 @@ class Request
             'search_cat'   => array(false, 'string'),
             'search_count' => array(-1, 'int'),
             'gt_ms'        => array(-1, 'int'),
+
+            // Content
+            'c_p'          => array('', 'string'),
+            'c_n'          => array('', 'string'),
+            'c_t'          => array('', 'string'),
+            'c_i'          => array('', 'string'),
         );
 
         if (!isset($supportedParams[$name])) {

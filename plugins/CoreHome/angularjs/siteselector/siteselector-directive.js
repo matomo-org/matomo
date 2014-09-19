@@ -45,22 +45,23 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
             allSitesText: '@',
             allSitesLocation: '@'
         },
+        require: "?ngModel",
         templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.html?cb=' + piwik.cacheBuster,
         controller: 'SiteSelectorController',
         compile: function (element, attrs) {
 
             for (var index in defaults) {
-               if (!attrs[index]) { attrs[index] = defaults[index]; }
+               if (attrs[index] === undefined) {
+                   attrs[index] = defaults[index];
+               }
             }
 
-            return function (scope, element, attrs) {
+            return function (scope, element, attrs, ngModel) {
+                scope.selectedSite = {id: attrs.siteid, name: attrs.sitename};
+                scope.model.loadInitialSites();
 
-                // selectedSite.id|.name + model is hard-coded but actually the directive should not know about this
-                scope.selectedSite.id   = attrs.siteid;
-                scope.selectedSite.name = attrs.sitename;
-
-                if (!attrs.siteid || !attrs.sitename) {
-                    scope.model.loadInitialSites();
+                if (ngModel) {
+                    ngModel.$setViewValue(scope.selectedSite);
                 }
 
                 scope.$watch('selectedSite.id', function (newValue, oldValue, scope) {
@@ -70,10 +71,15 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
                     }
                 });
 
-                /** use observe to monitor attribute changes
-                attrs.$observe('maxsitenamewidth', function(val) {
-                    // for instance trigger a function or whatever
-                }) */
+                scope.$watch('selectedSite', function (newValue) {
+                    if (ngModel) {
+                        ngModel.$setViewValue(newValue);
+                    }
+                });
+
+                scope.$watch('view.showSitesList', function (newValue) {
+                    element.toggleClass('expanded', !! newValue);
+                });
             };
         }
     };

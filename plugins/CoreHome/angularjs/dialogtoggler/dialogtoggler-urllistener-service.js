@@ -52,13 +52,11 @@ angular.module('piwikApp').factory('piwikDialogtogglerUrllistener', function ($r
 
     service.checkUrlForDialog = function () {
         var dialogParamValue = $location.search()[dialogQueryParamName];
-        if (dialogParamValue
-            && directiveExists(dialogParamValue)
-        ) {
+        if (dialogParamValue && directiveExists(dialogParamValue)) {
             var dialog = ngDialog.open({
                 template: getHtmlFromDialogQueryParam(dialogParamValue),
                 plain: true,
-                className: 'ngdialog-theme-default'
+                className: ''
             });
 
             dialog.closePromise.then(function () {

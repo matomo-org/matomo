@@ -10,6 +10,13 @@ namespace Piwik;
 
 use Exception;
 
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\IP;
+use Piwik\ProxyHttp;
+use Piwik\Session;
+use Piwik\UrlHelper;
+
 /**
  * Provides URL related helper methods.
  *
@@ -478,7 +485,7 @@ class Url
         if (UrlHelper::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {
-            @header("Location: $url");
+            Common::sendHeader("Location: $url");
         } else {
             echo "Invalid URL to redirect to.";
         }
@@ -597,5 +604,61 @@ class Url
             return array();
         }
         return $hosts;
+    }
+
+    /**
+     * Returns the host part of any valid URL.
+     *
+     * @param string $url  Any fully qualified URL
+     * @return string|null The actual host in lower case or null if $url is not a valid fully qualified URL.
+     */
+    public static function getHostFromUrl($url)
+    {
+        $parsedUrl = parse_url($url);
+
+        if (empty($parsedUrl['host'])) {
+            return;
+        }
+
+        return Common::mb_strtolower($parsedUrl['host']);
+    }
+
+    /**
+     * Checks whether any of the given URLs has the given host. If not, we will also check whether any URL uses a
+     * subdomain of the given host. For instance if host is "example.com" and a URL is "http://www.example.com" we
+     * consider this as valid and return true. The always trusted hosts such as "127.0.0.1" are considered valid as well.
+     *
+     * @param $host
+     * @param $urls
+     * @return bool
+     */
+    public static function isHostInUrls($host, $urls)
+    {
+        if (empty($host)) {
+            return false;
+        }
+
+        $host = Common::mb_strtolower($host);
+
+        if (!empty($urls)) {
+            foreach ($urls as $url) {
+                if (Common::mb_strtolower($url) === $host) {
+                    return true;
+                }
+
+                $siteHost = self::getHostFromUrl($url);
+
+                if ($siteHost === $host) {
+                    return true;
+                }
+
+                if (Common::stringEndsWith($siteHost, '.' . $host)) {
+                    // allow subdomains
+                    return true;
+                }
+            }
+        }
+
+        return in_array($host, self::$alwaysTrustedHosts);
     }
 }

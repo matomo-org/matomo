@@ -481,6 +481,10 @@ class Configuration(object):
             '--enable-testmode', dest='enable_testmode', default=False, action='store_true',
             help="If set, it will try to get the token_auth from the piwik_tests directory"
         )
+        option_parser.add_option(
+            '--download-extensions', dest='download_extensions', default=None,
+            help="If set (format: pdf,doc,...), this list will be used to determine what file extensions should be tracked as a download, otherwise the default list will be used."
+        )
         return option_parser
 
     def _parse_args(self, option_parser):
@@ -549,6 +553,11 @@ class Configuration(object):
 
         if self.options.recorders < 1:
             self.options.recorders = 1
+
+        if self.options.download_extensions:
+            self.options.download_extensions = set(self.options.download_extensions.split(','))
+        else:
+            self.options.download_extensions = DOWNLOAD_EXTENSIONS
 
     def __init__(self):
         self._parse_args(self._create_parser())
@@ -1373,7 +1382,7 @@ class Parser(object):
         return True
 
     def check_download(self, hit):
-        if hit.extension in DOWNLOAD_EXTENSIONS:
+        if hit.extension in config.options.download_extensions:
             stats.count_lines_downloads.increment()
             hit.is_download = True
         return True

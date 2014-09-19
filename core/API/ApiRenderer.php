@@ -8,10 +8,10 @@
  */
 namespace Piwik\API;
 
+use Exception;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
-use Exception;
 use Piwik\Piwik;
 use Piwik\Plugin;
 
@@ -116,7 +116,7 @@ abstract class ApiRenderer
         }
 
         $availableRenderers = implode(', ', $availableRenderers);
-        @header('Content-Type: text/plain; charset=utf-8');
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
         throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($format, $availableRenderers)));
     }
 

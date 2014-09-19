@@ -1,6 +1,7 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Přidat podmínku %s",
+        "AddingSegmentForAllWebsitesDisabled": "Přidávání segmentů pro všechny stránky bylo zakázáno.",
         "AddNewSegment": "Přidat nový segment",
         "AreYouSureDeleteSegment": "Opravdu chcete odstranit tento segment?",
         "AutoArchivePreProcessed": "Segmentovaná hlášení jsou předzpracována rychleji (vyžadují cron)",

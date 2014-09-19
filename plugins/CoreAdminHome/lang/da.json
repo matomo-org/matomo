@@ -28,6 +28,8 @@
         "JSTracking_CodeNote": "Sørg for, at koden er på hver side af hjemmesiden, før %1$s tag.",
         "JSTracking_CustomCampaignQueryParam": "Brug brugerdefineret forespørgsel parameternavne for kampagnenavnet & søgeord",
         "JSTracking_CustomCampaignQueryParamDesc": "Note: %1$sPiwik registrerer automatisk Google Analytics parametre.%2$s",
+        "JSTracking_DisableCookies": "Deaktivere alle sporingscookies",
+        "JSTracking_DisableCookiesDesc": "Deaktiverer alle førstepartscookies. Eksisterende Piwik cookies for denne hjemmeside vil blive slettet ved den næste side visning.",
         "JSTracking_EnableDoNotTrack": "Aktiver klientside DoNotTrack detektering",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Bemærk: Server side DoNotTrack understøttelse er blevet aktiveret, så denne indstilling har ingen virkning.",
         "JSTracking_EnableDoNotTrackDesc": "Så sporing anmodninger sendes ikke, hvis de besøgende ikke vil spores.",

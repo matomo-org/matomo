@@ -23,7 +23,7 @@ tables_prefix =
 
 [log]
 log_writers[] = file
-log_level = debug
+log_level = info
 
 ; leave this empty here
 [General]

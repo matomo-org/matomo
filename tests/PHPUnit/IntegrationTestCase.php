@@ -317,6 +317,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $path = static::getPathToTestDirectory();
         $processedPath = $path . '/processed/';
 
+        if (!is_dir($processedPath)) {
+            mkdir($processedPath, $mode = 0777, $recursive = true);
+        }
+
         if (!is_writable($processedPath)) {
             self::fail('To run the tests, you need to give write permissions to the following directory (create it if '
                       . 'it doesn\'t exist).<code><br/>mkdir ' . $processedPath . '<br/>chmod 777 ' . $processedPath
@@ -376,6 +380,24 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $result = end($parts);
         $result = str_replace('Test_Piwik_Integration_', '', $result);
         return $result;
+    }
+
+    /**
+     * Assert that the response of an API method call is the same as the contents in an
+     * expected file.
+     *
+     * @param string $api ie, `"UserSettings.getBrowser"`
+     * @param array $queryParams Query parameters to send to the API.
+     */
+    public function assertApiResponseEqualsExpected($apiMethod, $queryParams)
+    {
+        $this->runApiTests($apiMethod, array(
+            'idSite' => $queryParams['idSite'],
+            'date' => $queryParams['date'],
+            'periods' => $queryParams['period'],
+            'testSuffix' => '_' . $this->getName(), // TODO: instead of using a test suffix, the whole file name should just be the test method
+            'otherRequestParameters' => $queryParams
+        ));
     }
 
     /**
