@@ -28,16 +28,15 @@ class ActionContent extends Action
 
     public static function shouldHandle(Request $request)
     {
-        $name        = $request->getParam('c_n');
-        $interaction = $request->getParam('c_i'); // if interaction is set we want it to be for instance an outlink, download, ...
+        $name = $request->getParam('c_n');
 
-        return !empty($name) && empty($interaction);
+        return !empty($name);
     }
 
     protected function getActionsToLookup()
     {
         return array(
-            'idaction_url' => $this->getUrlAndType()
+            'idaction_url' => array($this->getActionUrl(), $this->getActionType())
         );
     }
 

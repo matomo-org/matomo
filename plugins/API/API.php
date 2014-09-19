@@ -580,7 +580,8 @@ class API extends \Piwik\Plugin\API
                                          'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
-        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage || $isEventSegment;
+        $isContentSegment = stripos($segmentName, 'content') !== false;
+        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage || $isEventSegment || $isContentSegment;
         return $doesSegmentNeedActionsInfo;
     }
 

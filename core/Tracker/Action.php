@@ -36,16 +36,16 @@ abstract class Action
     const TYPE_EVENT_ACTION = 11;
     const TYPE_EVENT_NAME = 12;
 
-    const TYPE_CONTENT = 13; // Alias TYPE_CONTENT_PIECE
-    const TYPE_CONTENT_PIECE = 13;
-    const TYPE_CONTENT_NAME = 14;
+    const TYPE_CONTENT = 13; // Alias TYPE_CONTENT_NAME
+    const TYPE_CONTENT_NAME = 13;
+    const TYPE_CONTENT_PIECE = 14;
     const TYPE_CONTENT_TARGET = 15;
     const TYPE_CONTENT_INTERACTION = 16;
 
     const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
     private static $factoryPriority = array(
-        self::TYPE_PAGE_URL, self::TYPE_SITE_SEARCH, self::TYPE_EVENT, self::TYPE_CONTENT, self::TYPE_OUTLINK, self::TYPE_DOWNLOAD
+        self::TYPE_PAGE_URL, self::TYPE_CONTENT, self::TYPE_SITE_SEARCH, self::TYPE_EVENT, self::TYPE_OUTLINK, self::TYPE_DOWNLOAD
     );
 
     /**
