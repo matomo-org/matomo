@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 
 class Events extends \Piwik\Plugin
@@ -171,6 +172,9 @@ class Events extends \Piwik\Plugin
         $view->config->addTranslations($this->getMetricTranslations());
         $this->addRelatedReports($view, $secondaryDimension);
         $this->addTooltipEventValue($view);
+
+        $subtableReport = Report::factory('Events', $view->config->subtable_controller_action);
+        $view->config->pivot_by_dimension = $subtableReport->getDimension()->getId();
     }
 
     private function addRelatedReports($view, $secondaryDimension)
