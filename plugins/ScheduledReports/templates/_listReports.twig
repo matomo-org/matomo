@@ -70,7 +70,11 @@
             </td>
             <td>
                 {# download link #}
-                <a href="{{ linkTo({'module':'API', 'segment': null, 'token_auth':token_auth, 'method':'ScheduledReports.generateReport', 'idReport':report.idreport, 'outputType':downloadOutputType, 'language':language}) }}"
+                <a href="{{ linkTo({'module':'API', 'segment': null, 'token_auth':token_auth,
+                            'method':'ScheduledReports.generateReport', 'idReport':report.idreport,
+                            'outputType':downloadOutputType, 'language':language,
+                            'format': (report.format in ['html', 'csv']) ? report.format : false
+                       }) }}"
                    target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0"/>
                     {{ 'General_Download'|translate }}
