@@ -691,6 +691,7 @@ abstract class Controller
             $view->setXFrameOptions('sameorigin');
         }
 
+        $view->canDisplaySettings = $this->checkCanDisplaySettings();
         self::setHostValidationVariablesView($view);
     }
 
@@ -699,6 +700,20 @@ abstract class Controller
         $customLogo = new CustomLogo();
         $view->isCustomLogo  = $customLogo->isEnabled();
         $view->customFavicon = $customLogo->getPathUserFavicon();
+    }
+
+    protected function checkCanDisplaySettings()
+    {
+        $minimumAccessLevel = \Piwik\Config::getInstance()->General['minimum_access_for_settings_menu'];
+
+        switch ($minimumAccessLevel) {
+        case "superadmin":
+            return \Piwik\Piwik::hasUserSuperUserAccess();
+        case "admin":
+            return \Piwik\Piwik::isUserHasSomeAdminAccess();
+        case "view":
+            return \Piwik\Piwik::isUserHasSomeViewAccess();
+        }
     }
 
     /**
