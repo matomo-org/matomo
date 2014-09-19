@@ -2269,6 +2269,7 @@ if (typeof Piwik !== 'object') {
 
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
+                linkTrackingEnabled = false,
 
                 // Guard against installing the activity tracker more than once per Tracker instance
                 activityTrackingInstalled = false,
@@ -3306,9 +3307,9 @@ if (typeof Piwik !== 'object') {
                 }
 
                 var link = getLinkIfShouldBeProcessed(targetNode);
-                if (linkTrackingInstalled && link && link.type) {
+                if (linkTrackingEnabled && link && link.type) {
 
-                    return false; // it is an outlink or download.
+                    return false; // will be handled via outlink or download.
                 }
 
                 if (query.isLinkElement(targetNode) &&
@@ -4004,6 +4005,7 @@ if (typeof Piwik !== 'object') {
                 },
                 disableLinkTracking: function () {
                     linkTrackingInstalled = false;
+                    linkTrackingEnabled   = false;
                 },
 /*</DEBUG>*/
 
@@ -4563,6 +4565,8 @@ if (typeof Piwik !== 'object') {
                  * @param bool enable If true, use pseudo click-handler (mousedown+mouseup)
                  */
                 enableLinkTracking: function (enable) {
+                    linkTrackingEnabled = true;
+
                     if (hasLoaded) {
                         // the load event has already fired, add the click listeners now
                         addClickListeners(enable);
@@ -4896,6 +4900,8 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Tracks an interaction with the given DOM node / content block.
+                 *
                  * By default we track interactions on click but sometimes you might want to track interactions yourself.
                  * For instance you might want to track an interaction manually on a double click or a form submit.
                  * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
@@ -5065,7 +5071,7 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1};
+        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1, enableLinkTracking: 1};
         var methodName;
 
         // find the call to setTrackerUrl or setSiteid (if any) and call them first

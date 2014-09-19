@@ -449,6 +449,10 @@ Nothing special here I think. We would probably automatically detect the type of
   * Add number of content impressions and interaction to each page in getPageUrl(s)
   * Add number of total content impresions and interactions to visitor
   * ...
+* Increase interval to scan the entire page for content impressions after a while. By default currently is 750ms.
+  * For instance after 2 minutes could be 5 seconds, after 5 minutes could be 30 seconds, after 10 minutes could be 1 minute,
+  after 30 minutes could be every 10 minutes or stop it completely. Otherwise CPU and battery won't be happy when having a website open for a while in the background.
+  * Stop scanning page in case tab is no longer active and start scanning again when tab is visible again
 
 ## Open questions
 
