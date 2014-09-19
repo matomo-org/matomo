@@ -156,7 +156,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'flat',
             'include_aggregate_rows',
             'totalRows',
-            'pivotBy'
+            'pivotBy',
+            'pivotByColumn'
         ];
 
         for (var key = 0; key < filters.length; key++) {
@@ -1092,6 +1093,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
                 if (self.param.pivotBy) {
                     str += '&pivotBy=' + self.param.pivotBy;
+                    if (self.props.pivot_by_column) {
+                        str += '&pivotByColumn=' + self.props.pivot_by_column;
+                    }
                 }
                 if (format == 'CSV' || format == 'TSV' || format == 'RSS') {
                     str += '&translateColumnNames=1&language=' + piwik.language;
@@ -1267,8 +1271,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             .click(generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy) {
                     self.param.pivotBy = '';
+                    self.param.pivotByColumn = '';
                 } else {
                     self.param.pivotBy = self.props.pivot_by_dimension;
+                    if (self.props.pivot_by_column) {
+                        self.param.pivotByColumn = self.props.pivot_by_column;
+                    }
                 }
             }));
 
@@ -1644,6 +1652,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
 
                 delete self.param.pivotBy;
+                delete self.param.pivotByColumn;
 
                 // do ajax request
                 self.reloadAjaxDataTable(true, function (newReport) {

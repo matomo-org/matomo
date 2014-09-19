@@ -86,7 +86,8 @@ class Config
      */
     public $clientSideProperties = array(
         'show_limit_control',
-        'pivot_by_dimension'
+        'pivot_by_dimension',
+        'pivot_by_column'
     );
 
     /**
@@ -199,6 +200,11 @@ class Config
      * to the subtable dimension of the report being displayed.
      */
     public $pivot_by_dimension;
+
+    /**
+     * The column to display in pivot tables. Defaults to the first non-label column if not specified.
+     */
+    public $pivot_by_column = false;
 
     /**
      * Controls whether the footer icon that allows users to switch to the 'normal' DataTable view
