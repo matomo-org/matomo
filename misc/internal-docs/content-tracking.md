@@ -438,12 +438,17 @@ Nothing special here I think. We would probably automatically detect the type of
 * When we listen to scroll events we currently do not detect if user scrolls the entire page, not if within a div
   * We need to check all parent elements of a content block whether it is scrollable and if so connect an event to this
 * We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
-* Provide more reports like which interactions, which targets, and more possible
+* Provide more reports like which interactions, which targets, unique impressions, unique interactions and more is possible
 * Do not track the same interaction twice unless trackPageView is called?
   * For instance if target=_blank used interaction would be tracked multiple times currently
   * Alternatively provide "interactions" and "unique interactions"
 * When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
   * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
+* Enrich other API's
+  * Live.getLastVisitDetails maybe add optionally an array of content impressions / interactions but not to actionDetails
+  * Add number of content impressions and interaction to each page in getPageUrl(s)
+  * Add number of total content impresions and interactions to visitor
+  * ...
 
 ## Open questions
 

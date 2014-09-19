@@ -315,6 +315,7 @@ class Visitor implements VisitorInterface
             if ($actionDetail['type'] == Action::TYPE_CONTENT) {
 
                 unset($actionDetails[$actionIdx]);
+                continue;
 
             } elseif ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
                 // Handle Event

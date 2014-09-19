@@ -35,8 +35,8 @@ class ContentsTest extends IntegrationTestCase
             'Contents.getContentNames',
             'Contents.getContentPieces',
             'Actions.get',
-            'Live.getLastVisitsDetails',
             'Actions.getPageUrls',
+            'Live.getLastVisitsDetails'
         );
     }
 
@@ -55,7 +55,7 @@ class ContentsTest extends IntegrationTestCase
         $dayPeriod = 'day';
         $periods = array($dayPeriod, 'month');
 
-        $apisToTest = array('Contents');
+        $apisToTest = array('Contents', 'Actions.getPageUrls', 'Live.getLastVisitsDetails');
         $result = array(
             array($apiToCallProcessedReportMetadata, array(
                 'idSite'       => $idSite1,
