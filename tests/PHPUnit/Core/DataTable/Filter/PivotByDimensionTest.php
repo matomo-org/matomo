@@ -358,7 +358,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         return $table;
     }
 
-    private function getSegmentTable()
+    public function getSegmentTable()
     {
         ++$this->segmentTableCount;
 
