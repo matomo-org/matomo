@@ -238,6 +238,9 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
+    /**
+     * @group Core
+     */
     public function testXMLRendererSuccessfullyRendersWhenDataTableColumnsHaveInvalidXmlCharacters()
     {
         $dataTable = $this->_getDataTableWithInvalidChars();
