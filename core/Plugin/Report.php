@@ -602,6 +602,16 @@ class Report
     }
 
     /**
+     * Returns true if the report is for another report's subtable, false if otherwise.
+     *
+     * @return bool
+     */
+    public function isSubtableReport()
+    {
+        return $this->isSubtableReport;
+    }
+
+    /**
      * Fetches the report represented by this instance.
      *
      * @param array $paramOverride Query parameter overrides.
@@ -722,7 +732,7 @@ class Report
     public static function getForDimension(Dimension $dimension)
     {
         return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
-            return !$report->isSubtableReport
+            return !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId();
         });
