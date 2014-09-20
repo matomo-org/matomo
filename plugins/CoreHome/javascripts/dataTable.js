@@ -1092,7 +1092,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     str += '&expanded=1';
                 }
                 if (self.param.pivotBy) {
-                    str += '&pivotBy=' + self.param.pivotBy;
+                    str += '&pivotBy=' + self.param.pivotBy + '&pivotByColumnLimit=20';
                     if (self.props.pivot_by_column) {
                         str += '&pivotByColumn=' + self.props.pivot_by_column;
                     }
