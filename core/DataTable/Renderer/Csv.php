@@ -392,14 +392,4 @@ class Csv extends Renderer
             return $name;
         }
     }
-
-    private function escapeCsvValue($value)
-    {
-        if (strpos($value, ',') !== false
-            || strpos($value, '"') !== false
-        ) {
-            return '"' . addslashes($value) . '"';
-        }
-        return $value;
-    }
 }

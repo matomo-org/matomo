@@ -274,7 +274,7 @@ class PivotByDimension extends BaseFilter
 
     private function isPivotDimensionSubtable()
     {
-        return !empty($this->subtableDimension) && $this->subtableDimension->getId() == $this->pivotByDimension->getId();
+        return self::areDimensionsEqualAndNotNull($this->subtableDimension, $this->pivotByDimension);
     }
 
     private function loadSubtable(DataTable $table, Row $row)
@@ -353,7 +353,7 @@ class PivotByDimension extends BaseFilter
                 throw new Exception("Unsupported pivot: report '$reportId' has no subtable dimension.");
             }
 
-            if ($this->subtableDimension->getId() !== $this->pivotByDimension->getId()) {
+            if (!$this->isPivotDimensionSubtable()) {
                 throw new Exception("Unsupported pivot: the subtable dimension for '$reportId' does not match the "
                                   . "requested pivotBy dimension. [subtable dimension = {$this->subtableDimension->getId()}, "
                                   . "pivot by dimension = {$this->pivotByDimension->getId()}]");
@@ -487,8 +487,7 @@ class PivotByDimension extends BaseFilter
      */
     public static function isPivotingReportBySubtableSupported(Report $report)
     {
-        $subtableDimension = $report->getSubtableDimension();
-        return !empty($subtableDimension) && $subtableDimension->getId() !== $report->getDimension()->getId();
+        return self::areDimensionsNotEqualAndNotNull($report->getSubtableDimension(), $report->getDimension());
     }
 
     /**
@@ -510,5 +509,25 @@ class PivotByDimension extends BaseFilter
     public static function getDefaultColumnLimit()
     {
         return Config::getInstance()->General['pivot_by_filter_default_column_limit'];
+    }
+
+    /**
+     * @param Dimension|null $lhs
+     * @param Dimension|null $rhs
+     * @return bool
+     */
+    private static function areDimensionsEqualAndNotNull($lhs, $rhs)
+    {
+        return !empty($lhs) && !empty($rhs) && $lhs->getId() == $rhs->getId();
+    }
+
+    /**
+     * @param Dimension|null $lhs
+     * @param Dimension|null $rhs
+     * @return bool
+     */
+    private static function areDimensionsNotEqualAndNotNull($lhs, $rhs)
+    {
+        return !empty($lhs) && !empty($rhs) && $lhs->getId() != $rhs->getId();
     }
 }
