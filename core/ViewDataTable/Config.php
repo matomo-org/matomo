@@ -9,6 +9,7 @@
 
 namespace Piwik\ViewDataTable;
 use Piwik\API\Request as ApiRequest;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
 use Piwik\Plugin\Report;
@@ -681,5 +682,16 @@ class Config
                 $this->pivot_dimension_name = $subtableDimension->getName();
             }
         }
+    }
+
+    public function disablePivotBySubtableIfTableHasNoSubtables(DataTable $table)
+    {
+        foreach ($table->getRows() as $row) {
+            if ($row->getIdSubDataTable() !== null) {
+                return;
+            }
+        }
+
+        $this->show_pivot_by_subtable = false;
     }
 }

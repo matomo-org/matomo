@@ -297,6 +297,11 @@ class Visualization extends ViewDataTable
                 $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
             }
         }
+
+        $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
+        if (empty($pivotBy)) {
+            $this->config->disablePivotBySubtableIfTableHasNoSubtables($this->dataTable);
+        }
     }
 
     private function applyFilters()
