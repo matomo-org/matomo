@@ -87,7 +87,8 @@ class Config
     public $clientSideProperties = array(
         'show_limit_control',
         'pivot_by_dimension',
-        'pivot_by_column'
+        'pivot_by_column',
+        'pivot_dimension_name'
     );
 
     /**
@@ -205,6 +206,11 @@ class Config
      * The column to display in pivot tables. Defaults to the first non-label column if not specified.
      */
     public $pivot_by_column = false;
+
+    /**
+     * The human readable name of the pivot dimension.
+     */
+    public $pivot_dimension_name = false;
 
     /**
      * Controls whether the footer icon that allows users to switch to the 'normal' DataTable view
@@ -670,7 +676,10 @@ class Config
             $this->show_pivot_by_subtable =  PivotByDimension::isPivotingReportBySubtableSupported($report);
 
             $subtableDimension = $report->getSubtableDimension();
-            $this->pivot_by_dimension = $subtableDimension ? $subtableDimension->getId() : false;
+            if (!empty($subtableDimension)) {
+                $this->pivot_by_dimension = $subtableDimension->getId();
+                $this->pivot_dimension_name = $subtableDimension->getName();
+            }
         }
     }
 }

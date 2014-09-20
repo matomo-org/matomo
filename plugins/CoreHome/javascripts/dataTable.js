@@ -1268,7 +1268,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
                     iconHighlighted = true;
                 } else {
-                    $(this).html(getText('CoreHome_PivotBySubtable'));
+                    var optionLabelText = getText('CoreHome_PivotBySubtable').replace('%s', self.props.pivot_dimension_name);
+                    $(this).html(optionLabelText);
                 }
             })
             .click(generateClickCallback('pivotBy', null, function () {

@@ -61,6 +61,6 @@
         "YouAreUsingTheLatestVersion": "You are using the latest version of Piwik!",
         "ClickRowToExpandOrContract": "Click this row to expand or contract the subtable.",
         "UndoPivotBySubtable": "This report has been pivoted %s Undo pivot",
-        "PivotBySubtable": "This report is not pivoted %s Pivot by subtable"
+        "PivotBySubtable": "This report is not pivoted %s Pivot by %s"
     }
 }
