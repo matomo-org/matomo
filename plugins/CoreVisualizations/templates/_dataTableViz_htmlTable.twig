@@ -29,7 +29,7 @@
                 {% if showRow %}
                 <tr {% if rowHasSubtable %}id="{{ row.getIdSubDataTable() }}"{% endif %}
                     class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}"
-                    title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}">
+                    {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
                         <td>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
