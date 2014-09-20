@@ -3,31 +3,31 @@
 	<row>
 		<col name="label">this search term</col>
 		<col name="Toronto, Ontario, Canada">0</col>
-		<col name="Yokohama, Kanagawa, Japan">1</col>
+		<col name="Others">3</col>
 	</row>
 	<row>
 		<col name="label">search term 2</col>
 		<col name="Toronto, Ontario, Canada">0</col>
-		<col name="Yokohama, Kanagawa, Japan">2</col>
+		<col name="Others">2</col>
 	</row>
 	<row>
 		<col name="label">search term 3</col>
 		<col name="Toronto, Ontario, Canada">2</col>
-		<col name="Yokohama, Kanagawa, Japan">0</col>
+		<col name="Others">0</col>
 	</row>
 	<row>
 		<col name="label">search term 4</col>
 		<col name="Toronto, Ontario, Canada">2</col>
-		<col name="Yokohama, Kanagawa, Japan">0</col>
+		<col name="Others">0</col>
 	</row>
 	<row>
 		<col name="label">that search term</col>
 		<col name="Toronto, Ontario, Canada">0</col>
-		<col name="Yokohama, Kanagawa, Japan">0</col>
+		<col name="Others">2</col>
 	</row>
 	<row>
 		<col name="label">search term 1</col>
 		<col name="Toronto, Ontario, Canada">0</col>
-		<col name="Yokohama, Kanagawa, Japan">1</col>
+		<col name="Others">1</col>
 	</row>
 </result>

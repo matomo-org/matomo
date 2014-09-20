@@ -2,32 +2,32 @@
 <result>
 	<row>
 		<label>this search term</label>
-		<Bing>0</Bing>
 		<Google>1</Google>
+		<Bing>0</Bing>
 	</row>
 	<row>
 		<label>search term 2</label>
-		<Bing>0</Bing>
 		<Google>0</Google>
+		<Bing>0</Bing>
 	</row>
 	<row>
 		<label>search term 3</label>
-		<Bing>0</Bing>
 		<Google>1</Google>
+		<Bing>0</Bing>
 	</row>
 	<row>
 		<label>search term 4</label>
-		<Bing>1</Bing>
 		<Google>0</Google>
+		<Bing>1</Bing>
 	</row>
 	<row>
 		<label>that search term</label>
-		<Bing>0</Bing>
 		<Google>1</Google>
+		<Bing>0</Bing>
 	</row>
 	<row>
 		<label>search term 1</label>
-		<Bing>1</Bing>
 		<Google>0</Google>
+		<Bing>1</Bing>
 	</row>
 </result>

@@ -17,6 +17,7 @@ use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\Log;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Segment;
 
@@ -211,22 +212,10 @@ class PivotByDimension extends BaseFilter
 
         Log::debug("PivotByDimension::%s: pivoted columns set: %s", __FUNCTION__, $columnSet);
 
-        // limit columns
-        if ($this->pivotByColumnLimit > 0) {
-            arsort($columnSet);
-            $columnSet = array_slice($columnSet, 0, $this->pivotByColumnLimit, $preserveKeys = true);
-        }
+        $others = Piwik::translate('General_Others');
+        $defaultRow = $this->getPivotTableDefaultRowFromColumnSummary($columnSet, $others);
 
-        // sort columns by name (to ensure deterministic ordering)
-        ksort($columnSet);
-
-        // remove column sums from array so it can be used as a default row
-        $columnSet = array_map(function () { return false; }, $columnSet);
-
-        // make sure label column is first
-        $columnSet = array_merge(array('label' => false), $columnSet);
-
-        Log::debug("PivotByDimension::%s: processed pivoted columns: %s", __FUNCTION__, $columnSet);
+        Log::debug("PivotByDimension::%s: processed pivoted columns: %s", __FUNCTION__, $defaultRow);
 
         // post process pivoted datatable
         foreach ($table->getRows() as $row) {
@@ -234,11 +223,13 @@ class PivotByDimension extends BaseFilter
             $row->removeSubtable();
             $row->deleteMetadata('idsubdatatable_in_db');
 
-            // use default row to ensure column ordering and add missing columns
-            $orderedColumns = $columnSet;
+            // use default row to ensure column ordering and add missing columns/aggregate cut-off columns
+            $orderedColumns = $defaultRow;
             foreach ($row->getColumns() as $name => $value) {
                 if (isset($orderedColumns[$name])) {
                     $orderedColumns[$name] = $value;
+                } else {
+                    $orderedColumns[$others] += $value;
                 }
             }
             $row->setColumns($orderedColumns);
@@ -430,6 +421,28 @@ class PivotByDimension extends BaseFilter
         }
 
         return $params;
+    }
+
+    private function getPivotTableDefaultRowFromColumnSummary($columnSet, $othersRowLabel)
+    {
+        // sort columns by sum (to ensure deterministic ordering)
+        arsort($columnSet);
+
+        // limit columns if necessary (adding aggregate Others column at end)
+        if ($this->pivotByColumnLimit > 0
+            && count($columnSet) > $this->pivotByColumnLimit
+        ) {
+            $columnSet = array_slice($columnSet, 0, $this->pivotByColumnLimit - 1, $preserveKeys = true);
+            $columnSet[$othersRowLabel] = 0;
+        }
+
+        // remove column sums from array so it can be used as a default row
+        $columnSet = array_map(function () { return false; }, $columnSet);
+
+        // make sure label column is first
+        $columnSet = array_merge(array('label' => false), $columnSet);
+
+        return $columnSet;
     }
 
     /**
