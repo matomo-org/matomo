@@ -1270,8 +1270,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             })
             .click(generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy) {
-                    self.param.pivotBy = '';
-                    self.param.pivotByColumn = '';
+                    self.param.pivotBy = '0'; // set to '0' so it will be sent in the request and override the saved param
+                    self.param.pivotByColumn = '0';
                 } else {
                     self.param.pivotBy = self.props.pivot_by_dimension;
                     if (self.props.pivot_by_column) {

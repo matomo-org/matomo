@@ -90,7 +90,10 @@ class RequestConfig
         'filter_column',
         'filter_offset',
         'flat',
-        'expanded'
+        'expanded',
+        'pivotBy',
+        'pivotByColumn',
+        'pivotByColumnLimit'
     );
 
     /**
@@ -108,7 +111,10 @@ class RequestConfig
         'disable_generic_filters',
         'disable_queued_filters',
         'flat',
-        'expanded'
+        'expanded',
+        'pivotBy',
+        'pivotByColumn',
+        'pivotByColumnLimit'
     );
 
     /**
@@ -231,6 +237,29 @@ class RequestConfig
      * @var bool|int
      */
     public $idSubtable = false;
+
+    /**
+     * Dimension ID to pivot by. See {@link Piwik\DataTable\Filter\PivotByDimension} for more info.
+     *
+     * @var string
+     */
+    public $pivotBy = false;
+
+    /**
+     * The column to display in a pivot table, eg, `'nb_visits'`. See {@link Piwik\DataTable\Filter\PivotByDimension}
+     * for more info.
+     *
+     * @var string
+     */
+    public $pivotByColumn = false;
+
+    /**
+     * The maximum number of columns to display in a pivot table. See {@link Piwik\DataTable\Filter\PivotByDimension}
+     * for more info.
+     *
+     * @var int
+     */
+    public $pivotByColumnLimit = false;
 
     public function getProperties()
     {
