@@ -1262,8 +1262,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // handle pivot by
         $('.dataTablePivotBySubtable', domElem)
             .each(function () {
-                if (self.param.pivotBy) {
+                if (self.param.pivotBy
+                    && self.param.pivotBy != '0'
+                ) {
                     $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
+                    iconHighlighted = true;
                 } else {
                     $(this).html(getText('CoreHome_PivotBySubtable'));
                 }
