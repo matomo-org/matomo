@@ -452,7 +452,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($this->queuedFilters as $filter) {
             $this->filter($filter['className'], $filter['parameters']);
         }
-        $this->queuedFilters = array();
+        $this->clearQueuedFilters();
     }
 
     /**
