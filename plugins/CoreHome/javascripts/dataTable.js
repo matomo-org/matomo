@@ -1273,7 +1273,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             })
             .click(generateClickCallback('pivotBy', null, function () {
-                if (self.param.pivotBy) {
+                if (self.param.pivotBy
+                    && self.param.pivotBy != '0'
+                ) {
                     self.param.pivotBy = '0'; // set to '0' so it will be sent in the request and override the saved param
                     self.param.pivotByColumn = '0';
                 } else {
@@ -1282,6 +1284,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         self.param.pivotByColumn = self.props.pivot_by_column;
                     }
                 }
+
+                // remove sorting so it will default to first column in table
+                self.param.filter_sort_column = '';
+                self.notifyWidgetParametersChange(domElem, {filter_sort_column: ''});
             }));
 
         // handle highlighted icon

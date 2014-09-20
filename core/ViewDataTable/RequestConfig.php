@@ -292,13 +292,23 @@ class RequestConfig
         }
     }
 
-    public function setDefaultSort($columnsToDisplay, $hasNbUniqVisitors)
+    public function setDefaultSort($columnsToDisplay, $hasNbUniqVisitors, $actualColumns)
     {
         // default sort order to visits/visitors data
         if ($hasNbUniqVisitors && in_array('nb_uniq_visitors', $columnsToDisplay)) {
             $this->filter_sort_column = 'nb_uniq_visitors';
         } else {
             $this->filter_sort_column = 'nb_visits';
+        }
+
+        // if the default sort column does not exist, sort by the first non-label column
+        if (!in_array($this->filter_sort_column, $actualColumns)) {
+            foreach ($actualColumns as $column) {
+                if ($column != 'label') {
+                    $this->filter_sort_column = $column;
+                    break;
+                }
+            }
         }
 
         $this->filter_sort_order = 'desc';

@@ -286,7 +286,7 @@ class Visualization extends ViewDataTable
         }
 
         if (empty($this->requestConfig->filter_sort_column)) {
-            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $columns);
         }
 
         // deal w/ table metadata
@@ -312,7 +312,7 @@ class Visualization extends ViewDataTable
 
         if (!in_array($this->requestConfig->filter_sort_column, $this->config->columns_to_display)) {
             $hasNbUniqVisitors = in_array('nb_uniq_visitors', $this->config->columns_to_display);
-            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $this->dataTable->getColumns());
         }
 
         if (!$this->requestConfig->areGenericFiltersDisabled()) {
