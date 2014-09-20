@@ -262,9 +262,9 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $pivotFilter->filter($table);
 
         $expectedRows = array(
-            array('label' => 'row 1', 'col 2' => false, 'col 3' => false, 'col 4' => false),
-            array('label' => 'row 2', 'col 2' => 5, 'col 3' => false, 'col 4' => false),
-            array('label' => 'row 3', 'col 2' => 7, 'col 3' => 9, 'col 4' => 32)
+            array('label' => 'row 1', 'col 2' => false, 'col 4' => false, 'General_Others' => 1),
+            array('label' => 'row 2', 'col 2' => 5, 'col 4' => false, 'General_Others' => 3),
+            array('label' => 'row 3', 'col 2' => 7, 'col 4' => 32, 'General_Others' => 9)
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }

@@ -215,7 +215,7 @@ class PivotByDimension extends BaseFilter
         $others = Piwik::translate('General_Others');
         $defaultRow = $this->getPivotTableDefaultRowFromColumnSummary($columnSet, $others);
 
-        Log::debug("PivotByDimension::%s: processed pivoted columns: %s", __FUNCTION__, $defaultRow);
+        Log::debug("PivotByDimension::%s: un-prepended default row: %s", __FUNCTION__, $defaultRow);
 
         // post process pivoted datatable
         foreach ($table->getRows() as $row) {
@@ -238,6 +238,18 @@ class PivotByDimension extends BaseFilter
         $table->clearQueuedFilters(); // TODO: shouldn't clear queued filters, but we can't wait for them to be run
                                       //       since generic filters are run before them. remove after refactoring
                                       //       processed metrics.
+
+        // prepend numerals to columns in a queued filter (this way, disable_queued_filters can be used
+        // to get machine readable data from the API if needed)
+        $prependedColumnNames = $this->getOrderedColumnsWithPrependedNumerals($defaultRow, $others);
+
+        Log::debug("PivotByDimension::%s: prepended column name mapping: %s", __FUNCTION__, $prependedColumnNames);
+
+        $table->queueFilter(function (DataTable $table) use ($prependedColumnNames) {
+            foreach ($table->getRows() as $row) {
+                $row->setColumns(array_combine($prependedColumnNames, $row->getColumns()));
+            }
+        });
     }
 
     /**
@@ -443,6 +455,27 @@ class PivotByDimension extends BaseFilter
         $columnSet = array_merge(array('label' => false), $columnSet);
 
         return $columnSet;
+    }
+
+    private function getOrderedColumnsWithPrependedNumerals($defaultRow, $othersRowLabel)
+    {
+        $result = array();
+
+        $currentIndex = 1;
+        foreach ($defaultRow as $columnName => $ignore) {
+            if ($columnName == $othersRowLabel
+                || $columnName == 'label'
+            ) {
+                $result[] = $columnName;
+            } else {
+                $modifiedColumnName = $currentIndex . '.&nbsp;' . $columnName;
+                $result[] = $modifiedColumnName;
+
+                ++$currentIndex;
+            }
+        }
+
+        return $result;
     }
 
     /**

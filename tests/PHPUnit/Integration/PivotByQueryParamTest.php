@@ -38,7 +38,8 @@ class PivotByQueryParamTest extends IntegrationTestCase
             'period' => 'week',
             'pivotBy' => 'Referrers.SearchEngine',
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
+            'disable_queued_filters' => 1 // test that prepending doesn't happen w/ this
         ));
     }
 
