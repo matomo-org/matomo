@@ -70,7 +70,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      * @expectedExceptionMessage Unsupported pivot: report 'ExampleReport.ExampleReportName' has no subtable dimension.
      */
-    public function testConstructionFailsWhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
+    public function test_construction_ShouldFail_WhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
     {
         $this->loadPlugins('ExampleReport', 'UserCountry');
 
@@ -81,7 +81,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      * @expectedExceptionMessage Unsupported pivot: the subtable dimension for 'Referrers.Referrers_Keywords' does not match the requested pivotBy dimension.
      */
-    public function testConstructionFailsWhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
+    public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 
@@ -92,7 +92,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'UserSettings.UserSettings_WidgetBrowserFamilies'
      */
-    public function testConstructionFailsWhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
+    public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
         $this->loadPlugins('Referrers', 'UserSettings');
 
@@ -103,7 +103,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      * @expectedExceptionMessage Invalid dimension 'ExampleTracker.InvalidDimension'
      */
-    public function testConstructionFailsWhenDimensionDoesNotExist()
+    public function test_construction_ShouldFail_WhenDimensionDoesNotExist()
     {
         $this->loadPlugins('ExampleReport', 'ExampleTracker');
 
@@ -114,7 +114,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      * @expectedExceptionMessage Unsupported pivot: No report for pivot dimension 'ExampleTracker.ExampleDimension'
      */
-    public function testConstructionFailsWhenThereIsNoReportForADimension()
+    public function test_construction_ShouldFail_WhenThereIsNoReportForADimension()
     {
         $this->loadPlugins('ExampleReport', 'ExampleTracker');
 
@@ -125,14 +125,14 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      * @expectedExceptionMessage Unable to find report 'ExampleReport.InvalidReport'
      */
-    public function testConstructionFailsWhenSpecifiedReportIsNotValid()
+    public function test_construction_ShouldFail_WhenSpecifiedReportIsNotValid()
     {
         $this->loadPlugins('ExampleReport', 'Referrers');
 
         new PivotByDimension(new DataTable(), "ExampleReport.InvalidReport", "Referrers.Keyword", "nb_visits");
     }
 
-    public function testFilterReturnsEmptyResultWhenTableToFilterIsEmpty()
+    public function test_filter_ReturnsEmptyResult_WhenTableToFilterIsEmpty()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
@@ -144,7 +144,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $table->getRows());
     }
 
-    public function testFilterCorrectlyCreatesPivotTableUsingSubtableReport()
+    public function test_filter_CorrectlyCreatesPivotTable_WhenUsingSubtableReport()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
@@ -161,7 +161,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function testFilterCorrectlyCreatesPivotTableUsingSegment()
+    public function test_filter_CorrectlyCreatesPivotTable_WhenUsingSegment()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
@@ -181,7 +181,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function testFilterUsesCorrectSegmentWhenPivotingSegmentedReport()
+    public function test_filter_UsesCorrectSegment_WhenPivotingSegmentedReport()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
@@ -200,7 +200,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSegmentParams, $this->segmentUsedToGetIntersected);
     }
 
-    public function testFilterCorrectlyCreatesPivotTableWhenPivotMetricDoesNotExistInTable()
+    public function test_filter_CorrectlyCreatesPivotTable_WhenPivotMetricDoesNotExistInTable()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
@@ -217,7 +217,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function testFilterCorrectlyCreatesPivotTableWhenSubtablesHaveNoRows()
+    public function test_filter_CorrectlyCreatesPivotTable_WhenSubtablesHaveNoRows()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
@@ -235,7 +235,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function testFilterCorrectlyDefaultsPivotByColumnWhenNoneProvided()
+    public function test_filter_CorrectlyDefaultsPivotByColumn_WhenNoneProvided()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
@@ -252,7 +252,7 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function testFilterCorrectlyLimitsTheColumnNumberWhenColumnLimitProvided()
+    public function test_filter_CorrectlyLimitsTheColumnNumber_WhenColumnLimitProvided()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 

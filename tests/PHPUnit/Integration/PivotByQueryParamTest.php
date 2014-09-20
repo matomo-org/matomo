@@ -30,7 +30,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         Config::getInstance()->General['pivot_by_filter_enable_fetch_by_segment'] = 1;
     }
 
-    public function testPivotBySubtableDimensionCreatesCorrectPivotTable()
+    public function test_PivotBySubtableDimension_CreatesCorrectPivotTable()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -43,7 +43,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotBySubtableDimensionCreatesCorrectPivotTableWhenEntireHirearchyIsNotLoaded()
+    public function test_PivotBySubtableDimension_CreatesCorrectPivotTable_WhenEntireHirearchyIsNotLoaded()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -56,7 +56,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotBySegmentCreatesCorrectPivotTable()
+    public function test_PivotBySegment_CreatesCorrectPivotTable()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -68,7 +68,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotBySegmentCreatesCorrectPivotTableWhenSegmentUsedInRequest()
+    public function test_PivotBySegment_CreatesCorrectPivotTable_WhenSegmentUsedInRequest()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -81,7 +81,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotByParamPlaysNiceWithOtherQueryParams()
+    public function test_PivotByParam_PlaysNiceWithOtherQueryParams()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -98,7 +98,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotByParamPlaysNiceWithQueuedFilters()
+    public function test_PivotByParam_PlaysNiceWithQueuedFilters()
     {
         // TODO: known issue: some segment/report relationships are more complicated; for example, UserCountry.GetCity labels are combinations
         // of city, region & country dimensions, so the segment to get an intersected table needs all 3 of those.
@@ -115,7 +115,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotByParamWorksWithReportWhoseSubtableIsSelf()
+    public function test_PivotByParam_WorksWithReportWhoseSubtableIsSelf()
     {
         $this->assertApiResponseEqualsExpected("Actions.getPageUrls", array(
             'idSite' => self::$fixture->idSite,
@@ -127,7 +127,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotByParamWorksWithColumnLimiting()
+    public function test_PivotByParam_WorksWithColumnLimiting()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -139,7 +139,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotByParamWorksWithJsonOutput()
+    public function test_PivotByParam_WorksWithJsonOutput()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -152,7 +152,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotByParamWorksWithCsvOutput()
+    public function test_PivotByParam_WorksWithCsvOutput()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -165,7 +165,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function testPivotByParamPlaysNiceWithDataTableMaps()
+    public function test_PivotByParam_PlaysNiceWithDataTableMaps()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => 'all',

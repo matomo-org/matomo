@@ -87,7 +87,7 @@ class TestsRun extends ConsoleCommand
 
     private function executeTestFile($testFile, $options, $command, OutputInterface $output)
     {
-        $params = $testFile . " " . $options;
+        $params = $options . " " . $testFile;
         $cmd = sprintf("cd %s/tests/PHPUnit && %s %s", PIWIK_DOCUMENT_ROOT, $command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         passthru($cmd);

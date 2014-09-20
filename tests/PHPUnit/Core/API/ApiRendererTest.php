@@ -10,6 +10,7 @@ use Piwik\API\ApiRenderer;
 
 /**
  * @group Core
+ * @group Only2
  */
 class ApiRendererTest extends PHPUnit_Framework_TestCase
 {
