@@ -481,7 +481,7 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; a table's rows as columns, the number of columns can become very large, which will affect webpage layouts.
 ; Set to -1 to specify no limit. Note: The pivotByColumnLimit query parameter can be used to override this default
 ; on a per-request basis;
-pivot_by_filter_default_column_limit = 7
+pivot_by_filter_default_column_limit = 10
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
