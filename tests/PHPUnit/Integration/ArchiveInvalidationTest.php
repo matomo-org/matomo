@@ -129,7 +129,9 @@ class ArchiveInvalidationTest extends IntegrationTestCase
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
 
-        // Month reports only are invalidated and we test our weekly report will still show old data.
+        // Days & Months reports only are invalidated and we test our weekly report will still show old data.
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=day&idSites=" . self::$fixture->idSite2 . "&dates=" . $dateToInvalidate2->format('Y-m-d'));
+        $this->assertApiResponseHasNoError($r->process());
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=month&idSites=" . self::$fixture->idSite2 . "&dates=" . $dateToInvalidate2->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
 
