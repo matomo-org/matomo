@@ -472,6 +472,12 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
+; By setting this option you can limit level of access below which "Settings" will not be displayed
+; It is especially useful when using Piwik as platform and need to disallow i.e. password change for user on Piwik side.
+; Possible values: view(default), admin, superadmin
+; Leave empty for default behaviour (settings will be visible for all users with at least 'view' access)
+minimum_access_for_settings_menu = 'view'
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
