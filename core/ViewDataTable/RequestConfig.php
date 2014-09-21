@@ -90,7 +90,10 @@ class RequestConfig
         'filter_column',
         'filter_offset',
         'flat',
-        'expanded'
+        'expanded',
+        'pivotBy',
+        'pivotByColumn',
+        'pivotByColumnLimit'
     );
 
     /**
@@ -108,7 +111,10 @@ class RequestConfig
         'disable_generic_filters',
         'disable_queued_filters',
         'flat',
-        'expanded'
+        'expanded',
+        'pivotBy',
+        'pivotByColumn',
+        'pivotByColumnLimit'
     );
 
     /**
@@ -232,6 +238,29 @@ class RequestConfig
      */
     public $idSubtable = false;
 
+    /**
+     * Dimension ID to pivot by. See {@link Piwik\DataTable\Filter\PivotByDimension} for more info.
+     *
+     * @var string
+     */
+    public $pivotBy = false;
+
+    /**
+     * The column to display in a pivot table, eg, `'nb_visits'`. See {@link Piwik\DataTable\Filter\PivotByDimension}
+     * for more info.
+     *
+     * @var string
+     */
+    public $pivotByColumn = false;
+
+    /**
+     * The maximum number of columns to display in a pivot table. See {@link Piwik\DataTable\Filter\PivotByDimension}
+     * for more info.
+     *
+     * @var int
+     */
+    public $pivotByColumnLimit = false;
+
     public function getProperties()
     {
         return get_object_vars($this);
@@ -263,13 +292,23 @@ class RequestConfig
         }
     }
 
-    public function setDefaultSort($columnsToDisplay, $hasNbUniqVisitors)
+    public function setDefaultSort($columnsToDisplay, $hasNbUniqVisitors, $actualColumns)
     {
         // default sort order to visits/visitors data
         if ($hasNbUniqVisitors && in_array('nb_uniq_visitors', $columnsToDisplay)) {
             $this->filter_sort_column = 'nb_uniq_visitors';
         } else {
             $this->filter_sort_column = 'nb_visits';
+        }
+
+        // if the default sort column does not exist, sort by the first non-label column
+        if (!in_array($this->filter_sort_column, $actualColumns)) {
+            foreach ($actualColumns as $column) {
+                if ($column != 'label') {
+                    $this->filter_sort_column = $column;
+                    break;
+                }
+            }
         }
 
         $this->filter_sort_order = 'desc';

@@ -246,7 +246,6 @@ class TestRequestCollection
                     $parametersToSet['serialize'] = 1;
 
                     $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
-                    
                     if ($exampleUrl === false) {
                         continue;
                     }

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 
 class Events extends \Piwik\Plugin
@@ -161,7 +162,11 @@ class Events extends \Piwik\Plugin
 
         $secondaryDimension = $this->getSecondaryDimensionFromRequest();
         $view->config->subtable_controller_action = API::getInstance()->getActionToLoadSubtables($apiMethod, $secondaryDimension);
-        $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
+
+        if (Common::getRequestVar('pivotBy', false) === false) {
+            $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
+        }
+
         $view->config->show_flatten_table = true;
         $view->config->show_table_all_columns = false;
         $view->requestConfig->filter_sort_column = 'nb_events';
@@ -171,6 +176,10 @@ class Events extends \Piwik\Plugin
         $view->config->addTranslations($this->getMetricTranslations());
         $this->addRelatedReports($view, $secondaryDimension);
         $this->addTooltipEventValue($view);
+
+        $subtableReport = Report::factory('Events', $view->config->subtable_controller_action);
+        $view->config->pivot_by_dimension = $subtableReport->getDimension()->getId();
+        $view->config->pivot_by_column = 'nb_events';
     }
 
     private function addRelatedReports($view, $secondaryDimension)

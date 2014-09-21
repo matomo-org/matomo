@@ -155,7 +155,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'columns',
             'flat',
             'include_aggregate_rows',
-            'totalRows'
+            'totalRows',
+            'pivotBy',
+            'pivotByColumn'
         ];
 
         for (var key = 0; key < filters.length; key++) {
@@ -574,7 +576,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             // we change the style of the column currently used as sort column
             // adding an image and the class columnSorted to the TD
-            $("th#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
+            $('th', domElem).filter(function () { return $(this).attr('id') == self.param.filter_sort_column; })
                 .addClass('columnSorted')
                 .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + ' ' + imageSortClassType + '"><span class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" /></div>');
         }
@@ -1089,6 +1091,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 } else {
                     str += '&expanded=1';
                 }
+                if (self.param.pivotBy) {
+                    str += '&pivotBy=' + self.param.pivotBy + '&pivotByColumnLimit=20';
+                    if (self.props.pivot_by_column) {
+                        str += '&pivotByColumn=' + self.props.pivot_by_column;
+                    }
+                }
                 if (format == 'CSV' || format == 'TSV' || format == 'RSS') {
                     str += '&translateColumnNames=1&language=' + piwik.language;
                 }
@@ -1171,15 +1179,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         };
         $('div.tableConfiguration', domElem).hover(open, close);
 
-        var generateClickCallback = function (paramName, callbackAfterToggle) {
+        var generateClickCallback = function (paramName, callbackAfterToggle, setParamCallback) {
             return function () {
                 close();
-                self.param[paramName] = (1 - self.param[paramName]) + '';
+                if (setParamCallback) {
+                    var data = setParamCallback();
+                } else {
+                    self.param[paramName] = (1 - self.param[paramName]) + '';
+                    var data = {};
+                }
                 self.param.filter_offset = 0;
                 delete self.param.totalRows;
                 if (callbackAfterToggle) callbackAfterToggle();
                 self.reloadAjaxDataTable(true, callbackSuccess);
-                var data = {};
                 data[paramName] = self.param[paramName];
                 self.notifyWidgetParametersChange(domElem, data);
             };
@@ -1245,6 +1257,37 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     self.param.filter_sort_column = '';
                     self.notifyWidgetParametersChange(domElem, {filter_sort_column: ''});
                 }
+            }));
+
+        // handle pivot by
+        $('.dataTablePivotBySubtable', domElem)
+            .each(function () {
+                if (self.param.pivotBy
+                    && self.param.pivotBy != '0'
+                ) {
+                    $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
+                    iconHighlighted = true;
+                } else {
+                    var optionLabelText = getText('CoreHome_PivotBySubtable').replace('%s', self.props.pivot_dimension_name);
+                    $(this).html(optionLabelText);
+                }
+            })
+            .click(generateClickCallback('pivotBy', null, function () {
+                if (self.param.pivotBy
+                    && self.param.pivotBy != '0'
+                ) {
+                    self.param.pivotBy = '0'; // set to '0' so it will be sent in the request and override the saved param
+                    self.param.pivotByColumn = '0';
+                } else {
+                    self.param.pivotBy = self.props.pivot_by_dimension;
+                    if (self.props.pivot_by_column) {
+                        self.param.pivotByColumn = self.props.pivot_by_column;
+                    }
+                }
+
+                // remove sorting so it will default to first column in table
+                self.param.filter_sort_column = '';
+                return {filter_sort_column: ''};
             }));
 
         // handle highlighted icon
@@ -1617,6 +1660,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 for (var key in newParams) {
                     self.param[key] = decodeURIComponent(newParams[key]);
                 }
+
+                delete self.param.pivotBy;
+                delete self.param.pivotByColumn;
 
                 // do ajax request
                 self.reloadAjaxDataTable(true, function (newReport) {

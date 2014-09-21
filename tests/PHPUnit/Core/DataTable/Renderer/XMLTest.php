@@ -222,6 +222,42 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group Core
+     */
+    public function testXMLRendererSuccessfullyRendersWhenSimpleDataTableColumnsHaveInvalidXmlCharacters()
+    {
+        $dataTable = $this->_getDataTableSimpleWithInvalidChars();
+        $render = new Xml();
+        $render->setTable($dataTable);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<col name="$%@(%">1</col>
+	<col name="avbs$">2</col>
+	<col name="b/">2</col>
+</result>';
+        $this->assertEquals($expected, $render->render());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testXMLRendererSuccessfullyRendersWhenDataTableColumnsHaveInvalidXmlCharacters()
+    {
+        $dataTable = $this->_getDataTableWithInvalidChars();
+        $render = new Xml();
+        $render->setTable($dataTable);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<col name="$%@(%">1</col>
+		<col name="avbs$">2</col>
+		<col name="b/">2</col>
+	</row>
+</result>';
+        $this->assertEquals($expected, $render->render());
+    }
+
+    /**
      * DATA OF DATATABLE_ARRAY
      * -------------------------
      */
@@ -600,5 +636,23 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 </result>';
 
         $this->assertEquals($expected, $render->render());
+    }
+
+    private function _getDataTableSimpleWithInvalidChars()
+    {
+        $table = new DataTable\Simple();
+        $table->addRowsFromSimpleArray(
+            array("$%@(%" => 1, "avbs$" => 2, "b/" => 2)
+        );
+        return $table;
+    }
+
+    private function _getDataTableWithInvalidChars()
+    {
+        $table = new DataTable();
+        $table->addRowsFromSimpleArray(
+            array("$%@(%" => 1, "avbs$" => 2, "b/" => 2)
+        );
+        return $table;
     }
 }

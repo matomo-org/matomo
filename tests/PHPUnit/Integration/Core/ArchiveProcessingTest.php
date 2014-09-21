@@ -52,6 +52,14 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
+
+        ArchiveTableCreator::$tablesAlreadyInstalled = null;
+    }
+
+    public function tearDown()
+    {
+        Access::setSingletonInstance(null);
+        ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
     /**

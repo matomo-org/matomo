@@ -248,7 +248,6 @@ class Sort extends BaseFilter
                 $methodToUse = "sortString";
             }
         }
-
         $table->sort(array($this, $methodToUse), $this->columnToSort);
     }
 }

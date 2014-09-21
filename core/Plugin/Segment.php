@@ -187,6 +187,16 @@ class Segment
     }
 
     /**
+     * Returns the name of this segment as it should appear in segment expressions.
+     *
+     * @return string
+     */
+    public function getSegment()
+    {
+        return $this->segment;
+    }
+
+    /**
      * Set callback which will be executed when user will call for suggested values for segment.
      *
      * @param callable $suggestedValuesCallback

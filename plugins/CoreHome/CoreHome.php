@@ -238,5 +238,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Default';
         $translationKeys[] = 'General_LoadingData';
         $translationKeys[] = 'General_ErrorRequest';
+        $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
+        $translationKeys[] = 'CoreHome_PivotBySubtable';
     }
 }

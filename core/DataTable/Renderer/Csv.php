@@ -278,6 +278,11 @@ class Csv extends Renderer
         if ($this->translateColumnNames) {
             $columnMetrics = $this->translateColumnNames($columnMetrics);
         }
+
+        foreach ($columnMetrics as &$value) {
+            $value = $this->formatValue($value);
+        }
+
         return implode($this->separator, $columnMetrics);
     }
 

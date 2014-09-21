@@ -195,10 +195,29 @@ abstract class Dimension
      * @return Dimension|null The created instance or null if there is no Dimension for
      *                        $dimensionId or if the plugin that contains the Dimension is
      *                        not loaded.
+     * @api
      */
     public static function factory($dimensionId)
     {
         list($module, $dimension) = explode('.', $dimensionId);
         return ComponentFactory::factory($module, $dimension, __CLASS__);
+    }
+
+    /**
+     * Returns the name of the plugin that contains this Dimension.
+     *
+     * @return string
+     * @throws Exception if the Dimension is not located within a Plugin module.
+     * @api
+     */
+    public function getModule()
+    {
+        $id = $this->getId();
+        if (empty($id)) {
+            throw new Exception("Invalid dimension ID: '$id'.");
+        }
+
+        $parts = explode('.', $id);
+        return reset($parts);
     }
 }

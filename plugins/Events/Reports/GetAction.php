@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\Events\Columns\EventAction;
 
@@ -20,7 +21,11 @@ class GetAction extends Base
         $this->name          = Piwik::translate('Events_EventActions');
         $this->documentation = ''; // TODO
         $this->metrics       = array('nb_events', 'sum_event_value', 'min_event_value', 'max_event_value', 'avg_event_value', 'nb_events_with_value');
-        $this->actionToLoadSubTables = 'getNameFromActionId';
+        if (Common::getRequestVar('secondaryDimension', false) == 'eventCategory') {
+            $this->actionToLoadSubTables = 'getCategoryFromNameId';
+        } else {
+            $this->actionToLoadSubTables = 'getNameFromActionId';
+        }
         $this->order = 1;
         $this->widgetTitle  = 'Events_EventActions';
     }
