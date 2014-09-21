@@ -16,6 +16,10 @@ use Exception;
 /**
  * Track visits before website creation date and test that Piwik handles them correctly.
  *
+ * This tests that the API method invalidateArchivedReports works correctly, that it deletes data:
+ * - on one or multiple websites
+ * - for a given set of dates (and optional period)
+ *
  * @group Integration
  * @group ArchiveInvalidationTest
  */
@@ -48,14 +52,26 @@ class ArchiveInvalidationTest extends IntegrationTestCase
                                     'date'                   => self::$fixture->dateTimeFirstDateWebsite1,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))),
+                                    'otherRequestParameters' => array('expanded' => 1))
+            ),
+
             array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
                                     'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
                                     'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
                                     'periods'                => 'month',
                                     'segment'                => 'pageUrl=@category/',
                                     'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))),
+                                    'otherRequestParameters' => array('expanded' => 1))
+            ),
+
+            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
+                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . "_NewDataShouldNotAppear_BecauseWeekWasNotInvalidated",
+                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
+                                    'periods'                => 'week',
+                                    'segment'                => 'pageUrl=@category/',
+                                    'setDateLastN'           => 4, // 4months ahead
+                                    'otherRequestParameters' => array('expanded' => 1))
+            ),
         );
     }
 
@@ -87,7 +103,7 @@ class ArchiveInvalidationTest extends IntegrationTestCase
 
     /**
      * This is called after getApiToTest()
-     * WE invalidate old reports and check that data is now returned for old dates
+     * We invalidate old reports and check that data is now returned for old dates
      */
     public function getAnotherApiForTesting()
     {
@@ -113,8 +129,10 @@ class ArchiveInvalidationTest extends IntegrationTestCase
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
 
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite2 . "&dates=" . $dateToInvalidate2->format('Y-m-d'));
+        // Month reports only are invalidated and we test our weekly report will still show old data.
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=month&idSites=" . self::$fixture->idSite2 . "&dates=" . $dateToInvalidate2->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
+
     }
 }
 
