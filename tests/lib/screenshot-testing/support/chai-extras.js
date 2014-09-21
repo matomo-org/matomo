@@ -187,7 +187,8 @@ chai.Assertion.addChainableMethod('capture', function () {
 
 // add `contains` assertion
 chai.Assertion.addChainableMethod('contains', function () {
-    var url = this.__flags['object'],
+    var self = this,
+        url = this.__flags['object'],
         elementSelector = arguments[0],
         pageSetupFn = arguments[1],
         done = arguments[2];
@@ -205,21 +206,27 @@ chai.Assertion.addChainableMethod('contains', function () {
     }
 
     pageRenderer.capture(null, function (err) {
+        var obj = self._obj,
+            indent = "     ";
+
         if (err) {
-            var indent = "     ";
             err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
 
             done(err);
             return;
         }
 
-        if (!pageRenderer.contains(elementSelector)) {
-            var error = new AssertionError("Page does not contain element '" + elementSelector + "'.");
-            error.stack = getPageLogsString(pageRenderer.pageLogs, indent);
+        try {
+            self.assert(
+                pageRenderer.contains(elementSelector),
+                "Expected page to contain element '" + elementSelector + "', but could not find it in page.",
+                "Expected page to not contain element '" + elementSelector + "', but found it in page."
+            );
 
-            done(error);
-        } else {
             done();
+        } catch (error) {
+            error.stack = getPageLogsString(pageRenderer.pageLogs, indent);
+            done(error);
         }
     });
 });
