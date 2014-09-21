@@ -299,7 +299,9 @@ class Visualization extends ViewDataTable
         }
 
         $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
-        if (empty($pivotBy)) {
+        if (empty($pivotBy)
+            && $this->dataTable instanceof DataTable
+        ) {
             $this->config->disablePivotBySubtableIfTableHasNoSubtables($this->dataTable);
         }
     }
