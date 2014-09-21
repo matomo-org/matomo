@@ -58,10 +58,10 @@ STATIC_EXTENSIONS = set((
 ).split())
 
 DOWNLOAD_EXTENSIONS = set((
-    '7z aac arc arj asf asx avi bin csv deb dmg doc exe flv gz gzip hqx '
+    '7z aac arc arj asf asx avi bin csv deb dmg doc docx exe flv gz gzip hqx '
     'jar mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
-    'ods odt ogg ogv pdf phps ppt qt qtm ra ram rar rpm sea sit tar tbz '
-    'bz2 tbz tgz torrent txt wav wma wmv wpd xls xml xsd z zip '
+    'ods odt ogg ogv pdf phps ppt pptx qt qtm ra ram rar rpm sea sit tar tbz '
+    'bz2 tbz tgz torrent txt wav wma wmv wpd xls xlsx xml xsd z zip '
     'azw3 epub mobi'
 ).split())
 
@@ -383,7 +383,7 @@ class Configuration(object):
         option_parser.add_option(
             '--enable-static', dest='enable_static',
             action='store_true', default=False,
-            help="Track static files (images, css, js, etc.)"
+            help="Track static files (images, css, js, ico, ttf, etc.)"
         )
         option_parser.add_option(
             '--enable-bots', dest='enable_bots',
@@ -703,6 +703,8 @@ class Statistics(object):
         self.count_lines_skipped_http_redirects = self.Counter()
         # Downloads
         self.count_lines_downloads = self.Counter()
+        # Ignored downloads when --download-extensions is used
+        self.count_lines_skipped_downloads = self.Counter()
 
         # Misc
         self.dates_recorded = set()
@@ -748,13 +750,14 @@ Logs import summary
     %(count_lines_recorded)d requests imported successfully
     %(count_lines_downloads)d requests were downloads
     %(total_lines_ignored)d requests ignored:
-        %(count_lines_invalid)d invalid log lines
-        %(count_lines_skipped_user_agent)d requests done by bots, search engines, ...
         %(count_lines_skipped_http_errors)d HTTP errors
         %(count_lines_skipped_http_redirects)d HTTP redirects
-        %(count_lines_static)d requests to static resources (css, js, ...)
+        %(count_lines_invalid)d invalid log lines
         %(count_lines_no_site)d requests did not match any known site
-        %(count_lines_hostname_skipped)d requests did not match any requested hostname
+        %(count_lines_hostname_skipped)d requests did not match any --hostname
+        %(count_lines_skipped_user_agent)d requests done by bots, search engines...
+        %(count_lines_static)d requests to static resources (css, js, images, ico, ttf...)
+        %(count_lines_skipped_downloads)d requests to file downloads did not match any --download-extensions
 
 Website import summary
 ----------------------
@@ -782,6 +785,7 @@ Performance summary
             self.count_lines_skipped_http_errors.value,
             self.count_lines_skipped_http_redirects.value,
             self.count_lines_static.value,
+            self.count_lines_skipped_downloads.value,
             self.count_lines_no_site.value,
             self.count_lines_hostname_skipped.value,
         ]),
@@ -790,6 +794,7 @@ Performance summary
     'count_lines_skipped_http_errors': self.count_lines_skipped_http_errors.value,
     'count_lines_skipped_http_redirects': self.count_lines_skipped_http_redirects.value,
     'count_lines_static': self.count_lines_static.value,
+    'count_lines_skipped_downloads': self.count_lines_skipped_downloads.value,
     'count_lines_no_site': self.count_lines_no_site.value,
     'count_lines_hostname_skipped': self.count_lines_hostname_skipped.value,
     'total_sites': len(self.piwik_sites),
@@ -1385,6 +1390,12 @@ class Parser(object):
         if hit.extension in config.options.download_extensions:
             stats.count_lines_downloads.increment()
             hit.is_download = True
+            return True
+        # the file is not in the white-listed downloads
+        # if it's a know download file, we shall skip it
+        elif hit.extension in DOWNLOAD_EXTENSIONS:
+            stats.count_lines_skipped_downloads.increment()
+            return False
         return True
 
     def check_user_agent(self, hit):
