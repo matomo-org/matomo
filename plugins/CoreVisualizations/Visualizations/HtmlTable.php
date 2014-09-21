@@ -72,6 +72,9 @@ class HtmlTable extends Visualization
             $this->assignTemplateVar('siteSummary', $dataTable);
         }
 
+        if ($this->requestConfig->pivotBy) {
+            $this->config->columns_to_display = $this->dataTable->getColumns();
+        }
     }
 
 }
