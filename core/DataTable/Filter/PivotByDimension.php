@@ -452,7 +452,7 @@ class PivotByDimension extends BaseFilter
         $columnSet = array_map(function () { return false; }, $columnSet);
 
         // make sure label column is first
-        $columnSet = array_merge(array('label' => false), $columnSet);
+        $columnSet = array('label' => false) + $columnSet;
 
         return $columnSet;
     }
@@ -466,8 +466,8 @@ class PivotByDimension extends BaseFilter
 
         $currentIndex = 1;
         foreach ($defaultRow as $columnName => $ignore) {
-            if ($columnName == $othersRowLabel
-                || $columnName == 'label'
+            if ($columnName === $othersRowLabel
+                || $columnName === 'label'
             ) {
                 $result[] = $columnName;
             } else {
