@@ -44,6 +44,8 @@ class FormDatabaseSetup extends QuickForm2
             $adapters[$adapter] = $adapter;
         }
 
+	$types = array('InnoDB' => 'InnoDB');
+
         $this->addElement('text', 'host')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupServer'))
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupServer')));
@@ -72,6 +74,11 @@ class FormDatabaseSetup extends QuickForm2
             ->setLabel(Piwik::translate('Installation_DatabaseSetupAdapter'))
             ->loadOptions($adapters)
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupAdapter')));
+
+        $this->addElement('select', 'type')
+            ->setLabel(Piwik::translate('Installation_DatabaseSetupDatabaseEngine'))
+            ->loadOptions($types)
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupDatabaseEngine')));
 
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit'));
 
@@ -108,7 +115,7 @@ class FormDatabaseSetup extends QuickForm2
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
-            'type'          => Config::getInstance()->database['type']
+            'type'          => $this->getSubmitValue('type')
         );
 
         if (($portIndex = strpos($dbInfos['host'], '/')) !== false) {

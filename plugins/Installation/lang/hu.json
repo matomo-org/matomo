@@ -13,6 +13,7 @@
         "DatabaseSetupLogin": "felhasználó",
         "DatabaseSetupServer": "Adatbázisszerver",
         "DatabaseSetupTablePrefix": "táblanév előtagja",
+        "DatabaseSetupDatabaseEngine": "Adatbázis táblatípusa",
         "Email": "e-mail",
         "Extension": "kiterjesztés",
         "GoBackAndDefinePrefix": "Lépj vissza, és add meg a Piwik táblák nevének előtagját!",
