@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -152,13 +153,14 @@ class API extends \Piwik\Plugin\API
             $sql = $bind = array();
             $datesToDeleteInTable = array_unique($datesToDeleteInTable);
             foreach ($datesToDeleteInTable as $dateToDelete) {
-                $sql[] = '(date1 <= ? AND ? <= date2)';
+                $sql[] = '(date1 <= ? AND ? <= date2 AND name LIKE \'done%\')';
                 $bind[] = $dateToDelete;
                 $bind[] = $dateToDelete;
             }
             $sql = implode(" OR ", $sql);
 
-            $query = "DELETE FROM $table " .
+            $query = "UPDATE $table " .
+                " SET value = " . ArchiveWriter::DONE_INVALIDATED .
                 " WHERE ( $sql ) " .
                 " AND idsite IN (" . implode(",", $idSites) . ")";
             Db::query($query, $bind);
