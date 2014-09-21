@@ -576,7 +576,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             // we change the style of the column currently used as sort column
             // adding an image and the class columnSorted to the TD
-            $("th#" + self.param.filter_sort_column.replace(/([^a-zA-Z_-])/g, "\\$1") + ' #thDIV', domElem).parent()
+            $('.thDIV', domElem).filter(function () { return $(this).text() == self.param.filter_sort_column; }).parent()
                 .addClass('columnSorted')
                 .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + ' ' + imageSortClassType + '"><span class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" /></div>');
         }

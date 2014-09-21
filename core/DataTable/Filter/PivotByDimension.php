@@ -459,6 +459,9 @@ class PivotByDimension extends BaseFilter
 
     private function getOrderedColumnsWithPrependedNumerals($defaultRow, $othersRowLabel)
     {
+        $nbsp = html_entity_decode('&nbsp;'); // must use decoded character otherwise sort later will fail
+                                              // (sort column will be set to decoded but columns will have &nbsp;)
+
         $result = array();
 
         $currentIndex = 1;
@@ -468,7 +471,7 @@ class PivotByDimension extends BaseFilter
             ) {
                 $result[] = $columnName;
             } else {
-                $modifiedColumnName = $currentIndex . '.&nbsp;' . $columnName;
+                $modifiedColumnName = $currentIndex . '.' . $nbsp . $columnName;
                 $result[] = $modifiedColumnName;
 
                 ++$currentIndex;
