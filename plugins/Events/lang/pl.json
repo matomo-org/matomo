@@ -16,6 +16,7 @@
         "MaxValueDocumentation": "Maksymalna wartość dla tego zdarzenia",
         "MinValue": "Minimalna wartość",
         "MinValueDocumentation": "Minimalna wartość tego wydarzenia",
+        "SecondaryDimension": "Drugi wymiar to %s.",
         "TopEvents": "Najważniejsze wydarzenia",
         "TotalEvents": "Liczba zdarzeń",
         "TotalEventsDocumentation": "Łączna liczba zdarzeń",
