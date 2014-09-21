@@ -576,7 +576,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             // we change the style of the column currently used as sort column
             // adding an image and the class columnSorted to the TD
-            $('.thDIV', domElem).filter(function () { return $(this).text() == self.param.filter_sort_column; }).parent()
+            $('th', domElem).filter(function () { return $(this).attr('id') == self.param.filter_sort_column; })
                 .addClass('columnSorted')
                 .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + ' ' + imageSortClassType + '"><span class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" /></div>');
         }
@@ -1183,15 +1183,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return function () {
                 close();
                 if (setParamCallback) {
-                    setParamCallback();
+                    var data = setParamCallback();
                 } else {
                     self.param[paramName] = (1 - self.param[paramName]) + '';
+                    var data = {};
                 }
                 self.param.filter_offset = 0;
                 delete self.param.totalRows;
                 if (callbackAfterToggle) callbackAfterToggle();
                 self.reloadAjaxDataTable(true, callbackSuccess);
-                var data = {};
                 data[paramName] = self.param[paramName];
                 self.notifyWidgetParametersChange(domElem, data);
             };
@@ -1287,7 +1287,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 // remove sorting so it will default to first column in table
                 self.param.filter_sort_column = '';
-                self.notifyWidgetParametersChange(domElem, {filter_sort_column: ''});
+                return {filter_sort_column: ''};
             }));
 
         // handle highlighted icon
