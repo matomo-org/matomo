@@ -206,7 +206,7 @@ class Config
     /**
      * The column to display in pivot tables. Defaults to the first non-label column if not specified.
      */
-    public $pivot_by_column = false;
+    public $pivot_by_column = '';
 
     /**
      * The human readable name of the pivot dimension.
