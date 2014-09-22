@@ -41,6 +41,13 @@ class CliMulti {
 
     private $acceptInvalidSSLCertificate = false;
 
+    /**
+     * TODO
+     *
+     * @var string[]
+     */
+    private $requestUrlsForProcesses = array();
+
     public function __construct()
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -55,7 +62,7 @@ class CliMulti {
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
      *               there was a problem with a request, for instance if the process died unexpected.
      */
-    public function request(array $piwikUrls)
+    public function request(array $piwikUrls, $onRequestsFinishedCallback = null)
     {
         $chunks = array($piwikUrls);
         if($this->concurrentProcessesLimit) {
@@ -63,7 +70,7 @@ class CliMulti {
         }
         $results = array();
         foreach($chunks as $urlsChunk) {
-            $results = array_merge($results, $this->requestUrls($urlsChunk));
+            $results = array_merge($results, $this->requestUrls($urlsChunk, $onRequestsFinishedCallback));
         }
         return $results;
     }
@@ -86,10 +93,23 @@ class CliMulti {
         $this->concurrentProcessesLimit = $limit;
     }
 
-    private function start($piwikUrls)
+    /**
+     * TODO
+     */
+    public function getUnusedProcessCount()
+    {
+        return max($this->concurrentProcessesLimit - count($this->processes), 0);
+    }
+
+    /**
+     * TODO
+     */
+    public function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
-            $cmdId  = $this->generateCommandId($url) . $index;
+            $this->requestUrlsForProcesses[] = $url;
+
+            $cmdId  = $this->generateCommandId($url) . count($this->requestUrlsForProcesses);
             $output = new Output($cmdId);
 
             if ($this->supportsAsync) {
@@ -121,8 +141,15 @@ class CliMulti {
         return $response;
     }
 
-    private function hasFinished()
+    private function getRunningProcessCount()
     {
+        return count($this->processes);
+    }
+
+    private function getFinishedOutputs()
+    {
+        $results = array();
+
         foreach ($this->processes as $index => $process) {
             $hasStarted = $process->hasStarted();
 
@@ -133,20 +160,23 @@ class CliMulti {
                 continue;
 
             } elseif (!$hasStarted) {
-                return false;
+                continue;
             }
 
             if ($process->isRunning()) {
-                return false;
+                continue;
             }
 
             if ($process->hasFinished()) {
+                $processUrl = $this->requestUrlsForProcesses[$index];;
+                $results[$processUrl] = $this->outputs[$index]->get();
+
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
             }
         }
 
-        return true;
+        return $results;
     }
 
     private function generateCommandId($command)
@@ -262,13 +292,20 @@ class CliMulti {
      * @param array $piwikUrls
      * @return array
      */
-    private function requestUrls(array $piwikUrls)
+    private function requestUrls(array $piwikUrls, $onRequestsFinishedCallback)
     {
         $this->start($piwikUrls);
 
         do {
             usleep(100000); // 100 * 1000 = 100ms
-        } while (!$this->hasFinished());
+
+            $finishedRequests = $this->getFinishedOutputs();
+            if (!empty($finishedRequests)
+                && !empty($onRequestsFinishedCallback)
+            ) {
+                $onRequestsFinishedCallback($finishedRequests);
+            }
+        } while ($this->getRunningProcessCount() > 0);
 
         $results = $this->getResponse($piwikUrls);
         $this->cleanup();
@@ -277,5 +314,4 @@ class CliMulti {
 
         return $results;
     }
-
 }
