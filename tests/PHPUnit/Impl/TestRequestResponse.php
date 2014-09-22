@@ -252,9 +252,6 @@ class TestRequestResponse
         if (strpos($this->requestUrl['format'], 'json') === 0) {
             $apiResponse = str_replace('&nbsp;', '\u00a0', $apiResponse);
         }
-        if ($this->requestUrl['format'] === 'xml') {
-            $apiResponse = str_replace('&#xA0;', '', $apiResponse);
-        }
         return $apiResponse;
     }
 }
