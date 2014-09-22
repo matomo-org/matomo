@@ -108,7 +108,7 @@ class TestRequestResponse
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
-        $apiResponse = $this->normaliseSpaces($apiResponse);
+        $apiResponse = $this->normalizeSpaces($apiResponse);
 
         return $apiResponse;
     }
@@ -247,13 +247,10 @@ class TestRequestResponse
         return $response;
     }
 
-    private function normaliseSpaces($apiResponse)
+    private function normalizeSpaces($apiResponse)
     {
         if (strpos($this->requestUrl['format'], 'json') === 0) {
             $apiResponse = str_replace('&nbsp;', '\u00a0', $apiResponse);
-        }
-        if (strpos($this->requestUrl['format'], 'xml') === 0) {
-            $apiResponse = str_replace('&#xA0;', ' ', $apiResponse);
         }
         return $apiResponse;
     }
