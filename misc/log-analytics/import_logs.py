@@ -483,7 +483,7 @@ class Configuration(object):
         )
         option_parser.add_option(
             '--download-extensions', dest='download_extensions', default=None,
-            help="If set (format: pdf,doc,...), this list will be used to determine what file extensions should be tracked as a download, otherwise the default list will be used."
+            help="By default Piwik tracks as Downloads the most popular file extensions. If you set this parameter (format: pdf,doc,...) then files with an extension found in the list will be imported as Downloads, other file extensions downloads will be skipped."
         )
         return option_parser
 
