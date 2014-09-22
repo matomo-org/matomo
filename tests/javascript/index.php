@@ -2555,7 +2555,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(99);
+        expect(100);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -2787,7 +2787,10 @@ if ($sqlite) {
         tracker3.setDoNotTrack(false);
 
         // User ID
-        tracker3.setUserId('userid@mydomain.org');
+        var userIdString = 'userid@mydomain.org';
+        tracker3.setUserId(userIdString);
+
+        equal(userIdString, tracker3.getUserId());
 
         // Append tracking url parameter
         tracker3.appendToTrackingUrl("appended=1&appended2=value");
