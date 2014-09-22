@@ -4,7 +4,6 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>1.2.4.0</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -44,6 +43,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -129,7 +129,6 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>1.2.4.0</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -200,6 +199,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -285,7 +285,6 @@
 		<idSite>1</idSite>
 		<idVisit>19</idVisit>
 		<visitIp>194.57.91.215</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -325,6 +324,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -410,7 +410,6 @@
 		<idSite>1</idSite>
 		<idVisit>20</idVisit>
 		<visitIp>194.57.91.215</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -481,6 +480,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -566,7 +566,6 @@
 		<idSite>1</idSite>
 		<idVisit>23</idVisit>
 		<visitIp>137.82.130.0</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -606,6 +605,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -691,7 +691,6 @@
 		<idSite>1</idSite>
 		<idVisit>24</idVisit>
 		<visitIp>137.82.130.0</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -762,6 +761,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -839,7 +839,6 @@
 		<idSite>1</idSite>
 		<idVisit>31</idVisit>
 		<visitIp>151.100.101.92</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -879,6 +878,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>

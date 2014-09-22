@@ -4,7 +4,6 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -128,6 +127,7 @@
 		
 		<searches>0</searches>
 		<actions>3</actions>
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
@@ -215,7 +215,6 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -458,6 +457,7 @@
 		
 		<searches>0</searches>
 		<actions>6</actions>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -545,7 +545,6 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -678,6 +677,7 @@
 		
 		<searches>0</searches>
 		<actions>4</actions>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>

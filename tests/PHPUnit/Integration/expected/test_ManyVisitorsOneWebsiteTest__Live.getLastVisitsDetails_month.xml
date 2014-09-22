@@ -4,7 +4,6 @@
 		<idSite>1</idSite>
 		<idVisit>35</idVisit>
 		<visitIp>194.57.91.215</visitIp>
-		<userId>userid.email@example.org</userId>
 		
 		<actionDetails>
 			<row>
@@ -34,6 +33,7 @@
 		
 		
 		
+		<userId>userid.email@example.org</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -111,7 +111,6 @@
 		<idSite>1</idSite>
 		<idVisit>18</idVisit>
 		<visitIp>1.2.4.8</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -182,6 +181,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -267,7 +267,6 @@
 		<idSite>1</idSite>
 		<idVisit>17</idVisit>
 		<visitIp>1.2.4.8</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -307,6 +306,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -392,7 +392,6 @@
 		<idSite>1</idSite>
 		<idVisit>16</idVisit>
 		<visitIp>1.2.4.7</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -446,6 +445,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -531,7 +531,6 @@
 		<idSite>1</idSite>
 		<idVisit>15</idVisit>
 		<visitIp>1.2.4.7</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -571,6 +570,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -656,7 +656,6 @@
 		<idSite>1</idSite>
 		<idVisit>14</idVisit>
 		<visitIp>1.2.4.6</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -727,6 +726,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -812,7 +812,6 @@
 		<idSite>1</idSite>
 		<idVisit>13</idVisit>
 		<visitIp>1.2.4.6</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -852,6 +851,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -937,7 +937,6 @@
 		<idSite>1</idSite>
 		<idVisit>12</idVisit>
 		<visitIp>1.2.4.5</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -991,6 +990,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -1076,7 +1076,6 @@
 		<idSite>1</idSite>
 		<idVisit>11</idVisit>
 		<visitIp>1.2.4.5</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1116,6 +1115,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -1201,7 +1201,6 @@
 		<idSite>1</idSite>
 		<idVisit>10</idVisit>
 		<visitIp>1.2.4.4</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -1272,6 +1271,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>

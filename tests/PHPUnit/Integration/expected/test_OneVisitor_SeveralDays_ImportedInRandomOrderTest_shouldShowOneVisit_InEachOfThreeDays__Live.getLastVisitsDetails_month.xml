@@ -4,7 +4,6 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>74.125.31.147</visitIp>
-		<userId />
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -31,6 +30,7 @@
 		<lastActionDateTime>2013-04-07 10:00:00</lastActionDateTime>
 		<searches>0</searches>
 		<actions>1</actions>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -97,7 +97,6 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>74.125.31.147</visitIp>
-		<userId />
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -124,6 +123,7 @@
 		<lastActionDateTime>2013-04-06 11:00:00</lastActionDateTime>
 		<searches>0</searches>
 		<actions>1</actions>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -190,7 +190,6 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>74.125.31.147</visitIp>
-		<userId />
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -217,6 +216,7 @@
 		<lastActionDateTime>2013-04-05 12:00:00</lastActionDateTime>
 		<searches>0</searches>
 		<actions>1</actions>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
