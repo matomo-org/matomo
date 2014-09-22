@@ -157,7 +157,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         while ($row = $query->fetch()) {
             $langCode = Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
             $countryCode = Common::extractCountryCodeFromBrowserLanguage($row['label'], $countryCodes, $enableLanguageToCountryGuess = true);
-            $metricsByLanguage->sumMetricsVisits($langCode . '-' . $countryCode, $row);
+            $label = $countryCode == 'xx' || $countryCode == $langCode ? $langCode : $langCode . '-' . $countryCode;
+            $metricsByLanguage->sumMetricsVisits($label, $row);
         }
 
         $report = $metricsByLanguage->asDataTable();

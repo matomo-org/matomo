@@ -89,7 +89,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>
-		<label>French - Switzerland (fr-ch)</label>
+		<label>French (fr)</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -100,7 +100,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>
-		<label>French (fr)</label>
+		<label>French - Switzerland (fr-ch)</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
