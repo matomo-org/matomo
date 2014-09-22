@@ -30,6 +30,7 @@ class CoreHome extends \Piwik\Plugin
     {
         $instance = new Visitor($details);
 
+        $visitor['userId']                      = $instance->getUserId();
         $visitor['visitorType']                 = $instance->getVisitorReturning();
         $visitor['visitorTypeIcon']             = $instance->getVisitorReturningIcon();
         $visitor['visitConverted']              = $instance->isVisitorGoalConverted();

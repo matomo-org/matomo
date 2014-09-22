@@ -149,7 +149,6 @@ class Mysql implements SchemaInterface
 							  idvisitor BINARY(8) NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
 							  config_id BINARY(8) NOT NULL,
-							  user_id varchar(200) NULL,
 							  location_ip VARBINARY(16) NOT NULL,
 							  PRIMARY KEY(idvisit),
 							  INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),

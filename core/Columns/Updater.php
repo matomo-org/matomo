@@ -268,6 +268,7 @@ class Updater extends \Piwik\Updates
             'log_visit.referer_keyword' => 'VARCHAR(255) NULL1',
             'log_visit.referer_name' => 'VARCHAR(70) NULL1',
             'log_visit.referer_type' => 'TINYINT(1) UNSIGNED NULL1',
+            'log_visit.user_id' => 'VARCHAR(200) NOT NULL',
             'log_link_visit_action.idaction_name' => 'INTEGER(10) UNSIGNED',
             'log_link_visit_action.idaction_url' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
             'log_link_visit_action.server_time' => 'DATETIME NOT NULL',
