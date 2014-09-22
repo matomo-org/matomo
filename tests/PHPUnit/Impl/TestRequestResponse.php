@@ -80,10 +80,6 @@ class TestRequestResponse
 
     private function normalizeApiResponse($apiResponse)
     {
-        if(strpos($this->requestUrl['format'], 'json') === 0) {
-            $apiResponse = str_replace('&nbsp;', '\u00a0', $apiResponse);
-        }
-
         if ($this->shouldDeleteLiveIds()) {
             $apiResponse = $this->removeAllIdsFromXml($apiResponse);
         }
@@ -112,6 +108,7 @@ class TestRequestResponse
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
+        $apiResponse = $this->normaliseSpaces($apiResponse);
 
         return $apiResponse;
     }
@@ -248,5 +245,16 @@ class TestRequestResponse
         $response = str_replace('.1</revenue>', '</revenue>', $response);
         $response = str_replace('.11</revenue>', '</revenue>', $response);
         return $response;
+    }
+
+    private function normaliseSpaces($apiResponse)
+    {
+        if (strpos($this->requestUrl['format'], 'json') === 0) {
+            $apiResponse = str_replace('&nbsp;', '\u00a0', $apiResponse);
+        }
+        if (strpos($this->requestUrl['format'], 'xml') === 0) {
+            $apiResponse = str_replace('&#xA0;', ' ', $apiResponse);
+        }
+        return $apiResponse;
     }
 }
