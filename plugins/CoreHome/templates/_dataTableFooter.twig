@@ -97,6 +97,11 @@
                             <div class="configItem dataTableExcludeLowPopulation"></div>
                         </li>
                     {% endif %}
+                    {% if properties.show_pivot_by_subtable|default is not empty %}
+                        <li>
+                            <div class="configItem dataTablePivotBySubtable"></div>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}

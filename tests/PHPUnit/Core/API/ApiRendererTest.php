@@ -7,16 +7,16 @@
  */
 
 use Piwik\API\ApiRenderer;
-use Piwik\API\ApiRenderer\Json;
 
 /**
  * @group Core
+ * @group Only2
  */
 class ApiRendererTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        \Piwik\Tests\Fixture::loadAllPlugins();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API'));
     }
 
     public function test_factory_shouldCreateAnInstance_IfValidFormatGiven()

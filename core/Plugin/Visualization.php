@@ -286,7 +286,7 @@ class Visualization extends ViewDataTable
         }
 
         if (empty($this->requestConfig->filter_sort_column)) {
-            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $columns);
         }
 
         // deal w/ table metadata
@@ -296,6 +296,13 @@ class Visualization extends ViewDataTable
             if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
                 $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
             }
+        }
+
+        $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
+        if (empty($pivotBy)
+            && $this->dataTable instanceof DataTable
+        ) {
+            $this->config->disablePivotBySubtableIfTableHasNoSubtables($this->dataTable);
         }
     }
 
@@ -312,7 +319,7 @@ class Visualization extends ViewDataTable
 
         if (!in_array($this->requestConfig->filter_sort_column, $this->config->columns_to_display)) {
             $hasNbUniqVisitors = in_array('nb_uniq_visitors', $this->config->columns_to_display);
-            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $this->dataTable->getColumns());
         }
 
         if (!$this->requestConfig->areGenericFiltersDisabled()) {

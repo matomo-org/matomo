@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<col name="label">that search term</col>
+		<col name="1. Melbourne, Victoria, Australia">2</col>
+	</row>
+	<row>
+		<col name="label">this search term</col>
+		<col name="1. Melbourne, Victoria, Australia">2</col>
+	</row>
+</result>

@@ -171,5 +171,5 @@ namespace Piwik\Tests\Core\Columns
             $dimension = Dimension::factory("ExampleTracker.ExampleDimension");
             $this->assertInstanceOf("Piwik\\Plugins\\ExampleTracker\\Columns\\ExampleDimension", $dimension);
         }
-    }
+   }
 }

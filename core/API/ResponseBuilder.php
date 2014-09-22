@@ -14,6 +14,7 @@ use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\DataTableManipulator\ReportTotalsCalculator;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
@@ -157,9 +158,20 @@ class ResponseBuilder
         return Renderer::formatValueXml($message);
     }
 
-    protected function handleDataTable($datatable)
+    protected function handleDataTable(DataTableInterface $datatable)
     {
         $label = $this->getLabelFromRequest($this->request);
+
+        // handle pivot by dimension filter
+        $pivotBy = Common::getRequestVar('pivotBy', false, 'string', $this->request);
+        if (!empty($pivotBy)) {
+            $reportId = $this->apiModule . '.' . $this->apiMethod;
+            $pivotByColumn = Common::getRequestVar('pivotByColumn', false, 'string', $this->request);
+            $pivotByColumnLimit = Common::getRequestVar('pivotByColumnLimit', false, 'int', $this->request);
+
+            $datatable->filter('PivotByDimension', array($reportId, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
+                PivotByDimension::isSegmentFetchingEnabledInConfig()));
+        }
 
         // if requested, flatten nested tables
         if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {

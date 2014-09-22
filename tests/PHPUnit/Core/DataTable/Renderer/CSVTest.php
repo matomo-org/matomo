@@ -179,6 +179,22 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group Core
+     */
+    public function testCSVRendererCorrectlyEscapesHeadersAndValues()
+    {
+        $dataTable = $this->_getDataTableSimpleWithCommasInCells();
+        $render = new Csv();
+        $render->setTable($dataTable);
+        $render->convertToUnicode = false;
+
+        $expected = '"col,1","col,2"
+"val""1","val"",2"';
+        $actual = $render->render();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * DATA OF DATATABLE_ARRAY
      * -------------------------
      */
@@ -439,5 +455,14 @@ b,d,f,g';
         $expected = 'b';
 
         $this->assertEquals($expected, $render->render());
+    }
+
+    private function _getDataTableSimpleWithCommasInCells()
+    {
+        $table = new DataTable();
+        $table->addRowsFromSimpleArray(array(
+            array("col,1" => "val\"1", "col,2" => "val\",2")
+        ));
+        return $table;
     }
 }

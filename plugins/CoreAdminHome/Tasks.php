@@ -20,6 +20,9 @@ class Tasks extends \Piwik\Plugin\Tasks
         // general data purge on older archive tables, executed daily
         $this->daily('purgeOutdatedArchives', null, self::HIGH_PRIORITY);
 
+        // general data purge on invalidated archive records, executed daily
+        $this->daily('purgeInvalidatedArchives', null, self::LOW_PRIORITY);
+
         // lowest priority since tables should be optimized after they are modified
         $this->daily('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
     }
@@ -36,6 +39,11 @@ class Tasks extends \Piwik\Plugin\Tasks
                 ArchivePurger::purgeOutdatedArchives(Date::factory("$year-$month-15"));
             }
         }
+    }
+
+    public function purgeInvalidatedArchives()
+    {
+        ArchivePurger::purgeInvalidatedArchives();
     }
 
     public function optimizeArchiveTable()

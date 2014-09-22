@@ -154,17 +154,16 @@ class Xml extends Renderer
         foreach ($array as $key => $value) {
             // based on the type of array & the key, determine how this node will look
             if ($isAssociativeArray) {
-                $keyIsInvalidXmlElement = is_numeric($key) || is_numeric($key[0]);
-                if ($keyIsInvalidXmlElement) {
-                    $prefix = "<row key=\"$key\">";
-                    $suffix = "</row>";
-                    $emptyNode = "<row key=\"$key\"/>";
-                } else if (strpos($key, '=') !== false) {
+                if (strpos($key, '=') !== false) {
                     list($keyAttributeName, $key) = explode('=', $key, 2);
 
                     $prefix = "<row $keyAttributeName=\"$key\">";
                     $suffix = "</row>";
                     $emptyNode = "<row $keyAttributeName=\"$key\">";
+                } else if (!self::isValidXmlTagName($key)) {
+                    $prefix = "<row key=\"$key\">";
+                    $suffix = "</row>";
+                    $emptyNode = "<row key=\"$key\"/>";
                 } else {
                     $prefix = "<$key>";
                     $suffix = "</$key>";
@@ -338,6 +337,8 @@ class Xml extends Renderer
      */
     protected function renderDataTable($array, $prefixLine = "")
     {
+        $columnsHaveInvalidChars = $this->areTableLabelsInvalidXmlTagNames(reset($array));
+
         $out = '';
         foreach ($array as $rowId => $row) {
             if (!is_array($row)) {
@@ -373,10 +374,13 @@ class Xml extends Renderer
                     } else {
                         $value = self::formatValueXml($value);
                     }
+
+                    list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($name, $columnsHaveInvalidChars);
+
                     if (strlen($value) == 0) {
-                        $out .= $prefixLine . "\t\t<$name />\n";
+                        $out .= $prefixLine . "\t\t<$tagStart />\n";
                     } else {
-                        $out .= $prefixLine . "\t\t<$name>" . $value . "</$name>\n";
+                        $out .= $prefixLine . "\t\t<$tagStart>" . $value . "</$tagEnd>\n";
                     }
                 }
                 $out .= "\t";
@@ -399,15 +403,62 @@ class Xml extends Renderer
             $array = array('value' => $array);
         }
 
+        $columnsHaveInvalidChars = $this->areTableLabelsInvalidXmlTagNames($array);
+
         $out = '';
         foreach ($array as $keyName => $value) {
             $xmlValue = self::formatValueXml($value);
+            list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($keyName, $columnsHaveInvalidChars);
             if (strlen($xmlValue) == 0) {
-                $out .= $prefixLine . "\t<$keyName />\n";
+                $out .= $prefixLine . "\t<$tagStart />\n";
             } else {
-                $out .= $prefixLine . "\t<$keyName>" . $xmlValue . "</$keyName>\n";
+                $out .= $prefixLine . "\t<$tagStart>" . $xmlValue . "</$tagEnd>\n";
             }
         }
         return $out;
+    }
+
+    /**
+     * Returns true if a string is a valid XML tag name, false if otherwise.
+     *
+     * @param string $str
+     * @return bool
+     */
+    private static function isValidXmlTagName($str)
+    {
+        static $validTagRegex = null;
+
+        if ($validTagRegex === null) {
+            $invalidTagChars = "!\"#$%&'()*+,\\/;<=>?@[\\]\\\\^`{|}~";
+            $invalidTagStartChars = $invalidTagChars . "\\-.0123456789";
+            $validTagRegex = "/^[^" . $invalidTagStartChars . "][^" . $invalidTagChars . "]*$/";
+        }
+
+        $result = preg_match($validTagRegex, $str);
+        return !empty($result);
+    }
+
+    private function areTableLabelsInvalidXmlTagNames($rowArray)
+    {
+        if (!empty($rowArray)) {
+            foreach ($rowArray as $name => $value) {
+                if (!self::isValidXmlTagName($name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private function getTagStartAndEndFor($keyName, $columnsHaveInvalidChars)
+    {
+        if ($columnsHaveInvalidChars) {
+            $tagStart = "col name=\"" . self::formatValueXml($keyName) . "\"";
+            $tagEnd = "col";
+        } else {
+            $tagStart = $tagEnd = $keyName;
+        }
+
+        return array($tagStart, $tagEnd);
     }
 }

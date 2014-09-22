@@ -15,6 +15,8 @@ use Exception;
 /**
  * Track visits before website creation date and test that Piwik handles them correctly.
  *
+ * See also other test: ArchiveInvalidationTest
+ *
  * @group Integration
  * @group VisitsInPastInvalidateOldReportsTest
  */
@@ -90,14 +92,22 @@ class VisitsInPastInvalidateOldReportsTest extends IntegrationTestCase
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2010-03-03");
         $this->assertApiResponseHasNoError($r->process());
 
+
         // Make an invalid call
         $idSiteNoAccess = 777;
         try {
             $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSiteNoAccess . "&dates=2010-03-03&format=original");
             $request->process();
             $this->fail();
-        } catch(Exception $e) {
-        }
+        } catch(Exception $e) {}
+
+        // test an invalidate period parameter
+        try {
+            $invalidPeriod = "day,month";
+            $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=$invalidPeriod&idSites=$idSite&dates=2010-03-03&format=original");
+            $request->process();
+            $this->fail();
+        } catch(Exception $e) {}
 
         // 2) Call API again, with an older date, which should now return data
         $this->runApiTests($api, $params);

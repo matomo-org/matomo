@@ -38,7 +38,7 @@ PageRenderer.prototype.setViewportSize = function (w, h) {
 };
 
 PageRenderer.prototype.getCurrentUrl = function () {
-    return this.webpage.url;
+    return this.webpage ? this.webpage.url : null;
 };
 
 // event queueing functions

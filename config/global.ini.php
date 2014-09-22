@@ -472,6 +472,17 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
+; This controls whether the pivotBy query parameter can be used with any dimension or just subtable
+; dimensions. If set to 1, it will fetch a report with a segment for each row of the table being pivoted.
+; At present, this is very inefficient, so it is disabled by default.
+pivot_by_filter_enable_fetch_by_segment = 0
+
+; This controls the default maximum number of columns to display in a pivot table. Since a pivot table displays
+; a table's rows as columns, the number of columns can become very large, which will affect webpage layouts.
+; Set to -1 to specify no limit. Note: The pivotByColumnLimit query parameter can be used to override this default
+; on a per-request basis;
+pivot_by_filter_default_column_limit = 10
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well

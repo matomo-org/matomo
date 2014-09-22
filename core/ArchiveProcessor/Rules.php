@@ -257,7 +257,7 @@ class Rules
         return $isArchivingDisabled;
     }
 
-    protected static function isRequestAuthorizedToArchive()
+    public static function isRequestAuthorizedToArchive()
     {
         return Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
     }

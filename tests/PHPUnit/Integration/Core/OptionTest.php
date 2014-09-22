@@ -9,8 +9,6 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Option;
 
-require_once "Option.php";
-
 /**
  * Class Core_OptionTest
  *

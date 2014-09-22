@@ -181,6 +181,7 @@ class Metrics
         return $names;
     }
 
+    // TODO: this method is named wrong
     public static function getMappingFromIdToName()
     {
         $idToName = array_flip(self::$mappingFromIdToName);

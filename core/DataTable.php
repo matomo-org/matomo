@@ -452,7 +452,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($this->queuedFilters as $filter) {
             $this->filter($filter['className'], $filter['parameters']);
         }
-        $this->queuedFilters = array();
+        $this->clearQueuedFilters();
     }
 
     /**
@@ -1632,6 +1632,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->addRow($thisRow);
         }
         $thisRow->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+    }
+
+    /**
+     * Unsets all queued filters.
+     */
+    public function clearQueuedFilters()
+    {
+        $this->queuedFilters = array();
     }
 
     /**

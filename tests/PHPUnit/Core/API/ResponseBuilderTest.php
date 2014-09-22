@@ -16,7 +16,7 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        \Piwik\Tests\Fixture::loadAllPlugins();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API'));
     }
 
     public function test_getResponseException_shouldFormatExceptionDependingOnFormatAndAddDebugHelp()

@@ -429,8 +429,7 @@ Yes it seems most logical to create an action entry for each Content.
 Nothing special here I think. We would probably automatically detect the type of content (image, video, text, sound, ...) depending on the content eg in case it ends with [.jpg, .png, .gif] it could be recognized as image content and show a banner in the report.
 
 ## TODO
-* Content piece undefined vs Unknown?
-* UI / PHP tests
+* UI tests
 
 ## V2:
 * "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
@@ -449,6 +448,10 @@ Nothing special here I think. We would probably automatically detect the type of
   * Add number of content impressions and interaction to each page in getPageUrl(s)
   * Add number of total content impresions and interactions to visitor
   * ...
+* Increase interval to scan the entire page for content impressions after a while. By default currently is 750ms.
+  * For instance after 2 minutes could be 5 seconds, after 5 minutes could be 30 seconds, after 10 minutes could be 1 minute,
+  after 30 minutes could be every 10 minutes or stop it completely. Otherwise CPU and battery won't be happy when having a website open for a while in the background.
+  * Stop scanning page in case tab is no longer active and start scanning again when tab is visible again
 
 ## Open questions
 

@@ -64,13 +64,17 @@ class HtmlTable extends Visualization
                 'filter_offset' => 0,
                 'period'        => $period,
                 'showColumns'   => implode(',', $this->config->columns_to_display),
-                'columns'       => implode(',', $this->config->columns_to_display)
+                'columns'       => implode(',', $this->config->columns_to_display),
+                'pivotBy'       => ''
             ));
 
             $dataTable = $request->process();
             $this->assignTemplateVar('siteSummary', $dataTable);
         }
 
+        if ($this->requestConfig->pivotBy) {
+            $this->config->columns_to_display = $this->dataTable->getColumns();
+        }
     }
 
 }

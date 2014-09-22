@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Access;
 use Piwik\Plugin\Report;
 use Piwik\Piwik;
 use Piwik\Metrics;
@@ -28,11 +29,14 @@ class Menu_ReportingTest extends PHPUnit_Framework_TestCase
     {
         PluginManager::getInstance()->unloadPlugins();
         $this->menu = MenuReporting::getInstance();
+
+        Access::setSingletonInstance(new FakeAccess());
     }
 
     public function tearDown()
     {
         MenuReporting::getInstance()->unsetInstance();
+        Access::setSingletonInstance(null);
         parent::tearDown();
     }
 
