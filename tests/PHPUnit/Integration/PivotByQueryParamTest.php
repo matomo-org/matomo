@@ -182,7 +182,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
             // 5.3.3 space encoding fail eg. https://travis-ci.org/piwik/piwik/jobs/35920420
             $this->markTestSkipped();
         }
-        $this->assertApiResponseEqualsExpected($apiMethod, $queryParams);
+        parent::assertApiResponseEqualsExpected($apiMethod, $queryParams);
     }
 }
 
