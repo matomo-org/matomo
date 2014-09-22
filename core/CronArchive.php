@@ -597,7 +597,7 @@ class CronArchive
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
         if ($this->isOldReportInvalidatedForWebsite($idSite)) {
-            $this->removeSiteFromInvalidatedWebsites($idSite);
+            $this->removeWebsiteFromInvalidatedWebsites($idSite);
         }
 
         // when some data was purged from this website
@@ -1189,7 +1189,7 @@ class CronArchive
     /**
      * @param $idSite
      */
-    protected function removeSiteFromInvalidatedWebsites($idSite)
+    protected function removeWebsiteFromInvalidatedWebsites($idSite)
     {
         $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
         if (count($websiteIdsInvalidated)) {
