@@ -26,7 +26,7 @@ class UserId extends VisitDimension
     /**
      * @var string
      */
-    protected $columnType = 'VARCHAR(200) NOT NULL';
+    protected $columnType = 'VARCHAR(200) NULL';
 
     /**
      * @param Request $request
@@ -49,7 +49,7 @@ class UserId extends VisitDimension
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         $forcedUserId = $request->getForcedUserId();
-        if (strlen($forcedUserId) > 0) {
+        if ($forcedUserId) {
             return $forcedUserId;
         }
 
