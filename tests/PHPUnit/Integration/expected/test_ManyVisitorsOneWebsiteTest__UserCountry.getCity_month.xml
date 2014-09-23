@@ -22,7 +22,7 @@
 		<nb_conversions>12</nb_conversions>
 		<revenue>60</revenue>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>4</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>Unknown</city_name>
 		<city>xx</city>
 		<region>xx</region>
@@ -53,7 +53,7 @@
 		<nb_conversions>9</nb_conversions>
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>49.25</lat>
 		<long>-123.133</long>
 		<city_name>Vancouver</city_name>
@@ -85,7 +85,7 @@
 		<nb_conversions>6</nb_conversions>
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
 		<city_name>Stratford-upon-Avon</city_name>
@@ -117,7 +117,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>47.249</lat>
 		<long>6.018</long>
 		<city_name>Besançon</city_name>
@@ -149,7 +149,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>Hluboká nad Vltavou</city_name>
 		<region>66</region>
 		<country>ru</country>
@@ -179,7 +179,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>29.65</lat>
 		<long>91.1</long>
 		<city_name>Lhasa</city_name>
@@ -211,7 +211,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>London</city_name>
 		<region>H9</region>
 		<country>gb</country>
@@ -241,7 +241,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>Nuneaton and Bedworth</city_name>
 		<region>P3</region>
 		<country>gb</country>
@@ -271,7 +271,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>66</region>
 		<country>mk</country>
@@ -301,7 +301,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>66</region>
 		<country>ru</country>
@@ -331,7 +331,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>G5</region>
 		<country>gb</country>

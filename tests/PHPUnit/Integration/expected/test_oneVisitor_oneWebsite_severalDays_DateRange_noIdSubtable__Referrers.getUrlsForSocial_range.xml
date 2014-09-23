@@ -10,7 +10,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://facebook.com/whatever</url>
 		</row>
 		<row>
@@ -22,7 +22,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://fb.me/?q=sdlfjs&amp;n=slfjsd</url>
 		</row>
 		<row>
@@ -34,7 +34,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://mixi.jp</url>
 		</row>
 		<row>
@@ -46,7 +46,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://skyrock.com</url>
 		</row>
 		<row>
@@ -58,7 +58,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://t.co/id/?y=dsfs</url>
 		</row>
 		<row>
@@ -70,7 +70,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://twitter.com/whatever2</url>
 		</row>
 		<row>
@@ -82,7 +82,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://www.facebook.com/another/path</url>
 		</row>
 		<row>
@@ -94,7 +94,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://www.flickr.com</url>
 		</row>
 		<row>
@@ -106,7 +106,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://www.twitter.com/index?a=2334</url>
 		</row>
 		<row>
@@ -118,7 +118,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://xanga.com</url>
 		</row>
 	</result>
@@ -132,7 +132,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://t.co/id/?y=dsfs</url>
 		</row>
 		<row>
@@ -144,7 +144,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://twitter.com/whatever2</url>
 		</row>
 		<row>
@@ -156,7 +156,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>http://www.facebook.com/another/path</url>
 		</row>
 	</result>

@@ -5,7 +5,7 @@
 	<result date="2009-12" />
 	<result date="2010-01">
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<nb_visits>1</nb_visits>
 		<nb_actions>6</nb_actions>
 		<nb_visits_converted>0</nb_visits_converted>

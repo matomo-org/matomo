@@ -17,7 +17,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<subtable>
 			<row>
 				<label>http://piwik.org/contribute%</label>
@@ -28,7 +28,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>1</sum_daily_nb_users>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
@@ -49,7 +49,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<subtable>
 			<row>
 				<label>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</label>
@@ -60,7 +60,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>1</sum_daily_nb_users>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>

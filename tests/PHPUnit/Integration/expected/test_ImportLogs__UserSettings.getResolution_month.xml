@@ -9,7 +9,7 @@
 		<bounce_count>23</bounce_count>
 		<nb_visits_converted>23</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>3</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>1024x768</label>
@@ -20,7 +20,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>1280x800</label>
@@ -31,6 +31,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 </result>

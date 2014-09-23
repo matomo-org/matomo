@@ -11,7 +11,7 @@
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>9</sum_daily_nb_users>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>http://referrer.com/Other_Page.htm</label>
@@ -22,7 +22,7 @@
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
 						<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
-						<sum_daily_nb_users>8</sum_daily_nb_users>
+						<sum_daily_nb_users>0</sum_daily_nb_users>
 					</row>
 					<row>
 						<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
@@ -33,7 +33,7 @@
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-						<sum_daily_nb_users>1</sum_daily_nb_users>
+						<sum_daily_nb_users>0</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>
@@ -56,7 +56,7 @@
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>1</sum_daily_nb_users>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>http://only-homepage-referrer.com/</label>
@@ -67,7 +67,7 @@
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-						<sum_daily_nb_users>1</sum_daily_nb_users>
+						<sum_daily_nb_users>0</sum_daily_nb_users>
 					</row>
 				</subtable>
 			</row>

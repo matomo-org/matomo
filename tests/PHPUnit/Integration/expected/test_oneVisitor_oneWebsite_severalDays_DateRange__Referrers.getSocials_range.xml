@@ -10,7 +10,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>3</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>facebook.com</url>
 			<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
 		</row>
@@ -23,7 +23,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>mixi.jp</url>
 			<logo>plugins/Referrers/images/socials/mixi.jp.png</logo>
 		</row>
@@ -36,7 +36,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>skyrock.com</url>
 			<logo>plugins/Referrers/images/socials/skyrock.com.png</logo>
 		</row>
@@ -49,7 +49,7 @@
 			<bounce_count>2</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>3</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>twitter.com</url>
 			<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
 		</row>
@@ -62,7 +62,7 @@
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>flickr.com</url>
 			<logo>plugins/Referrers/images/socials/flickr.com.png</logo>
 		</row>
@@ -75,7 +75,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>xanga.com</url>
 			<logo>plugins/Referrers/images/socials/xanga.com.png</logo>
 		</row>
@@ -90,7 +90,7 @@
 			<bounce_count>2</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>2</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>twitter.com</url>
 			<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
 		</row>
@@ -103,7 +103,7 @@
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>facebook.com</url>
 			<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
 		</row>

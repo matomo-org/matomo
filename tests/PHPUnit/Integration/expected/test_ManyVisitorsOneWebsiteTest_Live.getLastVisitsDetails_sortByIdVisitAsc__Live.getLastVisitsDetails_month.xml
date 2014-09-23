@@ -43,7 +43,7 @@
 		
 		
 		
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -199,7 +199,7 @@
 		
 		
 		
-		<userId />
+		<userId>0</userId>
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -324,7 +324,7 @@
 		
 		
 		
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -480,7 +480,7 @@
 		
 		
 		
-		<userId />
+		<userId>0</userId>
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -605,7 +605,7 @@
 		
 		
 		
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -761,7 +761,7 @@
 		
 		
 		
-		<userId />
+		<userId>0</userId>
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -878,7 +878,7 @@
 		
 		
 		
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>

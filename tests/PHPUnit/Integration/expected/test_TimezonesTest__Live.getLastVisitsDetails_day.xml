@@ -25,7 +25,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>

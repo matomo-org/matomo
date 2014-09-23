@@ -97,7 +97,7 @@
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>9h</label>
@@ -141,7 +141,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>13h</label>
@@ -152,7 +152,7 @@
 		<bounce_count>4</bounce_count>
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>14h</label>
@@ -174,7 +174,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>16h</label>
@@ -185,7 +185,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>17h</label>
@@ -196,7 +196,7 @@
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>18h</label>
@@ -207,7 +207,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>19h</label>
@@ -218,7 +218,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>20h</label>
@@ -229,7 +229,7 @@
 		<bounce_count>6</bounce_count>
 		<nb_visits_converted>6</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>3</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>21h</label>
@@ -240,7 +240,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>22h</label>

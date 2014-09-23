@@ -30,7 +30,7 @@
 		<lastActionDateTime>2013-04-07 10:00:00</lastActionDateTime>
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -123,7 +123,7 @@
 		<lastActionDateTime>2013-04-06 11:00:00</lastActionDateTime>
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -216,7 +216,7 @@
 		<lastActionDateTime>2013-04-05 12:00:00</lastActionDateTime>
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
