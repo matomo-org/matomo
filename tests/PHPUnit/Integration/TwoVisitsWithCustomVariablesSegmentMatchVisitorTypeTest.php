@@ -91,7 +91,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends Integratio
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
             // 3 done flag (referrers, CustomVar, VisitsSummary),
             // X * 2 segments
-            'archive_numeric_2009_12' => (7 + 2 + 3) * 2,
+            'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
