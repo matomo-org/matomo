@@ -71,7 +71,12 @@ class Controller extends \Piwik\Plugin\Controller
         list($startDate, $endDate) = API::getDateRangeForPeriod($date, $period, $lastN);
         $view->startDate = $startDate->toString();
         $view->endDate = $endDate->toString();
-        $view->today = Date::today()->toString();
+
+        if ($startDate->toString() !== $endDate->toString()) {
+            $view->selectedDate = Date::today()->toString();
+        } else {
+            $view->selectedDate = $endDate->toString();
+        }
 
         $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
         $view->startDatePretty = $startDate->getLocalized($dateFormat);
