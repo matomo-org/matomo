@@ -39,7 +39,6 @@ class Visitor implements VisitorInterface
             'idSite'                      => $this->getIdSite(),
             'idVisit'                     => $this->getIdVisit(),
             'visitIp'                     => $this->getIp(),
-            'userId'                      => $this->getUserId(),
             'visitorId'                   => $this->getVisitorId(),
 
             // => false are placeholders to be filled in API later
@@ -81,15 +80,6 @@ class Visitor implements VisitorInterface
     {
         if (isset($this->details['idvisitor'])) {
             return bin2hex($this->details['idvisitor']);
-        }
-        return false;
-    }
-
-    function getUserId()
-    {
-        if (isset($this->details['user_id'])
-            && !is_null($this->details['user_id'])) {
-            return $this->details['user_id'];
         }
         return false;
     }

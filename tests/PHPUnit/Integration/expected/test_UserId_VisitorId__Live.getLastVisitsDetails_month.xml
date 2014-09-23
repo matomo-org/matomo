@@ -2,7 +2,6 @@
 <result>
 	<row>
 		<idVisit>1</idVisit>
-		<userId />
 		<visitorId>a13b7c5a62f72dea</visitorId>
 		<actionDetails>
 			<row>
@@ -17,10 +16,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:22:33</lastActionDateTime>
 		<actions>1</actions>
+		<userId />
 	</row>
 	<row>
 		<idVisit>2</idVisit>
-		<userId />
 		<visitorId>f66bc315f2a01a79</visitorId>
 		<actionDetails>
 			<row>
@@ -46,10 +45,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:28:33</lastActionDateTime>
 		<actions>2</actions>
+		<userId />
 	</row>
 	<row>
 		<idVisit>3</idVisit>
-		<userId>email@example.com</userId>
 		<visitorId>9395988394d4568d</visitorId>
 		<actionDetails>
 			<row>
@@ -75,10 +74,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:28:33</lastActionDateTime>
 		<actions>2</actions>
+		<userId>email@example.com</userId>
 	</row>
 	<row>
 		<idVisit>4</idVisit>
-		<userId>new-email@example.com</userId>
 		<visitorId>c9ade7a5a103b2ed</visitorId>
 		<actionDetails>
 			<row>
@@ -93,10 +92,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:34:33</lastActionDateTime>
 		<actions>1</actions>
+		<userId>new-email@example.com</userId>
 	</row>
 	<row>
 		<idVisit>5</idVisit>
-		<userId>new-email@example.com</userId>
 		<visitorId>c9ade7a5a103b2ed</visitorId>
 		<actionDetails>
 			<row>
@@ -148,10 +147,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:40:33</lastActionDateTime>
 		<actions>2</actions>
+		<userId>new-email@example.com</userId>
 	</row>
 	<row>
 		<idVisit>6</idVisit>
-		<userId />
 		<visitorId>5e15b4d842cc294d</visitorId>
 		<actionDetails>
 			<row>
@@ -166,10 +165,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
 		<actions>1</actions>
+		<userId />
 	</row>
 	<row>
 		<idVisit>7</idVisit>
-		<userId>email@example.com</userId>
 		<visitorId>9395988394d4568d</visitorId>
 		<actionDetails>
 			<row>
@@ -184,10 +183,10 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:22:33</lastActionDateTime>
 		<actions>1</actions>
+		<userId>email@example.com</userId>
 	</row>
 	<row>
 		<idVisit>8</idVisit>
-		<userId>new-user-id@one-weeklater</userId>
 		<visitorId>72d4b5565daf5546</visitorId>
 		<actionDetails>
 			<row>
@@ -202,5 +201,6 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:46:33</lastActionDateTime>
 		<actions>1</actions>
+		<userId>new-user-id@one-weeklater</userId>
 	</row>
 </result>

@@ -497,7 +497,6 @@ class Visit implements VisitInterface
             'idvisitor'   => $this->getVisitorIdcookie($visitor),
             'config_id'   => $this->getSettingsObject()->getConfigId(),
             'location_ip' => $this->getVisitorIp(),
-            'user_id'     => $this->request->getForcedUserId(),
         );
     }
 
@@ -517,11 +516,6 @@ class Visit implements VisitInterface
         if (strlen($this->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
             $valuesToUpdate['idvisitor'] = $this->visitorInfo['idvisitor'];
             $visitor->setVisitorColumn('idvisitor', $this->visitorInfo['idvisitor']);
-        }
-
-        if (strlen($this->request->getForcedUserId()) > 0) {
-            $valuesToUpdate['user_id'] = $this->request->getForcedUserId();
-            $visitor->setVisitorColumn('user_id', $valuesToUpdate['user_id']);
         }
 
         $dimensions     = $this->getAllVisitDimensions();
