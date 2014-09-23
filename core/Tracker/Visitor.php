@@ -234,7 +234,7 @@ class Visitor
         $isForcedVisitorIdMustMatch = ($this->request->getForcedVisitorId() != null);
 
         // if &iud was set, we force to select this visitor (or create new one)
-        $isForcedUserIdMustMatch = ($this->request->getForcedUserId() != null);
+        $isForcedUserIdMustMatch = ($this->request->getForcedUserId() !== null);
 
         $shouldMatchOneFieldOnly = (($isVisitorIdToLookup && $trustCookiesOnly)
             || $isForcedVisitorIdMustMatch

@@ -455,7 +455,7 @@ class Request
 
         // If User ID is set it takes precedence
         $userId = $this->getForcedUserId();
-        if(strlen($userId) > 0) {
+        if($userId) {
             $userIdHashed = $this->getUserIdHashed($userId);
             $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
             Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
@@ -535,7 +535,11 @@ class Request
 
     public function getForcedUserId()
     {
-        return $this->getParam('uid');
+        $userId = $this->getParam('uid');
+        if(strlen($userId) > 0) {
+            return $userId;
+        }
+        return null;
     }
 
     public function getForcedVisitorId()
