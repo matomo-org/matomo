@@ -215,6 +215,8 @@ class TravisYmlView extends View
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
             $testsToExclude[] = array('php' => '5.4',
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
+            $testsToExclude[] = array('php' => '5.6',
+                                      'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
         }
 
         if (!empty($this->pluginName)
