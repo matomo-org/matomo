@@ -16,7 +16,7 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:22:33</lastActionDateTime>
 		<actions>1</actions>
-		<userId />
+		<userId>0</userId>
 	</row>
 	<row>
 		<idVisit>2</idVisit>
@@ -45,7 +45,7 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:28:33</lastActionDateTime>
 		<actions>2</actions>
-		<userId />
+		<userId>0</userId>
 	</row>
 	<row>
 		<idVisit>3</idVisit>
@@ -165,7 +165,7 @@
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
 		<actions>1</actions>
-		<userId />
+		<userId>0</userId>
 	</row>
 	<row>
 		<idVisit>7</idVisit>

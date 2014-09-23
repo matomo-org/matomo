@@ -9,7 +9,7 @@
 		<bounce_count>10</bounce_count>
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>7</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<shortLabel>Webkit</shortLabel>
 	</row>
 	<row>
@@ -21,7 +21,7 @@
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>5</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<shortLabel>Unknown</shortLabel>
 	</row>
 	<row>
@@ -33,7 +33,7 @@
 		<bounce_count>6</bounce_count>
 		<nb_visits_converted>6</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>4</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<shortLabel>Ie</shortLabel>
 	</row>
 	<row>
@@ -45,7 +45,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<shortLabel>Gecko</shortLabel>
 	</row>
 </result>

@@ -36,7 +36,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId />
+		<userId>0</userId>
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -224,7 +224,7 @@
 		
 		<searches>1</searches>
 		<actions>8</actions>
-		<userId />
+		<userId>0</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>

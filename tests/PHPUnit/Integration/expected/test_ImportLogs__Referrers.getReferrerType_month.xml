@@ -17,7 +17,7 @@
 		<nb_conversions>23</nb_conversions>
 		<revenue>115</revenue>
 		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>3</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Websites</label>
@@ -36,7 +36,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<subtable>
 			<row>
 				<label>piwik.org</label>
@@ -55,7 +55,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>1</sum_daily_nb_users>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>sn110w.snt110.mail.live.com</label>
@@ -74,7 +74,7 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>1</sum_daily_nb_users>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 		</subtable>
 	</row>
