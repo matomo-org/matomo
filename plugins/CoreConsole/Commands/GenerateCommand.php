@@ -27,7 +27,9 @@ class GenerateCommand extends GeneratePluginBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $pluginName  = $this->getPluginName($input, $output);
+        $pluginName = $this->getPluginName($input, $output);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+
         $commandName = $this->getCommandName($input, $output);
 
         $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleCommand';

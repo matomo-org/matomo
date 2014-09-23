@@ -31,6 +31,8 @@ class GenerateReport extends GeneratePluginBase
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginName    = $this->getPluginName($input, $output);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+
         $reportName    = $this->getReportName($input, $output);
         $category      = $this->getCategory($input, $output, $pluginName);
         $documentation = $this->getDocumentation($input, $output);

@@ -37,7 +37,9 @@ class GenerateDimension extends GeneratePluginBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $pluginName    = $this->getPluginName($input, $output);
+        $pluginName = $this->getPluginName($input, $output);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+
         $type          = $this->getDimensionType($input, $output);
         $dimensionName = $this->getDimensionName($input, $output);
 
