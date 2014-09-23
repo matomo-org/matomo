@@ -21,4 +21,9 @@ interface Queue
      * TODO
      */
     public function pull($count);
+
+    /**
+     * TODO
+     */
+    public function peek();
 }

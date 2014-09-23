@@ -64,6 +64,17 @@ class DistributedQueue implements Queue
         });
     }
 
+    /**
+     * TODO
+     */
+    public function peek()
+    {
+        $self = $this;
+        return $this->runWithLock(function () use ($self) {
+            return count($self->getJobUrls());
+        });
+    }
+
     private function runWithLock($callback)
     {
         $this->acquireLock();
@@ -84,7 +95,7 @@ class DistributedQueue implements Queue
     private function getJobUrls()
     {
         $optionValue = Option::get($this->getJobUrlsOptionName());
-        return json_decode($optionValue, true);
+        return @json_decode($optionValue, true) ?: array();
     }
 
     private function setJobUrls($existingJobs)
