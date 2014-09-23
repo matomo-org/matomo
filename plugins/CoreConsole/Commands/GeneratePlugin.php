@@ -72,7 +72,7 @@ class GeneratePlugin extends GeneratePluginBase
         if ($isTheme) {
             $this->writeSuccessMessage($output, array(
                 sprintf('Theme %s %s generated.', $pluginName, $version),
-                'If you have not done yet check out our Theming guide http://developer.piwik.org/guides/theming',
+                'If you have not done yet check out our Theming guide <comment>http://developer.piwik.org/guides/theming</comment>',
                 'Enjoy!'
             ));
         } else {
@@ -83,8 +83,6 @@ class GeneratePlugin extends GeneratePluginBase
                 'Enjoy!'
             ));
         }
-
-
     }
 
     /**
@@ -192,23 +190,6 @@ class GeneratePlugin extends GeneratePluginBase
         }
 
         return $version;
-    }
-
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed
-     */
-    protected function getCreateFullPlugin(InputInterface $input, OutputInterface $output)
-    {
-        $full = $input->getOption('full');
-
-        if (is_null($full)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $full = $dialog->askConfirmation($output, 'Shall we also create an API and a Controller? (y/N)', false);
-        }
-
-        return !empty($full);
     }
 
 }
