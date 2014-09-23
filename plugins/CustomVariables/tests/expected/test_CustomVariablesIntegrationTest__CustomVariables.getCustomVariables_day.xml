@@ -92,7 +92,7 @@
 		<label>Name_VISIT_1</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -110,7 +110,7 @@
 				<label>Val_VISIT1</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -130,7 +130,7 @@
 		<label>Name_VISIT_2</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -148,7 +148,7 @@
 				<label>Val_VISIT2</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -168,7 +168,7 @@
 		<label>Name_VISIT_3</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -186,7 +186,7 @@
 				<label>Val_VISIT3</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -206,7 +206,7 @@
 		<label>Name_VISIT_4</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -224,7 +224,7 @@
 				<label>Val_VISIT4</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -244,7 +244,7 @@
 		<label>Name_VISIT_5</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -262,7 +262,7 @@
 				<label>Val_VISIT5</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -282,7 +282,7 @@
 		<label>Name_VISIT_6</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -300,7 +300,7 @@
 				<label>Val_VISIT6</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -320,7 +320,7 @@
 		<label>Name_VISIT_7</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -338,7 +338,7 @@
 				<label>Val_VISIT7</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
@@ -358,7 +358,7 @@
 		<label>Name_VISIT_8</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>1</bounce_count>
@@ -376,7 +376,7 @@
 				<label>Val_VISIT8</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				<nb_users>1</nb_users>
+				<nb_users>0</nb_users>
 				<max_actions>1</max_actions>
 				<sum_visit_length>4</sum_visit_length>
 				<bounce_count>1</bounce_count>
