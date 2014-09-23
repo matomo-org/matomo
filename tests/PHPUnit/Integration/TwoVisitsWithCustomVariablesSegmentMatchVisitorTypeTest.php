@@ -82,7 +82,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends Integratio
             //  + 3 done flag )
             //  * 2 segments
             // + 1 Done flag per Plugin, for each "Last N" date
-            'archive_numeric_2010_01' => 144,
+            'archive_numeric_2010_01' => 142,
 
             // 2) CHECK 'week' archive stored in December (week starts the month before)
             // We expect 2 segments * (1 custom variable name + 2 ref metrics + 5 subtable for the values of the name + 5 referrers blob)
