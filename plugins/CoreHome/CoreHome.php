@@ -111,13 +111,13 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikAppConfig.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/startfrom.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution.js";
@@ -125,7 +125,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";

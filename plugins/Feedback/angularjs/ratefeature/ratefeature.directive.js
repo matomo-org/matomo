@@ -21,7 +21,7 @@
             scope: {
                 title: '@'
             },
-            templateUrl: 'plugins/Feedback/angularjs/ratefeature/ratefeature.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/Feedback/angularjs/ratefeature/ratefeature.directive.html?cb=' + piwik.cacheBuster,
             controller: 'RateFeatureController'
         };
     }

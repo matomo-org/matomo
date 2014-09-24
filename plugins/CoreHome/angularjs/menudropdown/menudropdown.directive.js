@@ -31,7 +31,7 @@
                 showSearch: '=',
                 menuTitleChangeOnClick: '='
             },
-            templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.html?cb=' + piwik.cacheBuster,
             link: function(scope, element, attrs) {
 
                 element.find('.item').on('click', function () {

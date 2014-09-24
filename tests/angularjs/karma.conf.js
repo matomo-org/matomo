@@ -25,9 +25,9 @@ module.exports = function(config) {
         "plugins/Morpheus/javascripts/piwikHelper.js",
         "plugins/Morpheus/javascripts/ajaxHelper.js",
         "plugins/CoreHome/javascripts/broadcast.js",
-        'plugins/CoreHome/angularjs/common/services/service.js',
-        'plugins/CoreHome/angularjs/common/filters/filter.js',
-        'plugins/CoreHome/angularjs/common/directives/directive.js',
+        'plugins/CoreHome/angularjs/common/services/service.module.js',
+        'plugins/CoreHome/angularjs/common/filters/filter.module.js',
+        'plugins/CoreHome/angularjs/common/directives/directive.module.js',
         'plugins/CoreHome/angularjs/piwikApp.js',
         'plugins/*/angularjs/**/*.js',
         'plugins/*/angularjs/**/*.spec.js'

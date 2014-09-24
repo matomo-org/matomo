@@ -23,7 +23,7 @@
         return {
             restrict: 'A',
             scope: {},
-            templateUrl: 'plugins/LanguagesManager/angularjs/translationsearch/translationsearch.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/LanguagesManager/angularjs/translationsearch/translationsearch.directive.html?cb=' + piwik.cacheBuster,
             controller: 'TranslationSearchController'
         };
     }

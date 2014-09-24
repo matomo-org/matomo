@@ -35,7 +35,7 @@
                 displayRevenueColumn: '=',
                 metric: '='
             },
-            templateUrl: 'plugins/MultiSites/angularjs/site/site.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/MultiSites/angularjs/site/site.directive.html?cb=' + piwik.cacheBuster,
             controller: function ($scope) {
 
                 $scope.period   = piwik.period;

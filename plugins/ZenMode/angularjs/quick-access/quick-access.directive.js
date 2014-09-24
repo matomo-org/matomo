@@ -23,7 +23,7 @@
             restrict: 'A',
             replace: true,
             scope: {},
-            templateUrl: 'plugins/ZenMode/angularjs/quick-access/quick-access.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/ZenMode/angularjs/quick-access/quick-access.directive.html?cb=' + piwik.cacheBuster,
             link: function (scope, element, attrs) {
 
                 var menuIndex = -1;

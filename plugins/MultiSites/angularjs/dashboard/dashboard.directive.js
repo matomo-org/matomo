@@ -31,7 +31,7 @@
                 showSparklines: '@',
                 dateSparkline: '@'
             },
-            templateUrl: 'plugins/MultiSites/angularjs/dashboard/dashboard.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/MultiSites/angularjs/dashboard/dashboard.directive.html?cb=' + piwik.cacheBuster,
             controller: 'MultiSitesDashboardController',
             link: function (scope, element, attrs, controller) {
 

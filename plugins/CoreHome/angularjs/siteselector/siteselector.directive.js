@@ -51,7 +51,7 @@
                 allSitesLocation: '@'
             },
             require: "?ngModel",
-            templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.directive.html?cb=' + piwik.cacheBuster,
             controller: 'SiteSelectorController',
             compile: function (element, attrs) {
 

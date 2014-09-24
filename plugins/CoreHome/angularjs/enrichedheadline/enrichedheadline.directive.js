@@ -39,7 +39,7 @@
                 helpUrl: '@',
                 featureName: '@'
             },
-            templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
 
                 for (var index in defaults) {
