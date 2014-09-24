@@ -4,83 +4,91 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+(function () {
+    angular.module('piwikApp').factory('siteSelectorModel', siteSelectorModel);
 
-angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $filter, piwik) {
+    function siteSelectorModel(piwikApi, $filter, piwik) {
 
-    var model = {};
-    model.sites = [];
-    model.hasMultipleWebsites = false;
-    model.isLoading = false;
-    model.firstSiteName = '';
+        var initialSites = null;
 
-    var initialSites = null;
+        var model = {
+            sites : [],
+            hasMultipleWebsites : false,
+            isLoading : false,
+            firstSiteName : '',
+            updateWebsitesList: updateWebsitesList,
+            searchSite: searchSite,
+            loadSite: loadSite,
+            loadInitialSites: loadInitialSites
+        };
 
-    model.updateWebsitesList = function (sites) {
+        return model;
 
-        if (!sites || !sites.length) {
-            model.sites = [];
-            return [];
-        }
+        function updateWebsitesList(sites) {
 
-        angular.forEach(sites, function (site) {
-            if (site.group) site.name = '[' + site.group + '] ' + site.name;
-        });
+            if (!sites || !sites.length) {
+                model.sites = [];
+                return [];
+            }
 
-        model.sites = $filter('orderBy')(sites, '+name');
+            angular.forEach(sites, function (site) {
+                if (site.group) site.name = '[' + site.group + '] ' + site.name;
+            });
 
-        if (!model.firstSiteName) {
-            model.firstSiteName = model.sites[0].name;
-        }
+            model.sites = $filter('orderBy')(sites, '+name');
 
-        model.hasMultipleWebsites = model.hasMultipleWebsites || sites.length > 1;
+            if (!model.firstSiteName) {
+                model.firstSiteName = model.sites[0].name;
+            }
 
-        return model.sites;
-    };
+            model.hasMultipleWebsites = model.hasMultipleWebsites || sites.length > 1;
 
-    model.searchSite = function (term) {
+            return model.sites;
+        };
 
-        if (!term) {
-            model.loadInitialSites();
-            return;
-        }
+        function searchSite(term) {
 
-        if (model.isLoading) {
-            model.currentRequest.abort();
-        }
+            if (!term) {
+                loadInitialSites();
+                return;
+            }
 
-        model.isLoading = true;
+            if (model.isLoading) {
+                model.currentRequest.abort();
+            }
 
-        model.currentRequest = piwikApi.fetch({
-            method: 'SitesManager.getPatternMatchSites',
-            pattern: term
-        }).then(function (response) {
-            return model.updateWebsitesList(response);
-        })['finally'](function () {    // .finally() is not IE8 compatible see https://github.com/angular/angular.js/commit/f078762d48d0d5d9796dcdf2cb0241198677582c
-            model.isLoading = false;
-            model.currentRequest = null;
-        });
+            model.isLoading = true;
 
-        return model.currentRequest;
-    };
+            model.currentRequest = piwikApi.fetch({
+                method: 'SitesManager.getPatternMatchSites',
+                pattern: term
+            }).then(function (response) {
+                return updateWebsitesList(response);
+            })['finally'](function () {    // .finally() is not IE8 compatible see https://github.com/angular/angular.js/commit/f078762d48d0d5d9796dcdf2cb0241198677582c
+                model.isLoading = false;
+                model.currentRequest = null;
+            });
 
-    model.loadSite = function (idsite) {
-        if (idsite == 'all') {
-            piwik.broadcast.propagateNewPage('module=MultiSites&action=index');
-        } else {
-            piwik.broadcast.propagateNewPage('segment=&idSite=' + idsite, false);
-        }
-    };
+            return model.currentRequest;
+        };
 
-    model.loadInitialSites = function () {
-        if (initialSites) {
-            model.sites = initialSites;
-            return;
-        }
+        function loadSite(idsite) {
+            if (idsite == 'all') {
+                piwik.broadcast.propagateNewPage('module=MultiSites&action=index');
+            } else {
+                piwik.broadcast.propagateNewPage('segment=&idSite=' + idsite, false);
+            }
+        };
 
-        this.searchSite('%').then(function (websites) {
-            initialSites = websites;
-        });
-    };
+        function loadInitialSites() {
+            if (initialSites) {
+                model.sites = initialSites;
+                return;
+            }
 
-    return model;
-});
+            searchSite('%').then(function (websites) {
+                initialSites = websites;
+            });
+        };
+    }
+})();

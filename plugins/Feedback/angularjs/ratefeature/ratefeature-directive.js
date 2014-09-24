@@ -9,14 +9,18 @@
  * Usage:
  * <div piwik-rate-feature title="My Feature Name">
  */
-angular.module('piwikApp').directive('piwikRateFeature', function($document, piwik, $filter){
+(function () {
+    angular.module('piwikApp').directive('piwikRateFeature', piwikRateFeature);
 
-    return {
-        restrict: 'A',
-        scope: {
-            title: '@'
-        },
-        templateUrl: 'plugins/Feedback/angularjs/ratefeature/ratefeature.html?cb=' + piwik.cacheBuster,
-        controller: 'RateFeatureController'
-    };
-});
+    function piwikRateFeature($document, piwik, $filter){
+
+        return {
+            restrict: 'A',
+            scope: {
+                title: '@'
+            },
+            templateUrl: 'plugins/Feedback/angularjs/ratefeature/ratefeature.html?cb=' + piwik.cacheBuster,
+            controller: 'RateFeatureController'
+        };
+    }
+})();

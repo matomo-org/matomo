@@ -17,16 +17,20 @@
  *     first arg::<strong>second arg</strong>::{{ unsafeDataThatWillBeSanitized }}
  * </span>
  */
-angular.module('piwikApp.directive').directive('piwikTranslate', function() {
-    return {
-        restrict: 'A',
-        scope: {
-            piwikTranslate: '@'
-        },
-        compile: function(element, attrs) {
-          var parts = element.html().split('::'),
-                translated = _pk_translate(attrs.piwikTranslate, parts);
-            element.html(translated);
-        }
-    };
-});
+(function () {
+    angular.module('piwikApp.directive').directive('piwikTranslate', piwikTranslate);
+
+    function piwikTranslate() {
+        return {
+            restrict: 'A',
+            scope: {
+                piwikTranslate: '@'
+            },
+            compile: function(element, attrs) {
+                var parts = element.html().split('::'),
+                    translated = _pk_translate(attrs.piwikTranslate, parts);
+                element.html(translated);
+            }
+        };
+    }
+})();

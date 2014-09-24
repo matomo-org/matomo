@@ -16,54 +16,58 @@
  *     <a class="item" href="/url"></a>
  * </div>
  */
-angular.module('piwikApp').directive('piwikMenudropdown', function(){
+(function () {
+    angular.module('piwikApp').directive('piwikMenudropdown', piwikMenudropdown);
 
-    return {
-        transclude: true,
-        replace: true,
-        restrict: 'A',
-        scope: {
-            menuTitle: '@',
-            tooltip: '@',
-            showSearch: '=',
-            menuTitleChangeOnClick: '='
-        },
-        templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster,
-        link: function(scope, element, attrs) {
+    function piwikMenudropdown(){
 
-            element.find('.item').on('click', function () {
-                var $self = angular.element(this);
+        return {
+            transclude: true,
+            replace: true,
+            restrict: 'A',
+            scope: {
+                menuTitle: '@',
+                tooltip: '@',
+                showSearch: '=',
+                menuTitleChangeOnClick: '='
+            },
+            templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster,
+            link: function(scope, element, attrs) {
 
-                if ($self.hasClass('disabled') || $self.hasClass('separator')) {
-                    return;
-                }
+                element.find('.item').on('click', function () {
+                    var $self = angular.element(this);
 
-                if (scope.menuTitleChangeOnClick !== false) {
-                    scope.menuTitle = $self.text().replace(/[\u0000-\u2666]/g, function(c) {
-                        return '&#'+c.charCodeAt(0)+';';
-                    });
-                }
-                scope.$eval('view.showItems = false');
-                scope.$apply();
-
-                element.find('.item').removeClass('active');
-                $self.addClass('active');
-            });
-
-            scope.searchItems = function (searchTerm)
-            {
-                searchTerm = searchTerm.toLowerCase();
-
-                element.find('.item').each(function (index, node) {
-                    var $node = angular.element(node);
-
-                    if (-1 === $node.text().toLowerCase().indexOf(searchTerm)) {
-                        $node.hide();
-                    } else {
-                        $node.show();
+                    if ($self.hasClass('disabled') || $self.hasClass('separator')) {
+                        return;
                     }
+
+                    if (scope.menuTitleChangeOnClick !== false) {
+                        scope.menuTitle = $self.text().replace(/[\u0000-\u2666]/g, function(c) {
+                            return '&#'+c.charCodeAt(0)+';';
+                        });
+                    }
+                    scope.$eval('view.showItems = false');
+                    scope.$apply();
+
+                    element.find('.item').removeClass('active');
+                    $self.addClass('active');
                 });
-            };
-        }
-    };
-});
+
+                scope.searchItems = function (searchTerm)
+                {
+                    searchTerm = searchTerm.toLowerCase();
+
+                    element.find('.item').each(function (index, node) {
+                        var $node = angular.element(node);
+
+                        if (-1 === $node.text().toLowerCase().indexOf(searchTerm)) {
+                            $node.hide();
+                        } else {
+                            $node.show();
+                        }
+                    });
+                };
+            }
+        };
+    }
+})();

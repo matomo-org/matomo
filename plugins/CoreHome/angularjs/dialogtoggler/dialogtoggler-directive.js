@@ -18,9 +18,13 @@
  *     <a href="#" ng-click="close()">Close</a>
  * </div>
  */
-angular.module('piwikApp').directive('piwikDialogtoggler', function () {
-    return {
-        restrict: 'A',
-        controller: 'DialogTogglerController'
-    };
-});
+(function () {
+    angular.module('piwikApp').directive('piwikDialogtoggler', piwikDialogtoggler);
+
+    function piwikDialogtoggler() {
+        return {
+            restrict: 'A',
+            controller: 'DialogTogglerController'
+        };
+    }
+})();

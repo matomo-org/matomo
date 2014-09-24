@@ -15,27 +15,31 @@
  * </div>
  * Will execute the "executeMyFunction" function in the current scope once the yes button is pressed.
  */
-angular.module('piwikApp.directive').directive('piwikDialog', function(piwik, $parse) {
+(function () {
+    angular.module('piwikApp.directive').directive('piwikDialog', piwikDialog);
 
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
+    function piwikDialog(piwik, $parse) {
 
-            element.css('display', 'none');
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
 
-            element.on( "dialogclose", function() {
-                scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
-            });
+                element.css('display', 'none');
 
-            scope.$watch(attrs.piwikDialog, function(newValue, oldValue) {
-                if (newValue) {
-                    piwik.helper.modalConfirm(element, {yes: function() {
-                        if (attrs.yes) {
-                            scope.$eval(attrs.yes);
-                        }
-                    }});
-                }
-            });
-        }
-    };
-});
+                element.on( "dialogclose", function() {
+                    scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+                });
+
+                scope.$watch(attrs.piwikDialog, function(newValue, oldValue) {
+                    if (newValue) {
+                        piwik.helper.modalConfirm(element, {yes: function() {
+                            if (attrs.yes) {
+                                scope.$eval(attrs.yes);
+                            }
+                        }});
+                    }
+                });
+            }
+        };
+    }
+})();

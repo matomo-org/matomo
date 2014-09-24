@@ -13,12 +13,16 @@
  * Will show a text box which allows the user to search for translation keys and actual translations. Currently,
  * only english is supported.
  */
-angular.module('piwikApp').directive('piwikTranslationSearch', function($document, piwik, $filter){
+(function () {
+    angular.module('piwikApp').directive('piwikTranslationSearch', piwikTranslationSearch);
 
-    return {
-        restrict: 'A',
-        scope: {},
-        templateUrl: 'plugins/LanguagesManager/angularjs/translationsearch/translationsearch.html?cb=' + piwik.cacheBuster,
-        controller: 'TranslationSearchController'
-    };
-});
+    function piwikTranslationSearch($document, piwik, $filter){
+
+        return {
+            restrict: 'A',
+            scope: {},
+            templateUrl: 'plugins/LanguagesManager/angularjs/translationsearch/translationsearch.html?cb=' + piwik.cacheBuster,
+            controller: 'TranslationSearchController'
+        };
+    }
+})();

@@ -22,45 +22,49 @@
  * </h2>
  * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
  */
-angular.module('piwikApp').directive('piwikEnrichedHeadline', function($document, piwik, $filter){
-    var defaults = {
-        helpUrl: ''
-    };
+(function () {
+    angular.module('piwikApp').directive('piwikEnrichedHeadline', piwikEnrichedHeadline);
 
-    return {
-        transclude: true,
-        restrict: 'A',
-        scope: {
-            helpUrl: '@',
-            featureName: '@'
-        },
-        templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.html?cb=' + piwik.cacheBuster,
-        compile: function (element, attrs) {
+    function piwikEnrichedHeadline($document, piwik, $filter){
+        var defaults = {
+            helpUrl: ''
+        };
 
-            for (var index in defaults) {
-               if (!attrs[index]) { attrs[index] = defaults[index]; }
-            }
+        return {
+            transclude: true,
+            restrict: 'A',
+            scope: {
+                helpUrl: '@',
+                featureName: '@'
+            },
+            templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.html?cb=' + piwik.cacheBuster,
+            compile: function (element, attrs) {
 
-            return function (scope, element, attrs) {
-
-                var helpNode = $('[ng-transclude] .inlineHelp', element);
-
-                if ((!helpNode || !helpNode.length) && element.next()) {
-                    // hack for reports :(
-                    helpNode = element.next().find('.reportDocumentation');
+                for (var index in defaults) {
+                    if (!attrs[index]) { attrs[index] = defaults[index]; }
                 }
 
-                if (helpNode && helpNode.length) {
-                    if ($.trim(helpNode.text())) {
-                        scope.inlineHelp = $.trim(helpNode.html());
+                return function (scope, element, attrs) {
+
+                    var helpNode = $('[ng-transclude] .inlineHelp', element);
+
+                    if ((!helpNode || !helpNode.length) && element.next()) {
+                        // hack for reports :(
+                        helpNode = element.next().find('.reportDocumentation');
                     }
-                    helpNode.remove();
-                }
 
-                if (!attrs.featureName) {
-                    attrs.featureName = $.trim(element.text());
-                }
-            };
-        }
-    };
-});
+                    if (helpNode && helpNode.length) {
+                        if ($.trim(helpNode.text())) {
+                            scope.inlineHelp = $.trim(helpNode.html());
+                        }
+                        helpNode.remove();
+                    }
+
+                    if (!attrs.featureName) {
+                        attrs.featureName = $.trim(element.text());
+                    }
+                };
+            }
+        };
+    }
+})();

@@ -23,64 +23,68 @@
  * <div piwik-siteselector id="mySelector">
  * $('#mySelector').on('change', function (event) { event.id/event.name })
  */
-angular.module('piwikApp').directive('piwikSiteselector', function($document, piwik, $filter){
-    var defaults = {
-        name: '',
-        siteid: piwik.idSite,
-        sitename: piwik.siteName,
-        allSitesLocation: 'bottom',
-        allSitesText: $filter('translate')('General_MultiSitesSummary'),
-        showSelectedSite: 'false',
-        showAllSitesItem: 'true',
-        switchSiteOnSelect: 'true'
-    };
+(function () {
+    angular.module('piwikApp').directive('piwikSiteselector', piwikSiteselector);
 
-    return {
-        restrict: 'A',
-        scope: {
-            showSelectedSite: '=',
-            showAllSitesItem: '=',
-            switchSiteOnSelect: '=',
-            inputName: '@name',
-            allSitesText: '@',
-            allSitesLocation: '@'
-        },
-        require: "?ngModel",
-        templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.html?cb=' + piwik.cacheBuster,
-        controller: 'SiteSelectorController',
-        compile: function (element, attrs) {
+    function piwikSiteselector($document, piwik, $filter){
+        var defaults = {
+            name: '',
+            siteid: piwik.idSite,
+            sitename: piwik.siteName,
+            allSitesLocation: 'bottom',
+            allSitesText: $filter('translate')('General_MultiSitesSummary'),
+            showSelectedSite: 'false',
+            showAllSitesItem: 'true',
+            switchSiteOnSelect: 'true'
+        };
 
-            for (var index in defaults) {
-               if (attrs[index] === undefined) {
-                   attrs[index] = defaults[index];
-               }
-            }
+        return {
+            restrict: 'A',
+            scope: {
+                showSelectedSite: '=',
+                showAllSitesItem: '=',
+                switchSiteOnSelect: '=',
+                inputName: '@name',
+                allSitesText: '@',
+                allSitesLocation: '@'
+            },
+            require: "?ngModel",
+            templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.html?cb=' + piwik.cacheBuster,
+            controller: 'SiteSelectorController',
+            compile: function (element, attrs) {
 
-            return function (scope, element, attrs, ngModel) {
-                scope.selectedSite = {id: attrs.siteid, name: attrs.sitename};
-                scope.model.loadInitialSites();
-
-                if (ngModel) {
-                    ngModel.$setViewValue(scope.selectedSite);
+                for (var index in defaults) {
+                    if (attrs[index] === undefined) {
+                        attrs[index] = defaults[index];
+                    }
                 }
 
-                scope.$watch('selectedSite.id', function (newValue, oldValue, scope) {
-                    if (newValue != oldValue) {
-                        element.attr('siteid', newValue);
-                        element.trigger('change', scope.selectedSite);
-                    }
-                });
+                return function (scope, element, attrs, ngModel) {
+                    scope.selectedSite = {id: attrs.siteid, name: attrs.sitename};
+                    scope.model.loadInitialSites();
 
-                scope.$watch('selectedSite', function (newValue) {
                     if (ngModel) {
-                        ngModel.$setViewValue(newValue);
+                        ngModel.$setViewValue(scope.selectedSite);
                     }
-                });
 
-                scope.$watch('view.showSitesList', function (newValue) {
-                    element.toggleClass('expanded', !! newValue);
-                });
-            };
-        }
-    };
-});
+                    scope.$watch('selectedSite.id', function (newValue, oldValue, scope) {
+                        if (newValue != oldValue) {
+                            element.attr('siteid', newValue);
+                            element.trigger('change', scope.selectedSite);
+                        }
+                    });
+
+                    scope.$watch('selectedSite', function (newValue) {
+                        if (ngModel) {
+                            ngModel.$setViewValue(newValue);
+                        }
+                    });
+
+                    scope.$watch('view.showSitesList', function (newValue) {
+                        element.toggleClass('expanded', !! newValue);
+                    });
+                };
+            }
+        };
+    }
+})();

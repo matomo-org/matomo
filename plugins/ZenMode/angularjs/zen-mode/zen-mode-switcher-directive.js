@@ -10,39 +10,43 @@
  * <div piwik-zen-mode-switcher>...</div>
  * Will toggle the zen mode on click on this element.
  */
-angular.module('piwikApp').directive('piwikZenModeSwitcher', function($rootElement, $filter) {
+(function () {
+    angular.module('piwikApp').directive('piwikZenModeSwitcher', piwikZenModeSwitcher);
 
-    function showZenModeIsActivatedNotification() {
-        var howToSearch = $filter('translate')('ZenMode_HowToSearch');
-        var howToToggle = $filter('translate')('ZenMode_HowToToggleZenMode');
-        var activated   = $filter('translate')('ZenMode_Activated');
+    function piwikZenModeSwitcher($rootElement, $filter) {
 
-        var message = '<ul><li>' + howToSearch + '</li><li>' + howToToggle + '</li></ul>';
+        function showZenModeIsActivatedNotification() {
+            var howToSearch = $filter('translate')('ZenMode_HowToSearch');
+            var howToToggle = $filter('translate')('ZenMode_HowToToggleZenMode');
+            var activated   = $filter('translate')('ZenMode_Activated');
 
-        var UI = require('piwik/UI');
-        var notification = new UI.Notification();
-        notification.show(message, {
-            title: activated,
-            context: 'info',
-            id: 'ZenMode_EnabledInfo'
-        });
-    }
+            var message = '<ul><li>' + howToSearch + '</li><li>' + howToToggle + '</li></ul>';
 
-    return {
-        restrict: 'A',
-        compile: function (element, attrs) {
-
-            element.on('click', function() {
-                $rootElement.trigger('zen-mode-toggle', {});
-
-                if ($rootElement.hasClass('zenMode')) {
-                    showZenModeIsActivatedNotification();
-                }
+            var UI = require('piwik/UI');
+            var notification = new UI.Notification();
+            notification.show(message, {
+                title: activated,
+                context: 'info',
+                id: 'ZenMode_EnabledInfo'
             });
-
-            return function () {
-            };
         }
-    };
 
-});
+        return {
+            restrict: 'A',
+            compile: function (element, attrs) {
+
+                element.on('click', function() {
+                    $rootElement.trigger('zen-mode-toggle', {});
+
+                    if ($rootElement.hasClass('zenMode')) {
+                        showZenModeIsActivatedNotification();
+                    }
+                });
+
+                return function () {
+                };
+            }
+        };
+
+    }
+})();

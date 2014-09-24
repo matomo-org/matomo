@@ -4,82 +4,87 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+(function () {
+    angular.module('piwikApp').directive('sitesManagerMultilineField', sitesManagerMultilineField);
+    angular.module('piwikApp').directive('sitesManagerEditTrigger', sitesManagerEditTrigger);
+    angular.module('piwikApp').directive('sitesManagerScroll', sitesManagerScroll);
 
-angular.module('piwikApp').directive('sitesManagerMultilineField', function () {
+    function sitesManagerScroll () {
 
-    return {
-        restrict: 'A',
-        replace: true,
-        scope: {
-            managedValue: '=field',
-            rows: '@?',
-            cols: '@?'
-        },
-        templateUrl: 'plugins/SitesManager/templates/directives/multiline-field.html?cb=' + piwik.cacheBuster,
-        link: function (scope) {
+        return {
+            restrict: 'A',
+            link: function (scope, element) {
 
-            var separator = '\n';
+                scope.$watch('site.editMode', function() {
 
-            var init = function () {
+                    if(scope.site.editMode)
+                        scrollToSite();
+                });
 
-                scope.field = {};
-                scope.onChange = updateManagedScopeValue;
+                var scrollToSite = function() {
+                    piwikHelper.lazyScrollTo(element[0], 500, true);
+                };
+            }
+        };
+    }
 
-                scope.$watch('managedValue', updateInputValue);
-            };
+    function sitesManagerEditTrigger() {
 
-            var updateManagedScopeValue = function () {
-                scope.managedValue = scope.field.value.trim().split(separator);
-            };
+        return {
+            restrict: 'A',
+            link: function (scope, element) {
 
-            var updateInputValue = function () {
+                element.bind('click', function(){
 
-                if(angular.isUndefined(scope.managedValue))
-                    return;
+                    if(!scope.site.editMode)
+                        scope.$apply(scope.editSite());
+                });
 
-                scope.field.value = scope.managedValue.join(separator);
-            };
+                scope.$watch('site.editMode', function() {
 
-            init();
-        }
-    };
-});
+                    element.toggleClass('editable-site-field', !scope.site.editMode);
+                });
+            }
+        };
+    }
 
-angular.module('piwikApp').directive('sitesManagerEditTrigger', function () {
+    function sitesManagerMultilineField() {
 
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
+        return {
+            restrict: 'A',
+            replace: true,
+            scope: {
+                managedValue: '=field',
+                rows: '@?',
+                cols: '@?'
+            },
+            templateUrl: 'plugins/SitesManager/templates/directives/multiline-field.html?cb=' + piwik.cacheBuster,
+            link: function (scope) {
 
-            element.bind('click', function(){
+                var separator = '\n';
 
-                if(!scope.site.editMode)
-                    scope.$apply(scope.editSite());
-            });
+                var init = function () {
 
-            scope.$watch('site.editMode', function() {
+                    scope.field = {};
+                    scope.onChange = updateManagedScopeValue;
 
-                element.toggleClass('editable-site-field', !scope.site.editMode);
-            });
-        }
-    };
-});
+                    scope.$watch('managedValue', updateInputValue);
+                };
 
-angular.module('piwikApp').directive('sitesManagerScroll', function () {
+                var updateManagedScopeValue = function () {
+                    scope.managedValue = scope.field.value.trim().split(separator);
+                };
 
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
+                var updateInputValue = function () {
 
-            scope.$watch('site.editMode', function() {
+                    if(angular.isUndefined(scope.managedValue))
+                        return;
 
-                if(scope.site.editMode)
-                    scrollToSite();
-            });
+                    scope.field.value = scope.managedValue.join(separator);
+                };
 
-            var scrollToSite = function() {
-                piwikHelper.lazyScrollTo(element[0], 500, true);
-            };
-        }
-    };
-});
+                init();
+            }
+        };
+    }
+})();

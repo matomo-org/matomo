@@ -15,28 +15,32 @@
  * <div piwik-autocomplete-matched="searchTerm">{{ name }}</div>
  * <input type="text" ng-model="searchTerm">
  */
-angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', function() {
-    return function(scope, element, attrs) {
-        var searchTerm;
+(function () {
+    angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', piwikAutocompleteMatched);
 
-        scope.$watch(attrs.piwikAutocompleteMatched, function(value) {
-            searchTerm = value;
-            updateText();
-        });
+    function piwikAutocompleteMatched() {
+        return function(scope, element, attrs) {
+            var searchTerm;
 
-        function updateText () {
-            if (!searchTerm || !element) {
-                return;
+            scope.$watch(attrs.piwikAutocompleteMatched, function(value) {
+                searchTerm = value;
+                updateText();
+            });
+
+            function updateText () {
+                if (!searchTerm || !element) {
+                    return;
+                }
+
+                var content   = element.html();
+                var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
+
+                if (-1 !== startTerm) {
+                    var word = content.substr(startTerm, searchTerm.length);
+                    content = content.replace(word, '<span class="autocompleteMatched">' + word + '</span>');
+                    element.html(content);
+                }
             }
-
-            var content   = element.html();
-            var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
-
-            if (-1 !== startTerm) {
-                var word = content.substr(startTerm, searchTerm.length);
-                content = content.replace(word, '<span class="autocompleteMatched">' + word + '</span>');
-                element.html(content);
-            }
-        }
-    };
-});
+        };
+    }
+})();

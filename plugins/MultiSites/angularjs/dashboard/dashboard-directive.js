@@ -17,24 +17,28 @@
  *      auto-refresh-today-report="500" // or 0 to disable
  * ></div>
  */
-angular.module('piwikApp').directive('piwikMultisitesDashboard', function($document, piwik, $filter){
+(function () {
+    angular.module('piwikApp').directive('piwikMultisitesDashboard', piwikMultisitesDashboard);
 
-    return {
-        restrict: 'A',
-        scope: {
-            displayRevenueColumn: '@',
-            showSparklines: '@',
-            dateSparkline: '@'
-        },
-        templateUrl: 'plugins/MultiSites/angularjs/dashboard/dashboard.html?cb=' + piwik.cacheBuster,
-        controller: 'MultiSitesDashboardController',
-        link: function (scope, element, attrs, controller) {
+    function piwikMultisitesDashboard($document, piwik, $filter){
 
-            if (attrs.pageSize) {
-                scope.model.pageSize = attrs.pageSize;
+        return {
+            restrict: 'A',
+            scope: {
+                displayRevenueColumn: '@',
+                showSparklines: '@',
+                dateSparkline: '@'
+            },
+            templateUrl: 'plugins/MultiSites/angularjs/dashboard/dashboard.html?cb=' + piwik.cacheBuster,
+            controller: 'MultiSitesDashboardController',
+            link: function (scope, element, attrs, controller) {
+
+                if (attrs.pageSize) {
+                    scope.model.pageSize = attrs.pageSize;
+                }
+
+                controller.refresh(attrs.autoRefreshTodayReport);
             }
-
-            controller.refresh(attrs.autoRefreshTodayReport);
-        }
-    };
-});
+        };
+    }
+})();

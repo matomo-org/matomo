@@ -1,6 +1,6 @@
-angular.module('piwikApp.config', []);
-
 (function () {
+    angular.module('piwikApp.config', []);
+
     if ('undefined' === (typeof piwik) || !piwik) {
         return;
     }
