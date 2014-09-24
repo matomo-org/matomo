@@ -6,47 +6,6 @@
  */
 (function () {
     angular.module('piwikApp').directive('sitesManagerMultilineField', sitesManagerMultilineField);
-    angular.module('piwikApp').directive('sitesManagerEditTrigger', sitesManagerEditTrigger);
-    angular.module('piwikApp').directive('sitesManagerScroll', sitesManagerScroll);
-
-    function sitesManagerScroll () {
-
-        return {
-            restrict: 'A',
-            link: function (scope, element) {
-
-                scope.$watch('site.editMode', function() {
-
-                    if(scope.site.editMode)
-                        scrollToSite();
-                });
-
-                var scrollToSite = function() {
-                    piwikHelper.lazyScrollTo(element[0], 500, true);
-                };
-            }
-        };
-    }
-
-    function sitesManagerEditTrigger() {
-
-        return {
-            restrict: 'A',
-            link: function (scope, element) {
-
-                element.bind('click', function(){
-
-                    if(!scope.site.editMode)
-                        scope.$apply(scope.editSite());
-                });
-
-                scope.$watch('site.editMode', function() {
-
-                    element.toggleClass('editable-site-field', !scope.site.editMode);
-                });
-            }
-        };
-    }
 
     function sitesManagerMultilineField() {
 
@@ -58,7 +17,7 @@
                 rows: '@?',
                 cols: '@?'
             },
-            templateUrl: 'plugins/SitesManager/templates/directives/multiline-field.html?cb=' + piwik.cacheBuster,
+            templateUrl: 'plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.html?cb=' + piwik.cacheBuster,
             link: function (scope) {
 
                 var separator = '\n';
