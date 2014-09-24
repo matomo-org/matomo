@@ -14,11 +14,11 @@
         var api = sitesManagerApiHelper;
 
         return {
-            getCurrencyList: getCurrencyList,
-            getSitesWithAdminAccess: getSitesWithAdminAccess,
-            getTimezonesList: getTimezonesList,
-            isTimezoneSupportEnabled: isTimezoneSupportEnabled,
-            getGlobalSettings: getGlobalSettings
+            getCurrencyList: getCurrencyList(),
+            getSitesWithAdminAccess: getSitesWithAdminAccess(),
+            getTimezonesList: getTimezonesList(),
+            isTimezoneSupportEnabled: isTimezoneSupportEnabled(),
+            getGlobalSettings: getGlobalSettings()
         };
 
         function getCurrencyList () {

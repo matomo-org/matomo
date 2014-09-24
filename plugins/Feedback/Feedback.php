@@ -29,13 +29,12 @@ class Feedback extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
-
-        $stylesheets[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.less";
+        $stylesheets[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.model.js";
+        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-model.service.js";
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.js";
     }

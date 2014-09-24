@@ -80,7 +80,7 @@
 
         var triggerAddSiteIfRequested = function() {
 
-            if(piwikHelper.getArrayFromQueryString(String(window.location.search))['showaddsite'] == 1)
+            if(piwik.helper.getArrayFromQueryString(String(window.location.search))['showaddsite'] == 1)
                 addSite();
         };
 
@@ -205,7 +205,7 @@
 
         var cancelEditSite = function ($event) {
             $event.stopPropagation();
-            piwikHelper.redirect($scope.redirectParams);
+            piwik.helper.redirect($scope.redirectParams);
         };
 
         var lookupCurrentEditSite = function () {

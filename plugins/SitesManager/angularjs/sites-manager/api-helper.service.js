@@ -51,12 +51,12 @@
 
         function fetchApi(apiMethod, jsonResponseAdaptor, params) {
 
-            return this.fetch({method: apiMethod}, jsonResponseAdaptor, params);
+            return fetch({method: apiMethod}, jsonResponseAdaptor, params);
         }
 
         function fetchAction(module, action, jsonResponseAdaptor, params) {
 
-            return this.fetch({module: module, action: action}, jsonResponseAdaptor, params);
+            return fetch({module: module, action: action}, jsonResponseAdaptor, params);
         }
 
         function singleObjectAdaptor(response) {

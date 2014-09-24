@@ -15,7 +15,7 @@
         var api = sitesManagerApiHelper;
 
         return {
-            isPluginActivated: isPluginActivated
+            isPluginActivated: isPluginActivated()
         };
 
         function isPluginActivated() {

@@ -15,7 +15,7 @@
         var api = sitesManagerApiHelper;
 
         return {
-            getIpFromHeader: getIpFromHeader
+            getIpFromHeader: getIpFromHeader()
         };
 
         function getIpFromHeader() {

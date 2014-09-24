@@ -45,7 +45,7 @@ class ZenMode extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/ZenMode/angularjs/quick-access/quick-access.less";
+        $stylesheets[] = "plugins/ZenMode/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/ZenMode/angularjs/zen-mode/zen-mode.less";
     }
 }
