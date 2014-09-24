@@ -24,5 +24,10 @@ class Updates_2_7_0_b4 extends Updates
         } catch(\Exception $e) {
         }
     }
+
+    static function isMajorUpdate()
+    {
+        return true;
+    }
 }
 
