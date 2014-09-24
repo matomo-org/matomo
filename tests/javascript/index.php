@@ -2005,6 +2005,32 @@ function PiwikTest() {
         ok( !tracker.hook.test._isString(function () { }), 'isString(function)' );
         ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
     });
+    
+    test("Default visitorId should be equal across Trackers", function() {
+        expect(4);
+
+        deleteCookies();
+
+        var asyncTracker = Piwik.getAsyncTracker();
+        var asyncVistorId = asyncTracker.getVisitorId();
+        equal(Piwik.getVisitorId(), asyncVistorId, 'asyncVistorId');
+        
+        wait(2000);
+
+        var delayedTracker = Piwik.getTracker();
+        var delayedVisitorId = delayedTracker.getVisitorId();
+        equal(Piwik.getVisitorId(), delayedVisitorId, 'delayedVisitorId');
+
+        var prefixTracker = Piwik.getTracker();
+        prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
+
+        var prefixVisitorId = prefixTracker.getVisitorId();
+        equal(Piwik.getVisitorId(), prefixVisitorId, 'prefixVisitorId');
+
+        var customTracker = Piwik.getTracker('customTrackerUrl', '71');
+        var customVisitorId = customTracker.getVisitorId();
+        equal(Piwik.getVisitorId(), customVisitorId, 'customVisitorId');
+    });
 
     test("AnalyticsTracker alias", function() {
         expect(1);
@@ -2026,7 +2052,7 @@ function PiwikTest() {
         equal( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
         equal( tracker.hook.test._urldecode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
     });
-
+    
     test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
         expect(57);
 
