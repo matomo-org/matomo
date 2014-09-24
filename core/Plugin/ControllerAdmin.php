@@ -65,7 +65,7 @@ abstract class ControllerAdmin extends Controller
         $notification = new Notification($invalidPluginsWarning);
         $notification->raw = true;
         $notification->context = Notification::CONTEXT_WARNING;
-        $notification->title = Piwik::translate('General_Warning') . ':';
+        $notification->title = Piwik::translate('General_Warning');
         Notification\Manager::notify('ControllerAdmin_InvalidPluginsWarning', $notification);
     }
 
@@ -178,6 +178,16 @@ abstract class ControllerAdmin extends Controller
 
         self::checkPhpVersion($view);
 
+        if (Piwik::hasUserSuperUserAccess() && self::isPhpVersion53()) {
+            $notification = new Notification(Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.3'));
+            $notification->title    = Piwik::translate('General_Warning');
+            $notification->priority = Notification::PRIORITY_LOW;
+            $notification->context  = Notification::CONTEXT_WARNING;
+            $notification->type     = Notification::TYPE_TRANSIENT;
+            $notification->flags    = Notification::FLAG_NO_CLEAR;
+            NotificationManager::notify('PHP53VersionCheck', $notification);
+        }
+
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;
 
@@ -207,4 +217,10 @@ abstract class ControllerAdmin extends Controller
         $view->phpVersion = PHP_VERSION;
         $view->phpIsNewEnough = version_compare($view->phpVersion, '5.3.0', '>=');
     }
+
+    private static function isPhpVersion53()
+    {
+        return strpos(PHP_VERSION, '5.3') === 0;
+    }
+
 }
