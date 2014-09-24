@@ -4,6 +4,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ## Piwik 2.7.0
 
+### Reporting APIs
+* Several APIs will now expose a new metric `nb_users` which measures the number of unique users when a [User ID](http://piwik.org/docs/user-id/) is set.
+* New APIs have been added for [Content Tracking](http://piwik.org/docs/content-tracking/) feature: Contents.getContentNames, Contents.getContentPieces
+
 ### Deprecations
 * The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/piwik/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
 
@@ -15,8 +19,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 
 ## Piwik 2.6.0
-
-### New features
 
 ### Deprecations
 * The `'json'` API format is considered deprecated. We ask all new code to use the `'json2'` format. Eventually when Piwik 3.0 is released the `'json'` format will be replaced with `'json2'`. Differences in the json2 format include:
