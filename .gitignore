@@ -1,3 +1,8 @@
+php_errors.log
+*.tmp
+*.pyc
+.DS_Store
+
 /bootstrap.php
 /build
 /composer.phar
@@ -12,7 +17,6 @@
 /misc/user/logo.png
 /misc/user/logo.svg
 /misc/user/favicon.png
-/php_errors.log
 /piwik-min.js
 /plugins/*.zip
 /plugins/ImageGraph/fonts/unifont.ttf
@@ -21,14 +25,12 @@
 /tmp/
 /vendor/
 /.cache
-/.DS_Store
 /.externalToolBuilders
 /.idea/*
 /.metadata
 /.project
 /.settings
 /*.buildpath
-/*.tmp
 /tests/javascript/enable_sqlite
 /tests/javascript/unittest.dbf
 /tests/javascript/unittest2.dbf
@@ -46,7 +48,6 @@
 /misc/.htaccess
 /misc/cron/.htaccess
 /plugins/.htaccess
-/*.pyc
 /tests/resources/overlay-test-site-real/
 /tests/PHPUnit/proxy/libs
 /tests/PHPUnit/proxy/piwik.js
