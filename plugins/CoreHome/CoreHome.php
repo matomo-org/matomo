@@ -138,17 +138,17 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-urllistener-service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-urllistener.service.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
