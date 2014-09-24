@@ -13,6 +13,8 @@
 (function () {
     angular.module('piwikApp').directive('piwikZenModeSwitcher', piwikZenModeSwitcher);
 
+    piwikZenModeSwitcher.$inject = ['$rootElement', '$filter'];
+
     function piwikZenModeSwitcher($rootElement, $filter) {
 
         function showZenModeIsActivatedNotification() {

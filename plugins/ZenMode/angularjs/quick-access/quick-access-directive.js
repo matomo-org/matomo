@@ -15,6 +15,8 @@
 (function () {
     angular.module('piwikApp').directive('piwikQuickAccess', QuickAccessDirective);
 
+    QuickAccessDirective.$inject = ['$rootElement', '$timeout', '$filter', 'siteSelectorModel', 'piwik'];
+
     function QuickAccessDirective ($rootElement, $timeout, $filter, siteSelectorModel, piwik) {
 
         return {

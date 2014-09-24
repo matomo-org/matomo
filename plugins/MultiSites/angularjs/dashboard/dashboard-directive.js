@@ -20,7 +20,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikMultisitesDashboard', piwikMultisitesDashboard);
 
-    function piwikMultisitesDashboard($document, piwik, $filter){
+    piwikMultisitesDashboard.$inject = ['piwik'];
+
+    function piwikMultisitesDashboard(piwik){
 
         return {
             restrict: 'A',

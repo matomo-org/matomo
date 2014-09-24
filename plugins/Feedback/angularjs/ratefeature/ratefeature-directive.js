@@ -12,7 +12,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikRateFeature', piwikRateFeature);
 
-    function piwikRateFeature($document, piwik, $filter){
+    piwikRateFeature.$inject = ['piwik'];
+
+    function piwikRateFeature(piwik){
 
         return {
             restrict: 'A',

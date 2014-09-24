@@ -7,17 +7,23 @@
 (function () {
     angular.module('piwikApp').controller('TranslationSearchController', TranslationSearchController);
 
+    TranslationSearchController.$inject = ['$scope', 'piwikApi'];
+
     function TranslationSearchController($scope, piwikApi) {
 
         $scope.existingTranslations = [];
 
-        piwikApi.fetch({
-            method: 'LanguagesManager.getTranslationsForLanguage',
-            languageCode: 'en'
-        }).then(function (response) {
-            if (response) {
-                $scope.existingTranslations = response;
-            }
-        });
+        fetchTranslations();
+
+        function fetchTranslations() {
+            piwikApi.fetch({
+                method: 'LanguagesManager.getTranslationsForLanguage',
+                languageCode: 'en'
+            }).then(function (response) {
+                if (response) {
+                    $scope.existingTranslations = response;
+                }
+            });
+        }
     }
 })();

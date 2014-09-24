@@ -18,6 +18,8 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikDialog', piwikDialog);
 
+    piwikDialog.$inject = ['piwik', '$parse'];
+
     function piwikDialog(piwik, $parse) {
 
         return {

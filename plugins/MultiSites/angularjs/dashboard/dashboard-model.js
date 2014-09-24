@@ -4,6 +4,8 @@
 (function () {
     angular.module('piwikApp').factory('multisitesDashboardModel', multisitesDashboardModel);
 
+    multisitesDashboardModel.$inject = ['piwikApi', '$filter', '$timeout'];
+
     function multisitesDashboardModel(piwikApi, $filter, $timeout) {
         /**
          *

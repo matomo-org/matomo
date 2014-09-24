@@ -7,7 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('RateFeatureController', RateFeatureController);
 
-    function RateFeatureController($scope, rateFeatureModel, $filter){
+    RateFeatureController.$inject = ['$scope', 'rateFeatureModel'];
+
+    function RateFeatureController($scope, rateFeatureModel){
 
         $scope.dislikeFeature = function () {
             $scope.like = false;
@@ -20,7 +22,6 @@
         $scope.sendFeedback = function (message) {
             rateFeatureModel.sendFeedbackForFeature($scope.title, $scope.like, message);
             $scope.ratingDone = true;
-            // alert($filter('translate')('Feedback_ThankYou'));
         };
     }
 })();

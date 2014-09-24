@@ -7,6 +7,8 @@
 (function () {
     angular.module('piwikApp').controller('MultiSitesDashboardController', MultiSitesDashboardController);
 
+    MultiSitesDashboardController.$inject = ['$scope', 'piwik', 'multisitesDashboardModel'];
+
     function MultiSitesDashboardController($scope, piwik, multisitesDashboardModel){
 
         $scope.model = multisitesDashboardModel;

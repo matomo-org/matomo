@@ -12,6 +12,8 @@
 (function () {
     angular.module('piwikApp').controller('DialogTogglerController', DialogTogglerController);
 
+    DialogTogglerController.$inject = ['$scope', 'piwik', 'ngDialog', 'piwikDialogtogglerUrllistener'];
+
     function DialogTogglerController($scope, piwik, ngDialog, piwikDialogtogglerUrllistener) {
         /**
          * Open a new dialog window using ngDialog.

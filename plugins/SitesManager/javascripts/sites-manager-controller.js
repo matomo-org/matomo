@@ -7,6 +7,8 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerController', SitesManagerController);
 
+    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'coreAdminAPI', 'sitesManagerAPI', 'piwik', 'sitesManagerApiHelper'];
+
     function SitesManagerController($scope, $filter, coreAPI, coreAdminAPI, sitesManagerAPI, piwik, sitesManagerApiHelper) {
 
         var translate = $filter('translate');

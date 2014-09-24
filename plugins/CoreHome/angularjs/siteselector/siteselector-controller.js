@@ -7,6 +7,8 @@
 (function () {
     angular.module('piwikApp').controller('SiteSelectorController', SiteSelectorController);
 
+    SiteSelectorController.$inject = ['$scope', 'siteSelectorModel', 'piwik', 'AUTOCOMPLETE_MIN_SITES'];
+
     function SiteSelectorController($scope, siteSelectorModel, piwik, AUTOCOMPLETE_MIN_SITES){
 
         $scope.model = siteSelectorModel;

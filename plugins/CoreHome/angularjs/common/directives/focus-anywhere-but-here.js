@@ -15,6 +15,8 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', piwikFocusAnywhereButHere);
 
+    piwikFocusAnywhereButHere.$inject = ['$document'];
+
     function piwikFocusAnywhereButHere($document){
         return {
             restrict: 'A',

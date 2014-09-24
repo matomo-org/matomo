@@ -1,6 +1,8 @@
 (function () {
     angular.module('piwikApp').factory('http404CheckInterceptor', http404CheckInterceptor);
 
+    http404CheckInterceptor.$inject = ['$q'];
+
     function http404CheckInterceptor($q) {
 
         function isClientError(rejection)
@@ -45,5 +47,6 @@
     angular.module('piwikApp').config(['$httpProvider',function($httpProvider) {
         $httpProvider.interceptors.push('http404CheckInterceptor');
     }]);
+
 
 })();

@@ -7,6 +7,8 @@
 (function () {
     angular.module('piwikApp').factory('siteSelectorModel', siteSelectorModel);
 
+    siteSelectorModel.$inject = ['piwikApi', '$filter', 'piwik'];
+
     function siteSelectorModel(piwikApi, $filter, piwik) {
 
         var initialSites = null;

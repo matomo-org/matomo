@@ -16,6 +16,9 @@
     // can probably be renamed and shared
     angular.module('piwikApp').factory('sitesManagerApiHelper', SitesManagerAPIHelperFactory);
 
+
+    SitesManagerAPIFactory.$inject = ['sitesManagerApiHelper'];
+
     function SitesManagerAPIFactory(sitesManagerApiHelper) {
 
         var api = sitesManagerApiHelper;
@@ -49,6 +52,8 @@
         }
     }
 
+    CoreAPIFactory.$inject = ['sitesManagerApiHelper'];
+
     function CoreAPIFactory(sitesManagerApiHelper) {
 
         var api = sitesManagerApiHelper;
@@ -62,6 +67,8 @@
         }
     }
 
+    CoreAdminAPIFactory.$inject = ['sitesManagerApiHelper'];
+
     function CoreAdminAPIFactory(sitesManagerApiHelper) {
 
         var api = sitesManagerApiHelper;
@@ -74,6 +81,8 @@
             return api.fetchApi('CoreAdminHome.isPluginActivated', api.valueAdaptor);
         }
     }
+
+    SitesManagerAPIHelperFactory.$inject = ['piwikApi'];
 
     function SitesManagerAPIHelperFactory(piwikApi) {
 

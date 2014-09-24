@@ -7,6 +7,8 @@
 (function () {
     angular.module('piwikApp.service').factory('piwikApi', piwikApiService);
 
+    piwikApiService.$inject = ['$http', '$q', '$rootScope', 'piwik', '$window'];
+
     function piwikApiService ($http, $q, $rootScope, piwik, $window) {
 
         var url = 'index.php';

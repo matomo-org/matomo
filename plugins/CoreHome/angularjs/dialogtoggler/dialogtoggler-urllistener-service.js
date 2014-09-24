@@ -22,6 +22,8 @@
 (function () {
     angular.module('piwikApp').factory('piwikDialogtogglerUrllistener', piwikDialogtogglerUrllistener);
 
+    piwikDialogtogglerUrllistener.$inject = ['$rootScope', '$location', '$injector', '$rootElement', 'ngDialog'];
+
     function piwikDialogtogglerUrllistener($rootScope, $location, $injector, $rootElement, ngDialog) {
         var service = {},
             dialogQueryParamName = 'popover';

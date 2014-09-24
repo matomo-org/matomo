@@ -16,7 +16,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikTranslationSearch', piwikTranslationSearch);
 
-    function piwikTranslationSearch($document, piwik, $filter){
+    piwikTranslationSearch.$inject = ['piwik'];
+
+    function piwikTranslationSearch(piwik){
 
         return {
             restrict: 'A',

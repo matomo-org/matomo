@@ -26,6 +26,8 @@
 (function () {
     angular.module('piwikApp').directive('piwikSiteselector', piwikSiteselector);
 
+    piwikSiteselector.$inject = ['$document', 'piwik', '$filter'];
+
     function piwikSiteselector($document, piwik, $filter){
         var defaults = {
             name: '',

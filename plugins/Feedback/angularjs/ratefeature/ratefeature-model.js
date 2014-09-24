@@ -8,6 +8,8 @@
 (function () {
     angular.module('piwikApp').factory('rateFeatureModel', rateFeatureModel);
 
+    rateFeatureModel.$inject = ['piwikApi'];
+
     function rateFeatureModel(piwikApi) {
 
         return {

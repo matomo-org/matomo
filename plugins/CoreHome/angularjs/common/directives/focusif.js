@@ -14,6 +14,8 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
 
+    piwikFocusIf.$inject = ['$timeout'];
+
     function piwikFocusIf($timeout) {
         return {
             restrict: 'A',

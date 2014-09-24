@@ -25,6 +25,8 @@
 (function () {
     angular.module('piwikApp').directive('piwikEnrichedHeadline', piwikEnrichedHeadline);
 
+    piwikEnrichedHeadline.$inject = ['$document', 'piwik', '$filter'];
+
     function piwikEnrichedHeadline($document, piwik, $filter){
         var defaults = {
             helpUrl: ''
