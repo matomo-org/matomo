@@ -43,7 +43,7 @@
 
         function commaDelimitedFieldToArray (value) {
 
-            if(value === undefined || value === null || value === '')
+            if(!value)
                 return [];
 
             return value.split(',');
