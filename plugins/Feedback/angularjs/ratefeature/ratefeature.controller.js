@@ -19,15 +19,15 @@
 
         function dislikeFeature () {
             vm.like = false;
-        };
+        }
 
         function likeFeature () {
             vm.like = true;
-        };
+        }
 
         function sendFeedback (message) {
             model.sendFeedbackForFeature(vm.title, vm.like, message);
             vm.ratingDone = true;
-        };
+        }
     }
 })();

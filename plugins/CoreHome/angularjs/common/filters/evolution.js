@@ -5,14 +5,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
-    angular.module('piwikApp.filter').filter('evolution', evolution);
+    angular.module('piwikApp.filter').filter('evolution', evolutionFilter);
 
-    function evolution() {
+    function evolutionFilter() {
 
         function calculateEvolution(currentValue, pastValue)
         {
             pastValue    = parseInt(pastValue, 10);
             currentValue = parseInt(currentValue, 10) - pastValue;
+
+            var evolution;
 
             if (currentValue === 0 || isNaN(currentValue)) {
                 evolution = 0;

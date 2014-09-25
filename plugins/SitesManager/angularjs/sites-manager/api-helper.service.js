@@ -38,12 +38,12 @@
                 };
 
                 piwikApi.fetch(requestDefinition).then(responseHandler);
-            }
+            };
         }
 
         function commaDelimitedFieldToArray (value) {
 
-            if(value == null || value == '')
+            if(value === undefined || value === null || value === '')
                 return [];
 
             return value.split(',');

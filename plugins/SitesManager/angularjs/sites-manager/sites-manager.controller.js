@@ -79,8 +79,9 @@
         };
 
         var triggerAddSiteIfRequested = function() {
+            var search = String(window.location.search);
 
-            if(piwik.helper.getArrayFromQueryString(String(window.location.search))['showaddsite'] == 1)
+            if(piwik.helper.getArrayFromQueryString(search).showaddsite == 1)
                 addSite();
         };
 

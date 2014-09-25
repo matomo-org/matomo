@@ -46,7 +46,7 @@
             model.hasMultipleWebsites = model.hasMultipleWebsites || sites.length > 1;
 
             return model.sites;
-        };
+        }
 
         function searchSite(term) {
 
@@ -72,7 +72,7 @@
             });
 
             return model.currentRequest;
-        };
+        }
 
         function loadSite(idsite) {
             if (idsite == 'all') {
@@ -80,7 +80,7 @@
             } else {
                 piwik.broadcast.propagateNewPage('segment=&idSite=' + idsite, false);
             }
-        };
+        }
 
         function loadInitialSites() {
             if (initialSites) {
@@ -91,6 +91,6 @@
             searchSite('%').then(function (websites) {
                 initialSites = websites;
             });
-        };
+        }
     }
 })();

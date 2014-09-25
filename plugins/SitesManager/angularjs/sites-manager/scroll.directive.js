@@ -17,7 +17,7 @@
 
                 function scrollToSite () {
                     piwik.helper.lazyScrollTo(element[0], 500, true);
-                };
+                }
 
                 scope.$watch('site.editMode', function() {
 

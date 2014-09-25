@@ -23,7 +23,7 @@
                 like: like ? '1' : '0',
                 message: message + ''
             });
-        };
+        }
 
     }
 })();

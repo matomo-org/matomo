@@ -189,11 +189,11 @@
             });
 
             allRequests = [];
-        };
+        }
 
         function abort () {
             abortAll();
-        };
+        }
 
         /**
          * Perform a reading API request.
@@ -211,7 +211,7 @@
             reset();
 
             return promise;
-        };
+        }
 
         function post(getParams, _postParams_, options) {
             if (_postParams_) {
@@ -219,7 +219,7 @@
             }
 
             return fetch(getParams, options);
-        };
+        }
 
         /**
          * Convenience method that will perform a bulk request using Piwik's API.getBulkRequest method.
@@ -261,7 +261,7 @@
                 });
 
             return deferred.promise;
-        };
+        }
 
         return {
             bulkFetch: bulkFetch,
@@ -272,6 +272,6 @@
              */
             abort: abort,
             abortAll: abortAll,
-        }
+        };
     }
 })();
