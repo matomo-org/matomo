@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TEST_SUITE" = "IntegrationTests" ];
+if [ "$TEST_SUITE" = "SystemTests" ];
 then
     url="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&artifact_name=processed&branch=$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
 

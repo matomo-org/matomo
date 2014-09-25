@@ -69,8 +69,8 @@ then
 else
     if [ "$COVERAGE" = "Integration" ]
     then
-        echo "Executing non Integration tests in test suite IntegrationTests..."
-        phpunit --configuration phpunit.xml --testsuite IntegrationTests --exclude-group Integration --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
+        echo "Executing non Integration tests in test suite SystemTests..."
+        phpunit --configuration phpunit.xml --testsuite SystemTests --exclude-group System --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
     elif [ "$COVERAGE" = "Core" ]
     then
         echo "Executing tests in test suite CoreTests..."
