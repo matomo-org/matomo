@@ -255,6 +255,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
             }
 
             if (is_dir($file)) {
+                $fileNamePlugin = $this->replaceContent($replace, $fileNamePlugin);
                 $this->createFolderWithinPluginIfNotExists($pluginName, $fileNamePlugin);
             } else {
                 $template = file_get_contents($file);

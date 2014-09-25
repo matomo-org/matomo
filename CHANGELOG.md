@@ -10,6 +10,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Library updates
 * Updated AngularJS from 1.2.13 to 1.2.25
 
+### New commands
+* `generate:angular-directive` Let's you easily generate a template for a new angular directive for any plugin.
+
 ## Piwik 2.7.0
 
 ### Reporting APIs
