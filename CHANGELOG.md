@@ -7,6 +7,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### New API Features
 * The pivotBy and related query parameters can be used to pivot reports by another dimension. Read more about the new query parameters [here](http://developer.piwik.org/api-reference/reporting-api#optional-api-parameters).
 
+### Library updates
+* Updated AngularJS from 1.2.13 to 1.2.25
+
 ## Piwik 2.7.0
 
 ### Reporting APIs
@@ -105,5 +108,6 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### New APIs
 ### New commands
 ### New guides
+### Library updates
 ### Internal change
  -->
