@@ -26,7 +26,7 @@ $timeout = 5;
 
 function sendHeader($header, $replace = true)
 {
-    headers_sent() || header($head, $replace);
+    headers_sent() || header($header, $replace);
 }
 
 function arrayValue($array, $key, $value = null)
