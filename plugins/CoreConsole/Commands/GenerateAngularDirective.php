@@ -20,9 +20,9 @@ class GenerateAngularDirective extends GeneratePluginBase
     protected function configure()
     {
         $this->setName('generate:angular-directive')
-             ->setDescription('Generates a template for a AngularJS directive')
+             ->setDescription('Generates a template for an AngularJS directive')
              ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
-             ->addOption('directive', null, InputOption::VALUE_REQUIRED, 'The name of the directive you want to create. Feel free to use CamelCase.');
+             ->addOption('directive', null, InputOption::VALUE_REQUIRED, 'The name of the directive you want to create.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -36,7 +36,7 @@ class GenerateAngularDirective extends GeneratePluginBase
         $targetDir = $pluginPath . '/angularjs/' . $directiveLower;
 
         if (is_dir($targetDir) || file_exists($targetDir)) {
-            throw new \Exception('Such an AngularJS component already exists');
+            throw new \Exception('The AngularJS directive ' . $directiveLower . ' already exists in plugin ' . $pluginName);
         }
 
         $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
