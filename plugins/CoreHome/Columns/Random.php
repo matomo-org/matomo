@@ -14,18 +14,13 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
 /**
- * This example dimension counts achievement points for each user. A user gets one achievement point for each action
- * plus five extra achievement points for each conversion. This would allow you to create a ranking showing the most
- * active/valueable users. It is just an example, you can log pretty much everything and even just store any custom
- * request url property. Please note that dimension instances are usually cached during one tracking request so they
- * should be stateless (meaning an instance of this dimension will be reused if requested multiple times).
- *
- * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin\Dimension\VisitDimension} for more information.
+ * Generates a random string each time a visitor will be updated to be able to differentiate between visitor not found
+ * and visitor found but no value changed. See https://github.com/piwik/piwik/issues/6296 and
+ * https://github.com/piwik/piwik/pull/6298
  */
 class Random extends VisitDimension
 {
     /**
-     * This will be the name of the column in the log_visit table if a $columnType is specified.
      * @var string
      */
     protected $columnName = 'random';
@@ -36,11 +31,6 @@ class Random extends VisitDimension
     protected $columnType = "VARCHAR(10) NOT NULL DEFAULT ''";
 
     /**
-     * The onNewVisit method is triggered when a new visitor is detected. This means here you can define an initial
-     * value for this user. By returning boolean false no value will be saved. Once the user makes another action the
-     * event "onExistingVisit" is executed. That means for each visitor this method is executed once. If you do not want
-     * to perform any action on a new visit you can just remove this method.
-     *
      * @param Request $request
      * @param Visitor $visitor
      * @param Action|null $action
@@ -52,10 +42,6 @@ class Random extends VisitDimension
     }
 
     /**
-     * The onExistingVisit method is triggered when a visitor was recognized meaning it is not a new visitor.
-     * If you want you can overwrite any previous value set by the event onNewVisit. By returning boolean false no value
-     * will be updated. If you do not want to perform any action on a new visit you can just remove this method.
-     *
      * @param Request $request
      * @param Visitor $visitor
      * @param Action|null $action
