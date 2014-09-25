@@ -37,6 +37,8 @@ class GetWebsites extends Base
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
         }
+
+        $view->config->show_pivot_by_subtable = false;
     }
 
 }
