@@ -401,9 +401,23 @@ class Visit implements VisitInterface
     {
         $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
 
-        return isset($lastActionTime)
-            && false !== $lastActionTime
-            && ($lastActionTime > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
+        if (!isset($lastActionTime)) {
+            return false;
+        }
+
+        if (false === $lastActionTime) {
+            return false;
+        }
+
+        $currentTimestamp = $this->request->getCurrentTimestamp();
+        $standardLength   = Config::getInstance()->Tracker['visit_standard_length'];
+        $validTimeFrom    = $currentTimestamp - $standardLength;
+
+        if ($lastActionTime > $validTimeFrom) {
+            return true;
+        }
+
+        return false;
     }
 
     // is the referrer host any of the registered URLs for this website?
