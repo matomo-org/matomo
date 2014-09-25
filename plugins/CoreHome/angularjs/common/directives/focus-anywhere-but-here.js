@@ -12,29 +12,35 @@
  * Example:
  * <div piwik-focus-anywhere-but-here="closeDialog()">my dialog</div>
  */
-angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', function($document){
-    return {
-        restrict: 'A',
-        link: function(scope, element, attr, ctrl) {
+(function () {
+    angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', piwikFocusAnywhereButHere);
 
-            function onClickOutsideElement (event) {
-                if (element.has(event.target).length === 0) {
-                    scope.$apply(attr.piwikFocusAnywhereButHere);
+    piwikFocusAnywhereButHere.$inject = ['$document'];
+
+    function piwikFocusAnywhereButHere($document){
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr, ctrl) {
+
+                function onClickOutsideElement (event) {
+                    if (element.has(event.target).length === 0) {
+                        scope.$apply(attr.piwikFocusAnywhereButHere);
+                    }
                 }
-            }
 
-            function onEscapeHandler (event) {
-                if (event.which === 27) {
-                    scope.$apply(attr.piwikFocusAnywhereButHere);
+                function onEscapeHandler (event) {
+                    if (event.which === 27) {
+                        scope.$apply(attr.piwikFocusAnywhereButHere);
+                    }
                 }
-            }
 
-            $document.on('keyup', onEscapeHandler);
-            $document.on('mouseup', onClickOutsideElement);
-            scope.$on('$destroy', function() {
-                $document.off('mouseup', onClickOutsideElement);
-                $document.off('keyup', onEscapeHandler);
-            });
-        }
-    };
-});
+                $document.on('keyup', onEscapeHandler);
+                $document.on('mouseup', onClickOutsideElement);
+                scope.$on('$destroy', function() {
+                    $document.off('mouseup', onClickOutsideElement);
+                    $document.off('keyup', onEscapeHandler);
+                });
+            }
+        };
+    }
+})();
