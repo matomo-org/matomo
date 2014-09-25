@@ -10,9 +10,7 @@
 
     CoreAPIFactory.$inject = ['sitesManagerApiHelper'];
 
-    function CoreAPIFactory(sitesManagerApiHelper) {
-
-        var api = sitesManagerApiHelper;
+    function CoreAPIFactory(api) {
 
         return {
             getIpFromHeader: getIpFromHeader()

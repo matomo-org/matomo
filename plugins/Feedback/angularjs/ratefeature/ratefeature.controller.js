@@ -9,19 +9,25 @@
 
     RateFeatureController.$inject = ['$scope', 'rateFeatureModel'];
 
-    function RateFeatureController($scope, rateFeatureModel){
+    function RateFeatureController($scope, model){
 
-        $scope.dislikeFeature = function () {
-            $scope.like = false;
+        var vm = this;
+        vm.title          = $scope.title;
+        vm.dislikeFeature = dislikeFeature;
+        vm.likeFeature    = likeFeature;
+        vm.sendFeedback   = sendFeedback;
+
+        function dislikeFeature () {
+            vm.like = false;
         };
 
-        $scope.likeFeature = function () {
-            $scope.like = true;
+        function likeFeature () {
+            vm.like = true;
         };
 
-        $scope.sendFeedback = function (message) {
-            rateFeatureModel.sendFeedbackForFeature($scope.title, $scope.like, message);
-            $scope.ratingDone = true;
+        function sendFeedback (message) {
+            model.sendFeedbackForFeature(vm.title, vm.like, message);
+            vm.ratingDone = true;
         };
     }
 })();

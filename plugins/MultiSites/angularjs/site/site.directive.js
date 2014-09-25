@@ -36,25 +36,7 @@
                 metric: '='
             },
             templateUrl: 'plugins/MultiSites/angularjs/site/site.directive.html?cb=' + piwik.cacheBuster,
-            controller: function ($scope) {
-
-                $scope.period   = piwik.period;
-                $scope.date     = piwik.broadcast.getValueFromUrl('date');
-
-                this.getWebsite = function () {
-                    return $scope.website;
-                };
-
-                $scope.sparklineImage = function(website){
-                    var append = '';
-                    var token_auth = piwik.broadcast.getValueFromUrl('token_auth');
-                    if (token_auth.length) {
-                        append = '&token_auth=' + token_auth;
-                    }
-
-                    return piwik.piwik_url + '?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' +$scope.metric + '&columns=' + $scope.metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
-                };
-            }
+            controller: 'MultiSitesSiteController'
         };
     }
 })();

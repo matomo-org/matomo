@@ -9,9 +9,7 @@
 
     SitesManagerAPIFactory.$inject = ['sitesManagerApiHelper'];
 
-    function SitesManagerAPIFactory(sitesManagerApiHelper) {
-
-        var api = sitesManagerApiHelper;
+    function SitesManagerAPIFactory(api) {
 
         return {
             getCurrencyList: getCurrencyList(),

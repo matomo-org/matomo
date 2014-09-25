@@ -7,11 +7,12 @@
 (function () {
     angular.module('piwikApp').controller('TranslationSearchController', TranslationSearchController);
 
-    TranslationSearchController.$inject = ['$scope', 'piwikApi'];
+    TranslationSearchController.$inject = ['piwikApi'];
 
-    function TranslationSearchController($scope, piwikApi) {
+    function TranslationSearchController(piwikApi) {
 
-        $scope.existingTranslations = [];
+        var vm = this;
+        vm.existingTranslations = [];
 
         fetchTranslations();
 
@@ -21,7 +22,7 @@
                 languageCode: 'en'
             }).then(function (response) {
                 if (response) {
-                    $scope.existingTranslations = response;
+                    vm.existingTranslations = response;
                 }
             });
         }

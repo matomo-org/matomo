@@ -10,9 +10,7 @@
 
     CoreAdminAPIFactory.$inject = ['sitesManagerApiHelper'];
 
-    function CoreAdminAPIFactory(sitesManagerApiHelper) {
-
-        var api = sitesManagerApiHelper;
+    function CoreAdminAPIFactory(api) {
 
         return {
             isPluginActivated: isPluginActivated()

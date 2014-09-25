@@ -6,12 +6,12 @@
         Enter a search term to find translations and their corresponding keys:
     </p>
 
-    <input type="text" placeholder="Search for English translation" title="Search for English translation. Max 1000 results will be shown." ng-model="view.searchTerm" style="width:271px">
+    <input type="text" placeholder="Search for English translation" title="Search for English translation. Max 1000 results will be shown." ng-model="translationSearch.searchTerm" style="width:271px">
 
     <br />
     <br />
 
-    <table ng-show="view.searchTerm" class="entityTable dataTable" style="width: 800px;word-break: break-all;">
+    <table ng-show="translationSearch.searchTerm" class="entityTable dataTable" style="width: 800px;word-break: break-all;">
         <thead>
             <tr>
                 <th style="width:250px;">Key</th>
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="translation in existingTranslations | filter:view.searchTerm | limitTo: 1000">
+            <tr ng-repeat="translation in translationSearch.existingTranslations | filter:translationSearch.searchTerm | limitTo: 1000">
                 <td>{{ translation.label }}</td>
                 <td>{{ translation.value }}</td>
             </tr>

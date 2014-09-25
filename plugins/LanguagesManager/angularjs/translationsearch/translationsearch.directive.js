@@ -24,7 +24,8 @@
             restrict: 'A',
             scope: {},
             templateUrl: 'plugins/LanguagesManager/angularjs/translationsearch/translationsearch.directive.html?cb=' + piwik.cacheBuster,
-            controller: 'TranslationSearchController'
+            controller: 'TranslationSearchController',
+            controllerAs: 'translationSearch'
         };
     }
 })();

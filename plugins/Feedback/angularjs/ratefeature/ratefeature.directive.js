@@ -22,7 +22,8 @@
                 title: '@'
             },
             templateUrl: 'plugins/Feedback/angularjs/ratefeature/ratefeature.directive.html?cb=' + piwik.cacheBuster,
-            controller: 'RateFeatureController'
+            controller: 'RateFeatureController',
+            controllerAs: 'rateFeature',
         };
     }
 })();
