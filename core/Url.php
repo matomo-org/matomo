@@ -232,16 +232,16 @@ class Url
 
         $trustedHosts = self::getTrustedHosts();
 
+        // Only punctuation we allow is '[', ']', ':', '.', '_' and '-'
+        $hostLength = strlen($host);
+        if ($hostLength !== strcspn($host, '`~!@#$%^&*()+={}\\|;"\'<>,?/ ')) {
+            return false;
+        }
+
         // if no trusted hosts, just assume it's valid
         if (empty($trustedHosts)) {
             self::saveTrustedHostnameInConfig($host);
             return true;
-        }
-
-        // Only punctuation we allow is '[', ']', ':', '.' and '-'
-        $hostLength = strlen($host);
-        if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ ')) {
-            return false;
         }
 
         foreach ($trustedHosts as &$trustedHost) {
