@@ -5125,7 +5125,7 @@ if (typeof Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                return new Tracker(piwikUrl, siteId, this.getVisitorId());
+                return new Tracker(piwikUrl, siteId, asyncTracker.getVisitorId());
             },
 
             /**
@@ -5135,15 +5135,6 @@ if (typeof Piwik !== 'object') {
              */
             getAsyncTracker: function () {
                 return asyncTracker;
-            },
-
-            /**
-             * Get visitor ID (from first party cookie)
-             *
-             * @return string Visitor ID in hexits (or null, if not yet known)
-             */
-            getVisitorId: function () {
-                return asyncTracker.getVisitorId();
             }
         };
 

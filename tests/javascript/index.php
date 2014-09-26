@@ -2013,23 +2013,23 @@ function PiwikTest() {
 
         var asyncTracker = Piwik.getAsyncTracker();
         var asyncVistorId = asyncTracker.getVisitorId();
-        equal(Piwik.getVisitorId(), asyncVistorId, 'asyncVistorId');
+        equal(Piwik.getAsyncTracker().getVisitorId(), asyncVistorId, 'asyncVistorId');
         
         wait(2000);
 
         var delayedTracker = Piwik.getTracker();
         var delayedVisitorId = delayedTracker.getVisitorId();
-        equal(Piwik.getVisitorId(), delayedVisitorId, 'delayedVisitorId');
+        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId');
 
         var prefixTracker = Piwik.getTracker();
         prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
 
         var prefixVisitorId = prefixTracker.getVisitorId();
-        equal(Piwik.getVisitorId(), prefixVisitorId, 'prefixVisitorId');
+        equal(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'prefixVisitorId');
 
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
         var customVisitorId = customTracker.getVisitorId();
-        equal(Piwik.getVisitorId(), customVisitorId, 'customVisitorId');
+        equal(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'customVisitorId');
     });
 
     test("AnalyticsTracker alias", function() {
