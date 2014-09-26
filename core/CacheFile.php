@@ -216,7 +216,7 @@ class CacheFile
         if (function_exists('opcache_invalidate')
             && is_file($filepath)
         ) {
-            opcache_invalidate($filepath, $force = true);
+            @opcache_invalidate($filepath, $force = true);
         }
     }
 }
