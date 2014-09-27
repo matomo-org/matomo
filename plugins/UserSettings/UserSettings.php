@@ -18,19 +18,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 class UserSettings extends \Piwik\Plugin
 {
     /**
-     * Mapping between the browser family shortcode and the displayed name
-     *
-     * @type array
-     */
-    public static $browserType_display = array(
-        'ie'     => 'Trident (IE)',
-        'gecko'  => 'Gecko (Firefox)',
-        'khtml'  => 'KHTML (Konqueror)',
-        'webkit' => 'WebKit (Safari, Chrome)',
-        'opera'  => 'Presto (Opera)',
-    );
-
-    /**
      * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()

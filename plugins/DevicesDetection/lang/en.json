@@ -1,6 +1,8 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Browser versions",
+        "BrowserEngine": "Browser engine",
+        "BrowserEngines": "Browser engines",
         "Camera": "Camera",
         "CarBrowser": "Car browser",
         "Console": "Console",
