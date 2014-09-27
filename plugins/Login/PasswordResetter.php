@@ -208,8 +208,11 @@ class PasswordResetter
         $this->checkPasswordHash($resetPassword);
 
         // reset password of user
-        $this->usersManagerApi->updateUser(
-            $user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
+        $usersManager = $this->usersManagerApi;
+        Piwik::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
+            $usersManager->updateUser(
+                $user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
+        });
     }
 
     /**
