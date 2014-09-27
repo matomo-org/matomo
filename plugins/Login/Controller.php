@@ -260,7 +260,12 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (is_null($errorMessage)) { // if success, show login w/ success message
-            $this->redirectToIndex(Piwik::getLoginPluginName(), 'resetPasswordSuccess');
+            // have to do this as super user since redirectToIndex checks if there's a default website ID for
+            // the current user and if not, doesn't redirect to the requested action. TODO: this behavior is wrong. somehow.
+            $self = $this;
+            Piwik::doAsSuperUser(function () use ($self) {
+                $self->redirectToIndex(Piwik::getLoginPluginName(), 'resetPasswordSuccess');
+            });
             return null;
         } else {
             // show login page w/ error. this will keep the token in the URL
