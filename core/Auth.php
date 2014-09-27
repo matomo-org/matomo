@@ -9,49 +9,87 @@
 
 namespace Piwik;
 
+use Exception;
+
 /**
- * Base for authentication modules
+ * Base for authentication implementations. Plugins that provide Auth implementations
+ * must provide a class that implements this interface. Additionally, an instance
+ * of that class must be set in the {@link \Piwik\Registry} class with the 'auth'
+ * key during the {@link Request.initAuthenticationObject} event.
+ *
+ * Authentication implementations must support authentication via username and
+ * clear-text password and authentication via username and token auth. They can
+ * additionally support authentication via username and an MD5 hash of a password. If
+ * they don't support it, then formless authentication will fail.
+ *
+ * Derived implementations should favor authenticating by password over authenticating
+ * by token auth. That is to say, if a token auth and a password are set, password
+ * authentication should be used.
+ *
+ * @api
  */
 interface Auth
 {
     /**
-     * Authentication module's name, e.g., "Login"
+     * Must return the Authentication module's name, e.g., `"Login"`.
      *
      * @return string
      */
     public function getName();
 
     /**
-     * Authenticates user
-     *
-     * @return AuthResult
-     */
-    public function authenticate();
-
-    /**
-     * Authenticates the user and initializes the session.
-     */
-    public function initSession($login, $md5Password, $rememberMe);
-
-    /**
-     * Accessor to set authentication token. If set, you can authenticate the tokenAuth by calling the authenticate()
-     * method afterwards.
+     * Sets the authentication token to authenticate with.
      *
      * @param string $token_auth authentication token
      */
     public function setTokenAuth($token_auth);
 
     /**
-     * Accessor to set login name
+     * Sets the login name to authenticate with.
      *
-     * @param string $login user login
+     * @param string $login The username.
      */
     public function setLogin($login);
+
+    /**
+     * Sets the password to authenticate with.
+     *
+     * @param string $password Password (not hashed).
+     */
+    public function setPassword($password);
+
+    /**
+     * Sets the hash of the password to authenticate with. The hash will be an MD5 hash.
+     *
+     * @param string $passwordHash The hashed password.
+     * @throws Exception if authentication by hashed password is not supported.
+     */
+    public function setPasswordHash($passwordHash);
+
+    /**
+     * Authenticates a user using the login and password set using the setters. Can also authenticate
+     * via token auth if one is set and no password is set.
+     *
+     * @return AuthResult
+     */
+    public function authenticate();
+
+    /**
+     * Authenticates the user using login and password and initializes an authenticated session.
+     *
+     * @param bool $rememberMe Whether the user should be remembered by setting a client side cookie
+     *                         or not.
+     *
+     *                         TODO: maybe this logic should be handled by Login\Controller?
+     */
+    public function initSession($rememberMe);
 }
 
 /**
- * Authentication result
+ * Authentication result. This is what is returned by authentication attempts using {@link Auth}
+ * implementations.
  *
+ * @api
  */
 class AuthResult
 {

@@ -26,6 +26,7 @@ class Auth implements \Piwik\Auth
 {
     protected $login = null;
     protected $token_auth = null;
+    protected $md5Password = null;
 
     /**
      * Authentication module's name, e.g., "Login"
@@ -74,16 +75,16 @@ class Auth implements \Piwik\Auth
     /**
      * Authenticates the user and initializes the session.
      */
-    public function initSession($login, $md5Password, $rememberMe)
+    public function initSession($rememberMe)
     {
         $this->regenerateSessionId();
 
-        $authResult = $this->doAuthenticateSession($login, $md5Password);
+        $authResult = $this->doAuthenticateSession($this->login, $this->md5Password);
 
         if (!$authResult->wasAuthenticationSuccessful()) {
             $this->processFailedSession($rememberMe);
         } else {
-            $this->processSuccessfulSession($login, $authResult->getTokenAuth(), $rememberMe);
+            $this->processSuccessfulSession($this->login, $authResult->getTokenAuth(), $rememberMe);
         }
 
         /**
@@ -129,6 +130,31 @@ class Auth implements \Piwik\Auth
     public function getHashTokenAuth($login, $token_auth)
     {
         return md5($login . $token_auth);
+    }
+
+    /**
+     * Sets the password to authenticate with.
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->md5Password = md5($password);
+    }
+
+    /**
+     * Sets the password hash to use when authentication.
+     *
+     * @param string $passwordHash The password hash.
+     * @throws Exception if $passwordHash does not have 32 characters in it.
+     */
+    public function setPasswordHash($passwordHash)
+    {
+        if (strlen($passwordHash) != 32) {
+            throw new Exception("Invalid hash: incorrect length " . strlen($passwordHash));
+        }
+
+        $this->md5Password = $passwordHash;
     }
 
     /**
@@ -238,9 +264,6 @@ class Auth implements \Piwik\Auth
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();
-
-        // remove password reset entry if it exists
-        Login::removePasswordResetInfo($login);
     }
 
     protected function regenerateSessionId()
