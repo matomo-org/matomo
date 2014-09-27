@@ -30,10 +30,10 @@ class HttpTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getMethodsToTest
      */
-    public function todo_testFetchRemoteFile($method)
+    public function testFetchRemoteFile($method)
     {
         $this->assertNotNull(Http::getTransportMethod());
-        $result = Http::sendHttpRequestBy($method, 'http://localhost/', 30);
+        $result = Http::sendHttpRequestBy($method, 'http://localhost/piwik.js', 30);
         $this->assertTrue(strpos($result, 'Piwik') !== false);
     }
 
