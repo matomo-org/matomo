@@ -32,10 +32,10 @@ if ! aclocal &> ../../../../tmp/xhprof-logs/aclocal.log; then
     exit 1
 fi
 
-if ! autoconf &> ../../../../tmp/xhprof-logs/autoconf.log; then
-    echo "Fatal error: autoconf failed! View tmp/xhprof-logs/autoconf.log for more info."
-    exit 1
-fi
+#if ! autoconf &> ../../../../tmp/xhprof-logs/autoconf.log; then
+#    echo "Fatal error: autoconf failed! View tmp/xhprof-logs/autoconf.log for more info."
+#    exit 1
+#fi
 
 if ! ./configure &> ../../../../tmp/xhprof-logs/configure.log; then
     echo "Fatal error: configure script failed! View tmp/xhprof-logs/configure.log for more info."
