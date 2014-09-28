@@ -117,6 +117,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -144,8 +146,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
