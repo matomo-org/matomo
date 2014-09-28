@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d04c8063669dd6287714505fbcdc99cc",
+    "hash": "37a6e1fcbf0ec87f900f82bf83c0804f",
     "packages": [
         {
             "name": "leafo/lessphp",
@@ -96,16 +96,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "2.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "64d91375aea2340b81e2cb46745dc3b2213d3231"
+                "reference": "1c7334cd35052b9b7661e13396d4da7a7f47e323"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/64d91375aea2340b81e2cb46745dc3b2213d3231",
-                "reference": "64d91375aea2340b81e2cb46745dc3b2213d3231",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/1c7334cd35052b9b7661e13396d4da7a7f47e323",
+                "reference": "1c7334cd35052b9b7661e13396d4da7a7f47e323",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +139,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2014-08-29 18:24:04"
+            "time": "2014-09-24 16:59:50"
         },
         {
             "name": "symfony/console",
@@ -687,16 +687,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.2.5",
+            "version": "4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c3abe5953d1e60a0bf23012b1bc8c4d07f4832d7"
+                "reference": "c28a790620fe30b049bb693be1ef9cd4e0fe906c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c3abe5953d1e60a0bf23012b1bc8c4d07f4832d7",
-                "reference": "c3abe5953d1e60a0bf23012b1bc8c4d07f4832d7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c28a790620fe30b049bb693be1ef9cd4e0fe906c",
+                "reference": "c28a790620fe30b049bb693be1ef9cd4e0fe906c",
                 "shasum": ""
             },
             "require": {
@@ -757,7 +757,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-09-06 18:38:27"
+            "time": "2014-09-14 09:31:24"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1129,14 +1129,19 @@
             "time": "2014-08-31 03:22:04"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "piwik/device-detector": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.2"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
