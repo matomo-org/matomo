@@ -13,14 +13,13 @@ use Piwik\Auth as AuthInterface;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
+use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Url;
 use Piwik\View;
-
-require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * Login controller
@@ -39,12 +38,18 @@ class Controller extends \Piwik\Plugin\Controller
     private $auth;
 
     /**
+     * @var SessionInitializer
+     */
+    private $sessionInitializer;
+
+    /**
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
+     * @param SessionInitializer $authenticatedSessionFactory
 \     */
-    public function __construct($passwordResetter = null, $auth = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
     {
         parent::__construct();
 
@@ -57,6 +62,11 @@ class Controller extends \Piwik\Plugin\Controller
             $auth = \Piwik\Registry::get('auth');
         }
         $this->auth = $auth;
+
+        if (empty($sessionInitializer)) {
+            $sessionInitializer = new SessionInitializer();
+        }
+        $this->sessionInitializer = $sessionInitializer;
     }
 
     /**
@@ -168,7 +178,8 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             $this->auth->setPasswordHash($password);
         }
-        $this->auth->initSession($rememberMe);
+
+        $this->sessionInitializer->initSession($this->auth, $rememberMe);
 
         // remove password reset entry if it exists
         $this->passwordResetter->removePasswordResetInfo($login);
@@ -236,6 +247,8 @@ class Controller extends \Piwik\Plugin\Controller
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
         } catch (Exception $ex) {
+            Log::debug($ex);
+
             return array($ex->getMessage());
         }
 
@@ -256,6 +269,8 @@ class Controller extends \Piwik\Plugin\Controller
         try {
             $this->passwordResetter->confirmNewPassword($login, $resetToken);
         } catch (Exception $ex) {
+            Log::debug($ex);
+
             $errorMessage = $ex->getMessage();
         }
 

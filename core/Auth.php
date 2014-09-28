@@ -45,6 +45,25 @@ interface Auth
     public function setTokenAuth($token_auth);
 
     /**
+     * Returns the login of the user being authenticated.
+     *
+     * @return string
+     */
+    public function getLogin();
+
+    /**
+     * Returns the secret used to calculate a user's token auth.
+     *
+     * A users token auth is generated using the user's login and this secret. The secret
+     * should be specific to the user and not easily guessed. Piwik's default Auth implementation
+     * uses an MD5 hash of a user's password.
+     *
+     * @return string
+     * @throws Exception if the token auth cannot be calculated at the current time.
+     */
+    public function getTokenAuthSecret();
+
+    /**
      * Sets the login name to authenticate with.
      *
      * @param string $login The username.
@@ -70,19 +89,14 @@ interface Auth
      * Authenticates a user using the login and password set using the setters. Can also authenticate
      * via token auth if one is set and no password is set.
      *
+     * Note: this method must successfully authenticate if the token auth supplied is a special hash
+     * of the user's real token auth. This is because the SessionInitializer class stores a
+     * hash of the token auth in the session cookie. You can calculate the token auth hash using the
+     * {@link Piwik\Plugins\Login\SessionInitializer::getHashTokenAuth()} method.
+     *
      * @return AuthResult
      */
     public function authenticate();
-
-    /**
-     * Authenticates the user using login and password and initializes an authenticated session.
-     *
-     * @param bool $rememberMe Whether the user should be remembered by setting a client side cookie
-     *                         or not.
-     *
-     *                         TODO: maybe this logic should be handled by Login\Controller?
-     */
-    public function initSession($rememberMe);
 }
 
 /**

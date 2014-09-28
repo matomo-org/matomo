@@ -643,15 +643,15 @@ class API extends \Piwik\Plugin\API
      * Generates a unique MD5 for the given login & password
      *
      * @param string $userLogin Login
-     * @param string $md5Password MD5ied string of the password
+     * @param string $passwordHash MD5ied string of the password
      * @throws Exception
      * @return string
      */
-    public function getTokenAuth($userLogin, $md5Password)
+    public function getTokenAuth($userLogin, $passwordHash)
     {
-        if (strlen($md5Password) != 32) {
+        if (strlen($passwordHash) != 32) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
         }
-        return md5($userLogin . $md5Password);
+        return md5($userLogin . $passwordHash);
     }
 }
