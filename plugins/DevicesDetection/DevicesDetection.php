@@ -14,7 +14,7 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\UserSettings\UserSettings;
-use Piwik\Plugins\UserSettings\Visitor;
+use Piwik\Plugins\DevicesDetection\Visitor;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -46,7 +46,11 @@ class DevicesDetection extends \Piwik\Plugin
 
     public function extendVisitorDetails(&$visitor, $details)
     {
+        $instance = new Visitor($details);
+
         $visitor['deviceType'] = getDeviceTypeLabel($details['config_device_type']);
+        $visitor['browserFamily']            = $instance->getBrowserFamily();
+        $visitor['browserFamilyDescription'] = $instance->getBrowserFamilyDescription();
 
         if (!PluginManager::getInstance()->isPluginActivated('UserSettings')) {
             $instance = new UserSettings();

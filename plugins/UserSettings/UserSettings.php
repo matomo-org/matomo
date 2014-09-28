@@ -36,8 +36,6 @@ class UserSettings extends \Piwik\Plugin
         $visitor['operatingSystemCode']      = $instance->getOperatingSystemCode();
         $visitor['operatingSystemShortName'] = $instance->getOperatingSystemShortName();
         $visitor['operatingSystemIcon']      = $instance->getOperatingSystemIcon();
-        $visitor['browserFamily']            = $instance->getBrowserFamily();
-        $visitor['browserFamilyDescription'] = $instance->getBrowserFamilyDescription();
         $visitor['browserName']              = $instance->getBrowser();
         $visitor['browserIcon']              = $instance->getBrowserIcon();
         $visitor['browserCode']              = $instance->getBrowserCode();
