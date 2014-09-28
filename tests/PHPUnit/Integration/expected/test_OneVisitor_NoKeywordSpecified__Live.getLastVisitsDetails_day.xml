@@ -50,8 +50,6 @@
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemShortName>BOT</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserFamily>unknown</browserFamily>
-		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browserName>Inconnu</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -71,6 +69,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Inconnu</deviceType>
+		<browserFamily />
+		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -157,8 +157,6 @@
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemShortName>BOT</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserFamily>unknown</browserFamily>
-		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browserName>Inconnu</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -178,6 +176,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Inconnu</deviceType>
+		<browserFamily />
+		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>

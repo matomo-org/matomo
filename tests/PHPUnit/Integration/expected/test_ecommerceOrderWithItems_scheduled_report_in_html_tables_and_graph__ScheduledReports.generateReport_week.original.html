@@ -60,11 +60,6 @@
                 </a>
             </li>
                     <li>
-                <a href="#UserSettings_getBrowserType" style="text-decoration:none; color: rgb(68,68,68);">
-                    Browser Family
-                </a>
-            </li>
-                    <li>
                 <a href="#UserSettings_getPlugin" style="text-decoration:none; color: rgb(68,68,68);">
                     Browser Plugins
                 </a>
@@ -362,6 +357,11 @@
                     <li>
                 <a href="#DevicesDetection_getBrowserVersions" style="text-decoration:none; color: rgb(68,68,68);">
                     Browser versions
+                </a>
+            </li>
+                    <li>
+                <a href="#DevicesDetection_getBrowserEngines" style="text-decoration:none; color: rgb(68,68,68);">
+                    Browser engines
                 </a>
             </li>
             </ul>
@@ -2126,72 +2126,6 @@
                                                                                                                                         <img src='plugins/UserSettings/images/browsers/FF.gif'>
                                         &nbsp;
                                                                                                             Firefox 3.6                                                                                                                        </td>
-                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-                                                                                                5
-                                                                                    </td>
-                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-                                                                                                16
-                                                                                    </td>
-                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-                                                                                                3.2
-                                                                                    </td>
-                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-                                                                                                00:22:49
-                                                                                    </td>
-                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-                                                                                                20%
-                                                                                    </td>
-                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-                                                                                                80%
-                                                                                    </td>
-                                    </tr>
-                        </tbody>
-        </table>
-        <br/>
-    <a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt;" href="#reportTop">
-        Back to top
-    </a>
-<h2 id="UserSettings_getBrowserType" style="color: rgb(126,115,99); font-size: 11pt;">
-    Browser Family
-</h2>
-
-            <img alt=""
-                                    src="data:image/png;base64,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"
-                                height="200"
-                width="700"/>
-    
-            <br/>
-        <br/>
-    
-            <table style="border-collapse:collapse; margin-left: 5px;">
-            <thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-                            <th style="padding: 6px 0;">
-                    &nbsp;Browser family&nbsp;&nbsp;
-                </th>
-                            <th style="padding: 6px 0;">
-                    &nbsp;Visits&nbsp;&nbsp;
-                </th>
-                            <th style="padding: 6px 0;">
-                    &nbsp;Actions&nbsp;&nbsp;
-                </th>
-                            <th style="padding: 6px 0;">
-                    &nbsp;Actions per Visit&nbsp;&nbsp;
-                </th>
-                            <th style="padding: 6px 0;">
-                    &nbsp;Avg. Time on Website&nbsp;&nbsp;
-                </th>
-                            <th style="padding: 6px 0;">
-                    &nbsp;Bounce Rate&nbsp;&nbsp;
-                </th>
-                            <th style="padding: 6px 0;">
-                    &nbsp;Conversion Rate&nbsp;&nbsp;
-                </th>
-                        </thead>
-            <tbody>
-                                                    
-                                                                    <tr style="">
-                                                                <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-                                                                                                                                                                        Gecko (Firefox)                                                                                                                        </td>
                                             <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
                                                                                                 5
                                                                                     </td>
@@ -7284,6 +7218,72 @@
                                                                                                                                         <img src='plugins/UserSettings/images/browsers/FF.gif'>
                                         &nbsp;
                                                                                                             Firefox 3.6                                                                                                                        </td>
+                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+                                                                                                5
+                                                                                    </td>
+                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+                                                                                                16
+                                                                                    </td>
+                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+                                                                                                3.2
+                                                                                    </td>
+                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+                                                                                                00:22:49
+                                                                                    </td>
+                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+                                                                                                20%
+                                                                                    </td>
+                                            <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+                                                                                                80%
+                                                                                    </td>
+                                    </tr>
+                        </tbody>
+        </table>
+        <br/>
+    <a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt;" href="#reportTop">
+        Back to top
+    </a>
+<h2 id="DevicesDetection_getBrowserEngines" style="color: rgb(126,115,99); font-size: 11pt;">
+    Browser engines
+</h2>
+
+            <img alt=""
+                                    src="data:image/png;base64,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"
+                                height="200"
+                width="700"/>
+    
+            <br/>
+        <br/>
+    
+            <table style="border-collapse:collapse; margin-left: 5px;">
+            <thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+                            <th style="padding: 6px 0;">
+                    &nbsp;Browser engine&nbsp;&nbsp;
+                </th>
+                            <th style="padding: 6px 0;">
+                    &nbsp;Visits&nbsp;&nbsp;
+                </th>
+                            <th style="padding: 6px 0;">
+                    &nbsp;Actions&nbsp;&nbsp;
+                </th>
+                            <th style="padding: 6px 0;">
+                    &nbsp;Actions per Visit&nbsp;&nbsp;
+                </th>
+                            <th style="padding: 6px 0;">
+                    &nbsp;Avg. Time on Website&nbsp;&nbsp;
+                </th>
+                            <th style="padding: 6px 0;">
+                    &nbsp;Bounce Rate&nbsp;&nbsp;
+                </th>
+                            <th style="padding: 6px 0;">
+                    &nbsp;Conversion Rate&nbsp;&nbsp;
+                </th>
+                        </thead>
+            <tbody>
+                                                    
+                                                                    <tr style="">
+                                                                <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+                                                                                                                                                                        Gecko (Firefox)                                                                                                                        </td>
                                             <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
                                                                                                 5
                                                                                     </td>

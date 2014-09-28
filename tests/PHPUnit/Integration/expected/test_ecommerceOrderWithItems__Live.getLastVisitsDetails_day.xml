@@ -155,8 +155,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
-        <browserFamily>Gecko</browserFamily>
-        <browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -485,8 +485,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
-        <browserFamily>Gecko</browserFamily>
-        <browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>

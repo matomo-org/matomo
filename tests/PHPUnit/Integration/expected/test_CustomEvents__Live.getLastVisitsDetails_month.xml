@@ -45,9 +45,9 @@
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
+		<deviceType>Desktop</deviceType>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<deviceType>Desktop</deviceType>
 		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>

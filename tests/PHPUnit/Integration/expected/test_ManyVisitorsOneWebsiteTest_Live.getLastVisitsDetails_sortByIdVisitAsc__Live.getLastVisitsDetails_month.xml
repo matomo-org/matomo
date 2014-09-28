@@ -70,8 +70,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -91,6 +89,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -226,8 +226,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -247,6 +245,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -351,8 +351,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -372,6 +370,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -507,8 +507,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -528,6 +526,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -632,8 +632,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -653,6 +651,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -788,8 +788,6 @@
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserFamily>unknown</browserFamily>
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -809,6 +807,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<browserFamily />
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -905,8 +905,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -926,6 +924,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
