@@ -955,6 +955,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Unknown</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -982,8 +984,6 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemShortName>Android</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 27.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -1069,6 +1069,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1096,8 +1098,6 @@
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 27.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -1238,6 +1238,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1265,8 +1267,6 @@
 		<operatingSystemCode>WI8</operatingSystemCode>
 		<operatingSystemShortName>Win 8</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI8.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 27.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -3959,6 +3959,8 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3986,8 +3988,6 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 6.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -4375,6 +4375,8 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4402,8 +4404,6 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 6.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>

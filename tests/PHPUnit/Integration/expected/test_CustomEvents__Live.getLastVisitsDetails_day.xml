@@ -46,6 +46,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -73,8 +75,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -148,6 +148,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -175,8 +177,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -318,6 +318,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>6</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -345,8 +347,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -420,6 +420,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -447,8 +449,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -757,6 +757,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>13</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -784,8 +786,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -859,6 +859,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -886,8 +888,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -957,6 +957,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -984,8 +986,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -1123,6 +1123,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>6</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1150,8 +1152,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -1221,6 +1221,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>1</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1248,8 +1250,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
@@ -1554,6 +1554,8 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>13</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1581,8 +1583,6 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
