@@ -213,10 +213,13 @@ class CacheFile
 
     public function opCacheInvalidate($filepath)
     {
-        if (function_exists('opcache_invalidate')
-            && is_file($filepath)
-        ) {
-            @opcache_invalidate($filepath, $force = true);
+        if (is_file($filepath)) {
+            if (function_exists('opcache_invalidate')) {
+                @opcache_invalidate($filepath, $force = true);
+            }
+            if (function_exists('apc_delete_file')) {
+                apc_delete_file($filepath);
+            }
         }
     }
 }
