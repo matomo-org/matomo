@@ -109,7 +109,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends IntegrationT
         $tests = array(
             // TODO Implement fix, then remove the +3 below
             'archive_blob_2010_12'    => ( ($expectedActionsBlobs+3) /*Actions*/
-                                            + 8 /* UserSettings */
+                                            + 7 /* UserSettings */
                                             + 2 /* VisitTime */) * 3,
 
             /**
