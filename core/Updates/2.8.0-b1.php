@@ -57,6 +57,5 @@ class Updates_2_8_0_b1 extends Updates
 
         } catch (\Exception $e) {
         }
-        exit;
     }
 }
