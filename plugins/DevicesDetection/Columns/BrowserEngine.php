@@ -25,6 +25,7 @@ class BrowserEngine extends Base
         $segment->setSegment('browserEngine');
         $segment->setName('DevicesDetection_BrowserEngine');
         $segment->setAcceptedValues('Trident, WebKit, Presto, Gecko, Blink, etc.');
+        $segment->setSuggestedValuesCallback("\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines");
         $this->addSegment($segment);
     }
 
