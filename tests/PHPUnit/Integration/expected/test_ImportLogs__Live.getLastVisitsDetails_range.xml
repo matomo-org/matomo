@@ -982,7 +982,7 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemShortName>Android</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 27.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
@@ -1096,7 +1096,7 @@
 		<operatingSystemCode>WI7</operatingSystemCode>
 		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 27.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
@@ -1265,7 +1265,7 @@
 		<operatingSystemCode>WI8</operatingSystemCode>
 		<operatingSystemShortName>Win 8</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI8.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 27.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
@@ -3986,7 +3986,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 6.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
@@ -4402,7 +4402,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 6.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>

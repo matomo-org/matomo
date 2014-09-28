@@ -117,7 +117,7 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
