@@ -10,6 +10,14 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Library updates
 * Updated AngularJS from 1.2.13 to 1.2.25
 
+### Breaking Changes
+* The Auth interface has been modified, existing Auth implementations will have to be modified. Changes include:
+  * The initSession method has been moved. Since this behavior must be executed for every Auth implementation, it has been put into a new class: SessionInitializer.
+    If your Auth implementation implements its own session logic you will have to extend and override SessionInitializer.
+  * The following methods have been added: setPassword, setPasswordHash, getTokenAuthSecret and getLogin.
+  * Clarifying semantics of each method and what they must support and can support.
+  * **Read the documentation for the [Auth interface](http://developer.piwik.org/api-reference/Piwik/Auth) to learn more.**
+
 ### New commands
 * `generate:angular-directive` Let's you easily generate a template for a new angular directive for any plugin.
 

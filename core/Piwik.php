@@ -861,4 +861,32 @@ class Piwik
         }
         return $options;
     }
+
+    /**
+     * Executes a callback with superuser privileges, making sure those privileges are rescinded
+     * before this method exits. Privileges will be rescinded even if an exception is thrown.
+     *
+     * @param callback $function The callback to execute. Should accept no arguments.
+     * @return mixed The result of `$function`.
+     * @throws Exception rethrows any exceptions thrown by `$function`.
+     * @api
+     */
+    public static function doAsSuperUser($function)
+    {
+        $isSuperUser = self::hasUserSuperUserAccess();
+
+        self::setUserHasSuperUserAccess();
+
+        try {
+            $result = $function();
+        } catch (Exception $ex) {
+            self::setUserHasSuperUserAccess($isSuperUser);
+
+            throw $ex;
+        }
+
+        self::setUserHasSuperUserAccess($isSuperUser);
+
+        return $result;
+    }
 }

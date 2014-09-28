@@ -17,6 +17,7 @@ require_once 'Login/Auth.php';
  * Class Plugins_LoginTest
  *
  * @group Plugins
+ * @group Plugins_LoginTest
  */
 class Plugins_LoginTest extends DatabaseTestCase
 {
@@ -341,7 +342,7 @@ class Plugins_LoginTest extends DatabaseTestCase
     public function testAuthenticateSuccessLoginAndHashedTokenAuth()
     {
         $user = $this->_setUpUser();
-        $hash = $this->auth->getHashTokenAuth($user['login'], $user['tokenAuth']);
+        $hash = \Piwik\Plugins\Login\SessionInitializer::getHashTokenAuth($user['login'], $user['tokenAuth']);
 
         // valid login & hashed token auth
         $rc = $this->authenticate($user['login'], $tokenAuth = $hash);
