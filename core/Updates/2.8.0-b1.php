@@ -33,11 +33,8 @@ class Updates_2_8_0_b1 extends Updates
 
                 // Update visits, fill in now missing engine
                 $updateSql = sprintf("UPDATE %s SET `config_browser_engine` = '%s' WHERE `config_browser_name` IN ('%s')", Common::prefixTable('log_visit'), $engine, implode("','", $browsers));
-                echo $updateSql;
                 Updater::executeMigrationQuery($updateSql, false, __FILE__);
             }
-
-            exit;
 
             $archiveBlobTables = Db::get()->fetchCol("SHOW TABLES LIKE '%archive_blob%'");
 
