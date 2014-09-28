@@ -11,6 +11,7 @@ use Piwik\AuthResult;
 /**
  * Class Core_AccessTest
  *
+ * @group Core_AccessTest
  * @group Core
  */
 class Core_AccessTest extends DatabaseTestCase
@@ -295,7 +296,8 @@ class Core_AccessTest extends DatabaseTestCase
 
     public function testReloadAccessWithMockedAuthValid()
     {
-        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName', 'initSession', 'setTokenAuth', 'setLogin'));
+        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
+                                                      'setPassword', 'setPasswordHash'));
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));
