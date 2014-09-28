@@ -27,15 +27,18 @@ if ! phpize &> ../../../../tmp/xhprof-logs/phpize.log; then
     exit 1
 fi
 
-if ! aclocal &> ../../../../tmp/xhprof-logs/aclocal.log; then
-    echo "Fatal error: aclocal failed! View tmp/xhprof-logs/aclocal.log for more info."
-    exit 1
-fi
+# Execute aclocal and autoconf only if Gentoo is used.
+if [[ -x /usr/bin/emerge ]]; then
+    if ! aclocal &> ../../../../tmp/xhprof-logs/aclocal.log; then
+        echo "Fatal error: aclocal failed! View tmp/xhprof-logs/aclocal.log for more info."
+        exit 1
+    fi
 
-#if ! autoconf &> ../../../../tmp/xhprof-logs/autoconf.log; then
-#    echo "Fatal error: autoconf failed! View tmp/xhprof-logs/autoconf.log for more info."
-#    exit 1
-#fi
+    if ! autoconf &> ../../../../tmp/xhprof-logs/autoconf.log; then
+        echo "Fatal error: autoconf failed! View tmp/xhprof-logs/autoconf.log for more info."
+        exit 1
+    fi
+fi
 
 if ! ./configure &> ../../../../tmp/xhprof-logs/configure.log; then
     echo "Fatal error: configure script failed! View tmp/xhprof-logs/configure.log for more info."
