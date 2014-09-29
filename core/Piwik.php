@@ -224,8 +224,7 @@ class Piwik
         
 	if (!empty($codeImpl['httpsPiwikUrl'])) {
             $setTrackerUrl = 'var u=((document.location.protocol === "https:") ? "https://{$httpsPiwikUrl}/" : "http://{$piwikUrl}/");';
-            $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
-        }
+	}
         $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
 
         foreach ($codeImpl as $keyToReplace => $replaceWith) {
