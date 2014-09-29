@@ -414,10 +414,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $testConfig = new ApiTestConfig($params);
 
-        // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
-        // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
-        \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
-
         $testName = 'test_' . static::getOutputPrefix();
         $this->missingExpectedFiles = array();
         $this->comparisonFailures = array();
@@ -439,9 +435,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
             $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
         }
-
-        // Restore normal purge behavior
-        \Piwik\ArchiveProcessor\Rules::enablePurgeOutdatedArchives();
 
         // change the language back to en
         if ($this->lastLanguage != 'en') {
