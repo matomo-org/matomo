@@ -74,7 +74,7 @@ class Mysql extends Db
         // See #6296 why this is important in tracker
         $config = array(
             PDO::MYSQL_ATTR_FOUND_ROWS => true,
-            PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         );
 
         $this->connection = @new PDO($this->dsn, $this->username, $this->password, $config);
