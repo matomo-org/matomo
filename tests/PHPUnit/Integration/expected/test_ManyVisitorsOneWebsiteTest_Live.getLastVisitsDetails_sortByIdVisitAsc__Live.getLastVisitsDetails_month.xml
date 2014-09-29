@@ -101,8 +101,6 @@
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -257,8 +255,6 @@
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -382,8 +378,6 @@
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
 		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
-		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -538,8 +532,6 @@
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
 		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
-		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -663,8 +655,6 @@
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -819,8 +809,6 @@
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
-		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -936,8 +924,6 @@
 		<regionCode />
 		<city />
 		<location>Italy</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
