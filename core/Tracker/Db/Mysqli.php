@@ -73,14 +73,14 @@ class Mysqli extends Db
             $timer = $this->initProfiler();
         }
 
-        $link = mysqli_init();
+        $this->connection = mysqli_init();
 
         // Make sure MySQL returns all matched rows on update queries including
         // rows that actually didn't have to be updated because the values didn't
         // change. This matches common behaviour among other database systems.
         // See #6296 why this is important in tracker
         $flags = MYSQLI_CLIENT_FOUND_ROWS;
-        $this->connection = mysqli_real_connect($link, $this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket, $flags);
+        mysqli_real_connect($this->connection, $this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket, $flags);
         if (!$this->connection || mysqli_connect_errno()) {
             throw new DbException("Connect failed: " . mysqli_connect_error());
         }
