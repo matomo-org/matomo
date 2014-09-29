@@ -518,8 +518,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function restoreDbTables($tables)
     {
+        $tablesPrefix = Config::getInstance()->database_tests['tables_prefix'];
+
         $existingTables = array();
-        foreach (Db::fetchAll("SHOW TABLES LIKE '%'") as $row) {
+        foreach (Db::fetchAll("SHOW TABLES LIKE '$tablesPrefix%'") as $row) {
             $existingTables[] = reset($row);
         }
 
