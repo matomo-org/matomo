@@ -15,16 +15,33 @@ use Exception;
  * Base for authentication implementations. Plugins that provide Auth implementations
  * must provide a class that implements this interface. Additionally, an instance
  * of that class must be set in the {@link \Piwik\Registry} class with the 'auth'
- * key during the {@link Request.initAuthenticationObject} event.
+ * key during the [Request.initAuthenticationObject](http://developer.piwik.org/api-reference/events#requestinitauthenticationobject)
+ * event.
  *
  * Authentication implementations must support authentication via username and
  * clear-text password and authentication via username and token auth. They can
  * additionally support authentication via username and an MD5 hash of a password. If
- * they don't support it, then formless authentication will fail.
+ * they don't support it, then [formless authentication](http://piwik.org/faq/how-to/faq_30/) will fail.
  *
  * Derived implementations should favor authenticating by password over authenticating
  * by token auth. That is to say, if a token auth and a password are set, password
  * authentication should be used.
+ *
+ * ### Examples
+ *
+ * **How an Auth implementation will be used**
+ *
+ *     // authenticating by password
+ *     $auth = \Piwik\Registry::get('auth');
+ *     $auth->setLogin('user');
+ *     $auth->setPassword('password');
+ *     $result = $auth->authenticate();
+ *
+ *     // authenticating by token auth
+ *     $auth = \Piwik\Registry::get('auth');
+ *     $auth->setLogin('user');
+ *     $auth->setTokenAuth('...');
+ *     $result = $auth->authenticate();
  *
  * @api
  */
@@ -95,6 +112,9 @@ interface Auth
      * {@link Piwik\Plugins\Login\SessionInitializer::getHashTokenAuth()} method.
      *
      * @return AuthResult
+     * @throws Exception if the Auth implementation has an invalid state (ie, no login
+     *                   was specified). Note: implementations are not **required** to throw
+     *                   exceptions for invalid state, but they are allowed to.
      */
     public function authenticate();
 }
