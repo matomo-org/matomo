@@ -337,7 +337,8 @@ class GoalManager
      */
     private function getEcommerceItemsFromRequest()
     {
-        $items = Common::unsanitizeInputValue($this->request->getParam('ec_items'));
+        $items = preg_replace('/(?<!\\\)&quot;/i','\&quot;',$this->request->getParam('ec_items'));
+        $items = Common::unsanitizeInputValue($items);
         if (empty($items)) {
             Common::printDebug("There are no Ecommerce items in the request");
             // we still record an Ecommerce order without any item in it
