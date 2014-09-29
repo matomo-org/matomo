@@ -8,8 +8,10 @@
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Segment;
-use Piwik\Tests\Fixture;
 
+/**
+ * @group SegmentTest
+ */
 class SegmentTest extends DatabaseTestCase
 {
     public function setUp()
@@ -20,14 +22,11 @@ class SegmentTest extends DatabaseTestCase
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
-
-        Fixture::loadAllPlugins();
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Fixture::unloadAllPlugins();
     }
 
     protected function _filterWhitsSpaces($valueToFilter)
