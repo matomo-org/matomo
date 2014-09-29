@@ -68,14 +68,16 @@ class Mysql extends Db
             $timer = $this->initProfiler();
         }
 
-        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $config = array());
-        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         // Make sure MySQL returns all matched rows on update queries including
         // rows that actually didn't have to be updated because the values didn't
         // change. This matches common behaviour among other database systems.
         // See #6296 why this is important in tracker
-        $this->connection->setAttribute(PDO::MYSQL_ATTR_FOUND_ROWS, true);
+        $config = array(
+            PDO::MYSQL_ATTR_FOUND_ROWS => true,
+            PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION,
+        );
+
+        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $config);
 
         // we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
         // the piwik.php would stay waiting for the database... bad!

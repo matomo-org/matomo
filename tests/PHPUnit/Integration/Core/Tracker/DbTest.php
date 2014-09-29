@@ -12,6 +12,7 @@ use Piwik\Db;
  * Tracker DB test
  *
  * @group Core
+ * @group TrackerDbTest
  */
 class Core_Tracker_DbTest extends DatabaseTestCase
 {
