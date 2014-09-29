@@ -43,7 +43,7 @@ class PivotByQueryParamTest extends IntegrationTestCase
         ));
     }
 
-    public function test_PivotBySubtableDimension_CreatesCorrectPivotTable_WhenEntireHirearchyIsNotLoaded()
+    public function test_PivotBySubtableDimension_WhenEntireHirearchyIsNotLoaded()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
