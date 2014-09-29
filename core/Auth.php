@@ -78,7 +78,7 @@ interface Auth
      * uses an MD5 hash of a user's password.
      *
      * @return string
-     * @throws Exception if the token auth cannot be calculated at the current time.
+     * @throws Exception if the token auth secret does not exist or cannot be obtained.
      */
     public function getTokenAuthSecret();
 
