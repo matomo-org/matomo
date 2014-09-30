@@ -317,7 +317,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormFirstWebsiteSetup();
 
         if ($form->validate()) {
-            $name = Common::unsanitizeInputValue($form->getSubmitValue('siteName'));
+            $name = Common::sanitizeInputValue($form->getSubmitValue('siteName'));
             $url = Common::unsanitizeInputValue($form->getSubmitValue('url'));
             $ecommerce = (int)$form->getSubmitValue('ecommerce');
 
