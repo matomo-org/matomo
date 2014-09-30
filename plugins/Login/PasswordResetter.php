@@ -210,7 +210,7 @@ class PasswordResetter
 
         // reset password of user
         $usersManager = $this->usersManagerApi;
-        UsersManagerAPI::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
+        Access::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
             $usersManager->updateUser(
                 $user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
         });
@@ -360,7 +360,7 @@ class PasswordResetter
     protected function getUserInformation($loginOrMail)
     {
         $usersManager = $this->usersManagerApi;
-        return UsersManagerAPI::doAsSuperUser(function () use ($loginOrMail, $usersManager) {
+        return Access::doAsSuperUser(function () use ($loginOrMail, $usersManager) {
             $user = null;
             if ($usersManager->userExists($loginOrMail)) {
                 $user = $usersManager->getUser($loginOrMail);

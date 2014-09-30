@@ -306,9 +306,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
-        $this->initObjectsToCallAPI();
+        $siteIdsCount = Access::doAsSuperUser(function () {
+            return count(APISitesManager::getInstance()->getAllSitesId());
+        });
 
-        if (count(APISitesManager::getInstance()->getAllSitesId()) > 0) {
+        if ($siteIdsCount > 0) {
             // if there is a already a website, skip this step and trackingCode step
             $this->redirectToNextStep('trackingCode');
         }
