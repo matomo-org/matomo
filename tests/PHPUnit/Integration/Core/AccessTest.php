@@ -13,7 +13,6 @@ use Piwik\AuthResult;
  *
  * @group Core_AccessTest
  * @group Core
- * @group Only
  */
 class Core_AccessTest extends DatabaseTestCase
 {
