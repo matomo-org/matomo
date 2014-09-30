@@ -259,7 +259,7 @@ class API extends \Piwik\Plugin\API
             SegmentExpression::MATCH_IS_NULL_OR_EMPTY,
             SegmentExpression::MATCH_NOT_EQUAL,
         );
-        if(in_array($matchType, $acceptedMatches)) {
+        if (in_array($matchType, $acceptedMatches)) {
             return $value;
         }
         $message = "Invalid Segment match type: try using 'userId' segment with one of the following match types: %s.";
@@ -524,7 +524,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getSuggestedValuesForSegment($segmentName, $idSite)
     {
-        if(empty(Config::getInstance()->General['enable_segment_suggested_values'])) {
+        if (empty(Config::getInstance()->General['enable_segment_suggested_values'])) {
             return array();
         }
         Piwik::checkUserHasViewAccess($idSite);
@@ -549,7 +549,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // if period=range is disabled, do not proceed
-        if(!Period\Factory::isPeriodEnabledForAPI('range')) {
+        if (!Period\Factory::isPeriodEnabledForAPI('range')) {
             return array();
         }
 

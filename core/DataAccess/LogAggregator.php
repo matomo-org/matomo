@@ -494,7 +494,7 @@ class LogAggregator
      *
      * @param string $dimension One or more **log\_conversion\_item** columns to group aggregated data by.
      *                          Eg, `'idaction_sku'` or `'idaction_sku, idaction_category'`.
-     * @return Zend_Db_Statement A statement object that can be used to iterate through the query's
+     * @return \Zend_Db_Statement A statement object that can be used to iterate through the query's
      *                           result set. See [above](#queryEcommerceItems-result-set) to learn more
      *                           about what this query selects.
      * @api
@@ -641,7 +641,7 @@ class LogAggregator
                 if (strpos($joinColumn, ' ') === false) {
                     $joinOn = $tableAlias . '.idaction = ' . $tableName . '.' . $joinColumn;
                 } else {
-                    // more complex join column like IF(...)
+                    // more complex join column like if (...)
                     $joinOn = $tableAlias . '.idaction = ' . $joinColumn;
                 }
                 $from[] = array(
@@ -733,7 +733,7 @@ class LogAggregator
      * @param bool|string $where An optional SQL expression used in the SQL's **WHERE** clause.
      * @param array $additionalSelects Additional SELECT fields that are not included in the group by
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array())
     {
@@ -743,11 +743,11 @@ class LogAggregator
 
         $select = $this->getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics);
 
-        $from = array($tableName);
-        $where = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
+        $from    = array($tableName);
+        $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
         $orderBy = false;
-        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
 

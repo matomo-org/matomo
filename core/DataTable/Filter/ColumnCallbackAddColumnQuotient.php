@@ -109,6 +109,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
         if ($divisor > 0 && $value > 0) {
             $quotient = round($value / $divisor, $this->quotientPrecision);
         }
+
         return $quotient;
     }
 

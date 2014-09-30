@@ -40,7 +40,7 @@ class UIAssetCatalog
     {
         $location = $uiAsset->getAbsoluteLocation();
 
-        if(!$this->assetAlreadyInCatalog($location)) {
+        if (!$this->assetAlreadyInCatalog($location)) {
             $this->existingAssetLocations[] = $location;
             $this->uiAssets[] = $uiAsset;
         }

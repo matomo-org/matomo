@@ -508,22 +508,22 @@ class FrontController extends Singleton
     protected function handleSSLRedirection()
     {
         // Specifically disable for the opt out iframe
-        if(Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
+        if (Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
             return;
         }
         // Disable Https for VisitorGenerator
-        if(Piwik::getModule() == 'VisitorGenerator') {
+        if (Piwik::getModule() == 'VisitorGenerator') {
             return;
         }
-        if(Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             return;
         }
         // Only enable this feature after Piwik is already installed
-        if(!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isPiwikInstalled()) {
             return;
         }
         // proceed only when force_ssl = 1
-        if(!SettingsPiwik::isHttpsForced()) {
+        if (!SettingsPiwik::isHttpsForced()) {
             return;
         }
         Url::redirectToHttps();

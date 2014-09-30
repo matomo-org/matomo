@@ -66,19 +66,23 @@ class API extends \Piwik\Plugin\API
     public function invalidateArchivedReports($idSites, $dates, $period = false)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
+
         if (empty($idSites)) {
             throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");
         }
+
         Piwik::checkUserHasAdminAccess($idSites);
 
-        if(!empty($period)) {
+        if (!empty($period)) {
             $period = Period\Factory::build($period, Date::today());
         }
 
         // Ensure the specified dates are valid
         $toInvalidate = $invalidDates = array();
+
         $dates = explode(',', trim($dates));
         $dates = array_unique($dates);
+
         foreach ($dates as $theDate) {
             $theDate = trim($theDate);
             try {
@@ -141,7 +145,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        if(empty($minDate)) {
+        if (empty($minDate)) {
             throw new Exception("Check the 'dates' parameter is a valid date.");
         }
 
@@ -169,7 +173,7 @@ class API extends \Piwik\Plugin\API
             $sql = implode(" OR ", $sql);
 
             $sqlPeriod = "";
-            if($invalidateForPeriod) {
+            if ($invalidateForPeriod) {
                 $sqlPeriod = " AND period = ? ";
                 $bind[] = $invalidateForPeriod;
             }

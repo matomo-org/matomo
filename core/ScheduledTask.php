@@ -77,6 +77,7 @@ class ScheduledTask
      *                                          should be executed and how long before the next execution.
      * @param int $priority The priority of the task. Tasks with a higher priority will be executed first.
      *                      Tasks with low priority will be executed last.
+     * @throws Exception
      */
     public function __construct($objectInstance, $methodName, $methodParameter, $scheduledTime,
                                 $priority = self::NORMAL_PRIORITY)

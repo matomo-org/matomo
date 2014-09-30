@@ -129,7 +129,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         $message = str_replace("\t", "", $message);
         $message = strip_tags($message);
 
-        if($isCli) {
+        if ($isCli) {
             echo $message;
         } else {
             echo $headerPage . $content . $footerPage;

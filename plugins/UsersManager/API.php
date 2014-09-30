@@ -435,7 +435,7 @@ class API extends \Piwik\Plugin\API
             $this->checkEmail($email);
         }
 
-        $alias = $this->getCleanAlias($alias, $userLogin);
+        $alias      = $this->getCleanAlias($alias, $userLogin);
         $token_auth = $this->getTokenAuth($userLogin, $password);
 
         $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);

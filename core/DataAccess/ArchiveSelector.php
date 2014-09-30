@@ -14,10 +14,8 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Log;
 use Piwik\Period;
 use Piwik\Period\Range;
-use Piwik\Piwik;
 use Piwik\Segment;
 
 /**
@@ -150,7 +148,7 @@ class ArchiveSelector
      */
     public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
     {
-        if(empty($siteIds)) {
+        if (empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
         }
 

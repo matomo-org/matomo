@@ -24,7 +24,7 @@ if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
 
 FrontController::setUpSafeMode();
 
-if(!defined('PIWIK_ENABLE_DISPATCH')) {
+if (!defined('PIWIK_ENABLE_DISPATCH')) {
     define('PIWIK_ENABLE_DISPATCH', true);
 }
 
@@ -33,7 +33,7 @@ if (PIWIK_ENABLE_DISPATCH) {
     $controller->init();
     $response = $controller->dispatch();
 
-    if(is_array($response)) {
+    if (is_array($response)) {
         var_export($response);
     } elseif (!is_null($response)) {
         echo $response;

@@ -327,11 +327,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
 
-        if(is_null($doDryRun)) {
+        if (is_null($doDryRun)) {
             $doDryRun = !$doExecuteUpdates;
         }
 
-        if($doDryRun) {
+        if ($doDryRun) {
             $viewWelcome->queries = $updater->getSqlQueriesToExecute();
             $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);

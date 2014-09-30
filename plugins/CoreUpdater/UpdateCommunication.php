@@ -76,7 +76,7 @@ class UpdateCommunication
         $this->sendEmailNotification($subject, $message);
     }
 
-    private function isVersionLike($latestVersion)
+    protected function isVersionLike($latestVersion)
     {
         return strlen($latestVersion) < 18;
     }
@@ -101,7 +101,7 @@ class UpdateCommunication
         }
     }
 
-    private function isNewVersionAvailable()
+    protected function isNewVersionAvailable()
     {
         UpdateCheck::check();
 
@@ -119,7 +119,7 @@ class UpdateCommunication
         return $hasUpdate;
     }
 
-    private function hasNotificationAlreadyReceived()
+    protected function hasNotificationAlreadyReceived()
     {
         $latestVersion   = $this->getLatestVersion();
         $lastVersionSent = $this->getLatestVersionSent();

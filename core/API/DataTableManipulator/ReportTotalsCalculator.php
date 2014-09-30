@@ -194,6 +194,7 @@ class ReportTotalsCalculator extends DataTableManipulator
      * Make sure to get all rows of the first level table.
      *
      * @param array $request
+     * @return array
      */
     protected function manipulateSubtableRequest($request)
     {

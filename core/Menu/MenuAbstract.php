@@ -9,7 +9,6 @@
 namespace Piwik\Menu;
 
 use Piwik\Common;
-use Piwik\Log;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
@@ -215,8 +214,8 @@ abstract class MenuAbstract extends Singleton
     {
         foreach ($this->edits as $edit) {
             $mainMenuToEdit = $edit[0];
-            $subMenuToEdit = $edit[1];
-            $newUrl = $edit[2];
+            $subMenuToEdit  = $edit[1];
+            $newUrl         = $edit[2];
 
             if ($subMenuToEdit === null) {
                 $menuDataToEdit = @$this->menu[$mainMenuToEdit];
@@ -236,14 +235,14 @@ abstract class MenuAbstract extends Singleton
     {
         foreach($this->menuEntriesToRemove as $menuToDelete) {
 
-            if(empty($menuToDelete[1])) {
+            if (empty($menuToDelete[1])) {
                 // Delete Main Menu
-                if(isset($this->menu[$menuToDelete[0]])) {
+                if (isset($this->menu[$menuToDelete[0]])) {
                     unset($this->menu[$menuToDelete[0]]);
                 }
             } else {
                 // Delete Sub Menu
-                if(isset($this->menu[$menuToDelete[0]][$menuToDelete[1]])) {
+                if (isset($this->menu[$menuToDelete[0]][$menuToDelete[1]])) {
                     unset($this->menu[$menuToDelete[0]][$menuToDelete[1]]);
                 }
             }
@@ -256,9 +255,10 @@ abstract class MenuAbstract extends Singleton
     {
         foreach ($this->renames as $rename) {
             $mainMenuOriginal = $rename[0];
-            $subMenuOriginal = $rename[1];
-            $mainMenuRenamed = $rename[2];
-            $subMenuRenamed = $rename[3];
+            $subMenuOriginal  = $rename[1];
+            $mainMenuRenamed  = $rename[2];
+            $subMenuRenamed   = $rename[3];
+
             // Are we changing a submenu?
             if (!empty($subMenuOriginal)) {
                 if (isset($this->menu[$mainMenuOriginal][$subMenuOriginal])) {

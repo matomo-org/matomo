@@ -56,7 +56,7 @@ class Updates_2_0_3_b7 extends Updates
             }
 
         }
-        if(!empty($errors)) {
+        if (!empty($errors)) {
             throw new \Exception("Warnings during the update: <br>" . implode("<br>", $errors));
         }
     }

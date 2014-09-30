@@ -86,7 +86,6 @@ class ArchiveInvalidationTest extends IntegrationTestCase
 
         $this->invalidateTestArchives();
         $this->runApiTests($api, $params);
-
     }
 
     /**

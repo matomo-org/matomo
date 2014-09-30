@@ -48,6 +48,7 @@ class Gzip implements UncompressInterface
     public function extract($pathExtracted)
     {
         $file = gzopen($this->filename, 'r');
+
         if ($file === false) {
             $this->error = "gzopen failed";
             return false;
@@ -60,7 +61,7 @@ class Gzip implements UncompressInterface
         fclose($output);
 
         $success = gzclose($file);
-        if ($success === false) {
+        if (false === $success) {
             $this->error = "gzclose failed";
             return false;
         }

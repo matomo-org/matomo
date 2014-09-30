@@ -60,7 +60,7 @@ class Controller extends \Piwik\Plugin\Controller
         foreach ($segments as $segment) {
             // Eg. Event Value is a metric, not in the Visit metric category,
             // we make sure it is displayed along with the Events dimensions
-            if($segment['type'] == 'metric' && $segment['category'] != Piwik::translate('General_Visit')) {
+            if ($segment['type'] == 'metric' && $segment['category'] != Piwik::translate('General_Visit')) {
                 $segment['type'] = 'dimension';
             }
 

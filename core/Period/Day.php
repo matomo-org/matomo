@@ -37,8 +37,10 @@ class Day extends Period
     public function getLocalizedShortString()
     {
         //"Mon 15 Aug"
-        $date = $this->getDateStart();
-        $out = $date->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
+        $date     = $this->getDateStart();
+        $template = Piwik::translate('CoreHome_ShortDateFormat');
+
+        $out = $date->getLocalized($template);
         return $out;
     }
 
@@ -50,8 +52,9 @@ class Day extends Period
     public function getLocalizedLongString()
     {
         //"Mon 15 Aug"
-        $date = $this->getDateStart();
+        $date     = $this->getDateStart();
         $template = Piwik::translate('CoreHome_DateFormat');
+
         $out = $date->getLocalized($template);
         return $out;
     }

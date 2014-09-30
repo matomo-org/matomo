@@ -58,13 +58,15 @@ class CliMulti {
     public function request(array $piwikUrls)
     {
         $chunks = array($piwikUrls);
-        if($this->concurrentProcessesLimit) {
+        if ($this->concurrentProcessesLimit) {
             $chunks = array_chunk( $piwikUrls, $this->concurrentProcessesLimit);
         }
+
         $results = array();
         foreach($chunks as $urlsChunk) {
             $results = array_merge($results, $this->requestUrls($urlsChunk));
         }
+
         return $results;
     }
 
@@ -89,17 +91,22 @@ class CliMulti {
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
-            $cmdId  = $this->generateCommandId($url) . $index;
-            $output = new Output($cmdId);
-
-            if ($this->supportsAsync) {
-                $this->executeAsyncCli($url, $output, $cmdId);
-            } else {
-                $this->executeNotAsyncHttp($url, $output);
-            }
-
-            $this->outputs[] = $output;
+            $cmdId = $this->generateCommandId($url) . $index;
+            $this->executeUrlCommand($cmdId, $url);
         }
+    }
+
+    private function executeUrlCommand($cmdId, $url)
+    {
+        $output = new Output($cmdId);
+
+        if ($this->supportsAsync) {
+            $this->executeAsyncCli($url, $output, $cmdId);
+        } else {
+            $this->executeNotAsyncHttp($url, $output);
+        }
+
+        $this->outputs[] = $output;
     }
 
     private function buildCommand($hostname, $query, $outputFile)
@@ -192,7 +199,7 @@ class CliMulti {
         $timeOneWeekAgo = strtotime('-1 week');
 
         $files = _glob(self::getTmpPath() . '/*');
-        if(empty($files)) {
+        if (empty($files)) {
             return;
         }
 

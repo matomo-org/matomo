@@ -47,8 +47,8 @@ class DocumentationGenerator
         if (!empty($prefixUrls)) {
             $prefixUrls = 'http://demo.piwik.org/';
         }
+
         $str = $toc = '';
-        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
         $parametersToSet = array(
             'idSite' => Common::getRequestVar('idSite', 1, 'int'),
             'period' => Common::getRequestVar('period', 'day', 'string'),
@@ -57,52 +57,38 @@ class DocumentationGenerator
 
         foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
             $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
+
             if (in_array($moduleName, $this->modulesToHide)) {
                 continue;
             }
-            $toc .= "<a href='#$moduleName'>$moduleName</a><br/>";
-            $str .= "\n<a  name='$moduleName' id='$moduleName'></a><h2>Module " . $moduleName . "</h2>";
-            $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
-            foreach ($info as $methodName => $infoMethod) {
-                if ($methodName == '__documentation') {
-                    continue;
-                }
-                $params = $this->getParametersString($class, $methodName);
-                $str .= "\n <div class='apiMethod'>- <b>$moduleName.$methodName </b>" . $params . "";
-                $str .= '<small>';
 
-                if ($outputExampleUrls) {
-                    // we prefix all URLs with $prefixUrls
-                    // used when we include this output in the Piwik official documentation for example
-                    $str .= "<span class=\"example\">";
-                    $exampleUrl = $this->getExampleUrl($class, $methodName, $parametersToSet);
-                    if ($exampleUrl !== false) {
-                        $lastNUrls = '';
-                        if (preg_match('/(&period)|(&date)/', $exampleUrl)) {
-                            $exampleUrlRss = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
-                            $lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
-                        }
-                        $exampleUrl = $prefixUrls . $exampleUrl;
-                        $str .= " [ Example in
-									<a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>,
-									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>,
-									<a target=_blank href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a>
-									$lastNUrls
-									]";
-                    } else {
-                        $str .= " [ No example available ]";
-                    }
-                    $str .= "</span>";
-                }
-                $str .= '</small>';
-                $str .= "</div>\n";
-            }
-            $str .= '<div style="margin:15px;"><a href="#topApiRef">↑ Back to top</a></div>';
+            $toc .= "<a href='#$moduleName'>$moduleName</a><br/>";
+            $str .= $this->getInterfaceString($moduleName, $class, $info, $parametersToSet, $outputExampleUrls, $prefixUrls);
         }
 
         $str = "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>
 				$toc
 				$str";
+
+        return $str;
+    }
+
+    private function getInterfaceString($moduleName, $class, $info, $parametersToSet, $outputExampleUrls, $prefixUrls)
+    {
+        $str = '';
+
+        $str .= "\n<a  name='$moduleName' id='$moduleName'></a><h2>Module " . $moduleName . "</h2>";
+        $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
+        foreach ($info as $methodName => $infoMethod) {
+            if ($methodName == '__documentation') {
+                continue;
+            }
+
+            $str .= $this->getMethodString($moduleName, $class, $parametersToSet, $outputExampleUrls, $prefixUrls, $methodName, $str);
+        }
+
+        $str .= '<div style="margin:15px;"><a href="#topApiRef">↑ Back to top</a></div>';
+
         return $str;
     }
 
@@ -240,5 +226,44 @@ class DocumentationGenerator
         }
         $sParameters = implode(", ", $asParameters);
         return "($sParameters)";
+    }
+
+    private function getMethodString($moduleName, $class, $parametersToSet, $outputExampleUrls, $prefixUrls, $methodName)
+    {
+        $str = '';
+        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
+
+        $params = $this->getParametersString($class, $methodName);
+        $str .= "\n <div class='apiMethod'>- <b>$moduleName.$methodName </b>" . $params . "";
+        $str .= '<small>';
+
+        if ($outputExampleUrls) {
+            // we prefix all URLs with $prefixUrls
+            // used when we include this output in the Piwik official documentation for example
+            $str .= "<span class=\"example\">";
+            $exampleUrl = $this->getExampleUrl($class, $methodName, $parametersToSet);
+            if ($exampleUrl !== false) {
+                $lastNUrls = '';
+                if (preg_match('/(&period)|(&date)/', $exampleUrl)) {
+                    $exampleUrlRss = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
+                    $lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
+                }
+                $exampleUrl = $prefixUrls . $exampleUrl;
+                $str .= " [ Example in
+									<a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>,
+									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>,
+									<a target=_blank href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a>
+									$lastNUrls
+									]";
+            } else {
+                $str .= " [ No example available ]";
+            }
+            $str .= "</span>";
+        }
+
+        $str .= '</small>';
+        $str .= "</div>\n";
+
+        return $str;
     }
 }

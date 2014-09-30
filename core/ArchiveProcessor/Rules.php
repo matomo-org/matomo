@@ -222,7 +222,7 @@ class Rules
     {
         $uiSettingIsEnabled = Controller::isGeneralSettingsAdminEnabled();
 
-        if($uiSettingIsEnabled) {
+        if ($uiSettingIsEnabled) {
             $timeToLive = Option::get(self::OPTION_TODAY_ARCHIVE_TTL);
             if ($timeToLive !== false) {
                 return $timeToLive;
@@ -266,7 +266,7 @@ class Rules
     {
         $uiSettingIsEnabled = Controller::isGeneralSettingsAdminEnabled();
 
-        if($uiSettingIsEnabled) {
+        if ($uiSettingIsEnabled) {
             $browserArchivingEnabled = Option::get(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
             if ($browserArchivingEnabled !== false) {
                 return (bool)$browserArchivingEnabled;

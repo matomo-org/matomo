@@ -35,7 +35,7 @@ class PclZip implements UncompressInterface
      */
     public function __construct($filename)
     {
-        $this->pclzip = new \PclZip($filename);
+        $this->pclzip   = new \PclZip($filename);
         $this->filename = $filename;
     }
 
@@ -55,7 +55,7 @@ class PclZip implements UncompressInterface
 
         foreach ($list as $entry) {
             $filename = str_replace('\\', '/', $entry['stored_filename']);
-            $parts = explode('/', $filename);
+            $parts    = explode('/', $filename);
 
             if (!strncmp($filename, '/', 1) ||
                 array_search('..', $parts) !== false ||

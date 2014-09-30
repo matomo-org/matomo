@@ -56,8 +56,9 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function checkServerVersion()
     {
-        $serverVersion = $this->getServerVersion();
+        $serverVersion   = $this->getServerVersion();
         $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
+
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
         }
@@ -72,6 +73,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     {
         $serverVersion = $this->getServerVersion();
         $clientVersion = $this->getClientVersion();
+
         // incompatible change to DECIMAL implementation in 5.0.3
         if (version_compare($serverVersion, '5.0.3') >= 0
             && version_compare($clientVersion, '5.0.3') < 0
@@ -168,10 +170,12 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     public function getClientVersion()
     {
         $this->_connect();
-        $version = $this->_connection->server_version;
-        $major = (int)($version / 10000);
-        $minor = (int)($version % 10000 / 100);
+
+        $version  = $this->_connection->server_version;
+        $major    = (int)($version / 10000);
+        $minor    = (int)($version % 10000 / 100);
         $revision = (int)($version % 100);
+
         return $major . '.' . $minor . '.' . $revision;
     }
 }

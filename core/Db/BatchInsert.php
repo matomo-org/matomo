@@ -123,7 +123,7 @@ class BatchInsert
     {
         // Chroot environment: prefix the path with the absolute chroot path
         $chrootPath = Config::getInstance()->General['absolute_chroot_path'];
-        if(!empty($chrootPath)) {
+        if (!empty($chrootPath)) {
             $filePath = $chrootPath . $filePath;
         }
 

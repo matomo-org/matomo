@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
@@ -135,7 +134,7 @@ class Piwik
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
-        if(substr($piwikUrl, 0, 4) !== 'http') {
+        if (substr($piwikUrl, 0, 4) !== 'http') {
             $piwikUrl = 'http://' . $piwikUrl;
         }
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);

@@ -84,7 +84,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
 
-        if(empty($message)) {
+        if (empty($message)) {
             $this->checkPiwikIsNotInstalled();
         }
         $view = new View(
@@ -234,7 +234,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         );
 
         $result = $this->updateComponents();
-        if($result === false) {
+        if ($result === false) {
             $this->redirectToNextStep('tablesCreation');
         }
 
@@ -259,7 +259,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->checkPiwikIsNotInstalled();
 
         $this->initObjectsToCallAPI();
-        if(count(APIUsersManager::getInstance()->getUsersHavingSuperUserAccess()) > 0) {
+        if (count(APIUsersManager::getInstance()->getUsersHavingSuperUserAccess()) > 0) {
             $this->redirectToNextStep('setupSuperUser');
         }
 
@@ -303,7 +303,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->initObjectsToCallAPI();
 
-        if(count(APISitesManager::getInstance()->getAllSitesId()) > 0) {
+        if (count(APISitesManager::getInstance()->getAllSitesId()) > 0) {
             // if there is a already a website, skip this step and trackingCode step
             $this->redirectToNextStep('trackingCode');
         }
@@ -336,7 +336,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         // Display previous step success message, when current step form was not submitted yet
-        if(count($form->getErrorMessages()) == 0) {
+        if (count($form->getErrorMessages()) == 0) {
             $view->displayGeneralSetupSuccess = true;
         }
 
@@ -513,7 +513,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function checkPiwikIsNotInstalled()
     {
-        if(!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isPiwikInstalled()) {
             return;
         }
         \Piwik\Plugins\Login\Controller::clearSession();
@@ -658,7 +658,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function deleteConfigFileIfNeeded()
     {
         $config = Config::getInstance();
-        if($config->existsLocalConfig()) {
+        if ($config->existsLocalConfig()) {
             $config->deleteLocalConfig();
         }
     }

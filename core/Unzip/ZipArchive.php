@@ -53,8 +53,9 @@ class ZipArchive implements UncompressInterface
         }
 
         $fileselector = array();
-        $list = array();
+        $list  = array();
         $count = $this->ziparchive->numFiles;
+
         if ($count === 0) {
             return 0;
         }
@@ -63,7 +64,7 @@ class ZipArchive implements UncompressInterface
             $entry = $this->ziparchive->statIndex($i);
 
             $filename = str_replace('\\', '/', $entry['name']);
-            $parts = explode('/', $filename);
+            $parts    = explode('/', $filename);
 
             if (!strncmp($filename, '/', 1) ||
                 array_search('..', $parts) !== false ||
@@ -71,6 +72,7 @@ class ZipArchive implements UncompressInterface
             ) {
                 return 0;
             }
+
             $fileselector[] = $entry['name'];
             $list[] = array(
                 'filename'        => $pathExtracted . $entry['name'],
@@ -84,8 +86,10 @@ class ZipArchive implements UncompressInterface
         }
 
         $res = $this->ziparchive->extractTo($pathExtracted, $fileselector);
-        if ($res === false)
+        if ($res === false) {
             return 0;
+        }
+
         return $list;
     }
 
@@ -128,6 +132,7 @@ class ZipArchive implements UncompressInterface
         } else {
             $statusString = 'Unknown status';
         }
+
         return $statusString . '(' . $this->ziparchive->status . ')';
     }
 }
