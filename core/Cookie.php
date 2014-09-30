@@ -354,7 +354,7 @@ class Cookie
         $name = self::escapeValue($name);
         if (false === $this->keyStore) {
             if (isset($this->value[$name])) {
-                self::escapeValue($this->value[$name]);
+                return self::escapeValue($this->value[$name]);
             }
 
             return false;
