@@ -18,6 +18,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * Clarifying semantics of each method and what they must support and can support.
   * **Read the documentation for the [Auth interface](http://developer.piwik.org/api-reference/Piwik/Auth) to learn more.**
 
+### Deprecations
+* The Piwik::setUserHasSuperUserAccess method is deprecated, instead use Access::doAsSuperUser. This method will ensure that super user access is properly rescinded after the callback finishes.
+
 ### New commands
 * `generate:angular-directive` Let's you easily generate a template for a new angular directive for any plugin.
 

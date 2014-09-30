@@ -308,4 +308,58 @@ class Core_AccessTest extends DatabaseTestCase
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertFalse($access->hasSuperUserAccess());
     }
+
+    public function test_doAsSuperUser_ChangesSuperUserAccessCorrectly()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
+
+        Access::doAsSuperUser(function () {
+            Core_AccessTest::assertTrue(Access::getInstance()->hasSuperUserAccess());
+        });
+
+        $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
+    }
+
+    public function test_doAsSuperUser_RemovesSuperUserAccess_IfExceptionThrown()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
+
+        try {
+            Access::doAsSuperUser(function () {
+                throw new Exception();
+            });
+
+            $this->fail("Exception was not propagated by doAsSuperUser.");
+        } catch (Exception $ex)
+        {
+            // pass
+        }
+
+        $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
+    }
+
+    public function test_doAsSuperUser_ReturnsCallbackResult()
+    {
+        $result = Access::doAsSuperUser(function () {
+            return 24;
+        });
+        $this->assertEquals(24, $result);
+    }
+
+    public function test_reloadAccess_DoesNotRemoveSuperUserAccess_IfUsedInDoAsSuperUser()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        Access::doAsSuperUser(function () {
+            $access = Access::getInstance();
+
+            Core_AccessTest::assertTrue($access->hasSuperUserAccess());
+            $access->reloadAccess();
+            Core_AccessTest::assertTrue($access->hasSuperUserAccess());
+        });
+    }
 }
