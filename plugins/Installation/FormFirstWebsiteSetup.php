@@ -86,7 +86,6 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
                 });
             }
         } catch (\Exception $e) {
-            Log::warning($e->getMessage());
             return false;
         }
         return true;
