@@ -2,11 +2,22 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>6</idVisit>
+		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
-		<userId />
 		
 		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle>Ads</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>1</pageId>
+				<generationTime>0.33s</generationTime>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<icon />
+			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -16,7 +27,8 @@
 		
 		
 		<searches>0</searches>
-		<actions>0</actions>
+		<actions>1</actions>
+		<userId/>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -27,8 +39,8 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>91</visitDuration>
-		<visitDurationPretty>1 min 31s</visitDurationPretty>
+		<visitDuration>271</visitDuration>
+		<visitDurationPretty>4 min 31s</visitDurationPretty>
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
@@ -90,183 +102,22 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>5</idVisit>
-		<visitIp>156.5.3.2</visitIp>
-		<userId />
-		
-		<actionDetails>
-		</actionDetails>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<searches>0</searches>
-		<actions>0</actions>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitCount>1</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>1</visitDuration>
-		<visitDurationPretty>1s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
-		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>13</idVisit>
+		<idVisit>2</idVisit>
 		<visitIp>111.1.1.1</visitIp>
-		<userId />
 		
 		<actionDetails>
-		</actionDetails>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<searches>0</searches>
-		<actions>0</actions>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitCount>1</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>91</visitDuration>
-		<visitDurationPretty>1 min 31s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
-		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
-		<plugins>director</plugins>
-		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/director.gif</pluginIcon>
-				<pluginName>director</pluginName>
+				<type>action</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle>Ads</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>13</pageId>
+				<generationTime>0.33s</generationTime>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<icon />
 			</row>
-		</pluginsIcons>
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>12</idVisit>
-		<visitIp>111.1.1.1</visitIp>
-		<userId />
-		
-		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -276,7 +127,8 @@
 		
 		
 		<searches>0</searches>
-		<actions>0</actions>
+		<actions>1</actions>
+		<userId/>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -287,8 +139,8 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitDuration>271</visitDuration>
+		<visitDurationPretty>4 min 31s</visitDurationPretty>
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
