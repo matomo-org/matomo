@@ -329,7 +329,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $ecommerce = (int)$form->getSubmitValue('ecommerce');
 
             try {
-                $result = APISitesManager::getInstance()->addSite($name, $url, $ecommerce);
+                $result = Access::doAsSuperUser(function () use ($name, $url, $ecommerce) {
+                    return APISitesManager::getInstance()->addSite($name, $url, $ecommerce);
+                });
+
                 $params = array(
                     'site_idSite' => $result,
                     'site_name' => urlencode($name)

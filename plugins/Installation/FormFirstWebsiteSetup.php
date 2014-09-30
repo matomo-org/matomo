@@ -13,6 +13,7 @@ use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
 use Piwik\Log;
+use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\QuickForm2;
@@ -80,7 +81,9 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
         try {
             $timezone = $this->owner->getValue();
             if (!empty($timezone)) {
-                API::getInstance()->setDefaultTimezone($timezone);
+                Access::doAsSuperUser(function () use ($timezone) {
+                    API::getInstance()->setDefaultTimezone($timezone);
+                });
             }
         } catch (\Exception $e) {
             Log::warning($e->getMessage());
