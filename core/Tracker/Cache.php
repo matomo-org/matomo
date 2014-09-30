@@ -8,6 +8,7 @@
  */
 namespace Piwik\Tracker;
 
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CacheFile;
 use Piwik\Common;
@@ -63,35 +64,29 @@ class Cache
 
         Tracker::initCorePiwikInTrackerMode();
 
-        // save current user privilege and temporarily assume Super User privilege
-        $isSuperUser = Piwik::hasUserSuperUserAccess();
-        Piwik::setUserHasSuperUserAccess();
-
         $content = array();
-
-        /**
-         * Triggered to get the attributes of a site entity that might be used by the
-         * Tracker.
-         *
-         * Plugins add new site attributes for use in other tracking events must
-         * use this event to put those attributes in the Tracker Cache.
-         *
-         * **Example**
-         *
-         *     public function getSiteAttributes($content, $idSite)
-         *     {
-         *         $sql = "SELECT info FROM " . Common::prefixTable('myplugin_extra_site_info') . " WHERE idsite = ?";
-         *         $content['myplugin_site_data'] = Db::fetchOne($sql, array($idSite));
-         *     }
-         *
-         * @param array &$content Array mapping of site attribute names with values.
-         * @param int $idSite The site ID to get attributes for.
-         */
-        Piwik::postEvent('Tracker.Cache.getSiteAttributes', array(&$content, $idSite));
-        Common::printDebug("Website $idSite tracker cache was re-created.");
-
-        // restore original user privilege
-        Piwik::setUserHasSuperUserAccess($isSuperUser);
+        Access::doAsSuperUser(function () use (&$content, $idSite) {
+            /**
+             * Triggered to get the attributes of a site entity that might be used by the
+             * Tracker.
+             *
+             * Plugins add new site attributes for use in other tracking events must
+             * use this event to put those attributes in the Tracker Cache.
+             *
+             * **Example**
+             *
+             *     public function getSiteAttributes($content, $idSite)
+             *     {
+             *         $sql = "SELECT info FROM " . Common::prefixTable('myplugin_extra_site_info') . " WHERE idsite = ?";
+             *         $content['myplugin_site_data'] = Db::fetchOne($sql, array($idSite));
+             *     }
+             *
+             * @param array &$content Array mapping of site attribute names with values.
+             * @param int $idSite The site ID to get attributes for.
+             */
+            Piwik::postEvent('Tracker.Cache.getSiteAttributes', array(&$content, $idSite));
+            Common::printDebug("Website $idSite tracker cache was re-created.");
+        });
 
         // if nothing is returned from the plugins, we don't save the content
         // this is not expected: all websites are expected to have at least one URL

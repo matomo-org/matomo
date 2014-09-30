@@ -219,10 +219,13 @@ class CronArchive
      */
     public function main()
     {
-        $this->init();
-        $this->run();
-        $this->runScheduledTasks();
-        $this->end();
+        $self = $this;
+        Access::doAsSuperUser(function () use ($self) {
+            $self->init();
+            $self->run();
+            $self->runScheduledTasks();
+            $self->end();
+        });
     }
 
     public function init()
@@ -232,7 +235,6 @@ class CronArchive
         $this->initTokenAuth();
         $this->initCheckCli();
         $this->initStateFromParameters();
-        Piwik::setUserHasSuperUserAccess(true);
 
         $this->logInitInfo();
         $this->checkPiwikUrlIsValid();

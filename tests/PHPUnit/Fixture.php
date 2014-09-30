@@ -185,7 +185,7 @@ class Fixture extends PHPUnit_Framework_Assert
         static::createAccessInstance();
 
         // We need to be SU to create websites for tests
-        Piwik::setUserHasSuperUserAccess();
+        Access::getInstance()->setSuperUserAccess();
 
         Cache::deleteTrackerCache();
 

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Auth as AuthInterface;
 use Piwik\Common;
 use Piwik\Config;
@@ -278,7 +279,7 @@ class Controller extends \Piwik\Plugin\Controller
             // have to do this as super user since redirectToIndex checks if there's a default website ID for
             // the current user and if not, doesn't redirect to the requested action. TODO: this behavior is wrong. somehow.
             $self = $this;
-            Piwik::doAsSuperUser(function () use ($self) {
+            Access::doAsSuperUser(function () use ($self) {
                 $self->redirectToIndex(Piwik::getLoginPluginName(), 'resetPasswordSuccess');
             });
             return null;

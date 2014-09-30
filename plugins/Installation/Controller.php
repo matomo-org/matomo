@@ -196,14 +196,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->tablesInstalled     = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
 
-            Access::getInstance();
-            Piwik::setUserHasSuperUserAccess();
-            if ($this->hasEnoughTablesToReuseDb($tablesInstalled) &&
-                count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
-                count(APIUsersManager::getInstance()->getUsers()) > 0
-            ) {
-                $view->showReuseExistingTables = true;
-            }
+            $self = $this;
+            Access::doAsSuperUser(function () use ($self, $tablesInstalled, $view) {
+                Access::getInstance();
+                if ($self->hasEnoughTablesToReuseDb($tablesInstalled) &&
+                    count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
+                    count(APIUsersManager::getInstance()->getUsers()) > 0
+                ) {
+                    $view->showReuseExistingTables = true;
+                }
+            });
         } else {
 
             DbHelper::createTables();
@@ -258,8 +260,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
-        $this->initObjectsToCallAPI();
-        if (count(APIUsersManager::getInstance()->getUsersHavingSuperUserAccess()) > 0) {
+        $superUserAlreadyExists = Access::doAsSuperUser(function () {
+            return count(APIUsersManager::getInstance()->getUsersHavingSuperUserAccess()) > 0;
+        });
+
+        if ($superUserAlreadyExists) {
             $this->redirectToNextStep('setupSuperUser');
         }
 
@@ -464,14 +469,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Instantiate access and log objects
-     */
-    private function initObjectsToCallAPI()
-    {
-        Piwik::setUserHasSuperUserAccess();
-    }
-
-    /**
      * Write configuration file from session-store
      */
     private function createConfigFile($dbInfos)
@@ -633,13 +630,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function createSuperUser($login, $password, $email)
     {
-        $this->initObjectsToCallAPI();
-
-        $api = APIUsersManager::getInstance();
-        $api->addUser($login, $password, $email);
-
-        $this->initObjectsToCallAPI();
-        $api->setSuperUserAccess($login, true);
+        $self = $this;
+        Access::doAsSuperUser(function () use ($self, $login, $password, $email) {
+            $api = APIUsersManager::getInstance();
+            $api->addUser($login, $password, $email);
+            $api->setSuperUserAccess($login, true);
+        });
     }
 
     private function hasEnoughTablesToReuseDb($tablesInstalled)
@@ -702,16 +698,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected function updateComponents()
     {
         Access::getInstance();
-        Piwik::setUserHasSuperUserAccess();
 
-        $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        return Access::doAsSuperUser(function () {
+            $updater = new Updater();
+            $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
 
-        if (empty($componentsWithUpdateFile)) {
-            return false;
-        }
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
-        return $result;
+            if (empty($componentsWithUpdateFile)) {
+                return false;
+            }
+            $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+            return $result;
+        });
     }
-
 }

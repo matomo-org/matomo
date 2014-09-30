@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Exception;
 use Piwik\Db;
 
 /**
@@ -146,7 +147,14 @@ class Access
             if ($this->hasSuperUserAccess()) {
                 return $this->reloadAccessSuperUser();
             }
+        }
 
+        if ($this->hasSuperUserAccess()) {
+            return $this->reloadAccessSuperUser();
+        }
+
+        // if the Auth wasn't set, we may be in the special case of setSuperUser(), otherwise we fail TODO: docs + review
+        if ($this->auth === null) {
             return false;
         }
 
@@ -421,6 +429,34 @@ class Access
         }
 
         return $idSites;
+    }
+
+    /**
+     * Executes a callback with superuser privileges, making sure those privileges are rescinded
+     * before this method exits. Privileges will be rescinded even if an exception is thrown.
+     *
+     * @param callback $function The callback to execute. Should accept no arguments.
+     * @return mixed The result of `$function`.
+     * @throws Exception rethrows any exceptions thrown by `$function`.
+     * @api
+     */
+    public static function doAsSuperUser($function)
+    {
+        $isSuperUser = self::getInstance()->hasSuperUserAccess();
+
+        self::getInstance()->setSuperUserAccess(true);
+
+        try {
+            $result = $function();
+        } catch (Exception $ex) {
+            self::getInstance()->setSuperUserAccess($isSuperUser);
+
+            throw $ex;
+        }
+
+        self::getInstance()->setSuperUserAccess($isSuperUser);
+
+        return $result;
     }
 }
 
