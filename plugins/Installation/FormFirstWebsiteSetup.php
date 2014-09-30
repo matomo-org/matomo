@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Installation;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\QuickForm2;
@@ -82,6 +83,7 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
                 API::getInstance()->setDefaultTimezone($timezone);
             }
         } catch (\Exception $e) {
+            Log::warning($e->getMessage());
             return false;
         }
         return true;

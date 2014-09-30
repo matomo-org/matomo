@@ -81,8 +81,6 @@ class Mysqli extends Db
         // See #6296 why this is important in tracker
         $flags = MYSQLI_CLIENT_FOUND_ROWS;
         mysqli_real_connect($this->connection, $this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket, $flags);
-
-       // $this->connection = mysqli_connect($this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket);
         if (!$this->connection || mysqli_connect_errno()) {
             throw new DbException("Connect failed: " . mysqli_connect_error());
         }
@@ -214,8 +212,8 @@ class Mysqli extends Db
             return $result;
         } catch (Exception $e) {
             throw new DbException("Error query: " . $e->getMessage() . "
-                                In query: $query
-                                Parameters: " . var_export($parameters, true));
+                                   In query: $query
+                                   Parameters: " . var_export($parameters, true));
         }
     }
 

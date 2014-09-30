@@ -33,8 +33,6 @@ class Rules
 
     const FLAG_TABLE_PURGED = 'lastPurge_';
 
-    public static $purgeOutdatedArchivesIsDisabled = false;
-
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;
 
@@ -129,16 +127,6 @@ class Rules
         return $doneFlags;
     }
 
-    public static function disablePurgeOutdatedArchives()
-    {
-        self::$purgeOutdatedArchivesIsDisabled = true;
-    }
-
-    public static function enablePurgeOutdatedArchives()
-    {
-        self::$purgeOutdatedArchivesIsDisabled = false;
-    }
-
     /**
      * Given a monthly archive table, will delete all reports that are now outdated,
      * or reports that ended with an error
@@ -148,9 +136,6 @@ class Rules
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
-        if (self::$purgeOutdatedArchivesIsDisabled) {
-            return false;
-        }
         $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
         $timestamp = Option::get($key);
 
