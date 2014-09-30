@@ -143,7 +143,7 @@ class Profiler
     {
         $totalTime = self::getDbElapsedSecs();
         $queryCount = Profiler::getQueryCount();
-        if($queryCount > 0) {
+        if ($queryCount > 0) {
             Log::debug(sprintf("Total queries = %d (total sql time = %.2fs)", $queryCount, $totalTime));
         }
     }
@@ -234,7 +234,7 @@ class Profiler
 
         $currentGitBranch = SettingsPiwik::getCurrentGitBranch();
         $profilerNamespace = "piwik";
-        if($currentGitBranch != 'master') {
+        if ($currentGitBranch != 'master') {
             $profilerNamespace .= "." . $currentGitBranch;
         }
 
@@ -326,7 +326,7 @@ class Profiler
     {
         $runIds = file_get_contents( self::getPathToXHProfRunIds() );
         $array = json_decode($runIds, $assoc = true);
-        if(!is_array($array)) {
+        if (!is_array($array)) {
             $array = array();
         }
         return $array;

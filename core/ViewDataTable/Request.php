@@ -119,8 +119,8 @@ class Request
         if (isset($_GET[$nameVar])) {
             return Common::sanitizeInputValue($_GET[$nameVar]);
         }
-        $default = $this->getDefault($nameVar);
-        return $default;
+
+        return $this->getDefault($nameVar);
     }
 
     /**

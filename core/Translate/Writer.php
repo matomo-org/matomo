@@ -71,7 +71,7 @@ class Writer
     protected $filterMessages = array();
 
     const UNFILTERED = 'unfiltered';
-    const FILTERED = 'filtered';
+    const FILTERED   = 'filtered';
 
     protected $currentState = self::UNFILTERED;
 
@@ -152,12 +152,14 @@ class Writer
     public function getTranslations($lang)
     {
         $path = $this->getTranslationPathBaseDirectory('lang', $lang);
+
         if (!is_readable($path)) {
             return array();
         }
 
         $data = file_get_contents($path);
         $translations = json_decode($data, true);
+
         return $translations;
     }
 

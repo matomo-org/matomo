@@ -212,8 +212,8 @@ class Mysqli extends Db
             return $result;
         } catch (Exception $e) {
             throw new DbException("Error query: " . $e->getMessage() . "
-								In query: $query
-								Parameters: " . var_export($parameters, true));
+                                   In query: $query
+                                   Parameters: " . var_export($parameters, true));
         }
     }
 
@@ -285,57 +285,58 @@ class Mysqli extends Db
         return mysqli_affected_rows($this->connection);
     }
 
-	/**
-	 * Start Transaction
-	 * @return string TransactionID
-	 */
+    /**
+     * Start Transaction
+     * @return string TransactionID
+     */
+    public function beginTransaction()
+    {
+        if (!$this->activeTransaction === false ) {
+            return;
+        }
 
-	public function beginTransaction()
-	{
-		if(!$this->activeTransaction === false ) {
-			return;
-		}
+        if ( $this->connection->autocommit(false) ) {
+            $this->activeTransaction = uniqid();
+            return $this->activeTransaction;
+        }
+    }
 
-		if( $this->connection->autocommit(false) ) {
-			$this->activeTransaction = uniqid();
-			return $this->activeTransaction;
-		}
-	}
+    /**
+     * Commit Transaction
+     * @param $xid
+     * @throws DbException
+     * @internal param TransactionID $string from beginTransaction
+     */
+    public function commit($xid)
+    {
+        if ($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
 
-	/**
-	 * Commit Transaction
-	 * @param string TransactionID from beginTransaction
-	 */
+            return;
+        }
+        $this->activeTransaction = false;
 
-	public function commit($xid)
-	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
+        if (!$this->connection->commit() ) {
+            throw new DbException("Commit failed");
+        }
+        $this->connection->autocommit(true);
+    }
 
-			return;
-		}
-		$this->activeTransaction = false;
+    /**
+     * Rollback Transaction
+     * @param $xid
+     * @throws DbException
+     * @internal param TransactionID $string from beginTransaction
+     */
+    public function rollBack($xid)
+    {
+        if ($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
+            return;
+        }
+        $this->activeTransaction = false;
 
-		if(!$this->connection->commit() ) {
-			throw new DbException("Commit failed");
-		}
-		$this->connection->autocommit(true);
-	}
-
-	/**
-	 * Rollback Transaction
-	 * @param string TransactionID from beginTransaction
-	 */
-
-	public function rollBack($xid)
-	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
-			return;
-		}
-		$this->activeTransaction = false;
-
-		if(!$this->connection->rollback() ) {
-			throw new DbException("Rollback failed");
-		}
-		$this->connection->autocommit(true);
-	}
+        if (!$this->connection->rollback() ) {
+            throw new DbException("Rollback failed");
+        }
+        $this->connection->autocommit(true);
+    }
 }

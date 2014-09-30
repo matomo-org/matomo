@@ -63,6 +63,7 @@ class Manager extends Singleton
         if (!isset($this->tables[$idTable])) {
             throw new TableNotFoundException(sprintf("This report has been reprocessed since your last click. To see this error less often, please increase the timeout value in seconds in Settings > General Settings. (error: id %s not found).", $idTable));
         }
+
         return $this->tables[$idTable];
     }
 
@@ -86,6 +87,7 @@ class Manager extends Singleton
                 $this->deleteTable($id);
             }
         }
+
         if ($deleteWhenIdTableGreaterThan == 0) {
             $this->tables = array();
             $this->nextTableId = 1;

@@ -221,7 +221,7 @@ class Tracker
      */
     public function main($args = null)
     {
-        if(!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isPiwikInstalled()) {
             return $this->handleEmptyRequest();
         }
         try {
@@ -468,7 +468,7 @@ class Tracker
             Common::sendHeader('Content-Type: text/html; charset=utf-8');
             echo $this->getMessageFromException($e);
         } else {
-            $this->outputTransparentGif();
+            $this->outputTransparentGif ();
         }
         exit;
     }
@@ -516,7 +516,7 @@ class Tracker
         }
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
-                $this->outputTransparentGif();
+                $this->outputTransparentGif ();
                 Common::printDebug("Logging disabled, display transparent logo");
                 break;
 
@@ -528,7 +528,7 @@ class Tracker
             case self::STATE_NOSCRIPT_REQUEST:
             case self::STATE_NOTHING_TO_NOTICE:
             default:
-                $this->outputTransparentGif();
+                $this->outputTransparentGif ();
                 Common::printDebug("Nothing to notice => default behaviour");
                 break;
         }
@@ -663,7 +663,7 @@ class Tracker
         return $visit;
     }
 
-    protected function outputTransparentGif()
+    protected function outputTransparentGif ()
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG'])
             && $GLOBALS['PIWIK_TRACKER_DEBUG']
@@ -717,7 +717,7 @@ class Tracker
 
     protected function handleEmptyRequest(Request $request = null)
     {
-        if(is_null($request)) {
+        if (is_null($request)) {
             $request = new Request($_GET + $_POST);
         }
         $countParameters = $request->getParamsCount();

@@ -34,6 +34,25 @@ class GoalManager
     const REVENUE_PRECISION = 2;
 
     const MAXIMUM_PRODUCT_CATEGORIES = 5;
+
+    // In the GET items parameter, each item has the following array of information
+    const INDEX_ITEM_SKU = 0;
+    const INDEX_ITEM_NAME = 1;
+    const INDEX_ITEM_CATEGORY = 2;
+    const INDEX_ITEM_PRICE = 3;
+    const INDEX_ITEM_QUANTITY = 4;
+
+    // Used in the array of items, internally to this class
+    const INTERNAL_ITEM_SKU = 0;
+    const INTERNAL_ITEM_NAME = 1;
+    const INTERNAL_ITEM_CATEGORY = 2;
+    const INTERNAL_ITEM_CATEGORY2 = 3;
+    const INTERNAL_ITEM_CATEGORY3 = 4;
+    const INTERNAL_ITEM_CATEGORY4 = 5;
+    const INTERNAL_ITEM_CATEGORY5 = 6;
+    const INTERNAL_ITEM_PRICE = 7;
+    const INTERNAL_ITEM_QUANTITY = 8;
+
     public $idGoal;
     public $requestIsEcommerce;
     private $isGoalAnOrder;
@@ -65,7 +84,7 @@ class GoalManager
         $this->idGoal  = $request->getParam('idgoal');
 
         $this->isGoalAnOrder = !empty($this->orderId);
-        $this->requestIsEcommerce = ($this->idGoal == 0);
+        $this->requestIsEcommerce = (0 == $this->idGoal);
     }
 
     public function isGoalAnOrder()
@@ -87,30 +106,36 @@ class GoalManager
     public static function getGoalDefinitions($idSite)
     {
         $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
+
         if (isset($websiteAttributes['goals'])) {
             return $websiteAttributes['goals'];
         }
+
         return array();
     }
 
     public static function getGoalDefinition($idSite, $idGoal)
     {
         $goals = self::getGoalDefinitions($idSite);
+
         foreach ($goals as $goal) {
             if ($goal['idgoal'] == $idGoal) {
                 return $goal;
             }
         }
+
         throw new Exception('Goal not found');
     }
 
     public static function getGoalIds($idSite)
     {
-        $goals = self::getGoalDefinitions($idSite);
+        $goals   = self::getGoalDefinitions($idSite);
         $goalIds = array();
+
         foreach ($goals as $goal) {
             $goalIds[] = $goal['idgoal'];
         }
+
         return $goalIds;
     }
 
@@ -131,14 +156,15 @@ class GoalManager
         $decodedActionUrl = $action->getActionUrl();
         $actionType = $action->getActionType();
         $goals = $this->getGoalDefinitions($idSite);
+
         foreach ($goals as $goal) {
             $attribute = $goal['match_attribute'];
             // if the attribute to match is not the type of the current action
-            if (   (($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
-                || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
-                || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
-                || ($attribute == 'manually')
-                || in_array($attribute, array('event_action', 'event_name', 'event_category')) && $actionType != Action::TYPE_EVENT
+            if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
+              || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
+              || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
+              || ($attribute == 'manually')
+              || in_array($attribute, array('event_action', 'event_name', 'event_category')) && $actionType != Action::TYPE_EVENT
             ) {
                 continue;
             }
@@ -169,7 +195,13 @@ class GoalManager
                 $this->convertedGoals[] = $goal;
             }
         }
+
         return count($this->convertedGoals) > 0;
+    }
+
+    public function isManualGoalConversion()
+    {
+        return $this->idGoal > 0;
     }
 
     public function detectGoalId($idSite)
@@ -177,15 +209,19 @@ class GoalManager
         if (!Common::isGoalPluginEnabled()) {
             return false;
         }
+
         $goals = $this->getGoalDefinitions($idSite);
+
         if (!isset($goals[$this->idGoal])) {
             return false;
         }
+
         $goal = $goals[$this->idGoal];
 
-        $url = $this->request->getParam('url');
+        $url         = $this->request->getParam('url');
         $goal['url'] = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
         $this->convertedGoals[] = $goal;
+
         return true;
     }
 
@@ -199,18 +235,7 @@ class GoalManager
      */
     public function recordGoals(Visitor $visitor, $visitorInformation, $visitCustomVariables, $action)
     {
-        $goal = array(
-            'idvisit'     => $visitorInformation['idvisit'],
-            'idvisitor'   => $visitorInformation['idvisitor'],
-            'server_time' => Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time'])
-        );
-
-        foreach (VisitDimension::getAllDimensions() as $dimension) {
-            $value = $dimension->onAnyGoalConversion($this->request, $visitor, $action);
-            if (false !== $value) {
-                $goal[$dimension->getColumnName()] = $value;
-            }
-        }
+        $goal = $this->getGoalFromVisitor($visitor, $visitorInformation, $action);
 
         // Copy Custom Variables from Visit row to the Goal conversion
         // Otherwise, set the Custom Variables found in the cookie sent with this request
@@ -249,6 +274,7 @@ class GoalManager
         if (round($revenue) == $revenue) {
             return $revenue;
         }
+
         return round($revenue, self::REVENUE_PRECISION);
     }
 
@@ -291,7 +317,8 @@ class GoalManager
 
         // INSERT or Sync items in the Cart / Order for this visit & order
         $items = $this->getEcommerceItemsFromRequest();
-        if ($items === false) {
+
+        if (false === $items) {
             return;
         }
 
@@ -338,12 +365,15 @@ class GoalManager
     private function getEcommerceItemsFromRequest()
     {
         $items = Common::unsanitizeInputValue($this->request->getParam('ec_items'));
+
         if (empty($items)) {
             Common::printDebug("There are no Ecommerce items in the request");
             // we still record an Ecommerce order without any item in it
             return array();
         }
+
         $items = Common::json_decode($items, $assoc = true);
+
         if (!is_array($items)) {
             Common::printDebug("Error while json_decode the Ecommerce items = " . var_export($items, true));
             return false;
@@ -371,8 +401,7 @@ class GoalManager
         // Select all items currently in the Cart if any
         $sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder as idorder_original_value
 				FROM " . Common::prefixTable('log_conversion_item') . "
-				WHERE idvisit = ?
-					AND (idorder = ? OR idorder = ?)";
+				WHERE idvisit = ? AND (idorder = ? OR idorder = ?)";
 
         $bind = array($goal['idvisit'],
                       isset($goal['idorder']) ? $goal['idorder'] : self::ITEM_IDORDER_ABANDONED_CART,
@@ -385,6 +414,7 @@ class GoalManager
         Common::printDebug($itemsInDb);
         // Look at which items need to be deleted, which need to be added or updated, based on the SKU
         $skuFoundInDb = $itemsToUpdate = array();
+
         foreach ($itemsInDb as $itemInDb) {
             $skuFoundInDb[] = $itemInDb['idaction_sku'];
 
@@ -435,26 +465,9 @@ class GoalManager
                 $itemsToInsert[] = $item;
             }
         }
+
         $this->insertEcommerceItems($goal, $itemsToInsert);
     }
-
-    // In the GET items parameter, each item has the following array of information
-    const INDEX_ITEM_SKU = 0;
-    const INDEX_ITEM_NAME = 1;
-    const INDEX_ITEM_CATEGORY = 2;
-    const INDEX_ITEM_PRICE = 3;
-    const INDEX_ITEM_QUANTITY = 4;
-
-    // Used in the array of items, internally to this class
-    const INTERNAL_ITEM_SKU = 0;
-    const INTERNAL_ITEM_NAME = 1;
-    const INTERNAL_ITEM_CATEGORY = 2;
-    const INTERNAL_ITEM_CATEGORY2 = 3;
-    const INTERNAL_ITEM_CATEGORY3 = 4;
-    const INTERNAL_ITEM_CATEGORY4 = 5;
-    const INTERNAL_ITEM_CATEGORY5 = 6;
-    const INTERNAL_ITEM_PRICE = 7;
-    const INTERNAL_ITEM_QUANTITY = 8;
 
     /**
      * Reads items from the request, then looks up the names from the lookup table
@@ -468,9 +481,10 @@ class GoalManager
         // Clean up the items array
         $cleanedItems = array();
         foreach ($items as $item) {
-            $name = $category = $category2 = $category3 = $category4 = $category5 = false;
-            $price = 0;
+            $name     = $category = $category2 = $category3 = $category4 = $category5 = false;
+            $price    = 0;
             $quantity = 1;
+
             // items are passed in the request as an array: ( $sku, $name, $category, $price, $quantity )
             if (empty($item[self::INDEX_ITEM_SKU])) {
                 continue;
@@ -562,6 +576,7 @@ class GoalManager
             $item[5] = $actionsLookedUp[$index * $columnsInEachRow + 5];
             $item[6] = $actionsLookedUp[$index * $columnsInEachRow + 6];
         }
+
         return $cleanedItems;
     }
 
@@ -579,6 +594,7 @@ class GoalManager
         if (empty($itemsToUpdate)) {
             return;
         }
+
         Common::printDebug("Goal data used to update ecommerce items:");
         Common::printDebug($goal);
 
@@ -588,13 +604,10 @@ class GoalManager
             $updateParts = $sqlBind = array();
             foreach ($newRow as $name => $value) {
                 $updateParts[] = $name . " = ?";
-                $sqlBind[] = $value;
+                $sqlBind[]     = $value;
             }
-            $sql = 'UPDATE ' . Common::prefixTable('log_conversion_item') . "
-					SET " . implode($updateParts, ', ') . "
-						WHERE idvisit = ?
-							AND idorder = ?
-							AND idaction_sku = ?";
+            $sql = 'UPDATE ' . Common::prefixTable('log_conversion_item') . " SET " . implode($updateParts, ', ') . "
+						WHERE idvisit = ? AND idorder = ? AND idaction_sku = ?";
             $sqlBind[] = $newRow['idvisit'];
             $sqlBind[] = $item['idorder_original_value'];
             $sqlBind[] = $newRow['idaction_sku'];
@@ -616,6 +629,7 @@ class GoalManager
         if (empty($itemsToInsert)) {
             return;
         }
+
         Common::printDebug("Ecommerce items that are added to the cart/order");
         Common::printDebug($itemsToInsert);
 
@@ -625,6 +639,7 @@ class GoalManager
 					VALUES ";
         $i = 0;
         $bind = array();
+
         foreach ($itemsToInsert as $item) {
             if ($i > 0) {
                 $sql .= ',';
@@ -634,6 +649,7 @@ class GoalManager
             $i++;
             $bind = array_merge($bind, $newRow);
         }
+
         Tracker::getDatabase()->query($sql, $bind);
         Common::printDebug($sql);
         Common::printDebug($bind);
@@ -685,7 +701,7 @@ class GoalManager
             Common::printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
             $conversion = $goal;
             $conversion['idgoal'] = $convertedGoal['idgoal'];
-            $conversion['url'] = $convertedGoal['url'];
+            $conversion['url']    = $convertedGoal['url'];
 
             if (!is_null($action)) {
                 $conversion['idaction_url'] = $action->getIdActionUrl();
@@ -741,11 +757,11 @@ class GoalManager
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);
 
-        $fields = implode(", ", array_keys($conversion));
+        $fields     = implode(", ", array_keys($conversion));
         $bindFields = Common::getSqlStringFieldsArray($conversion);
-        $sql = 'INSERT IGNORE INTO ' . Common::prefixTable('log_conversion') . "
-                ($fields) VALUES ($bindFields) ";
-        $bind = array_values($conversion);
+
+        $sql    = 'INSERT IGNORE INTO ' . Common::prefixTable('log_conversion') . " ($fields) VALUES ($bindFields) ";
+        $bind   = array_values($conversion);
         $result = Tracker::getDatabase()->query($sql, $bind);
 
         // If a record was inserted, we return true
@@ -775,24 +791,29 @@ class GoalManager
     protected function updateExistingConversion($newGoal, $updateWhere)
     {
         $updateParts = $sqlBind = $updateWhereParts = array();
+
         foreach ($newGoal as $name => $value) {
             $updateParts[] = $name . " = ?";
-            $sqlBind[] = $value;
+            $sqlBind[]     = $value;
         }
+
         foreach ($updateWhere as $name => $value) {
             $updateWhereParts[] = $name . " = ?";
-            $sqlBind[] = $value;
+            $sqlBind[]          = $value;
         }
-        $sql = 'UPDATE  ' . Common::prefixTable('log_conversion') . "
-					SET " . implode($updateParts, ', ') . "
-						WHERE " . implode($updateWhereParts, ' AND ');
+
+        $table = Common::prefixTable('log_conversion');
+        $parts = implode($updateParts, ', ');
+        $sql   = 'UPDATE  ' . $table . " SET " . $parts . " WHERE " . implode($updateWhereParts, ' AND ');
 
         try {
             Tracker::getDatabase()->query($sql, $sqlBind);
         } catch(Exception $e){
             Common::printDebug("There was an error while updating the Conversion: " . $e->getMessage());
+
             return false;
         }
+
         return true;
     }
 
@@ -842,6 +863,7 @@ class GoalManager
                 throw new Exception(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
                 break;
         }
+
         return $match;
     }
 
@@ -859,7 +881,7 @@ class GoalManager
         foreach ($dimensions as $dimension) {
             $value = $dimension->$hook($this->request, $visitor, $action, $this);
 
-            if ($value !== false) {
+            if (false !== $value) {
                 $fieldName = $dimension->getColumnName();
                 $visitor->setVisitorColumn($fieldName, $value);
 
@@ -868,5 +890,25 @@ class GoalManager
         }
 
         return $valuesToUpdate;
+    }
+
+    private function getGoalFromVisitor(Visitor $visitor, $visitorInformation, $action)
+    {
+        $goal = array(
+            'idvisit'     => $visitorInformation['idvisit'],
+            'idvisitor'   => $visitorInformation['idvisitor'],
+            'server_time' => Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time'])
+        );
+
+        $visitDimensions = VisitDimension::getAllDimensions();
+
+        foreach ($visitDimensions as $dimension) {
+            $value = $dimension->onAnyGoalConversion($this->request, $visitor, $action);
+            if (false !== $value) {
+                $goal[$dimension->getColumnName()] = $value;
+            }
+        }
+
+        return $goal;
     }
 }

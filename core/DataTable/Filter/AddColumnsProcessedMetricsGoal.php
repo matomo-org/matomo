@@ -8,12 +8,10 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Exception;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Tracker\GoalManager;
 
 /**
  * Adds goal related metrics to a {@link DataTable} using metrics that already exist.

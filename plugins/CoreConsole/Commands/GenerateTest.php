@@ -42,7 +42,7 @@ class GenerateTest extends GeneratePluginBase
          );
 
         $testClass  = $this->getTestClass($testType);
-        if(!empty($testClass)) {
+        if (!empty($testClass)) {
             $replace['\PHPUnit_Framework_TestCase'] = $testClass;
 
         }
@@ -167,7 +167,7 @@ class GenerateTest extends GeneratePluginBase
      */
     protected function getTestFilesWhitelist($testType)
     {
-        if('Integration' == $testType) {
+        if ('Integration' == $testType) {
             return array(
                 '/.gitignore',
                 '/tests',

@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
@@ -469,27 +467,27 @@ class ScheduledReports extends \Piwik\Plugin
 
         $reportsNeedSegment = array();
 
-        if(!$updatedSegment['enable_all_users']) {
+        if (!$updatedSegment['enable_all_users']) {
             // which reports would become invisible to other users?
             foreach($reportsUsingSegment as $report) {
-                if($report['login'] == Piwik::getCurrentUserLogin()) {
+                if ($report['login'] == Piwik::getCurrentUserLogin()) {
                     continue;
                 }
                 $reportsNeedSegment[] = $report;
             }
         }
 
-        if($updatedSegment['enable_only_idsite']) {
+        if ($updatedSegment['enable_only_idsite']) {
             // which reports from other websites are set to use this segment restricted to one website?
             foreach($reportsUsingSegment as $report) {
-                if($report['idsite'] == $updatedSegment['enable_only_idsite']) {
+                if ($report['idsite'] == $updatedSegment['enable_only_idsite']) {
                     continue;
                 }
                 $reportsNeedSegment[] = $report;
             }
         }
 
-        if(empty($reportsNeedSegment)) {
+        if (empty($reportsNeedSegment)) {
             return;
         }
 
@@ -526,7 +524,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function deleteUserReport($userLogin)
     {
-        Db::query('DELETE FROM ' . Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
+        $this->getModel()->deleteAllReportForUser($userLogin);
     }
 
     public function deleteUserReportForSites($userLogin, $idSites)
@@ -535,33 +533,21 @@ class ScheduledReports extends \Piwik\Plugin
             return;
         }
 
-        $table = Common::prefixTable('report');
+        $model = $this->getModel();
 
         foreach ($idSites as $idSite) {
-            Db::query('DELETE FROM ' . $table . ' WHERE login = ? and idsite = ?',
-                      array($userLogin, $idSite));
+            $model->deleteUserReportForSite($userLogin, $idSite);
         }
+    }
+
+    private function getModel()
+    {
+        return new Model();
     }
 
     public function install()
     {
-        $reportTable = "`idreport` INT(11) NOT NULL AUTO_INCREMENT,
-					    `idsite` INTEGER(11) NOT NULL,
-					    `login` VARCHAR(100) NOT NULL,
-					    `description` VARCHAR(255) NOT NULL,
-					    `idsegment` INT(11),
-					    `period` VARCHAR(10) NOT NULL,
-					    `hour` tinyint NOT NULL default 0,
-					    `type` VARCHAR(10) NOT NULL,
-					    `format` VARCHAR(10) NOT NULL,
-					    `reports` TEXT NOT NULL,
-					    `parameters` TEXT NULL,
-					    `ts_created` TIMESTAMP NULL,
-					    `ts_last_sent` TIMESTAMP NULL,
-					    `deleted` tinyint(4) NOT NULL default 0,
-					    PRIMARY KEY (`idreport`)";
-
-        DbHelper::createTable('report', $reportTable);
+        Model::install();
     }
 
     private static function checkAdditionalEmails($additionalEmails)

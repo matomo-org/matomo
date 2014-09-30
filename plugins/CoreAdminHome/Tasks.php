@@ -35,7 +35,7 @@ class Tasks extends \Piwik\Plugin\Tasks
             list($year, $month) = explode('_', $date);
 
             // Somehow we may have archive tables created with older dates, prevent exception from being thrown
-            if($year > 1990) {
+            if ($year > 1990) {
                 ArchivePurger::purgeOutdatedArchives(Date::factory("$year-$month-15"));
             }
         }

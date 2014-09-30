@@ -309,7 +309,7 @@ class Visitor implements VisitorInterface
 
             } elseif ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
                 // Handle Event
-                if(strlen($actionDetail['pageTitle']) > 0) {
+                if (strlen($actionDetail['pageTitle']) > 0) {
                     $actionDetail['eventName'] = $actionDetail['pageTitle'];
                 }
 
@@ -322,8 +322,8 @@ class Visitor implements VisitorInterface
             }
 
             // Event value / Generation time
-            if($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
-                if(strlen($actionDetail['custom_float']) > 0) {
+            if ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+                if (strlen($actionDetail['custom_float']) > 0) {
                     $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
                 }
             } elseif ($actionDetail['custom_float'] > 0) {

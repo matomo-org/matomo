@@ -328,11 +328,12 @@ class Report
     {
         if ($this->menuTitle) {
             $action = $this->getMenuControllerAction();
-            $menu->add($this->category,
-                       $this->menuTitle,
-                       array('module' => $this->module, 'action' => $action),
-                       $this->isEnabled(),
-                       $this->order);
+            if ($this->isEnabled()) {
+                $menu->addItem($this->category,
+                               $this->menuTitle,
+                               array('module' => $this->module, 'action' => $action),
+                               $this->order);
+            }
         }
     }
 
@@ -731,7 +732,7 @@ class Report
      */
     public static function getForDimension(Dimension $dimension)
     {
-        return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
+        return ComponentFactory::getComponentif (__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
             return !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId();

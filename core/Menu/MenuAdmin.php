@@ -45,7 +45,9 @@ class MenuAdmin extends MenuAbstract
      */
     public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
     {
-        self::getInstance()->add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
+        if ($displayedForCurrentUser) {
+            self::getInstance()->addItem('General_Settings', $adminMenuName, $url, $order);
+        }
     }
 
     /**
@@ -59,7 +61,7 @@ class MenuAdmin extends MenuAbstract
      */
     public function addDevelopmentItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('CoreAdminHome_MenuDevelopment', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('CoreAdminHome_MenuDevelopment', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -73,7 +75,7 @@ class MenuAdmin extends MenuAbstract
      */
     public function addDiagnosticItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('CoreAdminHome_MenuDiagnostic', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('CoreAdminHome_MenuDiagnostic', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -87,7 +89,7 @@ class MenuAdmin extends MenuAbstract
      */
     public function addPlatformItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('CorePluginsAdmin_MenuPlatform', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('CorePluginsAdmin_MenuPlatform', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -101,7 +103,7 @@ class MenuAdmin extends MenuAbstract
      */
     public function addSettingsItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('General_Settings', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('General_Settings', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -115,7 +117,7 @@ class MenuAdmin extends MenuAbstract
      */
     public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('CoreAdminHome_MenuManage', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('CoreAdminHome_MenuManage', $menuName, $url, $order, $tooltip);
     }
 
     /**

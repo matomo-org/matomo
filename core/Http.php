@@ -165,7 +165,7 @@ class Http
         $aUrl = trim($aUrl);
 
         // other result data
-        $status = null;
+        $status  = null;
         $headers = array();
 
         if ($method == 'socket') {

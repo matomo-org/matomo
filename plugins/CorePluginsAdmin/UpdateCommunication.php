@@ -109,34 +109,8 @@ class UpdateCommunication
             $hasPluginUpdate = $hasPluginUpdate || !$plugin['isTheme'];
         }
 
-        $subject  = Piwik::translate('CoreUpdater_NotificationSubjectAvailablePluginUpdate');
-        $message  = Piwik::translate('ScheduledReports_EmailHello');
-        $message .= "\n\n";
-        $message .= Piwik::translate('CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate');
-        $message .= "\n\n";
-
-        foreach ($pluginsToBeNotified as $plugin) {
-            $message .= sprintf(' * %s %s', $plugin['name'], $plugin['latestVersion']);
-            $message .= "\n";
-        }
-
-        $message .= "\n";
-
-        $host = SettingsPiwik::getPiwikUrl();
-        if ($hasThemeUpdate) {
-            $message .= Piwik::translate('CoreUpdater_NotificationClickToUpdateThemes') . "\n";
-            $message .= $host. 'index.php?module=CorePluginsAdmin&action=themes';
-        }
-        if ($hasPluginUpdate) {
-            if ($hasThemeUpdate) {
-                $message .= "\n\n";
-            }
-            $message .= Piwik::translate('CoreUpdater_NotificationClickToUpdatePlugins') . "\n";
-            $message .= $host. 'index.php?module=CorePluginsAdmin&action=plugins';
-        }
-
-        $message .= "\n\n";
-        $message .= Piwik::translate('Installation_HappyAnalysing');
+        $subject = Piwik::translate('CoreUpdater_NotificationSubjectAvailablePluginUpdate');
+        $message = $this->buildNotificationMessage($pluginsToBeNotified, $hasThemeUpdate, $hasPluginUpdate);
 
         $this->sendEmailNotification($subject, $message);
     }
@@ -161,24 +135,24 @@ class UpdateCommunication
         }
     }
 
-    private function setHasLatestUpdateNotificationReceived($plugin)
+    protected function setHasLatestUpdateNotificationReceived($plugin)
     {
         $latestVersion = $this->getLatestVersion($plugin);
 
         Option::set($this->getNotificationSentOptionName($plugin), $latestVersion);
     }
 
-    private function getLatestVersionSent($plugin)
+    protected function getLatestVersionSent($plugin)
     {
         return Option::get($this->getNotificationSentOptionName($plugin));
     }
 
-    private function getLatestVersion($plugin)
+    protected function getLatestVersion($plugin)
     {
         return $plugin['latestVersion'];
     }
 
-    private function hasNotificationAlreadyReceived($plugin)
+    protected function hasNotificationAlreadyReceived($plugin)
     {
         $latestVersion   = $this->getLatestVersion($plugin);
         $lastVersionSent = $this->getLatestVersionSent($plugin);
@@ -192,7 +166,7 @@ class UpdateCommunication
         return false;
     }
 
-    private function getNotificationSentOptionName($plugin)
+    protected function getNotificationSentOptionName($plugin)
     {
         return 'last_update_communication_sent_plugin_' . $plugin['name'];
     }
@@ -206,5 +180,40 @@ class UpdateCommunication
         $plugins = array_merge($pluginsHavingUpdate, $themesHavingUpdate);
 
         return $plugins;
+    }
+
+    protected function buildNotificationMessage($pluginsToBeNotified, $hasThemeUpdate, $hasPluginUpdate)
+    {
+        $message  = Piwik::translate('ScheduledReports_EmailHello');
+        $message .= "\n\n";
+        $message .= Piwik::translate('CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate');
+        $message .= "\n\n";
+
+        foreach ($pluginsToBeNotified as $plugin) {
+            $message .= sprintf(' * %s %s', $plugin['name'], $plugin['latestVersion']);
+            $message .= "\n";
+        }
+
+        $message .= "\n";
+
+        $host = SettingsPiwik::getPiwikUrl();
+
+        if ($hasThemeUpdate) {
+            $message .= Piwik::translate('CoreUpdater_NotificationClickToUpdateThemes') . "\n";
+            $message .= $host . 'index.php?module=CorePluginsAdmin&action=themes';
+        }
+
+        if ($hasPluginUpdate) {
+            if ($hasThemeUpdate) {
+                $message .= "\n\n";
+            }
+            $message .= Piwik::translate('CoreUpdater_NotificationClickToUpdatePlugins') . "\n";
+            $message .= $host . 'index.php?module=CorePluginsAdmin&action=plugins';
+        }
+
+        $message .= "\n\n";
+        $message .= Piwik::translate('Installation_HappyAnalysing');
+
+        return $message;
     }
 }

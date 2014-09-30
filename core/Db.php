@@ -271,7 +271,7 @@ class Db
      *
      * @param string $table The name of the table to delete from. Must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string $where The where clause of the query. Must include the WHERE keyword.
-     * @param $orderBy The column to order by and the order by direction, eg, `idvisit ASC`.
+     * @param string $orderBy The column to order by and the order by direction, eg, `idvisit ASC`.
      * @param int $maxRowsPerQuery The maximum number of rows to delete per `DELETE` query.
      * @param array $parameters Parameters to bind for each query.
      * @return int The total number of rows deleted.

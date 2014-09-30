@@ -45,16 +45,19 @@ class Cache
      */
     static function getCacheWebsiteAttributes($idSite)
     {
-        if($idSite == 'all') {
-            return array();
-        }
-        $idSite = (int)$idSite;
-        if($idSite <= 0) {
+        if ('all' == $idSite) {
             return array();
         }
 
-        $cache = self::getInstance();
-        if (($cacheContent = $cache->get($idSite)) !== false) {
+        $idSite = (int)$idSite;
+        if ($idSite <= 0) {
+            return array();
+        }
+
+        $cache        = self::getInstance();
+        $cacheContent = $cache->get($idSite);
+
+        if (false !== $cacheContent) {
             return $cacheContent;
         }
 
@@ -95,6 +98,7 @@ class Cache
         if (!empty($content)) {
             $cache->set($idSite, $content);
         }
+
         return $content;
     }
 
@@ -114,10 +118,12 @@ class Cache
      */
     public static function getCacheGeneral()
     {
-        $cache = self::getInstance();
+        $cache   = self::getInstance();
         $cacheId = 'general';
 
-        if (($cacheContent = $cache->get($cacheId)) !== false) {
+        $cacheContent = $cache->get($cacheId);
+
+        if (false !== $cacheContent) {
             return $cacheContent;
         }
 
@@ -161,9 +167,10 @@ class Cache
      */
     public static function setCacheGeneral($value)
     {
-        $cache = self::getInstance();
+        $cache   = self::getInstance();
         $cacheId = 'general';
         $cache->set($cacheId, $value);
+
         return true;
     }
 
@@ -177,6 +184,7 @@ class Cache
         if (!is_array($idSites)) {
             $idSites = array($idSites);
         }
+
         foreach ($idSites as $idSite) {
             self::deleteCacheWebsiteAttributes($idSite);
             self::getCacheWebsiteAttributes($idSite);

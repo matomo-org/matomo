@@ -56,7 +56,7 @@ class PluginsArchiver
      */
     public function callAggregateCoreMetrics()
     {
-        if($this->isSingleSiteDayArchive) {
+        if ($this->isSingleSiteDayArchive) {
             $metrics = $this->aggregateDayVisitsMetrics();
         } else {
             $metrics = $this->aggregateMultipleVisitsMetrics();
@@ -92,11 +92,11 @@ class PluginsArchiver
             /** @var Archiver $archiver */
             $archiver = new $archiverClass($this->archiveProcessor);
 
-            if(!$archiver->isEnabled()) {
+            if (!$archiver->isEnabled()) {
                 continue;
             }
-            if($this->shouldProcessReportsForPlugin($pluginName)) {
-                if($this->isSingleSiteDayArchive) {
+            if ($this->shouldProcessReportsForPlugin($pluginName)) {
+                if ($this->isSingleSiteDayArchive) {
                     $archiver->aggregateDayReport();
                 } else {
                     $archiver->aggregateMultipleReports();

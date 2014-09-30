@@ -36,7 +36,7 @@ use Exception;
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
  *
- * @method static \Piwik\Config getInstance()
+ * @method static Config getInstance()
  */
 class Config extends Singleton
 {
@@ -416,9 +416,9 @@ class Config extends Singleton
 
         $section = $this->getFromGlobalConfig($name);
         $sectionCommon = $this->getFromCommonConfig($name);
-        if(empty($section) && !empty($sectionCommon)) {
+        if (empty($section) && !empty($sectionCommon)) {
             $section = $sectionCommon;
-        } elseif(!empty($section) && !empty($sectionCommon)) {
+        } elseif (!empty($section) && !empty($sectionCommon)) {
             $section = $this->array_merge_recursive_distinct($section, $sectionCommon);
         }
 
@@ -559,7 +559,7 @@ class Config extends Singleton
         }
 
         // If there is a common.config.ini.php, this will ensure config.ini.php does not duplicate its values
-        if(!empty($configCommon)) {
+        if (!empty($configCommon)) {
             $configGlobal = $this->array_merge_recursive_distinct($configGlobal, $configCommon);
         }
 

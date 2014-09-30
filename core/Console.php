@@ -40,6 +40,7 @@ class Console extends Application
     {
         $this->initPiwikHost($input);
         $this->initConfig($output);
+
         try {
             self::initPlugins();
         } catch(\Exception $e) {
@@ -51,16 +52,21 @@ class Console extends Application
         $commands = $this->getAvailableCommands();
 
         foreach ($commands as $command) {
-            if (!class_exists($command)) {
-                Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
-            } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
-                Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
-            } else {
-                $this->add(new $command);
-            }
+            $this->addCommandIfExists($command);
         }
 
         return parent::doRun($input, $output);
+    }
+
+    private function addCommandIfExists($command)
+    {
+        if (!class_exists($command)) {
+            Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
+        } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
+            Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
+        } else {
+            $this->add(new $command);
+        }
     }
 
     /**
@@ -128,9 +134,11 @@ class Console extends Application
     protected function initConfig(OutputInterface $output)
     {
         $config = Config::getInstance();
+
         try {
             $config->checkLocalConfigFound();
             return $config;
+
         } catch (\Exception $e) {
             $output->writeln($e->getMessage() . "\n");
         }
@@ -151,6 +159,8 @@ class Console extends Application
             $extra = new \Piwik\Plugins\EnterpriseAdmin\EnterpriseAdmin();
             $extra->addConsoleCommands($commands);
         }
+
         return $commands;
     }
+
 }

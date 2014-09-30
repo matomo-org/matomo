@@ -81,8 +81,7 @@ class ArchivePurger
 
     protected static function getTemporaryArchiveIdsOlderThan(Date $date, $purgeArchivesOlderThan)
     {
-        $query = "SELECT idarchive
-                FROM " . ArchiveTableCreator::getNumericTable($date) . "
+        $query = "SELECT idarchive FROM " . ArchiveTableCreator::getNumericTable($date) . "
                 WHERE name LIKE 'done%'
                     AND ((  value = " . ArchiveWriter::DONE_OK_TEMPORARY . "
                             AND ts_archived < ?)

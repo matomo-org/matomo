@@ -8,11 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Common;
-use Piwik\Log;
-use Piwik\Piwik;
-use Piwik\Version;
-
 require_once PIWIK_INCLUDE_PATH . '/core/Log.php';
 
 /**

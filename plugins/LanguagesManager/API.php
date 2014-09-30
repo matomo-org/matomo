@@ -9,7 +9,6 @@
  */
 namespace Piwik\Plugins\LanguagesManager;
 
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\Filesystem;
 use Piwik\Piwik;
@@ -229,12 +228,20 @@ class API extends \Piwik\Plugin\API
      */
     public function getLanguageForUser($login)
     {
-        if($login == 'anonymous') {
+        if ($login == 'anonymous') {
             return false;
         }
+
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
-        return Db::fetchOne('SELECT language FROM ' . Common::prefixTable('user_language') .
-            ' WHERE login = ? ', array($login));
+
+        $lang = $this->getModel()->getLanguageForUser($login);
+
+        return $lang;
+    }
+
+    private function getModel()
+    {
+        return new Model();
     }
 
     /**
@@ -248,15 +255,13 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
         Piwik::checkUserIsNotAnonymous();
+
         if (!$this->isLanguageAvailable($languageCode)) {
             return false;
         }
-        $paramsBind = array($login, $languageCode, $languageCode);
-        Db::query('INSERT INTO ' . Common::prefixTable('user_language') .
-            ' (login, language)
-                VALUES (?,?)
-            ON DUPLICATE KEY UPDATE language=?',
-            $paramsBind);
+
+        $this->getModel()->setLanguageForUser($login, $languageCode);
+
         return true;
     }
 

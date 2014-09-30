@@ -22,31 +22,49 @@ use Piwik\Tracker;
  */
 abstract class Action
 {
-    const TYPE_PAGE_URL = 1;
-    const TYPE_OUTLINK = 2;
-    const TYPE_DOWNLOAD = 3;
+    const TYPE_PAGE_URL   = 1;
+    const TYPE_OUTLINK    = 2;
+    const TYPE_DOWNLOAD   = 3;
     const TYPE_PAGE_TITLE = 4;
-    const TYPE_ECOMMERCE_ITEM_SKU = 5;
+    const TYPE_ECOMMERCE_ITEM_SKU  = 5;
     const TYPE_ECOMMERCE_ITEM_NAME = 6;
     const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
     const TYPE_SITE_SEARCH = 8;
 
-    const TYPE_EVENT = 10; // Alias TYPE_EVENT_CATEGORY
+    const TYPE_EVENT          = 10; // Alias TYPE_EVENT_CATEGORY
     const TYPE_EVENT_CATEGORY = 10;
-    const TYPE_EVENT_ACTION = 11;
-    const TYPE_EVENT_NAME = 12;
+    const TYPE_EVENT_ACTION   = 11;
+    const TYPE_EVENT_NAME     = 12;
 
-    const TYPE_CONTENT = 13; // Alias TYPE_CONTENT_NAME
-    const TYPE_CONTENT_NAME = 13;
-    const TYPE_CONTENT_PIECE = 14;
-    const TYPE_CONTENT_TARGET = 15;
+    const TYPE_CONTENT             = 13; // Alias TYPE_CONTENT_NAME
+    const TYPE_CONTENT_NAME        = 13;
+    const TYPE_CONTENT_PIECE       = 14;
+    const TYPE_CONTENT_TARGET      = 15;
     const TYPE_CONTENT_INTERACTION = 16;
 
     const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
     private static $factoryPriority = array(
-        self::TYPE_PAGE_URL, self::TYPE_CONTENT, self::TYPE_SITE_SEARCH, self::TYPE_EVENT, self::TYPE_OUTLINK, self::TYPE_DOWNLOAD
+        self::TYPE_PAGE_URL,
+        self::TYPE_CONTENT,
+        self::TYPE_SITE_SEARCH,
+        self::TYPE_EVENT,
+        self::TYPE_OUTLINK,
+        self::TYPE_DOWNLOAD
     );
+
+    /**
+     * Public so that events listener can access it
+     *
+     * @var Request
+     */
+    public $request;
+
+    private $idLinkVisitAction;
+    private $actionIdsCached = array();
+    private $actionName;
+    private $actionType;
+    private $actionUrl;
 
     /**
      * Makes the correct Action object based on the request.
@@ -102,7 +120,7 @@ abstract class Action
         $instances = array();
 
         foreach ($actions as $action) {
-            /** @var \Piwik\Tracker\Action $instance */
+            /** @var \Piwik\Tracker\Action $action */
             if ($action::shouldHandle($request)) {
                 $instances[] = new $action($request);
             }
@@ -110,19 +128,6 @@ abstract class Action
 
         return $instances;
     }
-
-    /**
-     * Public so that events listener can access it
-     *
-     * @var Request
-     */
-    public $request;
-
-    private $idLinkVisitAction;
-    private $actionIdsCached = array();
-    private $actionName;
-    private $actionType;
-    private $actionUrl;
 
     public function __construct($type, Request $request)
     {
@@ -152,8 +157,7 @@ abstract class Action
 
     public function getCustomVariables()
     {
-        $customVariables = $this->request->getCustomVariables($scope = 'page');
-        return $customVariables;
+        return $this->request->getCustomVariables($scope = 'page');
     }
 
     // custom_float column
@@ -164,8 +168,7 @@ abstract class Action
 
     protected function setActionName($name)
     {
-        $name = PageUrl::cleanupString((string)$name);
-        $this->actionName = $name;
+        $this->actionName = PageUrl::cleanupString((string)$name);
     }
 
     protected function setActionUrl($url)
@@ -178,8 +181,7 @@ abstract class Action
             Common::printDebug(' After is "' . $url . '"');
         }
 
-        $url = PageUrl::getUrlIfLookValid($url);
-        $this->actionUrl = $url;
+        $this->actionUrl = PageUrl::getUrlIfLookValid($url);
     }
 
     abstract protected function getActionsToLookup();
@@ -187,11 +189,13 @@ abstract class Action
     protected function getUrlAndType()
     {
         $url = $this->getActionUrl();
+
         if (!empty($url)) {
             // normalize urls by stripping protocol and www
             $url = PageUrl::normalizeUrl($url);
             return array($url['url'], self::TYPE_PAGE_URL, $url['prefixId']);
         }
+
         return false;
     }
 
@@ -214,9 +218,11 @@ abstract class Action
 
     public function getIdActionName()
     {
-        if(!isset($this->actionIdsCached['idaction_name'])) {
+        if (!isset($this->actionIdsCached['idaction_name'])) {
+
             return false;
         }
+
         return $this->actionIdsCached['idaction_name'];
     }
 
@@ -230,24 +236,17 @@ abstract class Action
         return $this->idLinkVisitAction;
     }
 
-    public function writeDebugInfo()
-    {
-        $type = self::getTypeAsString($this->getActionType());
-        Common::printDebug("Action is a $type,
-                Action name =  " . $this->getActionName() . ",
-                Action URL = " . $this->getActionUrl());
-        return true;
-    }
-
     public static function getTypeAsString($type)
     {
-        $class = new \ReflectionClass("\\Piwik\\Tracker\\Action");
+        $class     = new \ReflectionClass("\\Piwik\\Tracker\\Action");
         $constants = $class->getConstants();
 
         $typeId = array_search($type, $constants);
-        if($typeId === false) {
+
+        if (false === $typeId) {
             throw new Exception("Unexpected action type " . $type);
         }
+
         return str_replace('TYPE_', '', $typeId);
     }
 
@@ -262,24 +261,27 @@ abstract class Action
      */
     public function loadIdsFromLogActionTable()
     {
-        if(!empty($this->actionIdsCached)) {
+        if (!empty($this->actionIdsCached)) {
             return;
         }
 
-        $actions    = $this->getActionsToLookup();
+        /** @var ActionDimension[] $dimensions */
         $dimensions = ActionDimension::getAllDimensions();
+        $actions    = $this->getActionsToLookup();
 
         foreach ($dimensions as $dimension) {
             $value = $dimension->onLookupAction($this->request, $this);
 
-            if ($value !== false) {
+            if (false !== $value) {
                 $field = $dimension->getColumnName();
 
                 if (empty($field)) {
-                    throw new Exception('Dimension ' . get_class($dimension) . ' does not define a field name');
+                    $dimensionClass = get_class($dimension);
+                    throw new Exception('Dimension ' . $dimensionClass . ' does not define a field name');
                 }
 
-                $actions[$field] = array($value, $dimension->getActionId());
+                $actionId        = $dimension->getActionId();
+                $actions[$field] = array($value, $actionId);
                 Common::printDebug("$field = $value");
             }
         }
@@ -316,6 +318,7 @@ abstract class Action
             'idaction_name_ref' => $idReferrerActionName
         );
 
+        /** @var ActionDimension[] $dimensions */
         $dimensions = ActionDimension::getAllDimensions();
 
         foreach ($dimensions as $dimension) {
@@ -347,12 +350,8 @@ abstract class Action
         }
 
         $visitAction = array_merge($visitAction, $customVariables);
-        $fields      = implode(", ", array_keys($visitAction));
-        $bind        = array_values($visitAction);
-        $values      = Common::getSqlStringFieldsArray($visitAction);
 
-        $sql = "INSERT INTO " . Common::prefixTable('log_link_visit_action') . " ($fields) VALUES ($values)";
-        Tracker::getDatabase()->query($sql, $bind);
+        $this->recordAction($visitAction);
 
         $this->idLinkVisitAction = Tracker::getDatabase()->lastInsertId();
         $visitAction['idlink_va'] = $this->idLinkVisitAction;
@@ -370,13 +369,36 @@ abstract class Action
         Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $visitAction));
     }
 
+    public function writeDebugInfo()
+    {
+        $type = self::getTypeAsString($this->getActionType());
+        $name = $this->getActionName();
+        $url  = $this->getActionUrl();
+
+        Common::printDebug("Action is a $type,
+                Action name =  " . $name . ",
+                Action URL = " . $url);
+
+        return true;
+    }
+
+    private function recordAction($visitAction)
+    {
+        $fields = implode(", ", array_keys($visitAction));
+        $bind   = array_values($visitAction);
+        $values = Common::getSqlStringFieldsArray($visitAction);
+
+        $sql = "INSERT INTO " . Common::prefixTable('log_link_visit_action') . " ($fields) VALUES ($values)";
+        Tracker::getDatabase()->query($sql, $bind);
+    }
+
     /**
      * @return bool
      */
-    protected function isActionHasActionName()
+    private function isActionHasActionName()
     {
-        return in_array($this->getActionType(), array(self::TYPE_PAGE_TITLE,
-                                                      self::TYPE_PAGE_URL,
-                                                      self::TYPE_SITE_SEARCH));
+        $types = array(self::TYPE_PAGE_TITLE, self::TYPE_PAGE_URL, self::TYPE_SITE_SEARCH);
+
+        return in_array($this->getActionType(), $types);
     }
 }

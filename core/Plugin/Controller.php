@@ -897,7 +897,7 @@ abstract class Controller
         $tokenRequest = Common::getRequestVar('token_auth', false);
         $tokenUser = Piwik::getCurrentUserTokenAuth();
 
-        if(empty($tokenRequest) && empty($tokenUser)) {
+        if (empty($tokenRequest) && empty($tokenUser)) {
             return; // UI tests
         }
 

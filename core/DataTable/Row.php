@@ -183,7 +183,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
         if (isset($this->c[self::COLUMNS][$oldName])) {
             $this->c[self::COLUMNS][$newName] = $this->c[self::COLUMNS][$oldName];
         }
-        // outside the if() since we want to delete nulled columns
+        // outside the if () since we want to delete nulled columns
         unset($this->c[self::COLUMNS][$oldName]);
     }
 
@@ -500,9 +500,10 @@ class Row implements \ArrayAccess, \IteratorAggregate
      *
      * @param \Piwik\DataTable\Row $rowToSum The row to sum to this row.
      * @param bool $enableCopyMetadata Whether metadata should be copied or not.
-     * @param array $aggregationOperations for columns that should not be summed, determine which
+     * @param array|bool $aggregationOperations for columns that should not be summed, determine which
      *                                     aggregation should be used (min, max). format:
      *                                     `array('column name' => 'function name')`
+     * @throws Exception
      */
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
@@ -528,7 +529,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
             if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
                 $operation = 'max';
             }
-            if(empty($operation)) {
+            if (empty($operation)) {
                 throw new Exception("Unknown aggregation operation for column $columnToSumName.");
             }
 

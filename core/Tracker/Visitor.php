@@ -209,16 +209,16 @@ class Visitor
      */
     protected function getWindowLookupThisVisit()
     {
-        $visitStandardLength = Config::getInstance()->Tracker['visit_standard_length'];
+        $visitStandardLength    = Config::getInstance()->Tracker['visit_standard_length'];
         $lookBackNSecondsCustom = Config::getInstance()->Tracker['window_look_back_for_visitor'];
 
         $lookAheadNSeconds = $visitStandardLength;
-        $lookBackNSeconds = $visitStandardLength;
+        $lookBackNSeconds  = $visitStandardLength;
         if ($lookBackNSecondsCustom > $lookBackNSeconds) {
             $lookBackNSeconds = $lookBackNSecondsCustom;
         }
 
-        $timeLookBack = date('Y-m-d H:i:s', $this->request->getCurrentTimestamp() - $lookBackNSeconds);
+        $timeLookBack  = date('Y-m-d H:i:s', $this->request->getCurrentTimestamp() - $lookBackNSeconds);
         $timeLookAhead = date('Y-m-d H:i:s', $this->request->getCurrentTimestamp() + $lookAheadNSeconds);
 
         return array($timeLookBack, $timeLookAhead);
@@ -240,6 +240,7 @@ class Visitor
             || $isForcedVisitorIdMustMatch
             || $isForcedUserIdMustMatch
             || !$isVisitorIdToLookup);
+
         return $shouldMatchOneFieldOnly;
     }
 

@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Common;
 
 /**
  * Base class for all factory types.

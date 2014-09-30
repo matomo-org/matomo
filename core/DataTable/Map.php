@@ -246,12 +246,14 @@ class Map implements DataTableInterface
     public function getColumn($name)
     {
         $values = array();
+
         foreach ($this->getDataTables() as $table) {
             $moreValues = $table->getColumn($name);
             foreach ($moreValues as &$value) {
                 $values[] = $value;
             }
         }
+
         return $values;
     }
 

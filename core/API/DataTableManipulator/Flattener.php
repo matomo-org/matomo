@@ -127,6 +127,7 @@ class Flattener extends DataTableManipulator
      * Remove the flat parameter from the subtable request
      *
      * @param array $request
+     * @return array
      */
     protected function manipulateSubtableRequest($request)
     {
