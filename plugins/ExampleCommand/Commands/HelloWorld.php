@@ -31,7 +31,7 @@ class HelloWorld extends ConsoleCommand
     protected function configure()
     {
         $this->setName('examplecommand:helloworld');
-        $this->setDescription('ExampleCommand');
+        $this->setDescription('ExampleCommandDescription');
         $this->addOption('name', null, InputOption::VALUE_REQUIRED, 'Your name:');
     }
 
