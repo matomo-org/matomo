@@ -42,6 +42,12 @@ class Report
     const COMPONENT_SUBNAMESPACE = 'Reports';
 
     /**
+     * When added to the menu, a given report eg 'getCampaigns'
+     * will be routed as &action=menuGetCampaigns
+     */
+    const PREFIX_ACTION_IN_MENU = 'menu';
+
+    /**
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected
      * automatically.
      * @var string
@@ -711,7 +717,7 @@ class Report
 
     private function getMenuControllerAction()
     {
-        return 'menu' . ucfirst($this->action);
+        return self::PREFIX_ACTION_IN_MENU . ucfirst($this->action);
     }
 
     private function getSubtableApiMethod()

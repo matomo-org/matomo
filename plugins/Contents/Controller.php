@@ -27,7 +27,7 @@ class Controller extends \Piwik\Plugin\Controller
             $reportsView->addReport(
                 $report->getCategory(),
                 $report->getName(),
-                'Contents.menu' . ucfirst($report->getAction())
+                'Contents.' . Report::PREFIX_ACTION_IN_MENU . ucfirst($report->getAction())
             );
         }
 

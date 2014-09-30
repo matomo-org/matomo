@@ -57,6 +57,7 @@ use Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 class FrontController extends Singleton
 {
     const DEFAULT_MODULE = 'CoreHome';
+
     /**
      * Set to false and the Front Controller will not dispatch the request
      *
@@ -153,7 +154,8 @@ class FrontController extends Singleton
             return array(new CoreHomeController(), 'renderReportWidget');
         }
 
-        if (!empty($action) && 'menu' === substr($action, 0, 4)) {
+        if (!empty($action) && Report::PREFIX_ACTION_IN_MENU === substr($action, 0, strlen(Report
+            ::PREFIX_ACTION_IN_MENU))) {
             $reportAction = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
             $report       = Report::factory($module, $reportAction);
 
