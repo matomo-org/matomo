@@ -213,7 +213,7 @@ class Process
         }
         // Testing if /proc is a resource with @fopen fails on systems with open_basedir set.
         // by using stat we not only test the existance of /proc but also confirm it's a 'proc' filesystem
-        $type = shell_exec('stat -f -c "%T" /proc 2>/dev/null');
+        $type = @shell_exec('stat -f -c "%T" /proc 2>/dev/null');
         return strpos($type, 'proc') === 0;
     }
 
