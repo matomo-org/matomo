@@ -26,6 +26,28 @@ class DatabaseTestCase extends IntegrationTestCase
     public static $fixture;
     public static $tableData;
 
+    /**
+     * Implementation details:
+     *
+     * To increase speed of tests, database setup is done once in setUpBeforeClass.
+     * Afterwards, the content of the tables is stored in a static class variable,
+     * self::$tableData. Before each individual test, the database tables are
+     * truncated and the data in self::$tableData is restored.
+     *
+     * If your test modifies table columns, you will need to recreate the database
+     * completely. This can be accomplished by:
+     *
+     *     public function setUp()
+     *     {
+     *         self::$fixture->performSetUp();
+     *     }
+     *
+     *     public function tearDown()
+     *     {
+     *         parent::tearDown();
+     *         self::$fixture->performTearDown();
+     *     }
+     */
     public static function setUpBeforeClass()
     {
         static::configureFixture(static::$fixture);
