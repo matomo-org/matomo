@@ -49,6 +49,24 @@
 	</row>
 	<row>
 		<idVisit>3</idVisit>
+		<visitorId>6be121d126d93581</visitorId>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/no-user-id-set-but-should-appear-in-user-id-visit</url>
+				<pageTitle>no User Id set but it should appear in email@example.com!</pageTitle>
+				<pageIdAction>6</pageIdAction>
+				<serverTimePretty>Sat 6 Mar 13:16:33</serverTimePretty>
+				<pageId>4</pageId>
+				<icon />
+			</row>
+		</actionDetails>
+		<lastActionDateTime>2010-03-06 13:16:33</lastActionDateTime>
+		<actions>1</actions>
+		<userId>0</userId>
+	</row>
+	<row>
+		<idVisit>4</idVisit>
 		<visitorId>9395988394d4568d</visitorId>
 		<actionDetails>
 			<row>
@@ -57,7 +75,7 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 13:22:33</serverTimePretty>
-				<pageId>4</pageId>
+				<pageId>5</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -68,7 +86,7 @@
 				<pageTitle>second page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 13:28:33</serverTimePretty>
-				<pageId>5</pageId>
+				<pageId>6</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -77,7 +95,7 @@
 		<userId>email@example.com</userId>
 	</row>
 	<row>
-		<idVisit>4</idVisit>
+		<idVisit>5</idVisit>
 		<visitorId>c9ade7a5a103b2ed</visitorId>
 		<actionDetails>
 			<row>
@@ -86,7 +104,7 @@
 				<pageTitle>a new user id was set -&gt; new visit</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 13:34:33</serverTimePretty>
-				<pageId>6</pageId>
+				<pageId>7</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -95,16 +113,16 @@
 		<userId>new-email@example.com</userId>
 	</row>
 	<row>
-		<idVisit>5</idVisit>
+		<idVisit>6</idVisit>
 		<visitorId>c9ade7a5a103b2ed</visitorId>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://example.org/home</url>
 				<pageTitle>same user id was set -&gt; this is the same unique user</pageTitle>
-				<pageIdAction>8</pageIdAction>
+				<pageIdAction>10</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:22:33</serverTimePretty>
-				<pageId>7</pageId>
+				<pageId>8</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -113,9 +131,9 @@
 				<type>action</type>
 				<url>http://example.org/home</url>
 				<pageTitle>second pageview - by this user id</pageTitle>
-				<pageIdAction>8</pageIdAction>
+				<pageIdAction>10</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
-				<pageId>8</pageId>
+				<pageId>9</pageId>
 				<icon />
 			</row>
 			<row>
@@ -150,16 +168,16 @@
 		<userId>new-email@example.com</userId>
 	</row>
 	<row>
-		<idVisit>6</idVisit>
+		<idVisit>7</idVisit>
 		<visitorId>5e15b4d842cc294d</visitorId>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://example.org/home</url>
 				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
-				<pageIdAction>8</pageIdAction>
+				<pageIdAction>10</pageIdAction>
 				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
-				<pageId>9</pageId>
+				<pageId>10</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -168,7 +186,7 @@
 		<userId>0</userId>
 	</row>
 	<row>
-		<idVisit>7</idVisit>
+		<idVisit>8</idVisit>
 		<visitorId>9395988394d4568d</visitorId>
 		<actionDetails>
 			<row>
@@ -177,7 +195,7 @@
 				<pageTitle>Page view by email@example.com</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<serverTimePretty>Sun 14 Mar 11:22:33</serverTimePretty>
-				<pageId>10</pageId>
+				<pageId>11</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -186,7 +204,7 @@
 		<userId>email@example.com</userId>
 	</row>
 	<row>
-		<idVisit>8</idVisit>
+		<idVisit>9</idVisit>
 		<visitorId>72d4b5565daf5546</visitorId>
 		<actionDetails>
 			<row>
@@ -195,7 +213,7 @@
 				<pageTitle>A page view by new-user-id@one-weeklater</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<serverTimePretty>Sun 14 Mar 11:46:33</serverTimePretty>
-				<pageId>11</pageId>
+				<pageId>12</pageId>
 				<icon />
 			</row>
 		</actionDetails>

@@ -80,11 +80,18 @@ class FewVisitsWithSetVisitorId extends Fixture
 
     private function trackVisits_setUserId()
     {
+        $userId = self::USER_ID_EXAMPLE_COM;
         // total = 2 visitors, 3 page views
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
         // First, some basic tests
         $this->settingInvalidUserIdShouldThrow($t);
+
+        // We create a visit with no User ID.
+        // When User ID  will be set below, then it will UPDATE this visit here that starts without UserID
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1.9)->getDatetime());
+        $t->setUrl('http://example.org/no-user-id-set-but-should-appear-in-user-id-visit');
+        self::checkResponse($t->doTrackPageView('no User Id set but it should appear in '. $userId .'!'));
 
         // A NEW VISIT
         // Setting both Visitor ID and User ID
@@ -98,7 +105,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         $this->assertEquals($generatedVisitorId, $t->getVisitorId());
 
         // Set User ID
-        $userId = self::USER_ID_EXAMPLE_COM;
         $t->setUserId($userId);
         $this->assertEquals($userId, $t->getUserId());
 
@@ -112,7 +118,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         // Track another pageview
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.1)->getDatetime());
         self::checkResponse($t->doTrackPageView('second page'));
-
 
         // A NEW VISIT WITH A SET USER ID
         // Change User ID -> This will create a new visit
