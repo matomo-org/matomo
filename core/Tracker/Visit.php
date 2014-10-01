@@ -513,11 +513,7 @@ class Visit implements VisitInterface
     {
         $valuesToUpdate = array();
 
-        // Might update the idvisitor when it was forced or overwritten for this visit
-        if (strlen($this->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
-            $valuesToUpdate['idvisitor'] = $this->visitorInfo['idvisitor'];
-            $visitor->setVisitorColumn('idvisitor', $this->visitorInfo['idvisitor']);
-        }
+        $valuesToUpdate = $this->setIdVisitorForExistingVisit($visitor, $valuesToUpdate);
 
         $dimensions     = $this->getAllVisitDimensions();
         $valuesToUpdate = $this->triggerHookOnDimensions($dimensions, 'onExistingVisit', $visitor, $action, $valuesToUpdate);
@@ -612,5 +608,30 @@ class Visit implements VisitInterface
     private function getVisitStandardLength()
     {
         return Config::getInstance()->Tracker['visit_standard_length'];
+    }
+
+    /**
+     * @param $visitor
+     * @param $valuesToUpdate
+     * @return mixed
+     */
+    private function setIdVisitorForExistingVisit($visitor, $valuesToUpdate)
+    {
+        // Might update the idvisitor when it was forced or overwritten for this visit
+        if (strlen($this->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
+            $binIdVisitor = $this->visitorInfo['idvisitor'];
+            $visitor->setVisitorColumn('idvisitor', $binIdVisitor);
+            $valuesToUpdate['idvisitor'] = $binIdVisitor;
+        }
+
+        // User ID takes precedence and overwrites idvisitor value
+        $userId = $this->request->getForcedUserId();
+        if ($userId) {
+            $userIdHash   = $this->request->getUserIdHashed($userId);
+            $binIdVisitor = Common::hex2bin($userIdHash);
+            $visitor->setVisitorColumn('idvisitor', $binIdVisitor);
+            $valuesToUpdate['idvisitor'] = $binIdVisitor;
+        }
+        return $valuesToUpdate;
     }
 }

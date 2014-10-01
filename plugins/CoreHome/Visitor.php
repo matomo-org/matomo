@@ -102,10 +102,10 @@ class Visitor
     function getUserId()
     {
         if (isset($this->details['user_id'])
-            && !is_null($this->details['user_id'])) {
+            && strlen($this->details['user_id']) > 0) {
             return $this->details['user_id'];
         }
-        return false;
+        return null;
     }
 
 }

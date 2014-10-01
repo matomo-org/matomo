@@ -118,7 +118,8 @@ class Visitor
         // We use a UNION here so that each sql query uses its own INDEX
         else {
             // will use INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time)
-            $where = ' AND config_id = ?';
+            $where = ' AND config_id = ?
+                       AND user_id IS NULL ';
             $bindSql[] = $configId;
             $sqlConfigId = "$select ,
                 0 as priority
@@ -226,22 +227,31 @@ class Visitor
 
     protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup)
     {
+        $isForcedUserIdMustMatch = (false !== $this->request->getForcedUserId());
+        if($isForcedUserIdMustMatch) {
+            // if &iud was set, we must try and match both idvisitor and config_id
+            return false;
+        }
+
         // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
         // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
         $trustCookiesOnly = Config::getInstance()->Tracker['trust_visitors_cookies'];
+        if($isVisitorIdToLookup && $trustCookiesOnly) {
+            return true;
+        }
 
         // If a &cid= was set, we force to select this visitor (or create a new one)
         $isForcedVisitorIdMustMatch = ($this->request->getForcedVisitorId() != null);
 
-        // if &iud was set, we force to select this visitor (or create new one)
-        $isForcedUserIdMustMatch = ($this->request->getForcedUserId() !== null);
+        if($isForcedVisitorIdMustMatch) {
+            return true;
+        }
 
-        $shouldMatchOneFieldOnly = (($isVisitorIdToLookup && $trustCookiesOnly)
-            || $isForcedVisitorIdMustMatch
-            || $isForcedUserIdMustMatch
-            || !$isVisitorIdToLookup);
+        if( !$isVisitorIdToLookup ) {
+            return true;
+        }
 
-        return $shouldMatchOneFieldOnly;
+        return false;
     }
 
     /**

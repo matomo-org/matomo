@@ -551,12 +551,11 @@ class Request
     public function getForcedUserId()
     {
         $userId = $this->getParam('uid');
-
         if (strlen($userId) > 0) {
             return $userId;
         }
 
-        return null;
+        return false;
     }
 
     public function getForcedVisitorId()
@@ -608,8 +607,8 @@ class Request
      * @param $userId
      * @return string
      */
-    private function getUserIdHashed($userId)
+    public function getUserIdHashed($userId)
     {
-        return sha1($userId);
+        return substr( sha1( $userId ), 0, 16);
     }
 }

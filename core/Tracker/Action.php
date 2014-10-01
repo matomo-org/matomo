@@ -357,7 +357,9 @@ abstract class Action
         $visitAction['idlink_va'] = $this->idLinkVisitAction;
 
         Common::printDebug("Inserted new action:");
-        Common::printDebug($visitAction);
+        $visitActionDebug = $visitAction;
+        $visitActionDebug['idvisitor'] = bin2hex($visitActionDebug['idvisitor']);
+        Common::printDebug($visitActionDebug);
 
         /**
          * Triggered after successfully persisting a [visit action entity](/guides/persistence-and-the-mysql-backend#visit-actions).
