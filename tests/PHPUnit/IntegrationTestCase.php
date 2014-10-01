@@ -518,19 +518,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function restoreDbTables($tables)
     {
-        $tablesPrefix = Config::getInstance()->database_tests['tables_prefix'];
-
-        $existingTables = array();
-        foreach (Db::fetchAll("SHOW TABLES LIKE '$tablesPrefix%'") as $row) {
-            $existingTables[] = reset($row);
-        }
-
-        // truncate existing tables
-        foreach ($existingTables as $existingTable) {
-            Db::exec("TRUNCATE `$existingTable`"); // NOTE: DbHelper::truncateAllTables() will not truncate non-core tables
-        }
+        DbHelper::truncateAllTables();
 
         // insert data
+        $existingTables = DbHelper::getTablesInstalled();
         foreach ($tables as $table => $rows) {
             // create table if it's an archive table
             if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables)) {

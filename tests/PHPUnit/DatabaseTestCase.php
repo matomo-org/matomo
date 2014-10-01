@@ -28,10 +28,15 @@ class DatabaseTestCase extends IntegrationTestCase
 
     public static function setUpBeforeClass()
     {
-        static::configureFixture(self::$fixture);
+        static::configureFixture(static::$fixture);
         parent::setUpBeforeClass();
 
         self::$tableData = self::getDbTablesWithData();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$tableData = array();
     }
 
     /**
