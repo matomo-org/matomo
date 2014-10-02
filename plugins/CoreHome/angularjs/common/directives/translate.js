@@ -24,6 +24,7 @@
 
     function piwikTranslate() {
         return {
+            priority: 1,
             restrict: 'A',
             compile: function(element, attrs) {
                 var parts = element.html().split('::'),
