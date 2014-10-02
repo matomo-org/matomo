@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Goals\tests;
 use Piwik\Access;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Fixture;
 
@@ -30,6 +31,9 @@ class APITest extends \DatabaseTestCase
     {
         parent::setUp();
         $this->api = API::getInstance();
+
+        Fixture::createAccessInstance();
+        Piwik::setUserHasSuperUserAccess();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');

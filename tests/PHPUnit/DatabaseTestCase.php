@@ -5,8 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Fixture;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Tests extending DatabaseTestCase are much slower to run: the setUp will
@@ -16,12 +18,48 @@ use Piwik\Tests\Fixture;
  * then test it.
  *
  */
-class DatabaseTestCase extends PHPUnit_Framework_TestCase
+class DatabaseTestCase extends IntegrationTestCase
 {
     /**
      * @var Fixture
      */
-    protected $fixture = null;
+    public static $fixture;
+    public static $tableData;
+
+    /**
+     * Implementation details:
+     *
+     * To increase speed of tests, database setup is done once in setUpBeforeClass.
+     * Afterwards, the content of the tables is stored in a static class variable,
+     * self::$tableData. Before each individual test, the database tables are
+     * truncated and the data in self::$tableData is restored.
+     *
+     * If your test modifies table columns, you will need to recreate the database
+     * completely. This can be accomplished by:
+     *
+     *     public function setUp()
+     *     {
+     *         self::$fixture->performSetUp();
+     *     }
+     *
+     *     public function tearDown()
+     *     {
+     *         parent::tearDown();
+     *         self::$fixture->performTearDown();
+     *     }
+     */
+    public static function setUpBeforeClass()
+    {
+        static::configureFixture(static::$fixture);
+        parent::setUpBeforeClass();
+
+        self::$tableData = self::getDbTablesWithData();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$tableData = array();
+    }
 
     /**
      * Setup the database and create the base tables for all tests
@@ -30,9 +68,11 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->fixture = new Fixture();
-        $this->configureFixture();
-        $this->fixture->performSetUp();
+        Config::getInstance()->setTestEnvironment();
+
+        if (!empty(self::$tableData)) {
+            self::restoreDbTables(self::$tableData);
+        }
     }
 
     /**
@@ -40,14 +80,17 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
+        self::$fixture->clearInMemoryCaches();
+
         parent::tearDown();
-        $this->fixture->performTearDown();
     }
 
-    protected function configureFixture()
+    protected static function configureFixture($fixture)
     {
-        $this->fixture->loadTranslations = false;
-        $this->fixture->createSuperUser = false;
-        $this->fixture->configureComponents = false;
+        $fixture->loadTranslations = false;
+        $fixture->createSuperUser = false;
+        $fixture->configureComponents = false;
     }
 }
+
+DatabaseTestCase::$fixture = new Fixture();

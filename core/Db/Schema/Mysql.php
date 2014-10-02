@@ -341,12 +341,9 @@ class Mysql implements SchemaInterface
             || $forceReload === true
         ) {
             $db = Db::get();
-            $prefixTables = $this->getTablePrefix();
+            $prefixTables = $this->getTablePrefixEscaped();
 
-            // '_' matches any character; force it to be literal
-            $prefixTables = str_replace('_', '\_', $prefixTables);
-
-            $allTables = $db->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "%'");
+            $allTables = $this->getAllExistingTables($prefixTables);
 
             // all the tables to be installed
             $allMyTables = $this->getTablesNames();
@@ -461,8 +458,8 @@ class Mysql implements SchemaInterface
      */
     public function truncateAllTables()
     {
-        $tablesAlreadyInstalled = $this->getTablesInstalled($forceReload = true);
-        foreach ($tablesAlreadyInstalled as $table) {
+        $tables = $this->getAllExistingTables();
+        foreach ($tables as $table) {
             Db::query("TRUNCATE `$table`");
         }
     }
@@ -488,5 +485,22 @@ class Mysql implements SchemaInterface
         $dbName  = $dbInfos['dbname'];
 
         return $dbName;
+    }
+
+    private function getAllExistingTables($prefixTables = false)
+    {
+        if (empty($prefixTables)) {
+            $prefixTables = $this->getTablePrefixEscaped();
+        }
+
+        return Db::get()->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "%'");
+    }
+
+    private function getTablePrefixEscaped()
+    {
+        $prefixTables = $this->getTablePrefix();
+        // '_' matches any character; force it to be literal
+        $prefixTables = str_replace('_', '\_', $prefixTables);
+        return $prefixTables;
     }
 }

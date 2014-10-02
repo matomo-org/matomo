@@ -19,9 +19,9 @@ class Core_TrackerTest extends DatabaseTestCase
         Fixture::createWebsite('2014-02-04');
     }
 
-    protected function configureFixture()
+    protected static function configureFixture($fixture)
     {
-        $this->fixture->createSuperUser = true;
+        $fixture->createSuperUser = true;
     }
 
     /**

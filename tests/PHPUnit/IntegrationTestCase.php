@@ -518,7 +518,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function restoreDbTables($tables)
     {
-        // truncate existing tables
         DbHelper::truncateAllTables();
 
         // insert data

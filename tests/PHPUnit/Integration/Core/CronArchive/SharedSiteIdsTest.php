@@ -10,6 +10,7 @@ use Piwik\CronArchive\SharedSiteIds;
 
 /**
  * @group Core
+ * @group SharedSiteIdsTest
  */
 class SharedSiteIdsTest extends DatabaseTestCase
 {
@@ -21,7 +22,6 @@ class SharedSiteIdsTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture->performSetUp(true);
 
         $this->sharedSiteIds = new SharedSiteIds(array(1,2,5,9));
     }
