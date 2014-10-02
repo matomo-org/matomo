@@ -44,7 +44,9 @@
         }
 
         function createResponseErrorNotification(response, options) {
-            if (response.message) {
+            if (response.message
+                && options.createErrorNotification
+            ) {
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(response.message, {
@@ -64,6 +66,10 @@
         function send (options) {
             if (!options) {
                 options = {};
+            }
+
+            if (options.createErrorNotification === undefined) {
+                options.createErrorNotification = true;
             }
 
             var deferred = $q.defer(),
@@ -271,7 +277,7 @@
              * @deprecated
              */
             abort: abort,
-            abortAll: abortAll,
+            abortAll: abortAll
         };
     }
 })();
