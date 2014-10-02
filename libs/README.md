@@ -17,8 +17,6 @@ third-party libraries:
    - The bug #4206 (GD with JIS-mapped Japanese Font Support) was fixed in this
      commit: https://github.com/piwik/piwik/commit/516c13d9b13ca3b908575eb809f7ad9d9397f0e1
      Changed files: class/pImage.class.php class/pDraw.class.php
- * PclZip/
-   - in r1960, ignore touch() - utime failed warning
  * PEAR/, PEAR.php
    - in r2419, add static keyword to isError and raiseError as it throws notices
      in HTML_Quickform2
