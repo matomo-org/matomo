@@ -50,26 +50,8 @@
             options = {};
         }
 
-        if ('persistent' == options.type) {
-            // otherwise it is never possible to dismiss the notification
-            options.noclear = false;
-        }
-
-        closeExistingNotificationHavingSameIdIfNeeded(options);
-
-        var template          = generateNotificationHtmlMarkup(options, message);
-        var $notificationNode = placeNotification(template, options);
-        this.$node = $notificationNode;
-
-        if ('persistent' == options.type) {
-            addPersistentEvent($notificationNode);
-        } else if ('toast' == options.type) {
-            addToastEvent($notificationNode);
-        }
-
-        if (!options.noclear) {
-            addCloseEvent($notificationNode);
-        }
+        var template = generateNotificationHtmlMarkup(options, message);
+        this.$node   = placeNotification(template, options);
     };
 
     Notification.prototype.scrollToNotification = function () {
@@ -80,68 +62,36 @@
 
     exports.Notification = Notification;
 
-    function closeExistingNotificationHavingSameIdIfNeeded(options)
-    {
-        if (!options.id) {
-            return;
-        }
-
-        var $existingNode = $('.system.notification[data-id=' + options.id + ']');
-        if ($existingNode && $existingNode.length) {
-            $existingNode.remove();
-        }
-    }
-
     function generateNotificationHtmlMarkup(options, message) {
-        var template = buildNotificationStart(options);
+        var attributeMapping = {
+                id: 'notification-id',
+                title: 'notification-title',
+                context: 'context',
+                type: 'type',
+                noclear: 'noclear'
+            },
+            html = '<div piwik-notification';
 
-        if (!options.noclear) {
-            template += buildClearButton();
+        for (var key in attributeMapping) {
+            if (attributeMapping.hasOwnProperty(key)
+                && options[key]
+            ) {
+                html += ' ' + attributeMapping[key] + '="' + options[key].toString().replace(/"/g, "&quot;") + '"';
+            }
         }
 
-        if (options.title) {
-            template += buildTitle(options);
-        }
+        html += '>' + message + '</div>';
 
-        template += message;
-        template += buildNotificationEnd();
-
-        return template;
-    }
-
-    function buildNotificationStart(options) {
-        var template = '<div class="notification system';
-
-        if (options.context) {
-            template += ' notification-' + options.context;
-        }
-
-        template += '"';
-
-        if (options.id) {
-            template += ' data-id="' + options.id + '"';
-        }
-
-        template += '>';
-
-        return template;
-    }
-
-    function buildNotificationEnd() {
-        return '</div>';
-    }
-
-    function buildClearButton() {
-        return '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-    }
-
-    function buildTitle(options) {
-        return '<strong>' + options.title + '</strong> ';
+        return html;
     }
 
     function placeNotification(template, options) {
-
         var $notificationNode = $(template);
+
+        // compile the template in angular
+        angular.element(document).injector().invoke(function ($compile, $rootScope) {
+            $compile($notificationNode)($rootScope.$new(true));
+        });
 
         if (options.style) {
             $notificationNode.css(options.style);
@@ -158,41 +108,4 @@
 
         return $notificationNode;
     }
-
-    function addToastEvent($notificationNode)
-    {
-        setTimeout(function () {
-            $notificationNode.fadeOut( 'slow', function() {
-                $notificationNode.remove();
-                $notificationNode = null;
-            });
-        }, 12 * 1000);
-    }
-
-    function addCloseEvent($notificationNode) {
-        $notificationNode.on('click', '.close', function (event) {
-            if (event && event.delegateTarget) {
-                $(event.delegateTarget).remove();
-            }
-        });
-    };
-
-    function addPersistentEvent($notificationNode) {
-        var notificationId = $notificationNode.data('id');
-
-        if (!notificationId) {
-            return;
-        }
-
-        $notificationNode.on('click', '.close', function (event) {
-            var ajaxHandler = new ajaxHelper();
-            ajaxHandler.addParams({
-                module: 'CoreHome',
-                action: 'markNotificationAsRead'
-            }, 'GET');
-            ajaxHandler.addParams({notificationId: notificationId}, 'POST');
-            ajaxHandler.send(true);
-        });
-    };
-
 })(jQuery, require);
