@@ -55,7 +55,9 @@ class Console extends Application
             $this->addCommandIfExists($command);
         }
 
-        return parent::doRun($input, $output);
+        return Access::doAsSuperUser(function () use ($input, $output) {
+            return Application::doRun($input, $output);
+        });
     }
 
     private function addCommandIfExists($command)
