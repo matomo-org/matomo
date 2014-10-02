@@ -25,9 +25,6 @@
     function piwikTranslate() {
         return {
             restrict: 'A',
-            scope: {
-                piwikTranslate: '@'
-            },
             compile: function(element, attrs) {
                 var parts = element.html().split('::'),
                     translated = _pk_translate(attrs.piwikTranslate, parts);
