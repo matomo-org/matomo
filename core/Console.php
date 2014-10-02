@@ -55,8 +55,9 @@ class Console extends Application
             $this->addCommandIfExists($command);
         }
 
-        return Access::doAsSuperUser(function () use ($input, $output) {
-            return Application::doRun($input, $output);
+        $self = $this;
+        return Access::doAsSuperUser(function () use ($input, $output, $self) {
+            return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
         });
     }
 
