@@ -38,7 +38,7 @@
         "tedivm/jshrink": "v0.5.1",
         "mustangostang/spyc": "0.5.*",
         "piwik/device-detector": "2.*",
-        "piwik/decompress": "*@dev"
+        "piwik/decompress": "~0.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.1",
