@@ -142,6 +142,7 @@ class Piwik
 
         // Build optional parameters to be added to text
         $options = '';
+        $optionsBeforeTrackerUrl = '';
         if ($groupPageTitlesByDomain) {
             $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
         }
@@ -187,7 +188,9 @@ class Piwik
         $codeImpl = array(
             'idSite' => $idSite,
             'piwikUrl' => Common::sanitizeInputValue($piwikUrl),
-            'options' => $options
+            'options' => $options,
+            'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
+            'protocol' => '//'
         );
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
                               'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
@@ -205,6 +208,10 @@ class Piwik
          *                         - **piwikUrl**: The tracker URL to use.
          *                         - **options**: A string of JavaScript code that customises
          *                                        the JavaScript tracker.
+         *                         - **optionsBeforeTrackerUrl**: A string of Javascript code that customises
+         *                                        the JavaScript tracker inside of anonymous function before
+         *                                        adding setTrackerUrl into paq.
+         *                         - **protocol**: Piwik url protocol.
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.
@@ -212,7 +219,7 @@ class Piwik
          */
         self::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
 
-        $setTrackerUrl = 'var u="//{$piwikUrl}/";';
+        $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
 
         if (!empty($codeImpl['httpsPiwikUrl'])) {
             $setTrackerUrl = 'var u=((document.location.protocol === "https:") ? "https://{$httpsPiwikUrl}/" : "http://{$piwikUrl}/");';
