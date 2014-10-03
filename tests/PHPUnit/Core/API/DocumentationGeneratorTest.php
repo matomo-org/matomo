@@ -11,7 +11,7 @@ use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\EventDispatcher;
 /**
- * @group CoreD
+ * @group Core
  */
 class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
