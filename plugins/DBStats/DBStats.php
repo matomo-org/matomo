@@ -24,7 +24,7 @@ class DBStats extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             "TestingEnvironment.addHooks"     => 'setupTestEnvironment',
-            'Hide.ExceptForSuperUser'         => 'checkIfNotSuperUser'
+            'API.DocumentationGenerator.hideExceptForSuperUser' => 'checkIfNotSuperUser'
         );
     }
 

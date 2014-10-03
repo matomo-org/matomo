@@ -470,7 +470,29 @@ class Proxy extends Singleton
                 $response = false;
                 $hideArray = explode(" ", $hideString);
                 $hideString = $hideArray[0];
-                Piwik::postEvent("Hide.$hideString", array(&$response));
+                /**
+                 * Triggered to check if plugin should be hidden from the API for the current user.
+                 *
+                 * This event exists for checking if the user should be able to see the plugin API.
+                 * If &$response is set to false then the user will be able to see the plugin API.
+                 * If &$response is set to true then the plugin API will be hidden for the user.
+                 *
+                 * **Example**
+                 *
+                 *     public function checkIfNotSuperUser(&$response)
+                 *     {
+                 *          try {
+                 *                  Piwik::checkUserHasSuperUserAccess();
+                 *                  $response = false;
+                 *          } catch (\Exception $e) {
+                 *                  $response = true;
+                 *          }
+                 *      }
+                 *
+                 * @param bool &$response Boolean value containing information
+                 * if the plugin API should be hidden from the current user.
+                 */
+                Piwik::postEvent(sprintf('API.DocumentationGenerator.hide%s', $hideString), array(&$response));
                 return $response;
             }
         }

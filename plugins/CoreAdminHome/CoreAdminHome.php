@@ -26,7 +26,7 @@ class CoreAdminHome extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'UsersManager.deleteUser'         => 'cleanupUser',
-            'Hide.ExceptForSuperUser'         => 'checkIfNotSuperUser'
+            'API.DocumentationGenerator.hideExceptForSuperUser' => 'checkIfNotSuperUser'
         );
     }
 

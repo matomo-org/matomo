@@ -50,7 +50,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
         $mock->expects($this->once())->method('getDocComment')->willReturn($annotation);
 
-        EventDispatcher::getInstance()->addObserver('Hide.ForAll',
+        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.hideForAll',
             function (&$response) {
                 $response = true;
             });
