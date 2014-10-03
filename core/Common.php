@@ -365,7 +365,7 @@ class Common
         if (version_compare(PHP_VERSION, '5.4', '<') &&
             get_magic_quotes_gpc()) {
 
-            return stripslashes($value);
+            $value = stripslashes($value);
         }
 
         return $value;
