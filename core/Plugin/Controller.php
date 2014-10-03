@@ -834,32 +834,10 @@ abstract class Controller
     public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null,
                                     $defaultDate = null, $parameters = array())
     {
-
-        $userPreferences = new UserPreferences();
-
-        if (empty($websiteId)) {
-            $websiteId = $userPreferences->getDefaultWebsiteId();
-        }
-        if (empty($defaultDate)) {
-            $defaultDate = $userPreferences->getDefaultDate();
-        }
-        if (empty($defaultPeriod)) {
-            $defaultPeriod = $userPreferences->getDefaultPeriod();
-        }
-        $parametersString = '';
-        if (!empty($parameters)) {
-            $parametersString = '&' . Url::getQueryStringFromParameters($parameters);
-        }
-
-        if ($websiteId) {
-            $url = "index.php?module=" . $moduleToRedirect
-                . "&action=" . $actionToRedirect
-                . "&idSite=" . $websiteId
-                . "&period=" . $defaultPeriod
-                . "&date=" . $defaultDate
-                . $parametersString;
-            Url::redirectToUrl($url);
-            exit;
+        try {
+            $this->doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters);
+        } catch(Exception $e) {
+            // no website ID to default to, so could not redirect
         }
 
         if (Piwik::hasUserSuperUserAccess()) {
@@ -880,6 +858,7 @@ abstract class Controller
         echo FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
         exit;
     }
+
 
     /**
      * Checks that the token_auth in the URL matches the currently logged-in user's token_auth.
@@ -999,5 +978,26 @@ abstract class Controller
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Piwik and have permission to access the specified website.");
         }
+    }
+
+    /**
+     * @param $moduleToRedirect
+     * @param $actionToRedirect
+     * @param $websiteId
+     * @param $defaultPeriod
+     * @param $defaultDate
+     * @param $parameters
+     * @throws Exception
+     */
+    private function doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters)
+    {
+        $menu = new Menu();
+        $queryParamsUserPrefs = $menu->urlForDefaultUserParams($websiteId, $defaultPeriod, $defaultDate);
+        $queryParams = !empty($parameters) ? '&' . Url::getQueryStringFromParameters($parameters) : '';
+        $queryParams = $queryParamsUserPrefs . $queryParams;
+        $url = "index.php?module=%s&action=%s";
+        $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
+        $url = $url . $queryParamsUserPrefs . $queryParams;
+        Url::redirectToUrl($url);
     }
 }

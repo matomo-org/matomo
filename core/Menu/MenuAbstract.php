@@ -103,7 +103,7 @@ abstract class MenuAbstract extends Singleton
     public function addItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
     {
         // make sure the idSite value used is numeric (hack-y fix for #3426)
-        if (!is_numeric(Common::getRequestVar('idSite', false))) {
+        if (isset($url['idSite']) && !is_numeric($url['idSite'])) {
             $idSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
             $url['idSite'] = reset($idSites);
         }
