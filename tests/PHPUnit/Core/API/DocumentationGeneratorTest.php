@@ -9,6 +9,7 @@
  */
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
+use Piwik\EventDispatcher;
 
 /**
  * @group Core
@@ -17,7 +18,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
     public function testCheckIfModuleContainsHideAnnotation()
     {
-        $annotation = '@hideExceptForSuperUser test test';
+        $annotation = '@hide ExceptForSuperUser test test';
         $mock = $this->getMockBuilder('ReflectionClass')
             ->disableOriginalConstructor()
             ->setMethods(array('getDocComment'))
@@ -31,7 +32,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testCheckDocumentation()
     {
-        $moduleToCheck = 'this is documentation which contains @hideExceptForSuperUser';
+        $moduleToCheck = 'this is documentation which contains @hide ExceptForSuperUser';
         $documentationAfterCheck = 'this is documentation which contains ';
 
         $documentationGenerator = new DocumentationGenerator();
@@ -40,7 +41,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testCheckIfMethodCommentContainsHideAnnotation()
     {
-        $annotation = '@hideExceptForSuperUser test test';
+        $annotation = '@hide ForAll test test';
 
         $mock = $this->getMockBuilder('ReflectionMethod')
             ->disableOriginalConstructor()
@@ -49,7 +50,11 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
         $mock->expects($this->once())->method('getDocComment')->willReturn($annotation);
 
-        $this->assertEquals(Proxy::getInstance()->checkIfMethodContainsHideAnnotation($mock), $annotation);
+        EventDispatcher::getInstance()->addObserver('Hide.ForAll',
+            function (&$response) {
+                $response = true;
+            });
+        $this->assertEquals(Proxy::getInstance()->checkIfMethodContainsHideAnnotation($mock), true);
     }
 
     public function testPrepareModuleToDisplay()

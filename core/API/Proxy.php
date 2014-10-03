@@ -455,14 +455,26 @@ class Proxy extends Singleton
     }
 
     /**
-     * Check if method contains @hideExceptForSuperUser
+     * Check if method contains @hide
      *
      * @param ReflectionMethod $method instance of ReflectionMethod
      * @return bool
      */
     public function checkIfMethodContainsHideAnnotation($method)
     {
-        return strstr($method->getDocComment(), '@hideExceptForSuperUser');
+        $docComment = $method->getDocComment();
+        $hideLine = strstr($docComment, '@hide');
+        if($hideLine) {
+            $hideString = trim(str_replace("@hide", "", strtok($hideLine, "\n")));
+            if($hideString) {
+                $response = false;
+                $hideArray = explode(" ", $hideString);
+                $hideString = $hideArray[0];
+                Piwik::postEvent("Hide.$hideString", array(&$response));
+                return $response;
+            }
+        }
+        return false;
     }
 
     /**

@@ -146,14 +146,14 @@ class DocumentationGenerator
     }
 
     /**
-     * Check if Class contains @hideExceptForSuperUser
+     * Check if Class contains @hide
      *
      * @param ReflectionClass $rClass instance of ReflectionMethod
      * @return bool
      */
     public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
     {
-        if (strstr($rClass->getDocComment(), '@hideExceptForSuperUser') === false) {
+        if (strstr($rClass->getDocComment(), '@hide') === false) {
 
             return false;
         }
@@ -162,15 +162,15 @@ class DocumentationGenerator
     }
 
     /**
-     * Check if documentation contains @hideExceptForSuperUser and deletes it
+     * Check if documentation contains @hide annotation and deletes it
      *
      * @param $moduleToCheck
      * @return mixed
      */
     public function checkDocumentation($moduleToCheck)
     {
-        if (strpos($moduleToCheck, '@hideExceptForSuperUser') == true) {
-            $moduleToCheck = str_replace('@hideExceptForSuperUser', "", $moduleToCheck);
+        if (strpos($moduleToCheck, '@hide') == true) {
+            $moduleToCheck = str_replace(strtok(strstr($moduleToCheck, '@hide'), "\n"), "", $moduleToCheck);
         }
 
         return $moduleToCheck;
