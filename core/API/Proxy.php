@@ -362,6 +362,51 @@ class Proxy extends Singleton
     }
 
     /**
+     * Check if method contains @hide
+     *
+     * @param ReflectionMethod $method instance of ReflectionMethod
+     * @return bool
+     */
+    public function checkIfMethodContainsHideAnnotation($method)
+    {
+        $docComment = $method->getDocComment();
+        $hideLine = strstr($docComment, '@hide');
+        if($hideLine) {
+            $hideString = trim(str_replace("@hide", "", strtok($hideLine, "\n")));
+            if($hideString) {
+                $response = false;
+                $hideArray = explode(" ", $hideString);
+                $hideString = $hideArray[0];
+                /**
+                 * Triggered to check if plugin should be hidden from the API for the current user.
+                 *
+                 * This event exists for checking if the user should be able to see the plugin API.
+                 * If &$response is set to false then the user will be able to see the plugin API.
+                 * If &$response is set to true then the plugin API will be hidden for the user.
+                 *
+                 * **Example**
+                 *
+                 *     public function checkIfNotSuperUser(&$response)
+                 *     {
+                 *          try {
+                 *                  Piwik::checkUserHasSuperUserAccess();
+                 *                  $response = false;
+                 *          } catch (\Exception $e) {
+                 *                  $response = true;
+                 *          }
+                 *      }
+                 *
+                 * @param bool &$response Boolean value containing information
+                 * if the plugin API should be hidden from the current user.
+                 */
+                Piwik::postEvent(sprintf('API.DocumentationGenerator.hide%s', $hideString), array(&$response));
+                return $response;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns an array containing the values of the parameters to pass to the method to call
      *
      * @param array $requiredParameters array of (parameter name, default value)
@@ -433,6 +478,7 @@ class Proxy extends Singleton
             && $method->getName() != 'getInstance'
             && false === strstr($method->getDocComment(), '@deprecated')
             && (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
+            && (Piwik::hasUserSuperUserAccess() || false === $this->checkIfMethodContainsHideAnnotation($method))
         ) {
             $name = $method->getName();
             $parameters = $method->getParameters();
