@@ -992,12 +992,15 @@ abstract class Controller
     private function doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters)
     {
         $menu = new Menu();
-        $queryParamsUserPrefs = $menu->urlForDefaultUserParams($websiteId, $defaultPeriod, $defaultDate);
+
+        $parameters = array_merge(
+            $menu->urlForDefaultUserParams($websiteId, $defaultPeriod, $defaultDate),
+            $parameters
+        );
         $queryParams = !empty($parameters) ? '&' . Url::getQueryStringFromParameters($parameters) : '';
-        $queryParams = $queryParamsUserPrefs . $queryParams;
         $url = "index.php?module=%s&action=%s";
         $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
-        $url = $url . $queryParamsUserPrefs . $queryParams;
+        $url = $url . $queryParams;
         Url::redirectToUrl($url);
     }
 }
