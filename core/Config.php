@@ -459,6 +459,7 @@ class Config extends Singleton
                 $user['bridge'] = 1;
                 return $user;
             }
+
         } catch (Exception $e) {}
 
         return array();

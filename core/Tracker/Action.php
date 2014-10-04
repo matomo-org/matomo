@@ -351,9 +351,8 @@ abstract class Action
 
         $visitAction = array_merge($visitAction, $customVariables);
 
-        $this->recordAction($visitAction);
+        $this->idLinkVisitAction = $this->getModel()->createAction($visitAction);
 
-        $this->idLinkVisitAction = Tracker::getDatabase()->lastInsertId();
         $visitAction['idlink_va'] = $this->idLinkVisitAction;
 
         Common::printDebug("Inserted new action:");
@@ -384,14 +383,9 @@ abstract class Action
         return true;
     }
 
-    private function recordAction($visitAction)
+    private function getModel()
     {
-        $fields = implode(", ", array_keys($visitAction));
-        $bind   = array_values($visitAction);
-        $values = Common::getSqlStringFieldsArray($visitAction);
-
-        $sql = "INSERT INTO " . Common::prefixTable('log_link_visit_action') . " ($fields) VALUES ($values)";
-        Tracker::getDatabase()->query($sql, $bind);
+        return new Model();
     }
 
     /**

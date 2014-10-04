@@ -190,8 +190,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasAdminAccess($idSite);
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
+        $this->getModel()->deleteGoalConversions($idSite, $idGoal);
 
-        Db::deleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ? AND idsite = ?", "idvisit", 100000, array($idGoal, $idSite));
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 

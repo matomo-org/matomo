@@ -52,20 +52,6 @@ class TableLogAction
     }
 
     /**
-     * @param $name
-     * @param $type
-     * @return string
-     */
-    private static function getIdActionMatchingNameAndType($name, $type)
-    {
-        $sql      = TableLogAction::getSqlSelectActionId();
-        $bind     = array($name, $name, $type);
-        $idAction = \Piwik\Db::fetchOne($sql, $bind);
-
-        return $idAction;
-    }
-
-    /**
      * @param $matchType
      * @param $actionType
      * @return string
@@ -95,62 +81,39 @@ class TableLogAction
         return $sql;
     }
 
-    private static function getSqlSelectActionId()
-    {
-        $sql = "SELECT idaction, type, name
-                        FROM " . Common::prefixTable('log_action')
-            . "  WHERE "
-            . "		( hash = CRC32(?) AND name = ? AND type = ? ) ";
-
-        return $sql;
-    }
-
     private static function insertNewIdsAction($actionsNameAndType, $fieldNamesToInsert)
     {
-        $sql = "INSERT INTO " . Common::prefixTable('log_action') .
-            "( name, hash, type, url_prefix ) VALUES (?,CRC32(?),?,?)";
         // Then, we insert all new actions in the lookup table
         $inserted = array();
 
         foreach ($fieldNamesToInsert as $fieldName) {
             list($name, $type, $urlPrefix) = $actionsNameAndType[$fieldName];
 
-            Tracker::getDatabase()->query($sql, array($name, $name, $type, $urlPrefix));
-            $actionId = Tracker::getDatabase()->lastInsertId();
-
-            $inserted[$fieldName] = $actionId;
+            $actionId = self::getModel()->createNewIdAction($name, $type, $urlPrefix);
 
             Common::printDebug("Recorded a new action (" . Action::getTypeAsString($type) . ") in the lookup table: " . $name . " (idaction = " . $actionId . ")");
+
+            $inserted[$fieldName] = $actionId;
         }
 
         return $inserted;
     }
 
+    private static function getModel()
+    {
+        return new Model();
+    }
+
     private static function queryIdsAction($actionsNameAndType)
     {
-        $sql  = TableLogAction::getSqlSelectActionId();
-        $bind = array();
-
-        $i = 0;
+        $toQuery = array();
         foreach ($actionsNameAndType as &$actionNameType) {
             list($name, $type, $urlPrefix) = $actionNameType;
-            if (empty($name)) {
-                continue;
-            }
-            if ($i > 0) {
-                $sql .= " OR ( hash = CRC32(?) AND name = ? AND type = ? ) ";
-            }
-            $bind[] = $name;
-            $bind[] = $name;
-            $bind[] = $type;
-            $i++;
-        }
-        // Case URL & Title are empty
-        if (empty($bind)) {
-            return false;
+            $toQuery[] = array('name' => $name, 'type' => $type);
         }
 
-        $actionIds = Tracker::getDatabase()->fetchAll($sql, $bind);
+        $actionIds = self::getModel()->getIdsAction($toQuery);
+
         return $actionIds;
     }
 
@@ -214,7 +177,7 @@ class TableLogAction
         if ($matchType == SegmentExpression::MATCH_EQUAL
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
-            $idAction = self::getIdActionMatchingNameAndType($valueToMatch, $actionType);
+            $idAction = self::getModel()->getIdActionMatchingNameAndType($valueToMatch, $actionType);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer
             // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
             if (empty($idAction)) {

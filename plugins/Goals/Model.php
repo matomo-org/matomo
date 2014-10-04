@@ -56,6 +56,14 @@ class Model
         $db->update($this->table, $goal, "idsite = '$idSite' AND idgoal = '$idGoal'");
     }
 
+    // actually this should be in a log_conversion model
+    public function deleteGoalConversions($idSite, $idGoal)
+    {
+        $table = Common::prefixTable("log_conversion");
+
+        Db::deleteAllRows($table, "WHERE idgoal = ? AND idsite = ?", "idvisit", 100000, array($idGoal, $idSite));
+    }
+
     public function getActiveGoals($idSite)
     {
         $idSite = array_map('intval', $idSite);

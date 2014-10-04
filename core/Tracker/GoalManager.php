@@ -330,12 +330,7 @@ class GoalManager
         $conversion['items'] = $itemsCount;
 
         if ($this->isThereExistingCartInVisit) {
-            $updateWhere = array(
-                'idvisit' => $visitInformation['idvisit'],
-                'idgoal'  => self::IDGOAL_CART,
-                'buster'  => 0,
-            );
-            $recorded = $this->updateExistingConversion($conversion, $updateWhere);
+            $recorded = $this->getModel()->updateConversion($visitInformation['idvisit'], self::IDGOAL_CART, $conversion);
         } else {
             $recorded = $this->insertNewConversion($conversion, $visitInformation);
         }
@@ -398,20 +393,8 @@ class GoalManager
             $itemInCartBySku[$item[0]] = $item;
         }
 
-        // Select all items currently in the Cart if any
-        $sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder as idorder_original_value
-				FROM " . Common::prefixTable('log_conversion_item') . "
-				WHERE idvisit = ? AND (idorder = ? OR idorder = ?)";
+        $itemsInDb = $this->getModel()->getAllItemsCurrentlyInTheCart($goal, self::ITEM_IDORDER_ABANDONED_CART);
 
-        $bind = array($goal['idvisit'],
-                      isset($goal['idorder']) ? $goal['idorder'] : self::ITEM_IDORDER_ABANDONED_CART,
-                      self::ITEM_IDORDER_ABANDONED_CART
-        );
-
-        $itemsInDb = Tracker::getDatabase()->fetchAll($sql, $bind);
-
-        Common::printDebug("Items found in current cart, for conversion_item (visit,idorder)=" . var_export($bind, true));
-        Common::printDebug($itemsInDb);
         // Look at which items need to be deleted, which need to be added or updated, based on the SKU
         $skuFoundInDb = $itemsToUpdate = array();
 
@@ -601,18 +584,14 @@ class GoalManager
         foreach ($itemsToUpdate as $item) {
             $newRow = $this->getItemRowEnriched($goal, $item);
             Common::printDebug($newRow);
-            $updateParts = $sqlBind = array();
-            foreach ($newRow as $name => $value) {
-                $updateParts[] = $name . " = ?";
-                $sqlBind[]     = $value;
-            }
-            $sql = 'UPDATE ' . Common::prefixTable('log_conversion_item') . " SET " . implode($updateParts, ', ') . "
-						WHERE idvisit = ? AND idorder = ? AND idaction_sku = ?";
-            $sqlBind[] = $newRow['idvisit'];
-            $sqlBind[] = $item['idorder_original_value'];
-            $sqlBind[] = $newRow['idaction_sku'];
-            Tracker::getDatabase()->query($sql, $sqlBind);
+
+            $this->getModel()->updateEcommerceItem($item['idorder_original_value'], $newRow);
         }
+    }
+
+    private function getModel()
+    {
+        return new Model();
     }
 
     /**
@@ -633,26 +612,13 @@ class GoalManager
         Common::printDebug("Ecommerce items that are added to the cart/order");
         Common::printDebug($itemsToInsert);
 
-        $sql = "INSERT INTO " . Common::prefixTable('log_conversion_item') . "
-					(idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted,
-					idorder, idsite, idvisitor, server_time, idvisit)
-					VALUES ";
-        $i = 0;
-        $bind = array();
+        $items = array();
 
         foreach ($itemsToInsert as $item) {
-            if ($i > 0) {
-                $sql .= ',';
-            }
-            $newRow = array_values($this->getItemRowEnriched($goal, $item));
-            $sql .= " ( " . Common::getSqlStringFieldsArray($newRow) . " ) ";
-            $i++;
-            $bind = array_merge($bind, $newRow);
+            $items[] = $this->getItemRowEnriched($goal, $item);
         }
 
-        Tracker::getDatabase()->query($sql, $bind);
-        Common::printDebug($sql);
-        Common::printDebug($bind);
+        $this->getModel()->createEcommerceItems($items);
     }
 
     protected function getItemRowEnriched($goal, $item)
@@ -757,15 +723,9 @@ class GoalManager
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);
 
-        $fields     = implode(", ", array_keys($conversion));
-        $bindFields = Common::getSqlStringFieldsArray($conversion);
+        $wasInserted = $this->getModel()->createConversion($conversion);
 
-        $sql    = 'INSERT IGNORE INTO ' . Common::prefixTable('log_conversion') . " ($fields) VALUES ($bindFields) ";
-        $bind   = array_values($conversion);
-        $result = Tracker::getDatabase()->query($sql, $bind);
-
-        // If a record was inserted, we return true
-        return Tracker::getDatabase()->rowCount($result) > 0;
+        return $wasInserted;
     }
 
     /**
@@ -786,35 +746,6 @@ class GoalManager
             (string)$row[self::INTERNAL_ITEM_PRICE],
             (string)$row[self::INTERNAL_ITEM_QUANTITY],
         );
-    }
-
-    protected function updateExistingConversion($newGoal, $updateWhere)
-    {
-        $updateParts = $sqlBind = $updateWhereParts = array();
-
-        foreach ($newGoal as $name => $value) {
-            $updateParts[] = $name . " = ?";
-            $sqlBind[]     = $value;
-        }
-
-        foreach ($updateWhere as $name => $value) {
-            $updateWhereParts[] = $name . " = ?";
-            $sqlBind[]          = $value;
-        }
-
-        $table = Common::prefixTable('log_conversion');
-        $parts = implode($updateParts, ', ');
-        $sql   = 'UPDATE  ' . $table . " SET " . $parts . " WHERE " . implode($updateWhereParts, ' AND ');
-
-        try {
-            Tracker::getDatabase()->query($sql, $sqlBind);
-        } catch(Exception $e){
-            Common::printDebug("There was an error while updating the Conversion: " . $e->getMessage());
-
-            return false;
-        }
-
-        return true;
     }
 
     /**

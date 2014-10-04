@@ -966,11 +966,14 @@ class CronArchive
 
     private function initTokenAuth()
     {
-        $superUser = Db::get()->fetchRow("SELECT login, token_auth
-                                          FROM " . Common::prefixTable("user") . "
-                                          WHERE superuser_access = 1
-                                          ORDER BY date_registered ASC");
-        $this->token_auth = $superUser['token_auth'];
+        $token = '';
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('CronArchive.getTokenAuth', array(&$token));
+        
+        $this->token_auth = $token;
     }
 
     private function initPiwikHost($piwikUrl = false)

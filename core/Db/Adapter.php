@@ -38,7 +38,7 @@ class Adapter
         }
 
         $className = self::getAdapterClassName($adapterName);
-        $adapter = new $className($dbInfos);
+        $adapter   = new $className($dbInfos);
 
         if ($connect) {
             $adapter->getConnection();

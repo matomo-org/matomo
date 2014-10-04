@@ -50,9 +50,9 @@ class Model
             $bind  = $userLogins;
         }
 
-        $users = Db::get()->fetchAll("SELECT * FROM " . $this->table . "
-                                      $where
-                                      ORDER BY login ASC", $bind);
+        $users = $this->getDb()->fetchAll("SELECT * FROM " . $this->table . "
+                                           $where
+                                           ORDER BY login ASC", $bind);
 
         return $users;
     }
@@ -64,7 +64,7 @@ class Model
      */
     public function getUsersLogin()
     {
-        $users = Db::get()->fetchAll("SELECT login FROM " . $this->table . " ORDER BY login ASC");
+        $users = $this->getDb()->fetchAll("SELECT login FROM " . $this->table . " ORDER BY login ASC");
 
         $return = array();
         foreach ($users as $login) {

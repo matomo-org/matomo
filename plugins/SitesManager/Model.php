@@ -24,6 +24,16 @@ class Model
         $this->table = Common::prefixTable(self::$rawPrefix);
     }
 
+    public function createSite($site)
+    {
+        $db = $this->getDb();
+        $db->insert($this->table, $site);
+
+        $idSite = $db->lastInsertId();
+
+        return $idSite;
+    }
+
     /**
      * Returns all websites belonging to the specified group
      * @param string $group Group name
@@ -202,8 +212,8 @@ class Model
      */
     public function getSiteFromId($idSite)
     {
-        $site = Db::get()->fetchRow("SELECT * FROM " . $this->table . "
-                                     WHERE idsite = ?", $idSite);
+        $site = $this->getDb()->fetchRow("SELECT * FROM " . $this->table . "
+                                          WHERE idsite = ?", $idSite);
 
         return $site;
     }

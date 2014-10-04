@@ -517,8 +517,6 @@ class API extends \Piwik\Plugin\API
         }
         $this->checkValidCurrency($currency);
 
-        $db = Db::get();
-
         $url  = $urls[0];
         $urls = array_slice($urls, 1);
 
@@ -528,31 +526,31 @@ class API extends \Piwik\Plugin\API
         );
 
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
-        $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
+        $bind['excluded_parameters']  = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
-        $bind['keep_url_fragment'] = $keepURLFragments;
-        $bind['timezone'] = $timezone;
-        $bind['currency'] = $currency;
-        $bind['ecommerce'] = (int)$ecommerce;
+        $bind['keep_url_fragment']    = $keepURLFragments;
+        $bind['timezone']   = $timezone;
+        $bind['currency']   = $currency;
+        $bind['ecommerce']  = (int)$ecommerce;
         $bind['sitesearch'] = $siteSearch;
-        $bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
+        $bind['sitesearch_keyword_parameters']  = $searchKeywordParameters;
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
-        $bind['ts_created'] = !is_null($startDate)
-            ? Date::factory($startDate)->getDatetime()
-            : Date::now()->getDatetime();
+
+        if (is_null($startDate)) {
+            $bind['ts_created'] = Date::now()->getDatetime();
+        } else {
+            $bind['ts_created'] = Date::factory($startDate)->getDatetime();
+        }
+
         $bind['type'] = $this->checkAndReturnType($type);
 
-        if (!empty($group)
-            && Piwik::hasUserSuperUserAccess()
-        ) {
+        if (!empty($group) && Piwik::hasUserSuperUserAccess()) {
             $bind['group'] = trim($group);
         } else {
             $bind['group'] = "";
         }
 
-        $db->insert(Common::prefixTable("site"), $bind);
-
-        $idSite = $db->lastInsertId();
+        $idSite = $this->getModel()->createSite($bind);
 
         $this->insertSiteUrls($idSite, $urls);
 
@@ -567,7 +565,7 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SitesManager.addSite.end', array($idSite));
 
-        return (int)$idSite;
+        return (int) $idSite;
     }
 
     private function postUpdateWebsite($idSite)

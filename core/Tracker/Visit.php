@@ -327,11 +327,16 @@ class Visit implements VisitInterface
 
         $this->printVisitorInformation();
 
-        $idVisit = $this->insertNewVisit( $this->visitorInfo );
+        $idVisit = $this->insertNewVisit($this->visitorInfo);
 
         $this->setVisitorColumn($visitor, 'idvisit', $idVisit);
         $this->setVisitorColumn($visitor, 'visit_first_action_time', $this->request->getCurrentTimestamp());
         $this->setVisitorColumn($visitor, 'visit_last_action_time', $this->request->getCurrentTimestamp());
+    }
+
+    private function getModel()
+    {
+        return new Model();
     }
 
     /**
@@ -427,42 +432,24 @@ class Visit implements VisitInterface
     }
 
     /**
-     * @return mixed
-     */
-    protected function insertNewVisit($visit)
-    {
-        $fields = array_keys($visit);
-        $fields = implode(", ", $fields);
-        $values = Common::getSqlStringFieldsArray($visit);
-
-        $sql  = "INSERT INTO " . Common::prefixTable('log_visit') . " ($fields) VALUES ($values)";
-        $bind = array_values($visit);
-        Tracker::getDatabase()->query($sql, $bind);
-
-        return Tracker::getDatabase()->lastInsertId();
-    }
-
-    /**
      * @param $valuesToUpdate
      * @throws VisitorNotFoundInDb
      */
     protected function updateExistingVisit($valuesToUpdate)
     {
-        list($sqlQuery, $sqlBind) = $this->getUpdateExistingVisitQuery($valuesToUpdate);
+        $idSite  = $this->request->getIdSite();
+        $idVisit = (int) $this->visitorInfo['idvisit'];
 
-        $result = Tracker::getDatabase()->query($sqlQuery, $sqlBind);
+        $wasInserted = $this->getModel()->updateVisit($idSite, $idVisit, $valuesToUpdate);
 
         // Debug output
         if (isset($valuesToUpdate['idvisitor'])) {
             $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
         }
 
-        Common::printDebug('Updating existing visit: ' . var_export($valuesToUpdate, true));
-
-        if (Tracker::getDatabase()->rowCount($result) == 0) {
-            Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
-            Common::printDebug("$sqlQuery --- ");
-            Common::printDebug($sqlBind);
+        if ($wasInserted) {
+            Common::printDebug('Updated existing visit: ' . var_export($valuesToUpdate, true));
+        } else {
             throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitorInfo['idvisit']
                 . " wasn't found in the DB, we fallback to a new visitor");
@@ -569,42 +556,6 @@ class Visit implements VisitInterface
         return $dimensions;
     }
 
-    private function fieldsToQuery($valuesToUpdate)
-    {
-        $updateParts = array();
-        $sqlBind     = array();
-
-        foreach ($valuesToUpdate as $name => $value) {
-            // Case where bind parameters don't work
-            if ($value === $name . ' + 1') {
-                //$name = 'visit_total_events'
-                //$value = 'visit_total_events + 1';
-                $updateParts[] = " $name = $value ";
-            } else {
-                $updateParts[] = $name . " = ?";
-                $sqlBind[] = $value;
-            }
-        }
-
-        return array($updateParts, $sqlBind);
-    }
-
-    private function getUpdateExistingVisitQuery($valuesToUpdate)
-    {
-        $sqlQuery = "UPDATE " . Common::prefixTable('log_visit') . " SET %s WHERE idsite = ? AND idvisit = ?";
-
-        // build sql query
-        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
-
-        $idSite  = $this->request->getIdSite();
-        $idVisit = (int) $this->visitorInfo['idvisit'];
-
-        $sqlQuery = sprintf($sqlQuery, implode($updateParts, ', '));
-        array_push($sqlBind, $idSite, $idVisit);
-
-        return array($sqlQuery, $sqlBind);
-    }
-
     private function getVisitStandardLength()
     {
         return Config::getInstance()->Tracker['visit_standard_length'];
@@ -633,5 +584,10 @@ class Visit implements VisitInterface
             $valuesToUpdate['idvisitor'] = $binIdVisitor;
         }
         return $valuesToUpdate;
+    }
+
+    protected function insertNewVisit($visit)
+    {
+        return $this->getModel()->createVisit($visit);
     }
 }

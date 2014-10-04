@@ -33,13 +33,12 @@ class BatchInsert
     public static function tableInsertBatchIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
     {
         $fieldList = '(' . join(',', $fields) . ')';
-        $ignore = $ignoreWhenDuplicate ? 'IGNORE' : '';
+        $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
 
         foreach ($values as $row) {
-            $query = "INSERT $ignore
-					INTO " . $tableName . "
-					$fieldList
-					VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
+            $query = "INSERT $ignore INTO " . $tableName . "
+					  $fieldList
+					  VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
             Db::query($query, $row);
         }
     }
@@ -172,7 +171,8 @@ class BatchInsert
 		 * @see http://bugs.php.net/bug.php?id=54158
 		 */
         $openBaseDir = ini_get('open_basedir');
-        $safeMode = ini_get('safe_mode');
+        $safeMode    = ini_get('safe_mode');
+
         if (empty($openBaseDir) && empty($safeMode)) {
             // php 5.x - LOAD DATA LOCAL INFILE is disabled if open_basedir restrictions or safe_mode enabled
             $keywords[] = 'LOCAL ';
@@ -199,9 +199,11 @@ class BatchInsert
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;
             }
         }
+
         if (count($exceptions)) {
             throw new Exception(implode(",", $exceptions));
         }
+
         return false;
     }
 
@@ -218,8 +220,8 @@ class BatchInsert
         // Set up CSV delimiters, quotes, etc
         $delim = $fileSpec['delim'];
         $quote = $fileSpec['quote'];
-        $eol = $fileSpec['eol'];
-        $null = $fileSpec['null'];
+        $eol   = $fileSpec['eol'];
+        $null  = $fileSpec['null'];
         $escapespecial_cb = $fileSpec['escapespecial_cb'];
 
         $fp = @fopen($filePath, 'wb');
@@ -246,6 +248,7 @@ class BatchInsert
                 throw new Exception('Error writing to the tmp file ' . $filePath);
             }
         }
+
         fclose($fp);
 
         @chmod($filePath, 0777);

@@ -100,7 +100,7 @@ class Segment
         // As a preventive measure, we restrict the filter size to a safe limit
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
 
-        $this->string = $string;
+        $this->string  = $string;
         $this->idSites = $idSites;
         $segment = new SegmentExpression($string);
         $this->segment = $segment;
@@ -118,6 +118,7 @@ class Segment
             $expression[SegmentExpression::INDEX_OPERAND] = $cleanedExpression;
             $cleanedExpressions[] = $expression;
         }
+
         $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
     }
 

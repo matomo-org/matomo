@@ -84,7 +84,7 @@ class SegmentExpression
             }
 
             $leftMember = $matches[1];
-            $operation = $matches[2];
+            $operation  = $matches[2];
             $valueRightMember = urldecode($matches[3]);
 
             // is null / is not null
@@ -138,6 +138,7 @@ class SegmentExpression
             if ($operand[1] !== null) {
                 $this->valuesBind[] = $operand[1];
             }
+
             $operand = $operand[0];
             $sqlSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
@@ -161,9 +162,9 @@ class SegmentExpression
      */
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
-        $field = $def[0];
+        $field     = $def[0];
         $matchType = $def[1];
-        $value = $def[2];
+        $value     = $def[2];
 
         $alsoMatchNULLValues = false;
         switch ($matchType) {
@@ -188,22 +189,22 @@ class SegmentExpression
                 break;
             case self::MATCH_CONTAINS:
                 $sqlMatch = 'LIKE';
-                $value = '%' . $this->escapeLikeString($value) . '%';
+                $value    = '%' . $this->escapeLikeString($value) . '%';
                 break;
             case self::MATCH_DOES_NOT_CONTAIN:
                 $sqlMatch = 'NOT LIKE';
-                $value = '%' . $this->escapeLikeString($value) . '%';
+                $value    = '%' . $this->escapeLikeString($value) . '%';
                 $alsoMatchNULLValues = true;
                 break;
 
             case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
                 $sqlMatch = 'IS NOT NULL AND (' . $field . ' <> \'\' OR ' . $field . ' = 0)';
-                $value = null;
+                $value    = null;
                 break;
 
             case self::MATCH_IS_NULL_OR_EMPTY:
                 $sqlMatch = 'IS NULL OR ' . $field . ' = \'\' ';
-                $value = null;
+                $value    = null;
                 break;
 
             case self::MATCH_ACTIONS_CONTAINS:
@@ -212,7 +213,7 @@ class SegmentExpression
                 // it can be used internally to inject sub-expressions into the query.
                 // see Segment::getCleanedExpression()
                 $sqlMatch = 'IN (' . $value['SQL'] . ')';
-                $value = $this->escapeLikeString($value['bind']);
+                $value    = $this->escapeLikeString($value['bind']);
                 break;
             default:
                 throw new Exception("Filter contains the match type '" . $matchType . "' which is not supported");
