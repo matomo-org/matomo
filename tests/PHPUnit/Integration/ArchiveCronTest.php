@@ -20,7 +20,7 @@ use Exception;
  * This tests that, when archiving is disabled,
  *  then Piwik API will return data that was pre-processed during archive.php run
  *
- * @group Integration
+ * @group Core
  * @group ArchiveCronTest
  */
 class ArchiveCronTest extends SystemTestCase

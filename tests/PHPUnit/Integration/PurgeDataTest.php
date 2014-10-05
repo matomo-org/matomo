@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 /**
  * TODO: shouldn't this be merged w/ PrivacyManagerTest? the original data purging tests are there
  *
- * @group Integration
+ * @group Core
  * @group PurgeDataTest
  */
 class PurgeDataTest extends SystemTestCase

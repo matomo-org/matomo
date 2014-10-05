@@ -29,7 +29,7 @@ class Cloud extends Visualization
     const FOOTER_ICON       = 'plugins/Morpheus/images/tagcloud.png';
     const FOOTER_ICON_TITLE = 'General_TagCloud';
 
-    /** Used by integration tests to make sure output is consistent. */
+    /** Used by system tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
     public $truncatingLimit = 50;
 

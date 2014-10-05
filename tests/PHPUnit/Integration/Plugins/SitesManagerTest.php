@@ -15,7 +15,7 @@ use Piwik\Site;
  *
  * @group Plugins
  */
-class Plugins_SitesManagerTest extends DatabaseTestCase
+class Plugins_SitesManagerTest extends IntegrationTestCase
 {
     public function setUp()
     {

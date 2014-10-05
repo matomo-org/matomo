@@ -17,7 +17,7 @@ use Piwik\Tests\Fixture;
  * @group Plugin
  * @group API
  */
-class RssRendererTest extends \DatabaseTestCase
+class RssRendererTest extends \IntegrationTestCase
 {
     /**
      * @var Rss

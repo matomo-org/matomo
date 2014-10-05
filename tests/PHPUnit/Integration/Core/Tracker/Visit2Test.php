@@ -135,7 +135,7 @@ class FakeTrackerVisit extends \Piwik\Tracker\Visit
 /**
  * @group Core
  */
-class VisitTest extends DatabaseTestCase
+class VisitTest extends IntegrationTestCase
 {
 
     public function setUp()

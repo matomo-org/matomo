@@ -8,17 +8,17 @@
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Fixture;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
- * Tests extending DatabaseTestCase are much slower to run: the setUp will
+ * Tests extending IntegrationTestCase are much slower to run: the setUp will
  * create all Piwik tables in a freshly empty test database.
  *
  * This allows each test method to start from a clean DB and setup initial state to
  * then test it.
  *
  */
-class DatabaseTestCase extends IntegrationTestCase
+class IntegrationTestCase extends SystemTestCase
 {
     /**
      * @var Fixture
@@ -93,4 +93,4 @@ class DatabaseTestCase extends IntegrationTestCase
     }
 }
 
-DatabaseTestCase::$fixture = new Fixture();
+IntegrationTestCase::$fixture = new Fixture();

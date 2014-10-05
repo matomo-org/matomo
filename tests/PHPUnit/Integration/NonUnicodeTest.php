@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\SomeVisitsWithNonUnicodePageTitles;
  * used in URL query params of visits.
  *
  * @group NonUnicodeTest
- * @group Integration
+ * @group Core
  */
 class NonUnicodeTest extends SystemTestCase
 {

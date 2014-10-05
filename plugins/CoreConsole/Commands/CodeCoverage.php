@@ -23,7 +23,7 @@ class CodeCoverage extends ConsoleCommand
     {
         $this->setName('tests:coverage');
         $this->setDescription('Run all phpunit tests and generate a combined code coverage');
-        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,integration', '');
+        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

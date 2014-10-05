@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
  * Tests API methods after ecommerce orders are tracked.
  *
  * @group EcommerceOrderWithItemsTest
- * @group Integration
+ * @group Plugins
  */
 class EcommerceOrderWithItemsTest extends SystemTestCase
 {

@@ -14,7 +14,7 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
  *
  * @group Plugins
  */
-class Plugins_PrivacyManagerConfigTest extends DatabaseTestCase
+class Plugins_PrivacyManagerConfigTest extends IntegrationTestCase
 {
     /**
      * @var PrivacyManagerConfig

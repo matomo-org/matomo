@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration\Core;
 
-use DatabaseTestCase;
+use IntegrationTestCase;
 use Piwik\Updater;
 use Piwik\Tests\Fixture;
 
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixture;
  * @group Core
  * @group Core_UpdaterTest
  */
-class UpdaterTest extends DatabaseTestCase
+class UpdaterTest extends IntegrationTestCase
 {
     public function testUpdaterChecksCoreVersionAndDetectsUpdateFile()
     {

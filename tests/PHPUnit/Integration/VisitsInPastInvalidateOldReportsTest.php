@@ -17,7 +17,7 @@ use Exception;
  *
  * See also other test: ArchiveInvalidationTest
  *
- * @group Integration
+ * @group Core
  * @group VisitsInPastInvalidateOldReportsTest
  */
 class VisitsInPastInvalidateOldReportsTest extends SystemTestCase

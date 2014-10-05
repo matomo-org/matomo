@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
  * Testing Custom Events
  *
  * @group CustomEventsTest
- * @group Integration
+ * @group Plugins
  */
 class CustomEventsTest extends SystemTestCase
 {

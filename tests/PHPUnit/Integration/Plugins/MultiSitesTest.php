@@ -15,7 +15,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
  *
  * @group Plugins
  */
-class Plugins_MultiSitesTest extends DatabaseTestCase
+class Plugins_MultiSitesTest extends IntegrationTestCase
 {
     protected $idSiteAccess;
 

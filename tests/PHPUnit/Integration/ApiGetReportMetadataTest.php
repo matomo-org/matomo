@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
  * It will return metadata about all API reports from all plugins
  * as well as the data itself, pre-processed and ready to be displayed
  *
- * @group Integration
+ * @group Plugins
  * @group ApiGetReportMetadataTest
  */
 class ApiGetReportMetadataTest extends SystemTestCase

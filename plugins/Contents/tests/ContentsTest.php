@@ -14,7 +14,7 @@ use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
  * Testing Contents
  *
  * @group ContentsTest
- * @group Integration
+ * @group System
  * @group Plugins
  */
 class ContentsTest extends SystemTestCase

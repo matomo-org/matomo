@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
  * Tests the transitions plugin.
  *
  * @group TransitionsTest
- * @group Integration
+ * @group Plugins
  */
 class TransitionsTest extends SystemTestCase
 {

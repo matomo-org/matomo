@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\ManySitesImportedLogs;
  * Tests the log importer.
  *
  * @group ImportLogsTest
- * @group Integration
+ * @group Core
  */
 class ImportLogsTest extends SystemTestCase
 {

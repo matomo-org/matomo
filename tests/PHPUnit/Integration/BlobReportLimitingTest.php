@@ -18,7 +18,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
  * Test Piwik's report limiting code. Make sure the datatable_archiving_maximum_rows_...
  * config options limit the size of certain reports when archiving.
  *
- * @group Integration
+ * @group Core
  * @group BlobReportLimitingTest
  */
 class BlobReportLimitingTest extends SystemTestCase

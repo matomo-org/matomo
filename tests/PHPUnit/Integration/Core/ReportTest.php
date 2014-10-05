@@ -71,7 +71,7 @@ class GetDisabledReport extends GetBasicReport
 /**
  * @group Core
  */
-class Plugin_ReportTest extends DatabaseTestCase
+class Plugin_ReportTest extends IntegrationTestCase
 {
     /**
      * @var Report

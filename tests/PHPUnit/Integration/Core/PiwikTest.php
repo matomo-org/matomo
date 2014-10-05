@@ -17,7 +17,7 @@ use Piwik\Translate;
  *
  * @group Core
  */
-class Core_PiwikTest extends DatabaseTestCase
+class Core_PiwikTest extends IntegrationTestCase
 {
     public function setUp()
     {

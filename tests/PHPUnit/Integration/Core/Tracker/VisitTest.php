@@ -16,7 +16,7 @@ use Piwik\Tracker\VisitExcluded;
  *
  * @group Core
  */
-class Core_Tracker_VisitTest extends DatabaseTestCase
+class Core_Tracker_VisitTest extends IntegrationTestCase
 {
     public function setUp()
     {

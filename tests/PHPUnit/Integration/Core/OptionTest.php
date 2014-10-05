@@ -15,7 +15,7 @@ use Piwik\Option;
  * @group Core
  * @group Core_OptionTest
  */
-class Core_OptionTest extends DatabaseTestCase
+class Core_OptionTest extends IntegrationTestCase
 {
     /**
      * @group Core

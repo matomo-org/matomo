@@ -18,7 +18,7 @@ use Piwik\Tests\Fixture;
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
  *
  * @group BackwardsCompatibility1XTest
- * @group Integration
+ * @group Core
  */
 class BackwardsCompatibility1XTest extends SystemTestCase
 {

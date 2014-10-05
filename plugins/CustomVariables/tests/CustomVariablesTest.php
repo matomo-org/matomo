@@ -15,7 +15,7 @@ use Piwik\Tracker\Cache;
  * @group CustomVariablesTest
  * @group Database
  */
-class CustomVariablesTest extends \DatabaseTestCase
+class CustomVariablesTest extends \IntegrationTestCase
 {
     public function testGetMaxCustomVariables_ShouldDetectCorrectNumberOfVariables()
     {

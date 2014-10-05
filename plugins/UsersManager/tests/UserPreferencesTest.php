@@ -20,7 +20,7 @@ use Piwik\Tests\Fixture;
  * @group Database
  * @group Plugins
  */
-class UserPreferencesTest extends \DatabaseTestCase
+class UserPreferencesTest extends \IntegrationTestCase
 {
     /**
      * @var UserPreferences

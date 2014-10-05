@@ -159,7 +159,7 @@ class ApiTestConfig
     /**
      * If supplied, tests will compare API responses with files using a different file prefix.
      * Normally, the test name is used as the test prefix, so this will usually be set to the
-     * name of the integration test. Either that or the value in the test's getOutputPrefix
+     * name of the system test. Either that or the value in the test's getOutputPrefix
      * method.
      *
      * @param string|bool eg, `'OneVisitorTwoVisitsTest'`
@@ -205,7 +205,7 @@ class ApiTestConfig
             }
 
             if (!property_exists($this, $key)) {
-                throw new Exception("Invalid API test property '$key'! Check your Integration tests.");
+                throw new Exception("Invalid API test property '$key'! Check your System tests.");
             }
 
             $this->$key = $value;

@@ -1,4 +1,4 @@
-Piwik comes with unit tests, integration tests, Javascript tests and Webtests.
+Piwik comes with unit tests, integration tests, system tests, Javascript tests and UI tests.
 This document briefly describes how to use and modify Piwik tests.
 
 ## Continuous Integration
@@ -71,22 +71,22 @@ To execute the tests:
 4. 	Run the tests
 
 	$ cd /path/to/piwik/tests/PHPUnit
-	$ phpunit --group Core
-     	$ phpunit --group Plugins
-     	$ phpunit --group Integration
+	$ phpunit --testsuite CoreTests
+    $ phpunit --testsuite PluginTests
+    $ phpunit --testsuite SystemTests
 
-	There are three main groups of tests: Core, Plugins and Integration
+	There are also two main groups of tests: Core and Plugins
 	For example run `phpunit --group Core`
 	to run all Core Piwik tests.
 
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
-## Integration Tests
+## System Tests
 
-Integration tests files are in `tests/PHPUnit/Integration/*Test.php`
+System tests files are in `tests/PHPUnit/Integration/*Test.php`
 
-Integration tests allow to test how major Piwik components interact together.
+System tests allow to test how major Piwik components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
 and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
 If a test fails, you can compare the processed/ and expected/ directories in a graphical
@@ -102,7 +102,7 @@ Otherwise, if you didn't expect to modify the API outputs, it might be that your
 
 ### Scheduled Reports Tests
 
-As part of our integration tests we generate the scheduled reports (in HTML, PDF & SMS).
+As part of our system tests we generate the scheduled reports (in HTML, PDF & SMS).
 Some of these scheduled reports contain PNG graphs. Depending on the system under test, generated images can differ.
 Therefore, PNG graphs are only tested and compared against "expected" graphs, if the system under test has the same characteristics as the integration server.
 The characteristics of the integration server are described in `SystemTestCase::canImagesBeIncludedInScheduledReports()`

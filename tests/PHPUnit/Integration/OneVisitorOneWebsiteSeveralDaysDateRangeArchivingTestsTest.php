@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  * archives are created.
  *
  * @group OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest
- * @group Integration
+ * @group Core
  */
 class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCase
 {

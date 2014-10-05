@@ -23,7 +23,7 @@ use Exception;
  *   URL matching, with custom referrer and keyword
  *   NO cookie support
  *
- * @group Integration
+ * @group Core
  * @group OneVisitorTwoVisitsTest
  */
 class OneVisitorTwoVisitsTest extends SystemTestCase

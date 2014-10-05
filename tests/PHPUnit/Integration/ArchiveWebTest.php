@@ -17,7 +17,7 @@ use Exception;
 /**
  * Tests to call the archive.php script via web and check there is no error.
  *
- * @group Integration
+ * @group Core
  * @group ArchiveWebTest
  */
 class ArchiveWebTest extends SystemTestCase

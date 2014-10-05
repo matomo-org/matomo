@@ -28,7 +28,7 @@ class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settin
  * @group Core
  * @group PluginSettings
  */
-class Core_Plugin_SettingsTest extends DatabaseTestCase
+class Core_Plugin_SettingsTest extends IntegrationTestCase
 {
     /**
      * @var CorePluginSettingsTest

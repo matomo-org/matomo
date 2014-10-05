@@ -18,7 +18,7 @@ require_once 'Goals/Goals.php';
  * on every url.
  *
  * @group TwoVisitorsTwoWebsitesDifferentDaysConversionsTest
- * @group Integration
+ * @group Plugins
  */
 class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 {

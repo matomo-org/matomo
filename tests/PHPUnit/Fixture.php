@@ -41,7 +41,7 @@ use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Exception;
 
 /**
- * Base type for all integration test fixtures. Integration test fixtures
+ * Base type for all system test fixtures. System test fixtures
  * add visit and related data to the database before a test is run. Different
  * tests can use the same fixtures.
  *

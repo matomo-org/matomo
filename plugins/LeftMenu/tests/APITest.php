@@ -18,7 +18,7 @@ use \FakeAccess;
  * @group APITest
  * @group Database
  */
-class APITest extends \DatabaseTestCase
+class APITest extends \IntegrationTestCase
 {
     /**
      * @var API

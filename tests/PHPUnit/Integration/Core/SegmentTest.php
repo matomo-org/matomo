@@ -12,7 +12,7 @@ use Piwik\Segment;
 /**
  * @group SegmentTest
  */
-class SegmentTest extends DatabaseTestCase
+class SegmentTest extends IntegrationTestCase
 {
     public function setUp()
     {

@@ -19,7 +19,7 @@ require_once 'Login/Auth.php';
  * @group Plugins
  * @group Plugins_LoginTest
  */
-class Plugins_LoginTest extends DatabaseTestCase
+class Plugins_LoginTest extends IntegrationTestCase
 {
 
     /**

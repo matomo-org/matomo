@@ -13,7 +13,7 @@ use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 use Piwik\Tests\SystemTestCase;
 
 /**
- * @group Integration
+ * @group Core
  * @group PivotByQueryParamTest
  */
 class PivotByQueryParamTest extends SystemTestCase

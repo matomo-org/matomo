@@ -21,7 +21,7 @@ use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
  * TODO Test PECL implementation somehow. (The PECL module must point to the test dir, not the real one.)
  *
  * @group ManyVisitorsOneWebsiteTest
- * @group Integration
+ * @group Core
  */
 class ManyVisitorsOneWebsiteTest extends SystemTestCase
 {

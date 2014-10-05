@@ -18,7 +18,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
  *
  * @group Plugins
  */
-class Plugins_MobileMessagingTest extends DatabaseTestCase
+class Plugins_MobileMessagingTest extends IntegrationTestCase
 {
     protected $idSiteAccess;
 

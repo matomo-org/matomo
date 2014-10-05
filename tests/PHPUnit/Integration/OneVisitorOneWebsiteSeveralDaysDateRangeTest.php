@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  * - and more
  *
  * @group OneVisitorOneWebsiteSeveralDaysDateRangeTest
- * @group Integration
+ * @group Core
  */
 class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends SystemTestCase
 {

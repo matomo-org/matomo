@@ -16,7 +16,7 @@ use Piwik\Tests\Fixture;
  *
  * @group Core
  */
-class Core_WidgetsListTest extends DatabaseTestCase
+class Core_WidgetsListTest extends IntegrationTestCase
 {
     /**
      * @group Core

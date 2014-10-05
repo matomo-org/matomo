@@ -13,7 +13,7 @@ use Piwik\Db;
  *
  * @group Core
  */
-class Core_DbTest extends DatabaseTestCase
+class Core_DbTest extends IntegrationTestCase
 {
 
     public function test_getColumnNamesFromTable()

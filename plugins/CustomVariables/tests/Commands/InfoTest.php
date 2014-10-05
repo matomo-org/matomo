@@ -20,7 +20,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @group Database
  * @group Plugins
  */
-class InfoTest extends \DatabaseTestCase
+class InfoTest extends \IntegrationTestCase
 {
     public function testExecute_ShouldOutputInfoSuccess_IfEverythingIsOk()
     {

@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
  * Tests the flattening of reports.
  *
  * @group FlattenReportsTest
- * @group Integration
+ * @group Core
  */
 class FlattenReportsTest extends SystemTestCase
 {

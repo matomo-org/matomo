@@ -14,7 +14,7 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
  * @group Core
  * @group ViewDataTable
  */
-class Core_Plugin_ViewDataTable_ManagerTest extends DatabaseTestCase
+class Core_Plugin_ViewDataTable_ManagerTest extends IntegrationTestCase
 {
 
     public function setUp()

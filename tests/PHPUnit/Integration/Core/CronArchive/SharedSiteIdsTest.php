@@ -12,7 +12,7 @@ use Piwik\CronArchive\SharedSiteIds;
  * @group Core
  * @group SharedSiteIdsTest
  */
-class SharedSiteIdsTest extends DatabaseTestCase
+class SharedSiteIdsTest extends IntegrationTestCase
 {
     /**
      * @var SharedSiteIds

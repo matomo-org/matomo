@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\SomeVisitsAllConversions;
  * conversions per visit.
  *
  * @group TrackGoalsAllowMultipleConversionsPerVisitTest
- * @group Integration
+ * @group Plugins
  */
 class TrackGoalsAllowMultipleConversionsPerVisitTest extends SystemTestCase
 {

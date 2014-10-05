@@ -11,7 +11,7 @@ use Piwik\Date;
 use Piwik\Tests\Fixture;
 
 /**
- * Generates tracker testing data for our SimpleIntegrationTest
+ * Generates tracker testing data for our SimpleSystemTest
  *
  * This Simple fixture adds one website and tracks one visit with couple pageviews and an ecommerce conversion
  */
@@ -55,7 +55,6 @@ class SimpleFixtureTrackFewVisits extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.25)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU_ID', $name = 'Test item!', $category = 'Test & Category', $price = 777, $quantity = 33);
         self::checkResponse($t->doTrackEcommerceOrder('TestingOrder', $grandTotal = 33 * 77));
-
     }
 
     protected function trackSecondVisit()
@@ -74,6 +73,5 @@ class SimpleFixtureTrackFewVisits extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU_ID2', $name = 'A durable item', $category = 'Best seller', $price = 321);
         self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 33 * 77));
-
     }
 }

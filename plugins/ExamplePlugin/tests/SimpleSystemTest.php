@@ -13,10 +13,10 @@ use Piwik\Tests\SystemTestCase;
 
 /**
  * @group ExamplePlugin
- * @group SimpleIntegrationTest
+ * @group SimpleSystemTest
  * @group Plugins
  */
-class SimpleIntegrationTest extends SystemTestCase
+class SimpleSystemTest extends SystemTestCase
 {
     /**
      * @var SimpleFixtureTrackFewVisits
@@ -25,7 +25,6 @@ class SimpleIntegrationTest extends SystemTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group SimpleIntegrationTest
      */
     public function testApi($api, $params)
     {
@@ -34,17 +33,20 @@ class SimpleIntegrationTest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        $api = array('API.get',
-                     'Goals.getItemsSku');
+        $api = array(
+            'API.get',
+            'Goals.getItemsSku'
+        );
 
-        $apiToTest = array();
+        $apiToTest   = array();
         $apiToTest[] = array($api,
-            array(  'idSite' => 1,
-                    'date' => self::$fixture->dateTime,
-                    'periods' => array('day'),
-                    'testSuffix' => ''
-
-        ));
+            array(
+                'idSite'     => 1,
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'testSuffix' => ''
+            )
+        );
 
         return $apiToTest;
     }
@@ -61,4 +63,4 @@ class SimpleIntegrationTest extends SystemTestCase
 
 }
 
-SimpleIntegrationTest::$fixture = new SimpleFixtureTrackFewVisits();
+SimpleSystemTest::$fixture = new SimpleFixtureTrackFewVisits();

@@ -17,7 +17,7 @@ use Piwik\Tests\Fixture;
  * testing a the auto suggest API for all known segments
  *
  * @group AutoSuggestAPITest
- * @group Integration
+ * @group Core
  */
 class AutoSuggestAPITest extends SystemTestCase
 {

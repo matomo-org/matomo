@@ -13,13 +13,13 @@ use Piwik\Plugins\UserSettings\tests\Fixtures\LanguageFixture;
 use Piwik\Tests\SystemTestCase;
 
 /**
- * Class GetLanguageIntegrationTest
+ * Class GetLanguageSystemTest
  * @package Piwik\Plugins\UserSettings\tests
- * @group GetLanguageIntegrationTest
+ * @group GetLanguageSystemTest
  * @group Plugins
  * @group UserSettings
  */
-class GetLanguageIntegrationTest extends SystemTestCase {
+class GetLanguageSystemTest extends SystemTestCase {
 
     public static $fixture = null;
 
@@ -32,7 +32,7 @@ class GetLanguageIntegrationTest extends SystemTestCase {
      * @param $api
      * @param $params
      * @dataProvider    getApiForTesting
-     * @group           GetLanguageIntegrationTest
+     * @group           GetLanguageSystemTest
      */
     public function testApi($api, $params)
     {
@@ -44,7 +44,6 @@ class GetLanguageIntegrationTest extends SystemTestCase {
      */
     public function getApiForTesting()
     {
-
         $apiToCall = array(
             "UserSettings.getLanguage",
             "UserSettings.getLanguageCode"
@@ -55,8 +54,8 @@ class GetLanguageIntegrationTest extends SystemTestCase {
         $apiToTest[] = array(
                             $apiToCall,
                             array(
-                                'idSite' => self::$fixture->idSite,
-                                'date' => self::$fixture->dateTime,
+                                'idSite'  => self::$fixture->idSite,
+                                'date'    => self::$fixture->dateTime,
                                 'periods' => array('day')
                             )
                        );
@@ -72,4 +71,4 @@ class GetLanguageIntegrationTest extends SystemTestCase {
 
 }
 
-GetLanguageIntegrationTest::$fixture = new LanguageFixture();
+GetLanguageSystemTest::$fixture = new LanguageFixture();

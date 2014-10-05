@@ -17,7 +17,7 @@ use Piwik\Version;
  *
  * @group Plugins
  */
-class Plugins_CoreUpdater_UpdateCommunicationTest extends DatabaseTestCase
+class Plugins_CoreUpdater_UpdateCommunicationTest extends IntegrationTestCase
 {
     public function setUp()
     {

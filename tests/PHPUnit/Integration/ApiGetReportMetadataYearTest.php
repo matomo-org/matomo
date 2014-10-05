@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\InvalidVisits;
  * test the Yearly metadata API response,
  * with no visits, with custom response language
  *
- * @group Integration
+ * @group Plugins
  * @group ApiGetReportMetadataYearTest
  */
 class ApiGetReportMetadataYearTest extends SystemTestCase

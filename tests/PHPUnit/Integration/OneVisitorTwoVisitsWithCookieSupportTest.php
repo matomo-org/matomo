@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
  * in the reporting data (more accurate unique visitor count, better referrer tracking for goals, etc.)
  *
  * @group OneVisitorTwoVisitsWithCookieSupportTest
- * @group Integration
+ * @group Core
  */
 class OneVisitorTwoVisitsWithCookieSupportTest extends SystemTestCase
 {

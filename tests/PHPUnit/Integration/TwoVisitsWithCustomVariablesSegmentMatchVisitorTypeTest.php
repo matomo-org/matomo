@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 /**
  * Tests use of custom variable segments.
  *
- * @group Integration
+ * @group Plugins
  * @group TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest
  */
 class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTestCase
@@ -58,8 +58,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
     }
 
     /**
-     * @depends      testApi
-     * @group        Integration
+     * @depends testApi
      */
     public function testCheck()
     {

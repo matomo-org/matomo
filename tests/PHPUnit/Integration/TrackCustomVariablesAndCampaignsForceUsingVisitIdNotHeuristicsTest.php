@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\SomeVisitsCustomVariablesCampaignsNotHeuristics;
  * tests campaign tracking.
  *
  * @group TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest
- * @group Integration
+ * @group Plugins
  */
 class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends SystemTestCase
 {

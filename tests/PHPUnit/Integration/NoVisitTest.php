@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\InvalidVisits;
  * API will archive and output empty stats.
  *
  * @group NoVisitTest
- * @group Integration
+ * @group Core
  */
 class NoVisitTest extends SystemTestCase
 {

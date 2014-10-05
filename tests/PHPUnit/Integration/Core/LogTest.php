@@ -21,7 +21,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
  * @group Core
  * @group Core_LogTest
  */
-class Core_LogTest extends DatabaseTestCase
+class Core_LogTest extends IntegrationTestCase
 {
     const TESTMESSAGE = 'test%smessage';
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';

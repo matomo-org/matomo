@@ -11,7 +11,7 @@ use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitOverSeveralDaysImportedLogs;
 
 /**
- * @group Integration
+ * @group Core
  * @group OneVisitorSeveralDaysImportedInRandomOrderTest
  */
 class OneVisitorSeveralDaysImportedInRandomOrderTest extends SystemTestCase

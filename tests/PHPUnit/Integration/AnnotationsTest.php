@@ -16,7 +16,7 @@ use FakeAccess;
 use Exception;
 
 /**
- * @group Integration
+ * @group Plugins
  * @group AnnotationsTest
  */
 class AnnotationsTest extends SystemTestCase

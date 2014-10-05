@@ -29,7 +29,7 @@ use PHPUnit_Framework_TestCase;
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
 /**
- * Base class for Integration tests.
+ * Base class for System tests.
  *
  * Provides helpers to track data and then call API get* methods to check outputs automatically.
  *

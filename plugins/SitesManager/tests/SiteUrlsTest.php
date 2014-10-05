@@ -16,7 +16,7 @@ use Piwik\Plugins\SitesManager\SiteUrls;
  * @group SiteUrlsTest
  * @group Database
  */
-class SiteUrlsTest extends \DatabaseTestCase
+class SiteUrlsTest extends \IntegrationTestCase
 {
     /**
      * @var SiteUrls

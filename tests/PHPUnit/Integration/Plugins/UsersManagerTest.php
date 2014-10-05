@@ -19,7 +19,7 @@ use Piwik\Translate;
  *
  * @group Plugins
  */
-class Plugins_UsersManagerTest extends DatabaseTestCase
+class Plugins_UsersManagerTest extends IntegrationTestCase
 {
     /**
      * @var API

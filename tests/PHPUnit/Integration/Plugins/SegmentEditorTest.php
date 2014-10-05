@@ -17,7 +17,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
  *
  * @group Plugins
  */
-class Plugins_SegmentEditorTest extends DatabaseTestCase
+class Plugins_SegmentEditorTest extends IntegrationTestCase
 {
     public function setUp()
     {

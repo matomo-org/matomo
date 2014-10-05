@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
  * This test tests that when using &cid=, the visitor ID is enforced
  *
  * @group UserIdAndVisitorIdTest
- * @group Integration
+ * @group Plugins
  */
 class UserIdAndVisitorIdTest extends SystemTestCase
 {

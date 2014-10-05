@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  * works well with the use case of a returning visitor being assigned to today's visit
  *
  * @group TrackerWindowLookBackTest
- * @group Integration
+ * @group Plugins
  */
 class TrackerWindowLookBackTest extends SystemTestCase
 {

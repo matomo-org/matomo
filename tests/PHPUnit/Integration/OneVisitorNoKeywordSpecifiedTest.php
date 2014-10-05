@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\TwoVisitsNoKeywordWithBot;
  * Also test that Live! will link to the search result page URL rather than the exact referrer URL
  * when the referrer URL is google.XX/url.... which is a redirect to landing page rather than the search result URL
  *
- * @group Integration
+ * @group Core
  * @group OneVisitorNoKeywordSpecifiedTest
  */
 class OneVisitorNoKeywordSpecifiedTest extends SystemTestCase

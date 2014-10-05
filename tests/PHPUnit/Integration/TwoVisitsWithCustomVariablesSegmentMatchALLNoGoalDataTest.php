@@ -11,7 +11,7 @@ use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
- * @group Integration
+ * @group Plugins
  * @group TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest
  */
 class TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest extends SystemTestCase

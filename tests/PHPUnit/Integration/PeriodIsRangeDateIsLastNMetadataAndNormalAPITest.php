@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  * test Metadata API + period=range&date=lastN
  *
  * @group PeriodIsRangeDateIsLastNMetadataAndNormalAPITest
- * @group Integration
+ * @group Core
  */
 class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
 {

@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
  * Tests IndexedBySite optimizations when archiving is disabled.
  *
  * @group TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest
- * @group Integration
+ * @group Plugins
  */
 class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends SystemTestCase
 {

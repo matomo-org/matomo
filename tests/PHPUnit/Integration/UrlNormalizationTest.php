@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
 /**
  * Tests the URL normalization.
  *
- * @group Integration
+ * @group Core
  * @group UrlNormalizationTest
  */
 class UrlNormalizationTest extends SystemTestCase

@@ -20,7 +20,6 @@ use Piwik\Tests\SystemTestCase;
 /**
  * @group Live
  * @group APITest
- * @group Integration
  * @group Plugins
  */
 class APITest extends SystemTestCase

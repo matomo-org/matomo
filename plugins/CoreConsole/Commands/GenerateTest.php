@@ -24,7 +24,7 @@ class GenerateTest extends GeneratePluginBase
             ->setDescription('Adds a test to an existing plugin')
             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
             ->addOption('testname', null, InputOption::VALUE_REQUIRED, 'The name of the test to create')
-            ->addOption('testtype', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "unit", "integration" or "database" test');
+            ->addOption('testtype', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "unit", "integration" or "system" test');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -35,16 +35,15 @@ class GenerateTest extends GeneratePluginBase
 
         $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
         $replace       = array(
-            'ExamplePlugin'               => $pluginName,
-            'SimpleTest'                  => $testName,
-            'SimpleIntegrationTest'       => $testName,
-            '@group Plugins'              => '@group ' . $testType
+            'ExamplePlugin'    => $pluginName,
+            'SimpleTest'       => $testName,
+            'SimpleSystemTest' => $testName,
+            '@group Plugins'   => '@group ' . $testType
          );
 
         $testClass  = $this->getTestClass($testType);
         if (!empty($testClass)) {
             $replace['\PHPUnit_Framework_TestCase'] = $testClass;
-
         }
 
         $whitelistFiles = $this->getTestFilesWhitelist($testType);
@@ -114,29 +113,31 @@ class GenerateTest extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
+     * @param $testType
      * @return string
      */
     private function getTestClass($testType)
     {
-        if ('Database' == $testType) {
-            return '\DatabaseTestCase';
+        if ('Integration' == $testType) {
+            return '\IntegrationTestCase';
         }
+
         if ('Unit' == $testType) {
             return '\PHPUnit_Framework_TestCase';
         }
-        return false;
+
+        return '';
     }
 
     public function getValidTypes()
     {
-        return array('unit', 'integration', 'database');
+        return array('unit', 'integration', 'system');
     }
 
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return string Unit, Integration, Database
+     * @return string Unit, Integration, System
      */
     private function getTestType(InputInterface $input, OutputInterface $output)
     {
@@ -167,11 +168,11 @@ class GenerateTest extends GeneratePluginBase
      */
     protected function getTestFilesWhitelist($testType)
     {
-        if ('Integration' == $testType) {
+        if ('System' == $testType) {
             return array(
                 '/.gitignore',
                 '/tests',
-                '/tests/SimpleIntegrationTest.php',
+                '/tests/SimpleSystemTest.php',
                 '/tests/expected',
                 '/tests/expected/test___API.get_day.xml',
                 '/tests/expected/test___Goals.getItemsSku_day.xml',
@@ -181,6 +182,7 @@ class GenerateTest extends GeneratePluginBase
                 '/tests/fixtures/SimpleFixtureTrackFewVisits.php'
             );
         }
+
         return array(
             '/tests',
             '/tests/SimpleTest.php'

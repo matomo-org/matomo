@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\ThreeSitesWithManyVisitsWithSiteSearch;
  * Testing the various use cases w/ internal Site Search tracking
  *
  * @group SiteSearchTest
- * @group Integration
+ * @group Plugins
  */
 class SiteSearchTest extends SystemTestCase
 {

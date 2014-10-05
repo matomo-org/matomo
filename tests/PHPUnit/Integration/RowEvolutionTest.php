@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
  * Tests the method API.getRowEvolution
  *
  * @group RowEvolutionTest
- * @group Integration
+ * @group Plugins
  */
 class RowEvolutionTest extends SystemTestCase
 {

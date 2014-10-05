@@ -20,7 +20,7 @@ use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
  * Also testing metadata API for multiple periods
  *
  * @group TwoVisitorsTwoWebsitesDifferentDaysTest
- * @group Integration
+ * @group Plugins
  */
 class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase
 {

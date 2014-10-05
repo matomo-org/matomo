@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
  * Test reports using visits for a site with a non-UTC timezone.
  *
  * @group TimezonesTest
- * @group Integration
+ * @group Core
  */
 class TimezonesTest extends SystemTestCase
 {

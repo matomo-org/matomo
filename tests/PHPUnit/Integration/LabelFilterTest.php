@@ -15,7 +15,7 @@ use Piwik\Tests\Fixtures\OneVisitSeveralPageViews;
  * This is not possible as unit test, since it loads data from the archive.
  *
  * @group LabelFilterTest
- * @group Integration
+ * @group Core
  */
 class LabelFilterTest extends SystemTestCase
 {

@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  * Tests w/ two visits & custom variables.
  *
  * @group TwoVisitsWithCustomVariablesTest
- * @group Integration
+ * @group Plugins
  */
 class TwoVisitsWithCustomVariablesTest extends SystemTestCase
 {

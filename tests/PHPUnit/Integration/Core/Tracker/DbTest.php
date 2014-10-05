@@ -14,7 +14,7 @@ use Piwik\Db;
  * @group Core
  * @group TrackerDbTest
  */
-class Core_Tracker_DbTest extends DatabaseTestCase
+class Core_Tracker_DbTest extends IntegrationTestCase
 {
     public function test_rowCount_whenUpdating_returnsAllMatchedRowsNotOnlyUpdatedRows()
     {

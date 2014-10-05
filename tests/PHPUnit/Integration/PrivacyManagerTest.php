@@ -32,7 +32,7 @@ require_once 'PrivacyManager/PrivacyManager.php';
 
 /**
  * @group PrivacyManagerTest
- * @group Integration
+ * @group Plugins
  */
 class PrivacyManagerTest extends SystemTestCase
 {

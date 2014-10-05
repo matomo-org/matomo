@@ -20,7 +20,7 @@ use Exception;
  * - on one or multiple websites
  * - for a given set of dates (and optional period)
  *
- * @group Integration
+ * @group Core
  * @group ArchiveInvalidationTest
  */
 class ArchiveInvalidationTest extends SystemTestCase

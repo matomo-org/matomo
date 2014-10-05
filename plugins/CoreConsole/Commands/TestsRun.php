@@ -25,16 +25,17 @@ class TestsRun extends ConsoleCommand
     {
         $this->setName('tests:run');
         $this->setDescription('Run Piwik PHPUnit tests one group after the other');
-        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,integration', '');
+        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
         $this->addOption('file', null, InputOption::VALUE_REQUIRED, 'Execute tests within this file. Should be a path relative to the tests/PHPUnit directory.');
+        $this->addOption('suite', null, InputOption::VALUE_REQUIRED, 'Execute tests of a specific test suite, for instance CoreTests, IntegrationTests or SystemTests.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $options = $input->getOption('options');
-        $groups = $input->getArgument('group');
+        $groups  = $input->getArgument('group');
 
         $groups = explode(",", $groups);
         $groups = array_map('ucfirst', $groups);
@@ -81,7 +82,8 @@ class TestsRun extends ConsoleCommand
         if (!empty($testFile)) {
             $this->executeTestFile($testFile, $options, $command, $output);
         } else {
-            $this->executeTestGroups($groups, $options, $command, $output);
+            $suite = $input->getOption('suite');
+            $this->executeTestGroups($suite, $groups, $options, $command, $output);
         }
     }
 
@@ -94,7 +96,7 @@ class TestsRun extends ConsoleCommand
         $output->writeln("");
     }
 
-    private function executeTestGroups($groups, $options, $command, OutputInterface $output)
+    private function executeTestGroups($suite, $groups, $options, $command, OutputInterface $output)
     {
         if (empty($groups)) {
             $groups = $this->getTestsGroups();
@@ -102,6 +104,10 @@ class TestsRun extends ConsoleCommand
 
         foreach ($groups as $group) {
             $params = '--group ' . $group . ' ' . str_replace('%group%', $group, $options);
+            if (!empty($suite)) {
+                $params .= ' --testsuite ' . $suite;
+            }
+
             $cmd = sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
             $output->writeln('Executing command: <info>' . $cmd . '</info>');
             passthru($cmd);
@@ -111,6 +117,6 @@ class TestsRun extends ConsoleCommand
 
     private function getTestsGroups()
     {
-        return array('Core', 'Plugins', 'Integration', 'UI');
+        return array('Core', 'Plugins', 'UI');
     }
 }

@@ -25,7 +25,7 @@ require_once 'ScheduledReports/ScheduledReports.php';
  *
  * @group Plugins
  */
-class Plugins_ScheduledReportsTest extends DatabaseTestCase
+class Plugins_ScheduledReportsTest extends IntegrationTestCase
 {
     private $idSite = 1;
 

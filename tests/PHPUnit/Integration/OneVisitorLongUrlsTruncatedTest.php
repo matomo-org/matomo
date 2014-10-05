@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\SomeVisitsWithLongUrls;
  * Tests that filter_truncate works recursively in Page URLs report AND in the case there are 2 different data Keywords -> search engine
  *
  * @group OneVisitorLongUrlsTruncatedTest
- * @group Integration
+ * @group Core
  */
 class OneVisitorLongUrlsTruncatedTest extends SystemTestCase
 {

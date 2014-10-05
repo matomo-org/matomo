@@ -15,7 +15,7 @@ use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
  *
  * @group Plugins
  */
-class Plugins_CorePluginsAdmin_UpdateCommunicationTest extends DatabaseTestCase
+class Plugins_CorePluginsAdmin_UpdateCommunicationTest extends IntegrationTestCase
 {
     /**
      * @var UpdateCommunication

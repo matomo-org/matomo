@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  * Test CSV export with Expanded rows, Translated labels, Different languages
  *
  * @group CsvExportTest
- * @group Integration
+ * @group Core
  */
 class CsvExportTest extends SystemTestCase
 {

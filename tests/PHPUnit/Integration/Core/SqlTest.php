@@ -9,7 +9,7 @@ use Piwik\Db;
  *
  * @group Core
  */
-class Core_SqlTest extends DatabaseTestCase
+class Core_SqlTest extends IntegrationTestCase
 {
     public function setUp()
     {

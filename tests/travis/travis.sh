@@ -67,9 +67,9 @@ then
         fi
     fi
 else
-    if [ "$COVERAGE" = "Integration" ]
+    if [ "$COVERAGE" = "System" ]
     then
-        echo "Executing non Integration tests in test suite SystemTests..."
+        echo "Executing non System tests in test suite SystemTests..."
         phpunit --configuration phpunit.xml --testsuite SystemTests --exclude-group System --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
     elif [ "$COVERAGE" = "Core" ]
     then

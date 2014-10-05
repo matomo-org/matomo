@@ -15,7 +15,7 @@ use Piwik\Tests\Fixture;
  * @group RowEvolutionTest
  * @group Database
  */
-class RowEvolutionTest extends \DatabaseTestCase
+class RowEvolutionTest extends \IntegrationTestCase
 {
 
     public function setUp()

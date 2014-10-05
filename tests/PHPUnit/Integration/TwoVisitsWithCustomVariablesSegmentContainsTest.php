@@ -13,7 +13,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 /**
  * Tests use of custom variable segments.
  *
- * @group Integration
+ * @group Plugins
  * @group TwoVisitsWithCustomVariablesSegmentContainsTest
  */
 class TwoVisitsWithCustomVariablesSegmentContainsTest extends SystemTestCase

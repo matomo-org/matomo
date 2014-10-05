@@ -15,7 +15,7 @@ use Piwik\Tests\Fixture;
 /**
  * testing a segment containing all supported fields
  *
- * @group Integration
+ * @group Plugins
  * @group TwoVisitsWithCustomVariablesSegmentMatchNONETest
  */
 class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase

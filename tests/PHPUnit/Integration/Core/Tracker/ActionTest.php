@@ -21,7 +21,7 @@ use Piwik\Plugin\Manager as PluginManager;
  *
  * @group Core
  */
-class Core_Tracker_ActionTest extends DatabaseTestCase
+class Core_Tracker_ActionTest extends IntegrationTestCase
 {
     public function setUp()
     {

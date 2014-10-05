@@ -13,7 +13,7 @@ use Piwik\Plugins\PrivacyManager\PrivacyManager;
  *
  * @group Plugins
  */
-class Plugins_PrivacyManagerTest extends DatabaseTestCase
+class Plugins_PrivacyManagerTest extends IntegrationTestCase
 {
     /**
      * @var PrivacyManager

@@ -14,7 +14,7 @@ use Piwik\Tests\Fixtures\ThreeSitesWithSharedVisitors;
 use Piwik\Tests\SystemTestCase;
 
 /**
- * @group Integration
+ * @group Core
  * @group MultipleSitesArchivingTest
  */
 class MultipleSitesArchivingTest extends SystemTestCase

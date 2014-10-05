@@ -19,7 +19,7 @@ use Piwik\Tests\Fixture;
  * @group ScheduledReportsTest
  * @group Database
  */
-class ScheduledReportsTest extends \DatabaseTestCase
+class ScheduledReportsTest extends \IntegrationTestCase
 {
     /**
      * @var ScheduledReports

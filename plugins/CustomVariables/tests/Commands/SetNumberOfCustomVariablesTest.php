@@ -20,7 +20,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @group Database
  * @group Plugins
  */
-class SetNumberOfCustomVariablesTest extends \DatabaseTestCase
+class SetNumberOfCustomVariablesTest extends \IntegrationTestCase
 {
     /**
      * @expectedException \RuntimeException
