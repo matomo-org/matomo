@@ -131,16 +131,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "2.4",
+            "version": "2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "64d91375aea2340b81e2cb46745dc3b2213d3231"
+                "reference": "3228856bc26c585f5364d95e21dc45543ca27953"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/64d91375aea2340b81e2cb46745dc3b2213d3231",
-                "reference": "64d91375aea2340b81e2cb46745dc3b2213d3231",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/3228856bc26c585f5364d95e21dc45543ca27953",
+                "reference": "3228856bc26c585f5364d95e21dc45543ca27953",
                 "shasum": ""
             },
             "require": {
@@ -174,7 +174,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2014-08-29 18:24:04"
+            "time": "2014-10-01 19:20:40"
         },
         {
             "name": "symfony/console",
@@ -1214,7 +1214,9 @@
             "time": "2014-08-31 03:22:04"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "facebook/xhprof": 20
@@ -1223,5 +1225,7 @@
     "platform": {
         "php": ">=5.3.2"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
