@@ -8,9 +8,6 @@
 namespace Piwik\Tests;
 
 use Exception;
-use Piwik\API\DocumentationGenerator;
-use Piwik\API\Proxy;
-use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
@@ -19,7 +16,6 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
 use Piwik\Translate;
-use Piwik\UrlHelper;
 use Piwik\Tests\Impl\TestRequestCollection;
 use Piwik\Tests\Impl\TestRequestResponse;
 use Piwik\Tests\Impl\ApiTestConfig;
