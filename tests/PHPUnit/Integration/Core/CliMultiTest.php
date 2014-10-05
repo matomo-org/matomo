@@ -8,7 +8,7 @@
 
 use Piwik\CliMulti;
 use Piwik\Version;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixture;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixture;
  *
  * @group Core
  */
-class Core_CliMultiTest extends IntegrationTestCase
+class Core_CliMultiTest extends SystemTestCase
 {
     /**
      * @var \Piwik\CliMulti

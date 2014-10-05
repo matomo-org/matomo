@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  * @group TrackerWindowLookBackTest
  * @group Integration
  */
-class TrackerWindowLookBackTest extends IntegrationTestCase
+class TrackerWindowLookBackTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

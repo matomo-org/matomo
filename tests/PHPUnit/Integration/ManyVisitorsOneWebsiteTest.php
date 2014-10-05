@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 use Piwik\Date;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 
 /**
@@ -23,7 +23,7 @@ use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
  * @group ManyVisitorsOneWebsiteTest
  * @group Integration
  */
-class ManyVisitorsOneWebsiteTest extends IntegrationTestCase
+class ManyVisitorsOneWebsiteTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

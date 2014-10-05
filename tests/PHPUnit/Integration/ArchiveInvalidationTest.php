@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Exception;
 
 /**
@@ -23,7 +23,7 @@ use Exception;
  * @group Integration
  * @group ArchiveInvalidationTest
  */
-class ArchiveInvalidationTest extends IntegrationTestCase
+class ArchiveInvalidationTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

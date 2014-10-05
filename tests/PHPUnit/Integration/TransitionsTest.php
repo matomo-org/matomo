@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
  * @group TransitionsTest
  * @group Integration
  */
-class TransitionsTest extends IntegrationTestCase
+class TransitionsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

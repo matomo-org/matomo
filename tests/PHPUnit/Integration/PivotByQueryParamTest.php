@@ -10,13 +10,13 @@ namespace Piwik\Tests\Integration;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * @group Integration
  * @group PivotByQueryParamTest
  */
-class PivotByQueryParamTest extends IntegrationTestCase
+class PivotByQueryParamTest extends SystemTestCase
 {
     /**
      * @var ManyVisitsWithMockLocationProvider

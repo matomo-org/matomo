@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\SomeVisitsWithNonUnicodePageTitles;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\SomeVisitsWithNonUnicodePageTitles;
  * @group NonUnicodeTest
  * @group Integration
  */
-class NonUnicodeTest extends IntegrationTestCase
+class NonUnicodeTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

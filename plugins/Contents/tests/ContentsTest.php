@@ -7,7 +7,7 @@
  */
 namespace Piwik\Plugins\Contents\tests;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
  * @group Integration
  * @group Plugins
  */
-class ContentsTest extends IntegrationTestCase
+class ContentsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

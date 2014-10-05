@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Insights\tests;
 use Piwik\DataTable;
 use Piwik\Plugins\Insights\Model;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * @group Insights
@@ -19,7 +19,7 @@ use Piwik\Tests\IntegrationTestCase;
  * @group Database
  * @group Plugins
  */
-class ModelTest extends IntegrationTestCase
+class ModelTest extends SystemTestCase
 {
     /**
      * @var SomeVisitsDifferentPathsOnTwoDays

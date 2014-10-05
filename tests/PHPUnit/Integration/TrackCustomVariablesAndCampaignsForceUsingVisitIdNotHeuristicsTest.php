@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\SomeVisitsCustomVariablesCampaignsNotHeuristics;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\SomeVisitsCustomVariablesCampaignsNotHeuristics;
  * @group TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest
  * @group Integration
  */
-class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends IntegrationTestCase
+class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

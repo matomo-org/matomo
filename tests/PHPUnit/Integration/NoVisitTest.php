@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\InvalidVisits;
 
 /**
@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\InvalidVisits;
  * @group NoVisitTest
  * @group Integration
  */
-class NoVisitTest extends IntegrationTestCase
+class NoVisitTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

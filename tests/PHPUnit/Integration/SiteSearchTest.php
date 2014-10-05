@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ThreeSitesWithManyVisitsWithSiteSearch;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\ThreeSitesWithManyVisitsWithSiteSearch;
  * @group SiteSearchTest
  * @group Integration
  */
-class SiteSearchTest extends IntegrationTestCase
+class SiteSearchTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

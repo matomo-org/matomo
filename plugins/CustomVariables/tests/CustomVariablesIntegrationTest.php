@@ -8,14 +8,14 @@
 
 namespace Piwik\Plugins\CustomVariables\tests;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * @group CustomVariables
  * @group CustomVariablesIntegrationTest
  * @group Database
  */
-class CustomVariablesIntegrationTest extends IntegrationTestCase
+class CustomVariablesIntegrationTest extends SystemTestCase
 {
     /**
      * @var Fixtures\VisitWithManyCustomVariables

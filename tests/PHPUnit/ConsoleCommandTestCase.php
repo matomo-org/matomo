@@ -13,7 +13,7 @@ use Piwik\Console;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
- * Base class for test cases that test Piwik console commands. Derives from IntegrationTestCase
+ * Base class for test cases that test Piwik console commands. Derives from SystemTestCase
  * so the entire Piwik environment is set up.
  *
  * This will create an ApplicationTester instance (provided by Symfony) which should be used to
@@ -33,7 +33,7 @@ use Symfony\Component\Console\Tester\ApplicationTester;
  *         // other checks
  *     }
  */
-class ConsoleCommandTestCase extends IntegrationTestCase
+class ConsoleCommandTestCase extends SystemTestCase
 {
     protected $applicationTester = null;
 

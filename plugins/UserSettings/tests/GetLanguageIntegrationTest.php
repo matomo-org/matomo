@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserSettings\tests;
 
 
 use Piwik\Plugins\UserSettings\tests\Fixtures\LanguageFixture;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * Class GetLanguageIntegrationTest
@@ -19,7 +19,7 @@ use Piwik\Tests\IntegrationTestCase;
  * @group Plugins
  * @group UserSettings
  */
-class GetLanguageIntegrationTest extends IntegrationTestCase {
+class GetLanguageIntegrationTest extends SystemTestCase {
 
     public static $fixture = null;
 

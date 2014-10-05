@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Date;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
  * @group TimezonesTest
  * @group Integration
  */
-class TimezonesTest extends IntegrationTestCase
+class TimezonesTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

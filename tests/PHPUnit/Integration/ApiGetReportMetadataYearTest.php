@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\InvalidVisits;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\InvalidVisits;
  * @group Integration
  * @group ApiGetReportMetadataYearTest
  */
-class ApiGetReportMetadataYearTest extends IntegrationTestCase
+class ApiGetReportMetadataYearTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

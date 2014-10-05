@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  * @group Integration
  * @group TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest
  */
-class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends IntegrationTestCase
+class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

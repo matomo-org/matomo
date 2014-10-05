@@ -47,7 +47,7 @@ matrix:
     - php: 5.4
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Plugins
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
   include:
     # Code Coverage
     - php: 5.4
@@ -55,7 +55,7 @@ matrix:
     - php: 5.4
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Plugins
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
   exclude:
     # Javascript tests need to run only on one PHP version
     - php: 5.4

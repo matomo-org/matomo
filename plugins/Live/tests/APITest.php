@@ -15,7 +15,7 @@ use Piwik\Plugins\Live\API;
 use FakeAccess;
 use Piwik\Access;
 use Piwik\Tests\Fixture;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * @group Live
@@ -23,7 +23,7 @@ use Piwik\Tests\IntegrationTestCase;
  * @group Integration
  * @group Plugins
  */
-class APITest extends IntegrationTestCase
+class APITest extends SystemTestCase
 {
     /**
      * @var API

@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
 use Piwik\Archive;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Exception;
 
@@ -26,7 +26,7 @@ use Exception;
  * @group Integration
  * @group OneVisitorTwoVisitsTest
  */
-class OneVisitorTwoVisitsTest extends IntegrationTestCase
+class OneVisitorTwoVisitsTest extends SystemTestCase
 {
     /**
      * @var Test_Piwik_Fixture_OneVisitorTwoVisits

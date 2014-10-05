@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\SomeVisitsAllConversions;
 
 /**
@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\SomeVisitsAllConversions;
  * @group TrackGoalsAllowMultipleConversionsPerVisitTest
  * @group Integration
  */
-class TrackGoalsAllowMultipleConversionsPerVisitTest extends IntegrationTestCase
+class TrackGoalsAllowMultipleConversionsPerVisitTest extends SystemTestCase
 {
     public static $fixture = null;
 

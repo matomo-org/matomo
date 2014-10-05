@@ -10,7 +10,7 @@ use Piwik\Db;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Fixture;
 
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/SystemTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
 
 // require fixtures
@@ -21,7 +21,7 @@ foreach (glob(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Benchmarks/Fixtures/*.php') a
 /**
  * Base class for benchmarks.
  */
-abstract class BenchmarkTestCase extends \Piwik\Tests\IntegrationTestCase
+abstract class BenchmarkTestCase extends \Piwik\Tests\SystemTestCase
 {
     protected static $fixture;
 

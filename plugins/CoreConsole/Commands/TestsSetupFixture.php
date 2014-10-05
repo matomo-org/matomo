@@ -216,9 +216,8 @@ class TestsSetupFixture extends ConsoleCommand
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
+        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/SystemTestCase.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 
         $fixturesToLoad = array(
             '/tests/PHPUnit/Fixtures/*.php',

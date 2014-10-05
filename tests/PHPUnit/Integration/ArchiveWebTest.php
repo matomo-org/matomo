@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Option;
 use Piwik\Http;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Fixture;
 use Exception;
@@ -20,7 +20,7 @@ use Exception;
  * @group Integration
  * @group ArchiveWebTest
  */
-class ArchiveWebTest extends IntegrationTestCase
+class ArchiveWebTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

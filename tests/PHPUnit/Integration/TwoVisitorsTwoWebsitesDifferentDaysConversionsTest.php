@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 require_once 'Goals/Goals.php';
@@ -20,7 +20,7 @@ require_once 'Goals/Goals.php';
  * @group TwoVisitorsTwoWebsitesDifferentDaysConversionsTest
  * @group Integration
  */
-class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends IntegrationTestCase
+class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

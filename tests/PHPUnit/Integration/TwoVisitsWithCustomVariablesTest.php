@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  * @group TwoVisitsWithCustomVariablesTest
  * @group Integration
  */
-class TwoVisitsWithCustomVariablesTest extends IntegrationTestCase
+class TwoVisitsWithCustomVariablesTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

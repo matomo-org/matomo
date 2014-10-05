@@ -34,7 +34,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
  * Provides helpers to track data and then call API get* methods to check outputs automatically.
  *
  */
-abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
+abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * Identifies the last language used in an API/Controller call.

@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 
 /**
@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\ManySitesImportedLogs;
  * @group ImportLogsTest
  * @group Integration
  */
-class ImportLogsTest extends IntegrationTestCase
+class ImportLogsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

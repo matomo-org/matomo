@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
  * @group CustomEventsTest
  * @group Integration
  */
-class CustomEventsTest extends IntegrationTestCase
+class CustomEventsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

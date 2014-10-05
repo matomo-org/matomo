@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
  * @group RowEvolutionTest
  * @group Integration
  */
-class RowEvolutionTest extends IntegrationTestCase
+class RowEvolutionTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\Request;
 use Piwik\Date;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Fixture;
 
@@ -19,7 +19,7 @@ use Piwik\Tests\Fixture;
  * @group AutoSuggestAPITest
  * @group Integration
  */
-class AutoSuggestAPITest extends IntegrationTestCase
+class AutoSuggestAPITest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

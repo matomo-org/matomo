@@ -90,7 +90,7 @@ class Fixture extends PHPUnit_Framework_Assert
         if(\Piwik\SettingsServer::isWindows()) {
             return "C:\Python27\python.exe";
         }
-        if(IntegrationTestCase::isTravisCI()) {
+        if(SystemTestCase::isTravisCI()) {
             return 'python2.6';
         }
         return 'python';

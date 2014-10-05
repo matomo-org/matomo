@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
@@ -21,7 +21,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
  * @group Integration
  * @group BlobReportLimitingTest
  */
-class BlobReportLimitingTest extends IntegrationTestCase
+class BlobReportLimitingTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

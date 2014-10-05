@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Date;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  * @group PeriodIsRangeDateIsLastNMetadataAndNormalAPITest
  * @group Integration
  */
-class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends IntegrationTestCase
+class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
 {
     public static $fixture = null;
 

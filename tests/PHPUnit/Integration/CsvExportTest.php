@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  * @group CsvExportTest
  * @group Integration
  */
-class CsvExportTest extends IntegrationTestCase
+class CsvExportTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

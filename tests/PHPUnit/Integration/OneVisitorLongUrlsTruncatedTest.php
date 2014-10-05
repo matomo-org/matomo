@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\SomeVisitsWithLongUrls;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\SomeVisitsWithLongUrls;
  * @group OneVisitorLongUrlsTruncatedTest
  * @group Integration
  */
-class OneVisitorLongUrlsTruncatedTest extends IntegrationTestCase
+class OneVisitorLongUrlsTruncatedTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

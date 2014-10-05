@@ -105,7 +105,7 @@ Otherwise, if you didn't expect to modify the API outputs, it might be that your
 As part of our integration tests we generate the scheduled reports (in HTML, PDF & SMS).
 Some of these scheduled reports contain PNG graphs. Depending on the system under test, generated images can differ.
 Therefore, PNG graphs are only tested and compared against "expected" graphs, if the system under test has the same characteristics as the integration server.
-The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
+The characteristics of the integration server are described in `SystemTestCase::canImagesBeIncludedInScheduledReports()`
 
 ## JavaScript Tests
 

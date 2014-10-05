@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsNoKeywordWithBot;
 
 /**
@@ -19,7 +19,7 @@ use Piwik\Tests\Fixtures\TwoVisitsNoKeywordWithBot;
  * @group Integration
  * @group OneVisitorNoKeywordSpecifiedTest
  */
-class OneVisitorNoKeywordSpecifiedTest extends IntegrationTestCase
+class OneVisitorNoKeywordSpecifiedTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

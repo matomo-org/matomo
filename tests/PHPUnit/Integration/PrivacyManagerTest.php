@@ -25,7 +25,7 @@ use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixture;
 
 require_once 'PrivacyManager/PrivacyManager.php';
@@ -34,7 +34,7 @@ require_once 'PrivacyManager/PrivacyManager.php';
  * @group PrivacyManagerTest
  * @group Integration
  */
-class PrivacyManagerTest extends IntegrationTestCase
+class PrivacyManagerTest extends SystemTestCase
 {
     // constants used in checking whether numeric tables are populated correctly.
     // 'done' entries exist for every period, even if there's no metric data, so we need the

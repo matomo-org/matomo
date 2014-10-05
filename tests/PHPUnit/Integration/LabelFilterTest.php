@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitSeveralPageViews;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\OneVisitSeveralPageViews;
  * @group LabelFilterTest
  * @group Integration
  */
-class LabelFilterTest extends IntegrationTestCase
+class LabelFilterTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

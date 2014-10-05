@@ -12,7 +12,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * @group Insights
@@ -20,7 +20,7 @@ use Piwik\Tests\IntegrationTestCase;
  * @group Database
  * @group Plugins
  */
-class ApiTest extends IntegrationTestCase
+class ApiTest extends SystemTestCase
 {
     /**
      * @var SomeVisitsDifferentPathsOnTwoDays

@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
  * @group OneVisitorTwoVisitsWithCookieSupportTest
  * @group Integration
  */
-class OneVisitorTwoVisitsWithCookieSupportTest extends IntegrationTestCase
+class OneVisitorTwoVisitsWithCookieSupportTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class
 

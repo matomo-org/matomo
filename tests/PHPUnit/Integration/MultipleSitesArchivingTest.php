@@ -11,13 +11,13 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Tests\Fixture;
 use Piwik\Tests\Fixtures\ThreeSitesWithSharedVisitors;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * @group Integration
  * @group MultipleSitesArchivingTest
  */
-class MultipleSitesArchivingTest extends IntegrationTestCase
+class MultipleSitesArchivingTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

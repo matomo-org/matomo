@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tracker\Action;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
 
 /**
@@ -19,7 +19,7 @@ use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
  * @group Integration
  * @group UrlNormalizationTest
  */
-class UrlNormalizationTest extends IntegrationTestCase
+class UrlNormalizationTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

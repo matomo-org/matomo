@@ -12,7 +12,7 @@ use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\UrlHelper;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use \Exception;
 use \PHPUnit_Framework_Assert;
 
@@ -222,7 +222,7 @@ class TestRequestCollection
                                                      ));
 
                     $content = $request->process();
-                    IntegrationTestCase::assertApiResponseHasNoError($content);
+                    SystemTestCase::assertApiResponseHasNoError($content);
 
                     // find first row w/ subtable
                     foreach ($content as $row) {

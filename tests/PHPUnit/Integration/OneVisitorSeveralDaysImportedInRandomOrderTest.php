@@ -7,14 +7,14 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitOverSeveralDaysImportedLogs;
 
 /**
  * @group Integration
  * @group OneVisitorSeveralDaysImportedInRandomOrderTest
  */
-class OneVisitorSeveralDaysImportedInRandomOrderTest extends IntegrationTestCase
+class OneVisitorSeveralDaysImportedInRandomOrderTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

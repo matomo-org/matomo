@@ -9,14 +9,14 @@
 namespace Piwik\Plugins\ExamplePlugin\tests;
 
 use Piwik\Plugins\ExamplePlugin\tests\fixtures\SimpleFixtureTrackFewVisits;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 
 /**
  * @group ExamplePlugin
  * @group SimpleIntegrationTest
  * @group Plugins
  */
-class SimpleIntegrationTest extends IntegrationTestCase
+class SimpleIntegrationTest extends SystemTestCase
 {
     /**
      * @var SimpleFixtureTrackFewVisits

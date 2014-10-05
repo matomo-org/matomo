@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\API\API;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 use Piwik\Tests\Fixture;
 
@@ -18,7 +18,7 @@ use Piwik\Tests\Fixture;
  * @group Integration
  * @group TwoVisitsWithCustomVariablesSegmentMatchNONETest
  */
-class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends IntegrationTestCase
+class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

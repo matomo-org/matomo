@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Request;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesVisitsInPast;
 use Exception;
 
@@ -20,7 +20,7 @@ use Exception;
  * @group Integration
  * @group VisitsInPastInvalidateOldReportsTest
  */
-class VisitsInPastInvalidateOldReportsTest extends IntegrationTestCase
+class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

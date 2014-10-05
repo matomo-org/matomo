@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Fixture;
 use Exception;
@@ -23,7 +23,7 @@ use Exception;
  * @group Integration
  * @group ArchiveCronTest
  */
-class ArchiveCronTest extends IntegrationTestCase
+class ArchiveCronTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

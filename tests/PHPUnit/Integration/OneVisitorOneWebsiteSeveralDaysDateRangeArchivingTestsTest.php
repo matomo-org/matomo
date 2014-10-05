@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
@@ -20,7 +20,7 @@ use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
  * @group OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest
  * @group Integration
  */
-class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends IntegrationTestCase
+class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below test definition
 

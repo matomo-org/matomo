@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Fixture;
 
@@ -20,7 +20,7 @@ use Piwik\Tests\Fixture;
  * @group BackwardsCompatibility1XTest
  * @group Integration
  */
-class BackwardsCompatibility1XTest extends IntegrationTestCase
+class BackwardsCompatibility1XTest extends SystemTestCase
 {
     const FIXTURE_LOCATION = '/tests/resources/piwik-1.13-dump.sql';
 

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
 
 /**
@@ -19,7 +19,7 @@ use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
  * @group Integration
  * @group ApiGetReportMetadataTest
  */
-class ApiGetReportMetadataTest extends IntegrationTestCase
+class ApiGetReportMetadataTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

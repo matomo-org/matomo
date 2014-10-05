@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
  * @group FlattenReportsTest
  * @group Integration
  */
-class FlattenReportsTest extends IntegrationTestCase
+class FlattenReportsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

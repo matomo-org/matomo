@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
 
 /**
@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
  * @group UserIdAndVisitorIdTest
  * @group Integration
  */
-class UserIdAndVisitorIdTest extends IntegrationTestCase
+class UserIdAndVisitorIdTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

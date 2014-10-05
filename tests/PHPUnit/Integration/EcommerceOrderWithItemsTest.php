@@ -9,7 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
 
 /**
@@ -18,7 +18,7 @@ use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
  * @group EcommerceOrderWithItemsTest
  * @group Integration
  */
-class EcommerceOrderWithItemsTest extends IntegrationTestCase
+class EcommerceOrderWithItemsTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

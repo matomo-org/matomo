@@ -12,7 +12,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 use Piwik\API\Request;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
@@ -21,7 +21,7 @@ use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
  * @group Integration
  * @group PurgeDataTest
  */
-class PurgeDataTest extends IntegrationTestCase
+class PurgeDataTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 

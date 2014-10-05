@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Plugins\Annotations\API;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesWithAnnotations;
 use FakeAccess;
 use Exception;
@@ -19,7 +19,7 @@ use Exception;
  * @group Integration
  * @group AnnotationsTest
  */
-class AnnotationsTest extends IntegrationTestCase
+class AnnotationsTest extends SystemTestCase
 {
     public static $fixture = null;
 
