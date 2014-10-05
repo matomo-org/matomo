@@ -14,6 +14,7 @@ use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\UsersManager\UserPreferences;
 
 /**
  * Base class of all plugin menu providers. Plugins that define their own menu items can extend this class to easily
@@ -105,8 +106,8 @@ class Menu
      * @param  string $module            The name of the module/plugin the action belongs to. The module name is case sensitive.
      * @param  string $controllerAction  The name of the action that should be executed within your controller
      * @param  array  $additionalParams  Optional URL parameters that will be appended to the URL
-     * @return array|null   Returns null if the given module is either not installed or not activated. Returns the URL
-     *                      to the given module action otherwise.
+     * @return array|null   Returns null if the given module is either not installed or not activated. Returns the array
+     *                      of query parameter names and values to the given module action otherwise.
      *
      * @since 2.7.0
      * // not API for now
@@ -127,6 +128,80 @@ class Menu
         $params['module'] = $module;
 
         return $params;
+    }
+
+    /**
+     * Generates a URL to the given action of the current module, and it will also append some URL query parameters from the
+     * User preferences: idSite, period, date. If you do not need the parameters idSite, period and date to be generated
+     * use {@link urlForAction()} instead.
+     *
+     * @param  string $controllerAction  The name of the action that should be executed within your controller
+     * @param  array  $additionalParams  Optional URL parameters that will be appended to the URL
+     * @return array   Returns the array of query parameter names and values to the given module action and idSite date and period.
+     *
+     */
+    protected function urlForActionWithDefaultUserParams($controllerAction, $additionalParams = array())
+    {
+        $urlModuleAction = $this->urlForAction($controllerAction);
+        return array_merge(
+            $urlModuleAction,
+            $this->urlForDefaultUserParams(),
+            $additionalParams
+        );
+    }
+
+    /**
+     * Generates a URL to the given action of the given module, and it will also append some URL query parameters from the
+     * User preferences: idSite, period, date. If you do not need the parameters idSite, period and date to be generated
+     * use {@link urlForModuleAction()} instead.
+     *
+     * @param  string $module            The name of the module/plugin the action belongs to. The module name is case sensitive.
+     * @param  string $controllerAction  The name of the action that should be executed within your controller
+     * @param  array  $additionalParams  Optional URL parameters that will be appended to the URL
+     * @return array|null   Returns the array of query parameter names and values to the given module action and idSite date and period.
+     *                      Returns null if the module or action is invalid.
+     *
+     */
+    protected function urlForModuleActionWithDefaultUserParams($module, $controllerAction, $additionalParams = array())
+    {
+        $urlModuleAction = $this->urlForModuleAction($module, $controllerAction);
+        return array_merge(
+            $urlModuleAction,
+            $this->urlForDefaultUserParams(),
+            $additionalParams
+        );
+    }
+
+    /**
+     * Returns the &idSite=X&period=Y&date=Z query string fragment,
+     * fetched from current logged-in user's preferences.
+     *
+     * @param bool $websiteId
+     * @param bool $defaultPeriod
+     * @param bool $defaultDate
+     * @return string eg '&idSite=1&period=week&date=today'
+     * @throws \Exception in case a website was not specified and a default website id could not be found
+     */
+    public function urlForDefaultUserParams($websiteId = false, $defaultPeriod = false, $defaultDate = false)
+    {
+        $userPreferences = new UserPreferences();
+        if (empty($websiteId)) {
+            $websiteId = $userPreferences->getDefaultWebsiteId();
+        }
+        if (empty($websiteId)) {
+            throw new \Exception("A website ID was not specified and a website to default to could not be found.");
+        }
+        if (empty($defaultDate)) {
+            $defaultDate = $userPreferences->getDefaultDate();
+        }
+        if (empty($defaultPeriod)) {
+            $defaultPeriod = $userPreferences->getDefaultPeriod();
+        }
+        return array(
+            'idSite' => $websiteId,
+            'period' => $defaultPeriod,
+            'date'   => $defaultDate,
+        );
     }
 
     /**

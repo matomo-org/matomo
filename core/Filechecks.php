@@ -43,7 +43,7 @@ class Filechecks
                 $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
             }
 
-            if(strpos($directoryToCheck, '/tmp/') !== false) {
+            if (strpos($directoryToCheck, '/tmp/') !== false) {
                 $directoryToCheck = SettingsPiwik::rewriteTmpPathWithInstanceId($directoryToCheck);
             }
 
@@ -87,9 +87,9 @@ class Filechecks
             $directoryList = "<code>chown -R ". self::getUserAndGroup() ." " . $realpath . "</code><br />" . $directoryList;
         }
 
-        if(function_exists('shell_exec')) {
+        if (function_exists('shell_exec')) {
             $currentUser = self::getUser();
-            if(!empty($currentUser)) {
+            if (!empty($currentUser)) {
                 $optionalUserInfo = " (running as user '" . $currentUser . "')";
             }
         }
@@ -211,13 +211,13 @@ class Filechecks
     private static function getUserAndGroup()
     {
         $user = self::getUser();
-        if(!function_exists('shell_exec')) {
+        if (!function_exists('shell_exec')) {
             return $user . ':' . $user;
         }
 
         $group = trim(shell_exec('groups '. $user .' | cut -f3 -d" "'));
 
-        if(empty($group)) {
+        if (empty($group)) {
             $group = 'www-data';
         }
         return $user . ':' . $group;
@@ -225,7 +225,7 @@ class Filechecks
 
     private static function getUser()
     {
-        if(!function_exists('shell_exec')) {
+        if (!function_exists('shell_exec')) {
             return 'www-data';
         }
         return trim(shell_exec('whoami'));

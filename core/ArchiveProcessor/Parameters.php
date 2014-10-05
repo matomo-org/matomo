@@ -91,7 +91,7 @@ class Parameters
      */
     public function getSubPeriods()
     {
-        if($this->getPeriod()->getLabel() == 'day') {
+        if ($this->getPeriod()->getLabel() == 'day') {
             return array( $this->getPeriod() );
         }
         return $this->getPeriod()->getSubperiods();

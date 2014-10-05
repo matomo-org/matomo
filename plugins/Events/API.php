@@ -94,7 +94,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getDefaultSecondaryDimension($apiMethod)
     {
-        if(isset($this->defaultMappingApiToSecondaryDimension[$apiMethod])) {
+        if (isset($this->defaultMappingApiToSecondaryDimension[$apiMethod])) {
             return $this->defaultMappingApiToSecondaryDimension[$apiMethod];
         }
         return false;
@@ -106,11 +106,11 @@ class API extends \Piwik\Plugin\API
             $secondaryDimension = $this->getDefaultSecondaryDimension($apiMethod);
         }
         $record = $this->mappingApiToRecord[$apiMethod];
-        if(!is_array($record)) {
+        if (!is_array($record)) {
             return $record;
         }
         // when secondaryDimension is incorrectly set
-        if(empty($record[$secondaryDimension])) {
+        if (empty($record[$secondaryDimension])) {
             return key($record);
         }
         return $record[$secondaryDimension];
@@ -124,7 +124,7 @@ class API extends \Piwik\Plugin\API
     public function getSecondaryDimensions($apiMethod)
     {
         $records = $this->mappingApiToRecord[$apiMethod];
-        if(!is_array($records)) {
+        if (!is_array($records)) {
             return false;
         }
         return array_keys($records);

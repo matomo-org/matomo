@@ -123,7 +123,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     public static function getWhereClauseActionIsNotEvent()
     {
-        return " AND log_link_visit_action.idaction_event_category IS NULL AND log_link_visit_action.idaction_content_name IS NULL";
+        return " AND log_link_visit_action.idaction_event_category IS NULL";
     }
 
     /**
@@ -241,7 +241,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         // 1) No result Keywords
         // 2) For each page view, count number of times the referrer page was a Site Search
         if ($this->isSiteSearchEnabled()) {
-                $this->updateQuerySelectFromForSiteSearch($select, $from);
+            $this->updateQuerySelectFromForSiteSearch($select, $from);
         }
 
         $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "idaction_name", $rankingQuery);

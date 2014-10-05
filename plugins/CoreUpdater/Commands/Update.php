@@ -40,7 +40,7 @@ class Update extends ConsoleCommand
         try {
             $this->makeUpdate($input, $output, $doDryRun);
 
-            if(!$doDryRun) {
+            if (!$doDryRun) {
                 $this->writeSuccessMessage($output, array("Piwik has been successfully updated!"));
             }
 

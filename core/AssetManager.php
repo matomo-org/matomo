@@ -37,7 +37,7 @@ use Piwik\Translate;
  * the global option 'disable_merged_assets'. See the documentation in the global
  * config for more information.
  *
- * @method static \Piwik\AssetManager getInstance()
+ * @method static AssetManager getInstance()
  */
 class AssetManager extends Singleton
 {
@@ -72,7 +72,7 @@ class AssetManager extends Singleton
         $this->minimalStylesheetFetcher =  new StaticUIAssetFetcher(array('plugins/Morpheus/stylesheets/base.less', 'plugins/Morpheus/stylesheets/general/_forms.less'), array(), $this->theme);
 
         $theme = Manager::getInstance()->getThemeEnabled();
-        if(!empty($theme)) {
+        if (!empty($theme)) {
             $this->theme = new Theme();
         }
     }
@@ -206,7 +206,7 @@ class AssetManager extends Singleton
             $pluginName = $plugin->getPluginName();
             $pluginIsCore = Manager::getInstance()->isPluginBundledWithCore($pluginName);
 
-            if(($pluginIsCore && $core) || (!$pluginIsCore && !$core))
+            if (($pluginIsCore && $core) || (!$pluginIsCore && !$core))
                 $loadedPlugins[] = $pluginName;
         }
 
@@ -220,12 +220,12 @@ class AssetManager extends Singleton
     {
         $assetsToRemove = array($this->getMergedStylesheetAsset());
 
-        if($pluginName) {
+        if ($pluginName) {
 
-            if($this->pluginContainsJScriptAssets($pluginName)) {
+            if ($this->pluginContainsJScriptAssets($pluginName)) {
 
                 PiwikConfig::getInstance()->init();
-                if(Manager::getInstance()->isPluginBundledWithCore($pluginName)) {
+                if (Manager::getInstance()->isPluginBundledWithCore($pluginName)) {
 
                     $assetsToRemove[] = $this->getMergedCoreJSAsset();
 
@@ -347,13 +347,13 @@ class AssetManager extends Singleton
 
         $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
 
-        if($plugin->isTheme()) {
+        if ($plugin->isTheme()) {
 
             $theme = Manager::getInstance()->getTheme($pluginName);
 
             $javaScriptFiles = $theme->getJavaScriptFiles();
 
-            if(!empty($javaScriptFiles))
+            if (!empty($javaScriptFiles))
                 $assets = array_merge($assets, $javaScriptFiles);
         }
 

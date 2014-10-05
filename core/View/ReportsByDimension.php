@@ -104,10 +104,10 @@ class ReportsByDimension extends View
         // display it initially
         $categories = $this->dimensionCategories;
         if (!empty($categories)) {
-            $firstCategory = reset($categories);
+            $firstCategory   = reset($categories);
             $firstReportInfo = reset($firstCategory);
 
-            $oldGet = $_GET;
+            $oldGet  = $_GET;
             $oldPost = $_POST;
 
             foreach ($firstReportInfo['params'] as $key => $value) {
@@ -120,7 +120,7 @@ class ReportsByDimension extends View
             $action = $firstReportInfo['params']['action'];
             $this->firstReport = FrontController::getInstance()->fetchDispatch($module, $action);
 
-            $_GET = $oldGet;
+            $_GET  = $oldGet;
             $_POST = $oldPost;
         }
 

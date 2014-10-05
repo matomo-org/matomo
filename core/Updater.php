@@ -355,6 +355,7 @@ class Updater
      * @param string $updateSql Update SQL query.
      * @param int|false $errorToIgnore A MySQL error code to ignore.
      * @param string $file The Update file that's calling this method.
+     * @throws UpdaterErrorException
      */
     public static function handleQueryError($e, $updateSql, $errorToIgnore, $file)
     {
@@ -371,6 +372,7 @@ class Updater
      *
      * @param int $error
      * @param int|int[] $errorCodesToIgnore
+     * @return boolean
      */
     public static function isDbErrorOneOf($error, $errorCodesToIgnore)
     {

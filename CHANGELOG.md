@@ -10,6 +10,21 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Library updates
 * Updated AngularJS from 1.2.13 to 1.2.25
 
+### Breaking Changes
+* The Auth interface has been modified, existing Auth implementations will have to be modified. Changes include:
+  * The initSession method has been moved. Since this behavior must be executed for every Auth implementation, it has been put into a new class: SessionInitializer.
+    If your Auth implementation implements its own session logic you will have to extend and override SessionInitializer.
+  * The following methods have been added: setPassword, setPasswordHash, getTokenAuthSecret and getLogin.
+  * Clarifying semantics of each method and what they must support and can support.
+  * **Read the documentation for the [Auth interface](http://developer.piwik.org/api-reference/Piwik/Auth) to learn more.**
+* The `Piwik\Unzip\*` classes have been extracted out of the Piwik repository into a separate component named [Decompress](https://github.com/piwik/component-decompress).
+  * `Piwik\Unzip` has not moved, it is kept for backward compatibility. If you have been using that class, you don't need to change anything.
+  * The `Piwik\Unzip\*` classes (Tar, PclZip, Gzip, ZipArchive) have moved to the `Piwik\Decompress\*` namespace (inside the new repository).
+  * `Piwik\Unzip\UncompressInterface` has been moved and renamed to `Piwik\Decompress\DecompressInterface` (inside the new repository).
+
+### Deprecations
+* The Piwik::setUserHasSuperUserAccess method is deprecated, instead use Access::doAsSuperUser. This method will ensure that super user access is properly rescinded after the callback finishes.
+
 ### New commands
 * `generate:angular-directive` Let's you easily generate a template for a new angular directive for any plugin.
 

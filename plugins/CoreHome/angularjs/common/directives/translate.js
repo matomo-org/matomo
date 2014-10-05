@@ -12,6 +12,8 @@
  * within the sprintf args. Using the filter, this is not possible w/o manually sanitizing
  * and creating trusted HTML, which is not as safe.
  *
+ * Note: nesting this directive is not supported.
+ *
  * Usage:
  * <span piwik-translate="Plugin_TranslationToken">
  *     first arg::<strong>second arg</strong>::{{ unsafeDataThatWillBeSanitized }}
@@ -22,10 +24,8 @@
 
     function piwikTranslate() {
         return {
+            priority: 1,
             restrict: 'A',
-            scope: {
-                piwikTranslate: '@'
-            },
             compile: function(element, attrs) {
                 var parts = element.html().split('::'),
                     translated = _pk_translate(attrs.piwikTranslate, parts);

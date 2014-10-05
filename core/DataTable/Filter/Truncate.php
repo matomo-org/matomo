@@ -89,9 +89,10 @@ class Truncate extends BaseFilter
             return;
         }
 
-        $rows = $table->getRows();
-        $count = $table->getRowsCount();
+        $rows   = $table->getRows();
+        $count  = $table->getRowsCount();
         $newRow = new Row(array(Row::COLUMNS => array('label' => DataTable::LABEL_SUMMARY_ROW)));
+
         for ($i = $this->truncateAfter; $i < $count; $i++) {
             if (!isset($rows[$i])) {
                 // case when the last row is a summary row, it is not indexed by $cout but by DataTable::ID_SUMMARY_ROW

@@ -15,7 +15,7 @@ use Piwik\ProxyHttp;
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__).'/../../');
 if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php'))
 {
-	require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
+    require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
 
 error_reporting(E_ALL|E_NOTICE);
@@ -25,11 +25,11 @@ error_reporting(E_ALL|E_NOTICE);
 
 if(!defined('PIWIK_USER_PATH'))
 {
-	define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
+    define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
 }
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
-	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
+    define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';

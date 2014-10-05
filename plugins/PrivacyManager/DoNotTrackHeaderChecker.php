@@ -26,7 +26,7 @@ class DoNotTrackHeaderChecker
      */
     public function checkHeaderInTracker(&$exclude)
     {
-        if($exclude) {
+        if ($exclude) {
             Common::printDebug("Visit is already excluded, no need to check DoNotTrack support.");
             return;
         }

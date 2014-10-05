@@ -121,6 +121,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     {
         $value = self::getPercentageValue($value, $divisor, $this->quotientPrecision);
         $value = self::appendPercentSign($value);
+
         return $value;
     }
 
@@ -152,6 +153,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
         if ($appendPercentSign) {
             $number = self::appendPercentSign($number);
         }
+
         return $number;
     }
 
@@ -165,6 +167,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
         if ($number > 0) {
             $number = '+' . $number;
         }
+
         return $number;
     }
 

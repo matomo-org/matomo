@@ -452,7 +452,7 @@ class Log extends Singleton
         if ($level == self::ERROR) {
             $message = $this->getMessageFormattedScreen($level, $tag, $datetime, $message);
             $this->writeErrorToStandardErrorOutput($message);
-            if(!isset($this->writers['screen'])) {
+            if (!isset($this->writers['screen'])) {
                 echo $message;
             }
         }
@@ -599,7 +599,7 @@ class Log extends Singleton
      */
     private function writeErrorToStandardErrorOutput($message)
     {
-        if(defined('PIWIK_TEST_MODE')) {
+        if (defined('PIWIK_TEST_MODE')) {
             // do not log on stderr during tests (prevent display of errors in CI output)
             return;
         }

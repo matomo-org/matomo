@@ -28,6 +28,9 @@ set_time_limit(0);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
+require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
+    ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
+    : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);

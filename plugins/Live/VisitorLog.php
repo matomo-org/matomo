@@ -105,7 +105,7 @@ class VisitorLog extends Visualization
                                        && $filterEcommerce == \Piwik\Plugins\Goals\Controller::ECOMMERCE_LOG_SHOW_ORDERS;
                             $isAbandonedCart = $action['type'] == 'ecommerceAbandonedCart'
                                        && $filterEcommerce == \Piwik\Plugins\Goals\Controller::ECOMMERCE_LOG_SHOW_ABANDONED_CARTS;
-                            if($isAbandonedCart || $isEcommerceOrder) {
+                            if ($isAbandonedCart || $isEcommerceOrder) {
                                 return true;
                             }
                         }

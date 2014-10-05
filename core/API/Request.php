@@ -70,7 +70,7 @@ use Piwik\Log;
  */
 class Request
 {
-    protected $request = null;
+    private $request = null;
 
     /**
      * Converts the supplied request string into an array of query paramater name/value

@@ -48,12 +48,7 @@ class UserId extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        $forcedUserId = $request->getForcedUserId();
-        if ($forcedUserId) {
-            return $forcedUserId;
-        }
-
-        return false;
+        return $request->getForcedUserId();
     }
 
 }

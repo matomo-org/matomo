@@ -100,16 +100,20 @@ abstract class Period
     public function getDateStart()
     {
         $this->generate();
+
         if (count($this->subperiods) == 0) {
             return $this->getDate();
         }
+
         $periods = $this->getSubperiods();
+
         /** @var $currentPeriod Period */
         $currentPeriod = $periods[0];
         while ($currentPeriod->getNumberOfSubperiods() > 0) {
-            $periods = $currentPeriod->getSubperiods();
+            $periods       = $currentPeriod->getSubperiods();
             $currentPeriod = $periods[0];
         }
+
         return $currentPeriod->getDate();
     }
 
@@ -121,16 +125,20 @@ abstract class Period
     public function getDateEnd()
     {
         $this->generate();
+
         if (count($this->subperiods) == 0) {
             return $this->getDate();
         }
+
         $periods = $this->getSubperiods();
+
         /** @var $currentPeriod Period */
         $currentPeriod = $periods[count($periods) - 1];
         while ($currentPeriod->getNumberOfSubperiods() > 0) {
-            $periods = $currentPeriod->getSubperiods();
+            $periods       = $currentPeriod->getSubperiods();
             $currentPeriod = $periods[count($periods) - 1];
         }
+
         return $currentPeriod->getDate();
     }
 
@@ -212,10 +220,12 @@ abstract class Period
     public function toString($format = "Y-m-d")
     {
         $this->generate();
+
         $dateString = array();
         foreach ($this->subperiods as $period) {
             $dateString[] = $period->toString($format);
         }
+
         return $dateString;
     }
 
@@ -259,6 +269,9 @@ abstract class Period
      */
     public function getRangeString()
     {
-        return $this->getDateStart()->toString("Y-m-d") . "," . $this->getDateEnd()->toString("Y-m-d");
+        $dateStart = $this->getDateStart();
+        $dateEnd   = $this->getDateEnd();
+
+        return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
     }
 }

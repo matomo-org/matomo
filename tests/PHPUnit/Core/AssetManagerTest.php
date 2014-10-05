@@ -420,7 +420,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         return
             '<script type="text/javascript">' . PHP_EOL .
             'var translations = [];' . PHP_EOL .
-            'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }for(var i in translations) { piwik_translations[i] = translations[i];} ' . PHP_EOL .
+            'if (typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }for(var i in translations) { piwik_translations[i] = translations[i];} ' . PHP_EOL .
             '</script>';
     }
 

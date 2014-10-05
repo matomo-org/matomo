@@ -140,7 +140,7 @@ class SystemCheck
         }
 
         $sessionAutoStarted = (int)ini_get('session.auto_start');
-        if($sessionAutoStarted) {
+        if ($sessionAutoStarted) {
             $infos['missing_desired_functions'][] = 'session.auto_start';
         }
 

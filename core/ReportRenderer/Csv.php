@@ -105,7 +105,7 @@ class Csv extends ReportRenderer
         );
 
         $reportData = $csvRenderer->render($processedReport);
-        if(empty($reportData)) {
+        if (empty($reportData)) {
             $reportData = Piwik::translate('CoreHome_ThereIsNoDataForThisReport');
         }
 

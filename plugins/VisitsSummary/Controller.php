@@ -159,7 +159,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->maxActions = (int)$dataRow->getColumn('max_actions');
         $view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
 
-        if(Common::isActionsPluginEnabled()) {
+        if (Common::isActionsPluginEnabled()) {
             $view->showActionsPluginReports = true;
             $dataTableActions = APIActions::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
                 \Piwik\API\Request::getRawSegmentFromRequest());

@@ -10,12 +10,7 @@ namespace Piwik;
 
 use Exception;
 
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\IP;
-use Piwik\ProxyHttp;
 use Piwik\Session;
-use Piwik\UrlHelper;
 
 /**
  * Provides URL related helper methods.
@@ -232,16 +227,16 @@ class Url
 
         $trustedHosts = self::getTrustedHosts();
 
+        // Only punctuation we allow is '[', ']', ':', '.', '_' and '-'
+        $hostLength = strlen($host);
+        if ($hostLength !== strcspn($host, '`~!@#$%^&*()+={}\\|;"\'<>,?/ ')) {
+            return false;
+        }
+
         // if no trusted hosts, just assume it's valid
         if (empty($trustedHosts)) {
             self::saveTrustedHostnameInConfig($host);
             return true;
-        }
-
-        // Only punctuation we allow is '[', ']', ':', '.' and '-'
-        $hostLength = strlen($host);
-        if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ ')) {
-            return false;
         }
 
         foreach ($trustedHosts as &$trustedHost) {
@@ -346,7 +341,7 @@ class Url
         $hostHeaders = array();
 
         $config = Config::getInstance()->General;
-        if(isset($config['proxy_host_headers'])) {
+        if (isset($config['proxy_host_headers'])) {
             $hostHeaders = $config['proxy_host_headers'];
         }
 
@@ -473,6 +468,7 @@ class Url
      * Redirects the user to the specified URL.
      *
      * @param string $url
+     * @throws Exception
      * @api
      */
     public static function redirectToUrl($url)
@@ -490,7 +486,7 @@ class Url
             echo "Invalid URL to redirect to.";
         }
 
-        if(Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             throw new Exception("If you were using a browser, Piwik would redirect you to this URL: $url \n\n");
         }
         exit;
@@ -501,7 +497,7 @@ class Url
      */
     public static function redirectToHttps()
     {
-        if(ProxyHttp::isHttps()) {
+        if (ProxyHttp::isHttps()) {
             return;
         }
         $url = self::getCurrentUrl();

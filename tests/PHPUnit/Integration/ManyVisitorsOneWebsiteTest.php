@@ -108,6 +108,7 @@ class ManyVisitorsOneWebsiteTest extends IntegrationTestCase
 
         // Randomly fails on 5.3
         if(!self::isPhpVersion53()) {
+
             $apiToTest[] = array('Live.getLastVisitsDetails', array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateString,
@@ -140,7 +141,11 @@ class ManyVisitorsOneWebsiteTest extends IntegrationTestCase
                 'date'                   => $dateString,
                 'periods'                => 'month',
                 'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisitAsc',
-                'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7)
+                'otherRequestParameters' => array('filter_sort_order' => 'asc',
+                                                  'filter_sort_column' => 'idVisit',
+                                                  'filter_limit' => 7,
+                                                  'hideColumns' => 'latitude,longitude' // Mysqli has troubles with lat/long rounding
+                )
             ));
         }
 

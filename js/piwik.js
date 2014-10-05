@@ -2113,7 +2113,7 @@ if (typeof Piwik !== 'object') {
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
          */
-        function Tracker(trackerUrl, siteId) {
+        function Tracker(trackerUrl, siteId, uuid) {
 
             /************************************************************
              * Private members
@@ -2288,7 +2288,7 @@ if (typeof Piwik !== 'object') {
                 domainHash,
 
                 // Visitor UUID
-                visitorUUID;
+                visitorUUID = uuid;
 
             /*
              * Set cookie value
@@ -5134,7 +5134,7 @@ if (typeof Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                return new Tracker(piwikUrl, siteId);
+                return new Tracker(piwikUrl, siteId, asyncTracker.getVisitorId());
             },
 
             /**

@@ -26,7 +26,7 @@ namespace Piwik\Menu;
  *         );
  *     }
  *
- * @method static \Piwik\Menu\MenuUser getInstance()
+ * @method static MenuUser getInstance()
  */
 class MenuUser extends MenuAbstract
 {
@@ -42,7 +42,7 @@ class MenuUser extends MenuAbstract
      */
     public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('CoreAdminHome_MenuManage', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('CoreAdminHome_MenuManage', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -56,7 +56,7 @@ class MenuUser extends MenuAbstract
      */
     public function addPlatformItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('CorePluginsAdmin_MenuPlatform', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('CorePluginsAdmin_MenuPlatform', $menuName, $url, $order, $tooltip);
     }
 
     /**

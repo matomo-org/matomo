@@ -225,7 +225,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function getDataArray($name)
     {
-        if(empty($this->arrays[$name])) {
+        if (empty($this->arrays[$name])) {
             $this->arrays[$name] = new DataArray();
         }
         return $this->arrays[$name];

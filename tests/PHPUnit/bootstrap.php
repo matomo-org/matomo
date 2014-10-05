@@ -34,8 +34,9 @@ require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/ConsoleCommandTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
@@ -49,8 +50,6 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 }
 
 // require test fixtures
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
-
 $fixturesToLoad = array(
     '/tests/PHPUnit/Fixtures/*.php',
     '/tests/PHPUnit/UI/Fixtures/*.php',

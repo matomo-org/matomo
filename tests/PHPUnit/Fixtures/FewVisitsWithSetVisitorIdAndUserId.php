@@ -80,11 +80,19 @@ class FewVisitsWithSetVisitorId extends Fixture
 
     private function trackVisits_setUserId()
     {
+        $userId = self::USER_ID_EXAMPLE_COM;
         // total = 2 visitors, 3 page views
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
         // First, some basic tests
         $this->settingInvalidUserIdShouldThrow($t);
+
+        // We create a visit with no User ID.
+        // When User ID  will be set below, then it will UPDATE this visit here that starts without UserID
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1.9)->getDatetime());
+        $t->setVisitorId('6be121d126d93581');
+        $t->setUrl('http://example.org/no-user-id-set-but-should-appear-in-user-id-visit');
+        self::checkResponse($t->doTrackPageView('no User Id set but it should appear in '. $userId .'!'));
 
         // A NEW VISIT
         // Setting both Visitor ID and User ID
@@ -98,21 +106,20 @@ class FewVisitsWithSetVisitorId extends Fixture
         $this->assertEquals($generatedVisitorId, $t->getVisitorId());
 
         // Set User ID
-        $userId = self::USER_ID_EXAMPLE_COM;
         $t->setUserId($userId);
-        $this->assertEquals($userId, $t->getUserId());
 
         // User ID takes precedence over any previously set Visitor ID
-        $hashUserId = $t->getUserIdHashed($userId);
-        $this->assertEquals($hashUserId, $t->getVisitorId());
+        $this->assertEquals($t->getUserIdHashed($userId), $t->getVisitorId());
+        $this->assertEquals('9395988394d4568d', $t->getVisitorId());
+        $this->assertEquals($userId, $t->getUserId());
 
         // Track a pageview with this user id
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // Track another pageview
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.1)->getDatetime());
+        $this->assertEquals($userId, $t->getUserId());
         self::checkResponse($t->doTrackPageView('second page'));
-
 
         // A NEW VISIT WITH A SET USER ID
         // Change User ID -> This will create a new visit
