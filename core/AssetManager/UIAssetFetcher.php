@@ -56,7 +56,7 @@ abstract class UIAssetFetcher
      */
     public function getCatalog()
     {
-        if($this->catalog == null)
+        if ($this->catalog == null)
             $this->createCatalog();
 
         return $this->catalog;

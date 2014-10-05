@@ -138,10 +138,12 @@ class Request
         if (!$this->isTimestampValid($cookieFirstVisitTimestamp)) {
             $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
         }
+
         $daysSinceFirstVisit = round(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400, $precision = 0);
         if ($daysSinceFirstVisit < 0) {
             $daysSinceFirstVisit = 0;
         }
+
         return $daysSinceFirstVisit;
     }
 
@@ -152,12 +154,14 @@ class Request
     {
         $daysSinceLastOrder = false;
         $lastOrderTimestamp = $this->getParam('_ects');
+
         if ($this->isTimestampValid($lastOrderTimestamp)) {
             $daysSinceLastOrder = round(($this->getCurrentTimestamp() - $lastOrderTimestamp) / 86400, $precision = 0);
             if ($daysSinceLastOrder < 0) {
                 $daysSinceLastOrder = 0;
             }
         }
+
         return $daysSinceLastOrder;
     }
 
@@ -168,12 +172,14 @@ class Request
     {
         $daysSinceLastVisit = 0;
         $lastVisitTimestamp = $this->getParam('_viewts');
+
         if ($this->isTimestampValid($lastVisitTimestamp)) {
             $daysSinceLastVisit = round(($this->getCurrentTimestamp() - $lastVisitTimestamp) / 86400, $precision = 0);
             if ($daysSinceLastVisit < 0) {
                 $daysSinceLastVisit = 0;
             }
         }
+
         return $daysSinceLastVisit;
     }
 
@@ -297,6 +303,7 @@ class Request
         if (!isset($supportedParams[$name])) {
             throw new Exception("Requested parameter $name is not a known Tracking API Parameter.");
         }
+
         $paramDefaultValue = $supportedParams[$name][0];
         $paramType = $supportedParams[$name][1];
 
@@ -318,7 +325,7 @@ class Request
     protected function isTimestampValid($time)
     {
         return $time <= $this->getCurrentTimestamp()
-        && $time > $this->getCurrentTimestamp() - 10 * 365 * 86400;
+            && $time > $this->getCurrentTimestamp() - 10 * 365 * 86400;
     }
 
     public function getIdSite()
@@ -338,9 +345,11 @@ class Request
          *                      request.
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
+
         if ($idSite <= 0) {
             throw new Exception('Invalid idSite: \'' . $idSite . '\'');
         }
+
         return $idSite;
     }
 
@@ -359,9 +368,11 @@ class Request
         }
 
         $customVar = Common::unsanitizeInputValues(Common::getRequestVar($parameter, '', 'json', $this->params));
+
         if (!is_array($customVar)) {
             return array();
         }
+
         $customVariables = array();
         $maxCustomVars = CustomVariables::getMaxCustomVariables();
         foreach ($customVar as $id => $keyValue) {
@@ -374,13 +385,14 @@ class Request
                 Common::printDebug("Invalid custom variables detected (id=$id)");
                 continue;
             }
+
             if (strlen($keyValue[1]) == 0) {
                 $keyValue[1] = "";
             }
             // We keep in the URL when Custom Variable have empty names
             // and values, as it means they can be deleted server side
 
-            $key = self::truncateCustomVariable($keyValue[0]);
+            $key   = self::truncateCustomVariable($keyValue[0]);
             $value = self::truncateCustomVariable($keyValue[1]);
             $customVariables['custom_var_k' . $id] = $key;
             $customVariables['custom_var_v' . $id] = $value;
@@ -407,6 +419,7 @@ class Request
         if (!$this->shouldUseThirdPartyCookie()) {
             return;
         }
+
         Common::printDebug("We manage the cookie...");
 
         $cookie = $this->makeThirdPartyCookie();
@@ -455,7 +468,7 @@ class Request
 
         // If User ID is set it takes precedence
         $userId = $this->getForcedUserId();
-        if($userId) {
+        if ($userId) {
             $userIdHashed = $this->getUserIdHashed($userId);
             $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
             Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
@@ -502,6 +515,7 @@ class Request
                 return $binVisitorId;
             }
         }
+
         return false;
     }
 
@@ -512,6 +526,7 @@ class Request
         } else {
             $ipString = IP::getIpFromHeader();
         }
+
         $ip = IP::P2N($ipString);
         return $ip;
     }
@@ -536,10 +551,11 @@ class Request
     public function getForcedUserId()
     {
         $userId = $this->getParam('uid');
-        if(strlen($userId) > 0) {
+        if (strlen($userId) > 0) {
             return $userId;
         }
-        return null;
+
+        return false;
     }
 
     public function getForcedVisitorId()
@@ -572,6 +588,7 @@ class Request
         ) {
             return (int)$generationTime;
         }
+
         return false;
     }
 
@@ -590,8 +607,8 @@ class Request
      * @param $userId
      * @return string
      */
-    private function getUserIdHashed($userId)
+    public function getUserIdHashed($userId)
     {
-        return sha1($userId);
+        return substr( sha1( $userId ), 0, 16);
     }
 }

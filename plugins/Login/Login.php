@@ -85,7 +85,7 @@ class Login extends \Piwik\Plugin
      */
     public static function initAuthenticationFromCookie(\Piwik\Auth $auth, $activateCookieAuth)
     {
-        if(self::isModuleIsAPI() && !$activateCookieAuth) {
+        if (self::isModuleIsAPI() && !$activateCookieAuth) {
             return;
         }
 

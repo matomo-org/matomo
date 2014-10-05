@@ -76,7 +76,7 @@ if (empty($_GET)) {
 $url = sprintf("%spiwik.php?cip=%s&token_auth=%s&", $PIWIK_URL, getVisitIp(), $TOKEN_AUTH);
 
 foreach ($_GET as $key => $value) {
-    $url .= $key . '=' . urlencode($value) . '&';
+    $url .= urlencode($key ). '=' . urlencode($value) . '&';
 }
 sendHeader("Content-Type: image/gif");
 $stream_options = array('http' => array(

@@ -86,7 +86,7 @@ class RowEvolution
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 
         $this->label = ResponseBuilder::getLabelFromRequest($_GET);
-        if(!is_array($this->label)) {
+        if (!is_array($this->label)) {
             throw new Exception("Expected label to be an array, got instead: " . $this->label);
         }
         $this->label = $this->label[0];
@@ -337,7 +337,7 @@ class RowEvolution
         $labelPretty = $dataTableMap->getColumn('label_html');
         $labelPretty = array_filter($labelPretty, 'strlen');
         $labelPretty = current($labelPretty);
-        if(!empty($labelPretty)) {
+        if (!empty($labelPretty)) {
             return $labelPretty;
         }
         return $rowLabel;

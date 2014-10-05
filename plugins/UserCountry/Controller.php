@@ -369,7 +369,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function dieIfGeolocationAdminIsDisabled()
     {
-        if(!UserCountry::isGeoLocationAdminEnabled()) {
+        if (!UserCountry::isGeoLocationAdminEnabled()) {
             throw new \Exception('Geo location setting page has been disabled.');
         }
     }

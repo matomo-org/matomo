@@ -14,6 +14,7 @@ use Piwik\AuthResult;
 use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\Db;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\ProxyHttp;
@@ -135,7 +136,17 @@ class SessionInitializer
      */
     protected function doAuthenticateSession(AuthInterface $auth)
     {
-        $tokenAuth = $this->usersManagerAPI->getTokenAuth($auth->getLogin(), $auth->getTokenAuthSecret());
+        $login = $auth->getLogin();
+        $tokenAuthSecret = null;
+
+        try {
+            $tokenAuthSecret = $auth->getTokenAuthSecret();
+        } catch (Exception $ex) {
+            Log::debug("SessionInitializer::doAuthenticateSession: token_auth secret for %s not avaialble before user"
+                     . " is authenticated.", $login);
+        }
+
+        $tokenAuth = empty($tokenAuthSecret) ? null : $this->usersManagerAPI->getTokenAuth($login, $tokenAuthSecret);
 
         /**
          * @deprecated Create a custom SessionInitializer instead.

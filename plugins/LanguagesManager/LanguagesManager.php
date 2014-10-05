@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Translate;
 use Piwik\View;
@@ -102,7 +101,8 @@ class LanguagesManager extends \Piwik\Plugin
 
     public function deleteUserLanguage($userLogin)
     {
-        Db::query('DELETE FROM ' . Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
+        $model = new Model();
+        $model->deleteUserLanguage($userLogin);
     }
 
     /**
@@ -110,10 +110,7 @@ class LanguagesManager extends \Piwik\Plugin
      */
     public function install()
     {
-        $userLanguage = "login VARCHAR( 100 ) NOT NULL ,
-					     language VARCHAR( 10 ) NOT NULL ,
-					     PRIMARY KEY ( login )";
-        DbHelper::createTable('user_language', $userLanguage);
+        Model::install();
     }
 
     /**
@@ -121,7 +118,7 @@ class LanguagesManager extends \Piwik\Plugin
      */
     public function uninstall()
     {
-        Db::dropTables(Common::prefixTable('user_language'));
+        Model::uninstall();
     }
 
     /**

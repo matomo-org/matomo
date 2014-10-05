@@ -77,10 +77,14 @@ abstract class Db
      */
     protected function recordQueryProfile($query, $timer)
     {
-        if (!isset($this->queriesProfiling[$query])) $this->queriesProfiling[$query] = array('sum_time_ms' => 0, 'count' => 0);
-        $time = $timer->getTimeMs(2);
+        if (!isset($this->queriesProfiling[$query])) {
+            $this->queriesProfiling[$query] = array('sum_time_ms' => 0, 'count' => 0);
+        }
+
+        $time  = $timer->getTimeMs(2);
         $time += $this->queriesProfiling[$query]['sum_time_ms'];
         $count = $this->queriesProfiling[$query]['count'] + 1;
+
         $this->queriesProfiling[$query] = array('sum_time_ms' => $time, 'count' => $count);
     }
 
@@ -97,13 +101,12 @@ abstract class Db
         self::$profiling = false;
 
         foreach ($this->queriesProfiling as $query => $info) {
-            $time = $info['sum_time_ms'];
+            $time  = $info['sum_time_ms'];
             $count = $info['count'];
 
             $queryProfiling = "INSERT INTO " . Common::prefixTable('log_profiling') . "
 						(query,count,sum_time_ms) VALUES (?,$count,$time)
-						ON DUPLICATE KEY
-							UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
+						ON DUPLICATE KEY UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
             $this->query($queryProfiling, array($query));
         }
 

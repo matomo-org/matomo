@@ -197,18 +197,23 @@ class Archive
     {
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
-        $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
+        $timezone = false;
+        if (count($websiteIds) == 1) {
+            $timezone = Site::getTimezoneFor($websiteIds[0]);
+        }
 
         if (Period::isMultiplePeriod($strDate, $period)) {
-            $oPeriod = PeriodFactory::build($period, $strDate, $timezone);
+            $oPeriod    = PeriodFactory::build($period, $strDate, $timezone);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
-            $oPeriod = PeriodFactory::makePeriodFromQueryParams($timezone, $period, $strDate);
+            $oPeriod    = PeriodFactory::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
-        $segment = new Segment($segment, $websiteIds);
-        $idSiteIsAll = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
+
+        $segment        = new Segment($segment, $websiteIds);
+        $idSiteIsAll    = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
         $isMultipleDate = Period::isMultiplePeriod($strDate, $period);
+
         return Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate, $skipAggregationOfSubTables);
     }
 
@@ -239,9 +244,11 @@ class Archive
     {
         $forceIndexedBySite = false;
         $forceIndexedByDate = false;
+
         if ($idSiteIsAll || count($idSites) > 1) {
             $forceIndexedBySite = true;
         }
+
         if (count($periods) > 1 || $isMultipleDate) {
             $forceIndexedByDate = true;
         }
@@ -265,7 +272,7 @@ class Archive
      *
      * @param string|array $names One or more archive names, eg, `'nb_visits'`, `'Referrers_distinctKeywords'`,
      *                            etc.
-     * @return false|numeric|array `false` if there is no data to return, a single numeric value if we're not querying
+     * @return false|integer|array `false` if there is no data to return, a single numeric value if we're not querying
      *                             for multiple sites/periods, or an array if multiple sites, periods or names are
      *                             queried for.
      */
@@ -406,9 +413,11 @@ class Archive
     private function getRequestedPlugins($archiveNames)
     {
         $result = array();
+
         foreach ($archiveNames as $name) {
             $result[] = self::getPluginForReport($name);
         }
+
         return array_unique($result);
     }
 
@@ -436,6 +445,7 @@ class Archive
      * @param int|null $idSubtable See {@link getDataTableExpanded()}
      * @param bool $skipAggregationOfSubTables Whether or not we should skip the aggregation of all sub-tables and only aggregate parent DataTable.
      * @param int|null $depth See {@link getDataTableExpanded()}
+     * @throws \Exception
      * @return DataTable|DataTable\Map See {@link getDataTable()} and
      *                                 {@link getDataTableExpanded()} for more
      *                                 information
@@ -445,9 +455,10 @@ class Archive
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if($skipAggregationOfSubTables && ($expanded || $idSubtable)) {
+        if ($skipAggregationOfSubTables && ($expanded || $idSubtable)) {
             throw new \Exception("Not expected to skipAggregationOfSubTables when expanded=1 or idSubtable is set.");
         }
+
         $archive = Archive::build($idSite, $period, $date, $segment, $_restrictSitesToLogin = false, $skipAggregationOfSubTables);
         if ($idSubtable === false) {
             $idSubtable = null;
@@ -495,6 +506,7 @@ class Archive
             $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
+
         if (empty($archiveIds)) {
             return $result;
         }
@@ -532,7 +544,7 @@ class Archive
 
         // figure out which archives haven't been processed (if an archive has been processed,
         // then we have the archive IDs in $this->idarchives)
-        $doneFlags = array();
+        $doneFlags     = array();
         $archiveGroups = array();
         foreach ($plugins as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin);
@@ -541,7 +553,7 @@ class Archive
             if (!isset($this->idarchives[$doneFlag])) {
                 $archiveGroup = $this->getArchiveGroupOfPlugin($plugin);
 
-                if($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
+                if ($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
                     $archiveGroup = reset($plugins);
                 }
                 $archiveGroups[] = $archiveGroup;
@@ -559,19 +571,7 @@ class Archive
             }
         }
 
-        // order idarchives by the table month they belong to
-        $idArchivesByMonth = array();
-        foreach (array_keys($doneFlags) as $doneFlag) {
-            if (empty($this->idarchives[$doneFlag])) {
-                continue;
-            }
-
-            foreach ($this->idarchives[$doneFlag] as $dateRange => $idarchives) {
-                foreach ($idarchives as $id) {
-                    $idArchivesByMonth[$dateRange][] = $id;
-                }
-            }
-        }
+        $idArchivesByMonth = $this->getIdArchivesByMonth($doneFlags);
 
         return $idArchivesByMonth;
     }
@@ -800,9 +800,29 @@ class Archive
 
             $idArchive = $archiveLoader->prepareArchive($plugin);
 
-            if($idArchive) {
+            if ($idArchive) {
                 $this->idarchives[$doneFlag][$periodString][] = $idArchive;
             }
         }
+    }
+
+    private function getIdArchivesByMonth($doneFlags)
+    {
+        // order idarchives by the table month they belong to
+        $idArchivesByMonth = array();
+
+        foreach (array_keys($doneFlags) as $doneFlag) {
+            if (empty($this->idarchives[$doneFlag])) {
+                continue;
+            }
+
+            foreach ($this->idarchives[$doneFlag] as $dateRange => $idarchives) {
+                foreach ($idarchives as $id) {
+                    $idArchivesByMonth[$dateRange][] = $id;
+                }
+            }
+        }
+
+        return $idArchivesByMonth;
     }
 }

@@ -179,7 +179,7 @@ function getOSFamilyFullNameExtended($label)
         return 'Bot';
     }
     $label = OperatingSystemParser::getOsFamily($label);
-    if($label !== false) {
+    if ($label !== false) {
         return $label;
     }
     return Piwik::translate('General_Unknown');

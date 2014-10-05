@@ -43,6 +43,7 @@ abstract class ControllerAdmin extends Controller
     private static function notifyAnyInvalidPlugin()
     {
         $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();
+
         if (empty($missingPlugins)) {
             return;
         }
@@ -50,9 +51,11 @@ abstract class ControllerAdmin extends Controller
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
+
         $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
             'module' => 'CorePluginsAdmin', 'action' => 'plugins'
         ));
+
         $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
                 self::getPiwikVersion(),
                 '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
@@ -167,8 +170,10 @@ abstract class ControllerAdmin extends Controller
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
-        $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
-        if (!$view->enableFrames) {
+        $enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
+        $view->enableFrames = $enableFrames;
+
+        if (!$enableFrames) {
             $view->setXFrameOptions('sameorigin');
         }
 
@@ -192,6 +197,7 @@ abstract class ControllerAdmin extends Controller
         $view->adminMenu = $adminMenu;
 
         $notifications = $view->notifications;
+
         if (empty($notifications)) {
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();
             NotificationManager::cancelAllNonPersistent();

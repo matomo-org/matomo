@@ -293,7 +293,7 @@ class Controller extends Plugin\ControllerAdmin
 
                 $suffix = Piwik::translate('CorePluginsAdmin_PluginNotWorkingAlternative');
                 // If the plugin has been renamed, we do not show message to ask user to update plugin
-                if($pluginName != Request::renameModule($pluginName)) {
+                if ($pluginName != Request::renameModule($pluginName)) {
                     $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
                 }
 
@@ -359,7 +359,7 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
-        if(Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             Piwik_ExitWithMessage("Error:" . var_export($lastError, true));
         }
 

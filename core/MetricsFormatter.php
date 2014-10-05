@@ -61,10 +61,10 @@ class MetricsFormatter
 
         // Display 01:45:17 time format
         if ($displayTimeAsSentence === false) {
-            $hours = floor($numberOfSeconds / 3600);
+            $hours   = floor($numberOfSeconds / 3600);
             $minutes = floor(($reminder = ($numberOfSeconds - $hours * 3600)) / 60);
             $seconds = floor($reminder - $minutes * 60);
-            $time = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
+            $time    = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
             $centiSeconds = ($numberOfSeconds * 100) % 100;
             if ($centiSeconds) {
                 $time .= '.' . sprintf("%02s", $centiSeconds);
@@ -76,19 +76,19 @@ class MetricsFormatter
         }
         $secondsInYear = 86400 * 365.25;
 
-        $years = floor($numberOfSeconds / $secondsInYear);
+        $years      = floor($numberOfSeconds / $secondsInYear);
         $minusYears = $numberOfSeconds - $years * $secondsInYear;
-        $days = floor($minusYears / 86400);
+        $days       = floor($minusYears / 86400);
 
         $minusDays = $numberOfSeconds - $days * 86400;
-        $hours = floor($minusDays / 3600);
+        $hours     = floor($minusDays / 3600);
 
         $minusDaysAndHours = $minusDays - $hours * 3600;
         $minutes = floor($minusDaysAndHours / 60);
 
-        $seconds = $minusDaysAndHours - $minutes * 60;
+        $seconds   = $minusDaysAndHours - $minutes * 60;
         $precision = ($seconds > 0 && $seconds < 0.01 ? 3 : 2);
-        $seconds = round($seconds, $precision);
+        $seconds   = round($seconds, $precision);
 
         if ($years > 0) {
             $return = sprintf(Piwik::translate('General_YearsDays'), $years, $days);
@@ -109,6 +109,7 @@ class MetricsFormatter
         if ($isHtml) {
             return str_replace(' ', '&nbsp;', $return);
         }
+
         return $return;
     }
 
@@ -134,6 +135,7 @@ class MetricsFormatter
                 break;
             }
         }
+
         return round($size, $precision) . " " . $currentUnit;
     }
 
@@ -175,6 +177,7 @@ class MetricsFormatter
                 $value = sprintf("%01." . $precision . "f", $value);
             }
         }
+
         $prettyMoney = $currencyBefore . $space . $value . $currencyAfter;
         return $prettyMoney;
     }
@@ -196,16 +199,19 @@ class MetricsFormatter
             $timeAsSentence = (substr($columnName, -16) == '_time_generation');
             return self::getPrettyTimeFromSeconds($value, $timeAsSentence);
         }
+
         // Add revenue symbol to revenues
         if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
             return self::getPrettyMoney($value, $idSite, $isHtml);
         }
+
         // Add % symbol to rates
         if (strpos($columnName, '_rate') !== false) {
             if (strpos($value, "%") === false) {
                 return $value . "%";
             }
         }
+
         return $value;
     }
 
@@ -217,12 +223,14 @@ class MetricsFormatter
      */
     public static function getCurrencySymbol($idSite)
     {
-        $symbols = MetricsFormatter::getCurrencyList();
-        $site = new Site($idSite);
+        $symbols  = MetricsFormatter::getCurrencyList();
+        $site     = new Site($idSite);
         $currency = $site->getCurrency();
+
         if (isset($symbols[$currency])) {
             return $symbols[$currency][0];
         }
+
         return '';
     }
 
@@ -235,10 +243,12 @@ class MetricsFormatter
     public static function getCurrencyList()
     {
         static $currenciesList = null;
+
         if (is_null($currenciesList)) {
             require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Currencies.php';
             $currenciesList = $GLOBALS['Piwik_CurrencyList'];
         }
+
         return $currenciesList;
     }
 }

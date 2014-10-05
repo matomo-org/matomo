@@ -54,14 +54,14 @@ class ColumnCallbackReplace extends BaseFilter
                                 $extraColumnParameters = array())
     {
         parent::__construct($table);
-        $this->functionToApply = $functionToApply;
+        $this->functionToApply    = $functionToApply;
         $this->functionParameters = $functionParameters;
 
         if (!is_array($columnsToFilter)) {
             $columnsToFilter = array($columnsToFilter);
         }
 
-        $this->columnsToFilter = $columnsToFilter;
+        $this->columnsToFilter       = $columnsToFilter;
         $this->extraColumnParameters = $extraColumnParameters;
     }
 
@@ -73,6 +73,7 @@ class ColumnCallbackReplace extends BaseFilter
     public function filter($table)
     {
         foreach ($table->getRows() as $row) {
+
             $extraColumnParameters = array();
             foreach ($this->extraColumnParameters as $columnName) {
                 $extraColumnParameters[] = $row->getColumn($columnName);
@@ -86,9 +87,11 @@ class ColumnCallbackReplace extends BaseFilter
                 }
 
                 $parameters = array_merge(array($value), $extraColumnParameters);
+
                 if (!is_null($this->functionParameters)) {
                     $parameters = array_merge($parameters, $this->functionParameters);
                 }
+
                 $newValue = call_user_func_array($this->functionToApply, $parameters);
                 $this->setElementToReplace($row, $column, $newValue);
                 $this->filterSubTable($row);

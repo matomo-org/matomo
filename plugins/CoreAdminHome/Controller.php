@@ -278,7 +278,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $successLogo    = $logo->copyUploadedLogoToFilesystem();
         $successFavicon = $logo->copyUploadedFaviconToFilesystem();
 
-        if($successLogo || $successFavicon) {
+        if ($successLogo || $successFavicon) {
             return '1';
         }
         return '0';
@@ -291,7 +291,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function saveGeneralSettings()
     {
-        if(!self::isGeneralSettingsAdminEnabled()) {
+        if (!self::isGeneralSettingsAdminEnabled()) {
             // General settings + Beta channel + SMTP settings is disabled
             return;
         }
@@ -339,7 +339,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         // Whether to display or not the general settings (cron, beta, smtp)
         $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
-        if($view->isGeneralSettingsAdminEnabled) {
+        if ($view->isGeneralSettingsAdminEnabled) {
             $this->displayWarningIfConfigFileNotWritable();
         }
 

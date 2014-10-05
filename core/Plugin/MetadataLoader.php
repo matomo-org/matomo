@@ -101,6 +101,7 @@ class MetadataLoader
         ) {
             throw new Exception("Invalid JSON file: $path");
         }
+
         return $info;
     }
 }

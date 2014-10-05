@@ -25,7 +25,6 @@ use Piwik\DataTable\BaseFilter;
  */
 class ColumnCallbackDeleteRow extends BaseFilter
 {
-    private $columnToFilter;
     private $function;
     private $functionParams;
 

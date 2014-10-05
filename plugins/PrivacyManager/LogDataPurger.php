@@ -173,7 +173,7 @@ class LogDataPurger
     private function getLogTableDeleteCount($table, $maxIdVisit)
     {
         $sql = "SELECT COUNT(*) FROM $table WHERE idvisit <= ?";
-        return (int)Db::fetchOne($sql, array($maxIdVisit));
+        return (int) Db::fetchOne($sql, array($maxIdVisit));
     }
 
     private function createTempTable()

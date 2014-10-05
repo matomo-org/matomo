@@ -1,0 +1,8 @@
+<div class="notification system">
+    <button type="button" class="close" data-dismiss="alert" ng-if="!noclear" ng-click="notification.markNotificationAsRead()">&times;</button>
+    <strong ng-if="title">{{ title }}</strong>
+
+    <!-- ng-transclude causes directive child elements to be added here -->
+    <div ng-transclude style="display:inline-block"></div>
+
+</div>

@@ -11,7 +11,6 @@ namespace Piwik\DataTable\Renderer;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
-use Piwik\ProxyHttp;
 
 /**
  * JSON export.

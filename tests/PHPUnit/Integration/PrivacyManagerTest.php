@@ -71,14 +71,8 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         parent::setUpBeforeClass();
 
-        // Temporarily disable the purge of old archives so that getNumeric('nb_visits')
-        // in _addReportData does not trigger the data purge of data we've just imported
-        \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
-
         self::_addLogData();
         self::_addReportData();
-
-        \Piwik\ArchiveProcessor\Rules::enablePurgeOutdatedArchives();
 
         self::$dbData = self::getDbTablesWithData();
     }

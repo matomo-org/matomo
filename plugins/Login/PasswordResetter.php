@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
@@ -209,7 +210,7 @@ class PasswordResetter
 
         // reset password of user
         $usersManager = $this->usersManagerApi;
-        Piwik::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
+        Access::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
             $usersManager->updateUser(
                 $user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
         });
@@ -359,7 +360,7 @@ class PasswordResetter
     protected function getUserInformation($loginOrMail)
     {
         $usersManager = $this->usersManagerApi;
-        return Piwik::doAsSuperUser(function () use ($loginOrMail, $usersManager) {
+        return Access::doAsSuperUser(function () use ($loginOrMail, $usersManager) {
             $user = null;
             if ($usersManager->userExists($loginOrMail)) {
                 $user = $usersManager->getUser($loginOrMail);

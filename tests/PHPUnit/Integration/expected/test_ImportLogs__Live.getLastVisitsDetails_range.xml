@@ -42,7 +42,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -180,7 +180,7 @@
 		
 		<searches>0</searches>
 		<actions>2</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -289,7 +289,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -439,7 +439,7 @@
 		
 		<searches>0</searches>
 		<actions>2</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -554,7 +554,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
@@ -680,7 +680,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -813,7 +813,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -935,7 +935,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -1049,7 +1049,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -1218,7 +1218,7 @@
 		
 		<searches>0</searches>
 		<actions>3</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -1336,7 +1336,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -1462,7 +1462,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -1750,7 +1750,7 @@
 		
 		<searches>0</searches>
 		<actions>10</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -1862,7 +1862,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -1979,7 +1979,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
@@ -2112,7 +2112,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -2237,7 +2237,7 @@
 		
 		<searches>0</searches>
 		<actions>2</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -2369,7 +2369,7 @@
 		
 		<searches>0</searches>
 		<actions>3</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -2477,7 +2477,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -2585,7 +2585,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -2683,7 +2683,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -2791,7 +2791,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -2899,7 +2899,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3007,7 +3007,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3111,7 +3111,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3215,7 +3215,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3319,7 +3319,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3423,7 +3423,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3527,7 +3527,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3631,7 +3631,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3735,7 +3735,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3839,7 +3839,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -3943,7 +3943,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -4047,7 +4047,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -4151,7 +4151,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -4255,7 +4255,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -4359,7 +4359,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -4463,7 +4463,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -4567,7 +4567,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
@@ -4671,7 +4671,7 @@
 		
 		<searches>0</searches>
 		<actions>1</actions>
-		<userId>0</userId>
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>

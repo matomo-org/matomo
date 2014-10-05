@@ -68,8 +68,17 @@ class Mysql extends Db
             $timer = $this->initProfiler();
         }
 
-        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $config = array());
-        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // Make sure MySQL returns all matched rows on update queries including
+        // rows that actually didn't have to be updated because the values didn't
+        // change. This matches common behaviour among other database systems.
+        // See #6296 why this is important in tracker
+        $config = array(
+            PDO::MYSQL_ATTR_FOUND_ROWS => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        );
+
+        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $config);
+
         // we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
         // the piwik.php would stay waiting for the database... bad!
         // we delete the password from this object "just in case" it could be printed
@@ -195,8 +204,8 @@ class Mysql extends Db
             return $sth;
         } catch (PDOException $e) {
             throw new DbException("Error query: " . $e->getMessage() . "
-								In query: $query
-								Parameters: " . var_export($parameters, true));
+                                In query: $query
+                                Parameters: " . var_export($parameters, true));
         }
     }
 
@@ -237,54 +246,55 @@ class Mysql extends Db
         return $queryResult->rowCount();
     }
 
-	/**
-	 * Start Transaction
-	 * @return string TransactionID
-	 */
+    /**
+     * Start Transaction
+     * @return string TransactionID
+     */
+    public function beginTransaction()
+    {
+        if (!$this->activeTransaction === false ) {
+            return;
+        }
 
-	public function beginTransaction()
-	{
-		if(!$this->activeTransaction === false ) {
-			return;
-		}
+        if ( $this->connection->beginTransaction() ) {
+            $this->activeTransaction = uniqid();
+            return $this->activeTransaction;
+        }
+    }
 
-		if( $this->connection->beginTransaction() ) {
-			$this->activeTransaction = uniqid();
-			return $this->activeTransaction;
-		}
-	}
+    /**
+     * Commit Transaction
+     * @param $xid
+     * @throws DbException
+     * @internal param TransactionID $string from beginTransaction
+     */
+    public function commit($xid)
+    {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === false ) {
+            return;
+        }
+        $this->activeTransaction = false;
 
-	/**
-	 * Commit Transaction
-	 * @param string TransactionID from beginTransaction
-	 */
+        if (!$this->connection->commit() ) {
+            throw new DbException("Commit failed");
+        }
+    }
 
-	public function commit($xid)
-	{
-		if($this->activeTransaction != $xid || $this->activeTransaction === false ) {
-			return;
-		}
-		$this->activeTransaction = false;
+    /**
+     * Rollback Transaction
+     * @param $xid
+     * @throws DbException
+     * @internal param TransactionID $string from beginTransaction
+     */
+    public function rollBack($xid)
+    {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === false ) {
+            return;
+        }
+        $this->activeTransaction = false;
 
-		if(!$this->connection->commit() ) {
-			throw new DbException("Commit failed");
-		}
-	}
-
-	/**
-	 * Rollback Transaction
-	 * @param string TransactionID from beginTransaction
-	 */
-
-	public function rollBack($xid)
-	{
-		if($this->activeTransaction != $xid || $this->activeTransaction === false ) {
-			return;
-		}
-		$this->activeTransaction = false;
-
-		if(!$this->connection->rollBack() ) {
-			throw new DbException("Rollback failed");
-		}
-	}
+        if (!$this->connection->rollBack() ) {
+            throw new DbException("Rollback failed");
+        }
+    }
 }

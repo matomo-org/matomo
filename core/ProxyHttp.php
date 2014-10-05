@@ -233,6 +233,7 @@ class ProxyHttp
             // FastCGI
             $key = 'Status:';
         }
+
         Common::sendHeader($key . ' ' . $status);
     }
 

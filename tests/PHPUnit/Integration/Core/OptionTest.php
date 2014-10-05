@@ -13,6 +13,7 @@ use Piwik\Option;
  * Class Core_OptionTest
  *
  * @group Core
+ * @group Core_OptionTest
  */
 class Core_OptionTest extends DatabaseTestCase
 {

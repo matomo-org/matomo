@@ -11,7 +11,8 @@ namespace Piwik;
 /**
  * Registry class.
  *
- * @method static \Piwik\Registry getInstance()
+ * @method static Registry getInstance()
+ * @api
  */
 class Registry extends Singleton
 {

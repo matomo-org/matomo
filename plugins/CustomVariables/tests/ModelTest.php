@@ -7,16 +7,36 @@
  */
 
 namespace Piwik\Plugins\CustomVariables\tests;
+use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Plugins\CustomVariables\Model;
 
 /**
  * @group CustomVariables
  * @group ModelTest
  * @group Database
+ * @group CustomVariables_ModelTest
  */
 class ModelTest extends \DatabaseTestCase
 {
+    private static $cvarScopes = array('log_link_visit_action', 'log_visit', 'log_conversion');
+
+    public function setUp()
+    {
+        // do not call parent::setUp() since it expects database to be created,
+        // but DB for this test is removed in tearDown
+
+        self::$fixture->performSetUp();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        self::$fixture->performTearDown();
+    }
+
     /**
      * @expectedException \Exception
      */
@@ -35,7 +55,7 @@ class ModelTest extends \DatabaseTestCase
 
     public function testGetAllScopes()
     {
-        $this->assertEquals(array('log_link_visit_action', 'log_visit', 'log_conversion'), Model::getScopes());
+        $this->assertEquals(self::$cvarScopes, Model::getScopes());
     }
 
     public function test_Install_Uninstall()

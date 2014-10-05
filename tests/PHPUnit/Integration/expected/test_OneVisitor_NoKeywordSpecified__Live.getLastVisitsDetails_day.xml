@@ -4,7 +4,6 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>156.5.0.0</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -24,6 +23,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -101,7 +101,6 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>156.5.0.0</visitIp>
-		<userId />
 		
 		<actionDetails>
 			<row>
@@ -131,6 +130,7 @@
 		
 		
 		
+		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>

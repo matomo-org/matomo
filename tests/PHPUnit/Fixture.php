@@ -185,7 +185,7 @@ class Fixture extends PHPUnit_Framework_Assert
         static::createAccessInstance();
 
         // We need to be SU to create websites for tests
-        Piwik::setUserHasSuperUserAccess();
+        Access::getInstance()->setSuperUserAccess();
 
         Cache::deleteTrackerCache();
 
@@ -275,6 +275,11 @@ class Fixture extends PHPUnit_Framework_Assert
             $this->dropDatabase();
         }
 
+        $this->clearInMemoryCaches();
+    }
+
+    public function clearInMemoryCaches()
+    {
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
         Site::clearCache();
@@ -291,7 +296,7 @@ class Fixture extends PHPUnit_Framework_Assert
         Config::unsetInstance();
 
         \Piwik\Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
-                                               // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
+        // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
     }
 
     public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())

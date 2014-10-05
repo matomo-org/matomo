@@ -45,7 +45,7 @@ class MenuReporting extends MenuAbstract
      */
     public function addVisitorsItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('General_Visitors', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('General_Visitors', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -59,7 +59,7 @@ class MenuReporting extends MenuAbstract
      */
     public function addActionsItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('General_Actions', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('General_Actions', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -88,7 +88,7 @@ class MenuReporting extends MenuAbstract
      */
     public function addReferrersItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->add('Referrers_Referrers', $menuName, $url, true, $order, $tooltip);
+        $this->addItem('Referrers_Referrers', $menuName, $url, $order, $tooltip);
     }
 
     /**

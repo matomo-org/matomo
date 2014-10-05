@@ -91,6 +91,7 @@ class ColumnDelete extends BaseFilter
      * See {@link ColumnDelete}.
      *
      * @param DataTable $table
+     * @return DataTable
      */
     public function filter($table)
     {

@@ -175,9 +175,11 @@ class Metrics
     public static function getVisitsMetricNames()
     {
         $names = array();
+
         foreach (self::$metricsAggregatedFromLogs as $metricId) {
             $names[$metricId] = self::$mappingFromIdToName[$metricId];
         }
+
         return $names;
     }
 

@@ -14,10 +14,8 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Log;
 use Piwik\Period;
 use Piwik\Period\Range;
-use Piwik\Piwik;
 use Piwik\Segment;
 
 /**
@@ -40,40 +38,36 @@ class ArchiveSelector
 
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
+    private static function getModel()
+    {
+        return new Model();
+    }
+
     public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC)
     {
-        $dateStart = $params->getPeriod()->getDateStart();
-        $bindSQL = array($params->getSite()->getId(),
-                         $dateStart->toString('Y-m-d'),
-                         $params->getPeriod()->getDateEnd()->toString('Y-m-d'),
-                         $params->getPeriod()->getId(),
-        );
+        $idSite       = $params->getSite()->getId();
+        $period       = $params->getPeriod()->getId();
+        $dateStart    = $params->getPeriod()->getDateStart();
+        $dateStartIso = $dateStart->toString('Y-m-d');
+        $dateEndIso   = $params->getPeriod()->getDateEnd()->toString('Y-m-d');
 
-        $timeStampWhere = '';
+        $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
+
+        $minDatetimeIsoArchiveProcessedUTC = null;
         if ($minDatetimeArchiveProcessedUTC) {
-            $timeStampWhere = " AND ts_archived >= ? ";
-            $bindSQL[] = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
+            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
         }
 
         $requestedPlugin = $params->getRequestedPlugin();
-        $segment = $params->getSegment();
+        $segment         = $params->getSegment();
         $isSkipAggregationOfSubTables = $params->isSkipAggregationOfSubTables();
-
         $plugins = array("VisitsSummary", $requestedPlugin);
-        $sqlWhereArchiveName = self::getNameCondition($plugins, $segment, $isSkipAggregationOfSubTables);
 
-        $sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
-						FROM " . ArchiveTableCreator::getNumericTable($dateStart) . "``
-						WHERE idsite = ?
-							AND date1 = ?
-							AND date2 = ?
-							AND period = ?
-							AND ( ($sqlWhereArchiveName)
-								  OR name = '" . self::NB_VISITS_RECORD_LOOKED_UP . "'
-								  OR name = '" . self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
-							$timeStampWhere
-						ORDER BY idarchive DESC";
-        $results = Db::fetchAll($sqlQuery, $bindSQL);
+        $doneFlags      = self::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+        $possibleValues = self::getPossibleValues();
+
+        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $possibleValues);
+
         if (empty($results)) {
             return false;
         }
@@ -83,9 +77,8 @@ class ArchiveSelector
 
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
-        if ($visits === false
-            && $idArchive === false
-        ) {
+        if (false === $visits && false === $idArchive) {
+
             return false;
         }
 
@@ -96,9 +89,11 @@ class ArchiveSelector
     {
         $visits = $visitsConverted = false;
         $archiveWithVisitsMetricsWasFound = ($idArchiveVisitsSummary !== false);
+
         if ($archiveWithVisitsMetricsWasFound) {
             $visits = $visitsConverted = 0;
         }
+
         foreach ($results as $result) {
             if (in_array($result['idarchive'], array($idArchive, $idArchiveVisitsSummary))) {
                 $value = (int)$result['value'];
@@ -114,6 +109,7 @@ class ArchiveSelector
                 }
             }
         }
+
         return array($visits, $visitsConverted);
     }
 
@@ -121,6 +117,7 @@ class ArchiveSelector
     {
         $idArchive = false;
         $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment, $isSkipAggregationOfSubTables);
+
         foreach ($results as $result) {
             if ($idArchive === false
                 && in_array($result['name'], $namesRequestedPlugin)
@@ -129,6 +126,7 @@ class ArchiveSelector
                 break;
             }
         }
+
         return $idArchive;
     }
 
@@ -150,7 +148,7 @@ class ArchiveSelector
      */
     public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
     {
-        if(empty($siteIds)) {
+        if (empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
         }
 
@@ -200,8 +198,10 @@ class ArchiveSelector
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
 
+            $archiveIds = Db::fetchAll($sql, $bind);
+
             // get the archive IDs
-            foreach (Db::fetchAll($sql, $bind) as $row) {
+            foreach ($archiveIds as $row) {
                 $archiveName = $row['name'];
 
                 //FIXMEA duplicate with Archive.php
@@ -251,18 +251,23 @@ class ArchiveSelector
         // get data from every table we're querying
         $rows = array();
         foreach ($archiveIds as $period => $ids) {
+
             if (empty($ids)) {
                 throw new Exception("Unexpected: id archive not found for period '$period' '");
             }
+
             // $period = "2009-01-04,2009-01-04",
             $date = Date::factory(substr($period, 0, 10));
+
             if ($archiveDataType == 'numeric') {
                 $table = ArchiveTableCreator::getNumericTable($date);
             } else {
                 $table = ArchiveTableCreator::getBlobTable($date);
             }
-            $sql = sprintf($getValuesSql, $table, implode(',', $ids));
+
+            $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
             $dataRows = Db::fetchAll($sql, $bind);
+
             foreach ($dataRows as $row) {
                 $rows[] = $row;
             }
@@ -284,10 +289,41 @@ class ArchiveSelector
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
-        $doneFlags = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
-
+        $doneFlags    = self::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
+        $possibleValues = self::getPossibleValues();
+
+        // create the SQL to find archives that are DONE
+        return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
+    }
+
+    /**
+     * Returns the SQL condition used to find successfully completed archives that
+     * this instance is querying for.
+     *
+     * @param array $plugins
+     * @param Segment $segment
+     * @param bool $isSkipAggregationOfSubTables
+     * @return string
+     */
+    private static function getDoneFlags(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
+    {
+        // the flags used to tell how the archiving process for a specific archive was completed,
+        // if it was completed
+        $doneFlags = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+
+        return $doneFlags;
+    }
+
+    /**
+     * Returns the SQL condition used to find successfully completed archives that
+     * this instance is querying for.
+     *
+     * @return string
+     */
+    private static function getPossibleValues()
+    {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
         if (!Rules::isRequestAuthorizedToArchive()) {
@@ -295,9 +331,7 @@ class ArchiveSelector
             $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
         }
 
-        // create the SQL to find archives that are DONE
-        return "((name IN ($allDoneFlags)) AND " .
-        " (value IN (" . implode(',', $possibleValues) . ")))";
+        return $possibleValues;
     }
 
 }

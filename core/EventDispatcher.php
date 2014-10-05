@@ -48,7 +48,7 @@ class EventDispatcher extends Singleton
     /**
      * Plugin\Manager instance used to get list of loaded plugins.
      *
-     * @var Piwik\Plugin\Manager
+     * @var \Piwik\Plugin\Manager
      */
     private $pluginManager;
 
