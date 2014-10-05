@@ -17,7 +17,7 @@ use Piwik\Tests\Fixture;
 /**
  * @group ScheduledReports
  * @group ScheduledReportsTest
- * @group Database
+ * @group Plugins
  */
 class ScheduledReportsTest extends \IntegrationTestCase
 {

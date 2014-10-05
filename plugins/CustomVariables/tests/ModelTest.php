@@ -15,7 +15,7 @@ use Piwik\Plugins\CustomVariables\Model;
 /**
  * @group CustomVariables
  * @group ModelTest
- * @group Database
+ * @group Plugins
  * @group CustomVariables_ModelTest
  */
 class ModelTest extends \IntegrationTestCase

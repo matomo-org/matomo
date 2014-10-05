@@ -16,7 +16,7 @@ use Piwik\Tests\Fixture;
 /**
  * @group UsersManager
  * @group APITest
- * @group Database
+ * @group Plugins
  */
 class APITest extends \IntegrationTestCase
 {

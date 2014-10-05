@@ -16,7 +16,7 @@ use Piwik\Tests\SystemTestCase;
 /**
  * @group Insights
  * @group ModelTest
- * @group Database
+ * @group Plugins
  * @group Plugins
  */
 class ModelTest extends SystemTestCase

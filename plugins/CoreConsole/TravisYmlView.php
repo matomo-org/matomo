@@ -199,16 +199,16 @@ class TravisYmlView extends View
         $testsToExclude = array();
 
         if ($this->isTargetPluginContainsPluginTests()) {
-            $testsToRun[] = array('name' => 'PluginTests',
+            $testsToRun[] = array('name' => 'IntegrationTests',
                                   'vars' => "MYSQL_ADAPTER=PDO_MYSQL");
-            $testsToRun[] = array('name' => 'PluginTests',
+            $testsToRun[] = array('name' => 'IntegrationTests',
                                   'vars' => "MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable");
 
             $testsToExclude[] = array('description' => 'execute latest stable tests only w/ PHP 5.5',
                                       'php' => '5.3.3',
-                                      'env' => 'TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable');
+                                      'env' => 'TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable');
             $testsToExclude[] = array('php' => '5.4',
-                                      'env' => 'TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable');
+                                      'env' => 'TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable');
         }
 
         if ($this->isTargetPluginContainsUITests()) {

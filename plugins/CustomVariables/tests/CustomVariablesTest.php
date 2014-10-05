@@ -13,7 +13,7 @@ use Piwik\Tracker\Cache;
 /**
  * @group CustomVariables
  * @group CustomVariablesTest
- * @group Database
+ * @group Plugins
  */
 class CustomVariablesTest extends \IntegrationTestCase
 {

@@ -17,7 +17,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @group CustomVariables
  * @group CustomVariablesTest
- * @group Database
+ * @group Plugins
  * @group Plugins
  */
 class SetNumberOfCustomVariablesTest extends \IntegrationTestCase

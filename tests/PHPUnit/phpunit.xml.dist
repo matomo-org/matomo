@@ -31,20 +31,20 @@
 </php>
 
 <testsuites>
-  <testsuite name="SystemTests">
-      <directory>./Integration</directory>
-  </testsuite>
-  <testsuite name="PluginTests">
-      <directory>./Plugins</directory>
-      <directory>../../plugins/*/tests</directory>
-      <directory>../../plugins/*/Test</directory>
-  </testsuite>
-  <testsuite name="CoreTests">
-      <directory>./Core</directory>
-  </testsuite>
-  <testsuite name="UITests">
-      <directory>./UI</directory>
-  </testsuite>
+    <testsuite name="SystemTests">
+        <directory>./System</directory>
+    </testsuite>
+    <testsuite name="IntegrationTests">
+        <directory>./Integration</directory>
+        <directory>../../plugins/*/tests</directory>
+        <directory>../../plugins/*/Test</directory>
+    </testsuite>
+    <testsuite name="UnitTests">
+        <directory>./Unit</directory>
+    </testsuite>
+    <testsuite name="UITests">
+        <directory>./UI</directory>
+    </testsuite>
 </testsuites>
 
 <filter>

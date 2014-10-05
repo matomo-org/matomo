@@ -162,7 +162,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
         if (Fixture::canImagesBeIncludedInScheduledReports()) {
             // PDF Scheduled Report
-            // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
+            // tests/PHPUnit/System/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
             array_push(
                 $apiCalls,
                 array(
@@ -489,7 +489,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      */
     public static function getPathToTestDirectory()
     {
-        return dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Integration';
+        return dirname(__FILE__) . DIRECTORY_SEPARATOR . 'System';
     }
 
     /**

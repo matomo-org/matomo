@@ -16,7 +16,7 @@ use \FakeAccess;
 /**
  * @group LeftMenu
  * @group APITest
- * @group Database
+ * @group Plugins
  */
 class APITest extends \IntegrationTestCase
 {

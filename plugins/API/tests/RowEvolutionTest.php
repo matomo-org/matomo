@@ -13,7 +13,7 @@ use Piwik\Tests\Fixture;
 /**
  * @group API
  * @group RowEvolutionTest
- * @group Database
+ * @group Plugins
  */
 class RowEvolutionTest extends \IntegrationTestCase
 {

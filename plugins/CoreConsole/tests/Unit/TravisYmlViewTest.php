@@ -44,8 +44,8 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $this->assertContains(array('secure' => 'githubtoken'), $yaml['env']['global']);
 
         $this->assertNotEmpty($yaml['env']['matrix']);
-        $this->assertContains("TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL", $yaml['env']['matrix']);
-        $this->assertContains("TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable", $yaml['env']['matrix']);
+        $this->assertContains("TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL", $yaml['env']['matrix']);
+        $this->assertContains("TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable", $yaml['env']['matrix']);
         $this->assertNotContains("TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL", $yaml['env']['matrix']);
 
         $this->assertBuildSectionsNotEmpty($yaml);

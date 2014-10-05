@@ -71,8 +71,8 @@ To execute the tests:
 4. 	Run the tests
 
 	$ cd /path/to/piwik/tests/PHPUnit
-	$ phpunit --testsuite CoreTests
-    $ phpunit --testsuite PluginTests
+	$ phpunit --testsuite UnitTests
+    $ phpunit --testsuite IntegrationTests
     $ phpunit --testsuite SystemTests
 
 	There are also two main groups of tests: Core and Plugins
@@ -84,7 +84,7 @@ To execute the tests:
 
 ## System Tests
 
-System tests files are in `tests/PHPUnit/Integration/*Test.php`
+System tests files are in `tests/PHPUnit/System/*Test.php`
 
 System tests allow to test how major Piwik components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
@@ -93,8 +93,8 @@ If a test fails, you can compare the processed/ and expected/ directories in a g
 text compare tool, such as WinMerge on Win, or MELD on Linux, to easily view changes between files.
 
 For example using Meld, click on "Start new comparison", "Directory comparison",
-in "Original" select "path/to/piwik/tests/PHPUnit/Integration/expected"
-in "Mine" select "path/to/piwik/tests/PHPUnit/Integration/processed"
+in "Original" select "path/to/piwik/tests/PHPUnit/System/expected"
+in "Mine" select "path/to/piwik/tests/PHPUnit/System/processed"
 
 If changes are expected due to the code changes you make, simply copy the file from processed/ to
 expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).

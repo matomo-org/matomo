@@ -73,11 +73,11 @@ else
         phpunit --configuration phpunit.xml --testsuite SystemTests --exclude-group System --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
     elif [ "$COVERAGE" = "Core" ]
     then
-        echo "Executing tests in test suite CoreTests..."
-        phpunit --configuration phpunit.xml --testsuite CoreTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-core.xml || true
+        echo "Executing tests in test suite UnitTests..."
+        phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-core.xml || true
     elif [ "$COVERAGE" = "Plugins" ]
     then
-        echo "Executing tests in test suite PluginTests..."
-        phpunit --configuration phpunit.xml --testsuite PluginTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-plugins.xml || true
+        echo "Executing tests in test suite IntegrationTests..."
+        phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-plugins.xml || true
     fi;
 fi

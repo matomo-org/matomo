@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Plugins\UsersManager\tests;
+
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -17,7 +18,7 @@ use Piwik\Tests\Fixture;
 /**
  * @group UsersManager
  * @group UserPreferencesTest
- * @group Database
+ * @group Plugins
  * @group Plugins
  */
 class UserPreferencesTest extends \IntegrationTestCase

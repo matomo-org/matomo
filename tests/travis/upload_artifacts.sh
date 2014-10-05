@@ -6,7 +6,7 @@ then
 
     echo "Uploading artifacts for $TEST_SUITE..."
 
-    cd ./tests/PHPUnit/Integration
+    cd ./tests/PHPUnit/System
 
     # upload processed tarball
     tar -cjf processed.tar.bz2 processed --exclude='.gitkeep'

@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Contents\tests;
 
 use Piwik\Tests\SystemTestCase;
 use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
+use Piwik\Translate;
 
 /**
  * Testing Contents
@@ -38,6 +39,12 @@ class ContentsTest extends SystemTestCase
             'Actions.getPageUrls',
             'Live.getLastVisitsDetails'
         );
+    }
+
+    protected function setup()
+    {
+        parent::setup();
+        Translate::reloadLanguage('en');
     }
 
     protected function tearDown()

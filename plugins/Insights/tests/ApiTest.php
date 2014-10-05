@@ -13,11 +13,12 @@ use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
 use Piwik\Tests\SystemTestCase;
+use Piwik\Translate;
 
 /**
  * @group Insights
  * @group ApiTest
- * @group Database
+ * @group Plugins
  * @group Plugins
  */
 class ApiTest extends SystemTestCase
@@ -37,6 +38,7 @@ class ApiTest extends SystemTestCase
     {
         parent::setUp();
 
+        Translate::reloadLanguage('en');
         $this->api = API::getInstance();
     }
 

@@ -14,7 +14,7 @@ use Piwik\Plugins\SitesManager\SiteUrls;
 /**
  * @group SitesManager
  * @group SiteUrlsTest
- * @group Database
+ * @group Plugins
  */
 class SiteUrlsTest extends \IntegrationTestCase
 {

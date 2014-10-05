@@ -232,9 +232,9 @@ class Piwik_TestingEnvironment
             $outputContent = str_replace("=3D", "=", $outputContent);
 
             $outputContents = array(
-                'from' => $mail->getFrom(),
-                'to' => $mail->getRecipients(),
-                'subject' => $mail->getSubject(),
+                'from'     => $mail->getFrom(),
+                'to'       => $mail->getRecipients(),
+                'subject'  => $mail->getSubject(),
                 'contents' => $outputContent
             );
 
