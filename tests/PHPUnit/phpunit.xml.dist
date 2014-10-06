@@ -33,17 +33,38 @@
 <testsuites>
     <testsuite name="SystemTests">
         <directory>./System</directory>
+        <directory>../../plugins/*/tests</directory><!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
+        <directory>../../plugins/*/Test</directory>
+        <exclude>../../plugins/*/tests/Integration</exclude><!-- * in exclude is currently not supported by PHPUnit, so it won't work yet -->
+        <exclude>../../plugins/*/Test/Integration</exclude>
+        <exclude>../../plugins/*/tests/Unit</exclude>
+        <exclude>../../plugins/*/Test/Unit</exclude>
+        <exclude>../../plugins/*/tests/UI</exclude>
+        <exclude>../../plugins/*/Test/UI</exclude>
     </testsuite>
     <testsuite name="IntegrationTests">
         <directory>./Integration</directory>
-        <directory>../../plugins/*/tests</directory>
-        <directory>../../plugins/*/Test</directory>
+        <directory>../../plugins/*/tests/Integration</directory>
+        <directory>../../plugins/*/Test/Integration</directory>
     </testsuite>
     <testsuite name="UnitTests">
         <directory>./Unit</directory>
+        <directory>../../plugins/*/tests/Unit</directory>
+        <directory>../../plugins/*/Test/Unit</directory>
     </testsuite>
     <testsuite name="UITests">
         <directory>./UI</directory>
+        <directory>../../plugins/*/tests/UI</directory>
+        <directory>../../plugins/*/Test/UI</directory>
+    </testsuite>
+    <testsuite name="PluginTests">
+        <directory>../../plugins/*/tests</directory>
+        <directory>../../plugins/*/Test</directory>
+    </testsuite>
+    <testsuite name="CoreTests">
+        <directory>./Unit</directory>
+        <directory>./Integration</directory>
+        <directory>./System</directory>
     </testsuite>
 </testsuites>
 

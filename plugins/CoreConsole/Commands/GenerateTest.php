@@ -37,14 +37,8 @@ class GenerateTest extends GeneratePluginBase
         $replace       = array(
             'ExamplePlugin'    => $pluginName,
             'SimpleTest'       => $testName,
-            'SimpleSystemTest' => $testName,
-            '@group Plugins'   => '@group ' . $testType
+            'SimpleSystemTest' => $testName
          );
-
-        $testClass  = $this->getTestClass($testType);
-        if (!empty($testClass)) {
-            $replace['\PHPUnit_Framework_TestCase'] = $testClass;
-        }
 
         $whitelistFiles = $this->getTestFilesWhitelist($testType);
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
@@ -112,23 +106,6 @@ class GenerateTest extends GeneratePluginBase
         return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }
 
-    /**
-     * @param $testType
-     * @return string
-     */
-    private function getTestClass($testType)
-    {
-        if ('Integration' == $testType) {
-            return '\IntegrationTestCase';
-        }
-
-        if ('Unit' == $testType) {
-            return '\PHPUnit_Framework_TestCase';
-        }
-
-        return '';
-    }
-
     public function getValidTypes()
     {
         return array('unit', 'integration', 'system');
@@ -172,20 +149,31 @@ class GenerateTest extends GeneratePluginBase
             return array(
                 '/.gitignore',
                 '/tests',
-                '/tests/SimpleSystemTest.php',
-                '/tests/expected',
-                '/tests/expected/test___API.get_day.xml',
-                '/tests/expected/test___Goals.getItemsSku_day.xml',
-                '/tests/processed',
-                '/tests/processed/.gitignore',
-                '/tests/fixtures',
-                '/tests/fixtures/SimpleFixtureTrackFewVisits.php'
+                '/tests/System',
+                '/tests/System/SimpleSystemTest.php',
+                '/tests/System/expected',
+                '/tests/System/expected/test___API.get_day.xml',
+                '/tests/System/expected/test___Goals.getItemsSku_day.xml',
+                '/tests/System/processed',
+                '/tests/System/processed/.gitignore',
+                '/tests/Fixtures',
+                '/tests/Fixtures/SimpleFixtureTrackFewVisits.php'
+            );
+        }
+
+        if ('Integration' == $testType) {
+
+            return array(
+                '/tests',
+                '/tests/Integration',
+                '/tests/Integration/SimpleTest.php'
             );
         }
 
         return array(
             '/tests',
-            '/tests/SimpleTest.php'
+            '/tests/Unit',
+            '/tests/Unit/SimpleTest.php'
         );
     }
 }
