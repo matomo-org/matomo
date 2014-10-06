@@ -8,11 +8,14 @@
 
 namespace Piwik\Plugins\Insights\tests;
 use Piwik\API\Request as ApiRequest;
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache\StaticCache;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tracker\Cache;
 use Piwik\Translate;
 
 /**
@@ -21,7 +24,7 @@ use Piwik\Translate;
  * @group Plugins
  * @group Plugins
  */
-class ApiTest extends SystemTestCase
+class ApiTest extends IntegrationTestCase
 {
     /**
      * @var SomeVisitsDifferentPathsOnTwoDays
@@ -37,6 +40,9 @@ class ApiTest extends SystemTestCase
     public function setUp()
     {
         parent::setUp();
+
+        StaticCache::clearAll();
+        PluginAwareStaticCache::clearAll();
 
         Translate::reloadLanguage('en');
         $this->api = API::getInstance();
