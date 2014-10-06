@@ -57,9 +57,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     public function testPrepareModuleToDisplay()
     {
         $moduleName = 'VisitTime';
-        if(!PluginManager::getInstance()->isPluginActivated($moduleName)) {
-            PluginManager::getInstance()->activatePlugin($moduleName);
-        }
+//        if(!PluginManager::getInstance()->isPluginActivated($moduleName)) {
+//            PluginManager::getInstance()->activatePlugin($moduleName);
+//        }
         $moduleToDisplay = "<a href='#VisitTime'>VisitTime</a><br/>";
         $documentationGenerator = new DocumentationGenerator();
         $this->assertEquals($documentationGenerator->prepareModuleToDisplay($moduleName), $moduleToDisplay);
@@ -101,9 +101,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
                 'VisitTime API lets you access reports by Hour (Server time), and by Hour Local Time of your visitors.',
         );
         $moduleName = 'VisitTime';
-        if(!PluginManager::getInstance()->isPluginActivated($moduleName)) {
-            PluginManager::getInstance()->activatePlugin($moduleName);
-        }
+//        if(!PluginManager::getInstance()->isPluginActivated($moduleName)) {
+//            PluginManager::getInstance()->activatePlugin($moduleName);
+//        }
         $documentationGenerator = New DocumentationGenerator();
         $actualModulesAndMethods = $documentationGenerator->prepareModulesAndMethods($info, $moduleName);
         return array(
@@ -127,9 +127,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
             '__documentation' => 'API for plugin Feedback',
         );
         $moduleName = 'Feedback';
-        if(!PluginManager::getInstance()->isPluginActivated($moduleName)) {
-            PluginManager::getInstance()->activatePlugin($moduleName);
-        }
+//        if(!PluginManager::getInstance()->isPluginActivated($moduleName)) {
+//            PluginManager::getInstance()->activatePlugin($moduleName);
+//        }
         $methods = array(
             'sendFeedbackForFeature'
         );
@@ -164,9 +164,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     }
     public function providerAddExamples()
     {
-        if(!PluginManager::getInstance()->isPluginActivated('VisitTime')) {
-            PluginManager::getInstance()->activatePlugin('VisitTime');
-        }
+//        if(!PluginManager::getInstance()->isPluginActivated('VisitTime')) {
+//            PluginManager::getInstance()->activatePlugin('VisitTime');
+//        }
         $class = '\Piwik\Plugins\VisitTime\API';
         $methodName = 'getVisitInformationPerLocalTime';
         $prefixUrls = '';
@@ -189,9 +189,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     }
     public function testGetExampleUrl()
     {
-        if(!PluginManager::getInstance()->isPluginActivated('VisitTime')) {
-            PluginManager::getInstance()->activatePlugin('VisitTime');
-        }
+//        if(!PluginManager::getInstance()->isPluginActivated('VisitTime')) {
+//            PluginManager::getInstance()->activatePlugin('VisitTime');
+//        }
         $class = '\Piwik\Plugins\VisitTime\API';
         $methodName = 'getVisitInformationPerLocalTime';
         $parametersToSet = array(
@@ -208,9 +208,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     }
     public function testGetParametersString()
     {
-        if(!PluginManager::getInstance()->isPluginActivated('VisitTime')) {
-            PluginManager::getInstance()->activatePlugin('VisitTime');
-        }
+//        if(!PluginManager::getInstance()->isPluginActivated('VisitTime')) {
+//            PluginManager::getInstance()->activatePlugin('VisitTime');
+//        }
         $class = '\Piwik\Plugins\VisitTime\API';
         $name = 'getVisitInformationPerLocalTime';
         $parameters = "(idSite, period, date, segment = '')";
