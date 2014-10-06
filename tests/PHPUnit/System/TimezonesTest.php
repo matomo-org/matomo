@@ -8,8 +8,8 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Date;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\VisitsInDifferentTimezones;
 
 /**
  * Test reports using visits for a site with a non-UTC timezone.

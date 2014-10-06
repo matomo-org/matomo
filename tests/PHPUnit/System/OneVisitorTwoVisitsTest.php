@@ -9,8 +9,8 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Proxy;
 use Piwik\Archive;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\OneVisitorTwoVisits;
 use Exception;
 
 /**

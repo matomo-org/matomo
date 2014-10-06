@@ -10,8 +10,8 @@ namespace Piwik\Tests\System;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tracker\Action;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\OneVisitWithAbnormalPageviewUrls;
 
 /**
  * Tests the URL normalization.

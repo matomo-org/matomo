@@ -1,6 +1,7 @@
 <?php
 
 use Piwik\Translate;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Class TravisEnvironmentTest

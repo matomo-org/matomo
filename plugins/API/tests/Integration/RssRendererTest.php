@@ -11,13 +11,14 @@ namespace Piwik\Plugins\API\tests\Integration;
 use Piwik\Access;
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Rss;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group Plugin
  * @group API
  */
-class RssRendererTest extends \IntegrationTestCase
+class RssRendererTest extends IntegrationTestCase
 {
     /**
      * @var Rss

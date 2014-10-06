@@ -7,7 +7,7 @@
  */
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Adds one site and 1000 actions for every day of one month (January). Each

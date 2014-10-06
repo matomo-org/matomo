@@ -5,14 +5,14 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Fixtures;
+namespace Piwik\Tests\Impl\Fixtures;
 
 use Piwik\Access;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 use Piwik\Tests\OverrideLogin;
 
 /**

@@ -8,6 +8,7 @@
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Class Core_OptionTest

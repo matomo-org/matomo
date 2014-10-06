@@ -12,7 +12,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
-use Piwik\Tests\SystemTestCase;
+use Piwik\Tests\Impl\SystemTestCase;
 use Piwik\Translate;
 
 /**

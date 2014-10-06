@@ -11,7 +11,7 @@ namespace Piwik\Plugins\MultiSites\tests\Integration;
 use Piwik\Access;
 use Piwik\Plugins\MultiSites\API as APIMultiSites;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use IntegrationTestCase;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Class Plugins_MultiSitesTest

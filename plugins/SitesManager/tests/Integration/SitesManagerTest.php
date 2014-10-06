@@ -12,7 +12,7 @@ use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Site;
-use IntegrationTestCase;
+use Piwik\Tests\Impl\IntegrationTestCase;
 use FakeAccess;
 use Exception;
 use PHPUnit_Framework_Constraint_IsType;

@@ -9,13 +9,14 @@
 namespace Piwik\Plugins\CustomVariables\tests;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker\Cache;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group CustomVariables
  * @group CustomVariablesTest
  * @group Plugins
  */
-class CustomVariablesTest extends \IntegrationTestCase
+class CustomVariablesTest extends IntegrationTestCase
 {
     public function testGetMaxCustomVariables_ShouldDetectCorrectNumberOfVariables()
     {

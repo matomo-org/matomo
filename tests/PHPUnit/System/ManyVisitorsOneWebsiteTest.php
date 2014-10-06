@@ -10,8 +10,8 @@ namespace Piwik\Tests\System;
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 use Piwik\Date;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\ManyVisitsWithGeoIP;
 
 /**
  * Tests w/ 14 visitors w/ 2 visits each.

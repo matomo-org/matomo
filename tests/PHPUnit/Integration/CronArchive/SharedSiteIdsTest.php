@@ -7,6 +7,7 @@
  */
 
 use Piwik\CronArchive\SharedSiteIds;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group Core

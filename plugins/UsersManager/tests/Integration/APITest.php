@@ -11,14 +11,15 @@ use Piwik\Access;
 use FakeAccess;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group UsersManager
  * @group APITest
  * @group Plugins
  */
-class APITest extends \IntegrationTestCase
+class APITest extends IntegrationTestCase
 {
     /**
      * @var API

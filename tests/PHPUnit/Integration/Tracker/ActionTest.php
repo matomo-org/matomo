@@ -13,6 +13,8 @@ use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Tests\Impl\IntegrationTestCase;
+
 /**
  * Piwik - free/libre analytics platform
  *

@@ -7,8 +7,8 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
 
 /**
  * Tests the method API.getRowEvolution

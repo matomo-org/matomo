@@ -8,9 +8,9 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Plugins\API\API;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\TwoVisitsWithCustomVariables;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * testing a segment containing all supported fields

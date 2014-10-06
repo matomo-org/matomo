@@ -9,7 +9,8 @@
 use Piwik\Access;
 use Piwik\Plugins\Goals\API;
 use Piwik\WidgetsList;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Class Core_WidgetsListTest

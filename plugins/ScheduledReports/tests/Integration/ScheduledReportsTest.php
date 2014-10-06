@@ -12,14 +12,15 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group ScheduledReports
  * @group ScheduledReportsTest
  * @group Plugins
  */
-class ScheduledReportsTest extends \IntegrationTestCase
+class ScheduledReportsTest extends IntegrationTestCase
 {
     /**
      * @var ScheduledReports

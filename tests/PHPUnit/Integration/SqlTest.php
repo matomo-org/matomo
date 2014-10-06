@@ -1,5 +1,6 @@
 <?php
 use Piwik\Db;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Piwik - free/libre analytics platform

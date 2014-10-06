@@ -25,10 +25,10 @@ use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixture;
 
-require_once 'PrivacyManager/PrivacyManager.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/PrivacyManager.php';
 
 /**
  * @group PrivacyManagerTest

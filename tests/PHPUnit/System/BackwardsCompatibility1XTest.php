@@ -10,9 +10,9 @@ namespace Piwik\Tests\System;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\SqlDump;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\SqlDump;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.

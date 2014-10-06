@@ -13,6 +13,7 @@ use Piwik\Plugins\CustomVariables\Commands\Info;
 use Piwik\Plugins\CustomVariables\Model;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group CustomVariables
@@ -20,7 +21,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @group Plugins
  * @group Plugins
  */
-class InfoTest extends \IntegrationTestCase
+class InfoTest extends IntegrationTestCase
 {
     public function testExecute_ShouldOutputInfoSuccess_IfEverythingIsOk()
     {

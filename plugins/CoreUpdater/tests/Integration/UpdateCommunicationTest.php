@@ -13,13 +13,14 @@ use Piwik\Option;
 use Piwik\Plugins\CoreUpdater\UpdateCommunication;
 use Piwik\UpdateCheck;
 use Piwik\Version;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Class Plugins_CoreUpdater_UpdateCommunicationTest
  *
  * @group Plugins
  */
-class UpdateCommunicationTest extends \IntegrationTestCase
+class UpdateCommunicationTest extends IntegrationTestCase
 {
     public function setUp()
     {

@@ -13,7 +13,8 @@ use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use FakeAccess;
 use Piwik\Access;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group UsersManager
@@ -21,7 +22,7 @@ use Piwik\Tests\Fixture;
  * @group Plugins
  * @group Plugins
  */
-class UserPreferencesTest extends \IntegrationTestCase
+class UserPreferencesTest extends IntegrationTestCase
 {
     /**
      * @var UserPreferences

@@ -10,7 +10,7 @@
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetMinifier;
 
-class UIAssetMinifierTest extends PHPUnit_Framework_TestCase
+class Piwik_Test_UIAssetMinifierTest extends PHPUnit_Framework_TestCase
 {
 
     /**

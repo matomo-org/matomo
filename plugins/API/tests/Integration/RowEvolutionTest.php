@@ -9,14 +9,15 @@
 namespace Piwik\Plugins\API\tests\Integration;
 
 use Piwik\Plugins\API\RowEvolution;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group API
  * @group RowEvolutionTest
  * @group Plugins
  */
-class RowEvolutionTest extends \IntegrationTestCase
+class RowEvolutionTest extends IntegrationTestCase
 {
 
     public function setUp()

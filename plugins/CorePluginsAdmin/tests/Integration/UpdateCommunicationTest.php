@@ -11,13 +11,14 @@ namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Class Plugins_CorePluginsAdmin_UpdateCommunicationTest
  *
  * @group Plugins
  */
-class UpdateCommunicationTest extends \IntegrationTestCase
+class UpdateCommunicationTest extends IntegrationTestCase
 {
     /**
      * @var UpdateCommunication

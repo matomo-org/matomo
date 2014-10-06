@@ -5,11 +5,11 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Fixtures;
+namespace Piwik\Tests\Impl\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 

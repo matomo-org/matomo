@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\SEO\tests\Unit;
+namespace Piwik\Plugins\SEO\tests\Integration;
 
 use Piwik\Access;
 use Piwik\DataTable\Renderer;

@@ -6,13 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Filesystem;
-use Piwik\Plugin\Manager;
-use Piwik\SettingsServer;
 
 /**
  * @group ReleaseCheckListTest
  */
-class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
+class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {

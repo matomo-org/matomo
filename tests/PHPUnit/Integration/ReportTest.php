@@ -18,7 +18,8 @@ use Piwik\WidgetsList;
 use Piwik\Translate;
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 class GetBasicReport extends Report
 {

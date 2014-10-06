@@ -8,12 +8,14 @@
 
 namespace Piwik\Plugins\ExamplePlugin\tests\Integration;
 
+use Piwik\Tests\Impl\IntegrationTestCase;
+
 /**
  * @group ExamplePlugin
  * @group SimpleTest
  * @group Plugins
  */
-class SimpleTest extends \IntegrationTestCase
+class SimpleTest extends IntegrationTestCase
 {
 
     public function testSimpleAddition()

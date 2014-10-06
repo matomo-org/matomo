@@ -8,6 +8,7 @@
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Segment;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group SegmentTest

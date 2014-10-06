@@ -7,6 +7,7 @@
  */
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Tracker DB test

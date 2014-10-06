@@ -8,8 +8,8 @@
 
 use Piwik\CliMulti;
 use Piwik\Version;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Class Core_CliMultiTest

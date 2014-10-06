@@ -44,8 +44,8 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $this->assertContains(array('secure' => 'githubtoken'), $yaml['env']['global']);
 
         $this->assertNotEmpty($yaml['env']['matrix']);
-        $this->assertContains("TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL", $yaml['env']['matrix']);
-        $this->assertContains("TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable", $yaml['env']['matrix']);
+        $this->assertContains("TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL", $yaml['env']['matrix']);
+        $this->assertContains("TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable", $yaml['env']['matrix']);
         $this->assertNotContains("TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL", $yaml['env']['matrix']);
 
         $this->assertBuildSectionsNotEmpty($yaml);
@@ -61,7 +61,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $view->setPlugin('ExamplePlugin');
         $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml arg1 arg2');
-        $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/tests/Integration/resources/test.travis.yml');
+        $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/tests/resources/test.travis.yml');
         $output = $view->render();
 
         $yaml = Spyc::YAMLLoadString($output);

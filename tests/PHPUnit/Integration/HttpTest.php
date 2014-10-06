@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Http;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * @group HttpTest
  */
-class HttpTest extends PHPUnit_Framework_TestCase
+class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testFetchRemoteFile

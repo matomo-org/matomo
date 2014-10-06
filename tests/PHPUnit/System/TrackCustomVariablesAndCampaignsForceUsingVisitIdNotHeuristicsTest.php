@@ -7,8 +7,8 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\SomeVisitsCustomVariablesCampaignsNotHeuristics;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\SomeVisitsCustomVariablesCampaignsNotHeuristics;
 
 /**
  * Test tracker & API when forcing the use of visit ID instead of heuristics. Also

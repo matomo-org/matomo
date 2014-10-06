@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
 {

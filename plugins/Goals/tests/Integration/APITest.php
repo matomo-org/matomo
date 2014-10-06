@@ -7,10 +7,12 @@
  */
 
 namespace Piwik\Plugins\Goals\tests\Integration;
+
 use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group Goals
@@ -18,7 +20,7 @@ use Piwik\Tests\Fixture;
  * @group APITest
  * @group Plugins
  */
-class APITest extends \IntegrationTestCase
+class APITest extends IntegrationTestCase
 {
     /**
      * @var API

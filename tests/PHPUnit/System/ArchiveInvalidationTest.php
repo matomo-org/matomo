@@ -9,8 +9,8 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
 use Piwik\Config;
-use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
-use Piwik\Tests\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
+use Piwik\Tests\Impl\SystemTestCase;
 
 /**
  * Track visits before website creation date and test that Piwik handles them correctly.

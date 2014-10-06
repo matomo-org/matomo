@@ -5,7 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests;
+
+namespace Piwik\Tests\Impl;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
@@ -16,9 +17,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
 use Piwik\Translate;
-use Piwik\Tests\Impl\TestRequestCollection;
-use Piwik\Tests\Impl\TestRequestResponse;
-use Piwik\Tests\Impl\ApiTestConfig;
+use Piwik\Tests\Impl\Fixture;
 use Piwik\Log;
 use PHPUnit_Framework_TestCase;
 
@@ -41,6 +40,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected $missingExpectedFiles = array();
     protected $comparisonFailures = array();
+
+    public static $fixture;
 
     public static function setUpBeforeClass()
     {
@@ -489,7 +490,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      */
     public static function getPathToTestDirectory()
     {
-        return dirname(__FILE__) . DIRECTORY_SEPARATOR . 'System';
+        return dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'System';
     }
 
     /**

@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -216,7 +216,9 @@ class TestsSetupFixture extends ConsoleCommand
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/SystemTestCase.php';
+        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
+        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/SystemTestCase.php';
+        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/Fixture.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
 
         $fixturesToLoad = array(

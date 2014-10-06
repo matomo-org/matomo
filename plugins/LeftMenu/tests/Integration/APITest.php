@@ -12,13 +12,14 @@ use Piwik\Access;
 use Piwik\Plugins\LeftMenu\API;
 use Piwik\Plugins\LeftMenu\Settings;
 use \FakeAccess;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group LeftMenu
  * @group APITest
  * @group Plugins
  */
-class APITest extends \IntegrationTestCase
+class APITest extends IntegrationTestCase
 {
     /**
      * @var API

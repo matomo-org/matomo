@@ -7,7 +7,7 @@
  */
 namespace Piwik\Plugins\Contents\tests\System;
 
-use Piwik\Tests\SystemTestCase;
+use Piwik\Tests\Impl\SystemTestCase;
 use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
 use Piwik\Translate;
 

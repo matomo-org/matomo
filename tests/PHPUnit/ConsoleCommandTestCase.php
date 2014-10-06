@@ -10,6 +10,7 @@ namespace Piwik\Tests;
 
 use Piwik\Config;
 use Piwik\Console;
+use Piwik\Tests\Impl\SystemTestCase;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**

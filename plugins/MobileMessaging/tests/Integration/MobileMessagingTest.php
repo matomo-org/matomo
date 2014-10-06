@@ -14,7 +14,7 @@ use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use IntegrationTestCase;
+use Piwik\Tests\Impl\IntegrationTestCase;
 use FakeAccess;
 
 /**

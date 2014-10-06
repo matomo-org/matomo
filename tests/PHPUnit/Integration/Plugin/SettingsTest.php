@@ -9,6 +9,7 @@
 use Piwik\Access;
 use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\Setting;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
 
@@ -416,7 +417,7 @@ class Core_Plugin_SettingsTest extends IntegrationTestCase
 
     public function test_getSettingsForCurrentUser_shouldReturnAllSettingsIfEnoughPermissionsAndSortThemBySettingOrder()
     {
-        if(\Piwik\Tests\SystemTestCase::isPhpVersion53()) {
+        if(\Piwik\Tests\Impl\SystemTestCase::isPhpVersion53()) {
             $this->markTestSkipped('does not pass on PHP 5.3.3');
         }
         $this->setSuperUser();

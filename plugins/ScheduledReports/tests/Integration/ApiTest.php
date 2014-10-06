@@ -19,7 +19,7 @@ use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime;
 use Piwik\Site;
-use IntegrationTestCase;
+use Piwik\Tests\Impl\IntegrationTestCase;
 use FakeAccess;
 use Exception;
 use ReflectionMethod;

@@ -10,13 +10,14 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 use Piwik\CacheFile;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\SiteUrls;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group SitesManager
  * @group SiteUrlsTest
  * @group Plugins
  */
-class SiteUrlsTest extends \IntegrationTestCase
+class SiteUrlsTest extends IntegrationTestCase
 {
     /**
      * @var SiteUrls

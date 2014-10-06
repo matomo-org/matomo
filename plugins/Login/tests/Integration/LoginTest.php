@@ -13,7 +13,7 @@ use Piwik\AuthResult;
 use Piwik\DbHelper;
 use Piwik\Plugins\Login\Auth;
 use Piwik\Plugins\UsersManager\API;
-use IntegrationTestCase;
+use Piwik\Tests\Impl\IntegrationTestCase;
 use FakeAccess;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Login/Auth.php';

@@ -7,8 +7,8 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\SomeVisitsWithLongUrls;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\SomeVisitsWithLongUrls;
 
 /**
  * Tests that filter_truncate works recursively in Page URLs report AND in the case there are 2 different data Keywords -> search engine

@@ -82,6 +82,32 @@ To execute the tests:
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
+## How to differentiate between unit, integration or system tests?
+This can be sometimes hard to decide and often leads to discussions. We consider a test as a unit test when
+it tests only a single method or class. Sometimes two or three classes can still be considered as a Unit for instance if
+ you have to pass a dummy class or something similar but it should actually only test one class or method.
+  If it has a dependency to the filesystem, web, config, database or to other plugins it is not a unit test but an
+  integration test. If the test is slow it is most likely not a unit test but an integration test as well.
+  "Slow" is of course very objective and also depends on the server but if your test does not have any dependencies
+your test will be really fast.
+
+It is an integration test if you have a dependency to a loaded plugin, to the filesystem, web, config, database or something
+similar. It is an integration test if you test multiple classes in one test.
+
+It is a system test if you - for instance - make a call to your Piwik via HTTP and the whole system is being tested.
+
+### Why do we split tests in unit, integration, system and ui folders?
+Because they fail for different reasons and the duration of the test execution is different. This allows us to execute
+all unit tests and get a result very quick. Unit tests should not fail on different systems and just run everywhere for
+ example no matter whether you are using NFS or not. Once the unit tests are green one would usually execute all integration
+ tests to see whether the next stage works. They take a bit longer as they have depenencies to the database and filesystem.
+ The system and ui tests take the most time to run as they always run through the whole code.
+
+Another advantage of running the tests separately is that we are getting a more accurate code coverage. For instance when
+running the unit tests we will get the true code coverage as they always only test one class or method. Integration tests
+usually run through a lot of code but often actually only one method is supposed to be tested. Although many methods are
+not tested they would be still marked as tested when running integration tests.
+
 ## System Tests
 
 System tests files are in `tests/PHPUnit/System/*Test.php`

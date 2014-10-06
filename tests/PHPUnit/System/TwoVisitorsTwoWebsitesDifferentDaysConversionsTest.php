@@ -8,10 +8,10 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
-require_once 'Goals/Goals.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/Goals/Goals.php';
 
 /**
  * Same as TwoVisitors_twoWebsites_differentDays but with goals that convert

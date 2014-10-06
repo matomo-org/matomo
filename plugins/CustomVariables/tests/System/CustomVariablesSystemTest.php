@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\CustomVariables\tests;
 
-use Piwik\Tests\SystemTestCase;
+use Piwik\Tests\Impl\SystemTestCase;
 
 /**
  * @group CustomVariables

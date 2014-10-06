@@ -10,6 +10,7 @@ use Piwik\IP;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * Class Core_Tracker_VisitTest

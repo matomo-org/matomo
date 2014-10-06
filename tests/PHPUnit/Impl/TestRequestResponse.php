@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Impl;
 
 use Piwik\API\Request;
-use Piwik\Tests\SystemTestCase;
 use PHPUnit_Framework_Assert as Asserts;
 use Exception;
 

@@ -12,6 +12,7 @@ use Piwik\Error;
 use Piwik\ExceptionHandler;
 use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 
@@ -31,9 +32,9 @@ class Core_LogTest extends IntegrationTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Core_LogTest] LogTest.php(165): dummy error message
+        'file' => '[Core_LogTest] LogTest.php(166): dummy error message
   dummy backtrace',
-        'database' => '[Core_LogTest] LogTest.php(165): dummy error message
+        'database' => '[Core_LogTest] LogTest.php(166): dummy error message
 dummy backtrace'
     );
 

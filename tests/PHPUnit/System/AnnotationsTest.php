@@ -10,8 +10,8 @@ namespace Piwik\Tests\System;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Plugins\Annotations\API;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\TwoSitesWithAnnotations;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\TwoSitesWithAnnotations;
 use FakeAccess;
 use Exception;
 

@@ -5,9 +5,9 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Fixtures;
+namespace Piwik\Tests\Impl\Fixtures;
 
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Import a same visitor, over three different days, in reverse chronological order

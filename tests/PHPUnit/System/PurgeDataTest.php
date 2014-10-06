@@ -12,8 +12,8 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 use Piwik\API\Request;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\OneVisitorTwoVisits;
 
 /**
  * TODO: shouldn't this be merged w/ PrivacyManagerTest? the original data purging tests are there

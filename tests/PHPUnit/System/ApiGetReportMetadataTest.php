@@ -8,8 +8,8 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Proxy;
-use Piwik\Tests\SystemTestCase;
-use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
+use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Impl\Fixtures\ThreeGoalsOnePageview;
 
 /**
  * This tests the output of the API plugin API
