@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\SomeVisitsWithNonUnicodePageTitles;
+use Piwik\Tests\Fixtures\SomeVisitsWithNonUnicodePageTitles;
 
 /**
  * Tests that visits track & reports display correctly when non-unicode text is

@@ -13,7 +13,7 @@ use Piwik\API\Request;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
  * TODO: shouldn't this be merged w/ PrivacyManagerTest? the original data purging tests are there

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\InvalidVisits;
+use Piwik\Tests\Fixtures\InvalidVisits;
 
 /**
  * test the Yearly metadata API response,

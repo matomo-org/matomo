@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\TwoVisitsWithCustomEvents;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
 
 /**
  * Testing Custom Events

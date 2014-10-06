@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\ThreeSitesWithManyVisitsWithSiteSearch;
+use Piwik\Tests\Fixtures\ThreeSitesWithManyVisitsWithSiteSearch;
 
 /**
  * Testing the various use cases w/ internal Site Search tracking

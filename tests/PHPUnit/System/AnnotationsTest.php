@@ -11,7 +11,7 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Plugins\Annotations\API;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\TwoSitesWithAnnotations;
+use Piwik\Tests\Fixtures\TwoSitesWithAnnotations;
 use FakeAccess;
 use Exception;
 

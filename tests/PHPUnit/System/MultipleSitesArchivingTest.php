@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Tests\Impl\Fixture;
-use Piwik\Tests\Impl\Fixtures\ThreeSitesWithSharedVisitors;
+use Piwik\Tests\Fixtures\ThreeSitesWithSharedVisitors;
 use Piwik\Tests\Impl\SystemTestCase;
 
 /**

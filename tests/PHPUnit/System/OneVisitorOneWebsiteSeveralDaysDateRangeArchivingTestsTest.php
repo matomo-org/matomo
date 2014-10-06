@@ -11,7 +11,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\VisitsOverSeveralDays;
+use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\VisitsOverSeveralDays;
+use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
  * Use case testing various important features:

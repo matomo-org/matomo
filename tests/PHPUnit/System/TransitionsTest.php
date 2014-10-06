@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\SomeVisitsManyPageviewsWithTransitions;
+use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 
 /**
  * Tests the transitions plugin.

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\VisitOverSeveralDaysImportedLogs;
+use Piwik\Tests\Fixtures\VisitOverSeveralDaysImportedLogs;
 
 /**
  * @group Core

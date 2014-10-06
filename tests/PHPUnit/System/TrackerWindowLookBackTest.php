@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\VisitsOverSeveralDays;
+use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
  * Testing that, when using window_look_back_for_visitor with a high value,

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\TwoVisitsNoKeywordWithBot;
+use Piwik\Tests\Fixtures\TwoVisitsNoKeywordWithBot;
 
 /**
  * 1) Tests empty google kwd works nicely in Live! output and Top keywords

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
+use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
 
 /**
  * Tests the flattening of reports.

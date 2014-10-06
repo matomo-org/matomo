@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\TwoSitesTwoVisitorsDifferentDays;
+use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Goals/Goals.php';
 

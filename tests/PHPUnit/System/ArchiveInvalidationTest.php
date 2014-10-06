@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
 use Piwik\Config;
-use Piwik\Tests\Impl\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
+use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\Impl\SystemTestCase;
 
 /**

@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\SomeVisitsAllConversions;
+use Piwik\Tests\Fixtures\SomeVisitsAllConversions;
 
 /**
  * Tests API methods with goals that do and don't allow multiple

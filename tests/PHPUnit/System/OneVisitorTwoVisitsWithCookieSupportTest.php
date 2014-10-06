@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
  * Same as OneVisitorTwoVisits.test.php, but with cookie support, which incurs some slight changes

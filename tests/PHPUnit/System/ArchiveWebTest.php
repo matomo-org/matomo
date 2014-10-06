@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\Option;
 use Piwik\Http;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\ManySitesImportedLogs;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Impl\Fixture;
 use Exception;
 

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\TwoVisitsWithCustomVariables;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * Tests use of custom variable segments.

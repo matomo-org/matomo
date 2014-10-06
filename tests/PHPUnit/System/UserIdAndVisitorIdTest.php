@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Proxy;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\FewVisitsWithSetVisitorId;
+use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
 
 /**
  * This test tests that when using &cid=, the visitor ID is enforced

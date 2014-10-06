@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\TwoSitesTwoVisitorsDifferentDays;
+use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 /**
  * Tests IndexedBySite optimizations when archiving is disabled.

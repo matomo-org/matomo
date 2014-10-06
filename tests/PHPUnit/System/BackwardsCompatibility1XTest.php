@@ -11,7 +11,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\SqlDump;
+use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Impl\Fixture;
 
 /**

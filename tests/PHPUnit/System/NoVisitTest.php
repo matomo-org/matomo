@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\InvalidVisits;
+use Piwik\Tests\Fixtures\InvalidVisits;
 
 /**
  * testing various wrong Tracker requests and check that they behave as expected:

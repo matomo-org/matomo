@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Tests\Impl\Fixtures\ManyVisitsWithMockLocationProvider;
+use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 use Piwik\Tests\Impl\SystemTestCase;
 
 /**

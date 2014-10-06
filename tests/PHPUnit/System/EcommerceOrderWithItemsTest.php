@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\TwoSitesEcommerceOrderWithItems;
+use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
 
 /**
  * Tests API methods after ecommerce orders are tracked.

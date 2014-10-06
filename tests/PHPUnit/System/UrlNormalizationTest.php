@@ -11,7 +11,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tracker\Action;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\OneVisitWithAbnormalPageviewUrls;
+use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
 
 /**
  * Tests the URL normalization.

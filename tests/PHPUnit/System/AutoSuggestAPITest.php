@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\API\Request;
 use Piwik\Date;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\ManyVisitsWithGeoIP;
+use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Impl\Fixture;
 
 /**

@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\ManyVisitsWithMockLocationProvider;
+use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 

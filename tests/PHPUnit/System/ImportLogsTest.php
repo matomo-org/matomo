@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixtures\ManySitesImportedLogs;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 
 /**
  * Tests the log importer.
