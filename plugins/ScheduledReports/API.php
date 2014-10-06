@@ -466,7 +466,7 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    public function sendReport($idReport, $period = false, $date = false)
+    public function sendReport($idReport, $period = false, $date = false, $force = false)
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -527,6 +527,9 @@ class API extends \Piwik\Plugin\API
          * @param string $reportTitle The scheduled report's given title (given by a Piwik user).
          * @param array $additionalFiles The list of additional files that should be
          *                               sent with this report.
+         * @param \Piwik\Period $period The period for which the report has been generated.
+         * @param boolean $force A report can only be sent once per period. Setting this to true
+         *                       will force to send the report even if it has already been sent.
          */
         Piwik::postEvent(
             self::SEND_REPORT_EVENT,
@@ -538,7 +541,9 @@ class API extends \Piwik\Plugin\API
                 $prettyDate,
                 $reportSubject,
                 $reportTitle,
-                $additionalFiles
+                $additionalFiles,
+                \Piwik\Period\Factory::build($report['period'], $date),
+                $force
             )
         );
 

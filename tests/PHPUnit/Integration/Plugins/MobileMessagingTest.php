@@ -251,7 +251,7 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
         \Piwik\Plugins\MobileMessaging\API::setSingletonInstance($stubbedAPIMobileMessaging);
 
         $mobileMessaging = new MobileMessaging();
-        $mobileMessaging->sendReport(MobileMessaging::MOBILE_TYPE, $report, $reportContent, null, null, $reportSubject, null, null);
+        $mobileMessaging->sendReport(MobileMessaging::MOBILE_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
 
         \Piwik\Plugins\MobileMessaging\API::unsetInstance();
     }

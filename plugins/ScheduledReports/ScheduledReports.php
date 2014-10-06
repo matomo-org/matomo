@@ -11,6 +11,8 @@ namespace Piwik\Plugins\ScheduledReports;
 use Exception;
 use Piwik\Db;
 use Piwik\Mail;
+use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -62,6 +64,8 @@ class ScheduledReports extends \Piwik\Plugin
         ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
     );
+
+    const OPTION_KEY_LAST_SENT_DATERANGE = 'report_last_sent_daterange_';
 
     /**
      * @see Piwik\Plugin::getListHooksRegistered
@@ -256,9 +260,14 @@ class ScheduledReports extends \Piwik\Plugin
     }
 
     public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
-                               $additionalFiles)
+                               $additionalFiles, Period $period = null, $force)
     {
         if (self::manageEvent($reportType)) {
+            // Safeguard against sending the same report twice to the same email (unless $force is true)
+            if (!$force && $this->reportAlreadySent($report, $period)) {
+                return;
+            }
+            
             $periods = self::getPeriodToFrequencyAsAdjective();
             $message = Piwik::translate('ScheduledReports_EmailHello');
             $subject = Piwik::translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
@@ -361,6 +370,10 @@ class ScheduledReports extends \Piwik\Plugin
                     }
                     $emails[] = $user['email'];
                 }
+            }
+
+            if (! $force) {
+                $this->markReportAsSent($report, $period);
             }
 
             foreach ($emails as $email) {
@@ -617,5 +630,21 @@ class ScheduledReports extends \Piwik\Plugin
                 $mail->setReplyTo($user['email'], $user['alias']);
             }
         }
+    }
+
+    private function reportAlreadySent($report, Period $period)
+    {
+        $key = self::OPTION_KEY_LAST_SENT_DATERANGE . $report['idreport'];
+
+        $previousDate = Option::get($key);
+
+        return $previousDate === $period->getRangeString();
+    }
+
+    private function markReportAsSent($report, Period $period)
+    {
+        $key = self::OPTION_KEY_LAST_SENT_DATERANGE . $report['idreport'];
+
+        Option::set($key, $period->getRangeString());
     }
 }
