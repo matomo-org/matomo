@@ -22,7 +22,7 @@ use Piwik\Site;
 use Piwik\TaskScheduler;
 
 /**
- * @hide ExceptForSuperUser
+ * @hideExceptForSuperUser
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
  */
 class API extends \Piwik\Plugin\API

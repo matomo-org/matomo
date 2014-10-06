@@ -78,12 +78,14 @@ class Proxy extends Singleton
         $this->checkClassIsSingleton($className);
 
         $rClass = new ReflectionClass($className);
-        foreach ($rClass->getMethods() as $method) {
-            $this->loadMethodMetadata($className, $method);
-        }
+        if(!$this->checkIfDocContainsHideAnnotation($rClass->getDocComment())) {
+            foreach ($rClass->getMethods() as $method) {
+                $this->loadMethodMetadata($className, $method);
+            }
 
-        $this->setDocumentation($rClass, $className);
-        $this->alreadyRegistered[$className] = true;
+            $this->setDocumentation($rClass, $className);
+            $this->alreadyRegistered[$className] = true;
+        }
     }
 
     /**
@@ -362,51 +364,6 @@ class Proxy extends Singleton
     }
 
     /**
-     * Check if method contains @hide
-     *
-     * @param ReflectionMethod $method instance of ReflectionMethod
-     * @return bool
-     */
-    public function checkIfMethodContainsHideAnnotation($method)
-    {
-        $docComment = $method->getDocComment();
-        $hideLine = strstr($docComment, '@hide');
-        if($hideLine) {
-            $hideString = trim(str_replace("@hide", "", strtok($hideLine, "\n")));
-            $response = true;
-            if($hideString) {
-                $hideArray = explode(" ", $hideString);
-                $hideString = $hideArray[0];
-                /**
-                 * Triggered to check if plugin should be hidden from the API for the current user.
-                 *
-                 * This event exists for checking if the user should be able to see the plugin API.
-                 * If &$response is set to false then the user will be able to see the plugin API.
-                 * If &$response is set to true then the plugin API will be hidden for the user.
-                 *
-                 * **Example**
-                 *
-                 *     public function checkIfNotSuperUser(&$response)
-                 *     {
-                 *          try {
-                 *                  Piwik::checkUserHasSuperUserAccess();
-                 *                  $response = false;
-                 *          } catch (\Exception $e) {
-                 *                  $response = true;
-                 *          }
-                 *      }
-                 *
-                 * @param bool &$response Boolean value containing information
-                 * if the plugin API should be hidden from the current user.
-                 */
-                Piwik::postEvent(sprintf('API.DocumentationGenerator.hide%s', $hideString), array(&$response));
-            }
-            return $response;
-        }
-        return false;
-    }
-
-    /**
      * Returns an array containing the values of the parameters to pass to the method to call
      *
      * @param array $requiredParameters array of (parameter name, default value)
@@ -473,13 +430,7 @@ class Proxy extends Singleton
      */
     private function loadMethodMetadata($class, $method)
     {
-        if ($method->isPublic()
-            && !$method->isConstructor()
-            && $method->getName() != 'getInstance'
-            && false === strstr($method->getDocComment(), '@deprecated')
-            && (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
-            && (false === $this->checkIfMethodContainsHideAnnotation($method))
-        ) {
+        if ($this->checkIfMethodIsAvailable($method)) {
             $name = $method->getName();
             $parameters = $method->getParameters();
 
@@ -511,6 +462,71 @@ class Proxy extends Singleton
         if (!$this->isMethodAvailable($className, $methodName)) {
             throw new Exception(Piwik::translate('General_ExceptionMethodNotFound', array($methodName, $className)));
         }
+    }
+
+    /**
+     * @param $docComment
+     * @return bool
+     */
+    public function checkIfDocContainsHideAnnotation($docComment)
+    {
+        $hideLine = strstr($docComment, '@hide');
+        if ($hideLine) {
+            $hideString = trim(str_replace("@", "", strtok($hideLine, "\n")));
+            $response = true;
+            if (!empty($hideString)) {
+                /**
+                 * Triggered to check if plugin should be hidden from the API for the current user.
+                 *
+                 * This event exists for checking if the user should be able to see the plugin API.
+                 * If &$response is set to false then the user will be able to see the plugin API.
+                 * If &$response is set to true then the plugin API will be hidden for the user.
+                 *
+                 * **Example**
+                 *
+                 *     public function checkIfNotSuperUser(&$response)
+                 *     {
+                 *          try {
+                 *                  Piwik::checkUserHasSuperUserAccess();
+                 *                  $response = false;
+                 *          } catch (\Exception $e) {
+                 *                  $response = true;
+                 *          }
+                 *      }
+                 *
+                 * @param bool &$response Boolean value containing information
+                 * if the plugin API should be hidden from the current user.
+                 */
+                Piwik::postEvent(sprintf('API.DocumentationGenerator.%s', $hideString), array(&$response));
+            }
+            return $response;
+        }
+        return false;
+    }
+
+    /**
+     * @param ReflectionMethod $method
+     * @return bool
+     */
+    protected function checkIfMethodIsAvailable(ReflectionMethod $method)
+    {
+        if (!$method->isPublic() || $method->isConstructor() || $method->getName() === 'getInstance') {
+            return false;
+        }
+
+        if (false !== strstr($method->getDocComment(), '@deprecated')) {
+            return false;
+        }
+
+        if ($this->hideIgnoredFunctions && false !== strstr($method->getDocComment(), '@ignore')) {
+            return false;
+        }
+
+        if ($this->checkIfDocContainsHideAnnotation($method->getDocComment())) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
