@@ -131,16 +131,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "2.5",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "3228856bc26c585f5364d95e21dc45543ca27953"
+                "reference": "a15c326733bf596e23c19b319c15c8780be9fe34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/3228856bc26c585f5364d95e21dc45543ca27953",
-                "reference": "3228856bc26c585f5364d95e21dc45543ca27953",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/a15c326733bf596e23c19b319c15c8780be9fe34",
+                "reference": "a15c326733bf596e23c19b319c15c8780be9fe34",
                 "shasum": ""
             },
             "require": {
@@ -167,14 +167,14 @@
                     "homepage": "http://piwik.org/the-piwik-team/"
                 }
             ],
-            "description": "The Universal Device Detection library, that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), and detects browsers, operating systems, devices, brands and models.",
+            "description": "The Universal Device Detection library, that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, media players, mobile apps, feed readers, libraries, etc), operating systems, devices, brands and models.",
             "homepage": "http://piwik.org",
             "keywords": [
                 "devicedetection",
                 "parser",
                 "useragent"
             ],
-            "time": "2014-10-01 19:20:40"
+            "time": "2014-10-06 20:13:03"
         },
         {
             "name": "symfony/console",
