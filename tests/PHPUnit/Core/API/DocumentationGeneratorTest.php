@@ -13,11 +13,10 @@ use Piwik\EventDispatcher;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
- * @group CoreD
+ * @group Core
  */
 class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
-
     public function testCheckIfModuleContainsHideAnnotation()
     {
         $annotation = '@hide ExceptForSuperUser test test';
