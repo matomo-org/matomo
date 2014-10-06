@@ -17,6 +17,11 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        PluginManager::getInstance()->installLoadedPlugins();
+    }
+
     public function testCheckIfModuleContainsHideAnnotation()
     {
         $annotation = '@hide ExceptForSuperUser test test';
