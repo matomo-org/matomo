@@ -1,0 +1,20 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Adicionar anotações para %s...",
+        "Annotations": "Anotações",
+        "ClickToDelete": "Clique para eliminar esta anotação.",
+        "ClickToEdit": "Clique para editar esta anotação.",
+        "ClickToEditOrAdd": "Clique para editar ou adicionar uma nova anotação.",
+        "CreateNewAnnotation": "Criar uma nova anotação...",
+        "EnterAnnotationText": "Introduza a sua nota...",
+        "HideAnnotationsFor": "Esconder anotações para %s...",
+        "IconDesc": "Ver notas para este intervalo de datas.",
+        "IconDescHideNotes": "Esconder notas para este intervalo de datas.",
+        "InlineQuickHelp": "Você pode criar anotações para marcar eventos especiais (como uma nova publicação no blogue, ou alteração no aspeto do sítio de internet), para salvar a sua informação ou para salvar algo que julgue ser importante.",
+        "LoginToAnnotate": "Entre para criar uma anotação.",
+        "NoAnnotations": "Não existem anotações para este intervalo de datas.",
+        "PluginDescription": "Permite que anexe notas a dias diferentes para marcar alterações realizadas à sua página de internet, salvar análises que realizou com respeito à sua informação e partilhar os seus pensamentos com os seus colegas. Ao anotar a sua informação, terá a certeza que se lembrará a razão pela qual esta tem o aspeto que tem.",
+        "ViewAndAddAnnotations": "Ver e adicionar anotações para %s...",
+        "YouCannotModifyThisNote": "Você não pode modificar esta anotação, porque você não a criou, nem possui previlégios de administração para este sítio de internet."
+    }
+}
