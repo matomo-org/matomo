@@ -19,6 +19,12 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
+        if(!PluginManager::getInstance()->isPluginLoaded('VisitTime')) {
+            PluginManager::getInstance()->loadPlugin('VisitTime');
+        }
+        if(!PluginManager::getInstance()->isPluginLoaded('Feedback')) {
+            PluginManager::getInstance()->loadPlugin('Feedback');
+        }
         PluginManager::getInstance()->installLoadedPlugins();
     }
 
