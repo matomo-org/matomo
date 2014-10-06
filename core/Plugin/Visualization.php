@@ -498,6 +498,7 @@ class Visualization extends ViewDataTable
             'filter_excludelowpop',
             'filter_excludelowpop_value',
         );
+
         foreach ($deleteFromJavascriptVariables as $name) {
             if (isset($javascriptVariablesToSet[$name])) {
                 unset($javascriptVariablesToSet[$name]);

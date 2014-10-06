@@ -79,5 +79,6 @@ class UserCountryMap extends \Piwik\Plugin
     {
         $translationKeys[] = 'UserCountryMap_WithUnknownRegion';
         $translationKeys[] = 'UserCountryMap_WithUnknownCity';
+        $translationKeys[] = 'General_UserId';
     }
 }

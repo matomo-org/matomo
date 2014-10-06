@@ -99,5 +99,13 @@ class Visitor
         return \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->details['visit_total_time']);
     }
 
+    function getUserId()
+    {
+        if (isset($this->details['user_id'])
+            && strlen($this->details['user_id']) > 0) {
+            return $this->details['user_id'];
+        }
+        return null;
+    }
 
 }

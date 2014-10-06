@@ -48,12 +48,12 @@ class ColumnCallbackAddMetadata extends BaseFilter
         if (!is_array($columnsToRead)) {
             $columnsToRead = array($columnsToRead);
         }
-        $this->columnsToRead = $columnsToRead;
 
-        $this->functionToApply = $functionToApply;
+        $this->columnsToRead      = $columnsToRead;
+        $this->functionToApply    = $functionToApply;
         $this->functionParameters = $functionParameters;
-        $this->metadataToAdd = $metadataToAdd;
-        $this->applyToSummaryRow = $applyToSummaryRow;
+        $this->metadataToAdd      = $metadataToAdd;
+        $this->applyToSummaryRow  = $applyToSummaryRow;
     }
 
     /**

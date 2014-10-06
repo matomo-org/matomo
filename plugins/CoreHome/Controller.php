@@ -103,9 +103,11 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             $module = 'MultiSites';
         }
+
         if ($defaultReport == Piwik::getLoginPluginName()) {
             $module = Piwik::getLoginPluginName();
         }
+
         $idSite = Common::getRequestVar('idSite', false, 'int');
         parent::redirectToIndex($module, $action, $idSite);
     }
@@ -113,10 +115,12 @@ class Controller extends \Piwik\Plugin\Controller
     public function showInContext()
     {
         $controllerName = Common::getRequestVar('moduleToLoad');
-        $actionName = Common::getRequestVar('actionToLoad', 'index');
+        $actionName     = Common::getRequestVar('actionToLoad', 'index');
+
         if ($actionName == 'showInContext') {
             throw new Exception("Preventing infinite recursion...");
         }
+
         $view = $this->getDefaultIndexView();
         $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
         return $view->render();
@@ -146,12 +150,16 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             return;
         }
+
         $websiteId = Common::getRequestVar('idSite', false, 'int');
+
         if ($websiteId) {
+
             $website = new Site($websiteId);
-            $datetimeCreationDate = $website->getCreationDate()->getDatetime();
+            $datetimeCreationDate      = $website->getCreationDate()->getDatetime();
             $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
-            $todayLocalTimezone = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+            $todayLocalTimezone        = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+
             if ($creationDateLocalTimezone == $todayLocalTimezone) {
                 Piwik::redirectToModule('CoreHome', 'index',
                     array('date'   => 'today',

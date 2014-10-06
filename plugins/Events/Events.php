@@ -184,7 +184,7 @@ class Events extends \Piwik\Plugin
 
     private function addRelatedReports($view, $secondaryDimension)
     {
-        if(empty($secondaryDimension)) {
+        if (empty($secondaryDimension)) {
             // eg. Row Evolution
             return;
         }
@@ -194,7 +194,7 @@ class Events extends \Piwik\Plugin
         $apiMethod = $view->requestConfig->getApiMethodToRequest();
         $secondaryDimensions = API::getInstance()->getSecondaryDimensions($apiMethod);
 
-        if(empty($secondaryDimensions)) {
+        if (empty($secondaryDimensions)) {
             return;
         }
 
@@ -205,7 +205,7 @@ class Events extends \Piwik\Plugin
             . Piwik::translate('Events_SwitchToSecondaryDimension', '');
 
         foreach($secondaryDimensions as $dimension) {
-            if($dimension == $secondaryDimension) {
+            if ($dimension == $secondaryDimension) {
                 // don't show as related report the currently selected dimension
                 continue;
             }

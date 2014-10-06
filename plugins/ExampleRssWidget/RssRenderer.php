@@ -54,7 +54,7 @@ class RssRenderer
         $i = 0;
 
         $items = array();
-        if(!empty($rss->channel->item)) {
+        if (!empty($rss->channel->item)) {
             $items = $rss->channel->item;
         }
         foreach ($items as $post) {

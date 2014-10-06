@@ -5,7 +5,7 @@ Site 2,1,3,3,$ 0,0,100%,100%,100%,0%,0%,0,0,$ 0,0
 
 Visits Summary
 nb_uniq_visitors,nb_users,nb_visits,nb_actions,max_actions,bounce_rate,nb_actions_per_visit,avg_time_on_site
-2,1,10,43,5,10%,4.3,00:12:37
+2,0,10,43,5,10%,4.3,00:12:37
 
 Visits by Server Time
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
@@ -138,6 +138,11 @@ Browser language
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 French,2,3,0%,1.5,00:03:01,50%
+
+Language code
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown (xx),8,40,0%,5,00:15:01,0%
+French (fr),2,3,0%,1.5,00:03:01,50%
 
 Actions - Main metrics
 nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords,avg_time_generation

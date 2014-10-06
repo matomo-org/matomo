@@ -8,9 +8,6 @@
  */
 namespace Piwik\Updates;
 
-use Faker\Provider\File;
-use Piwik\Filesystem;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updates;
 
 class Updates_2_4_0_b1 extends Updates

@@ -370,7 +370,7 @@ class IP
     {
         $proxyIps = array();
         $config = Config::getInstance()->General;
-        if(isset($config['proxy_ips'])) {
+        if (isset($config['proxy_ips'])) {
             $proxyIps = $config['proxy_ips'];
         }
         if (!is_array($proxyIps)) {

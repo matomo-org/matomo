@@ -62,7 +62,7 @@ class CompareKeys extends ConsoleCommand
         {
             if (!empty($englishFromOTrance[$category])) {
                 foreach ($englishFromOTrance[$category] as $key => $value) {
-                    if(!array_key_exists($category, $availableTranslations) || !array_key_exists($key, $availableTranslations[$category])) {
+                    if (!array_key_exists($category, $availableTranslations) || !array_key_exists($key, $availableTranslations[$category])) {
                         $unnecessary[] = sprintf('%s_%s', $category, $key);
                         continue;
                     } else if (html_entity_decode($availableTranslations[$category][$key]) != html_entity_decode($englishFromOTrance[$category][$key])) {
@@ -73,7 +73,7 @@ class CompareKeys extends ConsoleCommand
             }
             if (!empty($availableTranslations[$category])) {
                 foreach ($availableTranslations[$category] as $key => $value) {
-                    if(!array_key_exists($category, $englishFromOTrance) || !array_key_exists($key, $englishFromOTrance[$category])) {
+                    if (!array_key_exists($category, $englishFromOTrance) || !array_key_exists($key, $englishFromOTrance[$category])) {
                         $missing[] = sprintf('%s_%s', $category, $key);
                         continue;
                     }

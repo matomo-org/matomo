@@ -12,21 +12,25 @@
  * within the sprintf args. Using the filter, this is not possible w/o manually sanitizing
  * and creating trusted HTML, which is not as safe.
  *
+ * Note: nesting this directive is not supported.
+ *
  * Usage:
  * <span piwik-translate="Plugin_TranslationToken">
  *     first arg::<strong>second arg</strong>::{{ unsafeDataThatWillBeSanitized }}
  * </span>
  */
-angular.module('piwikApp.directive').directive('piwikTranslate', function() {
-    return {
-        restrict: 'A',
-        scope: {
-            piwikTranslate: '@'
-        },
-        compile: function(element, attrs) {
-          var parts = element.html().split('::'),
-                translated = _pk_translate(attrs.piwikTranslate, parts);
-            element.html(translated);
-        }
-    };
-});
+(function () {
+    angular.module('piwikApp.directive').directive('piwikTranslate', piwikTranslate);
+
+    function piwikTranslate() {
+        return {
+            priority: 1,
+            restrict: 'A',
+            compile: function(element, attrs) {
+                var parts = element.html().split('::'),
+                    translated = _pk_translate(attrs.piwikTranslate, parts);
+                element.html(translated);
+            }
+        };
+    }
+})();

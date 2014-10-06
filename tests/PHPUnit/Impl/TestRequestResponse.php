@@ -60,7 +60,6 @@ class TestRequestResponse
 
         // Cast as string is important. For example when calling
         // with format=original, objects or php arrays can be returned.
-        // we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
         $response = (string) $testRequest->process();
 
         return new TestRequestResponse($response, $params, $requestUrl);
@@ -109,6 +108,7 @@ class TestRequestResponse
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
+        $apiResponse = $this->normalizeSpaces($apiResponse);
 
         return $apiResponse;
     }
@@ -188,7 +188,7 @@ class TestRequestResponse
             $fieldsToRemove = @$this->params['xmlFieldsToRemove'];
         }
 
-        $fieldsToRemove[] = 'idsubdatatable'; // TODO: had testNotSmallAfter, should still?
+        $fieldsToRemove[] = 'idsubdatatable';
 
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
@@ -245,5 +245,13 @@ class TestRequestResponse
         $response = str_replace('.1</revenue>', '</revenue>', $response);
         $response = str_replace('.11</revenue>', '</revenue>', $response);
         return $response;
+    }
+
+    private function normalizeSpaces($apiResponse)
+    {
+        if (strpos($this->requestUrl['format'], 'json') === 0) {
+            $apiResponse = str_replace('&nbsp;', '\u00a0', $apiResponse);
+        }
+        return $apiResponse;
     }
 }

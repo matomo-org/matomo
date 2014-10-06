@@ -188,6 +188,7 @@ class DataCollection
                 $this->putRowInIndex($result, $indexKeys, $row, $idSite, $period);
             }
         }
+
         return $result;
     }
 
@@ -208,6 +209,7 @@ class DataCollection
             $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->defaultRow);
 
         $index = $this->getIndexedArray($resultIndices);
+
         return $dataTableFactory->make($index, $resultIndices);
     }
 
@@ -249,6 +251,7 @@ class DataCollection
         $dataTableFactory->useSubtable($idSubTable);
 
         $index = $this->getIndexedArray($resultIndices);
+
         return $dataTableFactory->make($index, $resultIndices);
     }
 

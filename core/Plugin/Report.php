@@ -42,6 +42,12 @@ class Report
     const COMPONENT_SUBNAMESPACE = 'Reports';
 
     /**
+     * When added to the menu, a given report eg 'getCampaigns'
+     * will be routed as &action=menuGetCampaigns
+     */
+    const PREFIX_ACTION_IN_MENU = 'menu';
+
+    /**
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected
      * automatically.
      * @var string
@@ -328,11 +334,12 @@ class Report
     {
         if ($this->menuTitle) {
             $action = $this->getMenuControllerAction();
-            $menu->add($this->category,
-                       $this->menuTitle,
-                       array('module' => $this->module, 'action' => $action),
-                       $this->isEnabled(),
-                       $this->order);
+            if ($this->isEnabled()) {
+                $menu->addItem($this->category,
+                               $this->menuTitle,
+                               array('module' => $this->module, 'action' => $action),
+                               $this->order);
+            }
         }
     }
 
@@ -710,7 +717,7 @@ class Report
 
     private function getMenuControllerAction()
     {
-        return 'menu' . ucfirst($this->action);
+        return self::PREFIX_ACTION_IN_MENU . ucfirst($this->action);
     }
 
     private function getSubtableApiMethod()
@@ -731,7 +738,7 @@ class Report
      */
     public static function getForDimension(Dimension $dimension)
     {
-        return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
+        return ComponentFactory::getComponentif (__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
             return !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId();

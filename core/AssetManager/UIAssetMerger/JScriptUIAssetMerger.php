@@ -57,7 +57,7 @@ class JScriptUIAssetMerger extends UIAssetMerger
     {
         $plugins = $this->getPlugins();
 
-        if(!empty($plugins)) {
+        if (!empty($plugins)) {
 
             /**
              * Triggered after all the JavaScript files Piwik uses are minified and merged into a

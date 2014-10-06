@@ -27,17 +27,15 @@ class GeneratePlugin extends GeneratePluginBase
             ->setDescription('Generates a new plugin/theme including all needed files')
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
             ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
-            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
-            ->addOption('full', null, InputOption::VALUE_OPTIONAL, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
+            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $isTheme          = $this->isTheme($input);
-        $pluginName       = $this->getPluginName($input, $output);
-        $description      = $this->getPluginDescription($input, $output);
-        $version          = $this->getPluginVersion($input, $output);
-        $createFullPlugin = !$isTheme && $this->getCreateFullPlugin($input, $output);
+        $isTheme     = $this->isTheme($input);
+        $pluginName  = $this->getPluginName($input, $output);
+        $description = $this->getPluginDescription($input, $output);
+        $version     = $this->getPluginVersion($input, $output);
 
         $this->generatePluginFolder($pluginName);
 
@@ -66,35 +64,25 @@ class GeneratePlugin extends GeneratePluginBase
                 '/README.md',
                 '/screenshots',
                 '/screenshots/.gitkeep',
-                '/javascripts',
-                '/javascripts/plugin.js',
             );
-
         }
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
-             sprintf('%s %s %s generated.', $isTheme ? 'Theme' : 'Plugin', $pluginName, $version),
-             'Enjoy!'
-        ));
-
-        if ($createFullPlugin) {
-            $this->executePluginCommand($output, 'generate:api', $pluginName);
-            $this->executePluginCommand($output, 'generate:controller', $pluginName);
+        if ($isTheme) {
+            $this->writeSuccessMessage($output, array(
+                sprintf('Theme %s %s generated.', $pluginName, $version),
+                'If you have not done yet check out our Theming guide <comment>http://developer.piwik.org/guides/theming</comment>',
+                'Enjoy!'
+            ));
+        } else {
+            $this->writeSuccessMessage($output, array(
+                sprintf('Plugin %s %s generated.', $pluginName, $version),
+                'Our developer guides will help you developing this plugin, check out <comment>http://developer.piwik.org/guides</comment>',
+                'To see a list of available generators execute <comment>./console list generate</comment>',
+                'Enjoy!'
+            ));
         }
-    }
-
-    private function executePluginCommand(OutputInterface $output, $commandName, $pluginName)
-    {
-        $command = $this->getApplication()->find($commandName);
-        $arguments = array(
-            'command'      => $commandName,
-            '--pluginname' => $pluginName
-        );
-
-        $input = new ArrayInput($arguments);
-        $command->run($input, $output);
     }
 
     /**
@@ -202,23 +190,6 @@ class GeneratePlugin extends GeneratePluginBase
         }
 
         return $version;
-    }
-
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed
-     */
-    protected function getCreateFullPlugin(InputInterface $input, OutputInterface $output)
-    {
-        $full = $input->getOption('full');
-
-        if (is_null($full)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $full = $dialog->askConfirmation($output, 'Shall we also create an API and a Controller? (y/N)', false);
-        }
-
-        return !empty($full);
     }
 
 }

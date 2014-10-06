@@ -70,6 +70,7 @@ class Segment
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
      * @param array $idSites The list of sites the segment will be used with. Some segments are
      *                       dependent on the site, such as goal segments.
+     * @throws Exception
      */
     public function __construct($segmentCondition, $idSites)
     {
@@ -99,7 +100,7 @@ class Segment
         // As a preventive measure, we restrict the filter size to a safe limit
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
 
-        $this->string = $string;
+        $this->string  = $string;
         $this->idSites = $idSites;
         $segment = new SegmentExpression($string);
         $this->segment = $segment;
@@ -117,6 +118,7 @@ class Segment
             $expression[SegmentExpression::INDEX_OPERAND] = $cleanedExpression;
             $cleanedExpressions[] = $expression;
         }
+
         $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
     }
 
@@ -155,10 +157,10 @@ class Segment
                 throw new Exception("You do not have enough permission to access the segment " . $name);
             }
 
-            if($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+            if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
                 && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
 
-                if(isset($segment['sqlFilterValue'])) {
+                if (isset($segment['sqlFilterValue'])) {
                     $value = call_user_func($segment['sqlFilterValue'], $value);
                 }
 

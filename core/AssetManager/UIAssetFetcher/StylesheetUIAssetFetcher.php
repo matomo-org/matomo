@@ -18,7 +18,6 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         $theme = $this->getTheme();
         $themeName = $theme->getThemeName();
 
-        $themeName = $this->getTheme()->getThemeName();
         $order = array(
             'libs/',
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
@@ -72,7 +71,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
     protected function addThemeFiles()
     {
         $theme = $this->getTheme();
-        if(!$theme) {
+        if (!$theme) {
             return;
         }
         $themeStylesheet = $this->getTheme()->getStylesheet();

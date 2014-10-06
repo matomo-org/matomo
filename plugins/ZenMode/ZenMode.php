@@ -39,13 +39,13 @@ class ZenMode extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/ZenMode/javascripts/zen-mode.js";
-        $jsFiles[] = "plugins/ZenMode/angularjs/quick-access/quick-access-directive.js";
-        $jsFiles[] = "plugins/ZenMode/angularjs/zen-mode/zen-mode-switcher-directive.js";
+        $jsFiles[] = "plugins/ZenMode/angularjs/quick-access/quick-access.directive.js";
+        $jsFiles[] = "plugins/ZenMode/angularjs/zen-mode/zen-mode-switcher.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/ZenMode/angularjs/quick-access/quick-access.less";
+        $stylesheets[] = "plugins/ZenMode/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/ZenMode/angularjs/zen-mode/zen-mode.less";
     }
 }

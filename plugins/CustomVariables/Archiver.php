@@ -39,7 +39,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         parent::__construct($processor);
 
-        if($processor->getParams()->getSite()->isEcommerceEnabled()) {
+        if ($processor->getParams()->getSite()->isEcommerceEnabled()) {
             $this->maximumRowsInDataTableLevelZero = self::MAX_ROWS_WHEN_ECOMMERCE;
             $this->maximumRowsInSubDataTable = self::MAX_ROWS_WHEN_ECOMMERCE;
         } else {
@@ -213,6 +213,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             ) {
                 unset($row[Metrics::INDEX_NB_UNIQ_VISITORS]);
                 unset($row[Metrics::INDEX_NB_VISITS]);
+                unset($row[Metrics::INDEX_NB_USERS]);
             }
         }
     }

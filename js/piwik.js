@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -2113,7 +2113,7 @@ if (typeof Piwik !== 'object') {
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
          */
-        function Tracker(trackerUrl, siteId) {
+        function Tracker(trackerUrl, siteId, uuid) {
 
             /************************************************************
              * Private members
@@ -2288,7 +2288,7 @@ if (typeof Piwik !== 'object') {
                 domainHash,
 
                 // Visitor UUID
-                visitorUUID;
+                visitorUUID = uuid;
 
             /*
              * Set cookie value
@@ -4107,6 +4107,15 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Gets the User ID if set.
+                 *
+                 * @returns string User ID
+                 */
+                getUserId: function() {
+                    return configUserId;
+                },
+
+                /**
                  * Pass custom data to the server
                  *
                  * Examples:
@@ -5125,7 +5134,7 @@ if (typeof Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                return new Tracker(piwikUrl, siteId);
+                return new Tracker(piwikUrl, siteId, asyncTracker.getVisitorId());
             },
 
             /**

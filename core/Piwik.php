@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
@@ -135,7 +134,7 @@ class Piwik
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
-        if(substr($piwikUrl, 0, 4) !== 'http') {
+        if (substr($piwikUrl, 0, 4) !== 'http') {
             $piwikUrl = 'http://' . $piwikUrl;
         }
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
@@ -143,6 +142,7 @@ class Piwik
 
         // Build optional parameters to be added to text
         $options = '';
+        $optionsBeforeTrackerUrl = '';
         if ($groupPageTitlesByDomain) {
             $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
         }
@@ -188,7 +188,9 @@ class Piwik
         $codeImpl = array(
             'idSite' => $idSite,
             'piwikUrl' => Common::sanitizeInputValue($piwikUrl),
-            'options' => $options
+            'options' => $options,
+            'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
+            'protocol' => '//'
         );
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
                               'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
@@ -206,6 +208,10 @@ class Piwik
          *                         - **piwikUrl**: The tracker URL to use.
          *                         - **options**: A string of JavaScript code that customises
          *                                        the JavaScript tracker.
+         *                         - **optionsBeforeTrackerUrl**: A string of Javascript code that customises
+         *                                        the JavaScript tracker inside of anonymous function before
+         *                                        adding setTrackerUrl into paq.
+         *                         - **protocol**: Piwik url protocol.
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.
@@ -213,8 +219,10 @@ class Piwik
          */
         self::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
 
-        $setTrackerUrl = 'var u="//{$piwikUrl}/";';
+        $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
+
         if (!empty($codeImpl['httpsPiwikUrl'])) {
+            $setTrackerUrl = 'var u=((document.location.protocol === "https:") ? "https://{$httpsPiwikUrl}/" : "http://{$piwikUrl}/");';
             $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         }
         $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
@@ -426,7 +434,10 @@ class Piwik
      * Helper method user to set the current as superuser.
      * This should be used with great care as this gives the user all permissions.
      *
+     * This method is deprecated, use {@link Access::doAsSuperUser()} instead.
+     *
      * @param bool $bool true to set current user as Super User
+     * @deprecated
      */
     public static function setUserHasSuperUserAccess($bool = true)
     {
@@ -858,5 +869,33 @@ class Piwik
             $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . PHP_EOL;
         }
         return $options;
+    }
+
+    /**
+     * Executes a callback with superuser privileges, making sure those privileges are rescinded
+     * before this method exits. Privileges will be rescinded even if an exception is thrown.
+     *
+     * @param callback $function The callback to execute. Should accept no arguments.
+     * @return mixed The result of `$function`.
+     * @throws Exception rethrows any exceptions thrown by `$function`.
+     * @api
+     */
+    public static function doAsSuperUser($function)
+    {
+        $isSuperUser = self::hasUserSuperUserAccess();
+
+        self::setUserHasSuperUserAccess();
+
+        try {
+            $result = $function();
+        } catch (Exception $ex) {
+            self::setUserHasSuperUserAccess($isSuperUser);
+
+            throw $ex;
+        }
+
+        self::setUserHasSuperUserAccess($isSuperUser);
+
+        return $result;
     }
 }

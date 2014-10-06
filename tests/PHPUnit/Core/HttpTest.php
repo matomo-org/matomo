@@ -19,9 +19,9 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function getMethodsToTest()
     {
         return array(
-            array('curl'),
-            array('fopen'),
-            array('socket'),
+            'curl' => array('curl'),
+            'fopen' => array('fopen'),
+            'socket' => array('socket'),
         );
     }
 
@@ -33,8 +33,8 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchRemoteFile($method)
     {
         $this->assertNotNull(Http::getTransportMethod());
-        $version = Http::sendHttpRequestBy($method, 'http://api.piwik.org/1.0/getLatestVersion/', 30);
-        $this->assertTrue((boolean)preg_match('/^([0-9.]+)$/', $version));
+        $result = Http::sendHttpRequestBy($method, Fixture::getRootUrl() . 'piwik.js', 30);
+        $this->assertTrue(strpos($result, 'Piwik') !== false);
     }
 
     /**
@@ -43,7 +43,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchApiLatestVersion()
     {
         $destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
-        Http::fetchRemoteFile('http://api.piwik.org/1.0/getLatestVersion/', $destinationPath, 3);
+        Http::fetchRemoteFile(Fixture::getRootUrl(), $destinationPath, 3);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
     }
@@ -54,7 +54,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchLatestZip()
     {
         $destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
-        Http::fetchRemoteFile('http://builds.piwik.org/latest.zip', $destinationPath, 3, 30);
+        Http::fetchRemoteFile(Fixture::getRootUrl() . 'tests/PHPUnit/Core/Http/fixture.zip', $destinationPath, 3, 30);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
     }
@@ -100,7 +100,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
         $result = Http::sendHttpRequestBy(
             $method,
-            'http://builds.piwik.org/latest.zip',
+            Fixture::getRootUrl() . 'tests/PHPUnit/Core/Http/fixture.zip',
             30,
             $userAgent = null,
             $destinationPath = null,

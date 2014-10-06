@@ -88,7 +88,7 @@ class CustomLogo
      */
     public function isCustomLogoWritable()
     {
-        if(Config::getInstance()->General['enable_custom_logo_check'] == 0) {
+        if (Config::getInstance()->General['enable_custom_logo_check'] == 0) {
             return true;
         }
         $pathUserLogo = $this->getPathUserLogo();
@@ -196,7 +196,7 @@ class CustomLogo
                 $image = imagecreatefrompng($file);
                 break;
             case 'image/gif':
-                $image = imagecreatefromgif($file);
+                $image = imagecreatefromgif ($file);
                 break;
             default:
                 return false;

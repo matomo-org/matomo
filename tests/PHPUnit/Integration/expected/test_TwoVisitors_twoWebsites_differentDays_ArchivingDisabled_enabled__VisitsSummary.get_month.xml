@@ -2,7 +2,7 @@
 <results>
 	<result idSite="1">
 		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<nb_visits>10</nb_visits>
 		<nb_actions>43</nb_actions>
 		<nb_visits_converted>10</nb_visits_converted>
@@ -15,7 +15,7 @@
 	</result>
 	<result idSite="2">
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_users>1</nb_users>
+		<nb_users>0</nb_users>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
 		<nb_visits_converted>1</nb_visits_converted>

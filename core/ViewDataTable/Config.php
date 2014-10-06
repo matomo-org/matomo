@@ -206,7 +206,7 @@ class Config
     /**
      * The column to display in pivot tables. Defaults to the first non-label column if not specified.
      */
-    public $pivot_by_column = false;
+    public $pivot_by_column = '';
 
     /**
      * The human readable name of the pivot dimension.
@@ -598,7 +598,7 @@ class Config
         // don't add the related report if it references this report
         if ($this->controllerName == $module
             && $this->controllerAction == $action) {
-            if(empty($queryParams)) {
+            if (empty($queryParams)) {
                 return;
             }
         }

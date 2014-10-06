@@ -41,11 +41,9 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $userPreferences = new UserPreferences();
         $idSite = $userPreferences->getDefaultWebsiteId();
-
         $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
 
-        $urlParams = $this->urlForModuleAction('CoreHome', 'index', array('idSite' => $idSite)) ;
-
+        $urlParams = $this->urlForModuleActionWithDefaultUserParams('CoreHome', 'index') ;
         $menu->addItem('Dashboard_Dashboard', null, $urlParams, 1, $tooltip);
     }
 }

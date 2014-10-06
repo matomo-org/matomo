@@ -59,9 +59,9 @@ class GroupBy extends BaseFilter
     {
         parent::__construct($table);
 
-        $this->groupByColumn = $groupByColumn;
+        $this->groupByColumn  = $groupByColumn;
         $this->reduceFunction = $reduceFunction;
-        $this->parameters = $parameters;
+        $this->parameters     = $parameters;
     }
 
     /**
@@ -82,7 +82,7 @@ class GroupBy extends BaseFilter
 
             // reduce the group by column of this row
             $groupByColumnValue = $row->getColumn($this->groupByColumn);
-            $parameters = array_merge(array($groupByColumnValue), $this->parameters);
+            $parameters   = array_merge(array($groupByColumnValue), $this->parameters);
             $groupByValue = call_user_func_array($this->reduceFunction, $parameters);
 
             if (!isset($groupByRows[$groupByValue])) {

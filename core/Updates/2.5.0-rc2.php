@@ -27,7 +27,7 @@ class Updates_2_5_0_rc2 extends Updates
 
             if (file_exists($path)) {
                 if (function_exists('opcache_invalidate')) {
-                    opcache_invalidate($file, $force = true);
+                    @opcache_invalidate($file, $force = true);
                 }
                 self::deleteIfLastModifiedBefore14August2014($path);
             }

@@ -42,9 +42,6 @@
   <testsuite name="CoreTests">
       <directory>./Core</directory>
   </testsuite>
-  <testsuite name="UITests">
-      <directory>./UI</directory>
-  </testsuite>
 </testsuites>
 
 <filter>

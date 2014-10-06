@@ -5,7 +5,7 @@ Piwik test,2,1,1,$ 250,1,0,$ 0,100%,100%,100%,100%,100%,0,0
 
 Visits Summary
 nb_uniq_visitors,nb_users,nb_visits,nb_actions,max_actions,bounce_rate,nb_actions_per_visit,avg_time_on_site
-1,1,5,16,6,20%,3.2,00:22:49
+1,0,5,16,6,20%,3.2,00:22:49
 
 Visits by Server Time
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -125,6 +125,11 @@ Browser language
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Polish,4,12,75%,3,00:25:32,25%
 French,1,4,100%,4,00:12:01,0%
+
+Language code
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Polish (pl),4,12,75%,3,00:25:32,25%
+French (fr),1,4,100%,4,00:12:01,0%
 
 Ecommerce Orders
 nb_conversions,nb_visits_converted,conversion_rate,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue

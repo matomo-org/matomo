@@ -38,11 +38,13 @@ class Sort extends BaseFilter
     public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false)
     {
         parent::__construct($table);
+
         if ($recursiveSort) {
             $table->enableRecursiveSort();
         }
+
         $this->columnToSort = $columnToSort;
-        $this->naturalSort = $naturalSort;
+        $this->naturalSort  = $naturalSort;
         $this->setOrder($order);
     }
 
@@ -55,10 +57,10 @@ class Sort extends BaseFilter
     {
         if ($order == 'asc') {
             $this->order = 'asc';
-            $this->sign = 1;
+            $this->sign  = 1;
         } else {
             $this->order = 'desc';
-            $this->sign = -1;
+            $this->sign  = -1;
         }
     }
 
@@ -225,17 +227,21 @@ class Sort extends BaseFilter
         if ($table instanceof Simple) {
             return;
         }
+
         if (empty($this->columnToSort)) {
             return;
         }
+
         $rows = $table->getRows();
         if (count($rows) == 0) {
             return;
         }
+
         $row = current($rows);
         if ($row === false) {
             return;
         }
+
         $this->columnToSort = $this->selectColumnToSort($row);
 
         $value = $row->getColumn($this->columnToSort);
@@ -248,6 +254,7 @@ class Sort extends BaseFilter
                 $methodToUse = "sortString";
             }
         }
+
         $table->sort(array($this, $methodToUse), $this->columnToSort);
     }
 }

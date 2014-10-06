@@ -79,12 +79,12 @@ class ArchiveProcessor
     /**
      * @var \Piwik\DataAccess\ArchiveWriter
      */
-    protected $archiveWriter;
+    private $archiveWriter;
 
     /**
      * @var \Piwik\DataAccess\LogAggregator
      */
-    protected $logAggregator;
+    private $logAggregator;
 
     /**
      * @var Archive
@@ -94,14 +94,14 @@ class ArchiveProcessor
     /**
      * @var Parameters
      */
-    protected $params;
+    private $params;
 
     /**
      * @var int
      */
-    protected $numberOfVisits = false;
+    private $numberOfVisits = false;
 
-    protected $numberOfVisitsConverted = false;
+    private $numberOfVisitsConverted = false;
 
     /**
      * If true, unique visitors are not calculated when we are aggregating data for multiple sites.
@@ -125,11 +125,12 @@ class ArchiveProcessor
 
     protected function getArchive()
     {
-        if(empty($this->archive)) {
+        if (empty($this->archive)) {
             $subPeriods = $this->params->getSubPeriods();
-            $idSites = $this->params->getIdSites();
+            $idSites    = $this->params->getIdSites();
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
         }
+
         return $this->archive;
     }
 
@@ -208,6 +209,7 @@ class ArchiveProcessor
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
         }
+
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
@@ -218,7 +220,7 @@ class ArchiveProcessor
             $nameToCount[$recordName]['level0'] = $rowsCount;
 
             $rowsCountRecursive = $rowsCount;
-            if($this->isAggregateSubTables()) {
+            if ($this->isAggregateSubTables()) {
                 $rowsCountRecursive = $table->getRowsCountRecursive();
             }
             $nameToCount[$recordName]['recursive'] = $rowsCountRecursive;
@@ -271,7 +273,7 @@ class ArchiveProcessor
 
     public function getNumberOfVisits()
     {
-        if($this->numberOfVisits === false) {
+        if ($this->numberOfVisits === false) {
             throw new Exception("visits should have been set here");
         }
         return $this->numberOfVisits;
@@ -343,7 +345,7 @@ class ArchiveProcessor
      */
     protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
     {
-        if($this->isAggregateSubTables()) {
+        if ($this->isAggregateSubTables()) {
             // By default we shall aggregate all sub-tables.
             $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
         } else {
@@ -440,15 +442,18 @@ class ArchiveProcessor
     protected function getAggregatedDataTableMap($data, $columnsAggregationOperation)
     {
         $table = new DataTable();
+
         if (!empty($columnsAggregationOperation)) {
             $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
         }
+
         if ($data instanceof DataTable\Map) {
             // as $date => $tableToSum
             $this->aggregatedDataTableMapsAsOne($data, $table);
         } else {
             $table->addDataTable($data, $this->isAggregateSubTables());
         }
+
         return $table;
     }
 
@@ -460,7 +465,7 @@ class ArchiveProcessor
     protected function aggregatedDataTableMapsAsOne(Map $map, DataTable $aggregated)
     {
         foreach ($map->getDataTables() as $tableToAggregate) {
-            if($tableToAggregate instanceof Map) {
+            if ($tableToAggregate instanceof Map) {
                 $this->aggregatedDataTableMapsAsOne($tableToAggregate, $aggregated);
             } else {
                 $aggregated->addDataTable($tableToAggregate, $this->isAggregateSubTables());
@@ -477,6 +482,7 @@ class ArchiveProcessor
         if (is_null($columnsToRenameAfterAggregation)) {
             $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
         }
+
         foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
             $table->renameColumn($oldName, $newName, $this->isAggregateSubTables());
         }
@@ -487,6 +493,7 @@ class ArchiveProcessor
         if (!is_array($columns)) {
             $columns = array($columns);
         }
+
         $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
 
         $dataTable = $this->getArchive()->getDataTableFromNumeric($columns);
@@ -497,7 +504,7 @@ class ArchiveProcessor
         }
 
         $rowMetrics = $results->getFirstRow();
-        if($rowMetrics === false) {
+        if ($rowMetrics === false) {
             $rowMetrics = new Row;
         }
         $this->enrichWithUniqueVisitorsMetric($rowMetrics);
@@ -510,6 +517,7 @@ class ArchiveProcessor
                 $metrics[$name] = 0;
             }
         }
+
         return $metrics;
     }
 

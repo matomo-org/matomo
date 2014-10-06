@@ -87,17 +87,17 @@ class Updater extends \Piwik\Updates
 
         $changingColumns = array();
 
-        foreach (VisitDimension::getAllDimensions() as $dimension) {
+        foreach (self::getVisitDimensions() as $dimension) {
             $updates         = self::getUpdatesForDimension($dimension, 'log_visit.', $visitColumns, $conversionColumns);
             $changingColumns = self::mixinUpdates($changingColumns, $updates);
         }
 
-        foreach (ActionDimension::getAllDimensions() as $dimension) {
+        foreach (self::getActionDimensions() as $dimension) {
             $updates         = self::getUpdatesForDimension($dimension, 'log_link_visit_action.', $actionColumns);
             $changingColumns = self::mixinUpdates($changingColumns, $updates);
         }
 
-        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+        foreach (self::getConversionDimensions() as $dimension) {
             $updates         = self::getUpdatesForDimension($dimension, 'log_conversion.', $conversionColumns);
             $changingColumns = self::mixinUpdates($changingColumns, $updates);
         }
@@ -167,15 +167,15 @@ class Updater extends \Piwik\Updates
         $actionColumns     = DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action'));
         $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
 
-        foreach (VisitDimension::getAllDimensions() as $dimension) {
+        foreach (self::getVisitDimensions() as $dimension) {
             $versions = self::mixinVersions($dimension, 'log_visit.', $visitColumns, $versions);
         }
 
-        foreach (ActionDimension::getAllDimensions() as $dimension) {
+        foreach (self::getActionDimensions() as $dimension) {
             $versions = self::mixinVersions($dimension, 'log_link_visit_action.', $actionColumns, $versions);
         }
 
-        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+        foreach (self::getConversionDimensions() as $dimension) {
             $versions = self::mixinVersions($dimension, 'log_conversion.', $conversionColumns, $versions);
         }
 
@@ -268,6 +268,7 @@ class Updater extends \Piwik\Updates
             'log_visit.referer_keyword' => 'VARCHAR(255) NULL1',
             'log_visit.referer_name' => 'VARCHAR(70) NULL1',
             'log_visit.referer_type' => 'TINYINT(1) UNSIGNED NULL1',
+            'log_visit.user_id' => 'VARCHAR(200) NULL',
             'log_link_visit_action.idaction_name' => 'INTEGER(10) UNSIGNED',
             'log_link_visit_action.idaction_url' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
             'log_link_visit_action.server_time' => 'DATETIME NOT NULL',
@@ -325,5 +326,26 @@ class Updater extends \Piwik\Updates
         }
 
         return array();
+    }
+
+    private static function getVisitDimensions()
+    {
+        return VisitDimension::getAllDimensions();
+    }
+
+    /**
+     * @return mixed|Dimension[]
+     */
+    private static function getActionDimensions()
+    {
+        return ActionDimension::getAllDimensions();
+    }
+
+    /**
+     * @return mixed|Dimension[]
+     */
+    private static function getConversionDimensions()
+    {
+        return ConversionDimension::getAllDimensions();
     }
 }

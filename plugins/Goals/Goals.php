@@ -135,7 +135,8 @@ class Goals extends \Piwik\Plugin
      */
     public function deleteSiteGoals($idSite)
     {
-        Db::query("DELETE FROM " . Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
+        $model = new Model();
+        $model->deleteGoalsForSite($idSite);
     }
 
     /**

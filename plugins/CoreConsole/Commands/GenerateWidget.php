@@ -31,6 +31,8 @@ class GenerateWidget extends GeneratePluginBase
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginName = $this->getPluginName($input, $output);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+
         $category   = $this->getCategory($input, $output);
 
         if ($category === Piwik::translate($category)) {

@@ -260,12 +260,11 @@ class ReportsPurger
     {
         $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM $table");
 
-        $sql = "SELECT COUNT(*)
-				  FROM $table
-				 WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "')
-				   AND name NOT LIKE 'done%'
-				   AND idarchive >= ?
-				   AND idarchive < ?";
+        $sql = "SELECT COUNT(*) FROM $table
+                 WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "')
+                   AND name NOT LIKE 'done%'
+                   AND idarchive >= ?
+                   AND idarchive < ?";
 
         $segments = Db::segmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
         return array_sum($segments);
@@ -275,11 +274,10 @@ class ReportsPurger
     {
         $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM $table");
 
-        $sql = "SELECT COUNT(*)
-				  FROM $table
-				 WHERE " . $this->getBlobTableWhereExpr($oldNumericTables, $table) . "
-				   AND idarchive >= ?
-				   AND idarchive < ?";
+        $sql = "SELECT COUNT(*) FROM $table
+                 WHERE " . $this->getBlobTableWhereExpr($oldNumericTables, $table) . "
+                   AND idarchive >= ?
+                   AND idarchive < ?";
 
         $segments = Db::segmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
         return array_sum($segments);
@@ -325,12 +323,11 @@ class ReportsPurger
 
             $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM $table");
 
-            $sql = "SELECT idarchive
-					  FROM $table
-					 WHERE name != 'done'
-					   AND name LIKE 'done_%.%'
-					   AND idarchive >= ?
-					   AND idarchive < ?";
+            $sql = "SELECT idarchive FROM $table
+                     WHERE name != 'done'
+                       AND name LIKE 'done_%.%'
+                       AND idarchive >= ?
+                       AND idarchive < ?";
 
             if (is_null($this->segmentArchiveIds)) {
                 $this->segmentArchiveIds = array();

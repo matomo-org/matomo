@@ -94,7 +94,7 @@ class Site
      */
     protected static function setSite($idSite, $infoSite)
     {
-        if(empty($idSite) || empty($infoSite)) {
+        if (empty($idSite) || empty($infoSite)) {
             throw new Exception("An unexpected website was found, check idSite in the request.");
         }
 
@@ -361,7 +361,7 @@ class Site
             return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         }
 
-        if(is_bool($ids)) {
+        if (is_bool($ids)) {
             return array();
         }
         if (!is_array($ids)) {
@@ -406,7 +406,7 @@ class Site
             $site = API::getInstance()->getSiteFromId($idsite);
             self::setSite($idsite, $site);
         }
-        if($field) {
+        if ($field) {
             return self::$infoSites[$idsite][$field];
         }
         return self::$infoSites[$idsite];

@@ -183,7 +183,7 @@ abstract class ScheduledTime
      * and a string description of the day within the period to execute the task on.
      *
      * @param string $periodType The scheduled period type. Can be `'hourly'`, `'daily'`, `'weekly'`, or `'monthly'`.
-     * @param string|int|false $periodDay A string describing the day within the scheduled period to execute
+     * @param bool|false|int|string $periodDay A string describing the day within the scheduled period to execute
      *                                    the task on. Only valid for week and month periods.
      *
      *                                    If `'weekly'` is supplied for `$periodType`, this should be a day
@@ -192,6 +192,7 @@ abstract class ScheduledTime
      *                                    If `'monthly'` is supplied for `$periodType`, this can be a numeric
      *                                    day in the month or a day in one week of the month. For example,
      *                                    `12`, `23`, `'first sunday'` or `'fourth tuesday'`.
+     * @throws Exception
      * @api
      */
     public static function factory($periodType, $periodDay = false)
@@ -203,13 +204,13 @@ abstract class ScheduledTime
                 return new Daily();
             case 'weekly':
                 $result = new Weekly();
-                if($periodDay !== false) {
+                if ($periodDay !== false) {
                     $result->setDay($periodDay);
                 }
                 return $result;
             case 'monthly':
                 $result = new Monthly($periodDay);
-                if($periodDay !== false) {
+                if ($periodDay !== false) {
                     if (is_int($periodDay)) {
                         $result->setDay($periodDay);
                     } else {

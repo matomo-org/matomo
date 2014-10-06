@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Dashboard;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 
@@ -42,16 +41,18 @@ class Dashboard extends \Piwik\Plugin
      */
     public function getLayoutForUser($login, $idDashboard)
     {
-        $paramsBind = array($login, $idDashboard);
-        $query = sprintf('SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
-            Common::prefixTable('user_dashboard'));
-        $return = Db::fetchAll($query, $paramsBind);
+        $return = $this->getModel()->getLayoutForUser($login, $idDashboard);
 
         if (count($return) == 0) {
             return false;
         }
 
         return $return[0]['layout'];
+    }
+
+    private function getModel()
+    {
+        return new Model();
     }
 
     public function getDefaultLayout()
@@ -107,9 +108,7 @@ class Dashboard extends \Piwik\Plugin
 
     public function getAllDashboards($login)
     {
-        $dashboards = Db::fetchAll('SELECT iddashboard, name, layout
-                                      FROM ' . Common::prefixTable('user_dashboard') .
-            ' WHERE login = ? ORDER BY iddashboard', array($login));
+        $dashboards = $this->getModel()->getAllDashboardsForUser($login);
 
         $nameless = 1;
         foreach ($dashboards as &$dashboard) {
@@ -219,23 +218,17 @@ class Dashboard extends \Piwik\Plugin
 
     public function deleteDashboardLayout($userLogin)
     {
-        Db::query('DELETE FROM ' . Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+        $this->getModel()->deleteAllLayoutsForUser($userLogin);
     }
 
     public function install()
     {
-        $dashboard = "login VARCHAR( 100 ) NOT NULL ,
-					  iddashboard INT NOT NULL ,
-					  name VARCHAR( 100 ) NULL DEFAULT NULL ,
-					  layout TEXT NOT NULL,
-					  PRIMARY KEY ( login , iddashboard )";
-
-        DbHelper::createTable('user_dashboard', $dashboard);
+        Model::install();
     }
 
     public function uninstall()
     {
-        Db::dropTables(Common::prefixTable('user_dashboard'));
+        Model::uninstall();
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

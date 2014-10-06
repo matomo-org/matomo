@@ -1,0 +1,29 @@
+<div>
+
+    <p class="adminTable">
+        This page helps you to find existing translations that you can reuse in your Plugin.
+        If you want to know more about translations have a look at our <a href="http://developer.piwik.org/guides/internationalization" target="_blank">Internationalization guide</a>.
+        Enter a search term to find translations and their corresponding keys:
+    </p>
+
+    <input type="text" placeholder="Search for English translation" title="Search for English translation. Max 1000 results will be shown." ng-model="translationSearch.searchTerm" style="width:271px">
+
+    <br />
+    <br />
+
+    <table ng-show="translationSearch.searchTerm" class="entityTable dataTable" style="width: 800px;word-break: break-all;">
+        <thead>
+            <tr>
+                <th style="width:250px;">Key</th>
+                <th>English translation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="translation in translationSearch.existingTranslations | filter:translationSearch.searchTerm | limitTo: 1000">
+                <td>{{ translation.label }}</td>
+                <td>{{ translation.value }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

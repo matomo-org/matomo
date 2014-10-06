@@ -89,6 +89,7 @@ class TravisYmlView extends View
         $this->pluginName = $pluginName;
 
         $customTravisBuildSteps = array();
+
         foreach (self::$travisYmlExtendableSectionNames as $name) {
             $customTravisBuildSteps[$name] = array();
 
@@ -102,6 +103,7 @@ class TravisYmlView extends View
                 $customTravisBuildSteps[$name]['after'] = $this->changeIndent(file_get_contents($afterStepsTemplate), '  ');
             }
         }
+
         $this->customTravisBuildSteps = $customTravisBuildSteps;
     }
 
@@ -160,12 +162,14 @@ class TravisYmlView extends View
         preg_match_all("/^[a-zA-Z_]+:/m", $yamlText, $allMatches, PREG_OFFSET_CAPTURE);
 
         $result = array();
+
         foreach ($allMatches[0] as $match) {
             $matchLength = strlen($match[0]);
             $sectionName = substr($match[0], 0, $matchLength - 1);
 
             $result[$sectionName] = $match[1] + $matchLength;
         }
+
         return $result;
     }
 
@@ -206,6 +210,7 @@ class TravisYmlView extends View
             $testsToExclude[] = array('php' => '5.4',
                                       'env' => 'TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable');
         }
+
         if ($this->isTargetPluginContainsUITests()) {
             $testsToRun[] = array('name' => 'UITests',
                                   'vars' => "MYSQL_ADAPTER=PDO_MYSQL");
@@ -214,6 +219,8 @@ class TravisYmlView extends View
                                       'php' => '5.3.3',
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
             $testsToExclude[] = array('php' => '5.4',
+                                      'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
+            $testsToExclude[] = array('php' => '5.6',
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
         }
 

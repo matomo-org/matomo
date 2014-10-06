@@ -318,7 +318,7 @@ class API extends \Piwik\Plugin\API
      *
      * @exception in case of an invalid parameter
      */
-    public function addUser($userLogin, $password, $email, $alias = false)
+    public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -326,10 +326,15 @@ class API extends \Piwik\Plugin\API
         $this->checkEmail($email);
 
         $password = Common::unsanitizeInputValue($password);
-        UsersManager::checkPassword($password);
+        if (!$_isPasswordHashed) {
+            UsersManager::checkPassword($password);
+
+            $passwordTransformed = UsersManager::getPasswordHash($password);
+        } else {
+            $passwordTransformed = $password;
+        }
 
         $alias = $this->getCleanAlias($alias, $userLogin);
-        $passwordTransformed = UsersManager::getPasswordHash($password);
 
         $token_auth = $this->getTokenAuth($userLogin, $passwordTransformed);
 
@@ -435,7 +440,7 @@ class API extends \Piwik\Plugin\API
             $this->checkEmail($email);
         }
 
-        $alias = $this->getCleanAlias($alias, $userLogin);
+        $alias      = $this->getCleanAlias($alias, $userLogin);
         $token_auth = $this->getTokenAuth($userLogin, $password);
 
         $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);

@@ -18,7 +18,6 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
-use Piwik\Piwik;
 
 /**
  */
@@ -158,7 +157,7 @@ class ResponseBuilder
         return Renderer::formatValueXml($message);
     }
 
-    protected function handleDataTable(DataTableInterface $datatable)
+    private function handleDataTable(DataTableInterface $datatable)
     {
         $label = $this->getLabelFromRequest($this->request);
 
@@ -224,7 +223,7 @@ class ResponseBuilder
         return $this->apiRenderer->renderDataTable($datatable);
     }
 
-    protected function handleArray($array)
+    private function handleArray($array)
     {
         $firstArray = null;
         $firstKey   = null;

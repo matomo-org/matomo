@@ -469,11 +469,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * metadata can be used to specify a different type of operation.
      *
      * @param \Piwik\DataTable $tableToSum
+     * @param bool $doAggregateSubTables
+     * @throws Exception
      */
     public function addDataTable(DataTable $tableToSum, $doAggregateSubTables = true)
     {
-        if($tableToSum instanceof Simple) {
-            if($tableToSum->getRowsCount() > 1) {
+        if ($tableToSum instanceof Simple) {
+            if ($tableToSum->getRowsCount() > 1) {
                 throw new Exception("Did not expect a Simple table with more than one row in addDataTable()");
             }
             $row = $tableToSum->getFirstRow();
@@ -897,7 +899,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($this->getRows() as $row) {
             $row->renameColumn($oldName, $newName);
 
-            if($doRenameColumnsOfSubTables) {
+            if ($doRenameColumnsOfSubTables) {
                 if (($idSubDataTable = $row->getIdSubDataTable()) !== null) {
                     Manager::getInstance()->getTable($idSubDataTable)->renameColumn($oldName, $newName);
                 }
@@ -1602,7 +1604,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         } else {
             $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
 
-            if($doAggregateSubTables) {
+            if ($doAggregateSubTables) {
                 // if the row to add has a subtable whereas the current row doesn't
                 // we simply add it (cloning the subtable)
                 // if the row has the subtable already

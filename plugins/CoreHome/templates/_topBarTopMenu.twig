@@ -36,17 +36,8 @@
              menu-title="{{ helloAlias|trim }}"
              piwik-menudropdown>
 
-            {% if userLogin != 'anonymous' %}
-                {% if isAdminLayout is defined and currentModule == 'UsersManager' and currentAction == 'userSettings' %}
-                    <a class="item active" href="index.php?module=CoreAdminHome">{{ 'General_Settings'|translate }}</a>
-                {% else %}
-                    <a class="item" href="index.php?module=CoreAdminHome">{{ 'General_Settings'|translate }}</a>
-                {% endif %}
-            {% endif %}
-
             {% for lev1UserLabel,lev1UserMenu in userMenu if lev1UserLabel|slice(0,1) != '_' %}
-
-                {% if userLogin != 'anonymous' or not loop.first %}
+                {% if not loop.first %}
                     <hr class="item separator"/>
                 {% endif %}
 
