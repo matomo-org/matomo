@@ -373,8 +373,8 @@ class Proxy extends Singleton
         $hideLine = strstr($docComment, '@hide');
         if($hideLine) {
             $hideString = trim(str_replace("@hide", "", strtok($hideLine, "\n")));
+            $response = false;
             if($hideString) {
-                $response = false;
                 $hideArray = explode(" ", $hideString);
                 $hideString = $hideArray[0];
                 /**
@@ -400,8 +400,8 @@ class Proxy extends Singleton
                  * if the plugin API should be hidden from the current user.
                  */
                 Piwik::postEvent(sprintf('API.DocumentationGenerator.hide%s', $hideString), array(&$response));
-                return $response;
             }
+            return $response;
         }
         return false;
     }
@@ -478,7 +478,7 @@ class Proxy extends Singleton
             && $method->getName() != 'getInstance'
             && false === strstr($method->getDocComment(), '@deprecated')
             && (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
-            && (Piwik::hasUserSuperUserAccess() || false === $this->checkIfMethodContainsHideAnnotation($method))
+            && (false === $this->checkIfMethodContainsHideAnnotation($method))
         ) {
             $name = $method->getName();
             $parameters = $method->getParameters();
