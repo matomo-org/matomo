@@ -7,6 +7,7 @@
         "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "vaikimisi",
         "ExcludeRowsWithLowPopulation": "Kuvatakse kõiki ridu %s Eemalda ebapopulaarsemad",
+        "ExternalHelp": "Abi (avaneb uues aknas)",
         "FlattenDataTable": "Antud raport on hierarhiline %s Tee see lamedaks",
         "HowMuchIsPiwikWorth": "Kui palju on Piwik sulle väärt?",
         "IncludeRowsWithLowPopulation": "Ebapopulaarsed read on peidetud %s Kuva kõik read",

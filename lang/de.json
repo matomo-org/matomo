@@ -431,6 +431,7 @@
         "WarningFileIntegrityNoManifestDeployingFromGit": "Wenn Sie Piwik von Git deployen ist diese Nachricht normal.",
         "WarningFileIntegrityNoMd5file": "Durch die fehlende md5_file() Funktion konnte die Integritätsprüfung nicht durchgeführt werden.",
         "WarningPasswordStored": "%sWarnung:%s Dieses Passwort wird in der Konfigurationsdatei gespeichert und ist so für jeden sichtbar, der auf diese Datei Zugriff hat.",
+        "WarningPhpVersionXIsTooOld": "Die von Ihnen eingesetzte PHP Version %s hat das Ende der Lebensdauer (EOL) erreicht. Es wird dringend angeraten, ein Update auf eine aktuelle Version durchzuführen, da der Einsatz dieser Version zu Sicherheitsrisiken und Fehlern führen kann, welche in neueren PHP Versionen korrigiert wurden.",
         "Website": "Webseite",
         "Weekly": "Wöchentlich",
         "WeeklyReport": "wöchentlich",

@@ -1,0 +1,12 @@
+{
+    "Contents": {
+        "ContentName": "Indholdsnavn",
+        "ContentPiece": "Indholdsstykke",
+        "Contents": "Indhold",
+        "ContentTarget": "Indholdsmål",
+        "Impressions": "Indtryk",
+        "Interaction": "Interaktion",
+        "InteractionRate": "Interaktionsfrekvens",
+        "Interactions": "Interaktioner"
+    }
+}

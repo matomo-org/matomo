@@ -2,6 +2,7 @@
     "MultiSites": {
         "Evolution": "Postęp",
         "LoadingWebsites": "Ładowanie stron",
+        "Pagination": "%s - %s z %s",
         "PluginDescription": "Wyświetla wielostronicowe podsumowania\/statystyki. Obecnie zastosowane jako wtyczka jądra Piwik."
     }
 }
