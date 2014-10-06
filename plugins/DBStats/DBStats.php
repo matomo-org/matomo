@@ -23,8 +23,7 @@ class DBStats extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            "TestingEnvironment.addHooks"     => 'setupTestEnvironment',
-            'API.DocumentationGenerator.hideExceptForSuperUser' => 'checkIfNotSuperUser'
+            "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
         );
     }
 
@@ -39,15 +38,5 @@ class DBStats extends \Piwik\Plugin
             require_once dirname(__FILE__) . "/tests/Mocks/MockDataAccess.php";
             $dao = new Mocks\MockDataAccess();
         });
-    }
-
-    public function checkIfNotSuperUser(&$response)
-    {
-        try {
-            Piwik::checkUserHasSuperUserAccess();
-            $response = false;
-        } catch (\Exception $e) {
-            $response = true;
-        }
     }
 }

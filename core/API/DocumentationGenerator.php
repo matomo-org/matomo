@@ -152,10 +152,7 @@ class DocumentationGenerator
      */
     public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
     {
-        if (strstr($rClass->getDocComment(), '@hide') === false) {
-            return false;
-        }
-        return true;
+        return false !== strstr($rClass->getDocComment(), '@hide');
     }
 
     /**
