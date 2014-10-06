@@ -51,7 +51,7 @@
         <directory>./Unit</directory>
         <directory>../../plugins/*/tests/Unit</directory>
         <directory>../../plugins/*/Test/Unit</directory>
-    </testsuite>s
+    </testsuite>
     <testsuite name="PluginTests">
         <directory>../../plugins/*/tests</directory>
         <directory>../../plugins/*/Test</directory>
