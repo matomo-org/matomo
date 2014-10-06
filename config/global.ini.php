@@ -163,8 +163,10 @@ browser_archiving_disabled_enforce = 0
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
 ; This can be useful if you want to prevent users from adding much load on the server.
-; Note: any existing Segment set to "processed in Real time", will still be set to Real-time.
-;       this will only affect custom segments added or modified after this setting is changed.
+; Notes:
+;  * any existing Segment set to "processed in Real time", will still be set to Real-time.
+;    this will only affect custom segments added or modified after this setting is changed.
+;  * when set to 0 then any user with at least 'view' access will be able to create pre-processed segments.
 enable_create_realtime_segments = 1
 
 ; Whether to enable the "Suggest values for segment" in the Segment Editor panel.
