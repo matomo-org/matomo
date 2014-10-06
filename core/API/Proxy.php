@@ -373,7 +373,7 @@ class Proxy extends Singleton
         $hideLine = strstr($docComment, '@hide');
         if($hideLine) {
             $hideString = trim(str_replace("@hide", "", strtok($hideLine, "\n")));
-            $response = false;
+            $response = true;
             if($hideString) {
                 $hideArray = explode(" ", $hideString);
                 $hideString = $hideArray[0];
