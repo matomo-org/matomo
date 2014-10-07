@@ -46,7 +46,7 @@
  *          <h2>My Form</h2>
  *          <input name="myOption" value="myDefaultValue" type="text" />
  *          <input name="myOtherOption" type="checkbox" checked="checked" />
- *          <input type="submit" value="Submit" />
+ *          <input type="submit" value="Submit" ng-disabled="ajaxForm.isSubmitting" />
  *
  *          <div piwik-notification context='error' ng-show="errorPostResponse">ERROR!</div>
  *     </div>
@@ -68,6 +68,7 @@
             require: '?ngModel',
             controller: 'AjaxFormController',
             controllerAs: 'ajaxForm',
+            transclude: true,
             compile: function (element, attrs) {
                 if (!attrs.submitApiMethod) {
                     throw new Error("submitApiMethod is required");
@@ -75,7 +76,7 @@
 
                 attrs.noErrorNotification = !! attrs.noErrorNotification;
 
-                return function (scope, element, attrs, ngModel) {
+                return function (scope, element, attrs, ngModel, transclude) {
                     scope.ajaxForm.submitApiMethod = scope.submitApiMethod;
                     scope.ajaxForm.sendJsonPayload = scope.sendJsonPayload;
                     scope.ajaxForm.noErrorNotification = scope.noErrorNotification;
@@ -98,6 +99,11 @@
                     // on submit call controller submit method
                     element.on('click', 'input[type=submit]', function () {
                         scope.ajaxForm.submitForm();
+                    });
+
+                    // make sure child elements can access this directive's scope
+                    transclude(scope, function(clone, scope) {
+                        element.append(clone);
                     });
 
                     function setFormValueFromInput(inputElement) {

@@ -28,6 +28,13 @@
          */
         vm.errorPostResponse = null;
 
+        /**
+         * true if currently submitting a POST request, false if otherwise.
+         *
+         * @type {bool}
+         */
+        vm.isSubmitting = false;
+
         vm.submitForm = submitForm;
 
         /**
@@ -45,6 +52,7 @@
                 postParams = vm.data;
             }
 
+            vm.isSubmitting = true;
             piwikApi.post(
                 { // GET params
                     module: 'API',
@@ -69,6 +77,8 @@
                 }
             }).catch(function (errorMessage) {
                 vm.errorPostResponse = errorMessage;
+            })['finally'](function () {
+                //vm.isSubmitting = false;
             });
         }
     }
