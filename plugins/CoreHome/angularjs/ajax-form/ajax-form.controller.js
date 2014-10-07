@@ -78,7 +78,7 @@
             }).catch(function (errorMessage) {
                 vm.errorPostResponse = errorMessage;
             })['finally'](function () {
-                //vm.isSubmitting = false;
+                vm.isSubmitting = false;
             });
         }
     }
