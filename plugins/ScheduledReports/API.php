@@ -560,7 +560,7 @@ class API extends \Piwik\Plugin\API
     private static function getReportSubjectAndReportTitle($websiteName, $reports)
     {
         // if the only report is "All websites", we don't display the site name
-        $reportTitle = Piwik::translate('General_Website') . " " . $websiteName;
+        $reportTitle = $websiteName;
         $reportSubject = $websiteName;
         if (count($reports) == 1
             && $reports[0] == 'MultiSites_getAll'
