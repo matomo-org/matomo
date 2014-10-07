@@ -429,7 +429,7 @@ class Config extends Singleton
                 : $this->configLocal[$name];
         }
 
-        if ($section === null && $name = 'superuser') {
+        if ($section === null && $name == 'superuser') {
             $user = $this->getConfigSuperUserForBackwardCompatibility();
             return $user;
         } else if ($section === null) {
