@@ -266,11 +266,11 @@ class ScheduledReports extends \Piwik\Plugin
         if (self::manageEvent($reportType)) {
             // Safeguard against sending the same report twice to the same email (unless $force is true)
             if (!$force && $this->reportAlreadySent($report, $period)) {
-                Log::warning(sprintf(
+                Log::warning(
                     'Preventing the same scheduled report from being sent again (report #%s for period "%s")',
                     $report['idreport'],
                     $prettyDate
-                ));
+                );
                 return;
             }
             
