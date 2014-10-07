@@ -433,7 +433,7 @@ class Config extends Singleton
             $user = $this->getConfigSuperUserForBackwardCompatibility();
             return $user;
         } else if ($section === null) {
-            throw new Exception("Error while trying to read a specific config file entry <strong>'$name'</strong> from your configuration files.</b>If you just completed a Piwik upgrade, please check that the file config/global.ini.php was overwritten by the latest Piwik version.");
+            $section = array();
         }
 
         // cache merged section for later
