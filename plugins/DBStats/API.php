@@ -42,7 +42,7 @@ class API extends \Piwik\Plugin\API
      * Gets some general information about this Piwik installation, including the count of
      * websites tracked, the count of users and the total space used by the database.
      *
-     * @hide ExceptForSuperUser
+     * 
      * @return array Contains the website count, user count and total space used by the database.
      */
     public function getGeneralInformation()
