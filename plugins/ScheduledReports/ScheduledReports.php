@@ -10,6 +10,7 @@ namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
 use Piwik\Db;
+use Piwik\Log;
 use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Period;
@@ -265,6 +266,11 @@ class ScheduledReports extends \Piwik\Plugin
         if (self::manageEvent($reportType)) {
             // Safeguard against sending the same report twice to the same email (unless $force is true)
             if (!$force && $this->reportAlreadySent($report, $period)) {
+                Log::warning(sprintf(
+                    'Preventing the same scheduled report from being sent again (report #%s for period "%s")',
+                    $report['idreport'],
+                    $prettyDate
+                ));
                 return;
             }
             
