@@ -208,6 +208,7 @@
         "LastDays": "Last %s days (including today)",
         "LastDaysShort": "Last %s days",
         "LayoutDirection": "ltr",
+        "LearnMore": "%1$slearn more%2$s",
         "Live": "Live",
         "Loading": "Loading...",
         "LoadingData": "Loading data...",
