@@ -158,7 +158,7 @@
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -488,7 +488,7 @@
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -704,7 +704,7 @@
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />

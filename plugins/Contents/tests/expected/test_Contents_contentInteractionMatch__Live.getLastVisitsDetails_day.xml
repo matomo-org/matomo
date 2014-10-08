@@ -45,7 +45,7 @@
 		</customVariables>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
-		<provider />
+		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
 		<referrerType>direct</referrerType>
@@ -145,7 +145,7 @@
 		</customVariables>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
-		<provider />
+		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
 		<referrerType>direct</referrerType>
