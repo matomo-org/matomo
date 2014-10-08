@@ -38,7 +38,7 @@ function getHostnameName($in)
 function getHostnameUrl($in)
 {
     if ($in == DataTable::LABEL_SUMMARY_ROW || empty($in) || strtolower($in) === 'ip') {
-        return false;
+        return null;
     }
 
     // if the name looks like it can be used in a URL, use it in one, otherwise link to startpage

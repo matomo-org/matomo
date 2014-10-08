@@ -312,6 +312,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleColumnHighlighting(domElem);
         self.handleExpandFooter(domElem);
         self.setFixWidthToMakeEllipsisWork(domElem);
+        self.handleSummaryRow(domElem);
     },
 
     setFixWidthToMakeEllipsisWork: function (domElem) {
@@ -1697,6 +1698,22 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             self.reloadAjaxDataTable(true);
+        });
+    },
+
+    handleSummaryRow: function (domElem) {
+        var details = _pk_translate('General_LearnMore', [' (<a href="http://piwik.org/faq/how-to/faq_54/" target="_blank">', '</a>)']);
+
+        domElem.find('tr.summaryRow').each(function () {
+            var labelSpan = $(this).find('.label .value');
+            var defaultLabel = labelSpan.text();
+
+            $(this).hover(function() {
+                    labelSpan.html(defaultLabel + details);
+                },
+                function() {
+                    labelSpan.text(defaultLabel);
+                });
         });
     },
 

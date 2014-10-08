@@ -23,7 +23,7 @@ class Visitor
 
     public function getProvider()
     {
-        if (isset($this->details['location_provider'])) {
+        if (!isset($this->details['location_provider'])) {
             return $this->details['location_provider'];
         } else {
             return Piwik::translate('General_Unknown');
