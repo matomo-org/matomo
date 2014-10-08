@@ -39,7 +39,7 @@
  * Usage:
  *
  *     <div piwik-ajax-form
- *          save-api-method="MyPlugin.myFormSaveMethod"
+ *          save-api-method="'MyPlugin.myFormSaveMethod'"
  *          send-json-payload="true"
  *          ng-model="myFormData">
  *
@@ -54,47 +54,50 @@
 (function () {
     angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
 
-    piwikAjaxForm.$inject = [];
+    piwikAjaxForm.$inject = ['$parse'];
 
-    function piwikAjaxForm() {
+    function piwikAjaxForm($parse) {
         return {
             restrict: 'A',
             scope: {
                 submitApiMethod: '=',
                 sendJsonPayload: '=',
                 noErrorNotification: '=',
-                noSuccessNotification: '='
+                noSuccessNotification: '=',
+                useCustomDataBinding: '='
             },
             require: '?ngModel',
             controller: 'AjaxFormController',
             controllerAs: 'ajaxForm',
             transclude: true,
             compile: function (element, attrs) {
-                if (!attrs.submitApiMethod) {
-                    throw new Error("submitApiMethod is required");
-                }
-
                 attrs.noErrorNotification = !! attrs.noErrorNotification;
 
                 return function (scope, element, attrs, ngModel, transclude) {
+                    if (!scope.submitApiMethod) {
+                        throw new Error("submitApiMethod is required");
+                    }
+
                     scope.ajaxForm.submitApiMethod = scope.submitApiMethod;
                     scope.ajaxForm.sendJsonPayload = scope.sendJsonPayload;
                     scope.ajaxForm.noErrorNotification = scope.noErrorNotification;
                     scope.ajaxForm.noSuccessNotification = scope.noSuccessNotification;
 
-                    scope.ajaxForm.data = (ngModel ? ngModel.$modelValue : {}) || {};
+                    scope.ajaxForm.data = {};
 
-                    var $inputs = element.find('input:not([type=submit]),select');
+                    // if a model is supplied, initiate form data w/ model value
+                    if (ngModel) {
+                        var ngModelGetter = $parse(attrs.ngModel); // probably redundant, but I cannot find another way to
+                                                                   // get the ng model value here
+                        scope.ajaxForm.data = ngModelGetter(scope.$parent);
+                    }
 
-                    // initialize form data to input values (include <select>s
-                    $inputs.each(function () {
-                        setFormValueFromInput(this);
-                    });
-
-                    // on change of any input, change appropriate value in ngModel
-                    element.on('change', 'input,select', function () {
-                        setFormValueFromInput(this);
-                    });
+                    // on change of any input, change appropriate value in model, but only if requested
+                    if (!scope.useCustomDataBinding) {
+                        element.on('change', 'input,select', function () {
+                            setFormValueFromInput(this);
+                        });
+                    }
 
                     // on submit call controller submit method
                     element.on('click', 'input[type=submit]', function () {
@@ -103,21 +106,34 @@
 
                     // make sure child elements can access this directive's scope
                     transclude(scope, function(clone, scope) {
+                        if (!scope.useCustomDataBinding) {
+                            var $inputs = clone.find('input,select').not('[type=submit]');
+
+                            // initialize form data to input values (include <select>s
+                            $inputs.each(function () {
+                                setFormValueFromInput(this, true);
+                            });
+                        }
+
                         element.append(clone);
                     });
 
-                    function setFormValueFromInput(inputElement) {
+                    function setFormValueFromInput(inputElement, skipScopeApply) {
                         var $ = angular.element,
                             name = $(inputElement).attr('name'),
                             val;
 
-                        if ($(this).attr('type') == 'checked') {
+                        if ($(inputElement).attr('type') == 'checkbox') {
                             val = $(inputElement).is(':checked');
                         } else {
                             val = $(inputElement).val();
                         }
 
                         scope.ajaxForm.data[name] = val;
+
+                        if (!skipScopeApply) {
+                            scope.$apply();
+                        }
                     }
                 };
             }
