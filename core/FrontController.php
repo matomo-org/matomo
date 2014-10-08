@@ -83,6 +83,10 @@ class FrontController extends Singleton
             return;
         }
 
+        if ($this->redirectMalformedUrls()) {
+            return;
+        }
+
         try {
             $result = $this->doDispatch($module, $action, $parameters);
             return $result;
@@ -603,6 +607,33 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
+    }
+
+    /**
+     * Redirects malformed URLs that can be misinterpreted by old browsers.
+     *
+     * E.g. /index.php/.html?... can be interpreted as HTML even though the Content-Type says JSON.
+     * @link https://github.com/piwik/piwik/issues/6156
+     *
+     * @return bool If true, a redirection has been sent, the dispatching is over. If false, continue the dispatching.
+     */
+    private function redirectMalformedUrls()
+    {
+        $path = $_SERVER['REQUEST_URI'];
+        if (isset($_SERVER['QUERY_STRING'])) {
+            $path = substr($path, 0, -(strlen($_SERVER['QUERY_STRING']) + 1));
+        }
+
+        if (strpos($path, 'index.php/') !== false) {
+            $fullUrl = Url::getCurrentUrl();
+
+            $newUrl = preg_replace('#index\.php/([^\?]*)\?#', 'index.php?', $fullUrl, 1);
+
+            Url::redirectToUrl($newUrl);
+            return true;
+        }
+
+        return false;
     }
 
 }
