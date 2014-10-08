@@ -397,7 +397,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        return $this->model->getUsersHavingSuperUserAccess();
+        $users = $this->model->getUsersHavingSuperUserAccess();
+        foreach($users as &$user) {
+            // remove token_auth in API response
+            unset($user['token_auth']);
+        }
+        return $users;
     }
 
     /**
