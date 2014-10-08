@@ -34,7 +34,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getPrettyProviderName'));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
+        $dataTable->queueFilter('GroupBy', array('label'));
         return $dataTable;
     }
 }
-
