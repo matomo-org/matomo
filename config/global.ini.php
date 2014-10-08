@@ -88,7 +88,6 @@ allow_upgrades_to_beta = 0
 enable_load_standalone_plugins_during_tests = 0
 
 [Development]
-
 ; Enables the development mode where we avoid most caching to make sure code changes will be directly applied as
 ; some caches are only invalidated after an update otherwise. When enabled it'll also performs some validation checks.
 ; For instance if you register a method in a widget we will verify whether the method actually exists and is public.
