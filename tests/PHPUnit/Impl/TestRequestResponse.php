@@ -75,9 +75,10 @@ class TestRequestResponse
             return;
         }
 
-        // for PDF files, check content size to get quick feedback
+        // check content size to get quick feedback and avoid lengthy diff
+        $checkSizeFirst = array('pdf', 'csv');
         if(!empty($expected->requestUrl['reportFormat'])
-            && $expected->requestUrl['reportFormat'] == 'pdf') {
+            && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)) {
             Asserts::assertEquals(strlen($expectedText), strlen($actualText), $message);
         }
 
