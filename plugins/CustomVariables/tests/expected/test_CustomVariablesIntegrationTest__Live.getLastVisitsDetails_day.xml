@@ -118,9 +118,9 @@
 		</customVariables>
 		<deviceType>Desktop</deviceType>
 		<events>0</events>
-		<provider>Unknown</provider>
+		<provider />
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
