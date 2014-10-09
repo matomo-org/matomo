@@ -467,6 +467,7 @@ class Visit implements VisitInterface
         $debugVisitInfo = $this->visitorInfo;
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
         $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
+        $debugVisitInfo['location_ip'] = IP::N2P($debugVisitInfo['location_ip']);
         Common::printDebug($debugVisitInfo);
     }
 
