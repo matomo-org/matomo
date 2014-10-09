@@ -47,7 +47,6 @@ class Request
         $this->params = $params;
         $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
-        $this->enforcedIp = false;
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
@@ -319,11 +318,16 @@ class Request
 
     public function getCurrentTimestamp()
     {
+        $cdt = $this->getCustomTimestamp();
+        if(!empty($cdt)) {
+            return $cdt;
+        }
         return $this->timestamp;
     }
 
-    public function getCustomTimestamp()
+    protected function getCustomTimestamp()
     {
+        // TODO window
         $cdt = $this->getParam('cdt');
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt);
@@ -530,16 +534,7 @@ class Request
 
     public function getIp()
     {
-        $cip = $this->getParam('cip');
-        if(!empty($cip)) {
-            if (!$this->isAuthenticated()) {
-                throw new Exception("You must specify token_auth parameter to use the 'cip' parameter.");
-            }
-            $ipString = $cip;
-        } else {
-            $ipString = IP::getIpFromHeader();
-        }
-
+        $ipString = $this->getIpString();
         $ip = IP::P2N($ipString);
         return $ip;
     }
@@ -606,5 +601,22 @@ class Request
     public function getUserIdHashed($userId)
     {
         return substr( sha1( $userId ), 0, 16);
+    }
+
+    /**
+     * @return mixed|string
+     * @throws Exception
+     */
+    private function getIpString()
+    {
+        $cip = $this->getParam('cip');
+        if (empty($cip)) {
+            return IP::getIpFromHeader();
+        }
+
+        if (!$this->isAuthenticated()) {
+            throw new Exception("You must specify token_auth parameter to use the 'cip' parameter.");
+        }
+        return $cip;
     }
 }
