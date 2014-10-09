@@ -26,12 +26,6 @@ sudo apt-get update
 sudo apt-get upgrade
 ```
 
-## PHP 5.5: also update PHPUnit to latest
-
-See [PHPUnit update](http://phpunit.de/manual/current/en/installation.html) or try this command:
-
-    $ sudo pear install -a phpunit/PHPUnit
-
 ## Troubleshooting failing tests
 
 If you get any of these errors:
