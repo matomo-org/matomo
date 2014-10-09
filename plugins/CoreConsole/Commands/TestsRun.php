@@ -88,7 +88,7 @@ class TestsRun extends ConsoleCommand
     private function executeTestFile($testFile, $options, $command, OutputInterface $output)
     {
         $params = $options . " " . $testFile;
-        $cmd = sprintf("cd %s/tests/PHPUnit && %s %s", PIWIK_DOCUMENT_ROOT, $command, $params);
+        $cmd = $this->getCommand($command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         passthru($cmd);
         $output->writeln("");
@@ -102,7 +102,7 @@ class TestsRun extends ConsoleCommand
 
         foreach ($groups as $group) {
             $params = '--group ' . $group . ' ' . str_replace('%group%', $group, $options);
-            $cmd = sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
+            $cmd = $this->getCommand($command, $params);
             $output->writeln('Executing command: <info>' . $cmd . '</info>');
             passthru($cmd);
             $output->writeln("");
@@ -112,5 +112,16 @@ class TestsRun extends ConsoleCommand
     private function getTestsGroups()
     {
         return array('Core', 'Plugins', 'Integration', 'UI');
+    }
+
+    /**
+     * @param $command
+     * @param $params
+     * @return string
+     */
+    private function getCommand($command, $params)
+    {
+        $cmd = sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
+        return $cmd;
     }
 }
