@@ -431,6 +431,7 @@
         "WarningFileIntegrityNoManifestDeployingFromGit": "Pokud nasazujete Piwik z Gitu, pak je tato zpráva normální.",
         "WarningFileIntegrityNoMd5file": "Test integrity nemůže být dokončen z důvodů chybějící funkce md5_file().",
         "WarningPasswordStored": "%sUpozornění:%s Toto heslo bude uloženo v konfiguračním souboru viditelné pro všechny s přístupem k němu.",
+        "WarningPhpVersionXIsTooOld": "PHP verze %s, kterou používáte již není podporována (EOL). Důrazně doporučujeme aktualizovat na novější verzi, protože stávající může obsahovat bezpečnostní a další problémy, které byly opraveny v novějších verzích PHP.",
         "Website": "Web stránky",
         "Weekly": "Týdně",
         "WeeklyReport": "Týdně",

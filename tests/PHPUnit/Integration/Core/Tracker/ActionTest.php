@@ -20,6 +20,7 @@ use Piwik\Plugin\Manager as PluginManager;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @group Core
+ * @group ActionTest
  */
 class Core_Tracker_ActionTest extends DatabaseTestCase
 {

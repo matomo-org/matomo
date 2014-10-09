@@ -72,10 +72,17 @@ class TestRequestResponse
 
         if ($expected->requestUrl['format'] == 'xml') {
             Asserts::assertXmlStringEqualsXmlString($expectedText, $actualText, $message);
-        } else {
-            Asserts::assertEquals(strlen($expectedText), strlen($actualText), $message);
-            Asserts::assertEquals($expectedText, $actualText, $message);
+            return;
         }
+
+        // check content size to get quick feedback and avoid lengthy diff
+        $checkSizeFirst = array('pdf', 'csv');
+        if(!empty($expected->requestUrl['reportFormat'])
+            && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)) {
+            Asserts::assertEquals(strlen($expectedText), strlen($actualText), $message);
+        }
+
+        Asserts::assertEquals($expectedText, $actualText, $message);
     }
 
     private function normalizeApiResponse($apiResponse)

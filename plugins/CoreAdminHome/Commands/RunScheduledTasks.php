@@ -33,7 +33,15 @@ class RunScheduledTasks extends ConsoleCommand
         $this->forceRunAllTasksIfRequested($input);
 
         FrontController::getInstance()->init();
-        API::getInstance()->runScheduledTasks();
+        $scheduledTasksResults = API::getInstance()->runScheduledTasks();
+
+        foreach ($scheduledTasksResults as $scheduledTasksResult) {
+            $output->writeln(sprintf(
+                '<comment>%s</comment> - %s',
+                $scheduledTasksResult['task'],
+                $scheduledTasksResult['output']
+            ));
+        }
 
         $this->writeSuccessMessage($output, array('Scheduled Tasks executed'));
     }

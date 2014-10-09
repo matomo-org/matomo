@@ -90,6 +90,11 @@ class EventDispatcher extends Singleton
                 $plugin = $this->getPluginManager()->getLoadedPlugin($plugin);
             }
 
+            if (empty($plugin)) {
+                return; // may happen in unit tests
+            }
+
+
             $hooks = $plugin->getListHooksRegistered();
 
             if (isset($hooks[$eventName])) {

@@ -25,7 +25,7 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureUserMenu(MenuUser $menu)
     {
         if (!Piwik::isUserIsAnonymous()) {
-            $menu->addItem('', 'General_Settings', $this->urlForAction('index'), 0);
+            $menu->addItem('', 'General_Settings', $this->urlForAction('userSettings'), 0);
         }
     }
 }

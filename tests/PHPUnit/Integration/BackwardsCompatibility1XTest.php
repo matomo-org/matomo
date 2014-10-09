@@ -43,19 +43,31 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
             Db::query("TRUNCATE TABLE " . Common::prefixTable($table));
         }
 
-        // add two visits from same visitor on dec. 29
-        $t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true);
+        self::trackTwoVisitsOnSameDay();
+
+        // launch archiving
+        VisitFrequencyApi::getInstance()->get(1, 'year', '2012-12-29');
+    }
+
+
+    /**
+     * add two visits from same visitor on dec. 29
+     */
+    private static function trackTwoVisitsOnSameDay()
+    {
+        $t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true, $useLocal = true);
+        $t->enableBulkTracking();
+
         $t->setUrl('http://site.com/index.htm');
         $t->setIp('136.5.3.2');
-        Fixture::checkResponse($t->doTrackPageView('incredible title!'));
+        $t->doTrackPageView('incredible title!');
 
         $t->setForceVisitDateTime('2012-12-29 03:01:30');
         $t->setUrl('http://site.com/other/index.htm');
         $t->DEBUG_APPEND_URL = '&_idvc=2'; // make sure visit is marked as returning
-        Fixture::checkResponse($t->doTrackPageView('other incredible title!'));
+        $t->doTrackPageView('other incredible title!');
 
-        // launch archiving
-        VisitFrequencyApi::getInstance()->get(1, 'year', '2012-12-29');
+        $t->doBulkTrack();
     }
 
     /**

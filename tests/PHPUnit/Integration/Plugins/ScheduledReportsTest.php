@@ -24,6 +24,7 @@ require_once 'ScheduledReports/ScheduledReports.php';
  * Class Plugins_ScheduledReportsTest
  *
  * @group Plugins
+ * @group ScheduledReportsTest
  */
 class Plugins_ScheduledReportsTest extends DatabaseTestCase
 {
@@ -399,8 +400,8 @@ class Plugins_ScheduledReportsTest extends DatabaseTestCase
     public function getGetReportSubjectAndReportTitleTestCases()
     {
         return array(
-            array('Piwik.org', 'General_Website Piwik.org', 'Piwik.org', array('UserSettings_getBrowserType')),
-            array('Piwik.org', 'General_Website Piwik.org', 'Piwik.org', array('MultiSites_getAll', 'UserSettings_getBrowserType')),
+            array('<Piwik.org>', '<Piwik.org>', '<Piwik.org>', array('UserSettings_getBrowserType')),
+            array('Piwik.org', 'Piwik.org', 'Piwik.org', array('MultiSites_getAll', 'UserSettings_getBrowserType')),
             array('General_MultiSitesSummary', 'General_MultiSitesSummary', 'Piwik.org', array('MultiSites_getAll')),
         );
     }

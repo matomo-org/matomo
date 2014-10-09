@@ -44,9 +44,6 @@ class Tracker
     const LENGTH_HEX_ID_STRING = 16;
     const LENGTH_BINARY_ID = 8;
 
-    protected static $forcedDateTime = null;
-    protected static $forcedIpString = null;
-
     protected static $pluginsNotToLoad = array();
     protected static $pluginsToLoad = array();
 
@@ -90,19 +87,7 @@ class Tracker
 
     public function clear()
     {
-        self::$forcedIpString = null;
-        self::$forcedDateTime = null;
         $this->stateValid = self::STATE_NOTHING_TO_NOTICE;
-    }
-
-    public static function setForceIp($ipString)
-    {
-        self::$forcedIpString = $ipString;
-    }
-
-    public static function setForceDateTime($dateTime)
-    {
-        self::$forcedDateTime = $dateTime;
     }
 
     /**
@@ -452,6 +437,7 @@ class Tracker
             }
             Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
+            die(1);
             exit;
         }
 
@@ -468,8 +454,9 @@ class Tracker
             Common::sendHeader('Content-Type: text/html; charset=utf-8');
             echo $this->getMessageFromException($e);
         } else {
-            $this->outputTransparentGif ();
+            $this->outputTransparentGif();
         }
+        die(1);
         exit;
     }
 
@@ -486,15 +473,13 @@ class Tracker
 
     /**
      * Initialization
+     * @param Request $request
      */
     protected function init(Request $request)
     {
         $this->loadTrackerPlugins($request);
-        $this->handleTrackingApi($request);
         $this->handleDisabledTracker();
         $this->handleEmptyRequest($request);
-
-        Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
     }
 
     /**
@@ -746,29 +731,6 @@ class Tracker
         return Common::getRequestVar('token_auth', false);
     }
 
-    /**
-     * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
-     * These two attributes can be only set by the Super User (passing token_auth).
-     */
-    protected function handleTrackingApi(Request $request)
-    {
-        if (!$request->isAuthenticated()) {
-            return;
-        }
-
-        // Custom IP to use for this visitor
-        $customIp = $request->getParam('cip');
-        if (!empty($customIp)) {
-            $this->setForceIp($customIp);
-        }
-
-        // Custom server date time to use
-        $customDatetime = $request->getParam('cdt');
-        if (!empty($customDatetime)) {
-            $this->setForceDateTime($customDatetime);
-        }
-    }
-
     public static function setTestEnvironment($args = null, $requestMethod = null)
     {
         if (is_null($args)) {
@@ -814,18 +776,6 @@ class Tracker
             \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
         }
 
-        // Custom IP to use for this visitor
-        $customIp = Common::getRequestVar('cip', false, null, $args);
-        if (!empty($customIp)) {
-            self::setForceIp($customIp);
-        }
-
-        // Custom server date time to use
-        $customDatetime = Common::getRequestVar('cdt', false, null, $args);
-        if (!empty($customDatetime)) {
-            self::setForceDateTime($customDatetime);
-        }
-
         $pluginsDisabled = array('Provider');
 
         // Disable provider plugin, because it is so slow to do many reverse ip lookups
@@ -868,8 +818,7 @@ class Tracker
 
         try {
             if ($this->isVisitValid()) {
-                $request->setForceDateTime(self::$forcedDateTime);
-                $request->setForceIp(self::$forcedIpString);
+                Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
 
                 $visit = $this->getNewVisitObject();
                 $visit->setRequest($request);

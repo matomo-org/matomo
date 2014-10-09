@@ -98,7 +98,7 @@
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<customVariables>
 		</customVariables>
 		
@@ -246,7 +246,7 @@
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -371,7 +371,7 @@
 		<daysSinceLastVisit>11</daysSinceLastVisit>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -510,7 +510,7 @@
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -635,7 +635,7 @@
 		<daysSinceLastVisit>11</daysSinceLastVisit>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -791,7 +791,7 @@
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -916,7 +916,7 @@
 		<daysSinceLastVisit>11</daysSinceLastVisit>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
