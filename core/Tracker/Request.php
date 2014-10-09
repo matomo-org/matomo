@@ -35,6 +35,8 @@ class Request
 
     const UNKNOWN_RESOLUTION = 'unknown';
 
+    const CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN = 14400; // 4 hours
+
     /**
      * @param $params
      * @param bool|string $tokenAuth
@@ -327,18 +329,50 @@ class Request
 
     protected function getCustomTimestamp()
     {
-        // TODO window
         $cdt = $this->getParam('cdt');
+        if (empty($cdt)) {
+            return false;
+        }
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt);
+        }
+        if (!$this->isTimestampValid($cdt, $this->timestamp)) {
+            Common::printDebug(sprintf("Datetime %s is not valid", date("Y-m-d H:i:m", $cdt)));
+            return false;
+        }
+
+        // If timestamp in the past, token_auth is required
+        $timeFromNow = $this->timestamp - $cdt;
+        $isTimestampRecent = $timeFromNow < self::CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN;
+        if (!$isTimestampRecent) {
+            Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
+            $this->checkUserIsAuthenticated();
         }
         return $cdt;
     }
 
-    protected function isTimestampValid($time)
+    private function checkUserIsAuthenticated()
     {
-        return $time <= $this->getCurrentTimestamp()
-            && $time > $this->getCurrentTimestamp() - 10 * 365 * 86400;
+        if (!$this->isAuthenticated()) {
+            throw new Exception("You must specify a valid &token_auth= parameter in order to use the &cip= parameter and/or the &cdt= parameter (when setting cdt to a datatime older than a few hours).");
+        }
+    }
+
+
+    /**
+     * Returns true if the timestamp is valid ie. timestamp is sometime in the last 10 years and is not in the future.
+     *
+     * @param $time int Timestamp to test
+     * @param $now int Current timestamp
+     * @return bool
+     */
+    protected function isTimestampValid($time, $now = null)
+    {
+        if(empty($now)) {
+            $now = $this->getCurrentTimestamp();
+        }
+        return $time <= $now
+            && $time > $now - 10 * 365 * 86400;
     }
 
     public function getIdSite()
@@ -614,9 +648,7 @@ class Request
             return IP::getIpFromHeader();
         }
 
-        if (!$this->isAuthenticated()) {
-            throw new Exception("You must specify token_auth parameter to use the 'cip' parameter.");
-        }
+        $this->checkUserIsAuthenticated();
         return $cip;
     }
 }
