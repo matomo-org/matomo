@@ -41,7 +41,7 @@ class OneVisitWithAbnormalPageviewUrls extends Fixture
     {
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         $t->setUrlReferrer('http://www.google.com/search?q=piwik');
         $t->setUrl('http://example.org/foo/bar.html');

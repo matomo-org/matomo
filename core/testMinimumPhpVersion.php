@@ -91,7 +91,11 @@ if (!function_exists('Piwik_ExitWithMessage')) {
     {
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
-            header('HTTP/1.1 500 Internal Server Error');
+
+            $isInternalServerError = preg_match('/(sql|database|mysql)/i', $message);
+            if($isInternalServerError) {
+                header('HTTP/1.1 500 Internal Server Error');
+            }
         }
 
         if ($optionalTrace) {

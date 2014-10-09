@@ -54,6 +54,7 @@ class LanguageFixture extends Fixture
             $this->dateTime,
             $defaultInit = false
         );
+        $tracker->setTokenAuth(self::getTokenAuth());
 
         $hour = 1;
         foreach ($this->getBrowserLangs() as $browserLang) {

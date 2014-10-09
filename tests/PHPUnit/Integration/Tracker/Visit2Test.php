@@ -135,6 +135,7 @@ class FakeTrackerVisit extends \Piwik\Tracker\Visit
 
 /**
  * @group Core
+ * @group VisitTest
  */
 class VisitTest extends IntegrationTestCase
 {
@@ -157,7 +158,6 @@ class VisitTest extends IntegrationTestCase
     public function test_handleNewVisitWithoutConversion_shouldTriggerDimensions()
     {
         $request = new \Piwik\Tracker\Request(array());
-        $request->setForceIp('127.0.0.1');
         $visitor = new \Piwik\Tracker\Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
@@ -180,7 +180,6 @@ class VisitTest extends IntegrationTestCase
     public function test_handleNewVisitWithConversion_shouldTriggerDimensions()
     {
         $request = new \Piwik\Tracker\Request(array());
-        $request->setForceIp('127.0.0.1');
         $visitor = new \Piwik\Tracker\Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
@@ -199,7 +198,6 @@ class VisitTest extends IntegrationTestCase
     public function test_handleExistingVisitWithoutConversion_shouldTriggerDimensions()
     {
         $request = new \Piwik\Tracker\Request(array());
-        $request->setForceIp('127.0.0.1');
         $visitor = new \Piwik\Tracker\Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
@@ -223,7 +221,6 @@ class VisitTest extends IntegrationTestCase
     public function test_handleExistingVisitWithConversion_shouldTriggerDimensions()
     {
         $request = new \Piwik\Tracker\Request(array());
-        $request->setForceIp('127.0.0.1');
         $visitor = new \Piwik\Tracker\Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
