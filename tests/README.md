@@ -107,6 +107,10 @@ Some of these scheduled reports contain PNG graphs. Depending on the system unde
 Therefore, PNG graphs are only tested and compared against "expected" graphs, if the system under test has the same characteristics as the integration server.
 The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
 
+### Running tests on Ubuntu
+
+If you use Ubuntu or another Linux distribution, you must make one change to the filesystem configuration to make tests run fast. [Read more here](https://github.com/piwik/piwik/blob/master/tests/README.troubleshooting.md#important-note-for-linux-users-fix-for-slow-tests).
+
 ## JavaScript Tests
 
 piwik.js is unit tested and you can run the Javascript tests at: /piwik/tests/javascript/
