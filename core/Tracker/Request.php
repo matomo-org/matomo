@@ -346,8 +346,8 @@ class Request
         $timeFromNow = $this->timestamp - $cdt;
         $isTimestampRecent = $timeFromNow < self::CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN;
         if (!$isTimestampRecent) {
-            Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
             if(!$this->isAuthenticated()) {
+                Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
                 Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
                 return false;
             }
@@ -646,7 +646,7 @@ class Request
         }
 
         if(!$this->isAuthenticated()) {
-            Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
+            Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
             return IP::getIpFromHeader();
         }
         return $cip;
