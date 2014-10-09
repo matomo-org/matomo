@@ -1,73 +1,11 @@
 
 -------------------------------------------------------
 Using this 'archive.php' script is no longer recommended.
-Please use '/path/to/php /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console core:archive --url=http://localhost/tests/PHPUnit/proxy/index.php' instead.
-To get help use '/path/to/php /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console core:archive --help'
+Please use '/path/to/php /home/matt/dev/piwik-master/tests/PHPUnit/proxy/../../..//console core:archive --url=http://localhost/piwik-master/tests/PHPUnit/proxy/index.php' instead.
+To get help use '/path/to/php /home/matt/dev/piwik-master/tests/PHPUnit/proxy/../../..//console core:archive --help'
 See also: http://piwik.org/docs/setup-auto-archiving/
 
 If you cannot use the console because it requires CLI
 try 'php archive.php -- url=http://your.piwik/path'
 -------------------------------------------------------
 
-
-INFO CoreConsole[2014-09-09 01:46:27] ---------------------------
-INFO CoreConsole[2014-09-09 01:46:27] INIT
-INFO CoreConsole[2014-09-09 01:46:27] Piwik is installed at: http://localhost/tests/PHPUnit/proxy/index.php
-INFO CoreConsole[2014-09-09 01:46:27] Running Piwik 2.7.0-b2 as Super User
-DEBUG CoreConsole[2014-09-09 01:46:27] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1&trigger=archivephp&testmode=1&pid=2e1e341f728109bd9f2aa50667ff5ebd1334473b8e8026e85ab7850d28c9a2de11be5a02bbded91d38aab2870492ef77ebdd0' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/2e1e341f728109bd9f2aa50667ff5ebd1334473b8e8026e85ab7850d28c9a2de11be5a02bbded91d38aab2870492ef77ebdd0.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:46:28] ---------------------------
-INFO CoreConsole[2014-09-09 01:46:28] NOTES
-INFO CoreConsole[2014-09-09 01:46:28] - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
-INFO CoreConsole[2014-09-09 01:46:28] See the doc at: http://piwik.org/docs/setup-auto-archiving/
-INFO CoreConsole[2014-09-09 01:46:28] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
-INFO CoreConsole[2014-09-09 01:46:28] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
-INFO CoreConsole[2014-09-09 01:46:28] - Will process 0 websites with new visits since 7 days 0 hours
-INFO CoreConsole[2014-09-09 01:46:28] - Will process 2 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2
-INFO CoreConsole[2014-09-09 01:46:28] ---------------------------
-INFO CoreConsole[2014-09-09 01:46:28] START
-INFO CoreConsole[2014-09-09 01:46:28] Starting Piwik reports archiving...
-DEBUG CoreConsole[2014-09-09 01:46:28] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=day&date=last52&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=85cfb29c2e26e4c8440e7e33d55e413d39509345117eb194d4ba3b2459213c11737c71fb534b13d060ee3a51686d040bcd780' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/85cfb29c2e26e4c8440e7e33d55e413d39509345117eb194d4ba3b2459213c11737c71fb534b13d060ee3a51686d040bcd780.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:46:29] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-DEBUG CoreConsole[2014-09-09 01:46:29] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=day&date=last52&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&segment=browserCode%3D%3DIE&testmode=1&pid=e517450ff87813ef3b86a502f8e864d00e86570c4a62df480ab1e2c7d3e6233ca2de3e34d74a5f4601857ba97241fa7469ad0' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/e517450ff87813ef3b86a502f8e864d00e86570c4a62df480ab1e2c7d3e6233ca2de3e34d74a5f4601857ba97241fa7469ad0.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:46:31] Archived website id = 1, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 3.438s
-INFO CoreConsole[2014-09-09 01:46:31] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-DEBUG CoreConsole[2014-09-09 01:46:31] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=week&date=last260&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=064eca2df6d0757ed6c729255a072f39dddcfb7132eede4fb060f3c000aaf06abc5b8d1e6a1d7f5a75191665e2ee17322fff0' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/064eca2df6d0757ed6c729255a072f39dddcfb7132eede4fb060f3c000aaf06abc5b8d1e6a1d7f5a75191665e2ee17322fff0.output 2>&1 &
-DEBUG CoreConsole[2014-09-09 01:46:31] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=week&date=last260&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&segment=browserCode%3D%3DIE&testmode=1&pid=05b992fcb7f031578d525e2a1f4f50c50ac40c0ca149c7c17243a57a96530a80c0d774430ed783c3bcb4ef9f1fc78b6054ce1' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/05b992fcb7f031578d525e2a1f4f50c50ac40c0ca149c7c17243a57a96530a80c0d774430ed783c3bcb4ef9f1fc78b6054ce1.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:46:50] Archived website id = 1, period = week, 40 visits in last last260 weeks, 0 visits this week, Time elapsed: 19.207s
-INFO CoreConsole[2014-09-09 01:46:50] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-DEBUG CoreConsole[2014-09-09 01:46:50] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=month&date=last52&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=b97b6610e36a1879beef58fa96cbbdb3fd16e27953fea563b080df5ec743f899de9cd189e99a522132b1affa42b39c368c830' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/b97b6610e36a1879beef58fa96cbbdb3fd16e27953fea563b080df5ec743f899de9cd189e99a522132b1affa42b39c368c830.output 2>&1 &
-DEBUG CoreConsole[2014-09-09 01:46:50] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=month&date=last52&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&segment=browserCode%3D%3DIE&testmode=1&pid=9943bef019811f952ac8a2913efa0bf4c49862a24c78cbcda994890313db0cb693ce980e0ec5002f9d0501eb6df6218b370c1' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/9943bef019811f952ac8a2913efa0bf4c49862a24c78cbcda994890313db0cb693ce980e0ec5002f9d0501eb6df6218b370c1.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:47:01] Archived website id = 1, period = month, 40 visits in last last52 months, 0 visits this month, Time elapsed: 10.722s
-INFO CoreConsole[2014-09-09 01:47:01] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-DEBUG CoreConsole[2014-09-09 01:47:01] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=year&date=last7&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=773203159cb45b3702e6807c378c811f789b41f466570dec02f1558cb23d6eb7cb2163a52046dd2827ef68bed432b61818340' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/773203159cb45b3702e6807c378c811f789b41f466570dec02f1558cb23d6eb7cb2163a52046dd2827ef68bed432b61818340.output 2>&1 &
-DEBUG CoreConsole[2014-09-09 01:47:01] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=1&period=year&date=last7&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&segment=browserCode%3D%3DIE&testmode=1&pid=63ed9ebfc2372a39e2c3111dd73fbfb529d5db843e728c09afdf8cf78f32983dabe42cbba513af309f04ae5e2ef664eada8a1' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/63ed9ebfc2372a39e2c3111dd73fbfb529d5db843e728c09afdf8cf78f32983dabe42cbba513af309f04ae5e2ef664eada8a1.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:47:03] Archived website id = 1, period = year, 40 visits in last last7 years, 12 visits this year, Time elapsed: 2.326s
-INFO CoreConsole[2014-09-09 01:47:03] Archived website id = 1, 8 API requests, Time elapsed: 35.697s [1/2 done]
-DEBUG CoreConsole[2014-09-09 01:47:03] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=2&period=day&date=last52&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=db38d41d3398b809310cc0d63ba1d3ee0d4726acaaea720b3412a9e5fa6311d88c6752611e6104270c047e0ecebed37db2fc0' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/db38d41d3398b809310cc0d63ba1d3ee0d4726acaaea720b3412a9e5fa6311d88c6752611e6104270c047e0ecebed37db2fc0.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:47:05] Archived website id = 2, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 1.618s
-DEBUG CoreConsole[2014-09-09 01:47:05] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=2&period=week&date=last260&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=e1d0a7846bb142eded2edc12020f04b70b85023db70ea1b590d8e0f955277003fa45b8bff24756e6db5154e9bc3cbd2777700' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/e1d0a7846bb142eded2edc12020f04b70b85023db70ea1b590d8e0f955277003fa45b8bff24756e6db5154e9bc3cbd2777700.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:47:18] Archived website id = 2, period = week, 1 visits in last last260 weeks, 0 visits this week, Time elapsed: 13.418s
-DEBUG CoreConsole[2014-09-09 01:47:18] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=2&period=month&date=last52&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=81840a421ef9c17763c65ef8c899601470ae84add7097344023dc8876451749d42fbf4ea653a5498f8bd8358032bdc7a28f10' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/81840a421ef9c17763c65ef8c899601470ae84add7097344023dc8876451749d42fbf4ea653a5498f8bd8358032bdc7a28f10.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:47:25] Archived website id = 2, period = month, 1 visits in last last52 months, 0 visits this month, Time elapsed: 6.115s
-DEBUG CoreConsole[2014-09-09 01:47:25] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=API.get&idSite=2&period=year&date=last7&format=php&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=087c4f9970b4fedb2cd40f0fe1b5da80c76b8a64e63cd7e7a93885147dc86e67b0b0f79ab52cd1769e2d6634b59ce1ffa56f0' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/087c4f9970b4fedb2cd40f0fe1b5da80c76b8a64e63cd7e7a93885147dc86e67b0b0f79ab52cd1769e2d6634b59ce1ffa56f0.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:47:26] Archived website id = 2, period = year, 1 visits in last last7 years, 0 visits this year, Time elapsed: 1.373s
-INFO CoreConsole[2014-09-09 01:47:26] Archived website id = 2, 4 API requests, Time elapsed: 22.528s [2/2 done]
-INFO CoreConsole[2014-09-09 01:47:26] Done archiving!
-INFO CoreConsole[2014-09-09 01:47:26] ---------------------------
-INFO CoreConsole[2014-09-09 01:47:26] SUMMARY
-INFO CoreConsole[2014-09-09 01:47:26] Total visits for today across archived websites: 0
-INFO CoreConsole[2014-09-09 01:47:26] Archived today's reports for 2 websites
-INFO CoreConsole[2014-09-09 01:47:26] Archived week/month/year for 2 websites
-INFO CoreConsole[2014-09-09 01:47:26] Skipped 0 websites: no new visit since the last script execution
-INFO CoreConsole[2014-09-09 01:47:26] Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
-INFO CoreConsole[2014-09-09 01:47:26] Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
-INFO CoreConsole[2014-09-09 01:47:26] Total API requests: 12
-INFO CoreConsole[2014-09-09 01:47:26] done: 2/2 100%, 0 vtoday, 2 wtoday, 2 wperiods, 12 req, 58327 ms, no error
-INFO CoreConsole[2014-09-09 01:47:26] Time elapsed: 58.328s
-INFO CoreConsole[2014-09-09 01:47:26] ---------------------------
-INFO CoreConsole[2014-09-09 01:47:26] SCHEDULED TASKS
-INFO CoreConsole[2014-09-09 01:47:26] Starting Scheduled tasks...
-DEBUG CoreConsole[2014-09-09 01:47:26] /home/travis/.phpenv/versions/5.6.0/bin/php -q /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console climulti:request --piwik-domain='localhost' 'module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=9ad1de7f8b329ab919d854c556f860c1&trigger=archivephp&testmode=1&pid=334d2f79cda2d2f08e0357c080f38cf6fe90f1248ebb91af3cea79e4593d1c4feff96328b77d32ce1fe9cfcd6e434b11dca50' > /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//tmp/climulti/334d2f79cda2d2f08e0357c080f38cf6fe90f1248ebb91af3cea79e4593d1c4feff96328b77d32ce1fe9cfcd6e434b11dca50.output 2>&1 &
-INFO CoreConsole[2014-09-09 01:47:26] No task to run
-INFO CoreConsole[2014-09-09 01:47:26] done
-INFO CoreConsole[2014-09-09 01:47:26] ---------------------------

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIPlugins;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
@@ -177,7 +178,7 @@ class MobileMessaging extends \Piwik\Plugin
     }
 
     public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
-                               $additionalFiles)
+                               $additionalFiles, Period $period = null, $force)
     {
         if (self::manageEvent($reportType)) {
             $parameters = $report['parameters'];

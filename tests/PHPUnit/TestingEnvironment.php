@@ -88,7 +88,7 @@ class Piwik_TestingEnvironment
             if (isset($_SERVER['QUERY_STRING'])
                 && !$this->dontUseTestConfig
             ) {
-                \Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+                @\Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
             }
         } catch (Exception $ex) {
             // ignore

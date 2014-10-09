@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Commands;
 
+use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreUpdater\Controller;
 use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
@@ -35,6 +36,8 @@ class Update extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->executeClearCaches();
+
         $doDryRun = (bool) $input->getOption('dry-run');
 
         try {
@@ -52,6 +55,11 @@ class Update extends ConsoleCommand
             $output->writeln("<error>" . $e->getMessage() . "</error>");
             throw $e;
         }
+    }
+
+    protected function executeClearCaches()
+    {
+        Filesystem::deleteAllCacheOnUpdate();
     }
 
     protected function makeUpdate(InputInterface $input, OutputInterface $output, $doDryRun)

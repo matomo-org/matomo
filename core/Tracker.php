@@ -452,6 +452,7 @@ class Tracker
             }
             Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
+            die(1);
             exit;
         }
 
@@ -468,8 +469,9 @@ class Tracker
             Common::sendHeader('Content-Type: text/html; charset=utf-8');
             echo $this->getMessageFromException($e);
         } else {
-            $this->outputTransparentGif ();
+            $this->outputTransparentGif();
         }
+        die(1);
         exit;
     }
 

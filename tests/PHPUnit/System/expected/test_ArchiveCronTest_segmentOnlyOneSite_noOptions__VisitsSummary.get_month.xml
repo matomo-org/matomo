@@ -2,6 +2,7 @@
 <results>
 	<result idSite="1">
 		<nb_uniq_visitors>6</nb_uniq_visitors>
+		<nb_users>0</nb_users>
 		<nb_visits>6</nb_visits>
 		<nb_actions>6</nb_actions>
 		<nb_visits_converted>6</nb_visits_converted>

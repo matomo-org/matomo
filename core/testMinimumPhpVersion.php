@@ -15,8 +15,8 @@
 
 $piwik_errorMessage = '';
 
-// Minimum requirement: stream_resolve_include_path in 5.3.2, namespaces in 5.3
-$piwik_minimumPHPVersion = '5.3.2';
+// Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
+$piwik_minimumPHPVersion = '5.3.3';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {

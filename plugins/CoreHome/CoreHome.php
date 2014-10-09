@@ -153,6 +153,9 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -243,7 +246,9 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Default';
         $translationKeys[] = 'General_LoadingData';
         $translationKeys[] = 'General_ErrorRequest';
+        $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
+        $translationKeys[] = 'General_LearnMore';
     }
 }

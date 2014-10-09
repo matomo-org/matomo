@@ -77,22 +77,38 @@ class API extends \Piwik\Plugin\API
     protected function checkAutoArchive($autoArchive, $idSite)
     {
         $autoArchive = (int)$autoArchive;
-        if ($autoArchive) {
-            $exception = new Exception(
-                "Please contact Support to make these changes on your behalf. ".
-                " To update (or create) a pre-processed segment, a user must have admin access or super user access. "
-            );
-
-            if (empty($idSite)) {
-                if (!Piwik::hasUserSuperUserAccess()) {
-                    throw $exception;
-                }
-            } else {
-                if (!Piwik::isUserHasAdminAccess($idSite)) {
-                    throw $exception;
-                }
-            }
+        if (!$autoArchive) {
+            return $autoArchive;
         }
+
+        $exception = new Exception(
+            "Please contact Support to make these changes on your behalf. ".
+            " To modify a pre-processed segment, a user must have admin access or super user access. "
+        );
+
+        // Segment 'All websites' and pre-processed requires Super User
+        if (empty($idSite)) {
+            if (!Piwik::hasUserSuperUserAccess()) {
+                throw $exception;
+            }
+            return $autoArchive;
+        }
+
+        // if real-time segments are disabled, then allow user to create pre-processed report
+        $realTimeSegmentsDisabled = !Config::getInstance()->General['enable_create_realtime_segments'];
+        if($realTimeSegmentsDisabled) {
+            // User is at least view
+            if(!Piwik::isUserHasViewAccess($idSite)) {
+                throw $exception;
+            }
+            return $autoArchive;
+        }
+
+        // pre-processed segment for a given website requires admin access
+        if(!Piwik::isUserHasAdminAccess($idSite)) {
+            throw $exception;
+        }
+
         return $autoArchive;
     }
 

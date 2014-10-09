@@ -100,8 +100,8 @@ git commit -m'' # WRITE A COMMIT MESSAGE
 git push
 cd ..
 git add UI
-git commit -m'' #WRITE A COMMIT MESSAGE
 git pull
+git commit -m'' #WRITE A COMMIT MESSAGE
 git push";
         $output->writeln($commands);
     }
