@@ -21,16 +21,17 @@ class FrontControllerTest extends PHPUnit_Framework_TestCase
     {
         $header = $this->getResponseHeader($url);
 
-        $this->assertContains('Location: http://localhost:8000/' . $redirection, $header);
+        if ($redirection) {
+            $this->assertContains('Location: http://localhost:8000/' . $redirection, $header);
+        } else {
+            $this->assertNotContains('Location: ', $header);
+        }
     }
 
     public function malformedUrlsProvider()
     {
         return array(
-            array(
-                'index.php/.html',
-                'index.php',
-            ),
+            array('index.php/.html', 'index.php'),
             array(
                 'index.php/.html?module=CoreHome&action=index&idSite=1&period=day&date=yesterday',
                 'index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday',
@@ -39,6 +40,10 @@ class FrontControllerTest extends PHPUnit_Framework_TestCase
                 'index.php/.html/.html?module=CoreHome&action=index&idSite=1&period=day&date=yesterday',
                 'index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday',
             ),
+            // Correct urls
+            array('', false),
+            array('index.php', false),
+            array('index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday', false),
         );
     }
 
