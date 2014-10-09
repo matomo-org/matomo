@@ -338,6 +338,7 @@ class Request
         }
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
             Common::printDebug(sprintf("Datetime %s is not valid", date("Y-m-d H:i:m", $cdt)));
+            // TODO: should throw here
             return false;
         }
 
@@ -346,18 +347,13 @@ class Request
         $isTimestampRecent = $timeFromNow < self::CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN;
         if (!$isTimestampRecent) {
             Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
-            $this->checkUserIsAuthenticated();
+            if(!$this->isAuthenticated()) {
+                Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
+                return false;
+            }
         }
         return $cdt;
     }
-
-    private function checkUserIsAuthenticated()
-    {
-        if (!$this->isAuthenticated()) {
-            throw new Exception("You must specify a valid &token_auth= parameter in order to use the &cip= parameter and/or the &cdt= parameter (when setting cdt to a datatime older than a few hours).");
-        }
-    }
-
 
     /**
      * Returns true if the timestamp is valid ie. timestamp is sometime in the last 10 years and is not in the future.
@@ -644,11 +640,15 @@ class Request
     private function getIpString()
     {
         $cip = $this->getParam('cip');
-        if (empty($cip)) {
+
+        if(empty($cip)) {
             return IP::getIpFromHeader();
         }
 
-        $this->checkUserIsAuthenticated();
+        if(!$this->isAuthenticated()) {
+            Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
+            return IP::getIpFromHeader();
+        }
         return $cip;
     }
 }
