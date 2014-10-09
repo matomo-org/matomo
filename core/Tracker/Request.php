@@ -338,7 +338,6 @@ class Request
         }
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
             Common::printDebug(sprintf("Datetime %s is not valid", date("Y-m-d H:i:m", $cdt)));
-            // TODO: should throw here
             return false;
         }
 
