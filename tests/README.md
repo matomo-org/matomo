@@ -91,10 +91,10 @@ it tests only a single method or class. Sometimes two or three classes can still
   "Slow" is of course very objective and also depends on the server but if your test does not have any dependencies
 your test will be really fast.
 
-It is an integration test if you have a dependency to a loaded plugin, to the filesystem, web, config, database or something
+It is an integration test if you have any dependency to a loaded plugin, to the filesystem, web, config, database or something
 similar. It is an integration test if you test multiple classes in one test.
 
-It is a system test if you - for instance - make a call to your Piwik via HTTP and the whole system is being tested.
+It is a system test if you - for instance - make a call to Piwik itself via HTTP or CLI and the whole system is being tested.
 
 ### Why do we split tests in unit, integration, system and ui folders?
 Because they fail for different reasons and the duration of the test execution is different. This allows us to execute
