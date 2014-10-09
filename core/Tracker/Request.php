@@ -322,6 +322,15 @@ class Request
         return $this->timestamp;
     }
 
+    public function getCustomTimestamp()
+    {
+        $cdt = $this->getParam('cdt');
+        if (!is_numeric($cdt)) {
+            $cdt = strtotime($cdt);
+        }
+        return $cdt;
+    }
+
     protected function isTimestampValid($time)
     {
         return $time <= $this->getCurrentTimestamp()
@@ -521,31 +530,18 @@ class Request
 
     public function getIp()
     {
-        if (!empty($this->enforcedIp)) {
-            $ipString = $this->enforcedIp;
+        $cip = $this->getParam('cip');
+        if(!empty($cip)) {
+            if (!$this->isAuthenticated()) {
+                throw new Exception("You must specify token_auth parameter to use the 'cip' parameter.");
+            }
+            $ipString = $cip;
         } else {
             $ipString = IP::getIpFromHeader();
         }
 
         $ip = IP::P2N($ipString);
         return $ip;
-    }
-
-    public function setForceIp($ip)
-    {
-        if (!empty($ip)) {
-            $this->enforcedIp = $ip;
-        }
-    }
-
-    public function setForceDateTime($dateTime)
-    {
-        if (!is_numeric($dateTime)) {
-            $dateTime = strtotime($dateTime);
-        }
-        if (!empty($dateTime)) {
-            $this->timestamp = $dateTime;
-        }
     }
 
     public function getForcedUserId()
