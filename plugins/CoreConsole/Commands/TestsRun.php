@@ -89,6 +89,10 @@ class TestsRun extends ConsoleCommand
 
     private function executeTestFile($testFile, $options, $command, OutputInterface $output)
     {
+        if ('/' !== substr($testFile, 0, 1)) {
+            $testFile = '../../' . $testFile;
+        }
+
         $params = $options . " " . $testFile;
         $cmd = $this->getCommand($command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
