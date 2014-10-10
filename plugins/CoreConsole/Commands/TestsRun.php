@@ -104,9 +104,8 @@ class TestsRun extends ConsoleCommand
     {
         if (empty($suite) && empty($groups)) {
             foreach ($this->getTestsSuites() as $suite) {
-                if (Common::stringEndsWith($suite, 'Tests')) {
-                    $this->executeTestGroups($suite, $groups, $options, $command, $output);
-                }
+                $suite = $this->buildTestSuiteName($suite);
+                $this->executeTestGroups($suite, $groups, $options, $command, $output);
             }
 
             return;
@@ -121,7 +120,7 @@ class TestsRun extends ConsoleCommand
 
     private function getTestsSuites()
     {
-        return array('unit', 'UnitTests', 'integration', 'IntegrationTests', 'system', 'SystemTests');
+        return array('unit', 'integration', 'system');
     }
 
     /**
@@ -165,20 +164,19 @@ class TestsRun extends ConsoleCommand
             return;
         }
 
-        $suite = ucfirst($suite);
-
-        if (Common::stringEndsWith($suite, 'tests')) {
-            $suite = str_replace('tests', 'Tests', $suite);
-        } elseif (strpos($suite, 'Tests') === false) {
-            $suite = $suite . 'Tests';
-        }
-
         $availableSuites = $this->getTestsSuites();
 
         if (!in_array($suite, $availableSuites)) {
             throw new \InvalidArgumentException('Invalid testsuite specified. Use one of: ' . implode(', ', $availableSuites));
         }
 
+        $suite = $this->buildTestSuiteName($suite);
+
         return $suite;
+    }
+
+    private function buildTestSuiteName($suite)
+    {
+        return ucfirst($suite) . 'Tests';
     }
 }

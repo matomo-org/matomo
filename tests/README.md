@@ -70,14 +70,21 @@ To execute the tests:
 
 4. 	Run the tests
 
-	$ cd /path/to/piwik/tests/PHPUnit
-	$ phpunit --testsuite UnitTests
-    $ phpunit --testsuite IntegrationTests
-    $ phpunit --testsuite SystemTests
+	$ cd /path/to/piwik
+	$ ./console tests:run --testsuite unit
+    $ ./console tests:run --testsuite integration
+    $ ./console tests:run --testsuite system
 
-	There are also two main groups of tests: Core and Plugins
-	For example run `phpunit --group Core`
-	to run all Core Piwik tests.
+	There are also two main groups of tests: core and plugins
+	For example run `./console tests:run core` to run all Core Piwik tests.
+
+	You can combine testsuite and groups like this:
+	`./console tests:run --testsuite unit core`. This would run all unit tests in core.
+	`./console tests:run --testsuite integration CustomAlerts`. This would run all integration tests of the CustomAlerts plugin.
+	`./console tests:run CustomAlerts`. This would run all unit, integration and system tests of the CustomAlerts plugin. (group only)
+
+	To execute multiple groups you can separate them via a comma:
+	`./console tests:run CustomAlerts,Insights`. This would run all unit, integration and system tests of the CustomAlerts and Insights plugin.
 
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)

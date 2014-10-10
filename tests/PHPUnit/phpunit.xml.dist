@@ -39,8 +39,6 @@
         <exclude>../../plugins/*/Test/Integration</exclude>
         <exclude>../../plugins/*/tests/Unit</exclude>
         <exclude>../../plugins/*/Test/Unit</exclude>
-        <exclude>../../plugins/*/tests/UI</exclude>
-        <exclude>../../plugins/*/Test/UI</exclude>
     </testsuite>
     <testsuite name="IntegrationTests">
         <directory>./Integration</directory>

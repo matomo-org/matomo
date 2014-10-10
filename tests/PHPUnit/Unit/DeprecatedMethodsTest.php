@@ -30,7 +30,7 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
         $validTill = '2014-10-20';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\SettingsPiwik', 'rewriteTmpPathWithHostname', $validTill);
 
-        $validTill = '2014-12-06';
+        $validTill = '2015-02-06';
         $this->assertDeprecatedClassIsRemoved('\IntegrationTestCase', $validTill);
         $this->assertDeprecatedClassIsRemoved('\DatabaseTestCase', $validTill);
         $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\Fixture', $validTill);
