@@ -54,7 +54,7 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchLatestZip()
     {
         $destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
-        Http::fetchRemoteFile(Fixture::getRootUrl() . 'tests/PHPUnit/Unit/Http/fixture.zip', $destinationPath, 3, 30);
+        Http::fetchRemoteFile(Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/fixture.zip', $destinationPath, 3, 30);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
     }
@@ -100,7 +100,7 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
 
         $result = Http::sendHttpRequestBy(
             $method,
-            Fixture::getRootUrl() . 'tests/PHPUnit/Unit/Http/fixture.zip',
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/fixture.zip',
             30,
             $userAgent = null,
             $destinationPath = null,
