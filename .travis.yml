@@ -43,19 +43,19 @@ matrix:
     - php: hhvm
     - php: 5.6
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Core
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Sytem
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Plugins
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
   include:
     # Code Coverage
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Core
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Sytem
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Plugins
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
   exclude:
     # Javascript tests need to run only on one PHP version
     - php: 5.4

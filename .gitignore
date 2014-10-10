@@ -2,7 +2,6 @@ php_errors.log
 *.tmp
 *.pyc
 .DS_Store
-processed/*xml
 
 /bootstrap.php
 /build
@@ -22,6 +21,7 @@ processed/*xml
 /plugins/*.zip
 /plugins/ImageGraph/fonts/unifont.ttf
 /plugins/ImageGraph/fonts/unifont.ttf.zip
+/plugins/*/tests/System/processed
 /robots.txt
 /tmp/
 /vendor/
