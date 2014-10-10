@@ -7,7 +7,7 @@
  */
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Reusable fixture. Tracks twelve thousand page views for 1000 sites on one day.

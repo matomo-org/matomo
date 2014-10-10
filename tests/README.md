@@ -1,4 +1,4 @@
-Piwik comes with unit tests, integration tests, Javascript tests and Webtests.
+Piwik comes with unit tests, integration tests, system tests, Javascript tests and UI tests.
 This document briefly describes how to use and modify Piwik tests.
 
 ## Continuous Integration
@@ -70,31 +70,64 @@ To execute the tests:
 
 4. 	Run the tests
 
-	$ cd /path/to/piwik/tests/PHPUnit
-	$ phpunit --group Core
-     	$ phpunit --group Plugins
-     	$ phpunit --group Integration
+	$ cd /path/to/piwik
+	$ ./console tests:run --testsuite unit
+    $ ./console tests:run --testsuite integration
+    $ ./console tests:run --testsuite system
 
-	There are three main groups of tests: Core, Plugins and Integration
-	For example run `phpunit --group Core`
-	to run all Core Piwik tests.
+	There are also two main groups of tests: core and plugins
+	For example run `./console tests:run core` to run all Core Piwik tests.
+
+	You can combine testsuite and groups like this:
+	`./console tests:run --testsuite unit core`. This would run all unit tests in core.
+	`./console tests:run --testsuite integration CustomAlerts`. This would run all integration tests of the CustomAlerts plugin.
+	`./console tests:run CustomAlerts`. This would run all unit, integration and system tests of the CustomAlerts plugin. (group only)
+
+	To execute multiple groups you can separate them via a comma:
+	`./console tests:run CustomAlerts,Insights`. This would run all unit, integration and system tests of the CustomAlerts and Insights plugin.
 
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
-## Integration Tests
+## How to differentiate between unit, integration or system tests?
+This can be sometimes hard to decide and often leads to discussions. We consider a test as a unit test when
+it tests only a single method or class. Sometimes two or three classes can still be considered as a Unit for instance if
+ you have to pass a dummy class or something similar but it should actually only test one class or method.
+  If it has a dependency to the filesystem, web, config, database or to other plugins it is not a unit test but an
+  integration test. If the test is slow it is most likely not a unit test but an integration test as well.
+  "Slow" is of course very objective and also depends on the server but if your test does not have any dependencies
+your test will be really fast.
 
-Integration tests files are in `tests/PHPUnit/Integration/*Test.php`
+It is an integration test if you have any dependency to a loaded plugin, to the filesystem, web, config, database or something
+similar. It is an integration test if you test multiple classes in one test.
 
-Integration tests allow to test how major Piwik components interact together.
+It is a system test if you - for instance - make a call to Piwik itself via HTTP or CLI and the whole system is being tested.
+
+### Why do we split tests in unit, integration, system and ui folders?
+Because they fail for different reasons and the duration of the test execution is different. This allows us to execute
+all unit tests and get a result very quick. Unit tests should not fail on different systems and just run everywhere for
+ example no matter whether you are using NFS or not. Once the unit tests are green one would usually execute all integration
+ tests to see whether the next stage works. They take a bit longer as they have depenencies to the database and filesystem.
+ The system and ui tests take the most time to run as they always run through the whole code.
+
+Another advantage of running the tests separately is that we are getting a more accurate code coverage. For instance when
+running the unit tests we will get the true code coverage as they always only test one class or method. Integration tests
+usually run through a lot of code but often actually only one method is supposed to be tested. Although many methods are
+not tested they would be still marked as tested when running integration tests.
+
+## System Tests
+
+System tests files are in `tests/PHPUnit/System/*Test.php`
+
+System tests allow to test how major Piwik components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
 and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
 If a test fails, you can compare the processed/ and expected/ directories in a graphical
 text compare tool, such as WinMerge on Win, or MELD on Linux, to easily view changes between files.
 
 For example using Meld, click on "Start new comparison", "Directory comparison",
-in "Original" select "path/to/piwik/tests/PHPUnit/Integration/expected"
-in "Mine" select "path/to/piwik/tests/PHPUnit/Integration/processed"
+in "Original" select "path/to/piwik/tests/PHPUnit/System/expected"
+in "Mine" select "path/to/piwik/tests/PHPUnit/System/processed"
 
 If changes are expected due to the code changes you make, simply copy the file from processed/ to
 expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
@@ -102,10 +135,10 @@ Otherwise, if you didn't expect to modify the API outputs, it might be that your
 
 ### Scheduled Reports Tests
 
-As part of our integration tests we generate the scheduled reports (in HTML, PDF & SMS).
+As part of our system tests we generate the scheduled reports (in HTML, PDF & SMS).
 Some of these scheduled reports contain PNG graphs. Depending on the system under test, generated images can differ.
 Therefore, PNG graphs are only tested and compared against "expected" graphs, if the system under test has the same characteristics as the integration server.
-The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
+The characteristics of the integration server are described in `SystemTestCase::canImagesBeIncludedInScheduledReports()`
 
 ### Running tests on Ubuntu
 

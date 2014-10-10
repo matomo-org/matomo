@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Common;
 use Piwik\Profiler;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,20 +25,20 @@ class TestsRun extends ConsoleCommand
     protected function configure()
     {
         $this->setName('tests:run');
-        $this->setDescription('Run Piwik PHPUnit tests one group after the other');
-        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,integration', '');
+        $this->setDescription('Run Piwik PHPUnit tests one testsuite after the other');
+        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
         $this->addOption('file', null, InputOption::VALUE_REQUIRED, 'Execute tests within this file. Should be a path relative to the tests/PHPUnit directory.');
+        $this->addOption('testsuite', null, InputOption::VALUE_REQUIRED, 'Execute tests of a specific test suite, for instance UnitTests, IntegrationTests or SystemTests.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $options = $input->getOption('options');
-        $groups = $input->getArgument('group');
+        $groups  = $input->getArgument('group');
 
         $groups = explode(",", $groups);
-        $groups = array_map('ucfirst', $groups);
         $groups = array_filter($groups, 'strlen');
 
         $command = '../../vendor/phpunit/phpunit/phpunit';
@@ -81,12 +82,17 @@ class TestsRun extends ConsoleCommand
         if (!empty($testFile)) {
             $this->executeTestFile($testFile, $options, $command, $output);
         } else {
-            $this->executeTestGroups($groups, $options, $command, $output);
+            $suite = $this->getTestsuite($input);
+            $this->executeTestGroups($suite, $groups, $options, $command, $output);
         }
     }
 
     private function executeTestFile($testFile, $options, $command, OutputInterface $output)
     {
+        if ('/' !== substr($testFile, 0, 1)) {
+            $testFile = '../../' . $testFile;
+        }
+
         $params = $options . " " . $testFile;
         $cmd = $this->getCommand($command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
@@ -94,24 +100,27 @@ class TestsRun extends ConsoleCommand
         $output->writeln("");
     }
 
-    private function executeTestGroups($groups, $options, $command, OutputInterface $output)
+    private function executeTestGroups($suite, $groups, $options, $command, OutputInterface $output)
     {
-        if (empty($groups)) {
-            $groups = $this->getTestsGroups();
+        if (empty($suite) && empty($groups)) {
+            foreach ($this->getTestsSuites() as $suite) {
+                $suite = $this->buildTestSuiteName($suite);
+                $this->executeTestGroups($suite, $groups, $options, $command, $output);
+            }
+
+            return;
         }
 
-        foreach ($groups as $group) {
-            $params = '--group ' . $group . ' ' . str_replace('%group%', $group, $options);
-            $cmd = $this->getCommand($command, $params);
-            $output->writeln('Executing command: <info>' . $cmd . '</info>');
-            passthru($cmd);
-            $output->writeln("");
-        }
+        $params = $this->buildPhpUnitCliParams($suite, $groups, $options);
+        $cmd    = $this->getCommand($command, $params);
+        $output->writeln('Executing command: <info>' . $cmd . '</info>');
+        passthru($cmd);
+        $output->writeln("");
     }
 
-    private function getTestsGroups()
+    private function getTestsSuites()
     {
-        return array('Core', 'Plugins', 'Integration', 'UI');
+        return array('unit', 'integration', 'system');
     }
 
     /**
@@ -121,7 +130,53 @@ class TestsRun extends ConsoleCommand
      */
     private function getCommand($command, $params)
     {
-        $cmd = sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
-        return $cmd;
+        return sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
+    }
+
+    private function buildPhpUnitCliParams($suite, $groups, $options)
+    {
+        $params = $options;
+
+        if (!empty($groups)) {
+            $groups  = implode(',', $groups);
+            $params .= '--group ' . $groups . ' ';
+        } else {
+            $groups  = '';
+        }
+
+        if (!empty($suite)) {
+            $params .= ' --testsuite ' . $suite;
+        } else {
+            $suite = '';
+        }
+
+        $params = str_replace('%suite%', $suite, $params);
+        $params = str_replace('%group%', $groups, $params);
+
+        return $params;
+    }
+
+    private function getTestsuite(InputInterface $input)
+    {
+        $suite = $input->getOption('testsuite');
+
+        if (empty($suite)) {
+            return;
+        }
+
+        $availableSuites = $this->getTestsSuites();
+
+        if (!in_array($suite, $availableSuites)) {
+            throw new \InvalidArgumentException('Invalid testsuite specified. Use one of: ' . implode(', ', $availableSuites));
+        }
+
+        $suite = $this->buildTestSuiteName($suite);
+
+        return $suite;
+    }
+
+    private function buildTestSuiteName($suite)
+    {
+        return ucfirst($suite) . 'Tests';
     }
 }

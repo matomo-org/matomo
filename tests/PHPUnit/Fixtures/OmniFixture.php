@@ -12,7 +12,7 @@ use Piwik\Access;
 use Piwik\Option;
 use ReflectionClass;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 use Piwik\Tests\OverrideLogin;
 
 /**

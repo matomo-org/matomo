@@ -8,7 +8,7 @@ env:
     - PRESERVED_VAR=123
     - secure: anotherpreservedvar
   matrix:
-    - TEST_SUITE=CoreTests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
 
 script: ./travis.sh

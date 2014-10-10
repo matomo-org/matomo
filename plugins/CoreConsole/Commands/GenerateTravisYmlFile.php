@@ -44,7 +44,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $targetPlugin = $input->getOption('plugin');
+        $targetPlugin  = $input->getOption('plugin');
         $outputYmlPath = $this->getTravisYmlOutputPath($input, $targetPlugin);
 
         $view = $this->createTravisYmlView($input, $output, $targetPlugin, $outputYmlPath);

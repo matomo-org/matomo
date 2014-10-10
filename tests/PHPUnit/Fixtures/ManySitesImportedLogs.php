@@ -12,7 +12,7 @@ use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 use Piwik\Tests\OverrideLogin;
 
 /**

@@ -70,6 +70,15 @@ class StaticCache
     }
 
     /**
+     * Reset the stored content of the current cache key.
+     * @ignore
+     */
+    public static function clearAll()
+    {
+        self::$staticCache = array();
+    }
+
+    /**
      * Set (overwrite) any content related to the current set cache key.
      * @param $content
      */

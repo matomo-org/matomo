@@ -36,7 +36,7 @@ To fix a broken build, follow these steps:
        (If the screenshot test is for a plugin and not Piwik Core, the expected screenshot should be added to the
        plugin's expected screenshot directory. For example: piwik/plugins/DBStats/tests/UI/expected-ui-screenshots.)
 
-     _Note: When determining whether a screenshot is correct, the data displayed is not important. Report data correctness is verified through Integration and other PHP tests. The UI tests should only test UI behavior._
+     _Note: When determining whether a screenshot is correct, the data displayed is not important. Report data correctness is verified through System and other PHP tests. The UI tests should only test UI behavior._
  * Push the changes (to your code and/or to the expected-ui-screenshots directory.
  * Wait for next UI Tests build [on travis](https://travis-ci.org/piwik/piwik-ui-tests). Hopefully, the build should be green!
 

@@ -12,7 +12,7 @@ class MockLocationProvider extends LocationProvider
 {
     public static $locations = array();
     private $currentLocation = 0;
-    private $ipToLocations = array();
+    private $ipToLocations   = array();
 
     public function getLocation($info)
     {
@@ -26,7 +26,9 @@ class MockLocationProvider extends LocationProvider
 
             $this->ipToLocations[$ip] = $result;
         }
+
         $this->completeLocationResult($result);
+
         return $result;
     }
 
