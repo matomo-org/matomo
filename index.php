@@ -40,7 +40,7 @@ require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
     : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
 
 if(!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
-    define('PIWIK_PRINT_ERROR_BACKTRACE', false);
+    define('PIWIK_PRINT_ERROR_BACKTRACE', true);
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/dispatch.php';
