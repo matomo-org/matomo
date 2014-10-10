@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\System;
+
 use Piwik\Tests\Fixture;
 
 /**
- * @group FrontControllerTest
+ * @group System
  */
-class FrontControllerTest extends PHPUnit_Framework_TestCase
+class FrontControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @group Core
      * @dataProvider malformedUrlsProvider
      */
     public function testMalformedUrlRedirection($url, $redirection)
@@ -31,6 +32,11 @@ class FrontControllerTest extends PHPUnit_Framework_TestCase
     public function malformedUrlsProvider()
     {
         return array(
+            // Correct urls
+            array('', false),
+            array('index.php', false),
+            array('index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday', false),
+            // These urls may cause XSS vulnerabilities in old browsers
             array('index.php/.html', 'index.php'),
             array(
                 'index.php/.html?module=CoreHome&action=index&idSite=1&period=day&date=yesterday',
@@ -40,10 +46,6 @@ class FrontControllerTest extends PHPUnit_Framework_TestCase
                 'index.php/.html/.html?module=CoreHome&action=index&idSite=1&period=day&date=yesterday',
                 'index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday',
             ),
-            // Correct urls
-            array('', false),
-            array('index.php', false),
-            array('index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday', false),
         );
     }
 
