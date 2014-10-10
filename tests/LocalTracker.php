@@ -45,8 +45,6 @@ class Piwik_LocalTracker extends PiwikTracker
 
         // unset cached values
         Cache::$trackerCache = null;
-        Tracker::setForceIp(null);
-        Tracker::setForceDateTime(null);
 
         // save some values
         $plugins = Config::getInstance()->Plugins['Plugins'];

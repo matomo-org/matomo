@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Insights\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Adds one website and tracks several visits from one visitor on

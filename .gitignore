@@ -36,7 +36,7 @@ php_errors.log
 /tests/javascript/unittest2.dbf
 /tests/lib/geoip-files/*.dat*
 /tests/lib/xhprof*
-/tests/PHPUnit/Integration/processed/
+/tests/PHPUnit/System/processed/
 /tests/PHPUnit/phpunit.xml
 /tests/results/
 /.htaccess

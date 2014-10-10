@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\UserSettings\tests\Fixtures;
 
 
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 use Piwik\Date;
 use Piwik\Common;
 
@@ -54,6 +54,7 @@ class LanguageFixture extends Fixture
             $this->dateTime,
             $defaultInit = false
         );
+        $tracker->setTokenAuth(self::getTokenAuth());
 
         $hour = 1;
         foreach ($this->getBrowserLangs() as $browserLang) {

@@ -190,9 +190,14 @@ class Model
         );
     }
 
+    /**
+     * Note that this returns the token_auth which is as private as the password!
+     *
+     * @return returns login, email and token_auth
+     */
     public function getUsersHavingSuperUserAccess()
     {
-        $users = $this->getDb()->fetchAll("SELECT login, email
+        $users = $this->getDb()->fetchAll("SELECT login, email, token_auth
                                            FROM " . Common::prefixTable("user") . "
                                            WHERE superuser_access = 1
                                            ORDER BY date_registered ASC");

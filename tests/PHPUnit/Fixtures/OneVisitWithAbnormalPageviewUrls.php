@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Adds one site and tracks one visit w/ pageview URLs that are not normalized.
@@ -41,7 +41,7 @@ class OneVisitWithAbnormalPageviewUrls extends Fixture
     {
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         $t->setUrlReferrer('http://www.google.com/search?q=piwik');
         $t->setUrl('http://example.org/foo/bar.html');

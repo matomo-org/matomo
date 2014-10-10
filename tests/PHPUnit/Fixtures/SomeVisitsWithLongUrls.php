@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Adds one site and tracks 7 visits w/ some long-ish urls (as page urls and

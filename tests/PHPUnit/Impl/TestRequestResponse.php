@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Impl;
 
 use Piwik\API\Request;
-use Piwik\Tests\IntegrationTestCase;
 use PHPUnit_Framework_Assert as Asserts;
 use Exception;
 
@@ -75,9 +74,10 @@ class TestRequestResponse
             return;
         }
 
-        // for PDF files, check content size to get quick feedback
+        // check content size to get quick feedback and avoid lengthy diff
+        $checkSizeFirst = array('pdf', 'csv');
         if(!empty($expected->requestUrl['reportFormat'])
-            && $expected->requestUrl['reportFormat'] == 'pdf') {
+            && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)) {
             Asserts::assertEquals(strlen($expectedText), strlen($actualText), $message);
         }
 
@@ -121,7 +121,7 @@ class TestRequestResponse
 
     private function normalizeEncodingPhp533($apiResponse)
     {
-        if(!IntegrationTestCase::isPhpVersion53()
+        if(!SystemTestCase::isPhpVersion53()
             || strpos($apiResponse, '<result') === false) {
             return $apiResponse;
         }

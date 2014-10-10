@@ -34,9 +34,12 @@ require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/Fixture.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/SystemTestCase.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/ConsoleCommandTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
@@ -81,7 +84,7 @@ Try again.
 -> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
         exit(1);
     }
-    $baseUrl = \Piwik\Tests\Fixture::getRootUrl();
+    $baseUrl = \Piwik\Tests\Impl\Fixture::getRootUrl();
 
     \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl, $acceptInvalidSSLCertificates = true);
 }

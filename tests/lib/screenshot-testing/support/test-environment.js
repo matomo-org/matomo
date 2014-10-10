@@ -93,7 +93,7 @@ TestingEnvironment.prototype._call = function (params, done) {
 
 TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
     var consoleFile = path.join(PIWIK_INCLUDE_PATH, 'console'),
-        commandArgs = [consoleFile, command].concat(args),
+        commandArgs = [consoleFile, command, '-v'].concat(args),
         child = require('child_process').spawn(config.php, commandArgs);
 
     var firstLine = true;

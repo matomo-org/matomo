@@ -96,7 +96,7 @@ We are grateful if you can share the Job Description with your friends and colle
 
 
 ## Code Status
-The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and dozens of integration [tests](https://github.com/piwik/piwik/tree/master/tests),
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit and integration tests and dozens of system [tests](https://github.com/piwik/piwik/tree/master/tests),
  running on the hosted distributed continuous integration platform Travis-CI.
 
 Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.png?branch=master)](https://travis-ci.org/piwik/piwik) - Screenshot tests Build  [![Build Status](https://travis-ci.org/piwik/piwik-ui-tests.png?branch=master)](https://travis-ci.org/piwik/piwik-ui-tests)

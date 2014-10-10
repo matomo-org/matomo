@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 use PiwikTracker;
 
 /**
@@ -63,6 +63,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 
         // Create a new Tracker object, with different attributes
         $t2 = self::getTracker($idSite, $dateTime, $defaultInit = false);
+        $t2->setTokenAuth(self::getTokenAuth());
 
         // Make sure the ID is different at first
         $visitorId2 = $t2->getVisitorId();

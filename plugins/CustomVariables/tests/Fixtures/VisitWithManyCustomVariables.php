@@ -9,7 +9,7 @@ namespace Piwik\Plugins\CustomVariables\tests\Fixtures;
 
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Adds one site with two goals and tracks two visits with custom variables.

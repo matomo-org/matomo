@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 use PiwikTracker;
 
 /**

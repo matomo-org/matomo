@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ "$TEST_SUITE" = "IntegrationTests" ];
+if [ "$TEST_SUITE" = "SystemTests" ];
 then
     url="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&artifact_name=processed&branch=$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
 
     echo "Uploading artifacts for $TEST_SUITE..."
 
-    cd ./tests/PHPUnit/Integration
+    cd ./tests/PHPUnit/System
 
     # upload processed tarball
     tar -cjf processed.tar.bz2 processed --exclude='.gitkeep'

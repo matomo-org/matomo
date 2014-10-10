@@ -20,7 +20,7 @@ use \Exception;
  * processed before comparison.
  *
  * Instances of this class are not created directly. Instead, an array mapping config
- * property names w/ values is passed to IntegrationTestCase::runApiTests. For example,
+ * property names w/ values is passed to SystemTestCase::runApiTests. For example,
  *
  *     $this->runApiTests("UserCountry", array(
  *         'idSite' => 1,
@@ -135,7 +135,7 @@ class ApiTestConfig
     public $fileExtension = false;
 
     /**
-     * An array of API methods that shouldn't be called. If `'all'` is specified in IntegrationTestCase::runApiTests,
+     * An array of API methods that shouldn't be called. If `'all'` is specified in SystemTestCase::runApiTests,
      * the methods in this property will be ignored when calling all API methods.
      *
      * @var string[]|false eg, `array("Actions", "Referrers.getWebsites", ...)`
@@ -159,7 +159,7 @@ class ApiTestConfig
     /**
      * If supplied, tests will compare API responses with files using a different file prefix.
      * Normally, the test name is used as the test prefix, so this will usually be set to the
-     * name of the integration test. Either that or the value in the test's getOutputPrefix
+     * name of the system test. Either that or the value in the test's getOutputPrefix
      * method.
      *
      * @param string|bool eg, `'OneVisitorTwoVisitsTest'`
@@ -205,7 +205,7 @@ class ApiTestConfig
             }
 
             if (!property_exists($this, $key)) {
-                throw new Exception("Invalid API test property '$key'! Check your Integration tests.");
+                throw new Exception("Invalid API test property '$key'! Check your System tests.");
             }
 
             $this->$key = $value;
