@@ -83,6 +83,7 @@ class Core_CliMultiTest extends SystemTestCase
 
     public function test_request_shouldRunAsync()
     {
+        $this->skipWhenPhp53();
         $this->assertTrue($this->cliMulti->supportsAsync);
     }
 
@@ -142,12 +143,14 @@ class Core_CliMultiTest extends SystemTestCase
      */
     public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
     {
+        $this->skipWhenPhp53();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
         $this->assertStringStartsWith('Error: no website was found', $response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
     {
+        $this->skipWhenPhp53();
         Fixture::createWebsite('2014-01-01 00:00:00');
 
         $urls = array($this->completeUrl('/?module=Widgetize&idSite=1&period=day&date=today'));
