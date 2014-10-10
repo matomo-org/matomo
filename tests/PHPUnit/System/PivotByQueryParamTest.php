@@ -98,10 +98,10 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_PlaysNiceWithQueuedFilters()
+    // TODO: known issue: some segment/report relationships are more complicated; for example, UserCountry.GetCity labels are combinations
+    // of city, region & country dimensions, so the segment to get an intersected table needs all 3 of those.
+    public function SHOULD_test_PivotByParam_PlaysNiceWithQueuedFilters()
     {
-        // TODO: known issue: some segment/report relationships are more complicated; for example, UserCountry.GetCity labels are combinations
-        // of city, region & country dimensions, so the segment to get an intersected table needs all 3 of those.
 
         $this->markTestSkipped("Not working right now.");
 
