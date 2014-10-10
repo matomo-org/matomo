@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Http\UrlFilter;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
@@ -83,7 +84,12 @@ class FrontController extends Singleton
             return;
         }
 
-        if ($this->redirectMalformedUrls()) {
+        $filter = new UrlFilter();
+        // We can't use Url::getCurrentUrl() since it doesn't really return the current URL
+        $url = Url::getCurrentScheme() . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $redirection = $filter->filterUrl($url);
+        if ($redirection !== null) {
+            Url::redirectToUrl($redirection);
             return;
         }
 
@@ -608,34 +614,6 @@ class FrontController extends Singleton
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
     }
-
-    /**
-     * Redirects malformed URLs that can be misinterpreted by old browsers.
-     *
-     * E.g. /index.php/.html?... can be interpreted as HTML even though the Content-Type says JSON.
-     * @link https://github.com/piwik/piwik/issues/6156
-     *
-     * @return bool If true, a redirection has been sent, the dispatching is over. If false, continue the dispatching.
-     */
-    private function redirectMalformedUrls()
-    {
-        $path = $_SERVER['REQUEST_URI'];
-        if (isset($_SERVER['QUERY_STRING'])) {
-            $path = substr($path, 0, -(strlen($_SERVER['QUERY_STRING']) + 1));
-        }
-
-        if (strpos($path, 'index.php/') !== false) {
-            $fullUrl = Url::getCurrentUrl();
-
-            $newUrl = preg_replace('#index\.php/([^\?]*)\?#', 'index.php?', $fullUrl, 1);
-
-            Url::redirectToUrl($newUrl);
-            return true;
-        }
-
-        return false;
-    }
-
 }
 
 /**

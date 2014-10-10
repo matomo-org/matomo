@@ -10,11 +10,26 @@ namespace Piwik\Tests\System;
 
 use Piwik\Tests\Fixture;
 
-/**
- * @group System
- */
 class FrontControllerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @dataProvider indexUrlsProvider
+     */
+    public function testIndexRedirection($url)
+    {
+        $header = $this->getResponseHeader($url);
+        $url = 'index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday';
+        $this->assertContains('Location: ' . $url, $header);
+    }
+
+    public function indexUrlsProvider()
+    {
+        return array(
+            array(''),
+            array('index.php'),
+        );
+    }
+
     /**
      * @dataProvider malformedUrlsProvider
      */
@@ -23,7 +38,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
         $header = $this->getResponseHeader($url);
 
         if ($redirection) {
-            $this->assertContains('Location: http://localhost:8000/' . $redirection, $header);
+            $this->assertContains('Location: http://localhost:8000/' . $redirection . "\r\n", $header);
         } else {
             $this->assertNotContains('Location: ', $header);
         }
@@ -32,9 +47,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
     public function malformedUrlsProvider()
     {
         return array(
-            // Correct urls
-            array('', false),
-            array('index.php', false),
+            // Correct url
             array('index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday', false),
             // These urls may cause XSS vulnerabilities in old browsers
             array('index.php/.html', 'index.php'),
