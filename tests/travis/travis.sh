@@ -61,7 +61,7 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover-$PLUGIN_NAME.xml
+            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover.xml
         else
             travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi

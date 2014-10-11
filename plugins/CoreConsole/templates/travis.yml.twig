@@ -186,7 +186,7 @@ after_script:
 
 {% endif %}
   # change directory back to root travis dir
-  - cd $TRAVIS_BUILD_DIR
+  - cd $PIWIK_ROOT_DIR
 
   - if [ -z "$TEST_SUITE" ];
     then php vendor/bin/coveralls -v;
@@ -199,7 +199,6 @@ after_script:
   - cat $PIWIK_ROOT_DIR/config/config.ini.php
 
   # upload test artifacts (for debugging travis failures)
-  - cd $PIWIK_ROOT_DIR
   - ./tests/travis/upload_artifacts.sh
 {% if customTravisBuildSteps.after_script.after|default is not empty %}
 
