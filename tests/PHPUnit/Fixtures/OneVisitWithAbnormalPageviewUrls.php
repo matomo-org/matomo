@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 /**
  * Adds one site and tracks one visit w/ pageview URLs that are not normalized.

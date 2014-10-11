@@ -155,8 +155,8 @@ class DocumentationGenerator
         $aParameters = Proxy::getInstance()->getParametersList($class, $methodName);
         // Kindly force some known generic parameters to appear in the final list
         // the parameter 'format' can be set to all API methods (used in tests)
-        // the parameter 'hideIdSubDatable' is used for integration tests only
-        // the parameter 'serialize' sets php outputs human readable, used in integration tests and debug
+        // the parameter 'hideIdSubDatable' is used for system tests only
+        // the parameter 'serialize' sets php outputs human readable, used in system tests and debug
         // the parameter 'language' sets the language for the response (eg. country names)
         // the parameter 'flat' reduces a hierarchical table to a single level by concatenating labels
         // the parameter 'include_aggregate_rows' can be set to include inner nodes in flat reports
@@ -169,9 +169,9 @@ class DocumentationGenerator
         $aParameters['label'] = false;
         $aParameters['flat'] = false;
         $aParameters['include_aggregate_rows'] = false;
-        $aParameters['filter_limit'] = false; //@review without adding this, I can not set filter_limit in $otherRequestParameters integration tests
-        $aParameters['filter_sort_column'] = false; //@review without adding this, I can not set filter_sort_column in $otherRequestParameters integration tests
-        $aParameters['filter_sort_order'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters integration tests
+        $aParameters['filter_limit'] = false; //@review without adding this, I can not set filter_limit in $otherRequestParameters system tests
+        $aParameters['filter_sort_column'] = false; //@review without adding this, I can not set filter_sort_column in $otherRequestParameters system tests
+        $aParameters['filter_sort_order'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters system tests
         $aParameters['filter_truncate'] = false;
         $aParameters['hideColumns'] = false;
         $aParameters['showColumns'] = false;

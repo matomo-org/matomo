@@ -139,6 +139,7 @@ class Option
         if (self::$instance == null) {
             self::$instance = new self;
         }
+
         return self::$instance;
     }
 
@@ -173,6 +174,7 @@ class Option
         if (isset($this->all[$name])) {
             return $this->all[$name];
         }
+
         $value = Db::fetchOne('SELECT option_value FROM `' . Common::prefixTable('option') . '` ' .
                               'WHERE option_name = ?', $name);
 
@@ -187,10 +189,14 @@ class Option
     protected function setValue($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
-        Db::query('INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
-            ' VALUES (?, ?, ?) ' .
-            ' ON DUPLICATE KEY UPDATE option_value = ?',
-            array($name, $value, $autoLoad, $value));
+
+        $sql  = 'INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+                ' VALUES (?, ?, ?) ' .
+                ' ON DUPLICATE KEY UPDATE option_value = ?';
+        $bind = array($name, $value, $autoLoad, $value);
+
+        Db::query($sql, $bind);
+
         $this->all[$name] = $value;
     }
 
@@ -228,11 +234,13 @@ class Option
     {
         $sql  = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind = array($name);
+        $rows = Db::fetchAll($sql, $bind);
 
         $result = array();
-        foreach (Db::fetchAll($sql, $bind) as $row) {
+        foreach ($rows as $row) {
             $result[$row['option_name']] = $row['option_value'];
         }
+
         return $result;
     }
 
@@ -247,8 +255,10 @@ class Option
             return;
         }
 
-        $all = Db::fetchAll('SELECT option_value, option_name FROM `' . Common::prefixTable('option') . '`
-                             WHERE autoload = 1');
+        $table = Common::prefixTable('option');
+        $sql   = 'SELECT option_value, option_name FROM `' . $table . '` WHERE autoload = 1';
+        $all   = Db::fetchAll($sql);
+
         foreach ($all as $option) {
             $this->all[$option['option_name']] = $option['option_value'];
         }

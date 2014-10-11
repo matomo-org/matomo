@@ -13,14 +13,15 @@ use Piwik\Plugins\CustomVariables\Commands\SetNumberOfCustomVariables;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Piwik\Tests\Impl\IntegrationTestCase;
 
 /**
  * @group CustomVariables
  * @group CustomVariablesTest
- * @group Database
+ * @group Plugins
  * @group Plugins
  */
-class SetNumberOfCustomVariablesTest extends \DatabaseTestCase
+class SetNumberOfCustomVariablesTest extends IntegrationTestCase
 {
     /**
      * @expectedException \RuntimeException

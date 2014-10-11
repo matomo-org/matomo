@@ -2646,7 +2646,7 @@ if (typeof Piwik !== 'object') {
              */
             function loadReferrerAttributionCookie() {
                 // NOTE: if the format of the cookie changes,
-                // we must also update JS tests, PHP tracker, Integration tests,
+                // we must also update JS tests, PHP tracker, System tests,
                 // and notify other tracking clients (eg. Java) of the changes
                 var cookie = getCookie(getCookieName('ref'));
 

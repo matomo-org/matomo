@@ -26,21 +26,21 @@ class FakeAccess
 
     public function __construct()
     {
-        self::$superUser = false;
+        self::$superUser    = false;
         self::$idSitesAdmin = array();
-        self::$idSitesView = array();
-        self::$identity = 'superUserLogin';
+        self::$idSitesView  = array();
+        self::$identity     = 'superUserLogin';
     }
 
     public static function setIdSitesAdmin($ids)
     {
-        self::$superUser = false;
+        self::$superUser    = false;
         self::$idSitesAdmin = $ids;
     }
 
     public static function setIdSitesView($ids)
     {
-        self::$superUser = false;
+        self::$superUser   = false;
         self::$idSitesView = $ids;
     }
 
@@ -74,6 +74,7 @@ class FakeAccess
         }
 
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
+
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $websitesAccess)) {
                 throw new Exception("checkUserHasAdminAccess Fake exception // string not to be tested");
@@ -142,6 +143,7 @@ class FakeAccess
         if (self::$superUser) {
             return API::getInstance()->getAllSitesId();
         }
+
         return self::$idSitesAdmin;
     }
 
@@ -150,6 +152,7 @@ class FakeAccess
         if (self::$superUser) {
             return API::getInstance()->getAllSitesId();
         }
+
         return self::$idSitesView;
     }
 
@@ -158,15 +161,18 @@ class FakeAccess
         if (self::$superUser) {
             return API::getInstance()->getAllSitesId();
         }
+
         return array_merge(self::$idSitesView, self::$idSitesAdmin);
     }
 
     public function getRawSitesWithSomeViewAccess($login)
     {
         $result = array();
+
         foreach (array_merge(self::$idSitesView, self::$idSitesAdmin) as $idSite) {
             $result[] = array('idsite' => $idSite);
         }
+
         return $result;
     }
 }

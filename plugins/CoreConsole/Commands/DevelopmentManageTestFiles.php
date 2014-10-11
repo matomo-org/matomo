@@ -42,7 +42,7 @@ class DevelopmentManageTestFiles extends ConsoleCommand
     {
         $file = $input->getOption('file');
 
-        $prefix = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Integration/processed/';
+        $prefix = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/processed/';
         $guesses = array(
             '/' . $file,
             $prefix . $file,
@@ -55,6 +55,6 @@ class DevelopmentManageTestFiles extends ConsoleCommand
             }
         }
 
-        copy($file, PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Integration/expected/' . basename($file));
+        copy($file, PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/expected/' . basename($file));
     }
 }

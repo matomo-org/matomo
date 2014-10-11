@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Impl;
 
 use Piwik\API\Request;
-use Piwik\Tests\IntegrationTestCase;
 use PHPUnit_Framework_Assert as Asserts;
 use Exception;
 
@@ -122,7 +121,7 @@ class TestRequestResponse
 
     private function normalizeEncodingPhp533($apiResponse)
     {
-        if(!IntegrationTestCase::isPhpVersion53()
+        if(!SystemTestCase::isPhpVersion53()
             || strpos($apiResponse, '<result') === false) {
             return $apiResponse;
         }

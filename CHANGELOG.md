@@ -4,12 +4,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ## Piwik 2.8.0
 
-### New API Features
-* The pivotBy and related query parameters can be used to pivot reports by another dimension. Read more about the new query parameters [here](http://developer.piwik.org/api-reference/reporting-api#optional-api-parameters).
-
-### Library updates
-* Updated AngularJS from 1.2.13 to 1.2.25
-
 ### Breaking Changes
 * The Auth interface has been modified, existing Auth implementations will have to be modified. Changes include:
   * The initSession method has been moved. Since this behavior must be executed for every Auth implementation, it has been put into a new class: SessionInitializer.
@@ -23,7 +17,17 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `Piwik\Unzip\UncompressInterface` has been moved and renamed to `Piwik\Decompress\DecompressInterface` (inside the new repository).
 
 ### Deprecations
-* The Piwik::setUserHasSuperUserAccess method is deprecated, instead use Access::doAsSuperUser. This method will ensure that super user access is properly rescinded after the callback finishes.
+* The `Piwik::setUserHasSuperUserAccess` method is deprecated, instead use Access::doAsSuperUser. This method will ensure that super user access is properly rescinded after the callback finishes.
+* The class is `\IntegrationTestCase` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Impl\SystemTestCase` instead.
+* The class is `\DatabaseTestCase` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Impl\IntegrationTestCase` instead.
+* The class is `\Piwik\Tests\Fixture` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Impl\Fixture` instead.
+* The class is `\Piwik\Tests\OverrideLogin` deprecated and will be removed from February 6ths 2015. Use `\Piwik\Tests\Impl\OverrideLogin` instead.
+
+### New API Features
+* The pivotBy and related query parameters can be used to pivot reports by another dimension. Read more about the new query parameters [here](http://developer.piwik.org/api-reference/reporting-api#optional-api-parameters).
+
+### Library updates
+* Updated AngularJS from 1.2.13 to 1.2.25
 
 ### New commands
 * `generate:angular-directive` Let's you easily generate a template for a new angular directive for any plugin.

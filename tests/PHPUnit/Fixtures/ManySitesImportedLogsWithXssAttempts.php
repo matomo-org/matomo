@@ -11,7 +11,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Impl\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
