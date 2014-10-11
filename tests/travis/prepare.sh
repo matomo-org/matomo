@@ -22,6 +22,11 @@ echo "Adjusting phpunit.xml"
 cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 sed -i 's/@REQUEST_URI@/\//g' ./tests/PHPUnit/phpunit.xml
 
+if [ -n "$PLUGIN_NAME" ];
+then
+      sed -n '/<filter>/{p;:a;N;/<\/filter>/!ba;s/.*\n/<whitelist addUncoveredFilesFromWhitelist=\"true\">\n<directory suffix=\".php\">..\/..\/plugins\/'$PLUGIN_NAME'<\/directory>\n<\/whitelist>\n/};p' ./tests/PHPUnit/phpunit.xml > ./tests/PHPUnit/phpunit.xml.new && mv ./tests/PHPUnit/phpunit.xml.new ./tests/PHPUnit/phpunit.xml
+fi;
+
 # If we have a test suite remove code coverage report
 if [ -n "$TEST_SUITE" ]
 then

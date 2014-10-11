@@ -107,6 +107,11 @@ install:
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
 
+  # copy .coveralls.yml if none exists
+  - if [ ! -f ../coveralls.yml ];
+    then cp .coveralls.yml ../coveralls.yml;
+    fi
+
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git checkout master -- ./tests/travis ./plugins/CoreConsole
 
