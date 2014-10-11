@@ -23,6 +23,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -36,8 +38,13 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
+		<customVariables>
+		</customVariables>
+		<deviceType>Inconnu</deviceType>
+		<events>0</events>
+		<provider>Inconnu</provider>
+		<providerName>Inconnu</providerName>
+		<providerUrl />
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -46,6 +53,17 @@
 		<referrerUrl>http://www.google.com.vn/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemShortName>BOT</operatingSystemShortName>
@@ -70,27 +88,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Inconnu</deviceType>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
-		<provider>Inconnu</provider>
-		<providerName>Inconnu</providerName>
-		<providerUrl />
 		
 		
 		
@@ -130,6 +130,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -143,8 +145,13 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>1084</visitDuration>
 		<visitDurationPretty>18 min 4s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
+		<customVariables>
+		</customVariables>
+		<deviceType>Inconnu</deviceType>
+		<events>0</events>
+		<provider>Inconnu</provider>
+		<providerName>Inconnu</providerName>
+		<providerUrl />
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -153,6 +160,17 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemShortName>BOT</operatingSystemShortName>
@@ -177,27 +195,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Inconnu</deviceType>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
-		<provider>Inconnu</provider>
-		<providerName>Inconnu</providerName>
-		<providerUrl />
 		
 		
 		
