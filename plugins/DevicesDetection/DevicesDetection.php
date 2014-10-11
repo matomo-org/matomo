@@ -26,7 +26,7 @@ class DevicesDetection extends \Piwik\Plugin
     public function getInformation()
     {
         return array(
-            'description'      => "[Beta Plugin] " . Piwik::translate("DevicesDetection_PluginDescription"),
+            'description'      => Piwik::translate("DevicesDetection_PluginDescription"),
             'authors'          => array(array('name' => 'Piwik PRO', 'homepage' => 'http://piwik.pro')),
             'version'          => '1.14',
             'license'          => 'GPL v3+',
@@ -48,9 +48,9 @@ class DevicesDetection extends \Piwik\Plugin
     {
         $instance = new Visitor($details);
 
-        $visitor['deviceType'] = getDeviceTypeLabel($details['config_device_type']);
-        $visitor['browserFamily']            = $instance->getBrowserFamily();
-        $visitor['browserFamilyDescription'] = $instance->getBrowserFamilyDescription();
+        $visitor['deviceType']               = getDeviceTypeLabel($details['config_device_type']);
+        $visitor['browserFamily']            = $instance->getBrowserEngine();
+        $visitor['browserFamilyDescription'] = $instance->getBrowserEngineDescription();
 
         if (!PluginManager::getInstance()->isPluginActivated('UserSettings')) {
             $instance = new UserSettings();

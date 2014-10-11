@@ -12,8 +12,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class Visitor
 {
-    const DELIMITER_PLUGIN_NAME = ", ";
-
     private $details = array();
 
     public function __construct($details)
@@ -21,12 +19,12 @@ class Visitor
         $this->details = $details;
     }
 
-    function getBrowserFamilyDescription()
+    function getBrowserEngineDescription()
     {
-        return getBrowserEngineName($this->getBrowserFamily());
+        return getBrowserEngineName($this->getBrowserEngine());
     }
 
-    function getBrowserFamily()
+    function getBrowserEngine()
     {
         return $this->details['config_browser_engine'];
     }
