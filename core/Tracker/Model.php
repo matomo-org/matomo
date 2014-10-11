@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use Exception;
 use PDOStatement;
 use Piwik\Common;
+use Piwik\Db;
 use Piwik\Tracker;
 use Piwik\Tracker\Db\DbException;
 
@@ -377,7 +378,7 @@ class Model
 
     private function getDb()
     {
-        return Tracker::getDatabase();
+        return Db::get();
     }
 
 }
