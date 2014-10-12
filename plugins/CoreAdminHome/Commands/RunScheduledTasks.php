@@ -51,7 +51,7 @@ class RunScheduledTasks extends ConsoleCommand
         $force = $input->getOption('force');
 
         if ($force) {
-            $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = true;
+            define('DEBUG_FORCE_SCHEDULED_TASKS', true);
         }
     }
 }

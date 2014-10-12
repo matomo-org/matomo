@@ -87,7 +87,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
         require_once PIWIK_INCLUDE_PATH . "/core/TaskScheduler.php";
-        $this->assertFalse(DEBUG_FORCE_SCHEDULED_TASKS);
+        $this->assertFalse(defined('DEBUG_FORCE_SCHEDULED_TASKS'));
 
         // Check the index.php has "backtrace disabled"
         $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");

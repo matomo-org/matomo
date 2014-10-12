@@ -72,9 +72,7 @@ class ScheduledTaskTimetable
      */
     public function shouldExecuteTask($taskName)
     {
-        $forceTaskExecution =
-            (isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
-            || DEBUG_FORCE_SCHEDULED_TASKS;
+        $forceTaskExecution = (defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS);
 
         return $forceTaskExecution || ($this->taskHasBeenScheduledOnce($taskName) && time() >= $this->timetable[$taskName]);
     }
