@@ -67,6 +67,7 @@ class Url
         return self::getCurrentScheme() . '://'
         . self::getCurrentHost()
         . self::getCurrentScriptName()
+        . self::getCurrentPathInfo()
         . self::getCurrentQueryString();
     }
 
@@ -83,7 +84,8 @@ class Url
     {
         return self::getCurrentScheme() . '://'
         . self::getCurrentHost($default = 'unknown', $checkTrustedHost)
-        . self::getCurrentScriptName();
+        . self::getCurrentScriptName()
+        . self::getCurrentPathInfo();
     }
 
     /**
@@ -171,6 +173,24 @@ class Url
             $url = '/' . $url;
         }
         return $url;
+    }
+
+    /**
+     * Returns the current PATH_INFO from the request.
+     *
+     * Contains any client-provided pathname information trailing the actual
+     * script filename but preceding the query string, if available.
+     *
+     * For instance, if the current script was accessed via the URL
+     * http://www.example.com/php/path_info.php/some/stuff?foo=bar
+     * then getCurrentPathInfo() would return "/some/stuff".
+     *
+     * @return string
+     * @api
+     */
+    public static function getCurrentPathInfo()
+    {
+        return isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
     }
 
     /**
