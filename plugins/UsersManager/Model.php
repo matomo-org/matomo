@@ -149,20 +149,17 @@ class Model
 
     public function getUser($userLogin)
     {
-        return $this->getDb()->fetchRow("SELECT * FROM " . $this->table
-                                     . " WHERE login = ?", $userLogin);
+        return $this->getDb()->fetchRow("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
     }
 
     public function getUserByEmail($userEmail)
     {
-        return $this->getDb()->fetchRow("SELECT * FROM " . $this->table
-                                      . " WHERE email = ?", $userEmail);
+        return $this->getDb()->fetchRow("SELECT * FROM " . $this->table . " WHERE email = ?", $userEmail);
     }
 
     public function getUserByTokenAuth($tokenAuth)
     {
-        return $this->getDb()->fetchRow('SELECT * FROM ' . $this->table . '
-					                     WHERE token_auth = ?', $tokenAuth);
+        return $this->getDb()->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
     }
 
     public function addUser($userLogin, $passwordTransformed, $email, $alias, $tokenAuth, $dateRegistered)
@@ -193,7 +190,7 @@ class Model
     /**
      * Note that this returns the token_auth which is as private as the password!
      *
-     * @return returns login, email and token_auth
+     * @return array[] containing login, email and token_auth
      */
     public function getUsersHavingSuperUserAccess()
     {
@@ -220,15 +217,15 @@ class Model
 
     public function userExists($userLogin)
     {
-        $count = $this->getDb()->fetchOne("SELECT count(*) FROM " . $this->table . "
-                                           WHERE login = ?", $userLogin);
+        $count = $this->getDb()->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE login = ?", $userLogin);
+
         return $count != 0;
     }
 
     public function userEmailExists($userEmail)
     {
-        $count = $this->getDb()->fetchOne("SELECT count(*) FROM " . $this->table . "
-                                           WHERE email = ?", $userEmail);
+        $count = $this->getDb()->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE email = ?", $userEmail);
+
         return $count != 0;
     }
 

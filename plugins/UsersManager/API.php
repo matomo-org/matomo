@@ -66,10 +66,12 @@ class API extends \Piwik\Plugin\API
                 throw new Exception('UsersManager_API must inherit API');
             }
             self::$instance = $instance;
+            
         } catch (Exception $e) {
             self::$instance = new self;
             \Piwik\Registry::set('UsersManager_API', self::$instance);
         }
+
         return self::$instance;
     }
 
@@ -97,9 +99,11 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
         $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
+
         if ($optionValue !== false) {
             return $optionValue;
         }
+
         return $this->getDefaultUserPreference($preferenceName, $userLogin);
     }
 
@@ -217,6 +221,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $logins = implode(',', $logins);
+
         return $this->getUsers($logins);
     }
 
@@ -300,6 +305,7 @@ class API extends \Piwik\Plugin\API
         if (empty($alias)) {
             $alias = $userLogin;
         }
+
         return $alias;
     }
 
@@ -326,6 +332,7 @@ class API extends \Piwik\Plugin\API
         $this->checkEmail($email);
 
         $password = Common::unsanitizeInputValue($password);
+
         if (!$_isPasswordHashed) {
             UsersManager::checkPassword($password);
 
@@ -398,10 +405,12 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
 
         $users = $this->model->getUsersHavingSuperUserAccess();
+
         foreach($users as &$user) {
             // remove token_auth in API response
             unset($user['token_auth']);
         }
+
         return $users;
     }
 
@@ -475,6 +484,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
+
         if (!$this->userExists($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
         }
@@ -662,6 +672,7 @@ class API extends \Piwik\Plugin\API
         if (strlen($md5Password) != 32) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
         }
+
         return md5($userLogin . $md5Password);
     }
 }
