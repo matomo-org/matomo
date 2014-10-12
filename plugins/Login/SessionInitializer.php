@@ -142,7 +142,7 @@ class SessionInitializer
         try {
             $tokenAuthSecret = $auth->getTokenAuthSecret();
         } catch (Exception $ex) {
-            Log::debug("SessionInitializer::doAuthenticateSession: token_auth secret for %s not avaialble before user"
+            Log::debug("SessionInitializer::doAuthenticateSession: token_auth secret for %s not avaialable before user"
                      . " is authenticated.", $login);
         }
 

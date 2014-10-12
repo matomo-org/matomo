@@ -107,6 +107,11 @@ install:
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
 
+  # copy .coveralls.yml if none exists
+  - if [ ! -f ../coveralls.yml ];
+    then cp .coveralls.yml ../coveralls.yml;
+    fi
+
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git checkout master -- ./tests/travis ./plugins/CoreConsole
 
@@ -126,7 +131,7 @@ before_script:
 {% if customTravisBuildSteps.before_script.before|default is not empty %}{{ customTravisBuildSteps.before_script.before|raw }}
 
 {% endif %}
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
     fi
 
@@ -188,7 +193,7 @@ after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
 
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then php vendor/bin/coveralls -v;
     fi
 
