@@ -50,7 +50,7 @@ class RunScheduledTasks extends ConsoleCommand
     {
         $force = $input->getOption('force');
 
-        if ($force) {
+        if ($force && !defined('DEBUG_FORCE_SCHEDULED_TASKS')) {
             define('DEBUG_FORCE_SCHEDULED_TASKS', true);
         }
     }
