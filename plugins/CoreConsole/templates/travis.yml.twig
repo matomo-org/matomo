@@ -131,7 +131,7 @@ before_script:
 {% if customTravisBuildSteps.before_script.before|default is not empty %}{{ customTravisBuildSteps.before_script.before|raw }}
 
 {% endif %}
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
     fi
 
@@ -193,7 +193,7 @@ after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
 
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then php vendor/bin/coveralls -v;
     fi
 
