@@ -19,7 +19,7 @@ use Piwik\Db;
  * then test it.
  *
  */
-class IntegrationTestCase extends SystemTestCase
+abstract class IntegrationTestCase extends SystemTestCase
 {
     /**
      * @var Fixture
