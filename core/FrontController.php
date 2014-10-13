@@ -85,9 +85,7 @@ class FrontController extends Singleton
         }
 
         $filter = new Router();
-        // We can't use Url::getCurrentUrl() since it doesn't really return the current URL
-        $url = Url::getCurrentScheme() . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        $redirection = $filter->filterUrl($url);
+        $redirection = $filter->filterUrl(Url::getCurrentUrl());
         if ($redirection !== null) {
             Url::redirectToUrl($redirection);
             return;
