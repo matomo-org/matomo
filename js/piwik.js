@@ -2267,6 +2267,11 @@ if (typeof Piwik !== 'object') {
                 trackedContentImpressions = [],
                 isTrackOnlyVisibleContentEnabled = false,
 
+                // Guard to prevent empty visits see #6415. If there is a new visitor and there are 2 tracking requests
+                // at nearly same time (eg trackPageView and trackContentImpression) 2 visits will be created as both
+                // visitors are basically at the same time.
+                contentImpressionTrackingDelayInMs = 650,
+
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
                 linkTrackingEnabled = false,
@@ -2479,20 +2484,23 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
+            function canSendBulkRequest(requests)
+            {
+                if (configDoNotTrack) {
+                    return false;
+                }
+
+                return (requests && requests.length);
+            }
+
             /*
              * Send requests using bulk
              */
-            function sendBulkRequest(requests, delay) {
-
-                if (configDoNotTrack) {
+            function sendBulkRequest(requests, delay)
+            {
+                if (!canSendBulkRequest(requests)) {
                     return;
                 }
-
-                if (!requests || !requests.length) {
-                    return;
-                }
-
-                // here we have to prevent 414 request uri too long error in case someone tracks like 1000
 
                 var now  = new Date();
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
@@ -3376,6 +3384,9 @@ if (typeof Piwik !== 'object') {
                         return;
                     }
 
+                    var now = new Date();
+                    expireDateTime = now.getTime() + configTrackerPause;
+
                     var contentBlock = content.findParentContentNode(targetNode);
 
                     var interactedElement;
@@ -3387,6 +3398,7 @@ if (typeof Piwik !== 'object') {
                     }
 
                     if (!isNodeAuthorizedToTriggerInteraction(contentBlock, interactedElement)) {
+                        expireDateTime = now.getTime();
                         return;
                     }
 
@@ -3412,10 +3424,10 @@ if (typeof Piwik !== 'object') {
                         return 'href';
                     }
 
-
                     var block = content.buildContentBlock(contentBlock);
 
                     if (!block) {
+                        expireDateTime = now.getTime();
                         return;
                     }
 
@@ -4755,9 +4767,13 @@ if (typeof Piwik !== 'object') {
                         trackCallbackOnReady(function () {
                             // we have to wait till DOM ready
                             var contentNodes = content.findContentNodes();
+                            var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
 
-                            var requests = getContentImpressionsRequestsFromNodes(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            setTimeout(function () {
+                                sendBulkRequest(requests, configTrackerPause);
+                            }, contentImpressionTrackingDelayInMs);
+
+                            contentImpressionTrackingDelayInMs = 0;
                         });
                     });
                 },
@@ -4815,9 +4831,12 @@ if (typeof Piwik !== 'object') {
                         trackCallbackOnLoad(function () {
                             // we have to wait till CSS parsed and applied
                             var contentNodes = content.findContentNodes();
+                            var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
 
-                            var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
-                            sendBulkRequest(requests, configTrackerPause);
+                            setTimeout(function () {
+                                sendBulkRequest(requests, configTrackerPause);
+                            }, contentImpressionTrackingDelayInMs);
+                            contentImpressionTrackingDelayInMs = 0;
                         });
                     });
                 },
