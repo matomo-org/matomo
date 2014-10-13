@@ -15,24 +15,18 @@ use Piwik\Plugins\UserCountry\LocationFetcher;
 use Piwik\Plugins\UserCountry\LocationFetcherProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Repository\Mysql\LogsRepository;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Piwik\Plugins\UserCountry\Repository\LogsRepository as LogsRepositoryInterface;
 
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
-    const DATES_RANGE_OPTION = 'dates-range';
+    const DATES_RANGE_ARGUMENT = 'dates-range';
 
-    const DATES_RANGE_OPTION_SHORT = 'dr';
+    const PERCENT_STEP_ARGUMENT = 'percent-step';
 
-    const PERCENT_STEP_OPTION = 'percent-step';
-
-    const PERCENT_STEP_OPTION_SHORT = 'ps';
-
-    const PROVIDER_OPTION = 'provider';
-
-    const PROVIDER_OPTION_SHORT = 'p';
+    const PROVIDER_ARGUMENT = 'provider';
 
     /**
      * @var LogsRepositoryInterface
@@ -59,25 +53,22 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     {
         $this->setName('usercountry:attribute');
 
-        $this->addOption(
-            self::DATES_RANGE_OPTION,
-            self::DATES_RANGE_OPTION_SHORT,
-            InputOption::VALUE_REQUIRED,
+        $this->addArgument(
+            self::DATES_RANGE_ARGUMENT,
+            InputArgument::REQUIRED,
             'Attribute visits from this dates.'
         );
 
-        $this->addOption(
-            self::PERCENT_STEP_OPTION,
-            self::PERCENT_STEP_OPTION_SHORT,
-            InputOption::VALUE_OPTIONAL,
+        $this->addArgument(
+            self::PERCENT_STEP_ARGUMENT,
+            InputArgument::OPTIONAL,
             'How often command should write about current state.',
             5
         );
 
-        $this->addOption(
-            self::PROVIDER_OPTION,
-            self::PROVIDER_OPTION_SHORT,
-            InputOption::VALUE_OPTIONAL,
+        $this->addArgument(
+            self::PROVIDER_ARGUMENT,
+            InputArgument::OPTIONAL,
             'Provider id which should be used to attribute visits. If empty then Piwik will use default provider.'
         );
 
@@ -87,12 +78,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return void
+     * @return void|int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $from = $this->getDateOption($input, self::DATES_RANGE_OPTION, 0);
-        $to = $this->getDateOption($input, self::DATES_RANGE_OPTION, 1);
+        $from = $this->getDateArgument($input, self::DATES_RANGE_ARGUMENT, 0);
+        $to = $this->getDateArgument($input, self::DATES_RANGE_ARGUMENT, 1);
+
         $percentStep = $this->getPercentStep($input);
 
         if (!$from || !$to) {
@@ -102,11 +94,11 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
                 )
             );
 
-            exit(1);
+            return 1;
         }
 
         $locationFetcherProvider = new LocationFetcherProvider(
-            $input->getOption(self::PROVIDER_OPTION)
+            $input->getArgument(self::PROVIDER_ARGUMENT)
         );
 
         $this->locationFetcher = new LocationFetcher($locationFetcherProvider);
@@ -205,6 +197,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         }
 
         $output->writeln(sprintf('Completed in %d seconds.', time() - $start));
+
+        return 0;
     }
 
     /**
@@ -213,9 +207,9 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      * @param int $index
      * @return string
      */
-    protected function getDateOption(InputInterface $input, $name, $index)
+    protected function getDateArgument(InputInterface $input, $name, $index)
     {
-        $option = explode(',', $input->getOption($name));
+        $option = explode(',', $input->getArgument($name));
 
         if (!isset($option[$index])) {
             return false;
@@ -230,7 +224,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     protected function getPercentStep(InputInterface $input)
     {
-        $percentStep = $input->getOption(self::PERCENT_STEP_OPTION);
+        $percentStep = $input->getArgument(self::PERCENT_STEP_ARGUMENT);
 
         if (!is_numeric($percentStep)) {
             return 5;
