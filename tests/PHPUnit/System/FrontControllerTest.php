@@ -10,6 +10,9 @@ namespace Piwik\Tests\System;
 
 use Piwik\Tests\Fixture;
 
+/**
+ * @group Core
+ */
 class FrontControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**

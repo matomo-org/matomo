@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit\Http;
 
 use Piwik\Http\Router;
 
+/**
+ * @group Core
+ */
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
