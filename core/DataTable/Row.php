@@ -10,6 +10,7 @@ namespace Piwik\DataTable;
 
 use Exception;
 use Piwik\DataTable;
+use Piwik\Log;
 use Piwik\Metrics;
 
 /**
@@ -101,7 +102,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
         if (!empty($this->c[self::DATATABLE_ASSOCIATED])
             && $this->c[self::DATATABLE_ASSOCIATED] < 0
         ) {
-            $this->c[self::DATATABLE_ASSOCIATED] = -1 * $this->c[self::DATATABLE_ASSOCIATED];
+            $this->switchFlagSubtableIsLoaded();
             $this->subtableIdWasNegativeBeforeSerialize = true;
         }
         return array('c');
@@ -114,9 +115,18 @@ class Row implements \ArrayAccess, \IteratorAggregate
     public function cleanPostSerialize()
     {
         if ($this->subtableIdWasNegativeBeforeSerialize) {
-            $this->c[self::DATATABLE_ASSOCIATED] = -1 * $this->c[self::DATATABLE_ASSOCIATED];
+            $this->switchFlagSubtableIsLoaded();
             $this->subtableIdWasNegativeBeforeSerialize = false;
         }
+    }
+
+    /**
+     * note: also used by unit tests
+     * @ignore
+     */
+    public function switchFlagSubtableIsLoaded()
+    {
+        $this->c[self::DATATABLE_ASSOCIATED] = -1 * $this->c[self::DATATABLE_ASSOCIATED];
     }
 
     /**
@@ -325,8 +335,10 @@ class Row implements \ArrayAccess, \IteratorAggregate
         if ($this->isSubtableLoaded()) {
             $thisSubTable = $this->getSubtable();
         } else {
+            $this->warnIfSubtableAlreadyExists();
+
             $thisSubTable = new DataTable();
-            $this->addSubtable($thisSubTable);
+            $this->setSubtable($thisSubTable);
         }
         $columnOps = $subTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
         $thisSubTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnOps);
@@ -751,4 +763,17 @@ class Row implements \ArrayAccess, \IteratorAggregate
     public function getIterator() {
         return new \ArrayIterator($this->c[self::COLUMNS]);
     }
+
+    private function warnIfSubtableAlreadyExists()
+    {
+        if (!is_null($this->c[self::DATATABLE_ASSOCIATED])) {
+            Log::warning(
+                "Row with label '%s' (columns = %s) has already a subtable id=%s but it was not loaded - overwriting the existing sub-table.",
+                $this->getColumn('label'),
+                implode(", ", $this->getColumns()),
+                $this->getIdSubDataTable()
+            );
+        }
+    }
+
 }
