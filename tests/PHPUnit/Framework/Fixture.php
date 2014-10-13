@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Impl;
+namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
 use Piwik\Common;
@@ -28,6 +28,7 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
@@ -54,7 +55,7 @@ use Exception;
  * Related TODO: we should try and reduce the amount of existing fixtures by
  *                merging some together.
  */
-class Fixture extends PHPUnit_Framework_Assert
+class Fixture extends \PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
     const IMAGES_GENERATED_FOR_PHP = '5.5';
@@ -87,12 +88,14 @@ class Fixture extends PHPUnit_Framework_Assert
      */
     protected static function getPythonBinary()
     {
-        if(\Piwik\SettingsServer::isWindows()) {
+        if (\Piwik\SettingsServer::isWindows()) {
             return "C:\Python27\python.exe";
         }
-        if(SystemTestCase::isTravisCI()) {
+
+        if (SystemTestCase::isTravisCI()) {
             return 'python2.6';
         }
+
         return 'python';
     }
 
@@ -848,14 +851,5 @@ class Fixture extends PHPUnit_Framework_Assert
         }
 
         return $result;
-    }
-}
-
-// needed by tests that use stored segments w/ the proxy index.php
-class OverrideLogin extends Access
-{
-    public function getLogin()
-    {
-        return 'superUserLogin';
     }
 }

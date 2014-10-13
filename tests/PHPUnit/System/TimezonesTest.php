@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Date;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
 
 /**

@@ -35,9 +35,9 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
-require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
-    ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
-    : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
+
+require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+\Piwik\Loader::init();
 
 if(!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
     define('PIWIK_PRINT_ERROR_BACKTRACE', false);

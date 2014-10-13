@@ -20,7 +20,7 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\WidgetsList;
-use Piwik\Tests\OverrideLogin;
+use Piwik\Tests\Framework\OverrideLogin;
 
 /**
  * Fixture for UI tests.

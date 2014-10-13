@@ -9,9 +9,9 @@ namespace Piwik\Tests\System;
 
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Exception;
 
 /**

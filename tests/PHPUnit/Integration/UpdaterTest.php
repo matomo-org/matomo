@@ -7,9 +7,9 @@
  */
 namespace Piwik\Tests\Integration\Core;
 
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Class Core_UpdaterTest

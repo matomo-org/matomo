@@ -12,7 +12,7 @@ use Piwik\Error;
 use Piwik\ExceptionHandler;
 use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 

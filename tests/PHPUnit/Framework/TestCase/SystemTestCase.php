@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Impl;
+namespace Piwik\Tests\Framework\TestCase;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
@@ -16,10 +16,13 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
+use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
+use Piwik\Tests\Framework\TestRequest\Collection;
+use Piwik\Tests\Framework\TestRequest\Response;
 use Piwik\Translate;
-use Piwik\Tests\Impl\Fixture;
 use Piwik\Log;
 use PHPUnit_Framework_TestCase;
+use Piwik\Tests\Framework\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -275,7 +278,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $_GET = $requestUrl;
         unset($_GET['serialize']);
 
-        $processedResponse = TestRequestResponse::loadFromApi($params, $requestUrl);
+        $processedResponse = Response::loadFromApi($params, $requestUrl);
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
         }
@@ -283,20 +286,20 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $_GET = $originalGET;
 
         try {
-            $expectedResponse = TestRequestResponse::loadFromFile($expectedFilePath, $params, $requestUrl);
+            $expectedResponse = Response::loadFromFile($expectedFilePath, $params, $requestUrl);
         } catch (Exception $ex) {
             $this->handleMissingExpectedFile($expectedFilePath, $processedResponse);
             return;
         }
 
         try {
-            TestRequestResponse::assertEquals($expectedResponse, $processedResponse, "Differences with expected in '$processedFilePath'");
+            Response::assertEquals($expectedResponse, $processedResponse, "Differences with expected in '$processedFilePath'");
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }
     }
 
-    private function handleMissingExpectedFile($expectedFilePath, TestRequestResponse $processedResponse)
+    private function handleMissingExpectedFile($expectedFilePath, Response $processedResponse)
     {
         $this->missingExpectedFiles[] = $expectedFilePath;
 
@@ -427,7 +430,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $this->changeLanguage($testConfig->language);
         }
 
-        $testRequests = new TestRequestCollection($api, $testConfig, $api);
+        $testRequests = new Collection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
             $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
@@ -490,7 +493,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      */
     public static function getPathToTestDirectory()
     {
-        return dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'System';
+        $up = DIRECTORY_SEPARATOR . '..';
+
+        return dirname(__FILE__) . $up . $up . DIRECTORY_SEPARATOR . 'System';
     }
 
     /**
@@ -574,7 +579,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected function skipWhenPhp53()
     {
-        if(\Piwik\Tests\Impl\SystemTestCase::isPhpVersion53()) {
+        if(self::isPhpVersion53()) {
             $this->markTestSkipped('Sometimes fail on php 5.3');
         }
     }

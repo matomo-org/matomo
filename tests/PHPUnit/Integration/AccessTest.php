@@ -7,7 +7,7 @@
  */
 use Piwik\Access;
 use Piwik\AuthResult;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * Class Core_AccessTest

@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\ExamplePlugin\tests\Integration;
 
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group ExamplePlugin

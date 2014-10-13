@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * Class Plugins_CorePluginsAdmin_UpdateCommunicationTest

@@ -10,7 +10,7 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 use Piwik\CacheFile;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\SiteUrls;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group SitesManager

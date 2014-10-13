@@ -10,7 +10,7 @@ namespace Piwik\Plugins\PrivacyManager\tests;
 
 use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * Class Plugins_SitesManagerTest

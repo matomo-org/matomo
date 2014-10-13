@@ -7,7 +7,7 @@
  */
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * Class Core_DbTest
