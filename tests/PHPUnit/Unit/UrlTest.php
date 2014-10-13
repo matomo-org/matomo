@@ -8,7 +8,7 @@ use Piwik\Url;
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class RouterTest extends PHPUnit_Framework_TestCase
+class UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
