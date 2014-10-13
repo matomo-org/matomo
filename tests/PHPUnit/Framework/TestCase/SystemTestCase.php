@@ -31,6 +31,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
  *
  * Provides helpers to track data and then call API get* methods to check outputs automatically.
  *
+ * @since 2.8.0
  */
 abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 {

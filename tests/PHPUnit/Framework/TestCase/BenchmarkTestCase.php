@@ -20,6 +20,8 @@ foreach (glob(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Benchmarks/Fixtures/*.php') a
 
 /**
  * Base class for benchmarks.
+ *
+ * @since 2.8.0
  */
 abstract class BenchmarkTestCase extends SystemTestCase
 {

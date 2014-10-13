@@ -19,6 +19,7 @@ use Piwik\Tests\Framework\Fixture;
  * This allows each test method to start from a clean DB and setup initial state to
  * then test it.
  *
+ * @since 2.8.0
  */
 abstract class IntegrationTestCase extends SystemTestCase
 {

@@ -27,6 +27,7 @@ use \Exception;
  *         'date' => '2012-01-01',
  *         // ...
  *     ));
+ * @since 2.8.0
  */
 class ApiTestConfig
 {

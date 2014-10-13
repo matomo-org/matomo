@@ -10,6 +10,9 @@ namespace Piwik\Tests\Framework;
 use Piwik\Access;
 
 // needed by tests that use stored segments w/ the proxy index.php
+/**
+ * @since 2.8.0
+ */
 class OverrideLogin extends Access
 {
     public function getLogin()

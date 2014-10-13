@@ -54,6 +54,7 @@ use Exception;
  *
  * Related TODO: we should try and reduce the amount of existing fixtures by
  *                merging some together.
+ * @since 2.8.0
  */
 class Fixture extends \PHPUnit_Framework_Assert
 {

@@ -15,6 +15,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * Utility class used to obtain and process API responses for API tests.
+ * @since 2.8.0
  */
 class Response
 {

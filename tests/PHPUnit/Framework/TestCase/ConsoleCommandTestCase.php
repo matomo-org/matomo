@@ -32,6 +32,8 @@ use Symfony\Component\Console\Tester\ApplicationTester;
  *
  *         // other checks
  *     }
+ *
+ * @since 2.8.0
  */
 class ConsoleCommandTestCase extends SystemTestCase
 {

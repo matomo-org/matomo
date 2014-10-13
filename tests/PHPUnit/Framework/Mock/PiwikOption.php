@@ -9,6 +9,9 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Option;
 
+/**
+ * @since 2.8.0
+ */
 class PiwikOption extends Option
 {
     private $forcedOptionValue = false;

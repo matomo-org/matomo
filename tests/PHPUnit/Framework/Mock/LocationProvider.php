@@ -9,6 +9,9 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Plugins\UserCountry\LocationProvider as CountryLocationProvider;
 
+/**
+ * @since 2.8.0
+ */
 class LocationProvider extends CountryLocationProvider
 {
     public static $locations = array();

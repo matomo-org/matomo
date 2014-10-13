@@ -18,6 +18,7 @@ use \Exception;
 /**
  * Utility class used to generate a set of API requests given API methods to call, API
  * methods to exclude, and an ApiTestConfig instance.
+ * @since 2.8.0
  */
 class Collection
 {

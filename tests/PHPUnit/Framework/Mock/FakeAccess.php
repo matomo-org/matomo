@@ -13,6 +13,7 @@ use Exception;
 
 /**
  * FakeAccess for UnitTests
+ * @since 2.8.0
  */
 class FakeAccess
 {
