@@ -15,6 +15,8 @@ use Piwik\Tests\Framework\Fixture;
 use Exception;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
 
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
+
 /**
  * Adds one new website and tracks 35 visits from 18 visitors with geolocation using
  * free GeoIP databases. The GeoIP databases are downloaded if they do not exist already.

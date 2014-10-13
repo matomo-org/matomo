@@ -12,6 +12,8 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
 
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
+
 /**
  * Adds one site and tracks 60 visits (15 visitors, one action per visit).
  */
