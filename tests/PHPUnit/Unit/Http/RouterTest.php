@@ -8,16 +8,16 @@
 
 namespace Piwik\Tests\Unit\Http;
 
-use Piwik\Http\UrlFilter;
+use Piwik\Http\Router;
 
-class UrlFilterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider urlProvider
      */
     public function testFilterUrl($url, $expected)
     {
-        $filter = new UrlFilter();
+        $filter = new Router();
 
         $this->assertSame($expected, $filter->filterUrl($url));
     }

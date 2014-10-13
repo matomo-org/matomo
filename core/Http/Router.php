@@ -11,9 +11,9 @@ namespace Piwik\Http;
 use Piwik\Url;
 
 /**
- * Filters URLs.
+ * Router
  */
-class UrlFilter
+class Router
 {
     /**
      * Filters some malformed URL by suggesting to redirect them.

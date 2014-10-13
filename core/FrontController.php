@@ -12,7 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
-use Piwik\Http\UrlFilter;
+use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
@@ -84,7 +84,7 @@ class FrontController extends Singleton
             return;
         }
 
-        $filter = new UrlFilter();
+        $filter = new Router();
         // We can't use Url::getCurrentUrl() since it doesn't really return the current URL
         $url = Url::getCurrentScheme() . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $redirection = $filter->filterUrl($url);
