@@ -338,7 +338,7 @@ class Tracker
 
         $nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
 
-        if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+        if ((defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS)
             || $cache['lastTrackerCronRun'] === false
             || $nextRunTime < $now
         ) {
