@@ -9,6 +9,7 @@ use Piwik\EventDispatcher;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTaskTimetable;
 use Piwik\TaskScheduler;
+use Piwik\Tests\Framework\Mock\PiwikOption;
 
 class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 {
@@ -313,7 +314,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     private static function stubPiwikOption($timetable)
     {
-        self::getReflectedPiwikOptionInstance()->setValue(new MockPiwikOption($timetable));
+        self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetable));
     }
 
     private static function resetPiwikOption()

@@ -6,8 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
-
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
+use Piwik\Tests\Framework\TestCase\BenchmarkTestCase;
 
 /**
  * Tracks 12,500 pageviews on one site. Uses bulk tracking (no

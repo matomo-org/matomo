@@ -14,9 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
-use Piwik\Tests\Impl\IntegrationTestCase;
-use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tracker\Cache;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Translate;
 
 /**

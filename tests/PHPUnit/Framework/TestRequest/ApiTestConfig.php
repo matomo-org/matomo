@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Impl;
+namespace Piwik\Tests\Framework\TestRequest;
 
 use \Exception;
 
@@ -116,7 +116,7 @@ class ApiTestConfig
 
     /**
      * This property is used to test API methods that return subtables and should be set to the API method that
-     * returns the super table of the API method being tested. If set, TestRequestCollection will look for the
+     * returns the super table of the API method being tested. If set, TestRequest\Collection will look for the
      * first valid idSubtable value to use in the test request. Since these values are assigned dynamically,
      * there's no other way to set idSubtable.
      * 

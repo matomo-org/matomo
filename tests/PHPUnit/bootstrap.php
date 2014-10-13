@@ -27,26 +27,21 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 error_reporting(E_ALL | E_NOTICE);
 @date_default_timezone_set('UTC');
 
-require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
-    ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
-    : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
+require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+
+\Piwik\Loader::init();
+\Piwik\Loader::registerTestNamespace();
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/Fixture.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/SystemTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/ConsoleCommandTestCase.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/TestRequestCollection.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/TestRequestResponse.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Impl/ApiTestConfig.php';
 
 if (getenv('PIWIK_USE_XHPROF') == 1) {
     \Piwik\Profiler::setupProfilerXHProf();
@@ -84,7 +79,7 @@ Try again.
 -> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
         exit(1);
     }
-    $baseUrl = \Piwik\Tests\Impl\Fixture::getRootUrl();
+    $baseUrl = \Piwik\Tests\Framework\Fixture::getRootUrl();
 
     \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl, $acceptInvalidSSLCertificates = true);
 }

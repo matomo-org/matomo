@@ -7,14 +7,14 @@
  */
 
 /**
- * @deprecated since 2.8.0 use \Piwik\Tests\Impl\IntegrationTestCase instead
+ * @deprecated since 2.8.0 use \Piwik\Tests\Framework\TestCase\IntegrationTestCase instead
  */
-class DatabaseTestCase extends \Piwik\Tests\Impl\IntegrationTestCase
+class DatabaseTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
 {
 
     public static function setUpBeforeClass()
     {
-        \Piwik\Log::debug('\DatabaseTestCase is deprecated since 2.8.0 extend \Piwik\Tests\Impl\IntegrationTestCase instead');
+        \Piwik\Log::debug('\DatabaseTestCase is deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\IntegrationTestCase instead');
 
         parent::setUpBeforeClass();
     }

@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\CustomVariables\tests;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker\Cache;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group CustomVariables

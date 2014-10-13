@@ -8,7 +8,7 @@
 
 use Piwik\Access;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * Class Core_Plugin_SettingsTest

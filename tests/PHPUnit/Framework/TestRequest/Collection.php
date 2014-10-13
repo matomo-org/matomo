@@ -6,20 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Impl;
+namespace Piwik\Tests\Framework\TestRequest;
 
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\UrlHelper;
 use \Exception;
-use \PHPUnit_Framework_Assert;
 
 /**
  * Utility class used to generate a set of API requests given API methods to call, API
  * methods to exclude, and an ApiTestConfig instance.
  */
-class TestRequestCollection
+class Collection
 {
     public $defaultApiNotToCall = array(
         'LanguagesManager',

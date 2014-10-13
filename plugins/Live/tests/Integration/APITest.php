@@ -14,8 +14,8 @@ use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\Live\API;
 use FakeAccess;
 use Piwik\Access;
-use Piwik\Tests\Impl\Fixture;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Live

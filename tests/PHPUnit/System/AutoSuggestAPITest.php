@@ -9,9 +9,9 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
 use Piwik\Date;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * testing a the auto suggest API for all known segments

@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\ExamplePlugin\tests\System;
 
 use Piwik\Plugins\ExamplePlugin\tests\fixtures\SimpleFixtureTrackFewVisits;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group ExamplePlugin

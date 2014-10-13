@@ -5,10 +5,11 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Framework\Mock;
 
-use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider as CountryLocationProvider;
 
-class MockLocationProvider extends LocationProvider
+class LocationProvider extends CountryLocationProvider
 {
     public static $locations = array();
     private $currentLocation = 0;
