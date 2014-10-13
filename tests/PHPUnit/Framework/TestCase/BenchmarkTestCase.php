@@ -13,8 +13,6 @@ use Piwik\Plugins\Goals\API;
 use Exception;
 use Piwik\Tests\Framework\Fixture;
 
-require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
-
 // require fixtures
 foreach (glob(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Benchmarks/Fixtures/*.php') as $file) {
     require_once $file;
@@ -81,6 +79,8 @@ abstract class BenchmarkTestCase extends SystemTestCase
      */
     public static function getLocalTracker($idSite)
     {
+        require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
+
         $t = new \Piwik_LocalTracker($idSite, Fixture::getTrackerUrl());
         $t->setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)");
         $t->setBrowserLanguage('fr');
