@@ -5,7 +5,6 @@ use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
-$GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 if (!defined('PIWIK_ENABLE_TRACKING')) {
     define('PIWIK_ENABLE_TRACKING', true);
 }

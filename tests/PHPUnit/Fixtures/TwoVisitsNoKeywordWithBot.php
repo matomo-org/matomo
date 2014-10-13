@@ -43,7 +43,7 @@ class TwoVisitsNoKeywordWithBot extends Fixture
         // tests run in UTC, the Tracker in UTC
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         // Also testing to record this as a bot while specifically allowing bots
         $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');

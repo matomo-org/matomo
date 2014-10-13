@@ -44,7 +44,7 @@ class SomeVisitsWithLongUrls extends Fixture
         $idSite = $this->idSite;
 
         // Visit 1: keyword and few URLs
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
         $t->setUrlReferrer('http://bing.com/search?q=Hello world');
 
         // Generate a few page views that will be truncated

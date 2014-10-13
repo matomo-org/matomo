@@ -41,21 +41,20 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: hhvm
-    - php: 5.6
-    - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Core
-    - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Plugins
     - php: 5.4
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
+    - php: 5.4
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
+    - php: 5.4
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
   include:
     # Code Coverage
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Core
-    - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Plugins
-    - php: 5.4
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
+    - php: 5.4
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
+    - php: 5.4
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
   exclude:
     # Javascript tests need to run only on one PHP version
     - php: 5.4
@@ -113,7 +112,7 @@ install:
   - git checkout master -- ./tests/travis ./plugins/CoreConsole || true
 
 before_script:
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
     fi
 
@@ -165,7 +164,7 @@ after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
 
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then php vendor/bin/coveralls -v;
     fi
 

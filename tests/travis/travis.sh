@@ -61,7 +61,7 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
+            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover-$PLUGIN_NAME.xml
         else
             travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
@@ -70,14 +70,14 @@ else
     if [ "$COVERAGE" = "System" ]
     then
         echo "Executing non System tests in test suite SystemTests..."
-        phpunit --configuration phpunit.xml --testsuite SystemTests --exclude-group System --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
-    elif [ "$COVERAGE" = "Core" ]
+        phpunit --configuration phpunit.xml --testsuite SystemTests --exclude-group System --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-system.xml || true
+    elif [ "$COVERAGE" = "Unit" ]
     then
         echo "Executing tests in test suite UnitTests..."
-        phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-core.xml || true
-    elif [ "$COVERAGE" = "Plugins" ]
+        phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml || true
+    elif [ "$COVERAGE" = "Integration" ]
     then
         echo "Executing tests in test suite IntegrationTests..."
-        phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-plugins.xml || true
+        phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
     fi;
 fi

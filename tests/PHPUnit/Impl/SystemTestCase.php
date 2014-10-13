@@ -571,4 +571,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
         ArchiveTableCreator::refreshTableList($forceReload = true);
     }
+
+    protected function skipWhenPhp53()
+    {
+        if(\Piwik\Tests\Impl\SystemTestCase::isPhpVersion53()) {
+            $this->markTestSkipped('Sometimes fail on php 5.3');
+        }
+    }
 }

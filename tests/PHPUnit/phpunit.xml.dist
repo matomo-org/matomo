@@ -72,6 +72,7 @@
             <directory suffix=".php">../../plugins/*/Updates</directory>
             <directory suffix=".php">../../plugins/*/libs</directory>
             <directory suffix=".php">../../plugins/*/tests</directory>
+            <directory suffix=".php">../../plugins/*/Test</directory>
         </exclude>
     </whitelist>
 </filter>

@@ -27,7 +27,6 @@ echo -e "\n${RED}The command \"$TRAVIS_CMD\" exited with $result.${RESET}"
   fi
 
 echo -e "\n${GREEN}Log:${RESET}\n"
-  cat $log_file
 
   return $result
 }

@@ -338,7 +338,7 @@ class Tracker
 
         $nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
 
-        if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+        if ((defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS)
             || $cache['lastTrackerCronRun'] === false
             || $nextRunTime < $now
         ) {
@@ -794,9 +794,11 @@ class Tracker
         // Avoid leaking the username/db name when access denied
         if ($e->getCode() == 1044 || $e->getCode() == 42000) {
             return "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
-        } else {
-            return $e->getMessage();
         }
+        if(Common::isPhpCliMode()) {
+            return $e->getMessage() . "\n" . $e->getTraceAsString();
+        }
+        return $e->getMessage();
     }
 
     /**
