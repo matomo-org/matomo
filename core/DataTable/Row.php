@@ -346,21 +346,6 @@ class Row implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * Attaches a subtable to this row.
-     *
-     * @param DataTable $subTable DataTable to associate to this row.
-     * @return DataTable Returns `$subTable`.
-     * @throws Exception if a subtable already exists for this row.
-     */
-    public function addSubtable(DataTable $subTable)
-    {
-        if (!is_null($this->c[self::DATATABLE_ASSOCIATED])) {
-            throw new Exception("Adding a subtable to the row, but it already has a subtable associated.");
-        }
-        return $this->setSubtable($subTable);
-    }
-
-    /**
      * Attaches a subtable to this row, overwriting the existing subtable,
      * if any.
      *
