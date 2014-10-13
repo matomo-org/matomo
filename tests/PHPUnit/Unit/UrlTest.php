@@ -340,6 +340,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group Core
      * @dataProvider urlProvider
      */
     public function testGetCurrentUrl($url, $pathInfo = null)
@@ -363,6 +364,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group Core
      * @dataProvider urlWithoutQueryStringProvider
      */
     public function testGetCurrentUrlWithoutQueryString($url, $expected, $pathInfo = null)
