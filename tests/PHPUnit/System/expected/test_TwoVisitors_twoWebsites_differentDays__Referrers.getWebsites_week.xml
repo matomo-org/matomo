@@ -5,24 +5,24 @@
 		<result date="From 2010-01-04 to 2010-01-10">
 			<row>
 				<label>referrer.com</label>
-				<nb_visits>7</nb_visits>
-				<nb_actions>32</nb_actions>
+				<nb_visits>4</nb_visits>
+				<nb_actions>17</nb_actions>
 				<max_actions>5</max_actions>
-				<sum_visit_length>5767</sum_visit_length>
+				<sum_visit_length>3064</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>http://referrer.com/Other_Page.htm</label>
-						<nb_visits>6</nb_visits>
-						<nb_actions>30</nb_actions>
+						<nb_visits>3</nb_visits>
+						<nb_actions>15</nb_actions>
 						<max_actions>5</max_actions>
-						<sum_visit_length>5406</sum_visit_length>
+						<sum_visit_length>2703</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
-						<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 						<sum_daily_nb_users>0</sum_daily_nb_users>
 					</row>
 					<row>
@@ -42,24 +42,24 @@
 		<result date="From 2010-01-11 to 2010-01-17">
 			<row>
 				<label>referrer.com</label>
-				<nb_visits>2</nb_visits>
-				<nb_actions>10</nb_actions>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
 				<max_actions>5</max_actions>
-				<sum_visit_length>1802</sum_visit_length>
+				<sum_visit_length>901</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>http://referrer.com/Other_Page.htm</label>
-						<nb_visits>2</nb_visits>
-						<nb_actions>10</nb_actions>
+						<nb_visits>1</nb_visits>
+						<nb_actions>5</nb_actions>
 						<max_actions>5</max_actions>
-						<sum_visit_length>1802</sum_visit_length>
+						<sum_visit_length>901</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
-						<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 						<sum_daily_nb_users>0</sum_daily_nb_users>
 					</row>
 				</subtable>

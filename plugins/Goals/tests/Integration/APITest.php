@@ -50,9 +50,9 @@ class APITest extends IntegrationTestCase
 
     public function test_addGoal_shouldSucceed_IfOnlyMinimumFieldsGiven()
     {
-        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact');
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de/?pk_campaign=1', 'exact');
 
-        $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de', 'exact', 0, 0, 0);
+        $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de/?pk_campaign=1', 'exact', 0, 0, 0);
     }
 
     public function test_addGoal_ShouldSucceed_IfAllFieldsGiven()
