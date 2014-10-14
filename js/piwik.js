@@ -2267,10 +2267,10 @@ if (typeof Piwik !== 'object') {
                 trackedContentImpressions = [],
                 isTrackOnlyVisibleContentEnabled = false,
 
-                // Guard to prevent empty visits see #6415. If there is a new visitor and there are 2 tracking requests
-                // at nearly same time (eg trackPageView and trackContentImpression) 2 visits will be created as both
-                // visitors are basically at the same time.
-                contentImpressionTrackingDelayInMs = 650,
+                // Guard to prevent empty visits see #6415. If there is a new visitor and the first 2 (or 3 or 4)
+                // tracking requests are at nearly same time (eg trackPageView and trackContentImpression) 2 or more
+                // visits will be created
+                timeNextTrackingRequestCanBeExecutedImmediately = false,
 
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
@@ -2467,20 +2467,59 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
+            function setExpireDateTime(delay) {
+
+                var now  = new Date();
+                var time = now.getTime() + delay;
+
+                if (!expireDateTime || time > expireDateTime) {
+                    expireDateTime = time;
+                }
+            }
+
+            function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
+            {
+                var now     = new Date();
+                var timeNow = now.getTime();
+
+                if (timeNextTrackingRequestCanBeExecutedImmediately && timeNow < timeNextTrackingRequestCanBeExecutedImmediately) {
+                    // we are in the time frame shortly after the first request. we have to delay this request a bit to make sure
+                    // a visitor has been created meanwhile.
+
+                    var timeToWait = timeNextTrackingRequestCanBeExecutedImmediately - timeNow;
+
+                    setTimeout(callback, timeToWait);
+                    setExpireDateTime(timeToWait + 50); // set timeout is not necessarily executed at timeToWait so delay a bit more
+                    timeNextTrackingRequestCanBeExecutedImmediately += 50; // delay next tracking request by further 50ms to next execute them at same time
+
+                    return;
+                }
+
+                if (timeNextTrackingRequestCanBeExecutedImmediately === false) {
+                    // it is the first request, we want to execute this one directly and delay all the next one(s) within a delay.
+                    // All requests after this delay can be executed as usual again
+                    var delayInMs = 800;
+                    timeNextTrackingRequestCanBeExecutedImmediately = timeNow + delayInMs;
+                }
+
+                callback();
+            }
+
             /*
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                var now = new Date();
 
                 if (!configDoNotTrack && request) {
-                    if (configRequestMethod === 'POST') {
-                        sendXmlHttpRequest(request, callback);
-                    } else {
-                        getImage(request, callback);
-                    }
+                    makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+                        if (configRequestMethod === 'POST') {
+                            sendXmlHttpRequest(request, callback);
+                        } else {
+                            getImage(request, callback);
+                        }
 
-                    expireDateTime = now.getTime() + delay;
+                        setExpireDateTime(delay);
+                    });
                 }
             }
 
@@ -2502,12 +2541,12 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
-                var now  = new Date();
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
 
-                sendXmlHttpRequest(bulk, null, false);
-
-                expireDateTime = now.getTime() + delay;
+                makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+                    sendXmlHttpRequest(bulk, null, false);
+                    setExpireDateTime(delay);
+                });
             }
 
             /*
@@ -3384,9 +3423,6 @@ if (typeof Piwik !== 'object') {
                         return;
                     }
 
-                    var now = new Date();
-                    expireDateTime = now.getTime() + configTrackerPause;
-
                     var contentBlock = content.findParentContentNode(targetNode);
 
                     var interactedElement;
@@ -3398,9 +3434,10 @@ if (typeof Piwik !== 'object') {
                     }
 
                     if (!isNodeAuthorizedToTriggerInteraction(contentBlock, interactedElement)) {
-                        expireDateTime = now.getTime();
                         return;
                     }
+
+                    setExpireDateTime(configTrackerPause);
 
                     if (query.isLinkElement(targetNode) &&
                         query.hasNodeAttributeWithValue(targetNode, 'href') &&
@@ -3427,7 +3464,6 @@ if (typeof Piwik !== 'object') {
                     var block = content.buildContentBlock(contentBlock);
 
                     if (!block) {
-                        expireDateTime = now.getTime();
                         return;
                     }
 
@@ -4769,11 +4805,7 @@ if (typeof Piwik !== 'object') {
                             var contentNodes = content.findContentNodes();
                             var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
 
-                            setTimeout(function () {
-                                sendBulkRequest(requests, configTrackerPause);
-                            }, contentImpressionTrackingDelayInMs);
-
-                            contentImpressionTrackingDelayInMs = 0;
+                            sendBulkRequest(requests, configTrackerPause);
                         });
                     });
                 },
@@ -4833,10 +4865,7 @@ if (typeof Piwik !== 'object') {
                             var contentNodes = content.findContentNodes();
                             var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
 
-                            setTimeout(function () {
-                                sendBulkRequest(requests, configTrackerPause);
-                            }, contentImpressionTrackingDelayInMs);
-                            contentImpressionTrackingDelayInMs = 0;
+                            sendBulkRequest(requests, configTrackerPause);
                         });
                     });
                 },
