@@ -288,11 +288,8 @@ class Filesystem
      */
     public static function copy($source, $dest, $excludePhp = false)
     {
-        static $phpExtensions = array('php', 'tpl', 'twig');
-
         if ($excludePhp) {
-            $path_parts = pathinfo($source);
-            if (in_array($path_parts['extension'], $phpExtensions)) {
+            if (self::hasPHPExtension($source)) {
                 return true;
             }
         }
@@ -305,7 +302,29 @@ class Filesystem
                 throw new Exception($message);
             }
         }
+
+        if (file_exists($source) && file_exists($dest)) {
+            if (!self::havePhpFilesSameContent($source, $dest)) {
+                throw new Exception("Error while creating/copying file from $source to <code>$dest</code>. Content is copied file is different.");
+            }
+        }
+
         return true;
+    }
+
+    private static function hasPHPExtension($file)
+    {
+        static $phpExtensions = array('php', 'tpl', 'twig');
+
+        $path_parts = pathinfo($file);
+
+        if (!empty($path_parts['extension'])
+            && in_array($path_parts['extension'], $phpExtensions)) {
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -396,6 +415,19 @@ class Filesystem
                 @xcache_clear_cache(XC_TYPE_VAR);
             }
         }
+    }
+
+    private static function havePhpFilesSameContent($file1, $file2)
+    {
+        if (self::hasPHPExtension($file1)) {
+
+            $sourceMd5 = md5_file($file1);
+            $destMd5   = md5_file($file2);
+
+            return $sourceMd5 === $destMd5;
+        }
+
+        return true;
     }
 
 }
