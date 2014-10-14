@@ -454,7 +454,8 @@ if (typeof JSON2 !== 'object') {
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body
+    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
+    getConfigVisitorCookieTimeout
  */
 /*global _paq:true */
 /*members push */
@@ -2642,6 +2643,7 @@ if (typeof Piwik !== 'object') {
 
                     // returning visitor flag
                     tmpContainer.unshift('0');
+
                 } else {
                     // uuid - generate a pseudo-unique ID to fingerprint this user;
                     // note: this isn't a RFC4122-compliant UUID
@@ -3966,6 +3968,11 @@ if (typeof Piwik !== 'object') {
                 return originalTimeout;
             }
 
+            function updateRemainingVisitorCookieTimeout()
+            {
+                configVisitorCookieTimeout = getRemainingVisitorCookieTimeout();
+            }
+
 /*<DEBUG>*/
             /*
              * Register a test hook. Using eval() permits access to otherwise
@@ -3999,7 +4006,7 @@ if (typeof Piwik !== 'object') {
              */
             detectBrowserFeatures();
             updateDomainHash();
-            configVisitorCookieTimeout = getRemainingVisitorCookieTimeout();
+            updateRemainingVisitorCookieTimeout();
 
 /*<DEBUG>*/
             /*
@@ -4157,6 +4164,7 @@ if (typeof Piwik !== 'object') {
                  */
                 setSiteId: function (siteId) {
                     configTrackerSiteId = siteId;
+                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
@@ -4512,6 +4520,7 @@ if (typeof Piwik !== 'object') {
                     configCookieNamePrefix = cookieNamePrefix;
                     // Re-init the Custom Variables cookie
                     customVariables = getCustomVariablesFromCookie();
+                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
@@ -4522,6 +4531,7 @@ if (typeof Piwik !== 'object') {
                 setCookieDomain: function (domain) {
                     configCookieDomain = domainFixup(domain);
                     updateDomainHash();
+                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
@@ -4532,6 +4542,7 @@ if (typeof Piwik !== 'object') {
                 setCookiePath: function (path) {
                     configCookiePath = path;
                     updateDomainHash();
+                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
