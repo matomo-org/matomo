@@ -455,7 +455,7 @@ if (typeof JSON2 !== 'object') {
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
-    getConfigVisitorCookieTimeout
+    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout
  */
 /*global _paq:true */
 /*members push */
@@ -2622,14 +2622,6 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
-             * Sets the Visitor ID cookie: either the first time loadVisitorIdCookie is called
-             * or when there is a new visit or a new page view
-             */
-            function setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, lastEcommerceOrderTs) {
-                setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain);
-            }
-
-            /*
              * Load visitor ID cookie
              */
             function loadVisitorIdCookie() {
@@ -2650,10 +2642,10 @@ if (typeof Piwik !== 'object') {
                     if (!visitorUUID) {
                         visitorUUID = hash(
                             (navigatorAlias.userAgent || '') +
-                                (navigatorAlias.platform || '') +
-                                JSON2.stringify(browserFeatures) +
-                                now.getTime() +
-                                Math.random()
+                            (navigatorAlias.platform || '') +
+                            JSON2.stringify(browserFeatures) +
+                            now.getTime() +
+                            Math.random()
                         ).slice(0, 16); // 16 hexits = 64 bits
                     }
 
@@ -2682,6 +2674,26 @@ if (typeof Piwik !== 'object') {
                 }
 
                 return tmpContainer;
+            }
+
+            function getRemainingVisitorCookieTimeout() {
+                var now = new Date(),
+                    nowTs = now.getTime(),
+                    visitorInfo = loadVisitorIdCookie();
+
+                var createTs = parseInt(visitorInfo[2], 10);
+                var originalTimeout = (createTs * 1000) + configVisitorCookieTimeout - nowTs;
+                return originalTimeout;
+            }
+
+            /*
+             * Sets the Visitor ID cookie: either the first time loadVisitorIdCookie is called
+             * or when there is a new visit or a new page view
+             */
+            function setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, lastEcommerceOrderTs) {
+                var timeout = getRemainingVisitorCookieTimeout();
+
+                setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, timeout, configCookiePath, configCookieDomain);
             }
 
             /*
@@ -3958,21 +3970,6 @@ if (typeof Piwik !== 'object') {
                 browserFeatures.res = screenAlias.width * devicePixelRatio + 'x' + screenAlias.height * devicePixelRatio;
             }
 
-            function getRemainingVisitorCookieTimeout() {
-                var now = new Date(),
-                    nowTs = now.getTime(),
-                    visitorInfo = loadVisitorIdCookie();
-
-                var createTs = parseInt(visitorInfo[2], 10);
-                var originalTimeout = (createTs * 1000) + configVisitorCookieTimeout - nowTs;
-                return originalTimeout;
-            }
-
-            function updateRemainingVisitorCookieTimeout()
-            {
-                configVisitorCookieTimeout = getRemainingVisitorCookieTimeout();
-            }
-
 /*<DEBUG>*/
             /*
              * Register a test hook. Using eval() permits access to otherwise
@@ -4006,7 +4003,6 @@ if (typeof Piwik !== 'object') {
              */
             detectBrowserFeatures();
             updateDomainHash();
-            updateRemainingVisitorCookieTimeout();
 
 /*<DEBUG>*/
             /*
@@ -4076,6 +4072,7 @@ if (typeof Piwik !== 'object') {
                 getConfigVisitorCookieTimeout: function () {
                     return configVisitorCookieTimeout;
                 },
+                getRemainingVisitorCookieTimeout: getRemainingVisitorCookieTimeout,
 /*</DEBUG>*/
 
                 /**
@@ -4164,7 +4161,6 @@ if (typeof Piwik !== 'object') {
                  */
                 setSiteId: function (siteId) {
                     configTrackerSiteId = siteId;
-                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
@@ -4520,7 +4516,6 @@ if (typeof Piwik !== 'object') {
                     configCookieNamePrefix = cookieNamePrefix;
                     // Re-init the Custom Variables cookie
                     customVariables = getCustomVariablesFromCookie();
-                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
@@ -4531,7 +4526,6 @@ if (typeof Piwik !== 'object') {
                 setCookieDomain: function (domain) {
                     configCookieDomain = domainFixup(domain);
                     updateDomainHash();
-                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
@@ -4542,12 +4536,11 @@ if (typeof Piwik !== 'object') {
                 setCookiePath: function (path) {
                     configCookiePath = path;
                     updateDomainHash();
-                    updateRemainingVisitorCookieTimeout();
                 },
 
                 /**
                  * Set visitor cookie timeout (in seconds)
-                 * Defaults to 2 years (timeout=63072000000)
+                 * Defaults to 13 months (timeout=33955200)
                  *
                  * @param int timeout
                  */
