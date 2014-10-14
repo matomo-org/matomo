@@ -85,6 +85,11 @@ class CoreUpdater extends \Piwik\Plugin
             'deactivatedPlugins' => $deactivatedPlugins
         );
 
+        /**
+         * Triggered after Piwik has been updated.
+         */
+        Piwik::postEvent('CoreUpdater.update.end');
+
         return $result;
     }
 
