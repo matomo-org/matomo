@@ -180,6 +180,7 @@ abstract class DataTableManipulator
 
         $dataTable = Proxy::getInstance()->call($class, $method, $request);
         $response = new ResponseBuilder($format = 'original', $request);
+        $response->disableSendHeader();
         $dataTable = $response->getResponse($dataTable);
 
         if (Common::getRequestVar('disable_queued_filters', 0, 'int', $request) == 0) {
