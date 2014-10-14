@@ -35,6 +35,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### New commands
 * `generate:angular-directive` Let's you easily generate a template for a new angular directive for any plugin.
 
+### Internal change
+* Piwik 2.8.0 now requires PHP >= 5.3.3. 
+ * If you use an older PHP version, please upgrade now to the latest PHP so you can enjoy improvements and security fixes in Piwik. 
+
 ## Piwik 2.7.0
 
 ### Reporting APIs
