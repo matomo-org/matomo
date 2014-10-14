@@ -263,7 +263,7 @@ class Common
         if (is_numeric($value)) {
             return $value;
         } elseif (is_string($value)) {
-            $value = self::sanitizeInputValue($value);
+            $value = self::sanitizeString($value);
 
             if (!$alreadyStripslashed) // a JSON array was already stripslashed, don't do it again for each value
             {
@@ -289,20 +289,30 @@ class Common
     }
 
     /**
-     * Sanitize a single input value
+     * Sanitize a single input value and removes line breaks, tabs and null characters.
      *
      * @param string $value
      * @return string  sanitized input
      */
     public static function sanitizeInputValue($value)
     {
+        $value = self::sanitizeLineBreaks($value);
+        $value = self::sanitizeString($value);
+        return $value;
+    }
+
+    /**
+     * Sanitize a single input value
+     *
+     * @param $value
+     * @return string
+     */
+    private static function sanitizeString($value)
+    {
         // $_GET and $_REQUEST already urldecode()'d
         // decode
         // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
         $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
-
-        // filter
-        $value = self::sanitizeLineBreaks($value);
 
         // escape
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
@@ -312,6 +322,7 @@ class Common
             // convert and escape
             $value = utf8_encode($value);
             $tmp = htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+            return $tmp;
         }
         return $tmp;
     }
