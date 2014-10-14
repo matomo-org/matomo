@@ -2226,7 +2226,7 @@ if (typeof Piwik !== 'object') {
                 configConversionAttributionFirstReferrer,
 
                 // Life of the visitor cookie (in milliseconds)
-                configVisitorCookieTimeout = 63072000000, // 2 years
+                configVisitorCookieTimeout = 33955200000, // 13 months (365 days + 28days)
 
                 // Life of the session cookie (in milliseconds)
                 configSessionCookieTimeout = 1800000, // 30 minutes
@@ -3956,6 +3956,16 @@ if (typeof Piwik !== 'object') {
                 browserFeatures.res = screenAlias.width * devicePixelRatio + 'x' + screenAlias.height * devicePixelRatio;
             }
 
+            function getRemainingVisitorCookieTimeout() {
+                var now = new Date(),
+                    nowTs = now.getTime(),
+                    visitorInfo = loadVisitorIdCookie();
+
+                var createTs = parseInt(visitorInfo[2], 10);
+                var originalTimeout = (createTs * 1000) + configVisitorCookieTimeout - nowTs;
+                return originalTimeout;
+            }
+
 /*<DEBUG>*/
             /*
              * Register a test hook. Using eval() permits access to otherwise
@@ -3989,6 +3999,7 @@ if (typeof Piwik !== 'object') {
              */
             detectBrowserFeatures();
             updateDomainHash();
+            configVisitorCookieTimeout = getRemainingVisitorCookieTimeout();
 
 /*<DEBUG>*/
             /*
@@ -4054,6 +4065,9 @@ if (typeof Piwik !== 'object') {
                 disableLinkTracking: function () {
                     linkTrackingInstalled = false;
                     linkTrackingEnabled   = false;
+                },
+                getConfigVisitorCookieTimeout: function () {
+                    return configVisitorCookieTimeout;
                 },
 /*</DEBUG>*/
 

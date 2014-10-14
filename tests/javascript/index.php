@@ -2584,7 +2584,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(100);
+        expect(101);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -2606,6 +2606,12 @@ if ($sqlite) {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
+
+        var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
+        var actualTimeout   = tracker.getConfigVisitorCookieTimeout();
+        var isAbout13Months = (thirteenMonths + 1000) > actualTimeout && ((thirteenMonths - 6000) < actualTimeout)
+
+        ok(isAbout13Months, 'cookieTimeout should default to about 13 months (' + thirteenMonths + ') but is ' + actualTimeout);
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
