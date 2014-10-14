@@ -294,19 +294,14 @@ class Filesystem
             }
         }
 
-        if (!@copy($source, $dest)) {
-            @chmod($dest, 0755);
-            if (!@copy($source, $dest)) {
-                $message = "Error while creating/copying file to <code>$dest</code>. <br />"
-                    . Filechecks::getErrorMessageMissingPermissions(self::getPathToPiwikRoot());
-                throw new Exception($message);
-            }
+        $success = self::tryToCopyFileAndVerifyItWasCopied($source, $dest);
+
+        if (!$success) {
+            $success = self::tryToCopyFileAndVerifyItWasCopied($source, $dest);
         }
 
-        if (file_exists($source) && file_exists($dest)) {
-            if (!self::havePhpFilesSameContent($source, $dest)) {
-                throw new Exception("Error while creating/copying file from $source to <code>$dest</code>. Content is copied file is different.");
-            }
+        if (!$success) {
+            throw new Exception("Error while creating/copying file from $source to <code>$dest</code>. Content of copied file is different.");
         }
 
         return true;
@@ -425,6 +420,24 @@ class Filesystem
             $destMd5   = md5_file($file2);
 
             return $sourceMd5 === $destMd5;
+        }
+
+        return true;
+    }
+
+    private static function tryToCopyFileAndVerifyItWasCopied($source, $dest)
+    {
+        if (!@copy($source, $dest)) {
+            @chmod($dest, 0755);
+            if (!@copy($source, $dest)) {
+                $message = "Error while creating/copying file to <code>$dest</code>. <br />"
+                    . Filechecks::getErrorMessageMissingPermissions(self::getPathToPiwikRoot());
+                throw new Exception($message);
+            }
+        }
+
+        if (file_exists($source) && file_exists($dest)) {
+            return self::havePhpFilesSameContent($source, $dest);
         }
 
         return true;
