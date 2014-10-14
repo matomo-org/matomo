@@ -2479,6 +2479,8 @@ function PiwikTest() {
 
         var startTime, stopTime;
 
+        wait(1000); // in case there is  a previous expireDateTime set
+
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
         startTime = new Date();
@@ -2492,7 +2494,8 @@ function PiwikTest() {
         tracker.trackPageView();
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
-        ok( (stopTime.getTime() - startTime.getTime()) >= 2000, 'setLinkTrackingTimer()' );
+        var diffTime = (stopTime.getTime() - startTime.getTime());
+        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
     });
 
     test("Overlay URL Normalizer", function() {
