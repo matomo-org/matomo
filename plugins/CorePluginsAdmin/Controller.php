@@ -334,6 +334,8 @@ class Controller extends Plugin\ControllerAdmin
 
     public function safemode($lastError = array())
     {
+        $this->tryToRepairPiwik();
+
         if (empty($lastError)) {
             $lastError = array(
                 'message' => Common::getRequestVar('error_message', null, 'string'),
@@ -476,6 +478,15 @@ class Controller extends Plugin\ControllerAdmin
     private function getPluginNamesHavingSettingsForCurrentUser()
     {
         return array_keys(SettingsManager::getPluginSettingsForCurrentUser());
+    }
+
+    private function tryToRepairPiwik()
+    {
+        // in case any opcaches etc were not cleared after an update for instance. Might prevent from getting the
+        // error again
+        try {
+            Filesystem::deleteAllCacheOnUpdate();
+        } catch (Exception $e) {}
     }
 
 }
