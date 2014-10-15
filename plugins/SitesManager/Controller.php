@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
 
 /**
@@ -95,7 +96,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $idSite = Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
-        $jsTag = Piwik::getJavascriptCode($idSite, SettingsPiwik::getPiwikUrl());
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $jsTag = $javascriptGenerator->generate($idSite, SettingsPiwik::getPiwikUrl());
         $site  = new Site($idSite);
 
         return $this->renderTemplate('displayJavascriptCode', array(
