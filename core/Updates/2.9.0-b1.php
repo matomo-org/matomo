@@ -22,7 +22,7 @@ class Updates_2_9_0_b1 extends Updates
     {
         $sql = array();
 
-        $sql[sprintf("ALTER TABLE `%s` ADD COLUMN `config_browser_engine` VARCHAR(10) NOT NULL", Common::prefixTable('log_visit'))] = false;
+        $sql[sprintf("ALTER TABLE `%s` ADD COLUMN `config_browser_engine` VARCHAR(10) NOT NULL", Common::prefixTable('log_visit'))] = 1060;
 
         $browserEngineMatch = array(
             'Trident' => array('IE'),
