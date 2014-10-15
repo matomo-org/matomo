@@ -244,14 +244,14 @@ abstract class Base extends VisitDimension
 
     protected function detectCampaignKeywordFromReferrerUrl()
     {
-        if(!empty($this->nameReferrerAnalyzed)
+        if (!empty($this->nameReferrerAnalyzed)
             && !empty($this->keywordReferrerAnalyzed)) {
             // keyword is already set, we skip
             return true;
         }
 
         // Set the Campaign keyword to the keyword found in the Referrer URL if any
-        if(!empty($this->nameReferrerAnalyzed)) {
+        if (!empty($this->nameReferrerAnalyzed)) {
             $referrerUrlInfo = UrlHelper::extractSearchEngineInformationFromUrl($this->referrerUrl);
             if (!empty($referrerUrlInfo['keywords'])) {
                 $this->keywordReferrerAnalyzed = $referrerUrlInfo['keywords'];
@@ -270,7 +270,7 @@ abstract class Base extends VisitDimension
                 $parsedAdsenseReferrerUrl = parse_url($value);
                 if (!empty($parsedAdsenseReferrerUrl['host'])) {
 
-                    if(empty($this->nameReferrerAnalyzed)) {
+                    if (empty($this->nameReferrerAnalyzed)) {
                         $type = $this->getParameterValueFromReferrerUrl('ad_type');
                         $type = $type ? " ($type)" : '';
                         $this->nameReferrerAnalyzed = self::LABEL_ADWORDS_NAME . $type;
@@ -304,7 +304,7 @@ abstract class Base extends VisitDimension
             return false;
         }
         // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
-        if(empty($this->keywordReferrerAnalyzed)) {
+        if (empty($this->keywordReferrerAnalyzed)) {
             $this->keywordReferrerAnalyzed = $this->referrerHost;
         }
 

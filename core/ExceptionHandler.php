@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\API\ResponseBuilder;
-use Piwik\Common;
 use Piwik\Plugin;
 
 /**

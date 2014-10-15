@@ -1,22 +1,21 @@
 /**
- * @license AngularJS v1.2.13
+ * @license AngularJS v1.2.25
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
 (function(window, angular, undefined) {'use strict';
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name ngTouch
  * @description
  *
  * # ngTouch
  *
  * The `ngTouch` module provides touch events and other helpers for touch-enabled devices.
- * The implementation is based on jQuery Mobile touch event handling 
+ * The implementation is based on jQuery Mobile touch event handling
  * ([jquerymobile.com](http://jquerymobile.com/)).
  *
- * {@installModule touch}
  *
  * See {@link ngTouch.$swipe `$swipe`} for usage.
  *
@@ -31,8 +30,8 @@ var ngTouch = angular.module('ngTouch', []);
 /* global ngTouch: false */
 
     /**
-     * @ngdoc object
-     * @name ngTouch.$swipe
+     * @ngdoc service
+     * @name $swipe
      *
      * @description
      * The `$swipe` service is a service that abstracts the messier details of hold-and-drag swipe
@@ -69,8 +68,7 @@ ngTouch.factory('$swipe', [function() {
   return {
     /**
      * @ngdoc method
-     * @name ngTouch.$swipe#bind
-     * @methodOf ngTouch.$swipe
+     * @name $swipe#bind
      *
      * @description
      * The main method of `$swipe`. It takes an element to be watched for swipe motions, and an
@@ -168,7 +166,7 @@ ngTouch.factory('$swipe', [function() {
 
 /**
  * @ngdoc directive
- * @name ngTouch.directive:ngClick
+ * @name ngClick
  *
  * @description
  * A more powerful replacement for the default ngClick designed to be used on touchscreen
@@ -189,14 +187,17 @@ ngTouch.factory('$swipe', [function() {
  * upon tap. (Event object is available as `$event`)
  *
  * @example
-    <doc:example>
-      <doc:source>
+    <example module="ngClickExample" deps="angular-touch.js">
+      <file name="index.html">
         <button ng-click="count = count + 1" ng-init="count=0">
           Increment
         </button>
         count: {{ count }}
-      </doc:source>
-    </doc:example>
+      </file>
+      <file name="script.js">
+        angular.module('ngClickExample', ['ngTouch']);
+      </file>
+    </example>
  */
 
 ngTouch.config(['$provide', function($provide) {
@@ -217,6 +218,7 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
   var ACTIVE_CLASS_NAME = 'ng-click-active';
   var lastPreventedTime;
   var touchCoordinates;
+  var lastLabelClickCoordinates;
 
 
   // TAP EVENTS AND GHOST CLICKS
@@ -231,7 +233,7 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
   //
   // What happens when the browser then generates a click event?
   // The browser, of course, also detects the tap and fires a click after a delay. This results in
-  // tapping/clicking twice. So we do "clickbusting" to prevent it.
+  // tapping/clicking twice. We do "clickbusting" to prevent it.
   //
   // How does it work?
   // We attach global touchstart and click handlers, that run during the capture (early) phase.
@@ -254,9 +256,9 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
   // encapsulates this ugly logic away from the user.
   //
   // Why not just put click handlers on the element?
-  // We do that too, just to be sure. The problem is that the tap event might have caused the DOM
-  // to change, so that the click fires in the same position but something else is there now. So
-  // the handlers are global and care only about coordinates and not elements.
+  // We do that too, just to be sure. If the tap event caused the DOM to change,
+  // it is possible another element is now in that position. To take account for these possibly
+  // distinct elements, the handlers are global and care only about coordinates.
 
   // Checks if the coordinates are close enough to be within the region.
   function hit(x1, y1, x2, y2) {
@@ -288,9 +290,22 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
     var y = touches[0].clientY;
     // Work around desktop Webkit quirk where clicking a label will fire two clicks (on the label
     // and on the input element). Depending on the exact browser, this second click we don't want
-    // to bust has either (0,0) or negative coordinates.
+    // to bust has either (0,0), negative coordinates, or coordinates equal to triggering label
+    // click event
     if (x < 1 && y < 1) {
       return; // offscreen
+    }
+    if (lastLabelClickCoordinates &&
+        lastLabelClickCoordinates[0] === x && lastLabelClickCoordinates[1] === y) {
+      return; // input click triggered by label click
+    }
+    // reset label click coordinates on first subsequent click
+    if (lastLabelClickCoordinates) {
+      lastLabelClickCoordinates = null;
+    }
+    // remember label click coordinates to prevent click busting of trigger click event on input
+    if (event.target.tagName.toLowerCase() === 'label') {
+      lastLabelClickCoordinates = [x, y];
     }
 
     // Look for an allowable region containing this click.
@@ -442,7 +457,7 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
 
 /**
  * @ngdoc directive
- * @name ngTouch.directive:ngSwipeLeft
+ * @name ngSwipeLeft
  *
  * @description
  * Specify custom behavior when an element is swiped to the left on a touchscreen device.
@@ -457,8 +472,8 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
  * upon left swipe. (Event object is available as `$event`)
  *
  * @example
-    <doc:example>
-      <doc:source>
+    <example module="ngSwipeLeftExample" deps="angular-touch.js">
+      <file name="index.html">
         <div ng-show="!showActions" ng-swipe-left="showActions = true">
           Some list content, like an email in the inbox
         </div>
@@ -466,13 +481,16 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
           <button ng-click="reply()">Reply</button>
           <button ng-click="delete()">Delete</button>
         </div>
-      </doc:source>
-    </doc:example>
+      </file>
+      <file name="script.js">
+        angular.module('ngSwipeLeftExample', ['ngTouch']);
+      </file>
+    </example>
  */
 
 /**
  * @ngdoc directive
- * @name ngTouch.directive:ngSwipeRight
+ * @name ngSwipeRight
  *
  * @description
  * Specify custom behavior when an element is swiped to the right on a touchscreen device.
@@ -487,8 +505,8 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
  * upon right swipe. (Event object is available as `$event`)
  *
  * @example
-    <doc:example>
-      <doc:source>
+    <example module="ngSwipeRightExample" deps="angular-touch.js">
+      <file name="index.html">
         <div ng-show="!showActions" ng-swipe-left="showActions = true">
           Some list content, like an email in the inbox
         </div>
@@ -496,8 +514,11 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
           <button ng-click="reply()">Reply</button>
           <button ng-click="delete()">Delete</button>
         </div>
-      </doc:source>
-    </doc:example>
+      </file>
+      <file name="script.js">
+        angular.module('ngSwipeRightExample', ['ngTouch']);
+      </file>
+    </example>
  */
 
 function makeSwipeDirective(directiveName, direction, eventName) {

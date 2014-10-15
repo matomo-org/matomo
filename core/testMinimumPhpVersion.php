@@ -15,8 +15,8 @@
 
 $piwik_errorMessage = '';
 
-// Minimum requirement: stream_resolve_include_path in 5.3.2, namespaces in 5.3
-$piwik_minimumPHPVersion = '5.3.2';
+// Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
+$piwik_minimumPHPVersion = '5.3.3';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
@@ -91,7 +91,11 @@ if (!function_exists('Piwik_ExitWithMessage')) {
     {
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
-            header('HTTP/1.1 500 Internal Server Error');
+
+            $isInternalServerError = preg_match('/(sql|database|mysql)/i', $message);
+            if($isInternalServerError) {
+                header('HTTP/1.1 500 Internal Server Error');
+            }
         }
 
         if ($optionalTrace) {
@@ -129,7 +133,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         $message = str_replace("\t", "", $message);
         $message = strip_tags($message);
 
-        if($isCli) {
+        if ($isCli) {
             echo $message;
         } else {
             echo $headerPage . $content . $footerPage;

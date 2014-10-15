@@ -12,16 +12,20 @@
  * <div piwik-onenter="save()">
  * <div piwik-onenter="showList=false">
  */
-angular.module('piwikApp.directive').directive('piwikOnenter', function() {
-    return function(scope, element, attrs) {
-        element.bind("keydown keypress", function(event) {
-            if(event.which === 13) {
-                scope.$apply(function(){
-                    scope.$eval(attrs.piwikOnenter, {'event': event});
-                });
+(function () {
+    angular.module('piwikApp.directive').directive('piwikOnenter', piwikOnenter);
 
-                event.preventDefault();
-            }
-        });
-    };
-});
+    function piwikOnenter() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) {
+                    scope.$apply(function(){
+                        scope.$eval(attrs.piwikOnenter, {'event': event});
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    }
+})();

@@ -8,11 +8,13 @@
  */
 namespace Piwik\Plugins\Provider\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Provider\Columns\Provider;
 
-class GetProvider extends \Piwik\Plugin\Report
+class GetProvider extends Report
 {
     protected function init()
     {
@@ -28,6 +30,14 @@ class GetProvider extends \Piwik\Plugin\Report
     {
         $view->requestConfig->filter_limit = 5;
         $view->config->addTranslation('label', $this->dimension->getName());
-    }
 
+        $message = Piwik::translate("General_Note") . ': ' . Piwik::translate('Provider_ProviderReportFooter', '');
+        if (! Common::getRequestVar('disableLink', 0, 'int')) {
+            $message .= ' ' . Piwik::translate(
+                    'General_SeeThisFaq',
+                    array('<a href="http://piwik.org/faq/general/faq_52/" target="_blank">', '</a>')
+                );
+        }
+        $view->config->show_footer_message = $message;
+    }
 }

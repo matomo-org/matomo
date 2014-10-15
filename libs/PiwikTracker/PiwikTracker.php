@@ -189,7 +189,7 @@ class PiwikTracker
         }
 
         // Life of the visitor cookie (in sec)
-        $this->configVisitorCookieTimeout = 63072000; // 2 years
+        $this->configVisitorCookieTimeout = 33955200; // 13 months (365 + 28 days)
         // Life of the session cookie (in sec)
         $this->configSessionCookieTimeout = 1800; // 30 minutes
         // Life of the session cookie (in sec)
@@ -1063,6 +1063,8 @@ class PiwikTracker
     /**
      * Hash function used internally by Piwik to hash a User ID into the Visitor ID.
      *
+     * Note: matches implementation of Tracker\Request->getUserIdHashed()
+     *
      * @param $id
      * @return string
      */
@@ -1070,7 +1072,6 @@ class PiwikTracker
     {
         return substr( sha1( $id ), 0, 16);
     }
-
 
     /**
      * Forces the requests to be recorded for the specified Visitor ID.

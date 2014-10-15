@@ -346,7 +346,7 @@ class API extends \Piwik\Plugin\API
     {
         $metrics = self::$baseMetrics;
 
-        if(Common::isActionsPluginEnabled()) {
+        if (Common::isActionsPluginEnabled()) {
             $metrics[self::NB_PAGEVIEWS_LABEL] = array(
                 self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',

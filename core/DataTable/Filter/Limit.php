@@ -34,9 +34,9 @@ class Limit extends BaseFilter
     public function __construct($table, $offset, $limit = -1, $keepSummaryRow = false)
     {
         parent::__construct($table);
-        $this->offset = $offset;
 
-        $this->limit = $limit;
+        $this->offset = $offset;
+        $this->limit  = $limit;
         $this->keepSummaryRow = $keepSummaryRow;
     }
 

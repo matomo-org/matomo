@@ -20,11 +20,8 @@ use Piwik\Piwik;
  */
 function getHostnameName($in)
 {
-    if (empty($in)) {
+    if (empty($in) || strtolower($in) === 'ip') {
         return Piwik::translate('General_Unknown');
-    }
-    if (strtolower($in) === 'ip') {
-        return "IP";
     }
     if (($positionDot = strpos($in, '.')) !== false) {
         return ucfirst(substr($in, 0, $positionDot));
@@ -40,14 +37,8 @@ function getHostnameName($in)
  */
 function getHostnameUrl($in)
 {
-    if ($in == DataTable::LABEL_SUMMARY_ROW) {
-        return false;
-    }
-    if (empty($in)
-        || strtolower($in) === 'ip'
-    ) {
-        // link to "what does 'IP' mean?"
-        return "http://piwik.org/faq/general/#faq_52";
+    if ($in == DataTable::LABEL_SUMMARY_ROW || empty($in) || strtolower($in) === 'ip') {
+        return null;
     }
 
     // if the name looks like it can be used in a URL, use it in one, otherwise link to startpage

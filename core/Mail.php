@@ -34,9 +34,13 @@ class Mail extends Zend_Mail
     public function setDefaultFromPiwik()
     {
         $customLogo = new CustomLogo();
-        $fromEmailName = $customLogo->isEnabled()
-            ? Piwik::translate('CoreHome_WebAnalyticsReports')
-            : Piwik::translate('ScheduledReports_PiwikReports');
+
+        if ($customLogo->isEnabled()) {
+            $fromEmailName = Piwik::translate('CoreHome_WebAnalyticsReports');
+        } else {
+            $fromEmailName = Piwik::translate('ScheduledReports_PiwikReports');
+        }
+
         $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
         $this->setFrom($fromEmailAddress, $fromEmailName);
     }
@@ -77,20 +81,29 @@ class Mail extends Zend_Mail
     private function initSmtpTransport()
     {
         $mailConfig = Config::getInstance()->mail;
+
         if (empty($mailConfig['host'])
             || $mailConfig['transport'] != 'smtp'
         ) {
             return;
         }
+
         $smtpConfig = array();
-        if (!empty($mailConfig['type']))
+        if (!empty($mailConfig['type'])) {
             $smtpConfig['auth'] = strtolower($mailConfig['type']);
-        if (!empty($mailConfig['username']))
+        }
+
+        if (!empty($mailConfig['username'])) {
             $smtpConfig['username'] = $mailConfig['username'];
-        if (!empty($mailConfig['password']))
+        }
+
+        if (!empty($mailConfig['password'])) {
             $smtpConfig['password'] = $mailConfig['password'];
-        if (!empty($mailConfig['encryption']))
+        }
+
+        if (!empty($mailConfig['encryption'])) {
             $smtpConfig['ssl'] = $mailConfig['encryption'];
+        }
 
         $tr = new \Zend_Mail_Transport_Smtp($mailConfig['host'], $smtpConfig);
         Mail::setDefaultTransport($tr);
@@ -112,12 +125,12 @@ class Mail extends Zend_Mail
      */
     protected function parseDomainPlaceholderAsPiwikHostName($email)
     {
-        $hostname = Config::getInstance()->mail['defaultHostnameIfEmpty'];
+        $hostname  = Config::getInstance()->mail['defaultHostnameIfEmpty'];
         $piwikHost = Url::getCurrentHost($hostname);
 
         // If known Piwik URL, use it instead of "localhost"
         $piwikUrl = SettingsPiwik::getPiwikUrl();
-        $url = parse_url($piwikUrl);
+        $url      = parse_url($piwikUrl);
         if ($this->isHostDefinedAndNotLocal($url)) {
             $piwikHost = $url['host'];
         }

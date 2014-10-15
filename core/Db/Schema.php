@@ -38,7 +38,7 @@ class Schema extends Singleton
     private static function getSchemaClassName($schemaName)
     {
         // Upgrade from pre 2.0.4
-        if(strtolower($schemaName) == 'myisam'
+        if (strtolower($schemaName) == 'myisam'
             || empty($schemaName)) {
             $schemaName = self::DEFAULT_SCHEMA;
         }
@@ -116,11 +116,11 @@ class Schema extends Singleton
      */
     private function loadSchema()
     {
-        $config = Config::getInstance();
-        $dbInfos = $config->database;
+        $config     = Config::getInstance();
+        $dbInfos    = $config->database;
         $schemaName = trim($dbInfos['schema']);
 
-        $className = self::getSchemaClassName($schemaName);
+        $className    = self::getSchemaClassName($schemaName);
         $this->schema = new $className();
     }
 
@@ -134,6 +134,7 @@ class Schema extends Singleton
         if ($this->schema === null) {
             $this->loadSchema();
         }
+
         return $this->schema;
     }
 

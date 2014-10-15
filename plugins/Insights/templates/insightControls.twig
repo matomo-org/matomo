@@ -37,7 +37,7 @@
     {{ 'Insights_Filter'|translate }}
 
     <select size="1" name="filterBy" title="{{ 'Insights_ControlFilterByDescription'|translate|e('html_attr') }}">
-        <option {% if not properties.filter_by %}selected{% endif %} value="">
+        <option {% if not properties.filter_by %}selected{% endif %} value="all">
             {{ 'General_All'|translate }}
         </option>
         <option {% if properties.filter_by == 'movers' %}selected{% endif %} value="movers">

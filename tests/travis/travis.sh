@@ -42,7 +42,7 @@ then
     then
         if [ -n "$PLUGIN_NAME" ]
         then
-            artifacts_folder="protected/ui-tests.master.$PLUGIN_NAME"
+            artifacts_folder="protected/ui-tests.$TRAVIS_BRANCH.$PLUGIN_NAME"
         else
             artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
@@ -61,23 +61,23 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
+            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover-$PLUGIN_NAME.xml
         else
             travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
     fi
 else
-    if [ "$COVERAGE" = "Integration" ]
+    if [ "$COVERAGE" = "System" ]
     then
-        echo "Executing non Integration tests in test suite IntegrationTests..."
-        phpunit --configuration phpunit.xml --testsuite IntegrationTests --exclude-group Integration --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
-    elif [ "$COVERAGE" = "Core" ]
+        echo "Executing non System tests in test suite SystemTests..."
+        phpunit --configuration phpunit.xml --testsuite SystemTests --exclude-group System --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-system.xml || true
+    elif [ "$COVERAGE" = "Unit" ]
     then
-        echo "Executing tests in test suite CoreTests..."
-        phpunit --configuration phpunit.xml --testsuite CoreTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-core.xml || true
-    elif [ "$COVERAGE" = "Plugins" ]
+        echo "Executing tests in test suite UnitTests..."
+        phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml || true
+    elif [ "$COVERAGE" = "Integration" ]
     then
-        echo "Executing tests in test suite PluginTests..."
-        phpunit --configuration phpunit.xml --testsuite PluginTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-plugins.xml || true
+        echo "Executing tests in test suite IntegrationTests..."
+        phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
     fi;
 fi

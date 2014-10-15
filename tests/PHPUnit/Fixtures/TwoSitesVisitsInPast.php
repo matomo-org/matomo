@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds two sites and tracks several visits all in the past.

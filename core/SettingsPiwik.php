@@ -179,7 +179,7 @@ class SettingsPiwik
             $url = $currentUrl;
         }
 
-        if(ProxyHttp::isHttps()) {
+        if (ProxyHttp::isHttps()) {
             $url = str_replace("http://", "https://", $url);
         }
         return $url;
@@ -195,7 +195,7 @@ class SettingsPiwik
         $exists = file_exists($config);
 
         // Piwik is installed if the config file is found
-        if(!$exists) {
+        if (!$exists) {
             return false;
         }
 
@@ -205,12 +205,12 @@ class SettingsPiwik
         if (array_key_exists('installation_in_progress', $general)) {
             $isInstallationInProgress = (bool) $general['installation_in_progress'];
         }
-        if($isInstallationInProgress) {
+        if ($isInstallationInProgress) {
             return false;
         }
 
         // Check that the database section is really set, ie. file is not empty
-        if(empty(Config::getInstance()->database['username'])) {
+        if (empty(Config::getInstance()->database['username'])) {
             return false;
         }
         return true;
@@ -297,6 +297,8 @@ class SettingsPiwik
      * this will return false..
      *
      * @param $piwikServerUrl
+     * @param bool $acceptInvalidSSLCertificates
+     * @throws Exception
      * @return bool
      */
     public static function checkPiwikServerWorking($piwikServerUrl, $acceptInvalidSSLCertificates = false)
@@ -337,7 +339,7 @@ class SettingsPiwik
     public static function getCurrentGitBranch()
     {
         $file = PIWIK_INCLUDE_PATH . '/.git/HEAD';
-        if(!file_exists($file)) {
+        if (!file_exists($file)) {
             return '';
         }
         $firstLineOfGitHead = file($file);
@@ -385,19 +387,19 @@ class SettingsPiwik
     protected static function getPiwikInstanceId()
     {
         // until Piwik is installed, we use hostname as instance_id
-        if(!self::isPiwikInstalled()
+        if (!self::isPiwikInstalled()
             && Common::isPhpCliMode()) {
             // enterprise:install use case
             return Config::getHostname();
         }
 
         // config.ini.php not ready yet, instance_id will not be set
-        if(!Config::getInstance()->existsLocalConfig()) {
+        if (!Config::getInstance()->existsLocalConfig()) {
             return false;
         }
 
         $instanceId = @Config::getInstance()->General['instance_id'];
-        if(!empty($instanceId)) {
+        if (!empty($instanceId)) {
             return $instanceId;
         }
 

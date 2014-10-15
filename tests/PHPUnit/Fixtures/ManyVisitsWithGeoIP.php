@@ -11,10 +11,11 @@ use Piwik\Date;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Exception;
+use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
 
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
 /**
  * Adds one new website and tracks 35 visits from 18 visitors with geolocation using
@@ -211,7 +212,7 @@ class ManyVisitsWithGeoIP extends Fixture
     {
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider('mock_provider');
-        \MockLocationProvider::$locations = array(
+        MockLocationProvider::$locations = array(
             self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
 
             // same region, different city, same country

@@ -36,6 +36,7 @@ class UIAssetMinifier extends Singleton
     public function isMinifiedJs($content)
     {
         $lineCount = substr_count($content, "\n");
+
         if ($lineCount == 0) {
             return true;
         }

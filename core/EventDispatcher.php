@@ -48,7 +48,7 @@ class EventDispatcher extends Singleton
     /**
      * Plugin\Manager instance used to get list of loaded plugins.
      *
-     * @var Piwik\Plugin\Manager
+     * @var \Piwik\Plugin\Manager
      */
     private $pluginManager;
 
@@ -89,6 +89,11 @@ class EventDispatcher extends Singleton
             if (is_string($plugin)) {
                 $plugin = $this->getPluginManager()->getLoadedPlugin($plugin);
             }
+
+            if (empty($plugin)) {
+                return; // may happen in unit tests
+            }
+
 
             $hooks = $plugin->getListHooksRegistered();
 

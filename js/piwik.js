@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -454,7 +454,8 @@ if (typeof JSON2 !== 'object') {
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body
+    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
+    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout
  */
 /*global _paq:true */
 /*members push */
@@ -2113,7 +2114,7 @@ if (typeof Piwik !== 'object') {
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
          */
-        function Tracker(trackerUrl, siteId) {
+        function Tracker(trackerUrl, siteId, uuid) {
 
             /************************************************************
              * Private members
@@ -2226,7 +2227,7 @@ if (typeof Piwik !== 'object') {
                 configConversionAttributionFirstReferrer,
 
                 // Life of the visitor cookie (in milliseconds)
-                configVisitorCookieTimeout = 63072000000, // 2 years
+                configVisitorCookieTimeout = 33955200000, // 13 months (365 days + 28days)
 
                 // Life of the session cookie (in milliseconds)
                 configSessionCookieTimeout = 1800000, // 30 minutes
@@ -2267,6 +2268,11 @@ if (typeof Piwik !== 'object') {
                 trackedContentImpressions = [],
                 isTrackOnlyVisibleContentEnabled = false,
 
+                // Guard to prevent empty visits see #6415. If there is a new visitor and the first 2 (or 3 or 4)
+                // tracking requests are at nearly same time (eg trackPageView and trackContentImpression) 2 or more
+                // visits will be created
+                timeNextTrackingRequestCanBeExecutedImmediately = false,
+
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
                 linkTrackingEnabled = false,
@@ -2288,7 +2294,7 @@ if (typeof Piwik !== 'object') {
                 domainHash,
 
                 // Visitor UUID
-                visitorUUID;
+                visitorUUID = uuid;
 
             /*
              * Set cookie value
@@ -2462,44 +2468,86 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
+            function setExpireDateTime(delay) {
+
+                var now  = new Date();
+                var time = now.getTime() + delay;
+
+                if (!expireDateTime || time > expireDateTime) {
+                    expireDateTime = time;
+                }
+            }
+
+            function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
+            {
+                var now     = new Date();
+                var timeNow = now.getTime();
+
+                if (timeNextTrackingRequestCanBeExecutedImmediately && timeNow < timeNextTrackingRequestCanBeExecutedImmediately) {
+                    // we are in the time frame shortly after the first request. we have to delay this request a bit to make sure
+                    // a visitor has been created meanwhile.
+
+                    var timeToWait = timeNextTrackingRequestCanBeExecutedImmediately - timeNow;
+
+                    setTimeout(callback, timeToWait);
+                    setExpireDateTime(timeToWait + 50); // set timeout is not necessarily executed at timeToWait so delay a bit more
+                    timeNextTrackingRequestCanBeExecutedImmediately += 50; // delay next tracking request by further 50ms to next execute them at same time
+
+                    return;
+                }
+
+                if (timeNextTrackingRequestCanBeExecutedImmediately === false) {
+                    // it is the first request, we want to execute this one directly and delay all the next one(s) within a delay.
+                    // All requests after this delay can be executed as usual again
+                    var delayInMs = 800;
+                    timeNextTrackingRequestCanBeExecutedImmediately = timeNow + delayInMs;
+                }
+
+                callback();
+            }
+
             /*
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                var now = new Date();
 
                 if (!configDoNotTrack && request) {
-                    if (configRequestMethod === 'POST') {
-                        sendXmlHttpRequest(request, callback);
-                    } else {
-                        getImage(request, callback);
-                    }
+                    makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+                        if (configRequestMethod === 'POST') {
+                            sendXmlHttpRequest(request, callback);
+                        } else {
+                            getImage(request, callback);
+                        }
 
-                    expireDateTime = now.getTime() + delay;
+                        setExpireDateTime(delay);
+                    });
                 }
+            }
+
+            function canSendBulkRequest(requests)
+            {
+                if (configDoNotTrack) {
+                    return false;
+                }
+
+                return (requests && requests.length);
             }
 
             /*
              * Send requests using bulk
              */
-            function sendBulkRequest(requests, delay) {
-
-                if (configDoNotTrack) {
+            function sendBulkRequest(requests, delay)
+            {
+                if (!canSendBulkRequest(requests)) {
                     return;
                 }
 
-                if (!requests || !requests.length) {
-                    return;
-                }
-
-                // here we have to prevent 414 request uri too long error in case someone tracks like 1000
-
-                var now  = new Date();
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
 
-                sendXmlHttpRequest(bulk, null, false);
-
-                expireDateTime = now.getTime() + delay;
+                makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+                    sendXmlHttpRequest(bulk, null, false);
+                    setExpireDateTime(delay);
+                });
             }
 
             /*
@@ -2574,14 +2622,6 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
-             * Sets the Visitor ID cookie: either the first time loadVisitorIdCookie is called
-             * or when there is a new visit or a new page view
-             */
-            function setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, lastEcommerceOrderTs) {
-                setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain);
-            }
-
-            /*
              * Load visitor ID cookie
              */
             function loadVisitorIdCookie() {
@@ -2595,16 +2635,17 @@ if (typeof Piwik !== 'object') {
 
                     // returning visitor flag
                     tmpContainer.unshift('0');
+
                 } else {
                     // uuid - generate a pseudo-unique ID to fingerprint this user;
                     // note: this isn't a RFC4122-compliant UUID
                     if (!visitorUUID) {
                         visitorUUID = hash(
                             (navigatorAlias.userAgent || '') +
-                                (navigatorAlias.platform || '') +
-                                JSON2.stringify(browserFeatures) +
-                                now.getTime() +
-                                Math.random()
+                            (navigatorAlias.platform || '') +
+                            JSON2.stringify(browserFeatures) +
+                            now.getTime() +
+                            Math.random()
                         ).slice(0, 16); // 16 hexits = 64 bits
                     }
 
@@ -2635,6 +2676,26 @@ if (typeof Piwik !== 'object') {
                 return tmpContainer;
             }
 
+            function getRemainingVisitorCookieTimeout() {
+                var now = new Date(),
+                    nowTs = now.getTime(),
+                    visitorInfo = loadVisitorIdCookie();
+
+                var createTs = parseInt(visitorInfo[2], 10);
+                var originalTimeout = (createTs * 1000) + configVisitorCookieTimeout - nowTs;
+                return originalTimeout;
+            }
+
+            /*
+             * Sets the Visitor ID cookie: either the first time loadVisitorIdCookie is called
+             * or when there is a new visit or a new page view
+             */
+            function setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, lastEcommerceOrderTs) {
+                var timeout = getRemainingVisitorCookieTimeout();
+
+                setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, timeout, configCookiePath, configCookieDomain);
+            }
+
             /*
              * Loads the referrer attribution information
              *
@@ -2646,7 +2707,7 @@ if (typeof Piwik !== 'object') {
              */
             function loadReferrerAttributionCookie() {
                 // NOTE: if the format of the cookie changes,
-                // we must also update JS tests, PHP tracker, Integration tests,
+                // we must also update JS tests, PHP tracker, System tests,
                 // and notify other tracking clients (eg. Java) of the changes
                 var cookie = getCookie(getCookieName('ref'));
 
@@ -3390,6 +3451,8 @@ if (typeof Piwik !== 'object') {
                         return;
                     }
 
+                    setExpireDateTime(configTrackerPause);
+
                     if (query.isLinkElement(targetNode) &&
                         query.hasNodeAttributeWithValue(targetNode, 'href') &&
                         query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR)) {
@@ -3411,7 +3474,6 @@ if (typeof Piwik !== 'object') {
                     if (replaceHrefIfInternalLink(contentBlock)) {
                         return 'href';
                     }
-
 
                     var block = content.buildContentBlock(contentBlock);
 
@@ -4007,6 +4069,10 @@ if (typeof Piwik !== 'object') {
                     linkTrackingInstalled = false;
                     linkTrackingEnabled   = false;
                 },
+                getConfigVisitorCookieTimeout: function () {
+                    return configVisitorCookieTimeout;
+                },
+                getRemainingVisitorCookieTimeout: getRemainingVisitorCookieTimeout,
 /*</DEBUG>*/
 
                 /**
@@ -4104,6 +4170,15 @@ if (typeof Piwik !== 'object') {
                  */
                 setUserId: function (userId) {
                     configUserId = userId;
+                },
+
+                /**
+                 * Gets the User ID if set.
+                 *
+                 * @returns string User ID
+                 */
+                getUserId: function() {
+                    return configUserId;
                 },
 
                 /**
@@ -4465,7 +4540,7 @@ if (typeof Piwik !== 'object') {
 
                 /**
                  * Set visitor cookie timeout (in seconds)
-                 * Defaults to 2 years (timeout=63072000000)
+                 * Defaults to 13 months (timeout=33955200)
                  *
                  * @param int timeout
                  */
@@ -4746,8 +4821,8 @@ if (typeof Piwik !== 'object') {
                         trackCallbackOnReady(function () {
                             // we have to wait till DOM ready
                             var contentNodes = content.findContentNodes();
+                            var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
 
-                            var requests = getContentImpressionsRequestsFromNodes(contentNodes);
                             sendBulkRequest(requests, configTrackerPause);
                         });
                     });
@@ -4806,8 +4881,8 @@ if (typeof Piwik !== 'object') {
                         trackCallbackOnLoad(function () {
                             // we have to wait till CSS parsed and applied
                             var contentNodes = content.findContentNodes();
+                            var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
 
-                            var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
                             sendBulkRequest(requests, configTrackerPause);
                         });
                     });
@@ -5125,7 +5200,7 @@ if (typeof Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                return new Tracker(piwikUrl, siteId);
+                return new Tracker(piwikUrl, siteId, asyncTracker.getVisitorId());
             },
 
             /**

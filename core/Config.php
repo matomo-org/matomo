@@ -36,7 +36,7 @@ use Exception;
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
  *
- * @method static \Piwik\Config getInstance()
+ * @method static Config getInstance()
  */
 class Config extends Singleton
 {
@@ -416,9 +416,9 @@ class Config extends Singleton
 
         $section = $this->getFromGlobalConfig($name);
         $sectionCommon = $this->getFromCommonConfig($name);
-        if(empty($section) && !empty($sectionCommon)) {
+        if (empty($section) && !empty($sectionCommon)) {
             $section = $sectionCommon;
-        } elseif(!empty($section) && !empty($sectionCommon)) {
+        } elseif (!empty($section) && !empty($sectionCommon)) {
             $section = $this->array_merge_recursive_distinct($section, $sectionCommon);
         }
 
@@ -429,11 +429,11 @@ class Config extends Singleton
                 : $this->configLocal[$name];
         }
 
-        if ($section === null && $name = 'superuser') {
+        if ($section === null && $name == 'superuser') {
             $user = $this->getConfigSuperUserForBackwardCompatibility();
             return $user;
         } else if ($section === null) {
-            throw new Exception("Error while trying to read a specific config file entry <strong>'$name'</strong> from your configuration files.</b>If you just completed a Piwik upgrade, please check that the file config/global.ini.php was overwritten by the latest Piwik version.");
+            $section = array();
         }
 
         // cache merged section for later
@@ -459,6 +459,7 @@ class Config extends Singleton
                 $user['bridge'] = 1;
                 return $user;
             }
+
         } catch (Exception $e) {}
 
         return array();
@@ -559,7 +560,7 @@ class Config extends Singleton
         }
 
         // If there is a common.config.ini.php, this will ensure config.ini.php does not duplicate its values
-        if(!empty($configCommon)) {
+        if (!empty($configCommon)) {
             $configGlobal = $this->array_merge_recursive_distinct($configGlobal, $configCommon);
         }
 

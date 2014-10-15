@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Fixture that adds one site with three goals and tracks one pageview & one manual

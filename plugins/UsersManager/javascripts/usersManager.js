@@ -303,4 +303,12 @@ $(document).ready(function () {
             piwik.broadcast.propagateNewPage('segment=&idSite=' + site.id, false);
         }
     });
+
+    // Show the token_auth
+    $('.token_auth').click(function () {
+        var token = $(this).data('token');
+        if ($(this).text() != token) {
+            $(this).text(token);
+        }
+    });
 });

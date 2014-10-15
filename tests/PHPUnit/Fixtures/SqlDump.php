@@ -7,11 +7,11 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\Piwik;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Exception;
 
 /**
@@ -79,7 +79,7 @@ class SqlDump extends Fixture
         Rules::setBrowserTriggerArchiving(true);
 
         // reload access
-        Piwik::setUserHasSuperUserAccess();
+        Access::getInstance()->reloadAccess();
 
         $this->getTestEnvironment()->configOverride = array(
             'database' => array(

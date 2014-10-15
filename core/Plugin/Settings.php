@@ -167,6 +167,22 @@ abstract class Settings implements StorageInterface
     public function save()
     {
         Option::set($this->getOptionKey(), serialize($this->settingsValues));
+
+        $pluginName = $this->getPluginName();
+
+        /**
+         * Triggered after a plugin settings have been updated.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Settings.MyPlugin.settingsUpdated', function (Settings $settings) {
+         *         $value = $settings->someSetting->getValue();
+         *         // Do something with the new setting value
+         *     });
+         *
+         * @param Settings $settings The plugin settings object.
+         */
+        Piwik::postEvent(sprintf('Settings.%s.settingsUpdated', $pluginName), array($this));
     }
 
     /**

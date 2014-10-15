@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds one site with a non UTC timezone and tracks a couple visits near the end of the day.

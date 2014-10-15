@@ -20,7 +20,7 @@ and will not track bots, static files, or error requests.
 
 If you wish to track all requests the following command would be used:
 
-    python /path/to/piwik/misc/log-analytics/import_logs.py --url=http://mysite/piwik/ access.log --idsite=1234 --recorders=4 --enable-http-errors --enable-http-redirects --enable-static --enable-bots
+    python /path/to/piwik/misc/log-analytics/import_logs.py --url=http://mysite/piwik/ --idsite=1234 --recorders=4 --enable-http-errors --enable-http-redirects --enable-static --enable-bots access.log 
 
 ## How to import your logs automatically every day?
 

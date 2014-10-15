@@ -263,7 +263,7 @@ class Common
         if (is_numeric($value)) {
             return $value;
         } elseif (is_string($value)) {
-            $value = self::sanitizeInputValue($value);
+            $value = self::sanitizeString($value);
 
             if (!$alreadyStripslashed) // a JSON array was already stripslashed, don't do it again for each value
             {
@@ -289,20 +289,32 @@ class Common
     }
 
     /**
-     * Sanitize a single input value
+     * Sanitize a single input value and removes line breaks, tabs and null characters.
      *
      * @param string $value
      * @return string  sanitized input
      */
     public static function sanitizeInputValue($value)
     {
+        $value = self::sanitizeLineBreaks($value);
+        $value = self::sanitizeString($value);
+        return $value;
+    }
+
+    /**
+     * Sanitize a single input value
+     *
+     * @param $value
+     * @return string
+     */
+    private static function sanitizeString($value)
+    {
         // $_GET and $_REQUEST already urldecode()'d
         // decode
         // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
         $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
-        // filter
-        $value = self::sanitizeLineBreaks($value);
+        $value = self::sanitizeNullBytes($value);
 
         // escape
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
@@ -312,6 +324,7 @@ class Common
             // convert and escape
             $value = utf8_encode($value);
             $tmp = htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+            return $tmp;
         }
         return $tmp;
     }
@@ -362,21 +375,31 @@ class Common
      */
     private static function undoMagicQuotes($value)
     {
-        return version_compare(PHP_VERSION, '5.4', '<')
-            && get_magic_quotes_gpc()
-            ? stripslashes($value)
-            : $value;
+        if (version_compare(PHP_VERSION, '5.4', '<') &&
+            get_magic_quotes_gpc()) {
+
+            $value = stripslashes($value);
+        }
+
+        return $value;
     }
 
     /**
-     *
-     * @param string
+     * @param string $value
      * @return string Line breaks and line carriage removed
      */
     public static function sanitizeLineBreaks($value)
     {
-        $value = str_replace(array("\n", "\r", "\0"), '', $value);
-        return $value;
+        return str_replace(array("\n", "\r"), '', $value);
+    }
+
+    /**
+     * @param string $value
+     * @return string Null bytes removed
+     */
+    public static function sanitizeNullBytes($value)
+    {
+        return str_replace(array("\0"), '', $value);
     }
 
     /**
@@ -406,6 +429,7 @@ class Common
         if (is_null($requestArrayToUse)) {
             $requestArrayToUse = $_GET + $_POST;
         }
+
         $varDefault = self::sanitizeInputValues($varDefault);
         if ($varType === 'int') {
             // settype accepts only integer
@@ -469,6 +493,7 @@ class Common
             }
             settype($value, $varType);
         }
+
         return $value;
     }
 
@@ -496,14 +521,17 @@ class Common
     public static function hash($str, $raw_output = false)
     {
         static $hashAlgorithm = null;
+
         if (is_null($hashAlgorithm)) {
             $hashAlgorithm = @Config::getInstance()->General['hash_algorithm'];
         }
 
         if ($hashAlgorithm) {
             $hash = @hash($hashAlgorithm, $str, $raw_output);
-            if ($hash !== false)
+            if ($hash !== false) {
+
                 return $hash;
+            }
         }
 
         return md5($str, $raw_output);
@@ -520,7 +548,7 @@ class Common
     public static function getRandomString($length = 16, $alphabet = "abcdefghijklmnoprstuvwxyz0123456789")
     {
         $chars = $alphabet;
-        $str = '';
+        $str   = '';
 
         list($usec, $sec) = explode(" ", microtime());
         $seed = ((float)$sec + (float)$usec) * 100000;
@@ -530,6 +558,7 @@ class Common
             $rand_key = mt_rand(0, strlen($chars) - 1);
             $str .= substr($chars, $rand_key, 1);
         }
+
         return str_shuffle($str);
     }
 
@@ -571,6 +600,7 @@ class Common
         ) {
             throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
         }
+
         return self::hex2bin($id);
     }
 
@@ -582,7 +612,9 @@ class Common
      */
     public static function convertUserIdToVisitorIdBin($userId)
     {
+        require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
         $userIdHashed = \PiwikTracker::getUserIdHashed($userId);
+
         return self::convertVisitorIdToBin($userIdHashed);
     }
 
@@ -729,6 +761,7 @@ class Common
         if ($includeInternalCodes) {
             return array_merge($countriesList, $extras);
         }
+
         return $countriesList;
     }
 
@@ -1053,7 +1086,7 @@ class Common
     public static function sendHeader($header, $replace = true)
     {
         // don't send header in CLI mode
-        if(!Common::isPhpCliMode() and !headers_sent()) {
+        if (!Common::isPhpCliMode() and !headers_sent()) {
             header($header, $replace);
         }
     }

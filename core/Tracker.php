@@ -44,9 +44,6 @@ class Tracker
     const LENGTH_HEX_ID_STRING = 16;
     const LENGTH_BINARY_ID = 8;
 
-    protected static $forcedDateTime = null;
-    protected static $forcedIpString = null;
-
     protected static $pluginsNotToLoad = array();
     protected static $pluginsToLoad = array();
 
@@ -90,19 +87,7 @@ class Tracker
 
     public function clear()
     {
-        self::$forcedIpString = null;
-        self::$forcedDateTime = null;
         $this->stateValid = self::STATE_NOTHING_TO_NOTICE;
-    }
-
-    public static function setForceIp($ipString)
-    {
-        self::$forcedIpString = $ipString;
-    }
-
-    public static function setForceDateTime($dateTime)
-    {
-        self::$forcedDateTime = $dateTime;
     }
 
     /**
@@ -221,7 +206,7 @@ class Tracker
      */
     public function main($args = null)
     {
-        if(!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isPiwikInstalled()) {
             return $this->handleEmptyRequest();
         }
         try {
@@ -353,7 +338,7 @@ class Tracker
 
         $nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
 
-        if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+        if ((defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS)
             || $cache['lastTrackerCronRun'] === false
             || $nextRunTime < $now
         ) {
@@ -452,6 +437,7 @@ class Tracker
             }
             Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
+            die(1);
             exit;
         }
 
@@ -470,6 +456,7 @@ class Tracker
         } else {
             $this->outputTransparentGif();
         }
+        die(1);
         exit;
     }
 
@@ -486,15 +473,13 @@ class Tracker
 
     /**
      * Initialization
+     * @param Request $request
      */
     protected function init(Request $request)
     {
         $this->loadTrackerPlugins($request);
-        $this->handleTrackingApi($request);
         $this->handleDisabledTracker();
         $this->handleEmptyRequest($request);
-
-        Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
     }
 
     /**
@@ -516,7 +501,7 @@ class Tracker
         }
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
-                $this->outputTransparentGif();
+                $this->outputTransparentGif ();
                 Common::printDebug("Logging disabled, display transparent logo");
                 break;
 
@@ -528,7 +513,7 @@ class Tracker
             case self::STATE_NOSCRIPT_REQUEST:
             case self::STATE_NOTHING_TO_NOTICE:
             default:
-                $this->outputTransparentGif();
+                $this->outputTransparentGif ();
                 Common::printDebug("Nothing to notice => default behaviour");
                 break;
         }
@@ -663,7 +648,7 @@ class Tracker
         return $visit;
     }
 
-    protected function outputTransparentGif()
+    protected function outputTransparentGif ()
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG'])
             && $GLOBALS['PIWIK_TRACKER_DEBUG']
@@ -717,7 +702,7 @@ class Tracker
 
     protected function handleEmptyRequest(Request $request = null)
     {
-        if(is_null($request)) {
+        if (is_null($request)) {
             $request = new Request($_GET + $_POST);
         }
         $countParameters = $request->getParamsCount();
@@ -744,29 +729,6 @@ class Tracker
         }
 
         return Common::getRequestVar('token_auth', false);
-    }
-
-    /**
-     * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
-     * These two attributes can be only set by the Super User (passing token_auth).
-     */
-    protected function handleTrackingApi(Request $request)
-    {
-        if (!$request->isAuthenticated()) {
-            return;
-        }
-
-        // Custom IP to use for this visitor
-        $customIp = $request->getParam('cip');
-        if (!empty($customIp)) {
-            $this->setForceIp($customIp);
-        }
-
-        // Custom server date time to use
-        $customDatetime = $request->getParam('cdt');
-        if (!empty($customDatetime)) {
-            $this->setForceDateTime($customDatetime);
-        }
     }
 
     public static function setTestEnvironment($args = null, $requestMethod = null)
@@ -814,18 +776,6 @@ class Tracker
             \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
         }
 
-        // Custom IP to use for this visitor
-        $customIp = Common::getRequestVar('cip', false, null, $args);
-        if (!empty($customIp)) {
-            self::setForceIp($customIp);
-        }
-
-        // Custom server date time to use
-        $customDatetime = Common::getRequestVar('cdt', false, null, $args);
-        if (!empty($customDatetime)) {
-            self::setForceDateTime($customDatetime);
-        }
-
         $pluginsDisabled = array('Provider');
 
         // Disable provider plugin, because it is so slow to do many reverse ip lookups
@@ -844,9 +794,11 @@ class Tracker
         // Avoid leaking the username/db name when access denied
         if ($e->getCode() == 1044 || $e->getCode() == 42000) {
             return "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
-        } else {
-            return $e->getMessage();
         }
+        if(Common::isPhpCliMode()) {
+            return $e->getMessage() . "\n" . $e->getTraceAsString();
+        }
+        return $e->getMessage();
     }
 
     /**
@@ -868,8 +820,7 @@ class Tracker
 
         try {
             if ($this->isVisitValid()) {
-                $request->setForceDateTime(self::$forcedDateTime);
-                $request->setForceIp(self::$forcedIpString);
+                Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
 
                 $visit = $this->getNewVisitObject();
                 $visit->setRequest($request);

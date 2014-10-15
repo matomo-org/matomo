@@ -51,17 +51,17 @@ class GroupBy extends BaseFilter
      * @param DataTable $table The DataTable to filter.
      * @param string $groupByColumn The column name to reduce.
      * @param callable $reduceFunction The reduce function. This must alter the `$groupByColumn`
-     *                                 columng in some way.
+     *                                 columng in some way. If not set then the filter will group by the raw column value.
      * @param array $parameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
      *                          instead.
      */
-    public function __construct($table, $groupByColumn, $reduceFunction, $parameters = array())
+    public function __construct($table, $groupByColumn, $reduceFunction = null, $parameters = array())
     {
         parent::__construct($table);
 
-        $this->groupByColumn = $groupByColumn;
+        $this->groupByColumn  = $groupByColumn;
         $this->reduceFunction = $reduceFunction;
-        $this->parameters = $parameters;
+        $this->parameters     = $parameters;
     }
 
     /**
@@ -80,10 +80,14 @@ class GroupBy extends BaseFilter
                 continue;
             }
 
-            // reduce the group by column of this row
             $groupByColumnValue = $row->getColumn($this->groupByColumn);
-            $parameters = array_merge(array($groupByColumnValue), $this->parameters);
-            $groupByValue = call_user_func_array($this->reduceFunction, $parameters);
+            $groupByValue = $groupByColumnValue;
+
+            // reduce the group by column of this row
+            if($this->reduceFunction) {
+                $parameters   = array_merge(array($groupByColumnValue), $this->parameters);
+                $groupByValue = call_user_func_array($this->reduceFunction, $parameters);
+            }
 
             if (!isset($groupByRows[$groupByValue])) {
                 // if we haven't encountered this group by value before, we mark this row as a

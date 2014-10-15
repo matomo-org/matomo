@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds three websites with different site search configurations and adds

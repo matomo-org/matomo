@@ -141,6 +141,7 @@ abstract class DataTableManipulator
     /**
      * Extract the API method for loading subtables from the meta data
      *
+     * @throws Exception
      * @return string
      */
     private function getApiMethodForSubtable()
@@ -148,7 +149,7 @@ abstract class DataTableManipulator
         if (!$this->apiMethodForSubtable) {
             $meta = API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
 
-            if(empty($meta)) {
+            if (empty($meta)) {
                 throw new Exception(sprintf(
                     "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: http://developer.piwik.org/api-reference/events#apigetreportmetadata",
                     $this->apiModule, $this->apiMethod
@@ -179,6 +180,7 @@ abstract class DataTableManipulator
 
         $dataTable = Proxy::getInstance()->call($class, $method, $request);
         $response = new ResponseBuilder($format = 'original', $request);
+        $response->disableSendHeader();
         $dataTable = $response->getResponse($dataTable);
 
         if (Common::getRequestVar('disable_queued_filters', 0, 'int', $request) == 0) {

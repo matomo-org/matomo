@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="From 2009-12-28 to 2010-01-03">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>2</nb_conversions>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+		</result>
+		<result date="From 2010-01-04 to 2010-01-10">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>2</nb_conversions>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>2</nb_conversions>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>2</nb_conversions>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>1</nb_conversions>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>1</nb_conversions>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>1</nb_conversions>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+		</result>
+		<result date="From 2010-01-11 to 2010-01-17">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>3</nb_conversions>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+		</result>
+		<result date="From 2010-01-18 to 2010-01-24" />
+		<result date="From 2010-01-25 to 2010-01-31" />
+		<result date="From 2010-02-01 to 2010-02-07" />
+		<result date="From 2010-02-08 to 2010-02-14" />
+	</result>
+	<result idSite="2">
+		<result date="From 2009-12-28 to 2010-01-03" />
+		<result date="From 2010-01-04 to 2010-01-10">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>1</nb_conversions>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+			</row>
+		</result>
+		<result date="From 2010-01-11 to 2010-01-17" />
+		<result date="From 2010-01-18 to 2010-01-24" />
+		<result date="From 2010-01-25 to 2010-01-31" />
+		<result date="From 2010-02-01 to 2010-02-07" />
+		<result date="From 2010-02-08 to 2010-02-14" />
+	</result>
+</results>

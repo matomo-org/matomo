@@ -10,8 +10,6 @@
 namespace Piwik\Plugin;
 
 use Piwik\Cache\PersistentCache;
-use Piwik\Cache\PluginAwareStaticCache;
-use Piwik\Cache\StaticCache;
 use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
@@ -22,6 +20,7 @@ use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Theme;
@@ -38,7 +37,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 /**
  * The singleton that manages plugin loading/unloading and installation/uninstallation.
  *
- * @method static \Piwik\Plugin\Manager getInstance()
+ * @method static Manager getInstance()
  */
 class Manager extends Singleton
 {
@@ -166,7 +165,7 @@ class Manager extends Singleton
     public function isPluginOfficialAndNotBundledWithCore($pluginName)
     {
         static $gitModules;
-        if(empty($gitModules)) {
+        if (empty($gitModules)) {
             $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
         }
         // All submodules are officially maintained plugins
@@ -291,6 +290,13 @@ class Manager extends Singleton
         $this->removePluginFromConfig($pluginName);
 
         $this->clearCache($pluginName);
+
+        /**
+         * Event triggered after a plugin has been deactivated.
+         *
+         * @param string $pluginName The plugin that has been deactivated.
+         */
+        Piwik::postEvent('PluginManager.pluginDeactivated', array($pluginName));
     }
 
     /**
@@ -444,6 +450,13 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->forceSave();
 
         $this->clearCache($pluginName);
+
+        /**
+         * Event triggered after a plugin has been activated.
+         *
+         * @param string $pluginName The plugin that has been activated.
+         */
+        Piwik::postEvent('PluginManager.pluginActivated', array($pluginName));
     }
 
     protected function isPluginInFilesystem($pluginName)
@@ -541,7 +554,7 @@ class Manager extends Singleton
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
             // Hide plugins that are never going to be used
-            if($this->isPluginBogus($pluginName)) {
+            if ($this->isPluginBogus($pluginName)) {
                 continue;
             }
 
@@ -609,15 +622,15 @@ class Manager extends Singleton
 
     protected function isPluginThirdPartyAndBogus($pluginName)
     {
-        if($this->isPluginBundledWithCore($pluginName)) {
+        if ($this->isPluginBundledWithCore($pluginName)) {
             return false;
         }
-        if($this->isPluginBogus($pluginName)) {
+        if ($this->isPluginBogus($pluginName)) {
             return true;
         }
 
         $path = $this->getPluginsDirectory() . $pluginName;
-        if(!$this->isManifestFileFound($path)) {
+        if (!$this->isManifestFileFound($path)) {
             return true;
         }
         return false;
@@ -773,7 +786,7 @@ class Manager extends Singleton
         $plugins = $this->getLoadedPlugins();
         $enabled = $this->getActivatedPlugins();
 
-        if(empty($enabled)) {
+        if (empty($enabled)) {
             return array();
         }
         $enabled = array_combine($enabled, $enabled);

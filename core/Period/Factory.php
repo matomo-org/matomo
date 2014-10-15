@@ -60,7 +60,7 @@ class Factory
 
     public static function checkPeriodIsEnabled($period)
     {
-        if(!self::isPeriodEnabledForAPI($period)) {
+        if (!self::isPeriodEnabledForAPI($period)) {
             self::throwExceptionInvalidPeriod($period);
         }
     }

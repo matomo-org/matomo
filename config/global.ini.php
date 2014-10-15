@@ -88,7 +88,6 @@ allow_upgrades_to_beta = 0
 enable_load_standalone_plugins_during_tests = 0
 
 [Development]
-
 ; Enables the development mode where we avoid most caching to make sure code changes will be directly applied as
 ; some caches are only invalidated after an update otherwise. When enabled it'll also performs some validation checks.
 ; For instance if you register a method in a widget we will verify whether the method actually exists and is public.
@@ -163,8 +162,10 @@ browser_archiving_disabled_enforce = 0
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
 ; This can be useful if you want to prevent users from adding much load on the server.
-; Note: any existing Segment set to "processed in Real time", will still be set to Real-time.
-;       this will only affect custom segments added or modified after this setting is changed.
+; Notes:
+;  * any existing Segment set to "processed in Real time", will still be set to Real-time.
+;    this will only affect custom segments added or modified after this setting is changed.
+;  * when set to 0 then any user with at least 'view' access will be able to create pre-processed segments.
 enable_create_realtime_segments = 1
 
 ; Whether to enable the "Suggest values for segment" in the Segment Editor panel.
@@ -502,9 +503,9 @@ trust_visitors_cookies = 0
 ; This is used only if use_third_party_id_cookie = 1
 cookie_name = _pk_uid
 
-; by default, the Piwik tracking cookie expires in 2 years
+; by default, the Piwik tracking cookie expires in 13 months (365 + 28 days)
 ; This is used only if use_third_party_id_cookie = 1
-cookie_expire = 63072000
+cookie_expire = 33955200;
 
 ; The path on the server in which the cookie will be available on.
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html

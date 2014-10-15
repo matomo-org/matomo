@@ -2005,6 +2005,32 @@ function PiwikTest() {
         ok( !tracker.hook.test._isString(function () { }), 'isString(function)' );
         ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
     });
+    
+    test("Default visitorId should be equal across Trackers", function() {
+        expect(4);
+
+        deleteCookies();
+
+        var asyncTracker = Piwik.getAsyncTracker();
+        var asyncVistorId = asyncTracker.getVisitorId();
+        equal(Piwik.getAsyncTracker().getVisitorId(), asyncVistorId, 'asyncVistorId');
+        
+        wait(2000);
+
+        var delayedTracker = Piwik.getTracker();
+        var delayedVisitorId = delayedTracker.getVisitorId();
+        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId');
+
+        var prefixTracker = Piwik.getTracker();
+        prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
+
+        var prefixVisitorId = prefixTracker.getVisitorId();
+        equal(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'prefixVisitorId');
+
+        var customTracker = Piwik.getTracker('customTrackerUrl', '71');
+        var customVisitorId = customTracker.getVisitorId();
+        equal(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'customVisitorId');
+    });
 
     test("AnalyticsTracker alias", function() {
         expect(1);
@@ -2026,7 +2052,7 @@ function PiwikTest() {
         equal( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
         equal( tracker.hook.test._urldecode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
     });
-
+    
     test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
         expect(57);
 
@@ -2453,6 +2479,8 @@ function PiwikTest() {
 
         var startTime, stopTime;
 
+        wait(1000); // in case there is  a previous expireDateTime set
+
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
         startTime = new Date();
@@ -2466,7 +2494,8 @@ function PiwikTest() {
         tracker.trackPageView();
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
-        ok( (stopTime.getTime() - startTime.getTime()) >= 2000, 'setLinkTrackingTimer()' );
+        var diffTime = (stopTime.getTime() - startTime.getTime());
+        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
     });
 
     test("Overlay URL Normalizer", function() {
@@ -2555,7 +2584,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(99);
+        expect(102);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -2577,6 +2606,13 @@ if ($sqlite) {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
+
+        var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
+        strictEqual(thirteenMonths, tracker.getConfigVisitorCookieTimeout(), 'default visitor timeout should be 13 months');
+
+        var actualTimeout   = tracker.getRemainingVisitorCookieTimeout();
+        var isAbout13Months = (thirteenMonths + 1000) > actualTimeout && ((thirteenMonths - 6000) < actualTimeout);
+        ok(isAbout13Months, 'remaining cookieTimeout should be about the deault tiemout of 13 months (' + thirteenMonths + ') but is ' + actualTimeout);
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
@@ -2787,7 +2823,10 @@ if ($sqlite) {
         tracker3.setDoNotTrack(false);
 
         // User ID
-        tracker3.setUserId('userid@mydomain.org');
+        var userIdString = 'userid@mydomain.org';
+        tracker3.setUserId(userIdString);
+
+        equal(userIdString, tracker3.getUserId());
 
         // Append tracking url parameter
         tracker3.appendToTrackingUrl("appended=1&appended2=value");

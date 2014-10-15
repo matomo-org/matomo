@@ -68,7 +68,7 @@ class Translate
 
     private static function loadCoreTranslationFile($language)
     {
-        if(empty($language)) {
+        if (empty($language)) {
             return;
         }
         $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.json';
@@ -174,7 +174,7 @@ class Translate
         }
 
         $js = 'var translations = ' . Common::json_encode($clientSideTranslations) . ';';
-        $js .= "\n" . 'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }' .
+        $js .= "\n" . 'if (typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }' .
             'for(var i in translations) { piwik_translations[i] = translations[i];} ';
         return $js;
     }

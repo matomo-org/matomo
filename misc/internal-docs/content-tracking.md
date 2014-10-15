@@ -431,36 +431,10 @@ Nothing special here I think. We would probably automatically detect the type of
 ## TODO
 * UI tests
 
-## V2:
-* "note: as a user, I see that piwik.php redirects is the default "click tracking" solution, but I want to be able to disable this piwik.php redirect and instead use the link tracking 500ms solution."
-  * BTW I could implement this with a few lines
-* When we listen to scroll events we currently do not detect if user scrolls the entire page, not if within a div
-  * We need to check all parent elements of a content block whether it is scrollable and if so connect an event to this
-* We could have in V2 or V3 an attribute data-content-interaction="submit" to tell Piwik to listen to the submit event and to use "submit" as an interaction
-* Provide more reports like which interactions, which targets, unique impressions, unique interactions and more is possible
-* Do not track the same interaction twice unless trackPageView is called?
-  * For instance if target=_blank used interaction would be tracked multiple times currently
-  * Alternatively provide "interactions" and "unique interactions"
-* When a user clicks on an interaction, we should check whether we have already tracked the impression as the content is visible now. If not tracked before, we should track the impression as well
-  * There can be a scroll or timer event that detects the same content became visible as well. This would not be a problem since we do not track same content block twice
-* Enrich other API's
-  * Live.getLastVisitDetails maybe add optionally an array of content impressions / interactions but not to actionDetails
-  * Add number of content impressions and interaction to each page in getPageUrl(s)
-  * Add number of total content impresions and interactions to visitor
-  * ...
-* Increase interval to scan the entire page for content impressions after a while. By default currently is 750ms.
-  * For instance after 2 minutes could be 5 seconds, after 5 minutes could be 30 seconds, after 10 minutes could be 1 minute,
-  after 30 minutes could be every 10 minutes or stop it completely. Otherwise CPU and battery won't be happy when having a website open for a while in the background.
-  * Stop scanning page in case tab is no longer active and start scanning again when tab is visible again
-
-## Open questions
-
-* We might need a trackContentImpressionsOfContentBlock() to make sure to track a content block in case we do not detect it correct that a node is visible now
-* Referrer gets lost when using piwik.php
-* Single page applications will always want to disable interactions as redirect would not fit into their concept!!!
-
 
 ## Notes:
+* Referrer gets lost when using piwik.php
+* Single page applications will always want to disable interactions as redirect would not fit into their concept!!!
 * User can decide to manually setup the proper redirect URL via piwik.php?rec=1&idsite=1&clickurl={$URL_HERE}&....
   * Currently, the user would also have to add event URL parameters and make sure to send the correct name and piece to match an impression.
   * If the user does not use any data-content-* attributes this is very likely to fail since the auto detected content name and piece can easily change and tracking would be broken

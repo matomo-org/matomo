@@ -23,7 +23,6 @@ class RunScheduledTasks extends ConsoleCommand
         $this->setName('core:run-scheduled-tasks');
         $this->setDescription('Will run all scheduled tasks due to run at this time.');
         $this->addOption('force', null, InputOption::VALUE_NONE, 'If set, it will execute all tasks even the ones not due to run at this time.');
-        $this->addOption('token-auth', null, InputOption::VALUE_REQUIRED, 'The API token of a user that has super user access, see http://piwik.org/faq/general/#faq_114');
     }
 
     /**
@@ -31,49 +30,28 @@ class RunScheduledTasks extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $_GET['token_auth'] = $this->askForTokenAuth($input, $output);
         $this->forceRunAllTasksIfRequested($input);
 
         FrontController::getInstance()->init();
-        API::getInstance()->runScheduledTasks();
+        $scheduledTasksResults = API::getInstance()->runScheduledTasks();
 
-        $this->writeSuccessMessage($output, array('Scheduled Tasks executed'));
-    }
-
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return string
-     * @throws \RuntimeException
-     */
-    private function askForTokenAuth(InputInterface $input, OutputInterface $output)
-    {
-        $validate = function ($tokenAuth) {
-            if (empty($tokenAuth)) {
-                throw new \InvalidArgumentException('You have to specify a token_auth');
-            }
-
-            return $tokenAuth;
-        };
-
-        $tokenAuth = $input->getOption('token-auth');
-
-        if (empty($tokenAuth)) {
-            $dialog    = $this->getHelperSet()->get('dialog');
-            $tokenAuth = $dialog->askAndValidate($output, 'Enter the token_auth of a user having super user access: ', $validate);
-        } else {
-            $validate($tokenAuth);
+        foreach ($scheduledTasksResults as $scheduledTasksResult) {
+            $output->writeln(sprintf(
+                '<comment>%s</comment> - %s',
+                $scheduledTasksResult['task'],
+                $scheduledTasksResult['output']
+            ));
         }
 
-        return $tokenAuth;
+        $this->writeSuccessMessage($output, array('Scheduled Tasks executed'));
     }
 
     private function forceRunAllTasksIfRequested(InputInterface $input)
     {
         $force = $input->getOption('force');
 
-        if ($force) {
-            $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = true;
+        if ($force && !defined('DEBUG_FORCE_SCHEDULED_TASKS')) {
+            define('DEBUG_FORCE_SCHEDULED_TASKS', true);
         }
     }
 }

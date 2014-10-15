@@ -80,7 +80,9 @@
     {
         angular.module('piwikApp').run(['$rootScope', function ($rootScope) {
 
-            $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl, $location) {
+            $rootScope.$on('$locationChangeStart', onLocationChangeStart);
+
+            function onLocationChangeStart (event, newUrl, oldUrl, $location) {
 
                 if (!newUrl) {
                     return;
@@ -98,7 +100,7 @@
                 var hash = newUrl.substr(hashPos + 2);
 
                 scrollToAnchorIfPossible(hash, event);
-            });
+            }
         }]);
     }
 

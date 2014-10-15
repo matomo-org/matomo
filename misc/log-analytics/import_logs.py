@@ -62,7 +62,7 @@ DOWNLOAD_EXTENSIONS = set((
     'jar mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
     'ods odt ogg ogv pdf phps ppt pptx qt qtm ra ram rar rpm sea sit tar tbz '
     'bz2 tbz tgz torrent txt wav wma wmv wpd xls xlsx xml xsd z zip '
-    'azw3 epub mobi'
+    'azw3 epub mobi apk'
 ).split())
 
 # A good source is: http://phpbb-bots.blogspot.com/
@@ -483,7 +483,7 @@ class Configuration(object):
         )
         option_parser.add_option(
             '--download-extensions', dest='download_extensions', default=None,
-            help="If set (format: pdf,doc,...), this list will be used to determine what file extensions should be tracked as a download, otherwise the default list will be used."
+            help="By default Piwik tracks as Downloads the most popular file extensions. If you set this parameter (format: pdf,doc,...) then files with an extension found in the list will be imported as Downloads, other file extensions downloads will be skipped."
         )
         return option_parser
 

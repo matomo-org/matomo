@@ -12,8 +12,8 @@ use Piwik\Access;
 use Piwik\Option;
 use ReflectionClass;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\Tests\Fixture;
-use Piwik\Tests\OverrideLogin;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\OverrideLogin;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used

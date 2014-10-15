@@ -30,6 +30,7 @@ class CoreHome extends \Piwik\Plugin
     {
         $instance = new Visitor($details);
 
+        $visitor['userId']                      = $instance->getUserId();
         $visitor['visitorType']                 = $instance->getVisitorReturning();
         $visitor['visitorTypeIcon']             = $instance->getVisitorReturningIcon();
         $visitor['visitConverted']              = $instance->isVisitorGoalConverted();
@@ -65,9 +66,10 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/dialogtoggler/ngdialog.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -110,13 +112,13 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikAppConfig.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/startfrom.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution.js";
@@ -124,7 +126,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
@@ -137,17 +139,23 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-urllistener-service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-urllistener.service.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -238,7 +246,9 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Default';
         $translationKeys[] = 'General_LoadingData';
         $translationKeys[] = 'General_ErrorRequest';
+        $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
+        $translationKeys[] = 'General_LearnMore';
     }
 }

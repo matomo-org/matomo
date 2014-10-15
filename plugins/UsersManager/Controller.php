@@ -122,6 +122,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function hasAnonymousUserViewAccess($usersAccessByWebsite)
     {
         $anonymousHasViewAccess = false;
+
         foreach ($usersAccessByWebsite as $login => $access) {
             if ($login == 'anonymous'
                 && $access != 'noaccess'
@@ -129,6 +130,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $anonymousHasViewAccess = true;
             }
         }
+
         return $anonymousHasViewAccess;
     }
 
@@ -177,7 +179,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         );
 
         // assertion
-        if(count($dates) != count($mappingDatesToPeriods)) {
+        if (count($dates) != count($mappingDatesToPeriods)) {
             throw new Exception("some metadata is missing in getDefaultDates()");
         }
 
@@ -251,7 +253,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserIsNotAnonymous();
 
         $salt = Common::getRequestVar('ignoreSalt', false, 'string');
-        if($salt !== $this->getIgnoreCookieSalt()) {
+        if ($salt !== $this->getIgnoreCookieSalt()) {
             throw new Exception("Not authorized");
         }
 

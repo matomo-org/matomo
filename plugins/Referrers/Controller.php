@@ -332,7 +332,7 @@ function DisplayTopKeywords($url = "")
 	$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
 	$api = "' . $api . '&url=" . urlencode($url);
 	$keywords = @unserialize(file_get_contents($api));
-	if($keywords === false || isset($keywords["result"])) {
+	if ($keywords === false || isset($keywords["result"])) {
 		// DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
 		// echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>";
 		return;
@@ -344,7 +344,7 @@ function DisplayTopKeywords($url = "")
 	foreach($keywords as $keyword) {
 		$output .= "<li>". $keyword . "</li>";
 	}
-	if(empty($keywords)) { $output .= "Nothing yet..."; }
+	if (empty($keywords)) { $output .= "Nothing yet..."; }
 	$output .= "</ul>";
 	echo $output;
 }

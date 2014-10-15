@@ -23,7 +23,7 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
 
 ## Requirements
 
-  * PHP 5.3.2 or greater
+  * PHP 5.3.3 or greater
   * MySQL 4.1 or greater, and either MySQLi or PDO library must be enabled
   * Piwik is OS / server independent
 
@@ -96,7 +96,7 @@ We are grateful if you can share the Job Description with your friends and colle
 
 
 ## Code Status
-The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and dozens of integration [tests](https://github.com/piwik/piwik/tree/master/tests),
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit and integration tests and dozens of system [tests](https://github.com/piwik/piwik/tree/master/tests),
  running on the hosted distributed continuous integration platform Travis-CI.
 
 Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.png?branch=master)](https://travis-ci.org/piwik/piwik) - Screenshot tests Build  [![Build Status](https://travis-ci.org/piwik/piwik-ui-tests.png?branch=master)](https://travis-ci.org/piwik/piwik-ui-tests)

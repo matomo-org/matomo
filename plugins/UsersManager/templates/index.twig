@@ -135,7 +135,7 @@
                         <td id="password" class="editable">-</td>
                         <td id="email" class="editable">{{ user.email }}</td>
                         <td id="alias" class="editable">{{ user.alias|raw }}</td>
-                        <td id="token_auth">{{ user.token_auth }}</td>
+                        <td id="token_auth" class="token_auth" data-token="{{ user.token_auth }}">{{ user.token_auth|slice(0, 8) }}…</td>
                         {% if user.last_seen is defined %}
                         <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
                         {% endif %}

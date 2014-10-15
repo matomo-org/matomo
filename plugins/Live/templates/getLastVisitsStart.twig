@@ -71,28 +71,30 @@
                     {% if loop.index <= maxPagesDisplayedByVisitor %}
                         {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
                             {% set title %}
-                                {% if action.type == 'ecommerceOrder' %}
-                                    {{ 'Goals_EcommerceOrder'|translate }}
+                                {%- if action.type == 'ecommerceOrder' %}
+                                    {{- 'Goals_EcommerceOrder'|translate -}}
                                 {% else %}
-                                    {{ 'Goals_AbandonedCart'|translate }}
+                                    {{- 'Goals_AbandonedCart'|translate -}}
                                 {% endif %}
-                                -
-                                {% if action.type == 'ecommerceOrder' %}
-                                    {{ 'General_ColumnRevenue'|translate }}:
-                                {% else %}
-                                    {% set revenueLeft %}
-                                        {{ 'General_ColumnRevenue'|translate }}
-                                    {% endset %}
-                                    {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
-                                {% endif %}
-                                {{ action.revenue|money(idSite)|raw }} - {{ action.serverTimePretty }}
-                                {% if action.itemDetails is not empty %}
-                                    {% for product in action.itemDetails %}
-                                    # {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}{% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}, {{ 'General_Quantity'|translate }}: {{ product.quantity }}, {{ 'General_Price'|translate }}: {{ product.price|money(idSite)|raw }}
-                                    {% endfor %}
-                                {% endif %}
+                                {{- "\n - " -}}
+                                {%- if action.type == 'ecommerceOrder' -%}
+                                    {{- 'General_ColumnRevenue'|translate -}}:
+                                  {%- else -%}
+                                    {%- set revenueLeft -%}
+                                        {{- 'General_ColumnRevenue'|translate -}}
+                                    {%- endset -%}
+                                    {{- 'Goals_LeftInCart'|translate(revenueLeft) -}}:
+                                {%- endif %} {{ action.revenue|money(idSite)|raw -}}
+
+                                {{- "\n - " -}}{{- action.serverTimePretty -}}
+                                {{- "\n" -}}
+                                {% if action.itemDetails is not empty -%}
+                                    {% for product in action.itemDetails -%}
+                                        {{- "\n# " -}}{{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}{% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}, {{ 'General_Quantity'|translate }}: {{ product.quantity }}, {{ 'General_Price'|translate }}: {{ product.price|money(idSite)|raw }}
+                                    {%- endfor %}
+                                {%- endif %}
                             {% endset %}
-                            <span title="{{ title }}">
+                            <span title="{{- title -}}">
 						        <img class='iconPadding' src="{{ action.icon }}"/>
                                 {% if action.type == 'ecommerceOrder' %}
                                     {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }}

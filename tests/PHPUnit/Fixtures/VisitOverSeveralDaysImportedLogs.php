@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Import a same visitor, over three different days, in reverse chronological order

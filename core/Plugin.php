@@ -354,7 +354,7 @@ class Plugin
         if ($this->cache->has()) {
             $components = $this->cache->get();
 
-            if($this->includeComponents($components)) {
+            if ($this->includeComponents($components)) {
                 return $components;
             } else {
                 // problem including one cached file, refresh cache

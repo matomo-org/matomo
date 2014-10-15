@@ -18,7 +18,7 @@ class ServerFilesGenerator
      */
     public static function createHtAccessFiles()
     {
-        if(!SettingsServer::isApache()) {
+        if (!SettingsServer::isApache()) {
             return;
         }
         $denyAll = self::getDenyAllHtaccessContent();

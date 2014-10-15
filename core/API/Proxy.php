@@ -24,7 +24,7 @@ use ReflectionMethod;
  *
  * It will also log the performance of API calls (time spent, parameter values, etc.) if logger available
  *
- * @method static \Piwik\API\Proxy getInstance()
+ * @method static Proxy getInstance()
  */
 class Proxy extends Singleton
 {

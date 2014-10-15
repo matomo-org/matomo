@@ -215,7 +215,7 @@ class RankingQuery
     public function execute($innerQuery, $bind = array())
     {
         $query = $this->generateQuery($innerQuery);
-        $data = Db::fetchAll($query, $bind);
+        $data  = Db::fetchAll($query, $bind);
 
         if ($this->columnToMarkExcludedRows !== false) {
             // split the result into the regular result and the rows with special treatment

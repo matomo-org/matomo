@@ -36,32 +36,19 @@ class TableLogAction
     {
         // Add url prefix if not set
         foreach($actionsNameAndType as &$action) {
-            if(count($action) == 2) {
+            if (2 == count($action)) {
                 $action[] = null;
             }
         }
+
         $actionIds = self::queryIdsAction($actionsNameAndType);
 
         list($queriedIds, $fieldNamesToInsert) = self::processIdsToInsert($actionsNameAndType, $actionIds);
 
         $insertedIds = self::insertNewIdsAction($actionsNameAndType, $fieldNamesToInsert);
-
-        $queriedIds = $queriedIds + $insertedIds;
+        $queriedIds  = $queriedIds + $insertedIds;
 
         return $queriedIds;
-    }
-
-    /**
-     * @param $name
-     * @param $type
-     * @return string
-     */
-    private static function getIdActionMatchingNameAndType($name, $type)
-    {
-        $sql = TableLogAction::getSqlSelectActionId();
-        $bind = array($name, $name, $type);
-        $idAction = \Piwik\Db::fetchOne($sql, $bind);
-        return $idAction;
     }
 
     /**
@@ -75,6 +62,7 @@ class TableLogAction
         // now, we handle the cases =@ (contains) and !@ (does not contain)
         // build the expression based on the match type
         $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE %s AND type = ' . $actionType . ' )';
+
         switch ($matchType) {
             case '=@':
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
@@ -87,61 +75,45 @@ class TableLogAction
                 throw new \Exception("This match type $matchType is not available for action-segments.");
                 break;
         }
-        $sql = sprintf($sql, $where);
-        return $sql;
-    }
 
-    private static function getSqlSelectActionId()
-    {
-        $sql = "SELECT idaction, type, name
-                        FROM " . Common::prefixTable('log_action')
-            . "  WHERE "
-            . "		( hash = CRC32(?) AND name = ? AND type = ? ) ";
+        $sql = sprintf($sql, $where);
+
         return $sql;
     }
 
     private static function insertNewIdsAction($actionsNameAndType, $fieldNamesToInsert)
     {
-        $sql = "INSERT INTO " . Common::prefixTable('log_action') .
-            "( name, hash, type, url_prefix ) VALUES (?,CRC32(?),?,?)";
         // Then, we insert all new actions in the lookup table
         $inserted = array();
+
         foreach ($fieldNamesToInsert as $fieldName) {
             list($name, $type, $urlPrefix) = $actionsNameAndType[$fieldName];
 
-            Tracker::getDatabase()->query($sql, array($name, $name, $type, $urlPrefix));
-            $actionId = Tracker::getDatabase()->lastInsertId();
-
-            $inserted[$fieldName] = $actionId;
+            $actionId = self::getModel()->createNewIdAction($name, $type, $urlPrefix);
 
             Common::printDebug("Recorded a new action (" . Action::getTypeAsString($type) . ") in the lookup table: " . $name . " (idaction = " . $actionId . ")");
+
+            $inserted[$fieldName] = $actionId;
         }
+
         return $inserted;
+    }
+
+    private static function getModel()
+    {
+        return new Model();
     }
 
     private static function queryIdsAction($actionsNameAndType)
     {
-        $sql = TableLogAction::getSqlSelectActionId();
-        $bind = array();
-        $i = 0;
+        $toQuery = array();
         foreach ($actionsNameAndType as &$actionNameType) {
             list($name, $type, $urlPrefix) = $actionNameType;
-            if (empty($name)) {
-                continue;
-            }
-            if ($i > 0) {
-                $sql .= " OR ( hash = CRC32(?) AND name = ? AND type = ? ) ";
-            }
-            $bind[] = $name;
-            $bind[] = $name;
-            $bind[] = $type;
-            $i++;
+            $toQuery[] = array('name' => $name, 'type' => $type);
         }
-        // Case URL & Title are empty
-        if (empty($bind)) {
-            return false;
-        }
-        $actionIds = Tracker::getDatabase()->fetchAll($sql, $bind);
+
+        $actionIds = self::getModel()->getIdsAction($toQuery);
+
         return $actionIds;
     }
 
@@ -150,6 +122,7 @@ class TableLogAction
         // For the Actions found in the lookup table, add the idaction in the array,
         // If not found in lookup table, queue for INSERT
         $fieldNamesToInsert = $fieldNameToActionId = array();
+
         foreach ($actionsNameAndType as $fieldName => &$actionNameType) {
             @list($name, $type, $urlPrefix) = $actionNameType;
             if (empty($name)) {
@@ -172,6 +145,7 @@ class TableLogAction
                 $fieldNamesToInsert[] = $fieldName;
             }
         }
+
         return array($fieldNameToActionId, $fieldNamesToInsert);
     }
 
@@ -197,12 +171,13 @@ class TableLogAction
             // for urls trim protocol and www because it is not recorded in the db
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
+
         $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
 
         if ($matchType == SegmentExpression::MATCH_EQUAL
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
-            $idAction = self::getIdActionMatchingNameAndType($valueToMatch, $actionType);
+            $idAction = self::getModel()->getIdActionMatchingNameAndType($valueToMatch, $actionType);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer
             // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
             if (empty($idAction)) {
@@ -214,6 +189,7 @@ class TableLogAction
         // "name contains $string" match can match several idaction so we cannot return yet an idaction
         // special case
         $sql = TableLogAction::getSelectQueryWhereNameContains($matchType, $actionType);
+
         return array(
             // mark that the returned value is an sql-expression instead of a literal value
             'SQL'  => $sql,
@@ -229,15 +205,16 @@ class TableLogAction
     private static function guessActionTypeFromSegment($segmentName)
     {
         $exactMatch = array(
-            'eventAction' => Action::TYPE_EVENT_ACTION,
-            'eventCategory' => Action::TYPE_EVENT_CATEGORY,
-            'eventName' => Action::TYPE_EVENT_NAME,
-            'contentPiece' => Action::TYPE_CONTENT_PIECE,
-            'contentTarget' => Action::TYPE_CONTENT_TARGET,
-            'contentName' => Action::TYPE_CONTENT_NAME,
+            'eventAction'        => Action::TYPE_EVENT_ACTION,
+            'eventCategory'      => Action::TYPE_EVENT_CATEGORY,
+            'eventName'          => Action::TYPE_EVENT_NAME,
+            'contentPiece'       => Action::TYPE_CONTENT_PIECE,
+            'contentTarget'      => Action::TYPE_CONTENT_TARGET,
+            'contentName'        => Action::TYPE_CONTENT_NAME,
             'contentInteraction' => Action::TYPE_CONTENT_INTERACTION,
         );
-        if(!empty($exactMatch[$segmentName])) {
+
+        if (!empty($exactMatch[$segmentName])) {
             return $exactMatch[$segmentName];
         }
 

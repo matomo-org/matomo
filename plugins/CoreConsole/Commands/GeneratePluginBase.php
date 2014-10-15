@@ -12,6 +12,8 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugin\Dependency;
+use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,7 +21,12 @@ abstract class GeneratePluginBase extends ConsoleCommand
 {
     public function getPluginPath($pluginName)
     {
-        return PIWIK_INCLUDE_PATH . '/plugins/' . ucfirst($pluginName);
+        return PIWIK_INCLUDE_PATH . $this->getRelativePluginPath($pluginName);
+    }
+
+    private function getRelativePluginPath($pluginName)
+    {
+        return '/plugins/' . ucfirst($pluginName);
     }
 
     private function createFolderWithinPluginIfNotExists($pluginNameOrCore, $folder)
@@ -88,6 +95,56 @@ abstract class GeneratePluginBase extends ConsoleCommand
         file_put_contents($langJsonPath, $this->toJson($translations));
 
         return $pluginName . '_' . $key;
+    }
+
+    protected function checkAndUpdateRequiredPiwikVersion($pluginName, OutputInterface $output)
+    {
+        $pluginJsonPath     = $this->getPluginPath($pluginName) . '/plugin.json';
+        $relativePluginJson = $this->getRelativePluginPath($pluginName) . '/plugin.json';
+
+        if (!file_exists($pluginJsonPath) || !is_writable($pluginJsonPath)) {
+            return;
+        }
+
+        $pluginJson = file_get_contents($pluginJsonPath);
+        $pluginJson = json_decode($pluginJson, true);
+
+        if (empty($pluginJson)) {
+            return;
+        }
+
+        if (empty($pluginJson['require'])) {
+            $pluginJson['require'] = array();
+        }
+
+        $piwikVersion       = Version::VERSION;
+        $newRequiredVersion = '>=' . $piwikVersion;
+
+        if (!empty($pluginJson['require']['piwik'])) {
+            $requiredVersion = $pluginJson['require']['piwik'];
+
+            if ($requiredVersion === $newRequiredVersion) {
+                return;
+            }
+
+            $dependency     = new Dependency();
+            $missingVersion = $dependency->getMissingVersions($piwikVersion, $requiredVersion);
+
+            if (!empty($missingVersion)) {
+                $msg = sprintf('We cannot generate this component as the plugin "%s" requires the Piwik version "%s" in the file "%s". Generating this component requires "%s". If you know your plugin is compatible with your Piwik version remove the required Piwik version in "%s" and try to execute this command again.', $pluginName, $requiredVersion, $relativePluginJson, $newRequiredVersion, $relativePluginJson);
+
+                throw new \Exception($msg);
+            }
+
+            $output->writeln('');
+            $output->writeln(sprintf('<comment>We have updated the required Piwik version from "%s" to "%s" in "%s".</comment>', $requiredVersion, $newRequiredVersion, $relativePluginJson));
+        } else {
+            $output->writeln('');
+            $output->writeln(sprintf('<comment>We have updated your "%s" to require the Piwik version "%s".</comment>', $relativePluginJson, $newRequiredVersion));
+        }
+
+        $pluginJson['require']['piwik'] = $newRequiredVersion;
+        file_put_contents($pluginJsonPath, $this->toJson($pluginJson));
     }
 
     private function toJson($value)
@@ -198,6 +255,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
             }
 
             if (is_dir($file)) {
+                $fileNamePlugin = $this->replaceContent($replace, $fileNamePlugin);
                 $this->createFolderWithinPluginIfNotExists($pluginName, $fileNamePlugin);
             } else {
                 $template = file_get_contents($file);

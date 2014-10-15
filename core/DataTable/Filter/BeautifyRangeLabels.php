@@ -65,7 +65,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
         parent::__construct($table, 'label', array($this, 'beautify'), array());
 
         $this->labelSingular = $labelSingular;
-        $this->labelPlural = $labelPlural;
+        $this->labelPlural   = $labelPlural;
     }
 
     /**

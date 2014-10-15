@@ -54,6 +54,10 @@ class ArchivingHelper
                 unset($row[Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT]);
             }
 
+            if ($row['type'] == Action::TYPE_CONTENT) {
+                continue;
+            }
+
             // This will appear as <url /> in the API, which is actually very important to keep
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
             $url = '';

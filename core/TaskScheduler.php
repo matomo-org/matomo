@@ -13,7 +13,7 @@ use Exception;
 use Piwik\Plugin\Manager as PluginManager;
 
 // When set to true, all scheduled tasks will be triggered in all requests (careful!)
-define('DEBUG_FORCE_SCHEDULED_TASKS', false);
+//define('DEBUG_FORCE_SCHEDULED_TASKS', true);
 
 /**
  * Manages scheduled task execution.

@@ -39,7 +39,6 @@ class Visitor implements VisitorInterface
             'idSite'                      => $this->getIdSite(),
             'idVisit'                     => $this->getIdVisit(),
             'visitIp'                     => $this->getIp(),
-            'userId'                      => $this->getUserId(),
             'visitorId'                   => $this->getVisitorId(),
 
             // => false are placeholders to be filled in API later
@@ -81,15 +80,6 @@ class Visitor implements VisitorInterface
     {
         if (isset($this->details['idvisitor'])) {
             return bin2hex($this->details['idvisitor']);
-        }
-        return false;
-    }
-
-    function getUserId()
-    {
-        if (isset($this->details['user_id'])
-            && !is_null($this->details['user_id'])) {
-            return $this->details['user_id'];
         }
         return false;
     }
@@ -319,7 +309,7 @@ class Visitor implements VisitorInterface
 
             } elseif ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
                 // Handle Event
-                if(strlen($actionDetail['pageTitle']) > 0) {
+                if (strlen($actionDetail['pageTitle']) > 0) {
                     $actionDetail['eventName'] = $actionDetail['pageTitle'];
                 }
 
@@ -332,8 +322,8 @@ class Visitor implements VisitorInterface
             }
 
             // Event value / Generation time
-            if($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
-                if(strlen($actionDetail['custom_float']) > 0) {
+            if ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+                if (strlen($actionDetail['custom_float']) > 0) {
                     $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
                 }
             } elseif ($actionDetail['custom_float'] > 0) {

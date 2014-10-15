@@ -293,7 +293,7 @@ class Controller extends Plugin\ControllerAdmin
 
                 $suffix = Piwik::translate('CorePluginsAdmin_PluginNotWorkingAlternative');
                 // If the plugin has been renamed, we do not show message to ask user to update plugin
-                if($pluginName != Request::renameModule($pluginName)) {
+                if ($pluginName != Request::renameModule($pluginName)) {
                     $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
                 }
 
@@ -334,6 +334,8 @@ class Controller extends Plugin\ControllerAdmin
 
     public function safemode($lastError = array())
     {
+        $this->tryToRepairPiwik();
+
         if (empty($lastError)) {
             $lastError = array(
                 'message' => Common::getRequestVar('error_message', null, 'string'),
@@ -359,7 +361,7 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
-        if(Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             Piwik_ExitWithMessage("Error:" . var_export($lastError, true));
         }
 
@@ -476,6 +478,15 @@ class Controller extends Plugin\ControllerAdmin
     private function getPluginNamesHavingSettingsForCurrentUser()
     {
         return array_keys(SettingsManager::getPluginSettingsForCurrentUser());
+    }
+
+    private function tryToRepairPiwik()
+    {
+        // in case any opcaches etc were not cleared after an update for instance. Might prevent from getting the
+        // error again
+        try {
+            Filesystem::deleteAllCacheOnUpdate();
+        } catch (Exception $e) {}
     }
 
 }
