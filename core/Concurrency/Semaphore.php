@@ -54,9 +54,19 @@ class Semaphore
     public function advance($n)
     {
         $optionName = $this->getOptionName();
-        Db::query("UPDATE " . Common::prefixTable('option') . "
+        Db::query("UPDATE `" . Common::prefixTable('option') . "`
                       SET option_value = option_value + ?
                     WHERE option_name = ?", array($n, $optionName));
+    }
+
+    /**
+     * TODO
+     */
+    public function get()
+    {
+        $optionName = $this->getOptionName();
+        Option::clearCachedOption($optionName);
+        return Option::get($optionName);
     }
 
     /**

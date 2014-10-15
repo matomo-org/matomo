@@ -51,6 +51,7 @@ class CoreArchiver extends ConsoleCommand
     // also used by another console command
     public static function makeArchiver($url, InputInterface $input)
     {
+        // TODO: param for max processes
         $archiver = new CronArchive($url);
 
         $archiver->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
@@ -68,7 +69,6 @@ class CoreArchiver extends ConsoleCommand
         $archiver->restrictToPeriods = array_map('trim', $restrictToPeriods);
 
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
-        $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
 
         return $archiver;
     }
@@ -99,7 +99,6 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL, "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month)");
         $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED, "This script calls the API with period=lastN. You can force the N in lastN by specifying this value.");
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL, "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
-        $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL, "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE, "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
         $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE, "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
         $command->addOption('xhprof', null, InputOption::VALUE_NONE, "Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).");

@@ -14,6 +14,9 @@ use Piwik\Jobs\Queue;
 
 /**
  * TODO
+ *
+ * TODO: allow associating callback per job, not just every job
+ * TODO: add logging
  */
 class CliConsumer implements Consumer
 {
@@ -101,7 +104,9 @@ class CliConsumer implements Consumer
                 $self = $this;
                 $onFinishJobs = $self->onJobsFinishedCallback;
                 $cliMulti->request($jobs, function ($responses) use ($cliMulti, $self, $onFinishJobs) {
-                    $onFinishJobs($responses);
+                    if (!empty($onFinishJobs)) {
+                        $onFinishJobs($responses);
+                    }
 
                     $newRequests = $self->pullJobs($cliMulti->getUnusedProcessCount());
                     $cliMulti->start($newRequests);
@@ -142,7 +147,9 @@ class CliConsumer implements Consumer
         $jobs = $this->jobQueue->pull($count);
 
         $onJobStartingCallback = $this->onJobsStartingCallback;
-        $onJobStartingCallback($jobs);
+        if (!empty($onJobStartingCallback)) {
+            $onJobStartingCallback($jobs);
+        }
 
         return $jobs;
     }

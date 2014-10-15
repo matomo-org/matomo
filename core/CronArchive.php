@@ -301,14 +301,14 @@ class CronArchive
             $this->log("XHProf profiling is enabled.");
         }
 
-        /**
+        /** TODO: deal w/ event
          * This event is triggered after a CronArchive instance is initialized.
          *
          * @param array $websiteIds The list of website IDs this CronArchive instance is processing.
          *                          This will be the entire list of IDs regardless of whether some have
          *                          already been processed.
          */
-        Piwik::postEvent('CronArchive.init.finish', array($this->websites->getInitialSiteIds()));
+        //Piwik::postEvent('CronArchive.init.finish', array($this->websites->getInitialSiteIds()));
     }
 
     public function runScheduledTasksInTrackerMode()
@@ -389,11 +389,11 @@ class CronArchive
         $this->log("Total API requests: {$this->requests}");
 
         //DONE: done/total, visits, wtoday, wperiods, reqs, time, errors[count]: first eg.
-        $percent = $this->websites->getNumSites() == 0
+        $percent = count($this->websites) == 0
             ? ""
-            : " " . round($this->processed * 100 / $this->websites->getNumSites(), 0) . "%";
+            : " " . round($this->processed * 100 / count($this->websites), 0) . "%";
         $this->log("done: " .
-            $this->processed . "/" . $this->websites->getNumSites() . "" . $percent . ", " .
+            $this->processed . "/" . count($this->websites) . "" . $percent . ", " .
             $this->visitsToday . " vtoday, $this->websitesWithVisitsSinceLastRun wtoday, {$this->archivedPeriodsArchivesWebsite} wperiods, " .
             $this->requests . " req, " /* TODO . round($timer->getTimeMs()) */ . " ms, " .
             (empty($this->errors)
@@ -480,7 +480,8 @@ class CronArchive
      */
     private function getVisitsRequestUrl($idSite, $period, $date)
     {
-        $url = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        $url = $this->piwikUrl;
+        $url .= "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
         if($this->shouldStartProfiler) {
             $url .= "&xhprof=2";
         }
@@ -1185,7 +1186,7 @@ class CronArchive
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
         if ($this->isOldReportInvalidatedForWebsite($idSite)) {
-            $this->setSiteIsArchived($idSite);
+            $this->removeWebsiteFromInvalidatedWebsites($idSite);
         }
 
         // when some data was purged from this website
@@ -1218,8 +1219,7 @@ class CronArchive
 
             $date = $this->getApiDateParameter($idSite, $period, $this->siteArchivingInfo->getLastTimestampWebsiteProcessedPeriods($idSite));
 
-            $url  = $this->piwikUrl;
-            $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
+            $url = $this->getVisitsRequestUrl($idSite, $period, $date);
             $url .= self::APPEND_TO_API_REQUEST;
 
             $this->queue->enqueue(array($url));
@@ -1271,9 +1271,12 @@ class CronArchive
 
         // if archiving for a 'day' period finishes, check if there are visits and if so,
         // launch archiving for other periods and segments for the site
-        if ($url['period'] === 'day') {
+        if ($url['period'] === 'day'
+            && empty($url['segment'])
+        ) {
             if (!$isResponseValid) {
-                $this->logError("Empty or invalid response '$textResponse' for website id $idSite, skipping period and segment archiving");
+                $this->logError("Empty or invalid response '$textResponse' for website id $idSite, skipping period and segment archiving.\n"
+                              . "(URL used: $urlString)");
                 $this->skipped++;
                 return;
             }
@@ -1326,7 +1329,7 @@ class CronArchive
             $failedRequestsCount = $this->siteArchivingInfo->getFailedRequestsSemaphore($idSite);
             $failedRequestsCount->decrement();
 
-            if ($failedRequestsCount->isEqual(0)) {
+            if ($failedRequestsCount->get() === 0) {
                 Option::set($this->lastRunKey($idSite, "periods"), time());
 
                 $this->archivedPeriodsArchivesWebsite++; // TODO: need to double check all metrics are counted correctly
@@ -1336,7 +1339,7 @@ class CronArchive
 
         $this->logArchivedWebsite($idSite, $period, $date, $segment, $visits, $visitsLast); // TODO no timer
 
-        if ($this->siteArchivingInfo->getActiveRequestsSemaphore($idSite)->isEqual(0)) {
+        if ($this->siteArchivingInfo->getActiveRequestsSemaphore($idSite)->get() === 0) {
             $processedWebsitesCount = $this->siteArchivingInfo->getProcessedWebsitesSemaphore();
             $processedWebsitesCount->increment();
 
@@ -1351,8 +1354,7 @@ class CronArchive
 
     private function queueSegmentsArchivingFor($idSite, $period, $date)
     {
-        $baseUrl  = $this->piwikUrl;
-        $baseUrl .= $this->getVisitsRequestUrl($idSite, $period, $date);
+        $baseUrl = $this->getVisitsRequestUrl($idSite, $period, $date);
 
         foreach ($this->getSegmentsForSite($idSite) as $segment) {
             $urlWithSegment = $baseUrl . '&segment=' . urlencode($segment);
