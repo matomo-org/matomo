@@ -42,7 +42,7 @@ then
     then
         if [ -n "$PLUGIN_NAME" ]
         then
-            artifacts_folder="protected/ui-tests.master.$PLUGIN_NAME"
+            artifacts_folder="protected/ui-tests.$TRAVIS_BRANCH.$PLUGIN_NAME"
         else
             artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
