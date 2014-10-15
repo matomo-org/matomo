@@ -29,13 +29,6 @@ class RowTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($testRow->c[Row::DATATABLE_ASSOCIATED] < 0);
     }
 
-    public function testDataTableAssociatedIsNegativeWhenSubDataTableAdded()
-    {
-        $testRow = $this->getTestRowWithSubDataTableNotLoaded();
-        $testRow->addSubtable($this->getTestSubDataTable());
-        $this->assertTrue($testRow->c[Row::DATATABLE_ASSOCIATED] < 0);
-    }
-
     public function testDataTableAssociatedIsNegativeWhenSubDataTableSetted()
     {
         $testRow = $this->getTestRowWithSubDataTableNotLoaded();
@@ -196,6 +189,21 @@ class RowTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(10, $this->row->getColumn('nb_visits'));
         $this->assertEquals(7, $this->row->getColumn('closure'));
+    }
+
+    public function test_sumSubTable_whenSubTableAlreadyExists_overwriteExistingSubtable()
+    {
+        $testRow = $this->getTestRowWithSubDataTableNotLoaded();
+        $this->assertFalse( $testRow->isSubtableLoaded() );
+
+        $subTable = $this->getTestSubDataTable();
+        $testRow->setSubtable($subTable);
+        $testRow->switchFlagSubtableIsLoaded();
+        $this->assertFalse( $testRow->isSubtableLoaded() );
+
+        $testRow->sumSubtable($subTable);
+
+        $this->assertTrue( DataTable::isEqual($testRow->getSubtable(), $subTable));
     }
 
     private function assertColumnSavesValue($expectedValue, $columnName, $valueToSet)

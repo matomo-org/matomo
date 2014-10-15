@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**

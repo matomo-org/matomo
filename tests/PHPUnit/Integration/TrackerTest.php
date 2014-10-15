@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use Piwik\Tests\Impl\Fixture;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core

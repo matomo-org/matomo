@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Core

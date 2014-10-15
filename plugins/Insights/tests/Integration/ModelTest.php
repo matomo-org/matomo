@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Insights\tests;
 use Piwik\DataTable;
 use Piwik\Plugins\Insights\Model;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Insights

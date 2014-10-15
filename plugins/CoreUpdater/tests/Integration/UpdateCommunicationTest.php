@@ -13,7 +13,7 @@ use Piwik\Option;
 use Piwik\Plugins\CoreUpdater\UpdateCommunication;
 use Piwik\UpdateCheck;
 use Piwik\Version;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * Class Plugins_CoreUpdater_UpdateCommunicationTest

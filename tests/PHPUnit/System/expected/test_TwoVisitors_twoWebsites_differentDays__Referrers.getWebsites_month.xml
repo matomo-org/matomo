@@ -4,24 +4,24 @@
 		<result date="2010-01">
 			<row>
 				<label>referrer.com</label>
-				<nb_visits>9</nb_visits>
-				<nb_actions>42</nb_actions>
+				<nb_visits>5</nb_visits>
+				<nb_actions>22</nb_actions>
 				<max_actions>5</max_actions>
-				<sum_visit_length>7569</sum_visit_length>
+				<sum_visit_length>3965</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 				<subtable>
 					<row>
 						<label>http://referrer.com/Other_Page.htm</label>
-						<nb_visits>8</nb_visits>
-						<nb_actions>40</nb_actions>
+						<nb_visits>4</nb_visits>
+						<nb_actions>20</nb_actions>
 						<max_actions>5</max_actions>
-						<sum_visit_length>7208</sum_visit_length>
+						<sum_visit_length>3604</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
-						<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 						<sum_daily_nb_users>0</sum_daily_nb_users>
 					</row>
 					<row>

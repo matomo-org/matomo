@@ -12,8 +12,8 @@ use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Tests\Impl\Fixture;
-use Piwik\Tests\OverrideLogin;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\OverrideLogin;
 
 /**
  * Imports visits from several log files using the python log importer.

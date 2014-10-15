@@ -189,7 +189,7 @@ class PiwikTracker
         }
 
         // Life of the visitor cookie (in sec)
-        $this->configVisitorCookieTimeout = 63072000; // 2 years
+        $this->configVisitorCookieTimeout = 33955200; // 13 months (365 + 28 days)
         // Life of the session cookie (in sec)
         $this->configSessionCookieTimeout = 1800; // 30 minutes
         // Life of the session cookie (in sec)

@@ -503,9 +503,9 @@ trust_visitors_cookies = 0
 ; This is used only if use_third_party_id_cookie = 1
 cookie_name = _pk_uid
 
-; by default, the Piwik tracking cookie expires in 2 years
+; by default, the Piwik tracking cookie expires in 13 months (365 + 28 days)
 ; This is used only if use_third_party_id_cookie = 1
-cookie_expire = 63072000
+cookie_expire = 33955200;
 
 ; The path on the server in which the cookie will be available on.
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html

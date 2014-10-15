@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserSettings\tests\System;
 
 
 use Piwik\Plugins\UserSettings\tests\Fixtures\LanguageFixture;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * Class GetLanguageSystemTest

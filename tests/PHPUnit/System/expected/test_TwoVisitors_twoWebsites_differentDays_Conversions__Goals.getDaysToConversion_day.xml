@@ -71,7 +71,7 @@
 			</row>
 			<row>
 				<label>2 days</label>
-				<nb_conversions>1</nb_conversions>
+				<nb_conversions>2</nb_conversions>
 			</row>
 			<row>
 				<label>3 days</label>
@@ -133,7 +133,7 @@
 			</row>
 			<row>
 				<label>3 days</label>
-				<nb_conversions>1</nb_conversions>
+				<nb_conversions>2</nb_conversions>
 			</row>
 			<row>
 				<label>4 days</label>
@@ -195,7 +195,7 @@
 			</row>
 			<row>
 				<label>4 days</label>
-				<nb_conversions>1</nb_conversions>
+				<nb_conversions>2</nb_conversions>
 			</row>
 			<row>
 				<label>5 days</label>

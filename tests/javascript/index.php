@@ -2479,6 +2479,8 @@ function PiwikTest() {
 
         var startTime, stopTime;
 
+        wait(1000); // in case there is  a previous expireDateTime set
+
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
         startTime = new Date();
@@ -2492,7 +2494,8 @@ function PiwikTest() {
         tracker.trackPageView();
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
-        ok( (stopTime.getTime() - startTime.getTime()) >= 2000, 'setLinkTrackingTimer()' );
+        var diffTime = (stopTime.getTime() - startTime.getTime());
+        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
     });
 
     test("Overlay URL Normalizer", function() {
@@ -2581,7 +2584,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(100);
+        expect(102);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -2603,6 +2606,13 @@ if ($sqlite) {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
+
+        var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
+        strictEqual(thirteenMonths, tracker.getConfigVisitorCookieTimeout(), 'default visitor timeout should be 13 months');
+
+        var actualTimeout   = tracker.getRemainingVisitorCookieTimeout();
+        var isAbout13Months = (thirteenMonths + 1000) > actualTimeout && ((thirteenMonths - 6000) < actualTimeout);
+        ok(isAbout13Months, 'remaining cookieTimeout should be about the deault tiemout of 13 months (' + thirteenMonths + ') but is ' + actualTimeout);
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted

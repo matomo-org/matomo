@@ -33,6 +33,9 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
         $validTill = '2015-02-06';
         $this->assertDeprecatedClassIsRemoved('\IntegrationTestCase', $validTill);
         $this->assertDeprecatedClassIsRemoved('\DatabaseTestCase', $validTill);
+        $this->assertDeprecatedClassIsRemoved('\BenchmarkTestCase', $validTill);
+        $this->assertDeprecatedClassIsRemoved('\FakeAccess', $validTill);
+        $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\ConsoleCommandTestCase', $validTill);
         $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\Fixture', $validTill);
         $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\OverrideLogin', $validTill);
 
@@ -68,7 +71,7 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
 
         if (!$now->isLater($removalDate)) {
 
-            $errorMessage = $className . 'should still exists until ' . $removalDate . ' although it is deprecated.';
+            $errorMessage = $className . ' should still exists until ' . $removalDate . ' although it is deprecated.';
             $this->assertTrue($classExists, $errorMessage);
             return;
         }

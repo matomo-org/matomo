@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**

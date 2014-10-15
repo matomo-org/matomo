@@ -6,16 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Impl;
+namespace Piwik\Tests\Framework\TestRequest;
 
 use Piwik\API\Request;
 use PHPUnit_Framework_Assert as Asserts;
 use Exception;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * Utility class used to obtain and process API responses for API tests.
+ * @since 2.8.0
  */
-class TestRequestResponse
+class Response
 {
     private $processedResponseText;
 
@@ -50,7 +52,7 @@ class TestRequestResponse
             throw new Exception("$path does not exist");
         }
 
-        return new TestRequestResponse($contents, $params, $requestUrl);
+        return new Response($contents, $params, $requestUrl);
     }
 
     public static function loadFromApi($params, $requestUrl)
@@ -61,10 +63,10 @@ class TestRequestResponse
         // with format=original, objects or php arrays can be returned.
         $response = (string) $testRequest->process();
 
-        return new TestRequestResponse($response, $params, $requestUrl);
+        return new Response($response, $params, $requestUrl);
     }
 
-    public static function assertEquals(TestRequestResponse $expected, TestRequestResponse $actual, $message = false)
+    public static function assertEquals(Response $expected, Response $actual, $message = false)
     {
         $expectedText = $expected->getResponseText();
         $actualText = $actual->getResponseText();
@@ -121,10 +123,11 @@ class TestRequestResponse
 
     private function normalizeEncodingPhp533($apiResponse)
     {
-        if(!SystemTestCase::isPhpVersion53()
+        if (!SystemTestCase::isPhpVersion53()
             || strpos($apiResponse, '<result') === false) {
             return $apiResponse;
         }
+
         return str_replace('&amp;#039;', "'", $apiResponse);
     }
 
@@ -250,6 +253,7 @@ class TestRequestResponse
         $response = str_replace('.00</revenue>', '</revenue>', $response);
         $response = str_replace('.1</revenue>', '</revenue>', $response);
         $response = str_replace('.11</revenue>', '</revenue>', $response);
+
         return $response;
     }
 
@@ -258,6 +262,7 @@ class TestRequestResponse
         if (strpos($this->requestUrl['format'], 'json') === 0) {
             $apiResponse = str_replace('&nbsp;', '\u00a0', $apiResponse);
         }
+
         return $apiResponse;
     }
 }

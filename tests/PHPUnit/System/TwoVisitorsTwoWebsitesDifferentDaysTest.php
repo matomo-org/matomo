@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 /**
@@ -20,6 +20,7 @@ use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
  * Also testing metadata API for multiple periods
  *
  * @group TwoVisitorsTwoWebsitesDifferentDaysTest
+ * @group TwoSitesTwoVisitorsDifferentDays
  * @group Plugins
  */
 class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase

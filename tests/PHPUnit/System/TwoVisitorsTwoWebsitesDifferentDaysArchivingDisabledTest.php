@@ -7,13 +7,14 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 /**
  * Tests IndexedBySite optimizations when archiving is disabled.
  *
  * @group TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest
+ * @group TwoSitesTwoVisitorsDifferentDays
  * @group Plugins
  */
 class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends SystemTestCase

@@ -9,10 +9,8 @@ namespace Piwik\Tests\System;
 
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
-
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 /**
  * Test Piwik's report limiting code. Make sure the datatable_archiving_maximum_rows_...

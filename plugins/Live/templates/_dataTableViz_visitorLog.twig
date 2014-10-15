@@ -131,7 +131,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
 
                     </span>{% endif %}
 
-                {% if visitor.getColumn('provider') and visitor.getColumn('providerName')!='IP' %}
+                {% if visitor.getColumn('provider') %}
                     <br/>
                     {{ 'Provider_ColumnProvider'|translate }}:
                     <a href="{{ visitor.getColumn('providerUrl') }}" target="_blank" title="{{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">

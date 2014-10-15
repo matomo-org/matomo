@@ -6,10 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Impl;
+namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will
@@ -18,6 +19,7 @@ use Piwik\Db;
  * This allows each test method to start from a clean DB and setup initial state to
  * then test it.
  *
+ * @since 2.8.0
  */
 abstract class IntegrationTestCase extends SystemTestCase
 {
