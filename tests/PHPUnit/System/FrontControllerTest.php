@@ -16,24 +16,6 @@ use Piwik\Tests\Fixture;
 class FrontControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider indexUrlsProvider
-     */
-    public function testIndexRedirection($url)
-    {
-        $header = $this->getResponseHeader($url);
-        $url = 'index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday';
-        $this->assertContains('Location: ' . $url, $header);
-    }
-
-    public function indexUrlsProvider()
-    {
-        return array(
-            array(''),
-            array('index.php'),
-        );
-    }
-
-    /**
      * @dataProvider malformedUrlsProvider
      */
     public function testMalformedUrlRedirection($url, $redirection)
@@ -41,7 +23,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
         $header = $this->getResponseHeader($url);
 
         if ($redirection) {
-            $this->assertContains('Location: http://localhost:8000/' . $redirection . "\r\n", $header);
+            $this->assertContains('Location: ' . Fixture::getRootUrl() . 'tests/PHPUnit/proxy/' . $redirection . "\r\n", $header);
         } else {
             $this->assertNotContains('Location: ', $header);
         }
@@ -72,7 +54,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, Fixture::getRootUrl() . $url);
+        curl_setopt($ch, CURLOPT_URL, Fixture::getRootUrl() . 'tests/PHPUnit/proxy/' . $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
