@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\API\tests\Integration;
 
 use Piwik\Plugins\API\RowEvolution;
-use Piwik\Tests\Impl\Fixture;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group API

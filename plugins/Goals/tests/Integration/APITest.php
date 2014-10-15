@@ -11,8 +11,8 @@ namespace Piwik\Plugins\Goals\tests\Integration;
 use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Impl\Fixture;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Goals
@@ -50,9 +50,9 @@ class APITest extends IntegrationTestCase
 
     public function test_addGoal_shouldSucceed_IfOnlyMinimumFieldsGiven()
     {
-        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact');
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de/?pk_campaign=1', 'exact');
 
-        $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de', 'exact', 0, 0, 0);
+        $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de/?pk_campaign=1', 'exact', 0, 0, 0);
     }
 
     public function test_addGoal_ShouldSucceed_IfAllFieldsGiven()

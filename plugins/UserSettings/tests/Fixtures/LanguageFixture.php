@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\UserSettings\tests\Fixtures;
 
 
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Date;
 use Piwik\Common;
 

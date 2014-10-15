@@ -9,9 +9,10 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
 
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
 /**
  * Adds one site and tracks 60 visits (15 visitors, one action per visit).
@@ -210,7 +211,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     private function setMockLocationProvider()
     {
         LocationProvider::setCurrentProvider('mock_provider');
-        \MockLocationProvider::$locations = array(
+        MockLocationProvider::$locations = array(
             self::makeLocation('Toronto', 'ON', 'CA', $lat = null, $long = null, $isp = 'comcast.net'),
 
             self::makeLocation('Nice', 'B8', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),

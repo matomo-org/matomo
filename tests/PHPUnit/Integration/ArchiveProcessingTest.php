@@ -20,7 +20,7 @@ use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class Core_ArchiveProcessorTest extends ArchiveProcessor\Loader {
 

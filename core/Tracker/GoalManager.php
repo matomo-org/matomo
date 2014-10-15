@@ -153,7 +153,6 @@ class GoalManager
             return false;
         }
 
-        $decodedActionUrl = $action->getActionUrl();
         $actionType = $action->getActionType();
         $goals = $this->getGoalDefinitions($idSite);
 
@@ -169,7 +168,6 @@ class GoalManager
                 continue;
             }
 
-            $url = $decodedActionUrl;
 
             switch ($attribute) {
                 case 'title':
@@ -185,13 +183,17 @@ class GoalManager
                 case 'event_category':
                     $url = $action->getEventCategory();
                     break;
+                // url, external_website, file, manually...
+                default:
+                    $url = $action->getActionUrlRaw();
+                    break;
             }
 
             $pattern_type = $goal['pattern_type'];
 
             $match = $this->isUrlMatchingGoal($goal, $pattern_type, $url);
             if ($match) {
-                $goal['url'] = $decodedActionUrl;
+                $goal['url'] = $action->getActionUrl();
                 $this->convertedGoals[] = $goal;
             }
         }

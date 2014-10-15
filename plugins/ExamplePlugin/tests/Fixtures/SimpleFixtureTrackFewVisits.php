@@ -8,7 +8,7 @@
 namespace Piwik\Plugins\ExamplePlugin\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Generates tracker testing data for our SimpleSystemTest

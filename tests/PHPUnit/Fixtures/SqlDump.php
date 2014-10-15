@@ -11,7 +11,7 @@ use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Exception;
 
 /**

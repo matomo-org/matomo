@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesVisitsInPast;
 use Exception;
 

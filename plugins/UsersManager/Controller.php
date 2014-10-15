@@ -122,6 +122,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function hasAnonymousUserViewAccess($usersAccessByWebsite)
     {
         $anonymousHasViewAccess = false;
+
         foreach ($usersAccessByWebsite as $login => $access) {
             if ($login == 'anonymous'
                 && $access != 'noaccess'
@@ -129,6 +130,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $anonymousHasViewAccess = true;
             }
         }
+
         return $anonymousHasViewAccess;
     }
 

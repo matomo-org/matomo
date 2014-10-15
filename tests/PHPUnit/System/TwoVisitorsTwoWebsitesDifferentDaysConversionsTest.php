@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Goals/Goals.php';
@@ -18,6 +18,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Goals/Goals.php';
  * on every url.
  *
  * @group TwoVisitorsTwoWebsitesDifferentDaysConversionsTest
+ * @group TwoSitesTwoVisitorsDifferentDays
  * @group Plugins
  */
 class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
@@ -57,27 +58,40 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
                 'year'
         );
 
-        $result = array(
-            // Request data for the last 6 periods and idSite=all
-            array($apiToCall, array('idSite'       => 'all',
+        $result = array();
+
+        // Live output for a quick visualisation if some other API test break
+        $result[] = array(
+            'Live.getLastVisitsDetails', array(
+                'idSite' => self::$fixture->idSite1,
+                'date' => $dateTime,
+                'periods' => 'year',
+                'keepLiveDates' => true,
+                'otherRequestParameters' => array('showColumns' => 'lastActionDateTime,referrerType,referrerName,actions,events,visitConverted'),
+            ));
+
+        // Request data for the last 6 periods and idSite=all
+        $result[] = array($apiToCall, array('idSite'       => 'all',
                                     'date'         => $dateTime,
                                     'periods'      => $periods,
-                                    'setDateLastN' => true)),
+                                    'setDateLastN' => true
+        ));
 
-            // Request data for the last 6 periods and idSite=1
-            array($apiToCall, array('idSite'       => $idSite1,
+        // Request data for the last 6 periods and idSite=1
+        $result[] = array($apiToCall, array('idSite'       => $idSite1,
                                     'date'         => $dateTime,
                                     'periods'      => $periods,
                                     'setDateLastN' => true,
-                                    'testSuffix'   => '_idSiteOne_')),
+                                    'testSuffix'   => '_idSiteOne_'
+        ));
 
-            // We also test a single period to check that this use case (Reports per idSite in the response) works
-            array($singlePeriodApi, array('idSite'       => 'all',
+        // We also test a single period to check that this use case (Reports per idSite in the response) works
+        $result[] = array($singlePeriodApi, array('idSite'       => 'all',
                                           'date'         => $dateTime,
                                           'periods'      => array('day', 'month'),
                                           'setDateLastN' => false,
-                                          'testSuffix'   => '_NotLastNPeriods')),
-        );
+                                          'testSuffix'   => '_NotLastNPeriods'
+        ));
 
         // testing metadata API for multiple periods
         $apiToCall = array_diff($apiToCall, array('Actions.getPageTitle', 'Actions.getPageUrl'));
@@ -97,14 +111,15 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
-        $dateTime = '2010-01-03,2010-01-06';
+        $dateTimeRange = '2010-01-03,2010-01-06';
         $columns = 'nb_visits,' . Archiver::getRecordName('conversion_rate');
 
         $result[] = array(
-            'VisitsSummary.get', array('idSite'                 => 'all', 'date' => $dateTime, 'periods' => 'range',
+            'VisitsSummary.get', array('idSite'                 => 'all', 'date' => $dateTimeRange, 'periods' => 'range',
                                        'otherRequestParameters' => array('columns' => $columns),
                                        'testSuffix'             => '_getMetricsFromDifferentReports')
         );
+
 
         return $result;
     }

@@ -12,8 +12,8 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
-use Piwik\Tests\Impl\Fixture;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group ScheduledReports

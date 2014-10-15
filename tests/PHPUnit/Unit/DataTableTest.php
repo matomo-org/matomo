@@ -108,12 +108,12 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $table2 = $this->_getDataTable2ForTest();
         $this->assertFalse($table2->getRowFromIdSubDataTable($idTable1));
 
-        $table2->getFirstRow()->addSubtable($table1);
+        $table2->getFirstRow()->setSubtable($table1);
         $this->assertEquals($table2->getRowFromIdSubDataTable($idTable1), $table2->getFirstRow());
 
         $table3 = $this->_getDataTable1ForTest();
         $idTable3 = $table3->getId();
-        $table2->getLastRow()->addSubtable($table3);
+        $table2->getLastRow()->setSubtable($table3);
         $this->assertEquals($table2->getRowFromIdSubDataTable($idTable3), $table2->getLastRow());
     }
 
@@ -777,7 +777,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         // create a simple table with a subtable
         $table1 = $this->_getDataTable1ForTest();
         $table2 = $this->_getDataTable2ForTest();
-        $table2->getFirstRow()->addSubtable($table1);
+        $table2->getFirstRow()->setSubtable($table1);
         $idSubtable = $table1->getId();
 
         /* Check it looks good:

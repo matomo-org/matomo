@@ -10,7 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
-use Piwik\Tests\Impl\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * Track visits before website creation date and test that Piwik handles them correctly.

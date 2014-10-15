@@ -90,6 +90,7 @@
             self.handleCellTooltips(domElem);
             self.handleExpandFooter(domElem);
             self.setFixWidthToMakeEllipsisWork(domElem);
+            self.handleSummaryRow(domElem);
         },
 
         //see dataTable::applyCosmetics

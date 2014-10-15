@@ -20,6 +20,7 @@ use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Theme;
@@ -289,6 +290,13 @@ class Manager extends Singleton
         $this->removePluginFromConfig($pluginName);
 
         $this->clearCache($pluginName);
+
+        /**
+         * Event triggered after a plugin has been deactivated.
+         *
+         * @param string $pluginName The plugin that has been deactivated.
+         */
+        Piwik::postEvent('PluginManager.pluginDeactivated', array($pluginName));
     }
 
     /**
@@ -442,6 +450,13 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->forceSave();
 
         $this->clearCache($pluginName);
+
+        /**
+         * Event triggered after a plugin has been activated.
+         *
+         * @param string $pluginName The plugin that has been activated.
+         */
+        Piwik::postEvent('PluginManager.pluginActivated', array($pluginName));
     }
 
     protected function isPluginInFilesystem($pluginName)

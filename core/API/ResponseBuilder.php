@@ -26,6 +26,7 @@ class ResponseBuilder
     private $outputFormat = null;
     private $apiRenderer  = null;
     private $request      = null;
+    private $sendHeader   = true;
 
     private $apiModule = false;
     private $apiMethod = false;
@@ -39,6 +40,11 @@ class ResponseBuilder
         $this->outputFormat = $outputFormat;
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
+    }
+
+    public function disableSendHeader()
+    {
+        $this->sendHeader = false;
     }
 
     /**
@@ -73,7 +79,7 @@ class ResponseBuilder
         $this->apiModule = $apiModule;
         $this->apiMethod = $apiMethod;
 
-        $this->apiRenderer->sendHeader();
+        $this->sendHeaderIfEnabled();
 
         // when null or void is returned from the api call, we handle it as a successful operation
         if (!isset($value)) {
@@ -123,7 +129,8 @@ class ResponseBuilder
         $e       = $this->decorateExceptionWithDebugTrace($e);
         $message = $this->formatExceptionMessage($e);
 
-        $this->apiRenderer->sendHeader();
+        $this->sendHeaderIfEnabled();
+
         return $this->apiRenderer->renderException($message, $e);
     }
 
@@ -281,5 +288,12 @@ class ResponseBuilder
         // to become &gt; and we need to undo that here.
         $label = Common::unsanitizeInputValues($label);
         return $label;
+    }
+
+    private function sendHeaderIfEnabled()
+    {
+        if ($this->sendHeader) {
+            $this->apiRenderer->sendHeader();
+        }
     }
 }

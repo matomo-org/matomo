@@ -25,8 +25,8 @@ use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tests\Impl\SystemTestCase;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tests\Framework\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/PrivacyManager.php';
 

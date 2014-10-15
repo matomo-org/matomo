@@ -64,7 +64,16 @@ abstract class Action
     private $actionIdsCached = array();
     private $actionName;
     private $actionType;
+
+    /**
+     * URL with excluded Query parameters
+     */
     private $actionUrl;
+
+    /**
+     *  Raw URL (will contain excluded URL query parameters)
+     */
+    private $rawActionUrl;
 
     /**
      * Makes the correct Action object based on the request.
@@ -145,6 +154,14 @@ abstract class Action
         return $this->actionUrl;
     }
 
+    /**
+     * Returns URL of page being tracked, including all original Query parameters
+     */
+    public function getActionUrlRaw()
+    {
+        return $this->rawActionUrl;
+    }
+
     public function getActionName()
     {
         return $this->actionName;
@@ -173,15 +190,15 @@ abstract class Action
 
     protected function setActionUrl($url)
     {
-        $urlBefore = $url;
+        $this->rawActionUrl = PageUrl::getUrlIfLookValid($url);
         $url = PageUrl::excludeQueryParametersFromUrl($url, $this->request->getIdSite());
 
-        if ($url != $urlBefore) {
-            Common::printDebug(' Before was "' . $urlBefore . '"');
+        $this->actionUrl = PageUrl::getUrlIfLookValid($url);
+
+        if ($url != $this->rawActionUrl) {
+            Common::printDebug(' Before was "' . $this->rawActionUrl . '"');
             Common::printDebug(' After is "' . $url . '"');
         }
-
-        $this->actionUrl = PageUrl::getUrlIfLookValid($url);
     }
 
     abstract protected function getActionsToLookup();

@@ -7,17 +7,17 @@
  */
 
 /**
- * @deprecated since 2.8.0 extend \Piwik\Tests\Impl\SystemTestCase instead
+ * @deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\SystemTestCase instead
  */
-class IntegrationTestCase extends \Piwik\Tests\Impl\SystemTestCase
+class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\SystemTestCase
 {
 
     public static function setUpBeforeClass()
     {
-        \Piwik\Log::debug('\IntegrationTestCase is deprecated since 2.8.0 extend \Piwik\Tests\Impl\SystemTestCase instead');
+        \Piwik\Log::debug('\IntegrationTestCase is deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\SystemTestCase instead');
 
         parent::setUpBeforeClass();
     }
 }
 
-IntegrationTestCase::$fixture = new \Piwik\Tests\Impl\Fixture();
+IntegrationTestCase::$fixture = new \Piwik\Tests\Framework\Fixture();

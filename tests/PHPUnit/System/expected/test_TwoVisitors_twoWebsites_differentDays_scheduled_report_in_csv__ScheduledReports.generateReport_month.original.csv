@@ -199,25 +199,28 @@ No data available
 
 Referrer Type
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Websites,9,42,4.67,00:14:01,0%,$ 0
+Websites,5,22,4.4,00:13:13,0%,$ 0
+Campaigns,4,20,5,00:15:01,0%,$ 0
 Direct Entry,1,1,1,00:00:00,100%,$ 0
 
 All Referrers
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-referrer.com,9,42,0%,4.67,00:14:01,0%
+goal-matching-url-parameter,4,20,0%,5,00:15:01,0%
+referrer.com,5,22,0%,4.4,00:13:13,0%
 
 Keywords
 No data available
 
 Websites
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-referrer.com,9,42,4.67,00:14:01,0%,$ 0
+referrer.com,5,22,4.4,00:13:13,0%,$ 0
 
 Search Engines
 No data available
 
 Campaigns
-No data available
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
+goal-matching-url-parameter,4,20,5,00:15:01,0%,$ 0
 
 Social Networks
 No data available

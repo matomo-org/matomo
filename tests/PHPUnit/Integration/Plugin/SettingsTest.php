@@ -9,7 +9,7 @@
 use Piwik\Access;
 use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\Setting;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
 

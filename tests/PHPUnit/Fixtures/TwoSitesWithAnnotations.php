@@ -10,7 +10,7 @@ namespace Piwik\Tests\Fixtures;
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\API;
-use Piwik\Tests\Impl\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use FakeAccess;
 
 /**

@@ -13,7 +13,7 @@ use Piwik\Plugins\CustomVariables\Commands\SetNumberOfCustomVariables;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group CustomVariables

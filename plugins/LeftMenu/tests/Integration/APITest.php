@@ -12,7 +12,7 @@ use Piwik\Access;
 use Piwik\Plugins\LeftMenu\API;
 use Piwik\Plugins\LeftMenu\Settings;
 use \FakeAccess;
-use Piwik\Tests\Impl\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group LeftMenu
