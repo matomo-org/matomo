@@ -2,11 +2,6 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
-## Piwik 2.9.0
-
-### Deprecations
-* `Piwik::getJavascriptCode()` has been deprecated in favor of `Piwik\Tracker\TrackerCodeGenerator::generate()`
-
 ## Piwik 2.8.0
 
 ### Breaking Changes

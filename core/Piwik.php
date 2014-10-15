@@ -119,26 +119,6 @@ class Piwik
     }
 
     /**
-     * Returns the Javascript code to be inserted on every page to track
-     *
-     * @param int $idSite
-     * @param string $piwikUrl http://path/to/piwik/directory/
-     * @return string
-     *
-     * @deprecated Use {@link TrackerCodeGenerator} instead
-     * @see \Piwik\Tracker\TrackerCodeGenerator
-     */
-    public static function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false,
-                                             $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
-                                             $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                                             $doNotTrack = false, $disableCookies = false)
-    {
-        $generator = new Tracker\TrackerCodeGenerator();
-
-        return $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain, $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables, $customCampaignNameQueryParam, $customCampaignKeywordParam, $doNotTrack, $disableCookies);
-    }
-
-    /**
      * Generate a title for image tags
      *
      * @return string
