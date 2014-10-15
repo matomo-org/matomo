@@ -12,9 +12,11 @@
         <tbody>
     {%- endif -%}
         {% if showingEmbeddedSubtable and dataTable.getRowsCount() == 0 %}
-            <tr class="nodata">
-                <td colspan="{{ properties.columns_to_display|length }}">{{ 'CoreHome_CategoryNoData'|translate }}</td>
-            </tr>
+            {% if clientSideParameters is not defined or clientSideParameters.filter_pattern_recursive is not defined or not clientSideParameters.filter_pattern_recursive  %}
+                <tr class="nodata">
+                    <td colspan="{{ properties.columns_to_display|length }}">{{ 'CoreHome_CategoryNoData'|translate }}</td>
+                </tr>
+            {% endif %}
         {% else %}
             {%- for rowId, row in dataTable.getRows() -%}
                 {%- set rowHasSubtable = not subtablesAreDisabled and row.getIdSubDataTable() and properties.subtable_controller_action is not null -%}
