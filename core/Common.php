@@ -314,6 +314,8 @@ class Common
         // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
         $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
+        $value = self::sanitizeNullBytes($value);
+
         // escape
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
@@ -383,13 +385,21 @@ class Common
     }
 
     /**
-     *
-     * @param string
+     * @param string $value
      * @return string Line breaks and line carriage removed
      */
     public static function sanitizeLineBreaks($value)
     {
-        return str_replace(array("\n", "\r", "\0"), '', $value);
+        return str_replace(array("\n", "\r"), '', $value);
+    }
+
+    /**
+     * @param string $value
+     * @return string Null bytes removed
+     */
+    public static function sanitizeNullBytes($value)
+    {
+        return str_replace(array("\0"), '', $value);
     }
 
     /**

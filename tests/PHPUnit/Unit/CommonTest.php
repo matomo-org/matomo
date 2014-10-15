@@ -55,8 +55,8 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             ),
             // test filter - expect new line and null byte to be filtered out
             array(
-                "New\nLine\rNull\0Byte",
-                'NewLineNullByte'
+                "Null\0Byte",
+                'NullByte'
             ),
             // double encoded - no change (document as user error)
             array(
