@@ -17,7 +17,6 @@ use Piwik\Tracker\Action;
 class BrowserEngine extends Base
 {
     protected $columnName = 'config_browser_engine';
-    protected $columnType = 'VARCHAR(10) NOT NULL';
 
     protected function configureSegments()
     {
@@ -25,7 +24,7 @@ class BrowserEngine extends Base
         $segment->setSegment('browserEngine');
         $segment->setName('DevicesDetection_BrowserEngine');
         $segment->setAcceptedValues('Trident, WebKit, Presto, Gecko, Blink, etc.');
-        $segment->setSuggestedValuesCallback("\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines");
+        $segment->setSuggestedValuesCallback('\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines');
         $this->addSegment($segment);
     }
 
