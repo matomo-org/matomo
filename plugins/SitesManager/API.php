@@ -85,7 +85,8 @@ class API extends \Piwik\Plugin\API
         }
         $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 
-        $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
+        $javascriptGenerator = new Tracker\TrackerCodeGenerator();
+        $htmlEncoded = $javascriptGenerator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                                 $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                                 $customCampaignNameQueryParam, $customCampaignKeywordParam,
                                                 $doNotTrack, $disableCookies);
