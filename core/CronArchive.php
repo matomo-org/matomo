@@ -211,6 +211,8 @@ class CronArchive
     {
         $this->initLog();
         $this->initPiwikHost($piwikUrl);
+        $this->initCore();
+        $this->initTokenAuth();
     }
 
     /**
@@ -230,8 +232,6 @@ class CronArchive
     public function init()
     {
         // Note: the order of methods call matters here.
-        $this->initCore();
-        $this->initTokenAuth();
         $this->initStateFromParameters();
 
         $this->logInitInfo();
@@ -946,6 +946,11 @@ class CronArchive
         Piwik::postEvent('CronArchive.getTokenAuth', array(&$token));
         
         $this->token_auth = $token;
+    }
+
+    public function getTokenAuth()
+    {
+        return $this->token_auth;
     }
 
     private function initPiwikHost($piwikUrl = false)
