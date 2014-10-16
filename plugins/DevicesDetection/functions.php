@@ -25,7 +25,7 @@ function getBrandLogo($label)
     }
 }
 
-function getBrowserFamilyFullNameExtended($label)
+function getBrowserFamilyFullName($label)
 {
     foreach (BrowserParser::getAvailableBrowserFamilies() as $name => $family) {
         if (in_array($label, $family)) {
@@ -35,16 +35,16 @@ function getBrowserFamilyFullNameExtended($label)
     return Piwik::translate('General_Unknown');
 }
 
-function getBrowserFamilyLogoExtended($label)
+function getBrowserFamilyLogo($label)
 {
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
     if (!empty($label) && array_key_exists($label, $browserFamilies)) {
-        return getBrowserLogoExtended($browserFamilies[$label][0]);
+        return getBrowserLogo($browserFamilies[$label][0]);
     }
-    return getBrowserLogoExtended($label);
+    return getBrowserLogo($label);
 }
 
-function getBrowserNameExtended($label)
+function getBrowserName($label)
 {
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
@@ -67,7 +67,7 @@ function getBrowserNameExtended($label)
  *
  * @return string  path to image
  */
-function getBrowserLogoExtended($short)
+function getBrowserLogo($short)
 {
     $path = 'plugins/UserSettings/images/browsers/%s.gif';
 
@@ -82,7 +82,7 @@ function getBrowserLogoExtended($short)
         }
     }
 
-    $family = getBrowserFamilyFullNameExtended($short);
+    $family = getBrowserFamilyFullName($short);
 
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
 
@@ -173,28 +173,35 @@ function getModelName($label)
     return $label;
 }
 
-function getOSFamilyFullNameExtended($label)
+function getOSFamilyFullName($label)
 {
     if ($label == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
     }
     $label = OperatingSystemParser::getOsFamily($label);
+
+    if ($label == 'unknown') {
+        $label = Piwik::translate('General_Unknown');
+    } else if ($label == 'Gaming Console') {
+        $label = Piwik::translate('UserSettings_GamingConsole');
+    }
+
     if ($label !== false) {
         return $label;
     }
     return Piwik::translate('General_Unknown');
 }
 
-function getOsFamilyLogoExtended($label)
+function getOsFamilyLogo($label)
 {
     $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
     if (!empty($label) && array_key_exists($label, $osFamilies)) {
-        return getOsLogoExtended($osFamilies[$label][0]);
+        return getOsLogo($osFamilies[$label][0]);
     }
-    return getOsLogoExtended($label);
+    return getOsLogo($label);
 }
 
-function getOsFullNameExtended($label)
+function getOsFullName($label)
 {
     if (substr($label, 0, 3) == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
@@ -221,7 +228,7 @@ function getOsFullNameExtended($label)
  *
  * @return string  path to image
  */
-function getOsLogoExtended($short)
+function getOsLogo($short)
 {
     $path = 'plugins/UserSettings/images/os/%s.gif';
 
@@ -235,7 +242,7 @@ function getOsLogoExtended($short)
         }
     }
 
-    $family = getOsFamilyFullNameExtended($short);
+    $family = getOSFamilyFullName($short);
     $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
 
     if (!empty($short) &&
