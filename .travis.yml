@@ -12,9 +12,9 @@ language: php
 # We want to test against PHP 5.3.3/5.4/5.5
 php:
   - 5.4
+  - 5.3.3
   - 5.6
   - 5.5
-  - 5.3.3
 #  - hhvm
 
 # Separate different test suites
@@ -24,12 +24,12 @@ env:
     - TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # All tests after another
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     # Javascript tests
     - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+    # All tests after another
+    - TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
     - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
