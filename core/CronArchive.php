@@ -233,7 +233,6 @@ class CronArchive
         // Note: the order of methods call matters here.
         $this->initCore();
         $this->initTokenAuth();
-        $this->initCheckCli();
         $this->initStateFromParameters();
 
         $this->logInitInfo();
