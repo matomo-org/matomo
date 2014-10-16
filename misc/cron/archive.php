@@ -56,9 +56,11 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
 
     $console->run();
 } else { // if running via web request, use CronArchive directly
+    $archiver = new Piwik\CronArchive();
+
     $token_auth = Piwik\Common::getRequestVar('token_auth', '', 'string');
 
-    if ($token_auth !== $this->token_auth
+    if ($token_auth !== $archiver->getTokenAuth()
         || strlen($token_auth) != 32
     ) {
         die('<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>?token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>
@@ -67,6 +69,5 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
                 <code>$ /path/to/php /path/to/piwik/console core:archive --url=http://your-website.org/path/to/piwik/</code>');
     }
 
-    $archiver = new Piwik\CronArchive();
     $archiver->main();
 }
