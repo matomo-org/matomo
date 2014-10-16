@@ -9,6 +9,7 @@
 namespace Piwik\CronArchive;
 
 use Exception;
+use Piwik\Config;
 use Piwik\Log;
 
 /**
@@ -18,6 +19,28 @@ class AlgorithmLogger
 {
     // Show only first N characters from Piwik API output in case of errors
     const TRUNCATE_ERROR_MESSAGE_SUMMARY = 6000;
+
+    /**
+     * TODO
+     */
+    public function __construct()
+    {
+        $config = Config::getInstance();
+
+        $log = $config->log;
+        $log['log_only_when_debug_parameter'] = 0;
+        $log[Log::LOG_WRITERS_CONFIG_OPTION][] = "screen";
+
+        $config->log = $log;
+
+        Log::unsetInstance();
+
+        // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
+        $logLevel = Log::getInstance()->getLogLevel();
+        if ($logLevel < Log::INFO) {
+            Log::getInstance()->setLogLevel(Log::INFO);
+        }
+    }
 
     /**
      * TODO

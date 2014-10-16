@@ -14,6 +14,7 @@ use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\MetricsFormatter;
 use Piwik\Option;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 
 /**
@@ -291,6 +292,7 @@ class AlgorithmState
      */
     public function getProcessPeriodsMaximumEverySeconds()
     {
+        // TODO: 'none' should be const
         return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             if (empty($container->forceTimeoutPeriod)) {
                 return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
@@ -301,12 +303,45 @@ class AlgorithmState
                 return $container->forceTimeoutPeriod;
             }
 
-            // TODO: should remove this log statement somehow
+            // TODO: should remove log statements from this class somehow
             $container->algorithmLogger->log("WARNING: Automatically increasing --force-timeout-for-periods from {$container->forceTimeoutPeriod} to "
                 . $self->getTodayArchiveTimeToLive()
                 . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
 
             return $self->getTodayArchiveTimeToLive();
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getSegmentsForSite($idSite)
+    {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
+            $segmentsAllSites = $self->getSegmentsForAllSites(); // TODO
+            $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
+            if (!empty($segmentsThisSite)) {
+                $container->algorithmLogger->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idSite): " . implode(", ", $segmentsThisSite));
+            }
+            return array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getSegmentsForAllSites()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $segments = SettingsPiwik::getKnownSegmentsToArchive();
+
+            if (empty($segments)) {
+                return array();
+            }
+
+            $container->algorithmLogger->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
+
+            return $segments;
         });
     }
 

@@ -70,7 +70,6 @@ class CronArchive
      */
     private $websites = array();
     private $allWebsites = array();
-    private $segments = array();
     private $piwikUrl = false;
     private $token_auth = false;
     public $archiveAndRespectTTL = true;
@@ -78,7 +77,6 @@ class CronArchive
     public $startTime;
 
     private $lastSuccessRunTimestamp = false;
-    private $errors = array();
 
     public $testmode = false;
 
@@ -227,7 +225,6 @@ class CronArchive
      */
     public function __construct($piwikUrl = false, $queue = null, $consumer = null)
     {
-        $this->initLog();
         $this->initPiwikHost($piwikUrl);
 
         if (empty($queue)) {
@@ -284,7 +281,6 @@ class CronArchive
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
 
-        $this->segments    = $this->initSegmentsToArchive();
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
 
         if (!empty($this->shouldArchiveOnlySpecificPeriods)) {
@@ -383,20 +379,25 @@ class CronArchive
      */
     public function end()
     {
-        if (empty($this->errors)) {
+        if (empty($this->algorithmStats->errors)) {
             // No error -> Logs the successful script execution until completion
             Option::set(self::OPTION_ARCHIVING_FINISHED_TS, time());
             return;
         }
 
+        $this->logErrorSummary();
+    }
+
+    private function logErrorSummary()
+    {
         $this->algorithmLogger->logSection("SUMMARY OF ERRORS");
-        foreach ($this->errors as $error) {
+        foreach ($this->algorithmStats->errors as $error) {
             // do not logError since errors are already in stderr
             $this->algorithmLogger->log("Error: " . $error);
         }
 
-        $summary = count($this->errors) . " total errors during this script execution, please investigate and try and fix these errors.";
-        $this->algorithmLogger->logFatalError($summary);
+        $this->algorithmLogger->logFatalError(count($this->algorithmStats->errors)
+            . " total errors during this script execution, please investigate and try and fix these errors.");
     }
 
     public function runScheduledTasks()
@@ -460,30 +461,7 @@ class CronArchive
         return $url;
     }
 
-    private function initSegmentsToArchive()
-    {
-        $segments = \Piwik\SettingsPiwik::getKnownSegmentsToArchive();
-
-        if (empty($segments)) {
-            return array();
-        }
-
-        $this->algorithmLogger->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
-        return $segments;
-    }
-
     // TODO: make sure to deal w/ $this->requests/$this->processed & other metrics
-
-    private function getSegmentsForSite($idSite)
-    {
-        $segmentsAllSites = $this->segments;
-        $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
-        if (!empty($segmentsThisSite)) {
-            $this->algorithmLogger->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idSite): " . implode(", ", $segmentsThisSite));
-        }
-        $segments = array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
-        return $segments;
-    }
 
     // TODO: go through each method and see if it still needs to be called. eg, request() shouldn't be, but its code needs to be dealt w/
     /**
@@ -493,7 +471,7 @@ class CronArchive
     {
         $url = $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
 
-        if($this->shouldStartProfiler) { // TODO: redundancy w/ above
+        if ($this->shouldStartProfiler) { // TODO: redundancy w/ above
             $url .= "&xhprof=2";
         }
 
@@ -526,28 +504,6 @@ class CronArchive
             return $this->algorithmLogger->logNetworkError($url, $response);
         }
         return true;
-    }
-
-    /**
-     * Configures Piwik\Log so messages are written in output
-     */
-    private function initLog()
-    {
-        $config = Config::getInstance();
-
-        $log = $config->log;
-        $log['log_only_when_debug_parameter'] = 0;
-        $log[Log::LOG_WRITERS_CONFIG_OPTION][] = "screen";
-
-        $config->log = $log;
-
-        Log::unsetInstance();
-
-        // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
-        $logLevel = Log::getInstance()->getLogLevel();
-        if ($logLevel < Log::INFO) {
-            Log::getInstance()->setLogLevel(Log::INFO);
-        }
     }
 
     /**
@@ -1233,7 +1189,7 @@ class CronArchive
     {
         $baseUrl = $this->getVisitsRequestUrl($idSite, $period, $date);
 
-        foreach ($this->getSegmentsForSite($idSite) as $segment) {
+        foreach ($this->algorithmState->getSegmentsForSite($idSite) as $segment) {
             $urlWithSegment = $baseUrl . '&segment=' . urlencode($segment);
 
             $this->queue->enqueue(array($urlWithSegment));
