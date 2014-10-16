@@ -389,7 +389,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // logs the user in with the new password
         if ($newPassword !== false) {
-            \Piwik\Registry::get('auth')->initSession($userLogin, md5($newPassword), $rememberMe = false);
+            $sessionInitializer = new SessionInitializer();
+            $auth = \Piwik\Registry::get('auth');
+            $auth->setLogin($userLogin);
+            $auth->setPassword($password);
+            $sessionInitializer->initSession($auth, $rememberMe = false);
         }
     }
 }
