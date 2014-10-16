@@ -29,6 +29,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Updater;
 use Piwik\Url;
 use Piwik\Version;
@@ -375,7 +376,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // Load the Tracking code and help text from the SitesManager
         $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
-        $viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Url::getCurrentUrlWithoutFileName());
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $viewTrackingHelp->jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
 
