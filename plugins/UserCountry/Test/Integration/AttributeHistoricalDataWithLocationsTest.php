@@ -3,7 +3,7 @@ namespace Piwik\Plugins\UserCountry\Test\Integration;
 
 use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @group UserCountry
  */
-class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
+class AttributeHistoricalDataWithLocationsTest extends SystemTestCase
 {
     /**
      * @expectedException \RuntimeException
