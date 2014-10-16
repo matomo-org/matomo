@@ -22,6 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class TestsRun extends ConsoleCommand
 {
+    private $returnVar = 0;
+
     protected function configure()
     {
         $this->setName('tests:run');
@@ -85,6 +87,8 @@ class TestsRun extends ConsoleCommand
             $suite = $this->getTestsuite($input);
             $this->executeTestGroups($suite, $groups, $options, $command, $output);
         }
+
+        return $this->returnVar;
     }
 
     private function executeTestFile($testFile, $options, $command, OutputInterface $output)
@@ -94,10 +98,7 @@ class TestsRun extends ConsoleCommand
         }
 
         $params = $options . " " . $testFile;
-        $cmd = $this->getCommand($command, $params);
-        $output->writeln('Executing command: <info>' . $cmd . '</info>');
-        passthru($cmd);
-        $output->writeln("");
+        $this->executeTestRun($command, $params, $output);
     }
 
     private function executeTestGroups($suite, $groups, $options, $command, OutputInterface $output)
@@ -112,10 +113,18 @@ class TestsRun extends ConsoleCommand
         }
 
         $params = $this->buildPhpUnitCliParams($suite, $groups, $options);
-        $cmd    = $this->getCommand($command, $params);
+
+        $this->executeTestRun($command, $params, $output);
+    }
+
+    private function executeTestRun($command, $params, OutputInterface $output)
+    {
+        $cmd = $this->getCommand($command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
-        passthru($cmd);
+        passthru($cmd, &$returnVar);
         $output->writeln("");
+
+        $this->returnVar += $returnVar;
     }
 
     private function getTestsSuites()
@@ -179,4 +188,5 @@ class TestsRun extends ConsoleCommand
     {
         return ucfirst($suite) . 'Tests';
     }
+
 }
