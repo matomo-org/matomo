@@ -185,7 +185,7 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
             var findLevel = 'level' + (level - 1);
             var ptr = tr;
             while ((ptr = ptr.prev()).size() > 0) {
-                if (!ptr.hasClass(findLevel)) {
+                if (!ptr.hasClass(findLevel) || ptr.hasClass('nodata')) {
                     continue;
                 }
                 ptr.trigger(this.trEventName, {

@@ -99,8 +99,8 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
             $this->assertTrue(@set_magic_quotes_runtime(0));
             $this->assertEquals(0, @get_magic_quotes_runtime());
-            $this->assertEquals($output, Common::sanitizeInputValues($input));
         }
+        $this->assertEquals($output, Common::sanitizeInputValues($input));
     }
 
     /**
