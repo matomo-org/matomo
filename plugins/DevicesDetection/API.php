@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
+use DeviceDetector\Parser\Device\DeviceParserAbstract;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -50,9 +51,34 @@ class API extends \Piwik\Plugin\API
     public function getType($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_types', $idSite, $period, $date, $segment);
+        // ensure all device types are in the list
+        $this->ensureDefaultRowsInTable($dataTable);
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
         return $dataTable;
+    }
+
+    protected function ensureDefaultRowsInTable($dataTable)
+    {
+        $requiredRows = array_fill(0, count(DeviceParserAbstract::getAvailableDeviceTypes()), Metrics::INDEX_NB_VISITS);
+
+        $dataTables = array($dataTable);
+
+        if (!($dataTable instanceof DataTable\Map)) {
+            foreach ($dataTables as $table) {
+                if ($table->getRowsCount() == 0) {
+                    continue;
+                }
+                foreach ($requiredRows as $requiredRow => $key) {
+                    $row = $table->getRowFromLabel($requiredRow);
+                    if (empty($row)) {
+                        $table->addRowsFromSimpleArray(array(
+                            array('label' => $requiredRow, $key => 0)
+                        ));
+                    }
+                }
+            }
+        }
     }
 
     /**
