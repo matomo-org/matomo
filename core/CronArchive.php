@@ -79,7 +79,6 @@ class CronArchive
 
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
-    private $isCoreInited = false;
 
     const NO_ERROR = "no error";
 
@@ -212,6 +211,8 @@ class CronArchive
     {
         $this->initLog();
         $this->initPiwikHost($piwikUrl);
+        $this->initCore();
+        $this->initTokenAuth();
     }
 
     /**
@@ -231,8 +232,6 @@ class CronArchive
     public function init()
     {
         // Note: the order of methods call matters here.
-        $this->initCore();
-        $this->initTokenAuth();
         $this->initStateFromParameters();
 
         $this->logInitInfo();
@@ -859,15 +858,9 @@ class CronArchive
     {
         try {
             FrontController::getInstance()->init();
-            $this->isCoreInited = true;
         } catch (Exception $e) {
             throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
         }
-    }
-
-    public function isCoreInited()
-    {
-        return $this->isCoreInited;
     }
 
     /**
@@ -953,6 +946,11 @@ class CronArchive
         Piwik::postEvent('CronArchive.getTokenAuth', array(&$token));
         
         $this->token_auth = $token;
+    }
+
+    public function getTokenAuth()
+    {
+        return $this->token_auth;
     }
 
     private function initPiwikHost($piwikUrl = false)
