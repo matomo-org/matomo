@@ -79,7 +79,6 @@ class CronArchive
 
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
-    private $isCoreInited = false;
 
     const NO_ERROR = "no error";
 
@@ -859,15 +858,9 @@ class CronArchive
     {
         try {
             FrontController::getInstance()->init();
-            $this->isCoreInited = true;
         } catch (Exception $e) {
             throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
         }
-    }
-
-    public function isCoreInited()
-    {
-        return $this->isCoreInited;
     }
 
     /**
