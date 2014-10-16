@@ -449,8 +449,10 @@ class PivotByDimension extends BaseFilter
         }
 
         // make sure column names are utf8 encoded
-        $utfKeys = array_map('utf8_encode', array_keys($columnSet));
-        $columnSet = array_combine($utfKeys, array_values($columnSet));
+        if (!empty($columnSet)) {
+            $utfKeys = array_map('utf8_encode', array_keys($columnSet));
+            $columnSet = array_combine($utfKeys, array_values($columnSet));
+        }
 
         // remove column sums from array so it can be used as a default row
         $columnSet = array_map(function () { return false; }, $columnSet);
