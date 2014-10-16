@@ -16,9 +16,12 @@ use Piwik\MetricsFormatter;
 use Piwik\Option;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Period\Factory as PeriodFactory;
 
 /**
  * TODO
+ *
+ * TODO: perhaps rename to AlgorithmRules or AlgorithmLogic... nah, neither one is good. need something more descriptive than AlgorithmState
  */
 class AlgorithmState
 {
@@ -28,6 +31,9 @@ class AlgorithmState
 
     // force-timeout-for-periods default (1 hour)
     const SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES = 3600;
+
+    // Flag used to record timestamp in Option::
+    const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 
     /**
      * TODO
@@ -55,7 +61,7 @@ class AlgorithmState
     public function getLastTimestampWebsiteProcessedDay($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            if ($container->archiveAndRespectTTL) {
+            if ($self->getArchiveAndRespectTTL()) {
                 Option::clearCachedOption($container->lastRunKey($idSite, "day"));
                 return Option::get($container->lastRunKey($idSite, "day"));
             } else {
@@ -70,7 +76,7 @@ class AlgorithmState
     public function getLastTimestampWebsiteProcessedPeriods($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            if ($container->archiveAndRespectTTL) {
+            if ($self->getArchiveAndRespectTTL()) {
                 Option::clearCachedOption($container->lastRunKey($idSite, "periods")); // TODO: ::get() should include an arg to clear cached option
                 return Option::get($container->lastRunKey($idSite, "periods"));
             } else {
@@ -346,6 +352,104 @@ class AlgorithmState
     }
 
     /**
+     * TODO
+     */
+    public function getLastSuccessRunTimestamp()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function setLastSuccessRunTimestamp($time)
+    {
+        Option::set(self::OPTION_ARCHIVING_FINISHED_TS, $time);
+
+        $this->clearInCache('none', __FUNCTION__);
+    }
+
+    /**
+     * TODO
+     */
+    public function getShouldArchiveAllSitesWithTrafficSince()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            if (empty($container->shouldArchiveAllPeriodsSince)) {
+                return false;
+            }
+
+            if (is_numeric($container->shouldArchiveAllPeriodsSince)
+                && $container->shouldArchiveAllPeriodsSince > 1
+            ) {
+                return (int)$container->shouldArchiveAllPeriodsSince;
+            }
+
+            return true;
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getShouldArchiveOnlySitesWithTrafficSince()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $lastSuccessRunTimestamp = $self->getLastSuccessRunTimestamp();
+            $shouldArchiveOnlySitesWithTrafficSince = $self->getShouldArchiveAllSitesWithTrafficSince();
+
+            if ($shouldArchiveOnlySitesWithTrafficSince === false) { // force-all-periods was not set
+                if (empty($lastSuccessRunTimestamp)) {
+                    // First time we run the script
+                    $shouldArchiveOnlySitesWithTrafficSince = CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
+                } else {
+                    // there was a previous successful run
+                    $shouldArchiveOnlySitesWithTrafficSince = time() - $lastSuccessRunTimestamp;
+                }
+            }  else { // force-all-periods was set
+                if ($shouldArchiveOnlySitesWithTrafficSince === true) {
+                    // force-all-periods without value
+                    $shouldArchiveOnlySitesWithTrafficSince = CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
+                }
+            }
+
+            return $shouldArchiveOnlySitesWithTrafficSince;
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getPeriodsToProcess()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $periods = array_intersect($container->restrictToPeriods, $self->getDefaultPeriodsToProcess());
+            $periods = array_intersect($periods, PeriodFactory::getPeriodsEnabledForAPI());
+            return $periods;
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getDefaultPeriodsToProcess()
+    {
+        return array('day', 'week', 'month', 'year');
+    }
+
+    /**
+     * TODO
+     */
+    public function getArchiveAndRespectTTL()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return $self->getShouldArchiveAllSitesWithTrafficSince() === false; // return true if force-all-periods was not set
+        });
+    }
+
+    /**
      * @param $idSite
      * @param $infoKey
      * @param $calculateCallback
@@ -360,5 +464,10 @@ class AlgorithmState
         }
 
         return $this->siteInfosCache[$idSite][$infoKey];
+    }
+
+    private function clearInCache($idSite, $infoKey)
+    {
+        unset($this->siteInfosCache[$idSite][$infoKey]);
     }
 }

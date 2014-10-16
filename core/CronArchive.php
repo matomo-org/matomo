@@ -20,7 +20,6 @@ use Piwik\Jobs\Consumer;
 use Piwik\Jobs\Impl\CliConsumer;
 use Piwik\Jobs\Impl\DistributedQueue;
 use Piwik\Jobs\Queue;
-use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
@@ -53,9 +52,6 @@ class CronArchive
     // Flag to know when the archive cron is calling the API
     const APPEND_TO_API_REQUEST = '&trigger=archivephp';
 
-    // Flag used to record timestamp in Option::
-    const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
-
     // Name of option used to store starting timestamp
     const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
 
@@ -64,7 +60,7 @@ class CronArchive
 
     public $websiteDayHasFinishedSinceLastRun = array();
     public $idSitesInvalidatedOldReports = array();
-    private $shouldArchiveOnlySpecificPeriods = array();
+
     /**
      * @var SharedSiteIds|FixedSiteIds
      */
@@ -72,11 +68,8 @@ class CronArchive
     private $allWebsites = array();
     private $piwikUrl = false;
     private $token_auth = false;
-    public $archiveAndRespectTTL = true;
 
     public $startTime;
-
-    private $lastSuccessRunTimestamp = false;
 
     public $testmode = false;
 
@@ -272,8 +265,6 @@ class CronArchive
     public function init()
     {
         // Note: the order of methods call matters here.
-        $this->initStateFromParameters();
-
         $this->logInitInfo();
         $this->checkPiwikUrlIsValid();
         $this->logArchiveTimeoutInfo();
@@ -283,8 +274,9 @@ class CronArchive
 
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
 
-        if (!empty($this->shouldArchiveOnlySpecificPeriods)) {
-            $this->algorithmLogger->log("- Will process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
+        $periodsToProcess = $this->algorithmState->getPeriodsToProcess();
+        if (!empty($periodsToProcess)) {
+            $this->algorithmLogger->log("- Will process the following periods: " . implode(", ", $periodsToProcess) . " (--force-periods)");
         }
 
         $websitesIds = $this->initWebsiteIds();
@@ -381,7 +373,7 @@ class CronArchive
     {
         if (empty($this->algorithmStats->errors)) {
             // No error -> Logs the successful script execution until completion
-            Option::set(self::OPTION_ARCHIVING_FINISHED_TS, time());
+            $this->algorithmState->setLastSuccessRunTimestamp(time());
             return;
         }
 
@@ -515,36 +507,6 @@ class CronArchive
             FrontController::getInstance()->init();
         } catch (Exception $e) {
             throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Initializes the various parameters to the script, based on input parameters.
-     *
-     */
-    private function initStateFromParameters()
-    {
-        $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
-        $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
-        $this->shouldArchiveOnlySpecificPeriods = $this->getPeriodsToProcess();
-
-        if ($this->shouldArchiveOnlySitesWithTrafficSince === false) {
-            // force-all-periods is not set here
-            if (empty($this->lastSuccessRunTimestamp)) {
-                // First time we run the script
-                $this->shouldArchiveOnlySitesWithTrafficSince = self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
-            } else {
-                // there was a previous successful run
-                $this->shouldArchiveOnlySitesWithTrafficSince = time() - $this->lastSuccessRunTimestamp;
-            }
-        }  else {
-            // force-all-periods is set here
-            $this->archiveAndRespectTTL = false;
-
-            if ($this->shouldArchiveOnlySitesWithTrafficSince === true) {
-                // force-all-periods without value
-                $this->shouldArchiveOnlySitesWithTrafficSince = self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
-            }
         }
     }
 
@@ -700,7 +662,7 @@ class CronArchive
      */
     private function getTimezonesHavingNewDay()
     {
-        $timestamp = $this->lastSuccessRunTimestamp;
+        $timestamp = $this->algorithmState->getLastSuccessRunTimestamp();
         $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
         $timezoneToProcess = array();
         foreach ($uniqueTimezones as &$timezone) {
@@ -774,25 +736,11 @@ class CronArchive
             . $this->algorithmState->getProcessPeriodsMaximumEverySeconds() . " seconds.");
 
         // Try and not request older data we know is already archived
-        if ($this->lastSuccessRunTimestamp !== false) {
-            $dateLast = time() - $this->lastSuccessRunTimestamp;
-            $this->algorithmLogger->log("- Archiving was last executed without error " . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false) . " ago");
+        $lastSuccessRunTimestamp = $this->algorithmState->getLastSuccessRunTimestamp();
+        if ($lastSuccessRunTimestamp !== false) {
+            $dateLast = time() - $lastSuccessRunTimestamp;
+            $this->algorithmLogger->log("- Archiving was last executed without error " . MetricsFormatter::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false) . " ago");
         }
-    }
-
-    private function isShouldArchiveAllSitesWithTrafficSince()
-    {
-        if (empty($this->shouldArchiveAllPeriodsSince)) {
-            return false;
-        }
-
-        if (is_numeric($this->shouldArchiveAllPeriodsSince)
-            && $this->shouldArchiveAllPeriodsSince > 1
-        ) {
-            return (int)$this->shouldArchiveAllPeriodsSince;
-        }
-
-        return true;
     }
 
     /**
@@ -902,25 +850,6 @@ class CronArchive
     }
 
     /**
-     * @return array
-     */
-    private function getPeriodsToProcess()
-    {
-        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, $this->getDefaultPeriodsToProcess());
-        $this->restrictToPeriods = array_intersect($this->restrictToPeriods, PeriodFactory::getPeriodsEnabledForAPI());
-
-        return $this->restrictToPeriods;
-    }
-
-    /**
-     * @return array
-     */
-    private function getDefaultPeriodsToProcess()
-    {
-        return array('day', 'week', 'month', 'year');
-    }
-
-    /**
      * @param $idSite
      * @return bool
      */
@@ -931,11 +860,12 @@ class CronArchive
 
     private function shouldProcessPeriod($period)
     {
-        if (empty($this->shouldArchiveOnlySpecificPeriods)) {
+        $periodsToProcess = $this->algorithmState->getPeriodsToProcess();
+        if (empty($periodsToProcess)) {
             return true;
         }
 
-        return in_array($period, $this->shouldArchiveOnlySpecificPeriods);
+        return in_array($period, $periodsToProcess);
     }
 
     /**
