@@ -118,6 +118,9 @@ install:
   - git checkout master -- ./tests/travis ./plugins/CoreConsole || true
 
 before_script:
+  - if ([ -n "$TEST_SUITE" ] || [ -z "$PLUGIN_NAME" ]);
+    then phpenv config-rm xdebug.ini
+    fi
   - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
     fi
