@@ -64,31 +64,6 @@ function getOSFamily($osLabel)
     return $osFamily;
 }
 
-function getDeviceTypeFromOS($osLabel)
-{
-    $osId = UserAgentParser::getOperatingSystemIdFromName($osLabel);
-    $osFamily = UserAgentParser::getOperatingSystemFamilyFromId($osId);
-
-    // NOTE: translations done in another filter
-    switch ($osFamily) {
-        case 'Windows':
-        case 'Linux':
-        case 'Mac':
-        case 'Unix':
-        case 'Other':
-        case 'Gaming Console':
-            return 'General_Desktop';
-        case 'iOS':
-        case 'Android':
-        case 'Windows Mobile':
-        case 'Other Mobile':
-        case 'Mobile Gaming Console':
-            return 'General_Mobile';
-        default:
-            return 'General_Unknown';
-    }
-}
-
 function getConfigurationLabel($str)
 {
     if (strpos($str, ';') === false) {

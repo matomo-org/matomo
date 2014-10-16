@@ -12,7 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserSettings\Columns\TypeOfScreen;
 
-class GetWideScreen extends Base
+class GetScreenType extends Base
 {
     protected function init()
     {
@@ -33,12 +33,5 @@ class GetWideScreen extends Base
         $view->config->show_pagination_control = false;
         $view->config->show_limit_control      = false;
         $view->config->addTranslation('label', $this->dimension->getName());
-    }
-
-    public function getRelatedReports()
-    {
-        return array(
-            new GetMobileVsDesktop()
-        );
     }
 }

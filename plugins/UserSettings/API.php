@@ -82,48 +82,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets a DataTable displaying number of visits by device type (mobile vs. desktop).
+     * Gets a DataTable displaying number of visits by device type.
+     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getMobileVsDesktop($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getDeviceTypeFromOS'));
-        $this->ensureDefaultRowsInTable($dataTable);
-
-        // set the logo metadata
-        $dataTable->queueFilter('MetadataCallbackReplace',
-            array('logo', __NAMESPACE__ . '\getDeviceTypeImg', null, array('label')));
-
-        // translate the labels
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', array('\\Piwik\\Piwik','translate')));
-
-        return $dataTable;
-    }
-
-    protected function ensureDefaultRowsInTable($dataTable)
-    {
-        $requiredRows = array(
-            'General_Desktop' => Metrics::INDEX_NB_VISITS,
-            'General_Mobile'  => Metrics::INDEX_NB_VISITS
-        );
-
-        $dataTables = array($dataTable);
-
-        if (!($dataTable instanceof DataTable\Map)) {
-            foreach ($dataTables as $table) {
-                if ($table->getRowsCount() == 0) {
-                    continue;
-                }
-                foreach ($requiredRows as $requiredRow => $key) {
-                    $row = $table->getRowFromLabel($requiredRow);
-                    if (empty($row)) {
-                        $table->addRowsFromSimpleArray(array(
-                                                            array('label' => $requiredRow, $key => 0)
-                                                       ));
-                    }
-                }
-            }
-        }
+        return $this->getDevicesDetectorApi()->getType($idSite, $period, $date, $segment);
     }
 
     public function getBrowserVersion($idSite, $period, $date, $segment = false)
@@ -160,7 +124,15 @@ class API extends \Piwik\Plugin\API
         return $this->getDevicesDetectorApi()->getBrowserEngines($idSite, $period, $date, $segment);
     }
 
+    /**
+     * @deprecated since 2.9.0   Use {@link getScreenType} instead.
+     */
     public function getWideScreen($idSite, $period, $date, $segment = false)
+    {
+        return $this->getScreenType($idSite, $period, $date, $segment);
+    }
+
+    public function getScreenType($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::SCREEN_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getScreensLogo'));
