@@ -8,6 +8,7 @@
  */
 namespace Piwik\CronArchive;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive;
 use Piwik\Date;
@@ -18,11 +19,14 @@ use Piwik\Site;
 /**
  * TODO
  */
-class SiteArchivingInfo
+class AlgorithmState
 {
     const ACTIVE_REQUESTS_SEMAPHORE_NAME = 'CronArchive.ActiveRequests';
     const FAILED_REQUESTS_SEMAPHORE_NAME = 'CronArchive.FailedRequests';
     const PROCESSED_WEBSITES_SEMAPHORE = 'CronArchive.ProcessedWebsites';
+
+    // force-timeout-for-periods default (1 hour)
+    const SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES = 3600;
 
     /**
      * TODO
@@ -49,7 +53,7 @@ class SiteArchivingInfo
      */
     public function getLastTimestampWebsiteProcessedDay($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             if ($container->archiveAndRespectTTL) {
                 Option::clearCachedOption($container->lastRunKey($idSite, "day"));
                 return Option::get($container->lastRunKey($idSite, "day"));
@@ -64,7 +68,7 @@ class SiteArchivingInfo
      */
     public function getLastTimestampWebsiteProcessedPeriods($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             if ($container->archiveAndRespectTTL) {
                 Option::clearCachedOption($container->lastRunKey($idSite, "periods")); // TODO: ::get() should include an arg to clear cached option
                 return Option::get($container->lastRunKey($idSite, "periods"));
@@ -79,13 +83,13 @@ class SiteArchivingInfo
      */
     public function getSecondsSinceLastExecution($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             // For period other than days, we only re-process the reports at most
             // 1) every $processPeriodsMaximumEverySeconds
             $result = $container->startTime - $self->getLastTimestampWebsiteProcessedPeriods($idSite);
 
             // if timeout is more than 10 min, we account for a 5 min processing time, and allow trigger 1 min earlier
-            if ($container->processPeriodsMaximumEverySeconds > 10 * 60) {
+            if ($self->getProcessPeriodsMaximumEverySeconds() > 10 * 60) {
                 $result += 5 * 60;
             }
 
@@ -98,7 +102,7 @@ class SiteArchivingInfo
      */
     public function getDayHasEndedMustReprocesses($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             return in_array($idSite, $container->websiteDayHasFinishedSinceLastRun);
         });
     }
@@ -108,7 +112,7 @@ class SiteArchivingInfo
      */
     public function getIsOldReportInvalidedForWebsite($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             return in_array($idSite, $container->idSitesInvalidatedOldReports);
         });
     }
@@ -118,7 +122,7 @@ class SiteArchivingInfo
      */
     public function getIsWebsiteArchivingForced($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             return in_array($idSite, $container->shouldArchiveSpecifiedSites);
         });
     }
@@ -128,7 +132,7 @@ class SiteArchivingInfo
      */
     public function getShouldArchivePeriods($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             $lastTimeProcessedPeriods = $self->getLastTimestampWebsiteProcessedPeriods($idSite);
             if (empty($lastTimeProcessedPeriods)) {
                 // 2) OR always if script never executed for this website before
@@ -151,7 +155,7 @@ class SiteArchivingInfo
                 return true;
             }
 
-            return $self->getSecondsSinceLastExecution($idSite) > $container->processPeriodsMaximumEverySeconds;
+            return $self->getSecondsSinceLastExecution($idSite) > $self->getProcessPeriodsMaximumEverySeconds();
         });
     }
 
@@ -160,7 +164,7 @@ class SiteArchivingInfo
      */
     public function getElapsedTimeSinceLastArchiving($idSite, $pretty = false)
     {
-        $result = $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        $result = $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             return $container->startTime - $self->getLastTimestampWebsiteProcessedDay($idSite);
         });
 
@@ -178,8 +182,8 @@ class SiteArchivingInfo
      */
     public function getIsExistingArchveValid($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
-            return $self->getElapsedTimeSinceLastArchiving($idSite) < $container->todayArchiveTimeToLive;
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
+            return $self->getElapsedTimeSinceLastArchiving($idSite) < $self->getTodayArchiveTimeToLive();
         });
     }
 
@@ -188,7 +192,7 @@ class SiteArchivingInfo
      */
     public function getHasBeenProcessedSinceMidnight($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             $lastTimestampWebsiteProcessedDay = $self->getLastTimestampWebsiteProcessedDay($idSite);
 
             if (false === $lastTimestampWebsiteProcessedDay) {
@@ -211,7 +215,7 @@ class SiteArchivingInfo
      */
     public function getShouldSkipDayArchive($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             $isExistingArchiveValid = $self->getIsExistingArchveValid($idSite);
 
             // Skip this day archive if last archive was older than TTL
@@ -242,8 +246,8 @@ class SiteArchivingInfo
      */
     public function getActiveRequestsSemaphore($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
-            return new Semaphore(SiteArchivingInfo::ACTIVE_REQUESTS_SEMAPHORE_NAME . '.' . $idSite);
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
+            return new Semaphore(AlgorithmState::ACTIVE_REQUESTS_SEMAPHORE_NAME . '.' . $idSite);
         });
     }
 
@@ -252,8 +256,8 @@ class SiteArchivingInfo
      */
     public function getFailedRequestsSemaphore($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) use ($idSite) {
-            return new Semaphore(SiteArchivingInfo::FAILED_REQUESTS_SEMAPHORE_NAME . '.' . $idSite);
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
+            return new Semaphore(AlgorithmState::FAILED_REQUESTS_SEMAPHORE_NAME . '.' . $idSite);
         });
     }
 
@@ -262,8 +266,47 @@ class SiteArchivingInfo
      */
     public function getProcessedWebsitesSemaphore()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (SiteArchivingInfo $self, CronArchive $container) {
-            return new Semaphore(SiteArchivingInfo::PROCESSED_WEBSITES_SEMAPHORE);
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return new Semaphore(AlgorithmState::PROCESSED_WEBSITES_SEMAPHORE);
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getTodayArchiveTimeToLive()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return Rules::getTodayArchiveTimeToLive();
+        });
+    }
+
+    /**
+     * Returns the delay in seconds, that should be enforced, between calling archiving for Periods Archives.
+     * It can be set by --force-timeout-for-periods=X
+     *
+     * @return int
+     *
+     * TODO: revise
+     */
+    public function getProcessPeriodsMaximumEverySeconds()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            if (empty($container->forceTimeoutPeriod)) {
+                return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
+            }
+
+            // Ensure the cache for periods is at least as high as cache for today
+            if ($container->forceTimeoutPeriod > $self->getTodayArchiveTimeToLive()) {
+                return $container->forceTimeoutPeriod;
+            }
+
+            // TODO: should remove this log statement somehow
+            $container->algorithmLogger->log("WARNING: Automatically increasing --force-timeout-for-periods from {$container->forceTimeoutPeriod} to "
+                . $self->getTodayArchiveTimeToLive()
+                . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
+
+            return $self->getTodayArchiveTimeToLive();
         });
     }
 

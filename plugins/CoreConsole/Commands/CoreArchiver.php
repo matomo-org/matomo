@@ -44,7 +44,7 @@ class CoreArchiver extends ConsoleCommand
         try {
             $archiver->main();
         } catch (Exception $e) {
-            $archiver->logFatalError($e->getMessage());
+            $archiver->algorithmLogger->logError($e->getMessage()); // TODO: will result in two errors if logFatalError called
         }
     }
 
@@ -93,7 +93,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('url', null, InputOption::VALUE_REQUIRED, "Mandatory option as an alternative to '--piwik-domain'. Must be set to the Piwik base URL.\nFor example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/");
         $command->addOption('force-all-websites', null, InputOption::VALUE_NONE, "If specified, the script will trigger archiving on all websites.\nUse with --force-all-periods=[seconds] to also process those websites\nthat had visits in the last [seconds] seconds.");
         $command->addOption('force-all-periods', null, InputOption::VALUE_OPTIONAL, "Limits archiving to websites with some traffic in the last [seconds] seconds. \nFor example --force-all-periods=86400 will archive websites that had visits in the last 24 hours. \nIf [seconds] is not specified, all websites with visits in the last " . CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE . "\n seconds (" . round(CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400) . " days) will be archived.");
-        $command->addOption('force-timeout-for-periods', null, InputOption::VALUE_OPTIONAL, "The current week/ current month/ current year will be processed at most every [seconds].\nIf not specified, defaults to " . CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES . ".");
+        $command->addOption('force-timeout-for-periods', null, InputOption::VALUE_OPTIONAL, "The current week/ current month/ current year will be processed at most every [seconds].\nIf not specified, defaults to " . CronArchive\AlgorithmState::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES . ".");
         $command->addOption('skip-idsites', null, InputOption::VALUE_OPTIONAL, 'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).');
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL, 'If specified, archiving will be processed only for these Sites Ids (comma separated)');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL, "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month)");
