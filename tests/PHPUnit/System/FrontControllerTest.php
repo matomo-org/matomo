@@ -9,11 +9,12 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Core
  */
-class FrontControllerTest extends \PHPUnit_Framework_TestCase
+class FrontControllerTest extends SystemTestCase
 {
     /**
      * @dataProvider malformedUrlsProvider
