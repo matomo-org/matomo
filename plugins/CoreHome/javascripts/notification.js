@@ -50,6 +50,8 @@
             options = {};
         }
 
+        closeExistingNotificationHavingSameIdIfNeeded(options);
+
         var template = generateNotificationHtmlMarkup(options, message);
         this.$node   = placeNotification(template, options);
     };
@@ -108,4 +110,17 @@
 
         return $notificationNode;
     }
+
+    function closeExistingNotificationHavingSameIdIfNeeded(options)
+    {
+        if (!options.id) {
+            return;
+        }
+
+        var $existingNode = $('[notification-id=' + options.id + ']');
+        if ($existingNode && $existingNode.length) {
+            $existingNode.remove();
+        }
+    }
+
 })(jQuery, require);
