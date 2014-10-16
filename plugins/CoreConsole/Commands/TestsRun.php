@@ -121,7 +121,7 @@ class TestsRun extends ConsoleCommand
     {
         $cmd = $this->getCommand($command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
-        passthru($cmd, &$returnVar);
+        passthru($cmd, $returnVar);
         $output->writeln("");
 
         $this->returnVar += $returnVar;
