@@ -253,6 +253,7 @@ class CronArchive
         });
 
         $this->startTime = time();
+
         $this->initCore();
         $this->initTokenAuth();
     }
