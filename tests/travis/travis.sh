@@ -60,7 +60,7 @@ then
         fi
     elif [ "$TEST_SUITE" = "AllTests" ]
     then
-        travis_wait ./../../console tests:run --options="--colors --configuration phpunit.xml"
+        travis_wait ./../../console tests:run --options="--colors"
     else
         if [ -n "$PLUGIN_NAME" ]
         then
