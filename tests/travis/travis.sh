@@ -59,6 +59,7 @@ then
             phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts
         fi
     elif [ "$TEST_SUITE" = "AllTests" ]
+    then
         travis_wait ./../../console tests:run --options="--colors --configuration phpunit.xml"
     else
         if [ -n "$PLUGIN_NAME" ]
