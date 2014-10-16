@@ -41,15 +41,11 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
-    - php: 5.4
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
     - php: 5.4
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
   include:
     # Code Coverage
-    - php: 5.4
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=System
     - php: 5.4
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
     - php: 5.4
