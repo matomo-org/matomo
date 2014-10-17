@@ -79,7 +79,6 @@ class CronArchive
 
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
-    private $isCoreInited = false;
 
     const NO_ERROR = "no error";
 
@@ -212,6 +211,8 @@ class CronArchive
     {
         $this->initLog();
         $this->initPiwikHost($piwikUrl);
+        $this->initCore();
+        $this->initTokenAuth();
     }
 
     /**
@@ -231,9 +232,6 @@ class CronArchive
     public function init()
     {
         // Note: the order of methods call matters here.
-        $this->initCore();
-        $this->initTokenAuth();
-        $this->initCheckCli();
         $this->initStateFromParameters();
 
         $this->logInitInfo();
@@ -854,41 +852,15 @@ class CronArchive
     }
 
     /**
-     * Script does run on http:// ONLY if the SU token is specified
-     */
-    private function initCheckCli()
-    {
-        if (Common::isPhpCliMode()) {
-            return;
-        }
-
-        $token_auth = Common::getRequestVar('token_auth', '', 'string');
-        if ($token_auth !== $this->token_auth
-            || strlen($token_auth) != 32
-        ) {
-            die('<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>?token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>
-                However it is recommended to run it <a href="http://piwik.org/docs/setup-auto-archiving/">via cron in the command line</a>, since it can take a long time to run.<br/>
-                In a shell, execute for example the following to trigger archiving on the local Piwik server:<br/>
-                <code>$ /path/to/php /path/to/piwik/console core:archive --url=http://your-website.org/path/to/piwik/</code>');
-        }
-    }
-
-    /**
      * Init Piwik, connect DB, create log & config objects, etc.
      */
     private function initCore()
     {
         try {
             FrontController::getInstance()->init();
-            $this->isCoreInited = true;
         } catch (Exception $e) {
             throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
         }
-    }
-
-    public function isCoreInited()
-    {
-        return $this->isCoreInited;
     }
 
     /**
@@ -974,6 +946,11 @@ class CronArchive
         Piwik::postEvent('CronArchive.getTokenAuth', array(&$token));
         
         $this->token_auth = $token;
+    }
+
+    public function getTokenAuth()
+    {
+        return $this->token_auth;
     }
 
     private function initPiwikHost($piwikUrl = false)

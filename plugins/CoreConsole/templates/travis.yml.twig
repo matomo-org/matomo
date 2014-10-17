@@ -14,10 +14,10 @@ language: php
 {% if phpVersions|default is empty %}
 # We want to test against PHP 5.3.3/5.4/5.5
 php:
-  - 5.6
-  - 5.5
   - 5.4
   - 5.3.3
+  - 5.6
+  - 5.5
 #  - hhvm
 {% else %}
 php:
@@ -131,6 +131,9 @@ before_script:
 {% if customTravisBuildSteps.before_script.before|default is not empty %}{{ customTravisBuildSteps.before_script.before|raw }}
 
 {% endif %}
+  - if ([ -n "$TEST_SUITE" ]);
+    then phpenv config-rm xdebug.ini;
+    fi
   - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
     fi
