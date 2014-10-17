@@ -14,8 +14,8 @@ use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmStatistics;
 use Piwik\CronArchive\AlgorithmState;
-use Piwik\Jobs\Consumer;
-use Piwik\Jobs\Impl\CliConsumer;
+use Piwik\Jobs\Processor;
+use Piwik\Jobs\Impl\CliProcessor;
 use Piwik\Jobs\Impl\DistributedQueue;
 use Piwik\Jobs\Queue;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -157,7 +157,7 @@ class CronArchive
     /**
      * TODO
      *
-     * @var Consumer|null
+     * @var Processor|null
      */
     private $consumer;
 
@@ -211,7 +211,7 @@ class CronArchive
             $queue = new DistributedQueue(self::ARCHIVING_JOB_NAMESPACE);
 
             if (empty($consumer)) {
-                $consumer = new CliConsumer($queue);
+                $consumer = new CliProcessor($queue);
             }
         }
 
@@ -871,7 +871,7 @@ class CronArchive
             return;
         }
 
-        // TODO: rename Consumer to Processor
+        // TODO: rename Processor to Processor
         // TODO: if another job processor is run on another machine, it won't execute this logic...
 
         $idSite = $url['idSite'];

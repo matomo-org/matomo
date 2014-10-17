@@ -9,60 +9,70 @@ namespace Piwik\Jobs\Impl;
 
 use Exception;
 use Piwik\CliMulti;
-use Piwik\Jobs\Consumer;
+use Piwik\Jobs\Processor;
 use Piwik\Jobs\Queue;
 
 /**
- * TODO
+ * Job processor that uses processes executed via shell_exec to process jobs in a
+ * distributed queue.
  *
- * TODO: allow associating callback per job, not just every job
+ * TODO: allow associating callback per job, not just every job [need DI]
  * TODO: add logging
  */
-class CliConsumer implements Consumer
+class CliProcessor implements Processor
 {
     const DEFAULT_MAX_SPAWNED_PROCESS_COUNT = 3;
     const DEFAULT_SLEEP_TIME = 60;
 
     /**
-     * TODO
+     * The queue that holds jobs.
      *
      * @var Queue
      */
     private $jobQueue;
 
     /**
-     * TODO
+     * A callback that is executed when a set of jobs has finished executing.
      *
      * @var callback|null
      */
     private $onJobsFinishedCallback;
 
     /**
-     * TODO
+     * A callback that is executed before a set of jobs is started.
      *
      * @var callback|null
      */
     private $onJobsStartingCallback;
 
     /**
-     * TODO
+     * The maximum number of processes to spawn.
+     *
+     * @var int
      */
     private $maxNumberOfSpawnedProcesses;
 
     /**
-     * TODO
+     * Whether the processor is currently processing jobs.
+     *
+     * @var bool
      */
-    private $consuming = false;
+    private $processing = false;
 
     /**
-     * TODO
+     * The amount of time to wait before checking the queue for more jobs.
      *
      * @var int
      */
     private $sleepTimeBetweenBatchJobExecutions;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param Queue $jobQueue The distributed queue containing jobs.
+     * @param int $maxNumberOfSpawnedProcesses The maximum number of jobs to process simultaneously.
+     * @param int $sleepTimeBetweenBatchJobExecutions The amount of time to wait before checking the queue for
+     *                                                more jobs.
      */
     public function __construct(Queue $jobQueue, $maxNumberOfSpawnedProcesses = self::DEFAULT_MAX_SPAWNED_PROCESS_COUNT,
                                 $sleepTimeBetweenBatchJobExecutions= self::DEFAULT_SLEEP_TIME)
@@ -72,7 +82,13 @@ class CliConsumer implements Consumer
     }
 
     /**
-     * TODO
+     * Sets the callback to execute after one or more jobs finishes executing.
+     *
+     * @param callback $onJobsFinishedCallback The callback to execute. Signature must be:
+     *
+     *                                             function (string[] $responses)
+     *
+     *                                         Where `$responses` maps string URLs with string API responses.
      */
     public function setOnJobsFinishedCallback($onJobsFinishedCallback)
     {
@@ -80,7 +96,11 @@ class CliConsumer implements Consumer
     }
 
     /**
-     * TODO
+     * Sets the callback to execute before one or more jobs finishes executing.
+     *
+     * @param string $onJobsStartingCallback The callback to execute. Signature must be:
+     *
+     *                                           function (string[] $urls)
      */
     public function setOnJobsStartingCallback($onJobsStartingCallback)
     {
@@ -88,14 +108,20 @@ class CliConsumer implements Consumer
     }
 
     /**
-     * TODO
+     * Starts processing jobs in the configured queue.
+     *
+     * @param bool $finishWhenNoJobs If `true`, this method will return when no jobs are in the queue.
+     *                               If `false`, it will continue to check for jobs even if there are
+     *                               none in the queue.
+     * @throws Exception rethrows any exceptions caught by executing CliMulti or pulling jobs from the
+     *                            queue.
      */
-    public function startConsuming($finishWhenNoJobs = false)
+    public function startProcessing($finishWhenNoJobs = false)
     {
         $cliMulti = new CliMulti();
         $cliMulti->setConcurrentProcessesLimit($this->maxNumberOfSpawnedProcesses);
 
-        $this->consuming = true;
+        $this->processing = true;
 
         try {
             for (;;) {
@@ -113,7 +139,7 @@ class CliConsumer implements Consumer
                 });
 
                 if ($finishWhenNoJobs
-                    || !$this->consuming
+                    || !$this->processing
                 ) {
                     break;
                 } else {
@@ -121,18 +147,23 @@ class CliConsumer implements Consumer
                 }
             }
         } catch (Exception $ex) {
-            $this->consuming = false;
+            $this->processing = false;
 
             throw $ex;
         }
     }
 
     /**
-     * TODO
+     * Stops processing jobs.
+     *
+     * Jobs currently being processed will continue to be processed.
+     *
+     * TODO: since php is not multi-threaded, maybe this method is useless? if on an application server,
+     *       maybe it's not useless, need to check.
      */
-    public function stopConsuming()
+    public function stopProcessing()
     {
-        $this->consuming = false;
+        $this->processing = false;
     }
 
     /**
@@ -140,7 +171,7 @@ class CliConsumer implements Consumer
      */
     public function pullJobs($count)
     {
-        if (!$this->consuming) {
+        if (!$this->processing) {
             return array();
         }
 

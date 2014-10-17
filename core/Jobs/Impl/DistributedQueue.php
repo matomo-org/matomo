@@ -10,32 +10,40 @@ namespace Piwik\Jobs\Impl;
 use Piwik\Db;
 use Piwik\Jobs\Queue;
 use Piwik\Option;
-use SebastianBergmann\Exporter\Exception;
+use Exception;
 
 /**
- * TODO
+ * MySQL based distributed queue implementation.
+ *
+ * Uses an option value.
  */
 class DistributedQueue implements Queue
 {
     const JOBS_OPTION_NAME_PREFIX = 'DistributedQueue.jobs.';
 
     /**
-     * TODO
+     * The name of the queue.
      *
      * @var string
      */
-    private $jobNamespace;
+    private $name;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param string $name The name of the queue.
      */
-    public function __construct($jobNamespace = '')
+    public function __construct($name = '')
     {
-        $this->jobNamespace = $jobNamespace;
+        $this->name = $name;
     }
 
     /**
-     * TODO
+     * Atomically adds a list of URLs to the Piwik Option that holds the queue.
+     *
+     * This operation uses a named lock to ensure atomicity.
+     *
+     * @param string[] $urls The URLs to add.
      */
     public function enqueue($urls)
     {
@@ -48,7 +56,12 @@ class DistributedQueue implements Queue
     }
 
     /**
-     * TODO
+     * Atomically pops N URLs from the queue in the Piwik Option and returns them.
+     *
+     * This operation uses a named lock to ensure atomicity.
+     *
+     * @param int $count The maximum number of URLs to get.
+     * @return string[] The URLs at the front of the queue.
      */
     public function pull($count)
     {
@@ -65,7 +78,11 @@ class DistributedQueue implements Queue
     }
 
     /**
-     * TODO
+     * Returns the number of URLs in the queue in the Piwik Option.
+     *
+     * This operation uses a named lock to ensure atomicity.
+     *
+     * @return int
      */
     public function peek()
     {
@@ -106,7 +123,7 @@ class DistributedQueue implements Queue
 
     private function getJobUrlsOptionName()
     {
-        return self::JOBS_OPTION_NAME_PREFIX . '_' . $this->jobNamespace;
+        return self::JOBS_OPTION_NAME_PREFIX . '_' . $this->name;
     }
 
     private function acquireLock()

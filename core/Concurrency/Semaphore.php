@@ -20,12 +20,16 @@ class Semaphore
     const OPTION_NAME_PREFIX = 'Semaphore.';
 
     /**
-     * TODO
+     * The name of this semaphore.
+     *
+     * @var string
      */
     private $name;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param string $name The name of the semaphore.
      */
     public function __construct($name)
     {
@@ -33,7 +37,7 @@ class Semaphore
     }
 
     /**
-     * TODO
+     * Atomically adds one to the semaphore value in the DB.
      */
     public function increment()
     {
@@ -41,7 +45,7 @@ class Semaphore
     }
 
     /**
-     * TODO
+     * Atomically subtracts one to the semaphore value in the DB.
      */
     public function decrement()
     {
@@ -49,7 +53,9 @@ class Semaphore
     }
 
     /**
-     * TODO
+     * Atomically adds a number to the semahpore value in the DB.
+     *
+     * @param int $n The value to add. Can be negative.
      */
     public function advance($n)
     {
@@ -60,7 +66,10 @@ class Semaphore
     }
 
     /**
-     * TODO
+     * Returns the value in the DB of the semaphore. It is possible for the value to change
+     * immediately after this method returns.
+     *
+     * @return int
      */
     public function get()
     {
@@ -69,16 +78,15 @@ class Semaphore
         return Option::get($optionName);
     }
 
-    /**
-     * TODO
-     */
     private function getOptionName()
     {
         return self::OPTION_NAME_PREFIX . $this->name;
     }
 
     /**
-     * TODO
+     * Deletes all semaphores with a name like `$like`.
+     *
+     * @param string $like A parameter to be supplied to the SQL `LIKE` operator.
      */
     public static function deleteLike($like)
     {

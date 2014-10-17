@@ -10,7 +10,7 @@ namespace Piwik\Jobs;
 /**
  * TODO
  */
-interface Consumer
+interface Processor
 {
     /**
      * TODO
@@ -25,10 +25,10 @@ interface Consumer
     /**
      * TODO
      */
-    public function startConsuming($finishWhenNoJobs);
+    public function startProcessing($finishWhenNoJobs);
 
     /**
      * TODO
      */
-    public function stopConsuming();
+    public function stopProcessing();
 }
