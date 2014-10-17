@@ -17,6 +17,8 @@ use Piwik\Option;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 
 /**
  * TODO
@@ -38,7 +40,7 @@ class AlgorithmState
     /**
      * TODO
      */
-    private $siteInfosCache = array();
+    private $stateCache = array();
 
     /**
      * TODO
@@ -110,7 +112,7 @@ class AlgorithmState
     public function getDayHasEndedMustReprocesses($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            return in_array($idSite, $container->websiteDayHasFinishedSinceLastRun);
+            return in_array($idSite, $self->getWebsitesInTimezoneWithNewDay());
         });
     }
 
@@ -120,7 +122,7 @@ class AlgorithmState
     public function getIsOldReportInvalidedForWebsite($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            return in_array($idSite, $container->idSitesInvalidatedOldReports);
+            return in_array($idSite, $self->getWebsitesWithInvalidatedArchiveData());
         });
     }
 
@@ -393,6 +395,8 @@ class AlgorithmState
 
     /**
      * TODO
+
+    // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
      */
     public function getShouldArchiveOnlySitesWithTrafficSince()
     {
@@ -450,6 +454,144 @@ class AlgorithmState
     }
 
     /**
+     * TODO
+     */
+    public function getAllWebsites()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return APISitesManager::getInstance()->getAllSitesId();
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getWebsitesToArchive()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            if (count($container->shouldArchiveSpecifiedSites) > 0) {
+                $container->algorithmLogger->log("- Will process " . count($container->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
+
+                $websiteIds = $container->shouldArchiveSpecifiedSites;
+            } else if ($container->shouldArchiveAllSites) {
+                $container->algorithmLogger->log("- Will process all " . count($self->getAllWebsites()) . " websites");
+
+                $websiteIds = $self->getAllWebsites();
+            } else {
+                $websiteIds = array_merge(
+                    $self->getWebsitesWithVisitsSinceLastRun(),
+                    $self->getWebsitesWithInvalidatedArchiveData(),
+                    $self->getWebsitesInTimezoneWithNewDay()
+                );
+                $websiteIds = array_unique($websiteIds);
+
+                /* TODO: broke this log. needs to diff against sites that are being archived because of non-timezone issues
+                if (count($websiteDayHasFinishedSinceLastRun) > 0) {
+                    $websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $websiteIds);
+                    $ids = !empty($websiteDayHasFinishedSinceLastRun) ? ", IDs: " . implode(", ", $websiteDayHasFinishedSinceLastRun) : "";
+                    $container->algorithmLogger->log("- Will process " . count($websiteDayHasFinishedSinceLastRun)
+                        . " other websites because the last time they were archived was on a different day (in the website's timezone) "
+                        . $ids);
+                }*/
+
+            }
+
+            $container->filterWebsiteIds($websiteIds); // TODO: bit of a hack making this public
+
+            return $websiteIds;
+        });
+    }
+
+    /**
+     * TODO
+     */
+    public function getWebsitesWithVisitsSinceLastRun()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $shouldArchiveOnlySitesWithTrafficSince = $this->getShouldArchiveOnlySitesWithTrafficSince();
+
+            $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits(time() - $shouldArchiveOnlySitesWithTrafficSince);
+
+            $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
+            $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds( $shouldArchiveOnlySitesWithTrafficSince, true, false);
+            $container->algorithmLogger->log("- Will process " . count($sitesIdWithVisits) . " websites with new visits since "
+                . $prettySeconds
+                . " "
+                . $websiteIds);
+
+            return $sitesIdWithVisits;
+        });
+    }
+
+    /**
+     * TODO: update & modify
+     *
+     * Return All websites that had reports in the past which were invalidated recently
+     * (see API CoreAdminHome.invalidateArchivedReports)
+     * eg. when using Python log import script
+     *
+     * @return array
+     */
+    public function getWebsitesWithInvalidatedArchiveData()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
+
+            if (count($idSitesInvalidatedOldReports) > 0) {
+                $ids = ", IDs: " . implode(", ", $idSitesInvalidatedOldReports);
+                $container->algorithmLogger->log("- Will process " . count($idSitesInvalidatedOldReports)
+                    . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
+                    . $ids);
+            }
+
+            return $idSitesInvalidatedOldReports;
+        });
+    }
+
+    /**
+     * TODO
+     * Returns the list of websites in which timezones today is a new day
+     * (compared to the last time archiving was executed)
+     *
+     * @param $websiteIds
+     * @return array Website IDs
+     */
+    public function getWebsitesInTimezoneWithNewDay()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $timezones = $this->getTimezonesHavingNewDay();
+            return APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
+        });
+    }
+
+    /**
+     * TODO
+     * Returns the list of timezones where the specified timestamp in that timezone
+     * is on a different day than today in that timezone.
+     *
+     * @return array
+     */
+    public function getTimezonesHavingNewDay()
+    {
+        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $timestamp = $self->getLastSuccessRunTimestamp();
+            $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
+
+            $timezoneToProcess = array();
+            foreach ($uniqueTimezones as &$timezone) {
+                $processedDateInTz = Date::factory((int)$timestamp, $timezone);
+                $currentDateInTz = Date::factory('now', $timezone);
+
+                if ($processedDateInTz->toString() != $currentDateInTz->toString()) {
+                    $timezoneToProcess[] = $timezone;
+                }
+            }
+
+            return $timezoneToProcess;
+        });
+    }
+
+    /**
      * @param $idSite
      * @param $infoKey
      * @param $calculateCallback
@@ -457,17 +599,17 @@ class AlgorithmState
      */
     private function getOrSetInCache($idSite, $infoKey, $calculateCallback)
     {
-        if (!isset($this->siteInfosCache[$idSite][$infoKey])) {
+        if (!isset($this->stateCache[$idSite][$infoKey])) {
             $value = $calculateCallback($this, $this->container);
 
-            $this->siteInfosCache[$idSite][$infoKey] = $value;
+            $this->stateCache[$idSite][$infoKey] = $value;
         }
 
-        return $this->siteInfosCache[$idSite][$infoKey];
+        return $this->stateCache[$idSite][$infoKey];
     }
 
     private function clearInCache($idSite, $infoKey)
     {
-        unset($this->siteInfosCache[$idSite][$infoKey]);
+        unset($this->stateCache[$idSite][$infoKey]);
     }
 }

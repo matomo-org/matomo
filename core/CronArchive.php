@@ -13,15 +13,13 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmStatistics;
-use Piwik\CronArchive\FixedSiteIds;
-use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\AlgorithmState;
 use Piwik\Jobs\Consumer;
 use Piwik\Jobs\Impl\CliConsumer;
 use Piwik\Jobs\Impl\DistributedQueue;
 use Piwik\Jobs\Queue;
-use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 
 /**
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
@@ -55,17 +53,6 @@ class CronArchive
     // Name of option used to store starting timestamp
     const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
 
-    // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
-    private $shouldArchiveOnlySitesWithTrafficSince;
-
-    public $websiteDayHasFinishedSinceLastRun = array();
-    public $idSitesInvalidatedOldReports = array();
-
-    /**
-     * @var SharedSiteIds|FixedSiteIds
-     */
-    private $websites = array();
-    private $allWebsites = array();
     private $piwikUrl = false;
     private $token_auth = false;
 
@@ -272,16 +259,11 @@ class CronArchive
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
 
-        $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
-
         $periodsToProcess = $this->algorithmState->getPeriodsToProcess();
         if (!empty($periodsToProcess)) {
             $this->algorithmLogger->log("- Will process the following periods: " . implode(", ", $periodsToProcess) . " (--force-periods)");
         }
 
-        $websitesIds = $this->initWebsiteIds();
-        $this->filterWebsiteIds($websitesIds);
-        $this->websites = $websitesIds; // TODO change docs
 
         if ($this->shouldStartProfiler) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
@@ -329,7 +311,7 @@ class CronArchive
         if (!$this->isContinuationOfArchivingJob()) {
             Semaphore::deleteLike("CronArchive%");
 
-            foreach ($this->websites as $idSite) {
+            foreach ($this->algorithmState->getWebsitesToArchive() as $idSite) {
                 $this->queueDayArchivingJobsForSite($idSite);
             }
         }
@@ -356,7 +338,7 @@ class CronArchive
              */
             //Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idSite, $completed));
 
-        $this->algorithmStats->logSummary($this->algorithmLogger, $this->algorithmState, $this->websites);
+        $this->algorithmStats->logSummary($this->algorithmLogger, $this->algorithmState, $this->algorithmState->getWebsitesToArchive()); // TODO: remove 3rd param
     }
 
     private function handleError($errorMessage)
@@ -513,7 +495,7 @@ class CronArchive
     public function filterWebsiteIds(&$websiteIds)
     {
         // Keep only the websites that do exist
-        $websiteIds = array_intersect($websiteIds, $this->allWebsites);
+        $websiteIds = array_intersect($websiteIds, $this->algorithmState->getAllWebsites());
 
         /**
          * Triggered by the **core:archive** console command so plugins can modify the list of
@@ -525,30 +507,6 @@ class CronArchive
          * @param array $websiteIds The list of website IDs to launch the archiving process for.
          */
         Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));
-    }
-
-    /**
-     *  Returns the list of sites to loop over and archive.
-     *  @return array
-     */
-    public function initWebsiteIds()
-    {
-        if (count($this->shouldArchiveSpecifiedSites) > 0) {
-            $this->algorithmLogger->log("- Will process " . count($this->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
-
-            return $this->shouldArchiveSpecifiedSites;
-        }
-        if ($this->shouldArchiveAllSites) {
-            $this->algorithmLogger->log("- Will process all " . count($this->allWebsites) . " websites");
-            return $this->allWebsites;
-        }
-
-        $websiteIds = array_merge(
-            $this->addWebsiteIdsWithVisitsSinceLastRun(),
-            $this->getWebsiteIdsToInvalidate()
-        );
-        $websiteIds = array_merge($websiteIds, $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds));
-        return array_unique($websiteIds);
     }
 
     private function initTokenAuth()
@@ -609,95 +567,6 @@ class CronArchive
         }
 
         $this->piwikUrl = $piwikUrl;
-    }
-
-    private function updateIdSitesInvalidatedOldReports()
-    {
-        $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
-    }
-
-    /**
-     * Return All websites that had reports in the past which were invalidated recently
-     * (see API CoreAdminHome.invalidateArchivedReports)
-     * eg. when using Python log import script
-     *
-     * @return array
-     */
-    private function getWebsiteIdsToInvalidate()
-    {
-        $this->updateIdSitesInvalidatedOldReports();
-
-        if (count($this->idSitesInvalidatedOldReports) > 0) {
-            $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
-            $this->algorithmLogger->log("- Will process " . count($this->idSitesInvalidatedOldReports)
-                . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
-                . $ids);
-        }
-
-        return $this->idSitesInvalidatedOldReports;
-    }
-
-    /**
-     * Returns all sites that had visits since specified time
-     *
-     * @return string
-     */
-    private function addWebsiteIdsWithVisitsSinceLastRun()
-    {
-        $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits(time() - $this->shouldArchiveOnlySitesWithTrafficSince);
-        $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
-        $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds( $this->shouldArchiveOnlySitesWithTrafficSince, true, false);
-        $this->algorithmLogger->log("- Will process " . count($sitesIdWithVisits) . " websites with new visits since "
-            . $prettySeconds
-            . " "
-            . $websiteIds);
-        return $sitesIdWithVisits;
-    }
-
-    /**
-     * Returns the list of timezones where the specified timestamp in that timezone
-     * is on a different day than today in that timezone.
-     *
-     * @return array
-     */
-    private function getTimezonesHavingNewDay()
-    {
-        $timestamp = $this->algorithmState->getLastSuccessRunTimestamp();
-        $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
-        $timezoneToProcess = array();
-        foreach ($uniqueTimezones as &$timezone) {
-            $processedDateInTz = Date::factory((int)$timestamp, $timezone);
-            $currentDateInTz = Date::factory('now', $timezone);
-
-            if ($processedDateInTz->toString() != $currentDateInTz->toString()) {
-                $timezoneToProcess[] = $timezone;
-            }
-        }
-        return $timezoneToProcess;
-    }
-
-    /**
-     * Returns the list of websites in which timezones today is a new day
-     * (compared to the last time archiving was executed)
-     *
-     * @param $websiteIds
-     * @return array Website IDs
-     */
-    private function addWebsiteIdsInTimezoneWithNewDay($websiteIds)
-    {
-        $timezones = $this->getTimezonesHavingNewDay();
-        $websiteDayHasFinishedSinceLastRun = APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
-        $websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $websiteIds);
-        $this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
-
-        if (count($websiteDayHasFinishedSinceLastRun) > 0) {
-            $ids = !empty($websiteDayHasFinishedSinceLastRun) ? ", IDs: " . implode(", ", $websiteDayHasFinishedSinceLastRun) : "";
-            $this->algorithmLogger->log("- Will process " . count($websiteDayHasFinishedSinceLastRun)
-                . " other websites because the last time they were archived was on a different day (in the website's timezone) "
-                . $ids);
-        }
-
-        return $websiteDayHasFinishedSinceLastRun;
     }
 
     /**
@@ -855,7 +724,7 @@ class CronArchive
      */
     private function isOldReportInvalidatedForWebsite($idSite)
     {
-        return in_array($idSite, $this->idSitesInvalidatedOldReports);
+        return in_array($idSite, $this->algorithmState->getWebsitesWithInvalidatedArchiveData());
     }
 
     private function shouldProcessPeriod($period)
@@ -925,8 +794,6 @@ class CronArchive
             return;
         }
 
-        $this->updateIdSitesInvalidatedOldReports();
-
         // Test if we should process this website
         if ($this->algorithmState->getShouldSkipDayArchive($idSite)) {
             $this->algorithmLogger->log("Skipped website id $idSite, already done "
@@ -948,9 +815,9 @@ class CronArchive
         // Remove this website from the list of websites to be invalidated
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
-        if ($this->isOldReportInvalidatedForWebsite($idSite)) {
-            $this->removeWebsiteFromInvalidatedWebsites($idSite);
-        }
+        //if ($this->isOldReportInvalidatedForWebsite($idSite)) {
+            // $this->removeWebsiteFromInvalidatedWebsites($idSite); TODO: no more multiple 'cron archiving process', so only invalidate after successful archive
+        //}
 
         // when some data was purged from this website
         // we make sure we query all previous days/weeks/months
@@ -1110,7 +977,7 @@ class CronArchive
                 //. $requestsWebsite . " API requests, " TODO: necessary to report?
                 // TODO: . $timerWebsite->__toString()
                 . " [" . $processedWebsitesCount->get() . "/"
-                . count($this->websites)
+                . count($this->algorithmState->getWebsitesToArchive())
                 . " done]");
         }
     }
