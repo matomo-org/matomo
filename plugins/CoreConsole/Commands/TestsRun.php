@@ -45,8 +45,12 @@ class TestsRun extends ConsoleCommand
 
         $command = '../../vendor/phpunit/phpunit/phpunit';
 
+        if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
+            $output->writeln('<comment>Did you know? You can run tests faster by disabling xdebug</comment>');
+        }
+
         // force xdebug usage for coverage options
-        if (false !== strpos($options, '--coverage') && !extension_loaded('xdebug')) {
+        if ($this->isCoverageEnabled($options) && !$this->isXdebugLoaded()) {
 
             $output->writeln('<info>xdebug extension required for code coverage.</info>');
 
@@ -187,6 +191,16 @@ class TestsRun extends ConsoleCommand
     private function buildTestSuiteName($suite)
     {
         return ucfirst($suite) . 'Tests';
+    }
+
+    private function isCoverageEnabled($options)
+    {
+        return false !== strpos($options, '--coverage');
+    }
+
+    private function isXdebugLoaded()
+    {
+        return extension_loaded('xdebug');
     }
 
 }
