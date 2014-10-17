@@ -212,7 +212,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $('#loadingError').hide();
 
         // when switching to display graphs, reset limit
-        if (self.param.viewDataTable && self.param.viewDataTable.indexOf('graph') === 0) {
+        if (self && self.param && self.param.viewDataTable && String(self.param.viewDataTable).indexOf('graph') === 0) {
             delete self.param.filter_offset;
             delete self.param.filter_limit;
         }
