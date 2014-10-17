@@ -43,7 +43,11 @@
             templateUrl: 'plugins/CoreHome/angularjs/notification/notification.directive.html?cb=' + piwik.cacheBuster,
             controller: 'NotificationController',
             controllerAs: 'notification',
-            link: function (scope, element, attrs) {
+            link: function (scope, element) {
+                if (scope.notificationId) {
+                    closeExistingNotificationHavingSameIdIfNeeded(scope.notificationId, element);
+                }
+
                 if (scope.context) {
                     element.children('.notification').addClass('notification-' + scope.context);
                 }
@@ -53,25 +57,12 @@
                     scope.noclear = false;
                 }
 
-                if (scope.notificationId) {
-                    closeExistingNotificationHavingSameIdIfNeeded();
-                }
-
                 if ('toast' == scope.type) {
                     addToastEvent();
                 }
 
                 if (!scope.noclear) {
                     addCloseEvent();
-                }
-
-                function closeExistingNotificationHavingSameIdIfNeeded() {
-                    // TODO: instead of doing a global query for notification, there should be a notification-container
-                    //       directive that manages notifications.
-                    var existingNode = angular.element('.system.notification[notification-id=' + attrs.id + ']');
-                    if (existingNode && existingNode.length) {
-                        existingNode.remove();
-                    }
                 }
 
                 function addToastEvent() {
@@ -88,6 +79,15 @@
                             angular.element(event.delegateTarget).remove();
                         }
                     });
+                }
+
+                function closeExistingNotificationHavingSameIdIfNeeded(id, notificationElement) {
+                    // TODO: instead of doing a global query for notification, there should be a notification-container
+                    //       directive that manages notifications.
+                    var existingNode = angular.element('[notification-id=' + id + ']').not(notificationElement);
+                    if (existingNode && existingNode.length) {
+                        existingNode.remove();
+                    }
                 }
             }
         };

@@ -42,8 +42,11 @@ DataTable.initNewDataTables = function () {
     $('div.dataTable').each(function () {
         if (!$(this).attr('id')) {
             var tableType = $(this).attr('data-table-type') || 'DataTable',
-                klass = require('piwik/UI')[tableType] || require(tableType),
-                table = new klass(this);
+                klass = require('piwik/UI')[tableType] || require(tableType);
+
+            if (klass && $.isFunction(klass)) {
+                var table = new klass(this);
+            }
         }
     });
 };
@@ -212,7 +215,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $('#loadingError').hide();
 
         // when switching to display graphs, reset limit
-        if (self.param.viewDataTable && self.param.viewDataTable.indexOf('graph') === 0) {
+        if (self && self.param && self.param.viewDataTable && String(self.param.viewDataTable).indexOf('graph') === 0) {
             delete self.param.filter_offset;
             delete self.param.filter_limit;
         }
