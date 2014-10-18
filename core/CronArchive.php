@@ -941,7 +941,7 @@ class CronArchive
             }
 
             // mark 'day' period as successfully archived
-            Option::set($this->lastRunKey($idSite, "day"), time());
+            Option::set(self::lastRunKey($idSite, "day"), time());
 
             $this->algorithmState->getFailedRequestsSemaphore($idSite)->decrement();
 
@@ -960,7 +960,7 @@ class CronArchive
             $failedRequestsCount->decrement();
 
             if ($failedRequestsCount->get() === 0) {
-                Option::set($this->lastRunKey($idSite, "periods"), time());
+                Option::set(self::lastRunKey($idSite, "periods"), time());
 
                 $this->algorithmStats->archivedPeriodsArchivesWebsite++; // TODO: need to double check all metrics are counted correctly
                                                          // for example, this incremented only when success or always?

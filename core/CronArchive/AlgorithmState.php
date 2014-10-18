@@ -21,7 +21,11 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 
 /**
- * TODO
+ * Encapsulates the logic of the CronArchive archiving algorithm in separate isolated
+ * getters.
+ *
+ * The result of getters is cached. Getters that return data based on site is cached by
+ * site ID.
  *
  * TODO: perhaps rename to AlgorithmRules or AlgorithmLogic... nah, neither one is good. need something more descriptive than AlgorithmState
  */
@@ -38,19 +42,26 @@ class AlgorithmState
     const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 
     /**
-     * TODO
+     * Cache for each getter in this class.
+     *
+     * This array has two indexes: the site ID (or 'none') and the name of function whose
+     * result is being cached.
+     *
+     * @var array
      */
     private $stateCache = array();
 
     /**
-     * TODO
+     * The CronArchive instance that is using this class.
      *
      * @var CronArchive
      */
     private $container;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param CronArchive $container
      */
     public function __construct(CronArchive $container)
     {
@@ -58,14 +69,23 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the last time a website's day archives were calculated, or false if CronArchive
+     * should not respect the archiving TTL (time-to-live) value.
+     *
+     * The timestamp is stored as an {@link \Piwik\Option}.
+     *
+     * See {@link getArchiveAndRespectTTL()}.
+     *
+     * @param int $idSite
+     * @return int|false
      */
     public function getLastTimestampWebsiteProcessedDay($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             if ($self->getArchiveAndRespectTTL()) {
-                Option::clearCachedOption($container->lastRunKey($idSite, "day"));
-                return Option::get($container->lastRunKey($idSite, "day"));
+                $optionName = CronArchive::lastRunKey($idSite, "day");
+                Option::clearCachedOption($optionName);
+                return Option::get($optionName);
             } else {
                 return false;
             }
@@ -73,14 +93,23 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the last time a website's period archives were calculated, or false if CronArchive
+     * should not respect the archiving TTL (time-to-live) value.
+     *
+     * The timestamp is stored as an {@link \Piwik\Option}.
+     *
+     * See {@link getArchiveAndRespectTTL()}.
+     *
+     * @param int $idSite
+     * @return int|false
      */
     public function getLastTimestampWebsiteProcessedPeriods($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             if ($self->getArchiveAndRespectTTL()) {
-                Option::clearCachedOption($container->lastRunKey($idSite, "periods")); // TODO: ::get() should include an arg to clear cached option
-                return Option::get($container->lastRunKey($idSite, "periods"));
+                $optionName = $container->lastRunKey($idSite, "periods");
+                Option::clearCachedOption($optionName);
+                return Option::get($optionName);
             } else {
                 return false;
             }
@@ -88,7 +117,13 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the last time CronArchive was executed for a specific website.
+     *
+     * The last time a site's period archives were calculated is used as the last time CronArchive was
+     * executed for the site.
+     *
+     * @param int $idSite
+     * @return int
      */
     public function getSecondsSinceLastExecution($idSite)
     {
@@ -107,7 +142,13 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns true if a site's data should be reprocessed because the current day has ended in the
+     * site's timezone. false if otherwise.
+     *
+     * TODO: why must the archives be reprocessed, should say so here.
+     *
+     * @param int $idSite
+     * @return bool
      */
     public function getDayHasEndedMustReprocesses($idSite)
     {
@@ -117,7 +158,11 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns true if a website's old report data has been invalidated and must be reprocessed, false
+     * if otherwise.
+     *
+     * @param int $idSite
+     * @return bool
      */
     public function getIsOldReportInvalidedForWebsite($idSite)
     {
@@ -127,7 +172,11 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns true if archiving for a website is being forced during this CronArchive execution,
+     * false if otherwise.
+     *
+     * @param int $idSite
+     * @return bool
      */
     public function getIsWebsiteArchivingForced($idSite)
     {
