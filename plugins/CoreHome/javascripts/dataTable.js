@@ -42,8 +42,11 @@ DataTable.initNewDataTables = function () {
     $('div.dataTable').each(function () {
         if (!$(this).attr('id')) {
             var tableType = $(this).attr('data-table-type') || 'DataTable',
-                klass = require('piwik/UI')[tableType] || require(tableType),
-                table = new klass(this);
+                klass = require('piwik/UI')[tableType] || require(tableType);
+
+            if (klass && $.isFunction(klass)) {
+                var table = new klass(this);
+            }
         }
     });
 };
