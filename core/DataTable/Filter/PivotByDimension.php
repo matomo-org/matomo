@@ -448,12 +448,6 @@ class PivotByDimension extends BaseFilter
             $columnSet[$othersRowLabel] = 0;
         }
 
-        // make sure column names are utf8 encoded
-        if (!empty($columnSet)) {
-            $utfKeys = array_map('utf8_encode', array_keys($columnSet));
-            $columnSet = array_combine($utfKeys, array_values($columnSet));
-        }
-
         // remove column sums from array so it can be used as a default row
         $columnSet = array_map(function () { return false; }, $columnSet);
 
@@ -465,8 +459,14 @@ class PivotByDimension extends BaseFilter
 
     private function getOrderedColumnsWithPrependedNumerals($defaultRow, $othersRowLabel)
     {
-        $nbsp = html_entity_decode('&nbsp;'); // must use decoded character otherwise sort later will fail
-                                              // (sort column will be set to decoded but columns will have &nbsp;)
+        $flags = ENT_COMPAT;
+        if (defined('ENT_HTML401')) {
+            $flags |= ENT_HTML401; // part of default flags for 5.4, but not 5.3
+        }
+
+        // must use decoded character otherwise sort later will fail
+        // (sort column will be set to decoded but columns will have &nbsp;)
+        $nbsp = html_entity_decode('&nbsp;', $flags, 'utf-8');
 
         $result = array();
 

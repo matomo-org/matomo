@@ -195,16 +195,15 @@ notifications:
     rooms:
       - piwik:3HWhNh21qPfDACQXTrJOb0mW
       - piwikpro:7OABSbDrywSTo2nv9lD2svXG
+    on_success: change
+    on_failure: change
 
   irc:
     skip_join: true
     on_success: change
+    on_failure: change
     channels:
       - "irc.freenode.org#piwik-dev"
     template:
       - "%{repository} (%{commit}) : %{message} %{foo} "
       - "Build details: %{build_url}"
-  #email:
-  # if we specify piwik-builds@piwik.org then the developer doesn't get notified
-  #  - piwik-builds@piwik.org
-  # this is a missing feature by Travis to notify both list and committer
