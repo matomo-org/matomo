@@ -352,6 +352,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Francite
         'recherche.francite.com'         => array('Francite', 'name'),
 
+        // Findhurtig
+        'www.findhurtig.dk'              => array('Findhurtig', 'q', 'web?q={k}'),
+
         // Fireball
         'www.fireball.de'                => array('Fireball', 'q', 'ajax.asp?q={k}'),
 
@@ -385,6 +388,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // GAIS
         'gais.cs.ccu.edu.tw'             => array('GAIS', 'q', 'search.php?q={k}'),
+
+        // Genieo
+        'search.genieo.com'              => array('Genieo', 'q', '&q={k}'),
 
         // Geona
         'geona.net'                      => array('Geona', 'q', 'search?q={k}'),
