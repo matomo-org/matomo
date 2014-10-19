@@ -157,14 +157,10 @@ abstract class ReportRenderer extends BaseFactory
         $filename = self::appendExtension($filename, $extension);
         $outputFilename = self::getOutputPath($filename);
 
-        $emailReport = @fopen($outputFilename, "w");
-
-        if (!$emailReport) {
-            throw new Exception ("The file : " . $outputFilename . " can not be opened in write mode.");
+        $bytesWritten = file_put_contents($outputFilename, $content);
+        if ($bytesWritten === false) {
+            throw new Exception ("ReportRenderer: Could not write to file '" . $outputFilename . "'.");
         }
-
-        fwrite($emailReport, $content);
-        fclose($emailReport);
 
         return $outputFilename;
     }
