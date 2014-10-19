@@ -188,6 +188,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'avira-int.ask.com'              => array('Ask'),
         'searchqu.com'                   => array('Ask'),
         'search.tb.ask.com'              => array('Ask'),
+        'nortonsafe.search.ask.com'      => array('Ask'),
 
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
@@ -1049,9 +1050,14 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Zapmeta
         'www.zapmeta.com'                => array('Zapmeta', array('q', 'query'), '?q={k}'),
-        'www.zapmeta.nl'                 => array('Zapmeta'),
-        'www.zapmeta.de'                 => array('Zapmeta'),
+        'zapmeta.{}'                     => array('Zapmeta'),
         'uk.zapmeta.com'                 => array('Zapmeta'),
+        'ar.zapmeta.com'                 => array('Zapmeta'),
+        'au.zapmeta.com'                 => array('Zapmeta'),
+        'ca.zapmeta.com'                 => array('Zapmeta'),
+        'fi.zapmeta.com'                 => array('Zapmeta'),
+        'no.zapmeta.com'                 => array('Zapmeta'),
+        'tr.zapmeta.com'                 => array('Zapmeta'),
 
         // Zoek
         'www3.zoek.nl'                   => array('Zoek', 'q'),
