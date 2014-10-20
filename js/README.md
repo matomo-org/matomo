@@ -27,7 +27,7 @@ The js/ folder contains:
 * piwik.js is minified using YUICompressor 2.4.2.
   To install YUICompressor run:
 
-  ```
+  ```bash
   $ cd /path/to/piwik/js/
   $ wget http://www.julienlecomte.net/yuicompressor/yuicompressor-2.4.2.zip
   $ unzip yuicompressor-2.4.2.zip
@@ -37,7 +37,7 @@ The js/ folder contains:
   http://yuilibrary.com/projects/yuicompressor/ticket/2343811,
   or run:
 
-  ```
+  ```bash
   $ cd /path/to/piwik/js/
   $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js
   ```
@@ -54,5 +54,4 @@ The js/ folder contains:
 * We use /*! to include Piwik's license header in the minified source. Read
   Stallman's "The JavaScript Trap" for more information.
 
-* We do not include the version number as a security best practice
-  (information disclosure).
+* Information about the current version number you have installed can be found under [What version of Piwik do I have?](http://piwik.org/faq/how-to-update/faq_8/). 

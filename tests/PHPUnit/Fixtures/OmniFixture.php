@@ -43,7 +43,7 @@ class OmniFixture extends Fixture
         sort($classes);
 
         foreach ($classes as $className) {
-            if (is_subclass_of($className, 'Piwik\\Tests\\Fixture')
+            if (is_subclass_of($className, 'Piwik\\Tests\\Framework\\Fixture')
                 && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
                 && $className != "Piwik\\Tests\\Fixtures\\SqlDump"
