@@ -48,11 +48,16 @@ abstract class Base extends VisitDimension
 
     protected function getLocationDetail($userInfo, $locationKey)
     {
-        return $this->getLocationFetcher()->getLocationDetail(
+        $location = $this->getLocationFetcher()->getLocation(
             $userInfo,
-            $locationKey,
             empty($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'])
         );
+
+        if (!isset($location[$locationKey])) {
+            return false;
+        }
+
+        return $location[$locationKey];
     }
 
     protected function getLocationFetcher()
