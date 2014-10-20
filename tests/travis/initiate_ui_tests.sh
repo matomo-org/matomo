@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # initiate UI tests before starting system tests for php 5.5
-if [ "$TEST_SUITE" != "SystemTests" ] || [[ "$TRAVIS_PHP_VERSION" != 5\.4* ]]; then
+if [ "$TEST_SUITE" != "SystemTests" ] || [[ "$TRAVIS_PHP_VERSION" != 5\.6* ]]; then
     echo "Not initiating UI tests (\$TEST_SUITE = $TEST_SUITE, \$TRAVIS_PHP_VERSION = $TRAVIS_PHP_VERSION)."
     exit
 fi
