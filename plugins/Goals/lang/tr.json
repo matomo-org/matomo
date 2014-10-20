@@ -15,6 +15,7 @@
         "Download": "Dosya İndir",
         "Ecommerce": "Eticaret",
         "EcommerceAndGoalsMenu": "E-ticaret & Hedefler",
+        "Filename": "dosya ismi",
         "GoalConversion": "Hedef dönüşümü",
         "GoalName": "Hedef İsmi",
         "Goals": "Goals",
@@ -22,6 +23,7 @@
         "GoalsOverview": "Hedefe Genel bakış",
         "GoalX": "Hedef '%s'",
         "Manually": "Manuel",
+        "NewWhatDoYouWantUsersToDo": "Ziyaretçilerinizin sitenizde ne yapmasını istiyorsunuz?",
         "Optional": "(opsiyonel)",
         "PageTitle": "Sayfa Başlığı",
         "Pattern": "Model",
@@ -29,7 +31,9 @@
         "ProductName": "Ürün İsmi",
         "Products": "Ürünler",
         "ProductSKU": "Ürün SKU",
+        "SendEvent": "Etkinlik gönder",
         "UpdateGoal": "Hedef Güncelle",
+        "URL": "URL",
         "ViewAndEditGoals": "Göster ve Hedef'lerı Düzenle",
         "WhereThe": "Buraya"
     }
