@@ -109,10 +109,13 @@ class DataArray
         // In case the existing Row had no action metrics (eg. Custom Variable XYZ with "visit" scope)
         // but the new Row has action metrics (eg. same Custom Variable XYZ this time with a "page" scope)
         if (!isset($oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS])) {
-            $toZero = array(Metrics::INDEX_MAX_ACTIONS,
+            $toZero = array(
+                            Metrics::INDEX_NB_USERS,
+                            Metrics::INDEX_MAX_ACTIONS,
                             Metrics::INDEX_SUM_VISIT_LENGTH,
                             Metrics::INDEX_BOUNCE_COUNT,
-                            Metrics::INDEX_NB_VISITS_CONVERTED);
+                            Metrics::INDEX_NB_VISITS_CONVERTED
+            );
             foreach($toZero as $metric) {
                 $oldRowToUpdate[$metric] = 0;
             }

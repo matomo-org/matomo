@@ -22,6 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class TestsRun extends ConsoleCommand
 {
+    private $returnVar = 0;
+
     protected function configure()
     {
         $this->setName('tests:run');
@@ -43,8 +45,12 @@ class TestsRun extends ConsoleCommand
 
         $command = '../../vendor/phpunit/phpunit/phpunit';
 
+        if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
+            $output->writeln('<comment>Did you know? You can run tests faster by disabling xdebug</comment>');
+        }
+
         // force xdebug usage for coverage options
-        if (false !== strpos($options, '--coverage') && !extension_loaded('xdebug')) {
+        if ($this->isCoverageEnabled($options) && !$this->isXdebugLoaded()) {
 
             $output->writeln('<info>xdebug extension required for code coverage.</info>');
 
@@ -85,6 +91,8 @@ class TestsRun extends ConsoleCommand
             $suite = $this->getTestsuite($input);
             $this->executeTestGroups($suite, $groups, $options, $command, $output);
         }
+
+        return $this->returnVar;
     }
 
     private function executeTestFile($testFile, $options, $command, OutputInterface $output)
@@ -94,10 +102,7 @@ class TestsRun extends ConsoleCommand
         }
 
         $params = $options . " " . $testFile;
-        $cmd = $this->getCommand($command, $params);
-        $output->writeln('Executing command: <info>' . $cmd . '</info>');
-        passthru($cmd);
-        $output->writeln("");
+        $this->executeTestRun($command, $params, $output);
     }
 
     private function executeTestGroups($suite, $groups, $options, $command, OutputInterface $output)
@@ -112,10 +117,18 @@ class TestsRun extends ConsoleCommand
         }
 
         $params = $this->buildPhpUnitCliParams($suite, $groups, $options);
-        $cmd    = $this->getCommand($command, $params);
+
+        $this->executeTestRun($command, $params, $output);
+    }
+
+    private function executeTestRun($command, $params, OutputInterface $output)
+    {
+        $cmd = $this->getCommand($command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
-        passthru($cmd);
+        passthru($cmd, $returnVar);
         $output->writeln("");
+
+        $this->returnVar += $returnVar;
     }
 
     private function getTestsSuites()
@@ -179,4 +192,15 @@ class TestsRun extends ConsoleCommand
     {
         return ucfirst($suite) . 'Tests';
     }
+
+    private function isCoverageEnabled($options)
+    {
+        return false !== strpos($options, '--coverage');
+    }
+
+    private function isXdebugLoaded()
+    {
+        return extension_loaded('xdebug');
+    }
+
 }

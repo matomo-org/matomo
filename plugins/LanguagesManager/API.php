@@ -9,6 +9,7 @@
  */
 namespace Piwik\Plugins\LanguagesManager;
 
+use Piwik\Cache\PersistentCache;
 use Piwik\Db;
 use Piwik\Filesystem;
 use Piwik\Piwik;
@@ -271,17 +272,26 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $filenames = $this->getAvailableLanguages();
-        $languagesInfo = array();
-        foreach ($filenames as $filename) {
-            $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$filename.json");
-            $translations = json_decode($data, true);
-            $languagesInfo[] = array(
-                'code'         => $filename,
-                'name'         => $translations['General']['OriginalLanguageName'],
-                'english_name' => $translations['General']['EnglishLanguageName']
-            );
+        $cache = new PersistentCache('availableLanguages');
+
+        if ($cache->has()) {
+            $languagesInfo = $cache->get();
+        } else {
+            $filenames = $this->getAvailableLanguages();
+            $languagesInfo = array();
+            foreach ($filenames as $filename) {
+                $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$filename.json");
+                $translations = json_decode($data, true);
+                $languagesInfo[] = array(
+                    'code'         => $filename,
+                    'name'         => $translations['General']['OriginalLanguageName'],
+                    'english_name' => $translations['General']['EnglishLanguageName']
+                );
+            }
+
+            $cache->set($languagesInfo);
         }
+
         $this->availableLanguageNames = $languagesInfo;
     }
 }

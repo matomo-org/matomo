@@ -938,7 +938,7 @@ Segmentation = (function($) {
         };
 
         var closeForm = function () {
-            self.form.unbind().remove();
+            $(self.form).unbind().remove();
             self.target.closest('.segmentEditorPanel').removeClass('editing');
         };
 

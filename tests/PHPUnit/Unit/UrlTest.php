@@ -159,11 +159,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCurrentUrlWithoutFilename($expected, $https, $host, $path)
     {
-        $names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS', 'HTTP_HOST', 'QUERY_STRING', 'HTTP_REFERER');
-
-        foreach ($names as $name) {
-            unset($_SERVER[$name]);
-        }
+        $this->resetGlobalVariables();
 
         if ($https) {
             $_SERVER['HTTPS'] = $https;
@@ -185,11 +181,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function test_getCurrentScriptName()
     {
-        $names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS', 'HTTP_HOST', 'QUERY_STRING', 'HTTP_REFERER');
-
-        foreach ($names as $name) {
-            unset($_SERVER[$name]);
-        }
+        $this->resetGlobalVariables();
 
         $tests = array(
             array('/', 'http://example.com/', null),
@@ -335,4 +327,87 @@ class UrlTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function urlProvider()
+    {
+        return array(
+            array('http://example.com/'),
+            array('https://example.com/'),
+            array('http://example.com/piwik/'),
+            array('http://example.com/index.php'),
+            array('http://example.com/index.php?foo=bar'),
+            array('http://example.com/index.php/.html?foo=bar', '/.html'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @dataProvider urlProvider
+     */
+    public function testGetCurrentUrl($url, $pathInfo = null)
+    {
+        $this->resetGlobalVariables();
+        $this->setGlobalVariablesFromUrl($url, $pathInfo);
+
+        $this->assertEquals($url, Url::getCurrentUrl());
+    }
+
+    public function urlWithoutQueryStringProvider()
+    {
+        return array(
+            array('http://example.com/', 'http://example.com/'),
+            array('https://example.com/', 'https://example.com/'),
+            array('http://example.com/piwik/', 'http://example.com/piwik/'),
+            array('http://example.com/index.php', 'http://example.com/index.php'),
+            array('http://example.com/index.php?foo=bar', 'http://example.com/index.php'),
+            array('http://example.com/index.php/.html?foo=bar', 'http://example.com/index.php/.html', '/.html'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @dataProvider urlWithoutQueryStringProvider
+     */
+    public function testGetCurrentUrlWithoutQueryString($url, $expected, $pathInfo = null)
+    {
+        $this->resetGlobalVariables();
+        $this->setGlobalVariablesFromUrl($url, $pathInfo);
+
+        $this->assertEquals($expected, Url::getCurrentUrlWithoutQueryString());
+    }
+
+    private function resetGlobalVariables()
+    {
+        $names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS',
+            'HTTP_HOST', 'QUERY_STRING', 'HTTP_REFERER');
+
+        foreach ($names as $name) {
+            unset($_SERVER[$name]);
+        }
+
+        Config::getInstance()->General['enable_trusted_host_check'] = 0;
+    }
+
+    /**
+     * @param string $url
+     * @param string $pathInfo The PATH_INFO has to be provided because parse_url() doesn't parse that
+     */
+    private function setGlobalVariablesFromUrl($url, $pathInfo)
+    {
+        if (parse_url($url, PHP_URL_SCHEME) === 'https') {
+            $_SERVER['HTTPS'] = true;
+        }
+
+        $_SERVER['HTTP_HOST'] = parse_url($url, PHP_URL_HOST);
+        $_SERVER['REQUEST_URI'] = parse_url($url, PHP_URL_PATH);
+
+        $queryString = parse_url($url, PHP_URL_QUERY);
+        if ($queryString) {
+            $_SERVER['REQUEST_URI'] .= '?' . $queryString;
+            $_SERVER['QUERY_STRING'] = $queryString;
+        }
+
+        if ($pathInfo) {
+            $_SERVER['PATH_INFO'] = $pathInfo;
+        }
+    }
 }

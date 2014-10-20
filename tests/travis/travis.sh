@@ -42,7 +42,7 @@ then
     then
         if [ -n "$PLUGIN_NAME" ]
         then
-            artifacts_folder="protected/ui-tests.master.$PLUGIN_NAME"
+            artifacts_folder="protected/ui-tests.$TRAVIS_BRANCH.$PLUGIN_NAME"
         else
             artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
@@ -58,6 +58,9 @@ then
         else
             phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts
         fi
+    elif [ "$TEST_SUITE" = "AllTests" ]
+    then
+        travis_wait ./../../console tests:run --options="--colors"
     else
         if [ -n "$PLUGIN_NAME" ]
         then
@@ -67,11 +70,7 @@ then
         fi
     fi
 else
-    if [ "$COVERAGE" = "System" ]
-    then
-        echo "Executing non System tests in test suite SystemTests..."
-        phpunit --configuration phpunit.xml --testsuite SystemTests --exclude-group System --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-system.xml || true
-    elif [ "$COVERAGE" = "Unit" ]
+    if [ "$COVERAGE" = "Unit" ]
     then
         echo "Executing tests in test suite UnitTests..."
         phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml || true

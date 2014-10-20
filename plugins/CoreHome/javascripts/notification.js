@@ -108,4 +108,5 @@
 
         return $notificationNode;
     }
+
 })(jQuery, require);

@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
@@ -80,6 +81,13 @@ class FrontController extends Singleton
     public function dispatch($module = null, $action = null, $parameters = null)
     {
         if (self::$enableDispatch === false) {
+            return;
+        }
+
+        $filter = new Router();
+        $redirection = $filter->filterUrl(Url::getCurrentUrl());
+        if ($redirection !== null) {
+            Url::redirectToUrl($redirection);
             return;
         }
 
@@ -604,7 +612,6 @@ class FrontController extends Singleton
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
     }
-
 }
 
 /**
