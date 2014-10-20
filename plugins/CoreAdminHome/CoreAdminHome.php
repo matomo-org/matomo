@@ -35,7 +35,7 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "libs/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css";
+        $stylesheets[] = "libs/jquery/stylesheets/jquery-ui.min.css";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/theme.less";
