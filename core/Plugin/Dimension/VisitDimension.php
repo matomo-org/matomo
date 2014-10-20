@@ -159,6 +159,10 @@ abstract class VisitDimension extends Dimension
         }
 
         try {
+            if (!$this->isHandlingLogConversion()) {
+                return;
+            }
+
             $sql = "ALTER TABLE `" . Common::prefixTable('log_conversion') . "` DROP COLUMN `$this->columnName`";
             Db::exec($sql);
         } catch (Exception $e) {
