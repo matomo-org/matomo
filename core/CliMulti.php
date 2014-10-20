@@ -204,9 +204,9 @@ class CliMulti {
         }
 
         foreach ($files as $file) {
-            $timeLastModified = filemtime($file);
+            $timeLastModified = @filemtime($file);
 
-            if ($timeOneWeekAgo > $timeLastModified) {
+            if ($timeLastModified !== FALSE && $timeOneWeekAgo > $timeLastModified) {
                 unlink($file);
             }
         }
