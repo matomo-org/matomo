@@ -27,7 +27,7 @@ class Piwik_Test_UIAssetMinifierTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('libs/bower_components/jquery/dist/jquery.min.js', true),
-            array('libs/bower_components/jquery-ui/jquery-ui.min.js', true),
+            array('libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js', true),
             array('libs/jquery/jquery.browser.js', true),
             array('libs/jqplot/jqplot-custom.min.js', true),
             array('plugins/TreemapVisualization/libs/Jit/jit-2.0.1-yc.js', true),

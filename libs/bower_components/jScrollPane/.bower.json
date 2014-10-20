@@ -9,6 +9,6 @@
     "commit": "f4042d628a6a593462239fe5eb74a7f7d386f2a7"
   },
   "_source": "git://github.com/vitch/jScrollPane.git",
-  "_target": "~2.0.14",
+  "_target": "~2.0.0",
   "_originalSource": "jScrollPane"
 }
