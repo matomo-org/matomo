@@ -1,0 +1,41 @@
+{
+  "name": "Piwik",
+  "main": "piwik.js",
+  "homepage": "http://piwik.org",
+  "authors": [
+    "Piwik.org <hello@piwik.org>"
+  ],
+  "description": "the leading free/libre analytics platform",
+  "private": true,
+  "keywords": [
+    "piwik",
+    "web",
+    "analytics"
+  ],
+  "dependencies": {
+    "jquery": "~1.11",
+    "angular": "~1.2",
+    "angular-sanitize": "~1.2",
+    "angular-animate": "~1.2",
+    "angular-cookies": "~1.2",
+    "angular-mocks": "~1.2",
+    "ngDialog": "~0.2",
+    "html5shiv": "~3.7",
+    "mousetrap": "~1.4",
+    "sprintf": "~1.0.0",
+    "jScrollPane": "~2.0.14",
+    "jquery-mousewheel": "~3.1.12",
+    "jquery-placeholder": "~2.0.8",
+    "jquery.scrollTo": "~1.4.13",
+    "jquery-ui": "~1.11.2",
+    "chroma-js": "~0.6.0"
+  },
+  "license": "GPLv3 or later",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

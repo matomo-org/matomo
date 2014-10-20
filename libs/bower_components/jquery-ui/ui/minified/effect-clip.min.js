@@ -1,0 +1,4 @@
+/*! jQuery UI - v1.11.2 - 2014-10-17
+* http://jqueryui.com
+* Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
+(function(e){"function"==typeof define&&define.amd?define(["jquery","./effect"],e):e(jQuery)})(function(e){return e.effects.effect.clip=function(t,i){var s,n,a,o=e(this),r=["position","top","bottom","left","right","height","width"],h=e.effects.setMode(o,t.mode||"hide"),l="show"===h,u=t.direction||"vertical",c="vertical"===u,d=c?"height":"width",p=c?"top":"left",f={};e.effects.save(o,r),o.show(),s=e.effects.createWrapper(o).css({overflow:"hidden"}),n="IMG"===o[0].tagName?s:o,a=n[d](),l&&(n.css(d,0),n.css(p,a/2)),f[d]=l?a:0,f[p]=l?0:a/2,n.animate(f,{queue:!1,duration:t.duration,easing:t.easing,complete:function(){l||o.hide(),e.effects.restore(o,r),e.effects.removeWrapper(o),i()}})}});

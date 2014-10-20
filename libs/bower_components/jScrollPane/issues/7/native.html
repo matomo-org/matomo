@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<!-- Thanks to Rob Lifford ( http://www.lifford.org/ ) for the test case -->
+        <meta charset="utf-8">
+        <title>jScrollPane 2 reinit bug?</title>
+        <style type="text/css">
+        	body, html {
+        		margin: 0;
+        		padding: 20px;
+        		font-family: Verdana, sans-serif;
+        		font-size: 85%;
+        		line-height: 1.5;
+        	}
+
+        	.float {
+        		float: left;
+        	}
+
+        	.clear {
+        		clear: both;
+        	}
+
+        	.scroll-container {
+        		width: 400px;
+        		height: 200px;
+        		overflow: auto;
+        		margin: 0 2em 1.5em 0;
+        	}
+
+        	.fluid-width {
+        		width: 100%;
+        	}
+
+        	.padded {
+        		padding: 5px;
+        	}
+
+        	ul {
+        		margin: 0;
+        		padding: 0;
+        		line-height: 1;
+        		list-style: none;
+        		border-bottom: solid 1px #ccc;
+        	}
+
+        	li {
+        		margin: 0;
+        		padding: 10px 5px;
+        		border-top: solid 1px #ccc;
+        	}
+
+        </style>
+        <link rel="stylesheet" type="text/css" href="jscrollpane-2b1.css" />
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+    </head>
+    <body>
+
+	<div class="scroll-container float">
+		<ul>
+			<li><strong>scrollable list box</strong></li>
+			<li>list item</li>
+
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>the next list item</li>
+
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+
+			<li>the next list item</li>
+		</ul>
+	</div>
+
+	<div class="scroll-container float">
+		<ul>
+			<li><strong>scrollable list box</strong></li>
+			<li>list item</li>
+
+			<li>another list item</li>
+		</ul>
+	</div>
+
+	<div class="scroll-container padded clear">
+		<ul>
+			<li><strong>scrollable list box</strong></li>
+			<li>list item</li>
+
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>the next list item</li>
+
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+
+			<li>the next list item</li>
+		</ul>
+	</div>
+
+	<div class="scroll-container fluid-width clear">
+		<ul>
+			<li><strong>scrollable list box</strong></li>
+			<li>list item</li>
+
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>the next list item</li>
+
+			<li>list item</li>
+			<li>another list item</li>
+			<li>the next list item</li>
+			<li>the next list item</li>
+			<li>list item</li>
+			<li>another list item</li>
+
+			<li>the next list item</li>
+		</ul>
+	</div>
+
+
+	<p class="clear"><button id="api">reinit via API</button> <button id="jsp">Reinit by re-calling .jScrollPane</button> </p>
+
+	<p>In the above testcase: reinitialising jScrollPane (either via the api or simply by re-calling .jScrollPane() on the original element) strips out the width of the div.jspPane and causes a rendering issue: the absolutely-positioned div renders only as wide as its text content. The expected behavior is that it'll fill the available width, as it does on page load after the first call to .jScrollPane().</p>
+
+
+<p><strong>UPDATE:</strong> this is fixed for scrollable content in v2b2, but when the content is not scrollable there's still undesired rendering on first load.</p>
+
+<p>Additionally, padding calculations might need some tweaks. The third list box here is identical to the first two except for an added 5px of padding all the way around: note how the jspVerticalBar is partially pushed out of view.</p>
+
+    </body>
+</html>

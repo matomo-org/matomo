@@ -72,7 +72,7 @@ testTrackPageViewAsync();
         bottom: 0px;
     }
 </style>
- <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
+ <script src="../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/jslint.js" type="text/javascript"></script>
  <script type="text/javascript">

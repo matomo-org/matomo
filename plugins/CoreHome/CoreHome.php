@@ -50,8 +50,8 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "libs/jquery/themes/base/jquery-ui.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
         $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
-        $stylesheets[] = "libs/angularjs/ngDialog/css/ngDialog.min.css";
-        $stylesheets[] = "libs/angularjs/ngDialog/css/ngDialog-theme-default.min.css";
+        $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog.min.css";
+        $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog-theme-default.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/theme.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/coreHome.less";
@@ -74,22 +74,22 @@ class CoreHome extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/jquery/jquery.js";
-        $jsFiles[] = "libs/jquery/jquery-ui.js";
+        $jsFiles[] = "libs/bower_components/jquery/dist/jquery.min.js";
+        $jsFiles[] = "libs/bower_components/jquery-ui/jquery-ui.min.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
-        $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
+        $jsFiles[] = "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js";
         $jsFiles[] = "libs/jquery/jquery.history.js";
-        $jsFiles[] = "libs/jquery/jquery.jscrollpane.js";
-        $jsFiles[] = "libs/jquery/jquery.mousewheel.js";
+        $jsFiles[] = "libs/bower_components/jScrollPane/script/jquery.jscrollpane.min.js";
+        $jsFiles[] = "libs/bower_components/jquery-mousewheel/jquery.mousewheel.min.js";
         $jsFiles[] = "libs/jquery/mwheelIntent.js";
-        $jsFiles[] = "libs/javascript/sprintf.js";
-        $jsFiles[] = "libs/mousetrap/mousetrap.min.js";
-        $jsFiles[] = "libs/angularjs/angular.min.js";
-        $jsFiles[] = "libs/angularjs/angular-sanitize.min.js";
-        $jsFiles[] = "libs/angularjs/angular-animate.min.js";
-        $jsFiles[] = "libs/angularjs/angular-cookies.min.js";
-        $jsFiles[] = "libs/angularjs/ngDialog/js/ngDialog.min.js";
+        $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
+        $jsFiles[] = "libs/bower_components/mousetrap/mousetrap.min.js";
+        $jsFiles[] = "libs/bower_components/angular/angular.min.js";
+        $jsFiles[] = "libs/bower_components/angular-sanitize/angular-sanitize.js";
+        $jsFiles[] = "libs/bower_components/angular-animate/angular-animate.js";
+        $jsFiles[] = "libs/bower_components/angular-cookies/angular-cookies.js";
+        $jsFiles[] = "libs/bower_components/ngDialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";

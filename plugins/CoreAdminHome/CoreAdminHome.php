@@ -45,10 +45,10 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/jquery/jquery.js";
-        $jsFiles[] = "libs/jquery/jquery-ui.js";
+        $jsFiles[] = "libs/bower_components/jquery/dist/jquery.min.js";
+        $jsFiles[] = "libs/bower_components/jquery-ui/jquery-ui.min.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
-        $jsFiles[] = "libs/javascript/sprintf.js";
+        $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";

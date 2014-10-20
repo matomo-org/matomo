@@ -1,0 +1,4 @@
+/*! jQuery UI - v1.11.2 - 2014-10-17
+* http://jqueryui.com
+* Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
+(function(e){"function"==typeof define&&define.amd?define(["jquery","./effect"],e):e(jQuery)})(function(e){return e.effects.effect.pulsate=function(t,i){var s,n=e(this),a=e.effects.setMode(n,t.mode||"show"),o="show"===a,r="hide"===a,h=o||"hide"===a,l=2*(t.times||5)+(h?1:0),u=t.duration/l,c=0,d=n.queue(),p=d.length;for((o||!n.is(":visible"))&&(n.css("opacity",0).show(),c=1),s=1;l>s;s++)n.animate({opacity:c},u,t.easing),c=1-c;n.animate({opacity:c},u,t.easing),n.queue(function(){r&&n.hide(),i()}),p>1&&d.splice.apply(d,[1,0].concat(d.splice(p,l+1))),n.dequeue()}});
