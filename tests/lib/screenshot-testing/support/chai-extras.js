@@ -89,8 +89,10 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
             var fail = function (message) {
                 app.diffViewerGenerator.failures.push(testInfo);
 
-                var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) : "",
-                    processedPath = testInfo.processed ? path.resolve(testInfo.processed) : "";
+                var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) :
+                        (expectedScreenshotPath + " (not found)"),
+                    processedPath = testInfo.processed ? path.resolve(testInfo.processed) :
+                        (processedScreenshotPath + " (not found)");
 
                 var indent = "     ";
                 var failureInfo = message + "\n";
