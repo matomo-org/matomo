@@ -270,13 +270,14 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 strpos($file, '/tests/') !== false ||
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
+                strpos($file, '/libs/bower_components') !== false ||
                 strpos($file, '/tmp/') !== false
             ) {
                 continue;
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip)$/', $file)) {
                 continue;
             }
 
