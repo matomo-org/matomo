@@ -32,12 +32,12 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "twig/twig": "1.*",
-        "leafo/lessphp": "0.4",
-        "symfony/console": ">=v2.3.5",
-        "tedivm/jshrink": "v0.5.1",
-        "mustangostang/spyc": "0.5.*",
-        "piwik/device-detector": "2.*",
+        "twig/twig": "~1.0",
+        "leafo/lessphp": "~0.4.0",
+        "symfony/console": "~2.3",
+        "tedivm/jshrink": "~0.5.1",
+        "mustangostang/spyc": "~0.5.0",
+        "piwik/device-detector": "~2.0",
         "piwik/decompress": "~0.1.0"
     },
     "require-dev": {
