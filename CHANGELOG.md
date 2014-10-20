@@ -2,6 +2,13 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.8.1
+
+### Library updates
+* Updated AngularJS from 1.2.25 to 1.2.26
+* Updated jQuery from 1.11.0 to 1.11.1
+* Updated jQuery UI from 1.10.4 to 1.11.2
+
 ## Piwik 2.8.0
 
 ### Breaking Changes

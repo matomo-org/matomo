@@ -47,7 +47,7 @@ class CoreHome extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "libs/jquery/themes/base/jquery-ui.css";
+        $stylesheets[] = "libs/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
         $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
         $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog.min.css";
