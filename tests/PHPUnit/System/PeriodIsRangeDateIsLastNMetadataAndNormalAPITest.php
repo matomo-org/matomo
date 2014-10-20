@@ -23,7 +23,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
 
     public static function setUpBeforeClass()
     {
-        self::$fixture->dateTime = Date::factory('today')->getDateTime();
+        self::$fixture->dateTime = Date::factory('yesterday')->getDateTime();
         parent::setUpBeforeClass();
     }
 
@@ -70,7 +70,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                 $result[] = array($apiToCall, array('idSite'    => $idSite, 'date' => $date,
                                                     'periods'   => array('range'), 'segment' => $segment,
                                                     'otherRequestParameters' => array(
-                                                        'lastMinutes' => 60 * 24,
+                                                        'lastMinutes' => 60 * 24 * 2,
                                                         'visitorId' => $visitorId // testing getLastVisitsForVisitor requires a visitor ID
                                                     )));
             }
