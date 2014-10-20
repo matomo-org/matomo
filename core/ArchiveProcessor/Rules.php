@@ -161,7 +161,7 @@ class Rules
                 $purgeArchivesOlderThan = Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
             } else {
                 // If cron core:archive command is building the reports, we should keep all temporary reports from today
-                $purgeArchivesOlderThan = Date::factory('today')->getDateTime();
+                $purgeArchivesOlderThan = Date::factory('yesterday')->getDateTime();
             }
             return $purgeArchivesOlderThan;
         }
