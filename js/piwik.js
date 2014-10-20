@@ -395,7 +395,7 @@ if (typeof JSON2 !== 'object') {
     createElement, appendChild, characterSet, charset,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
-    location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
@@ -407,7 +407,7 @@ if (typeof JSON2 !== 'object') {
     round, random,
     exec,
     res, width, height, devicePixelRatio,
-    pdf, qt, realp, wma, dir, fla, java, gears, ag,
+    pdf, qt, realp, wma, dir, fla, java, ag,
     hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
@@ -3931,7 +3931,6 @@ if (typeof Piwik !== 'object') {
 
                         // RIA
                         java: 'application/x-java-vm',
-                        gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
                     },
                     devicePixelRatio = (new RegExp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
@@ -3953,11 +3952,6 @@ if (typeof Piwik !== 'object') {
                             isDefined(navigatorAlias.javaEnabled) &&
                             navigatorAlias.javaEnabled()) {
                         browserFeatures.java = '1';
-                    }
-
-                    // Firefox
-                    if (isFunction(windowAlias.GearsFactory)) {
-                        browserFeatures.gears = '1';
                     }
 
                     // other browser features
