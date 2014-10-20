@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -501,10 +502,11 @@ class API extends \Piwik\Plugin\API
             throw new Exception("The report file wasn't found in $outputFilename");
         }
 
-        $filename = basename($outputFilename);
-        $handle = fopen($outputFilename, "r");
-        $contents = fread($handle, filesize($outputFilename));
-        fclose($handle);
+        $contents = file_get_contents($outputFilename);
+
+        if (empty($contents)) {
+            Log::warning("Scheduled report file '%s' exists but is empty!", $outputFilename);
+        }
 
         /**
          * Triggered when sending scheduled reports.
@@ -537,7 +539,7 @@ class API extends \Piwik\Plugin\API
                 $report['type'],
                 $report,
                 $contents,
-                $filename,
+                $filename = basename($outputFilename),
                 $prettyDate,
                 $reportSubject,
                 $reportTitle,
