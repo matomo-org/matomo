@@ -9,9 +9,12 @@
 namespace Piwik\EventDispatcher;
 
 /**
- * {@inheritdoc}
+ * This class allows to dispatch events to observers and subscribers.
+ *
+ * Listeners are callbacks registered manually for a specific event.
+ * Subscribers are classes that declare which events they want to register to.
  */
-class EventDispatcher implements EventDispatcherInterface
+class EventDispatcher
 {
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;
@@ -49,7 +52,15 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Triggers an event, executing all callbacks associated with it.
+     *
+     * @param string $eventName The name of the event, ie, API.getReportMetadata.
+     * @param array $params The parameters to pass to each callback when executing.
+     * @param bool $pending Whether this event should be posted again for subscribers
+     *                      loaded after the event is fired.
+     * @param array $eventSubscribers The event subscribers to post events to. If empty, the event
+     *                                is posted to all subscribers. The elements of this array
+     *                                can be either Subscriber objects or their string names.
      */
     public function postEvent($eventName, $params, $pending = false, array $eventSubscribers = array())
     {
@@ -93,7 +104,23 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Associates a callback to an event name.
+     *
+     * @param string $eventName
+     * @param array|callable $callback This can be a normal PHP callback or an array
+     *                        that looks like this:
+     *                        array(
+     *                            'function' => $callback,
+     *                            'before' => true
+     *                        )
+     *                        or this:
+     *                        array(
+     *                            'function' => $callback,
+     *                            'after' => true
+     *                        )
+     *                        If 'before' is set, the callback will be executed
+     *                        before normal & 'after' ones. If 'after' then it
+     *                        will be executed after normal ones.
      */
     public function addObserver($eventName, $callback)
     {
@@ -101,7 +128,9 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Set the object that provides the event subscribers.
+     *
+     * @param SubscriberProviderInterface $subscriberProvider
      */
     public function setSubscriberProvider(SubscriberProviderInterface $subscriberProvider)
     {
@@ -109,7 +138,9 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Removes all observers registered for an event. Only used for testing.
+     *
+     * @param string $eventName
      */
     public function clearObservers($eventName)
     {
@@ -117,7 +148,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Removes all registered observers. Only used for testing.
      */
     public function clearAllObservers()
     {
@@ -131,7 +162,9 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Re-posts all pending events to the given event subscriber.
+     *
+     * @param SubscriberInterface $eventSubscriber
      */
     public function postPendingEventsTo(SubscriberInterface $eventSubscriber)
     {

@@ -8,7 +8,6 @@
 
 namespace Piwik;
 
-use Piwik\EventDispatcher\EventDispatcherInterface;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\PluginEventSubscriberProvider;
@@ -16,7 +15,7 @@ use Piwik\Plugin\PluginEventSubscriberProvider;
 /**
  * This class is a singleton wrapper around {@link EventDispatcherInterface}.
  *
- * @see EventDispatcherInterface
+ * @see \Piwik\EventDispatcher\EventDispatcher
  */
 final class EventDispatcher
 {
@@ -26,7 +25,7 @@ final class EventDispatcher
      * Returns the singleton instance for the derived class. If the singleton instance
      * has not been created, this method will create it.
      *
-     * @return EventDispatcherInterface
+     * @return \Piwik\EventDispatcher\EventDispatcher
      */
     public static function getInstance()
     {
@@ -43,7 +42,7 @@ final class EventDispatcher
     }
 
     /**
-     * @return EventDispatcherInterface
+     * @return \Piwik\EventDispatcher\EventDispatcher
      */
     private static function createInstance()
     {
