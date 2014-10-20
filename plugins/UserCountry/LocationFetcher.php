@@ -38,23 +38,6 @@ class LocationFetcher
         $this->locationFetcherProvider = $locationFetcherProvider;
     }
 
-    /**
-     * @param array $userInfo
-     * @param string $key
-     * @param bool $useClassCache
-     * @return bool
-     */
-    public function getLocationDetail($userInfo, $key, $useClassCache = true)
-    {
-        $location = $this->getLocation($userInfo, $useClassCache);
-
-        if (!isset($location[$key])) {
-            return false;
-        }
-
-        return $location[$key];
-    }
-
     public function getLocation($userInfo, $useClassCache = true)
     {
         $userInfoKey = md5(implode(',', $userInfo));

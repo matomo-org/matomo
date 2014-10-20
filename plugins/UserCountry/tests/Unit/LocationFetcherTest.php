@@ -115,42 +115,6 @@ class LocationFetcherTest extends ProviderTest
         );
     }
 
-    public function test_getLocationDetail_shouldReturnFalse_IfFieldIsUndefined()
-    {
-        $location = array(
-            'city' => 'Wroclaw'
-        );
-
-        $provider = $this->getProviderMock();
-        $provider->expects($this->once())
-            ->method('getLocation')
-            ->will($this->returnValue($location));
-
-        $locationFetcherProvider = $this->getLocationFetcherProviderMock($provider);
-
-        $locationFetcher = new LocationFetcher($locationFetcherProvider);
-
-        $this->assertFalse($locationFetcher->getLocationDetail(array('ip' => '192.168.0.1'), 'region'));
-    }
-
-    public function test_getLocationDetail_shouldReturnValue_IfFieldIsDefined()
-    {
-        $location = array(
-            'city' => 'Wroclaw'
-        );
-
-        $provider = $this->getProviderMock();
-        $provider->expects($this->once())
-            ->method('getLocation')
-            ->will($this->returnValue($location));
-
-        $locationFetcherProvider = $this->getLocationFetcherProviderMock($provider);
-
-        $locationFetcher = new LocationFetcher($locationFetcherProvider);
-
-        $this->assertEquals('xx', $locationFetcher->getLocationDetail(array('ip' => '192.168.0.2'), 'country_code'));
-    }
-
     /**
      * @param LocationProvider $provider
      * @return PHPUnit_Framework_MockObject_MockObject|LocationFetcherProvider
