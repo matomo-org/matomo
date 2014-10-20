@@ -35,7 +35,13 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
+    "core",
+    "plugins",
+    "libs",
+    "misc",
+    "tmp",
+    "config",
+    "lang",
     "tests"
   ]
 }
