@@ -8,8 +8,16 @@ module.exports = function(grunt) {
                 sourceMap: true
             },
             build: {
-                src: "src/sprintf.js",
-                dest: "dist/sprintf.min.js"
+                files: [
+                    {
+                        src: "src/sprintf.js",
+                        dest: "dist/sprintf.min.js"
+                    },
+                    {
+                        src: "src/angular-sprintf.js",
+                        dest: "dist/angular-sprintf.min.js"
+                    }
+                ]
             }
         },
 

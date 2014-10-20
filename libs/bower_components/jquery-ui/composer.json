@@ -4,7 +4,7 @@
     "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
     "license": "MIT",
     "require": {
-        "components/jquery": ">=1.6"
+        "components/jquery": ">=1.8"
     },
     "authors": [
         {
@@ -40,23 +40,17 @@
             "name": "TJ VanToll",
             "email": "tj.vantoll@gmail.com",
             "homepage": "http://tjvantoll.com"
-        },
-        {
-            "name": "Felix Nagel",
-            "email": "info@felixnagel.com",
-            "homepage": "http://www.felixnagel.com"
         }
     ],
     "extra": {
         "component": {
             "name": "jquery-ui",
             "scripts": [
-                "jquery-ui.js"
+                "ui/jquery-ui.js"
             ],
             "files": [
                 "ui/**",
-                "themes/**",
-                "jquery-ui.min.js"
+                "themes/**"
             ],
             "shim": {
                 "deps": [

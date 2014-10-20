@@ -13,7 +13,8 @@
     "analytics"
   ],
   "dependencies": {
-    "jquery": "~1.11",
+    "jquery-ui": "1.10.4",
+    "jquery": "1.11.*",
     "angular": "~1.2",
     "angular-sanitize": "~1.2",
     "angular-animate": "~1.2",
@@ -27,7 +28,6 @@
     "jquery-mousewheel": "~3.1.12",
     "jquery-placeholder": "~2.0.8",
     "jquery.scrollTo": "~1.4.13",
-    "jquery-ui": "~1.11.2",
     "chroma-js": "~0.6.0"
   },
   "license": "GPLv3 or later",

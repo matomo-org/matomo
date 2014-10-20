@@ -2,11 +2,11 @@
 	"name": "jquery-ui",
 	"title": "jQuery UI",
 	"description": "A curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.",
-	"version": "1.11.2",
+	"version": "1.10.4",
 	"homepage": "http://jqueryui.com",
 	"author": {
 		"name": "jQuery Foundation and other contributors",
-		"url": "https://github.com/jquery/jquery-ui/blob/1-11-stable/AUTHORS.txt"
+		"url": "https://github.com/jquery/jquery-ui/blob/1.10.0/AUTHORS.txt"
 	},
 	"maintainers": [
 		{
@@ -38,11 +38,6 @@
 			"name": "TJ VanToll",
 			"email": "tj.vantoll@gmail.com",
 			"url": "http://tjvantoll.com"
-		},
-		{
-			"name": "Felix Nagel",
-			"email": "info@felixnagel.com",
-			"url": "http://www.felixnagel.com"
 		}
 	],
 	"repository": {
@@ -53,7 +48,7 @@
 	"licenses": [
 		{
 			"type": "MIT",
-			"url": "https://github.com/jquery/jquery-ui/blob/1-11-stable/LICENSE.txt"
+			"url": "https://github.com/jquery/jquery-ui/blob/1.10.0/MIT-LICENSE.txt"
 		}
 	],
 	"dependencies": {},

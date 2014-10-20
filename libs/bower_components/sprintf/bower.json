@@ -1,7 +1,7 @@
 {
   "name": "sprintf",
   "description": "JavaScript sprintf implementation",
-  "version": "0.0.7",
+  "version": "1.0.1",
   "main": "src/sprintf.js",
   "license": "BSD-3-Clause-Clear",
   "keywords": ["sprintf", "string", "formatting"],

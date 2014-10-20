@@ -1,10 +1,10 @@
 (function(window) {
     var re = {
         not_string: /[^s]/,
-        number: /[def]/,
+        number: /[dief]/,
         text: /^[^\x25]+/,
         modulo: /^\x25{2}/,
-        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/,
+        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fiosuxX])/,
         key: /^([a-z_][a-z_\d]*)/i,
         key_access: /^\.([a-z_][a-z_\d]*)/i,
         index_access: /^\[(\d+)\]/,
@@ -64,6 +64,7 @@
                         arg = String.fromCharCode(arg)
                     break
                     case "d":
+                    case "i":
                         arg = parseInt(arg, 10)
                     break
                     case "e":
@@ -88,14 +89,17 @@
                         arg = arg.toString(16).toUpperCase()
                     break
                 }
-                if (!is_positive || (re.number.test(match[8]) && match[3])) {
+                if (re.number.test(match[8]) && (!is_positive || match[3])) {
                     sign = is_positive ? "+" : "-"
                     arg = arg.toString().replace(re.sign, "")
                 }
-                pad_character = match[4] ? match[4] == "0" ? "0" : match[4].charAt(1) : " "
+                else {
+                    sign = ""
+                }
+                pad_character = match[4] ? match[4] === "0" ? "0" : match[4].charAt(1) : " "
                 pad_length = match[6] - (sign + arg).length
-                pad = match[6] ? str_repeat(pad_character, pad_length) : ""
-                output[output.length] = match[5] ? sign + arg + pad : (pad_character == 0 ? sign + pad + arg : pad + sign + arg)
+                pad = match[6] ? (pad_length > 0 ? str_repeat(pad_character, pad_length) : "") : ""
+                output[output.length] = match[5] ? sign + arg + pad : (pad_character === "0" ? sign + pad + arg : pad + sign + arg)
             }
         }
         return output.join("")
@@ -188,4 +192,4 @@
             })
         }
     }
-})(typeof window === "undefined" ? this : window)
+})(typeof window === "undefined" ? this : window);

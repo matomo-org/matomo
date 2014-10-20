@@ -88,7 +88,7 @@ Mario Visic <mario@mariovisic.com>
 Xavi Ramirez <xavi.rmz@gmail.com>
 Max Schnur <max.schnur@gmail.com>
 Saji Nediyanchath <saji89@gmail.com>
-Corey Frang <gnarf37@gmail.com>
+Corey Frang <gnarf@gnarf.net>
 Aaron Peterson <aaronp123@yahoo.com>
 Ivan Peters <ivan@ivanpeters.com>
 Mohamed Cherif Bouchelaghem <cherifbouchelaghem@yahoo.fr>
@@ -172,7 +172,7 @@ Justin Domnitz <jdomnitz@gmail.com>
 Douglas Cerna <douglascerna@yahoo.com>
 Bert ter Heide <bertjh@hotmail.com>
 Jasvir Nagra <jasvir@gmail.com>
-Yuriy Khabarov <13real008@gmail.com>
+Petr Hromadko <yuriy@tokyoscale.com>
 Harri Kilpiö <harri.kilpio@gmail.com>
 Lado Lomidze <lado.lomidze@gmail.com>
 Amir E. Aharoni <amir.aharoni@mail.huji.ac.il>
@@ -227,11 +227,11 @@ Fabrício Matté <ult_combo@hotmail.com>
 Viktor Kojouharov <vkojouharov@gmail.com>
 Pawel Maruszczyk (http://hrabstwo.net)
 Pavel Selitskas <p.selitskas@gmail.com>
-Bjørn Johansen <post@bjornjohansen.no>
+Bjørn Johansen <bjorn.johansen@metronet.no>
 Matthieu Penant <thieum22@hotmail.com>
 Dominic Barnes <dominic@dbarnes.info>
 David Sullivan <david.sullivan@gmail.com>
-Thomas Jaggi <thomas@responsive.ch>
+Thomas Jaggi <thomas.jaggi@gmail.com>
 Vahid Sohrabloo <vahid4134@gmail.com>
 Travis Carden <travis.carden@gmail.com>
 Bruno M. Custódio <bruno@brunomcustodio.com>
@@ -243,42 +243,18 @@ Woody Gilk <shadowhand@deviantart.com>
 Zbigniew Motyka <zbigniew.motyka@gmail.com>
 Suhail Alkowaileet <xsoh.k7@gmail.com>
 Toshi MARUYAMA <marutosijp2@yahoo.co.jp>
-David Hansen <hansede@gmail.com>
-Brian Grinstead <briangrinstead@gmail.com>
 Christian Klammer <christian314159@gmail.com>
 Steven Luscher <jquerycla@steveluscher.com>
 Gan Eng Chin <engchin.gan@gmail.com>
-Gabriel Schulhof <gabriel.schulhof@intel.com>
-Alexander Schmitz <arschmitz@gmail.com>
 Vilhjálmur Skúlason <vis@dmm.is>
 Siebrand Mazeland <s.mazeland@xs4all.nl>
 Mohsen Ekhtiari <mohsenekhtiari@yahoo.com>
-Pere Orga <gotrunks@gmail.com>
 Jasper de Groot <mail@ugomobi.com>
-Stephane Deschamps <stephane.deschamps@gmail.com>
 Jyoti Deka <dekajp@gmail.com>
 Andrei Picus <office.nightcrawler@gmail.com>
 Ondrej Novy <novy@ondrej.org>
 Jacob McCutcheon <jacob.mccutcheon@gmail.com>
-Monika Piotrowicz <monika.piotrowicz@gmail.com>
+Monika Piotrowicz <monika@shopify.com>
 Imants Horsts <imants.horsts@inbox.lv>
 Eric Dahl <eric.c.dahl@gmail.com>
-Dave Stein <dave@behance.com>
-Dylan Barrell <dylan@barrell.com>
-Daniel DeGroff <djdegroff@gmail.com>
-Michael Wiencek <mwtuea@gmail.com>
 Thomas Meyer <meyertee@gmail.com>
-Ruslan Yakhyaev <ruslan@ruslan.io>
-Brian J. Dowling <bjd-dev@simplicity.net>
-Ben Higgins <ben@extrahop.com>
-Yermo Lamers <yml@yml.com>
-Patrick Stapleton <github@gdi2290.com>
-Trisha Crowley <trisha.crowley@gmail.com>
-Usman Akeju <akeju00+github@gmail.com>
-Rodrigo Menezes <rod333@gmail.com>
-Jacques Perrault <jacques_perrault@us.ibm.com>
-Frederik Elvhage <frederik.elvhage@googlemail.com>
-Will Holley <willholley@gmail.com>
-Uri Gilad <antishok@gmail.com>
-Richard Gibson <richard.gibson@gmail.com>
-Simen Bekkhus <sbekkhus91@gmail.com>

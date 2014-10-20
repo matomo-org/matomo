@@ -9,7 +9,9 @@ describe("sprintfjs", function() {
         assert.equal("10", sprintf("%b", 2))
         assert.equal("A", sprintf("%c", 65))
         assert.equal("2", sprintf("%d", 2))
+        assert.equal("2", sprintf("%i", 2))
         assert.equal("2", sprintf("%d", "2"))
+        assert.equal("2", sprintf("%i", "2"))
         assert.equal("2e+0", sprintf("%e", 2))
         assert.equal("2", sprintf("%u", 2))
         assert.equal("4294967294", sprintf("%u", -2))
@@ -28,6 +30,10 @@ describe("sprintfjs", function() {
         assert.equal("-2", sprintf("%d", -2))
         assert.equal("+2", sprintf("%+d", 2))
         assert.equal("-2", sprintf("%+d", -2))
+        assert.equal("2", sprintf("%i", 2))
+        assert.equal("-2", sprintf("%i", -2))
+        assert.equal("+2", sprintf("%+i", 2))
+        assert.equal("-2", sprintf("%+i", -2))
         assert.equal("2.2", sprintf("%f", 2.2))
         assert.equal("-2.2", sprintf("%f", -2.2))
         assert.equal("+2.2", sprintf("%+f", 2.2))
@@ -36,9 +42,11 @@ describe("sprintfjs", function() {
         assert.equal("-0.0", sprintf("%+.1f", -0.01))
         assert.equal("-000000123", sprintf("%+010d", -123))
         assert.equal("______-123", sprintf("%+'_10d", -123))
+        assert.equal("-234.34 123.2", sprintf("%f %f", -234.34, 123.2))
 
         // padding
         assert.equal("-0002", sprintf("%05d", -2))
+        assert.equal("-0002", sprintf("%05i", -2))
         assert.equal("    <", sprintf("%5s", "<"))
         assert.equal("0000<", sprintf("%05s", "<"))
         assert.equal("____<", sprintf("%'_5s", "<"))
@@ -46,11 +54,15 @@ describe("sprintfjs", function() {
         assert.equal(">0000", sprintf("%0-5s", ">"))
         assert.equal(">____", sprintf("%'_-5s", ">"))
         assert.equal("xxxxxx", sprintf("%5s", "xxxxxx"))
+        assert.equal("1234", sprintf("%02u", 1234))
+        assert.equal(" -10.235", sprintf("%8.3f", -10.23456))
+        assert.equal("-12.34 xxx", sprintf("%f %s", -12.34, "xxx"))
 
         // precision
         assert.equal("2.3", sprintf("%.1f", 2.345))
         assert.equal("xxxxx", sprintf("%5.5s", "xxxxxx"))
         assert.equal("    x", sprintf("%5.1s", "xxxxxx"))
+
     })
 
     it("should return formated strings for callbacks", function() {
