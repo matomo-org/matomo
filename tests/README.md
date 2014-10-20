@@ -134,13 +134,13 @@ in "Mine" select "path/to/piwik/tests/PHPUnit/System/processed"
 If changes are expected due to the code changes you make, simply copy the file from processed/ to expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
 Otherwise, if you didn't expect to modify the API outputs, it might be that your changes are breaking some features unexpectedly.
 
-### Fixtures
+### Fixtures for System tests
 
 System tests use Fixtures to generate controlled web usage data (visits, goals, pageviews, events, site searches, content tracking, custom variables, etc.).
 
 Fixtures are stored in [tests/PHPUnit/Fixtures](https://github.com/piwik/piwik/tree/master/tests/PHPUnit/Fixtures)
 
-### OmniFixture
+#### OmniFixture
 
 We also have an OmniFixture that includes all other Fixtures. OmniFixture is used for screenshot tests to provide data across most reports. 
 
