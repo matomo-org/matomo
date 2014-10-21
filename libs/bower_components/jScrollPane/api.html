@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+
+		<title>jScrollPane - API documentation</title>
+
+		<!-- styles specific to demo site -->
+		<link type="text/css" href="style/demo.css" rel="stylesheet" media="all" />
+
+		<!-- latest jQuery direct from google's CDN -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<!-- scripts specific to this demo site -->
+		<script type="text/javascript" src="script/demo.js"></script>
+	</head>
+	<body>
+		<div id="top-nav">
+			<img src="image/logo.png" width="196" height="69" alt="jScrollPane">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="index.html#examples">Examples</a></li>
+				<li><a href="index.html#themes">Themes</a></li>
+				<li><a href="index.html#usage">How to use</a></li>
+				<li><a href="faqs.html">FAQs</a></li>
+				<li><a href="known_issues.html">Known issues</a></li>
+				<li><a href="index.html#support">Support</a></li>
+				<li><a href="index.html#download">Download</a></li>
+			</ul>
+		</div>
+		<div id="container">
+			<h1>jScrollPane - API documentation</h1>
+			<p>
+				This page shows how you can use the jScrollPane API (in addition to the <a href="settings.html">
+				settings object</a> and the <a href="events.html">events</a> which are dispatched) to update your
+				jScrollPane after it's has been initially created.
+			</p>
+			<p>
+				To get a reference to the API for a particular scrollpane you will need to access the 'jsp' variable in
+				the <em>data</em> of the element you applied jScrollPane to. e.g.
+			</p>
+			<pre>var element = $('#my-element').jScrollPane({/* ...settings... */});
+var api = element.data('jsp');</pre>
+			<p>
+				Once you have a reference to the API you can call any of the following methods on it:
+			</p>
+			<h2 id="reinitialise">reinitialise(s)</h2>
+			<p>
+				Reinitialises the scroll pane (if it's internal dimensions have changed since the last time it
+				was initialised). The settings object which is passed in will override any settings from the
+				previous time it was initialised - if you don't pass any settings then the ones from the previous
+				initialisation will be used.
+			</p>
+			<h2 id="scrollToElement">scrollToElement(ele, stickToTop, animate)</h2>
+			<p>
+				Scrolls the specified element (a jQuery object, DOM node or jQuery selector string) into view so
+				that it can be seen within the viewport. If stickToTop is true then the element will appear at
+				the top of the viewport, if it is false then the viewport will scroll as little as possible to
+				show the element. You can also specify if you want animation to occur. If you don't provide this
+				argument then the animateScroll value from the settings object is used instead.
+			</p>
+			<h2 id="scrollTo">scrollTo(destX, destY, animate)</h2>
+			<p>
+				Scrolls the pane so that the specified co-ordinates within the content are at the top left
+				of the viewport. animate is optional and if not passed then the value of animateScroll from
+				the settings object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="scrollToX">scrollToX(destX, animate)</h2>
+			<p>
+				Scrolls the pane so that the specified co-ordinate within the content is at the left of the
+				viewport. animate is optional and if not passed then the value of animateScroll from the settings
+				object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="scrollToY">scrollToY(destY, animate)</h2>
+			<p>
+				Scrolls the pane so that the specified co-ordinate within the content is at the top of the
+				viewport. animate is optional and if not passed then the value of animateScroll from the settings
+				object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="scrollToPercentX">scrollToPercentX(destPercentX, animate)</h2>
+			<p>
+				Scrolls the pane to the specified percentage of its maximum horizontal scroll position. animate
+				is optional and if not passed then the value of animateScroll from the settings object this
+				jScrollPane was initialised with is used.
+			</p>
+			<h2 id="scrollToPercentY">scrollToPercentY(destPercentY, animate)</h2>
+			<p>
+				Scrolls the pane to the specified percentage of its maximum vertical scroll position. animate
+				is optional and if not passed then the value of animateScroll from the settings object this
+				jScrollPane was initialised with is used.
+			</p>
+			<h2 id="scrollBy">scrollBy(deltaX, deltaY, animate)</h2>
+			<p>
+				Scrolls the pane by the specified amount of pixels. animate is optional and if not passed then
+				the value of animateScroll from the settings object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="scrollByX">scrollByX(deltaX, animate)</h2>
+			<p>
+				Scrolls the pane by the specified amount of pixels. animate is optional and if not passed then
+				the value of animateScroll from the settings object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="scrollByY">scrollByY(deltaY, animate)</h2>
+			<p>
+				Scrolls the pane by the specified amount of pixels. animate is optional and if not passed then
+				the value of animateScroll from the settings object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="positionDragX">positionDragX(x, animate)</h2>
+			<p>
+				Positions the horizontal drag at the specified x position (and updates the viewport to reflect
+				this). animate is optional and if not passed then the value of animateScroll from the settings
+				object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="positionDragY">positionDragY(y, animate)</h2>
+			<p>
+				Positions the vertical drag at the specified y position (and updates the viewport to reflect
+				this). animate is optional and if not passed then the value of animateScroll from the settings
+				object this jScrollPane was initialised with is used.
+			</p>
+			<h2 id="animate">animate(ele, prop, value, stepCallback)</h2>
+			<p>
+				This method is called when jScrollPane is trying to animate to a new position. You can override
+				it if you want to provide advanced animation functionality. It is passed the following arguments:
+			</p>
+			<ul class="link-list">
+				<li><strong>ele</strong> - the element whose position is being animated</li>
+				<li><strong>prop</strong> - the property that is being animated</li>
+				<li><strong>value</strong> - the value it's being animated to</li>
+				<li><strong>stepCallback</strong> - a function that you must execute each time you update the value of the property</li>
+			</ul>
+			<p>
+				You can use the default implementation (see <a href="script/jquery.jscrollpane.js">sourcecode</a>) as a
+				starting point for your own implementation.
+			</p>
+			<h2 id="getContentPositionX">getContentPositionX()</h2>
+			<p>
+				Returns the current x position of the viewport with regards to the content pane.
+			</p>
+			<h2 id="getContentPositionY">getContentPositionY()</h2>
+			<p>
+				Returns the current y position of the viewport with regards to the content pane.
+			</p>
+			<h2 id="getContentWidth">getContentWidth()</h2>
+			<p>
+				Returns the width of the content within the scroll pane.
+			</p>
+			<h2 id="getContentHeight">getContentHeight()</h2>
+			<p>
+				Returns the height of the content within the scroll pane.
+			</p>
+			<h2 id="getIsScrollableH">getIsScrollableH()</h2>
+			<p>
+				Returns whether or not this scrollpane has a horizontal scrollbar.
+			</p>
+			<h2 id="getPercentScrolledX">getPercentScrolledX()</h2>
+			<p>
+				Returns the horizontal position of the viewport within the pane content.
+			</p>
+			<h2 id="getPercentScrolledY">getPercentScrolledY()</h2>
+			<p>
+				Returns the vertical position of the viewport within the pane content.
+			</p>
+			<h2 id="getIsScrollableV">getIsScrollableV()</h2>
+			<p>
+				Returns whether or not this scrollpane has a vertical scrollbar.
+			</p>
+			<h2 id="getContentPane">getContentPane()</h2>
+			<p>
+				Gets a reference to the content pane. It is important that you use this method if you want to
+				edit the content of your jScrollPane as if you access the element directly then you may have some
+				problems (as your original element has had additional elements for the scrollbars etc added into
+				it).
+			</p>
+			<h2 id="scrollToBottom">scrollToBottom(animate)</h2>
+			<p>
+				Scrolls this jScrollPane down as far as it can currently scroll. If animate isn't passed then the
+				animateScroll value from settings is used instead.
+			</p>
+			<h2 id="hijackInternalLinks">hijackInternalLinks()</h2>
+			<p>
+				Hijacks the links on the page which link to content inside the scrollpane. If you have changed
+				the content of your page (e.g. via AJAX) and want to make sure any new anchor links to the
+				contents of your scroll pane will work then call this function.
+			</p>
+			<h2 id="destroy">destroy()</h2>
+			<p>
+				Destroys the jScrollPane on the instance matching this API object and restores the browser's
+				default behaviour. <a href="destroy.html">Example</a>.
+			</p>
+		</div>
+	</body>
+</html>

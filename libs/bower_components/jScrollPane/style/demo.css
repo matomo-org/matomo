@@ -1,0 +1,227 @@
+/*
+ * CSS Styles that are used on the jScrollPane demo site - these are custom to the site and
+ * you shouldn't need to use them in your own implementations of jScrollPane.
+ */
+
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body
+{
+	background: #aac;
+}
+
+body
+{
+	font: 13px/1.231 arial,helvetica,clean,sans-serif
+}
+
+#top-nav
+{
+	width: 780px;
+	background: #50506d;
+	padding: 0 20px 12px 0;
+	margin: 0 auto 20px;
+	overflow: hidden;
+
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-radius-topleft: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+	border-radius-topright: 0;
+}
+
+#top-nav img
+{
+	float: left;
+}
+
+#top-nav ul
+{
+	margin: 28px 0 0;
+	overflow: hidden;
+	float: right;
+}
+
+#top-nav ul li
+{
+	float: left;
+	padding: 0 0 0 1em;
+	list-style: none;
+}
+
+#top-nav ul li a
+{
+	color: #fff;
+}
+
+#top-nav ul li a:hover
+{
+	color: #ffa;
+}
+
+#top-nav ul li:last-child
+{
+	padding-right: 0;
+}
+
+#container
+{
+	width: 760px;
+	background: #eeeef4;
+	padding: 20px;
+	margin: 20px auto;
+
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+h1
+{
+	font-size: 116%;
+	color: #fff;
+	background: #50506d;
+	margin: 0 0 1em;
+	padding:4px 8px 5px;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+h2
+{
+	clear: left;
+	font-size: 100%;
+	color: #fff;
+	background: #8b8b9f;
+	margin: 1em 0;
+	padding:4px 8px 5px;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+h2 span.setting-type
+{
+	font-weight: normal;
+}
+
+p
+{
+	font-size: 93%;
+	margin: 1em 0;
+}
+
+p.intro
+{
+	font-size: 116%;
+	padding: 10px;
+	background: #fff;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+}
+
+a
+{
+	color: #7171D4;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #f60;
+}
+
+ul
+{
+	padding: 0 0 0 1em;
+}
+
+ul li
+{
+	margin: 0 0 .5em;
+}
+
+ul.link-list li
+{
+	margin: 0;
+}
+
+ul p
+{
+	margin: 0;
+}
+
+/* For the form demo page */
+
+form
+{
+	overflow: hidden;
+}
+
+fieldset
+{
+	border: 0;
+	overflow: hidden;
+}
+
+legend
+{
+	font-weight: bold;
+	margin: 1em 0;
+}
+
+label
+{
+	clear: left;
+	float: left;
+	margin: .5em 6px 0 0;
+	text-align: right;
+	width: 100px;
+}
+
+input,
+select,
+textarea
+{
+	float: left;
+	border: 0;
+	padding: 3px 5px;
+	margin: 0 0 .5em;
+}
+
+input[type=button],
+input[type=submit]
+{
+	clear: left;
+	background: #fff;
+	width: auto;
+	margin: 0 0 0 106px;
+}
+
+pre
+{
+	background: #fff;
+	padding: 10px;
+	font-size: 93%;
+	width: 740px;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	overflow: auto;
+}

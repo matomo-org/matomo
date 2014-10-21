@@ -1,0 +1,25 @@
+{
+  "name": "html5shiv",
+  "version": "3.7.2",
+  "main": [
+    "dist/html5shiv.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "composer.json",
+    "test",
+    "build",
+    "src",
+    "build.xml"
+  ],
+  "homepage": "https://github.com/aFarkas/html5shiv",
+  "_release": "3.7.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.7.2",
+    "commit": "40df868a76f1f19ea23b123d1480d44a7195f349"
+  },
+  "_source": "git://github.com/aFarkas/html5shiv.git",
+  "_target": "~3.7.0",
+  "_originalSource": "html5shiv"
+}

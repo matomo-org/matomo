@@ -35,7 +35,7 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "libs/jquery/themes/base/jquery-ui.css";
+        $stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/theme.less";
@@ -45,10 +45,10 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "libs/jquery/jquery.js";
-        $jsFiles[] = "libs/jquery/jquery-ui.js";
+        $jsFiles[] = "libs/bower_components/jquery/dist/jquery.min.js";
+        $jsFiles[] = "libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
-        $jsFiles[] = "libs/javascript/sprintf.js";
+        $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";

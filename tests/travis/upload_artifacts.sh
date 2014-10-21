@@ -53,7 +53,7 @@ else
             echo "`pwd`/screenshot-diffs"
 
             cp $base_dir/tests/lib/resemblejs/resemble.js screenshot-diffs
-            cp $base_dir/libs/jquery/jquery.js screenshot-diffs
+            cp $base_dir/libs/bower_components/jquery/dist/jquery.min.js screenshot-diffs/jquery.js
 
             echo "[NOTE] uploading following diffs:"
             ls screenshot-diffs
