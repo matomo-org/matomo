@@ -675,6 +675,8 @@ class Piwik
      */
     public static function postEvent($eventName, $params = array(), $pending = false, $plugins = null)
     {
+        $plugins = ($plugins !== null) ? $plugins : array();
+
         EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
     }
 

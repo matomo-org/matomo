@@ -2,6 +2,11 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.9.0
+
+### Internal change
+* The `EventDispatcher` class has been moved to the `Piwik\EventDispatcher` namespace. A new `EventDispatcherInterface` has also been introduced. There is not breaking changes since `Piwik::postEvent()` stays unmodified and developers should be using it instead of the `EventDispatcher` class.
+
 ## Piwik 2.8.0
 
 ### Breaking Changes

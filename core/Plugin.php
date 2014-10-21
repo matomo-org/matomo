@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Cache\PersistentCache;
+use Piwik\EventDispatcher\SubscriberInterface;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
@@ -90,7 +91,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  *
  * @api
  */
-class Plugin
+class Plugin implements SubscriberInterface
 {
     /**
      * Name of this plugin.
