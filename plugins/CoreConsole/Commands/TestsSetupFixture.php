@@ -74,6 +74,10 @@ class TestsSetupFixture extends ConsoleCommand
             " --persist-fixture-data when updating a pre-existing test database.");
         $this->addOption('sqldump', null, InputOption::VALUE_REQUIRED,
             "Creates an SQL dump after setting up the fixture and outputs the dump to the file specified by this option.");
+        $this->addOption('save-config', null, InputOption::VALUE_NONE,
+            "Saves the current configuration file as a config for a new Piwik domain. For example save-config --piwik-domain=mytest.localhost.com will create "
+          . "a mytest.config.ini.php file in the config/ directory. Using /etc/hosts you can redirect to 127.0.0.1 and use the saved "
+          . "config.");
         $this->addOption('set-phantomjs-symlinks', null, InputOption::VALUE_NONE,
             "Used by UI tests. Creates symlinks to root directory in tests/PHPUnit/proxy.");
         $this->addOption('server-global', null, InputOption::VALUE_REQUIRED,
@@ -94,7 +98,17 @@ class TestsSetupFixture extends ConsoleCommand
 
         $host = Url::getHost();
         if (empty($host)) {
+            $host = 'localhost';
             Url::setHost('localhost');
+        }
+
+        $configDomainToSave = $input->getOption('save-config');
+        if (!empty($configDomainToSave)) {
+            $pathToDomainConfig = PIWIK_INCLUDE_PATH . '/config/' . $host . '.config.ini.php';
+
+            if (!file_exists($pathToDomainConfig)) {
+                link(PIWIK_INCLUDE_PATH . '/config/config.ini.php', $pathToDomainConfig);
+            }
         }
 
         $fixture = $this->createFixture($input);
@@ -118,6 +132,10 @@ class TestsSetupFixture extends ConsoleCommand
         $sqlDumpPath = $input->getOption('sqldump');
         if ($sqlDumpPath) {
             $this->createSqlDump($sqlDumpPath, $output);
+        }
+
+        if (!empty($configDomainToSave)) {
+            Config::getInstance()->forceSave();
         }
     }
 
@@ -203,7 +221,7 @@ class TestsSetupFixture extends ConsoleCommand
         }
 
         if ($fixture->createConfig) {
-            Config::getInstance()->setTestEnvironment();
+            Config::getInstance()->setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = true);
         }
 
         $fixture->createConfig = false;
