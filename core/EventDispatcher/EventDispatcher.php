@@ -92,7 +92,7 @@ class EventDispatcher
             }
         }
 
-        $this->dispatchToListeners($params, $callbacks);
+        $this->dispatchToListeners($callbacks, $params);
     }
 
     /**
