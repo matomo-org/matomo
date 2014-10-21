@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Columns\Dimension;
 use Piwik\Plugin\Report;
 use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
@@ -231,6 +232,14 @@ class GenerateReport extends GeneratePluginBase
                     $dimensions[$name] = get_class($dimension);
                     $dimensionNames[]  = $name;
                 }
+            }
+        }
+
+        foreach (Dimension::getAllDimensions() as $dimension) {
+            $name = $dimension->getName();
+            if (!empty($name)) {
+                $dimensions[$name] = get_class($dimension);
+                $dimensionNames[]  = $name;
             }
         }
 
