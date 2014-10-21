@@ -17,9 +17,11 @@ use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\Log;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Segment;
+use Piwik\Site;
 
 /**
  * DataTable filter that creates a pivot table from a report.
@@ -421,15 +423,22 @@ class PivotByDimension extends BaseFilter
             'hideColumns' => ''
         );
 
+        /** @var Site $site */
         $site = $table->getMetadata('site');
         if (!empty($site)) {
             $params['idSite'] = $site->getId();
         }
 
+        /** @var Period $period */
         $period = $table->getMetadata('period');
         if (!empty($period)) {
-            $params['date'] = $period->getDateStart()->toString();
             $params['period'] = $period->getLabel();
+
+            if ($params['period'] == 'range') {
+                $params['date'] = $period->getRangeString();
+            } else {
+                $params['date'] = $period->getDateStart()->toString();
+            }
         }
 
         return $params;
