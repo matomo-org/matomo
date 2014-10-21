@@ -366,9 +366,9 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     {
         $isIniFileInTests = strpos($file, "/tests/") !== false;
         $isTestResultFile = strpos($file, "/System/expected") !== false
-            || strpos($file, "/System/processed") !== false
             || strpos($file, "tests/resources/Updater/") !== false
             || strpos($file, "Twig/Tests/") !== false
+            || strpos($file, "processed/") !== false
             || strpos($file, "/vendor/") !== false;
         $isLib = strpos($file, "lib/xhprof") !== false || strpos($file, "phpunit/phpunit") !== false;
 
