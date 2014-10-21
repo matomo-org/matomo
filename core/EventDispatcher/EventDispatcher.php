@@ -16,7 +16,7 @@ namespace Piwik\EventDispatcher;
  */
 class EventDispatcher
 {
-    // implementation details for postEvent
+    // priorities
     const EVENT_CALLBACK_GROUP_FIRST = 0;
     const EVENT_CALLBACK_GROUP_SECOND = 1;
     const EVENT_CALLBACK_GROUP_THIRD = 2;
@@ -77,7 +77,7 @@ class EventDispatcher
             $hooks = $eventSubscriber->getListHooksRegistered();
 
             if (isset($hooks[$eventName])) {
-                list($function, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($hooks[$eventName]);
+                list($function, $callbackGroup) = $this->getCallbackAndGroup($hooks[$eventName]);
 
                 $callbacks[$callbackGroup][] = is_string($function) ? array($eventSubscriber, $function) : $function;
             }
@@ -86,21 +86,13 @@ class EventDispatcher
         // collect callbacks from event observers
         if (isset($this->observers[$eventName])) {
             foreach ($this->observers[$eventName] as $callbackInfo) {
-                list($callback, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($callbackInfo);
+                list($callback, $callbackGroup) = $this->getCallbackAndGroup($callbackInfo);
 
                 $callbacks[$callbackGroup][] = $callback;
             }
         }
 
-        // sort callbacks by their importance
-        ksort($callbacks);
-
-        // execute callbacks in order
-        foreach ($callbacks as $callbackGroup) {
-            foreach ($callbackGroup as $callback) {
-                call_user_func_array($callback, $params);
-            }
-        }
+        $this->dispatchToListeners($params, $callbacks);
     }
 
     /**
@@ -174,7 +166,7 @@ class EventDispatcher
         }
     }
 
-    private function getCallbackFunctionAndGroupNumber($hookInfo)
+    private function getCallbackAndGroup($hookInfo)
     {
         if (is_array($hookInfo)
             && !empty($hookInfo['function'])
@@ -192,5 +184,22 @@ class EventDispatcher
         }
 
         return array($function, $callbackGroup);
+    }
+
+    /**
+     * @param array $listeners
+     * @param array $params
+     */
+    private function dispatchToListeners(array $listeners, array $params)
+    {
+        // sort listeners by their group/priority
+        ksort($listeners);
+
+        // invoke listeners in order
+        foreach ($listeners as $group => $listenerGroup) {
+            foreach ($listenerGroup as $listener) {
+                call_user_func_array($listener, $params);
+            }
+        }
     }
 }
