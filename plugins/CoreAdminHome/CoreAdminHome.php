@@ -26,7 +26,7 @@ class CoreAdminHome extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'UsersManager.deleteUser'         => 'cleanupUser',
-            'API.DocumentationGenerator.hideExceptForSuperUser' => 'checkIfNotSuperUser'
+            'API.DocumentationGenerator.@hideExceptForSuperUser' => 'displayOnlyForSuperUser'
         );
     }
 
@@ -62,13 +62,8 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
     }
 
-    public function checkIfNotSuperUser(&$response)
+    public function displayOnlyForSuperUser(&$hide)
     {
-        try {
-            Piwik::checkUserHasSuperUserAccess();
-            $response = false;
-        } catch (\Exception $e) {
-            $response = true;
-        }
+        $hide = !Piwik::hasUserSuperUserAccess();
     }
 }

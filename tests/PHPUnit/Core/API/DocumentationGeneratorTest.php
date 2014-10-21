@@ -17,7 +17,7 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
-    public function testCheckIfModuleContainsHideAnnotation()
+    public function test_CheckIfModule_ContainsHideAnnotation()
     {
         $annotation = '@hideExceptForSuperUser test test';
         $mock = $this->getMockBuilder('ReflectionClass')
@@ -29,7 +29,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($documentationGenerator->checkIfClassCommentContainsHideAnnotation($mock));
     }
 
-    public function testCheckDocumentation()
+    public function test_CheckDocumentation()
     {
         $moduleToCheck = 'this is documentation which contains @hideExceptForSuperUser';
         $documentationAfterCheck = 'this is documentation which contains ';
@@ -37,13 +37,33 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($documentationGenerator->checkDocumentation($moduleToCheck), $documentationAfterCheck);
     }
 
-    public function testCheckIfMethodCommentContainsHideAnnotation()
+    public function test_CheckIfMethodComment_ContainsHideAnnotation_andText()
     {
         $annotation = '@hideForAll test test';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.hideForAll',
-            function (&$response) {
-                $response = true;
+        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+            function (&$hide) {
+                $hide = true;
             });
-        $this->assertEquals(Proxy::getInstance()->checkIfDocContainsHideAnnotation($annotation), true);
+        $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
+    }
+
+    public function test_CheckIfMethodComment_ContainsHideAnnotation_only()
+    {
+        $annotation = '@hideForAll';
+        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+            function (&$hide) {
+                $hide = true;
+            });
+        $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
+    }
+
+    public function test_CheckIfMethodComment_DoesNotContainHideAnnotation()
+    {
+        $annotation = '@not found here';
+        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hello',
+            function (&$hide) {
+                $hide = true;
+            });
+        $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), false);
     }
 }

@@ -78,7 +78,7 @@ class Proxy extends Singleton
         $this->checkClassIsSingleton($className);
 
         $rClass = new ReflectionClass($className);
-        if(!$this->checkIfDocContainsHideAnnotation($rClass->getDocComment())) {
+        if(!$this->shouldHideAPIMethod($rClass->getDocComment())) {
             foreach ($rClass->getMethods() as $method) {
                 $this->loadMethodMetadata($className, $method);
             }
@@ -430,24 +430,25 @@ class Proxy extends Singleton
      */
     private function loadMethodMetadata($class, $method)
     {
-        if ($this->checkIfMethodIsAvailable($method)) {
-            $name = $method->getName();
-            $parameters = $method->getParameters();
-
-            $aParameters = array();
-            foreach ($parameters as $parameter) {
-                $nameVariable = $parameter->getName();
-
-                $defaultValue = $this->noDefaultValue;
-                if ($parameter->isDefaultValueAvailable()) {
-                    $defaultValue = $parameter->getDefaultValue();
-                }
-
-                $aParameters[$nameVariable] = $defaultValue;
-            }
-            $this->metadataArray[$class][$name]['parameters'] = $aParameters;
-            $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+        if (!$this->checkIfMethodIsAvailable($method)) {
+            return;
         }
+        $name = $method->getName();
+        $parameters = $method->getParameters();
+
+        $aParameters = array();
+        foreach ($parameters as $parameter) {
+            $nameVariable = $parameter->getName();
+
+            $defaultValue = $this->noDefaultValue;
+            if ($parameter->isDefaultValueAvailable()) {
+                $defaultValue = $parameter->getDefaultValue();
+            }
+
+            $aParameters[$nameVariable] = $defaultValue;
+        }
+        $this->metadataArray[$class][$name]['parameters'] = $aParameters;
+        $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
     }
 
     /**
@@ -468,40 +469,32 @@ class Proxy extends Singleton
      * @param $docComment
      * @return bool
      */
-    public function checkIfDocContainsHideAnnotation($docComment)
+    public function shouldHideAPIMethod($docComment)
     {
         $hideLine = strstr($docComment, '@hide');
-        if ($hideLine) {
-            $hideString = trim(str_replace("@", "", strtok($hideLine, "\n")));
-            $response = true;
-            if (!empty($hideString)) {
-                /**
-                 * Triggered to check if plugin should be hidden from the API for the current user.
-                 *
-                 * This event exists for checking if the user should be able to see the plugin API.
-                 * If &$response is set to false then the user will be able to see the plugin API.
-                 * If &$response is set to true then the plugin API will be hidden for the user.
-                 *
-                 * **Example**
-                 *
-                 *     public function checkIfNotSuperUser(&$response)
-                 *     {
-                 *          try {
-                 *                  Piwik::checkUserHasSuperUserAccess();
-                 *                  $response = false;
-                 *          } catch (\Exception $e) {
-                 *                  $response = true;
-                 *          }
-                 *      }
-                 *
-                 * @param bool &$response Boolean value containing information
-                 * if the plugin API should be hidden from the current user.
-                 */
-                Piwik::postEvent(sprintf('API.DocumentationGenerator.%s', $hideString), array(&$response));
-            }
-            return $response;
+
+        if ($hideLine === false) {
+            return false;
         }
-        return false;
+
+        $hideLine = trim($hideLine);
+        $hideLine .= ' ';
+
+        $token = strtok($hideLine, " ");
+
+        $hide = false;
+
+        if (!empty($token)) {
+            /**
+             * This event exists for checking whether a Plugin API class or a Plugin API method tagged
+             * with a `@hideXYZ` should be hidden in the API listing.
+             *
+             * @param bool &$hide whether to hide APIs tagged with $token should be displayed.
+             */
+            Piwik::postEvent(sprintf('API.DocumentationGenerator.%s', $token), array(&$hide));
+        }
+
+        return $hide;
     }
 
     /**
@@ -522,7 +515,7 @@ class Proxy extends Singleton
             return false;
         }
 
-        if ($this->checkIfDocContainsHideAnnotation($method->getDocComment())) {
+        if ($this->shouldHideAPIMethod($method->getDocComment())) {
             return false;
         }
 
