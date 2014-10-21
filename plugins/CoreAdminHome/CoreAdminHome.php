@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Settings\UserSetting;
 
 /**
@@ -24,7 +25,8 @@ class CoreAdminHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'UsersManager.deleteUser'         => 'cleanupUser'
+            'UsersManager.deleteUser'         => 'cleanupUser',
+            'API.DocumentationGenerator.hideExceptForSuperUser' => 'checkIfNotSuperUser'
         );
     }
 
@@ -60,4 +62,13 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
     }
 
+    public function checkIfNotSuperUser(&$response)
+    {
+        try {
+            Piwik::checkUserHasSuperUserAccess();
+            $response = false;
+        } catch (\Exception $e) {
+            $response = true;
+        }
+    }
 }
