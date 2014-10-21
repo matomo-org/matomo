@@ -56,6 +56,16 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
+    public function test_PivotBySubtableDimension_CreatesCorrectPivotTable_WhenPeriodIsDateRange()
+    {
+        $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
+            'idSite' => self::$fixture->idSite,
+            'date' => '2009-12-29,2010-01-10',
+            'period' => 'range',
+            'pivotBy' => 'Referrers.SearchEngine'
+        ));
+    }
+
     public function test_PivotBySegment_CreatesCorrectPivotTable()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
@@ -78,6 +88,16 @@ class PivotByQueryParamTest extends SystemTestCase
             'pivotBy' => 'UserCountry.City',
             'pivotByColumn' => 'nb_visits',
             'pivotByColumnLimit' => -1
+        ));
+    }
+
+    public function test_PivotBySegment_CreatesCorrectPivotTable_WhenPeriodIsRange()
+    {
+        $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
+            'idSite' => self::$fixture->idSite,
+            'date' => '2009-12-29,2010-01-10',
+            'period' => 'range',
+            'pivotBy' => 'UserCountry.City'
         ));
     }
 

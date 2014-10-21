@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Cache\PersistentCache;
 use Piwik\CacheFile;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
@@ -371,8 +372,7 @@ class Manager extends Singleton
         $this->unloadPluginFromMemory($pluginName);
 
         $this->removePluginFromConfig($pluginName);
-
-        Option::delete('version_' . $pluginName);
+        $this->removeInstalledVersionFromOptionTable($pluginName);
         $this->clearCache($pluginName);
 
         self::deletePluginFromFilesystem($pluginName);
@@ -1292,24 +1292,33 @@ class Manager extends Singleton
 
         try {
             foreach (VisitDimension::getDimensions($plugin) as $dimension) {
-                $dimension->uninstall();
+                $this->uninstallDimension($dimension);
             }
         } catch (\Exception $e) {
         }
 
         try {
             foreach (ActionDimension::getDimensions($plugin) as $dimension) {
-                $dimension->uninstall();
+                $this->uninstallDimension($dimension);
             }
         } catch (\Exception $e) {
         }
 
         try {
             foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
-                $dimension->uninstall();
+                $this->uninstallDimension($dimension);
             }
         } catch (\Exception $e) {
         }
+    }
+
+    /**
+     * @param ConversionDimension|VisitDimension|ActionDimension $dimension
+     */
+    private function uninstallDimension(Dimension $dimension)
+    {
+        $dimension->uninstall();
+        Option::delete('version_' . $dimension->getVersion());
     }
 
     /**
@@ -1320,6 +1329,11 @@ class Manager extends Singleton
     {
         $pluginsInstalled = $this->getInstalledPluginsName();
         return in_array($pluginName, $pluginsInstalled);
+    }
+
+    private function removeInstalledVersionFromOptionTable($version)
+    {
+        Option::delete('version_' . $version);
     }
 }
 
