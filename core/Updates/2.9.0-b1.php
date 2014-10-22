@@ -32,11 +32,17 @@ class Updates_2_9_0_b1 extends Updates
             'Presto'  => array('OP'),
         );
 
+        // Update visits, fill in now missing engine
+        $engineUpdate = "''";
+        $ifFragment = "IF (`config_browser_name` IN ('%s'), '%s', %s)";
+
         foreach ($browserEngineMatch AS $engine => $browsers) {
 
-            // Update visits, fill in now missing engine
-            $sql[sprintf("UPDATE %s SET `config_browser_engine` = '%s' WHERE `config_browser_name` IN ('%s')", Common::prefixTable('log_visit'), $engine, implode("','", $browsers))] = false;
+            $engineUpdate = sprintf($ifFragment, implode("','", $browsers), $engine, $engineUpdate);
         }
+
+        $engineUpdate = sprintf("UPDATE %s SET `config_browser_engine` = %s", Common::prefixTable('log_visit'), $engineUpdate);
+        $sql[$engineUpdate] = false;
 
         $archiveBlobTables = Db::get()->fetchCol("SHOW TABLES LIKE '%archive_blob%'");
 
@@ -45,11 +51,6 @@ class Updates_2_9_0_b1 extends Updates
 
             // try to rename old archives
             $sql[sprintf("UPDATE IGNORE %s SET name='DevicesDetection_browserEngines' WHERE name = 'UserSettings_browserType'", $table)] = false;
-
-            // remove remaining archives, that couldn't be renamed
-            $sql[sprintf("DELETE FROM %s WHERE name = 'UserSettings_browserType'", $table)] = false;
-
-
         }
 
         return $sql;
