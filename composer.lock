@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e8269e35cd792d2a4718e936459423bd",
+    "hash": "7fe1e059c2372246332679bfd15ca4a6",
     "packages": [
         {
             "name": "leafo/lessphp",
@@ -175,6 +175,38 @@
                 "useragent"
             ],
             "time": "2014-10-06 20:13:03"
+        },
+        {
+            "name": "piwik/network",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/component-network.git",
+                "reference": "9037fa29509f86767e02ba58a57d4deb1d01a844"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/component-network/zipball/9037fa29509f86767e02ba58a57d4deb1d01a844",
+                "reference": "9037fa29509f86767e02ba58a57d4deb1d01a844",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Piwik\\Network\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "time": "2014-10-23 03:30:23"
         },
         {
             "name": "symfony/console",

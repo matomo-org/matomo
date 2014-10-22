@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\IP;
 use Piwik\MetricsFormatter;
+use Piwik\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
@@ -745,12 +746,12 @@ class API extends \Piwik\Plugin\API
      */
     public function getIpsForRange($ipRange)
     {
-        $range = IP::getIpsForRange($ipRange);
-        if ($range === false) {
+        $range = IPUtils::getIPRangeBounds($ipRange);
+        if ($range === null) {
             return false;
         }
 
-        return array(IP::N2P($range[0]), IP::N2P($range[1]));
+        return array(IPUtils::binaryToStringIP($range[0]), IPUtils::binaryToStringIP($range[1]));
     }
 
     /**
@@ -1322,7 +1323,7 @@ class API extends \Piwik\Plugin\API
      */
     private function isValidIp($ip)
     {
-        return IP::getIpsForRange($ip) !== false;
+        return IPUtils::getIPRangeBounds($ip) !== null;
     }
 
     /**

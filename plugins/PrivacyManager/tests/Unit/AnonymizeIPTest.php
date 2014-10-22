@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests;
 
-use Piwik\IP;
+use Piwik\Network\IP;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
@@ -58,23 +58,26 @@ class AnonymizeIPTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getipv4Addresses
      * @group Plugins
      */
-    public function testApplyIPMask($ip, $expected)
+    public function testApplyIPMask($ipString, $expected)
     {
+        $ip = IP::fromStringIP($ipString);
+
         // each IP is tested with 0 to 4 octets masked
         for ($maskLength = 0; $maskLength <= 4; $maskLength++) {
-            $res = IPAnonymizer::applyIPMask(IP::P2N($ip), $maskLength);
-            $this->assertEquals($expected[$maskLength], $res, "Got " . bin2hex($res) . ", Expected " . bin2hex($expected[$maskLength]));
+            $res = IPAnonymizer::applyIPMask($ip, $maskLength);
+            $this->assertEquals($expected[$maskLength], $res->toBinary(), "Got " . $res . ", Expected " . bin2hex($expected[$maskLength]));
         }
 
         // edge case (bounds check)
-        $this->assertEquals("\x00\x00\x00\x00", IPAnonymizer::applyIPMask(IP::P2N($ip), 5));
+        $this->assertEquals("\x00\x00\x00\x00", IPAnonymizer::applyIPMask($ip, 5)->toBinary());
 
         // mask IPv4 mapped addresses
+        $mappedIp = IP::fromStringIP('::ffff:' . $ipString);
         for ($maskLength = 0; $maskLength <= 4; $maskLength++) {
-            $res = IPAnonymizer::applyIPMask(IP::P2N('::ffff:' . $ip), $maskLength);
-            $this->assertEquals($res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff" . $expected[$maskLength], "Got " . bin2hex($res) . ", Expected " . bin2hex($expected[$maskLength]));
+            $res = IPAnonymizer::applyIPMask($mappedIp, $maskLength);
+            $this->assertEquals("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff" . $expected[$maskLength], $res->toBinary(), "Got " . $res . ", Expected " . bin2hex($expected[$maskLength]));
         }
-        $this->assertEquals("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00", IPAnonymizer::applyIPMask(IP::P2N('::ffff:' . $ip), 5));
+        $this->assertEquals("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00", IPAnonymizer::applyIPMask($mappedIp, 5)->toBinary());
     }
 
     /**
@@ -85,8 +88,8 @@ class AnonymizeIPTest extends \PHPUnit_Framework_TestCase
     {
         // each IP is tested with 0 to 4 octets masked
         for ($maskLength = 0; $maskLength < 4; $maskLength++) {
-            $res = IPAnonymizer::applyIPMask(IP::P2N($ip), $maskLength);
-            $this->assertEquals($expected[$maskLength], $res, "Got " . bin2hex($res) . ", Expected " . bin2hex($expected[$maskLength]) . ", Mask Level " . $maskLength);
+            $res = IPAnonymizer::applyIPMask(IP::fromStringIP($ip), $maskLength);
+            $this->assertEquals($expected[$maskLength], $res->toBinary(), "Got " . $res . ", Expected " . bin2hex($expected[$maskLength]) . ", Mask Level " . $maskLength);
         }
     }
 }
