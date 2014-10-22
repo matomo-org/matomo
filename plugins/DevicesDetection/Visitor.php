@@ -21,7 +21,7 @@ class Visitor
 
     public function getDeviceType()
     {
-        getDeviceTypeLabel($this->details['config_device_type']);
+        return getDeviceTypeLabel($this->details['config_device_type']);
     }
 
     public function getBrowserEngineDescription()
