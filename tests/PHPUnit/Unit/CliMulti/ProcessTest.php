@@ -45,11 +45,19 @@ class ProcessTest extends PHPUnit_Framework_TestCase
 
     public function test_construct_shouldBeNotRunning_IfPidJustCreated()
     {
+        if (! Process::isSupported()) {
+            $this->markTestSkipped('Not supported');
+        }
+
         $this->assertFalse($this->process->isRunning());
     }
 
     public function test_startProcess_finishProcess_ShouldMarkProcessAsStarted()
     {
+        if (! Process::isSupported()) {
+            $this->markTestSkipped('Not supported');
+        }
+
         $this->assertFalse($this->process->isRunning());
         $this->assertFalse($this->process->hasStarted());
         $this->assertFalse($this->process->hasFinished());
@@ -94,11 +102,11 @@ class ProcessTest extends PHPUnit_Framework_TestCase
 
     public function test_getSecondsSinceCreation()
     {
-        sleep(3);
+        sleep(2);
         $seconds = $this->process->getSecondsSinceCreation();
 
-        $this->assertGreaterThanOrEqual(3, $seconds);
-        $this->assertLessThanOrEqual(4, $seconds);
+        $this->assertGreaterThanOrEqual(2, $seconds);
+        $this->assertLessThanOrEqual(3, $seconds);
     }
 
 }
