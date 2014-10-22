@@ -224,6 +224,7 @@ class Access
             $allSitesId = array();
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
+        $this->login = 'superUserWasSet'; // flag to force non empty login to ensure SU is not mistaken for anonymous
 
         return true;
     }
