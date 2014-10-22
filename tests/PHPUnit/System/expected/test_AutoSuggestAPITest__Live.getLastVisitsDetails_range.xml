@@ -60,10 +60,10 @@
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<browserName>Safari </browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserCode>SF</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -79,8 +79,8 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
