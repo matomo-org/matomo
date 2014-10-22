@@ -20,7 +20,7 @@ class GetBrowserEngines extends Base
         parent::init();
         $this->dimension     = new BrowserEngine();
         $this->name          = Piwik::translate('DevicesDetection_BrowserEngines');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('DevicesDetection_BrowserEngineDocumentation', '<br />');
         $this->order = 7;
         $this->widgetTitle  = 'DevicesDetection_BrowserEngines';
     }
