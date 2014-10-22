@@ -31,6 +31,8 @@ use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
  */
 class AlgorithmState
 {
+    const NO_SITE_ID = 'none';
+
     const ACTIVE_REQUESTS_SEMAPHORE_NAME = 'CronArchive.ActiveRequests';
     const FAILED_REQUESTS_SEMAPHORE_NAME = 'CronArchive.FailedRequests';
     const PROCESSED_WEBSITES_SEMAPHORE = 'CronArchive.ProcessedWebsites';
@@ -143,9 +145,10 @@ class AlgorithmState
 
     /**
      * Returns true if a site's data should be reprocessed because the current day has ended in the
-     * site's timezone. false if otherwise.
+     * site's timezone, false if otherwise.
      *
-     * TODO: why must the archives be reprocessed, should say so here.
+     * If the day has ended for a site, then the archive must be reprocessed in order to include data
+     * tracked from the last time the site was archived and the end of the day.
      *
      * @param int $idSite
      * @return bool
@@ -186,9 +189,21 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns true if archive data should be processed for a specific website, false if otherwise.
+     *
+     * A website should have its archive data reprocessed if:
+     *
+     * - period data have never been calculated for the site
+     * - the day in the site's timezone has ended and the new data recorded has to be factored into
+     *   the site's period archives
+     * - old report data was invalidated for the site
+     * - archiving for this website has been forced via a CronArchive option
+     * - the current period data is too old to be considered accurate
+     *
+     * @param int $idSite
+     * @return bool
      */
-    public function getShouldArchivePeriods($idSite)
+    public function getShouldArchivePeriodsForWebsite($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             $lastTimeProcessedPeriods = $self->getLastTimestampWebsiteProcessedPeriods($idSite);
@@ -218,7 +233,12 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the amount of time since the last time the archiving process was initialized
+     * for a site.
+     *
+     * @param int $idSite
+     * @param bool $pretty If true, the number of seconds is formatted and returned as a string.
+     * @return int|string
      */
     public function getElapsedTimeSinceLastArchiving($idSite, $pretty = false)
     {
@@ -234,11 +254,13 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns true if a website's archiving data are valid. Archiving data is considered valid if the
+     * amount of time since the data was last calculated is less than the configured time to live value.
      *
-     * valid if last archive age is less than TTL
+     * @param int $idSite
+     * @return int
      */
-    public function getIsExistingArchveValid($idSite)
+    public function getIsExistingArchiveForWebsiteValid($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             return $self->getElapsedTimeSinceLastArchiving($idSite) < $self->getTodayArchiveTimeToLive();
@@ -246,9 +268,13 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns true if a website's archiving data has been processed at least once after the last day's
+     * midnight in the website's timezone, false if otherwise.
+     *
+     * @param int $idSite
+     * @return bool
      */
-    public function getHasBeenProcessedSinceMidnight($idSite)
+    public function getHasWebsiteDataBeenProcessedAfterLastMidnight($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             $lastTimestampWebsiteProcessedDay = $self->getLastTimestampWebsiteProcessedDay($idSite);
@@ -269,14 +295,21 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns true if we shouldn't calculate day statistics for the specified website during
+     * this CronArchive run.
+     *
+     * If archiving data is still valid, running the archiving process for the website would
+     * be wasteful. This method is used to make sure that waste doesn't happen.
+     *
+     * @param int $idSite
+     * @return bool
      */
     public function getShouldSkipDayArchive($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            $isExistingArchiveValid = $self->getIsExistingArchveValid($idSite);
+            $isExistingArchiveValid = $self->getIsExistingArchiveForWebsiteValid($idSite);
 
-            // Skip this day archive if last archive was older than TTL
+            // Skip this day archive if last archive was newer than TTL
             $skipDayArchive = $isExistingArchiveValid;
 
             // Invalidate old website forces the archiving for this site
@@ -285,7 +318,7 @@ class AlgorithmState
             // Also reprocess when day has ended since last run
             if ($self->getDayHasEndedMustReprocesses($idSite)
                 // it might have reprocessed for that day by another cron
-                && !$self->getHasBeenProcessedSinceMidnight($idSite)
+                && !$self->getHasWebsiteDataBeenProcessedAfterLastMidnight($idSite)
                 && !$isExistingArchiveValid
             ) {
                 $skipDayArchive = false;
@@ -300,7 +333,18 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the Semaphore used to store the number of active requests during a CronArchive
+     * run.
+     *
+     * This semaphore is incremented by CronArchive when an archiving request is scheduled
+     * in a jobs queue and decremented after the request is finished. When the semaphore
+     * is 0 we consider the archiving process for the site to be complete. The check is done
+     * after, both, a request finishes and follow up requests are scheduled. Follow up requests
+     * are scheduled in the same thread as the check is done, so the count will never be 0
+     * because of another job processing thread.
+     *
+     * @param int $idSite
+     * @return Semaphore
      */
     public function getActiveRequestsSemaphore($idSite)
     {
@@ -310,7 +354,16 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the Semaphore used to count the number of failed archiving requests for a site.
+     * It is initialized to 0 and incremented if an archiving request for a site results in an
+     * error.
+     *
+     * This semaphore is used for printing statistics at the end of the archiving process.
+     * The main CronArchive process will print these statistics out when archiving finishes. All
+     * other job processing servers will not.
+     *
+     * @param int $idSite
+     * @return Semaphore
      */
     public function getFailedRequestsSemaphore($idSite)
     {
@@ -320,37 +373,48 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the Semaphore used to count the number of websites processed in this archiving
+     * run.
+     *
+     * This semaphore is used for printing statistics at the end of the archiving process.
+     * The main CronArchive process will print these statistics out when archiving finishes. All
+     * other job processing servers will not.
+     *
+     * @param int $idSite
+     * @return Semaphore
      */
     public function getProcessedWebsitesSemaphore()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             return new Semaphore(AlgorithmState::PROCESSED_WEBSITES_SEMAPHORE);
         });
     }
 
     /**
-     * TODO
+     * Returns the configured time to live for archiving data.
+     *
+     * This value is determined by the _General Settings_ option or the `[General] time_before_today_archive_considered_outdated`
+     * INI option.
+     *
+     * @return int
      */
     public function getTodayArchiveTimeToLive()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             return Rules::getTodayArchiveTimeToLive();
         });
     }
 
     /**
-     * Returns the delay in seconds, that should be enforced, between calling archiving for Periods Archives.
-     * It can be set by --force-timeout-for-periods=X
+     * Returns the minimum amount of time that must pass before periods archiving should be initiated for
+     * a website. If the amount of time hasn't yet passed, and the archive data is still considered valid,
+     * period archiving shouldn't be launched in the current CronArchive run.
      *
      * @return int
-     *
-     * TODO: revise
      */
     public function getProcessPeriodsMaximumEverySeconds()
     {
-        // TODO: 'none' should be const
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             if (empty($container->forceTimeoutPeriod)) {
                 return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
             }
@@ -370,12 +434,16 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the segments to archive for a specific Website. This will include segments that are specific
+     * to this site and segments that are applied to all sites.
+     *
+     * @param int $idSite
+     * @return string[]
      */
     public function getSegmentsForSite($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            $segmentsAllSites = $self->getSegmentsForAllSites(); // TODO
+            $segmentsAllSites = $self->getSegmentsForAllSites();
             $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
             if (!empty($segmentsThisSite)) {
                 $container->algorithmLogger->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idSite): " . implode(", ", $segmentsThisSite));
@@ -385,11 +453,14 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the list of segments that are applied to all websites. These segments will be processed for
+     * every website that is archived.
+     *
+     * @return string[]
      */
     public function getSegmentsForAllSites()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             $segments = SettingsPiwik::getKnownSegmentsToArchive();
 
             if (empty($segments)) {
@@ -403,31 +474,45 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * The returns the time of the last _successful_ CronArchive run, or false if CronArchive has never
+     * completed successfully.
+     *
+     * This time is stored as an option value after the CronArchive process finishes successfully.
+     *
+     * @return int|false
      */
     public function getLastSuccessRunTimestamp()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             return Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         });
     }
 
     /**
-     * TODO
+     * Sets the option that stores the last successful CronArchive run time to a specific time.
+     *
+     * @param int $time The timestamp to set the option to, ie, `time()`.
      */
     public function setLastSuccessRunTimestamp($time)
     {
         Option::set(self::OPTION_ARCHIVING_FINISHED_TS, $time);
 
-        $this->clearInCache('none', __FUNCTION__);
+        $this->clearInCache(self::NO_SITE_ID, __FUNCTION__);
     }
 
     /**
-     * TODO
+     * Returns true if we should only archive period data for websites that have seen traffic in the last
+     * N seconds. The amount of seconds can be specified as an option in CronArchive.
+     *
+     * See {@link CronArchive::$shouldArchiveAllPeriodsSince}.
+     *
+     * @return int|false Returns the number of seconds or false if the option was not set.
+     *
+     * TODO: rewrite docs for this, can return true or int secs. what happens when true? what happens when false? etc.
      */
-    public function getShouldArchiveAllSitesWithTrafficSince()
+    public function getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             if (empty($container->shouldArchiveAllPeriodsSince)) {
                 return false;
             }
@@ -443,15 +528,17 @@ class AlgorithmState
     }
 
     /**
-     * TODO
-
+     * Returns true if we should only archive data for websites that have seen traffic in the last N
+     * seconds. The amount of seconds can be specified as an option in CronArchive.
+     *
+     * See {@link CronArchive::$shouldArchiveAllPeriodsSince}.
     // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
      */
-    public function getShouldArchiveOnlySitesWithTrafficSince()
+    public function getShouldArchiveOnlySitesWithTrafficSinceLastNSecs()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             $lastSuccessRunTimestamp = $self->getLastSuccessRunTimestamp();
-            $shouldArchiveOnlySitesWithTrafficSince = $self->getShouldArchiveAllSitesWithTrafficSince();
+            $shouldArchiveOnlySitesWithTrafficSince = $self->getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs();
 
             if ($shouldArchiveOnlySitesWithTrafficSince === false) { // force-all-periods was not set
                 if (empty($lastSuccessRunTimestamp)) {
@@ -477,7 +564,7 @@ class AlgorithmState
      */
     public function getPeriodsToProcess()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             $periods = array_intersect($container->restrictToPeriods, $self->getDefaultPeriodsToProcess());
             $periods = array_intersect($periods, PeriodFactory::getPeriodsEnabledForAPI());
             return $periods;
@@ -497,8 +584,8 @@ class AlgorithmState
      */
     public function getArchiveAndRespectTTL()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            return $self->getShouldArchiveAllSitesWithTrafficSince() === false; // return true if force-all-periods was not set
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return $self->getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs() === false; // return true if force-all-periods was not set
         });
     }
 
@@ -507,7 +594,7 @@ class AlgorithmState
      */
     public function getAllWebsites()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             return APISitesManager::getInstance()->getAllSitesId();
         });
     }
@@ -517,7 +604,7 @@ class AlgorithmState
      */
     public function getWebsitesToArchive()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             if (count($container->shouldArchiveSpecifiedSites) > 0) {
                 $container->algorithmLogger->log("- Will process " . count($container->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
 
@@ -556,8 +643,8 @@ class AlgorithmState
      */
     public function getWebsitesWithVisitsSinceLastRun()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            $shouldArchiveOnlySitesWithTrafficSince = $this->getShouldArchiveOnlySitesWithTrafficSince();
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            $shouldArchiveOnlySitesWithTrafficSince = $this->getShouldArchiveOnlySitesWithTrafficSinceLastNSecs();
 
             $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits(time() - $shouldArchiveOnlySitesWithTrafficSince);
 
@@ -583,7 +670,7 @@ class AlgorithmState
      */
     public function getWebsitesWithInvalidatedArchiveData()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             $idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
 
             if (count($idSitesInvalidatedOldReports) > 0) {
@@ -607,7 +694,7 @@ class AlgorithmState
      */
     public function getWebsitesInTimezoneWithNewDay()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             $timezones = $this->getTimezonesHavingNewDay();
             return APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
         });
@@ -622,7 +709,7 @@ class AlgorithmState
      */
     public function getTimezonesHavingNewDay()
     {
-        return $this->getOrSetInCache('none', __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             $timestamp = $self->getLastSuccessRunTimestamp();
             $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
 

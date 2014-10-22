@@ -321,7 +321,7 @@ class CronArchive
             return;
         }
 
-        $this->consumer->startConsuming($finishWhenNoJobs = true);
+        $this->consumer->startProcessing($finishWhenNoJobs = true);
 
             /** TODO: deal w/ these events
              * This event is triggered before the cron archiving process starts archiving data for a single
@@ -911,7 +911,7 @@ class CronArchive
                 return;
             }
 
-            $shouldArchivePeriods = $this->algorithmState->getShouldArchivePeriods($idSite);
+            $shouldArchivePeriods = $this->algorithmState->getShouldArchivePeriodsForWebsite($idSite);
 
             // If there is no visit today and we don't need to process this website, we can skip remaining archives
             if ($visits == 0
