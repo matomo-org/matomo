@@ -19,12 +19,17 @@ class Visitor
         $this->details = $details;
     }
 
-    function getBrowserEngineDescription()
+    public function getDeviceType()
+    {
+        getDeviceTypeLabel($this->details['config_device_type']);
+    }
+
+    public function getBrowserEngineDescription()
     {
         return getBrowserEngineName($this->getBrowserEngine());
     }
 
-    function getBrowserEngine()
+    public function getBrowserEngine()
     {
         return $this->details['config_browser_engine'];
     }

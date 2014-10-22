@@ -48,7 +48,7 @@ class DevicesDetection extends \Piwik\Plugin
     {
         $instance = new Visitor($details);
 
-        $visitor['deviceType']               = getDeviceTypeLabel($details['config_device_type']);
+        $visitor['deviceType']               = $instance->getDeviceType();
         $visitor['browserFamily']            = $instance->getBrowserEngine();
         $visitor['browserFamilyDescription'] = $instance->getBrowserEngineDescription();
 
