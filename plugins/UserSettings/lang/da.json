@@ -207,8 +207,6 @@
         "Resolutions": "Opløsninger",
         "VisitorSettings": "Besøgendes indstillinger",
         "WideScreen": "Bredformat",
-        "WidgetBrowserFamilies": "Browsertype",
-        "WidgetBrowserFamiliesDocumentation": "Diagrammet viser de besøgendes browsere opdelt i grupper. %s De vigtigste oplysninger for web-udviklere er, hvilken slags rendering motor de besøgende bruger. Etiketterne indeholder navnene på motorerne, efterfulgt af de mest almindelige browsere, der benytter motoren i parentes.",
         "WidgetBrowsers": "Besøgendes browser",
         "WidgetBrowsersDocumentation": "Rapporten indeholder oplysninger om hvilken browser de besøgende bruger. Hver version er angivet særskilt.",
         "WidgetBrowserVersion": "Browserversion",

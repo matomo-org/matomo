@@ -207,8 +207,6 @@
         "Resolutions": "Schermresoluties",
         "VisitorSettings": "Bezoekers Instellingen",
         "WideScreen": "Breedbeeld",
-        "WidgetBrowserFamilies": "Browser per type",
-        "WidgetBrowserFamiliesDocumentation": "Deze grafiek toont de browsers van uw bezoekers, verdeeld in browserfamilies. %s De belangrijkste informatie voor webontwikkelaars is wat voor soort renderingengine hun bezoekers gebruiken. De labels bevatten de namen van de engines, gevolgd door de meest voorkomende browsers (tussen haakjes) die deze engine gebruiken.",
         "WidgetBrowsers": "Browsers bezoekers",
         "WidgetBrowsersDocumentation": "Dit rapport bevat informatie over het type browsers dat door door uw bezoekers werd gebruikt. Elke browserversie wordt apart vermeld.",
         "WidgetBrowserVersion": "Browserversie",

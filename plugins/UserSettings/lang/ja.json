@@ -207,8 +207,6 @@
         "Resolutions": "解像度",
         "VisitorSettings": "ビジターの環境",
         "WideScreen": "ワイド画面",
-        "WidgetBrowserFamilies": "ファミリー単位のブラウザ",
-        "WidgetBrowserFamiliesDocumentation": "このチャートは、ビジターのブラウザをブラウザファミリー別に表示します。 %s Web開発者にとって最も重要な情報は、ビジターが使用しているレンダリングエンジンの種類です。ラベルはエンジンの名前で、括弧内にそのエンジンを使う最も一般的なブラウザ名を表示しています。",
         "WidgetBrowsers": "ブラウザ",
         "WidgetBrowsersDocumentation": "ビジターがどのブラウザを使っているかについてのリポートです。各ブラウザのバージョンは別途記載されています。",
         "WidgetBrowserVersion": "ブラウザのバージョン",
