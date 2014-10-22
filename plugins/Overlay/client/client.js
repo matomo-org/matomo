@@ -35,7 +35,7 @@ var Piwik_Overlay_Client = (function () {
             callback();
         }
         else {
-            Piwik_Overlay_Client.loadScript('libs/jquery/jquery.js', function () {
+            Piwik_Overlay_Client.loadScript('libs/bower_components/jquery/dist/jquery.min.js', function () {
                 $ = jQuery;
                 jQuery.noConflict();
                 callback();

@@ -13,13 +13,14 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
+ *
  * @see plugins/DBStats/MySQLMetadataProvider.php
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/DBStats/MySQLMetadataProvider.php';
 
 /**
  * DBStats API is used to request the overall status of the Mysql tables in use by Piwik.
- *
+ * @hideExceptForSuperUser
  * @method static \Piwik\Plugins\DBStats\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -41,6 +42,7 @@ class API extends \Piwik\Plugin\API
      * Gets some general information about this Piwik installation, including the count of
      * websites tracked, the count of users and the total space used by the database.
      *
+     * 
      * @return array Contains the website count, user count and total space used by the database.
      */
     public function getGeneralInformation()

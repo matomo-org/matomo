@@ -74,16 +74,16 @@
     ],
     "scripts": {
         "pre-update-cmd": [
-            "misc/composer/clean-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
         ],
         "pre-install-cmd": [
-            "misc/composer/clean-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
         ],
         "post-update-cmd": [
-            "misc/composer/build-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ],
         "post-install-cmd": [
-            "misc/composer/build-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ]
     }
 }

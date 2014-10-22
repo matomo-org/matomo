@@ -140,7 +140,7 @@ class ModelTest extends SystemTestCase
 
     public function test_getTotalValue_shouldCalculateTotalsAndApplySegment()
     {
-        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits', 'visitIp==156.15.13.1');
+        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits', 'resolution==1000x1001');
         $this->assertEquals(1, $total);
     }
 

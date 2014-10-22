@@ -845,10 +845,7 @@ abstract class Controller
 			<br />Check the table '" . Common::prefixTable('site') . "' in your database, it should contain your Piwik websites.", false, true);
         }
 
-        $currentLogin = Piwik::getCurrentUserLogin();
-        if (!empty($currentLogin)
-            && $currentLogin != 'anonymous'
-        ) {
+        if (!Piwik::isUserIsAnonymous()) {
             $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
             $errorMessage = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";

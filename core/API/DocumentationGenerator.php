@@ -12,10 +12,10 @@ use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Url;
+use ReflectionClass;
 
 class DocumentationGenerator
 {
-    protected $modulesToHide = array('CoreAdminHome', 'DBStats');
     protected $countPluginsLoaded = 0;
 
     /**
@@ -49,21 +49,20 @@ class DocumentationGenerator
         }
 
         $str = $toc = '';
-        $parametersToSet = array(
-            'idSite' => Common::getRequestVar('idSite', 1, 'int'),
-            'period' => Common::getRequestVar('period', 'day', 'string'),
-            'date'   => Common::getRequestVar('date', 'today', 'string')
-        );
 
         foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
             $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
+            $rClass = new ReflectionClass($class);
 
-            if (in_array($moduleName, $this->modulesToHide)) {
+            if (!Piwik::hasUserSuperUserAccess() && $this->checkIfClassCommentContainsHideAnnotation($rClass)) {
                 continue;
             }
 
-            $toc .= "<a href='#$moduleName'>$moduleName</a><br/>";
-            $str .= $this->getInterfaceString($moduleName, $class, $info, $parametersToSet, $outputExampleUrls, $prefixUrls);
+            $toDisplay = $this->prepareModulesAndMethods($info, $moduleName);
+            foreach ($toDisplay as $moduleName => $methods) {
+                $toc .= $this->prepareModuleToDisplay($moduleName);
+                $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls);
+            }
         }
 
         $str = "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>
@@ -71,6 +70,103 @@ class DocumentationGenerator
 				$str";
 
         return $str;
+    }
+
+    public function prepareModuleToDisplay($moduleName)
+    {
+        return "<a href='#$moduleName'>$moduleName</a><br/>";
+    }
+
+    public function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls)
+    {
+        $str = '';
+        $str .= "\n<a name='$moduleName' id='$moduleName'></a><h2>Module " . $moduleName . "</h2>";
+        $info['__documentation'] = $this->checkDocumentation($info['__documentation']);
+        $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
+        foreach ($methods as $methodName) {
+            $params = $this->getParametersString($class, $methodName);
+
+            $str .= "\n <div class='apiMethod'>- <b>$moduleName.$methodName </b>" . $params . "";
+            $str .= '<small>';
+            if ($outputExampleUrls) {
+                $str .= $this->addExamples($class, $methodName, $prefixUrls);
+            }
+            $str .= '</small>';
+            $str .= "</div>\n";
+        }
+
+        return $str;
+    }
+
+    public function prepareModulesAndMethods($info, $moduleName)
+    {
+        $toDisplay = array();
+
+        foreach ($info as $methodName => $infoMethod) {
+            if ($methodName == '__documentation') {
+                continue;
+            }
+            $toDisplay[$moduleName][] = $methodName;
+        }
+
+        return $toDisplay;
+    }
+
+    public function addExamples($class, $methodName, $prefixUrls)
+    {
+        $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
+        $parametersToSet = array(
+            'idSite' => Common::getRequestVar('idSite', 1, 'int'),
+            'period' => Common::getRequestVar('period', 'day', 'string'),
+            'date' => Common::getRequestVar('date', 'today', 'string')
+        );
+        $str = '';
+// used when we include this output in the Piwik official documentation for example
+        $str .= "<span class=\"example\">";
+        $exampleUrl = $this->getExampleUrl($class, $methodName, $parametersToSet);
+        if ($exampleUrl !== false) {
+            $lastNUrls = '';
+            if (preg_match('/(&period)|(&date)/', $exampleUrl)) {
+                $exampleUrlRss = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
+                $lastNUrls = ", RSS of the last <a target=_blank href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
+            }
+            $exampleUrl = $prefixUrls . $exampleUrl;
+            $str .= " [ Example in
+                                                                    <a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>,
+                                                                    <a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>,
+                                                                    <a target=_blank href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a>
+                                                                    $lastNUrls
+                                                                    ]";
+        } else {
+            $str .= " [ No example available ]";
+        }
+        $str .= "</span>";
+        return $str;
+    }
+
+    /**
+     * Check if Class contains @hide
+     *
+     * @param ReflectionClass $rClass instance of ReflectionMethod
+     * @return bool
+     */
+    public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
+    {
+        return false !== strstr($rClass->getDocComment(), '@hide');
+    }
+
+    /**
+     * Check if documentation contains @hide annotation and deletes it
+     *
+     * @param $moduleToCheck
+     * @return mixed
+     */
+    public function checkDocumentation($moduleToCheck)
+    {
+        if (strpos($moduleToCheck, '@hide') == true) {
+            $moduleToCheck = str_replace(strtok(strstr($moduleToCheck, '@hide'), "\n"), "", $moduleToCheck);
+        }
+        return $moduleToCheck;
     }
 
     private function getInterfaceString($moduleName, $class, $info, $parametersToSet, $outputExampleUrls, $prefixUrls)

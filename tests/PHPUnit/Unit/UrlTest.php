@@ -375,6 +375,34 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Url::getCurrentUrlWithoutQueryString());
     }
 
+    /**
+     * Tests a use case that was reported by some users: Nginx is not properly configured and passes
+     * incorrect PATH_INFO values in $_SERVER.
+     * @link https://github.com/piwik/piwik/issues/6491
+     * @group Core
+     */
+    public function testMisconfiguredNginxPathInfo()
+    {
+        $this->resetGlobalVariables();
+
+        // these variables where taken from a bug report
+        $_SERVER = array(
+            'QUERY_STRING' => 'foo=bar',
+            'PATH_INFO' => '/test.php', // Nginx passed a wrong value here (should be empty)
+            'SCRIPT_NAME' => '/test.php',
+            'REQUEST_URI' => '/test.php?foo=bar',
+            'DOCUMENT_URI' => '/test.php',
+            'SERVER_PROTOCOL' => 'HTTP/1.1',
+            'SERVER_NAME' => 'example.com',
+            'HTTP_HOST' => 'example.com',
+            'PHP_SELF' => '/test.php/test.php', // Nginx passed a wrong value here (should be /test.php)
+        );
+
+        $expectedUrl = 'http://example.com/test.php?foo=bar';
+
+        $this->assertEquals($expectedUrl, Url::getCurrentUrl());
+    }
+
     private function resetGlobalVariables()
     {
         $names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS',
