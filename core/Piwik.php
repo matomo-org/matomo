@@ -189,7 +189,12 @@ class Piwik
      */
     public static function getCurrentUserLogin()
     {
-        return Access::getInstance()->getLogin();
+        $login = Access::getInstance()->getLogin();
+
+        if(empty($login)) {
+            return 'anonymous';
+        }
+        return $login;
     }
 
     /**
@@ -296,7 +301,8 @@ class Piwik
      */
     public static function isUserIsAnonymous()
     {
-        return Piwik::getCurrentUserLogin() == 'anonymous';
+        $currentUserLogin = Piwik::getCurrentUserLogin();
+        return $currentUserLogin == 'anonymous';
     }
 
     /**

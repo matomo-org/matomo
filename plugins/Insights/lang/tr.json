@@ -1,0 +1,11 @@
+{
+    "Insights": {
+        "DayComparedToPreviousDay": "önceki gün",
+        "DayComparedToPreviousWeek": "bir önceki haftanın aynı günü",
+        "DayComparedToPreviousYear": "bir önceki yılın aynı günü",
+        "Filter": "Filtre",
+        "FilterOnlyNew": "Sadece yeni",
+        "WeekComparedToPreviousWeek": "önceki hafta",
+        "YearComparedToPreviousYear": "önceki yıl"
+    }
+}

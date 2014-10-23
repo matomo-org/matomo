@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+
+		<title>jScrollPane - settings object documentation</title>
+
+		<!-- styles specific to demo site -->
+		<link type="text/css" href="style/demo.css" rel="stylesheet" media="all" />
+
+		<!-- latest jQuery direct from google's CDN -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<!-- scripts specific to this demo site -->
+		<script type="text/javascript" src="script/demo.js"></script>
+	</head>
+	<body>
+		<div id="top-nav">
+			<img src="image/logo.png" width="196" height="69" alt="jScrollPane">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="index.html#examples">Examples</a></li>
+				<li><a href="index.html#themes">Themes</a></li>
+				<li><a href="index.html#usage">How to use</a></li>
+				<li><a href="faqs.html">FAQs</a></li>
+				<li><a href="known_issues.html">Known issues</a></li>
+				<li><a href="index.html#support">Support</a></li>
+				<li><a href="index.html#download">Download</a></li>
+			</ul>
+		</div>
+		<div id="container">
+			<h1>jScrollPane - settings object documentation</h1>
+			<p>
+				This page details the various options that you can pass into the settings object when you initialise
+				jScrollPane. Note that there is also a number of changes you can make through the <a href="api.html">
+				API</a> after the scrollpane is already initialised and a number of <a href="events.html">events</a> you
+				can listen to.
+			</p>
+			<h2 id="showArrows">showArrows <span class="setting-type">- boolean (default false)</span></h2>
+			<p>
+				Whether arrows should be shown on the generated scroll pane. When set to false only the scrollbar track
+				and drag will be shown, if set to true then arrows buttons will also be shown. <a href="arrows.html">
+				Demo</a>.
+			</p>
+			<h2 id="maintainPosition">maintainPosition <span class="setting-type">- boolean (default true)</span></h2>
+			<p>
+				Whether the scrollpane should attempt to maintain it's position whenever it is reinitialised. If true
+				then the viewport of the scrollpane will remain the same when it is reinitialised, if false then the
+				viewport will jump back up to the top when the scrollpane is reinitialised. See also
+				<a href="#stickToBottom">stickToBottom</a> and <a href="#stickToRight">stickToRight</a>.
+			</p>
+			<h2 id="stickToBottom">stickToBottom<span class="setting-type">- boolean (default false)</span></h2>
+			<p>
+				If <a href="#maintainPosition">maintainPosition</a> is true and the scrollpane is scrolled to the
+				bottom then the scrollpane then the scrollpane will remain scrolled to the bottom even if new content
+				is added to the pane which makes it taller.
+			</p>
+			<h2 id="stickToRight">stickToRight<span class="setting-type">- boolean (default false)</span></h2>
+			<p>
+				If <a href="#maintainPosition">maintainPosition</a> is true and the scrollpane is scrolled to its
+				right edge then the scrollpane then the scrollpane will remain scrolled to the right edge even if new
+				content is added to the pane which makes it wider.
+			</p>
+			<h2 id="autoReinitialise">autoReinitialise <span class="setting-type">- boolean (default false)</span></h2>
+			<p>
+				Whether jScrollPane should automatically reinitialise itself periodically after you have initially
+				initialised it. This can help with instances when the size of the content of the scrollpane (or the
+				surrounding element) changes. However, it does involve an overhead of running a javascript function on
+				a timer so it is recommended only to activate where necessary. <a href="auto_reinitialise.html">Demo</a>.
+			</p>
+			<h2 id="autoReinitialiseDelay">autoReinitialiseDelay <span class="setting-type">- int (default 500)</span></h2>
+			<p>
+				The number of milliseconds between each reinitialisation (if <a href="#autoReinitialise">autoReinitialise</a>
+				is true).
+			</p>
+			<h2 id="verticalDragMinHeight">verticalDragMinHeight <span class="setting-type">- int (default 0)</span></h2>
+			<p>
+				The smallest height that the vertical drag can have. The size of the drag elements is based on the
+				proportion of the size of the content to the size of the viewport but is contrained within the minimum
+				and maximum dimensions given. <a href="drag_size.html">Demo</a>.
+			</p>
+			<h2 id="verticalDragMaxHeight">verticalDragMaxHeight <span class="setting-type">- int (default 99999)</span></h2>
+			<p>
+				See <a href="#verticalDragMinHeight">verticalDragMinHeight</a>.
+			</p>
+			<h2 id="horizontalDragMinWidth">horizontalDragMinWidth <span class="setting-type">- int (default 0)</span></h2>
+			<p>
+				See <a href="#verticalDragMinHeight">verticalDragMinHeight</a>.
+			</p>
+			<h2 id="horizontalDragMaxWidth">horizontalDragMaxWidth <span class="setting-type">- int (default 99999)</span></h2>
+			<p>
+				See <a href="#verticalDragMinHeight">verticalDragMinHeight</a>.
+			</p>
+			<h2 id="contentWidth">contentWidth <span class="setting-type">- int (default undefined)</span></h2>
+			<p>
+				The width of the content of the scroll pane. The default value of undefined will allow jScrollPane to
+				calculate the width of it's content. However, in some cases you will want to disable this (e.g. to
+				prevent horizontal scrolling or where the calculation of the size of the content doesn't return reliable
+				results)
+			</p>
+			<h2 id="animateScroll">animateScroll <span class="setting-type">- boolean (default false)</span></h2>
+			<p>
+				Whether to use animation when calling <a href="api.html#scrollTo">scrollTo</a> or <a href="api.html#scrollBy">
+				scrollBy</a>. You can control the animation speed and easing by using the <a href="#animateDuration">
+				animateDuration</a> and <a href="#animateEase">animateEase</a> settings or if you want to exercise more
+				complete control then you can override the <a href="api.html#animate">animate</a> API method.
+				<a href="scroll_to_animate.html">Demo</a>.
+			</p>
+			<h2 id="animateDuration">animateDuration <span class="setting-type">- int (default 300)</span></h2>
+			<p>
+				The number of milliseconds taken to animate to a new position (see <a href="#animateScroll">animateScroll
+				</a>).
+			</p>
+			<h2 id="animateEase">animateEase <span class="setting-type">- string (default 'linear')</span></h2>
+			<p>
+				The type of easing to use when animating to a new position (see <a href="#animateScroll">animateScroll
+				</a> and <a href="http://api.jquery.com/animate/#easing">easing</a>).
+			</p>
+			<h2 id="hijackInternalLinks">hijackInternalLinks <span class="setting-type">- boolean (default false)</span></h2>
+			<p>
+				Whether internal links on the page should be hijacked so that if they point so content within a
+				jScrollPane then they automatically scroll the jScrollPane to the correct place. <a href="anchors.html">
+				Demo</a>.
+			</p>
+			<h2 id="verticalGutter">verticalGutter <span class="setting-type">- int (default 4)</span></h2>
+			<p>
+				The amount of space between the side of the content and the vertical scrollbar.
+			</p>
+			<h2 id="horizontalGutter">horizontalGutter <span class="setting-type">- int (default 4)</span></h2>
+			<p>
+				The amount of space between the bottom of the content and the horizontal scrollbar.
+			</p>
+			<h2 id="mouseWheelSpeed">mouseWheelSpeed <span class="setting-type">- int (default 10)</span></h2>
+			<p>
+				A multiplier which is used to control the amount that the scrollpane scrolls each time the mouse wheel
+				is turned.
+			</p>
+			<h2 id="arrowButtonSpeed">arrowButtonSpeed <span class="setting-type">- int (default 10)</span></h2>
+			<p>
+				A multiplier which is used to control the amount that the scrollpane scrolls each time on of the arrow
+				buttons is pressed.
+			</p>
+			<h2 id="arrowRepeatFreq">arrowRepeatFreq <span class="setting-type">- int (default 100)</span></h2>
+			<p>
+				The number of milliseconds between each repeated scroll event when the mouse is held down over one of
+				the arrow keys.
+			</p>
+			<h2 id="arrowScrollOnHover">arrowScrollOnHover <span class="setting-type">- boolean (default false)</span></h2>
+			<p>
+				Whether the arrow buttons should cause the jScrollPane to scroll while you are hovering over them.
+				<a href="arrow_hover.html">Demo</a>.
+			</p>
+			<h2 id="verticalArrowPositions">
+				verticalArrowPositions <span class="setting-type">- string [split|before|after|os] (default split)</span>
+			</h2>
+			<p>
+				Where the vertical arrows should appear relative to the vertical track. <a href="arrow_positions.html">
+				Demo</a>.
+			</p>
+			<h2 id="horizontalArrowPositions">
+				horizontalArrowPositions <span class="setting-type">- string [split|before|after|os] (default split)</span>
+			</h2>
+			<p>
+				Where the horizontal arrows should appear relative to the horizontal track. <a href="arrow_positions.html">
+				Demo</a>.
+			</p>
+			<h2 id="enableKeyboardNavigation">
+				enableKeyboardNavigation <span class="setting-type">- boolean (default true)</span>
+			</h2>
+			<p>
+				Whether keyboard navigation should be enabled (e.g. whether the user can focus the scrollpane and then
+				use the arrow (and other) keys to navigate around.
+			</p>
+			<h2 id="hideFocus">
+				hideFocus <span class="setting-type">- boolean (default false)</span>
+			</h2>
+			<p>
+				Whether the focus outline should be hidden in all browsers. For best accessibility you should not change
+				this option. You can style the outline with the CSS property outline and outline-offset.
+			</p>
+			<h2 id="clickOnTrack">
+				clickOnTrack <span class="setting-type">- boolean (default true)</span>
+			</h2>
+			<p>
+				Whether clicking on the track (e.g. the area behind the drag) should scroll towards the point clicked on.
+				Defaults to true as this is the native behaviour in these situations.
+			</p>
+			<h2 id="trackClickSpeed">trackClickSpeed <span class="setting-type">- int (default 30)</span></h2>
+			<p>
+				A multiplier which is used to control the amount that the scrollpane scrolls each trackClickRepeatFreq
+				while the mouse button is held down over the track.
+			</p>
+			<h2 id="trackClickRepeatFreq">trackClickRepeatFreq <span class="setting-type">- int (default 100)</span></h2>
+			<p>
+				The number of milliseconds between each repeated scroll event when the mouse is held down over the
+				track.
+			</p>
+
+		</div>
+	</body>
+</html>

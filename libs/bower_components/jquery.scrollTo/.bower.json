@@ -1,0 +1,41 @@
+{
+  "name": "jquery.scrollTo",
+  "version": "1.4.13",
+  "description": "Easy element scrolling using jQuery.",
+  "homepage": "https://github.com/flesler/jquery.scrollTo",
+  "main": [
+    "./jquery.scrollTo.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "demo",
+    "tests",
+    "changes.txt",
+    "composer.json"
+  ],
+  "dependencies": {
+    "jquery": ">=1.8"
+  },
+  "keywords": [
+    "browser",
+    "animated",
+    "animation",
+    "scrolling",
+    "scroll",
+    "links",
+    "anchors"
+  ],
+  "author": {
+    "name": "Ariel Flesler",
+    "web": "http://flesler.blogspot.com/"
+  },
+  "_release": "1.4.13",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.4.13",
+    "commit": "f6274158cefae9dbfae7c13925c6d25c5081d1c4"
+  },
+  "_source": "git://github.com/flesler/jquery.scrollTo.git",
+  "_target": "~1.4.13",
+  "_originalSource": "jquery.scrollTo"
+}

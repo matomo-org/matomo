@@ -1,0 +1,301 @@
+@charset "utf-8";
+/* CSS Document */
+@font-face {
+	font-family: 'HelveticaNeueThin';
+	src: url('helveticaneue-thin-webfont.eot');
+	src: local('‰÷¼'), url('helveticaneue-thin-webfont.woff') format('woff'), url('helveticaneue-thin-webfont.ttf') format('truetype'), url('helveticaneue-thin-webfont.svg#webfont2SG3yTkB') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+}
+
+body {
+	font-family: 'HelveticaNeueThin',Helvetica,Arial,sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	line-height: normal;
+	font-size-adjust: 0.51;
+	margin: 0px;
+	color: #fff;
+	background-color: #000;
+	overflow:hidden;
+}
+
+P, A {
+	font-size: 1em;
+	line-height: 1.2em;
+}
+
+P {
+	text-align: justify;
+	margin-bottom: 1.0em;
+}
+
+a:active {color:#e0262f; text-decoration: none;}  /* selected link */
+a:visited {color:#c62128; text-decoration: none;}  /* visited link */
+a:link {color:#d2232a; text-decoration: none;}      /* unvisited link */
+a:hover {color:#df262e; text-decoration: underline;}  /* mouse over link */
+
+LI LI, LI LI A, TD, TD P, BLOCKQUOTE P {
+	font-size: 1em;
+	line-height: 1.2em;
+}
+
+TABLE {
+	border: none;
+}
+
+TD {
+	vertical-align: top;
+	padding: 0px;
+}
+
+A {
+	outline: none;
+}
+
+A IMG {
+	border: none;
+}
+
+object { outline:none; }
+
+.red {
+	color: #d2232a;
+}
+
+STRONG {
+	color: #d2232a;
+	font-weight: bold;
+}
+
+h1,h2,h3,h4,h5 {
+	color: #d2232a;
+}
+
+h1 {
+	font-size: 1.6em;
+	font-weight: normal;
+	font-style: normal;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+h2 {
+	font-size: 1.3em;
+	font-weight: normal;
+	font-style: italic;
+	margin-top: 0.8em;
+	margin-bottom: 0px;
+}
+
+h5 {
+	font-size: 0.8em;
+	margin: 0.5em 0px 0px 0px;
+}
+
+hr {
+	color: #ff0000;
+}
+
+/* ----------------- begin supersize --------------------- */
+
+#loading {
+	position: absolute;
+	top: 49.5%;
+	left: 49.5%;
+	z-index: 5;
+	width: 24px;
+	height: 24px;
+	text-indent: -999em;
+	background-image: url('../__imgs/furn/loading.gif');
+}
+
+#supersize {
+	position:fixed;
+}
+
+#supersize img, #supersize a {
+	height:100%;
+	width:100%;
+	position:absolute;
+	z-index: 0;
+}
+
+#supersize img {
+    image-rendering: optimizeQuality;  /* Firefox 3.6+; default behavior is identical, no need to specify */
+    -ms-interpolation-mode: bicubic;   /* Internet Explorer 7.0; default in IE8+ */
+}
+
+#supersize .prevslide, #supersize .prevslide img {
+	z-index: 1;
+}
+
+#supersize .activeslide, #supersize .activeslide img {
+	z-index: 2;
+}
+
+/* ------------------ end supersize ---------------------- */
+
+/* ------------------- begin header ---------------------- */
+
+#header {
+	position: absolute;
+	top: 15px;
+	width: 100%;
+	margin: 0px auto;
+	z-index: 4;
+	text-align: center;
+}
+
+#header p {
+	text-align: center;
+	margin-top: 0.5em;
+	}
+
+/* -------------------- end header ----------------------- */
+
+/* ------------------- begin content --------------------- */
+
+#content {
+	z-index: 3;
+	background-color: #000;
+	background-color: rgba(0,0,0,0.9);
+	position: absolute;
+	left: 0px;
+	bottom: 17%;
+	height: 62%;
+	width: 45%;
+	border: 1px solid #555;
+	border-left: 0px;
+	padding: 0px;
+	padding-left: 30px;
+	padding-right: 20px;
+	overflow: auto;
+}
+
+.frontpage #content {
+	visibility: hidden;
+}
+
+.gallerypage #content {
+	border: none;
+	width: 100%;
+	height: 33em;
+	bottom: 15%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.gallerypage #content p {
+	text-align: center;
+}
+
+.videopage #content {
+	border: none;
+	width: 100%;
+	height: 65%;
+	bottom: 15%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.videopage #content p {
+	text-align: center;
+}
+
+
+/* -------------------- end content ---------------------- */
+
+/* ----------------- begin navigation -------------------- */
+
+#navigate {
+	position: absolute;
+	height: 4em;
+	width: 100%;
+	padding: 0px;
+	margin: 0px auto;
+	bottom: 5%;
+	z-index: 3;
+	background-color: #000;
+	background-color: rgba(0,0,0,0.9);
+	border: 1px solid #555;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+#nav, #nav ul {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	list-style-position: outside;
+	position: relative;
+	line-height: 1.6em;
+}
+
+#nav {
+	padding: 0.4em;
+}
+
+#nav a {
+	display: block;
+	height: 1.6em;
+	padding: 0px 10px;
+	text-decoration:none;
+	line-height: 1.6em;
+	background-color: #000;
+	background-color: rgba(0,0,0,0.9); /* bug in Opera!!! */
+}
+
+#nav a:link, #nav a:active, #nav a:visited {
+	color: #fff;
+}
+
+#nav a:hover {
+	color: #d2232a;
+}
+
+#nav li {
+	float: left;
+	font-size: 1em;
+	line-height: 1.6em;
+}
+
+#nav ul {
+	position:absolute;
+	display: none;
+}
+
+#nav ul li a {
+	float: left;
+	font-size: 1em;
+	line-height: 1.6em;
+}
+
+#nav li:hover ul ul, #nav li:hover ul ul ul, #nav li:hover ul ul ul ul {
+	display: none;
+}
+
+#nav li:hover ul, #nav li li:hover ul, #nav li li li:hover ul, #nav li li li li:hover ul {
+	display: block;
+	height: 1.6em;
+}
+
+/* ------------------ end navigation --------------------- */
+
+/* ------------------ begin viewcart --------------------- */
+
+#viewcart {
+	z-index: 4;
+	background-color: #000;
+	background-color: rgba(0,0,0,0.9);
+	position: absolute;
+	right: 10px;
+	bottom: 5.5%;
+	height: 51px;
+	width: 130px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+/* ------------------- end viewcart ---------------------- */

@@ -377,7 +377,7 @@ class Model
 
     private function getDb()
     {
-        return \Piwik\Db::get();
+        return Tracker::getDatabase();
     }
 
 }

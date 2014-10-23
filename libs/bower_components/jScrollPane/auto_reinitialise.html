@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+
+		<title>jScrollPane - automatic reinitialise demo page</title>
+
+		<!-- styles specific to demo site -->
+		<link type="text/css" href="style/demo.css" rel="stylesheet" media="all" />
+		<!-- styles needed by jScrollPane - include in your own sites -->
+		<link type="text/css" href="style/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+
+		<style type="text/css" id="page-css">
+			/* Styles specific to this particular page */
+			.scroll-pane
+			{
+				width: 100%;
+				height: 200px;
+				overflow: auto;
+			}
+		</style>
+
+		<!-- latest jQuery direct from google's CDN -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<!-- the mousewheel plugin -->
+		<script type="text/javascript" src="script/jquery.mousewheel.js"></script>
+		<!-- the jScrollPane script -->
+		<script type="text/javascript" src="script/jquery.jscrollpane.min.js"></script>
+		<!-- scripts specific to this demo site -->
+		<script type="text/javascript" src="script/demo.js"></script>
+
+		<script type="text/javascript" id="sourcecode">
+			$(function()
+			{
+				var settings = {
+					showArrows: true,
+					autoReinitialise: true
+				};
+				var pane = $('.scroll-pane')
+				pane.jScrollPane(settings);
+				var contentPane = pane.data('jsp').getContentPane();
+				var i = 1;
+
+				// Every second add some new content...
+				setInterval(
+					function()
+					{
+						contentPane.append(
+							$('<p />').text('This is paragraph number ' + i++)
+						);
+					},
+					1000
+				);
+			});
+		</script>
+	</head>
+	<body>
+		<div id="top-nav">
+			<img src="image/logo.png" width="196" height="69" alt="jScrollPane">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="index.html#examples">Examples</a></li>
+				<li><a href="index.html#themes">Themes</a></li>
+				<li><a href="index.html#usage">How to use</a></li>
+				<li><a href="faqs.html">FAQs</a></li>
+				<li><a href="known_issues.html">Known issues</a></li>
+				<li><a href="index.html#support">Support</a></li>
+				<li><a href="index.html#download">Download</a></li>
+			</ul>
+		</div>
+		<div id="container">
+			<h1>jScrollPane - automatic reinitialisation demo page</h1>
+			<p>
+				This demonstration shows how you can tell jScrollPane to automatically reinitialise itself. You do this
+				by passing in <strong><a href="settings.html#autoReinitialise">autoReinitialise</a>: true</strong> as a
+				setting. If you do this then the scrollpane attempts to reinitialise itself every
+				<a href="settings.html#autoReinitialiseDelay">autoReinitialiseDelay</a> miliseconds.
+			</p>
+			<p>
+				Note that there is obviously a processing overhead associated with this method as the script is running
+				repeatedly in the background. For this reason <strong>autoReinitialise</strong> is false by default and
+				if possible you are recommended to <a href="dynamic_content.html">manually reinitialise</a>
+				jScrollPane when you add content to it. However, in some situations this isn't possible so the
+				<strong>autoReinitialise</strong> method is provided for convenience.
+			</p>
+			<div class="scroll-pane">
+			</div>
+			<h2>Page javascript</h2>
+			<div id="sourcecode-display">
+				<p>The contents of this div will be replaced by the javascript added to this page</p>
+			</div>
+			<h2>Page CSS</h2>
+			<div id="css-display">
+				<p>The contents of this div will be replaced by the CSS added to this page</p>
+			</div>
+		</div>
+	</body>
+</html>

@@ -54,6 +54,14 @@ class Core_AccessTest extends IntegrationTestCase
         $this->assertTrue($access->hasSuperUserAccess());
     }
 
+    public function test_GetLogin_UserIsNotAnonymous_WhenSuperUserAccess()
+    {
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(true);
+        $this->assertNotEmpty($access->getLogin());
+        $this->assertNotSame('anonymous', $access->getLogin());
+    }
+
     public function testHasSuperUserAccessWithNoSuperUserAccess()
     {
         $access = Access::getInstance();

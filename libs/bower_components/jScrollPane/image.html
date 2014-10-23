@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+
+		<title>jScrollPane image demo</title>
+
+		<!-- styles specific to demo site -->
+		<link type="text/css" href="style/demo.css" rel="stylesheet" media="all" />
+		<!-- styles needed by jScrollPane - include in your own sites -->
+		<link type="text/css" href="style/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+
+		<style type="text/css" id="page-css">
+			/* Styles specific to this particular page */
+			.scroll-pane
+			{
+				width: 100%;
+				height: 400px;
+				overflow: auto;
+			}
+
+			img
+			{
+				margin: 1em 0;
+			}
+		</style>
+
+		<!-- latest jQuery direct from google's CDN -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<!-- the mousewheel plugin -->
+		<script type="text/javascript" src="script/jquery.mousewheel.js"></script>
+		<!-- the jScrollPane script -->
+		<script type="text/javascript" src="script/jquery.jscrollpane.min.js"></script>
+		<!-- scripts specific to this demo site -->
+		<script type="text/javascript" src="script/demo.js"></script>
+
+		<script type="text/javascript" id="sourcecode">
+			$(function()
+			{
+				$('.scroll-pane').jScrollPane(
+					{
+						autoReinitialise: true
+					}
+				);
+			});
+		</script>
+	</head>
+	<body>
+		<div id="top-nav">
+			<img src="image/logo.png" width="196" height="69" alt="jScrollPane">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="index.html#examples">Examples</a></li>
+				<li><a href="index.html#themes">Themes</a></li>
+				<li><a href="index.html#usage">How to use</a></li>
+				<li><a href="faqs.html">FAQs</a></li>
+				<li><a href="known_issues.html">Known issues</a></li>
+				<li><a href="index.html#support">Support</a></li>
+				<li><a href="index.html#download">Download</a></li>
+			</ul>
+		</div>
+		<div id="container">
+			<h1>jScrollPane - image demo page</h1>
+			<p>
+				This demonstration shows how jScrollPane can handle it when some slow loading images are included
+				in the contents of the pane.
+			</p>
+			<p>
+				We use <a href="settings.html#autoReinitialise">autoReinitialse</a> so that the scrollpane automatically
+				re-calculates the size of it's content if and when it changes. Note that use of this property adds an
+				overhead to your page and is subject to the same warnings on the <a href="auto_reinitialise.html">auto
+				reinitialise demo</a> page.
+			</p>
+			<p>
+				If you can it is better to include width and height for each image (either through width and height
+				attributes or via CSS) in the markup. That way you can avoid the autoReinitialise cost. See
+				<a href="image2.html">this demo</a> for an example of that approach.
+			</p>
+			<div class="scroll-pane">
+				<img src="http://farm5.static.flickr.com/4068/4502147230_61d4f18460_z.jpg" alt="Touring" />
+				<img src="http://farm5.static.flickr.com/4065/4501530717_8a7f9c8ce8_z.jpg" alt="Avalauncher" />
+				<img src="http://farm5.static.flickr.com/4034/4502145190_d7ae16127b_z.jpg" alt="Rockies" />
+				<img src="http://farm5.static.flickr.com/4003/4409969018_16cc9d8bf1_z.jpg" alt="Paper cranes" />
+				<img src="http://farm5.static.flickr.com/4064/4407630907_1430d32efa_z.jpg" alt="Icecream">
+			</div>
+			<h2>Page javascript</h2>
+			<div id="sourcecode-display">
+				<p>The contents of this div will be replaced by the javascript added to this page</p>
+			</div>
+			<h2>Page CSS</h2>
+			<div id="css-display">
+				<p>The contents of this div will be replaced by the CSS added to this page</p>
+			</div>
+		</div>
+	</body>
+</html>

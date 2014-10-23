@@ -1,0 +1,17 @@
+{
+  "name": "jquery-mousewheel",
+  "version": "3.1.12",
+  "main": "./jquery.mousewheel.js",
+  "ignore": [
+    "*.json",
+    "*.markdown",
+    "*.txt",
+    ".*",
+    "!LICENSE.txt",
+    "Gruntfile.js",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": ">=1.2.2"
+  }
+}

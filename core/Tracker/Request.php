@@ -270,7 +270,7 @@ class Request
             'ec_tx'        => array(false, 'float'),
             'ec_sh'        => array(false, 'float'),
             'ec_dt'        => array(false, 'float'),
-            'ec_items'     => array('', 'string'),
+            'ec_items'     => array('', 'json'),
 
             // Events
             'e_c'          => array(false, 'string'),

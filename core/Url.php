@@ -66,8 +66,7 @@ class Url
     {
         return self::getCurrentScheme() . '://'
         . self::getCurrentHost()
-        . self::getCurrentScriptName()
-        . self::getCurrentPathInfo()
+        . self::getCurrentScriptName(false)
         . self::getCurrentQueryString();
     }
 
@@ -84,8 +83,7 @@ class Url
     {
         return self::getCurrentScheme() . '://'
         . self::getCurrentHost($default = 'unknown', $checkTrustedHost)
-        . self::getCurrentScriptName()
-        . self::getCurrentPathInfo();
+        . self::getCurrentScriptName(false);
     }
 
     /**
@@ -127,11 +125,12 @@ class Url
     /**
      * Returns the path to the script being executed. Includes the script file name.
      *
+     * @param bool $removePathInfo If true (default value) then the PATH_INFO will be stripped.
      * @return string eg, `"/dir1/dir2/index.php"` if the current URL is
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
-    public static function getCurrentScriptName()
+    public static function getCurrentScriptName($removePathInfo = true)
     {
         $url = '';
 
@@ -149,7 +148,7 @@ class Url
             }
 
             // strip path_info
-            if (isset($_SERVER['PATH_INFO'])) {
+            if ($removePathInfo && isset($_SERVER['PATH_INFO'])) {
                 $url = substr($url, 0, -strlen($_SERVER['PATH_INFO']));
             }
         }
@@ -173,24 +172,6 @@ class Url
             $url = '/' . $url;
         }
         return $url;
-    }
-
-    /**
-     * Returns the current PATH_INFO from the request.
-     *
-     * Contains any client-provided pathname information trailing the actual
-     * script filename but preceding the query string, if available.
-     *
-     * For instance, if the current script was accessed via the URL
-     * http://www.example.com/php/path_info.php/some/stuff?foo=bar
-     * then getCurrentPathInfo() would return "/some/stuff".
-     *
-     * @return string
-     * @api
-     */
-    public static function getCurrentPathInfo()
-    {
-        return isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
     }
 
     /**

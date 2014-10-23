@@ -83,7 +83,7 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(206, $result['status']);
             $this->assertTrue(isset($result['headers']['Content-Range']));
             $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
-            $this->assertEquals('application/x-javascript', $result['headers']['Content-Type']);
+            $this->assertTrue( in_array($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript')));
         }
     }
 

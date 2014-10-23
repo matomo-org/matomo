@@ -1,5 +1,6 @@
 {
     "Installation": {
+        "CannotConnectToDb": "Veritabanına bağlanamadı",
         "Congratulations": "Tebrikler",
         "CongratulationsHelp": "<p>Tebrikler! Piwik Başarıyla kuruldu.<\/p><p>JavaScript kodunu sayfalarınıza yerleştirdiğinizden emin olun ve ilk ziyaretçilerinizi beklemeye başlayın!<\/p>",
         "DatabaseCreation": "Veritabaı oluşturma",
@@ -11,10 +12,12 @@
         "DatabaseSetupTablePrefix": "Tablo öneki",
         "Email": "eposta",
         "Extension": "eklenti",
+        "Filesystem": "Dosya sistemi",
         "Installation": "Yükleme",
         "InstallationStatus": "Yükleme durumu",
         "LargePiwikInstances": "Büyük Piwik örnekleri için yardım",
         "Legend": "Gösterge",
+        "NfsFilesystemWarning": "Sunucunuz NFS dosya sistemini kullanıyor.",
         "Optional": "Opsiyonel",
         "Password": "Şifre",
         "PasswordDoNotMatch": "Girilen şifreler aynı değil.",

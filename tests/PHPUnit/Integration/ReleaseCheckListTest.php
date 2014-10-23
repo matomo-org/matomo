@@ -270,13 +270,14 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 strpos($file, '/tests/') !== false ||
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
+                strpos($file, '/libs/bower_components') !== false ||
                 strpos($file, '/tmp/') !== false
             ) {
                 continue;
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip)$/', $file)) {
                 continue;
             }
 
@@ -366,9 +367,9 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     {
         $isIniFileInTests = strpos($file, "/tests/") !== false;
         $isTestResultFile = strpos($file, "/System/expected") !== false
-            || strpos($file, "/System/processed") !== false
             || strpos($file, "tests/resources/Updater/") !== false
             || strpos($file, "Twig/Tests/") !== false
+            || strpos($file, "processed/") !== false
             || strpos($file, "/vendor/") !== false;
         $isLib = strpos($file, "lib/xhprof") !== false || strpos($file, "phpunit/phpunit") !== false;
 

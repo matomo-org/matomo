@@ -1,0 +1,1 @@
+Mousetrap=function(b){var c=b.bind,a;b.bind=function(){a=arguments;if("string"==typeof a[0]||a[0]instanceof Array)return c(a[0],a[1],a[2]);for(var b in a[0])a[0].hasOwnProperty(b)&&c(b,a[0][b],a[1])};return b}(Mousetrap);

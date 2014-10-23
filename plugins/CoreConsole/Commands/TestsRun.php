@@ -148,7 +148,7 @@ class TestsRun extends ConsoleCommand
 
     private function buildPhpUnitCliParams($suite, $groups, $options)
     {
-        $params = $options;
+        $params = $options . " ";
 
         if (!empty($groups)) {
             $groups  = implode(',', $groups);
