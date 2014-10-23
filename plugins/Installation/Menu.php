@@ -16,7 +16,7 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::hasUserSuperUserAccess()) {
-            $menu->addSettingsItem('Installation_SystemCheck',
+            $menu->addDiagnosticItem('Installation_SystemCheck',
                                    $this->urlForAction('systemCheckPage'),
                                    $order = 15);
         }
