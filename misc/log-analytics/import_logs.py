@@ -1333,7 +1333,7 @@ class Recorder(object):
                 idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
             )
             print('\nTo re-process these reports with your newly imported data, execute the following command: \n'
-                  '$ /path/to/piwik/console core:archive --url=http://example/piwik/\n'
+                  '$ /path/to/piwik/console core:archive --url=http://example/piwik --force-all-websites --force-all-periods=315576000 --force-date-last-n=1000'
                   '\nReference: http://piwik.org/docs/setup-auto-archiving/ ')
 
 class Hit(object):
