@@ -151,8 +151,23 @@ class API extends \Piwik\Plugin\API
      * @param string $date
      * @param bool|string $segment
      * @return DataTable
+     *
+     * @deprecated since 2.9.0   Use {@link getBrowsers} instead.
      */
     public function getBrowserFamilies($idSite, $period, $date, $segment = false)
+    {
+        $this->getBrowsers($idSite, $period, $date, $segment);
+    }
+
+    /**
+     * Gets datatable displaying number of visits by Browser (Without version)
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
+     * @param bool|string $segment
+     * @return DataTable
+     */
+    public function getBrowsers($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserFamilyFullName'));
