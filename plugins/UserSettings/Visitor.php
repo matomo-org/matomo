@@ -63,46 +63,6 @@ class Visitor
         return null;
     }
 
-    function getOperatingSystemCode()
-    {
-        return $this->details['config_os'];
-    }
-
-    function getOperatingSystem()
-    {
-        return getOSLabel($this->details['config_os']);
-    }
-
-    function getOperatingSystemShortName()
-    {
-        return getOSShortLabel($this->details['config_os']);
-    }
-
-    function getOperatingSystemIcon()
-    {
-        return getOSLogo($this->details['config_os']);
-    }
-
-    function getBrowserCode()
-    {
-        return $this->details['config_browser_name'];
-    }
-
-    function getBrowserVersion()
-    {
-        return $this->details['config_browser_version'];
-    }
-
-    function getBrowser()
-    {
-        return getBrowserLabel($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
-    }
-
-    function getBrowserIcon()
-    {
-        return getBrowsersLogo($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
-    }
-
     function getScreenType()
     {
         if (!array_key_exists('config_resolution', $this->details)) {
