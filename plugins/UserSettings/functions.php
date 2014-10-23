@@ -11,12 +11,6 @@ namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
-use UserAgentParser;
-
-/**
- * @see libs/UserAgentParser/UserAgentParser.php
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 
 function getPluginsLogo($oldLabel)
 {
@@ -26,44 +20,6 @@ function getPluginsLogo($oldLabel)
     return 'plugins/UserSettings/images/plugins/' . $oldLabel . '.gif';
 }
 
-function getOSLabel($osId)
-{
-    $osName = UserAgentParser::getOperatingSystemNameFromId($osId);
-    if ($osName !== false) {
-        return $osName;
-    }
-    if ($osId == 'UNK') {
-        return Piwik::translate('General_Unknown');
-    }
-    return $osId;
-}
-
-function getOSShortLabel($osId)
-{
-    $osShortName = UserAgentParser::getOperatingSystemShortNameFromId($osId);
-    if ($osShortName !== false) {
-        return $osShortName;
-    }
-    if ($osId == 'UNK') {
-        return Piwik::translate('General_Unknown');
-    }
-    return $osId;
-}
-
-function getOSFamily($osLabel)
-{
-    $osId = UserAgentParser::getOperatingSystemIdFromName($osLabel);
-    $osFamily = UserAgentParser::getOperatingSystemFamilyFromId($osId);
-
-    if ($osFamily == 'unknown') {
-        $osFamily = Piwik::translate('General_Unknown');
-    } else if ($osFamily == 'Gaming Console') {
-        $osFamily = Piwik::translate('UserSettings_GamingConsole');
-    }
-
-    return $osFamily;
-}
-
 function getConfigurationLabel($str)
 {
     if (strpos($str, ';') === false) {
@@ -71,52 +27,14 @@ function getConfigurationLabel($str)
     }
     $values = explode(";", $str);
 
-    $os = getOSLabel($values[0]);
+    $os = \Piwik\Plugins\DevicesDetection\getOsFullName($values[0]);
     $name = $values[1];
-    $browser = UserAgentParser::getBrowserNameFromId($name);
+    $browser = \Piwik\Plugins\DevicesDetection\getBrowserName($name);
     if ($browser === false) {
         $browser = Piwik::translate('General_Unknown');
     }
     $resolution = $values[2];
     return $os . " / " . $browser . " / " . $resolution;
-}
-
-function getBrowserLabel($oldLabel)
-{
-    $browserId = getBrowserId($oldLabel);
-    $version = getBrowserVersion($oldLabel);
-    $browserName = UserAgentParser::getBrowserNameFromId($browserId);
-    if ($browserName !== false) {
-        return $browserName . " " . $version;
-    }
-    if ($browserId == 'UNK') {
-        return Piwik::translate('General_Unknown');
-    }
-    return $oldLabel;
-}
-
-function getBrowserShortLabel($oldLabel)
-{
-    $browserId = getBrowserId($oldLabel);
-    $version = getBrowserVersion($oldLabel);
-    $browserName = UserAgentParser::getBrowserShortNameFromId($browserId);
-    if ($browserName !== false) {
-        return $browserName . " " . $version;
-    }
-    if ($browserId == 'UNK') {
-        return Piwik::translate('General_Unknown');
-    }
-    return $oldLabel;
-}
-
-function getBrowserId($str)
-{
-    return substr($str, 0, strpos($str, ';'));
-}
-
-function getBrowserVersion($str)
-{
-    return substr($str, strpos($str, ';') + 1);
 }
 
 function getLogoImageFromId($dir, $id)
@@ -129,41 +47,9 @@ function getLogoImageFromId($dir, $id)
     }
 }
 
-function getBrowsersLogo($label)
-{
-    $id = getBrowserId($label);
-    // For aggregated row 'Others'
-    if (empty($id)) {
-        $id = 'UNK';
-    }
-    return getLogoImageFromId('plugins/UserSettings/images/browsers', $id);
-}
-
-function getOSLogo($label)
-{
-    // For aggregated row 'Others'
-    if (empty($label)) {
-        $label = 'UNK';
-    }
-    return getLogoImageFromId('plugins/UserSettings/images/os', $label);
-}
-
 function getScreensLogo($label)
 {
     return 'plugins/UserSettings/images/screens/' . $label . '.gif';
-}
-
-function getDeviceTypeImg($oldOSImage, $osFamilyLabel)
-{
-    switch ($osFamilyLabel) {
-        case 'General_Desktop':
-            return 'plugins/UserSettings/images/screens/normal.gif';
-        case 'General_Mobile':
-            return 'plugins/UserSettings/images/screens/mobile.gif';
-        case 'General_Unknown':
-        default:
-            return 'plugins/UserSettings/images/os/UNK.gif';
-    }
 }
 
 function getScreenTypeFromResolution($resolution)
@@ -186,24 +72,6 @@ function getScreenTypeFromResolution($resolution)
         $name = 'dual';
     }
     return $name;
-}
-
-function getBrowserFamily($browserLabel)
-{
-    $familyNameToUse = UserAgentParser::getBrowserFamilyFromId(substr($browserLabel, 0, 2));
-    return $familyNameToUse;
-}
-
-/**
- * Extracts the browser name from a string with the browser name and version.
- */
-function getBrowserFromBrowserVersion($browserWithVersion)
-{
-    if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $browserWithVersion, $matches) === 0) {
-        return $browserWithVersion;
-    }
-
-    return $matches[1];
 }
 
 /**
