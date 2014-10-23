@@ -28,14 +28,10 @@ class Archiver extends \Piwik\Plugin\Archiver
     const PLUGIN_RECORD_NAME = 'UserSettings_plugin';
     const SCREEN_TYPE_RECORD_NAME = 'UserSettings_wideScreen';
     const RESOLUTION_RECORD_NAME = 'UserSettings_resolution';
-    const BROWSER_RECORD_NAME = 'UserSettings_browser';
-    const OS_RECORD_NAME = 'UserSettings_os';
     const CONFIGURATION_RECORD_NAME = 'UserSettings_configuration';
 
     const LANGUAGE_DIMENSION = "log_visit.location_browser_lang";
     const RESOLUTION_DIMENSION = "log_visit.config_resolution";
-    const BROWSER_VERSION_DIMENSION = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-    const OS_DIMENSION = "log_visit.config_os";
     const CONFIGURATION_DIMENSION = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
 
     /**
@@ -46,8 +42,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateDayReport()
     {
         $this->aggregateByConfiguration();
-        $this->aggregateByOs();
-        $this->aggregateByBrowser();
         $this->aggregateByResolutionAndScreenType();
         $this->aggregateByPlugin();
         $this->aggregateByLanguage();
@@ -60,8 +54,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $dataTableRecords = array(
             self::CONFIGURATION_RECORD_NAME,
-            self::OS_RECORD_NAME,
-            self::BROWSER_RECORD_NAME,
             self::RESOLUTION_RECORD_NAME,
             self::SCREEN_TYPE_RECORD_NAME,
             self::PLUGIN_RECORD_NAME,
@@ -76,23 +68,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->insertTable(self::CONFIGURATION_RECORD_NAME, $metrics);
     }
 
-    protected function aggregateByOs()
-    {
-        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::OS_DIMENSION)->asDataTable();
-        $this->insertTable(self::OS_RECORD_NAME, $metrics);
-    }
-
-    protected function aggregateByBrowser()
-    {
-        $tableBrowser = $this->aggregateByBrowserVersion();
-    }
-
-    protected function aggregateByBrowserVersion()
-    {
-        $tableBrowser = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::BROWSER_VERSION_DIMENSION)->asDataTable();
-        $this->insertTable(self::BROWSER_RECORD_NAME, $tableBrowser);
-        return $tableBrowser;
-    }
     protected function aggregateByResolutionAndScreenType()
     {
         $resolutions = $this->aggregateByResolution();
