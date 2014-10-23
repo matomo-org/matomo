@@ -56,29 +56,20 @@ class API extends \Piwik\Plugin\API
         return \Piwik\Plugins\DevicesDetection\API::getInstance();
     }
 
+    /**
+     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     */
     public function getOS($idSite, $period, $date, $segment = false, $addShortLabel = true)
     {
-        $dataTable = $this->getDataTable(Archiver::OS_RECORD_NAME, $idSite, $period, $date, $segment);
-        // these filters are applied directly so other API methods can use GroupBy on the result of this method
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOSLogo'));
-        if ($addShortLabel) {
-            $dataTable->filter(
-                'ColumnCallbackAddMetadata', array('label', 'shortLabel', __NAMESPACE__ . '\getOSShortLabel'));
-        }
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getOSLabel'));
-        return $dataTable;
+        return $this->getDevicesDetectorApi()->getOsVersions($idSite, $period, $date, $segment);
     }
 
     /**
-     * Gets a DataTable displaying number of visits by operating system family. The operating
-     * system families are listed in vendor piwik/device-detector.
+     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getOSFamily($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamily'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', array('\\Piwik\\Piwik','translate')));
-        return $dataTable;
+        return $this->getDevicesDetectorApi()->getOsFamilies($idSite, $period, $date, $segment);
     }
 
     /**
@@ -90,34 +81,24 @@ class API extends \Piwik\Plugin\API
         return $this->getDevicesDetectorApi()->getType($idSite, $period, $date, $segment);
     }
 
+    /**
+     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     */
     public function getBrowserVersion($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getBrowserTable($idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'shortLabel', __NAMESPACE__ . '\getBrowserShortLabel'));
-        return $dataTable;
-    }
-
-    protected function getBrowserTable($idSite, $period, $date, $segment)
-    {
-        $dataTable = $this->getDataTable(Archiver::BROWSER_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowsersLogo'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserLabel'));
-        return $dataTable;
+        return $this->getDevicesDetectorApi()->getBrowserVersions($idSite, $period, $date, $segment);
     }
 
     /**
-     * Gets a DataTable displaying number of visits by browser (ie, Firefox, Chrome, etc.).
-     * The browser version is not included in this report.
+     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getBrowser($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getBrowserTable($idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserFromBrowserVersion'));
-        return $dataTable;
+        return $this->getDevicesDetectorApi()->getBrowsers($idSite, $period, $date, $segment);
     }
 
     /**
-     * @deprecated since 2.7.1-b1   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getBrowserType($idSite, $period, $date, $segment = false)
     {
