@@ -231,16 +231,12 @@ class TestsSetupFixture extends ConsoleCommand
 
     private function requireFixtureFiles(InputInterface $input)
     {
-        \Piwik\Loader::registerTestNamespace();
-
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
 
         $fixturesToLoad = array(
-            '/tests/PHPUnit/Fixtures/*.php',
             '/tests/PHPUnit/UI/Fixtures/*.php',
             '/plugins/*/tests/Fixtures/*.php',
             '/plugins/*/Test/Fixtures/*.php',
