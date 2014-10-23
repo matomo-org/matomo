@@ -8,10 +8,8 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\Plugins\UserSettings\Reports\GetBrowser;
 use Piwik\Plugins\UserSettings\Reports\GetConfiguration;
 use Piwik\Plugins\UserSettings\Reports\GetLanguage;
-use Piwik\Plugins\UserSettings\Reports\GetOS;
 use Piwik\Plugins\UserSettings\Reports\GetPlugin;
 use Piwik\Plugins\UserSettings\Reports\GetResolution;
 use Piwik\Plugins\UserSettings\Reports\GetScreenType;
@@ -29,8 +27,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view->dataTablePlugin = $this->renderReport(new GetPlugin());
         $view->dataTableResolution = $this->renderReport(new GetResolution());
         $view->dataTableConfiguration = $this->renderReport(new GetConfiguration());
-        $view->dataTableOS = $this->renderReport(new GetOS());
-        $view->dataTableBrowser = $this->renderReport(new GetBrowser());
         $view->dataTableScreenType = $this->renderReport(new GetScreenType());
         $view->dataTableBrowserLanguage = $this->renderReport(new GetLanguage());
 
