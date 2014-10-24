@@ -480,7 +480,7 @@ class Proxy extends Singleton
         $hideLine = trim($hideLine);
         $hideLine .= ' ';
 
-        $token = strtok($hideLine, " ");
+	$token = trim(strtok($hideLine, " "), "\n");
 
         $hide = false;
 
