@@ -63,6 +63,9 @@ foreach($fixturesToLoad as $fixturePath) {
 // General requirement checks & help: a webserver must be running for tests to work if not running UnitTests!
 if (empty($_SERVER['argv']) || !in_array('UnitTests', $_SERVER['argv'])) {
     checkPiwikSetupForTests();
+} else {
+    // To prevent a weird bug
+    Piwik\Config::getInstance()->init();
 }
 
 function checkPiwikSetupForTests()
