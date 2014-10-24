@@ -118,8 +118,6 @@
         "Resolutions": "Qartësi",
         "VisitorSettings": "Rregullimet për Vizitor",
         "WideScreen": "Ekran së Gjeri",
-        "WidgetBrowserFamilies": "Shfletuesa sipas familjesh",
-        "WidgetBrowserFamiliesDocumentation": "Ky grafik tregon shfletuesit e vizitorëve tuaj, grupuar sipas familjesh shfletuesish. %s Informacioni më i rëndësishëm për programuesit web është lloji i mekanizmit vizatues që përdor shfletuesi. Etiketat përmbajnë emrat e mekanizmave, pasuar në kllapa nga shfletuesit më të zakonshëm që përdorin secilin prej tyre.",
         "WidgetBrowsers": "Shfletuesa vizitorësh",
         "WidgetBrowsersDocumentation": "Ky raport përmban të dhëna rreth llojeve të shfletuesit që përdornin vizitorët tuaj. Secili version i një shfletuesi tregohet veçmas.",
         "WidgetGlobalVisitors": "Formësime globale vizitorësh",

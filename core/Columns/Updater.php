@@ -259,6 +259,7 @@ class Updater extends \Piwik\Updates
             'log_visit.visit_exit_idaction_url' => 'INTEGER(11) UNSIGNED NULL DEFAULT 0',
             'log_visit.config_browser_version' => 'VARCHAR(20) NOT NULL',
             'log_visit.config_browser_name' => 'VARCHAR(10) NOT NULL',
+            'log_visit.config_browser_engine' => 'VARCHAR(10) NOT NULL',
             'log_visit.location_browser_lang' => 'VARCHAR(20) NOT NULL',
             'log_visit.config_os' => 'CHAR(3) NOT NULL',
             'log_visit.config_cookie' => 'TINYINT(1) NOT NULL',

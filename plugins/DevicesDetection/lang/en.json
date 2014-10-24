@@ -1,6 +1,9 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Browser versions",
+        "BrowserEngine": "Browser engine",
+        "BrowserEngines": "Browser engines",
+        "BrowserEngineDocumentation": "This report shows your visitors' browsers broken down into browser eninges. %s The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.",
         "Camera": "Camera",
         "CarBrowser": "Car browser",
         "Console": "Console",

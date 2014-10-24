@@ -207,8 +207,6 @@
         "Resolutions": "Rezolucije",
         "VisitorSettings": "Parametri posetilaca",
         "WideScreen": "Širok ekran",
-        "WidgetBrowserFamilies": "Brauzeri po porodicama",
-        "WidgetBrowserFamiliesDocumentation": "Ovaj grafikon prikazuje brauzere vaših posetilaca po porodicama. %s Najvažnija informacija za web dizajnere je koju vrstu endžina koriste njihovi posetioci. Naptisi sadrže imena endžina a u zagradi je najčešća lista brauzera koji koriste taj endžin.",
         "WidgetBrowsers": "Brauzeri posetilaca",
         "WidgetBrowsersDocumentation": "Ovaj izveštaj prikazuje koje brauzere koriste vaši posetioci. Svaka verzija brauzera je prikazana posebno.",
         "WidgetBrowserVersion": "Verzija brauzera",

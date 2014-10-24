@@ -1104,7 +1104,9 @@
             "time": "2014-09-22 09:14:18"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "facebook/xhprof": 20
@@ -1113,5 +1115,7 @@
     "platform": {
         "php": ">=5.3.3"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

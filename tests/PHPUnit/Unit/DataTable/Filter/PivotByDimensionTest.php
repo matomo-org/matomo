@@ -90,13 +90,13 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'UserSettings.UserSettings_WidgetBrowserFamilies'
+     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'UserSettings.UserSettings_WidgetGlobalVisitors'
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
         $this->loadPlugins('Referrers', 'UserSettings');
 
-        new PivotByDimension(new DataTable(), "UserSettings.getBrowserType", "Referrers.Keyword", "nb_visits");
+        new PivotByDimension(new DataTable(), "UserSettings.GetConfiguration", "Referrers.Keyword", "nb_visits");
     }
 
     /**

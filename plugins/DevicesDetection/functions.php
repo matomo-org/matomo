@@ -119,7 +119,7 @@ function getDeviceTypeLabel($label)
         'feature phone' => 'DevicesDetection_FeaturePhone',
         'console'       => 'DevicesDetection_Console',
         'tv'            => 'DevicesDetection_TV',
-        'car browser'   => 'DevicesDetection_CarBbrowser',
+        'car browser'   => 'DevicesDetection_CarBrowser',
         'smart display' => 'DevicesDetection_SmartDisplay',
         'camera'        => 'DevicesDetection_Camera'
     );
@@ -251,4 +251,45 @@ function getOsLogoExtended($short)
         return sprintf($path, $osFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
+}
+
+/**
+ * Returns the display name for a browser engine
+ *
+ * @param $engineName
+ *
+ * @return string
+ */
+function getBrowserEngineName($engineName) {
+    /*
+     * Map leagcy types to engines
+     */
+    $oldTypeMapping = array(
+        'ie'     => 'Trident',
+        'gecko'  => 'Gecko',
+        'khtml'  => 'KHTML',
+        'webkit' => 'WebKit',
+        'opera'  => 'Presto',
+        'unknown' => ''
+    );
+    if (array_key_exists($engineName, $oldTypeMapping)) {
+        $engineName = $oldTypeMapping[$engineName];
+    }
+
+    $displayNames = array(
+        'Trident' => 'Trident (IE)',
+        'Gecko' => 'Gecko (Firefox)',
+        'KHTML' => 'KHTML (Konquerer)',
+        'Presto' => 'Presto (Opera)',
+        'WebKit' => 'WebKit (Safari, Chrome)',
+        'Blink' => 'Blink (Chrome, Opera)'
+    );
+
+    if (!empty($engineName)) {
+        if (!empty($displayNames[$engineName])) {
+            return $displayNames[$engineName];
+        }
+        return $engineName;
+    }
+    return Piwik::translate('General_Unknown');
 }

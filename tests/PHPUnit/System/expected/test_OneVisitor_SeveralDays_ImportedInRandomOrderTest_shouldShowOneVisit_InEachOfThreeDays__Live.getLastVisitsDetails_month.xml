@@ -46,6 +46,8 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -73,8 +75,6 @@
 		<operatingSystemCode>WVI</operatingSystemCode>
 		<operatingSystemShortName>Win Vista</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserFamily>ie</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browserName>Internet Explorer 7.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
@@ -139,6 +139,8 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -166,8 +168,6 @@
 		<operatingSystemCode>WVI</operatingSystemCode>
 		<operatingSystemShortName>Win Vista</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserFamily>ie</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browserName>Internet Explorer 7.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
@@ -232,6 +232,8 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -259,8 +261,6 @@
 		<operatingSystemCode>WVI</operatingSystemCode>
 		<operatingSystemShortName>Win Vista</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserFamily>ie</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browserName>Internet Explorer 7.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>

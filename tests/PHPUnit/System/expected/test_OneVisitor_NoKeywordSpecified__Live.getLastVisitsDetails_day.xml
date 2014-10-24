@@ -23,8 +23,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -41,6 +39,8 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Inconnu</deviceType>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<events>0</events>
 		<provider>Inconnu</provider>
 		<providerName>Inconnu</providerName>
@@ -68,8 +68,6 @@
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemShortName>BOT</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserFamily>unknown</browserFamily>
-		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browserName>Inconnu</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -88,6 +86,19 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Inconnu</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -148,6 +159,8 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Inconnu</deviceType>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<events>0</events>
 		<provider>Inconnu</provider>
 		<providerName>Inconnu</providerName>
@@ -175,8 +188,6 @@
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemShortName>BOT</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserFamily>unknown</browserFamily>
-		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browserName>Inconnu</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -195,6 +206,19 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Inconnu</deviceType>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
