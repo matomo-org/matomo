@@ -30,15 +30,11 @@ error_reporting(E_ALL | E_NOTICE);
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
 \Piwik\Loader::init();
-\Piwik\Loader::registerTestNamespace();
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
-require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/ConsoleCommandTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
@@ -49,7 +45,6 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 
 // require test fixtures
 $fixturesToLoad = array(
-    '/tests/PHPUnit/Fixtures/*.php',
     '/tests/PHPUnit/UI/Fixtures/*.php',
     '/plugins/*/tests/Fixtures/*.php',
     '/plugins/*/Test/Fixtures/*.php',
@@ -60,8 +55,13 @@ foreach($fixturesToLoad as $fixturePath) {
     }
 }
 
-// General requirement checks & help: a webserver must be running for tests to work!
-checkPiwikSetupForTests();
+// General requirement checks & help: a webserver must be running for tests to work if not running UnitTests!
+if (empty($_SERVER['argv']) || !in_array('UnitTests', $_SERVER['argv'])) {
+    checkPiwikSetupForTests();
+} else {
+    // To prevent a weird bug
+    Piwik\Config::getInstance()->init();
+}
 
 function checkPiwikSetupForTests()
 {

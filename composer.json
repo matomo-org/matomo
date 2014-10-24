@@ -30,6 +30,11 @@
             "Archive_": "libs/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Piwik\\Tests\\": "tests/PHPUnit/"
+        }
+    },
     "require": {
         "php": ">=5.3.3",
         "twig/twig": "~1.0",
