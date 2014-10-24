@@ -33,6 +33,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>1</actions>
 		<userId>userid.email@example.org</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -46,8 +48,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Safari</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserCode>SF</browserCode>
+		<browserVersion />
+		<events>0</events>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -56,14 +68,17 @@
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Safari </browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
-		<browserCode>SF</browserCode>
-		<browserVersion />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>not a city</city>
+		<location>not a city, California, United States</location>
+		<latitude>1</latitude>
+		<longitude>2</longitude>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -78,29 +93,14 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Desktop</deviceType>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<events>0</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>not a city</city>
-		<location>not a city, California, United States</location>
-		<latitude>1</latitude>
-		<longitude>2</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-		</customVariables>
 		
 		
 		
@@ -181,6 +181,8 @@
 		
 		
 		
+		<searches>1</searches>
+		<actions>3</actions>
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -194,8 +196,18 @@
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
 		<visitDurationPretty>21 min 1s</visitDurationPretty>
-		<searches>1</searches>
-		<actions>3</actions>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>1</events>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -204,14 +216,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -226,27 +241,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Desktop</deviceType>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<events>1</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -257,6 +254,9 @@
 				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
 			</row>
 		</customVariables>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		
 		
 		
@@ -306,6 +306,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>1</actions>
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -319,8 +321,18 @@
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>0</events>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -329,14 +341,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -351,27 +366,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Desktop</deviceType>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -382,6 +379,9 @@
 				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
 			</row>
 		</customVariables>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		
 		
 		
@@ -445,6 +445,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>2</actions>
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -458,8 +460,18 @@
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
 		<visitDurationPretty>21 min 1s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>2</actions>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>1</events>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -468,14 +480,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -490,27 +505,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Desktop</deviceType>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<events>1</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Macedonia, the Former Yugoslav Republic of</country>
-		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -521,6 +518,9 @@
 				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
 			</row>
 		</customVariables>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		
 		
 		
@@ -570,6 +570,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>1</actions>
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -583,8 +585,18 @@
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>0</events>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -593,14 +605,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<regionCode>66</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -615,27 +630,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Desktop</deviceType>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Macedonia, the Former Yugoslav Republic of</country>
-		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -646,6 +643,9 @@
 				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
 			</row>
 		</customVariables>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		
 		
 		
@@ -726,6 +726,8 @@
 		
 		
 		
+		<searches>1</searches>
+		<actions>3</actions>
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -739,8 +741,18 @@
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
 		<visitDurationPretty>21 min 1s</visitDurationPretty>
-		<searches>1</searches>
-		<actions>3</actions>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>1</events>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -749,14 +761,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -771,27 +786,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Desktop</deviceType>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<events>1</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -802,6 +799,9 @@
 				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
 			</row>
 		</customVariables>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		
 		
 		
@@ -851,6 +851,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>1</actions>
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -864,8 +866,18 @@
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>0</events>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -874,14 +886,17 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<regionCode>66</regionCode>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -896,27 +911,9 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Desktop</deviceType>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
-		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
-		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -927,6 +924,9 @@
 				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
 			</row>
 		</customVariables>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		
 		
 		

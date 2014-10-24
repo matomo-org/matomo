@@ -62,8 +62,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 8.1</operatingSystem>
+		<operatingSystemCode>W81</operatingSystemCode>
+		<operatingSystemShortName>Windows 8.1</operatingSystemShortName>
+		<operatingSystemIcon>W81</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browserName>Chrome 33.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -87,14 +95,6 @@
 		<location>Raleigh, North Carolina, United States</location>
 		<latitude>35.771999</latitude>
 		<longitude>-78.639000</longitude>
-		<operatingSystem>Windows 8.1</operatingSystem>
-		<operatingSystemCode>W81</operatingSystemCode>
-		<operatingSystemShortName>W81</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/W81.gif</operatingSystemIcon>
-		<browserName>Chrome 33.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1366x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -200,8 +200,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browserName>Internet Explorer 8.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>8.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -225,14 +233,6 @@
 		<location>Lake Forest, California, United States</location>
 		<latitude>33.645000</latitude>
 		<longitude>-117.679001</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 8.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>8.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1536x864</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -313,8 +313,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browserName>Chrome 34.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>34.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -338,14 +346,6 @@
 		<location>Germany</location>
 		<latitude>51</latitude>
 		<longitude>9</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Chrome 34.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>34.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1920x1200</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -459,8 +459,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Safari 7.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserCode>SF</browserCode>
+		<browserVersion>7.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -484,14 +492,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>Safari 7.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
-		<browserCode>SF</browserCode>
-		<browserVersion>7.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>2880x1800</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -574,8 +574,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browserName>Chrome 33.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -599,14 +607,6 @@
 		<location>Maaseik, Limburg, Belgium</location>
 		<latitude>51.099998</latitude>
 		<longitude>5.800000</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Chrome 33.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1920x1080</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -700,8 +700,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browserName>Chrome 33.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -725,14 +733,6 @@
 		<location>San Francisco, California, United States</location>
 		<latitude>37.792000</latitude>
 		<longitude>-122.408997</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>Chrome 33.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1360x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -833,8 +833,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Safari 7.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserCode>SF</browserCode>
+		<browserVersion>7.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -858,14 +866,6 @@
 		<location>Nihon'odori, Kanagawa, Japan</location>
 		<latitude>35.450001</latitude>
 		<longitude>139.649994</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>Safari 7.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
-		<browserCode>SF</browserCode>
-		<browserVersion>7.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>2560x1440</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -955,8 +955,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Android</operatingSystem>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemShortName>Android</operatingSystemShortName>
+		<operatingSystemIcon>AND</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 27.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>27.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -980,14 +988,6 @@
 		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
 		<latitude>50.766998</latitude>
 		<longitude>6.833000</longitude>
-		<operatingSystem>Android</operatingSystem>
-		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemShortName>Android</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
-		<browserName>Firefox 27.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>27.0</browserVersion>
 		<screenType>mobile</screenType>
 		<resolution>360x640</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/mobile.gif</screenTypeIcon>
@@ -1069,8 +1069,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 27.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>27.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1094,14 +1102,6 @@
 		<location>Mainz, Rheinland-Pfalz, Germany</location>
 		<latitude>50</latitude>
 		<longitude>8.271000</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Firefox 27.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>27.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>2560x1440</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -1238,8 +1238,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 8</operatingSystem>
+		<operatingSystemCode>WI8</operatingSystemCode>
+		<operatingSystemShortName>Win 8</operatingSystemShortName>
+		<operatingSystemIcon>WI8</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 27.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>27.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1263,14 +1271,6 @@
 		<location>Moscow, Moscow City, Russian Federation</location>
 		<latitude>55.751999</latitude>
 		<longitude>37.616001</longitude>
-		<operatingSystem>Windows 8</operatingSystem>
-		<operatingSystemCode>WI8</operatingSystemCode>
-		<operatingSystemShortName>Win 8</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI8.gif</operatingSystemIcon>
-		<browserName>Firefox 27.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>27.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1920x1080</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -1356,8 +1356,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browserName>Chrome 33.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1381,14 +1389,6 @@
 		<location>Esentepe, Rize, Turkey</location>
 		<latitude>40.979000</latitude>
 		<longitude>40.415001</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Chrome 33.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1366x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -1482,8 +1482,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browserName>Chrome 33.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1507,14 +1515,6 @@
 		<location>Maaseik, Limburg, Belgium</location>
 		<latitude>51.099998</latitude>
 		<longitude>5.800000</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Chrome 33.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1920x1080</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -1766,8 +1766,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>UNK</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1791,14 +1799,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -1882,8 +1882,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browserName>Internet Explorer 6.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>6.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -1907,14 +1915,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 6.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>6.0</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1999,8 +1999,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Chrome 11.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>11.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2024,14 +2032,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Chrome 11.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>11.0</browserVersion>
 		<screenType>wide</screenType>
 		<resolution>1280x800</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
@@ -2132,8 +2132,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>RockMelt 0.9</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2157,14 +2165,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -2257,8 +2257,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>RockMelt 0.9</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2282,14 +2290,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -2389,8 +2389,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>RockMelt 0.9</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2414,14 +2422,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -2497,8 +2497,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Bot</operatingSystem>
+		<operatingSystemCode>BOT</operatingSystemCode>
+		<operatingSystemShortName>Bot</operatingSystemShortName>
+		<operatingSystemIcon>BOT</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2522,14 +2530,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<operatingSystem>Bot</operatingSystem>
-		<operatingSystemCode>BOT</operatingSystemCode>
-		<operatingSystemShortName>BOT</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -2605,8 +2605,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browserName>Internet Explorer 9.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>9.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2630,14 +2638,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 9.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -2703,8 +2703,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>UNK</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2728,14 +2736,6 @@
 		<location>Australia</location>
 		<latitude>-27</latitude>
 		<longitude>133</longitude>
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -2811,8 +2811,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Smartphone</deviceType>
+		<operatingSystem>Android</operatingSystem>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemShortName>Android</operatingSystemShortName>
+		<operatingSystemIcon>AND</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Android Browser</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
+		<browserCode>AN</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2836,14 +2844,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Android</operatingSystem>
-		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemShortName>Android</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
-		<browserName>Android Browser </browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
-		<browserCode>AN</browserCode>
-		<browserVersion />
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -2919,8 +2919,16 @@
 			</row>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>RockMelt 0.9</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -2944,14 +2952,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3023,8 +3023,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Chrome 20.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>20.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3048,14 +3056,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Chrome 20.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>20.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3127,8 +3127,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Epiphany 2.30</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserCode>EP</browserCode>
+		<browserVersion>2.30</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3152,14 +3160,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Epiphany 2.30</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
-		<browserCode>EP</browserCode>
-		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3231,8 +3231,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Chrome 20.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>20.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3256,14 +3264,6 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Chrome 20.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>20.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3335,8 +3335,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Epiphany 2.30</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserCode>EP</browserCode>
+		<browserVersion>2.30</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3360,14 +3368,6 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Epiphany 2.30</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
-		<browserCode>EP</browserCode>
-		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3439,8 +3439,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browserName>Internet Explorer 9.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>9.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3464,14 +3472,6 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 9.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3543,8 +3543,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Epiphany 2.30</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserCode>EP</browserCode>
+		<browserVersion>2.30</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3568,14 +3576,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Epiphany 2.30</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
-		<browserCode>EP</browserCode>
-		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3647,8 +3647,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browserName>Internet Explorer 9.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>9.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3672,14 +3680,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 9.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3751,8 +3751,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browserName>Internet Explorer 9.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>9.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3776,14 +3784,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 9.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3855,8 +3855,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Chrome 19.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>19.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3880,14 +3888,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>Chrome 19.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>19.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -3959,8 +3959,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 6.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>6.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -3984,14 +3992,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Firefox 6.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>6.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -4063,8 +4063,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Chrome 19.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>19.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4088,14 +4096,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Chrome 19.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>19.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -4167,8 +4167,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Epiphany 2.30</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserCode>EP</browserCode>
+		<browserVersion>2.30</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4192,14 +4200,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Epiphany 2.30</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
-		<browserCode>EP</browserCode>
-		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -4271,8 +4271,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browserName>Internet Explorer 9.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>9.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4296,14 +4304,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 9.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>9.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -4375,8 +4375,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 6.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>6.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4400,14 +4408,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Firefox 6.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>6.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -4479,8 +4479,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>GNU/Linux</operatingSystem>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
+		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Epiphany 2.30</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserCode>EP</browserCode>
+		<browserVersion>2.30</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4504,14 +4512,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>Linux</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserName>Epiphany 2.30</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
-		<browserCode>EP</browserCode>
-		<browserVersion>2.30</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -4583,8 +4583,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Smartphone</deviceType>
+		<operatingSystem>Android</operatingSystem>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemShortName>Android</operatingSystemShortName>
+		<operatingSystemIcon>AND</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Android Browser</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
+		<browserCode>AN</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4608,14 +4616,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Android</operatingSystem>
-		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemShortName>Android</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
-		<browserName>Android Browser </browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
-		<browserCode>AN</browserCode>
-		<browserVersion />
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -4687,8 +4687,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemShortName>Mac</operatingSystemShortName>
+		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>RockMelt 0.9</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -4712,14 +4720,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<operatingSystem>Mac OS</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac OS</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
-		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
