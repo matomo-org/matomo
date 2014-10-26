@@ -96,11 +96,11 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -244,6 +244,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -254,9 +257,6 @@
 				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -369,6 +369,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -379,9 +382,6 @@
 				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -508,6 +508,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -518,9 +521,6 @@
 				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -633,6 +633,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -643,9 +646,6 @@
 				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -789,6 +789,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -799,9 +802,6 @@
 				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -914,6 +914,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -924,9 +927,6 @@
 				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1053,6 +1053,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -1063,9 +1066,6 @@
 				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1178,6 +1178,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -1188,9 +1191,6 @@
 				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1334,6 +1334,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>awesomeisp.com</provider>
+		<providerName>Awesomeisp</providerName>
+		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -1344,9 +1347,6 @@
 				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>awesomeisp.com</provider>
-		<providerName>Awesomeisp</providerName>
-		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		
 		
 		
@@ -1459,6 +1459,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>awesomeisp.com</provider>
+		<providerName>Awesomeisp</providerName>
+		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -1469,9 +1472,6 @@
 				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>awesomeisp.com</provider>
-		<providerName>Awesomeisp</providerName>
-		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		
 		
 		
@@ -1598,6 +1598,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -1608,9 +1611,6 @@
 				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1737,11 +1737,11 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -1854,6 +1854,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -1864,9 +1867,6 @@
 				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1979,6 +1979,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -1989,9 +1992,6 @@
 				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -2135,6 +2135,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>comcast.net</provider>
+		<providerName>Comcast</providerName>
+		<providerUrl>http://www.comcast.net/</providerUrl>
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -2145,9 +2148,6 @@
 				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>comcast.net</provider>
-		<providerName>Comcast</providerName>
-		<providerUrl>http://www.comcast.net/</providerUrl>
 		
 		
 		
@@ -2291,11 +2291,11 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -2408,6 +2408,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>comcast.net</provider>
+		<providerName>Comcast</providerName>
+		<providerUrl>http://www.comcast.net/</providerUrl>
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -2418,9 +2421,6 @@
 				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>comcast.net</provider>
-		<providerName>Comcast</providerName>
-		<providerUrl>http://www.comcast.net/</providerUrl>
 		
 		
 		
@@ -2533,6 +2533,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -2543,9 +2546,6 @@
 				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -2672,6 +2672,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -2682,9 +2685,6 @@
 				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -2811,6 +2811,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -2821,9 +2824,6 @@
 				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -2950,11 +2950,11 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -3081,6 +3081,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -3091,9 +3094,6 @@
 				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3206,6 +3206,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -3216,9 +3219,6 @@
 				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3331,6 +3331,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -3341,9 +3344,6 @@
 				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3456,6 +3456,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -3466,9 +3469,6 @@
 				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3581,6 +3581,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -3591,9 +3594,6 @@
 				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3737,6 +3737,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -3747,9 +3750,6 @@
 				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3893,6 +3893,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -3903,9 +3906,6 @@
 				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4049,11 +4049,11 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
+		<customVariables>
+		</customVariables>
 		
 		
 		
@@ -4197,6 +4197,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -4207,9 +4210,6 @@
 				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4322,6 +4322,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -4332,9 +4335,6 @@
 				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4447,6 +4447,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -4457,9 +4460,6 @@
 				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4572,6 +4572,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -4582,9 +4585,6 @@
 				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4697,6 +4697,9 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Cvar 1 name</customVariableName1>
@@ -4707,9 +4710,6 @@
 				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
 			</row>
 		</customVariables>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
