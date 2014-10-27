@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class GenerateApi extends GeneratePluginBase
+class GenerateArchiver extends GeneratePluginBase
 {
     protected function configure()
     {
@@ -37,7 +37,7 @@ class GenerateApi extends GeneratePluginBase
 
         $this->writeSuccessMessage($output, array(
              sprintf('Archiver.php for %s generated.', $pluginName),
-             'You can now start adding API methods',
+             'You can now start implementing Archiver methods',
              'Enjoy!'
         ));
     }
