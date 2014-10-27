@@ -7,11 +7,10 @@
  */
 
 /**
- * @deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\SystemTestCase instead
+ * @deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\IntegrationTestCase instead
  */
 class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\SystemTestCase
 {
-
     public static function setUpBeforeClass()
     {
         \Piwik\Log::debug('\IntegrationTestCase is deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\SystemTestCase instead');
