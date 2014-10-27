@@ -30,12 +30,25 @@ if (!defined('PIWIK_ENABLE_DISPATCH')) {
 
 if (PIWIK_ENABLE_DISPATCH) {
     $controller = FrontController::getInstance();
-    $controller->init();
-    $response = $controller->dispatch();
 
-    if (is_array($response)) {
-        var_export($response);
-    } elseif (!is_null($response)) {
-        echo $response;
+    try {
+        $controller->init();
+        $response = $controller->dispatch();
+
+        if (is_array($response)) {
+            var_export($response);
+        } elseif (!is_null($response)) {
+            echo $response;
+        }
+    } catch (Exception $ex) {
+        $debugTrace = $ex->getTraceAsString();
+
+        if (method_exists($ex, 'getHtmlMessage')) {
+            $message = $ex->getHtmlMessage();
+        } else {
+            $message = Piwik\Common::sanitizeInputValue($ex->getMessage());
+        }
+
+        Piwik_ExitWithMessage($message, $debugTrace, true, true);
     }
 }
