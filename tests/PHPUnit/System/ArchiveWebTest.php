@@ -53,10 +53,16 @@ class ArchiveWebTest extends SystemTestCase
             Option::delete('piwikUrl');
         }
 
-        $this->assertContains('Starting Piwik reports archiving...', $output);
-        $this->assertContains('Archived website id = 1', $output);
-        $this->assertContains('Done archiving!', $output);
+        $this->assertWebArchivingDone($output);
         $this->compareArchivePhpOutputAgainstExpected($output);
+    }
+
+    public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()
+    {
+        list($returnCode, $output) = $this->runArchivePhpScriptWithPhpCgi();
+
+        $this->assertEquals(0, $returnCode);
+        $this->assertWebArchivingDone($output);
     }
 
     private function compareArchivePhpOutputAgainstExpected($output)
@@ -72,6 +78,24 @@ class ArchiveWebTest extends SystemTestCase
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }
+    }
+
+    private function assertWebArchivingDone($output)
+    {
+        $this->assertContains('Starting Piwik reports archiving...', $output);
+        $this->assertContains('Archived website id = 1', $output);
+        $this->assertContains('Done archiving!', $output);
+    }
+
+    private function runArchivePhpScriptWithPhpCgi()
+    {
+        $command = "php-cgi \"" . PIWIK_INCLUDE_PATH . "/tests/PHPUnit/proxy/archive.php" . "\"";
+
+        exec($command, $output, $returnCode);
+
+        $output = implode("\n", $output);
+
+        return array($returnCode, $output);
     }
 }
 
