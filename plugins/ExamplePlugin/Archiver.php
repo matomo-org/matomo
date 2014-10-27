@@ -17,7 +17,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         /**
          * inside this method you can implement your LogAggreagator usage
-         * to process daily reports, this one uses idvisitor to
+         * to process daily reports, this one uses idvisitor to group results.
          *
          * $visitorMetrics = $this
          * ->getLogAggregator()
@@ -33,8 +33,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         /**
          * Inside this method you can simply point daily records
          * to be summed. This work for most cases.
-         * However if needed, also custome queries can be implemented
+         * However if needed, also custom queries can be implemented
          * for periods to achieve more acurrate results.
+	 *
          * $this->getProcessor()->aggregateDataTableRecords(self::EXAMPLEPLUGIN_USERS_RECORD);
          */
     }
