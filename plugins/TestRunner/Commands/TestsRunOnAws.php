@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TestRunOnAws extends ConsoleCommand
+class TestsRunOnAws extends ConsoleCommand
 {
     private $allowedTestSuites = array('integration', 'system', 'all', 'ui');
 
