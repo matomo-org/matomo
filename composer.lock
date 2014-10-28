@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "22cbe8affc3293d56e008f7b08a140b6",
+    "hash": "e8269e35cd792d2a4718e936459423bd",
     "packages": [
         {
             "name": "leafo/lessphp",
@@ -96,20 +96,20 @@
         },
         {
             "name": "piwik/decompress",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-decompress.git",
-                "reference": "f02c7f1d92b33955ce1b44a9623d8467fd2e2c49"
+                "reference": "1c7ad9696ac732a12868110b97938fc2f5d267fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-decompress/zipball/f02c7f1d92b33955ce1b44a9623d8467fd2e2c49",
-                "reference": "f02c7f1d92b33955ce1b44a9623d8467fd2e2c49",
+                "url": "https://api.github.com/repos/piwik/component-decompress/zipball/1c7ad9696ac732a12868110b97938fc2f5d267fb",
+                "reference": "1c7ad9696ac732a12868110b97938fc2f5d267fb",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.2"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
@@ -127,7 +127,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2014-10-02 22:01:11"
+            "time": "2014-10-28 21:14:38"
         },
         {
             "name": "piwik/device-detector",
@@ -1418,9 +1418,7 @@
             "time": "2014-09-22 09:14:18"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "facebook/xhprof": 20
@@ -1429,7 +1427,5 @@
     "platform": {
         "php": ">=5.3.3"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

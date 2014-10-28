@@ -38,7 +38,7 @@ class Ssh extends Net_SSH2
         $this->output = $output;
     }
 
-    public function exec($command)
+    public function exec($command, $callback = null)
     {
         $command = 'cd www/piwik && ' . $command;
         $output  = $this->output;
