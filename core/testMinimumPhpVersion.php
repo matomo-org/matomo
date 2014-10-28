@@ -93,7 +93,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      * @return string
      */
     function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
-                                       $logoUrl = false, $faviconUrl = false)
+                                       $logoUrl = false, $faviconUrl = false, $isCli = null)
     {
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
@@ -115,7 +115,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         if ($optionalTrace) {
             $optionalTrace = '<span class="exception-backtrace">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
         }
-        $isCli = PHP_SAPI == 'cli';
+
+        if ($isCli === null) {
+            $isCli = PHP_SAPI == 'cli';
+        }
+
         if ($optionalLinks) {
             $optionalLinks = '<ul>
                             <li><a target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
