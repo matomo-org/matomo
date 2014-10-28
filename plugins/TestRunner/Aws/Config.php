@@ -74,7 +74,7 @@ class Config
 
         foreach ($configKeysToValidate as $key) {
             if (!$this->getConfigValue($key)) {
-                throw new \RuntimeException("[tests]$key is not configured");
+                throw new \RuntimeException("[tests]$key is not configured in config/config.ini.php");
             }
         }
 

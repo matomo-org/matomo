@@ -59,7 +59,7 @@ class Remote
         if ('all' === $testSuite) {
             $this->ssh->exec('php console tests:run --options="--colors"');
         } elseif ('ui' === $testSuite) {
-            $this->ssh->exec('php console tests:run-ui');
+            $this->ssh->exec('php console tests:run-ui --persist-fixture-data');
         } else {
             $this->ssh->exec('php console tests:run --options="--colors" --testsuite="unit"');
             $this->ssh->exec('php console tests:run --options="--colors" --testsuite="' . $testSuite . '"');
