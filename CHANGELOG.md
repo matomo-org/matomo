@@ -2,6 +2,12 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+
+## Piwik 2.9.0
+
+### Breaking Changes
+* Development related [console commands](http://developer.piwik.org/guides/piwik-on-the-command-line) are only available if the development mode is enabled. To enable the development mode execute `./console development:enable`.
+
 ## Piwik 2.8.2
 
 ### Library updates
