@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugin\Manager;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -59,5 +60,11 @@ class Updates_2_9_0_b1 extends Updates
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
+
+        try {
+            Manager::getInstance()->activatePlugin('TestRunner');
+        } catch (\Exception $e) {
+
+        }
     }
 }
