@@ -10,8 +10,8 @@
 namespace Piwik\Plugins\CoreConsole;
 
 use Piwik\View;
-use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
+use Symfony\Component\Finder\Finder;
 
 /**
  * View class for the travis.yml.twig template file. Generates the contents for a .travis.yml file.
@@ -198,7 +198,7 @@ class TravisYmlView extends View
         $testsToRun = array();
         $testsToExclude = array();
 
-        if ($this->isTargetPluginContainsPluginTests()) {
+        if ($this->doesTargetPluginContainPluginTests()) {
             $testsToRun[] = array('name' => 'PluginTests',
                                   'vars' => "MYSQL_ADAPTER=PDO_MYSQL");
             $testsToRun[] = array('name' => 'PluginTests',
@@ -211,7 +211,7 @@ class TravisYmlView extends View
                                       'env' => 'TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable');
         }
 
-        if ($this->isTargetPluginContainsUITests()) {
+        if ($this->doesTargetPluginContainUITests()) {
             $testsToRun[] = array('name' => 'UITests',
                                   'vars' => "MYSQL_ADAPTER=PDO_MYSQL");
 
@@ -233,30 +233,30 @@ class TravisYmlView extends View
         return array($testsToRun, $testsToExclude);
     }
 
-    private function isTargetPluginContainsPluginTests()
+    private function doesTargetPluginContainPluginTests()
     {
         $pluginPath = $this->getPluginRootFolder();
-        return $this->doesFolderContainPluginTests($pluginPath . "/tests")
-            || $this->doesFolderContainPluginTests($pluginPath . "/Test");
+        return $this->folderContainsFiles($pluginPath . '/tests', '*Test.php')
+            || $this->folderContainsFiles($pluginPath . '/Test', '*Test.php');
     }
 
-    private function doesFolderContainPluginTests($folderPath)
-    {
-        $testFiles = array_merge(glob($folderPath . "/**/*Test.php"), glob($folderPath . "/*Test.php"));
-        return !empty($testFiles);
-    }
-
-    private function isTargetPluginContainsUITests()
+    private function doesTargetPluginContainUITests()
     {
         $pluginPath = $this->getPluginRootFolder();
-        return $this->doesFolderContainUITests($pluginPath . "/tests")
-            || $this->doesFolderContainUITests($pluginPath . "/Test");
+        return $this->folderContainsFiles($pluginPath . '/tests', '*_spec.js')
+            || $this->folderContainsFiles($pluginPath . '/Test', '*_spec.js');
     }
 
-    private function doesFolderContainUITests($folderPath)
+    private function folderContainsFiles($folder, $filePattern)
     {
-        $testFiles = array_merge(glob($folderPath . "/**/*_spec.js"), glob($folderPath . "/*_spec.js"));
-        return !empty($testFiles);
+        if (!is_dir($folder)) {
+            return false;
+        }
+        $finder = new Finder();
+        $finder->files()
+            ->in($folder)
+            ->name($filePattern);
+        return count($finder) > 0;
     }
 
     private function changeIndent($text, $newIndent)
