@@ -264,7 +264,10 @@ class Log extends Singleton
     private function setLogWritersFromConfig($logConfig)
     {
         // set the log writers
-        $logWriters = $logConfig[self::LOG_WRITERS_CONFIG_OPTION];
+        $logWriters = @$logConfig[self::LOG_WRITERS_CONFIG_OPTION];
+        if (empty($logWriters)) {
+            return;
+        }
 
         $logWriters = array_map('trim', $logWriters);
         foreach ($logWriters as $writerName) {
@@ -309,7 +312,11 @@ class Log extends Singleton
 
     private function setLogFilePathFromConfig($logConfig)
     {
-        $logPath = $logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
+        $logPath = @$logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
+        if (empty($logPath)) {
+            $logPath = $this->getDefaultFileLogPath();
+        }
+
         if (!SettingsServer::isWindows()
             && $logPath[0] != '/'
         ) {
@@ -320,6 +327,11 @@ class Log extends Singleton
             $logPath .= '/piwik.log';
         }
         $this->logToFilePath = $logPath;
+    }
+
+    private function getDefaultFileLogPath()
+    {
+        return 'tmp/logs/piwik.log';
     }
 
     private function getAvailableWriters()

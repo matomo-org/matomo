@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\CoreConsole;
 
+use Piwik\Filesystem;
 use Piwik\View;
-use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
 
 /**
@@ -215,12 +215,12 @@ class TravisYmlView extends View
             $testsToRun[] = array('name' => 'UITests',
                                   'vars' => "MYSQL_ADAPTER=PDO_MYSQL");
 
-            $testsToExclude[] = array('description' => 'execute UI tests only w/ PHP 5.5',
+            $testsToExclude[] = array('description' => 'execute UI tests only w/ PHP 5.6',
                                       'php' => '5.3.3',
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
             $testsToExclude[] = array('php' => '5.4',
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
-            $testsToExclude[] = array('php' => '5.6',
+            $testsToExclude[] = array('php' => '5.5',
                                       'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL');
         }
 
@@ -242,7 +242,7 @@ class TravisYmlView extends View
 
     private function doesFolderContainPluginTests($folderPath)
     {
-        $testFiles = array_merge(glob($folderPath . "/**/*Test.php"), glob($folderPath . "/*Test.php"));
+        $testFiles = Filesystem::globr($folderPath, "*Test.php");
         return !empty($testFiles);
     }
 
@@ -255,7 +255,7 @@ class TravisYmlView extends View
 
     private function doesFolderContainUITests($folderPath)
     {
-        $testFiles = array_merge(glob($folderPath . "/**/*_spec.js"), glob($folderPath . "/*_spec.js"));
+        $testFiles = Filesystem::globr($folderPath, "*_spec.js");
         return !empty($testFiles);
     }
 

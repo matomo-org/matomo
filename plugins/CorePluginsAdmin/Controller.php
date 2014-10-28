@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Exceptions\HtmlMessageException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;
@@ -361,8 +362,8 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
-        if (Common::isPhpCliMode()) {
-            Piwik_ExitWithMessage("Error:" . var_export($lastError, true));
+        if (Common::isPhpCliMode()) { // TODO: I can't find how this will ever get called / safeMode is never set for Console
+            throw new Exception("Error: " . var_export($lastError, true));
         }
 
         $view = new View('@CorePluginsAdmin/safemode');
@@ -445,7 +446,8 @@ class Controller extends Plugin\ControllerAdmin
                 $pluginName);
             $exitMessage = $messageIntro . "<br/><br/>" . $messagePermissions;
             $exitMessage .= "<br> Or manually delete this directory (using FTP or SSH access)";
-            Piwik_ExitWithMessage($exitMessage, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = true);
+
+            throw new HtmlMessageException($exitMessage);
         }
 
         $this->redirectAfterModification($redirectAfter);

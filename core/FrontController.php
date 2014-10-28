@@ -12,10 +12,12 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Exceptions\HtmlMessageException;
 use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session;
 use Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 
@@ -106,10 +108,6 @@ class FrontController extends Singleton
              * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
-        } catch (Exception $e) {
-            $debugTrace = $e->getTraceAsString();
-            $message = Common::sanitizeInputValue($e->getMessage());
-            Piwik_ExitWithMessage($message, $debugTrace, true, true);
         }
     }
 
@@ -223,7 +221,8 @@ class FrontController extends Singleton
     {
         try {
             if (class_exists('Piwik\\Profiler')
-                && !SettingsServer::isTrackerApiRequest()) {
+                && !SettingsServer::isTrackerApiRequest()
+            ) {
                 // in tracker mode Piwik\Tracker\Db\Pdo\Mysql does currently not implement profiling
                 Profiler::displayDbProfileReport();
                 Profiler::printQueryCount();
@@ -308,152 +307,142 @@ class FrontController extends Singleton
         }
         $initialized = true;
 
-        try {
-            Registry::set('timer', new Timer);
+        Registry::set('timer', new Timer);
 
-            $directoriesToCheck = array(
-                '/tmp/',
-                '/tmp/assets/',
-                '/tmp/cache/',
-                '/tmp/logs/',
-                '/tmp/tcpdf/',
-                '/tmp/templates_c/',
-            );
+        $directoriesToCheck = array(
+            '/tmp/',
+            '/tmp/assets/',
+            '/tmp/cache/',
+            '/tmp/logs/',
+            '/tmp/tcpdf/',
+            '/tmp/templates_c/',
+        );
 
-            Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
+        Translate::loadEnglishTranslation();
 
-            Translate::loadEnglishTranslation();
+        Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
 
-            $exceptionToThrow = self::createConfigObject();
+        $exceptionToThrow = self::createConfigObject();
 
-            $this->handleMaintenanceMode();
-            $this->handleProfiler();
-            $this->handleSSLRedirection();
+        $this->handleMaintenanceMode();
+        $this->handleProfiler();
+        $this->handleSSLRedirection();
 
-            Plugin\Manager::getInstance()->loadPluginTranslations('en');
-            Plugin\Manager::getInstance()->loadActivatedPlugins();
+        Plugin\Manager::getInstance()->loadPluginTranslations('en');
+        Plugin\Manager::getInstance()->loadActivatedPlugins();
 
-            if ($exceptionToThrow) {
-                throw $exceptionToThrow;
-            }
-
-            // try to connect to the database
-            try {
-                Db::createDatabaseObject();
-                Db::fetchAll("SELECT DATABASE()");
-            } catch (Exception $exception) {
-                if (self::shouldRethrowException()) {
-                    throw $exception;
-                }
-
-                Log::debug($exception);
-
-                /**
-                 * Triggered when Piwik cannot connect to the database.
-                 *
-                 * This event can be used to start the installation process or to display a custom error
-                 * message.
-                 *
-                 * @param Exception $exception The exception thrown from creating and testing the database
-                 *                             connection.
-                 */
-                Piwik::postEvent('Db.cannotConnectToDb', array($exception), $pending = true);
-
-                throw $exception;
-            }
-
-            // try to get an option (to check if data can be queried)
-            try {
-                Option::get('TestingIfDatabaseConnectionWorked');
-            } catch (Exception $exception) {
-                if (self::shouldRethrowException()) {
-                    throw $exception;
-                }
-
-                Log::debug($exception);
-
-                /**
-                 * Triggered when Piwik cannot access database data.
-                 *
-                 * This event can be used to start the installation process or to display a custom error
-                 * message.
-                 *
-                 * @param Exception $exception The exception thrown from trying to get an option value.
-                 */
-                Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
-
-                throw $exception;
-            }
-
-            // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
-            Access::getInstance();
-
-            /**
-             * Triggered just after the platform is initialized and plugins are loaded.
-             *
-             * This event can be used to do early initialization.
-             *
-             * _Note: At this point the user is not authenticated yet._
-             */
-            Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
-
-            \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
-
-            // ensure the current Piwik URL is known for later use
-            if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {
-                SettingsPiwik::getPiwikUrl();
-            }
-
-            /**
-             * Triggered before the user is authenticated, when the global authentication object
-             * should be created.
-             *
-             * Plugins that provide their own authentication implementation should use this event
-             * to set the global authentication object (which must derive from {@link Piwik\Auth}).
-             *
-             * **Example**
-             *
-             *     Piwik::addAction('Request.initAuthenticationObject', function() {
-             *         Piwik\Registry::set('auth', new MyAuthImplementation());
-             *     });
-             */
-            Piwik::postEvent('Request.initAuthenticationObject');
-            try {
-                $authAdapter = Registry::get('auth');
-            } catch (Exception $e) {
-                throw new Exception("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
-                                <br />You can activate the plugin by adding:<br />
-                                <code>Plugins[] = Login</code><br />
-                                under the <code>[Plugins]</code> section in your config/config.ini.php");
-            }
-            Access::getInstance()->reloadAccess($authAdapter);
-
-            // Force the auth to use the token_auth if specified, so that embed dashboard
-            // and all other non widgetized controller methods works fine
-            if (Common::getRequestVar('token_auth', false, 'string') !== false) {
-                Request::reloadAuthUsingTokenAuth();
-            }
-            SettingsServer::raiseMemoryLimitIfNecessary();
-
-            Translate::reloadLanguage();
-            \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
-
-            /**
-             * Triggered after the platform is initialized and after the user has been authenticated, but
-             * before the platform has handled the request.
-             *
-             * Piwik uses this event to check for updates to Piwik.
-             */
-            Piwik::postEvent('Platform.initialized');
-        } catch (Exception $e) {
-
-            if (self::shouldRethrowException()) {
-                throw $e;
-            }
-
-            $debugTrace = $e->getTraceAsString();
-            Piwik_ExitWithMessage($e->getMessage(), $debugTrace, true);
+        if ($exceptionToThrow) {
+            throw $exceptionToThrow;
         }
+
+        // try to connect to the database
+        try {
+            Db::createDatabaseObject();
+            Db::fetchAll("SELECT DATABASE()");
+        } catch (Exception $exception) {
+            if (self::shouldRethrowException()) {
+                throw $exception;
+            }
+
+            Log::debug($exception);
+
+            /**
+             * Triggered when Piwik cannot connect to the database.
+             *
+             * This event can be used to start the installation process or to display a custom error
+             * message.
+             *
+             * @param Exception $exception The exception thrown from creating and testing the database
+             *                             connection.
+             */
+            Piwik::postEvent('Db.cannotConnectToDb', array($exception), $pending = true);
+
+            throw $exception;
+        }
+
+        // try to get an option (to check if data can be queried)
+        try {
+            Option::get('TestingIfDatabaseConnectionWorked');
+        } catch (Exception $exception) {
+            if (self::shouldRethrowException()) {
+                throw $exception;
+            }
+
+            Log::debug($exception);
+
+            /**
+             * Triggered when Piwik cannot access database data.
+             *
+             * This event can be used to start the installation process or to display a custom error
+             * message.
+             *
+             * @param Exception $exception The exception thrown from trying to get an option value.
+             */
+            Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
+
+            throw $exception;
+        }
+
+        // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
+        Access::getInstance();
+
+        /**
+         * Triggered just after the platform is initialized and plugins are loaded.
+         *
+         * This event can be used to do early initialization.
+         *
+         * _Note: At this point the user is not authenticated yet._
+         */
+        Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
+
+        \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+
+        // ensure the current Piwik URL is known for later use
+        if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {
+            SettingsPiwik::getPiwikUrl();
+        }
+
+        /**
+         * Triggered before the user is authenticated, when the global authentication object
+         * should be created.
+         *
+         * Plugins that provide their own authentication implementation should use this event
+         * to set the global authentication object (which must derive from {@link Piwik\Auth}).
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Request.initAuthenticationObject', function() {
+         *         Piwik\Registry::set('auth', new MyAuthImplementation());
+         *     });
+         */
+        Piwik::postEvent('Request.initAuthenticationObject');
+        try {
+            $authAdapter = Registry::get('auth');
+        } catch (Exception $e) {
+            throw new HtmlMessageException("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
+                            <br />You can activate the plugin by adding:<br />
+                            <code>Plugins[] = Login</code><br />
+                            under the <code>[Plugins]</code> section in your config/config.ini.php");
+        }
+        Access::getInstance()->reloadAccess($authAdapter);
+
+        // Force the auth to use the token_auth if specified, so that embed dashboard
+        // and all other non widgetized controller methods works fine
+        if (Common::getRequestVar('token_auth', false, 'string') !== false) {
+            Request::reloadAuthUsingTokenAuth();
+        }
+        SettingsServer::raiseMemoryLimitIfNecessary();
+
+        Translate::reloadLanguage();
+        \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
+
+        /**
+         * Triggered after the platform is initialized and after the user has been authenticated, but
+         * before the platform has handled the request.
+         *
+         * Piwik uses this event to check for updates to Piwik.
+         */
+        Piwik::postEvent('Platform.initialized');
     }
 
     protected function prepareDispatch($module, $action, $parameters)
@@ -612,15 +601,38 @@ class FrontController extends Singleton
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
     }
-}
 
-/**
- * Exception thrown when the requested plugin is not activated in the config file
- */
-class PluginDeactivatedException extends Exception
-{
-    public function __construct($module)
+    /**
+     * Returns HTML that displays an exception's error message (and possibly stack trace).
+     * The result of this method is echo'd by dispatch.php.
+     *
+     * @param Exception $ex The exception to use when generating the error page's HTML.
+     * @return string The HTML to echo.
+     */
+    public function getErrorResponse(Exception $ex)
     {
-        parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Piwik.");
+        $debugTrace = $ex->getTraceAsString();
+
+        if (method_exists($ex, 'getHtmlMessage')) {
+            $message = $ex->getHtmlMessage();
+        } else {
+            $message = Common::sanitizeInputValue($ex->getMessage());
+        }
+
+        $logo = new CustomLogo();
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logo->getHeaderLogoUrl(), $logo->getPathUserFavicon());
+
+        /**
+         * Triggered before a Piwik error page is displayed to the user.
+         *
+         * This event can be used to modify the content of the error page that is displayed when
+         * an exception is caught.
+         *
+         * @param string &$result The HTML of the error page.
+         * @param Exception $ex The Exception displayed in the error page.
+         */
+        Piwik::postEvent('FrontController.modifyErrorPage', array(&$result, $ex));
+
+        return $result;
     }
 }

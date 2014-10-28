@@ -9,6 +9,7 @@
 namespace Piwik\Columns;
 
 use Exception;
+use Piwik\Plugin;
 use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
@@ -182,6 +183,25 @@ abstract class Dimension
         }
 
         foreach (ConversionDimension::getAllDimensions() as $dimension) {
+            $dimensions[] = $dimension;
+        }
+
+        return $dimensions;
+    }
+
+    public static function getDimensions(Plugin $plugin)
+    {
+        $dimensions = array();
+
+        foreach (VisitDimension::getDimensions($plugin) as $dimension) {
+            $dimensions[] = $dimension;
+        }
+
+        foreach (ActionDimension::getDimensions($plugin) as $dimension) {
+            $dimensions[] = $dimension;
+        }
+
+        foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
             $dimensions[] = $dimension;
         }
 
