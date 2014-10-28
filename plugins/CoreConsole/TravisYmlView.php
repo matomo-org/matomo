@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\CoreConsole;
 
+use Piwik\Filesystem;
 use Piwik\View;
-use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
 
 /**
@@ -242,7 +242,7 @@ class TravisYmlView extends View
 
     private function doesFolderContainPluginTests($folderPath)
     {
-        $testFiles = array_merge(glob($folderPath . "/**/*Test.php"), glob($folderPath . "/*Test.php"));
+        $testFiles = Filesystem::globr($folderPath, "*Test.php");
         return !empty($testFiles);
     }
 
@@ -255,7 +255,7 @@ class TravisYmlView extends View
 
     private function doesFolderContainUITests($folderPath)
     {
-        $testFiles = array_merge(glob($folderPath . "/**/*_spec.js"), glob($folderPath . "/*_spec.js"));
+        $testFiles = Filesystem::globr($folderPath, "*_spec.js");
         return !empty($testFiles);
     }
 
