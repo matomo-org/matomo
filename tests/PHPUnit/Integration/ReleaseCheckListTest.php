@@ -271,6 +271,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
                 strpos($file, '/libs/bower_components') !== false ||
+                (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false
             ) {
                 continue;
