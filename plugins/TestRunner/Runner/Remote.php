@@ -36,6 +36,16 @@ class Remote
         $this->ssh->exec('composer.phar install');
     }
 
+    public function applyPatch($fileToApply)
+    {
+        $content = file_get_contents($fileToApply);
+
+        if (!empty($content)) {
+            $content = escapeshellarg($content);
+            $this->ssh->exec('echo ' . $content . ' | git apply - ');
+        }
+    }
+
     public function runTests($host, $testSuite)
     {
         $this->prepareTestRun($host);

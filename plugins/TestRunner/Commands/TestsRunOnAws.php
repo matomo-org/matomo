@@ -38,6 +38,7 @@ class TestsRunOnAws extends ConsoleCommand
         $this->addOption('update-only', null, InputOption::VALUE_NONE, 'Launches an instance, outputs the connection parameters and prepares the instance for a test run but does not actually run the tests. It will also checkout the specified version.');
         $this->addOption('one-instance-per-testsuite', null, InputOption::VALUE_NONE, 'Launches an instance, outputs the connection parameters and prepares the instance for a test run but does not actually run the tests. It will also checkout the specified version.');
         $this->addOption('checkout', null, InputOption::VALUE_REQUIRED, 'Git hash, tag or branch to checkout. Defaults to current hash', $this->getCurrentGitHash());
+        $this->addOption('patch-file', null, InputOption::VALUE_REQUIRED, 'Apply the given patch file after performing a checkout');
         $this->setDescription('Run a specific testsuite on AWS');
         $this->setHelp('To use this command you have to configure the [tests]aws_* section in config/config.ini.php. See config/global.ini.php for all available options.
 
@@ -50,6 +51,11 @@ If you want to debug a problem and access the AWS instance using SSH you can spe
 By default we will launch only one instance per keyname meaning you should not execute this command while another test is running. It would start the tests twice on the same instance and lead to errors. If you want to run two different testsuites at the same time (for instance <comment>system</comment> and <comment>ui</comment>) specify the <comment>one-instance-per-testsuite</comment> option. This will launch one instance for system tests and one for ui tests:
 <comment>./console tests:run-aws system</comment>
 <comment>./console tests:run-aws --one-instance-per-testsuite ui // will launch a new instance for ui testsuites</comment>
+
+If you want to apply a patch on top of the checked out version you can apply the option <comment>--patch-file</comment>.
+<comment>./console tests:run-aws --patch-file=test.patch ui</comment>
+This will checkout the same revision as you are currently on and then apply the patch. To generate a diff use for instance the command <comment>git diff > test.patch</comment>.
+This feature is still beta and there might be problems with pictures and/or binaries etc.
 ');
     }
 
@@ -59,6 +65,7 @@ By default we will launch only one instance per keyname meaning you should not e
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $testSuite  = $this->getTestSuite($input);
+        $patchFile  = $this->getPatchFile($input);
         $launchOnly = $input->getOption('launch-only');
         $updateOnly = $input->getOption('update-only');
         $gitHash    = $input->getOption('checkout');
@@ -83,6 +90,10 @@ By default we will launch only one instance per keyname meaning you should not e
         $testRunner = new Remote($ssh);
         $testRunner->updatePiwik($gitHash);
 
+        if (!empty($patchFile)) {
+            $testRunner->applyPatch($patchFile);
+        }
+
         if ($updateOnly) {
             $ssh->disconnect();
 
@@ -91,13 +102,8 @@ By default we will launch only one instance per keyname meaning you should not e
 
         $testRunner->runTests($host, $testSuite);
 
-        if (in_array($testSuite, array('system', 'all'))) {
-            $output->writeln("<info>Tests finished. You can browse processed files at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>");
-        } elseif ('ui' === $testSuite) {
-            $output->writeln("<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/PHPUnit/UI/screenshot-diffs/diffviewer.html</comment>");
-        } else {
-            $output->writeln("<info>Tests finished</info>");
-        }
+        $message = $this->buildFinishedMessage($testSuite, $host);
+        $output->writeln("\n$message\n");
 
         $ssh->disconnect();
     }
@@ -136,6 +142,30 @@ By default we will launch only one instance per keyname meaning you should not e
     private function getCurrentGitHash()
     {
         return trim(`git rev-parse HEAD`);
+    }
+
+    private function buildFinishedMessage($testSuite, $host)
+    {
+        if (in_array($testSuite, array('system', 'all'))) {
+            $message = "<info>Tests finished. You can browse processed files at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>";
+        } elseif ('ui' === $testSuite) {
+            $message = "<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/PHPUnit/UI/screenshot-diffs/diffviewer.html</comment>";
+        } else {
+            $message = "<info>Tests finished</info>";
+        }
+
+        return $message;
+    }
+
+    private function getPatchFile(InputInterface $input)
+    {
+        $file = $input->getOption('patch-file');
+
+        if (!empty($file) && !is_readable($file)) {
+            throw new \InvalidArgumentException("The patch file $file does not exist or is not readable");
+        }
+
+        return $file;
     }
 
 }
