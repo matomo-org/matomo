@@ -326,6 +326,14 @@ class Proxy extends Singleton
     }
 
     /**
+     * Check if given method name is deprecated or not.
+     */
+    public function isDeprecatedMethod($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['isDeprecated'];
+    }
+
+    /**
      * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"
@@ -435,6 +443,7 @@ class Proxy extends Singleton
         }
         $name = $method->getName();
         $parameters = $method->getParameters();
+        $docComment = $method->getDocComment();
 
         $aParameters = array();
         foreach ($parameters as $parameter) {
@@ -449,6 +458,7 @@ class Proxy extends Singleton
         }
         $this->metadataArray[$class][$name]['parameters'] = $aParameters;
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+        $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
     }
 
     /**
@@ -504,10 +514,6 @@ class Proxy extends Singleton
     protected function checkIfMethodIsAvailable(ReflectionMethod $method)
     {
         if (!$method->isPublic() || $method->isConstructor() || $method->getName() === 'getInstance') {
-            return false;
-        }
-
-        if (false !== strstr($method->getDocComment(), '@deprecated')) {
             return false;
         }
 
