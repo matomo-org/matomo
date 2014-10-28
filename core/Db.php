@@ -81,7 +81,7 @@ class Db
          */
         Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
 
-        $dbConfig['profiler'] = $config->Debug['enable_sql_profiler'];
+        $dbConfig['profiler'] = @$config->Debug['enable_sql_profiler'];
 
         return $dbConfig;
     }

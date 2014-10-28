@@ -30,12 +30,21 @@ if (!defined('PIWIK_ENABLE_DISPATCH')) {
 
 if (PIWIK_ENABLE_DISPATCH) {
     $controller = FrontController::getInstance();
-    $controller->init();
-    $response = $controller->dispatch();
 
-    if (is_array($response)) {
-        var_export($response);
-    } elseif (!is_null($response)) {
+    try {
+        $controller->init();
+        $response = $controller->dispatch();
+
+        if (is_array($response)) {
+            var_export($response);
+        } elseif (!is_null($response)) {
+            echo $response;
+        }
+    } catch (Exception $ex) {
+        $response = $controller->getErrorResponse($ex);
+
         echo $response;
+
+        exit(1);
     }
 }
