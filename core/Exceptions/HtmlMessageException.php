@@ -12,7 +12,7 @@ use Exception;
 
 /**
  * An exception whose message has HTML content. When these exceptions are caught
- * the messgae will not be sanitized before being displayed to the user.
+ * the message will not be sanitized before being displayed to the user.
  *
  * @api
  */
