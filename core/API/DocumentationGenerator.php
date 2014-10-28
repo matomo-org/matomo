@@ -84,6 +84,10 @@ class DocumentationGenerator
         $info['__documentation'] = $this->checkDocumentation($info['__documentation']);
         $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
         foreach ($methods as $methodName) {
+            if (Proxy::getInstance()->isDeprecatedMethod($class, $methodName)) {
+                continue;
+            }
+
             $params = $this->getParametersString($class, $methodName);
 
             $str .= "\n <div class='apiMethod'>- <b>$moduleName.$methodName </b>" . $params . "";
@@ -177,6 +181,10 @@ class DocumentationGenerator
         $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
         foreach ($info as $methodName => $infoMethod) {
             if ($methodName == '__documentation') {
+                continue;
+            }
+
+            if (Proxy::getInstance()->isDeprecatedMethod($class, $methodName)) {
                 continue;
             }
 
