@@ -88,9 +88,12 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
      * @param bool $optionalLinks If true, will show links to the Piwik website for help
      * @param bool $optionalLinkBack If true, displays a link to go back
+     * @param bool|string $logoUrl The URL to the logo to use.
+     * @param bool|string $faviconUrl The URL to the favicon to use.
      * @return string
      */
-    function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false)
+    function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
+                                       $logoUrl = false, $faviconUrl = false)
     {
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
@@ -99,6 +102,14 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
             if($isInternalServerError) {
                 header('HTTP/1.1 500 Internal Server Error');
             }
+        }
+
+        if (empty($logoUrl)) {
+            $logoUrl = "plugins/Morpheus/images/logo-header.png";
+        }
+
+        if (empty($faviconUrl)) {
+            $faviconUrl = "plugins/CoreHome/images/favicon.ico";
         }
 
         if ($optionalTrace) {
@@ -117,7 +128,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         if ($optionalLinkBack) {
             $optionalLinkBack = '<a href="javascript:window.history.back();">Go Back</a><br/>';
         }
+
         $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
+        $headerPage = str_replace('%logoUrl%', $logoUrl, $headerPage);
+        $headerPage = str_replace('%faviconUrl%', $faviconUrl, $headerPage);
+
         $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
 
         $headerPage = str_replace('{$HTML_TITLE}', PAGE_TITLE_WHEN_ERROR, $headerPage);

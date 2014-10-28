@@ -17,6 +17,7 @@ use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session;
 use Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 
@@ -618,7 +619,8 @@ class FrontController extends Singleton
             $message = Common::sanitizeInputValue($ex->getMessage());
         }
 
-        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true);
+        $logo = new CustomLogo();
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logo->getHeaderLogoUrl(), $logo->getPathUserFavicon());
 
         /**
          * Triggered before a Piwik error page is displayed to the user.
