@@ -46,13 +46,17 @@ class SystemCheck
             '/tmp/templates_c/',
         );
 
-        if (!DbHelper::isInstalled()) {
+	$directoriesToNoWriteCheck=array(
+	    '/'
+	);
+
+	if (!DbHelper::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
             $directoriesToCheck[] = '/config/';
         }
 
         $infos['directories'] = Filechecks::checkDirectoriesWritable($directoriesToCheck);
-
+	echo Filechecks::getSecureDirectories();
         $infos['can_auto_update'] = Filechecks::canAutoUpdate();
 
         self::initServerFilesForSecurity();

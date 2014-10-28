@@ -244,4 +244,32 @@ class Filechecks
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
     }
+
+    /**
+    * Returns the the directories that should be secured after update.
+    *
+    * @retrun string
+    */
+   public static function getSecureDirectories(){
+	$insecure=False;
+	$directoriesToWatch = array (
+	       PIWIK_INCLUDE_PATH . '/',
+               PIWIK_INCLUDE_PATH . '/core',
+  	       PIWIK_INCLUDE_PATH . '/vendor',
+        );
+	$message  = "For security reasons the following folder should have different permission:<br /><br />";
+	foreach($directoriesToWatch as $d){
+		$isPerm = substr(sprintf('%o',fileperms($d)),-4);
+		if($isPerm>755){
+			$insecure=True;
+			$message .= "<code>chmod -R 0755 $d</code><br />";
+		}
+	}
+	if($insecure){
+		Piwik_ExitWithMessage($message);
+	}
+	else{
+		return "";
+	}
+  }
 }
