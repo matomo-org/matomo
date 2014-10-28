@@ -2,7 +2,7 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
-## Piwik 2.8.1
+## Piwik 2.8.2
 
 ### Library updates
 * Updated AngularJS from 1.2.25 to 1.2.26
