@@ -82,6 +82,8 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
     /**
      * Displays info/warning/error message in a friendly UI and exits.
      *
+     * Note: this method should not be called by anyone other than FrontController.
+     *
      * @param string $message Main message, must be html encoded before calling
      * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
      * @param bool $optionalLinks If true, will show links to the Piwik website for help

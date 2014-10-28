@@ -617,7 +617,20 @@ class FrontController extends Singleton
             $message = Common::sanitizeInputValue($ex->getMessage());
         }
 
-        return Piwik_GetErrorMessagePage($message, $debugTrace, true, true);
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true);
+
+        /**
+         * Triggered before a Piwik error page is displayed to the user.
+         *
+         * This event can be used to modify the content of the error page that is displayed when
+         * an exception is caught.
+         *
+         * @param string &$result The HTML of the error page.
+         * @param Exception $ex The Exception displayed in the error page.
+         */
+        Piwik::postEvent('FrontController.modifyErrorPage', array(&$result, $ex));
+
+        return $result;
     }
 }
 
