@@ -348,7 +348,7 @@ class Model
         $where = '';
         if (is_numeric($pattern)) {
             $bind[] = $pattern;
-            $where  = 'ORs s.idsite = ?';
+            $where  = 'OR s.idsite = ?';
         }
 
         $query = "SELECT idsite, name, main_url, `group`
