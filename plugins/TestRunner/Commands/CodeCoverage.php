@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\Plugins\CoreConsole\Commands;
+namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\ArrayInput;
