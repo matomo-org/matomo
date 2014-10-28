@@ -94,7 +94,7 @@ By default we will launch only one instance per keyname meaning you should not e
         if (in_array($testSuite, array('system', 'all'))) {
             $output->writeln("<info>Tests finished. You can browse processed files at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>");
         } elseif ('ui' === $testSuite) {
-            $output->writeln("<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/PHPUnit/UI/processed-ui-screenshots/</comment>");
+            $output->writeln("<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/PHPUnit/UI/screenshot-diffs/diffviewer.html</comment>");
         } else {
             $output->writeln("<info>Tests finished</info>");
         }
