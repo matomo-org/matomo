@@ -41,14 +41,10 @@ if (PIWIK_ENABLE_DISPATCH) {
             echo $response;
         }
     } catch (Exception $ex) {
-        $debugTrace = $ex->getTraceAsString();
+        $response = $controller->getErrorResponse($ex);
 
-        if (method_exists($ex, 'getHtmlMessage')) {
-            $message = $ex->getHtmlMessage();
-        } else {
-            $message = Piwik\Common::sanitizeInputValue($ex->getMessage());
-        }
+        echo $response;
 
-        Piwik_ExitWithMessage($message, $debugTrace, true, true);
+        exit(1);
     }
 }

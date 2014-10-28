@@ -599,6 +599,26 @@ class FrontController extends Singleton
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
     }
+
+    /**
+     * Returns HTML that displays an exception's error message (and possibly stack trace).
+     * The result of this method is echo'd by dispatch.php.
+     *
+     * @param Exception $ex The exception to use when generating the error page's HTML.
+     * @return string The HTML to echo.
+     */
+    public function getErrorResponse(Exception $ex)
+    {
+        $debugTrace = $ex->getTraceAsString();
+
+        if (method_exists($ex, 'getHtmlMessage')) {
+            $message = $ex->getHtmlMessage();
+        } else {
+            $message = Common::sanitizeInputValue($ex->getMessage());
+        }
+
+        return Piwik_GetErrorMessagePage($message, $debugTrace, true, true);
+    }
 }
 
 /**

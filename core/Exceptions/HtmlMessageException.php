@@ -11,12 +11,17 @@ namespace Piwik\Exceptions;
 use Exception;
 
 /**
- * TODO
+ * An exception whose message has HTML content. When these exceptions are caught
+ * the messgae will not be sanitized before being displayed to the user.
+ *
+ * @api
  */
 class HtmlMessageException extends Exception
 {
     /**
-     * TODO
+     * Returns the exception message.
+     *
+     * @return string
      */
     public function getHtmlMessage()
     {

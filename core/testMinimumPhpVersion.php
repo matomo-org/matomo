@@ -64,7 +64,7 @@ if ($minimumPhpInvalid) {
 
 define('PAGE_TITLE_WHEN_ERROR', 'Piwik &rsaquo; Error');
 
-if (!function_exists('Piwik_ExitWithMessage')) {
+if (!function_exists('Piwik_GetErrorMessagePage')) {
     /**
      * Returns true if Piwik should print the backtrace with error messages.
      *
@@ -86,8 +86,9 @@ if (!function_exists('Piwik_ExitWithMessage')) {
      * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
      * @param bool $optionalLinks If true, will show links to the Piwik website for help
      * @param bool $optionalLinkBack If true, displays a link to go back
+     * @return string
      */
-    function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false)
+    function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false)
     {
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
@@ -133,17 +134,19 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         $message = str_replace("\t", "", $message);
         $message = strip_tags($message);
 
-        if ($isCli) {
-            echo $message;
-        } else {
-            echo $headerPage . $content . $footerPage;
+        if (!$isCli) {
+            $message = $headerPage . $content . $footerPage;
         }
-        echo "\n";
+
+        $message .= "\n";
+
         error_log(sprintf("Error in Piwik: %s", str_replace("\n", " ", $message)));
-        exit(1);
+
+        return $message;
     }
 }
 
 if (!empty($piwik_errorMessage)) {
-    Piwik_ExitWithMessage($piwik_errorMessage, false, true);
+    echo Piwik_GetErrorMessagePage($piwik_errorMessage, false, true);
+    exit(1);
 }
