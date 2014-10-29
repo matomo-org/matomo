@@ -10,6 +10,7 @@ namespace Piwik;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use Doctrine\Common\Cache\ArrayCache;
 use Interop\Container\ContainerInterface;
 
 /**
@@ -46,7 +47,7 @@ class StaticContainer
         $builder = new ContainerBuilder();
 
         // TODO add cache
-        // $builder->setDefinitionCache($cache);
+        $builder->setDefinitionCache(new ArrayCache());
         // $builder->writeProxiesToFile(true, PIWIK_USER_PATH . '/tmp/proxies');
 
         // Global config
