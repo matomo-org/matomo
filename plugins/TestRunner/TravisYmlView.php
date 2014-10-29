@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\Plugins\CoreConsole;
+namespace Piwik\Plugins\TestRunner;
 
 use Piwik\Filesystem;
 use Piwik\View;
@@ -55,7 +55,7 @@ class TravisYmlView extends View
      */
     public function __construct()
     {
-        parent::__construct("@CoreConsole/travis.yml");
+        parent::__construct("@TestRunner/travis.yml");
     }
 
     /**

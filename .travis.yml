@@ -88,7 +88,7 @@ before_install:
 install:
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git fetch
-  - git checkout master -- ./tests/travis ./plugins/CoreConsole || true
+  - git checkout master -- ./tests/travis ./plugins/TestRunner || true
 
 before_script:
   - if ([ -n "$TEST_SUITE" ]);
