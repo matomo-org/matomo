@@ -11,7 +11,6 @@ namespace Piwik;
 use DI\Container;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
-use Interop\Container\ContainerInterface;
 
 /**
  * This class provides a static access to the container.
@@ -28,7 +27,7 @@ class StaticContainer
     private static $container;
 
     /**
-     * @return ContainerInterface
+     * @return Container
      */
     public static function getContainer()
     {

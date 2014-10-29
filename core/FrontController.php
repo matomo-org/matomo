@@ -121,7 +121,7 @@ class FrontController extends Singleton
 
             $class = $this->getClassNameController($module);
             /** @var $controller Controller */
-            $controller = $container->get($class);
+            $controller = $container->make($class);
 
             $controllerAction = $action;
             if ($controllerAction === false) {
@@ -147,7 +147,7 @@ class FrontController extends Singleton
             $parameters['widgetModule'] = $module;
             $parameters['widgetMethod'] = $action;
 
-            return array($container->get('Piwik\Plugins\CoreHome\Controller'), 'renderWidget');
+            return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderWidget');
         }
 
         // TRY TO FIND ACTION IN REPORT
@@ -158,7 +158,7 @@ class FrontController extends Singleton
             $parameters['reportModule'] = $module;
             $parameters['reportAction'] = $action;
 
-            return array($container->get('Piwik\Plugins\CoreHome\Controller'), 'renderReportWidget');
+            return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportWidget');
         }
 
         if (!empty($action) && Report::PREFIX_ACTION_IN_MENU === substr($action, 0, strlen(Report
@@ -170,7 +170,7 @@ class FrontController extends Singleton
                 $parameters['reportModule'] = $module;
                 $parameters['reportAction'] = $reportAction;
 
-                return array($container->get('Piwik\Plugins\CoreHome\Controller'), 'renderReportMenu');
+                return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportMenu');
             }
         }
 
