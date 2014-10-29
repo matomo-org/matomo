@@ -36,6 +36,16 @@ class Remote
         $this->ssh->exec('composer.phar install');
     }
 
+    public function replaceConfigIni($file)
+    {
+        $content = file_get_contents($file);
+
+        if (!empty($content)) {
+            $content = escapeshellarg($content);
+            $this->ssh->exec('echo ' . $content . ' > config/config.ini.php');
+        }
+    }
+
     public function applyPatch($fileToApply)
     {
         $content = file_get_contents($fileToApply);

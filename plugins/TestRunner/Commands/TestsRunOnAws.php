@@ -89,6 +89,7 @@ This feature is still beta and there might be problems with pictures and/or bina
 
         $testRunner = new Remote($ssh);
         $testRunner->updatePiwik($gitHash);
+        $testRunner->replaceConfigIni(PIWIK_INCLUDE_PATH . '/plugins/TestRunner/Aws/config.ini.php');
 
         if (!empty($patchFile)) {
             $testRunner->applyPatch($patchFile);
