@@ -16,6 +16,13 @@ use Piwik\Network\IPv6;
 /**
  * Contains IP address helper functions (for both IPv4 and IPv6).
  *
+ * As of Piwik 2.9, most methods in this class are deprecated. You are
+ * encouraged to use classes from the Piwik "Network" component:
+ *
+ * @see \Piwik\Network\IP
+ * @see \Piwik\Network\IPUtils
+ * @link https://github.com/piwik/component-network
+ *
  * As of Piwik 1.3, IP addresses are stored in the DB has VARBINARY(16),
  * and passed around in network address format which has the advantage of
  * being in big-endian byte order. This allows for binary-safe string
