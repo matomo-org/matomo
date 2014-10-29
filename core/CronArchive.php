@@ -492,23 +492,6 @@ class CronArchive
         }
     }
 
-    public function filterWebsiteIds(&$websiteIds)
-    {
-        // Keep only the websites that do exist
-        $websiteIds = array_intersect($websiteIds, $this->algorithmState->getAllWebsites());
-
-        /**
-         * Triggered by the **core:archive** console command so plugins can modify the list of
-         * websites that the archiving process will be launched for.
-         *
-         * Plugins can use this hook to add websites to archive, remove websites to archive, or change
-         * the order in which websites will be archived.
-         *
-         * @param array $websiteIds The list of website IDs to launch the archiving process for.
-         */
-        Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));
-    }
-
     private function initTokenAuth()
     {
         $token = '';

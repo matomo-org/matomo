@@ -14,6 +14,7 @@ use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\MetricsFormatter;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
@@ -528,11 +529,20 @@ class AlgorithmState
     }
 
     /**
-     * Returns true if we should only archive data for websites that have seen traffic in the last N
-     * seconds. The amount of seconds can be specified as an option in CronArchive.
+     * Returns the amount of seconds in the past during which websites are required to have traffic
+     * for archiving to be launched.
+     *
+     * If the --force-all-periods option was set to a specific value, this value is used as the
+     * number of seconds. If the option was supplied but without a value, the `CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE`
+     * constant is used.
+     *
+     * If the --force-all-periods option was not supplied and the CronArchive process was run successfully
+     * before, then the time period is the number of seconds since the last CronArchive run time. If the
+     * CronArchive process has not been run before, `CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE` is used.
      *
      * See {@link CronArchive::$shouldArchiveAllPeriodsSince}.
-    // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
+     *
+     * @return int
      */
     public function getShouldArchiveOnlySitesWithTrafficSinceLastNSecs()
     {
@@ -560,7 +570,12 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the periods to process during this CronArchive execution.
+     *
+     * The result of this method can be influenced by the {@link CronArchive::$restrictToPeriods} property
+     * and the result of {@link PeriodFactory::getPeriodsEnabledForAPI()}.
+     *
+     * @return string[] ie `array('day', 'month')`
      */
     public function getPeriodsToProcess()
     {
@@ -572,7 +587,9 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the default periods to process during a CronArchive execution.
+     *
+     * @return string[]
      */
     public function getDefaultPeriodsToProcess()
     {
@@ -580,7 +597,12 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns `true` if we should respect the archiving TTL, `false` if otherwise.
+     *
+     * TODO: I don't know what it means for the CronArchive algorithm if this returns false (ie, we **shouldn't**
+     *       respect the archiving TTL.
+     *
+     * @return bool
      */
     public function getArchiveAndRespectTTL()
     {
@@ -590,7 +612,9 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the list of all websites the current user has access to.
+     *
+     * @return int
      */
     public function getAllWebsites()
     {
@@ -600,7 +624,23 @@ class AlgorithmState
     }
 
     /**
-     * TODO
+     * Returns the list of sites that we will launch the archiving process for in this CronArchive
+     * run.
+     *
+     * If the --force-idsites parameter is used w/ CronArchive, then these sites are archived. See
+     * {@link CronArchive::$shouldArchiveSpecifiedSites}.
+     *
+     * If the --force-all-websites parameter is used w/ CronArchive, then all data for websites are
+     * computed. See {@link CronArchive::$shouldArchiveAllSites}.
+     *
+     * If neither of the above options are supplied, then the websites that have had traffic since the
+     * last CronArchive execution, the websites with invalidated archive data and the websites for whom
+     * the current day has ended (in the website's timezone).
+     *
+     * The list of websites to archive can be further modified by the **CronArchive.filterWebsiteIds**
+     * event.
+     *
+     * @return int[]
      */
     public function getWebsitesToArchive()
     {
@@ -621,7 +661,7 @@ class AlgorithmState
                 );
                 $websiteIds = array_unique($websiteIds);
 
-                /* TODO: broke this log. needs to diff against sites that are being archived because of non-timezone issues
+                /* TODO: broke this log. needs to diff against sites that are being archived because of non-timezone related issues
                 if (count($websiteDayHasFinishedSinceLastRun) > 0) {
                     $websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $websiteIds);
                     $ids = !empty($websiteDayHasFinishedSinceLastRun) ? ", IDs: " . implode(", ", $websiteDayHasFinishedSinceLastRun) : "";
@@ -632,14 +672,33 @@ class AlgorithmState
 
             }
 
-            $container->filterWebsiteIds($websiteIds); // TODO: bit of a hack making this public
+            // Keep only the websites that do exist
+            $websiteIds = array_intersect($websiteIds, $self->getAllWebsites());
+
+            /**
+             * Triggered by the **core:archive** console command so plugins can modify the list of
+             * websites that the archiving process will be launched for.
+             *
+             * Plugins can use this hook to add websites to archive, remove websites to archive, or change
+             * the order in which websites will be archived.
+             *
+             * @param array $websiteIds The list of website IDs to launch the archiving process for.
+             */
+            Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));
 
             return $websiteIds;
         });
     }
 
     /**
-     * TODO
+     * Returns the list of websites that have experienced visits since the last time CronArchive
+     * successfully ran.
+     *
+     * Uses the **SitesManager.getSitesIdWithVisits** API method.
+     *
+     * See {@link getShouldArchiveOnlySitesWithTrafficSinceLastNSecs()}.
+     *
+     * @return int[]
      */
     public function getWebsitesWithVisitsSinceLastRun()
     {
@@ -660,13 +719,11 @@ class AlgorithmState
     }
 
     /**
-     * TODO: update & modify
+     * Returns the IDs of the websites with invalidated archive data.
      *
-     * Return All websites that had reports in the past which were invalidated recently
-     * (see API CoreAdminHome.invalidateArchivedReports)
-     * eg. when using Python log import script
+     * See the **CoreAdminHome.invalidateArchivedReports** API method.
      *
-     * @return array
+     * @return int[]
      */
     public function getWebsitesWithInvalidatedArchiveData()
     {
@@ -685,12 +742,9 @@ class AlgorithmState
     }
 
     /**
-     * TODO
-     * Returns the list of websites in which timezones today is a new day
-     * (compared to the last time archiving was executed)
+     * Returns the list of websites for whom the current day has ended in the website's timezone.
      *
-     * @param $websiteIds
-     * @return array Website IDs
+     * @return int[]
      */
     public function getWebsitesInTimezoneWithNewDay()
     {
@@ -701,11 +755,9 @@ class AlgorithmState
     }
 
     /**
-     * TODO
-     * Returns the list of timezones where the specified timestamp in that timezone
-     * is on a different day than today in that timezone.
+     * Returns the list of timezones for which the current day has ended.
      *
-     * @return array
+     * @return string[]
      */
     public function getTimezonesHavingNewDay()
     {
