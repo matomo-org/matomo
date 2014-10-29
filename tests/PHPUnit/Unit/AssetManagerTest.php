@@ -251,7 +251,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->clearDateCache();
 
-        sleep(1.5);
+        sleep(1);
 
         $modificationDate = $this->mergedAsset->getModificationDate();
 
