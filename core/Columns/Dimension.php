@@ -56,11 +56,11 @@ abstract class Dimension
      * dimension. Example:
      *
      * ```
-    $segment = new Segment();
-    $segment->setSegment('exitPageUrl');
-    $segment->setName('Actions_ColumnExitPageURL');
-    $segment->setCategory('General_Visit');
-    $this->addSegment($segment);
+     * $segment = new Segment();
+     * $segment->setSegment('exitPageUrl');
+     * $segment->setName('Actions_ColumnExitPageURL');
+     * $segment->setCategory('General_Visit');
+     * $this->addSegment($segment);
      * ```
      */
     protected function configureSegments()
