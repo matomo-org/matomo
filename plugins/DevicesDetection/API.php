@@ -156,7 +156,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getBrowserFamilies($idSite, $period, $date, $segment = false)
     {
-        $this->getBrowsers($idSite, $period, $date, $segment);
+        return $this->getBrowsers($idSite, $period, $date, $segment);
     }
 
     /**
