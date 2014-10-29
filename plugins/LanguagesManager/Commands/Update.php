@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
-use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class Update extends ConsoleCommand
+class Update extends TranslationBase
 {
     protected function configure()
     {

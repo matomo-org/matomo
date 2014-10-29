@@ -43,11 +43,13 @@
         "tedivm/jshrink": "~0.5.1",
         "mustangostang/spyc": "~0.5.0",
         "piwik/device-detector": "~2.0",
-        "piwik/decompress": "~0.1.0"
+        "piwik/decompress": "~0.1.1"
     },
     "require-dev": {
+        "aws/aws-sdk-php": "2.7.1",
         "phpunit/phpunit": "~4.1",
-        "facebook/xhprof": "dev-master"
+        "facebook/xhprof": "dev-master",
+        "phpseclib/phpseclib": "~0.3.8"
     },
     "repositories": [
         {

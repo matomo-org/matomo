@@ -38,6 +38,19 @@ adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 
+[tests]
+; access key and secret as listed in AWS -> IAM -> Users
+aws_accesskey = ""
+aws_secret = ""
+; key pair name as listed in AWS -> EC2 -> Key Pairs. Key name should be different per user.
+aws_keyname = ""
+; PEM file can be downloaded after creating a new key pair in AWS -> EC2 -> Key Pairs
+aws_pem_file = "<path to pem file>"
+aws_securitygroups[] = "default"
+aws_region = "us-east-1"
+aws_ami = "ami-ce088ba6"
+aws_instance_type = "c3.large"
+
 [log]
 ; possible values for log: screen, database, file
 log_writers[] = screen
@@ -683,6 +696,7 @@ Plugins[] = ZenMode
 Plugins[] = LeftMenu
 Plugins[] = Morpheus
 Plugins[] = Contents
+Plugins[] = TestRunner
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

@@ -163,6 +163,35 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
     });
 };
 
+TestingEnvironment.prototype.readDbInfoFromConfig = function () {
+
+    var username = 'root';
+    var password = '';
+
+    var pathConfigIni = path.join(PIWIK_INCLUDE_PATH, "/config/config.ini.php");
+
+    var configFile = fs.read(pathConfigIni);
+
+    if (configFile) {
+        var match = ('' + configFile).match(/password\s?=\s?"(.*)"/);
+
+        if (match && match.length) {
+            password = match[1];
+        }
+
+        match = ('' + configFile).match(/username\s?=\s?"(.*)"/);
+
+        if (match && match.length) {
+            username = match[1];
+        }
+    }
+
+    return {
+        username: username,
+        password: password
+    }
+};
+
 TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     if (options['persist-fixture-data']
         || !fixtureClass

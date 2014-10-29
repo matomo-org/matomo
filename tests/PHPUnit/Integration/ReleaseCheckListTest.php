@@ -114,7 +114,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $patternFailIfFound = 'dump(';
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
-            if ($file == PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/templates/travis.yml.twig') {
+            if ($file == PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig') {
                 continue;
             }
 
@@ -271,6 +271,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
                 strpos($file, '/libs/bower_components') !== false ||
+                (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false
             ) {
                 continue;
