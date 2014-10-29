@@ -239,23 +239,9 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    private function clearDateCache()
+    private function getAssetContent()
     {
-        clearstatcache();
-    }
-
-    /**
-     * @return int
-     */
-    private function waitAndGetModificationDate()
-    {
-        $this->clearDateCache();
-
-        sleep(1);
-
-        $modificationDate = $this->mergedAsset->getModificationDate();
-
-        return $modificationDate;
+        return $this->mergedAsset->getContent();
     }
 
     /**
@@ -393,23 +379,19 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $previousDate
+     * @param string $previousContent
      */
-    private function validateDateDidNotChange($previousDate)
+    private function assertAssetContentIsSameAs($previousContent)
     {
-        $this->clearDateCache();
-
-        $this->assertEquals($previousDate, $this->mergedAsset->getModificationDate());
+        $this->assertEquals($previousContent, $this->getAssetContent());
     }
 
     /**
-     * @param int $previousDate
+     * @param string $previousContent
      */
-    private function validateDateIsMoreRecent($previousDate)
+    private function assertAssetContentChanged($previousContent)
     {
-        $this->clearDateCache();
-
-        $this->assertTrue($previousDate < $this->mergedAsset->getModificationDate());
+        $this->assertNotEquals($previousContent, $this->getAssetContent());
     }
 
     /**
@@ -496,11 +478,11 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $this->validateDateDidNotChange($modDateBeforeSecondRequest);
+        $this->assertAssetContentIsSameAs($content);
     }
 
     /**
@@ -514,13 +496,13 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->setJSCacheBuster(self::SECOND_CACHE_BUSTER_JS);
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $this->validateDateIsMoreRecent($modDateBeforeSecondRequest);
+        $this->assertAssetContentChanged($content);
 
         $this->validateMergedCoreJs();
     }
@@ -549,13 +531,13 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedStylesheet();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->setStylesheetCacheBuster(self::SECOND_CACHE_BUSTER_SS);
 
         $this->triggerGetMergedStylesheet();
 
-        $this->validateDateIsMoreRecent($modDateBeforeSecondRequest);
+        $this->assertAssetContentChanged($content);
 
         $this->validateMergedStylesheet();
     }
@@ -572,13 +554,13 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedStylesheet();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->setStylesheetCacheBuster(self::SECOND_CACHE_BUSTER_SS);
 
         $this->triggerGetMergedStylesheet();
 
-        $this->validateDateIsMoreRecent($modDateBeforeSecondRequest);
+        $this->assertAssetContentChanged($content);
 
         $this->validateMergedStylesheet();
     }
@@ -594,11 +576,11 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedStylesheet();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->triggerGetMergedStylesheet();
 
-        $this->validateDateDidNotChange($modDateBeforeSecondRequest);
+        $this->assertAssetContentIsSameAs($content);
     }
 
     /**
