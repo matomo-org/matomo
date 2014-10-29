@@ -243,6 +243,11 @@ _S3_LOG_FORMAT = (
     '\S+ \S+ \S+ \S+ "\S+ (?P<path>.*?) \S+" (?P<status>\S+) \S+ (?P<length>\S+) '
     '\S+ \S+ \S+ "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
 )
+_CDN_LOG_FORMAT = (
+    '(?P<date>^[\d+]+[-\d+]+[\s]+[:\d+]+)\t\S+\t(?P<length>\S+)\t(?P<ip>\S+)\t'
+    '\S+\t(?P<host>\S+)\t(?P<path>.*?)\t(?P<status>\S+)\t(?P<referrer>.*?)\t'
+    '(?P<user_agent>.*?)\t(?P<query_string>\S*)\t\S+\t\S+\t\S+\t\S+\t\S+\t\d+\t\d+'
+)
 _ICECAST2_LOG_FORMAT = ( _NCSA_EXTENDED_LOG_FORMAT +
     ' (?P<session_time>\S+)'
 )
@@ -254,6 +259,7 @@ FORMATS = {
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
     'iis': IisFormat(),
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
+    'cdn': RegexFormat('cdn', _CDN_LOG_FORMAT, '%Y-%m-%d %H:%M:%S'),
     'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
     'nginx_json': JsonFormat('nginx_json'),
 }
@@ -1232,7 +1238,7 @@ class Recorder(object):
         stats.dates_recorded.add(hit.date.date())
 
         path = hit.path
-        if hit.query_string and not config.options.strip_query_string:
+        if hit.query_string and not config.options.strip_query_string and hit.query_string!="-":
             path += config.options.query_string_delimiter + hit.query_string
 
         # only prepend main url if it's a path
@@ -1333,7 +1339,7 @@ class Recorder(object):
                 idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
             )
             print('\nTo re-process these reports with your newly imported data, execute the following command: \n'
-                  '$ /path/to/piwik/console core:archive --url=http://example/piwik --force-all-websites --force-all-periods=315576000 --force-date-last-n=1000'
+                  '$ /path/to/piwik/console core:archive --url=http://example/piwik/\n'
                   '\nReference: http://piwik.org/docs/setup-auto-archiving/ ')
 
 class Hit(object):
