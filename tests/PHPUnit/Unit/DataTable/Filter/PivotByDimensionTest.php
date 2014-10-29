@@ -181,6 +181,9 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
+    /**
+     * @backupGlobals enabled
+     */
     public function test_filter_UsesCorrectSegment_WhenPivotingSegmentedReport()
     {
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
