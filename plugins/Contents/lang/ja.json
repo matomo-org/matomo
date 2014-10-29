@@ -1,0 +1,12 @@
+{
+    "Contents": {
+        "ContentName": "コンテンツ名",
+        "ContentPiece": "コンテンツ要素",
+        "Contents": "内容",
+        "ContentTarget": "コンテンツターゲット",
+        "Impressions": "インプレッション",
+        "Interaction": "インタラクション",
+        "InteractionRate": "インタラクション率",
+        "Interactions": "インタラクション"
+    }
+}

@@ -176,7 +176,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 6.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
@@ -564,7 +564,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemShortName>Linux</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
+		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 6.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>

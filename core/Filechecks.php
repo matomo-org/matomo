@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Piwik\Exceptions\HtmlMessageException;
+
 class Filechecks
 {
     /**
@@ -102,7 +104,7 @@ class Filechecks
             . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
             . "<p>If you need more help, try <a href='?module=Proxy&action=redirect&url=http://piwik.org'>Piwik.org</a>.</p>";
 
-        Piwik_ExitWithMessage($directoryMessage, false, true);
+        throw new HtmlMessageException($directoryMessage);
     }
 
     /**

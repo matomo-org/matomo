@@ -136,6 +136,52 @@ namespace Piwik\Tests\Core\Columns
             $this->assertTrue($foundVisit);
         }
 
+        public function test_getDimensions_shouldReturnAllKindOfDimensionsThatBelongToASpecificPlugin()
+        {
+            Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
+
+            $dimensions = Dimension::getDimensions(Manager::getInstance()->loadPlugin('Actions'));
+
+            $this->assertGreaterThan(10, count($dimensions));
+
+            $foundVisit      = false;
+            $foundAction     = false;
+
+            foreach ($dimensions as $dimension) {
+                if ($dimension instanceof \Piwik\Plugin\Dimension\ActionDimension) {
+                    $foundAction = true;
+                } else if ($dimension instanceof \Piwik\Plugin\Dimension\VisitDimension) {
+                    $foundVisit = true;
+                }
+
+                $this->assertRegExp('/Piwik.Plugins.Actions.Columns/', get_class($dimension));
+            }
+
+            $this->assertTrue($foundAction);
+            $this->assertTrue($foundVisit);
+        }
+
+        public function test_getDimensions_shouldReturnConversionDimensionsThatBelongToASpecificPlugin()
+        {
+            Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
+
+            $dimensions = Dimension::getDimensions(Manager::getInstance()->loadPlugin('Goals'));
+
+            $this->assertGreaterThan(2, count($dimensions));
+
+            $foundConversion = false;
+
+            foreach ($dimensions as $dimension) {
+                if ($dimension instanceof \Piwik\Plugin\Dimension\ConversionDimension) {
+                    $foundConversion = true;
+                }
+
+                $this->assertRegExp('/Piwik.Plugins.Goals.Columns/', get_class($dimension));
+            }
+
+            $this->assertTrue($foundConversion);
+        }
+
         public function test_getSegment_ShouldReturnConfiguredSegments()
         {
             $segments = $this->dimension->getSegments();

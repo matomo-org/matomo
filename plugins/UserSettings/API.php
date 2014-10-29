@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\DevicesDetection\Archiver AS DDArchiver;
 
 /**
  * @see plugins/UserSettings/functions.php
@@ -48,6 +49,11 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::CONFIGURATION_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getConfigurationLabel'));
         return $dataTable;
+    }
+
+    protected function getDevicesDetectorApi()
+    {
+        return \Piwik\Plugins\DevicesDetection\API::getInstance();
     }
 
     public function getOS($idSite, $period, $date, $segment = false, $addShortLabel = true)
@@ -146,12 +152,12 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * @deprecated since 2.7.1-b1   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     */
     public function getBrowserType($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::BROWSER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'ucfirst'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserTypeLabel'));
-        return $dataTable;
+        return $this->getDevicesDetectorApi()->getBrowserEngines($idSite, $period, $date, $segment);
     }
 
     public function getWideScreen($idSite, $period, $date, $segment = false)
@@ -166,7 +172,7 @@ class API extends \Piwik\Plugin\API
     {
         // fetch all archive data required
         $dataTable = $this->getDataTable(Archiver::PLUGIN_RECORD_NAME, $idSite, $period, $date, $segment);
-        $browserTypes = $this->getDataTable(Archiver::BROWSER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $browserTypes = $this->getDataTable(DDArchiver::BROWSER_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
 
@@ -208,7 +214,7 @@ class API extends \Piwik\Plugin\API
             // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
             $ieVisits = 0;
 
-            $ieStats = $browserType->getRowFromLabel('ie');
+            $ieStats = $browserType->getRowFromLabel('Trident');
             if ($ieStats !== false) {
                 $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
             }

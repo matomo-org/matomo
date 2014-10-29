@@ -18,19 +18,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 class UserSettings extends \Piwik\Plugin
 {
     /**
-     * Mapping between the browser family shortcode and the displayed name
-     *
-     * @type array
-     */
-    public static $browserType_display = array(
-        'ie'     => 'Trident (IE)',
-        'gecko'  => 'Gecko (Firefox)',
-        'khtml'  => 'KHTML (Konqueror)',
-        'webkit' => 'WebKit (Safari, Chrome)',
-        'opera'  => 'Presto (Opera)',
-    );
-
-    /**
      * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
@@ -49,8 +36,6 @@ class UserSettings extends \Piwik\Plugin
         $visitor['operatingSystemCode']      = $instance->getOperatingSystemCode();
         $visitor['operatingSystemShortName'] = $instance->getOperatingSystemShortName();
         $visitor['operatingSystemIcon']      = $instance->getOperatingSystemIcon();
-        $visitor['browserFamily']            = $instance->getBrowserFamily();
-        $visitor['browserFamilyDescription'] = $instance->getBrowserFamilyDescription();
         $visitor['browserName']              = $instance->getBrowser();
         $visitor['browserIcon']              = $instance->getBrowserIcon();
         $visitor['browserCode']              = $instance->getBrowserCode();

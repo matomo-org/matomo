@@ -96,6 +96,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             // changes made to SQL dump to test VisitFrequency change the day of week
             'VisitTime.getByDayOfWeek',
 
+            // did not exist in Piwik 1.X
+            'DevicesDetection.getBrowserEngines',
+
             // we test VisitFrequency explicitly
             'VisitFrequency.get',
 

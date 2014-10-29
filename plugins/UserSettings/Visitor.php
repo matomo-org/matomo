@@ -83,16 +83,6 @@ class Visitor
         return getOSLogo($this->details['config_os']);
     }
 
-    function getBrowserFamilyDescription()
-    {
-        return getBrowserTypeLabel($this->getBrowserFamily());
-    }
-
-    function getBrowserFamily()
-    {
-        return getBrowserFamily($this->details['config_browser_name']);
-    }
-
     function getBrowserCode()
     {
         return $this->details['config_browser_name'];

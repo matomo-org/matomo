@@ -81,7 +81,7 @@
 
                                 </select>
                             {% elseif setting.uiControlType == 'textarea' %}
-                                <textarea style="width: 376px;"
+                                <textarea style="width: 376px; height: 250px;"
                                     {% for attr, val in setting.uiControlAttributes %}
                                         {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                     {% endfor %}

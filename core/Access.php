@@ -225,6 +225,11 @@ class Access
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
 
+        if(empty($this->login)) {
+            // flag to force non empty login so Super User is not mistaken for anonymous
+            $this->login = 'super user was set';
+        }
+
         return true;
     }
 
@@ -241,7 +246,6 @@ class Access
         } else {
             $this->hasSuperUserAccess = false;
             $this->idsitesByAccess['superuser'] = array();
-
         }
     }
 

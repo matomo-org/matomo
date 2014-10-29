@@ -207,8 +207,6 @@
         "Resolutions": "Resolutions",
         "VisitorSettings": "Visitor Settings",
         "WideScreen": "Wide Screen",
-        "WidgetBrowserFamilies": "Browser Family",
-        "WidgetBrowserFamiliesDocumentation": "This chart shows your visitors' browsers broken down into browser families. %s The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.",
         "WidgetBrowsers": "Visitor Browser",
         "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.",
         "WidgetBrowserVersion": "Browser Version",

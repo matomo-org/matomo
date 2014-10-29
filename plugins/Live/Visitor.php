@@ -99,7 +99,7 @@ class Visitor implements VisitorInterface
         if (isset($this->details['location_ip'])) {
             return IP::N2P($this->details['location_ip']);
         }
-        return false;
+        return null;
     }
 
     function getIdVisit()

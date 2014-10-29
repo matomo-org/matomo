@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\DevicesDetection\Reports\GetBrand;
 use Piwik\Plugins\DevicesDetection\Reports\GetBrowserFamilies;
+use Piwik\Plugins\DevicesDetection\Reports\GetBrowserEngines;
 use Piwik\Plugins\DevicesDetection\Reports\GetModel;
 use Piwik\Plugins\DevicesDetection\Reports\GetOsFamilies;
 use Piwik\Plugins\DevicesDetection\Reports\GetType;
@@ -31,6 +32,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->deviceModels = $this->renderReport(new GetModel());
         $view->osReport = $this->renderReport(new GetOsFamilies());
         $view->browserReport = $this->renderReport(new GetBrowserFamilies());
+        $view->browserEngineReport = $this->renderReport(new GetBrowserEngines());
         return $view->render();
     }
 

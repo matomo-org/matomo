@@ -14,7 +14,7 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\UserSettings\UserSettings;
-use Piwik\Plugins\UserSettings\Visitor;
+use Piwik\Plugins\DevicesDetection\Visitor;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -26,7 +26,7 @@ class DevicesDetection extends \Piwik\Plugin
     public function getInformation()
     {
         return array(
-            'description'      => "[Beta Plugin] " . Piwik::translate("DevicesDetection_PluginDescription"),
+            'description'      => Piwik::translate("DevicesDetection_PluginDescription"),
             'authors'          => array(array('name' => 'Piwik PRO', 'homepage' => 'http://piwik.pro')),
             'version'          => '1.14',
             'license'          => 'GPL v3+',
@@ -46,7 +46,11 @@ class DevicesDetection extends \Piwik\Plugin
 
     public function extendVisitorDetails(&$visitor, $details)
     {
-        $visitor['deviceType'] = getDeviceTypeLabel($details['config_device_type']);
+        $instance = new Visitor($details);
+
+        $visitor['deviceType']               = $instance->getDeviceType();
+        $visitor['browserFamily']            = $instance->getBrowserEngine();
+        $visitor['browserFamilyDescription'] = $instance->getBrowserEngineDescription();
 
         if (!PluginManager::getInstance()->isPluginActivated('UserSettings')) {
             $instance = new UserSettings();

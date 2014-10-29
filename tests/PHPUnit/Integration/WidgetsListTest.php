@@ -42,7 +42,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 4,
             'General_Visitors'             => 12,
-            'UserSettings_VisitorSettings' => 12,
+            'UserSettings_VisitorSettings' => 11,
             'General_Actions'              => 10,
             'Events_Events'                => 3,
             'Actions_SubmenuSitesearch'    => 5,
@@ -50,7 +50,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
             'Example Widgets'              => 4,
-            'DevicesDetection_DevicesDetection' => 7,
+            'DevicesDetection_DevicesDetection' => 8,
             'Insights_WidgetCategory' => 2
         );
 

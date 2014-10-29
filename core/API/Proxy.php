@@ -78,12 +78,14 @@ class Proxy extends Singleton
         $this->checkClassIsSingleton($className);
 
         $rClass = new ReflectionClass($className);
-        foreach ($rClass->getMethods() as $method) {
-            $this->loadMethodMetadata($className, $method);
-        }
+        if(!$this->shouldHideAPIMethod($rClass->getDocComment())) {
+            foreach ($rClass->getMethods() as $method) {
+                $this->loadMethodMetadata($className, $method);
+            }
 
-        $this->setDocumentation($rClass, $className);
-        $this->alreadyRegistered[$className] = true;
+            $this->setDocumentation($rClass, $className);
+            $this->alreadyRegistered[$className] = true;
+        }
     }
 
     /**
@@ -324,6 +326,14 @@ class Proxy extends Singleton
     }
 
     /**
+     * Check if given method name is deprecated or not.
+     */
+    public function isDeprecatedMethod($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['isDeprecated'];
+    }
+
+    /**
      * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"
@@ -428,29 +438,27 @@ class Proxy extends Singleton
      */
     private function loadMethodMetadata($class, $method)
     {
-        if ($method->isPublic()
-            && !$method->isConstructor()
-            && $method->getName() != 'getInstance'
-            && false === strstr($method->getDocComment(), '@deprecated')
-            && (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
-        ) {
-            $name = $method->getName();
-            $parameters = $method->getParameters();
-
-            $aParameters = array();
-            foreach ($parameters as $parameter) {
-                $nameVariable = $parameter->getName();
-
-                $defaultValue = $this->noDefaultValue;
-                if ($parameter->isDefaultValueAvailable()) {
-                    $defaultValue = $parameter->getDefaultValue();
-                }
-
-                $aParameters[$nameVariable] = $defaultValue;
-            }
-            $this->metadataArray[$class][$name]['parameters'] = $aParameters;
-            $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+        if (!$this->checkIfMethodIsAvailable($method)) {
+            return;
         }
+        $name = $method->getName();
+        $parameters = $method->getParameters();
+        $docComment = $method->getDocComment();
+
+        $aParameters = array();
+        foreach ($parameters as $parameter) {
+            $nameVariable = $parameter->getName();
+
+            $defaultValue = $this->noDefaultValue;
+            if ($parameter->isDefaultValueAvailable()) {
+                $defaultValue = $parameter->getDefaultValue();
+            }
+
+            $aParameters[$nameVariable] = $defaultValue;
+        }
+        $this->metadataArray[$class][$name]['parameters'] = $aParameters;
+        $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+        $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
     }
 
     /**
@@ -465,6 +473,59 @@ class Proxy extends Singleton
         if (!$this->isMethodAvailable($className, $methodName)) {
             throw new Exception(Piwik::translate('General_ExceptionMethodNotFound', array($methodName, $className)));
         }
+    }
+
+    /**
+     * @param $docComment
+     * @return bool
+     */
+    public function shouldHideAPIMethod($docComment)
+    {
+        $hideLine = strstr($docComment, '@hide');
+
+        if ($hideLine === false) {
+            return false;
+        }
+
+        $hideLine = trim($hideLine);
+        $hideLine .= ' ';
+
+	$token = trim(strtok($hideLine, " "), "\n");
+
+        $hide = false;
+
+        if (!empty($token)) {
+            /**
+             * This event exists for checking whether a Plugin API class or a Plugin API method tagged
+             * with a `@hideXYZ` should be hidden in the API listing.
+             *
+             * @param bool &$hide whether to hide APIs tagged with $token should be displayed.
+             */
+            Piwik::postEvent(sprintf('API.DocumentationGenerator.%s', $token), array(&$hide));
+        }
+
+        return $hide;
+    }
+
+    /**
+     * @param ReflectionMethod $method
+     * @return bool
+     */
+    protected function checkIfMethodIsAvailable(ReflectionMethod $method)
+    {
+        if (!$method->isPublic() || $method->isConstructor() || $method->getName() === 'getInstance') {
+            return false;
+        }
+
+        if ($this->hideIgnoredFunctions && false !== strstr($method->getDocComment(), '@ignore')) {
+            return false;
+        }
+
+        if ($this->shouldHideAPIMethod($method->getDocComment())) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

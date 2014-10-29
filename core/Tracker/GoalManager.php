@@ -361,7 +361,7 @@ class GoalManager
      */
     private function getEcommerceItemsFromRequest()
     {
-        $items = Common::unsanitizeInputValue($this->request->getParam('ec_items'));
+        $items = $this->request->getParam('ec_items');
 
         if (empty($items)) {
             Common::printDebug("There are no Ecommerce items in the request");
@@ -369,12 +369,12 @@ class GoalManager
             return array();
         }
 
-        $items = Common::json_decode($items, $assoc = true);
-
         if (!is_array($items)) {
             Common::printDebug("Error while json_decode the Ecommerce items = " . var_export($items, true));
             return false;
         }
+
+        $items = Common::unsanitizeInputValues($items);
 
         $cleanedItems = $this->getCleanedEcommerceItems($items);
         return $cleanedItems;

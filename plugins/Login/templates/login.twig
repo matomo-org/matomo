@@ -17,9 +17,9 @@
     <meta name="apple-itunes-app" content="app-id=737216887" />
     <meta name="google-play-app" content="app-id=org.piwik.mobile2">
     {% include "_jsCssIncludes.twig" %}
-    <script type="text/javascript" src="libs/jquery/jquery.placeholder.js"></script>
+    <script type="text/javascript" src="libs/bower_components/jquery-placeholder/jquery.placeholder.js"></script>
     <!--[if lt IE 9]>
-    <script src="libs/html5shiv/html5shiv.js"></script>
+    <script src="libs/bower_components/html5shiv/dist/html5shiv.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="libs/jquery/jquery.smartbanner.js"></script>
     <link rel="stylesheet" type="text/css" href="libs/jquery/stylesheets/jquery.smartbanner.css" />
@@ -28,7 +28,7 @@
         $(function () {
             $('#form_login').focus();
             $('input').placeholder();
-            $.smartbanner({title: "Piwik Mobile 2", author: "Piwik team", icon: "plugins/CoreHome/images/googleplay.png"});
+            $.smartbanner({title: "Piwik Mobile 2", author: "Piwik team", hideOnInstall: false, layer: true, icon: "plugins/CoreHome/images/googleplay.png"});
         });
 	</script>
 	</head>

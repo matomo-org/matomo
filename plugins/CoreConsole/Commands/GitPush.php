@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,6 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class GitPush extends ConsoleCommand
 {
+    public function isEnabled()
+    {
+        return Development::isEnabled();
+    }
+
     protected function configure()
     {
         $this->setName('git:push');

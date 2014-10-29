@@ -207,8 +207,6 @@
         "Resolutions": "Risoluzioni",
         "VisitorSettings": "Impostazioni visitatori",
         "WideScreen": "Schermo panoramico",
-        "WidgetBrowserFamilies": "Browsers per Famiglia",
-        "WidgetBrowserFamiliesDocumentation": "Questo grafico mostra i browser dei vostri visitatori suddivisi in famiglie di browser. %s Le informazioni più importanti per gli sviluppatori web sono che tipo di motore di rendering i loro visitatori stanno usando. Le etichette contengono i nomi dei motori seguiti dal browser più comune che utilizza quel motore tra parentesi.",
         "WidgetBrowsers": "Browser dei visitatori",
         "WidgetBrowsersDocumentation": "Questo report contiene informazioni sul tipo di browser che i tuoi visitatori hanno utilizzato. Ciascuna versione del browser è elencata separatamente.",
         "WidgetBrowserVersion": "Versione del Browser",

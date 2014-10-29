@@ -24,6 +24,7 @@ class ArchivePurger
 {
     public static function purgeInvalidatedArchives()
     {
+
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
         foreach ($archiveTables as $archiveTable) {

@@ -64,7 +64,7 @@ if ($minimumPhpInvalid) {
 
 define('PAGE_TITLE_WHEN_ERROR', 'Piwik &rsaquo; Error');
 
-if (!function_exists('Piwik_ExitWithMessage')) {
+if (!function_exists('Piwik_GetErrorMessagePage')) {
     /**
      * Returns true if Piwik should print the backtrace with error messages.
      *
@@ -82,12 +82,18 @@ if (!function_exists('Piwik_ExitWithMessage')) {
     /**
      * Displays info/warning/error message in a friendly UI and exits.
      *
+     * Note: this method should not be called by anyone other than FrontController.
+     *
      * @param string $message Main message, must be html encoded before calling
      * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
      * @param bool $optionalLinks If true, will show links to the Piwik website for help
      * @param bool $optionalLinkBack If true, displays a link to go back
+     * @param bool|string $logoUrl The URL to the logo to use.
+     * @param bool|string $faviconUrl The URL to the favicon to use.
+     * @return string
      */
-    function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false)
+    function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
+                                       $logoUrl = false, $faviconUrl = false, $isCli = null)
     {
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
@@ -98,10 +104,22 @@ if (!function_exists('Piwik_ExitWithMessage')) {
             }
         }
 
+        if (empty($logoUrl)) {
+            $logoUrl = "plugins/Morpheus/images/logo-header.png";
+        }
+
+        if (empty($faviconUrl)) {
+            $faviconUrl = "plugins/CoreHome/images/favicon.ico";
+        }
+
         if ($optionalTrace) {
             $optionalTrace = '<span class="exception-backtrace">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
         }
-        $isCli = PHP_SAPI == 'cli';
+
+        if ($isCli === null) {
+            $isCli = PHP_SAPI == 'cli';
+        }
+
         if ($optionalLinks) {
             $optionalLinks = '<ul>
                             <li><a target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
@@ -114,7 +132,11 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         if ($optionalLinkBack) {
             $optionalLinkBack = '<a href="javascript:window.history.back();">Go Back</a><br/>';
         }
+
         $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
+        $headerPage = str_replace('%logoUrl%', $logoUrl, $headerPage);
+        $headerPage = str_replace('%faviconUrl%', $faviconUrl, $headerPage);
+
         $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
 
         $headerPage = str_replace('{$HTML_TITLE}', PAGE_TITLE_WHEN_ERROR, $headerPage);
@@ -133,17 +155,19 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         $message = str_replace("\t", "", $message);
         $message = strip_tags($message);
 
-        if ($isCli) {
-            echo $message;
-        } else {
-            echo $headerPage . $content . $footerPage;
+        if (!$isCli) {
+            $message = $headerPage . $content . $footerPage;
         }
-        echo "\n";
+
+        $message .= "\n";
+
         error_log(sprintf("Error in Piwik: %s", str_replace("\n", " ", $message)));
-        exit(1);
+
+        return $message;
     }
 }
 
 if (!empty($piwik_errorMessage)) {
-    Piwik_ExitWithMessage($piwik_errorMessage, false, true);
+    echo Piwik_GetErrorMessagePage($piwik_errorMessage, false, true);
+    exit(1);
 }

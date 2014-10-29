@@ -1315,7 +1315,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var width = 0;
                 ul.find('li').each(function () {
                     width = Math.max(width, $(this).width());
-                }).width(width);
+                });
+                if (width > 0) {
+                    ul.find('li').width(width);
+                }
                 close();
             }, 400);
         }

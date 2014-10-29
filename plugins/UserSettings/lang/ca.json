@@ -204,8 +204,6 @@
         "Resolutions": "Resolucions",
         "VisitorSettings": "Configuració del visitant",
         "WideScreen": "Pantalla panoràmica",
-        "WidgetBrowserFamilies": "Navegadors per motor",
-        "WidgetBrowserFamiliesDocumentation": "Aquest gràfic mostra els navegadors dels vostres visitants dividits en famílies. %s La informació més important per als desenvolupadors web es quin tipus de sistema de renderització estan utilitzant els seus visitants. Les etiquetiquetes contenen els noms dels sistemes, seguit pel navegador més comú utilitzant aquest sistema.",
         "WidgetBrowsers": "Navegadors",
         "WidgetBrowsersDocumentation": "Aquest informe conté informació sobre quin tipus de navegador està utilitzant els vostres visitants. Cada versió del navegador es llista per separat.",
         "WidgetBrowserVersion": "Versió del navegador",

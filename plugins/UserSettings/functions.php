@@ -89,17 +89,6 @@ function getDeviceTypeFromOS($osLabel)
     }
 }
 
-function getBrowserTypeLabel($oldLabel)
-{
-    if (isset(UserSettings::$browserType_display[$oldLabel])) {
-        return UserSettings::$browserType_display[$oldLabel];
-    }
-    if ($oldLabel == 'unknown') {
-        return Piwik::translate('General_Unknown');
-    }
-    return $oldLabel;
-}
-
 function getConfigurationLabel($str)
 {
     if (strpos($str, ';') === false) {

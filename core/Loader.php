@@ -35,13 +35,4 @@ class Loader
 
         return $loader;
     }
-
-    public static function registerTestNamespace()
-    {
-        $prefix = 'Piwik\\Tests\\';
-        $paths  = PIWIK_INCLUDE_PATH . '/tests/PHPUnit';
-
-        $loader = self::getLoader();
-        $loader->addPsr4($prefix, $paths, $prepend = false);
-    }
 }

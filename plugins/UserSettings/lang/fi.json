@@ -207,8 +207,6 @@
         "Resolutions": "Resoluutio",
         "VisitorSettings": "Kävijöiden asetukset",
         "WideScreen": "Laajakulma",
-        "WidgetBrowserFamilies": "Selaimet perheittäin",
-        "WidgetBrowserFamiliesDocumentation": "Tämä kuvaaja näyttää käyttäjien selaimen nimen mukaan. %s Tärkein tieto verkkosivun kehittäjille on käyttäjien selaimen taustajärjestelmä. Taustajärjestelmä löytyy hakasuluissa nimen perästä.",
         "WidgetBrowsers": "Kävijöiden selaimet",
         "WidgetBrowsersDocumentation": "Tämä raportti näyttää, mitä selaimia vierailijoillasi oli. Jokainen selaimen versio näytetään erikseen.",
         "WidgetBrowserVersion": "Selaimen versio",

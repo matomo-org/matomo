@@ -117,6 +117,14 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Browser engine</name>
+		<segment>browserEngine</segment>
+		<acceptedValues>Trident, WebKit, Presto, Gecko, Blink, etc.</acceptedValues>
+		<suggestedValuesCallback>\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines</suggestedValuesCallback>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Browser version</name>
 		<segment>browserVersion</segment>
 		<acceptedValues>1.0, 8.0, etc.</acceptedValues>

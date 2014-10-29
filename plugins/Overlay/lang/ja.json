@@ -1,0 +1,7 @@
+{
+    "Overlay": {
+        "Clicks": "%s クリック",
+        "ClicksFromXLinks": "%2$s リンクの 1 つからの%1$s クリック",
+        "Domain": "ドメイン"
+    }
+}

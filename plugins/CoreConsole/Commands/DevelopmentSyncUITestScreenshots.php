@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Development;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,6 +20,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DevelopmentSyncUITestScreenshots extends ConsoleCommand
 {
+    public function isEnabled()
+    {
+        return Development::isEnabled();
+    }
+
     protected function configure()
     {
         $this->setName('development:sync-ui-test-screenshots');

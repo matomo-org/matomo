@@ -17,6 +17,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
+use Piwik\Exceptions\HtmlMessageException;
 use Piwik\FrontController;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
@@ -581,61 +582,56 @@ abstract class Controller
     {
         $view->date = $this->strDate;
 
-        try {
-            $view->idSite = $this->idSite;
-            $this->checkSitePermission();
-            $this->setPeriodVariablesView($view);
+        $view->idSite = $this->idSite;
+        $this->checkSitePermission();
+        $this->setPeriodVariablesView($view);
 
-            $rawDate = Common::getRequestVar('date');
-            $periodStr = Common::getRequestVar('period');
-            if ($periodStr != 'range') {
-                $date = Date::factory($this->strDate);
-                $period = Period\Factory::build($periodStr, $date);
-            } else {
-                $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
-            }
-            $view->rawDate = $rawDate;
-            $view->prettyDate = self::getCalendarPrettyDate($period);
+        $rawDate = Common::getRequestVar('date');
+        $periodStr = Common::getRequestVar('period');
+        if ($periodStr != 'range') {
+            $date = Date::factory($this->strDate);
+            $period = Period\Factory::build($periodStr, $date);
+        } else {
+            $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
+        }
+        $view->rawDate = $rawDate;
+        $view->prettyDate = self::getCalendarPrettyDate($period);
 
-            $view->siteName = $this->site->getName();
-            $view->siteMainUrl = $this->site->getMainUrl();
+        $view->siteName = $this->site->getName();
+        $view->siteMainUrl = $this->site->getMainUrl();
 
-            $datetimeMinDate = $this->site->getCreationDate()->getDatetime();
-            $minDate = Date::factory($datetimeMinDate, $this->site->getTimezone());
-            $this->setMinDateView($minDate, $view);
+        $datetimeMinDate = $this->site->getCreationDate()->getDatetime();
+        $minDate = Date::factory($datetimeMinDate, $this->site->getTimezone());
+        $this->setMinDateView($minDate, $view);
 
-            $maxDate = Date::factory('now', $this->site->getTimezone());
-            $this->setMaxDateView($maxDate, $view);
+        $maxDate = Date::factory('now', $this->site->getTimezone());
+        $this->setMaxDateView($maxDate, $view);
 
-            // Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected
-            $dateStart = $period->getDateStart();
-            if ($dateStart->isEarlier($minDate)) {
-                $dateStart = $minDate;
-            }
-            $dateEnd = $period->getDateEnd();
-            if ($dateEnd->isLater($maxDate)) {
-                $dateEnd = $maxDate;
-            }
+        // Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected
+        $dateStart = $period->getDateStart();
+        if ($dateStart->isEarlier($minDate)) {
+            $dateStart = $minDate;
+        }
+        $dateEnd = $period->getDateEnd();
+        if ($dateEnd->isLater($maxDate)) {
+            $dateEnd = $maxDate;
+        }
 
-            $view->startDate = $dateStart;
-            $view->endDate = $dateEnd;
+        $view->startDate = $dateStart;
+        $view->endDate = $dateEnd;
 
-            $language = LanguagesManager::getLanguageForSession();
-            $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
+        $language = LanguagesManager::getLanguageForSession();
+        $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 
-            $this->setBasicVariablesView($view);
+        $this->setBasicVariablesView($view);
 
-            $view->topMenu  = MenuTop::getInstance()->getMenu();
-            $view->userMenu = MenuUser::getInstance()->getMenu();
+        $view->topMenu  = MenuTop::getInstance()->getMenu();
+        $view->userMenu = MenuUser::getInstance()->getMenu();
 
-            $notifications = $view->notifications;
-            if (empty($notifications)) {
-                $view->notifications = NotificationManager::getAllNotificationsToDisplay();
-                NotificationManager::cancelAllNonPersistent();
-            }
-
-        } catch (Exception $e) {
-            Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
+        $notifications = $view->notifications;
+        if (empty($notifications)) {
+            $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+            NotificationManager::cancelAllNonPersistent();
         }
     }
 
@@ -841,18 +837,20 @@ abstract class Controller
         }
 
         if (Piwik::hasUserSuperUserAccess()) {
-            Piwik_ExitWithMessage("Error: no website was found in this Piwik installation.
-			<br />Check the table '" . Common::prefixTable('site') . "' in your database, it should contain your Piwik websites.", false, true);
+            $siteTableName = Common::prefixTable('site');
+            $message = "Error: no website was found in this Piwik installation.
+			<br />Check the table '$siteTableName' in your database, it should contain your Piwik websites.";
+
+            throw new HtmlMessageException($message);
         }
 
-        $currentLogin = Piwik::getCurrentUserLogin();
-        if (!empty($currentLogin)
-            && $currentLogin != 'anonymous'
-        ) {
+        if (!Piwik::isUserIsAnonymous()) {
+            $currentLogin = Piwik::getCurrentUserLogin();
             $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
             $errorMessage = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
-            Piwik_ExitWithMessage($errorMessage, false, true);
+
+            throw new HtmlMessageException($errorMessage);
         }
 
         echo FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);

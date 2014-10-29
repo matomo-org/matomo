@@ -26,6 +26,7 @@
         "PluginDescription": "Piwik güncelleme mekanizması",
         "ReadyToGo": "Hazır mısınız?",
         "TheFollowingPluginsWillBeUpgradedX": "Aşağıdaki eklentiler güncellenecektir: %s.",
+        "ThereIsNewPluginVersionAvailableForUpdate": "Kullandığınız ve pazaryerinde yer alıp güncellenmiş bazı eklentiler:",
         "ThereIsNewVersionAvailableForUpdate": "Piwik'i güncellemek için yeni bir sürümü mevcut",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Veritabanı güncelleme işlemi biraz vakit alabilir, bu yüzden lütfen sabırlı olun.",
         "UnpackingTheUpdate": "Güncelleme dosyaları açılıyor",

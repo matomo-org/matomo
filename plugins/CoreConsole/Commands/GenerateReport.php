@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Columns\Dimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
 use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,7 +38,7 @@ class GenerateReport extends GeneratePluginBase
         $reportName    = $this->getReportName($input, $output);
         $category      = $this->getCategory($input, $output, $pluginName);
         $documentation = $this->getDocumentation($input, $output);
-        list($dimension, $dimensionClass) = $this->getDimension($input, $output);
+        list($dimension, $dimensionClass) = $this->getDimension($input, $output, $pluginName);
 
         $order   = $this->getOrder($category);
         $apiName = $this->getApiName($reportName);
@@ -215,10 +217,11 @@ class GenerateReport extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @param string $pluginName
      * @return array
      * @throws \RuntimeException
      */
-    protected function getDimension(InputInterface $input, OutputInterface $output)
+    protected function getDimension(InputInterface $input, OutputInterface $output, $pluginName)
     {
         $dimensions = array();
         $dimensionNames = array();
@@ -231,6 +234,18 @@ class GenerateReport extends GeneratePluginBase
                     $dimensions[$name] = get_class($dimension);
                     $dimensionNames[]  = $name;
                 }
+            }
+        }
+
+        $plugin     = Manager::getInstance()->loadPlugin($pluginName);
+        $dimensions = Dimension::getAllDimensions();
+        $dimensions = array_merge($dimensions, Dimension::getDimensions($plugin));
+
+        foreach ($dimensions as $dimension) {
+            $name = $dimension->getName();
+            if (!empty($name)) {
+                $dimensions[$name] = get_class($dimension);
+                $dimensionNames[]  = $name;
             }
         }
 

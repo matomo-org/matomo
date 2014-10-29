@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Plugins\UserSettings\Reports\GetBrowser;
-use Piwik\Plugins\UserSettings\Reports\GetBrowserType;
 use Piwik\Plugins\UserSettings\Reports\GetConfiguration;
 use Piwik\Plugins\UserSettings\Reports\GetLanguage;
 use Piwik\Plugins\UserSettings\Reports\GetMobileVsDesktop;
@@ -32,7 +31,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view->dataTableConfiguration = $this->renderReport(new GetConfiguration());
         $view->dataTableOS = $this->renderReport(new GetOS());
         $view->dataTableBrowser = $this->renderReport(new GetBrowser());
-        $view->dataTableBrowserType = $this->renderReport(new GetBrowserType());
         $view->dataTableMobileVsDesktop = $this->renderReport(new GetMobileVsDesktop());
         $view->dataTableBrowserLanguage = $this->renderReport(new GetLanguage());
 

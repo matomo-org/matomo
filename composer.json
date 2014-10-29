@@ -30,19 +30,26 @@
             "Archive_": "libs/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Piwik\\Tests\\": "tests/PHPUnit/"
+        }
+    },
     "require": {
         "php": ">=5.3.3",
-        "twig/twig": "1.*",
-        "leafo/lessphp": "0.4",
-        "symfony/console": ">=v2.3.5",
-        "tedivm/jshrink": "v0.5.1",
-        "mustangostang/spyc": "0.5.*",
-        "piwik/device-detector": "2.*",
-        "piwik/decompress": "~0.1.0"
+        "twig/twig": "~1.0",
+        "leafo/lessphp": "~0.4.0",
+        "symfony/console": "~2.3",
+        "tedivm/jshrink": "~0.5.1",
+        "mustangostang/spyc": "~0.5.0",
+        "piwik/device-detector": "~2.0",
+        "piwik/decompress": "~0.1.1"
     },
     "require-dev": {
+        "aws/aws-sdk-php": "2.7.1",
         "phpunit/phpunit": "~4.1",
-        "facebook/xhprof": "dev-master"
+        "facebook/xhprof": "dev-master",
+        "phpseclib/phpseclib": "~0.3.8"
     },
     "repositories": [
         {
@@ -74,16 +81,16 @@
     ],
     "scripts": {
         "pre-update-cmd": [
-            "misc/composer/clean-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
         ],
         "pre-install-cmd": [
-            "misc/composer/clean-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
         ],
         "post-update-cmd": [
-            "misc/composer/build-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ],
         "post-install-cmd": [
-            "misc/composer/build-xhprof.sh"
+            "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ]
     }
 }

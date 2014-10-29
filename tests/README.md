@@ -91,6 +91,7 @@ To execute the tests:
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
 ## How to differentiate between unit, integration or system tests?
+
 This can be sometimes hard to decide and often leads to discussions. We consider a test as a unit test when
 it tests only a single method or class. Sometimes two or three classes can still be considered as a Unit for instance if
  you have to pass a dummy class or something similar but it should actually only test one class or method.
@@ -105,6 +106,7 @@ similar. It is an integration test if you test multiple classes in one test.
 It is a system test if you - for instance - make a call to Piwik itself via HTTP or CLI and the whole system is being tested.
 
 ### Why do we split tests in unit, integration, system and ui folders?
+
 Because they fail for different reasons and the duration of the test execution is different. This allows us to execute
 all unit tests and get a result very quick. Unit tests should not fail on different systems and just run everywhere for
  example no matter whether you are using NFS or not. Once the unit tests are green one would usually execute all integration
@@ -123,16 +125,31 @@ System tests files are in `tests/PHPUnit/System/*Test.php`
 System tests allow to test how major Piwik components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
 and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
-If a test fails, you can compare the processed/ and expected/ directories in a graphical
-text compare tool, such as WinMerge on Win, or MELD on Linux, to easily view changes between files.
+If a test fails, you can compare the processed/ and expected/ directories in a graphical text compare tool, such as WinMerge on Win, or MELD on Linux, or even with PhpStorm, to easily view changes between files.
 
 For example using Meld, click on "Start new comparison", "Directory comparison",
 in "Original" select "path/to/piwik/tests/PHPUnit/System/expected"
 in "Mine" select "path/to/piwik/tests/PHPUnit/System/processed"
 
-If changes are expected due to the code changes you make, simply copy the file from processed/ to
-expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
+If changes are expected due to the code changes you make, simply copy the file from processed/ to expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
 Otherwise, if you didn't expect to modify the API outputs, it might be that your changes are breaking some features unexpectedly.
+
+### Fixtures for System tests
+
+System tests use Fixtures to generate controlled web usage data (visits, goals, pageviews, events, site searches, content tracking, custom variables, etc.).
+
+Fixtures are stored in [tests/PHPUnit/Fixtures](https://github.com/piwik/piwik/tree/master/tests/PHPUnit/Fixtures)
+
+#### OmniFixture
+
+We also have an OmniFixture that includes all other Fixtures. OmniFixture is used for screenshot tests to provide data across most reports. 
+
+#### Keep OmniFixture up to date
+
+Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql.gz) whenever you make any change to any fixture. For instance use:
+    ./console tests:setup-fixture OmniFixture --sqldump=OmniFixture-dump.sql` and then gzip. 
+
+Keeping the OmniFixture up to date makes it easier to see which tests fail after each small fixture change. If we don't update the OmniFixture then we end up with many failed screenshots tests which makes it hard to see whether those changes are expected or not.
 
 ### Scheduled Reports Tests
 

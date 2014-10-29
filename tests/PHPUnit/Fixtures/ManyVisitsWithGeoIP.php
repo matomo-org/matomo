@@ -188,6 +188,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setLongitude(2);
         $t->setUrl("http://piwik.net/grue/lair");
         $t->setUrlReferrer('http://google.com/?q=Wikileaks FTW');
+        $t->setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3 (.NET CLR 3.5.30729)");
         self::checkResponse($t->doTrackPageView('It\'s pitch black...'));
     }
 

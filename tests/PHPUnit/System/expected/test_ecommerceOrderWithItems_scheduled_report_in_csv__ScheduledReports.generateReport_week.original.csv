@@ -83,10 +83,6 @@ Browser Version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Firefox 3.6,5,16,80%,3.2,00:22:49,20%
 
-Browser Family
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Gecko (Firefox),5,16,80%,3.2,00:22:49,20%
-
 Browser Plugins
 label,nb_visits,nb_visits_percentage
 Cookie,5,100%
@@ -507,4 +503,8 @@ Firefox,5,16,80%,3.2,00:22:49,20%
 Browser versions
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Firefox 3.6,5,16,80%,3.2,00:22:49,20%
+
+Browser engines
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Gecko (Firefox),5,16,80%,3.2,00:22:49,20%
 

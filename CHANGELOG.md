@@ -2,6 +2,18 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+
+## Piwik 2.9.0
+
+### Breaking Changes
+* Development related [console commands](http://developer.piwik.org/guides/piwik-on-the-command-line) are only available if the development mode is enabled. To enable the development mode execute `./console development:enable`.
+
+## Piwik 2.8.2
+
+### Library updates
+* Updated AngularJS from 1.2.25 to 1.2.26
+* Updated jQuery from 1.11.0 to 1.11.1
+
 ## Piwik 2.8.0
 
 ### Breaking Changes

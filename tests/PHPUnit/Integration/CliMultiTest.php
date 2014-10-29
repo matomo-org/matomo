@@ -15,6 +15,7 @@ use Piwik\Tests\Framework\Fixture;
  * Class Core_CliMultiTest
  *
  * @group Core
+ * @group Core_CliMultiTest
  */
 class Core_CliMultiTest extends SystemTestCase
 {
@@ -66,8 +67,7 @@ class Core_CliMultiTest extends SystemTestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage array
+     * @expectedException PHPUnit_Framework_Error
      */
     public function test_request_shouldFail_IfUrlsIsNotAnArray()
     {

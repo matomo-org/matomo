@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
@@ -124,17 +125,38 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyIfEAcceleratorIsUsed()
     {
-        if (self::$isEacceleratorUsed) {
-            $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
-                We have disabled eAccelerator, which might affect the performance of Piwik.
-                Read the %srelated ticket%s for more information and how to fix this problem.",
-                '<a target="_blank" href="https://github.com/piwik/piwik/issues/4439">', '</a>');
-
-            $notification = new Notification($message);
-            $notification->context = Notification::CONTEXT_WARNING;
-            $notification->raw     = true;
-            Notification\Manager::notify('ControllerAdmin_EacceleratorIsUsed', $notification);
+        if (!self::$isEacceleratorUsed) {
+            return;
         }
+        $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
+            We have disabled eAccelerator, which might affect the performance of Piwik.
+            Read the %srelated ticket%s for more information and how to fix this problem.",
+            '<a target="_blank" href="https://github.com/piwik/piwik/issues/4439">', '</a>');
+
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->raw     = true;
+        Notification\Manager::notify('ControllerAdmin_EacceleratorIsUsed', $notification);
+    }
+
+    private static function notifyWhenPhpVersionIsEOL()
+    {
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersion53();
+        if (!$notifyPhpIsEOL) {
+            return;
+        }
+        $dateDropSupport = Date::factory('2015-05-01')->getLocalized('%longMonth% %longYear%');
+        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', $dateDropSupport)
+            . "\n "
+            . Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.3');
+
+        $notification = new Notification($message);
+        $notification->title = Piwik::translate('General_Warning');
+        $notification->priority = Notification::PRIORITY_LOW;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify('PHP53VersionCheck', $notification);
     }
 
     /**
@@ -183,15 +205,7 @@ abstract class ControllerAdmin extends Controller
 
         self::checkPhpVersion($view);
 
-        if (Piwik::hasUserSuperUserAccess() && self::isPhpVersion53()) {
-            $notification = new Notification(Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.3'));
-            $notification->title    = Piwik::translate('General_Warning');
-            $notification->priority = Notification::PRIORITY_LOW;
-            $notification->context  = Notification::CONTEXT_WARNING;
-            $notification->type     = Notification::TYPE_TRANSIENT;
-            $notification->flags    = Notification::FLAG_NO_CLEAR;
-            NotificationManager::notify('PHP53VersionCheck', $notification);
-        }
+        self::notifyWhenPhpVersionIsEOL();
 
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;

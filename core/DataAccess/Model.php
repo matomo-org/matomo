@@ -24,6 +24,9 @@ class Model
 
     public function purgeInvalidatedArchiveTable($archiveTable)
     {
+        // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
+        Db::get()->query('SET SQL_BIG_SELECTS=1');
+
         /**
          * Select the archives that have already been invalidated and have been since re-processed.
          * It purges records for each distinct { archive name (includes segment hash) , idsite, date, period } tuple.

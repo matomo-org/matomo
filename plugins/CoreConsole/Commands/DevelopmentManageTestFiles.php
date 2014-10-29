@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +16,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DevelopmentManageTestFiles extends ConsoleCommand
 {
+    public function isEnabled()
+    {
+        return Development::isEnabled();
+    }
+
     protected function configure()
     {
         $this->setName('development:test-files');
