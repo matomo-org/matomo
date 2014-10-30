@@ -80,6 +80,9 @@ class Instance
 
     public function launch()
     {
+        // user data is executed when instance launches, it is important that this file starts with "#!"
+        $userData = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/TestRunner/scripts/on_instance_launch.sh');
+
         $result = $this->client->runInstances(array(
             'ImageId' => $this->config->getAmi(),
             'MinCount' => 1,
@@ -87,7 +90,8 @@ class Instance
             'InstanceType' => $this->config->getInstanceType(),
             'KeyName' => $this->config->getKeyName(),
             'SecurityGroups' => $this->config->getSecurityGroups(),
-            'InstanceInitiatedShutdownBehavior' => 'terminate'
+            'InstanceInitiatedShutdownBehavior' => 'terminate',
+            'UserData' => base64_encode($userData)
         ));
 
         $instanceIds = $result->getPath('Instances/*/InstanceId');

@@ -5,8 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 use Piwik\Access;
-use Piwik\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
@@ -86,7 +87,7 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
 
         // test that IPs within the range, or the given IP, are excluded
         foreach ($tests as $ip => $expected) {
-            $testIpIsExcluded = IP::P2N($ip);
+            $testIpIsExcluded = IPUtils::stringToBinaryIP($ip);
 
             $excluded = new VisitExcluded_public($request, $testIpIsExcluded);
             $this->assertSame($expected, $excluded->public_isVisitorIpExcluded($testIpIsExcluded));
@@ -195,7 +196,7 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
         $request = new Request(array('idsite' => $idsite, 'bots' => 0));
 
         foreach ($isIpBot as $ip => $isBot) {
-            $excluded = new VisitExcluded_public($request, IP::P2N($ip));
+            $excluded = new VisitExcluded_public($request, IPUtils::stringToBinaryIP($ip));
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $ip);
         }

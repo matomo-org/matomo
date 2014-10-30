@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
-use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
@@ -25,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class SetTranslations extends ConsoleCommand
+class SetTranslations extends TranslationBase
 {
     protected function configure()
     {

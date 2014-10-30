@@ -13,7 +13,7 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -97,7 +97,7 @@ class Visitor implements VisitorInterface
     function getIp()
     {
         if (isset($this->details['location_ip'])) {
-            return IP::N2P($this->details['location_ip']);
+            return IPUtils::binaryToStringIP($this->details['location_ip']);
         }
         return null;
     }

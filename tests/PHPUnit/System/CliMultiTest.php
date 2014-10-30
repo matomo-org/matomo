@@ -145,7 +145,7 @@ class Core_CliMultiTest extends SystemTestCase
     {
         $this->skipWhenPhp53();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
-        $this->assertStringStartsWith('Error: no website was found', $response[0]);
+        $this->assertStringStartsWith('Error in Piwik: Error: no website was found', $response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()

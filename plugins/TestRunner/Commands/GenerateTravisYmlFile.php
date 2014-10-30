@@ -7,11 +7,11 @@
  *
  */
 
-namespace Piwik\Plugins\CoreConsole\Commands;
+namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\View;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\CoreConsole\TravisYmlView;
+use Piwik\Plugins\TestRunner\TravisYmlView;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;

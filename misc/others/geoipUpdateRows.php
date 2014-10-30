@@ -1,10 +1,8 @@
 <?php
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
-use Piwik\FrontController;
-use Piwik\IP;
 use Piwik\Log;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -183,7 +181,7 @@ for (; $start < $end; $start += $limit) {
             continue;
         }
 
-        $ip = IP::N2P($row['location_ip']);
+        $ip = IPUtils::binaryToStringIP($row['location_ip']);
         $location = $provider->getLocation(array('ip' => $ip));
 
         if (!empty($location[LocationProvider::COUNTRY_CODE_KEY])) {

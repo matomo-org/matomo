@@ -13,6 +13,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Exceptions\HtmlMessageException;
+use Piwik\Exceptions\HtmlMessageExceptionInterface;
 use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
@@ -614,14 +615,24 @@ class FrontController extends Singleton
     {
         $debugTrace = $ex->getTraceAsString();
 
-        if (method_exists($ex, 'getHtmlMessage')) {
-            $message = $ex->getHtmlMessage();
+        if ($ex instanceof HtmlMessageExceptionInterface) {
+            $message = $ex->getMessage();
         } else {
             $message = Common::sanitizeInputValue($ex->getMessage());
         }
 
         $logo = new CustomLogo();
-        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logo->getHeaderLogoUrl(), $logo->getPathUserFavicon());
+
+        $logoHeaderUrl = false;
+        $logoFaviconUrl = false;
+        try {
+            $logoHeaderUrl = $logo->getHeaderLogoUrl();
+            $logoFaviconUrl = $logo->getPathUserFavicon();
+        } catch (Exception $ex) {
+            Log::debug($ex);
+        }
+
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl);
 
         /**
          * Triggered before a Piwik error page is displayed to the user.

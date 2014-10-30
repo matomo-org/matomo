@@ -6,24 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\CoreConsole\tests\Integration;
+namespace Piwik\Plugins\TestRunner\tests\Integration;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Piwik\Plugins\CoreConsole\TravisYmlView;
+use Piwik\Plugins\TestRunner\TravisYmlView;
 use Piwik\Plugin\Manager as PluginManager;
 use PHPUnit_Framework_TestCase;
 use Spyc; // DeviceDectector requires Spyc
 
 /**
- * @group CoreConsole
- * @group CoreConsole_TravisYmlViewTest
+ * @group TestRunner
+ * @group TestRunner_TravisYmlViewTest
  */
 class TravisYmlViewTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         PluginManager::getInstance()->loadPlugin('Morpheus');
-        PluginManager::getInstance()->loadPlugin('CoreConsole');
+        PluginManager::getInstance()->loadPlugin('TestRunner');
     }
 
     public function testViewGeneratesCorrectLookingYAML()
@@ -61,7 +61,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $view->setPlugin('ExamplePlugin');
         $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml arg1 arg2');
-        $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/tests/resources/test.travis.yml');
+        $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/TestRunner/tests/resources/test.travis.yml');
         $output = $view->render();
 
         $yaml = Spyc::YAMLLoadString($output);

@@ -27,7 +27,8 @@ class Ssh extends Net_SSH2
         $ssh = new Ssh($host);
 
         if (!$ssh->login('ubuntu', $key)) {
-            throw new \RuntimeException("Login to $host using $pemFile failed");
+            $error = error_get_last();
+            throw new \RuntimeException("Login to $host using $pemFile failed: " . $error['message']);
         }
 
         return $ssh;
