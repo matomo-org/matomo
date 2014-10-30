@@ -17,11 +17,11 @@ use Piwik\CronArchive\AlgorithmStatistics;
 use Piwik\CronArchive\AlgorithmState;
 use Piwik\CronArchive\Jobs\ArchiveDayVisits;
 use Piwik\CronArchive\Jobs\ArchiveVisitsForNonDayOrSegment;
+use Piwik\Jobs\Job;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Impl\CliProcessor;
 use Piwik\Jobs\Impl\DistributedQueue;
 use Piwik\Jobs\Queue;
-use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 
 /**
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
@@ -29,6 +29,7 @@ use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
  *
  * TODO: make sure correct number of jobs pulled all the time (ie, if < max current, try pulling again)
  *       will require changes to CliMulti.
+ * TODO: test if multiple servers doing job processing will work
  */
 class CronArchive
 {
@@ -232,13 +233,6 @@ class CronArchive
         $this->algorithmStats->logSummary($this->algorithmLogger, $this->algorithmState);
     }
 
-    public function handleError($errorMessage)
-    {
-        $this->algorithmStats->errors[] = $errorMessage;
-        
-        $this->algorithmLogger->logError($errorMessage);
-    }
-
     /**
      * End of the script
      */
@@ -286,8 +280,6 @@ class CronArchive
         $this->algorithmLogger->log("done");
         $this->algorithmLogger->logSection("");
     }
-
-    // TODO: make sure to deal w/ $this->requests/$this->processed & other metrics
 
     // TODO: go through each method and see if it still needs to be called. eg, request() shouldn't be, but its code needs to be dealt w/
     /**
@@ -413,33 +405,11 @@ class CronArchive
 
     /**
      * @param $idSite
-     */
-    protected function removeWebsiteFromInvalidatedWebsites($idSite)
-    {
-        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
-
-        if (count($websiteIdsInvalidated)) {
-            $found = array_search($idSite, $websiteIdsInvalidated);
-            if ($found !== false) {
-                unset($websiteIdsInvalidated[$found]);
-                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
-            }
-        }
-    }
-
-    private function shouldSkipWebsite($idSite)
-    {
-        return in_array($idSite, $this->options->shouldSkipSpecifiedSites);
-    }
-
-    // TODO: need to log time of archiving for websites (in summary)
-    /**
-     * @param $idSite
      * @return void
      */
     private function queueDayArchivingJobsForSite($idSite)
     {
-        if ($this->shouldSkipWebsite($idSite)) {
+        if ($this->options->shouldSkipWebsite($idSite)) {
             $this->algorithmLogger->log("Skipped website id $idSite, found in --skip-idsites");
 
             ++$this->algorithmStats->skipped;
@@ -471,18 +441,10 @@ class CronArchive
             return;
         }
 
-        // Remove this website from the list of websites to be invalidated
-        // since it's now just about to being re-processed, makes sure another running cron archiving process
-        // does not archive the same idSite
-        //if ($this->isOldReportInvalidatedForWebsite($idSite)) {
-            // $this->removeWebsiteFromInvalidatedWebsites($idSite); TODO: no more multiple 'cron archiving process', so only invalidate after successful archive
-        //}
-
-
         $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, "day");
 
         $job = new ArchiveDayVisits($idSite, $date, $this->token_auth, $this->options);
-        $this->queue->enqueue(array($job));
+        $this->enqueueJob($job, $idSite);
     }
 
     public function queuePeriodAndSegmentArchivingFor($idSite)
@@ -498,20 +460,26 @@ class CronArchive
             $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, $period);
 
             $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment = false, $this->token_auth, $this->options);
-            $this->queue->enqueue(array($job));
+            $this->enqueueJob($job, $idSite);
 
             $this->queueSegmentsArchivingFor($idSite, $period, $date);
         }
     }
 
-    // TODO: test if multiple servers doing job processing will work
-
     private function queueSegmentsArchivingFor($idSite, $period, $date)
     {
         foreach ($this->algorithmState->getSegmentsForSite($idSite) as $segment) {
             $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment, $this->token_auth, $this->options);
-            $this->queue->enqueue(array($job));
+            $this->enqueueJob($job, $idSite);
         }
+    }
+
+    private function enqueueJob(Job $job, $idSite)
+    {
+        $this->queue->enqueue(array($job));
+
+        $this->algorithmState->getFailedRequestsSemaphore($idSite)->increment();
+        $this->algorithmState->getActiveRequestsSemaphore($idSite)->increment();
     }
 
     private function isContinuationOfArchivingJob()

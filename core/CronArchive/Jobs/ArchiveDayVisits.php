@@ -12,6 +12,7 @@ use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\BaseJob;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 
 /**
  * TODO
@@ -52,9 +53,15 @@ class ArchiveDayVisits extends BaseJob
         list($idSite, $date, $period, $segment) = $this->parseJobUrl();
         list($visits, $visitsLast) = $this->parseVisitsApiResponse($context, $response, $idSite);
 
+        // TODO: this seems incorrect, but I'm not sure what correct behavior is. if data has been invalidated, is it invalidated
+        //       for all periods? then we should wait until all are done. what if only some finish successfully? still invalidated?
+        if ($context->getAlgorithmState()->isOldReportDataInvalidatedForWebsite($idSite)) {
+            $this->removeWebsiteFromInvalidatedWebsites($idSite);
+        }
+
         if ($visits === null) {
             // TODO: move handleError to BaseJob?
-            $context->handleError("Empty or invalid response '$response' for website id $idSite, skipping period and segment archiving.\n"
+            $this->handleError($context, "Empty or invalid response '$response' for website id $idSite, skipping period and segment archiving.\n"
                 . "(URL used: {$this->url})");
             $context->getAlgorithmStats()->skipped++;
             return;
@@ -92,14 +99,29 @@ class ArchiveDayVisits extends BaseJob
         // mark 'day' period as successfully archived
         Option::set(CronArchive::lastRunKey($idSite, "day"), time());
 
-        $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite)->decrement(); // TODO: where is this set again?
+        $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite)->decrement();
 
         $context->getAlgorithmStats()->visitsToday += $visits;
         $context->getAlgorithmStats()->websitesWithVisitsSinceLastRun++;
 
-        // TODO: used in two places, but should just be in one
-        $context->queuePeriodAndSegmentArchivingFor($idSite); // TODO: all queuing must increase site's active request semaphore
+        $context->queuePeriodAndSegmentArchivingFor($idSite);
 
         $this->archivingRequestFinished($context, $idSite, $period, $date, $segment, $visits, $visitsLast);
+    }
+
+    /**
+     * @param $idSite
+     */
+    private function removeWebsiteFromInvalidatedWebsites($idSite)
+    {
+        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
+
+        if (count($websiteIdsInvalidated)) {
+            $found = array_search($idSite, $websiteIdsInvalidated);
+            if ($found !== false) {
+                unset($websiteIdsInvalidated[$found]);
+                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
+            }
+        }
     }
 }

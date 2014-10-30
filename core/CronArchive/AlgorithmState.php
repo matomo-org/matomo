@@ -504,13 +504,14 @@ class AlgorithmState
 
     /**
      * Returns true if we should only archive period data for websites that have seen traffic in the last
-     * N seconds. The amount of seconds can be specified as an option in CronArchive.
+     * {@link CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE} seconds. Returns an int if the amount of seconds to
+     * use has been specified through a command line option.
      *
-     * See {@link CronArchive::$shouldArchiveAllPeriodsSince}.
+     * Returns false if no restrictions should be made.
+     *
+     * See {@link AlgorithmOptions::$shouldArchiveAllPeriodsSince}.
      *
      * @return int|false Returns the number of seconds or false if the option was not set.
-     *
-     * TODO: rewrite docs for this, can return true or int secs. what happens when true? what happens when false? etc.
      */
     public function getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs()
     {
@@ -541,7 +542,7 @@ class AlgorithmState
      * before, then the time period is the number of seconds since the last CronArchive run time. If the
      * CronArchive process has not been run before, `CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE` is used.
      *
-     * See {@link CronArchive::$shouldArchiveAllPeriodsSince}.
+     * See {@link AlgorithmOptions::$shouldArchiveAllPeriodsSince}.
      *
      * @return int
      */

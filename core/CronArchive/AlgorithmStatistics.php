@@ -12,6 +12,9 @@ namespace Piwik\CronArchive;
  * TODO
  *
  * TODO: does this need to be concurrent? or just specific to this instance of job processor?
+ * TODO: revise all statistics; from old code some stats do not make sense. at least they don't based
+ *       on how they're calculated.
+ *       related: TODO: need to log time of archiving for websites (in summary)
  */
 class AlgorithmStatistics
 {

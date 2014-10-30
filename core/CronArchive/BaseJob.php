@@ -116,6 +116,12 @@ class BaseJob extends Job
         return $context;
     }
 
+    protected function handleError(CronArchive $context, $errorMessage)
+    {
+        $context->getAlgorithmStats()->errors[] = $errorMessage;
+        $context->getAlgorithmLogger()->logError($errorMessage);
+    }
+
     private function logArchivedWebsite(CronArchive $context, $idSite, $period, $date, $segment, $visitsInLastPeriods, $visitsToday)
     {
         if (substr($date, 0, 4) === 'last') {

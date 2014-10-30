@@ -148,4 +148,16 @@ class AlgorithmOptions
 
         return $this->restrictToDateRange;
     }
+
+    /**
+     * Returns true if the specified site should be skipped based on the CronArchive options set. Returns
+     * false if otherwise.
+     *
+     * @param int $idSite
+     * @return bool
+     */
+    public function shouldSkipWebsite($idSite)
+    {
+        return in_array($idSite, $this->shouldSkipSpecifiedSites);
+    }
 }

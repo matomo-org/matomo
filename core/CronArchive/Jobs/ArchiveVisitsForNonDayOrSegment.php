@@ -45,7 +45,7 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
         list($visits, $visitsLast) = $this->parseVisitsApiResponse($context, $response, $idSite);
 
         if ($visits === null) {
-            $context->handleError("Error unserializing the following response from {$this->url}: " . $response);
+            $this->handleError($context, "Error unserializing the following response from {$this->url}: " . $response);
             return;
         }
 
@@ -53,7 +53,7 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
         $failedRequestsCount->decrement();
 
         if ($failedRequestsCount->get() === 0
-            && $context->getAlgorithmState()->getShouldProcessNonDayPeriods() // if any period is skipped, do not mark as complete
+            && $context->getAlgorithmState()->getShouldProcessNonDayPeriods() // if any period is skipped, do not mark periods archiving as complete
         ) {
             Option::set(CronArchive::lastRunKey($idSite, "periods"), time());
 
