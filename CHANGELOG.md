@@ -8,6 +8,12 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * Development related [console commands](http://developer.piwik.org/guides/piwik-on-the-command-line) are only available if the development mode is enabled. To enable the development mode execute `./console development:enable`.
 
+### Deprecations
+* Most methods of `Piwik\IP` have been deprecated in favor of the new [piwik/network](https://github.com/piwik/component-network) component.
+
+### Library updates
+* Code for manipulating IP addresses has been moved to a separate standalone component: [piwik/network](https://github.com/piwik/component-network). Backward compatibility is kept in Piwik core.
+
 ## Piwik 2.8.2
 
 ### Library updates

@@ -111,7 +111,7 @@ class TestsSetupFixture extends ConsoleCommand
             }
         }
 
-        $fixture = $this->createFixture($input);
+        $fixture = $this->createFixture($input, $allowSave = !empty($configDomainToSave));
 
         $this->setupDatabaseOverrides($input, $fixture);
 
@@ -188,7 +188,7 @@ class TestsSetupFixture extends ConsoleCommand
         }
     }
 
-    private function createFixture(InputInterface $input)
+    private function createFixture(InputInterface $input, $allowSave)
     {
         $fixtureClass = $input->getArgument('fixture');
         if (class_exists("Piwik\\Tests\\Fixtures\\" . $fixtureClass)) {
@@ -221,7 +221,7 @@ class TestsSetupFixture extends ConsoleCommand
         }
 
         if ($fixture->createConfig) {
-            Config::getInstance()->setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = true);
+            Config::getInstance()->setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSave);
         }
 
         $fixture->createConfig = false;

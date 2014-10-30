@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Registry;
@@ -563,9 +564,7 @@ class Request
 
     public function getIp()
     {
-        $ipString = $this->getIpString();
-        $ip = IP::P2N($ipString);
-        return $ip;
+        return IPUtils::stringToBinaryIP($this->getIpString());
     }
 
     public function getForcedUserId()
