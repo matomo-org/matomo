@@ -417,7 +417,7 @@ class AlgorithmState
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             if (empty($container->options->forceTimeoutPeriod)) {
-                return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
+                return AlgorithmState::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
             }
 
             // Ensure the cache for periods is at least as high as cache for today
@@ -485,7 +485,7 @@ class AlgorithmState
     public function getLastSuccessRunTimestamp()
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            return Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
+            return Option::get(AlgorithmState::OPTION_ARCHIVING_FINISHED_TS);
         });
     }
 
