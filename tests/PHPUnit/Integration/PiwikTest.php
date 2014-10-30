@@ -239,9 +239,4 @@ class Core_PiwikTest extends IntegrationTestCase
     {
         $this->assertEquals($expected, Piwik::isAssociativeArray($array));
     }
-
-    public function testCheckIfFileSystemIsNFSOnNonNFS()
-    {
-        $this->assertFalse(Filesystem::checkIfFileSystemIsNFS());
-    }
 }
