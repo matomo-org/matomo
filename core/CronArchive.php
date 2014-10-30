@@ -12,13 +12,13 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive\AlgorithmLogger;
+use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\AlgorithmStatistics;
 use Piwik\CronArchive\AlgorithmState;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Impl\CliProcessor;
 use Piwik\Jobs\Impl\DistributedQueue;
 use Piwik\Jobs\Queue;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 
 /**
@@ -54,97 +54,6 @@ class CronArchive
     const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
 
     private $token_auth = false;
-
-    public $startTime;
-
-    public $testmode = false;
-
-    /**
-     * The list of IDs for sites for whom archiving should be initiated. If supplied, only these
-     * sites will be archived.
-     *
-     * @var int[]
-     */
-    public $shouldArchiveSpecifiedSites = array();
-
-    /**
-     * The list of IDs of sites to ignore when launching archiving. Archiving will not be launched
-     * for any site whose ID is in this list (even if the ID is supplied in {@link $shouldArchiveSpecifiedSites}
-     * or if {@link $shouldArchiveAllSites} is true).
-     *
-     * @var int[]
-     */
-    public $shouldSkipSpecifiedSites = array();
-
-    /**
-     * If true, archiving will be launched for every site.
-     *
-     * @var bool
-     */
-    public $shouldArchiveAllSites = false;
-
-    /**
-     * If true, xhprof will be initiated for the archiving run. Only for development/testing.
-     *
-     * @var bool
-     */
-    public $shouldStartProfiler = false;
-
-    /**
-     * If HTTP requests are used to initiate archiving, this controls whether invalid SSL certificates should
-     * be accepted or not by each request.
-     *
-     * @var bool
-     */
-    public $acceptInvalidSSLCertificate = false;
-
-    /**
-     * If set to true, scheduled tasks will not be run.
-     *
-     * @var bool
-     */
-    public $disableScheduledTasks = false;
-
-    /**
-     * The amount of seconds between non-day period archiving. That is, if archiving has been launched within
-     * the past [$forceTimeoutPeriod] seconds, Piwik will not initiate archiving for week, month and year periods.
-     *
-     * @var int|false
-     */
-    public $forceTimeoutPeriod = false;
-
-    /**
-     * If supplied, archiving will be launched for sites that have had visits within the last [$shouldArchiveAllPeriodsSince]
-     * seconds. If set to `true`, the value defaults to {@link ARCHIVE_SITES_WITH_TRAFFIC_SINCE}.
-     *
-     * @var int|bool
-     */
-    public $shouldArchiveAllPeriodsSince = false;
-
-    /**
-     * If supplied, archiving will be launched only for periods that fall within this date range. For example,
-     * `"2012-01-01,2012-03-15"` would result in January 2012, February 2012 being archived but not April 2012.
-     *
-     * @var string|false eg, `"2012-01-01,2012-03-15"`
-     */
-    public $restrictToDateRange = false;
-
-    /**
-     * A list of periods to launch archiving for. By default, day, week, month and year periods
-     * are considered. This variable can limit the periods to, for example, week & month only.
-     *
-     * @var string[] eg, `array("day","week","month","year")`
-     */
-    public $restrictToPeriods = array();
-
-    /**
-     * Forces CronArchive to retrieve data for the last [$dateLastForced] periods when initiating archiving.
-     * When archiving weeks, for example, if 10 is supplied, the API will be called w/ last10. This will potentially
-     * initiate archiving for the last 10 weeks.
-     *
-     * @var int|false
-     */
-    public $dateLastForced = false;
 
     /**
      * TODO
@@ -182,6 +91,13 @@ class CronArchive
     public $algorithmLogger;
 
     /**
+     * TODO
+     *
+     * @var AlgorithmOptions
+     */
+    public $options;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -212,6 +128,7 @@ class CronArchive
             }
         }
 
+        $this->options = new AlgorithmOptions();
         $this->algorithmState = new AlgorithmState($this);
         $this->algorithmStats = new AlgorithmStatistics();
         $this->algorithmLogger = new AlgorithmLogger();
@@ -225,8 +142,6 @@ class CronArchive
                 $self->responseFinished($url, $response);
             }
         });
-
-        $this->startTime = time();
 
         $this->initCore();
         $this->initTokenAuth();
@@ -261,7 +176,7 @@ class CronArchive
         }
 
 
-        if ($this->shouldStartProfiler) {
+        if ($this->options->shouldStartProfiler) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
             $this->algorithmLogger->log("XHProf profiling is enabled.");
         }
@@ -281,7 +196,6 @@ class CronArchive
         $this->initCore();
         $this->initTokenAuth();
         $this->logInitInfo();
-        $this->checkPiwikUrlIsValid();
         $this->runScheduledTasks();
     }
 
@@ -374,7 +288,7 @@ class CronArchive
     {
         $this->algorithmLogger->logSection("SCHEDULED TASKS");
 
-        if ($this->disableScheduledTasks) {
+        if ($this->options->disableScheduledTasks) {
             $this->algorithmLogger->log("Scheduled tasks are disabled with --disable-scheduled-tasks");
             return;
         }
@@ -403,10 +317,10 @@ class CronArchive
 
     private function processUrl($url)
     {
-        if ($this->shouldStartProfiler) {
+        if ($this->options->shouldStartProfiler) {
             $url .= "&xhprof=2";
         }
-        if ($this->testmode) {
+        if ($this->options->testmode) {
             $url .= "&testmode=1";
         }
         $url .= self::APPEND_TO_API_REQUEST;
@@ -425,7 +339,7 @@ class CronArchive
 
         try {
             $cliMulti  = new CliMulti();
-            $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+            $cliMulti->setAcceptInvalidSSLCertificate($this->options->acceptInvalidSSLCertificate);
             $responses = $cliMulti->request(array($url));
 
             $response  = !empty($responses) ? array_shift($responses) : null;
@@ -521,12 +435,6 @@ class CronArchive
                 Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
             }
         }
-    }
-
-    private function logFatalErrorUrlExpected()
-    {
-        $this->algorithmLogger->logFatalError("./console core:archive expects the argument 'url' to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
-            . "\n--help for more information");
     }
 
     private function getVisitsLastPeriodFromApiResponse($stats)
@@ -665,7 +573,7 @@ class CronArchive
 
     private function shouldSkipWebsite($idSite)
     {
-        return in_array($idSite, $this->shouldSkipSpecifiedSites);
+        return in_array($idSite, $this->options->shouldSkipSpecifiedSites);
     }
 
     // TODO: need to log time of archiving for websites (in summary)
@@ -720,7 +628,7 @@ class CronArchive
         if ($this->isOldReportInvalidatedForWebsite($idSite)
             // when --force-all-websites option,
             // also forces to archive last52 days to be safe
-            || $this->shouldArchiveAllSites
+            || $this->options->shouldArchiveAllSites
         ) {
             $processDaysSince = false;
         }
@@ -818,7 +726,7 @@ class CronArchive
 
             if ($visitsLast == 0
                 && !$shouldArchivePeriods
-                && $this->shouldArchiveAllSites
+                && $this->options->shouldArchiveAllSites
             ) {
                 $this->algorithmLogger->log("Skipped website id $idSite, no visits in the last " . $date . " days");
                 $this->algorithmStats->skipped++;

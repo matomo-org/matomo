@@ -133,7 +133,7 @@ class AlgorithmState
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             // For period other than days, we only re-process the reports at most
             // 1) every $processPeriodsMaximumEverySeconds
-            $result = $container->startTime - $self->getLastTimestampWebsiteProcessedPeriods($idSite);
+            $result = $self->getCronArchivingStartTime() - $self->getLastTimestampWebsiteProcessedPeriods($idSite);
 
             // if timeout is more than 10 min, we account for a 5 min processing time, and allow trigger 1 min earlier
             if ($self->getProcessPeriodsMaximumEverySeconds() > 10 * 60) {
@@ -185,7 +185,7 @@ class AlgorithmState
     public function getIsWebsiteArchivingForced($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            return in_array($idSite, $container->shouldArchiveSpecifiedSites);
+            return in_array($idSite, $container->options->shouldArchiveSpecifiedSites);
         });
     }
 
@@ -244,7 +244,7 @@ class AlgorithmState
     public function getElapsedTimeSinceLastArchiving($idSite, $pretty = false)
     {
         $result = $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
-            return $container->startTime - $self->getLastTimestampWebsiteProcessedDay($idSite);
+            return $self->getCronArchivingStartTime() - $self->getLastTimestampWebsiteProcessedDay($idSite);
         });
 
         if ($pretty) {
@@ -416,17 +416,17 @@ class AlgorithmState
     public function getProcessPeriodsMaximumEverySeconds()
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            if (empty($container->forceTimeoutPeriod)) {
+            if (empty($container->options->forceTimeoutPeriod)) {
                 return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
             }
 
             // Ensure the cache for periods is at least as high as cache for today
-            if ($container->forceTimeoutPeriod > $self->getTodayArchiveTimeToLive()) {
-                return $container->forceTimeoutPeriod;
+            if ($container->options->forceTimeoutPeriod > $self->getTodayArchiveTimeToLive()) {
+                return $container->options->forceTimeoutPeriod;
             }
 
             // TODO: should remove log statements from this class somehow
-            $container->algorithmLogger->log("WARNING: Automatically increasing --force-timeout-for-periods from {$container->forceTimeoutPeriod} to "
+            $container->algorithmLogger->log("WARNING: Automatically increasing --force-timeout-for-periods from {$container->options->forceTimeoutPeriod} to "
                 . $self->getTodayArchiveTimeToLive()
                 . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
 
@@ -514,14 +514,14 @@ class AlgorithmState
     public function getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs()
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            if (empty($container->shouldArchiveAllPeriodsSince)) {
+            if (empty($container->options->shouldArchiveAllPeriodsSince)) {
                 return false;
             }
 
-            if (is_numeric($container->shouldArchiveAllPeriodsSince)
-                && $container->shouldArchiveAllPeriodsSince > 1
+            if (is_numeric($container->options->shouldArchiveAllPeriodsSince)
+                && $container->options->shouldArchiveAllPeriodsSince > 1
             ) {
-                return (int)$container->shouldArchiveAllPeriodsSince;
+                return (int)$container->options->shouldArchiveAllPeriodsSince;
             }
 
             return true;
@@ -580,7 +580,7 @@ class AlgorithmState
     public function getPeriodsToProcess()
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            $periods = array_intersect($container->restrictToPeriods, $self->getDefaultPeriodsToProcess());
+            $periods = array_intersect($container->options->restrictToPeriods, $self->getDefaultPeriodsToProcess());
             $periods = array_intersect($periods, PeriodFactory::getPeriodsEnabledForAPI());
             return $periods;
         });
@@ -645,11 +645,11 @@ class AlgorithmState
     public function getWebsitesToArchive()
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            if (count($container->shouldArchiveSpecifiedSites) > 0) {
-                $container->algorithmLogger->log("- Will process " . count($container->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
+            if (count($container->options->shouldArchiveSpecifiedSites) > 0) {
+                $container->algorithmLogger->log("- Will process " . count($container->options->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
 
-                $websiteIds = $container->shouldArchiveSpecifiedSites;
-            } else if ($container->shouldArchiveAllSites) {
+                $websiteIds = $container->options->shouldArchiveSpecifiedSites;
+            } else if ($container->options->shouldArchiveAllSites) {
                 $container->algorithmLogger->log("- Will process all " . count($self->getAllWebsites()) . " websites");
 
                 $websiteIds = $self->getAllWebsites();
@@ -776,6 +776,18 @@ class AlgorithmState
             }
 
             return $timezoneToProcess;
+        });
+    }
+
+    /**
+     * Returns the start time of this cron archiving run.
+     *
+     * @return int
+     */
+    public function getCronArchivingStartTime()
+    {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return time();
         });
     }
 
