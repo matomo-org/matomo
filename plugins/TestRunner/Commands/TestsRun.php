@@ -31,7 +31,7 @@ class TestsRun extends ConsoleCommand
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
         $this->addOption('file', null, InputOption::VALUE_REQUIRED, 'Execute tests within this file. Should be a path relative to the tests/PHPUnit directory.');
-        $this->addOption('testsuite', null, InputOption::VALUE_REQUIRED, 'Execute tests of a specific test suite, for instance UnitTests, IntegrationTests or SystemTests.');
+        $this->addOption('testsuite', null, InputOption::VALUE_REQUIRED, 'Execute tests of a specific test suite, for instance unit, integration or system.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
