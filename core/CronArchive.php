@@ -382,7 +382,7 @@ class CronArchive
     }
 
     /**
-     * TODO
+     * Returns the {@link $algorithmState} property.
      *
      * @return AlgorithmState
      */
@@ -392,7 +392,7 @@ class CronArchive
     }
 
     /**
-     * TODO
+     * Returns the {@link $algorithmStats} property.
      *
      * @return AlgorithmStatistics
      */
@@ -402,6 +402,8 @@ class CronArchive
     }
 
     /**
+     * Returns the {@link $algorithmLogger} property.
+     *
      * @return AlgorithmLogger
      */
     public function getAlgorithmLogger()
@@ -423,78 +425,6 @@ class CronArchive
                 Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
             }
         }
-    }
-
-    /**
-     * @param $idSite
-     * @param $period
-     * @param $lastTimestampWebsiteProcessed
-     * @return float|int|true
-     *
-     * TODO: move to AlgorithmState
-     */
-    private function getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed = false)
-    {
-        $dateRangeForced = $this->getDateRangeToProcess();
-
-        if (!empty($dateRangeForced)) {
-            return $dateRangeForced;
-        }
-
-        return $this->getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed);
-    }
-
-    private function getDateRangeToProcess()
-    {
-        if (empty($this->restrictToDateRange)) {
-            return false;
-        }
-
-        if (strpos($this->restrictToDateRange, ',') === false) {
-            throw new Exception("--force-date-range expects a date range ie. YYYY-MM-DD,YYYY-MM-DD");
-        }
-
-        return $this->restrictToDateRange;
-    }
-
-    /**
-     * @param $idSite
-     * @return bool
-     */
-    private function isOldReportInvalidatedForWebsite($idSite)
-    {
-        return in_array($idSite, $this->algorithmState->getWebsitesWithInvalidatedArchiveData());
-    }
-
-    /**
-     * @param $idSite
-     * @param $period
-     * @param $lastTimestampWebsiteProcessed
-     * @return string
-     */
-    private function getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed)
-    {
-        $dateLastMax = self::DEFAULT_DATE_LAST;
-        if ($period == 'year') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
-        } elseif ($period == 'week') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
-        }
-        if (empty($lastTimestampWebsiteProcessed)) {
-            $lastTimestampWebsiteProcessed = strtotime(\Piwik\Site::getCreationDateFor($idSite));
-        }
-
-        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
-        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
-        if ($dateLast > $dateLastMax) {
-            $dateLast = $dateLastMax;
-        }
-
-        if (!empty($this->dateLastForced)) {
-            $dateLast = $this->dateLastForced;
-        }
-
-        return "last" . $dateLast;
     }
 
     private function shouldSkipWebsite($idSite)
@@ -548,19 +478,8 @@ class CronArchive
             // $this->removeWebsiteFromInvalidatedWebsites($idSite); TODO: no more multiple 'cron archiving process', so only invalidate after successful archive
         //}
 
-        // when some data was purged from this website
-        // we make sure we query all previous days/weeks/months
-        $processDaysSince = $this->algorithmState->getLastTimestampWebsiteProcessedDay($idSite);
-        if ($this->isOldReportInvalidatedForWebsite($idSite)
-            // when --force-all-websites option,
-            // also forces to archive last52 days to be safe
-            || $this->options->shouldArchiveAllSites
-        ) {
-            $processDaysSince = false;
-        }
 
-
-        $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
+        $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, "day");
 
         $job = new ArchiveDayVisits($idSite, $date, $this->token_auth, $this->options);
         $this->queue->enqueue(array($job));
@@ -568,7 +487,7 @@ class CronArchive
 
     public function queuePeriodAndSegmentArchivingFor($idSite)
     {
-        $dayDate = $this->getApiDateParameter($idSite, 'day', $this->algorithmState->getLastTimestampWebsiteProcessedDay($idSite));
+        $dayDate = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, 'day');
         $this->queueSegmentsArchivingFor($idSite, 'day', $dayDate);
 
         foreach (array('week', 'month', 'year') as $period) {
@@ -576,7 +495,7 @@ class CronArchive
                 continue;
             }
 
-            $date = $this->getApiDateParameter($idSite, $period, $this->algorithmState->getLastTimestampWebsiteProcessedPeriods($idSite));
+            $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, $period);
 
             $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment = false, $this->token_auth, $this->options);
             $this->queue->enqueue(array($job));

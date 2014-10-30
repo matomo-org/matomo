@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\CronArchive;
+use Exception;
 
 /**
  * Contains all editable options for the CronArchive algorithm. Each option has a corresponding
@@ -127,5 +128,24 @@ class AlgorithmOptions
         }
         $url .= self::APPEND_TO_API_REQUEST;
         return $url;
+    }
+
+    /**
+     * Returns the date range to restrict archiving to.
+     *
+     * @return false|string false if there is no restriction, or a date range if there is.
+     * @throws Exception if the date range is non-empty and has no comma.
+     */
+    public function getDateRangeToProcess()
+    {
+        if (empty($this->restrictToDateRange)) {
+            return false;
+        }
+
+        if (strpos($this->restrictToDateRange, ',') === false) {
+            throw new Exception("--force-date-range expects a date range ie. YYYY-MM-DD,YYYY-MM-DD");
+        }
+
+        return $this->restrictToDateRange;
     }
 }

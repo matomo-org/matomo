@@ -44,7 +44,6 @@ class ArchiveDayVisits extends BaseJob
 
     /**
      * TODO
-    // TODO: instead of passing options to distributed callbacks, we should depend on DI container
      */
     public function jobFinished($response)
     {
@@ -93,7 +92,7 @@ class ArchiveDayVisits extends BaseJob
         // mark 'day' period as successfully archived
         Option::set(CronArchive::lastRunKey($idSite, "day"), time());
 
-        $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite)->decrement();
+        $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite)->decrement(); // TODO: where is this set again?
 
         $context->getAlgorithmStats()->visitsToday += $visits;
         $context->getAlgorithmStats()->websitesWithVisitsSinceLastRun++;

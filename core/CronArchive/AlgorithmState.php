@@ -8,6 +8,7 @@
  */
 namespace Piwik\CronArchive;
 
+use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive;
@@ -835,6 +836,98 @@ class AlgorithmState
                 }
             }
             return true;
+        });
+    }
+
+    /**
+     * Returns the value of the date query parameter to use in an archiving API request for a
+     * site and period.
+     *
+     * An archiving API request is an API request that when requested will initiate the the
+     * archiving processes for a site, date and period.
+     *
+     * @param int $idSite
+     * @param string $period ie, 'day', 'week', 'month', 'year'
+     * @return string
+     */
+    public function getArchivingRequestDateParameterFor($idSite, $period)
+    {
+        return $this->getOrSetInCache($idSite . '_' . $period, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite, $period) {
+            $dateRangeForced = $container->options->getDateRangeToProcess();
+
+            if (!empty($dateRangeForced)) {
+                return $dateRangeForced;
+            }
+
+            if ($period === 'day') {
+                $lastTimestampWebsiteProcessed = $self->getLastTimestampWebsiteProcessedDay($idSite);
+
+                // TODO: this comment says to query all days/weeks/months but in oldcode it only resets last timestamp for days. correct or incorrect?
+                // when some data was purged from this website
+                // we make sure we query all previous days/weeks/months
+                if ($self->isOldReportDataInvalidatedForWebsite($idSite)
+                    // when --force-all-websites option,
+                    // also forces to archive last52 days to be safe
+                    || $container->options->shouldArchiveAllSites
+                ) {
+                    $lastTimestampWebsiteProcessed = false;
+                }
+            } else {
+                $lastTimestampWebsiteProcessed = $self->getLastTimestampWebsiteProcessedPeriods($idSite);
+            }
+
+            return $self->getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed);
+        });
+    }
+
+    /**
+     * Returns a lastN date parameter value for use in an archiving API request.
+     *
+     * lastN values are used to initiate archiving for multiple date ranges in one request (ie,
+     * multiple days or multiple weeks or multiple months).
+     *
+     * @param int $idSite
+     * @param string $period
+     * @param int $lastTimestampWebsiteProcessed The last time the website was processed successfully by
+     *                                           CronArchive.
+     * @return string eg, `'last52'`
+     */
+    public function getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed)
+    {
+        $dateLastMax = CronArchive::DEFAULT_DATE_LAST;
+        if ($period == 'year') {
+            $dateLastMax = CronArchive::DEFAULT_DATE_LAST_YEARS;
+        } elseif ($period == 'week') {
+            $dateLastMax = CronArchive::DEFAULT_DATE_LAST_WEEKS;
+        }
+
+        if (empty($lastTimestampWebsiteProcessed)) {
+            $lastTimestampWebsiteProcessed = strtotime(Site::getCreationDateFor($idSite));
+        }
+
+        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
+        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
+        if ($dateLast > $dateLastMax) {
+            $dateLast = $dateLastMax;
+        }
+
+        if (!empty($this->dateLastForced)) {
+            $dateLast = $this->dateLastForced;
+        }
+
+        return "last" . $dateLast;
+    }
+
+    /**
+     * Returns true if old report data has been invalidated for a website, false if otherwise.
+     *
+     * @param int $idSite
+     * @return bool
+     */
+    public function isOldReportDataInvalidatedForWebsite($idSite)
+    {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
+            return in_array($idSite, $self->getWebsitesWithInvalidatedArchiveData());
         });
     }
 
