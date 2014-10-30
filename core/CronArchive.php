@@ -124,18 +124,19 @@ class CronArchive
      */
     public function __construct($queue = null, $processor = null)
     {
+        $this->options = new AlgorithmOptions();
+        $this->algorithmState = new AlgorithmState($this);
+        $this->algorithmStats = new AlgorithmStatistics();
+        $this->algorithmLogger = new AlgorithmLogger();
+
         if (empty($queue)) {
             $queue = new DistributedQueue(self::ARCHIVING_JOB_NAMESPACE);
 
             if (empty($processor)) {
                 $processor = new CliProcessor($queue);
+                $processor->setAcceptInvalidSSLCertificate($this->options->acceptInvalidSSLCertificate);
             }
         }
-
-        $this->options = new AlgorithmOptions();
-        $this->algorithmState = new AlgorithmState($this);
-        $this->algorithmStats = new AlgorithmStatistics();
-        $this->algorithmLogger = new AlgorithmLogger();
 
         $this->queue = $queue;
         $this->processor = $processor;
@@ -570,8 +571,6 @@ class CronArchive
         $this->queue->enqueue(array($job));
     }
 
-    // TODO: distributed callbacks must be called within try-catch blocks
-
     public function queuePeriodAndSegmentArchivingFor($idSite)
     {
         $dayDate = $this->getApiDateParameter($idSite, 'day', $this->algorithmState->getLastTimestampWebsiteProcessedDay($idSite));
@@ -599,8 +598,6 @@ class CronArchive
             $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment, $this->token_auth, $this->options);
             $this->queue->enqueue(array($job));
         }
-
-        // $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate); // TODO: support in consumer
     }
 
     private function isContinuationOfArchivingJob()

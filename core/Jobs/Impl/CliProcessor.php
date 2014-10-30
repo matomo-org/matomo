@@ -68,6 +68,13 @@ class CliProcessor implements Processor
     private $sleepTimeBetweenBatchJobExecutions;
 
     /**
+     * For CliMulti. See {@link \Piwik\CliMulti::setAcceptInvalidSSLCertificate()}.
+     *
+     * @var bool
+     */
+    private $acceptInvalidSSLCertificate;
+
+    /**
      * List of jobs currently being executed. CliMulti only acts on URLs so the
      * Job instances must be stored somewhere in order to execute job specific callbacks.
      *
@@ -89,10 +96,12 @@ class CliProcessor implements Processor
      *                                                more jobs.
      */
     public function __construct(Queue $jobQueue, $maxNumberOfSpawnedProcesses = self::DEFAULT_MAX_SPAWNED_PROCESS_COUNT,
-                                $sleepTimeBetweenBatchJobExecutions= self::DEFAULT_SLEEP_TIME)
+                                $sleepTimeBetweenBatchJobExecutions = self::DEFAULT_SLEEP_TIME,
+                                $acceptInvalidSSLCertificate = false)
     {
         $this->jobQueue = $jobQueue;
         $this->maxNumberOfSpawnedProcesses = $maxNumberOfSpawnedProcesses;
+        $this->acceptInvalidSSLCertificate = $acceptInvalidSSLCertificate;
     }
 
     /**
@@ -135,6 +144,7 @@ class CliProcessor implements Processor
     {
         $cliMulti = new CliMulti();
         $cliMulti->setConcurrentProcessesLimit($this->maxNumberOfSpawnedProcesses);
+        $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
 
         $this->processing = true;
 
@@ -269,5 +279,25 @@ class CliProcessor implements Processor
                 Log::debug($ex);
             }
         }
+    }
+
+    /**
+     * Returns the {@link $acceptInvalidSSLCertificate} property.
+     *
+     * @return boolean
+     */
+    public function getAcceptInvalidSSLCertificate()
+    {
+        return $this->acceptInvalidSSLCertificate;
+    }
+
+    /**
+     * Sets the {@link $acceptInvalidSSLCertificate} property.
+     *
+     * @param boolean $acceptInvalidSSLCertificate
+     */
+    public function setAcceptInvalidSSLCertificate($acceptInvalidSSLCertificate)
+    {
+        $this->acceptInvalidSSLCertificate = $acceptInvalidSSLCertificate;
     }
 }
