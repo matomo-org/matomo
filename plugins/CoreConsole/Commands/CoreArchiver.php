@@ -39,7 +39,7 @@ class CoreArchiver extends ConsoleCommand
             Log::getInstance()->setLogLevel(Log::VERBOSE);
         }
 
-        $archiver = $this->makeArchiver($url, $input);
+        $archiver = $this->makeArchiver($input);
 
         try {
             $archiver->main();
@@ -49,10 +49,10 @@ class CoreArchiver extends ConsoleCommand
     }
 
     // also used by another console command
-    public static function makeArchiver($url, InputInterface $input)
+    public static function makeArchiver(InputInterface $input)
     {
         // TODO: param for max processes
-        $archiver = new CronArchive($url);
+        $archiver = new CronArchive();
 
         $archiver->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
         $archiver->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
@@ -69,6 +69,8 @@ class CoreArchiver extends ConsoleCommand
         $archiver->restrictToPeriods = array_map('trim', $restrictToPeriods);
 
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
+
+        $archiver->testmode = $input->getOption('testmode');
 
         return $archiver;
     }
@@ -102,5 +104,6 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE, "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
         $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE, "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
         $command->addOption('xhprof', null, InputOption::VALUE_NONE, "Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).");
+        $command->addOption('testmode', null, InputOption::VALUE_NONE, "Used during tests.");
     }
 }

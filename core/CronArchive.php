@@ -53,7 +53,6 @@ class CronArchive
     // Name of option used to store starting timestamp
     const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
 
-    private $piwikUrl = false;
     private $token_auth = false;
 
     public $startTime;
@@ -203,10 +202,8 @@ class CronArchive
      *                               If invoked via the command line, $piwikUrl cannot be false.
      * TODO: update
      */
-    public function __construct($piwikUrl = false, $queue = null, $consumer = null)
+    public function __construct($queue = null, $consumer = null)
     {
-        $this->initPiwikHost($piwikUrl);
-
         if (empty($queue)) {
             $queue = new DistributedQueue(self::ARCHIVING_JOB_NAMESPACE);
 
@@ -253,7 +250,6 @@ class CronArchive
     {
         // Note: the order of methods call matters here.
         $this->logInitInfo();
-        $this->checkPiwikUrlIsValid();
         $this->logArchiveTimeoutInfo();
 
         // record archiving start time
@@ -424,8 +420,7 @@ class CronArchive
      */
     private function getVisitsRequestUrl($idSite, $period, $date)
     {
-        $url = $this->piwikUrl;
-        $url .= "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        $url = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
         if($this->shouldStartProfiler) {
             $url .= "&xhprof=2";
         }
@@ -443,7 +438,7 @@ class CronArchive
      */
     private function request($url)
     {
-        $url = $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
+        $url = $url . self::APPEND_TO_API_REQUEST;
 
         if ($this->shouldStartProfiler) { // TODO: redundancy w/ above
             $url .= "&xhprof=2";
@@ -509,67 +504,9 @@ class CronArchive
         return $this->token_auth;
     }
 
-    private function initPiwikHost($piwikUrl = false)
-    {
-        // If core:archive command run as a web cron, we use the current hostname+path
-        if (empty($piwikUrl)) {
-            if (!empty(self::$url)) {
-                $piwikUrl = self::$url;
-            } else {
-                // example.org/piwik/
-                $piwikUrl = SettingsPiwik::getPiwikUrl();
-            }
-        }
-
-        if (!$piwikUrl) {
-            $this->logFatalErrorUrlExpected();
-        }
-
-        if (!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
-            // try adding http:// in case it's missing
-            $piwikUrl = "http://" . $piwikUrl;
-        }
-
-        if (!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
-            $this->logFatalErrorUrlExpected();
-        }
-
-        // ensure there is a trailing slash
-        if ($piwikUrl[strlen($piwikUrl) - 1] != '/' && !Common::stringEndsWith($piwikUrl, 'index.php')) {
-            $piwikUrl .= '/';
-        }
-
-        $this->initConfigObject($piwikUrl);
-
-        if (Config::getInstance()->General['force_ssl'] == 1) {
-            $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
-        }
-
-        if (!Common::stringEndsWith($piwikUrl, 'index.php')) {
-            $piwikUrl .= 'index.php';
-        }
-
-        $this->piwikUrl = $piwikUrl;
-    }
-
-    /**
-     *  Test that the specified piwik URL is a valid Piwik endpoint.
-     */
-    private function checkPiwikUrlIsValid()
-    {
-        $response = $this->request("?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1");
-        $responseUnserialized = @unserialize($response);
-        if ($response === false
-            || !is_array($responseUnserialized)
-        ) {
-            $this->algorithmLogger->logFatalError("The Piwik URL {$this->piwikUrl} does not seem to be pointing to a Piwik server. Response was '$response'.");
-        }
-    }
-
     private function logInitInfo()
     {
         $this->algorithmLogger->logSection("INIT");
-        $this->algorithmLogger->log("Piwik is installed at: {$this->piwikUrl}");
         $this->algorithmLogger->log("Running Piwik " . Version::VERSION . " as Super User");
     }
 

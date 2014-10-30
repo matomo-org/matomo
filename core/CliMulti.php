@@ -257,6 +257,10 @@ class CliMulti {
         $url      = $this->appendTestmodeParamToUrlIfNeeded($url);
         $query    = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
         $hostname = UrlHelper::getHostFromUrl($url);
+        if (empty($hostname)) {
+            $hostname = Url::getCurrentHost();
+        }
+
         $command  = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
         Log::debug($command);
