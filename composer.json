@@ -43,7 +43,8 @@
         "tedivm/jshrink": "~0.5.1",
         "mustangostang/spyc": "~0.5.0",
         "piwik/device-detector": "~2.0",
-        "piwik/decompress": "~0.1.1"
+        "piwik/decompress": "~0.1.1",
+        "piwik/network": "~0.1.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",

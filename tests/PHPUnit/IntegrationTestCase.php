@@ -7,7 +7,7 @@
  */
 
 /**
- * @deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\IntegrationTestCase instead
+ * @deprecated since 2.8.0 extend \Piwik\Tests\Framework\TestCase\SystemTestCase instead
  */
 class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\SystemTestCase
 {

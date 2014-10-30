@@ -114,7 +114,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $patternFailIfFound = 'dump(';
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
-            if ($file == PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/templates/travis.yml.twig') {
+            if ($file == PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig') {
                 continue;
             }
 
