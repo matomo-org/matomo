@@ -39,6 +39,21 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
         $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\Fixture', $validTill);
         $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\OverrideLogin', $validTill);
 
+        $validTill = '2015-03-01';
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIp', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIpRange', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'P2N', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'N2P', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'prettyPrint', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isIPv4', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'long2ip', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isIPv6', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isMappedIPv4', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getIPv4FromMappedIPv6', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getIpsForRange', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isIpInRange', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getHostByAddr', $validTill);
+
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
     }
 

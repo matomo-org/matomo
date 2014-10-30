@@ -621,7 +621,17 @@ class FrontController extends Singleton
         }
 
         $logo = new CustomLogo();
-        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logo->getHeaderLogoUrl(), $logo->getPathUserFavicon());
+
+        $logoHeaderUrl = false;
+        $logoFaviconUrl = false;
+        try {
+            $logoHeaderUrl = $logo->getHeaderLogoUrl();
+            $logoFaviconUrl = $logo->getPathUserFavicon();
+        } catch (Exception $ex) {
+            Log::debug($ex);
+        }
+
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl);
 
         /**
          * Triggered before a Piwik error page is displayed to the user.
