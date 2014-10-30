@@ -281,7 +281,6 @@ class CronArchive
         $this->algorithmLogger->logSection("");
     }
 
-    // TODO: go through each method and see if it still needs to be called. eg, request() shouldn't be, but its code needs to be dealt w/
     /**
      * Issues a request to $url
      */

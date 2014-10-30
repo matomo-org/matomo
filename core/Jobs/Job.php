@@ -6,129 +6,90 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Jobs;
-
-use Exception;
-use Piwik\Log;
+use Piwik\Url;
 
 /**
- * TODO
+ * Description of a job that should be processed by a job processor.
+ *
+ * Job instances store a URL that points to the logic to execute when processed by a job
+ * processor. Additionally, they can contain logic to execute before and after the job
+ * is processed.
+ *
+ * If you want to queue a job and don't care about executing logic before or after the job,
+ * you can simply create a new instance of Job w/ the URL to execute, eg:
+ *
+ *     $job = new Job("?module=API&method=MyPlugin.myApiMethod&myParam=1");
+ *     $queue->enqueue($job);
+ *
+ * If you want to execute code before or after a job, you must create a new class that
+ * derives from Job and implement the jobStarting & jobFinished methods:
+ *
+ *     class MyJob extends Job
+ *     {
+ *         public function __construct()
+ *         {
+ *             parent::__construct("?module=API&method=MyPlugin.myApiMethod&myParam=1");
+ *         }
+ *
+ *         public function jobStarting()
+ *         {
+ *             // ...
+ *         }
+ *
+ *         public function jobFinished($response)
+ *         {
+ *             // ...
+ *         }
+ *    }
+ *
+ * Jobs are serialized completely when added to a Job queue. This means you should not
+ * store large objects w/ lots of dependencies in a Job instance. This may change in the
+ * future when Dependency Injection is added.
  */
 class Job
 {
     /**
-     * TODO
+     * The URL that the Job processor should execute.
      *
-     * @var string
+     * @var string[]
      */
-    public $url; // TODO: allow URL to be array. in fact, better to prefer it
+    public $url;
 
     /**
-     * TODO
+     * Constructor.
      *
-     * @var array
+     * @param string[] $url An array of query parameters.
      */
-    public $onJobStarting;
-
-    /**
-     * TODO
-     *
-     * @var array
-     */
-    public $onJobFinished;
-
-    /**
-     * TODO
-     */
-    public function __construct($url = null, $onJobStarting = null, $onJobFinished = null)
+    public function __construct($url = null)
     {
         $this->url = $url;
-        $this->onJobStarting = $onJobStarting;
-        $this->onJobFinished = $onJobFinished;
     }
 
     /**
-     * TODO
+     * The method that is executed before a job starts.
      */
     public function jobStarting()
     {
-        try {
-            $this->validate();
-        } catch (Exception $ex) {
-            Log::warning("Job::%s: Invalid job encountered: '%s' (url = '%s').", __FUNCTION__, $ex->getMessage(), $this->url);
-            return;
-        }
-
-        if (!empty($this->onJobStarting)) {
-            $callback = $this->onJobStarting['callback'];
-            $params = empty($this->onJobStarting['params']) ? array() : $this->onJobStarting['params'];
-
-            call_user_func_array($callback, $params);
-        }
+        // empty
     }
 
     /**
-     * TODO
+     * The method that is executed after a job finishes.
+     *
+     * @param string $response The string response that the job's URL returned.
      */
     public function jobFinished($response)
     {
-        try {
-            $this->validate();
-        } catch (Exception $ex) {
-            Log::warning("Job::%s: Invalid job encountered: '%s' (url = '%s').", __FUNCTION__, $ex->getMessage(), $this->url);
-            return;
-        }
-
-        if (!empty($this->onJobFinished)) {
-            $callback = $this->onJobFinished['callback'];
-            $params = empty($this->onJobFinished['params']) ? array() : $this->onJobFinished['params']; // TODO: code redundancy w/ above
-
-            $params = array_merge(array($response), $params);
-
-            call_user_func_array($callback, $params);
-        }
+        // empty
     }
 
     /**
-     * TODO
+     * Returns the URL as a string instead of an array of query parameter values.
+     *
+     * @return string
      */
-    public function validate()
+    public function getUrlString()
     {
-        if (empty($this->url)
-            || !is_string($this->url)
-        ) {
-            throw new Exception("Invalid Job URL: " . var_export($this->url, true));
-        }
-
-        $this->validateDistributedCallback($this->onJobStarting,"onJobStarting");
-        $this->validateDistributedCallback($this->onJobFinished, "onJobFinished");
-    }
-
-    private function validateDistributedCallback($callback, $name)
-    {
-        if (empty($callback)) {
-            return;
-        }
-
-        if (empty($callback['callback'])) {
-            throw new Exception("No callback property in '$name' callback.");
-        }
-
-        if (!$this->isStringArray($callback['callback'])) {
-            throw new Exception("Invalid Job callback for '$name': callback must be an array of strings.");
-        }
-    }
-
-    private function isStringArray($value) {
-        if (!is_array($value)) {
-            return false;
-        }
-
-        foreach ($value as $element) {
-            if (!is_string($element)) {
-                return false;
-            }
-        }
-
-        return true;
+        return '?' . Url::getQueryStringFromParameters($this->url); // TODO: getQueryStringFromParameters doesn't urlencode. maybe a problem.
     }
 }

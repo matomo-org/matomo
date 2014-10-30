@@ -62,7 +62,7 @@ class ArchiveDayVisits extends BaseJob
         if ($visits === null) {
             // TODO: move handleError to BaseJob?
             $this->handleError($context, "Empty or invalid response '$response' for website id $idSite, skipping period and segment archiving.\n"
-                . "(URL used: {$this->url})");
+                . "(URL used: {$this->getUrlString()})");
             $context->getAlgorithmStats()->skipped++;
             return;
         }

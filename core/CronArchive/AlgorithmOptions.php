@@ -121,12 +121,27 @@ class AlgorithmOptions
     public function getProcessedUrl($url)
     {
         if ($this->shouldStartProfiler) {
-            $url .= "&xhprof=2";
+            if (is_array($url)) {
+                $url['xhprof'] = '2';
+            } else {
+                $url .= "&xhprof=2";
+            }
         }
+
         if ($this->testmode) {
-            $url .= "&testmode=1";
+            if (is_array($url)) {
+                $url['testmode'] = '1';
+            } else {
+                $url .= "&testmode=1";
+            }
         }
-        $url .= self::APPEND_TO_API_REQUEST;
+
+        if (is_array($url)) {
+            $url['trigger'] = 'archivephp';
+        } else {
+            $url .= self::APPEND_TO_API_REQUEST;
+        }
+
         return $url;
     }
 

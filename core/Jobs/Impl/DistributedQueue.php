@@ -48,10 +48,6 @@ class DistributedQueue implements Queue
      */
     public function enqueue($jobs)
     {
-        foreach ($jobs as $job) {
-            $job->validate();
-        }
-
         $self = $this;
         $this->runWithLock(function () use ($self, $jobs) {
             $existingJobs = $self->getJobUrls();

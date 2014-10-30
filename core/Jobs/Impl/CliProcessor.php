@@ -13,6 +13,7 @@ use Piwik\Jobs\Job;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Queue;
 use Piwik\Log;
+use Piwik\Url;
 
 /**
  * Job processor that uses processes executed via shell_exec to process jobs in a
@@ -233,7 +234,7 @@ class CliProcessor implements Processor
         $this->jobs = array_merge($this->jobs, $jobs);
 
         $newJobs = array_slice($this->jobs, $oldJobsArrayLength, $length = null, $preserveKeys = true);
-        return array_map(function (Job $job) { return $job->url; }, $newJobs);
+        return array_map(function (Job $job) { return $job->getUrlString(); }, $newJobs);
     }
 
     private function waitBeforeCheckingForMoreJobs()

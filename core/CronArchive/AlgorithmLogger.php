@@ -11,6 +11,7 @@ namespace Piwik\CronArchive;
 use Exception;
 use Piwik\Config;
 use Piwik\Log;
+use Piwik\Url;
 
 /**
  * TODO
@@ -63,6 +64,10 @@ class AlgorithmLogger
      */
     public function logNetworkError($url, $response)
     {
+        if (is_array($url)) {
+            $url = Url::getQueryStringFromParameters($url);
+        }
+
         $message = "Got invalid response from API request: $url. ";
         if (empty($response)) {
             $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";

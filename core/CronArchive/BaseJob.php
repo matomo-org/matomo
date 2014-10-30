@@ -12,6 +12,7 @@ use Piwik\CronArchive;
 use Piwik\Jobs\Job;
 use Piwik\Log;
 use Piwik\Piwik;
+use Piwik\Url;
 use Piwik\UrlHelper;
 
 /**
@@ -31,9 +32,17 @@ class BaseJob extends Job
      */
     public function __construct($idSite, $date, $period, $segment, $token_auth, AlgorithmOptions $options)
     {
-        $url = "?module=API&method=API.get&idSite=$idSite&period=$period&date=$date&format=php&token_auth=$token_auth";
+        $url = array(
+            'module' => 'API',
+            'method' => 'API.get',
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'format' => 'php',
+            'token_auth' => $token_auth
+        );
         if (!empty($segment)) {
-            $url .= "&segment=$segment";
+            $url['segment'] = $segment;
         }
         $url = $options->getProcessedUrl($url);
 
@@ -44,20 +53,15 @@ class BaseJob extends Job
 
     protected function parseJobUrl()
     {
-        $url = UrlHelper::getArrayFromQueryString($this->url);
+        $url = $this->url;
         if (empty($url['idSite'])
             || empty($url['date'])
             || empty($url['period'])
         ) {
-            throw new Exception("Invalid CronArchive job URL found in job callback: '$url'"); // sanity check
+            throw new Exception("Invalid CronArchive job URL found in job callback: '" . $this->getUrlString() . "'"); // sanity check
         }
 
-        $idSite = $url['idSite'];
-        $date   = $url['date'];
-        $period = $url['period'];
-        $segment = empty($url['segment']) ? null : $url['segment'];
-
-        return array($idSite, $date, $period, $segment);
+        return array($url['idSite'], $url['date'], $url['period'], @$url['segment']);
     }
 
     protected function parseVisitsApiResponse(CronArchive $context, $textResponse, $idSite)
