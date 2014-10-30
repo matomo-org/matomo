@@ -13,22 +13,37 @@ use Piwik\Jobs\Job;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Url;
-use Piwik\UrlHelper;
 
 /**
- * TODO
+ * Base class for CronArchive jobs.
+ *
+ * CronArchive jobs just send a request to the API.get API method. This will launch archiving for
+ * a site, period & segment.
+ *
+ * CronArchive jobs should be able to be executed from different machines if necessary.
  */
 class BaseJob extends Job
 {
     /**
-     * TODO
+     * The CronArchive options used in this CronArchive run. The options are stored with the Job to reconstruct
+     * a CronArchive instance that is equivalent to the original when executing job callbacks. (ie before job
+     * starts code & after job finishes code). This allows the jobs to be executed in different processes or
+     * on different machines. As long as the configuration for Piwik is the same, the behaviour should be the
+     * same.
      *
      * @var AlgorithmOptions
      */
     protected $cronArchiveOptions;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param int $idSite
+     * @param string $date
+     * @param string $period
+     * @param string $segment
+     * @param string $token_auth
+     * @param AlgorithmOptions $options See {@link $cronArchiveOptions}.
      */
     public function __construct($idSite, $date, $period, $segment, $token_auth, AlgorithmOptions $options)
     {

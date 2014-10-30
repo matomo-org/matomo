@@ -149,7 +149,6 @@ class CliProcessor implements Processor
 
         $this->processing = true;
 
-        // TODO: make sure max number of processes is always being used
         try {
             for (;;) {
                 $jobUrls = $this->pullJobs($this->maxNumberOfSpawnedProcesses);
@@ -186,7 +185,7 @@ class CliProcessor implements Processor
      * Jobs currently being processed will continue to be processed.
      *
      * TODO: since php is not multi-threaded, maybe this method is useless? if on an application server,
-     *       maybe it's not useless, need to check.
+     *       maybe it's not useless, need to check. if using w/ pthreads or some other actual threading lib it's not useless.
      */
     public function stopProcessing()
     {

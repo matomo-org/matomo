@@ -14,7 +14,13 @@ use Piwik\Log;
 use Piwik\Url;
 
 /**
- * TODO
+ * Default logging implementation for CronArchive class.
+ *
+ * This class will use the Piwik\Log class. It will force logging to the screen and still log
+ * to configured log writers.
+ *
+ * Eventually, it will be possible to supply custom ones to customize how CronArchive will log
+ * (or to disable it entirely).
  */
 class AlgorithmLogger
 {
@@ -22,7 +28,7 @@ class AlgorithmLogger
     const TRUNCATE_ERROR_MESSAGE_SUMMARY = 6000;
 
     /**
-     * TODO
+     * Constructor.
      */
     public function __construct()
     {
@@ -44,7 +50,9 @@ class AlgorithmLogger
     }
 
     /**
-     * TODO
+     * Log an error that occurred during CronArchive execution.
+     *
+     * @param string $errorMessage The string error message.
      */
     public function logError($errorMessage)
     {
@@ -60,7 +68,10 @@ class AlgorithmLogger
     }
 
     /**
-     * TODO
+     * Log an error that occurred due to API request error.
+     *
+     * @param string $url The URL that returned an error.
+     * @param string $response The API request's response.
      */
     public function logNetworkError($url, $response)
     {
@@ -75,11 +86,12 @@ class AlgorithmLogger
             $message .= "Response was '$response'";
         }
         $this->logError($message);
-        return false;
     }
 
     /**
-     * TODO
+     * Marks a new section in the log output.
+     *
+     * @param string $title The section's title.
      */
     public function logSection($title = "")
     {
@@ -90,7 +102,9 @@ class AlgorithmLogger
     }
 
     /**
-     * TODO
+     * Logs a message to the output.
+     *
+     * @param string $message
      */
     public function log($message)
     {
@@ -104,7 +118,10 @@ class AlgorithmLogger
     }
 
     /**
-     * TODO
+     * Logs an error message and throws an exception to stop CronArchive execution completely.
+     *
+     * @param string $errorMessage The error message.
+     * @throws Exception every time.
      */
     public function logFatalError($errorMessage)
     {
