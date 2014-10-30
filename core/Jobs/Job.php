@@ -20,7 +20,7 @@ class Job
      *
      * @var string
      */
-    public $url;
+    public $url; // TODO: allow URL to be array. in fact, better to prefer it
 
     /**
      * TODO

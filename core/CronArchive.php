@@ -15,7 +15,8 @@ use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\AlgorithmStatistics;
 use Piwik\CronArchive\AlgorithmState;
-use Piwik\Jobs\Job;
+use Piwik\CronArchive\Jobs\ArchiveDayVisits;
+use Piwik\CronArchive\Jobs\ArchiveVisitsForNonDayOrSegment;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Impl\CliProcessor;
 use Piwik\Jobs\Impl\DistributedQueue;
@@ -57,42 +58,45 @@ class CronArchive
     private $token_auth = false;
 
     /**
-     * TODO
+     * The distributed jobs queue to which new Jobs will be added.
      *
      * @var Queue
      */
     private $queue;
 
     /**
-     * TODO
+     * The job processor that will be run in this CronArchive execution (or null if no job processing
+     * should be done within this PHP process). If null, jobs are queued and must be processed by another
+     * PHP process.
      *
      * @var Processor|null
      */
-    private $consumer;
+    private $processor;
 
     /**
-     * TODO
+     * The CronArchive algorithm's state & non-queuing logic.
      *
      * @var AlgorithmState
      */
     private $algorithmState;
 
     /**
-     * TODO
+     * Statistics for this CronArchive run.
      *
      * @var AlgorithmStatistics
      */
     private $algorithmStats;
 
     /**
-     * TODO
+     * The class used to log information to the screen. By default the logger will just use {@link \Piwik\Log}.
      *
      * @var AlgorithmLogger
      */
     public $algorithmLogger;
 
     /**
-     * TODO
+     * The options that can alter the way this CronArchive instance behaves. Each option is available as
+     * command line option in the core:archive command.
      *
      * @var AlgorithmOptions
      */
@@ -113,19 +117,18 @@ class CronArchive
     /**
      * Constructor.
      *
-     * @param string|false $piwikUrl The URL to the Piwik installation to initiate archiving for. If `false`,
-     *                               we determine it using the current request information.
-     *
-     *                               If invoked via the command line, $piwikUrl cannot be false.
-     * TODO: update
+     * @param Queue|null $queue The queue to store distributed jobs. If null, a DistributedQueue instance
+     *                          iscreated.
+     * @param Processor|null $processor The job processor that will consume jobs in this CronArchive run.
+     *                                  If null, a CliProcessor instances is created.
      */
-    public function __construct($queue = null, $consumer = null)
+    public function __construct($queue = null, $processor = null)
     {
         if (empty($queue)) {
             $queue = new DistributedQueue(self::ARCHIVING_JOB_NAMESPACE);
 
-            if (empty($consumer)) {
-                $consumer = new CliProcessor($queue);
+            if (empty($processor)) {
+                $processor = new CliProcessor($queue);
             }
         }
 
@@ -135,7 +138,7 @@ class CronArchive
         $this->algorithmLogger = new AlgorithmLogger();
 
         $this->queue = $queue;
-        $this->consumer = $consumer;
+        $this->processor = $processor;
 
         $this->initCore();
         $this->initTokenAuth();
@@ -175,14 +178,14 @@ class CronArchive
             $this->algorithmLogger->log("XHProf profiling is enabled.");
         }
 
-        /** TODO: deal w/ event
+        /**
          * This event is triggered after a CronArchive instance is initialized.
          *
          * @param array $websiteIds The list of website IDs this CronArchive instance is processing.
          *                          This will be the entire list of IDs regardless of whether some have
          *                          already been processed.
          */
-        //Piwik::postEvent('CronArchive.init.finish', array($this->websites->getInitialSiteIds()));
+        Piwik::postEvent('CronArchive.init.finish', array($this->algorithmState->getWebsitesToArchive()));
     }
 
     public function runScheduledTasksInTrackerMode()
@@ -195,22 +198,13 @@ class CronArchive
 
     /**
      * Main function, runs archiving on all websites with new activity
+     *
+     * TODO: document algorithm process
      */
     public function run()
     {
         $this->algorithmLogger->logSection("START");
         $this->algorithmLogger->log("Starting Piwik reports archiving...");
-
-        /**
-         * Algorithm is:
-         * - queue day archiving jobs for a site
-         * - when a site finishes archiving for day, queue other requests including:
-         *   * period archiving
-         *   * segments archiving for day
-         *   * segments archiving for periods
-         *
-         * TODO: be more descriptive
-         */
 
         if (!$this->isContinuationOfArchivingJob()) {
             Semaphore::deleteLike("CronArchive%");
@@ -221,31 +215,16 @@ class CronArchive
         }
 
         // we allow the consumer to be empty in case another server does the actual job processing
-        if (empty($this->consumer)) {
+        if (empty($this->processor)) {
             return;
         }
 
-        $this->consumer->startProcessing($finishWhenNoJobs = true);
-
-            /** TODO: deal w/ these events
-             * This event is triggered before the cron archiving process starts archiving data for a single
-             * site.
-             *
-             * @param int $idSite The ID of the site we're archiving data for.
-             */
-            //Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idSite));
-            /**
-             * This event is triggered immediately after the cron archiving process starts archiving data for a single
-             * site.
-             *
-             * @param int $idSite The ID of the site we're archiving data for.
-             */
-            //Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idSite, $completed));
+        $this->processor->startProcessing($finishWhenNoJobs = true);
 
         $this->algorithmStats->logSummary($this->algorithmLogger, $this->algorithmState, $this->algorithmState->getWebsitesToArchive()); // TODO: remove 3rd param
     }
 
-    private function handleError($errorMessage)
+    public function handleError($errorMessage)
     {
         $this->algorithmStats->errors[] = $errorMessage;
         
@@ -300,16 +279,7 @@ class CronArchive
         $this->algorithmLogger->logSection("");
     }
 
-    /**
-     * Returns base URL to process reports for the $idSite on a given $period
-     */
-    private function getVisitsRequestUrl($idSite, $period, $date)
-    {
-        $url = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
-        return $this->processUrl($url);
-    }
-
-    private function processUrl($url)
+    private function processUrl($url) // TODO: redundancy w/ BaseJob
     {
         if ($this->options->shouldStartProfiler) {
             $url .= "&xhprof=2";
@@ -416,6 +386,34 @@ class CronArchive
     }
 
     /**
+     * TODO
+     *
+     * @return AlgorithmState
+     */
+    public function getAlgorithmState()
+    {
+        return $this->algorithmState;
+    }
+
+    /**
+     * TODO
+     *
+     * @return AlgorithmStatistics
+     */
+    public function getAlgorithmStats()
+    {
+        return $this->algorithmStats;
+    }
+
+    /**
+     * @return AlgorithmLogger
+     */
+    public function getAlgorithmLogger()
+    {
+        return $this->algorithmLogger;
+    }
+
+    /**
      * @param $idSite
      */
     protected function removeWebsiteFromInvalidatedWebsites($idSite)
@@ -431,39 +429,13 @@ class CronArchive
         }
     }
 
-    private function getVisitsLastPeriodFromApiResponse($stats)
-    {
-        if (empty($stats)) {
-            return 0;
-        }
-
-        $today = end($stats);
-
-        return $today['nb_visits'];
-    }
-
-    private function getVisitsFromApiResponse($stats)
-    {
-        if (empty($stats)) {
-            return 0;
-        }
-
-        $visits = 0;
-        foreach($stats as $metrics) {
-            if (empty($metrics['nb_visits'])) {
-                continue;
-            }
-            $visits += $metrics['nb_visits'];
-        }
-
-        return $visits;
-    }
-
     /**
      * @param $idSite
      * @param $period
      * @param $lastTimestampWebsiteProcessed
      * @return float|int|true
+     *
+     * TODO: move to AlgorithmState
      */
     private function getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed = false)
     {
@@ -474,32 +446,6 @@ class CronArchive
         }
 
         return $this->getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed);
-    }
-
-    /**
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param $visitsInLastPeriods
-     * @param $visitsToday
-     * @param $timer
-     */
-    private function logArchivedWebsite($idSite, $period, $date, $segment, $visitsInLastPeriods, $visitsToday)
-    {
-        if (substr($date, 0, 4) === 'last') {
-            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
-            $thisPeriod = $period == "day" ? "today" : "this " . $period;
-            $visitsInLastPeriod = (int)$visitsToday . " visits " . $thisPeriod . ", ";
-        } else {
-            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in " . $period . "s included in: $date, ";
-            $visitsInLastPeriod = '';
-        }
-
-        $this->algorithmLogger->log("Archived website id = $idSite, period = $period, "
-            . $visitsInLastPeriods
-            . $visitsInLastPeriod
-            . " [segment = $segment]"
-            ); // TODO: used to use $timer
     }
 
     private function getDateRangeToProcess()
@@ -522,16 +468,6 @@ class CronArchive
     private function isOldReportInvalidatedForWebsite($idSite)
     {
         return in_array($idSite, $this->algorithmState->getWebsitesWithInvalidatedArchiveData());
-    }
-
-    private function shouldProcessPeriod($period)
-    {
-        $periodsToProcess = $this->algorithmState->getPeriodsToProcess();
-        if (empty($periodsToProcess)) {
-            return true;
-        }
-
-        return in_array($period, $periodsToProcess);
     }
 
     /**
@@ -603,7 +539,7 @@ class CronArchive
             return;
         }
 
-        if (!$this->shouldProcessPeriod("day")) {
+        if (!$this->algorithmState->getShouldProcessPeriod("day")) {
             // skip day archiving and proceed to period processing
             $this->queuePeriodAndSegmentArchivingFor($idSite);
             return;
@@ -627,169 +563,28 @@ class CronArchive
             $processDaysSince = false;
         }
 
-        $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
-        $jobUrl = $this->getVisitsRequestUrl($idSite, "day", $date);
 
-        $job = new Job($jobUrl);
-        $job->onJobFinished = array(
-            'callback' => array(__CLASS__, 'normalDayArchivingFinished'),
-            'params' => array($jobUrl, $this->options)
-        );
+        $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
+
+        $job = new ArchiveDayVisits($idSite, $date, $this->token_auth, $this->options);
         $this->queue->enqueue(array($job));
     }
 
-    private function parseJobUrl($url)
-    {
-        $url = UrlHelper::getArrayFromQueryString($url);
-        if (empty($url['idSite'])
-            || empty($url['date'])
-            || empty($url['period'])
-        ) {
-            throw new Exception("Invalid CronArchive job URL found in job callback: '$url'"); // sanity check
-        }
+    // TODO: distributed callbacks must be called within try-catch blocks
 
-        $idSite = $url['idSite'];
-        $date   = $url['date'];
-        $period = $url['period'];
-        $segment = empty($url['segment']) ? null : $url['segment'];
-
-        return array($idSite, $date, $period, $segment);
-    }
-
-    private function parseVisitsApiResponse($textResponse, $url, $idSite)
-    {
-        $response = @unserialize($textResponse);
-
-        $visits = $visitsLast = null;
-
-        if (!empty($textResponse)
-            && $this->checkResponse($textResponse, $url)
-            && is_array($response)
-            && count($response) != 0
-        ) {
-            $visits = $this->getVisitsLastPeriodFromApiResponse($response);
-            $visitsLast = $this->getVisitsFromApiResponse($response);
-
-            $this->algorithmState->getActiveRequestsSemaphore($idSite)->decrement();
-        }
-
-        return array($visits, $visitsLast);
-    }
-
-    /**
-     * Distributed callback.
-     *
-    // if archiving for a 'day' period finishes, check if there are visits and if so,
-    // launch archiving for other periods and segments for the site
-     * TODO: distributed callbacks must be called within try-catch blocks
-     */
-    public static function normalDayArchivingFinished($response, $jobUrl, AlgorithmOptions $options)
-    {
-        // TODO: instead of passing options to distributed callbacks, we should depend on DI container
-        $archiver = new CronArchive();
-        $archiver->options = $options;
-
-        // TODO: move all of this code to method. or create new class for each distributed callback... or special CronArchive jobs...
-        //       perhaps a better API would be to encapsulate logic in classes that derive from Job.
-        list($idSite, $date, $period, $segment) = $archiver->parseJobUrl($jobUrl);
-        list($visits, $visitsLast) = $archiver->parseVisitsApiResponse($response, $jobUrl, $idSite);
-
-        if ($visits === null) {
-            $archiver->handleError("Empty or invalid response '$response' for website id $idSite, skipping period and segment archiving.\n"
-                . "(URL used: $jobUrl)");
-            $archiver->algorithmStats->skipped++;
-            return;
-        }
-
-        $shouldArchivePeriods = $archiver->algorithmState->getShouldArchivePeriodsForWebsite($idSite);
-
-        // If there is no visit today and we don't need to process this website, we can skip remaining archives
-        if ($visits == 0
-            && !$shouldArchivePeriods
-        ) {
-            $archiver->algorithmLogger->log("Skipped website id $idSite, no visit today");
-            $archiver->algorithmStats->skipped++;
-            return;
-        }
-
-        if ($visitsLast == 0
-            && !$shouldArchivePeriods
-            && $archiver->options->shouldArchiveAllSites
-        ) {
-            $archiver->algorithmLogger->log("Skipped website id $idSite, no visits in the last " . $date . " days");
-            $archiver->algorithmStats->skipped++;
-            return;
-        }
-
-        if (!$shouldArchivePeriods) {
-            $archiver->algorithmLogger->log("Skipped website id $idSite periods processing, already done "
-                . $archiver->algorithmState->getElapsedTimeSinceLastArchiving($idSite, $pretty = true)
-                . " ago");
-            $archiver->algorithmStats->skippedDayArchivesWebsites++;
-            $archiver->algorithmStats->skipped++;
-            return;
-        }
-
-        // mark 'day' period as successfully archived
-        Option::set(self::lastRunKey($idSite, "day"), time());
-
-        $archiver->algorithmState->getFailedRequestsSemaphore($idSite)->decrement();
-
-        $archiver->algorithmStats->visitsToday += $visits;
-        $archiver->algorithmStats->websitesWithVisitsSinceLastRun++;
-
-        $archiver->queuePeriodAndSegmentArchivingFor($idSite); // TODO: all queuing must increase site's active request semaphore
-
-        $archiver->archivingRequestFinished($idSite, $period, $date, $segment, $visits, $visitsLast);
-    }
-
-    private function archivingRequestFinished($idSite, $period, $date, $segment, $visits, $visitsLast)
-    {
-        $this->logArchivedWebsite($idSite, $period, $date, $segment, $visits, $visitsLast); // TODO no timer
-
-        if ($this->algorithmState->getActiveRequestsSemaphore($idSite)->get() === 0) {
-            $processedWebsitesCount = $this->algorithmState->getProcessedWebsitesSemaphore();
-            $processedWebsitesCount->increment();
-
-            Log::info("Archived website id = $idSite, "
-                //. $requestsWebsite . " API requests, " TODO: necessary to report?
-                // TODO: . $timerWebsite->__toString()
-                . " [" . $processedWebsitesCount->get() . "/"
-                . count($this->algorithmState->getWebsitesToArchive())
-                . " done]");
-        }
-    }
-
-    public static function responseFinishedStatic($response, $jobUrl, AlgorithmOptions $options)
-    {
-        $archiver = new CronArchive();
-        $archiver->options = $options;
-
-        $archiver->responseFinished($jobUrl, $response);
-    }
-
-    private function queuePeriodAndSegmentArchivingFor($idSite)
+    public function queuePeriodAndSegmentArchivingFor($idSite)
     {
         $dayDate = $this->getApiDateParameter($idSite, 'day', $this->algorithmState->getLastTimestampWebsiteProcessedDay($idSite));
         $this->queueSegmentsArchivingFor($idSite, 'day', $dayDate);
 
         foreach (array('week', 'month', 'year') as $period) {
-            if (!$this->shouldProcessPeriod($period)) {
-                /* TODO:
-                // if any period was skipped, we do not mark the Periods archiving as successful
-                */
+            if (!$this->algorithmState->getShouldProcessPeriod($period)) {
                 continue;
             }
 
             $date = $this->getApiDateParameter($idSite, $period, $this->algorithmState->getLastTimestampWebsiteProcessedPeriods($idSite));
 
-            $url = $this->getVisitsRequestUrl($idSite, $period, $date);
-
-            $job = new Job($url);
-            $job->onJobFinished = array(
-                'callback' => array(__CLASS__, 'nonDayOrSegmentDayArchivingFinished'),
-                'params' => array($url, $this->options)
-            );
+            $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment = false, $this->token_auth, $this->options);
             $this->queue->enqueue(array($job));
 
             $this->queueSegmentsArchivingFor($idSite, $period, $date);
@@ -797,49 +592,14 @@ class CronArchive
     }
 
     // TODO: test if multiple servers doing job processing will work
-    /**
-     * @return void
-     */
-    public static function nonDayOrSegmentDayArchivingFinished($response, $jobUrl, AlgorithmOptions $options)
-    {
-        $archiver = new CronArchive();
-        $archiver->options = $options;
-
-        list($idSite, $date, $period, $segment) = $archiver->parseJobUrl($jobUrl);
-        list($visits, $visitsLast) = $archiver->parseVisitsApiResponse($response, $jobUrl, $idSite);
-
-        if ($visits === null) {
-            $archiver->handleError("Error unserializing the following response from $jobUrl: " . $response);
-            return;
-        }
-
-        $failedRequestsCount = $archiver->algorithmState->getFailedRequestsSemaphore($idSite);
-        $failedRequestsCount->decrement();
-
-        if ($failedRequestsCount->get() === 0) {
-            Option::set(self::lastRunKey($idSite, "periods"), time());
-
-            $archiver->algorithmStats->archivedPeriodsArchivesWebsite++; // TODO: need to double check all metrics are counted correctly
-                                                     // for example, this incremented only when success or always?
-        }
-
-        $archiver->archivingRequestFinished($idSite, $period, $date, $segment, $visits, $visitsLast);
-    }
 
     private function queueSegmentsArchivingFor($idSite, $period, $date)
     {
-        $baseUrl = $this->getVisitsRequestUrl($idSite, $period, $date);
-
         foreach ($this->algorithmState->getSegmentsForSite($idSite) as $segment) {
-            $urlWithSegment = $baseUrl . '&segment=' . urlencode($segment);
-
-            $job = new Job($urlWithSegment);
-            $job->onJobFinished = array(
-                'callback' => array(__CLASS__, 'nonDayOrSegmentDayArchivingFinished'),
-                'params' => array($urlWithSegment, $this->options)
-            );
+            $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment, $this->token_auth, $this->options);
             $this->queue->enqueue(array($job));
         }
+
         // $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate); // TODO: support in consumer
     }
 

@@ -792,6 +792,53 @@ class AlgorithmState
     }
 
     /**
+     * Returns true if this execution of CronArchive should process the specified period, false if otherwise.
+     *
+     * @param string $period ie, `'day'`, `'week'`, `'month'` or `'year'`
+     * @return bool
+     */
+    public function getShouldProcessPeriod($period)
+    {
+        return $this->getOrSetInCache($period, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($period) {
+            $periodsToProcess = $self->getPeriodsToProcess();
+            if (empty($periodsToProcess)) {
+                return true;
+            }
+            return in_array($period, $periodsToProcess);
+        });
+    }
+
+    /**
+     * Returns true if all periods will be processed during this CronArchive execution, false if otherwise.
+     *
+     * @return bool
+     */
+    public function getShouldProcessAllPeriods()
+    {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            return $this->getShouldProcessNonDayPeriods() && $this->getShouldProcessPeriod('day');
+        });
+    }
+
+    /**
+     * Returns true if all non-day periods will be processed during this CronArchive execution, false if
+     * otherwise.
+     *
+     * @return bool
+     */
+    public function getShouldProcessNonDayPeriods()
+    {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
+            foreach (array('week', 'month', 'year') as $period) {
+                if (!$this->getShouldProcessPeriod($period)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+
+    /**
      * @param $idSite
      * @param $infoKey
      * @param $calculateCallback
