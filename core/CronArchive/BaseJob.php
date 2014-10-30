@@ -35,13 +35,7 @@ class BaseJob extends Job
         if (!empty($segment)) {
             $url .= "&segment=$segment";
         }
-        if ($options->shouldStartProfiler) {
-            $url .= "&xhprof=2";
-        }
-        if ($options->testmode) {
-            $url .= "&testmode=1";
-        }
-        $url .= CronArchive::APPEND_TO_API_REQUEST;
+        $url = $options->getProcessedUrl($url);
 
         parent::__construct($url);
 

@@ -49,9 +49,6 @@ class CronArchive
 
     const DEFAULT_DATE_LAST_YEARS = 7;
 
-    // Flag to know when the archive cron is calling the API
-    const APPEND_TO_API_REQUEST = '&trigger=archivephp';
-
     // Name of option used to store starting timestamp
     const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
 
@@ -200,7 +197,17 @@ class CronArchive
     /**
      * Main function, runs archiving on all websites with new activity
      *
-     * TODO: document algorithm process
+     * The CronArchive algorithm is as follows:
+     *
+     * - queue jobs on the distributed queue to archive day statistics for each site
+     *   - add hooks for each of these jobs; on finish, if there are visits, queue period & segment archiving
+     *     jobs
+     * - start processing jobs
+     * - when finished display statistics
+     *
+     * To learn more about the specifics of the algorithm (eg, how it determines when archiving for
+     * a site has been completed), read the docs for the algorithm's components (ie, AlgorithmState,
+     * AlgorithmOptions, the jobs, etc.).
      */
     public function run()
     {
@@ -222,7 +229,7 @@ class CronArchive
 
         $this->processor->startProcessing($finishWhenNoJobs = true);
 
-        $this->algorithmStats->logSummary($this->algorithmLogger, $this->algorithmState, $this->algorithmState->getWebsitesToArchive()); // TODO: remove 3rd param
+        $this->algorithmStats->logSummary($this->algorithmLogger, $this->algorithmState);
     }
 
     public function handleError($errorMessage)
@@ -280,18 +287,6 @@ class CronArchive
         $this->algorithmLogger->logSection("");
     }
 
-    private function processUrl($url) // TODO: redundancy w/ BaseJob
-    {
-        if ($this->options->shouldStartProfiler) {
-            $url .= "&xhprof=2";
-        }
-        if ($this->options->testmode) {
-            $url .= "&testmode=1";
-        }
-        $url .= self::APPEND_TO_API_REQUEST;
-        return $url;
-    }
-
     // TODO: make sure to deal w/ $this->requests/$this->processed & other metrics
 
     // TODO: go through each method and see if it still needs to be called. eg, request() shouldn't be, but its code needs to be dealt w/
@@ -300,7 +295,7 @@ class CronArchive
      */
     private function request($url)
     {
-        $url = $this->processUrl($url);
+        $url = $this->options->getProcessedUrl($url);
 
         try {
             $cliMulti  = new CliMulti();

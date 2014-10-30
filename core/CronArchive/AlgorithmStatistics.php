@@ -81,8 +81,10 @@ class AlgorithmStatistics
     /**
      * TODO
      */
-    public function logSummary(AlgorithmLogger $algorithmLogger, AlgorithmState $algorithmState, $websites)
+    public function logSummary(AlgorithmLogger $algorithmLogger, AlgorithmState $algorithmState)
     {
+        $websites = $algorithmState->getWebsitesToArchive();
+
         $algorithmLogger->log("Done archiving!");
 
         $algorithmLogger->logSection("SUMMARY");

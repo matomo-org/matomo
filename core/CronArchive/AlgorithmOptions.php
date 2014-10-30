@@ -9,13 +9,16 @@
 namespace Piwik\CronArchive;
 
 /**
- * TODO
+ * Contains all editable options for the CronArchive algorithm. Each option has a corresponding
+ * command line option in the core:archive command.
  */
 class AlgorithmOptions
 {
+    // Flag to know when the archive cron is calling the API
+    const APPEND_TO_API_REQUEST = '&trigger=archivephp';
 
     /**
-     * TODO
+     * true if running CronArchive in automated tests.
      *
      * @var bool
      */
@@ -107,4 +110,22 @@ class AlgorithmOptions
      * @var int|false
      */
     public $dateLastForced = false;
+
+    /**
+     * Add extra query parameters to a request URL based on the options set for CronArchive.
+     *
+     * @param string $url The URL to modify.
+     * @return string The modified URL.
+     */
+    public function getProcessedUrl($url)
+    {
+        if ($this->shouldStartProfiler) {
+            $url .= "&xhprof=2";
+        }
+        if ($this->testmode) {
+            $url .= "&testmode=1";
+        }
+        $url .= self::APPEND_TO_API_REQUEST;
+        return $url;
+    }
 }
