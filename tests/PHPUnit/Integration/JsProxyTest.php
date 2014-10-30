@@ -60,7 +60,7 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
         $responseInfo = curl_getinfo($curlHandle);
         curl_close($curlHandle);
 
-        $this->assertEquals(200, $responseInfo["http_code"], 'Ok response');
+        $this->assertEquals(200, $responseInfo["http_code"], var_export($responseInfo, true));
         $expected = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $processed = base64_encode($fullResponse);
         if ($expected != $processed) {
