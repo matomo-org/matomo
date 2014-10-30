@@ -17,7 +17,11 @@ namespace Piwik\Jobs;
  * the same list of jobs on multiple machines.
  *
  * Job processors allow callbacks to be executed before one or more jobs is started,
- * and after one or more jobs finishes.
+ * and after one or more jobs finishes. Individual callbacks associated with jobs
+ * must be executed before & after individual jobs.
+ *
+ * Note that all jobs can throw exceptions. In such case the processor should not
+ * fail, so callback executions must be surrounded by try-catches.
  *
  * Should normally be used with a class implementing {@link \Piwik\Jobs|Queue}.
  *

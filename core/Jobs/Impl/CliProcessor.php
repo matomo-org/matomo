@@ -18,7 +18,6 @@ use Piwik\Log;
  * Job processor that uses processes executed via shell_exec to process jobs in a
  * distributed queue.
  *
- * TODO: allow associating callback per job, not just every job [need DI]
  * TODO: add logging
  */
 class CliProcessor implements Processor
@@ -69,7 +68,13 @@ class CliProcessor implements Processor
     private $sleepTimeBetweenBatchJobExecutions;
 
     /**
-     * TODO
+     * List of jobs currently being executed. CliMulti only acts on URLs so the
+     * Job instances must be stored somewhere in order to execute job specific callbacks.
+     *
+     * The array index is the ID of the Job. Job IDs must stay unique throughout the entire
+     * processor run, and cannot be re-used.
+     *
+     * Jobs are removed after finishing.
      *
      * @var Job[]
      */
@@ -192,15 +197,27 @@ class CliProcessor implements Processor
         $jobs = $this->jobQueue->pull($count) ?: array();
 
         foreach ($jobs as $job) {
-            $job->jobStarting();
+            try {
+                $job->jobStarting();
+            } catch (Exception $ex) {
+                Log::warning("CliProcessor::%s: Job starting hook threw exception: '%s'.", __FUNCTION__, $ex->getMessage());
+                Log::debug($ex);
+            }
         }
 
         $onJobStartingCallback = $this->onJobsStartingCallback;
         if (!empty($onJobStartingCallback)) {
-            $onJobStartingCallback($jobs);
+            try {
+                $onJobStartingCallback($jobs);
+            } catch (Exception $ex) {
+                Log::warning("CliProcessor::%s: onJobStarting callback threw exception: '%s'", __FUNCTION__, $ex->getMessage());
+                Log::debug($ex);
+            }
         }
 
-        // TODO: document this
+        // add the jobs to the list of currently executing jobs and return the job URLs for the new
+        // jobs to execute. the URL array is mapped by the jobs' unique IDs.
+
         $oldJobsArrayLength = count($this->jobs);
 
         $this->jobs = array_merge($this->jobs, $jobs);
@@ -233,12 +250,24 @@ class CliProcessor implements Processor
 
             $jobsAndResponses[] = array($job, $response);
 
-            $job->jobFinished($response);
+            try {
+                $job->jobFinished($response);
+            } catch (Exception $ex) {
+                Log::warning("CliProcessor::%s: jobFinished hook threw exception: '%s'", __FUNCTION__, $ex->getMessage());
+                Log::debug($ex);
+            }
+
+            unset($this->jobs[$jobId]);
         }
 
         $onFinishJobs = $this->onJobsFinishedCallback;
         if (!empty($onFinishJobs)) {
-            $onFinishJobs($jobsAndResponses);
+            try {
+                $onFinishJobs($jobsAndResponses);
+            } catch (Exception $ex) {
+                Log::warning("CliProcessor::%s: onFinishJobs callback threw exception: '%s'", __FUNCTION__, $ex->getMessage());
+                Log::debug($ex);
+            }
         }
     }
 }
