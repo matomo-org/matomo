@@ -18,6 +18,7 @@ use Piwik\DbHelper;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
@@ -40,6 +41,7 @@ use Piwik_LocalTracker;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Exception;
+use ReflectionClass;
 
 /**
  * Base type for all system test fixtures. System test fixtures
@@ -119,7 +121,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         if ($this->persistFixtureData) {
-            return str_replace("\\", "_", get_class($this));
+            $klass = new ReflectionClass($this);
+            $id = Plugin::getPluginNameFromNamespace($klass->getNamespaceName()) . "_" . $klass->getShortName();
+            return $id;
         }
 
         return Config::getInstance()->database_tests['dbname'];
