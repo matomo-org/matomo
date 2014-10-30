@@ -31,7 +31,7 @@ interface Processor
      *
      * @param callback $onJobsStartedCallback This callback should have the following signature:
      *
-     *                                            function (string[] $urls)
+     *                                            function (Job[] $urls)
      *
      *                                        Where each URL references an API method that should
      *                                        be executed as a job.
@@ -46,8 +46,7 @@ interface Processor
      *                                             function (array[] $responses)
      *
      *                                         Where each element of `$responses` is a pair containing
-     *                                         two strings. The first is the job's URL, and the second
-     *                                         is the string output.
+     *                                         a Job instance and the job's string output.
      */
     public function setOnJobsFinishedCallback($onJobsFinishedCallback);
 

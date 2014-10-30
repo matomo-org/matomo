@@ -26,24 +26,24 @@ interface Queue
      *
      * The order of the URLs must be preserved in the queue.
      *
-     * @param string[] $urls The URLs to add. The hostname should be included.
+     * @param Job[] $jobs An array of jobs to queue.
      */
-    public function enqueue($urls);
+    public function enqueue($jobs);
 
     /**
      * Removes N URLs from the beginning of the queue and returns them. This operation is atomic.
      *
      * The order of the returned URLs will be the same as the order in the queue.
      *
-     * @param int $count The number of URLs to get.
-     * @return string[] The URLs.
+     * @param int $count The number of Jobs to get.
+     * @return Job[] The Jobs.
      */
     public function pull($count);
 
     /**
-     * Returns the number of URLs stored in the queue. This operation is atomic.
+     * Returns the number of Jobs stored in the queue. This operation is atomic.
      *
-     * The number of URLs can change after this method returns.
+     * The number of Jobs can change after this method returns.
      *
      * @return int
      */

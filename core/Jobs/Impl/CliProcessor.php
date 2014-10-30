@@ -9,8 +9,10 @@ namespace Piwik\Jobs\Impl;
 
 use Exception;
 use Piwik\CliMulti;
+use Piwik\Jobs\Job;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Queue;
+use Piwik\Log;
 
 /**
  * Job processor that uses processes executed via shell_exec to process jobs in a
@@ -67,6 +69,13 @@ class CliProcessor implements Processor
     private $sleepTimeBetweenBatchJobExecutions;
 
     /**
+     * TODO
+     *
+     * @var Job[]
+     */
+    private $jobs = array();
+
+    /**
      * Constructor.
      *
      * @param Queue $jobQueue The distributed queue containing jobs.
@@ -86,9 +95,10 @@ class CliProcessor implements Processor
      *
      * @param callback $onJobsFinishedCallback The callback to execute. Signature must be:
      *
-     *                                             function (string[] $responses)
+     *                                             function (array $responses)
      *
-     *                                         Where `$responses` maps string URLs with string API responses.
+     *                                         Where `$responses` contains two elements: the Job instance
+     *                                         and the string output.
      */
     public function setOnJobsFinishedCallback($onJobsFinishedCallback)
     {
@@ -100,7 +110,7 @@ class CliProcessor implements Processor
      *
      * @param string $onJobsStartingCallback The callback to execute. Signature must be:
      *
-     *                                           function (string[] $urls)
+     *                                           function (Job[] $urls)
      */
     public function setOnJobsStartingCallback($onJobsStartingCallback)
     {
@@ -123,20 +133,21 @@ class CliProcessor implements Processor
 
         $this->processing = true;
 
+        // TODO: make sure max number of processes is always being used
         try {
             for (;;) {
-                $jobs = $this->pullJobs($this->maxNumberOfSpawnedProcesses);
+                $jobUrls = $this->pullJobs($this->maxNumberOfSpawnedProcesses);
 
-                $self = $this;
-                $onFinishJobs = $self->onJobsFinishedCallback;
-                $cliMulti->request($jobs, function ($responses) use ($cliMulti, $self, $onFinishJobs) {
-                    if (!empty($onFinishJobs)) {
-                        $onFinishJobs($responses);
-                    }
+                if (!empty($jobUrls)) {
+                    $self = $this;
+                    $onFinishJobs = $self->onJobsFinishedCallback;
+                    $cliMulti->request($jobUrls, function ($responses) use ($cliMulti, $self, $onFinishJobs) {
+                        $self->executeJobFinishedCallbacks($responses);
 
-                    $newRequests = $self->pullJobs($cliMulti->getUnusedProcessCount());
-                    $cliMulti->start($newRequests);
-                });
+                        $newRequests = $self->pullJobs($cliMulti->getUnusedProcessCount());
+                        $cliMulti->start($newRequests);
+                    });
+                }
 
                 if ($finishWhenNoJobs
                     || !$this->processing
@@ -168,6 +179,8 @@ class CliProcessor implements Processor
 
     /**
      * public for use in Closure.
+     *
+     * @return string[]
      */
     public function pullJobs($count)
     {
@@ -175,18 +188,57 @@ class CliProcessor implements Processor
             return array();
         }
 
-        $jobs = $this->jobQueue->pull($count);
+        /** @var Job[] $jobs */
+        $jobs = $this->jobQueue->pull($count) ?: array();
+
+        foreach ($jobs as $job) {
+            $job->jobStarting();
+        }
 
         $onJobStartingCallback = $this->onJobsStartingCallback;
         if (!empty($onJobStartingCallback)) {
             $onJobStartingCallback($jobs);
         }
 
-        return $jobs;
+        // TODO: document this
+        $oldJobsArrayLength = count($this->jobs);
+
+        $this->jobs = array_merge($this->jobs, $jobs);
+
+        $newJobs = array_slice($this->jobs, $oldJobsArrayLength, $length = null, $preserveKeys = true);
+        return array_map(function (Job $job) { return $job->url; }, $newJobs);
     }
 
     private function waitBeforeCheckingForMoreJobs()
     {
         sleep($this->sleepTimeBetweenBatchJobExecutions);
+    }
+
+    /**
+     * public only for use in closure.
+     */
+    public function executeJobFinishedCallbacks($responses)
+    {
+        $jobsAndResponses = array();
+
+        foreach ($responses as $jobId => $response) {
+            $job = @$this->jobs[$jobId];
+
+            if (empty($job)) {
+                Log::debug("CliProcessor::%s: Unexpected error, job w/ ID = '%s' cannot be found in currently processing job list.",
+                    __FUNCTION__, $jobId);
+
+                continue;
+            }
+
+            $jobsAndResponses[] = array($job, $response);
+
+            $job->jobFinished($response);
+        }
+
+        $onFinishJobs = $this->onJobsFinishedCallback;
+        if (!empty($onFinishJobs)) {
+            $onFinishJobs($jobsAndResponses);
+        }
     }
 }

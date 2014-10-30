@@ -8,6 +8,7 @@
 namespace Piwik\Jobs\Impl;
 
 use Piwik\Db;
+use Piwik\Jobs\Job;
 use Piwik\Jobs\Queue;
 use Piwik\Option;
 use Exception;
@@ -43,14 +44,18 @@ class DistributedQueue implements Queue
      *
      * This operation uses a named lock to ensure atomicity.
      *
-     * @param string[] $urls The URLs to add.
+     * @param Job[] $jobs The URLs to add.
      */
-    public function enqueue($urls)
+    public function enqueue($jobs)
     {
+        foreach ($jobs as $job) {
+            $job->validate();
+        }
+
         $self = $this;
-        $this->runWithLock(function () use ($self, $urls) {
+        $this->runWithLock(function () use ($self, $jobs) {
             $existingJobs = $self->getJobUrls();
-            $existingJobs = array_merge($existingJobs, $urls);
+            $existingJobs = array_merge($existingJobs, $self->getSerializedJobs($jobs));
             $self->setJobUrls($existingJobs);
         });
     }
@@ -61,7 +66,7 @@ class DistributedQueue implements Queue
      * This operation uses a named lock to ensure atomicity.
      *
      * @param int $count The maximum number of URLs to get.
-     * @return string[] The URLs at the front of the queue.
+     * @return Job[] The URLs at the front of the queue.
      */
     public function pull($count)
     {
@@ -73,7 +78,7 @@ class DistributedQueue implements Queue
 
             $self->setJobUrls($existingJobs);
 
-            return $pulledJobs;
+            return $this->getDeserializedJobs($pulledJobs);
         });
     }
 
@@ -143,5 +148,21 @@ class DistributedQueue implements Queue
     private function getLockName()
     {
         return self::JOBS_OPTION_NAME_PREFIX;
+    }
+
+    /**
+     * Only public for use in closure.
+     */
+    public function getSerializedJobs($jobs)
+    {
+        return array_map('serialize', $jobs);
+    }
+
+    /**
+     * Only public for use in closure.
+     */
+    public function getDeserializedJobs($pulledJobs)
+    {
+        return array_map('unserialize', $pulledJobs);
     }
 }

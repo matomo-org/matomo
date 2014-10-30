@@ -8,6 +8,7 @@
 namespace Piwik\Jobs;
 
 use Exception;
+use Piwik\Log;
 
 /**
  * TODO
@@ -24,14 +25,14 @@ class Job
     /**
      * TODO
      *
-     * @var string[]
+     * @var array
      */
     public $onJobStarting;
 
     /**
      * TODO
      *
-     * @var string[]
+     * @var array
      */
     public $onJobFinished;
 
@@ -43,6 +44,48 @@ class Job
         $this->url = $url;
         $this->onJobStarting = $onJobStarting;
         $this->onJobFinished = $onJobFinished;
+    }
+
+    /**
+     * TODO
+     */
+    public function jobStarting()
+    {
+        try {
+            $this->validate();
+        } catch (Exception $ex) {
+            Log::warning("Job::%s: Invalid job encountered: '%s' (url = '%s').", __FUNCTION__, $ex->getMessage(), $this->url);
+            return;
+        }
+
+        if (!empty($this->onJobStarting)) {
+            $callback = $this->onJobStarting['callback'];
+            $params = empty($this->onJobStarting['params']) ? array() : $this->onJobStarting['params'];
+
+            call_user_func_array($callback, $params);
+        }
+    }
+
+    /**
+     * TODO
+     */
+    public function jobFinished($response)
+    {
+        try {
+            $this->validate();
+        } catch (Exception $ex) {
+            Log::warning("Job::%s: Invalid job encountered: '%s' (url = '%s').", __FUNCTION__, $ex->getMessage(), $this->url);
+            return;
+        }
+
+        if (!empty($this->onJobFinished)) {
+            $callback = $this->onJobFinished['callback'];
+            $params = empty($this->onJobFinished['params']) ? array() : $this->onJobFinished['params']; // TODO: code redundancy w/ above
+
+            $params = array_merge(array($response), $params);
+
+            call_user_func_array($callback, $params);
+        }
     }
 
     /**
@@ -66,7 +109,11 @@ class Job
             return;
         }
 
-        if (!$this->isStringArray($callback)) {
+        if (empty($callback['callback'])) {
+            throw new Exception("No callback property in '$name' callback.");
+        }
+
+        if (!$this->isStringArray($callback['callback'])) {
             throw new Exception("Invalid Job callback for '$name': callback must be an array of strings.");
         }
     }

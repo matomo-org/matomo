@@ -59,6 +59,7 @@ class CliMulti {
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
      *                               array('http://www.example.com/piwik?module=API...')
+     *     TODO: modify (make sure to note unique ID requirements)
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
      *               there was a problem with a request, for instance if the process died unexpected.
      */
@@ -66,7 +67,7 @@ class CliMulti {
     {
         $chunks = array($piwikUrls);
         if ($this->concurrentProcessesLimit) {
-            $chunks = array_chunk( $piwikUrls, $this->concurrentProcessesLimit);
+            $chunks = array_chunk($piwikUrls, $this->concurrentProcessesLimit, $preserveKeys = true);
         }
 
         $results = array();
@@ -105,28 +106,30 @@ class CliMulti {
 
     /**
      * TODO
+     *
+     * TODO: make sure to document global URL ID (the index of the arrays started)
      */
     public function start($piwikUrls)
     {
-        foreach ($piwikUrls as $index => $url) {
-            $this->requestUrlsForProcesses[] = $url;
+        foreach ($piwikUrls as $id => $url) {
+            $this->requestUrlsForProcesses[$id] = $url;
 
             $cmdId  = $this->generateCommandId($url) . count($this->requestUrlsForProcesses);
-            $this->executeUrlCommand($cmdId, $url);
+            $this->executeUrlCommand($cmdId, $url, $id);
         }
     }
 
-    private function executeUrlCommand($cmdId, $url)
+    private function executeUrlCommand($cmdId, $url, $urlId)
     {
         $output = new Output($cmdId);
 
         if ($this->supportsAsync) {
-            $this->executeAsyncCli($url, $output, $cmdId);
+            $this->executeAsyncCli($url, $output, $cmdId, $urlId);
         } else {
             $this->executeNotAsyncHttp($url, $output);
         }
 
-        $this->outputs[] = $output;
+        $this->outputs[$urlId] = $output;
     }
 
     private function buildCommand($hostname, $query, $outputFile)
@@ -157,7 +160,7 @@ class CliMulti {
     {
         $results = array();
 
-        foreach ($this->processes as $index => $process) {
+        foreach ($this->processes as $id => $process) {
             $hasStarted = $process->hasStarted();
 
             if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
@@ -175,11 +178,10 @@ class CliMulti {
             }
 
             if ($process->hasFinished()) {
-                $processUrl = $this->requestUrlsForProcesses[$index];;
-                $results[$processUrl] = $this->outputs[$index]->get();
+                $results[$id] = $this->outputs[$id]->get();
 
                 // prevent from checking this process over and over again
-                unset($this->processes[$index]);
+                unset($this->processes[$id]);
             }
         }
 
@@ -250,9 +252,9 @@ class CliMulti {
         return SettingsPiwik::rewriteTmpPathWithInstanceId($dir);
     }
 
-    private function executeAsyncCli($url, Output $output, $cmdId)
+    private function executeAsyncCli($url, Output $output, $cmdId, $urlId)
     {
-        $this->processes[] = new Process($cmdId);
+        $this->processes[$urlId] = new Process($cmdId);
 
         $url      = $this->appendTestmodeParamToUrlIfNeeded($url);
         $query    = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));

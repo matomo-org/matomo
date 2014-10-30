@@ -15,6 +15,7 @@ use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\AlgorithmStatistics;
 use Piwik\CronArchive\AlgorithmState;
+use Piwik\Jobs\Job;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Impl\CliProcessor;
 use Piwik\Jobs\Impl\DistributedQueue;
@@ -137,9 +138,9 @@ class CronArchive
         $this->consumer = $consumer;
 
         $self = $this;
-        $this->consumer->setOnJobsFinishedCallback(function ($responses) use ($self) {
-            foreach ($responses as $url => $response) {
-                $self->responseFinished($url, $response);
+        $this->consumer->setOnJobsFinishedCallback(function ($responsePairs) use ($self) {
+            foreach ($responsePairs as $pair) {
+                $self->responseFinished($pair[0]->url, $pair[1]);
             }
         });
 
@@ -634,7 +635,10 @@ class CronArchive
         }
 
         $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
-        $this->queue->enqueue(array($this->getVisitsRequestUrl($idSite, "day", $date)));
+        $jobUrl = $this->getVisitsRequestUrl($idSite, "day", $date);
+
+        $job = new Job($jobUrl);
+        $this->queue->enqueue(array($job));
     }
 
     private function queuePeriodAndSegmentArchivingFor($idSite)
@@ -654,7 +658,8 @@ class CronArchive
 
             $url = $this->getVisitsRequestUrl($idSite, $period, $date);
 
-            $this->queue->enqueue(array($url));
+            $job = new Job($url);
+            $this->queue->enqueue(array($job));
 
             $this->queueSegmentsArchivingFor($idSite, $period, $date);
         }
@@ -791,7 +796,8 @@ class CronArchive
         foreach ($this->algorithmState->getSegmentsForSite($idSite) as $segment) {
             $urlWithSegment = $baseUrl . '&segment=' . urlencode($segment);
 
-            $this->queue->enqueue(array($urlWithSegment));
+            $job = new Job($urlWithSegment);
+            $this->queue->enqueue(array($job));
         }
         // $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate); // TODO: support in consumer
     }
