@@ -137,13 +137,6 @@ class CronArchive
         $this->queue = $queue;
         $this->consumer = $consumer;
 
-        $self = $this;
-        $this->consumer->setOnJobsFinishedCallback(function ($responsePairs) use ($self) {
-            foreach ($responsePairs as $pair) {
-                $self->responseFinished($pair[0]->url, $pair[1]);
-            }
-        });
-
         $this->initCore();
         $this->initTokenAuth();
     }
@@ -638,7 +631,141 @@ class CronArchive
         $jobUrl = $this->getVisitsRequestUrl($idSite, "day", $date);
 
         $job = new Job($jobUrl);
+        $job->onJobFinished = array(
+            'callback' => array(__CLASS__, 'normalDayArchivingFinished'),
+            'params' => array($jobUrl, $this->options)
+        );
         $this->queue->enqueue(array($job));
+    }
+
+    private function parseJobUrl($url)
+    {
+        $url = UrlHelper::getArrayFromQueryString($url);
+        if (empty($url['idSite'])
+            || empty($url['date'])
+            || empty($url['period'])
+        ) {
+            throw new Exception("Invalid CronArchive job URL found in job callback: '$url'"); // sanity check
+        }
+
+        $idSite = $url['idSite'];
+        $date   = $url['date'];
+        $period = $url['period'];
+        $segment = empty($url['segment']) ? null : $url['segment'];
+
+        return array($idSite, $date, $period, $segment);
+    }
+
+    private function parseVisitsApiResponse($textResponse, $url, $idSite)
+    {
+        $response = @unserialize($textResponse);
+
+        $visits = $visitsLast = null;
+
+        if (!empty($textResponse)
+            && $this->checkResponse($textResponse, $url)
+            && is_array($response)
+            && count($response) != 0
+        ) {
+            $visits = $this->getVisitsLastPeriodFromApiResponse($response);
+            $visitsLast = $this->getVisitsFromApiResponse($response);
+
+            $this->algorithmState->getActiveRequestsSemaphore($idSite)->decrement();
+        }
+
+        return array($visits, $visitsLast);
+    }
+
+    /**
+     * Distributed callback.
+     *
+    // if archiving for a 'day' period finishes, check if there are visits and if so,
+    // launch archiving for other periods and segments for the site
+     * TODO: distributed callbacks must be called within try-catch blocks
+     */
+    public static function normalDayArchivingFinished($response, $jobUrl, AlgorithmOptions $options)
+    {
+        // TODO: instead of passing options to distributed callbacks, we should depend on DI container
+        $archiver = new CronArchive();
+        $archiver->options = $options;
+
+        // TODO: move all of this code to method. or create new class for each distributed callback... or special CronArchive jobs...
+        //       perhaps a better API would be to encapsulate logic in classes that derive from Job.
+        list($idSite, $date, $period, $segment) = $archiver->parseJobUrl($jobUrl);
+        list($visits, $visitsLast) = $archiver->parseVisitsApiResponse($response, $jobUrl, $idSite);
+
+        if ($visits === null) {
+            $archiver->handleError("Empty or invalid response '$response' for website id $idSite, skipping period and segment archiving.\n"
+                . "(URL used: $jobUrl)");
+            $archiver->algorithmStats->skipped++;
+            return;
+        }
+
+        $shouldArchivePeriods = $archiver->algorithmState->getShouldArchivePeriodsForWebsite($idSite);
+
+        // If there is no visit today and we don't need to process this website, we can skip remaining archives
+        if ($visits == 0
+            && !$shouldArchivePeriods
+        ) {
+            $archiver->algorithmLogger->log("Skipped website id $idSite, no visit today");
+            $archiver->algorithmStats->skipped++;
+            return;
+        }
+
+        if ($visitsLast == 0
+            && !$shouldArchivePeriods
+            && $archiver->options->shouldArchiveAllSites
+        ) {
+            $archiver->algorithmLogger->log("Skipped website id $idSite, no visits in the last " . $date . " days");
+            $archiver->algorithmStats->skipped++;
+            return;
+        }
+
+        if (!$shouldArchivePeriods) {
+            $archiver->algorithmLogger->log("Skipped website id $idSite periods processing, already done "
+                . $archiver->algorithmState->getElapsedTimeSinceLastArchiving($idSite, $pretty = true)
+                . " ago");
+            $archiver->algorithmStats->skippedDayArchivesWebsites++;
+            $archiver->algorithmStats->skipped++;
+            return;
+        }
+
+        // mark 'day' period as successfully archived
+        Option::set(self::lastRunKey($idSite, "day"), time());
+
+        $archiver->algorithmState->getFailedRequestsSemaphore($idSite)->decrement();
+
+        $archiver->algorithmStats->visitsToday += $visits;
+        $archiver->algorithmStats->websitesWithVisitsSinceLastRun++;
+
+        $archiver->queuePeriodAndSegmentArchivingFor($idSite); // TODO: all queuing must increase site's active request semaphore
+
+        $archiver->archivingRequestFinished($idSite, $period, $date, $segment, $visits, $visitsLast);
+    }
+
+    private function archivingRequestFinished($idSite, $period, $date, $segment, $visits, $visitsLast)
+    {
+        $this->logArchivedWebsite($idSite, $period, $date, $segment, $visits, $visitsLast); // TODO no timer
+
+        if ($this->algorithmState->getActiveRequestsSemaphore($idSite)->get() === 0) {
+            $processedWebsitesCount = $this->algorithmState->getProcessedWebsitesSemaphore();
+            $processedWebsitesCount->increment();
+
+            Log::info("Archived website id = $idSite, "
+                //. $requestsWebsite . " API requests, " TODO: necessary to report?
+                // TODO: . $timerWebsite->__toString()
+                . " [" . $processedWebsitesCount->get() . "/"
+                . count($this->algorithmState->getWebsitesToArchive())
+                . " done]");
+        }
+    }
+
+    public static function responseFinishedStatic($response, $jobUrl, AlgorithmOptions $options)
+    {
+        $archiver = new CronArchive();
+        $archiver->options = $options;
+
+        $archiver->responseFinished($jobUrl, $response);
     }
 
     private function queuePeriodAndSegmentArchivingFor($idSite)
@@ -659,134 +786,44 @@ class CronArchive
             $url = $this->getVisitsRequestUrl($idSite, $period, $date);
 
             $job = new Job($url);
+            $job->onJobFinished = array(
+                'callback' => array(__CLASS__, 'nonDayOrSegmentDayArchivingFinished'),
+                'params' => array($url, $this->options)
+            );
             $this->queue->enqueue(array($job));
 
             $this->queueSegmentsArchivingFor($idSite, $period, $date);
         }
     }
 
+    // TODO: test if multiple servers doing job processing will work
     /**
      * @return void
      */
-    public function responseFinished($urlString, $textResponse)
+    public static function nonDayOrSegmentDayArchivingFinished($response, $jobUrl, AlgorithmOptions $options)
     {
-        $url = UrlHelper::getArrayFromQueryString($urlString);
-        if (empty($url['idSite'])
-            || empty($url['date'])
-            || empty($url['period'])
-        ) {
+        $archiver = new CronArchive();
+        $archiver->options = $options;
+
+        list($idSite, $date, $period, $segment) = $archiver->parseJobUrl($jobUrl);
+        list($visits, $visitsLast) = $archiver->parseVisitsApiResponse($response, $jobUrl, $idSite);
+
+        if ($visits === null) {
+            $archiver->handleError("Error unserializing the following response from $jobUrl: " . $response);
             return;
         }
 
-        // TODO: rename Processor to Processor
-        // TODO: if another job processor is run on another machine, it won't execute this logic...
+        $failedRequestsCount = $archiver->algorithmState->getFailedRequestsSemaphore($idSite);
+        $failedRequestsCount->decrement();
 
-        $idSite = $url['idSite'];
-        $date   = $url['date'];
-        $period = $url['period'];
-        $segment = empty($url['segment']) ? null : $url['segment'];
+        if ($failedRequestsCount->get() === 0) {
+            Option::set(self::lastRunKey($idSite, "periods"), time());
 
-        $response = @unserialize($textResponse);
-
-        $visits = $visitsLast = 0;
-        $isResponseValid = true;
-
-        if (empty($textResponse)
-            || !$this->checkResponse($textResponse, $urlString)
-            || !is_array($response)
-            || count($response) == 0
-        ) {
-            $isResponseValid = false;
-        } else {
-            $visits = $this->getVisitsLastPeriodFromApiResponse($response);
-            $visitsLast = $this->getVisitsFromApiResponse($response);
+            $archiver->algorithmStats->archivedPeriodsArchivesWebsite++; // TODO: need to double check all metrics are counted correctly
+                                                     // for example, this incremented only when success or always?
         }
 
-        if ($isResponseValid) {
-            $this->algorithmState->getActiveRequestsSemaphore($idSite)->decrement();
-        }
-
-        // if archiving for a 'day' period finishes, check if there are visits and if so,
-        // launch archiving for other periods and segments for the site
-        if ($url['period'] === 'day'
-            && empty($url['segment'])
-        ) {
-            if (!$isResponseValid) {
-                $this->handleError("Empty or invalid response '$textResponse' for website id $idSite, skipping period and segment archiving.\n"
-                              . "(URL used: $urlString)");
-                $this->algorithmStats->skipped++;
-                return;
-            }
-
-            $shouldArchivePeriods = $this->algorithmState->getShouldArchivePeriodsForWebsite($idSite);
-
-            // If there is no visit today and we don't need to process this website, we can skip remaining archives
-            if ($visits == 0
-                && !$shouldArchivePeriods
-            ) {
-                $this->algorithmLogger->log("Skipped website id $idSite, no visit today");
-                $this->algorithmStats->skipped++;
-                return;
-            }
-
-            if ($visitsLast == 0
-                && !$shouldArchivePeriods
-                && $this->options->shouldArchiveAllSites
-            ) {
-                $this->algorithmLogger->log("Skipped website id $idSite, no visits in the last " . $date . " days");
-                $this->algorithmStats->skipped++;
-                return;
-            }
-
-            if (!$shouldArchivePeriods) {
-                $this->algorithmLogger->log("Skipped website id $idSite periods processing, already done "
-                    . $this->algorithmState->getElapsedTimeSinceLastArchiving($idSite, $pretty = true)
-                    . " ago");
-                $this->algorithmStats->skippedDayArchivesWebsites++;
-                $this->algorithmStats->skipped++;
-                return;
-            }
-
-            // mark 'day' period as successfully archived
-            Option::set(self::lastRunKey($idSite, "day"), time());
-
-            $this->algorithmState->getFailedRequestsSemaphore($idSite)->decrement();
-
-            $this->algorithmStats->visitsToday += $visits;
-            $this->algorithmStats->websitesWithVisitsSinceLastRun++;
-
-            $this->queuePeriodAndSegmentArchivingFor($idSite); // TODO: all queuing must increase site's active request semaphore
-        } else {
-            if (!$isResponseValid) {
-                $this->handleError("Error unserializing the following response from $urlString: " . $textResponse);
-
-                return;
-            }
-
-            $failedRequestsCount = $this->algorithmState->getFailedRequestsSemaphore($idSite);
-            $failedRequestsCount->decrement();
-
-            if ($failedRequestsCount->get() === 0) {
-                Option::set(self::lastRunKey($idSite, "periods"), time());
-
-                $this->algorithmStats->archivedPeriodsArchivesWebsite++; // TODO: need to double check all metrics are counted correctly
-                                                         // for example, this incremented only when success or always?
-            }
-        }
-
-        $this->logArchivedWebsite($idSite, $period, $date, $segment, $visits, $visitsLast); // TODO no timer
-
-        if ($this->algorithmState->getActiveRequestsSemaphore($idSite)->get() === 0) {
-            $processedWebsitesCount = $this->algorithmState->getProcessedWebsitesSemaphore();
-            $processedWebsitesCount->increment();
-
-            Log::info("Archived website id = $idSite, "
-                //. $requestsWebsite . " API requests, " TODO: necessary to report?
-                // TODO: . $timerWebsite->__toString()
-                . " [" . $processedWebsitesCount->get() . "/"
-                . count($this->algorithmState->getWebsitesToArchive())
-                . " done]");
-        }
+        $archiver->archivingRequestFinished($idSite, $period, $date, $segment, $visits, $visitsLast);
     }
 
     private function queueSegmentsArchivingFor($idSite, $period, $date)
@@ -797,6 +834,10 @@ class CronArchive
             $urlWithSegment = $baseUrl . '&segment=' . urlencode($segment);
 
             $job = new Job($urlWithSegment);
+            $job->onJobFinished = array(
+                'callback' => array(__CLASS__, 'nonDayOrSegmentDayArchivingFinished'),
+                'params' => array($urlWithSegment, $this->options)
+            );
             $this->queue->enqueue(array($job));
         }
         // $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate); // TODO: support in consumer
