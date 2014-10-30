@@ -393,40 +393,23 @@ class CronArchive
     }
 
     /**
-     * Checks the config file is found.
-     *
-     * @param $piwikUrl
-     * @throws Exception
-     */
-    protected function initConfigObject($piwikUrl)
-    {
-        // HOST is required for the Config object
-        $parsed = parse_url($piwikUrl);
-        Url::setHost($parsed['host']);
-
-        Config::getInstance()->clear();
-
-        try {
-            Config::getInstance()->checkLocalConfigFound();
-        } catch (Exception $e) {
-            throw new Exception("The configuration file for Piwik could not be found. " .
-                "Please check that config/config.ini.php is readable by the user " .
-                get_current_user());
-        }
-    }
-
-    /**
      * Returns base URL to process reports for the $idSite on a given $period
      */
     private function getVisitsRequestUrl($idSite, $period, $date)
     {
         $url = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
-        if($this->shouldStartProfiler) {
+        return $this->processUrl($url);
+    }
+
+    private function processUrl($url)
+    {
+        if ($this->shouldStartProfiler) {
             $url .= "&xhprof=2";
         }
         if ($this->testmode) {
             $url .= "&testmode=1";
         }
+        $url .= self::APPEND_TO_API_REQUEST;
         return $url;
     }
 
@@ -438,15 +421,7 @@ class CronArchive
      */
     private function request($url)
     {
-        $url = $url . self::APPEND_TO_API_REQUEST;
-
-        if ($this->shouldStartProfiler) { // TODO: redundancy w/ above
-            $url .= "&xhprof=2";
-        }
-
-        if ($this->testmode) {
-            $url .= "&testmode=1";
-        }
+        $url = $this->processUrl($url);
 
         try {
             $cliMulti  = new CliMulti();
@@ -770,7 +745,6 @@ class CronArchive
             $date = $this->getApiDateParameter($idSite, $period, $this->algorithmState->getLastTimestampWebsiteProcessedPeriods($idSite));
 
             $url = $this->getVisitsRequestUrl($idSite, $period, $date);
-            $url .= self::APPEND_TO_API_REQUEST;
 
             $this->queue->enqueue(array($url));
 

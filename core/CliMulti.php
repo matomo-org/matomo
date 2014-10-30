@@ -269,6 +269,10 @@ class CliMulti {
 
     private function executeNotAsyncHttp($url, Output $output)
     {
+        if (@parse_url($url, PHP_URL_HOST) == '') {
+            $url = SettingsPiwik::getPiwikUrl() . '/' . $url;
+        }
+
         try {
             Log::debug("Execute HTTP API request: "  . $url);
             $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
