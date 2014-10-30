@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Provider\Columns;
 
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
@@ -54,7 +55,7 @@ class Provider extends VisitDimension
             $ip = $request->getIp();
         }
 
-        $ip = IP::N2P($ip);
+        $ip = IPUtils::binaryToStringIP($ip);
 
         // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
         if (substr($ip, -2, 2) == '.0') {

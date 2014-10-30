@@ -213,8 +213,9 @@ class VisitExcluded
         $websiteAttributes = Cache::getCacheWebsiteAttributes($this->idSite);
 
         if (!empty($websiteAttributes['excluded_ips'])) {
-            if (IP::isIpInRange($this->ip, $websiteAttributes['excluded_ips'])) {
-                Common::printDebug('Visitor IP ' . IP::N2P($this->ip) . ' is excluded from being tracked');
+            $ip = \Piwik\Network\IP::fromBinaryIP($this->ip);
+            if ($ip->isInRanges($websiteAttributes['excluded_ips'])) {
+                Common::printDebug('Visitor IP ' . $ip->toString() . ' is excluded from being tracked');
                 return true;
             }
         }
