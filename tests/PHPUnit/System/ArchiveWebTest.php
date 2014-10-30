@@ -53,7 +53,7 @@ class ArchiveWebTest extends SystemTestCase
             Option::delete('piwikUrl');
         }
 
-        $this->assertWebArchivingDone($output);
+        $this->assertWebArchivingDone($output, $checkArchivedSite = false);
         $this->compareArchivePhpOutputAgainstExpected($output);
     }
 

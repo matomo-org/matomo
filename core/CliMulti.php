@@ -270,7 +270,7 @@ class CliMulti {
     private function executeNotAsyncHttp($url, Output $output)
     {
         if (@parse_url($url, PHP_URL_HOST) == '') {
-            $url = SettingsPiwik::getPiwikUrl() . '/' . $url;
+            $url = SettingsPiwik::getPiwikUrl() . $url;
         }
 
         try {
