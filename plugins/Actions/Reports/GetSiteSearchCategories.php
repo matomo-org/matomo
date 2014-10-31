@@ -27,9 +27,9 @@ class GetSiteSearchCategories extends SiteSearchBase
         $this->widgetTitle  = 'Actions_WidgetSearchCategories';
     }
 
-    protected function isEnabledForIdSites($idSites)
+    protected function isEnabledForIdSites($idSites, $idSite)
     {
-        return parent::isEnabledForIdSites($idSites) && Actions::isCustomVariablesPluginsEnabled();
+        return parent::isEnabledForIdSites($idSites, $idSite) && Actions::isCustomVariablesPluginsEnabled();
     }
 
     public function getMetrics()

@@ -29,7 +29,7 @@ abstract class SiteSearchBase extends Base
         return $this->isEnabledForIdSites($idSites, $idSite);
     }
 
-    protected function isEnabledForIdSites($idSites, $idSite = 0)
+    protected function isEnabledForIdSites($idSites, $idSite)
     {
         $actions = new Actions();
         return $actions->isSiteSearchEnabled($idSites, $idSite);
@@ -39,7 +39,7 @@ abstract class SiteSearchBase extends Base
     {
         $idSites = !empty($infos['idSites']) ? $infos['idSites'] : array();
 
-        if (!$this->isEnabledForIdSites($idSites)) {
+        if (!$this->isEnabledForIdSites($idSites, 0)) {
             return;
         }
 
