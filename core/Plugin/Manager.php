@@ -360,7 +360,7 @@ class Manager extends Singleton
         if ($this->isPluginLoaded($pluginName)) {
             throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
         }
-        $this->returnLoadedPluginsInfo();
+        $this->loadAllPluginsAndGetTheirInfo();
 
         \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
 
@@ -541,7 +541,7 @@ class Manager extends Singleton
      *                           See {@link Piwik\Plugin::getInformation()}.
      * @api
      */
-    public function returnLoadedPluginsInfo()
+    public function loadAllPluginsAndGetTheirInfo()
     {
         $language = Translate::getLanguageToLoad();
 
@@ -646,7 +646,7 @@ class Manager extends Singleton
     {
         $pluginsToLoad = array_unique($pluginsToLoad);
         $this->pluginsToLoad = $pluginsToLoad;
-        $this->reloadPlugins();
+        $this->reloadActivatedPlugins();
     }
 
     /**
@@ -828,7 +828,7 @@ class Manager extends Singleton
      * Load the plugins classes installed.
      * Register the observers for every plugin.
      */
-    private function reloadPlugins()
+    private function reloadActivatedPlugins()
     {
         if ($this->doLoadAlwaysActivatedPlugins) {
             $this->pluginsToLoad = array_merge($this->pluginsToLoad, $this->pluginToAlwaysActivate);
