@@ -137,8 +137,6 @@ class CronArchive
 
         $this->queue = $queue;
         $this->processor = $processor;
-
-        $this->initCore();
     }
 
     /**
@@ -187,7 +185,6 @@ class CronArchive
 
     public function runScheduledTasksInTrackerMode()
     {
-        $this->initCore();
         $this->logInitInfo();
         $this->runScheduledTasks();
     }
@@ -312,18 +309,6 @@ class CronArchive
             return false;
         }
         return true;
-    }
-
-    /**
-     * Init Piwik, connect DB, create log & config objects, etc.
-     */
-    private function initCore()
-    {
-        try {
-            FrontController::getInstance()->init();
-        } catch (Exception $e) {
-            throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
-        }
     }
 
     private function logInitInfo()

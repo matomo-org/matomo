@@ -306,7 +306,7 @@ class Tracker
         // don't run scheduled tasks in CLI mode from Tracker, this is the case
         // where we bulk load logs & don't want to lose time with tasks
         return !Common::isPhpCliMode()
-        && $this->getState() != self::STATE_LOGGING_DISABLE;
+            && $this->getState() != self::STATE_LOGGING_DISABLE;
     }
 
     /**
@@ -734,7 +734,9 @@ class Tracker
         }
 
         // Do not run scheduled tasks during tests
-        self::updateTrackerConfig('scheduled_tasks_min_interval', 0);
+        if (empty($args['_runScheduledTasksInTests'])) {
+            self::updateTrackerConfig('scheduled_tasks_min_interval', 0);
+        }
 
         // if nothing found in _GET/_POST and we're doing a POST, assume bulk request. in which case,
         // we have to bypass authentication
