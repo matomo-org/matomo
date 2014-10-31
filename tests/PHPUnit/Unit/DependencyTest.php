@@ -112,7 +112,7 @@ class DependencyTest extends PHPUnit_Framework_TestCase
 
     public function test_getMissingDependencies_detectsPluginVersion()
     {
-        PluginManager::getInstance()->returnLoadedPluginsInfo();
+        PluginManager::getInstance()->loadAllPluginsAndGetTheirInfo();
 
         $this->assertMissingDependency(array('Annotations' => '>=2.1'), array());
         $this->assertMissingDependency(array('Annotations' => '>=' . Version::VERSION), array());
