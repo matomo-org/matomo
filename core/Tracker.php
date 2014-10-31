@@ -348,26 +348,16 @@ class Tracker
             Option::set('lastTrackerCronRun', $cache['lastTrackerCronRun']);
             Common::printDebug('-> Scheduled Tasks: Starting...');
 
-            // save current user privilege and temporarily assume Super User privilege
-            $isSuperUser = Piwik::hasUserSuperUserAccess();
-
-            // Scheduled tasks assume Super User is running
-            Piwik::setUserHasSuperUserAccess();
-
             // While each plugins should ensure that necessary languages are loaded,
             // we ensure English translations at least are loaded
             Translate::loadEnglishTranslation();
 
             ob_start();
-            CronArchive::$url = SettingsPiwik::getPiwikUrl();
             $cronArchive = new CronArchive(new CronArchive\AlgorithmOptions());
             $cronArchive->runScheduledTasksInTrackerMode();
 
             $resultTasks = ob_get_contents();
             ob_clean();
-
-            // restore original user privilege
-            Piwik::setUserHasSuperUserAccess($isSuperUser);
 
             foreach (explode('</pre>', $resultTasks) as $resultTask) {
                 Common::printDebug(str_replace('<pre>', '', $resultTask));

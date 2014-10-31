@@ -42,10 +42,9 @@ class BaseJob extends Job
      * @param string $date
      * @param string $period
      * @param string $segment
-     * @param string $token_auth
      * @param AlgorithmOptions $options See {@link $cronArchiveOptions}.
      */
-    public function __construct($idSite, $date, $period, $segment, $token_auth, AlgorithmOptions $options)
+    public function __construct($idSite, $date, $period, $segment, AlgorithmOptions $options)
     {
         $url = array(
             'module' => 'API',
@@ -53,8 +52,7 @@ class BaseJob extends Job
             'idSite' => $idSite,
             'period' => $period,
             'date' => $date,
-            'format' => 'php',
-            'token_auth' => $token_auth
+            'format' => 'php'
         );
         if (!empty($segment)) {
             $url['segment'] = $segment;
@@ -130,9 +128,7 @@ class BaseJob extends Job
 
     protected function makeCronArchiveContext()
     {
-        $context = new CronArchive();
-        $context->options = $this->cronArchiveOptions;
-        return $context;
+        return new CronArchive($this->cronArchiveOptions);
     }
 
     protected function handleError(CronArchive $context, $errorMessage)
@@ -192,7 +188,8 @@ class BaseJob extends Job
         if (empty($response)
             || stripos($response, 'error')
         ) {
-            return $context->getAlgorithmLogger()->logNetworkError($url, $response);
+            $context->getAlgorithmLogger()->logNetworkError($url, $response);
+            return false;
         }
         return true;
     }

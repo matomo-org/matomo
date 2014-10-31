@@ -8,7 +8,6 @@
 namespace Piwik\CronArchive\Jobs;
 
 use Piwik\CronArchive;
-use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\BaseJob;
 use Piwik\Option;
 
@@ -17,22 +16,6 @@ use Piwik\Option;
  */
 class ArchiveVisitsForNonDayOrSegment extends BaseJob
 {
-    /**
-     * TODO
-     */
-    public function __construct($idSite, $date, $period, $segment, $token_auth, AlgorithmOptions $options)
-    {
-        parent::__construct($idSite, $date, $period, $segment, $token_auth, $options);
-    }
-
-    /**
-     * TODO
-     */
-    public function jobStarting()
-    {
-        // empty
-    }
-
     /**
      * TODO
     // TODO: instead of passing options to distributed callbacks, we should depend on DI container

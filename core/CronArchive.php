@@ -53,8 +53,6 @@ class CronArchive
     // Name of option used to store starting timestamp
     const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
 
-    private $token_auth = false;
-
     /**
      * The distributed jobs queue to which new Jobs will be added.
      *
@@ -141,7 +139,6 @@ class CronArchive
         $this->processor = $processor;
 
         $this->initCore();
-        $this->initTokenAuth();
     }
 
     /**
@@ -191,7 +188,6 @@ class CronArchive
     public function runScheduledTasksInTrackerMode()
     {
         $this->initCore();
-        $this->initTokenAuth();
         $this->logInitInfo();
         $this->runScheduledTasks();
     }
@@ -271,7 +267,7 @@ class CronArchive
 
         $this->algorithmLogger->log("Starting Scheduled tasks... ");
 
-        $tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=" . $this->token_auth);
+        $tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0");
 
         if ($tasksOutput == \Piwik\DataTable\Renderer\Csv::NO_DATA_AVAILABLE) {
             $tasksOutput = " No task to run";
@@ -296,7 +292,8 @@ class CronArchive
 
             $response  = !empty($responses) ? array_shift($responses) : null;
         } catch (Exception $e) {
-            return $this->algorithmLogger->logNetworkError($url, $e->getMessage());
+            $this->algorithmLogger->logNetworkError($url, $e->getMessage());
+            return false;
         }
 
         if ($this->checkResponse($response, $url)) {
@@ -311,7 +308,8 @@ class CronArchive
         if (empty($response)
             || stripos($response, 'error')
         ) {
-            return $this->algorithmLogger->logNetworkError($url, $response);
+            $this->algorithmLogger->logNetworkError($url, $response);
+            return false;
         }
         return true;
     }
@@ -326,23 +324,6 @@ class CronArchive
         } catch (Exception $e) {
             throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
         }
-    }
-
-    private function initTokenAuth()
-    {
-        $token = '';
-
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$token));
-        
-        $this->token_auth = $token;
-    }
-
-    public function getTokenAuth()
-    {
-        return $this->token_auth;
     }
 
     private function logInitInfo()
@@ -443,7 +424,7 @@ class CronArchive
 
         $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, "day");
 
-        $job = new ArchiveDayVisits($idSite, $date, $this->token_auth, $this->options);
+        $job = new ArchiveDayVisits($idSite, $date, $this->options);
         $this->enqueueJob($job, $idSite);
     }
 
@@ -459,7 +440,7 @@ class CronArchive
 
             $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, $period);
 
-            $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment = false, $this->token_auth, $this->options);
+            $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment = false, $this->options);
             $this->enqueueJob($job, $idSite);
 
             $this->queueSegmentsArchivingFor($idSite, $period, $date);
@@ -469,7 +450,7 @@ class CronArchive
     private function queueSegmentsArchivingFor($idSite, $period, $date)
     {
         foreach ($this->algorithmState->getSegmentsForSite($idSite) as $segment) {
-            $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment, $this->token_auth, $this->options);
+            $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment, $this->options);
             $this->enqueueJob($job, $idSite);
         }
     }

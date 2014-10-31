@@ -22,9 +22,9 @@ class ArchiveDayVisits extends BaseJob
     /**
      * TODO
      */
-    public function __construct($idSite, $date, $token_auth, AlgorithmOptions $options)
+    public function __construct($idSite, $date, AlgorithmOptions $options)
     {
-        parent::__construct($idSite, $date, 'day', $segment = false, $token_auth, $options);
+        parent::__construct($idSite, $date, 'day', $segment = false, $options);
     }
 
     /**
