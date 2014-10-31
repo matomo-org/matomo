@@ -33,7 +33,7 @@ class Console extends Application
 
     public function init()
     {
-        $this->checkCompatibility();
+        $this->setServerArgsIfPhpCgi();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -107,13 +107,18 @@ class Console extends Application
         return $commands;
     }
 
-    private function checkCompatibility()
+    private function setServerArgsIfPhpCgi()
     {
         if (Common::isPhpCgiType()) {
-            echo 'Piwik Console is known to be not compatible with PHP-CGI (you are using '.php_sapi_name().'). ' .
-                 'Please execute console using PHP-CLI. For instance "/usr/bin/php-cli console ..."';
-            echo "\n";
-            exit(1);
+            $_SERVER['argv'] = array();
+            foreach ($_GET as $name => $value) {
+                $argument = $name;
+                if (!empty($value)) {
+                    $argument .= '=' . $value;
+                }
+
+                $_SERVER['argv'][] = $argument;
+            }
         }
     }
 
