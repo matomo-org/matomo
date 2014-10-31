@@ -115,14 +115,15 @@ class CronArchive
     /**
      * Constructor.
      *
+     * @param AlgorithmOptions $options Options to manipulate how CronArchive behaves.
      * @param Queue|null $queue The queue to store distributed jobs. If null, a DistributedQueue instance
      *                          iscreated.
      * @param Processor|null $processor The job processor that will consume jobs in this CronArchive run.
      *                                  If null, a CliProcessor instances is created.
      */
-    public function __construct($queue = null, $processor = null)
+    public function __construct(AlgorithmOptions $options, $queue = null, $processor = null)
     {
-        $this->options = new AlgorithmOptions();
+        $this->options = $options;
         $this->algorithmState = new AlgorithmState($this);
         $this->algorithmStats = new AlgorithmStatistics();
         $this->algorithmLogger = new AlgorithmLogger();

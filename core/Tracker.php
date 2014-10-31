@@ -360,7 +360,7 @@ class Tracker
 
             ob_start();
             CronArchive::$url = SettingsPiwik::getPiwikUrl();
-            $cronArchive = new CronArchive();
+            $cronArchive = new CronArchive(new CronArchive\AlgorithmOptions());
             $cronArchive->runScheduledTasksInTrackerMode();
 
             $resultTasks = ob_get_contents();

@@ -56,7 +56,7 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
 
     $console->run();
 } else { // if running via web request, use CronArchive directly
-    $archiver = new Piwik\CronArchive();
+    $archiver = new Piwik\CronArchive(new Piwik\CronArchive\AlgorithmOptions());
 
     if (!Piwik\Common::isPhpCliMode()) {
         $token_auth = Piwik\Common::getRequestVar('token_auth', '', 'string');

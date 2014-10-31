@@ -52,27 +52,26 @@ class CoreArchiver extends ConsoleCommand
     public static function makeArchiver(InputInterface $input)
     {
         // TODO: param for max processes
-        $archiver = new CronArchive();
-
-        $archiver->options->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
-        $archiver->options->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
-        $archiver->options->shouldArchiveAllSites = (bool) $input->getOption("force-all-websites");
-        $archiver->options->shouldStartProfiler = (bool) $input->getOption("xhprof");
-        $archiver->options->shouldArchiveSpecifiedSites = self::getSitesListOption($input, "force-idsites");
-        $archiver->options->shouldSkipSpecifiedSites = self::getSitesListOption($input, "skip-idsites");
-        $archiver->options->forceTimeoutPeriod = $input->getOption("force-timeout-for-periods");
-        $archiver->options->shouldArchiveAllPeriodsSince = $input->getOption("force-all-periods");
-        $archiver->options->restrictToDateRange = $input->getOption("force-date-range");
+        $options = new CronArchive\AlgorithmOptions();
+        $options->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
+        $options->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
+        $options->shouldArchiveAllSites = (bool) $input->getOption("force-all-websites");
+        $options->shouldStartProfiler = (bool) $input->getOption("xhprof");
+        $options->shouldArchiveSpecifiedSites = self::getSitesListOption($input, "force-idsites");
+        $options->shouldSkipSpecifiedSites = self::getSitesListOption($input, "skip-idsites");
+        $options->forceTimeoutPeriod = $input->getOption("force-timeout-for-periods");
+        $options->shouldArchiveAllPeriodsSince = $input->getOption("force-all-periods");
+        $options->restrictToDateRange = $input->getOption("force-date-range");
 
         $restrictToPeriods = $input->getOption("force-periods");
         $restrictToPeriods = explode(',', $restrictToPeriods);
-        $archiver->options->restrictToPeriods = array_map('trim', $restrictToPeriods);
+        $options->restrictToPeriods = array_map('trim', $restrictToPeriods);
 
-        $archiver->options->dateLastForced = $input->getOption('force-date-last-n');
+        $options->dateLastForced = $input->getOption('force-date-last-n');
 
-        $archiver->options->testmode = $input->getOption('testmode');
+        $options->testmode = $input->getOption('testmode');
 
-        return $archiver;
+        return new CronArchive($options);
     }
 
     private static function getSitesListOption(InputInterface $input, $optionName)
