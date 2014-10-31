@@ -78,6 +78,8 @@ class Remote
 
     private function doRunTests($testSuite)
     {
+        $this->ssh->exec("ps -ef | grep \"php console tests:run\" | grep -v grep | awk '{print $2}' | xargs kill -9");
+
         if ('all' === $testSuite) {
             $this->ssh->exec('php console tests:run --options="--colors"');
         } elseif ('ui' === $testSuite) {
