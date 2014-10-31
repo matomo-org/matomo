@@ -45,6 +45,6 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
             $context->getAlgorithmStats()->archivedPeriodsArchivesWebsite++;
         }
 
-        $this->archivingRequestFinished($context, $idSite, $period, $date, $segment, $visits, $visitsLast);
+        $this->archivingRequestFinished($context, $idSite, $visits, $visitsLast);
     }
 }

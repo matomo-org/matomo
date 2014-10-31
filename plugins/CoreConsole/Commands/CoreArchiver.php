@@ -42,7 +42,7 @@ class CoreArchiver extends ConsoleCommand
         $archiver = $this->makeArchiver($input);
 
         try {
-            $archiver->main();
+            $archiver->run();
         } catch (Exception $e) {
             $archiver->algorithmLogger->logError($e->getMessage()); // TODO: will result in two errors if logFatalError called
         }

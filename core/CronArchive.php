@@ -15,6 +15,7 @@ use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\AlgorithmStatistics;
 use Piwik\CronArchive\AlgorithmState;
+use Piwik\CronArchive\Hooks;
 use Piwik\CronArchive\Jobs\ArchiveDayVisits;
 use Piwik\CronArchive\Jobs\ArchiveVisitsForNonDayOrSegment;
 use Piwik\Jobs\Job;
@@ -99,6 +100,14 @@ class CronArchive
     public $options;
 
     /**
+     * List of hooks that extend basic CronArchive behavior. These objects are used to apply cross-cutting
+     * concerns to the CronArchive algorithm, while still achieving separation of concerns.
+     *
+     * @var Hooks[]
+     */
+    private $hooks = array();
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -137,55 +146,29 @@ class CronArchive
 
         $this->queue = $queue;
         $this->processor = $processor;
+
+        $this->hooks[] = new Hooks\Logging();
     }
 
     /**
-     * Initializes and runs the cron archiver.
+     * Invokes a hook.
+     *
+     * @param string $name The {@link Hooks} method name.
+     * @param string[] $args Extra arguments to pass to the method.
      */
-    public function main()
+    public function executeHook($name, $args = array())
     {
-        $self = $this;
-        Access::doAsSuperUser(function () use ($self) {
-            $self->init();
-            $self->run();
-            $self->runScheduledTasks();
-            $self->end();
-        });
-    }
+        $args = array_merge(array($this->options, $this->algorithmState, $this->algorithmLogger), $args);
 
-    public function init()
-    {
-        // Note: the order of methods call matters here.
-        $this->logInitInfo();
-        $this->logArchiveTimeoutInfo();
-
-        // record archiving start time
-        Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
-
-        $periodsToProcess = $this->algorithmState->getPeriodsToProcess();
-        if (!empty($periodsToProcess)) {
-            $this->algorithmLogger->log("- Will process the following periods: " . implode(", ", $periodsToProcess) . " (--force-periods)");
+        foreach ($this->hooks as $hookCollection) {
+            call_user_func_array(array($hookCollection, $name), $args);
         }
-
-
-        if ($this->options->shouldStartProfiler) {
-            \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
-            $this->algorithmLogger->log("XHProf profiling is enabled.");
-        }
-
-        /**
-         * This event is triggered after a CronArchive instance is initialized.
-         *
-         * @param array $websiteIds The list of website IDs this CronArchive instance is processing.
-         *                          This will be the entire list of IDs regardless of whether some have
-         *                          already been processed.
-         */
-        Piwik::postEvent('CronArchive.init.finish', array($this->algorithmState->getWebsitesToArchive()));
     }
 
     public function runScheduledTasksInTrackerMode()
     {
-        $this->logInitInfo();
+        $this->executeHook('onInitTrackerTasks');
+
         $this->runScheduledTasks();
     }
 
@@ -206,8 +189,24 @@ class CronArchive
      */
     public function run()
     {
-        $this->algorithmLogger->logSection("START");
-        $this->algorithmLogger->log("Starting Piwik reports archiving...");
+        // record archiving start time
+        Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
+
+        if ($this->options->shouldStartProfiler) {
+            Profiler::setupProfilerXHProf($mainRun = true);
+        }
+
+        $this->executeHook('onInit');
+
+        /**
+         * This event is triggered after a CronArchive instance is initialized.
+         *
+         * @param array $websiteIds The list of website IDs this CronArchive instance is processing.
+         *                          This will be the entire list of IDs regardless of whether some have
+         *                          already been processed.
+         * @deprecated
+         */
+        Piwik::postEvent('CronArchive.init.finish', array($this->algorithmState->getWebsitesToArchive()));
 
         if (!$this->isContinuationOfArchivingJob()) {
             Semaphore::deleteLike("CronArchive%");
@@ -222,57 +221,36 @@ class CronArchive
             return;
         }
 
-        $this->processor->startProcessing($finishWhenNoJobs = true);
+        $this->processQueuedJobs();
 
-        $this->algorithmStats->logSummary($this->algorithmLogger, $this->algorithmState);
-    }
+        $this->runScheduledTasks();
 
-    /**
-     * End of the script
-     */
-    public function end()
-    {
         if (empty($this->algorithmStats->errors)) {
-            // No error -> Logs the successful script execution until completion
+            // if no error mark this execution as the last successfully run execution
             $this->algorithmState->setLastSuccessRunTimestamp(time());
-            return;
         }
 
-        $this->logErrorSummary();
+        $this->executeHook('onEnd', array($this->algorithmStats));
     }
 
-    private function logErrorSummary()
+    private function processQueuedJobs()
     {
-        $this->algorithmLogger->logSection("SUMMARY OF ERRORS");
-        foreach ($this->algorithmStats->errors as $error) {
-            // do not logError since errors are already in stderr
-            $this->algorithmLogger->log("Error: " . $error);
-        }
-
-        $this->algorithmLogger->logFatalError(count($this->algorithmStats->errors)
-            . " total errors during this script execution, please investigate and try and fix these errors.");
+        $this->executeHook('onStartProcessing');
+        $this->processor->startProcessing($finishWhenNoJobs = true);
+        $this->executeHook('onEndProcessing', array($this->algorithmStats));
     }
 
     public function runScheduledTasks()
     {
-        $this->algorithmLogger->logSection("SCHEDULED TASKS");
+        $this->executeHook('onStartRunScheduledTasks');
 
         if ($this->options->disableScheduledTasks) {
-            $this->algorithmLogger->log("Scheduled tasks are disabled with --disable-scheduled-tasks");
             return;
         }
 
-        $this->algorithmLogger->log("Starting Scheduled tasks... ");
-
         $tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0");
 
-        if ($tasksOutput == \Piwik\DataTable\Renderer\Csv::NO_DATA_AVAILABLE) {
-            $tasksOutput = " No task to run";
-        }
-
-        $this->algorithmLogger->log($tasksOutput);
-        $this->algorithmLogger->log("done");
-        $this->algorithmLogger->logSection("");
+        $this->executeHook('onEndRunScheduledTasks', array($tasksOutput));
     }
 
     /**
@@ -289,54 +267,26 @@ class CronArchive
 
             $response  = !empty($responses) ? array_shift($responses) : null;
         } catch (Exception $e) {
-            $this->algorithmLogger->logNetworkError($url, $e->getMessage());
+            $this->executeHook('onApiRequestError', array($url, $e->getMessage()));
             return false;
         }
 
-        if ($this->checkResponse($response, $url)) {
+        if ($this->checkApiResponse($response, $url)) {
             return $response;
         }
 
         return false;
     }
 
-    private function checkResponse($response, $url)
+    public function checkApiResponse($response, $url)
     {
         if (empty($response)
             || stripos($response, 'error')
         ) {
-            $this->algorithmLogger->logNetworkError($url, $response);
+            $this->executeHook('onApiRequestError', array($url, $response));
             return false;
         }
         return true;
-    }
-
-    private function logInitInfo()
-    {
-        $this->algorithmLogger->logSection("INIT");
-        $this->algorithmLogger->log("Running Piwik " . Version::VERSION . " as Super User");
-    }
-
-    private function logArchiveTimeoutInfo()
-    {
-        $this->algorithmLogger->logSection("NOTES");
-
-        // Recommend to disable browser archiving when using this script
-        if (Rules::isBrowserTriggerEnabled()) {
-            $this->algorithmLogger->log("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings. ");
-            $this->algorithmLogger->log("  See the doc at: http://piwik.org/docs/setup-auto-archiving/");
-        }
-        $this->algorithmLogger->log("- Reports for today will be processed at most every " . $this->algorithmState->getTodayArchiveTimeToLive()
-            . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
-        $this->algorithmLogger->log("- Reports for the current week/month/year will be refreshed at most every "
-            . $this->algorithmState->getProcessPeriodsMaximumEverySeconds() . " seconds.");
-
-        // Try and not request older data we know is already archived
-        $lastSuccessRunTimestamp = $this->algorithmState->getLastSuccessRunTimestamp();
-        if ($lastSuccessRunTimestamp !== false) {
-            $dateLast = time() - $lastSuccessRunTimestamp;
-            $this->algorithmLogger->log("- Archiving was last executed without error " . MetricsFormatter::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false) . " ago");
-        }
     }
 
     /**
@@ -360,30 +310,20 @@ class CronArchive
     }
 
     /**
-     * Returns the {@link $algorithmLogger} property.
-     *
-     * @return AlgorithmLogger
-     */
-    public function getAlgorithmLogger()
-    {
-        return $this->algorithmLogger;
-    }
-
-    /**
      * @param $idSite
      * @return void
      */
     private function queueDayArchivingJobsForSite($idSite)
     {
         if ($this->options->shouldSkipWebsite($idSite)) {
-            $this->algorithmLogger->log("Skipped website id $idSite, found in --skip-idsites");
+            $this->executeHook('onSkipWebsiteDayArchiving', array($idSite, 'found in --skip-idsites'));
 
             ++$this->algorithmStats->skipped;
             return;
         }
 
         if ($idSite <= 0) {
-            $this->algorithmLogger->log("Found strange site ID: '$idSite', skipping");
+            $this->executeHook('onSkipWebsiteDayArchiving', array($idSite, 'strange ID'));
 
             ++$this->algorithmStats->skipped;
             return;
@@ -391,9 +331,8 @@ class CronArchive
 
         // Test if we should process this website
         if ($this->algorithmState->getShouldSkipDayArchive($idSite)) {
-            $this->algorithmLogger->log("Skipped website id $idSite, already done "
-                . $this->algorithmState->getElapsedTimeSinceLastArchiving($idSite, $pretty = true)
-                . " ago");
+            $reason = "was archived " . $this->algorithmState->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
+            $this->executeHook('onSkipWebsiteDayArchiving', array($idSite, $reason));
 
             $this->algorithmStats->skippedDayArchivesWebsites++;
             $this->algorithmStats->skipped++;
@@ -415,6 +354,8 @@ class CronArchive
 
     public function queuePeriodAndSegmentArchivingFor($idSite)
     {
+        $this->executeHook('onQueuePeriodAndSegmentArchiving', array($idSite)); // TODO: add queue hook for day & for each individual job queue
+
         $dayDate = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, 'day');
         $this->queueSegmentsArchivingFor($idSite, 'day', $dayDate);
 
@@ -434,7 +375,7 @@ class CronArchive
 
     private function queueSegmentsArchivingFor($idSite, $period, $date)
     {
-        foreach ($this->algorithmState->getSegmentsForSite($idSite) as $segment) {
+        foreach ($this->algorithmState->getSegmentsToArchiveForSite($idSite) as $segment) {
             $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment, $this->options);
             $this->enqueueJob($job, $idSite);
         }

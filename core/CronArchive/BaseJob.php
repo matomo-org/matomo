@@ -10,7 +10,6 @@ namespace Piwik\CronArchive;
 use Exception;
 use Piwik\CronArchive;
 use Piwik\Jobs\Job;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Url;
 
@@ -84,7 +83,7 @@ class BaseJob extends Job
         $visits = $visitsLast = null;
 
         if (!empty($textResponse)
-            && $this->checkResponse($context, $textResponse, $this->url)
+            && $context->checkApiResponse($textResponse, $this->url)
             && is_array($response)
             && count($response) != 0
         ) {
@@ -97,9 +96,9 @@ class BaseJob extends Job
         return array($visits, $visitsLast);
     }
 
-    protected function archivingRequestFinished(CronArchive $context, $idSite, $period, $date, $segment, $visits, $visitsLast)
+    protected function archivingRequestFinished(CronArchive $context, $idSite, $visits, $visitsLast)
     {
-        $this->logArchivedWebsite($context, $idSite, $period, $date, $segment, $visits, $visitsLast); // TODO no timer
+        $context->executeHook('onArchiveRequestFinished', array($this->url, $visits, $visitsLast)); // TODO: timer
 
         if ($context->getAlgorithmState()->getActiveRequestsSemaphore($idSite)->get() === 0) {
             $processedWebsitesCount = $context->getAlgorithmState()->getProcessedWebsitesSemaphore();
@@ -117,12 +116,7 @@ class BaseJob extends Job
              */
             Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idSite, $completed));
 
-            Log::info("Archived website id = $idSite, "
-                //. $requestsWebsite . " API requests, " TODO: necessary to report?
-                // TODO: . $timerWebsite->__toString()
-                . " [" . $processedWebsitesCount->get() . "/"
-                . count($context->getAlgorithmState()->getWebsitesToArchive())
-                . " done]");
+            $context->executeHook('onSiteArchivingFinished', array($idSite));
         }
     }
 
@@ -133,26 +127,9 @@ class BaseJob extends Job
 
     protected function handleError(CronArchive $context, $errorMessage)
     {
+        $context->executeHook('onError', array($errorMessage));
+
         $context->getAlgorithmStats()->errors[] = $errorMessage;
-        $context->getAlgorithmLogger()->logError($errorMessage);
-    }
-
-    private function logArchivedWebsite(CronArchive $context, $idSite, $period, $date, $segment, $visitsInLastPeriods, $visitsToday)
-    {
-        if (substr($date, 0, 4) === 'last') {
-            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
-            $thisPeriod = $period == "day" ? "today" : "this " . $period;
-            $visitsInLastPeriod = (int)$visitsToday . " visits " . $thisPeriod . ", ";
-        } else {
-            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in " . $period . "s included in: $date, ";
-            $visitsInLastPeriod = '';
-        }
-
-        $context->getAlgorithmLogger()->log("Archived website id = $idSite, period = $period, "
-            . $visitsInLastPeriods
-            . $visitsInLastPeriod
-            . " [segment = $segment]"
-        ); // TODO: used to use $timer
     }
 
     private function getVisitsLastPeriodFromApiResponse($stats)
@@ -181,16 +158,5 @@ class BaseJob extends Job
         }
 
         return $visits;
-    }
-
-    private function checkResponse(CronArchive $context, $response, $url)
-    {
-        if (empty($response)
-            || stripos($response, 'error')
-        ) {
-            $context->getAlgorithmLogger()->logNetworkError($url, $response);
-            return false;
-        }
-        return true;
     }
 }

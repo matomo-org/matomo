@@ -408,7 +408,7 @@ class AlgorithmState
     }
 
     /**
-     * Returns the minimum amount of time that must pass before periods archiving should be initiated for
+     * Returns the minimum amount of time that must pass before periods archiving should be initiated again for
      * a website. If the amount of time hasn't yet passed, and the archive data is still considered valid,
      * period archiving shouldn't be launched in the current CronArchive run.
      *
@@ -426,31 +426,36 @@ class AlgorithmState
                 return $container->options->forceTimeoutPeriod;
             }
 
-            // TODO: should remove log statements from this class somehow
-            $container->algorithmLogger->log("WARNING: Automatically increasing --force-timeout-for-periods from {$container->options->forceTimeoutPeriod} to "
-                . $self->getTodayArchiveTimeToLive()
-                . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
-
             return $self->getTodayArchiveTimeToLive();
         });
     }
 
     /**
-     * Returns the segments to archive for a specific Website. This will include segments that are specific
+     * Returns all the segments to archive for a specific Website. This will include segments that are specific
      * to this site and segments that are applied to all sites.
      *
      * @param int $idSite
      * @return string[]
      */
-    public function getSegmentsForSite($idSite)
+    public function getSegmentsToArchiveForSite($idSite)
     {
         return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
             $segmentsAllSites = $self->getSegmentsForAllSites();
-            $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
-            if (!empty($segmentsThisSite)) {
-                $container->algorithmLogger->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idSite): " . implode(", ", $segmentsThisSite));
-            }
+            $segmentsThisSite = $self->getSegmentsForSingleSite($idSite);
             return array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
+        });
+    }
+
+    /**
+     * Returns the segments associated with a specific site.
+     *
+     * @param int $idSite
+     * @return string[]
+     */
+    public function getSegmentsForSingleSite($idSite)
+    {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) use ($idSite) {
+            return SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
         });
     }
 
@@ -468,8 +473,6 @@ class AlgorithmState
             if (empty($segments)) {
                 return array();
             }
-
-            $container->algorithmLogger->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
 
             return $segments;
         });
@@ -572,7 +575,8 @@ class AlgorithmState
     }
 
     /**
-     * Returns the periods to process during this CronArchive execution.
+     * Returns the periods to process during this CronArchive execution. An empty array signifies that every
+     * period is archived.
      *
      * The result of this method can be influenced by the {@link CronArchive::$restrictToPeriods} property
      * and the result of {@link PeriodFactory::getPeriodsEnabledForAPI()}.
@@ -616,7 +620,7 @@ class AlgorithmState
     /**
      * Returns the list of all websites the current user has access to.
      *
-     * @return int
+     * @return int[]
      */
     public function getAllWebsites()
     {
@@ -648,12 +652,8 @@ class AlgorithmState
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             if (count($container->options->shouldArchiveSpecifiedSites) > 0) {
-                $container->algorithmLogger->log("- Will process " . count($container->options->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
-
                 $websiteIds = $container->options->shouldArchiveSpecifiedSites;
             } else if ($container->options->shouldArchiveAllSites) {
-                $container->algorithmLogger->log("- Will process all " . count($self->getAllWebsites()) . " websites");
-
                 $websiteIds = $self->getAllWebsites();
             } else {
                 $websiteIds = array_merge(
@@ -662,16 +662,6 @@ class AlgorithmState
                     $self->getWebsitesInTimezoneWithNewDay()
                 );
                 $websiteIds = array_unique($websiteIds);
-
-                /* TODO: broke this log. needs to diff against sites that are being archived because of non-timezone related issues
-                if (count($websiteDayHasFinishedSinceLastRun) > 0) {
-                    $websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $websiteIds);
-                    $ids = !empty($websiteDayHasFinishedSinceLastRun) ? ", IDs: " . implode(", ", $websiteDayHasFinishedSinceLastRun) : "";
-                    $container->algorithmLogger->log("- Will process " . count($websiteDayHasFinishedSinceLastRun)
-                        . " other websites because the last time they were archived was on a different day (in the website's timezone) "
-                        . $ids);
-                }*/
-
             }
 
             // Keep only the websites that do exist
@@ -706,17 +696,7 @@ class AlgorithmState
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
             $shouldArchiveOnlySitesWithTrafficSince = $this->getShouldArchiveOnlySitesWithTrafficSinceLastNSecs();
-
-            $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits(time() - $shouldArchiveOnlySitesWithTrafficSince);
-
-            $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
-            $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds( $shouldArchiveOnlySitesWithTrafficSince, true, false);
-            $container->algorithmLogger->log("- Will process " . count($sitesIdWithVisits) . " websites with new visits since "
-                . $prettySeconds
-                . " "
-                . $websiteIds);
-
-            return $sitesIdWithVisits;
+            return APISitesManager::getInstance()->getSitesIdWithVisits(time() - $shouldArchiveOnlySitesWithTrafficSince);
         });
     }
 
@@ -730,16 +710,7 @@ class AlgorithmState
     public function getWebsitesWithInvalidatedArchiveData()
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            $idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
-
-            if (count($idSitesInvalidatedOldReports) > 0) {
-                $ids = ", IDs: " . implode(", ", $idSitesInvalidatedOldReports);
-                $container->algorithmLogger->log("- Will process " . count($idSitesInvalidatedOldReports)
-                    . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
-                    . $ids);
-            }
-
-            return $idSitesInvalidatedOldReports;
+            return APICoreAdminHome::getWebsiteIdsToInvalidate();
         });
     }
 

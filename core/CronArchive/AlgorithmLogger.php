@@ -68,27 +68,6 @@ class AlgorithmLogger
     }
 
     /**
-     * Log an error that occurred due to API request error.
-     *
-     * @param string $url The URL that returned an error.
-     * @param string $response The API request's response.
-     */
-    public function logNetworkError($url, $response)
-    {
-        if (is_array($url)) {
-            $url = Url::getQueryStringFromParameters($url);
-        }
-
-        $message = "Got invalid response from API request: $url. ";
-        if (empty($response)) {
-            $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
-        } else {
-            $message .= "Response was '$response'";
-        }
-        $this->logError($message);
-    }
-
-    /**
      * Marks a new section in the log output.
      *
      * @param string $title The section's title.

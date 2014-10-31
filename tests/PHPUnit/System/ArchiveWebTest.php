@@ -48,7 +48,7 @@ class ArchiveWebTest extends SystemTestCase
 
     public function test_WebArchiveScriptFails_WhenTokenAuthIsNotSuperUser()
     {
-        list($url, $urlTmp) = $this->getUrlToProxyArchive(md5('randomgarbage'));
+        list($url, $urlTmp) = $this->getUrlToProxyArchive(md5('randomgarbage'), 'misc/cron/archive.php');
 
         $output = Http::sendHttpRequest($url, 60);
         $this->cleanUpPiwikUrl($urlTmp);
@@ -99,7 +99,7 @@ class ArchiveWebTest extends SystemTestCase
         return array($returnCode, $output);
     }
 
-    private function getUrlToProxyArchive($tokenAuth = false)
+    private function getUrlToProxyArchive($tokenAuth = false, $pathToArchivePhp = 'tests/PHPUnit/proxy/archive.php')
     {
         $host  = Fixture::getRootUrl();
         $token = $tokenAuth ?: Fixture::getTokenAuth();
@@ -107,7 +107,7 @@ class ArchiveWebTest extends SystemTestCase
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
 
-        $url    = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token;
+        $url    = $host . $pathToArchivePhp . '?token_auth=' . $token;
         return array($url, $urlTmp);
     }
 

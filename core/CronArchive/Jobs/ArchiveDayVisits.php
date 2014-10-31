@@ -72,7 +72,7 @@ class ArchiveDayVisits extends BaseJob
         if ($visits == 0
             && !$shouldArchivePeriods
         ) {
-            $context->getAlgorithmLogger()->log("Skipped website id $idSite, no visit today");
+            $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, 'no visits today'));
             $context->getAlgorithmStats()->skipped++;
             return;
         }
@@ -81,15 +81,15 @@ class ArchiveDayVisits extends BaseJob
             && !$shouldArchivePeriods
             && $this->cronArchiveOptions->shouldArchiveAllSites
         ) {
-            $context->getAlgorithmLogger()->log("Skipped website id $idSite, no visits in the last " . $date . " days");
+            $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, "no visits in the last $date days"));
             $context->getAlgorithmStats()->skipped++;
             return;
         }
 
         if (!$shouldArchivePeriods) {
-            $context->getAlgorithmLogger()->log("Skipped website id $idSite periods processing, already done "
-                . $context->getAlgorithmState()->getElapsedTimeSinceLastArchiving($idSite, $pretty = true)
-                . " ago");
+            $reason = "was archived " . $context->getAlgorithmState()->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
+            $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, $reason));
+
             $context->getAlgorithmStats()->skippedDayArchivesWebsites++;
             $context->getAlgorithmStats()->skipped++;
             return;
@@ -105,7 +105,7 @@ class ArchiveDayVisits extends BaseJob
 
         $context->queuePeriodAndSegmentArchivingFor($idSite);
 
-        $this->archivingRequestFinished($context, $idSite, $period, $date, $segment, $visits, $visitsLast);
+        $this->archivingRequestFinished($context, $idSite, $visits, $visitsLast);
     }
 
     /**

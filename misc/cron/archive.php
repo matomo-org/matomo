@@ -72,5 +72,5 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
     }
 
     $archiver = new Piwik\CronArchive(new Piwik\CronArchive\AlgorithmOptions());
-    $archiver->main();
+    $archiver->run();
 }

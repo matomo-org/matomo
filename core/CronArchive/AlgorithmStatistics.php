@@ -4,17 +4,26 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 namespace Piwik\CronArchive;
 
 /**
  * TODO
  *
- * TODO: does this need to be concurrent? or just specific to this instance of job processor?
+ * TODO: make all stats calculating concurrent
+ *
  * TODO: revise all statistics; from old code some stats do not make sense. at least they don't based
  *       on how they're calculated.
  *       related: TODO: need to log time of archiving for websites (in summary)
+ *
+ * Useful stats:
+ *    -> websitesWithVisitsSinceLastRun
+ *    -> days skipped because archives still valid
+ *    -> periods skipped because archives still valid
+ *    -> elapsed time of each request
+ *    -> total number of visits today
+ *    -> errors
+ *    -> websites successfully processed
  */
 class AlgorithmStatistics
 {
