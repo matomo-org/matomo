@@ -78,6 +78,8 @@ class BaseJob extends Job
 
     protected function parseVisitsApiResponse(CronArchive $context, $textResponse, $idSite)
     {
+        $context->getAlgorithmState()->getActiveRequestsSemaphore($idSite)->decrement();
+
         $response = @unserialize($textResponse);
 
         $visits = $visitsLast = null;
@@ -90,7 +92,8 @@ class BaseJob extends Job
             $visits = $this->getVisitsLastPeriodFromApiResponse($response);
             $visitsLast = $this->getVisitsFromApiResponse($response);
 
-            $context->getAlgorithmState()->getActiveRequestsSemaphore($idSite)->decrement(); // TODO: this code probably shouldn't be here
+            // if the response is valid, decrement the failed requests semaphore
+            $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite)->decrement();
         }
 
         return array($visits, $visitsLast);

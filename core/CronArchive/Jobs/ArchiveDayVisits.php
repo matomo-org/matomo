@@ -98,8 +98,6 @@ class ArchiveDayVisits extends BaseJob
         // mark 'day' period as successfully archived
         Option::set(CronArchive::lastRunKey($idSite, "day"), time());
 
-        $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite)->decrement();
-
         $context->getAlgorithmStats()->visitsToday += $visits;
         $context->getAlgorithmStats()->websitesWithVisitsSinceLastRun++;
 

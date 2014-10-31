@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\CronArchive;
+use Piwik\Jobs\Job;
 
 /**
  * TODO
@@ -121,5 +122,22 @@ abstract class Hooks
      */
     public function onQueuePeriodAndSegmentArchiving(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
     {
+        // empty
+    }
+
+    /**
+     * TODO
+     */
+    public function onQueueDayArchiving(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
+    {
+        // empty
+    }
+
+    /**
+     * TODO
+     */
+    public function onEnqueueJob(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, Job $job, $idSite)
+    {
+        // empty
     }
 }

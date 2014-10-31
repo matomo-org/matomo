@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmOptions;
@@ -346,6 +345,8 @@ class CronArchive
             return;
         }
 
+        $this->executeHook('onQueueDayArchiving', array($idSite));
+
         $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, "day");
 
         $job = new ArchiveDayVisits($idSite, $date, $this->options);
@@ -354,7 +355,7 @@ class CronArchive
 
     public function queuePeriodAndSegmentArchivingFor($idSite)
     {
-        $this->executeHook('onQueuePeriodAndSegmentArchiving', array($idSite)); // TODO: add queue hook for day & for each individual job queue
+        $this->executeHook('onQueuePeriodAndSegmentArchiving', array($idSite));
 
         $dayDate = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, 'day');
         $this->queueSegmentsArchivingFor($idSite, 'day', $dayDate);
@@ -383,6 +384,8 @@ class CronArchive
 
     private function enqueueJob(Job $job, $idSite)
     {
+        $this->executeHook('onEnqueueJob', array($job, $idSite));
+
         $this->queue->enqueue(array($job));
 
         $this->algorithmState->getFailedRequestsSemaphore($idSite)->increment();

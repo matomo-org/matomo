@@ -33,8 +33,6 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
         }
 
         $failedRequestsCount = $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite);
-        $failedRequestsCount->decrement();
-
         if ($failedRequestsCount->get() === 0
             && $context->getAlgorithmState()->getShouldProcessNonDayPeriods() // if any period is skipped, do not mark periods archiving as complete
         ) {
