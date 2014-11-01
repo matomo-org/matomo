@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\CronArchive;
+
 use Exception;
 
 /**

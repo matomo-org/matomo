@@ -4,9 +4,9 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 namespace Piwik\Concurrency;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Option;
@@ -19,7 +19,19 @@ use Piwik\Option;
  * The delimiter is stored in between serialized objects, and once more after the list for a
  * simpler implementation. (eg `"myserializeddata\0\0myotherserializedata\0\0"`).
  *
+ * ### Implementation Details
+ *
  * No locks are used in maintaining atomicity.
+ *
+ * Each atomic operation uses one INSERT OR UPDATE or UPDATE statement.
+ *
+ * **push-ing and unshift-ing**
+ *
+ * TODO
+ *
+ * **pull-ing and pop-ing**
+ *
+ * TODO
  */
 class AtomicList
 {
