@@ -78,6 +78,16 @@ class Semaphore
         return Option::get($optionName);
     }
 
+    /**
+     * Atomically sets the semaphore to a specific value.
+     *
+     * @param int $value The value to set the semaphore to.
+     */
+    public function set($value)
+    {
+        Option::set($this->getOptionName(), $value);
+    }
+
     private function getOptionName()
     {
         return self::OPTION_NAME_PREFIX . $this->name;

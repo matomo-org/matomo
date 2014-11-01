@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\CronArchive;
+
+use Piwik\CronArchive;
 use Piwik\Jobs\Job;
 
 /**
@@ -16,7 +18,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onInit(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
+    public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -24,7 +26,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onInitTrackerTasks(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
+    public function onInitTrackerTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -32,7 +34,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onStartProcessing(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
+    public function onStartProcessing(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -40,7 +42,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onEndProcessing(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, AlgorithmStatistics $stats)
+    public function onEndProcessing(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -48,7 +50,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onStartRunScheduledTasks(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
+    public function onStartRunScheduledTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -56,7 +58,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onEndRunScheduledTasks(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $tasksOutput)
+    public function onEndRunScheduledTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $tasksOutput)
     {
         // empty
     }
@@ -64,7 +66,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onEnd(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, AlgorithmStatistics $stats)
+    public function onEnd(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -72,7 +74,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onApiRequestError(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $url, $errorMessage)
+    public function onApiRequestError(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $url, $errorMessage)
     {
         // empty
     }
@@ -80,7 +82,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onError(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $errorMessage)
+    public function onError(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $errorMessage)
     {
         // empty
     }
@@ -88,7 +90,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onSkipWebsiteDayArchiving(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite, $reason)
+    public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite, $reason)
     {
         // empty
     }
@@ -96,7 +98,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onSkipWebsitePeriodArchiving(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite, $reason)
+    public function onSkipWebsitePeriodArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite, $reason)
     {
         // empty
     }
@@ -104,7 +106,8 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onArchiveRequestFinished(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $requestParams, $visits, $visitsLast)
+    public function onArchiveRequestFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger,
+                                             $requestParams, $visits, $visitsLast, $elapsedTime)
     {
         // empty
     }
@@ -112,7 +115,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onSiteArchivingFinished(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
+    public function onSiteArchivingFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
     {
         // empty
     }
@@ -120,7 +123,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onQueuePeriodAndSegmentArchiving(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
+    public function onQueuePeriodAndSegmentArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
     {
         // empty
     }
@@ -128,7 +131,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onQueueDayArchiving(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
+    public function onQueueDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
     {
         // empty
     }
@@ -136,7 +139,7 @@ abstract class Hooks
     /**
      * TODO
      */
-    public function onEnqueueJob(AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, Job $job, $idSite)
+    public function onEnqueueJob(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, Job $job, $idSite)
     {
         // empty
     }

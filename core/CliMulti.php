@@ -42,7 +42,7 @@ class CliMulti {
     private $acceptInvalidSSLCertificate = false;
 
     /**
-     * TODO
+     * The request URLs for each running process.
      *
      * @var string[]
      */
@@ -58,8 +58,12 @@ class CliMulti {
      * If multi cli is not supported (eg windows) it will initiate an HTTP request instead (not async).
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
-     *                               array('http://www.example.com/piwik?module=API...')
-     *     TODO: modify (make sure to note unique ID requirements)
+     *                               `array('http://www.example.com/piwik?module=API...')`
+     *                               If you plan on scheduling more requests in the `$onRequestsFinishedCallback`
+     *                               callback, the index of each item in this array must be globally unique. That is
+     *                               to say, if an ID of `0` was used before,
+     * @param callback  $onRequestsFinishedCallback Callback executed when one or more requests finishes. Can be used
+     *                                              to schedule more requests.
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
      *               there was a problem with a request, for instance if the process died unexpected.
      */
@@ -97,7 +101,10 @@ class CliMulti {
     }
 
     /**
-     * TODO
+     * Returns the number of unused processes based on the configured maximum concurrent process
+     * count.
+     *
+     * @return int
      */
     public function getUnusedProcessCount()
     {
@@ -105,9 +112,11 @@ class CliMulti {
     }
 
     /**
-     * TODO
+     * Starts a set of URLs concurrently. This can bypass the concurrent process limit.
      *
-     * TODO: make sure to document global URL ID (the index of the arrays started)
+     * The index of the `$piwikUrls` elements must be unique for the entire CliMulti run.
+     *
+     * @param string[] $piwikUrls
      */
     public function start($piwikUrls)
     {

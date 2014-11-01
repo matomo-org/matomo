@@ -35,6 +35,20 @@ class BaseJob extends Job
     protected $cronArchiveOptions;
 
     /**
+     * The time this job was started. Used to get the elapsed time later. Set in jobStarted().
+     *
+     * @var int
+     */
+    protected $startTime;
+
+    /**
+     * The elapsed time it took to run this job. Computed in jobFinished().
+     *
+     * @var int
+     */
+    protected $elapsedTime;
+
+    /**
      * Constructor.
      *
      * @param int $idSite
@@ -61,6 +75,20 @@ class BaseJob extends Job
         parent::__construct($url);
 
         $this->cronArchiveOptions = $options;
+    }
+
+    public function jobStarting()
+    {
+        parent::jobStarting();
+
+        $this->startTime = time();
+    }
+
+    public function jobFinished($response)
+    {
+        parent::jobFinished($response);
+
+        $this->elapsedTime = time() - $this->startTime;
     }
 
     protected function parseJobUrl()
@@ -101,7 +129,7 @@ class BaseJob extends Job
 
     protected function archivingRequestFinished(CronArchive $context, $idSite, $visits, $visitsLast)
     {
-        $context->executeHook('onArchiveRequestFinished', array($this->url, $visits, $visitsLast)); // TODO: timer
+        $context->executeHook('onArchiveRequestFinished', array($this->url, $visits, $visitsLast, $this->elapsedTime));
 
         if ($context->getAlgorithmState()->getActiveRequestsSemaphore($idSite)->get() === 0) {
             $processedWebsitesCount = $context->getAlgorithmState()->getProcessedWebsitesSemaphore();
@@ -131,8 +159,6 @@ class BaseJob extends Job
     protected function handleError(CronArchive $context, $errorMessage)
     {
         $context->executeHook('onError', array($errorMessage));
-
-        $context->getAlgorithmStats()->errors[] = $errorMessage;
     }
 
     private function getVisitsLastPeriodFromApiResponse($stats)

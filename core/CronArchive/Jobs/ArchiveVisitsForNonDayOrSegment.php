@@ -22,6 +22,8 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
      */
     public function jobFinished($response)
     {
+        parent::jobFinished($response);
+
         $context = $this->makeCronArchiveContext();
 
         list($idSite, $date, $period, $segment) = $this->parseJobUrl();
@@ -37,10 +39,6 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
             && $context->getAlgorithmState()->getShouldProcessNonDayPeriods() // if any period is skipped, do not mark periods archiving as complete
         ) {
             Option::set(CronArchive::lastRunKey($idSite, "periods"), time());
-
-            // TODO: need to double check all metrics are counted correctly
-            // for example, this incremented only when success or always?
-            $context->getAlgorithmStats()->archivedPeriodsArchivesWebsite++;
         }
 
         $this->archivingRequestFinished($context, $idSite, $visits, $visitsLast);

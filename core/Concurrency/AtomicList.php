@@ -120,6 +120,18 @@ class AtomicList
     }
 
     /**
+     * Returns the count of items in the MySQL array. This operation is atomic, however, the list
+     * can be changed between the time the option is read from the DB and the time the data is unserialized
+     * and counted.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->getAll());
+    }
+
+    /**
      * Deletes the option used to store the list.
      */
     public function clear()

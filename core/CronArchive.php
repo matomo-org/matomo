@@ -12,9 +12,9 @@ use Exception;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmOptions;
-use Piwik\CronArchive\AlgorithmStatistics;
 use Piwik\CronArchive\AlgorithmState;
 use Piwik\CronArchive\Hooks;
+use Piwik\CronArchive\Hooks\Statistics;
 use Piwik\CronArchive\Jobs\ArchiveDayVisits;
 use Piwik\CronArchive\Jobs\ArchiveVisitsForNonDayOrSegment;
 use Piwik\Jobs\Job;
@@ -77,13 +77,6 @@ class CronArchive
     private $algorithmState;
 
     /**
-     * Statistics for this CronArchive run.
-     *
-     * @var AlgorithmStatistics
-     */
-    private $algorithmStats;
-
-    /**
      * The class used to log information to the screen. By default the logger will just use {@link \Piwik\Log}.
      *
      * @var AlgorithmLogger
@@ -131,7 +124,6 @@ class CronArchive
     {
         $this->options = $options;
         $this->algorithmState = new AlgorithmState($this);
-        $this->algorithmStats = new AlgorithmStatistics();
         $this->algorithmLogger = new AlgorithmLogger();
 
         if (empty($queue)) {
@@ -147,6 +139,7 @@ class CronArchive
         $this->processor = $processor;
 
         $this->hooks[] = new Hooks\Logging();
+        $this->hooks[] = new Hooks\Statistics();
     }
 
     /**
@@ -157,11 +150,27 @@ class CronArchive
      */
     public function executeHook($name, $args = array())
     {
-        $args = array_merge(array($this->options, $this->algorithmState, $this->algorithmLogger), $args);
+        $args = array_merge(array($this, $this->options, $this->algorithmState, $this->algorithmLogger), $args);
 
         foreach ($this->hooks as $hookCollection) {
             call_user_func_array(array($hookCollection, $name), $args);
         }
+    }
+
+    /**
+     * Gets a Hooks instance by class name.
+     *
+     * @param string $class
+     * @return Hooks|null
+     */
+    public function getHooks($class)
+    {
+        foreach ($this->hooks as $hooks) {
+            if ($hooks instanceof $class) {
+                return $hooks;
+            }
+        }
+        return null;
     }
 
     public function runScheduledTasksInTrackerMode()
@@ -222,19 +231,21 @@ class CronArchive
 
         $this->runScheduledTasks();
 
-        if (empty($this->algorithmStats->errors)) {
+        /** @var Statistics $stats */
+        $stats = $this->getHooks("Piwik\\CronArchive\\Hooks\\Statistics");
+        if (empty($stats->errors)) {
             // if no error mark this execution as the last successfully run execution
             $this->algorithmState->setLastSuccessRunTimestamp(time());
         }
 
-        $this->executeHook('onEnd', array($this->algorithmStats));
+        $this->executeHook('onEnd');
     }
 
     private function processQueuedJobs()
     {
         $this->executeHook('onStartProcessing');
         $this->processor->startProcessing($finishWhenNoJobs = true);
-        $this->executeHook('onEndProcessing', array($this->algorithmStats));
+        $this->executeHook('onEndProcessing');
     }
 
     public function runScheduledTasks()
@@ -297,16 +308,6 @@ class CronArchive
     }
 
     /**
-     * Returns the {@link $algorithmStats} property.
-     *
-     * @return AlgorithmStatistics
-     */
-    public function getAlgorithmStats()
-    {
-        return $this->algorithmStats;
-    }
-
-    /**
      * @param $idSite
      * @return void
      */
@@ -314,15 +315,11 @@ class CronArchive
     {
         if ($this->options->shouldSkipWebsite($idSite)) {
             $this->executeHook('onSkipWebsiteDayArchiving', array($idSite, 'found in --skip-idsites'));
-
-            ++$this->algorithmStats->skipped;
             return;
         }
 
         if ($idSite <= 0) {
             $this->executeHook('onSkipWebsiteDayArchiving', array($idSite, 'strange ID'));
-
-            ++$this->algorithmStats->skipped;
             return;
         }
 
@@ -330,9 +327,6 @@ class CronArchive
         if ($this->algorithmState->getShouldSkipDayArchive($idSite)) {
             $reason = "was archived " . $this->algorithmState->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
             $this->executeHook('onSkipWebsiteDayArchiving', array($idSite, $reason));
-
-            $this->algorithmStats->skippedDayArchivesWebsites++;
-            $this->algorithmStats->skipped++;
 
             return;
         }

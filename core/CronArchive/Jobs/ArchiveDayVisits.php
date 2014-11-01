@@ -32,6 +32,8 @@ class ArchiveDayVisits extends BaseJob
      */
     public function jobStarting()
     {
+        parent::jobStarting();
+
         list($idSite, $date, $period, $segment) = $this->parseJobUrl();
 
         /**
@@ -48,6 +50,8 @@ class ArchiveDayVisits extends BaseJob
      */
     public function jobFinished($response)
     {
+        parent::jobFinished($response);
+
         $context = $this->makeCronArchiveContext();
 
         list($idSite, $date, $period, $segment) = $this->parseJobUrl();
@@ -62,7 +66,6 @@ class ArchiveDayVisits extends BaseJob
         if ($visits === null) {
             $this->handleError($context, "Empty or invalid response '$response' for website id $idSite, skipping period and segment archiving.\n"
                 . "(URL used: {$this->getUrlString()})");
-            $context->getAlgorithmStats()->skipped++;
             return;
         }
 
@@ -73,7 +76,6 @@ class ArchiveDayVisits extends BaseJob
             && !$shouldArchivePeriods
         ) {
             $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, 'no visits today'));
-            $context->getAlgorithmStats()->skipped++;
             return;
         }
 
@@ -82,7 +84,6 @@ class ArchiveDayVisits extends BaseJob
             && $this->cronArchiveOptions->shouldArchiveAllSites
         ) {
             $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, "no visits in the last $date days"));
-            $context->getAlgorithmStats()->skipped++;
             return;
         }
 
@@ -90,16 +91,11 @@ class ArchiveDayVisits extends BaseJob
             $reason = "was archived " . $context->getAlgorithmState()->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
             $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, $reason));
 
-            $context->getAlgorithmStats()->skippedPeriodsArchivesWebsite++;
-            $context->getAlgorithmStats()->skipped++;
             return;
         }
 
         // mark 'day' period as successfully archived
         Option::set(CronArchive::lastRunKey($idSite, "day"), time());
-
-        $context->getAlgorithmStats()->visitsToday += $visits;
-        $context->getAlgorithmStats()->websitesWithVisitsSinceLastRun++;
 
         $context->queuePeriodAndSegmentArchivingFor($idSite);
 
