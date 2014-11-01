@@ -453,7 +453,11 @@ abstract class LocationProvider
     {
         $ip = \Piwik\Network\IP::fromStringIP($info['ip']);
 
-        return $ip->toString();
+        if ($ip instanceof \Piwik\Network\IPv6 && $ip->isMappedIPv4()) {
+            return $ip->toIPv4String();
+        } else {
+            return $ip->toString();
+        }
     }
 }
 

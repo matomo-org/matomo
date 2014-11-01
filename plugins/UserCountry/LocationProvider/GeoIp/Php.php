@@ -95,7 +95,7 @@ class Php extends GeoIp
     public function getLocation($info)
     {
         $ip = $this->getIpFromInfo($info);
-        $isIPv6 =filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+        $isIPv6 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 
         $result = array();
 
@@ -105,7 +105,7 @@ class Php extends GeoIp
                 case GEOIP_CITY_EDITION_REV0: // city database type
                 case GEOIP_CITY_EDITION_REV1:
                 case GEOIP_CITYCOMBINED_EDITION:
-                    if($isIPv6) {
+                    if ($isIPv6) {
                         $location = geoip_record_by_addr_v6($locationGeoIp, $ip);
                     } else {
                         $location = geoip_record_by_addr($locationGeoIp, $ip);
@@ -122,7 +122,7 @@ class Php extends GeoIp
                     break;
                 case GEOIP_REGION_EDITION_REV0: // region database type
                 case GEOIP_REGION_EDITION_REV1:
-                    if($isIPv6) {
+                    if ($isIPv6) {
                         // NOTE: geoip_region_by_addr_v6 does not exist (yet?), so we
                         // return the country code and an empty region code
                         $location = array(geoip_country_code_by_addr_v6($locationGeoIp, $ip), '');
@@ -135,7 +135,7 @@ class Php extends GeoIp
                     }
                     break;
                 case GEOIP_COUNTRY_EDITION: // country database type
-                    if($isIPv6) {
+                    if ($isIPv6) {
                         $result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr_v6($locationGeoIp, $ip);
                     } else {
                         $result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
@@ -144,7 +144,7 @@ class Php extends GeoIp
                 default: // unknown database type, log warning and fallback to country edition
                     Log::warning("Found unrecognized database type: %s", $locationGeoIp->databaseType);
 
-                    if($isIPv6) {
+                    if ($isIPv6) {
                         $result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr_v6($locationGeoIp, $ip);
                     } else {
                         $result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
@@ -157,7 +157,7 @@ class Php extends GeoIp
         // but not by system tests, IPv6 code is untested.
         $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
         if ($ispGeoIp) {
-            if($isIPv6) {
+            if ($isIPv6) {
                 $isp = geoip_name_by_addr_v6($orgGeoIp, $ip);
             } else {
                 $isp = geoip_org_by_addr($orgGeoIp, $ip);
@@ -169,7 +169,7 @@ class Php extends GeoIp
 
         $orgGeoIp = $this->getGeoIpInstance($key = 'org');
         if ($orgGeoIp) {
-            if($isIPv6) {
+            if ($isIPv6) {
                 $org = geoip_name_by_addr_v6($orgGeoIp, $ip);
             } else {
                 $org = geoip_org_by_addr($orgGeoIp, $ip);
