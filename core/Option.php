@@ -39,11 +39,12 @@ class Option
      * Returns the option value for the requested option `$name`.
      *
      * @param string $name The option name.
+     * @param bool $useCache Whether to use the in-memory cache or not.
      * @return string|false The value or `false`, if not found.
      */
-    public static function get($name)
+    public static function get($name, $useCache = true)
     {
-        return self::getInstance()->getValue($name);
+        return self::getInstance()->getValue($name, $useCache);
     }
 
     /**
@@ -168,10 +169,12 @@ class Option
         }
     }
 
-    protected function getValue($name)
+    protected function getValue($name, $useCache)
     {
         $this->autoload();
-        if (isset($this->all[$name])) {
+        if (isset($this->all[$name])
+            && $useCache
+        ) {
             return $this->all[$name];
         }
 

@@ -207,12 +207,10 @@ class CronArchive
          */
         Piwik::postEvent('CronArchive.init.finish', array($this->algorithmState->getWebsitesToArchive()));
 
-        if (!$this->isContinuationOfArchivingJob()) {
-            Semaphore::deleteLike("CronArchive%");
+        Semaphore::deleteLike("CronArchive%");
 
-            foreach ($this->algorithmState->getWebsitesToArchive() as $idSite) {
-                $this->queueDayArchivingJobsForSite($idSite);
-            }
+        foreach ($this->algorithmState->getWebsitesToArchive() as $idSite) {
+            $this->queueDayArchivingJobsForSite($idSite);
         }
 
         // we allow the consumer to be empty in case another server does the actual job processing
@@ -390,10 +388,5 @@ class CronArchive
 
         $this->algorithmState->getFailedRequestsSemaphore($idSite)->increment();
         $this->algorithmState->getActiveRequestsSemaphore($idSite)->increment();
-    }
-
-    private function isContinuationOfArchivingJob()
-    {
-        return $this->queue->peek() > 0;
     }
 }

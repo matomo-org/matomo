@@ -17,13 +17,21 @@ namespace Piwik\CronArchive;
  *       related: TODO: need to log time of archiving for websites (in summary)
  *
  * Useful stats:
- *    -> websitesWithVisitsSinceLastRun
+ *    -> # of websites with visits today
+ *       * on day archiving finished, ++value if visits > 0
  *    -> days skipped because archives still valid
+ *       * on skip if reason starts w/ 'was archived' ++value
  *    -> periods skipped because archives still valid
+ *       * on skip period archiving w/ reason starts w/ 'was archived' ++value
  *    -> elapsed time of each request
+ *       * on start job, set current time to value
+ *       * on finish job, get start time & calculate elapsed]
  *    -> total number of visits today
+ *       * on day archiving finished, value += visits
  *    -> errors
+ *       * on any error (network or otherwise), push to distributed list (new class AtomicList in core/Concurrency)
  *    -> websites successfully processed
+ *       * on site archiving finished ++value
  */
 class AlgorithmStatistics
 {

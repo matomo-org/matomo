@@ -90,7 +90,7 @@ class ArchiveDayVisits extends BaseJob
             $reason = "was archived " . $context->getAlgorithmState()->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
             $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, $reason));
 
-            $context->getAlgorithmStats()->skippedDayArchivesWebsites++;
+            $context->getAlgorithmStats()->skippedPeriodsArchivesWebsite++;
             $context->getAlgorithmStats()->skipped++;
             return;
         }

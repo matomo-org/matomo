@@ -38,7 +38,6 @@ class Logging extends Hooks
         $logger->log("- Reports for the current week/month/year will be refreshed at most every "
             . $state->getProcessPeriodsMaximumEverySeconds() . " seconds.");
 
-        // Try and not request older data we know is already archived
         $lastSuccessRunTimestamp = $state->getLastSuccessRunTimestamp();
         if ($lastSuccessRunTimestamp !== false) {
             $dateLast = time() - $lastSuccessRunTimestamp;
