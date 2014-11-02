@@ -844,6 +844,8 @@ class CronArchive
 
         $config->log = $log;
 
+        Log::unsetInstance();
+        
         // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
         $logLevel = Log::getInstance()->getLogLevel();
         if ($logLevel < Log::INFO) {

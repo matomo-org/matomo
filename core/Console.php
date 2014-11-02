@@ -119,6 +119,10 @@ class Console extends Application
 
                 $_SERVER['argv'][] = $argument;
             }
+
+            if (!defined('STDIN')) {
+                define('STDIN', fopen('php://stdin','r'));
+            }
         }
     }
 
