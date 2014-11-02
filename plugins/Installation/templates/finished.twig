@@ -1,23 +1,34 @@
 {% extends '@Installation/layout.twig' %}
 
 {% block content %}
+
 <h2>{{ 'Installation_Congratulations'|translate|raw }}</h2>
-
 {{ 'Installation_CongratulationsHelp'|translate|raw }}
+<br/>
 
-    <br/>
 <h2>{{ 'Installation_WelcomeToCommunity'|translate }}</h2>
 <p>
-{{ 'Installation_CollaborativeProject'|translate }}
-</p><p>
+    {{ 'Installation_CollaborativeProject'|translate }}
+</p>
+<p>
     {{ 'Installation_GetInvolved'|translate('<a  target="_blank" href="http://piwik.org/get-involved/">','</a>')|raw }}
-    {{ 'General_HelpTranslatePiwik'|translate("<a target='_blank' href=\'http://piwik.org/translations/\'>","<\/a>")|raw  }}
+    {{ 'General_HelpTranslatePiwik'|translate("<a target='_blank' href=\'http://piwik.org/translations/\'>","<\/a>")|raw }}
 </p>
-    <p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
-    <p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
+<p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
+<p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
+<br/>
 
-<p class="nextStep">
-	<a class="submit" href="index.php">{{ 'General_ContinueToPiwik'|translate }} &raquo;</a>
+<h2>{{ 'Installation_PrivacyOptions'|translate }}</h2>
+<p>{{ 'Installation_PrivacyOptionsHelp'|translate }}</p>
+{% if errorMessage is defined %}
+    <div class="error">
+        <img src="plugins/Morpheus/images/error_medium.png"/>
+        {{ 'General_Error'|translate }}:
+        <br/>- {{ errorMessage|raw }}
+    </div>
+{% endif %}
+{% if form_data is defined %}
+    {% include "genericForm.twig" %}
+{% endif %}
 
-</p>
 {% endblock %}

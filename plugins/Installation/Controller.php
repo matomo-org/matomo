@@ -24,6 +24,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -402,6 +403,26 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $this->getInstallationSteps(),
             __FUNCTION__
         );
+
+        IPAnonymizer::activate();
+
+        $form = new FormPrivacyOptions();
+
+        if ($form->validate()) {
+            try {
+                $anonymiseIpAddresses = (bool) $form->getSubmitValue('anonymise_ip_addresses');
+                if ($anonymiseIpAddresses) {
+                    IPAnonymizer::activate();
+                } else {
+                    IPAnonymizer::deactivate();
+                }
+                Url::redirectToUrl('index.php');
+            } catch (Exception $e) {
+                $view->errorMessage = $e->getMessage();
+            }
+        }
+
+        $view->addForm($form);
 
         $view->showNextStep = false;
         $output = $view->render();
