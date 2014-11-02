@@ -121,9 +121,18 @@ class Report
      * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
      * @var array|false
      * @api
+     *
+     * TODO: shouldn't be public
      */
-    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
+    public $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
     // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
+
+    /**
+     * TODO
+     *
+     * TODO: shouldn't be public
+     */
+    public $temporaryMetrics = array();
 
     /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
@@ -705,6 +714,10 @@ class Report
         $metrics = array();
 
         foreach ($metricsToTranslate as $metric) {
+            if ($metric instanceof ProcessedMetric) {
+                $metric = $metric->getName();
+            }
+
             if (!empty($translations[$metric])) {
                 $metrics[$metric] = $translations[$metric];
             } else {

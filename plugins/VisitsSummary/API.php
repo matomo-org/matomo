@@ -30,13 +30,13 @@ class API extends \Piwik\Plugin\API
         $columns = Piwik::getArrayFromApiParameter($columns);
         $tempColumns = array();
 
-        $bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
+        $actionsPerVisitRequested = $averageVisitDurationRequested = false;
         if (!empty($columns)) {
             // make sure base metrics are there for processed metrics
-            if (false !== ($bounceRateRequested = array_search('bounce_rate', $columns))) {
+            if (false !== ($bounceRateIdx = array_search('bounce_rate', $columns))) {
                 if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
                 if (!in_array('bounce_count', $columns)) $tempColumns[] = 'bounce_count';
-                unset($columns[$bounceRateRequested]);
+                unset($columns[$bounceRateIdx]);
             }
             if (false !== ($actionsPerVisitRequested = array_search('nb_actions_per_visit', $columns))) {
                 if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
@@ -52,16 +52,13 @@ class API extends \Piwik\Plugin\API
             rsort($tempColumns);
             $columns = array_merge($columns, $tempColumns);
         } else {
-            $bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
+            $actionsPerVisitRequested = $averageVisitDurationRequested = true;
             $columns = $this->getCoreColumns($period);
         }
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
 
         // Process ratio metrics from base metrics, when requested
-        if ($bounceRateRequested !== false) {
-            $dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'bounce_count', 'nb_visits', 0));
-        }
         if ($actionsPerVisitRequested !== false) {
             $dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit', 'nb_actions', 'nb_visits', 1));
         }
@@ -70,6 +67,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // remove temp metrics that were used to compute processed metrics
+        unset($tempColumns[array_search('bounce_count', $tempColumns)]);
         $dataTable->deleteColumns($tempColumns);
         return $dataTable;
     }

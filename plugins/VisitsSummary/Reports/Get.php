@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Metrics\BounceCount;
+use Piwik\Plugins\CoreHome\Metrics\BounceRate;
 
 class Get extends \Piwik\Plugin\Report
 {
@@ -18,14 +20,18 @@ class Get extends \Piwik\Plugin\Report
         $this->category      = 'VisitsSummary_VisitsSummary';
         $this->name          = Piwik::translate('VisitsSummary_VisitsSummary');
         $this->documentation = ''; // TODO
-        $this->processedMetrics = false;
+        $this->processedMetrics = array(
+            new BounceRate()
+        );
+        $this->temporaryMetrics = array(
+            new BounceCount()
+        );
         $this->metrics       = array(
             'nb_uniq_visitors',
             'nb_visits',
             'nb_users',
             'nb_actions',
             'nb_actions_per_visit',
-            'bounce_rate',
             'avg_time_on_site',
             'max_actions'
         );

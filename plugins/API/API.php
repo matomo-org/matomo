@@ -22,6 +22,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\SegmentExpression;
 use Piwik\Translate;
@@ -362,7 +363,8 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
-        $columns = Piwik::getArrayFromApiParameter($columns);
+        $columnsToShow = Piwik::getArrayFromApiParameter($columns);
+        $columns = array();
 
         // build columns map for faster checks later on
         $columnsMap = array();
@@ -372,6 +374,7 @@ class API extends \Piwik\Plugin\API
 
         // find out which columns belong to which plugin
         $columnsByPlugin = array();
+        $allColumns = array();
         $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
         foreach ($meta as $reportMeta) {
             // scan all *.get reports
@@ -380,7 +383,7 @@ class API extends \Piwik\Plugin\API
                 && $reportMeta['module'] != 'API'
                 && !empty($reportMeta['metrics'])
             ) {
-                $plugin = $reportMeta['module'];
+                $plugin = $reportMeta['module'];echo $plugin . "." . $reportMeta['action']."\n";
                 foreach ($reportMeta['metrics'] as $column => $columnTranslation) {
                     // a metric from this report has been requested
                     if (isset($columnsMap[$column])
@@ -388,6 +391,7 @@ class API extends \Piwik\Plugin\API
                         || empty($columnsMap)
                     ) {
                         $columnsByPlugin[$plugin][] = $column;
+                        $allColumns[] = $column;
                     }
                 }
             }
@@ -399,7 +403,7 @@ class API extends \Piwik\Plugin\API
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
             $className = Request::getClassNameAPI($plugin);
-            $params['columns'] = implode(',', $columns);
+            $params['columns'] = "";
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
 
             // make sure the table has all columns
@@ -427,6 +431,11 @@ class API extends \Piwik\Plugin\API
                 $this->mergeDataTables($mergedDataTable, $dataTable);
             }
         }
+
+        if (!empty($columnsToShow)) {
+            $mergedDataTable->filter('ColumnDelete', array(array(), $columnsToShow));
+        }
+
         return $mergedDataTable;
     }
 

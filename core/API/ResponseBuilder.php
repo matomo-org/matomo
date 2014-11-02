@@ -18,6 +18,8 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
+use Piwik\Plugin\Report;
+use Piwik\Plugins\API\Renderer\Original;
 
 /**
  */
@@ -193,6 +195,11 @@ class ResponseBuilder
             $datatable     = $genericFilter->calculate($datatable);
         }
 
+        $report = Report::factory($this->apiModule, $this->apiMethod);
+        if (!empty($report)) {
+            $datatable->filter('ComputeProcessedMetrics', array($report));
+        }
+
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $genericFilter = new DataTableGenericFilter($this->request);
@@ -219,12 +226,25 @@ class ResponseBuilder
             $datatable->filter('ColumnDelete', array($hideColumns, $showColumns));
         }
 
+        // TODO: comment
+        if (empty($showColumns)
+            && !empty($report)
+        ) {
+            $datatable->filter('RemoveTemporaryMetrics', array($report));
+        }
+
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
         if (!empty($label)) {
             $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 
             $filter = new LabelFilter($this->apiModule, $this->apiMethod, $this->request);
             $datatable = $filter->filter($label, $datatable, $addLabelIndex);
+        }
+
+        if (!($this->apiRenderer instanceof Original)
+            && !empty($report)
+        ) {
+            $datatable->filter('FormatProcessedMetrics', array($report));
         }
 
         return $this->apiRenderer->renderDataTable($datatable);
