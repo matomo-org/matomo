@@ -10,9 +10,9 @@
 			<bounce_count>0</bounce_count>
 			<sum_visit_length>364</sum_visit_length>
 			<max_actions>3</max_actions>
-			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>3</nb_actions_per_visit>
 			<avg_time_on_site>364</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</result>
 		<result date="From 2010-01-04 to 2010-01-10" />
 		<result date="From 2010-01-11 to 2010-01-17" />
