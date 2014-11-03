@@ -6,10 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit\ScheduledTime;
+use Exception;
+use Piwik\ScheduledTime;
+
 /**
  * @group Core
  */
-class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
+class ScheduledTime_DailyTest extends \PHPUnit_Framework_TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
     private static $_JANUARY_01_1971_09_10_00;
@@ -33,7 +37,7 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeDailyNegative()
     {
         try {
-            $dailySchedule = \Piwik\ScheduledTime::factory('daily');
+            $dailySchedule = ScheduledTime::factory('daily');
             $dailySchedule->setHour(-1);
 
         } catch (Exception $e) {
@@ -48,7 +52,7 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeDailyOver24()
     {
         try {
-            $dailySchedule = \Piwik\ScheduledTime::factory('daily');
+            $dailySchedule = ScheduledTime::factory('daily');
             $dailySchedule->setHour(25);
         } catch (Exception $e) {
             return;
@@ -62,7 +66,7 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
     public function testSetDayScheduledTimeDaily()
     {
         try {
-            $dailySchedule = \Piwik\ScheduledTime::factory('daily');
+            $dailySchedule = ScheduledTime::factory('daily');
             $dailySchedule->setDay(1);
         } catch (Exception $e) {
             return;

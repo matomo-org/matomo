@@ -586,6 +586,9 @@ class Url
      */
     public static function getHostSanitized($host)
     {
+        if (!class_exists("Piwik\\Network\\IPUtils")) {
+            throw new Exception("Piwik\\Network\\IPUtils could not be found, maybe you are using Piwik from git and need to update Composer. $ php composer.phar update");
+        }
         return IPUtils::sanitizeIp($host);
     }
 

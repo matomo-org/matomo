@@ -43,7 +43,7 @@ namespace Piwik\Plugins\Test\Columns
     }
 }
 
-namespace Piwik\Tests\Core\Columns
+namespace Piwik\Tests\Unit\Columns
 {
     use Piwik\Columns\Dimension;
     use Piwik\Config;

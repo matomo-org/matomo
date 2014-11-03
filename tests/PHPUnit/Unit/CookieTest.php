@@ -5,7 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class CookieTest extends PHPUnit_Framework_TestCase
+
+namespace Piwik\Tests\Unit;
+
+class CookieTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testJsonSerialize
@@ -41,11 +44,6 @@ class CookieTest extends PHPUnit_Framework_TestCase
      */
     public function testJsonSerialize($testData, $id)
     {
-        // @see http://bugs.php.net/38680
-        if (PHP_VERSION >= '5.2.0' && PHP_VERSION < '5.2.1') {
-            $this->markTestSkipped('see http://bugs.php.net/38680');
-        }
-
         $this->assertEquals($testData, json_decode(json_encode($testData), $assoc = true), $id);
     }
 
@@ -95,7 +93,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
     public function testSafeUnserialize()
     {
         /*
-         * serialize() uses its internal maachine representation when floats expressed in E-notation,
+         * serialize() uses its internal machine representation when floats expressed in E-notation,
          * which may vary between php versions, OS, and hardware platforms
          */
         $testData = -5.0E+142;

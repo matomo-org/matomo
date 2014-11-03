@@ -1,10 +1,13 @@
 <?php
+
+namespace Piwik\Tests\Unit\DataTable;
+
 use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
-class Test_DataTable_Map extends PHPUnit_Framework_TestCase
+class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -74,7 +77,7 @@ class Test_DataTable_Map extends PHPUnit_Framework_TestCase
         $this->mergeChildren_checkRow($result->getRowFromId(3), 'subDataTable2', 2);
     }
 
-    private function mergeChildren_checkRow($row, $expectedLabel, $expectedColumnValue)
+    private function mergeChildren_checkRow(Row $row, $expectedLabel, $expectedColumnValue)
     {
         $this->assertEquals($expectedLabel, $row->getColumn('label'));
         $this->assertEquals($expectedColumnValue, $row->getColumn('col1'));

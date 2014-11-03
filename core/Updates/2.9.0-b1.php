@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 
 namespace Piwik\Updates;
@@ -15,14 +14,31 @@ use Piwik\Plugin\Manager;
 use Piwik\Updater;
 use Piwik\Updates;
 
-/**
- */
 class Updates_2_9_0_b1 extends Updates
 {
     static function getSql()
     {
         $sql = array();
 
+        $sql = self::updateBrowserEngine($sql);
+
+
+        return $sql;
+    }
+
+    static function update()
+    {
+        Updater::updateDatabase(__FILE__, self::getSql());
+
+        try {
+            Manager::getInstance()->activatePlugin('TestRunner');
+        } catch (\Exception $e) {
+
+        }
+    }
+
+    private static function updateBrowserEngine($sql)
+    {
         $sql[sprintf("ALTER TABLE `%s` ADD COLUMN `config_browser_engine` VARCHAR(10) NOT NULL", Common::prefixTable('log_visit'))] = 1060;
 
         $browserEngineMatch = array(
@@ -55,16 +71,5 @@ class Updates_2_9_0_b1 extends Updates
         }
 
         return $sql;
-    }
-
-    static function update()
-    {
-        Updater::updateDatabase(__FILE__, self::getSql());
-
-        try {
-            Manager::getInstance()->activatePlugin('TestRunner');
-        } catch (\Exception $e) {
-
-        }
     }
 }

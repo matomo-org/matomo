@@ -6,11 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit;
+
 use Piwik\RankingQuery;
 
-class RankingQueryTest extends PHPUnit_Framework_TestCase
+class RankingQueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @group Core
      */
@@ -146,5 +147,4 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
         $message = 'Unexpected query: ' . $query;
         $this->assertEquals($queryNoWhitespace, $expectedNoWhitespace, $message);
     }
-
 }
