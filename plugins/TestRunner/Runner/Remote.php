@@ -90,7 +90,7 @@ class Remote
         }
 
         if ('system' === $testSuite) {
-            $this->ssh->exec("tar -cjf tests/PHPUnit/System/processed/processed.tar.bz2 tests/PHPUnit/System/processed/ plugins/*/tests/System/processed/ --exclude='.gitkeep' --exclude='tests/PHPUnit/System/processed/processed.tar.bz2");
+            $this->ssh->exec("tar -cjf tests/PHPUnit/System/processed/processed.tar.bz2 tests/PHPUnit/System/processed/ plugins/*/tests/System/processed/ --exclude='.gitkeep' --exclude='tests/PHPUnit/System/processed/processed.tar.bz2'");
         }
     }
 }
