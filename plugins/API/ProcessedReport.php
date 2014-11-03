@@ -430,15 +430,14 @@ class ProcessedReport
                                                        'idSubtable' => $idSubtable
                                                   ));
 
-        if (isset($reportMetadata['processedMetrics'])) {
-            $deleteRowsWithNoVisit = '1';
-            if (!empty($reportMetadata['constantRowsCount'])) {
-                $deleteRowsWithNoVisit = '0';
-            }
-            $parameters['filter_add_columns_when_show_all_columns'] = $deleteRowsWithNoVisit;
-        }
-
         if (!empty($segment)) $parameters['segment'] = $segment;
+
+        if (!empty($reportMetadata['processedMetrics'])
+            && empty($reportMetadata['constantRowsCount'])
+            && !empty($reportMetadata['metrics']['nb_visits'])
+        ) {
+            $parameters['filter_add_columns_when_show_all_columns'] = '1';
+        }
 
         $url = Url::getQueryStringFromParameters($parameters);
         $request = new Request($url);
