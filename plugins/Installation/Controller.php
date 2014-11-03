@@ -404,16 +404,26 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             __FUNCTION__
         );
 
-        $form = new FormPrivacyOptions();
+        $form = new FormDefaultSettings();
+
+        /**
+         * Triggered on initialization of the form to customize default Piwik settings (at the end of the installation process).
+         *
+         * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
+         */
+        Piwik::postEvent('Installation.defaultSettingsForm.init', array($form));
+
+        $form->addElement('submit', 'submit', array('value' => Piwik::translate('General_ContinueToPiwik') . ' »', 'class' => 'submit'));
 
         if ($form->validate()) {
             try {
-                $anonymiseIpAddresses = (bool) $form->getSubmitValue('anonymise_ip_addresses');
-                if ($anonymiseIpAddresses) {
-                    IPAnonymizer::activate();
-                } else {
-                    IPAnonymizer::deactivate();
-                }
+                /**
+                 * Triggered on submission of the form to customize default Piwik settings (at the end of the installation process).
+                 *
+                 * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
+                 */
+                Piwik::postEvent('Installation.defaultSettingsForm.submit', array($form));
+
                 Url::redirectToUrl('index.php');
             } catch (Exception $e) {
                 $view->errorMessage = $e->getMessage();
