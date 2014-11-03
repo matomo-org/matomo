@@ -5,6 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit;
+
+use PHPUnit_Framework_TestCase;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager;
@@ -13,11 +17,10 @@ use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\EventDispatcher;
-
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/UIAssetCacheBusterMock.php";
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/PluginManagerMock.php";
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/PluginMock.php";
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/ThemeMock.php";
+use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
+use Piwik\Tests\Unit\AssetManager\PluginMock;
+use Piwik\Tests\Unit\AssetManager\ThemeMock;
+use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
 
 /**
  * @group AssetManagerTest
@@ -50,12 +53,12 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     private $mergedAsset;
 
     /**
-     * @var UIAssetCacheBusterMock
+     * @var \Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock
      */
     private $cacheBuster;
 
     /**
-     * @var PluginManagerMock
+     * @var \Piwik\Tests\Unit\AssetManager\PluginManagerMock
      */
     private $pluginManager;
 

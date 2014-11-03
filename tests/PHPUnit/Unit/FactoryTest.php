@@ -6,24 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit;
+
 use Piwik\BaseFactory;
 
 /**
  * @group Core
- * @group Core_FactoryTest
  */
-class FactoryTest extends PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreatingExistingClassSucceeds()
     {
-        $instance = BaseFactory::factory("Piwik\\Timer");
+        $instance = BaseFactory::factory('Piwik\Timer');
 
         $this->assertNotNull($instance);
-        $this->assertInstanceOf("Piwik\\Timer", $instance);
+        $this->assertInstanceOf('Piwik\Timer', $instance);
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage Invalid class ID
      */
     public function testCreatingInvalidClassThrows()

@@ -1,16 +1,21 @@
 <?php
-use Piwik\Plugin\Dependency;
-use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Version;
-
 /**
  * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Tests\Unit;
+
+use Piwik\Plugin\Dependency;
+use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Version;
+
+/**
  * @group Core
  */
-class DependencyTest extends PHPUnit_Framework_TestCase
+class DependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Dependency

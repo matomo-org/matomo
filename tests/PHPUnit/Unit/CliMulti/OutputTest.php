@@ -5,15 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit\CliMulti;
+
 use Piwik\CliMulti\Output;
+use Piwik\Url;
 
 /**
- * Class OutputTest
  * @group Core
  */
-class OutputTest extends PHPUnit_Framework_TestCase
+class OutputTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Output
      */
@@ -21,7 +23,7 @@ class OutputTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        \Piwik\Url::setHost(false);
+        Url::setHost(false);
         $this->output = new Output('myid');
     }
 

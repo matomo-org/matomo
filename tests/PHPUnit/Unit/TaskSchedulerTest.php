@@ -5,13 +5,20 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit;
+
 use Piwik\EventDispatcher;
+use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTaskTimetable;
 use Piwik\TaskScheduler;
 use Piwik\Tests\Framework\Mock\PiwikOption;
+use ReflectionMethod;
+use ReflectionProperty;
 
-class TaskSchedulerTest extends PHPUnit_Framework_TestCase
+class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
 {
     private static function getTestTimetable()
     {
@@ -195,13 +202,13 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $scheduledTaskThree = new ScheduledTask ($this, 'scheduledTaskThree', null, $dailySchedule);
 
         $caseOneExpectedTable = array(
-            'TaskSchedulerTest.scheduledTaskOne'   => $scheduledTaskOne->getRescheduledTime(),
-            'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 60000,
-            'TaskSchedulerTest.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime(),
+            'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskOne'   => $scheduledTaskOne->getRescheduledTime(),
+            'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 60000,
+            'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime(),
         );
 
         $caseTwoTimetableBeforeExecution = $caseOneExpectedTable;
-        $caseTwoTimetableBeforeExecution['TaskSchedulerTest.scheduledTaskThree'] = $systemTime; // simulate elapsed time between case 1 and 2
+        $caseTwoTimetableBeforeExecution['Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskThree'] = $systemTime; // simulate elapsed time between case 1 and 2
 
         return array(
 
@@ -214,13 +221,13 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
                 // methods that should be executed
                 array(
-                    'TaskSchedulerTest.scheduledTaskOne'
+                    'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskOne'
                 ),
 
                 // timetable before task execution
                 array(
-                    'TaskSchedulerTest.scheduledTaskOne'   => $systemTime,
-                    'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 60000,
+                    'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskOne'   => $systemTime,
+                    'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 60000,
                 ),
                 // configured tasks
                 array(
@@ -237,13 +244,13 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
             array(
                 // expected timetable
                 array(
-                    'TaskSchedulerTest.scheduledTaskOne'   => $scheduledTaskOne->getRescheduledTime(),
-                    'TaskSchedulerTest.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime()
+                    'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskOne'   => $scheduledTaskOne->getRescheduledTime(),
+                    'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime()
                 ),
 
                 // methods that should be executed
                 array(
-                    'TaskSchedulerTest.scheduledTaskThree'
+                    'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskThree'
                 ),
 
                 // timetable before task execution
@@ -277,13 +284,13 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
     {
         // temporarily unload plugins
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
-        $plugins = array_map(function ($p) { return $p->getPluginName(); }, $plugins);
+        $plugins = Plugin\Manager::getInstance()->getLoadedPlugins();
+        $plugins = array_map(function (Plugin $p) { return $p->getPluginName(); }, $plugins);
 
-        \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
+        Plugin\Manager::getInstance()->unloadPlugins();
 
         // make sure the get tasks event returns our configured tasks
-        \Piwik\Piwik::addAction(TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
+        Piwik::addAction(TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
             $tasks = $configuredTasks;
         });
 
@@ -308,7 +315,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
         // restore loaded plugins & piwik options
         EventDispatcher::getInstance()->clearObservers(TaskScheduler::GET_TASKS_EVENT);
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins($plugins);
+        Plugin\Manager::getInstance()->loadPlugins($plugins);
         self::resetPiwikOption();
     }
 

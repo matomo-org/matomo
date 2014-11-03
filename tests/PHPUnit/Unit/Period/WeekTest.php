@@ -5,14 +5,14 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit\Period;
+
 use Piwik\Date;
 use Piwik\Period\Week;
 use Piwik\Translate;
 
-/**
- * Testing Period_Week
- */
-class Period_WeekTest extends PHPUnit_Framework_TestCase
+class Period_WeekTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * test week between 2 years

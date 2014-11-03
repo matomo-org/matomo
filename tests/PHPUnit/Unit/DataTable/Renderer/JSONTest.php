@@ -5,13 +5,16 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit\DataTable\Renderer;
+
 use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 
-class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
+class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {

@@ -1,16 +1,20 @@
 <?php
-use Piwik\Config;
-use Piwik\Url;
-
 /**
  * Piwik - free/libre analytics platform
- *
- * @backupGlobals enabled
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class UrlTest extends PHPUnit_Framework_TestCase
+
+namespace Piwik\Tests\Unit;
+
+use Piwik\Config;
+use Piwik\Url;
+
+/**
+ * @backupGlobals enabled
+ */
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Core

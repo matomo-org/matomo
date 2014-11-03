@@ -1,13 +1,16 @@
 <?php
-use Piwik\Translate\Filter\EmptyTranslations;
-
 /**
  * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class EmptyTranslationsTest extends PHPUnit_Framework_TestCase
+
+namespace Piwik\Tests\Unit\Translate\Filter;
+
+use Piwik\Translate\Filter\EmptyTranslations;
+
+class EmptyTranslationsTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()
     {
