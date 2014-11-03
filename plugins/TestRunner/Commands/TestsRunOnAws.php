@@ -148,7 +148,7 @@ This feature is still beta and there might be problems with pictures and/or bina
     private function buildFinishedMessage($testSuite, $host)
     {
         if (in_array($testSuite, array('system', 'all'))) {
-            $message = "<info>Tests finished. You can browse processed files at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>";
+            $message = "<info>Tests finished. You can browse processed files and download artifacts at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>";
         } elseif ('ui' === $testSuite) {
             $message = "<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/PHPUnit/UI/screenshot-diffs/diffviewer.html</comment>";
         } else {

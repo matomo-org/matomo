@@ -88,5 +88,9 @@ class Remote
             $this->ssh->exec('php console tests:run --options="--colors" --testsuite="unit"');
             $this->ssh->exec('php console tests:run --options="--colors" --testsuite="' . $testSuite . '"');
         }
+
+        if ('system' === $testSuite) {
+            $this->ssh->exec("tar -cjf tests/PHPUnit/System/processed/processed.tar.bz2 tests/PHPUnit/System/processed/ plugins/*/tests/System/processed/ --exclude='.gitkeep' --exclude='tests/PHPUnit/System/processed/processed.tar.bz2");
+        }
     }
 }
