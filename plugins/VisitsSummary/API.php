@@ -26,49 +26,13 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        // array values are comma separated
-        $columns = Piwik::getArrayFromApiParameter($columns);
-        $tempColumns = array();
-
-        $actionsPerVisitRequested = $averageVisitDurationRequested = false;
-        if (!empty($columns)) {
-            // make sure base metrics are there for processed metrics
-            if (false !== ($bounceRateIdx = array_search('bounce_rate', $columns))) {
-                if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
-                if (!in_array('bounce_count', $columns)) $tempColumns[] = 'bounce_count';
-                unset($columns[$bounceRateIdx]);
-            }
-            if (false !== ($actionsPerVisitRequested = array_search('nb_actions_per_visit', $columns))) {
-                if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
-                if (!in_array('nb_actions', $columns)) $tempColumns[] = 'nb_actions';
-                unset($columns[$actionsPerVisitRequested]);
-            }
-            if (false !== ($averageVisitDurationRequested = array_search('avg_time_on_site', $columns))) {
-                if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
-                if (!in_array('sum_visit_length', $columns)) $tempColumns[] = 'sum_visit_length';
-                unset($columns[$averageVisitDurationRequested]);
-            }
-            $tempColumns = array_unique($tempColumns);
-            rsort($tempColumns);
-            $columns = array_merge($columns, $tempColumns);
-        } else {
-            $actionsPerVisitRequested = $averageVisitDurationRequested = true;
-            $columns = $this->getCoreColumns($period);
-        }
-
+        $columns = $this->getCoreColumns($period);
         $dataTable = $archive->getDataTableFromNumeric($columns);
 
         // Process ratio metrics from base metrics, when requested
-        if ($actionsPerVisitRequested !== false) {
-            $dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit', 'nb_actions', 'nb_visits', 1));
-        }
-        if ($averageVisitDurationRequested !== false) {
-            $dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
-        }
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit', 'nb_actions', 'nb_visits', 1));
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
 
-        // remove temp metrics that were used to compute processed metrics
-        unset($tempColumns[array_search('bounce_count', $tempColumns)]);
-        $dataTable->deleteColumns($tempColumns);
         return $dataTable;
     }
 

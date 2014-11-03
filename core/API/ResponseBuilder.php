@@ -222,6 +222,10 @@ class ResponseBuilder
         // after queued filters are run so processed metrics can be removed, too)
         $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
+        if (empty($showColumns)) {
+            $showColumns = Common::getRequestVar('columns', '', 'string', $this->request); // TODO: note backwards compatibility
+        }
+
         if ($hideColumns !== '' || $showColumns !== '') {
             $datatable->filter('ColumnDelete', array($hideColumns, $showColumns));
         }
