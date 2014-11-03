@@ -40,8 +40,7 @@ function getPiwikDomain()
 {
     foreach($_SERVER['argv'] as $param) {
         $pattern = '--piwik-domain=';
-        $equalSign = strpos($param, $pattern);
-        if($equalSign !== false) {
+        if(false !== strpos($param, $pattern)) {
             return substr($param, strlen($pattern));
         }
     }
