@@ -404,8 +404,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             __FUNCTION__
         );
 
-        IPAnonymizer::activate();
-
         $form = new FormPrivacyOptions();
 
         if ($form->validate()) {
