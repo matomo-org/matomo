@@ -433,10 +433,10 @@ class ProcessedReport
         if (!empty($segment)) $parameters['segment'] = $segment;
 
         if (!empty($reportMetadata['processedMetrics'])
-            && empty($reportMetadata['constantRowsCount'])
             && !empty($reportMetadata['metrics']['nb_visits'])
         ) {
-            $parameters['filter_add_columns_when_show_all_columns'] = '1';
+            $deleteRowsWithNoVisits = empty($reportMetadata['constantRowsCount']) ? '1' : '0';
+            $parameters['filter_add_columns_when_show_all_columns'] = $deleteRowsWithNoVisits;
         }
 
         $url = Url::getQueryStringFromParameters($parameters);
