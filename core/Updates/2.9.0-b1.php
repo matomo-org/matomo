@@ -10,6 +10,7 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\Updater;
 use Piwik\Updates;
@@ -22,13 +23,14 @@ class Updates_2_9_0_b1 extends Updates
 
         $sql = self::updateBrowserEngine($sql);
 
-
         return $sql;
     }
 
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
+
+        self::updateIPAnonymizationSettings();
 
         try {
             Manager::getInstance()->activatePlugin('TestRunner');
@@ -71,5 +73,20 @@ class Updates_2_9_0_b1 extends Updates
         }
 
         return $sql;
+    }
+
+    private static function updateIPAnonymizationSettings()
+    {
+        $optionName = 'PrivacyManager.ipAnonymizerEnabled';
+
+        $value = Option::get($optionName);
+
+        if ($value !== false) {
+            // If the config is defined, nothing to do
+            return;
+        }
+
+        // We disable IP anonymization if it wasn't configured (because by default it has gone from disabled to enabled)
+        Option::set($optionName, '0');
     }
 }

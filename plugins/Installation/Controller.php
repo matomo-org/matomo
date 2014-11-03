@@ -24,6 +24,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -362,8 +363,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
-        $this->markInstallationAsCompleted();
-
         $view = new View(
             '@Installation/trackingCode',
             $this->getInstallationSteps(),
@@ -395,6 +394,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function finished()
     {
+        $this->checkPiwikIsNotInstalled();
+
         $this->markInstallationAsCompleted();
 
         $view = new View(
@@ -402,6 +403,34 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $this->getInstallationSteps(),
             __FUNCTION__
         );
+
+        $form = new FormDefaultSettings();
+
+        /**
+         * Triggered on initialization of the form to customize default Piwik settings (at the end of the installation process).
+         *
+         * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
+         */
+        Piwik::postEvent('Installation.defaultSettingsForm.init', array($form));
+
+        $form->addElement('submit', 'submit', array('value' => Piwik::translate('General_ContinueToPiwik') . ' »', 'class' => 'submit'));
+
+        if ($form->validate()) {
+            try {
+                /**
+                 * Triggered on submission of the form to customize default Piwik settings (at the end of the installation process).
+                 *
+                 * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
+                 */
+                Piwik::postEvent('Installation.defaultSettingsForm.submit', array($form));
+
+                Url::redirectToUrl('index.php');
+            } catch (Exception $e) {
+                $view->errorMessage = $e->getMessage();
+            }
+        }
+
+        $view->addForm($form);
 
         $view->showNextStep = false;
         $output = $view->render();
