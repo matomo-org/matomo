@@ -68,7 +68,7 @@ return array(
         'date'         => $dateTime,
         'periods'      => array('day'),
         'setDateLastN' => true,
-        'apiModule'    => 'VisitsSummary',
+        'apiModule'    => 'VisitFrequency',
         'apiAction'    => 'get',
         'testSuffix'   => '_' . 'VisitsSummary.get' . '_firstSite_lastN')
     )

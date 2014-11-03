@@ -13,7 +13,6 @@
 			<nb_users>Users</nb_users>
 			<nb_actions>Actions</nb_actions>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 			<max_actions>Maximum actions in one visit</max_actions>
 		</metrics>
@@ -23,9 +22,11 @@
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 		</metricsDocumentation>
+		<processedMetrics>
+			<bounce_rate>Bounce Rate</bounce_rate>
+		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>VisitsSummary_get</uniqueId>
@@ -36,9 +37,9 @@
 		<nb_users>Users</nb_users>
 		<nb_actions>Actions</nb_actions>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-		<bounce_rate>Bounce Rate</bounce_rate>
 		<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 		<max_actions>Maximum actions in one visit</max_actions>
+		<bounce_rate>Bounce Rate</bounce_rate>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
@@ -47,9 +48,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
 			<max_actions>1</max_actions>
-			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>1%</bounce_rate>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -57,9 +58,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>2</nb_actions>
 			<max_actions>2</max_actions>
-			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>2</nb_actions_per_visit>
 			<avg_time_on_site>00:06:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -67,9 +68,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
-			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -77,9 +78,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
-			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</result>
 		<result prettyDate="Thursday 7 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -87,9 +88,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
-			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</result>
 		<result prettyDate="Friday 8 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -97,9 +98,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
-			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</result>
 		<result prettyDate="Saturday 9 January 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -107,9 +108,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
-			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</result>
 	</reportData>
 	<reportMetadata>

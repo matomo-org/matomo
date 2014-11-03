@@ -499,29 +499,29 @@ class ProcessedReport
                 array('label' => $reportMetadata['dimension']),
                 $columns
             );
+        }
 
-            if (isset($reportMetadata['processedMetrics']) && is_array($reportMetadata['processedMetrics'])) {
-                $processedMetricsAdded = Metrics::getDefaultProcessedMetrics();
-                foreach ($reportMetadata['processedMetrics'] as $processedMetricId => $processedMetricTranslation) {
-                    // this processed metric can be displayed for this report
+        if (isset($reportMetadata['processedMetrics']) && is_array($reportMetadata['processedMetrics'])) {
+            $processedMetricsAdded = Metrics::getDefaultProcessedMetrics();
+            foreach ($reportMetadata['processedMetrics'] as $processedMetricId => $processedMetricTranslation) {
+                // this processed metric can be displayed for this report
 
-                    if ($processedMetricTranslation && $processedMetricId !== $processedMetricTranslation) {
-                        $columns[$processedMetricId] = $processedMetricTranslation;
-                    } elseif (isset($processedMetricsAdded[$processedMetricId])) {
-                        // for instance in case 'nb_visits' => 'nb_visits' we will translate it
-                        $columns[$processedMetricId] = $processedMetricsAdded[$processedMetricId];
-                    }
+                if ($processedMetricTranslation && $processedMetricId !== $processedMetricTranslation) {
+                    $columns[$processedMetricId] = $processedMetricTranslation;
+                } elseif (isset($processedMetricsAdded[$processedMetricId])) {
+                    // for instance in case 'nb_visits' => 'nb_visits' we will translate it
+                    $columns[$processedMetricId] = $processedMetricsAdded[$processedMetricId];
                 }
             }
-echo print_r($columns, true);
-            // Display the global Goal metrics
-            if (isset($reportMetadata['metricsGoal'])) {
-                $metricsGoalDisplay = array('revenue');
-                // Add processed metrics to be displayed for this report
-                foreach ($metricsGoalDisplay as $goalMetricId) {
-                    if (isset($reportMetadata['metricsGoal'][$goalMetricId])) {
-                        $columns[$goalMetricId] = $reportMetadata['metricsGoal'][$goalMetricId];
-                    }
+        }
+
+        // Display the global Goal metrics
+        if (isset($reportMetadata['metricsGoal'])) {
+            $metricsGoalDisplay = array('revenue');
+            // Add processed metrics to be displayed for this report
+            foreach ($metricsGoalDisplay as $goalMetricId) {
+                if (isset($reportMetadata['metricsGoal'][$goalMetricId])) {
+                    $columns[$goalMetricId] = $reportMetadata['metricsGoal'][$goalMetricId];
                 }
             }
         }
