@@ -7,7 +7,9 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
@@ -109,19 +111,28 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
             );
         }
 
+        return $result;
+    }
+
+    // TODO: this test should be in an integration test for Piwik\Archive. setup code for getting metrics from different
+    //       plugins is non-trivial, so not done now.
+    public function test_Archive_getNumeric_ReturnsMetricsFromDifferentPlugins_WhenThoseMetricsAreRequested()
+    {
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTimeRange = '2010-01-03,2010-01-06';
         $columns = 'nb_visits,' . Archiver::getRecordName('conversion_rate');
+        $idSite1 = self::$fixture->idSite1;
 
-        $result[] = array(
-            'VisitsSummary.get', array('idSite'                 => 'all', 'date' => $dateTimeRange, 'periods' => 'range',
-                                       'otherRequestParameters' => array('columns' => $columns),
-                                       'testSuffix'             => '_getMetricsFromDifferentReports')
+        $archive = Archive::build($idSite1, 'range', $dateTimeRange);
+        $result = $archive->getDataTableFromNumeric($columns);
+        $this->assertEquals(
+            array(
+                'nb_visits' => 4,
+                'Goal_conversion_rate' => 100
+            ),
+            $result
         );
-
-
-        return $result;
     }
 
     public static function getOutputPrefix()
