@@ -14,6 +14,7 @@
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
+			<nb_users_returning>Returning Users</nb_users_returning>
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
@@ -26,12 +27,14 @@
 		<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 		<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
+		<nb_users_returning>Returning Users</nb_users_returning>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010" />
 		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>1</nb_visits_returning>
 			<nb_actions_returning>5</nb_actions_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
@@ -40,6 +43,7 @@
 		</result>
 		<result prettyDate="Wednesday 6 January 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>1</nb_visits_returning>
 			<nb_actions_returning>5</nb_actions_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
@@ -48,6 +52,7 @@
 		</result>
 		<result prettyDate="Thursday 7 January 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>1</nb_visits_returning>
 			<nb_actions_returning>5</nb_actions_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
@@ -56,6 +61,7 @@
 		</result>
 		<result prettyDate="Friday 8 January 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>1</nb_visits_returning>
 			<nb_actions_returning>5</nb_actions_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
@@ -64,6 +70,7 @@
 		</result>
 		<result prettyDate="Saturday 9 January 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>1</nb_visits_returning>
 			<nb_actions_returning>5</nb_actions_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
