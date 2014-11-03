@@ -13,7 +13,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Exceptions\HtmlMessageException;
-use Piwik\Exceptions\HtmlMessageExceptionInterface;
 use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
@@ -615,8 +614,8 @@ class FrontController extends Singleton
     {
         $debugTrace = $ex->getTraceAsString();
 
-        if ($ex instanceof HtmlMessageExceptionInterface) {
-            $message = $ex->getMessage();
+        if (method_exists($ex, 'getHtmlMessage')) {
+            $message = $ex->getHtmlMessage();
         } else {
             $message = Common::sanitizeInputValue($ex->getMessage());
         }

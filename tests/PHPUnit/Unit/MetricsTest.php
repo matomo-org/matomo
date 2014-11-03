@@ -1,14 +1,19 @@
 <?php
-use Piwik\Access;
-use Piwik\Metrics;
-
 /**
  * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class Core_MetricsTest extends PHPUnit_Framework_TestCase
+
+namespace Piwik\Tests\Unit;
+
+use Piwik\Access;
+use Piwik\Metrics;
+use Piwik\Site;
+use Piwik\Tests\Framework\Mock\FakeAccess;
+
+class Core_MetricsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
@@ -117,7 +122,7 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetUnit($column, $expected)
     {
-        \Piwik\Site::setSites(array(
+        Site::setSites(array(
             1 => array('name' => 'TestSite', 'currency' => 'EUR')
         ));
 

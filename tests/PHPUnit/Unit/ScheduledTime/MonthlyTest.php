@@ -5,12 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit\ScheduledTime;
+
 use Piwik\ScheduledTime\Monthly;
 
 /**
  * @group Core
  */
-class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
+class ScheduledTime_MonthlyTest extends \PHPUnit_Framework_TestCase
 {
     public static $_JANUARY_01_1971_09_00_00; // initialized below class definition
     public static $_JANUARY_02_1971_09_00_00;

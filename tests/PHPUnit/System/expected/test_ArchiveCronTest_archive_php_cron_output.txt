@@ -1,8 +1,8 @@
 
 -------------------------------------------------------
 Using this 'archive.php' script is no longer recommended.
-Please use '/path/to/php /home/matt/dev/piwik-master/tests/PHPUnit/proxy/../../..//console core:archive --url=http://localhost/piwik-master/tests/PHPUnit/proxy/index.php' instead.
-To get help use '/path/to/php /home/matt/dev/piwik-master/tests/PHPUnit/proxy/../../..//console core:archive --help'
+Please use '/path/to/php /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console core:archive --url=http://localhost/tests/PHPUnit/proxy/index.php' instead.
+To get help use '/path/to/php /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console core:archive --help'
 See also: http://piwik.org/docs/setup-auto-archiving/
 
 If you cannot use the console because it requires CLI

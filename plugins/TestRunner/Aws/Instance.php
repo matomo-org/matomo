@@ -128,15 +128,21 @@ class Instance
     {
         $instances = $resources->getPath('Reservations/*/Instances');
 
+        if (empty($instances)) {
+            return;
+        }
+
         $instanceToUse = null;
 
         foreach ($instances as $index => $instance) {
-            foreach ($instance['Tags'] as $tag) {
-                if (!empty($this->testSuite)
-                    && $tag['Key'] === 'TestSuite'
-                    && $tag['Value'] === $this->testSuite) {
+            if (!empty($instance['Tags'])) {
+                foreach ($instance['Tags'] as $tag) {
+                    if (!empty($this->testSuite)
+                        && $tag['Key'] === 'TestSuite'
+                        && $tag['Value'] === $this->testSuite) {
 
-                    $instanceToUse = $instance;
+                        $instanceToUse = $instance;
+                    }
                 }
             }
         }

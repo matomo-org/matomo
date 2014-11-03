@@ -5,29 +5,30 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit;
+
 use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
+use Piwik\Date;
 use Piwik\Plugin;
+use Piwik\Version;
+use ReflectionClass;
 
 /**
  * @group Core
  */
-class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
+class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 {
-
     public function test_version2_0_4()
     {
-        $validTill = '2014-11-02';
+        $validTill = '2014-11-25';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Period', 'factory', $validTill);
-
-        $validTill = '2014-11-02';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Config', 'getConfigSuperUserForBackwardCompatibility', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'addEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'removeEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'addEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'removeEntry', $validTill);
-
-        $validTill = '2014-11-02';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\SettingsPiwik', 'rewriteTmpPathWithHostname', $validTill);
 
         $validTill = '2015-02-06';
@@ -59,8 +60,8 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
 
     private function assertDeprecatedMethodIsRemoved($className, $method, $removalDate)
     {
-        $now         = \Piwik\Date::now();
-        $removalDate = \Piwik\Date::factory($removalDate);
+        $now         = Date::now();
+        $removalDate = Date::factory($removalDate);
 
         $class        = new ReflectionClass($className);
         $methodExists = $class->hasMethod($method);
@@ -79,8 +80,8 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
 
     private function assertDeprecatedClassIsRemoved($className, $removalDate)
     {
-        $now         = \Piwik\Date::now();
-        $removalDate = \Piwik\Date::factory($removalDate);
+        $now         = Date::now();
+        $removalDate = Date::factory($removalDate);
 
         $classExists = class_exists($className);
 
@@ -97,7 +98,7 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
 
     private function assertDeprecatedMethodIsRemovedInPiwik3($className, $method)
     {
-        $version = \Piwik\Version::VERSION;
+        $version = Version::VERSION;
 
         $class        = new ReflectionClass($className);
         $methodExists = $class->hasMethod($method);

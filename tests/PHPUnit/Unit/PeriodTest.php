@@ -5,6 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit;
+
 use Piwik\Date;
 use Piwik\Period\Day;
 use Piwik\Period;
@@ -12,7 +15,7 @@ use Piwik\Period\Month;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
 
-class PeriodTest extends PHPUnit_Framework_TestCase
+class PeriodTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
@@ -95,7 +98,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     {
         try {
             Period\Factory::build('inValid', Date::today());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
         $this->fail('Expected Exception not raised');
