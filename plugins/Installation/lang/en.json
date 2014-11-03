@@ -15,6 +15,7 @@
         "DatabaseSetupLogin": "Login",
         "DatabaseSetupServer": "Database Server",
         "DatabaseSetupTablePrefix": "Table Prefix",
+        "DatabaseSetupDatabaseEngine": "Database Engine",
         "Email": "email",
         "Extension": "extension",
         "Filesystem": "Filesystem",
