@@ -184,53 +184,35 @@ class Model
         }
 
         try {
-            $sequence = new Sequence($tableName);
-            $sequence->create();
+            if (ArchiveTableCreator::NUMERIC_TABLE === ArchiveTableCreator::getTypeFromTableName($tableName)) {
+                $sequence = new Sequence($tableName);
+                $sequence->create();
+            }
         } catch (Exception $e) {
 
         }
     }
 
-    /**
-     * Locks the archive table to generate a new archive ID.
-     *
-     * We lock to make sure that
-     * if several archiving processes are running at the same time (for different websites and/or periods)
-     * then they will each use a unique archive ID.
-     *
-     * @return int
-     */
-    public function insertNewArchiveId($numericTable, $idSite, $date)
+    public function allocateNewArchiveId($numericTable)
     {
         $sequence  = new Sequence($numericTable);
         $idarchive = $sequence->getNextId();
-
-        $insertSql = "INSERT INTO $numericTable "
-            . " SELECT IFNULL( MAX(idarchive), 0 ) + 1,
-                            '" . (int)$idarchive . "',
-                            " . (int)$idSite . ",
-                            '" . $date . "',
-                            '" . $date . "',
-                            0,
-                            '" . $date . "',
-                            0 "
-            . " FROM $numericTable as tb1";
-        Db::get()->exec($insertSql);
 
         return $idarchive;
     }
 
     public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
     {
-        // without advisory lock here, the DELETE would acquire Exclusive Lock
-        $this->acquireArchiveTableLock($numericTable);
+        $dbLockName = "deletePreviousArchiveStatus.$numericTable.$archiveId";
 
-        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag
-                . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
+        // without advisory lock here, the DELETE would acquire Exclusive Lock
+        $this->acquireArchiveTableLock($dbLockName);
+
+        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag . "')",
             array($archiveId)
         );
 
-        $this->releaseArchiveTableLock($numericTable);
+        $this->releaseArchiveTableLock($dbLockName);
     }
 
     public function insertRecord($tableName, $fields, $record, $name, $value)
@@ -260,24 +242,16 @@ class Model
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    protected function acquireArchiveTableLock($numericTable)
+    protected function acquireArchiveTableLock($dbLockName)
     {
-        $dbLockName = $this->getArchiveLockName($numericTable);
-
         if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("allocateNewArchiveId: Cannot get named lock $dbLockName.");
+            throw new Exception("Cannot get named lock $dbLockName.");
         }
     }
 
-    protected function releaseArchiveTableLock($numericTable)
+    protected function releaseArchiveTableLock($dbLockName)
     {
-        $dbLockName = $this->getArchiveLockName($numericTable);
         Db::releaseDbLock($dbLockName);
-    }
-
-    protected function getArchiveLockName($numericTable)
-    {
-        return "allocateNewArchiveId.$numericTable";
     }
 
 }

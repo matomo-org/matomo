@@ -10,10 +10,24 @@ namespace Piwik;
 
 use Exception;
 
+/**
+ * Used for generating auto increment ids.
+ *
+ * Example:
+ *
+ * $sequence = new Sequence('my_sequence_name');
+ * $id = $sequence->getNextId();
+ * $db->insert('anytable', array('id' => $id, '...' => '...'));
+ */
 class Sequence
 {
     private $name;
 
+    /**
+     * The name of the table or sequence you want to get an id for.
+     *
+     * @param string $name eg 'archive_numeric_2014_11'
+     */
     public function __construct($name)
     {
         $this->name = $name;
@@ -24,21 +38,18 @@ class Sequence
         return Common::prefixTable('sequence');
     }
 
-    public function getCurrentId()
+    /**
+     * Creates / initializes a new sequence.
+     *
+     * @param int $initialValue
+     * @return int The actually used value to initialize the table.
+     *
+     * @throws \Exception in case a sequence having this name already exists.
+     */
+    public function create($initialValue = 0)
     {
-        $table = $this->getTableName();
-        $sql   = 'SELECT value FROM ' . $table . ' WHERE name = ? LIMIT 1';
+        $initialValue = (int) $initialValue;
 
-        $db = Db::get();
-        $id = $db->fetchOne($sql, array($this->name));
-
-        if (!empty($id)) {
-            return (int) $id;
-        }
-    }
-
-    public function create($initialValue = 1)
-    {
         $table = $this->getTableName();
         $db    = $this->getDb();
 
@@ -47,20 +58,19 @@ class Sequence
         return $initialValue;
     }
 
-    public function getQueryToCreateSequence($initialValue)
-    {
-        $table = $this->getTableName();
-        $query = sprintf("INSERT INTO %s (name, value) VALUES ('%s', %d)", $table, $this->name, $initialValue);
-
-        return $query;
-    }
-
-    public  function getNextId()
+    /**
+     * Get / allocate / reserve a new id for the current sequence. Important: Getting the next id will fail in case
+     * no such sequence exists. Make sure to create one if needed, see {@link create()}.
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function getNextId()
     {
         $table = $this->getTableName();
         $sql   = 'UPDATE ' . $table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
 
-        $db       = Db::get();
+        $db       = $this->getDb();
         $result   = $db->query($sql, array($this->name));
         $rowCount = $result->rowCount();
 
@@ -71,6 +81,24 @@ class Sequence
         $createdId = $db->lastInsertId();
 
         return (int) $createdId;
+    }
+
+    /**
+     * Returns the current max id.
+     * @return int
+     * @internal
+     */
+    public function getCurrentId()
+    {
+        $table = $this->getTableName();
+        $sql   = 'SELECT value FROM ' . $table . ' WHERE name = ?';
+
+        $db = $this->getDb();
+        $id = $db->fetchOne($sql, array($this->name));
+
+        if (!empty($id) || '0' === $id || 0 === $id) {
+            return (int) $id;
+        }
     }
 
     private function getDb()

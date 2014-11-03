@@ -31,17 +31,17 @@ class Core_DataAccess_ModelTest extends IntegrationTestCase
 
     public function test_insertNewArchiveId()
     {
-        $this->assertCreatedArchiveId(1);
-        $this->assertCreatedArchiveId(2);
-        $this->assertCreatedArchiveId(3);
-        $this->assertCreatedArchiveId(4);
-        $this->assertCreatedArchiveId(5, 2);
-        $this->assertCreatedArchiveId(6, 2);
+        $this->assertAllocatedArchiveId(1);
+        $this->assertAllocatedArchiveId(2);
+        $this->assertAllocatedArchiveId(3);
+        $this->assertAllocatedArchiveId(4);
+        $this->assertAllocatedArchiveId(5);
+        $this->assertAllocatedArchiveId(6);
     }
 
-    private function assertCreatedArchiveId($expectedId, $siteId = 1)
+    private function assertAllocatedArchiveId($expectedId)
     {
-        $id = $this->model->insertNewArchiveId($this->tableName, $siteId, '2014-01-01 00:01:02');
+        $id = $this->model->allocateNewArchiveId($this->tableName);
 
         $this->assertEquals($expectedId, $id);
     }
