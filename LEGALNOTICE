@@ -228,6 +228,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: https://github.com/ccampbell/mousetrap
 	License: Apache 2.0
 
+	Name: PHP-DI
+	Link: http://php-di.org/
+	License: MIT (Expat)
+
 
 THIRD-PARTY CONTENT
 
