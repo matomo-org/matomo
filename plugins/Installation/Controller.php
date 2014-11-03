@@ -363,8 +363,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
-        $this->markInstallationAsCompleted();
-
         $view = new View(
             '@Installation/trackingCode',
             $this->getInstallationSteps(),
@@ -396,6 +394,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function finished()
     {
+        $this->checkPiwikIsNotInstalled();
+
         $this->markInstallationAsCompleted();
 
         $view = new View(
