@@ -1,6 +1,6 @@
 {
     "Installation": {
-        "AnonymiseIPAddressesField": "Anonymise IP addresses of users in Piwik (better privacy)<br>When users visit your website, Piwik will not use the full IP Address (such as 213.34.51.91) but instead Piwik will anonymise it first (to 213.34.51.0). IP address anonymisation is one the requirement set by the privacy laws in some countries such as Germany.",
+        "AnonymiseIPAddressesField": "Anonymise IP addresses of users in Piwik (better privacy)<br>When users visit your website, Piwik will not use the full IP Address (such as 213.34.51.91) but instead Piwik will anonymise it first (to 213.34.0.0). IP address anonymisation is one the requirement set by the privacy laws in some countries such as Germany.",
         "CollaborativeProject": "Piwik is a collaborative project, built with love by people from all over the world.",
         "ConfigurationHelp": "Your Piwik configuration file appears to be misconfigured. You can either remove config\/config.ini.php and resume installation, or correct the database connection settings.",
         "ConfirmDeleteExistingTables": "Are you sure you want to delete the tables: %s from your database? WARNING: DATA FROM THESE TABLES CANNOT BE RECOVERED!",
