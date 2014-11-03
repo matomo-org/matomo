@@ -172,7 +172,7 @@ class PrivacyManager extends Plugin
         $form->addElement('checkbox', 'anonymise_ip', null,
             array(
                 'content' => '&nbsp;&nbsp;' . Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp') . '<br>'
-                    . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp'),
+                    . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp', array('213.34.51.91', '213.34.0.0')),
             ));
 
         // default values
