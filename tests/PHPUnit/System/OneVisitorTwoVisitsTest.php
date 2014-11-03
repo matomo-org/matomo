@@ -77,18 +77,17 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
         );
         foreach ($bulkUrls as &$url) {
             $url = urlencode($url);
-        }return array(
-        array('API.get', array('idSite'                 => $idSite,
-            'date'                   => '2009-10-01',
-            'format'                 => 'csv',
-            'periods'                => array('month'),
-            'setDateLastN'           => true,
-            'otherRequestParameters' => $enExtraParam,
-            'language'               => 'en',
-            'testSuffix'             => '_csv'))
-    );
+        }
         return array(
-            array('all', array('idSite' => $idSite,
+            array('VisitFrequency.get', array('idSite' => $idSite,
+                'date' => $dateTime,
+                'otherRequestParameters' => array(
+                    'hideColumns' => 'nb_users',
+                )
+            ))
+        );
+        return array(
+            array('VisitFrequency.get', array('idSite' => $idSite,
                                'date' => $dateTime,
                                'otherRequestParameters' => array(
                                    'hideColumns' => 'nb_users',

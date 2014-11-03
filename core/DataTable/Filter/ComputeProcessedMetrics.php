@@ -55,7 +55,10 @@ class ComputeProcessedMetrics extends BaseFilter
             /** @var ProcessedMetric $processedMetric */ // TODO: should remove this and if below eventually.
             foreach ($processedMetrics as $processedMetric) {
                 if ($processedMetric instanceof ProcessedMetric) {
-                    $row->addColumn($processedMetric->getName(), $processedMetric->compute($row));
+                    $processedMetricName = $processedMetric->getName();
+                    if ($row->getColumn($processedMetricName) === false) {
+                        $row->addColumn($processedMetricName, $processedMetric->compute($row));
+                    }
                 }
             }
         }

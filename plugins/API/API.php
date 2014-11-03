@@ -383,7 +383,7 @@ class API extends \Piwik\Plugin\API
                 && $reportMeta['module'] != 'API'
                 && !empty($reportMeta['metrics'])
             ) {
-                $plugin = $reportMeta['module'];echo $plugin . "." . $reportMeta['action']."\n";
+                $plugin = $reportMeta['module'];
                 foreach ($reportMeta['metrics'] as $column => $columnTranslation) {
                     // a metric from this report has been requested
                     if (isset($columnsMap[$column])

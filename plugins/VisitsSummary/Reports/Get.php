@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugins\CoreHome\Metrics\BounceCount;
 use Piwik\Plugins\CoreHome\Metrics\BounceRate;
 
 class Get extends \Piwik\Plugin\Report
@@ -22,9 +21,6 @@ class Get extends \Piwik\Plugin\Report
         $this->documentation = ''; // TODO
         $this->processedMetrics = array(
             new BounceRate()
-        );
-        $this->temporaryMetrics = array(
-            new BounceCount()
         );
         $this->metrics       = array(
             'nb_uniq_visitors',

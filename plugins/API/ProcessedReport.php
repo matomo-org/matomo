@@ -513,7 +513,7 @@ class ProcessedReport
                     }
                 }
             }
-
+echo print_r($columns, true);
             // Display the global Goal metrics
             if (isset($reportMetadata['metricsGoal'])) {
                 $metricsGoalDisplay = array('revenue');

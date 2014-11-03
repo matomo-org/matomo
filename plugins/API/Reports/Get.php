@@ -26,10 +26,9 @@ class Get extends Report
 
         $this->reportsToMerge = $this->getReportsToMerge();
 
-        // TODO
-        //$this->category      = 'VisitsSummary_VisitsSummary';
+        $this->category      = 'API';
         $this->name          = 'All Metrics'; // TODO: translate
-        //$this->documentation = ''; // TODO
+        $this->documentation = ''; // TODO
 
         $this->processedMetrics = array();
         foreach ($this->reportsToMerge as $report) {

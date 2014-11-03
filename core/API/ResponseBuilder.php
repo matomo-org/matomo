@@ -226,15 +226,10 @@ class ResponseBuilder
             $showColumns = Common::getRequestVar('columns', '', 'string', $this->request); // TODO: note backwards compatibility
         }
 
-        if ($hideColumns !== '' || $showColumns !== '') {
-            $datatable->filter('ColumnDelete', array($hideColumns, $showColumns));
-        }
-
-        // TODO: comment
-        if (empty($showColumns)
-            && !empty($report)
+        if (!empty($hideColumns)
+            || !empty($showColumns)
         ) {
-            $datatable->filter('RemoveTemporaryMetrics', array($report));
+            $datatable->filter('ColumnDelete', array($hideColumns, $showColumns));
         }
 
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
