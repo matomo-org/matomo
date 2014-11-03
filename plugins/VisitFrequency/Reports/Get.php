@@ -25,7 +25,11 @@ class Get extends \Piwik\Plugin\Report
             'bounce_rate_returning',
             'nb_actions_per_visit_returning',
             'nb_uniq_visitors_returning',
-            'nb_users_returning'
+            'sum_visit_length_returning',
+            'nb_users_returning',
+            'nb_visits_converted_returning',
+            'sum_visit_length_returning',
+            'max_actions_returning'
         );
         $this->processedMetrics = false;
         $this->order = 40;

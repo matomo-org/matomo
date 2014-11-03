@@ -1786,7 +1786,10 @@
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
+			<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
+			<nb_visits_converted_returning>Number of converted returning visits</nb_visits_converted_returning>
+			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2085,7 +2088,10 @@
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
+			<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
+			<nb_visits_converted_returning>Number of converted returning visits</nb_visits_converted_returning>
+			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
 		</metrics>
 		<metricsDocumentation>
 			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
