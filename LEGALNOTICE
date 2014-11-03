@@ -73,6 +73,14 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Link:  https://github.com/piwik/piwik/blob/master/libs/UserAgentParser/
 	License:  New BSD
 
+	Name:  Piwik/Decompress
+	Link:  https://github.com/piwik/component-decompress
+	License:  LGPL v3.0
+
+	Name:  Piwik/Network
+	Link:  https://github.com/piwik/component-network
+	License:  LGPL v3.0
+
 
 THIRD-PARTY COMPONENTS AND LIBRARIES
 
