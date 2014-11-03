@@ -121,7 +121,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTimeRange = '2010-01-03,2010-01-06';
-        $columns = 'nb_visits,' . Archiver::getRecordName('conversion_rate');
+        $columns = array('nb_visits', 'Goal_conversion_rate');
         $idSite1 = self::$fixture->idSite1;
 
         $archive = Archive::build($idSite1, 'range', $dateTimeRange);
