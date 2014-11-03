@@ -9,15 +9,82 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugin\Manager;
+use Piwik\Sequence;
 use Piwik\Updater;
 use Piwik\Updates;
 
 class Updates_2_9_0_b1 extends Updates
 {
     static function getSql()
+    {
+        $sql = self::getSqlsForMigratingUserSettingsToDevicesDetection();
+        $sql = self::addQueryToCreateSequenceTable($sql);
+        $sql = self::addArchivingIdMigrationQueries($sql);
+
+        return $sql;
+    }
+
+    static function update()
+    {
+        Updater::updateDatabase(__FILE__, self::getSql());
+
+        try {
+            Manager::getInstance()->activatePlugin('TestRunner');
+        } catch (\Exception $e) {
+
+        }
+    }
+
+    private static function addArchivingIdMigrationQueries($sql)
+    {
+        $tables = ArchiveTableCreator::getTablesArchivesInstalled();
+
+        foreach ($tables as $table) {
+            $type = ArchiveTableCreator::getTypeFromTableName($table);
+
+            if ($type === ArchiveTableCreator::NUMERIC_TABLE) {
+                $maxId = Db::fetchOne('SELECT MAX(idarchive) FROM ' . $table);
+
+                if (!empty($maxId)) {
+                    $maxId = (int) $maxId + 500;
+                } else {
+                    $maxId = 1;
+                }
+
+                $sequence = new Sequence($table);
+                $query = $sequence->getQueryToCreateSequence($maxId);
+                $sql[$query] = false;
+            }
+        }
+
+        return $sql;
+    }
+
+    /**
+     * @return string
+     */
+    private static function addQueryToCreateSequenceTable($sql)
+    {
+        $dbSettings = new Db\Settings();
+        $engine  = $dbSettings->getEngine();
+        $table   = Common::prefixTable('sequence');
+
+        $query = "CREATE TABLE `$table` (
+                `name` VARCHAR(120) NOT NULL,
+                `value` BIGINT(20) UNSIGNED NOT NULL,
+                PRIMARY KEY(`name`)
+        ) ENGINE=$engine DEFAULT CHARSET=utf8";
+
+        $sql[$query] = 1050;
+
+        return $sql;
+    }
+
+    private static function getSqlsForMigratingUserSettingsToDevicesDetection()
     {
         $sql = array();
 
@@ -45,10 +112,10 @@ class Updates_2_9_0_b1 extends Updates
 
         $browserEngineMatch = array(
             'Trident' => array('IE'),
-            'Gecko'   => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
-            'KHTML'   => array('KO'),
-            'WebKit'  => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
-            'Presto'  => array('OP'),
+            'Gecko' => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
+            'KHTML' => array('KO'),
+            'WebKit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
+            'Presto' => array('OP'),
         );
 
         // Update visits, fill in now missing engine

@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Sequence;
 
 /**
  * Cleans up outdated archives
@@ -181,6 +182,13 @@ class Model
                 throw $e;
             }
         }
+
+        try {
+            $sequence = new Sequence($tableName);
+            $sequence->create();
+        } catch (Exception $e) {
+
+        }
     }
 
     /**
@@ -194,27 +202,22 @@ class Model
      */
     public function insertNewArchiveId($numericTable, $idSite, $date)
     {
-        $this->acquireArchiveTableLock($numericTable);
-
-        $locked = self::PREFIX_SQL_LOCK . Common::generateUniqId();
+        $sequence  = new Sequence($numericTable);
+        $idarchive = $sequence->getNextId();
 
         $insertSql = "INSERT INTO $numericTable "
             . " SELECT IFNULL( MAX(idarchive), 0 ) + 1,
-                                '" . $locked . "',
-                                " . (int)$idSite . ",
-                                '" . $date . "',
-                                '" . $date . "',
-                                0,
-                                '" . $date . "',
-                                0 "
+                            '" . (int)$idarchive . "',
+                            " . (int)$idSite . ",
+                            '" . $date . "',
+                            '" . $date . "',
+                            0,
+                            '" . $date . "',
+                            0 "
             . " FROM $numericTable as tb1";
         Db::get()->exec($insertSql);
 
-        $this->releaseArchiveTableLock($numericTable);
-
-        $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
-        $id = Db::get()->fetchOne($selectIdSql, $locked);
-        return $id;
+        return $idarchive;
     }
 
     public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
