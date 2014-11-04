@@ -49,7 +49,7 @@ __How can I change the base image (AMI) that is used for AWS tests?__
 
 In the future once everything is completely automated we would simple create a new instance out of ((Vagrant || Docker) && Puppet) whenever we need a change but it takes a lot of time to do this and is not worth it right now.
 
-__ How do I create a new EC2 key/pair for a developer?__
+__How do I create a new EC2 key/pair for a developer?__
 
 1. Go to: https://console.aws.amazon.com/ec2/v2/home?region=us-east-1
 2. Click `Create Key Pair`
