@@ -47,7 +47,10 @@ abstract class ProcessedMetric
     /**
      * TODO
      */
-    abstract public function format($value);
+    public function format($value)
+    {
+        return $value;
+    }
 
     /**
      * TODO

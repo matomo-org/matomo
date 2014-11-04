@@ -21,18 +21,13 @@ use Piwik\SettingsPiwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function get($idSite, $period, $date, $segment = false, $columns = false)
+    public function get($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
         $columns = $this->getCoreColumns($period);
         $dataTable = $archive->getDataTableFromNumeric($columns);
-
-        // Process ratio metrics from base metrics, when requested
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit', 'nb_actions', 'nb_visits', 1));
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
-
         return $dataTable;
     }
 
