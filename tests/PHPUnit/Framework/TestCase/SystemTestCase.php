@@ -569,13 +569,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      */
     public static function deleteArchiveTables()
     {
-        foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-            Log::debug("Dropping table $table");
-
-            Db::query("DROP TABLE IF EXISTS `$table`");
-        }
-
-        ArchiveTableCreator::refreshTableList($forceReload = true);
+        DbHelper::deleteArchiveTables();
     }
 
     protected function skipWhenPhp53()
