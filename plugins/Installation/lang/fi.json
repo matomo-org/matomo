@@ -95,6 +95,7 @@
         "SystemCheckPhpPdoAndMysqli": "Lisätietoa: %1$sPHP PDO%2$s ja %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "PHP pitää olla asennettuna \"Standard PHP Library (SPL)\"-asetuksen kanssa.",
         "SystemCheckSummaryNoProblems": "Hurraa! Piwikin asennuksessa ei ole ongelmia. Taputa itseäsi olkapäälle.",
+        "SystemCheckSummaryThereWereErrors": "Oi voi... Piwik on havainnut joitakin %1$skriittisiä ongelmia%2$s asennuksen yhteydessä. %3$sNämä ongelmat tulisi korjata välittömästi.%4$s",
         "SystemCheckSummaryThereWereWarnings": "Järjestelmässä on joitakin ongelmia. Piwik ajetaan, mutta saatat kokea joitakin pienehköjä ongelmia.",
         "SystemCheckTimeLimitHelp": "Jos verkkosivuilla on paljon liikennettä, arkistointiprosessi saattaa vaatia enemmän aikaa.<br \/>Muokkaa asetusta max_execution_time php.ini-tiedostossa tarvittaessa.",
         "SystemCheckTracker": "Seurantapalvelimen tila",

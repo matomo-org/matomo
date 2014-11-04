@@ -5,6 +5,7 @@
         "FromSearchEngines": "Z wyszukiwarek",
         "FromWebsites": "Ze stron",
         "IncomingTraffic": "Ruch przychodzący",
+        "LoopsInline": "%s odświeżeń stron",
         "OutgoingTraffic": "Ruch wychodzący",
         "ToFollowingSiteSearchesInline": "%s wewnętrzne wyszukiwania"
     }

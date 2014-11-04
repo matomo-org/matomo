@@ -19,6 +19,7 @@
         "ByInstallingNewThemeFromMarketplace": "%sasentamalla uuden teeman kaupasta%s",
         "ByXDevelopers": "%s ohjelmoijalta",
         "Changelog": "Muutokset",
+        "ChangeSettingsPossible": "Voit muuttaa tämän liitännäisen %sasetuksia%s",
         "CorePluginTooltip": "Standardiliitännäisillä ei ole versioita, koska ne ovat Piwikin levittämiä.",
         "Deactivate": "Poistettu käytöstä",
         "Developer": "Kehittäjä",

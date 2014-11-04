@@ -36,6 +36,7 @@
         "HelpExcludedIps": "Piwik のトラッキングから除外したい IP のリストを、1行に1つずつ入力します。 IP にはワイルドカード（例：%1$s や %2$s）を使用することができます。",
         "JsTrackingTagHelp": "以下は、すべてのページに埋め込むべき JavaScript トラッキングタグです",
         "KeepURLFragments": "ページ URL フラグメントトラッキング",
+        "KeepURLFragmentsHelp": "以下のチェックボックスをチェックしない場合、ページ URL フラグメント (%1$s の後全て) は、トラッキングの際、削除されます。%2$s will be tracked as %3$s",
         "KeepURLFragmentsHelp2": "上の個人のウェブサイトに対し、この設定を上書きすることもできます。",
         "KeepURLFragmentsLong": "ページ URL をトラッキングする際は、ページ URL フラグメントを保持してください。",
         "ListOfIpsToBeExcludedOnAllWebsites": "次の IP は、全ウェブサイトのトラッキングから除外されます。",

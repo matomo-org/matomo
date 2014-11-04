@@ -119,6 +119,7 @@
         "TablesDeletedSuccess": "Postojeće Piwik tabele su uspešno obrisane",
         "TablesFound": "Sledeće tabele su pronađene u bazi podataka",
         "TablesReuse": "Nastavak korišćenja postojećih tabela",
+        "TablesUpdatedSuccess": "Baza podataka je uspešno nadograđena sa verzije %1$s na verziju %2$s!",
         "TablesWarningHelp": "Ili izaberite opciju da nastavite sa korišćenjem postojećih tabela ili opciju nove instalacije čime ćete obrisati postojeće podatke iz baze",
         "TablesWithSameNamesFound": "Neke %1$s tabele u vašoj bazi %2$s imaju ista imena kao i tabele koje Piwik pokušava da kreira",
         "Timezone": "vremenska zona",
