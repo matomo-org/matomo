@@ -26,6 +26,7 @@
         "ColumnVisits": "Numărul total de vizite, indiferent dacă a fost declanșată scop sau nu.",
         "ColumnVisitsProductDocumentation": "Numărul de vizite pe pagina de Produs\/Categorie. Acest lucru este, de asemenea, utilizat pentru a procesa %s rata de conversie. Această valoare este în raport, dacă pe Ecommerce urmarire a fost configurat pe paginile de produs \/ categorie.",
         "Contains": "conţine %s",
+        "ConversionByTypeReportDocumentation": "Acest raport oferă informații detaliate despre performanța obiectivului (conversii, ratele de conversie și venituri pe vizita), pentru fiecare dintre categoriile disponibile în panoul din stânga. %s Vă rugăm să faceți clic pe una dintre categoriile pentru a vizualiza raportul. %s Pentru mai multe informații, citiți documentația %sUrmarire Goluri%s",
         "ConversionRate": "%s rata conversie",
         "Conversions": "%s conversii",
         "ConversionsOverview": "Privire Generala Conversii",

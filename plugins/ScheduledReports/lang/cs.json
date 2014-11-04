@@ -6,6 +6,7 @@
         "AggregateReportsFormat_TablesOnly": "(Výchozí) zobrazit tabulky hlášení (grafy pouze pro klíčová měření)",
         "AlsoSendReportToTheseEmails": "Odesílat hlášení také na tyto e-maily (jeden e-mail na řádek):",
         "AreYouSureDeleteReport": "Opravdu chcete odstranit toto hlášení a jeho plán?",
+        "CancelAndReturnToReports": "Zrušit a %svrátit se k seznamu hlášení%s",
         "CreateAndScheduleReport": "Vytvořit a naplánovat hlášení",
         "CreateReport": "Vytvořit hlášení",
         "CustomVisitorSegment": "Vlastní segment návštěvníka",

@@ -6,10 +6,12 @@
         "DayComparedToPreviousYear": "ten sam dzień w poprzednim roku",
         "Filter": "Filtr",
         "FilterOnlyNew": "Tylko nowe",
+        "IgnoredChanges": "Zmiany wpływające na mniej niż %s wizyt były ignorowane.",
         "MonthComparedToPreviousMonth": "poprzedni miesiąc",
         "MonthComparedToPreviousYear": "ten sam miesiąc w poprzednim roku",
         "NoResultMatchesCriteria": "Żaden wiesz nie spełnia kryteria",
         "OverviewWidgetTitle": "Spostrzeżenia Ogólne",
+        "TitleRowNewDetails": "\"%1$s\" wzrosły o %2$s i jest nowa w porównaniu z %3$s.",
         "WeekComparedToPreviousWeek": "poprzedni tydzień",
         "YearComparedToPreviousYear": "poprzedni rok"
     }

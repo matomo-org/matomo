@@ -34,6 +34,7 @@
         "VisitorProfile": "Profilul vizitator",
         "VisitorsInRealTime": "Vizitatori în timp real",
         "VisitorsLastVisit": "Ultima vizită a acestui vizitator a avut loc cu %s zile în urmă.",
-        "VisitsFrom": "%1$s%2$s vizite%3$s de la"
+        "VisitsFrom": "%1$s%2$s vizite%3$s de la",
+        "VisitSummary": "A petrecut un total de %1$s%2$s pe site-ul%3$s și%4$s vizionari %5$s paginile %6$s în vizite de .%7$s"
     }
 }

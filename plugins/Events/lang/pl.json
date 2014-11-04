@@ -1,5 +1,6 @@
 {
     "Events": {
+        "AvgEventValue": "Średnia wartość zdarzenia: %s",
         "AvgValue": "Średnia wartość",
         "AvgValueDocumentation": "Średnia wszystkich wartości w tym przypadku",
         "Event": "Zdarzenie",
@@ -17,6 +18,7 @@
         "MinValue": "Minimalna wartość",
         "MinValueDocumentation": "Minimalna wartość tego wydarzenia",
         "SecondaryDimension": "Drugi wymiar to %s.",
+        "SwitchToSecondaryDimension": "Przełącz na %s",
         "TopEvents": "Najważniejsze wydarzenia",
         "TotalEvents": "Liczba zdarzeń",
         "TotalEventsDocumentation": "Łączna liczba zdarzeń",
