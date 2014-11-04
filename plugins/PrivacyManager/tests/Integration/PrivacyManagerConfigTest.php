@@ -13,8 +13,6 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Plugins_SitesManagerTest
- *
  * @group Plugins
  */
 class PrivacyManagerConfigTest extends IntegrationTestCase
@@ -59,16 +57,16 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function test_ipAnonymizerEnabled()
     {
-        $this->assertFalse($this->config->ipAnonymizerEnabled);
-
-        $this->config->ipAnonymizerEnabled = true;
-
         $this->assertTrue($this->config->ipAnonymizerEnabled);
+
+        $this->config->ipAnonymizerEnabled = false;
+
+        $this->assertFalse($this->config->ipAnonymizerEnabled);
     }
 
     public function test_ipAddressMaskLength()
     {
-        $this->assertSame(1, $this->config->ipAddressMaskLength);
+        $this->assertSame(2, $this->config->ipAddressMaskLength);
 
         $this->config->ipAddressMaskLength = '19';
 
@@ -81,8 +79,8 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
         $expected = array(
             'existingEntry' => 'test',
-            'PrivacyManager.ipAddressMaskLength' => 1,
-            'PrivacyManager.ipAnonymizerEnabled' => false,
+            'PrivacyManager.ipAddressMaskLength' => 2,
+            'PrivacyManager.ipAnonymizerEnabled' => true,
             'PrivacyManager.doNotTrackEnabled'   => true,
             'PrivacyManager.useAnonymizedIpForVisitEnrichment' => true,
         );

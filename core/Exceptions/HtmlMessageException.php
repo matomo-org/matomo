@@ -16,7 +16,15 @@ use Exception;
  *
  * @api
  */
-class HtmlMessageException extends Exception implements HtmlMessageExceptionInterface
+class HtmlMessageException extends Exception
 {
-    // empty
+    /**
+     * Returns the exception message.
+     *
+     * @return string
+     */
+    public function getHtmlMessage()
+    {
+        return $this->getMessage();
+    }
 }

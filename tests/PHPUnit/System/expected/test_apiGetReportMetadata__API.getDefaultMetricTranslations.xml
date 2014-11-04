@@ -82,5 +82,6 @@
 		<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 		<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
+		<nb_users_returning>Returning Users</nb_users_returning>
 	</row>
 </result>

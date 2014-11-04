@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "क्रियान्वित किया जाएगा कि एसक्यूएल प्रश्नों की सूची देखने और कॉपी करने के लिए यहां क्लिक करें",
-        "CreatingBackupOfConfigurationFile": "%s में विन्यास फाइल का बैकअप बनाना",
         "CriticalErrorDuringTheUpgradeProcess": "अद्यतन प्रक्रिया के दौरान गंभीर त्रुटि:",
         "DatabaseUpgradeRequired": "डेटाबेस नवीनीकरण आवश्यक",
         "DownloadingUpdateFromX": "%s से अद्यतन डाउनलोड कर रहा है",

@@ -139,7 +139,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
             // if the files are not exact, perform a diff to check if they are truly different
             resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
                 if (data.misMatchPercentage != 0) {
-                    fail("Processed screenshot does not match expected for " + screenshotFileName + ".");
+                    fail("Processed screenshot does not match expected for " + screenshotFileName + ". (mismatch = " + data.misMatchPercentage + ")");
                     return;
                 }
 

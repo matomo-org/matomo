@@ -5,7 +5,7 @@
 
 <table class="infosServer" id="systemCheckRequired">
     <tr>
-        {% set MinPHP %}{{ 'Installation_SystemCheckPhp'|translate }} &gt; {{ infos.phpVersion_minimum }}{% endset %}
+        {% set MinPHP %}{{ 'Installation_SystemCheckPhp'|translate }} &gt;= {{ infos.phpVersion_minimum }}{% endset %}
         <td class="label">{{ MinPHP }}</td>
 
         <td>

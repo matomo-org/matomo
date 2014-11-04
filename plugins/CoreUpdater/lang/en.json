@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries that will get executed",
-        "CreatingBackupOfConfigurationFile": "Creating a backup of the configuration file in %s",
         "CriticalErrorDuringTheUpgradeProcess": "Critical Error during the update process:",
         "DatabaseUpgradeRequired": "Database Upgrade Required",
         "DisablingIncompatiblePlugins": "Disabling incompatible plugins: %s",

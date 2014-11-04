@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Common;
 use Piwik\Menu\MenuReporting;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -16,8 +17,11 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $menu->addActionsItem('', $this->urlForAction('menuGetPageUrls'), 15);
 
+        $idSite  = Common::getRequestVar('idSite', 0, 'int');
+        $idSites = Common::getRequestVar('idSites', '', 'string');
+
         $actions = new Actions();
-        if ($actions->isSiteSearchEnabled()) {
+        if ($actions->isSiteSearchEnabled($idSites, $idSite)) {
             $menu->addActionsItem('Actions_SubmenuSitesearch', $this->urlForAction('indexSiteSearch'), 5);
         }
     }

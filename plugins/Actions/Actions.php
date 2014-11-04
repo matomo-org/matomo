@@ -107,10 +107,8 @@ class Actions extends \Piwik\Plugin
         $jsFiles[] = "plugins/Actions/javascripts/actionsDataTable.js";
     }
 
-    public function isSiteSearchEnabled()
+    public function isSiteSearchEnabled($idSites, $idSite)
     {
-        $idSite  = Common::getRequestVar('idSite', 0, 'int');
-        $idSites = Common::getRequestVar('idSites', '', 'string');
         $idSites = Site::getIdSitesFromIdSitesString($idSites, true);
 
         if (!empty($idSite)) {

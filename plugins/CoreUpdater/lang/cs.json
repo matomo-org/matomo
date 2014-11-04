@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Klikněte zde pro zobrazení SQL dotazů s možností je zkopírovat, které mají být spuštěny",
-        "CreatingBackupOfConfigurationFile": "Vytvářím zálohu konfiguračního souboru v %s",
         "CriticalErrorDuringTheUpgradeProcess": "Při aktualizaci nastala kritická chyba:",
         "DatabaseUpgradeRequired": "Vyžadováno povýšení databáze",
         "DisablingIncompatiblePlugins": "Zakazování nekompatibilních zásuvných modulů %s",

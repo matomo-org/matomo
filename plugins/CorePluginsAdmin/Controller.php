@@ -284,7 +284,7 @@ class Controller extends Plugin\ControllerAdmin
     protected function getPluginsInfo($themesOnly = false)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
-        $plugins = $pluginManager->returnLoadedPluginsInfo();
+        $plugins = $pluginManager->loadAllPluginsAndGetTheirInfo();
 
         foreach ($plugins as $pluginName => &$plugin) {
 
@@ -370,7 +370,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->lastError   = $lastError;
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
-        $view->plugins         = Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
+        $view->plugins         = Plugin\Manager::getInstance()->loadAllPluginsAndGetTheirInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());

@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Klik hier voor een lijst van de SQL query's dat zullen worden uitgevoerd.",
-        "CreatingBackupOfConfigurationFile": "Bezig met het maken van een backup van het configuratie bestand in %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kritieke fout tijdens upgrade:",
         "DatabaseUpgradeRequired": "Database upgrade vereist",
         "DownloadingUpdateFromX": "Bezig met downloaden van de update van %s",
@@ -37,6 +36,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik Database zal ge-upgrade worden van versie %1$s naar de nieuwe versie %2$s",
         "PluginDescription": "Piwik updating mechanisme",
         "ReadyToGo": "Klaar om te starten?",
+        "TheFollowingDimensionsWillBeUpgradedX": "De volgende onderdelen zullen worden geupdate: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "De volgende plugins zullen ge-upgrade worden: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Somige plugins die u gebruikt zijn bijgewerkt op de Marktplaats:",
         "ThereIsNewVersionAvailableForUpdate": "Er is een nieuwe versie van Piwik beschikbaar als update",

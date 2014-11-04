@@ -332,7 +332,7 @@ class SystemCheck
     public static function isPhpVersionValid($phpVersion)
     {
         global $piwik_minimumPHPVersion;
-        return version_compare($piwik_minimumPHPVersion, $phpVersion) === -1;
+        return version_compare($piwik_minimumPHPVersion, $phpVersion) <= 0;
     }
 
 }
