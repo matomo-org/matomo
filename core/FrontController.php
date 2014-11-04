@@ -19,7 +19,6 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session;
-use Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -113,6 +112,8 @@ class FrontController extends Singleton
 
     protected function makeController($module, $action, &$parameters)
     {
+        $container = StaticContainer::getContainer();
+
         $controllerClassName = $this->getClassNameController($module);
 
         // TRY TO FIND ACTION IN CONTROLLER
@@ -120,7 +121,7 @@ class FrontController extends Singleton
 
             $class = $this->getClassNameController($module);
             /** @var $controller Controller */
-            $controller = new $class;
+            $controller = $container->make($class);
 
             $controllerAction = $action;
             if ($controllerAction === false) {
@@ -146,7 +147,7 @@ class FrontController extends Singleton
             $parameters['widgetModule'] = $module;
             $parameters['widgetMethod'] = $action;
 
-            return array(new CoreHomeController(), 'renderWidget');
+            return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderWidget');
         }
 
         // TRY TO FIND ACTION IN REPORT
@@ -157,7 +158,7 @@ class FrontController extends Singleton
             $parameters['reportModule'] = $module;
             $parameters['reportAction'] = $action;
 
-            return array(new CoreHomeController(), 'renderReportWidget');
+            return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportWidget');
         }
 
         if (!empty($action) && Report::PREFIX_ACTION_IN_MENU === substr($action, 0, strlen(Report
@@ -169,7 +170,7 @@ class FrontController extends Singleton
                 $parameters['reportModule'] = $module;
                 $parameters['reportAction'] = $reportAction;
 
-                return array(new CoreHomeController(), 'renderReportMenu');
+                return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportMenu');
             }
         }
 
