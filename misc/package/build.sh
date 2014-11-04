@@ -65,6 +65,9 @@ function organizePackage() {
     mkdir piwik/tests
     mv README.md piwik/tests/
 
+    sed -i '/Plugins\[\] = TestRunner/d' config/global.ini.php
+    rm -rf piwik/plugins/TestRunner
+
     cp piwik/misc/How\ to\ install\ Piwik.html .
     if [ -e piwik/misc/package ]; then
         cp piwik/misc/package/WebAppGallery/*.* .
