@@ -53,12 +53,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     );
 
     /**
-     * @Inject
-     * @var TrackerCodeGenerator
-     */
-    private $trackerGenerator;
-
-    /**
      * Get installation steps
      *
      * @return array installation steps
@@ -382,7 +376,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // Load the Tracking code and help text from the SitesManager
         $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
-        $viewTrackingHelp->jsTag = $this->trackerGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $viewTrackingHelp->jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
 

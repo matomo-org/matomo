@@ -23,12 +23,6 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
-     * @Inject
-     * @var TrackerCodeGenerator
-     */
-    private $trackerGenerator;
-
-    /**
      * Main view showing listing of websites and settings
      */
     public function index()
@@ -102,7 +96,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $idSite = Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
-        $jsTag = $this->trackerGenerator->generate($idSite, SettingsPiwik::getPiwikUrl());
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $jsTag = $javascriptGenerator->generate($idSite, SettingsPiwik::getPiwikUrl());
         $site  = new Site($idSite);
 
         return $this->renderTemplate('displayJavascriptCode', array(
