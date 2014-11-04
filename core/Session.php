@@ -9,7 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Exceptions\HtmlMessageException;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Session;
 
@@ -132,7 +132,10 @@ class Session extends Zend_Session
                 $e->getMessage()
             );
 
-            throw new HtmlMessageException($message, $e->getCode(), $e);
+            $ex = new MissingFilePermissionException($message, $e->getCode(), $e);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
     }
 
