@@ -6,10 +6,15 @@
         "LearnWaysToParticipate": "Ontdek op welke manieren je kunt %s bijdragen%s",
         "ManuallySendEmailTo": "Gelieve uw bericht handmatig te zenden naar",
         "PluginDescription": "Stuur uw feedback naar het Piwik team. Deel uw ideeën en suggesties met ons!",
+        "RateFeatureLeaveMessageDislike": "We vinden het jammer te horen dat je het niks vind! Laat ons alsjeblieft weten hoe we het kunnen verbeteren.",
+        "RateFeatureLeaveMessageLike": "We zijn blij dat je het leuk vind! Laat ons weten wat het leukste vind of als je een goed idee hebt.",
+        "RateFeatureThankYouTitle": "Bedank voor het waarderen '%s'!",
         "SendFeedback": "Stuur Feedback",
         "SpecialRequest": "Heeft u een speciaal verzoek aan het Piwik team?",
         "ThankYou": "Bedankt voor uw bijdrage om Piwik beter te maken!",
         "TopLinkTooltip": "Vertel ons je waat je ervan denkt, of vraag om Professionele Ondersteuning.",
-        "VisitTheForums": "Bezoek de %s Forums %s"
+        "ViewAnswersToFAQ": "Bekijk de antwoorden van %sveelgestelde vragen%s",
+        "VisitTheForums": "Bezoek de %s Forums %s",
+        "WantToThankConsiderDonating": "Vind je Piwik geweldig en wil je ons bedanken?"
     }
 }
