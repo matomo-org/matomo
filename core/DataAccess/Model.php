@@ -21,7 +21,6 @@ use Piwik\Sequence;
  */
 class Model
 {
-    const PREFIX_SQL_LOCK = "locked_";
 
     /**
      * Returns the archives IDs that have already been invalidated and have been since re-processed.
