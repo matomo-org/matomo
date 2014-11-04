@@ -1,0 +1,8 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Määrittää järjestelmän oletusasetuksen kaikille käyttäjille.",
+        "GlobalSettingInlineHelp": "Käyttäjät voivat poistaa käytöstä\/ottaa käyttöön vasemman valikon riippumatta järjestelmän oletusasetuksesta.",
+        "GlobalSettingTitle": "Vasen valikko oletuksena käytössä",
+        "UserSettingTitle": "Ota vasen raportointivalikko käyttöön"
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "DevicesDetection": {
+        "BrowserEngineDocumentation": "Aquest gràfic mostra els navegadors dels vostres visitants dividits en famílies. %s La informació més important per als desenvolupadors web es quin tipus de sistema de renderització estan utilitzant els seus visitants. Les etiquetiquetes contenen els noms dels sistemes, seguit pel navegador més comú utilitzant aquest sistema."
+    }
+}

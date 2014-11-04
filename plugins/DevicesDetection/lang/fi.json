@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngineDocumentation": "Tämä kuvaaja näyttää käyttäjien selaimen nimen mukaan. %s Tärkein tieto verkkosivun kehittäjille on käyttäjien selaimen taustajärjestelmä. Taustajärjestelmä löytyy hakasuluissa nimen perästä.",
         "BrowserVersions": "Selainversiot",
         "Camera": "Kamera",
         "CarBrowser": "Auton selain",

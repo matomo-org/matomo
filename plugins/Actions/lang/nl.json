@@ -33,6 +33,7 @@
         "ExitPageTitles": "Uitgaande pagina titels",
         "ExitPageTitlesReportDocumentation": "Dit rapport bevat informatie over de titels van de uitgaande pagina's in de opgegeven periode.",
         "LearnMoreAboutSiteSearchLink": "Leer meer over de manier waarop bezoekers de zoekoptie in uw website gebruiken.",
+        "OneSearch": "1 zoekopdracht",
         "OutlinkDocumentation": "Een outlink is een link die de bezoeker leidt uit de buurt van uw website (naar een ander domein).",
         "OutlinksReportDocumentation": "Dit rapport geeft een hiërarchische lijst van outlink URL's die zijn aangeklikt door uw bezoekers.",
         "PagesReportDocumentation": "Dit rapport bevat informatie over de pagina-URL's die zijn bezocht. %s De tabel is hiërarchisch georganiseerd. De URL's worden weergegeven in een map structuur.",

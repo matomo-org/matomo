@@ -3,6 +3,7 @@
         "Campaigns": "Kampanje",
         "ColumnCampaign": "Kampanja",
         "ColumnSearchEngine": "Spletni Iskalnik",
+        "ColumnSocial": "Družbeno omrežje",
         "ColumnWebsite": "Spletna stran",
         "ColumnWebsitePage": "Spletna stran",
         "DetailsByReferrerType": "Podrobnosti o tipu napotitelja",
@@ -13,6 +14,9 @@
         "DistinctSearchEngines": "različni brskalniki",
         "DistinctWebsites": "različne spletne strani",
         "Keywords": "Ključne Besede",
+        "Referrer": "Napotitelj",
+        "Referrers": "Napotitelji",
+        "ReferrersOverview": "Pregled napotiteljev",
         "SearchEngines": "Spletni iskalniki",
         "SubmenuSearchEngines": "Brskalniki & ključne besede",
         "SubmenuWebsites": "Spletne strani",
@@ -20,6 +24,7 @@
         "TypeReportDocumentation": "Ta tabela vsebuje informacije o porazdelitvi tipov napotiteljev",
         "Websites": "Spletne strani",
         "WidgetExternalWebsites": "Seznam zunanjih spletnih strani",
+        "WidgetGetAll": "Vsi napotitelji",
         "WidgetKeywords": "Seznam ključnih besed"
     }
 }

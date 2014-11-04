@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngineDocumentation": "Dieser Graph zeit Ihnen die Browser Ihrer Besucher aufgeteilt nach Browserfamilien. %s Die wichtigste Information für Webentwickler ist, welche Rendering Engine Besucher verwenden. Die Beschriftungen enthalten den Namen der Engine und in Klammern den Namen des bekanntesten Browsers, der diese verwendet.",
         "BrowserVersions": "Browser Versionen",
         "Camera": "Digitalcamera",
         "CarBrowser": "PKW-Browser",

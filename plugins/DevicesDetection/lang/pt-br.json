@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngineDocumentation": "Este gráfico mostra os navegadores dos seus visitantes divididos em famílias de navegadores. %s A informação mais importante para os desenvolvedores web é o tipo de motor de renderização que seus visitantes estão usando. As etiquetas contêm os nomes dos motores seguido pelo navegador mais comum usando esse motor entre parênteses.",
         "BrowserVersions": "Versões de navegadores",
         "Camera": "Câmera",
         "Console": "Console",
