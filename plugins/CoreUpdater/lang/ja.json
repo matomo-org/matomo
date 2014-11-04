@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "実行する SQL クエリーのリストを表示し、コピーするには、ここをクリックしてください",
-        "CreatingBackupOfConfigurationFile": "%s の設定ファイルのバックアップを作成中",
         "CriticalErrorDuringTheUpgradeProcess": "アップグレード処理中の致命的なエラー：",
         "DatabaseUpgradeRequired": "データベースのアップグレードが必要",
         "DisablingIncompatiblePlugins": "互換性のないプラグインを無効にします: %s",

@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Paina tästä nähdäksesi tarvittavat SQL-kyselyt",
-        "CreatingBackupOfConfigurationFile": "Luodaan varmuuskopiota asetustiedostosta: %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kriittinen virhe päivitysprosessissa:",
         "DatabaseUpgradeRequired": "Tietokannan päivitys tarvitaan",
         "DisablingIncompatiblePlugins": "Poistetaan epäyhteensopivat lisäosat käytöstä: %s",

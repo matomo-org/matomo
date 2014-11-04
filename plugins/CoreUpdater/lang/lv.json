@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "CreatingBackupOfConfigurationFile": "Tiek veikta iestatījumu datnes rezerver kopēšana kā %s",
         "DatabaseUpgradeRequired": "Vajadzīgs datubāzes atjauninājums",
         "DownloadingUpdateFromX": "Notiek atjauninājuma ielāde no %s",
         "DownloadX": "Lejupielādē %s",

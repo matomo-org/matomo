@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "CreatingBackupOfConfigurationFile": "Vytváranie zálohy konfiguračného súboru v %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kritická chyba počas procesu aktualizácie:",
         "DatabaseUpgradeRequired": "Vyžaduje sa aktualizácia databázy",
         "DownloadX": "Stiahnuť %s",

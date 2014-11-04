@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Klicka här för att visa och kopiera listan över SQL-frågor som kommer att exekveras",
-        "CreatingBackupOfConfigurationFile": "Skapar en backup av konfigurationsfilen i %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kritiskt fel uppstod under uppdateringsprocessen:",
         "DatabaseUpgradeRequired": "Databasuppgradering krävs",
         "DisablingIncompatiblePlugins": "Inaktiverar inkompatibla tillägg: %s",

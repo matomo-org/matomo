@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Klik di sini untuk melihat dan menyalin daftar kueri SQL yang akan dieksekusi",
-        "CreatingBackupOfConfigurationFile": "Membuat cadangan berkas konfigurasi di %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kesalahan fatal terjadi selama pembaruan:",
         "DatabaseUpgradeRequired": "Membutuhkan Pembaruan Basisdata",
         "DownloadingUpdateFromX": "Mengunduh pembaruan dari %s",

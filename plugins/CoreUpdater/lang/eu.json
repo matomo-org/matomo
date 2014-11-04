@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "CreatingBackupOfConfigurationFile": "Konfigurazio-fitxategiaren babeskopia sortzen %s kokalekuan",
         "CriticalErrorDuringTheUpgradeProcess": "Errore kritikoa eguneraketa prozesuan:",
         "DatabaseUpgradeRequired": "Datu-basearen bertsio-berritzea beharrezkoa",
         "DownloadingUpdateFromX": "Eguneraketa deskargatzen: %s",

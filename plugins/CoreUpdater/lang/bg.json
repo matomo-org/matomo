@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Щракнете тук, за да видите и копие на списъка на SQL заявката, която ще изпълнява",
-        "CreatingBackupOfConfigurationFile": "Създадено е резервно копие на конфигурационния файл в %s",
         "CriticalErrorDuringTheUpgradeProcess": "Открита е КРИТИЧНА грешка по време на обновяването:",
         "DatabaseUpgradeRequired": "Необходимо е да се обнови базата от данни (БД)",
         "DisablingIncompatiblePlugins": "Изключване на несъвместими добавки: %s",

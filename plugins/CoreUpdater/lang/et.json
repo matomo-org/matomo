@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Vajuta siia, et näha ja kopeerida teostamisele minevad SQL päringud",
-        "CreatingBackupOfConfigurationFile": "Loon seadete varukoopiat faili %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kriitiline viga uuendamise protsessi ajal:",
         "DatabaseUpgradeRequired": "Andmebaasi uuendus on vajalik",
         "DownloadingUpdateFromX": "Laen uuendust %s",
