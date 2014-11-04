@@ -43,6 +43,9 @@ class StaticContainer
      */
     private static function createContainer()
     {
+        if (!class_exists("DI\\ContainerBuilder")) {
+            throw new \Exception("DI\\ContainerBuilder could not be found, maybe you are using Piwik from git and need to update Composer. $ php composer.phar update");
+        }
         $builder = new ContainerBuilder();
 
         // TODO add cache
