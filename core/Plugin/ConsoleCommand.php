@@ -58,7 +58,7 @@ class ConsoleCommand extends SymfonyCommand
 
     protected function getConsoleCommandString($arguments, $options)
     {
-        $command = "php ./console " . $this->getName();
+        $command = "php ./console ";
 
         foreach ($arguments as $argValue) {
             $command .= " \"" . addslashes($argValue) . "\"";
