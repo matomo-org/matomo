@@ -474,7 +474,10 @@ class Common
             } elseif ($varType === 'integer') {
                 if ($value == (string)(int)$value) $ok = true;
             } elseif ($varType === 'float') {
-                if ($value == (string)(float)$value) $ok = true;
+                $valueToCompare = (string)(float)$value;
+                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($valueToCompare);
+
+                if ($value == $valueToCompare) $ok = true;
             } elseif ($varType === 'array') {
                 if (is_array($value)) $ok = true;
             } else {
