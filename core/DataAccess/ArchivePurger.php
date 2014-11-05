@@ -32,7 +32,6 @@ class ArchivePurger
     {
         $store = new InvalidatedReports();
         $idSitesByYearMonth = $store->getSitesByYearMonthArchiveToPurge();
-
         foreach ($idSitesByYearMonth as $yearMonth => $idSites) {
             if(empty($idSites)) {
                 continue;

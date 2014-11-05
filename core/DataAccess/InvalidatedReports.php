@@ -35,8 +35,15 @@ class InvalidatedReports
     public function addSitesToPurgeForYearMonths(array $idSites, $yearMonths)
     {
         $idSitesByYearMonth = $this->getSitesByYearMonthToPurge();
-        foreach($yearMonths as $yearMonth) {
-            $idSitesByYearMonth[$yearMonth] = $idSites;
+
+        foreach($yearMonths as $yearMonthToPurge) {
+
+            if(isset($idSitesByYearMonth[$yearMonthToPurge])) {
+                $existingIdSitesToPurge = $idSitesByYearMonth[$yearMonthToPurge];
+                $idSites = array_merge($existingIdSitesToPurge, $idSites);
+                $idSites = array_unique($idSites);
+            }
+            $idSitesByYearMonth[$yearMonthToPurge] = $idSites;
         }
         $this->persistSitesByYearMonthToPurge($idSitesByYearMonth);
     }
