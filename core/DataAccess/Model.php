@@ -55,13 +55,10 @@ class Model
         return Db::fetchAll($query, array($purgeArchivesOlderThan));
     }
 
-    /*
-     * Deleting "Custom Date Range" reports, since they can be re-processed and would take up un-necessary space
-     */
-    public function deleteArchivesWithPeriodRange($numericTable, $blobTable, $range, $date)
+    public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)
     {
         $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
-        $bind  = array($range, $date);
+        $bind  = array($period, $date);
 
         Db::query(sprintf($query, $numericTable), $bind);
 

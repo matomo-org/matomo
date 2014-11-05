@@ -24,7 +24,6 @@ class ArchivePurger
 {
     public static function purgeInvalidatedArchives()
     {
-
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
         foreach ($archiveTables as $archiveTable) {
@@ -56,6 +55,12 @@ class ArchivePurger
         return new Model();
     }
 
+    /**
+     * Removes the outdated archives for the given month.
+     * (meaning they are marked with a done flag of ArchiveWriter::DONE_OK_TEMPORARY or ArchiveWriter::DONE_ERROR)
+     *
+     * @param Date $dateStart Only the month will be used
+     */
     public static function purgeOutdatedArchives(Date $dateStart)
     {
         $purgeArchivesOlderThan = Rules::shouldPurgeOutdatedArchives($dateStart);
@@ -64,7 +69,7 @@ class ArchivePurger
             return;
         }
 
-        $idArchivesToDelete = self::getTemporaryArchiveIdsOlderThan($dateStart, $purgeArchivesOlderThan);
+        $idArchivesToDelete = self::getOutdatedArchiveIds($dateStart, $purgeArchivesOlderThan);
 
         if (!empty($idArchivesToDelete)) {
             self::deleteArchiveIds($dateStart, $idArchivesToDelete);
@@ -78,7 +83,7 @@ class ArchivePurger
                    implode(',', $idArchivesToDelete));
     }
 
-    protected static function getTemporaryArchiveIdsOlderThan(Date $date, $purgeArchivesOlderThan)
+    protected static function getOutdatedArchiveIds(Date $date, $purgeArchivesOlderThan)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
 
@@ -94,8 +99,10 @@ class ArchivePurger
         return $idArchivesToDelete;
     }
 
-    /*
-     * Deleting "Custom Date Range" reports after 1 day, since they can be re-processed and would take up un-necessary space
+    /**
+     * Deleting "Custom Date Range" reports after 1 day, since they can be re-processed and would take up un-necessary space.
+     *
+     * @param $date Date
      */
     protected static function deleteArchivesWithPeriodRange(Date $date)
     {
@@ -103,12 +110,18 @@ class ArchivePurger
         $blobTable    = ArchiveTableCreator::getBlobTable($date);
         $yesterday    = Date::factory('yesterday')->getDateTime();
 
-        Log::debug("Purging Custom Range archives: done [ purged archives older than %s from %s / blob ]",
-                   $yesterday, $numericTable);
+        self::getModel()->deleteArchivesWithPeriod($numericTable, $blobTable, Piwik::$idPeriods['range'], $yesterday);
 
-        self::getModel()->deleteArchivesWithPeriodRange($numericTable, $blobTable, Piwik::$idPeriods['range'], $yesterday);
+        Log::debug("Purging Custom Range archives: done [ purged archives older than %s from %s / blob ]",
+            $yesterday, $numericTable);
     }
 
+    /**
+     * Deletes by batches Archive IDs in the specified month,
+     *
+     * @param Date $date
+     * @param $idArchivesToDelete
+     */
     protected static function deleteArchiveIds(Date $date, $idArchivesToDelete)
     {
         $batches      = array_chunk($idArchivesToDelete, 1000);

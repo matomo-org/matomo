@@ -128,11 +128,13 @@ class Rules
     }
 
     /**
-     * Given a monthly archive table, will delete all reports that are now outdated,
-     * or reports that ended with an error
+     * Returns false if we should not purge data for this month,
+     * or returns a timestamp indicating outdated archives older than this timestamp (processed before) can be purged.
+     *
+     * Note: when calling this function it is assumed that the callee will purge the outdated archives afterwards.
      *
      * @param \Piwik\Date $date
-     * @return int|bool  False, or timestamp indicating which archives to delete
+     * @return int|bool  Outdated archives older than this timestamp should be purged
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
