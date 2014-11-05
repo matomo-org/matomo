@@ -604,8 +604,8 @@ class CronArchive
         // Remove this website from the list of websites to be invalidated
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
-        if ($this->isOldReportInvalidatedForWebsite($idSite)) {
-
+        $websiteInvalidatedShouldReprocess = $this->isOldReportInvalidatedForWebsite($idSite);
+        if ($websiteInvalidatedShouldReprocess) {
             $store = new InvalidatedReports();
             $store->storeSiteIsReprocessed($idSite);
         }
@@ -613,7 +613,7 @@ class CronArchive
         // when some data was purged from this website
         // we make sure we query all previous days/weeks/months
         $processDaysSince = $lastTimestampWebsiteProcessedDay;
-        if ($this->isOldReportInvalidatedForWebsite($idSite)
+        if ($websiteInvalidatedShouldReprocess
             // when --force-all-websites option,
             // also forces to archive last52 days to be safe
             || $this->shouldArchiveAllSites) {
@@ -631,6 +631,12 @@ class CronArchive
         ) {
             // cancel the succesful run flag
             Option::set($this->lastRunKey($idSite, "day"), 0);
+
+            // cancel marking the site as reprocessed
+            if($websiteInvalidatedShouldReprocess) {
+                $store = new InvalidatedReports();
+                $store->addInvalidatedSitesToReprocess(array($idSite));
+            }
 
             $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
             $this->skipped++;

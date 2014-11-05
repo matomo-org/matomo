@@ -31,7 +31,7 @@ class InvalidatedReports
      *
      * @param $idSites
      */
-    public function storeInvalidatedSitesAndDates($idSites)
+    public function addInvalidatedSitesToReprocess($idSites)
     {
         $invalidatedIdSites = $this->getSitesToReprocess();
         $invalidatedIdSites = array_merge($invalidatedIdSites, $idSites);

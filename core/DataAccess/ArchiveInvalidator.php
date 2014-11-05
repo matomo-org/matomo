@@ -47,9 +47,8 @@ class ArchiveInvalidator {
 
         $this->markArchivesInvalidatedFor($idSites, $period, $datesToInvalidate);
 
-
         $store = new InvalidatedReports();
-        $store->storeInvalidatedSitesAndDates($idSites);
+        $store->addInvalidatedSitesToReprocess($idSites);
 
         return $this->makeOutputLogs();
     }
