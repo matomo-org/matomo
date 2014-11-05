@@ -44,6 +44,39 @@ class Model
         return $result;
     }
 
+    /**
+     * @param $archiveTable
+     * @param $idSites
+     * @param $periodId
+     * @param $datesToDelete
+     * @throws Exception
+     */
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodId, $datesToDelete)
+    {
+        $sql = $bind = array();
+        $datesToDelete = array_unique($datesToDelete);
+        foreach ($datesToDelete as $dateToDelete) {
+            $sql[] = '(date1 <= ? AND ? <= date2 AND name LIKE \'done%\')';
+            $bind[] = $dateToDelete;
+            $bind[] = $dateToDelete;
+        }
+        $sql = implode(" OR ", $sql);
+
+        $sqlPeriod = "";
+        if ($periodId) {
+            $sqlPeriod = " AND period = ? ";
+            $bind[] = $periodId;
+        }
+
+        $query = "UPDATE $archiveTable " .
+            " SET value = " . ArchiveWriter::DONE_INVALIDATED .
+            " WHERE ( $sql ) " .
+            " AND idsite IN (" . implode(",", $idSites) . ")" .
+            $sqlPeriod;
+        Db::query($query, $bind);
+    }
+
+
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)
     {
         $query = "SELECT idarchive FROM " . $archiveTable . "

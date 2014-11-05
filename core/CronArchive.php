@@ -13,7 +13,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
+use Piwik\Plugins\CoreAdminHome\InvalidatedReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
@@ -605,7 +605,9 @@ class CronArchive
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
         if ($this->isOldReportInvalidatedForWebsite($idSite)) {
-            $this->removeWebsiteFromInvalidatedWebsites($idSite);
+
+            $store = new InvalidatedReports();
+            $store->removeWebsiteFromInvalidatedWebsites($idSite);
         }
 
         // when some data was purged from this website
@@ -998,7 +1000,8 @@ class CronArchive
 
     private function updateIdSitesInvalidatedOldReports()
     {
-        $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
+        $store = new InvalidatedReports();
+        $this->idSitesInvalidatedOldReports = $store->getWebsiteIdsToInvalidate();
     }
 
     /**
@@ -1180,22 +1183,6 @@ class CronArchive
         }
 
         return true;
-    }
-
-    /**
-     * @param $idSite
-     */
-    protected function removeWebsiteFromInvalidatedWebsites($idSite)
-    {
-        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
-
-        if (count($websiteIdsInvalidated)) {
-            $found = array_search($idSite, $websiteIdsInvalidated);
-            if ($found !== false) {
-                unset($websiteIdsInvalidated[$found]);
-                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
-            }
-        }
     }
 
     private function logFatalErrorUrlExpected()
