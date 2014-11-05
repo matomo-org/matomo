@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 
 namespace Piwik\Plugins\TestRunner\Commands;
@@ -18,6 +17,7 @@ use Piwik\Plugins\TestRunner\Aws\Instance;
 use Piwik\Plugins\TestRunner\Aws\Ssh;
 use Piwik\Plugins\TestRunner\Runner\InstanceLauncher;
 use Piwik\Plugins\TestRunner\Runner\Remote;
+use Piwik\Plugins\TestRunner\GitRepository;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -33,6 +33,8 @@ class TestsBenchmark extends ConsoleCommand
 {
     protected function configure()
     {
+        $thisRepo = new GitRepository(PIWIK_USER_PATH);
+
         $this->setName('tests:benchmark');
         $this->setDescription('Run a Piwik benchmark locally or on AWS.');
         $this->addOption('benchmark-file', null, InputOption::VALUE_REQUIRED, 'Run the test case found in this file. Specify a path to the file.');
@@ -44,7 +46,7 @@ class TestsBenchmark extends ConsoleCommand
             'A Piwik request URL to benchmark. eg, "?module=API&action=VisitsSummary.get&idSite=1&date=today&period=day"');
         $this->addOption('aws', null, InputOption::VALUE_NONE, 'If supplied, benchmark is run on AWS. (recommended for core devs)');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'If supplied, execution is profiled w/ xhprof.');
-        $this->addOption('checkout', null, InputOption::VALUE_REQUIRED, 'Git hash, tag or branch to checkout. Defaults to current hash', $this->getCurrentGitHash());
+        $this->addOption('checkout', null, InputOption::VALUE_REQUIRED, 'Git hash, tag or branch to checkout. Defaults to current hash', $thisRepo->getHeadHash());
         $this->setHelp('This command will benchmark a URL or PHPUnit test case of your choosing. Before executing the benchmark, it will load a fixture of your choosing into the database. This lets you run benchmarks under any number of conditions.
 
 To benchmark a URL, run the command using the --url=\'?...\' option. To benchmark a PHPUnit test case, run the command with the --benchmark-file=path/to/file.php option.
@@ -189,7 +191,12 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
 
     private function checkThereIsSomethingToTest($benchmarkFile, $urlToTest)
     {
-        // TODO: split into multiple functions
+        $this->checkBenchmarkFileOrUrlSuppliedButNotBoth($benchmarkFile, $urlToTest);
+        $this->checkBenchmarkFileExistsIfSupplied($benchmarkFile);
+    }
+
+    private function checkBenchmarkFileOrUrlSuppliedButNotBoth($benchmarkFile, $urlToTest)
+    {
         if (empty($benchmarkFile)
             && empty($urlToTest)
         ) {
@@ -201,11 +208,14 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
         ) {
             throw new Exception("Both --benchmark-file and --url specified, not sure which to test. Please use only one.");
         }
+    }
 
-        if (!empty($benchmarkFile)) {
-            if (!file_exists($benchmarkFile)) {
-                throw new Exception("Cannot find benchmark file '$benchmarkFile'.");
-            }
+    private function checkBenchmarkFileExistsIfSupplied($benchmarkFile)
+    {
+        if (!empty($benchmarkFile)
+            && !file_exists($benchmarkFile)
+        ) {
+            throw new Exception("Cannot find benchmark file '$benchmarkFile'.");
         }
     }
 
@@ -226,11 +236,5 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
         if (!class_exists($fixture)) {
             throw new Exception("Fixture '$fixture' does not exist.");
         }
-    }
-
-    // TODO: copied from other command, must refactor
-    private function getCurrentGitHash()
-    {
-        return trim(`git rev-parse HEAD`);
     }
 }
