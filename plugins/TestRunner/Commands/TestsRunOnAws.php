@@ -16,6 +16,7 @@ use Piwik\Plugins\TestRunner\Aws\Instance;
 use Piwik\Plugins\TestRunner\Aws\Ssh;
 use Piwik\Plugins\TestRunner\Runner\InstanceLauncher;
 use Piwik\Plugins\TestRunner\Runner\Remote;
+use Piwik\Plugins\TestRunner\GitRepository;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,12 +33,14 @@ class TestsRunOnAws extends ConsoleCommand
 
     protected function configure()
     {
+        $thisRepo = new GitRepository(PIWIK_USER_PATH);
+
         $this->setName('tests:run-aws');
         $this->addArgument('testsuite', InputArgument::OPTIONAL, 'Allowed values: ' . implode(', ', $this->allowedTestSuites));
         $this->addOption('launch-only', null, InputOption::VALUE_NONE, 'Only launches an instance and outputs the connection parameters. Useful if you want to connect via SSH.');
         $this->addOption('update-only', null, InputOption::VALUE_NONE, 'Launches an instance, outputs the connection parameters and prepares the instance for a test run but does not actually run the tests. It will also checkout the specified version.');
         $this->addOption('one-instance-per-testsuite', null, InputOption::VALUE_NONE, 'Launches an instance, outputs the connection parameters and prepares the instance for a test run but does not actually run the tests. It will also checkout the specified version.');
-        $this->addOption('checkout', null, InputOption::VALUE_REQUIRED, 'Git hash, tag or branch to checkout. Defaults to current hash', $this->getCurrentGitHash());
+        $this->addOption('checkout', null, InputOption::VALUE_REQUIRED, 'Git hash, tag or branch to checkout. Defaults to current hash', $thisRepo->getHeadHash());
         $this->addOption('patch-file', null, InputOption::VALUE_REQUIRED, 'Apply the given patch file after performing a checkout');
         $this->setDescription('Run a specific testsuite on AWS');
         $this->setHelp('To use this command you have to configure the [tests]aws_* section in config/config.ini.php. See config/global.ini.php for all available options.
@@ -109,7 +112,7 @@ This feature is still beta and there might be problems with pictures and/or bina
         $ssh->disconnect();
     }
 
-    private function launchInstance(OutputInterface $output, $useOneInstancePerTestSuite, Config $awsConfig, $testSuite)
+    public function launchInstance(OutputInterface $output, $useOneInstancePerTestSuite, Config $awsConfig, $testSuite)
     {
         $awsInstance = new Instance($awsConfig, $testSuite);
 
@@ -138,11 +141,6 @@ This feature is still beta and there might be problems with pictures and/or bina
         }
 
         return $testsuite;
-    }
-
-    private function getCurrentGitHash()
-    {
-        return trim(`git rev-parse HEAD`);
     }
 
     private function buildFinishedMessage($testSuite, $host)

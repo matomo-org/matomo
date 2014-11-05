@@ -70,7 +70,9 @@ class RequestCommand extends ConsoleCommand
         $_GET = array();
 
         $hostname = $input->getOption('piwik-domain');
-        Url::setHost($hostname);
+        if (!empty($hostname)) {
+            Url::setHost($hostname);
+        }
 
         $query = $input->getArgument('url-query');
         $query = UrlHelper::getArrayFromQueryString($query);
