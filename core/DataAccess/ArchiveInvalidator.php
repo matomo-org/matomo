@@ -190,8 +190,12 @@ class ArchiveInvalidator {
                 "\n The last day with logs is " . $this->minimumDateWithLogs . ". " .
                 "\n Please disable 'Delete old Logs' or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
         }
-        $output[] = "Success. The following dates were invalidated successfully: " .
-            implode(", ", $this->processedDates);
+        if ($this->invalidDates) {
+            $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
+                implode(", ", $this->invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
+        }
+
+        $output[] = "Success. The following dates were invalidated successfully: " . implode(", ", $this->processedDates);
         return $output;
     }
 
