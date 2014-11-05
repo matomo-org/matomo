@@ -130,7 +130,7 @@ before_script:
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
 
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./console generate:travis-yml --core"
+  - export GENERATE_TRAVIS_YML_COMMAND="php ./console  --core"
   - ./tests/travis/autoupdate_travis_yml.sh
 
   - cd tests/PHPUnit
