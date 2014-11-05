@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Exception;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
@@ -109,6 +110,8 @@ class Rules
     }
 
     /**
+     * Return done flags used to tell how the archiving process for a specific archive was completed,
+     *
      * @param array $plugins
      * @param $segment
      * @return array
@@ -308,5 +311,22 @@ class Rules
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns done flag values allowed to be selected
+     *
+     * @return string
+     */
+    public static function getSelectableDoneFlagValues()
+    {
+        $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
+
+        if (!Rules::isRequestAuthorizedToArchive()) {
+            //If request is not authorized to archive then fetch also invalidated archives
+            $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
+        }
+
+        return $possibleValues;
     }
 }

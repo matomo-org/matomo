@@ -12,11 +12,17 @@ namespace Piwik\DataAccess;
 
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Plugins\CoreAdminHome\InvalidatedReports;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Period\Week;
 
+/**
+ * Marks archives as Invalidated by setting the done flag to a special value (see Model->updateArchiveAsInvalidated)
+ *
+ * Invalidated archives can still be selected and displayed in UI and API (until they are reprocessed by core:archive)
+ *
+ * @package Piwik\DataAccess
+ */
 class ArchiveInvalidator {
 
     private $warningDates = array();
@@ -43,7 +49,7 @@ class ArchiveInvalidator {
 
 
         $store = new InvalidatedReports();
-        $store->setSiteIdsToBeInvalidated($idSites);
+        $store->storeInvalidatedSitesAndDates($idSites);
 
         return $this->makeOutputLogs();
     }
@@ -129,7 +135,7 @@ class ArchiveInvalidator {
 
     private function findOlderDateWithLogs()
     {
-// If using the feature "Delete logs older than N days"...
+        // If using the feature "Delete logs older than N days"...
         $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
         $logsAreDeletedBeforeThisDate = $purgeDataSettings['delete_logs_schedule_lowest_interval'];
         $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];

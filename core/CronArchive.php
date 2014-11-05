@@ -13,7 +13,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\Plugins\CoreAdminHome\InvalidatedReports;
+use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
@@ -607,7 +607,7 @@ class CronArchive
         if ($this->isOldReportInvalidatedForWebsite($idSite)) {
 
             $store = new InvalidatedReports();
-            $store->removeWebsiteFromInvalidatedWebsites($idSite);
+            $store->storeSiteIsReprocessed($idSite);
         }
 
         // when some data was purged from this website
@@ -932,7 +932,7 @@ class CronArchive
 
         $websiteIds = array_merge(
             $this->addWebsiteIdsWithVisitsSinceLastRun(),
-            $this->getWebsiteIdsToInvalidate()
+            $this->getInvalidatedSitesToReprocess()
         );
         $websiteIds = array_merge($websiteIds, $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds));
         return array_unique($websiteIds);
@@ -1001,7 +1001,7 @@ class CronArchive
     private function updateIdSitesInvalidatedOldReports()
     {
         $store = new InvalidatedReports();
-        $this->idSitesInvalidatedOldReports = $store->getWebsiteIdsToInvalidate();
+        $this->idSitesInvalidatedOldReports = $store->getSitesToReprocess();
     }
 
     /**
@@ -1011,7 +1011,7 @@ class CronArchive
      *
      * @return array
      */
-    private function getWebsiteIdsToInvalidate()
+    private function getInvalidatedSitesToReprocess()
     {
         $this->updateIdSitesInvalidatedOldReports();
 

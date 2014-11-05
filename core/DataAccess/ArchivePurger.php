@@ -31,7 +31,7 @@ class ArchivePurger
              * Select the archives that have already been invalidated and have been since re-processed.
              * It purges records for each distinct { archive name (includes segment hash) , idsite, date, period } tuple.
              */
-            $result = self::getModel()->purgeInvalidatedArchiveTable($archiveTable);
+            $result = self::getModel()->getInvalidatedArchiveIdsSafeToDelete($archiveTable);
 
             if (count($result) > 0) {
                 $archiveIds = array_map(

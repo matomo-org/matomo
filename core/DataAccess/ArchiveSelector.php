@@ -9,8 +9,8 @@
 namespace Piwik\DataAccess;
 
 use Exception;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -63,10 +63,10 @@ class ArchiveSelector
         $isSkipAggregationOfSubTables = $params->isSkipAggregationOfSubTables();
         $plugins = array("VisitsSummary", $requestedPlugin);
 
-        $doneFlags      = self::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
-        $possibleValues = self::getPossibleValues();
+        $doneFlags      = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+        $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
-        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $possibleValues);
+        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
 
         if (empty($results)) {
             return false;
@@ -289,49 +289,14 @@ class ArchiveSelector
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
-        $doneFlags    = self::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+        $doneFlags    = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
-        $possibleValues = self::getPossibleValues();
+        $possibleValues = Rules::getSelectableDoneFlagValues();
 
         // create the SQL to find archives that are DONE
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    /**
-     * Returns the SQL condition used to find successfully completed archives that
-     * this instance is querying for.
-     *
-     * @param array $plugins
-     * @param Segment $segment
-     * @param bool $isSkipAggregationOfSubTables
-     * @return string
-     */
-    private static function getDoneFlags(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
-    {
-        // the flags used to tell how the archiving process for a specific archive was completed,
-        // if it was completed
-        $doneFlags = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
-
-        return $doneFlags;
-    }
-
-    /**
-     * Returns the SQL condition used to find successfully completed archives that
-     * this instance is querying for.
-     *
-     * @return string
-     */
-    private static function getPossibleValues()
-    {
-        $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
-
-        if (!Rules::isRequestAuthorizedToArchive()) {
-            //If request is not authorized to archive then fetch also invalidated archives
-            $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
-        }
-
-        return $possibleValues;
-    }
 
 }

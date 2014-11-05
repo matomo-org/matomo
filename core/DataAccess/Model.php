@@ -22,15 +22,20 @@ class Model
 {
     const PREFIX_SQL_LOCK = "locked_";
 
-    public function purgeInvalidatedArchiveTable($archiveTable)
+    /**
+     * Returns the archives IDs that have already been invalidated and have been since re-processed.
+     *
+     * These archives { archive name (includes segment hash) , idsite, date, period } will be deleted.
+     *
+     * @param $archiveTable
+     * @return array
+     * @throws Exception
+     */
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable)
     {
         // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
         Db::get()->query('SET SQL_BIG_SELECTS=1');
 
-        /**
-         * Select the archives that have already been invalidated and have been since re-processed.
-         * It purges records for each distinct { archive name (includes segment hash) , idsite, date, period } tuple.
-         */
         $query = 'SELECT t1.idarchive FROM `' . $archiveTable . '` t1
                   INNER JOIN `' . $archiveTable . '` t2
                       ON t1.name = t2.name AND t1.idsite=t2.idsite
@@ -115,7 +120,7 @@ class Model
         }
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $possibleValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
@@ -129,7 +134,7 @@ class Model
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
-        $sqlWhereArchiveName = self::getNameCondition($doneFlags, $possibleValues);
+        $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
         $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
