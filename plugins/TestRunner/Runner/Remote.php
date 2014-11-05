@@ -37,12 +37,7 @@ class Remote
 
     public function replaceConfigIni($file)
     {
-        $content = file_get_contents($file);
-
-        if (!empty($content)) {
-            $content = escapeshellarg($content);
-            $this->ssh->exec('echo ' . $content . ' > config/config.ini.php');
-        }
+        $this->uploadFile($file, 'config/config.ini.php');
     }
 
     public function applyPatch($fileToApply)
@@ -52,6 +47,16 @@ class Remote
         if (!empty($content)) {
             $content = escapeshellarg($content);
             $this->ssh->exec('echo ' . $content . ' | git apply - ');
+        }
+    }
+
+    public function uploadFile($srcPath, $destPath)
+    {
+        $content = file_get_contents($srcPath);
+
+        if (!empty($content)) {
+            $content = escapeshellarg($content);
+            $this->ssh->exec('echo ' . $content . ' > ' . $destPath);
         }
     }
 

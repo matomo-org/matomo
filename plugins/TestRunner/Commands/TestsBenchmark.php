@@ -68,14 +68,15 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
         $this->checkTheFixtureCanBeFound($fixture, $fixtureFile);
 
         if ($useAws) {
-            $this->launchAndForwardCommandToAws($input, $output, $gitHash);
+            $this->launchAndForwardCommandToAws($input, $output, $gitHash, $benchmarkFile, $fixtureFile);
         } else {
             $this->loadFixture($output, $fixture);
             $this->executeBenchmark($output, $urlToTest, $benchmarkFile, $useXhprof);
         }
     }
 
-    private function launchAndForwardCommandToAws(InputInterface $input, OutputInterface $output, $gitHash)
+    private function launchAndForwardCommandToAws(InputInterface $input, OutputInterface $output, $gitHash,
+                                                  $benchmarkFile, $fixtureFile)
     {
         // TODO: code duplication w/ TestsRunOnAws.
         $awsConfig = new Config();
@@ -91,13 +92,20 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
         $testRunner->updatePiwik($gitHash);
         $testRunner->replaceConfigIni(PIWIK_INCLUDE_PATH . '/plugins/TestRunner/Aws/config.ini.php');
 
-        if (!empty($patchFile)) {
-            $testRunner->applyPatch($patchFile);
+        $arguments = $input->getArguments();
+        $options = $input->getOptions();
+
+        if (!empty($fixtureFile)) {
+            $testRunner->uploadFile($fixtureFile, 'tmp/BenchmarkFixture.php');
+            $options['--fixture-file'] = 'tmp/BenchmarkFixture.php';
         }
 
-        // TODO: need to send the benchmark file & fixture file if running on AWS
+        if (!empty($benchmarkFile)) {
+            $testRunner->uploadFile($benchmarkFile, 'tmp/BenchmarkTestCase.php');
+            $options['--benchmark-file'] = 'tmp/BenchmarkTestCase.php';
+        }
 
-        $thisCommand = $this->getConsoleCommandStringFromInput($input);
+        $thisCommand = $this->getConsoleCommandString($arguments, $options);
         $ssh->exec($thisCommand);
     }
 
