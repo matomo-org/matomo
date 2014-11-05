@@ -109,7 +109,7 @@ This feature is still beta and there might be problems with pictures and/or bina
         $ssh->disconnect();
     }
 
-    private function launchInstance(OutputInterface $output, $useOneInstancePerTestSuite, Config $awsConfig, $testSuite)
+    public function launchInstance(OutputInterface $output, $useOneInstancePerTestSuite, Config $awsConfig, $testSuite)
     {
         $awsInstance = new Instance($awsConfig, $testSuite);
 
