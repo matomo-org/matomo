@@ -95,14 +95,16 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
         $arguments = $input->getArguments();
         $options = $input->getOptions();
 
+        unset($options['aws']);
+
         if (!empty($fixtureFile)) {
             $testRunner->uploadFile($fixtureFile, 'tmp/BenchmarkFixture.php');
-            $options['--fixture-file'] = 'tmp/BenchmarkFixture.php';
+            $options['fixture-file'] = 'tmp/BenchmarkFixture.php';
         }
 
         if (!empty($benchmarkFile)) {
             $testRunner->uploadFile($benchmarkFile, 'tmp/BenchmarkTestCase.php');
-            $options['--benchmark-file'] = 'tmp/BenchmarkTestCase.php';
+            $options['benchmark-file'] = 'tmp/BenchmarkTestCase.php';
         }
 
         $thisCommand = $this->getConsoleCommandString($arguments, $options);
