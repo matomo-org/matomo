@@ -818,6 +818,11 @@ class GoalManager
             $value = $dimension->$hook($this->request, $visitor, $action, $this);
 
             if (false !== $value) {
+
+                if (is_float($value)) {
+                    $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+                }
+
                 $fieldName = $dimension->getColumnName();
                 $visitor->setVisitorColumn($fieldName, $value);
 

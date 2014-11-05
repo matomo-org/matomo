@@ -32,6 +32,6 @@ abstract class BaseConversion extends ConversionDimension
 
         $value = round($revenue, GoalManager::REVENUE_PRECISION);
 
-        return Common::forceDotAsSeparatorForDecimalPoint($value);
+        return $value;
     }
 }

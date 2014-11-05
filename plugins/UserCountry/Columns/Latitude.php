@@ -52,7 +52,6 @@ class Latitude extends Base
         $userInfo = $this->getUserInfo($request, $visitor);
 
         $latitude = $this->getLocationDetail($userInfo, LocationProvider::LATITUDE_KEY);
-        $latitude = Common::forceDotAsSeparatorForDecimalPoint($latitude);
 
         return $latitude;
     }

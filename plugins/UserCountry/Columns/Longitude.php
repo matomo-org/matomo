@@ -52,7 +52,6 @@ class Longitude extends Base
         $userInfo = $this->getUserInfo($request, $visitor);
 
         $longitude = $this->getLocationDetail($userInfo, LocationProvider::LONGITUDE_KEY);
-        $longitude = Common::forceDotAsSeparatorForDecimalPoint($longitude);
 
         return $longitude;
     }
