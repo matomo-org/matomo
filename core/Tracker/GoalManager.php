@@ -277,7 +277,10 @@ class GoalManager
             return $revenue;
         }
 
-        return round($revenue, self::REVENUE_PRECISION);
+        $revenue = round($revenue, self::REVENUE_PRECISION);
+        $revenue = Common::forceDotAsSeparatorForDecimalPoint($revenue);
+
+        return $revenue;
     }
 
     /**
@@ -633,7 +636,7 @@ class GoalManager
             'idaction_category3' => (int)$item[self::INTERNAL_ITEM_CATEGORY3],
             'idaction_category4' => (int)$item[self::INTERNAL_ITEM_CATEGORY4],
             'idaction_category5' => (int)$item[self::INTERNAL_ITEM_CATEGORY5],
-            'price'              => $item[self::INTERNAL_ITEM_PRICE],
+            'price'              => Common::forceDotAsSeparatorForDecimalPoint($item[self::INTERNAL_ITEM_PRICE]),
             'quantity'           => $item[self::INTERNAL_ITEM_QUANTITY],
             'deleted'            => isset($item['deleted']) ? $item['deleted'] : 0, //deleted
             'idorder'            => isset($goal['idorder']) ? $goal['idorder'] : self::ITEM_IDORDER_ABANDONED_CART, //idorder = 0 in log_conversion_item for carts

@@ -357,7 +357,7 @@ abstract class Action
 
         $customValue = $this->getCustomFloatValue();
         if (!empty($customValue)) {
-            $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = $customValue;
+            $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = Common::forceDotAsSeparatorForDecimalPoint($customValue);
         }
 
         $customVariables = $this->getCustomVariables();

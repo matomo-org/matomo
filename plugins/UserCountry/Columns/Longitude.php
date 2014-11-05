@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Segment;
@@ -50,7 +51,10 @@ class Longitude extends Base
 
         $userInfo = $this->getUserInfo($request, $visitor);
 
-        return $this->getLocationDetail($userInfo, LocationProvider::LONGITUDE_KEY);
+        $longitude = $this->getLocationDetail($userInfo, LocationProvider::LONGITUDE_KEY);
+        $longitude = Common::forceDotAsSeparatorForDecimalPoint($longitude);
+
+        return $longitude;
     }
 
     /**

@@ -1078,6 +1078,22 @@ class Common
     }
 
     /**
+     * Force the separator for decimal point to be a dot. See https://github.com/piwik/piwik/issues/6435
+     * If for instance a German locale is used it would be a comma otherwise.
+     *
+     * @param  float|string $value
+     * @return string
+     */
+    public static function forceDotAsSeparatorForDecimalPoint($value)
+    {
+        if (null === $value || false === $value) {
+            return $value;
+        }
+
+        return str_replace(',', '.', $value);
+    }
+
+    /**
      * Sets outgoing header.
      *
      * @param string $header The header.
