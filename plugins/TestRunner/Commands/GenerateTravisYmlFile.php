@@ -132,32 +132,11 @@ class GenerateTravisYmlFile extends ConsoleCommand
 
     private function getExecutedConsoleCommandForTravis(InputInterface $input)
     {
-        $command = "php ./console " . $this->getName();
-
-        $arguments = $input->getOptions();
-        unset($arguments['github-token']);
-        unset($arguments['artifacts-pass']);
-        unset($arguments['dump']);
-
-        foreach ($arguments as $name => $value) {
-            if ($value === false
-                || $value === null
-            ) {
-                continue;
-            }
-
-            if ($value === true) {
-                $command .= " --$name";
-            } else if (is_array($value)) {
-                foreach ($value as $arrayValue) {
-                    $command .= " --$name=\"" . addslashes($arrayValue) . "\"";
-                }
-            } else {
-                $command .= " --$name=\"" . addslashes($value) . "\"";
-            }
-        }
-
-        return $command;
+        $options = $input->getOptions();
+        unset($options['github-token']);
+        unset($options['artifacts-pass']);
+        unset($options['dump']);
+        return $this->getConsoleCommandString($args = array(), $options);
     }
 
 

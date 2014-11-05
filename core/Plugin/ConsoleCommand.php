@@ -50,4 +50,38 @@ class ConsoleCommand extends SymfonyCommand
             }
         }
     }
+
+    protected function getConsoleCommandStringFromInput(InputInterface $input)
+    {
+        return $this->getConsoleCommandString($input->getArguments(), $input->getOptions());
+    }
+
+    protected function getConsoleCommandString($arguments, $options)
+    {
+        $command = "php ./console " . $this->getName();
+
+        foreach ($arguments as $argValue) {
+            $command .= " \"" . addslashes($argValue) . "\"";
+        }
+
+        foreach ($options as $name => $value) {
+            if ($value === false
+                || $value === null
+            ) {
+                continue;
+            }
+
+            if ($value === true) {
+                $command .= " --$name";
+            } else if (is_array($value)) {
+                foreach ($value as $arrayValue) {
+                    $command .= " --$name=\"" . addslashes($arrayValue) . "\"";
+                }
+            } else {
+                $command .= " --$name=\"" . addslashes($value) . "\"";
+            }
+        }
+
+        return $command;
+    }
 }
