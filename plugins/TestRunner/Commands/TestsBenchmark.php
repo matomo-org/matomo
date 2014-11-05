@@ -130,7 +130,7 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
         }
     }
 
-    private function benchmarkPhpTestCase(OutputInterface $output, $urlToTest, $benchmarkFile, $useXhprof)
+    private function benchmarkPhpTestCase(OutputInterface $output, $benchmarkFile, $useXhprof)
     {
         if ($useXhprof) {
             Profiler::setupProfilerXHProf($isMainRun = true);
@@ -141,13 +141,20 @@ You can also run the tests on EC2 (if you have the proper credentials) and run t
 
         $output->writeln("Running the test cases in <comment>$benchmarkFile</comment>...");
 
-        $phpunitCommand = 'cd tests/PHPUnit && ../../vendor/phpunit/phpunit/phpunit "' . $benchmarkFile . '"';
+        $phpunitCommand = 'cd tests/PHPUnit && ../../vendor/phpunit/phpunit/phpunit "' . '../../' . $benchmarkFile . '"';
 
         $startTime = microtime(true);
-        passthru($phpunitCommand);
+        exec($phpunitCommand, $commandOutput, $returnCode);
         $elapsed = microtime(true) - $startTime;
 
-        $this->finishBenchmark($output, $elapsed);
+        if ($returnCode != 0) {
+            $output->writeln("");
+            $output->writeln("<error>PHPUNIT FAILED, output:</error>");
+            $output->writeln("");
+            $output->writeln(implode("\n", $commandOutput));
+        } else {
+            $this->finishBenchmark($output, $elapsed);
+        }
     }
 
     private function benchmarkPiwikUrl(OutputInterface $output, $urlToTest, $useXhprof)
