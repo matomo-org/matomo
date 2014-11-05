@@ -21,6 +21,8 @@ use Piwik\Period\Week;
  *
  * Invalidated archives can still be selected and displayed in UI and API (until they are reprocessed by core:archive)
  *
+ * The invalidated archives will be deleted by ArchivePurger
+ *
  * @package Piwik\DataAccess
  */
 class ArchiveInvalidator {
@@ -37,7 +39,7 @@ class ArchiveInvalidator {
      * @return array
      * @throws \Exception
      */
-    public function markArchivesAsInvalidated($idSites, $dates, $period)
+    public function markArchivesAsInvalidated(array $idSites, $dates, $period)
     {
         $this->findOlderDateWithLogs();
         $datesToInvalidate = $this->getDatesToInvalidateFromString($dates);
@@ -45,10 +47,10 @@ class ArchiveInvalidator {
 
         \Piwik\Plugins\SitesManager\API::getInstance()->updateSiteCreatedTime($idSites, $minDate);
 
-        $this->markArchivesInvalidatedFor($idSites, $period, $datesToInvalidate);
+        $datesByMonth = $this->getDatesByYearMonth($datesToInvalidate);
+        $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
 
-        $store = new InvalidatedReports();
-        $store->addInvalidatedSitesToReprocess($idSites);
+        $this->persistInvalidatedArchives($idSites, $datesByMonth);
 
         return $this->makeOutputLogs();
     }
@@ -79,14 +81,12 @@ class ArchiveInvalidator {
     /**
      * @param $idSites
      * @param $period string
-     * @param $datesToInvalidate Date[]
+     * @param $datesByMonth array
      * @throws \Exception
      */
-    private function markArchivesInvalidatedFor($idSites, $period, $datesToInvalidate)
+    private function markArchivesInvalidatedFor($idSites, $period, $datesByMonth)
     {
         $invalidateForPeriodId = $this->getPeriodId($period);
-
-        $datesByMonth = $this->getDatesByYearMonth($datesToInvalidate);
 
         // In each table, invalidate day/week/month/year containing this date
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
@@ -161,9 +161,10 @@ class ArchiveInvalidator {
                 && $date->isEarlier($this->minimumDateWithLogs)
             ) {
                 $this->warningDates[] = $date->toString();
-            } else {
-                $this->processedDates[] = $date->toString();
+                continue;
             }
+
+            $this->processedDates[] = $date->toString();
 
             $month = $date->toString('Y_m');
             // For a given date, we must invalidate in the monthly archive table
@@ -217,8 +218,23 @@ class ArchiveInvalidator {
         return $invalidateForPeriod;
     }
 
+    /**
+     * @param array $idSites
+     * @param $datesByMonth
+     */
+    private function persistInvalidatedArchives(array $idSites, $datesByMonth)
+    {
+        $yearMonths = array_keys($datesByMonth);
+        $yearMonths = array_unique($yearMonths);
+
+        $store = new InvalidatedReports();
+        $store->addInvalidatedSitesToReprocess($idSites);
+        $store->addSitesToPurgeForYearMonths($idSites, $yearMonths);
+    }
+
     private static function getModel()
     {
         return new Model();
     }
+
 } 

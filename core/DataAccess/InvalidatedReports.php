@@ -10,7 +10,6 @@
 namespace Piwik\DataAccess;
 
 use Piwik\Option;
-use Piwik\Piwik;
 
 /**
  * Keeps track of which reports were invalidated via CoreAdminHome.invalidateArchivedReports API.
@@ -25,19 +24,62 @@ use Piwik\Piwik;
 class InvalidatedReports
 {
     const OPTION_INVALIDATED_IDSITES_TO_REPROCESS = 'InvalidatedOldReports_WebsiteIds';
+    const OPTION_INVALIDATED_DATES_SITES_TO_PURGE = 'InvalidatedOldReports_DatesWebsiteIds';
+
+    /**
+     * Mark the sites IDs and Dates as being invalidated, so we can purge them later on.
+     *
+     * @param array $idSites
+     * @param array $yearMonths
+     */
+    public function addSitesToPurgeForYearMonths(array $idSites, $yearMonths)
+    {
+        $idSitesByYearMonth = $this->getSitesByYearMonthToPurge();
+        foreach($yearMonths as $yearMonth) {
+            $idSitesByYearMonth[$yearMonth] = $idSites;
+        }
+        $this->persistSitesByYearMonthToPurge($idSitesByYearMonth);
+    }
+
+    /**
+     * Returns the list of websites IDs for which invalidated archives can be purged.
+     */
+    public function getSitesByYearMonthArchiveToPurge()
+    {
+        $idSitesByYearMonth = $this->getSitesByYearMonthToPurge();
+
+        // From this list we remove the websites that are not yet re-processed
+        // so we don't purge them before they were re-processed
+        $idSitesNotYetReprocessed = $this->getSitesToReprocess();
+
+        foreach($idSitesByYearMonth as $yearMonth => &$idSites) {
+            $idSites = array_diff($idSites, $idSitesNotYetReprocessed);
+        }
+        return $idSitesByYearMonth;
+    }
+
+    public function markSiteIdsHaveBeenPurged(array $idSites, $yearMonth)
+    {
+        $idSitesByYearMonth = $this->getSitesByYearMonthToPurge();
+
+        if(!isset($idSitesByYearMonth[$yearMonth])) {
+            return;
+        }
+
+        $idSitesByYearMonth[$yearMonth] = array_diff($idSitesByYearMonth[$yearMonth], $idSites);
+        $this->persistSitesByYearMonthToPurge($idSitesByYearMonth);
+    }
 
     /**
      * Record those website IDs as having been invalidated
      *
      * @param $idSites
      */
-    public function addInvalidatedSitesToReprocess($idSites)
+    public function addInvalidatedSitesToReprocess(array $idSites)
     {
-        $invalidatedIdSites = $this->getSitesToReprocess();
-        $invalidatedIdSites = array_merge($invalidatedIdSites, $idSites);
-        $invalidatedIdSites = array_unique($invalidatedIdSites);
-        $invalidatedIdSites = array_values($invalidatedIdSites);
-        $this->setSitesToReprocess($invalidatedIdSites);
+        $siteIdsToReprocess = $this->getSitesToReprocess();
+        $siteIdsToReprocess = array_merge($siteIdsToReprocess, $idSites);
+        $this->setSitesToReprocess($siteIdsToReprocess);
     }
 
 
@@ -46,13 +88,13 @@ class InvalidatedReports
      */
     public function storeSiteIsReprocessed($idSite)
     {
-        $websiteIdsInvalidated = $this->getSitesToReprocess();
+        $siteIdsToReprocess = $this->getSitesToReprocess();
 
-        if (count($websiteIdsInvalidated)) {
-            $found = array_search($idSite, $websiteIdsInvalidated);
+        if (count($siteIdsToReprocess)) {
+            $found = array_search($idSite, $siteIdsToReprocess);
             if ($found !== false) {
-                unset($websiteIdsInvalidated[$found]);
-                $this->setSitesToReprocess($websiteIdsInvalidated);
+                unset($siteIdsToReprocess[$found]);
+                $this->setSitesToReprocess($siteIdsToReprocess);
             }
         }
     }
@@ -64,16 +106,15 @@ class InvalidatedReports
      */
     public function getSitesToReprocess()
     {
-        Option::clearCachedOption(self::OPTION_INVALIDATED_IDSITES_TO_REPROCESS);
-        $invalidatedIdSites = Option::get(self::OPTION_INVALIDATED_IDSITES_TO_REPROCESS);
+        return $this->getArrayValueFromOptionName(self::OPTION_INVALIDATED_IDSITES_TO_REPROCESS);
+    }
 
-        if ($invalidatedIdSites
-            && ($invalidatedIdSites = unserialize($invalidatedIdSites))
-            && count($invalidatedIdSites)
-        ) {
-            return $invalidatedIdSites;
-        }
-        return array();
+    /**
+     * @return array|false|mixed|string
+     */
+    private function getSitesByYearMonthToPurge()
+    {
+        return $this->getArrayValueFromOptionName(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE);
     }
 
     /**
@@ -81,8 +122,40 @@ class InvalidatedReports
      */
     private function setSitesToReprocess($websiteIdsInvalidated)
     {
+        $websiteIdsInvalidated = array_unique($websiteIdsInvalidated);
+        $websiteIdsInvalidated = array_values($websiteIdsInvalidated);
         Option::set(self::OPTION_INVALIDATED_IDSITES_TO_REPROCESS, serialize($websiteIdsInvalidated));
     }
+
+    /**
+     * @param $optionName
+     * @return array|false|mixed|string
+     */
+    private function getArrayValueFromOptionName($optionName)
+    {
+        Option::clearCachedOption($optionName);
+        $array = Option::get($optionName);
+
+        if ($array
+            && ($array = unserialize($array))
+            && count($array)
+        ) {
+            return $array;
+        }
+        return array();
+    }
+
+    /**
+     * @param $idSitesByYearMonth
+     */
+    private function persistSitesByYearMonthToPurge($idSitesByYearMonth)
+    {
+        // remove dates for which there are no sites to purge
+        $idSitesByYearMonth = array_filter($idSitesByYearMonth);
+
+        Option::set(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE, serialize($idSitesByYearMonth));
+    }
+
 
 
 }

@@ -27,26 +27,39 @@ class Model
      *
      * These archives { archive name (includes segment hash) , idsite, date, period } will be deleted.
      *
-     * @param $archiveTable
+     * @param string $archiveTable
+     * @param array $idSites
      * @return array
      * @throws Exception
      */
-    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable)
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, array $idSites)
     {
         // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
         Db::get()->query('SET SQL_BIG_SELECTS=1');
 
         $query = 'SELECT t1.idarchive FROM `' . $archiveTable . '` t1
                   INNER JOIN `' . $archiveTable . '` t2
-                      ON t1.name = t2.name AND t1.idsite=t2.idsite
-                      AND t1.date1=t2.date1 AND t1.date2=t2.date2 AND t1.period=t2.period
+                      ON t1.name    = t2.name
+                      AND t1.idsite = t2.idsite
+                      AND t1.date1  = t2.date1
+                      AND t1.date2  = t2.date2
+                      AND t1.period = t2.period
                   WHERE t1.value = ' . ArchiveWriter::DONE_INVALIDATED . '
+                  AND t1.idsite IN (' . implode(",", $idSites) . ')
                   AND t2.value IN(' . ArchiveWriter::DONE_OK . ', ' . ArchiveWriter::DONE_OK_TEMPORARY . ')
-                  AND t1.ts_archived < t2.ts_archived AND t1.name LIKE \'done%\'';
+                  AND t1.ts_archived < t2.ts_archived
+                  AND t1.name LIKE \'done%\'
+        ';
 
         $result = Db::fetchAll($query);
 
-        return $result;
+        $archiveIds = array_map(
+            function ($elm) {
+                return $elm['idarchive'];
+            },
+            $result
+        );
+        return $archiveIds;
     }
 
     /**

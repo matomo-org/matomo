@@ -16,7 +16,13 @@ use Piwik\Log;
 use Piwik\Piwik;
 
 /**
- * Cleans up outdated archives
+ *
+ * This class purges two types of archives:
+ *
+ * (1) Deletes invalidated archives (from ArchiveInvalidator)
+ *
+ * (2) Deletes outdated archives (the temporary or errored archives)
+ *
  *
  * @package Piwik\DataAccess
  */
@@ -24,35 +30,26 @@ class ArchivePurger
 {
     public static function purgeInvalidatedArchives()
     {
-        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
+        $store = new InvalidatedReports();
+        $idSitesByYearMonth = $store->getSitesByYearMonthArchiveToPurge();
 
-        foreach ($archiveTables as $archiveTable) {
-            /**
-             * Select the archives that have already been invalidated and have been since re-processed.
-             * It purges records for each distinct { archive name (includes segment hash) , idsite, date, period } tuple.
-             */
-            $result = self::getModel()->getInvalidatedArchiveIdsSafeToDelete($archiveTable);
-
-            if (count($result) > 0) {
-                $archiveIds = array_map(
-                    function ($elm) {
-                        return $elm['idarchive'];
-                    },
-                    $result
-                );
-
-                $date = ArchiveTableCreator::getDateFromTableName($archiveTable);
-                $date = Date::factory(str_replace('_', '-', $date) . '-01');
-
-                self::deleteArchiveIds($date, $archiveIds);
+        foreach ($idSitesByYearMonth as $yearMonth => $idSites) {
+            if(empty($idSites)) {
+                continue;
             }
 
-        }
-    }
+            $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
+            $numericTable = ArchiveTableCreator::getNumericTable($date);
 
-    private static function getModel()
-    {
-        return new Model();
+            $archiveIds = self::getModel()->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
+
+            if (count($archiveIds) == 0) {
+                continue;
+            }
+            self::deleteArchiveIds($date, $archiveIds);
+
+            $store->markSiteIdsHaveBeenPurged($idSites, $yearMonth);
+        }
     }
 
     /**
@@ -131,6 +128,11 @@ class ArchivePurger
         foreach ($batches as $idsToDelete) {
             self::getModel()->deleteArchiveIds($numericTable, $blobTable, $idsToDelete);
         }
+    }
+
+    private static function getModel()
+    {
+        return new Model();
     }
 
 }
