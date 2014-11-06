@@ -747,6 +747,21 @@ class Report
     }
 
     /**
+     * TODO
+     */
+    public function hasProcessedMetric($name)
+    {
+        foreach ($this->processedMetrics as $metric) {
+            if ($metric instanceof ProcessedMetric
+                && $metric->getName() == $name
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get an instance of a specific report belonging to the given module and having the given action.
      * @param  string $module
      * @param  string $action

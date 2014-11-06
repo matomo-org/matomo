@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\VisitFrequency\Metrics;
 
-use Exception;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -34,7 +33,7 @@ class BounceRateReturning extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        // empty (metric is not computed, it is copied from segmented report)
+        return 0; // (metric is not computed, it is copied from segmented report)
     }
 
     public function getDependenctMetrics()

@@ -43,8 +43,16 @@ class Get extends \Piwik\Plugin\Report
     {
         $metrics = parent::getMetrics();
 
-        $metrics['avg_time_on_site'] = Piwik::translate('General_VisitDuration');
         $metrics['max_actions']      = Piwik::translate('General_ColumnMaxActions');
+
+        return $metrics;
+    }
+
+    public function getProcessedMetrics()
+    {
+        $metrics = parent::getMetrics();
+
+        $metrics['avg_time_on_site'] = Piwik::translate('General_VisitDuration');
 
         return $metrics;
     }

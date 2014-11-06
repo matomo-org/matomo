@@ -216,7 +216,7 @@ class DataTableGenericFilter
         foreach ($columnQueryParameters as $queryParamName) {
             $queryParamValue = Common::getRequestVar($queryParamName, false);
             if (!empty($queryParamValue)
-                && ProcessedMetric::isProcessedMetric($queryParamValue) // TODO
+                && $this->report->hasProcessedMetric($queryParamValue)
             ) {
                 return true;
             }
