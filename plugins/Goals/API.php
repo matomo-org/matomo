@@ -155,7 +155,7 @@ class API extends \Piwik\Plugin\API
             'pattern_type'    => $patternType,
             'case_sensitive'  => (int) $caseSensitive,
             'allow_multiple'  => (int) $allowMultipleConversionsPerVisit,
-            'revenue'         => (float) $revenue,
+            'revenue'         => $revenue,
         ));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);

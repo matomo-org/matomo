@@ -273,11 +273,10 @@ class GoalManager
      */
     protected function getRevenue($revenue)
     {
-        if (round($revenue) == $revenue) {
-            return $revenue;
+        if (round($revenue) != $revenue) {
+            $revenue = round($revenue, self::REVENUE_PRECISION);
         }
 
-        $revenue = round($revenue, self::REVENUE_PRECISION);
         $revenue = Common::forceDotAsSeparatorForDecimalPoint($revenue);
 
         return $revenue;
