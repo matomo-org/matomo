@@ -12,6 +12,10 @@ use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Plugins\CoreHome\Metrics\ActionsPerVisit;
+use Piwik\Plugins\CoreHome\Metrics\AverageTimeOnSite;
+use Piwik\Plugins\CoreHome\Metrics\BounceRate;
+use Piwik\Plugins\CoreHome\Metrics\ConversionRate;
 
 /**
  * Adds processed metrics columns to a {@link DataTable} using metrics that already exist.
@@ -65,25 +69,14 @@ class AddColumnsProcessedMetrics extends BaseFilter
             $this->deleteRowsWithNoVisit($table);
         }
 
-        $metrics = new Metrics\Processed();
+        $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
 
-        foreach ($table->getRows() as $row) {
-            $this->tryToAddColumn($row, 'conversion_rate', array($metrics, 'getConversionRate'));
-            $this->tryToAddColumn($row, 'nb_actions_per_visit', array($metrics, 'getActionsPerVisit'));
-            $this->tryToAddColumn($row, 'avg_time_on_site', array($metrics, 'getAvgTimeOnSite'));
-            $this->tryToAddColumn($row, 'bounce_rate', array($metrics, 'getBounceRate'));
+        $extraProcessedMetrics[] = new ConversionRate();
+        $extraProcessedMetrics[] = new ActionsPerVisit();
+        $extraProcessedMetrics[] = new AverageTimeOnSite();
+        $extraProcessedMetrics[] = new BounceRate();
 
-            $this->filterSubTable($row);
-        }
-    }
-
-    private function tryToAddColumn(Row $row, $column, $callable)
-    {
-        try {
-            $row->addColumn($column, $callable);
-        } catch (\Exception $e) {
-
-        }
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
     }
 
     private function deleteRowsWithNoVisit(DataTable $table)

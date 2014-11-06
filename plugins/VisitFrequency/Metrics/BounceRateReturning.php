@@ -9,6 +9,7 @@ namespace Piwik\Plugins\VisitFrequency\Metrics;
 
 use Exception;
 use Piwik\DataTable\Row;
+use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
@@ -21,6 +22,11 @@ class BounceRateReturning extends ProcessedMetric
         return 'bounce_rate_returning';
     }
 
+    public function getTranslatedName()
+    {
+        return Piwik::translate('VisitFrequency_ColumnBounceRateForReturningVisits');
+    }
+
     public function format($value)
     {
         return ($value * 100) . '%';
@@ -29,5 +35,10 @@ class BounceRateReturning extends ProcessedMetric
     public function compute(Row $row)
     {
         // empty (metric is not computed, it is copied from segmented report)
+    }
+
+    public function getDependenctMetrics()
+    {
+        return array();
     }
 }

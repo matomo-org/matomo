@@ -23,6 +23,19 @@ class AverageTimeOnSite extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        return Piwik::getQuotientSafe($row->getColumn('sum_visit_length'), $row->getColumn('nb_visits'), $precision = 0);
+        $sumVisitLength = $this->getColumn($row, 'sum_visit_length');
+        $nbVisits = $this->getColumn($row, 'nb_visits');
+
+        return Piwik::getQuotientSafe($sumVisitLength, $nbVisits, $precision = 0);
+    }
+
+    public function getTranslatedName()
+    {
+        return Piwik::translate('General_ColumnAvgTimeOnSite');
+    }
+
+    public function getDependenctMetrics()
+    {
+        return array('sum_visit_length', 'nb_visits');
     }
 }

@@ -161,7 +161,7 @@ class PivotByDimension extends BaseFilter
         $this->pivotByColumnLimit = $pivotByColumnLimit ?: self::getDefaultColumnLimit();
         $this->isFetchingBySegmentEnabled = $isFetchingBySegmentEnabled;
 
-        $namesToId = Metrics::getMappingFromIdToName();
+        $namesToId = Metrics::getMappingFromNameToId();
         $this->metricIndexValue = isset($namesToId[$this->pivotColumn]) ? $namesToId[$this->pivotColumn] : null;
 
         $this->setPivotByDimension($pivotByDimension);

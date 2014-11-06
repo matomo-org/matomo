@@ -9,8 +9,10 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
+use Piwik\Common;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\SettingsPiwik;
 
 /**
@@ -21,12 +23,16 @@ use Piwik\SettingsPiwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function get($idSite, $period, $date, $segment = false)
+    public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        $columns = $this->getCoreColumns($period);
+        $columns = Piwik::getArrayFromApiParameter($columns);
+
+        $report = Report::factory("VisitsSummary", "get");
+        $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $columns);
+
         $dataTable = $archive->getDataTableFromNumeric($columns);
         return $dataTable;
     }

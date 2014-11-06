@@ -12,7 +12,7 @@ use Piwik\DataTable\Row;
 /**
  * TODO
  */
-abstract class ProcessedMetric
+abstract class ProcessedMetric extends Metric
 {
     /**
      * The sub-namespace name in a plugin where Report components are stored.
@@ -42,18 +42,10 @@ abstract class ProcessedMetric
     /**
      * TODO
      */
-    abstract public function getName();
-
-    /**
-     * TODO
-     */
-    public function format($value)
-    {
-        return $value;
-    }
-
-    /**
-     * TODO
-     */
     abstract public function compute(Row $row);
+
+    /**
+     * TODO
+     */
+    abstract public function getDependenctMetrics();
 }

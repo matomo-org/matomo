@@ -169,6 +169,7 @@ class ResponseBuilder
     private function handleDataTable(DataTableInterface $datatable)
     {
         $label = $this->getLabelFromRequest($this->request);
+        $report = Report::factory($this->apiModule, $this->apiMethod);
 
         // handle pivot by dimension filter
         $pivotBy = Common::getRequestVar('pivotBy', false, 'string', $this->request);
@@ -195,14 +196,9 @@ class ResponseBuilder
             $datatable     = $genericFilter->calculate($datatable);
         }
 
-        $report = Report::factory($this->apiModule, $this->apiMethod);
-        if (!empty($report)) {
-            $datatable->filter('ComputeProcessedMetrics', array($report));
-        }
-
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
-            $genericFilter = new DataTableGenericFilter($this->request);
+            $genericFilter = new DataTableGenericFilter($this->request, $report);
             if (!empty($label)) {
                 $genericFilter->disableFilters(array('Limit', 'Truncate'));
             }
@@ -243,7 +239,7 @@ class ResponseBuilder
         if (!($this->apiRenderer instanceof Original)
             && !empty($report)
         ) {
-            $datatable->filter('FormatProcessedMetrics', array($report));
+            $datatable->filter(array($report, 'formatProcessedMetrics'));
         }
 
         return $this->apiRenderer->renderDataTable($datatable);

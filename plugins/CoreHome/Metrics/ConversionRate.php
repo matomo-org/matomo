@@ -14,21 +14,21 @@ use Piwik\Plugin\ProcessedMetric;
 /**
  * TODO
  */
-class BounceRate extends ProcessedMetric
+class ConversionRate extends ProcessedMetric
 {
     public function getName()
     {
-        return 'bounce_rate';
+        return 'conversion_rate';
     }
 
     public function getTranslatedName()
     {
-        return Piwik::translate('General_ColumnBounceRate');
+        return Piwik::translate('General_ColumnConversionRate');
     }
 
     public function getDependenctMetrics()
     {
-        return array('bounce_count', 'nb_visits');
+        return array('nb_visits_converted', 'nb_visits');
     }
 
     public function format($value)
@@ -38,9 +38,9 @@ class BounceRate extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $bounceCount = $this->getColumn($row, 'bounce_count');
-        $visits = $this->getColumn($row, 'nb_visits');
+        $nbVisitsConverted = $this->getColumn($row, 'nb_visits_converted');
+        $nbVisits = $this->getColumn($row, 'nb_visits');
 
-        return Piwik::getQuotientSafe($bounceCount, $visits, $precision = 4);
+        return Piwik::getQuotientSafe($nbVisitsConverted, $nbVisits, $precision = 4);
     }
 }

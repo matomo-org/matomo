@@ -200,6 +200,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     const LABEL_SUMMARY_ROW = -1;
 
     /**
+     * TODO
+     */
+    const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
+
+    /**
      * Maximum nesting level.
      */
     private static $maximumDepthLevelAllowed = self::MAX_DEPTH_DEFAULT;

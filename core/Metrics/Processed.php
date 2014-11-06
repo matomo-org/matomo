@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 namespace Piwik\Metrics;
 
@@ -12,6 +11,7 @@ use Piwik\Metrics;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 
+// TODO: this class should be removed
 class Processed extends Base
 {
 
@@ -60,9 +60,8 @@ class Processed extends Base
             return $this->invalidDivision;
         }
 
-        $bounceRate = round(100 * $this->getColumn($row, Metrics::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
+        $bounceRate = round($this->getColumn($row, Metrics::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
 
-        return $bounceRate . "%";
+        return $bounceRate;
     }
-
 }

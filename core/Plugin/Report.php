@@ -368,6 +368,33 @@ class Report
     }
 
     /**
+     * TODO
+     */
+    public function getMetricsRequiredForReport($allColumns = null, $restrictToColumns = null)
+    {
+        if (empty($allColumns)) {
+            $allColumns = $this->metrics;
+        }
+
+        if (empty($restrictToColumns)) {
+            return $allColumns;
+        } else {
+            $processedMetricsById = $this->getProcessedMetricsById();
+            $metricsSet = array_flip($allColumns);
+
+            $metrics = array();
+            foreach ($restrictToColumns as $column) {
+                if (isset($processedMetricsById[$column])) {
+                    $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependenctMetrics());
+                } else if (isset($metricsSet[$column])) { // TODO: this may cause regression w/ #2531, check?
+                    $metrics[] = $column;
+                }
+            }
+            return array_unique($metrics);
+        }
+    }
+
+    /**
      * Returns an array of supported processed metrics and their corresponding translations. Eg
      * `array('nb_visits' => 'Visits')`. By default the given {@link $processedMetrics} are used and their
      * corresponding translations are looked up automatically. If a metric is not translated, you should add the
@@ -656,6 +683,70 @@ class Report
     }
 
     /**
+     * TODO
+     * TODO: recursion (+ for format)
+     */
+    public function computeProcessedMetrics(DataTable $dataTable)
+    {
+        $processedMetrics = $this->getProcessedMetricsFor($dataTable);
+        if (empty($processedMetrics)) {
+            return;
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            /** @var ProcessedMetric $processedMetric */
+            foreach ($processedMetrics as $name => $processedMetric) {
+                if ($row->getColumn($name) === false) { // do not compute the metric if it has been computed already
+                    $row->addColumn($name, $processedMetric->compute($row));
+                }
+            }
+        }
+    }
+
+    /**
+     * TODO
+     *
+     * @return ProcessedMetric[]
+     */
+    public function getProcessedMetricsFor(DataTable $dataTable)
+    {
+        $dataTableProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
+
+        $processedMetrics = $this->processedMetrics ?: array();
+        $processedMetrics = array_merge($processedMetrics, $dataTableProcessedMetrics);
+
+        $result = array();
+        foreach ($processedMetrics as $metric) {
+            if (!($metric instanceof ProcessedMetric)) {
+                continue;
+            }
+
+            $result[$metric->getName()] = $metric;
+        }
+        return $result;
+    }
+
+    /**
+     * TODO
+     */
+    public function formatProcessedMetrics(DataTable $dataTable)
+    {
+        $processedMetrics = $this->getProcessedMetricsFor($dataTable);
+        if (empty($processedMetrics)) {
+            return;
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            foreach ($processedMetrics as $name => $processedMetric) {
+                $columnValue = $row->getColumn($name);
+                if ($columnValue !== false) {
+                    $row->setColumn($name, $processedMetric->format($columnValue));
+                }
+            }
+        }
+    }
+
+    /**
      * Get an instance of a specific report belonging to the given module and having the given action.
      * @param  string $module
      * @param  string $action
@@ -751,10 +842,24 @@ class Report
      */
     public static function getForDimension(Dimension $dimension)
     {
-        return ComponentFactory::getComponentif (__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
+        return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
             return !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId();
         });
+    }
+
+    /**
+     * @return ProcessedMetric[]
+     */
+    private function getProcessedMetricsById()
+    {
+        $result = array();
+        foreach ($this->processedMetrics as $processedMetric) {
+            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+                $result[$processedMetric->getName()] = $processedMetric;
+            }
+        }
+        return $result;
     }
 }

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Metrics;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Translate;
 
 /**
  * TODO
@@ -23,6 +24,19 @@ class ActionsPerVisit extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        return Piwik::getQuotientSafe($row->getColumn('nb_actions'), $row->getColumn('nb_visits'), $precision = 1);
+        $actions = $this->getColumn($row, 'nb_actions');
+        $visits = $this->getColumn($row, 'nb_visits');
+
+        return Piwik::getQuotientSafe($actions, $visits, $precision = 2);
+    }
+
+    public function getTranslatedName()
+    {
+        return Piwik::translate('General_ColumnActionsPerVisit');
+    }
+
+    public function getDependenctMetrics()
+    {
+        return array('nb_actions', 'nb_visits');
     }
 }

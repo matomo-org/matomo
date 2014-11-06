@@ -12,6 +12,8 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
+use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugin\Report;
 
 class DataTableGenericFilter
 {
@@ -23,13 +25,21 @@ class DataTableGenericFilter
     private $disabledFilters = array();
 
     /**
+     * TODO
+     *
+     * @var Report|null-
+     */
+    private $report;
+
+    /**
      * Constructor
      *
      * @param $request
      */
-    function __construct($request)
+    function __construct($request, $report = null)
     {
         $this->request = $request;
+        $this->report = $report;
     }
 
     /**
@@ -105,7 +115,7 @@ class DataTableGenericFilter
                       'filter_offset'    => array('integer', '0'),
                       'filter_limit'     => array('integer'),
                       'keep_summary_row' => array('integer', '0'),
-                  )),
+                  ))
         );
     }
 
@@ -125,6 +135,8 @@ class DataTableGenericFilter
             }
             return;
         }
+
+        $computed = $this->computeProcessedMetricsIfNeeded($datatable);
 
         $genericFilters = self::getGenericFiltersInformation();
 
@@ -164,6 +176,52 @@ class DataTableGenericFilter
                 $filterApplied = true;
             }
         }
+
+        if (!$computed) {
+            $this->computeProcessedMetrics($datatable);
+        }
+
         return $filterApplied;
+    }
+
+    private function computeProcessedMetricsIfNeeded(DataTable $dataTable)
+    {
+        if (!$this->doesColumnQueryParamReferenceProcessedMetric()) {
+            return false;
+        }
+
+        $this->computeProcessedMetrics($dataTable);
+
+        return true;
+    }
+
+    private function computeProcessedMetrics(DataTable $dataTable)
+    {
+        if (empty($this->report)) {
+            return;
+        }
+
+        $this->report->computeProcessedMetrics($dataTable);
+    }
+
+    private function doesColumnQueryParamReferenceProcessedMetric()
+    {
+        $columnQueryParameters = array(
+            'filter_column',
+            'filter_column_recursive',
+            'filter_excludelowpop',
+            'filter_sort_column'
+        );
+
+        foreach ($columnQueryParameters as $queryParamName) {
+            $queryParamValue = Common::getRequestVar($queryParamName, false);
+            if (!empty($queryParamValue)
+                && ProcessedMetric::isProcessedMetric($queryParamValue) // TODO
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

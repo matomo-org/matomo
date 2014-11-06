@@ -8,6 +8,7 @@
 namespace Piwik\Plugin;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 
 /**
  * TODO
@@ -45,4 +46,36 @@ abstract class Metric
      * TODO
      */
     abstract public function getName();
+
+    /**
+     * TODO
+     */
+    abstract public function getTranslatedName();
+
+    /**
+     * TODO
+     */
+    public function format($value)
+    {
+        return $value;
+    }
+
+    /**
+     * TODO
+     */
+    public function getColumn(Row $row, $columnName, $mappingIdToName = null)
+    {
+        if (empty($mappingIdToName)) {
+            $mappingIdToName = Metrics::getMappingFromNameToId();
+        }
+
+        $value = $row->getColumn($columnName);
+        if ($value === false
+            && isset($mappingIdToName[$columnName])
+        ) {
+            $value = $row->getColumn($mappingIdToName[$columnName]);
+        }
+
+        return $value;
+    }
 }
