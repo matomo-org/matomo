@@ -185,11 +185,20 @@ class Metrics
 
     public static function getMappingFromNameToId()
     {
-        static $idToName = null;
-        if ($idToName === null) {
-            $idToName = array_flip(self::$mappingFromIdToName);
+        static $nameToId = null;
+        if ($nameToId === null) {
+            $nameToId = array_flip(self::$mappingFromIdToName);
         }
-        return $idToName;
+        return $nameToId;
+    }
+
+    public static function getMappingFromNameToIdGoal()
+    {
+        static $nameToId = null;
+        if ($nameToId === null) {
+            $nameToId = array_flip(self::$mappingFromIdToNameGoal);
+        }
+        return $nameToId;
     }
 
     /**

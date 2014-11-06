@@ -63,17 +63,27 @@ abstract class Metric
     /**
      * TODO
      */
-    public function getColumn(Row $row, $columnName, $mappingIdToName = null)
+    public function getColumn($row, $columnName, $mappingIdToName = null)
     {
         if (empty($mappingIdToName)) {
             $mappingIdToName = Metrics::getMappingFromNameToId();
         }
 
-        $value = $row->getColumn($columnName);
-        if ($value === false
-            && isset($mappingIdToName[$columnName])
-        ) {
-            $value = $row->getColumn($mappingIdToName[$columnName]);
+        if ($row instanceof Row) {
+            $value = $row->getColumn($columnName);
+            if ($value === false
+                && isset($mappingIdToName[$columnName])
+            ) {
+                $value = $row->getColumn($mappingIdToName[$columnName]);
+            }
+        } else {
+            $value = $row[$columnName];
+            if ($value === false
+                && isset($mappingIdToName[$columnName])
+            ) {
+                $value = $row[$mappingIdToName[$columnName]];
+            }
+            return $value;
         }
 
         return $value;

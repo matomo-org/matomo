@@ -12,6 +12,13 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\Goals\Metrics\GoalSpecific\AverageOrderRevenue;
+use Piwik\Plugins\Goals\Metrics\GoalSpecific\ConversionRate;
+use Piwik\Plugins\Goals\Metrics\GoalSpecific\Conversions;
+use Piwik\Plugins\Goals\Metrics\GoalSpecific\ItemsCount;
+use Piwik\Plugins\Goals\Metrics\GoalSpecific\Revenue;
+use Piwik\Plugins\Goals\Metrics\GoalSpecific\RevenuePerVisit as GoalSpecificRevenuePerVisit;
+use Piwik\Plugins\Goals\Metrics\RevenuePerVisit;
 
 /**
  * Adds goal related metrics to a {@link DataTable} using metrics that already exist.
@@ -87,12 +94,6 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
         $this->deleteRowsWithNoVisit = false;
     }
 
-    private function addColumn(Row $row, $columnName, $callback)
-    {
-        $this->expectedColumns[$columnName] = true;
-        $row->addColumn($columnName, $callback);
-    }
-
     /**
      * Adds the processed metrics. See {@link AddColumnsProcessedMetrics} for
      * more information.
@@ -104,40 +105,22 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
         // Add standard processed metrics
         parent::filter($table);
 
-        $this->expectedColumns = array();
+        $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
 
-        $metrics = new Metrics\ProcessedGoals();
+        $goals = $this->getGoalsInTable($table);
 
-        foreach ($table->getRows() as $row) {
-            $goals = $metrics->getColumn($row, Metrics::INDEX_GOALS);
-
-            if (!$goals) {
-                continue;
-            }
-
-            $this->addColumn($row, 'revenue_per_visit', function (Row $row) use ($metrics) {
-                return $metrics->getRevenuePerVisit($row);
-            });
-
-            if ($this->processOnlyIdGoal == self::GOALS_MINIMAL_REPORT) {
-                continue;
-            }
-
-            foreach ($goals as $goalId => $goalMetrics) {
-                $goalId = str_replace("idgoal=", "", $goalId);
-
+        // TODO: all metrics depend on 'goals' row paremter
+        $extraProcessedMetrics[] = new RevenuePerVisit();
+        if ($this->processOnlyIdGoal != self::GOALS_MINIMAL_REPORT) {
+            foreach ($goals as $idGoal) {
                 if (($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
                         || $this->isEcommerce)
-                    && $this->processOnlyIdGoal != $goalId
+                    && $this->processOnlyIdGoal != $idGoal
                 ) {
                     continue;
                 }
 
-                $columnPrefix = 'goal_' . $goalId;
-
-                $this->addColumn($row, $columnPrefix . '_conversion_rate', function (Row $row) use ($metrics, $goalMetrics) {
-                    return $metrics->getConversionRate($row, $goalMetrics);
-                });
+                $extraProcessedMetrics[] = new ConversionRate($idGoal); // PerGoal\ConversionRate
 
                 // When the table is displayed by clicking on the flag icon, we only display the columns
                 // Visits, Conversions, Per goal conversion rate, Revenue
@@ -145,38 +128,20 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                     continue;
                 }
 
-                // Goal Conversions
-                $this->addColumn($row, $columnPrefix . '_nb_conversions', function () use ($metrics, $goalMetrics) {
-                    return $metrics->getNbConversions($goalMetrics);
-                });
-
-                // Goal Revenue per visit
-                $this->addColumn($row, $columnPrefix . '_revenue_per_visit', function (Row $row) use ($metrics, $goalMetrics) {
-                    return $metrics->getRevenuePerVisitForGoal($row, $goalMetrics);
-                });
-
-                // Total revenue
-                $this->addColumn($row, $columnPrefix . '_revenue', function () use ($metrics, $goalMetrics) {
-                    return $metrics->getRevenue($goalMetrics);
-                });
+                $extraProcessedMetrics[] = new Conversions($idGoal); // PerGoal\Conversions or GoalSpecific\
+                $extraProcessedMetrics[] = new GoalSpecificRevenuePerVisit($idGoal); // PerGoal\Revenue
+                $extraProcessedMetrics[] = new Revenue($idGoal); // PerGoal\Revenue
 
                 if ($this->isEcommerce) {
-
-                    // AOV Average Order Value
-                    $this->addColumn($row, $columnPrefix . '_avg_order_revenue', function () use ($metrics, $goalMetrics) {
-                        return $metrics->getAvgOrderRevenue($goalMetrics);
-                    });
-
-                    // Items qty
-                    $this->addColumn($row, $columnPrefix . '_items', function () use ($metrics, $goalMetrics) {
-                        return $metrics->getItems($goalMetrics);
-                    });
-
+                    $extraProcessedMetrics[] = new AverageOrderRevenue($idGoal);
+                    $extraProcessedMetrics[] = new ItemsCount($idGoal);
                 }
             }
         }
 
-        $expectedColumns = array_keys($this->expectedColumns);
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+
+        /*$expectedColumns = array_keys($this->expectedColumns);
         $rows = $table->getRows();
         foreach ($rows as $row) {
             foreach ($expectedColumns as $name) {
@@ -190,6 +155,27 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                     }
                 }
             }
+        }*/
+    }
+
+    private function getGoalsInTable(DataTable $table)
+    {
+        $metrics = new Metrics\Base(); // TODO: should probably get rid of Base too...
+
+        $result = array();
+        foreach ($table->getRows() as $row) {
+            $goals = $metrics->getColumn($row, Metrics::INDEX_GOALS);
+            if (!$goals) {
+                continue;
+            }
+
+            foreach ($goals as $goalId => $goalMetrics) {
+                $goalId = str_replace("idgoal=", "", $goalId);
+                $result[] = $goalId;
+            }
+
+            break;
         }
+        return $result;
     }
 }
