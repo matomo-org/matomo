@@ -218,6 +218,11 @@ class Rules
                 return $timeToLive;
             }
         }
+        return self::getTodayArchiveTimeToLiveDefault();
+    }
+
+    public static function getTodayArchiveTimeToLiveDefault()
+    {
         return Config::getInstance()->General['time_before_today_archive_considered_outdated'];
     }
 
@@ -329,4 +334,5 @@ class Rules
 
         return $possibleValues;
     }
+
 }
