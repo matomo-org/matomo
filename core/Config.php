@@ -382,6 +382,10 @@ class Config extends Singleton
                 $value = $this->encodeValues($value);
             }
         } else {
+            if (is_float($values)) {
+                $values = Common::forceDotAsSeparatorForDecimalPoint($values);
+            }
+
             $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
             $values = str_replace('$', '&#36;', $values);
         }
