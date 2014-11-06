@@ -10,6 +10,7 @@ namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
@@ -51,8 +52,6 @@ class API extends \Piwik\Plugin\API
     const OUTPUT_SAVE_ON_DISK = 2;
     const OUTPUT_INLINE = 3;
     const OUTPUT_RETURN = 4;
-
-    const REPORT_TRUNCATE = 23;
 
     // static cache storing reports
     public static $cache = array();
@@ -314,7 +313,7 @@ class API extends \Piwik\Plugin\API
         // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
         // 23 rows table fits in one portrait page
         $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
-        $_GET['filter_truncate'] = self::REPORT_TRUNCATE;
+        $_GET['filter_truncate'] = Config::getInstance()->General['schedule_reports_truncate'];
 
         $prettyDate = null;
         $processedReports = array();
