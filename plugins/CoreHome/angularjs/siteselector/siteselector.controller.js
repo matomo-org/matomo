@@ -41,6 +41,9 @@
         };
 
         $scope.$watch('selectedSite', function (site) {
+            if (!site.name) {
+                return;
+            }
             $scope.selectedSiteNameHtml = site.name.replace(/[\u0000-\u2666]/g, function(c) {
                 return '&#'+c.charCodeAt(0)+';';
             });
