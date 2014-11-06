@@ -128,13 +128,6 @@ class Report
     // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
 
     /**
-     * TODO
-     *
-     * TODO: shouldn't be public
-     */
-    public $temporaryMetrics = array();
-
-    /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
      * automatically added to the report metadata and the report will be displayed in the Goals UI.
      * @var bool

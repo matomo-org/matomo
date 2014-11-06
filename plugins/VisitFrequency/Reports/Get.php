@@ -9,7 +9,10 @@
 namespace Piwik\Plugins\VisitFrequency\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugins\VisitFrequency\Metrics\BounceRateReturning;
+use Piwik\Plugins\CoreHome\Metrics\ActionsPerVisit;
+use Piwik\Plugins\CoreHome\Metrics\AverageTimeOnSite;
+use Piwik\Plugins\CoreHome\Metrics\BounceRate;
+use Piwik\Plugins\VisitFrequency\Metrics\ReturningMetric;
 
 class Get extends \Piwik\Plugin\Report
 {
@@ -20,13 +23,13 @@ class Get extends \Piwik\Plugin\Report
         $this->name          = Piwik::translate('VisitFrequency_ColumnReturningVisits');
         $this->documentation = ''; // TODO
         $this->processedMetrics = array(
-            new BounceRateReturning()
+            new ReturningMetric(new AverageTimeOnSite()),
+            new ReturningMetric(new ActionsPerVisit()),
+            new ReturningMetric(new BounceRate())
         );
         $this->metrics       = array(
             'nb_visits_returning',
             'nb_actions_returning',
-            'avg_time_on_site_returning',
-            'nb_actions_per_visit_returning',
             'nb_uniq_visitors_returning',
             'sum_visit_length_returning',
             'nb_users_returning',

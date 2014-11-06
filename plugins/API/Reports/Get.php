@@ -48,15 +48,6 @@ class Get extends Report
             $this->metrics = array_merge($this->metrics, $report->metrics);
         }
 
-        $this->temporaryMetrics = array();
-        foreach ($this->reportsToMerge as $report) {
-            if (!is_array($report->temporaryMetrics)) {
-                continue;
-            }
-
-            $this->temporaryMetrics = array_merge($this->temporaryMetrics, $report->temporaryMetrics);
-        }
-
         // Used to process metrics, not displayed/used directly
 //								'sum_visit_length',
 //								'nb_visits_converted',

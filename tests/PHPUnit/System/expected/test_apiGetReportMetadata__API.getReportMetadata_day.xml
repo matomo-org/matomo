@@ -21,8 +21,6 @@
 			<revenue>Revenue</revenue>
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
-			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
-			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
@@ -32,8 +30,6 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_users>Users</nb_users>
 			<nb_actions>Actions</nb_actions>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 			<max_actions>Maximum actions in one visit</max_actions>
 		</metrics>
 		<metricsDocumentation>
@@ -50,12 +46,14 @@
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 		</metricsDocumentation>
 		<processedMetrics>
+			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -133,8 +131,6 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_users>Users</nb_users>
 			<nb_actions>Actions</nb_actions>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 			<max_actions>Maximum actions in one visit</max_actions>
 		</metrics>
 		<metricsDocumentation>
@@ -142,11 +138,11 @@
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 		</metricsDocumentation>
 		<processedMetrics>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1844,8 +1840,6 @@
 		<metrics>
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
-			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
-			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
@@ -1853,6 +1847,8 @@
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
 		</metrics>
 		<processedMetrics>
+			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -2134,8 +2130,6 @@
 			<revenue>Revenue</revenue>
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
-			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
-			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
@@ -2145,8 +2139,6 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_users>Users</nb_users>
 			<nb_actions>Actions</nb_actions>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 			<max_actions>Maximum actions in one visit</max_actions>
 			<revenue_subtotal>Subtotal</revenue_subtotal>
 			<revenue_tax>Tax</revenue_tax>
@@ -2156,8 +2148,12 @@
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
 		</metrics>
 		<processedMetrics>
+			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
@@ -2173,8 +2169,6 @@
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 		</metricsDocumentation>
 		<uniqueId>API_get</uniqueId>
 	</row>

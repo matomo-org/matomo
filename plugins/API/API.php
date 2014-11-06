@@ -381,7 +381,8 @@ class API extends \Piwik\Plugin\API
                 && !empty($reportMeta['metrics'])
             ) {
                 $plugin = $reportMeta['module'];
-                foreach ($reportMeta['metrics'] as $column => $columnTranslation) {
+                $allMetrics = array_merge($reportMeta['metrics'], @$reportMeta['processedMetrics'] ?: array());
+                foreach ($allMetrics as $column => $columnTranslation) {
                     // a metric from this report has been requested
                     if (isset($columnsMap[$column])
                         // or by default, return all metrics
