@@ -158,9 +158,9 @@ class Php extends GeoIp
         $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
         if ($ispGeoIp) {
             if ($isIPv6) {
-                $isp = geoip_name_by_addr_v6($orgGeoIp, $ip);
+                $isp = geoip_name_by_addr_v6($ispGeoIp, $ip);
             } else {
-                $isp = geoip_org_by_addr($orgGeoIp, $ip);
+                $isp = geoip_org_by_addr($ispGeoIp, $ip);
             }
             if (!empty($isp)) {
                 $result[self::ISP_KEY] = utf8_encode($isp);
