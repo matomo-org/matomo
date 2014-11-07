@@ -15,6 +15,8 @@ use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
+use Piwik\Plugins\Goals\Metrics\AverageOrderRevenue;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
@@ -334,59 +336,34 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
-        $columns = Piwik::getArrayFromApiParameter($columns);
 
         // Mapping string idGoal to internal ID
         $idGoal = self::convertSpecialGoalIds($idGoal);
 
-        if (empty($columns)) {
-            $columns = Goals::getGoalColumns($idGoal);
-            if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-                $columns[] = 'avg_order_revenue';
-            }
-        }
-        if (in_array('avg_order_revenue', $columns)
-            && $idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+        $allMetrics = Goals::getGoalColumns($idGoal);
+
+        $columns = Piwik::getArrayFromApiParameter($columns);
+        $columnsToGet = Report::factory("Goals", "get")->getMetricsRequiredForReport($allMetrics, $columns);
+
+        $inDbMetricNames = array_map(function ($value) use ($idGoal) { return Archiver::getRecordName($value, $idGoal); }, $columnsToGet);
+        $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
+
+        $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
+        $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
+
+        // TODO: this should be in Goals/Get.php but it depends on idGoal parameter which isn't always in _GET (ie,
+        //       it's not in ProcessedReport.php). more refactoring must be done to report class before this can be
+        //       corrected.
+        if ((in_array('avg_order_revenue', $columns)
+             || empty($columns))
+            && $idGoal === GoalManager::IDGOAL_ORDER
         ) {
-            $columns[] = 'nb_conversions';
-            $columns[] = 'revenue';
-            $columns = array_values(array_unique($columns));
+            $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            $extraProcessedMetrics[] = new AverageOrderRevenue();
+            $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }
-        $columnsToSelect = array();
-        foreach ($columns as &$columnName) {
-            $columnsToSelect[] = Archiver::getRecordName($columnName, $idGoal);
-        }
-        $dataTable = $archive->getDataTableFromNumeric($columnsToSelect);
 
-        // Rewrite column names as we expect them
-        foreach ($columnsToSelect as $id => $oldName) {
-            $dataTable->renameColumn($oldName, $columns[$id]);
-        }
-        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            if ($dataTable instanceof DataTable\Map) {
-                foreach ($dataTable->getDataTables() as $row) {
-                    $this->enrichTable($row);
-                }
-            } else {
-                $this->enrichTable($dataTable);
-            }
-        }
         return $dataTable;
-    }
-
-    protected function enrichTable($table)
-    {
-        $row = $table->getFirstRow();
-        if (!$row) {
-            return;
-        }
-        // AVG order per visit
-        if (false !== $table->getColumn('avg_order_revenue')) {
-            $conversions = $row->getColumn('nb_conversions');
-            if ($conversions) {
-                $row->setColumn('avg_order_revenue', round($row->getColumn('revenue') / $conversions, 2));
-            }
-        }
     }
 
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)

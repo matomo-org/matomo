@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\Goals\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugins\Goals\Metrics\AverageOrderRevenue;
 
 class Get extends BaseGoal
 {

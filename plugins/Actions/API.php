@@ -59,7 +59,7 @@ class API extends \Piwik\Plugin\API
         $inDbColumnNames = array_map(function ($value) { return 'Actions_' . $value; }, $columns);
         $dataTable = $archive->getDataTableFromNumeric($inDbColumnNames);
 
-        $newNameMapping = array_combine(array_values($inDbColumnNames), $columns);
+        $newNameMapping = array_combine($inDbColumnNames, $columns);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
         $dataTable->filter('ColumnDelete', array(array('sum_time_generation','nb_hits_with_time_generation')));
