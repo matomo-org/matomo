@@ -263,9 +263,6 @@ class ProcessedReport
         // Sort results to ensure consistent order
         usort($availableReports, array('self', 'sortReports'));
 
-        // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
-        $this->addApiGetMetdata($availableReports);
-
         $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
         $columnsToKeep   = $this->getColumnsToKeep();
         $columnsToRemove = $this->getColumnsToRemove();
@@ -360,40 +357,6 @@ class ProcessedReport
         return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
             ? (@$a['order'] < @$b['order'] ? -1 : 1)
             : $category;
-    }
-
-    /**
-     * Add the metadata for the API.get report
-     * In other plugins, this would hook on 'API.getReportMetadata'
-     */
-    private function addApiGetMetdata(&$availableReports)
-    {
-        $metadata = array(
-            'category'             => Piwik::translate('General_API'),
-            'name'                 => Piwik::translate('General_MainMetrics'),
-            'module'               => 'API',
-            'action'               => 'get',
-            'metrics'              => array(),
-            'processedMetrics'     => array(),
-            'metricsDocumentation' => array(),
-            'order'                => 1
-        );
-
-        $indexesToMerge = array('metrics', 'processedMetrics', 'metricsDocumentation');
-
-        foreach ($availableReports as $report) {
-            if ($report['action'] == 'get') {
-                foreach ($indexesToMerge as $index) {
-                    if (isset($report[$index])
-                        && is_array($report[$index])
-                    ) {
-                        $metadata[$index] = array_merge($metadata[$index], $report[$index]);
-                    }
-                }
-            }
-        }
-
-        $availableReports[] = $metadata;
     }
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,

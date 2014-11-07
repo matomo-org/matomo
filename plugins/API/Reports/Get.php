@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\API\Reports;
 
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
 
@@ -27,8 +28,8 @@ class Get extends Report
         $this->reportsToMerge = $this->getReportsToMerge();
 
         $this->category      = 'API';
-        $this->name          = 'All Metrics'; // TODO: translate
-        $this->documentation = ''; // TODO
+        $this->name          = Piwik::translate('General_MainMetrics');
+        $this->documentation = '';
 
         $this->processedMetrics = array();
         foreach ($this->reportsToMerge as $report) {
@@ -48,9 +49,6 @@ class Get extends Report
             $this->metrics = array_merge($this->metrics, $report->metrics);
         }
 
-        // Used to process metrics, not displayed/used directly
-//								'sum_visit_length',
-//								'nb_visits_converted',
         $this->order = 1;
     }
 
