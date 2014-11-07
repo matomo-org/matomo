@@ -153,8 +153,8 @@ class Php extends GeoIp
             }
         }
 
-        // NOTE: ISP & ORG require commercial dbs to test. IPv4 code has been tested manually,
-        // but not by system tests, IPv6 code is untested.
+        // NOTE: ISP & ORG require commercial dbs to test. The code has been tested manually,
+        // but not by system tests.
         $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
         if ($ispGeoIp) {
             if ($isIPv6) {
