@@ -1,6 +1,7 @@
 {
     "Annotations": {
         "AddAnnotationsFor": "Adicionar anotações para %s...",
+        "AnnotationOnDate": "Anotação em %1$s: %2$s",
         "Annotations": "Anotações",
         "ClickToDelete": "Clique para eliminar esta anotação.",
         "ClickToEdit": "Clique para editar esta anotação.",

@@ -98,6 +98,8 @@ class API extends \Piwik\Plugin\API
         $name    = $this->checkName($name);
         $pattern = $this->checkPattern($pattern);
 
+        $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
+
         $goal = array(
             'name'            => $name,
             'match_attribute' => $matchAttribute,
@@ -105,7 +107,7 @@ class API extends \Piwik\Plugin\API
             'pattern_type'    => $patternType,
             'case_sensitive'  => (int)$caseSensitive,
             'allow_multiple'  => (int)$allowMultipleConversionsPerVisit,
-            'revenue'         => (float)$revenue,
+            'revenue'         => $revenue,
             'deleted'         => 0,
         );
 
@@ -144,6 +146,8 @@ class API extends \Piwik\Plugin\API
         $pattern = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
+        $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
+
         $this->getModel()->updateGoal($idSite, $idGoal, array(
             'name'            => $name,
             'match_attribute' => $matchAttribute,
@@ -151,7 +155,7 @@ class API extends \Piwik\Plugin\API
             'pattern_type'    => $patternType,
             'case_sensitive'  => (int) $caseSensitive,
             'allow_multiple'  => (int) $allowMultipleConversionsPerVisit,
-            'revenue'         => (float) $revenue,
+            'revenue'         => $revenue,
         ));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);

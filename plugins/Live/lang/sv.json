@@ -34,6 +34,7 @@
         "VisitorProfile": "Besöksprofil",
         "VisitorsInRealTime": "Besökare i realtid",
         "VisitorsLastVisit": "Denna besökares senaste besök var %s dagar sedan.",
-        "VisitsFrom": "%1$s%2$s besökta %3$s från"
+        "VisitsFrom": "%1$s%2$s besökta %3$s från",
+        "VisitSummary": "Spenderade totalt %1$s%2$s på den här webbsidan%3$s, och %4$svar inne på %5$s sidor under %6$sbesöket. %7$s"
     }
 }

@@ -303,6 +303,7 @@
         "PurchasedProducts": "محصولات خریداری شده",
         "Quantity": "تعداد",
         "RangeReports": "بازه های زمانی سفارشی",
+        "ReadThisToLearnMore": "%1$sبرای اطلاعات بیشتر اینجا را بخوانید%2$s",
         "Recommended": "(توصیه شده)",
         "RecordsToPlot": "سوابق به طرح",
         "Refresh": "بازآوری",

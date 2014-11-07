@@ -21,6 +21,7 @@
         "ImportingServerLogs": "Import von Server Log-Dateien",
         "ImportingServerLogsDesc": "Eine Alternative zum Tracken der Besucher im Browser (entweder mit JavaScript oder mit einem Bild-Link) ist der kontinuierliche Import von Server Logdateien. Erfahren Sie mehr über %1$sServer Logdatei Analyse%2$s",
         "InvalidPluginsWarning": "Folgende Plugins sind nicht kompatibel mit %1$s und konnten nicht geladen werden: %2$s",
+        "InvalidPluginsYouCanUninstall": "Sie können diese Plugins auf der %1$sPlugins verwalten%2$s Seite aktualisieren oder deinstallieren.",
         "JavaScriptTracking": "Tracking mit JavaScript",
         "JSTracking_CampaignKwdParam": "Kampagnen Stichwort Parameter",
         "JSTracking_CampaignNameParam": "Parameter für Kampagnenname",

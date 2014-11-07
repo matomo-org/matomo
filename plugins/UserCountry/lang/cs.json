@@ -319,6 +319,7 @@
         "GeoIPNoServerVars": "Piwik nemůže najít žádné GeoIP %s proměnné",
         "GeoIPPeclCustomDirNotSet": "PHP ini možnost %s není nastavena.",
         "GeoIPServerVarsFound": "Piwik detekuje následující GeoIP %s proměnné",
+        "GeoIPUpdaterInstructions": "Níže vložte odkazy ke stažení GeoIP databází. Pokud jste zakoupili databáze %3$sMaxMind%4$s, najdete odkazy ke stažení %1$szde%2$s. Pokud máte problém s přístupem k nim, kontaktujte %3$sMaxMind%4$s.",
         "GeoIPUpdaterIntro": "Piwik aktuálně spravuje aktualizace pro následující GeoIP databáze",
         "GeoLiteCityLink": "Pokud používáte databázi GeoLite, použijte následující odkaz: %1$s%2$s%3$s.",
         "Geolocation": "Geolokace",

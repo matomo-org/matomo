@@ -265,6 +265,13 @@ class Mysql implements SchemaInterface
                                         INDEX index_period_archived(period, ts_archived)
                                       ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
+
+            'sequence'        => "CREATE TABLE {$prefixTables}sequence (
+                                      `name` VARCHAR(120) NOT NULL,
+                                      `value` BIGINT(20) UNSIGNED NOT NULL ,
+                                      PRIMARY KEY(`name`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
         );
 
         return $tables;
@@ -468,30 +475,26 @@ class Mysql implements SchemaInterface
 
     private function getTablePrefix()
     {
-        $dbInfos      = Db::getDatabaseConfig();
-        $prefixTables = $dbInfos['tables_prefix'];
-
-        return $prefixTables;
+        return $this->getDbSettings()->getTablePrefix();
     }
 
     private function getTableEngine()
     {
-        $dbInfos = Db::getDatabaseConfig();
-        $engine  = $dbInfos['type'];
-
-        return $engine;
+        return $this->getDbSettings()->getEngine();
     }
 
     private function getDb(){
         return Db::get();
     }
 
+    private function getDbSettings()
+    {
+        return new Db\Settings();
+    }
+
     private function getDbName()
     {
-        $dbInfos = Db::getDatabaseConfig();
-        $dbName  = $dbInfos['dbname'];
-
-        return $dbName;
+        return $this->getDbSettings()->getDbName();
     }
 
     private function getAllExistingTables($prefixTables = false)

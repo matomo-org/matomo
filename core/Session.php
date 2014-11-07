@@ -115,7 +115,7 @@ class Session extends Zend_Session
             parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
-            Log::warning('Unable to start session: ' . $e->getMessage());
+            Log::error('Unable to start session: ' . $e->getMessage());
 
             $enableDbSessions = '';
             if (DbHelper::isInstalled()) {

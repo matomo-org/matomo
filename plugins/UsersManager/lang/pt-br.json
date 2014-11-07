@@ -10,6 +10,7 @@
         "ChangePasswordConfirm": "Alterando a senha também vai mudar token_auth do usuário. Você realmente quer continuar?",
         "ClickHereToDeleteTheCookie": "Clique aqui para deletar o cookie e deixar o Piwik rastrear suas visitas",
         "ClickHereToSetTheCookieOnDomain": "Clique aqui para setar um cookie que excluirá suas visitas em websites rastrados pelo Piwik em %s",
+        "ConfirmGrantSuperUserAccess": "Você realmente deseja conceder a '%s' o acesso de Super Usuário? Aviso: o usuário terá acesso a todos os sites e será capaz de executar tarefas administrativas.",
         "DeleteConfirm": "Tem certeza que deseja apagar o usuário %s?",
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$s E-mail a seu administrador sobre este problema %2$s.",

@@ -1,6 +1,7 @@
 {
     "Installation": {
         "CannotConnectToDb": "Verbindung zur Datenbank ist fehlgeschlagen",
+        "CannotConnectToDbResolvingExplanation": "Dies könnte ein temporäres Problem sein. Versuchen Sie diese %1$sSeite neu zu laden%2$s. Wenn das Problem weiterhin besetht wernden Sie sich bitte an Ihren Piwik Administrator.",
         "CollaborativeProject": "Piwik ist ein gemeinschaftliches Projekt, geschaffen mit Liebe von Menschen aus der ganzen Welt.",
         "ConfigurationHelp": "Ihre Konfigurationsdatei enthält Fehler. Sie können entweder die config\/config.php löschen und neu installieren, oder die Einstellung zur Datenbankverbindung korrigieren.",
         "ConfirmDeleteExistingTables": "Wollen Sie wirklich die Tabellen: %s aus der Datenbank löschen? WARNUNG: DATEN AUS DIESEN TABELLEN KÖNNEN NICHT WIEDERHERGESTELLT WERDEN!",

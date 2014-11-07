@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngineDocumentation": "Detta diagram visar besökarnas webbläsare delas upp i webbläsarfamiljer. %s Den viktigaste informationen för webbutvecklare är vilken typ av renderingsmotorn deras besökare använder. Etiketterna innehåller namnen på de motorer som följt av den vanligaste webbläsaren med den motorn inom parentes.",
         "BrowserVersions": "Version av webbläsare",
         "Camera": "Kamera",
         "CarBrowser": "Car browser",

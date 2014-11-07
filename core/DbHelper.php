@@ -11,6 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
+use Piwik\DataAccess\ArchiveTableCreator;
 
 /**
  * Contains database related helper functions.
@@ -173,4 +174,17 @@ class DbHelper
         return Schema::getInstance()->getTableCreateSql($tableName);
     }
 
+    /**
+     * Deletes archive tables. For use in tests.
+     */
+    public static function deleteArchiveTables()
+    {
+        foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+            Log::debug("Dropping table $table");
+
+            Db::query("DROP TABLE IF EXISTS `$table`");
+        }
+
+        ArchiveTableCreator::refreshTableList($forceReload = true);
+    }
 }

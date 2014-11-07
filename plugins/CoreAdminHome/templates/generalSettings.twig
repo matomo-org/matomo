@@ -69,7 +69,7 @@
                             {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
                         </strong>
                     {% endif %}
-                    {{ 'General_SmallTrafficYouCanLeaveDefault'|translate(10) }}
+                    {{ 'General_SmallTrafficYouCanLeaveDefault'|translate( todayArchiveTimeToLiveDefault ) }}
                     <br/>
                     {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
                 {% endset %}

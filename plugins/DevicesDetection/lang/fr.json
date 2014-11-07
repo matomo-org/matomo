@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngineDocumentation": "Ce tableau affiche les navigateurs de vos visiteurs regroupés par famille. %s L'information la plus importante pour les développeurs est quel type de moteur de rendu utilisent leurs visiteurs. Les labels contiennent les noms des moteurs suivis par les principaux navigateurs les utilisant entre parenthèses.",
         "BrowserVersions": "Versions du navigateur",
         "Camera": "Caméra",
         "CarBrowser": "Navigateur de voiture",

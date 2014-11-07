@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngineDocumentation": "Ovaj grafikon prikazuje brauzere vaših posetilaca po porodicama. %s Najvažnija informacija za web dizajnere je koju vrstu endžina koriste njihovi posetioci. Naptisi sadrže imena endžina a u zagradi je najčešća lista brauzera koji koriste taj endžin.",
         "BrowserVersions": "Verzije pretraživača",
         "Camera": "Kamera",
         "CarBrowser": "Pretraživač za auto",

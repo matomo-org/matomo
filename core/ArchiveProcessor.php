@@ -260,6 +260,7 @@ class ArchiveProcessor
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
         foreach($metrics as $column => $value) {
+            $value = Common::forceDotAsSeparatorForDecimalPoint($value);
             $this->archiveWriter->insertRecord($column, $value);
         }
         // if asked for only one field to sum
@@ -314,6 +315,8 @@ class ArchiveProcessor
     public function insertNumericRecord($name, $value)
     {
         $value = round($value, 2);
+        $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+
         $this->archiveWriter->insertRecord($name, $value);
     }
 

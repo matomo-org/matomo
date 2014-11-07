@@ -23,6 +23,7 @@
         "TotalEvents": "Totaal gebeurtenissen",
         "TotalEventsDocumentation": "Totaal aantal gebeurtenissen",
         "TotalValue": "Totale waarde",
-        "TotalValueDocumentation": "De som van gebeurtenis waardes"
+        "TotalValueDocumentation": "De som van gebeurtenis waardes",
+        "ViewEvents": "Bekijk gebeurtenissen"
     }
 }
