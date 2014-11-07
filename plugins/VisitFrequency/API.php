@@ -47,8 +47,12 @@ class API extends \Piwik\Plugin\API
             'format'    => 'original',
             'serialize' => 0 // tests set this to 1
         );
+
+        /** @var DataTable $table */
         $table = Request::processRequest('VisitsSummary.get', $params);
         $this->prefixColumns($table, $period);
+        $table->clearQueuedFilters();
+
         return $table;
     }
 

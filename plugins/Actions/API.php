@@ -62,6 +62,8 @@ class API extends \Piwik\Plugin\API
         $newNameMapping = array_combine($inDbColumnNames, $columns);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
+        // TODO: either replace w/ temporary metrics, or just include them in the results and let people remove themif
+        //       they want.
         $dataTable->queueFilter('ColumnDelete', array(array('sum_time_generation', 'nb_hits_with_time_generation')));
 
         return $dataTable;
@@ -82,7 +84,6 @@ class API extends \Piwik\Plugin\API
                                 $depth = false)
     {
         $dataTable = $this->getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
-        $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
     }
@@ -161,7 +162,7 @@ class API extends \Piwik\Plugin\API
     {
         $callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_PAGE_URL);
-        $this->filterPageDatatable($dataTable);
+        // $this->filterPageDatatable($dataTable); TODO: no report metadata for getPageUrl... problem? can add extra processed metrics via metadata.
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
@@ -169,7 +170,6 @@ class API extends \Piwik\Plugin\API
     public function getPageTitles($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
         $dataTable = $this->getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
     }
@@ -202,7 +202,7 @@ class API extends \Piwik\Plugin\API
     {
         $callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_PAGE_TITLE);
-        $this->filterPageDatatable($dataTable);
+        // $this->filterPageDatatable($dataTable); TODO: no GetPageTitle report
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
@@ -241,7 +241,6 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
         $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
-        $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;
@@ -277,7 +276,6 @@ class API extends \Piwik\Plugin\API
             ));
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
         $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
-        $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;
@@ -437,75 +435,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Common filters for Page URLs and Page Titles
-     *
-     * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
-     */
-    protected function filterPageDatatable($dataTable)
-    {
-        $columnsToRemove = array('bounce_rate');
-        $dataTable->queueFilter('ColumnDelete', array($columnsToRemove));
-
-        // Average time on page = total time on page / number visits on that page
-        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
-            array('avg_time_on_page',
-                  'sum_time_spent',
-                  'nb_visits',
-                  0)
-        );
-
-        // Bounce rate = single page visits on this page / visits started on this page
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage',
-            array('bounce_rate',
-                  'entry_bounce_count',
-                  'entry_nb_visits',
-                  0));
-
-        // % Exit = Number of visits that finished on this page / visits on this page
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage',
-            array('exit_rate',
-                  'exit_nb_visits',
-                  'nb_visits',
-                  0)
-        );
-
-        // Handle performance analytics
-        $hasTimeGeneration = (array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_SUM_TIME_GENERATION)) > 0);
-        if ($hasTimeGeneration) {
-            // Average generation time = total generation time / number of pageviews
-            $precisionAvgTimeGeneration = 3;
-            $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
-                array('avg_time_generation',
-                      'sum_time_generation',
-                      'nb_hits_with_time_generation',
-                      $precisionAvgTimeGeneration)
-            );
-            $dataTable->queueFilter('ColumnDelete', array(array('sum_time_generation')));
-        } else {
-            // No generation time: remove it from the API output and add it to empty_columns metadata, so that
-            // the columns can also be removed from the view
-            $dataTable->filter('ColumnDelete', array(array(
-                                                         Metrics::INDEX_PAGE_SUM_TIME_GENERATION,
-                                                         Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION,
-                                                         Metrics::INDEX_PAGE_MIN_TIME_GENERATION,
-                                                         Metrics::INDEX_PAGE_MAX_TIME_GENERATION
-                                                     )));
-
-            if ($dataTable instanceof DataTable) {
-                $emptyColumns = $dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
-                if (!is_array($emptyColumns)) {
-                    $emptyColumns = array();
-                }
-                $emptyColumns[] = 'sum_time_generation';
-                $emptyColumns[] = 'avg_time_generation';
-                $emptyColumns[] = 'min_time_generation';
-                $emptyColumns[] = 'max_time_generation';
-                $dataTable->setMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME, $emptyColumns);
-            }
-        }
-    }
-
-    /**
      * Common filters for all Actions API
      *
      * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
@@ -518,7 +447,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('ReplaceColumnNames');
         $dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
 
-        $dataTable->queueFilter('ReplaceSummaryRowLabel');
+        //$dataTable->queueFilter('ReplaceSummaryRowLabel'); TODO: necessary?
     }
 
     /**

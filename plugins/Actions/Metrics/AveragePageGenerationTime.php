@@ -7,9 +7,12 @@
  */
 namespace Piwik\Plugins\Actions\Metrics;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\Archiver;
 
 /**
@@ -38,5 +41,35 @@ class AveragePageGenerationTime extends ProcessedMetric
         $hitsWithTimeGeneration = $this->getColumn($row, 'nb_hits_with_time_generation');
 
         return Piwik::getQuotientSafe($sumGenerationTime, $hitsWithTimeGeneration, $precision = 3);
+    }
+
+    public function shouldComputeForTable(Report $report, DataTable $table)
+    {
+        $hasTimeGeneration = array_sum($table->getColumn(Metrics::INDEX_PAGE_SUM_TIME_GENERATION)) > 0;
+
+        if (!$hasTimeGeneration) { // TODO: ideally this logic shouldn't exist...
+            // No generation time: remove it from the API output and add it to empty_columns metadata, so that
+            // the columns can also be removed from the view
+            $table->filter('ColumnDelete', array(array(
+                Metrics::INDEX_PAGE_SUM_TIME_GENERATION,
+                Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION,
+                Metrics::INDEX_PAGE_MIN_TIME_GENERATION,
+                Metrics::INDEX_PAGE_MAX_TIME_GENERATION
+            )));
+
+            if ($table instanceof DataTable) {
+                $emptyColumns = $table->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME); // TODO: this metadata feels like a hack, should investigate removing it in a new issue
+                if (!is_array($emptyColumns)) {
+                    $emptyColumns = array();
+                }
+                $emptyColumns[] = 'sum_time_generation';
+                $emptyColumns[] = 'avg_time_generation';
+                $emptyColumns[] = 'min_time_generation';
+                $emptyColumns[] = 'max_time_generation';
+                $table->setMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME, $emptyColumns);
+            }
+        }
+
+        return $hasTimeGeneration;
     }
 }

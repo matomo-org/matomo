@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
@@ -48,4 +49,12 @@ abstract class ProcessedMetric extends Metric
      * TODO
      */
     abstract public function getDependenctMetrics();
+
+    /**
+     * TODO
+     */
+    public function shouldComputeForTable(Report $report, DataTable $table)
+    {
+        return true;
+    }
 }

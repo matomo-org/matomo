@@ -249,7 +249,7 @@ class ResponseBuilder
             if (!($this->apiRenderer instanceof Original)) {
                 $datatable->filter(array($report, 'formatProcessedMetrics'));
             } else {
-                $datatable->queueFilter(array($report, 'formatProcessedMetrics'));
+                $datatable->queueFilter(array($report, 'formatProcessedMetrics')); // TODO: queuing does not always work.
             }
         }
 

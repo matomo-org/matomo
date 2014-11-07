@@ -13,6 +13,10 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Plugins\Actions\Columns\PageTitle;
+use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Metrics\ExitRate;
 
 class GetPageTitles extends Base
 {
@@ -26,7 +30,13 @@ class GetPageTitles extends Base
                                                 array('<br />', htmlentities('<title>')));
 
         $this->order   = 5;
-        $this->metrics = array('nb_hits', 'nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate', 'avg_time_generation');
+        $this->metrics = array('nb_hits', 'nb_visits');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
 
         $this->actionToLoadSubTables = $this->action;
 
