@@ -77,7 +77,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>6</nb_actions>
 			<nb_users>0</nb_users>
-			<revenue>$ 3111</revenue>
+			<revenue>$ 3111.11</revenue>
 			<nb_actions_per_visit>6</nb_actions_per_visit>
 			<avg_time_on_site>01:06:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -321,6 +321,6 @@
 		<nb_actions>13</nb_actions>
 		<nb_conversions>3</nb_conversions>
 		<bounce_count>0</bounce_count>
-		<revenue>3121</revenue>
+		<revenue>3121.11</revenue>
 	</reportTotal>
 </result>
