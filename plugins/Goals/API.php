@@ -358,9 +358,11 @@ class API extends \Piwik\Plugin\API
              || empty($columns))
             && $idGoal === GoalManager::IDGOAL_ORDER
         ) {
-            $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-            $extraProcessedMetrics[] = new AverageOrderRevenue();
-            $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            $dataTable->filter(function (DataTable $table) {
+                $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+                $extraProcessedMetrics[] = new AverageOrderRevenue();
+                $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            });
         }
 
         return $dataTable;

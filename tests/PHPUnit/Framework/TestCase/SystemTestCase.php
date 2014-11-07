@@ -294,7 +294,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         try {
-            Response::assertEquals($expectedResponse, $processedResponse, "Differences with expected in '$processedFilePath'");
+            $errorMessage = get_class($this) . ": Differences with expected in '$processedFilePath'";
+            Response::assertEquals($expectedResponse, $processedResponse, $errorMessage);
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }
