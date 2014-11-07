@@ -230,16 +230,7 @@ class API extends \Piwik\Plugin\API
             $dataTable->renameColumn(Metrics::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
         }
 
-        // Average price = sum product revenue / quantity
-        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_price', 'price', $ordersColumn, GoalManager::REVENUE_PRECISION));
-
-        // Average quantity = sum product quantity / abandoned carts
-        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
-            array('avg_quantity', 'quantity', $ordersColumn, $precision = 1));
         $dataTable->queueFilter('ColumnDelete', array('price'));
-
-        // Product conversion rate = orders / visits
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', GoalManager::REVENUE_PRECISION));
 
         return $dataTable;
     }

@@ -11,6 +11,10 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\EntryPageTitle;
+use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Metrics\ExitRate;
 
 class GetEntryPageTitles extends Base
 {
@@ -22,7 +26,13 @@ class GetEntryPageTitles extends Base
         $this->name          = Piwik::translate('Actions_EntryPageTitles');
         $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
-        $this->metrics = array('entry_nb_visits', 'entry_bounce_count', 'bounce_rate');
+        $this->metrics = array('entry_nb_visits', 'entry_bounce_count');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->order   = 6;
         $this->actionToLoadSubTables = $this->action;
 

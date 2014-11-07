@@ -79,15 +79,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
             $url = urlencode($url);
         }
         return array(
-            array('VisitFrequency.get', array('idSite' => $idSite,
-                'date' => $dateTime,
-                'otherRequestParameters' => array(
-                    'hideColumns' => 'nb_users',
-                )
-            ))
-        );
-        return array(
-            array('VisitFrequency.get', array('idSite' => $idSite,
+            array('all', array('idSite' => $idSite,
                                'date' => $dateTime,
                                'otherRequestParameters' => array(
                                    'hideColumns' => 'nb_users',

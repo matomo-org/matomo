@@ -196,6 +196,14 @@ class API extends \Piwik\Plugin\API
                 }
             }
 
+            // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
+            $ieVisits = 0;
+
+            $ieStats = $browserType->getRowFromLabel('Trident');
+            if ($ieStats !== false) {
+                $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
+            }
+
             // get according visitsSum
             foreach ($visitSumsArray as $k => $visits) {
                 if ($k == $key) {
@@ -211,24 +219,9 @@ class API extends \Piwik\Plugin\API
                 }
             }
 
-            // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
-            $ieVisits = 0;
-
-            $ieStats = $browserType->getRowFromLabel('Trident');
-            if ($ieStats !== false) {
-                $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
-            }
-
             $visitsSum = $visitsSumTotal - $ieVisits;
 
-            // When Truncate filter is applied, it will call AddSummaryRow which tries to sum all rows.
-            // We tell the object to skip the column nb_visits_percentage when aggregating (since it's not correct to sum % values)
-            $columnAggregationOps = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-            $columnAggregationOps['nb_visits_percentage'] = 'skip';
-            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOps);
-
-            // The filter must be applied now so that the new column can
-            // be sorted by the generic filters (applied right after this loop exits)
+            // TODO: refactor this message before using PluginsVisitsPercent
             $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Metrics::INDEX_NB_VISITS, $visitsSum, 1));
             $table->filter('RangeCheck', array('nb_visits_percentage'));
         }

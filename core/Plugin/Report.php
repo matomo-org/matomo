@@ -721,7 +721,6 @@ class Report
 
     /**
      * TODO
-     * TODO: recursion (+ for format)
      *
      * TODO: put in new non-filter class. do not mark w/ @api.
      */
@@ -739,13 +738,18 @@ class Report
         }
 
         foreach ($processedMetrics as $name => $processedMetric) {
-            if (!$processedMetric->shouldComputeForTable($this, $dataTable)) {
+            if (!$processedMetric->beforeCompute($this, $dataTable)) {
                 continue;
             }
 
             foreach ($dataTable->getRows() as $row) {
                 if ($row->getColumn($name) === false) { // do not compute the metric if it has been computed already
                     $row->addColumn($name, $processedMetric->compute($row));
+
+                    $subtable = $row->getSubtable();
+                    if (!empty($subtable)) {
+                        $this->computeProcessedMetrics($subtable);
+                    }
                 }
             }
         }
@@ -772,6 +776,11 @@ class Report
                 $columnValue = $row->getColumn($name);
                 if ($columnValue !== false) {
                     $row->setColumn($name, $processedMetric->format($columnValue));
+                }
+
+                $subtable = $row->getSubtable();
+                if (!empty($subtable)) {
+                    $this->formatProcessedMetrics($subtable);
                 }
             }
         }

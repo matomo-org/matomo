@@ -13,6 +13,10 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
+use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Metrics\ExitRate;
 
 class GetExitPageUrls extends Base
 {
@@ -25,7 +29,13 @@ class GetExitPageUrls extends Base
         $this->documentation = Piwik::translate('Actions_ExitPagesReportDocumentation', '<br />')
                              . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
-        $this->metrics = array('exit_nb_visits', 'nb_visits', 'exit_rate');
+        $this->metrics = array('exit_nb_visits', 'nb_visits');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->actionToLoadSubTables = $this->action;
 
         $this->order = 4;

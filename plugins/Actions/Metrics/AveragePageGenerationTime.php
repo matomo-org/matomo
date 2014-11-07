@@ -43,9 +43,19 @@ class AveragePageGenerationTime extends ProcessedMetric
         return Piwik::getQuotientSafe($sumGenerationTime, $hitsWithTimeGeneration, $precision = 3);
     }
 
-    public function shouldComputeForTable(Report $report, DataTable $table)
+    public function beforeCompute(Report $report, DataTable $table)
     {
-        $hasTimeGeneration = array_sum($table->getColumn(Metrics::INDEX_PAGE_SUM_TIME_GENERATION)) > 0;
+        $columnName = Metrics::INDEX_PAGE_SUM_TIME_GENERATION;
+
+        // TODO: code redundancy w/ another metric (VisitsPercent i think?)
+        $firstRow = $table->getFirstRow();
+        if (!empty($firstRow)
+            && $firstRow->getColumn($columnName) === false
+        ) {
+            $columnName = 'sum_time_generation';
+        }
+
+        $hasTimeGeneration = array_sum($table->getColumn($columnName)) > 0;
 
         if (!$hasTimeGeneration) { // TODO: ideally this logic shouldn't exist...
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that

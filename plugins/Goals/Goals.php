@@ -117,7 +117,7 @@ class Goals extends \Piwik\Plugin
             'revenue_per_visit' => 'General_ColumnValuePerVisit',
             'quantity'          => 'General_Quantity',
             'avg_price'         => 'General_AveragePrice',
-            'avg_quantity'      => 'General_AverageQuantity',
+            'avg_quantity'      => 'onv',
             'revenue_subtotal'  => 'General_Subtotal',
             'revenue_tax'       => 'General_Tax',
             'revenue_shipping'  => 'General_Shipping',

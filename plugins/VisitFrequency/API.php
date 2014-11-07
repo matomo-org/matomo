@@ -48,10 +48,12 @@ class API extends \Piwik\Plugin\API
             'serialize' => 0 // tests set this to 1
         );
 
-        /** @var DataTable $table */
         $table = Request::processRequest('VisitsSummary.get', $params);
         $this->prefixColumns($table, $period);
-        $table->clearQueuedFilters();
+
+        $table->filter(function (DataTable $table) {
+            $table->clearQueuedFilters();
+        });
 
         return $table;
     }

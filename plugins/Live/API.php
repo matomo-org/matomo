@@ -167,6 +167,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId = false, $minTimestamp, $filterSortOrder);
         $this->addFilterToCleanVisitors($dataTable, $idSite, $flat, $doNotFetchActions);
 
+        // TODO: why is this necessary? shouldn't be. uncomment & see if tests pass.
         $filterSortColumn = Common::getRequestVar('filter_sort_column', false, 'string');
         $filterSortOrder  = Common::getRequestVar('filter_sort_order', 'desc', 'string');
 

@@ -13,6 +13,10 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\EntryPageUrl;
+use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Metrics\ExitRate;
 
 class GetEntryPageUrls extends Base
 {
@@ -25,7 +29,13 @@ class GetEntryPageUrls extends Base
         $this->documentation = Piwik::translate('Actions_EntryPagesReportDocumentation', '<br />')
                              . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
-        $this->metrics = array('entry_nb_visits', 'entry_bounce_count', 'bounce_rate');
+        $this->metrics = array('entry_nb_visits', 'entry_bounce_count');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->order   = 3;
 
         $this->actionToLoadSubTables = $this->action;

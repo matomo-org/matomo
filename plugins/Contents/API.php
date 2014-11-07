@@ -61,8 +61,5 @@ class API extends \Piwik\Plugin\API
                 }
             }
         });
-
-        // Content interaction rate = interactions / impressions
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('interaction_rate', 'nb_interactions', 'nb_impressions', $precision = 2));
     }
 }

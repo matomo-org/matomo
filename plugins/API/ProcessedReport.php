@@ -456,7 +456,7 @@ class ProcessedReport
     private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false)
     {
         $hasDimension = isset($reportMetadata['dimension']);
-        $columns = $reportMetadata['metrics'];
+        $columns = @$reportMetadata['metrics'] ?: array();
 
         if ($hasDimension) {
             $columns = array_merge(

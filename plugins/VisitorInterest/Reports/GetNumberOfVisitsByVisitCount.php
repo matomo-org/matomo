@@ -12,6 +12,7 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\VisitorInterest\Columns\VisitsbyVisitNumber;
+use Piwik\Plugins\VisitorInterest\Metrics\VisitsPercent;
 
 class GetNumberOfVisitsByVisitCount extends Base
 {
@@ -23,7 +24,9 @@ class GetNumberOfVisitsByVisitCount extends Base
         $this->documentation = Piwik::translate('VisitorInterest_WidgetVisitsByNumDocumentation')
                              . '<br />' . Piwik::translate('General_ChangeTagCloudView');
         $this->metrics       = array('nb_visits', 'nb_visits_percentage');
-        $this->processedMetrics  = false;
+        $this->processedMetrics  = array(
+            new VisitsPercent()
+        );
         $this->constantRowsCount = true;
         $this->order = 25;
         $this->widgetTitle  = 'VisitorInterest_visitsByVisitCount';

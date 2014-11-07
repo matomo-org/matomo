@@ -13,15 +13,22 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Goals\Goals;
+use Piwik\Plugins\Goals\Metrics\AveragePrice;
+use Piwik\Plugins\Goals\Metrics\AverageQuantity;
+use Piwik\Plugins\Goals\Metrics\ProductConversionRate;
 
 abstract class BaseEcommerceItem extends BaseEcommerce
 {
     protected function init()
     {
         parent::init();
-        $this->processedMetrics = false;
+        $this->processedMetrics = array(
+            new AveragePrice(),
+            new AverageQuantity(),
+            new ProductConversionRate()
+        );
         $this->metrics = array(
-            'revenue', 'quantity', 'orders', 'avg_price', 'avg_quantity', 'nb_visits', 'conversion_rate'
+            'revenue', 'quantity', 'orders', 'nb_visits'
         );
     }
 

@@ -53,7 +53,7 @@ abstract class ProcessedMetric extends Metric
     /**
      * TODO
      */
-    public function shouldComputeForTable(Report $report, DataTable $table)
+    public function beforeCompute(Report $report, DataTable $table)
     {
         return true;
     }

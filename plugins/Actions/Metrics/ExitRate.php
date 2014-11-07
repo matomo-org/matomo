@@ -32,7 +32,12 @@ class ExitRate extends ProcessedMetric
         $exitVisits = $this->getColumn($row, 'exit_nb_visits');
         $visits = $this->getColumn($row, 'nb_visits');
 
-        return Piwik::getQuotientSafe($exitVisits, $visits, $precision = 0);
+        return Piwik::getQuotientSafe($exitVisits, $visits, $precision = 2);
+    }
+
+    public function format($value) // TODO: should create ratio & percent processed metric base types
+    {
+        return ($value * 100) . '%';
     }
 
     public function getDependenctMetrics()

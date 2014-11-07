@@ -17,6 +17,10 @@ use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Metrics\ExitRate;
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 use Piwik\Tracker\Action;
@@ -62,7 +66,7 @@ class API extends \Piwik\Plugin\API
         $newNameMapping = array_combine($inDbColumnNames, $columns);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
-        // TODO: either replace w/ temporary metrics, or just include them in the results and let people remove themif
+        // TODO: either replace w/ temporary metrics, or just include them in the results and let people remove them if
         //       they want.
         $dataTable->queueFilter('ColumnDelete', array(array('sum_time_generation', 'nb_hits_with_time_generation')));
 
@@ -162,7 +166,7 @@ class API extends \Piwik\Plugin\API
     {
         $callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_PAGE_URL);
-        // $this->filterPageDatatable($dataTable); TODO: no report metadata for getPageUrl... problem? can add extra processed metrics via metadata.
+        $this->addPageProcessedMetrics($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
@@ -202,7 +206,7 @@ class API extends \Piwik\Plugin\API
     {
         $callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_PAGE_TITLE);
-        // $this->filterPageDatatable($dataTable); TODO: no GetPageTitle report
+        $this->addPageProcessedMetrics($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
@@ -447,7 +451,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('ReplaceColumnNames');
         $dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
 
-        //$dataTable->queueFilter('ReplaceSummaryRowLabel'); TODO: necessary?
+        $dataTable->queueFilter('ReplaceSummaryRowLabel');
     }
 
     /**
@@ -492,5 +496,15 @@ class API extends \Piwik\Plugin\API
             $skipAggregationOfSubTables = false;
         }
         return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $skipAggregationOfSubTables, $depth);
+    }
+
+    private function addPageprocessedMetrics(DataTable $dataTable)
+    {
+        $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+        $extraProcessedMetrics[] = new AverageTimeOnPage();
+        $extraProcessedMetrics[] = new BounceRate();
+        $extraProcessedMetrics[] = new ExitRate();
+        $extraProcessedMetrics[] = new AveragePageGenerationTime();
+        $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
     }
 }
