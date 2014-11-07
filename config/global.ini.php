@@ -323,7 +323,7 @@ scheduled_reports_replyto_is_user_email_and_alias = 0
 ; scheduled reports truncate limit
 ; the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
 ; 23 rows table fits in one portrait page
-schedule_reports_truncate = 23
+scheduled_reports_truncate = 23
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)

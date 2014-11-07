@@ -313,7 +313,7 @@ class API extends \Piwik\Plugin\API
         // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
         // 23 rows table fits in one portrait page
         $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
-        $_GET['filter_truncate'] = Config::getInstance()->General['schedule_reports_truncate'];
+        $_GET['filter_truncate'] = Config::getInstance()->General['scheduled_reports_truncate'];
 
         $prettyDate = null;
         $processedReports = array();
