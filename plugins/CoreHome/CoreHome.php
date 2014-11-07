@@ -21,9 +21,15 @@ class CoreHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
         );
+    }
+
+    public function filterMergedJavaScripts(&$mergedContent)
+    {
+        $mergedContent = preg_replace('/(sourceMappingURL=(.*?).map)/', '', $mergedContent);
     }
 
     public function extendVisitorDetails(&$visitor, $details)
