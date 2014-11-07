@@ -818,6 +818,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Seznam
         'search.seznam.cz'               => array('Seznam', 'q', '?q={k}'),
+        
+        // Seznam Videa (Video)
+        'videa.seznam.cz'               => array('Seznam Videa', 'q', '?q={k}'),
 
         // Sharelook
         'www.sharelook.fr'               => array('Sharelook', 'keyword'),
