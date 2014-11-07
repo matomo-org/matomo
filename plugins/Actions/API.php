@@ -16,6 +16,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 use Piwik\Tracker\Action;
@@ -52,58 +53,18 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        $metrics = Archiver::$actionsAggregateMetrics;
-        $metrics['Actions_avg_time_generation'] = 'avg_time_generation';
-
-        // get requested columns
         $columns = Piwik::getArrayFromApiParameter($columns);
-        if (!empty($columns)) {
-            // get the columns that are available and requested
-            $columns = array_intersect($columns, array_values($metrics));
-            $columns = array_values($columns); // make sure indexes are right
-            $nameReplace = array();
-            foreach ($columns as $i => $column) {
-                $fullColumn = array_search($column, $metrics);
-                $columns[$i] = $fullColumn;
-                $nameReplace[$fullColumn] = $column;
-            }
+        $columns = Report::factory("Actions", "get")->getMetricsRequiredForReport(Archiver::$actionsAggregateMetrics, $columns);
 
-            if (false !== ($avgGenerationTimeRequested = array_search('Actions_avg_time_generation', $columns))) {
-                unset($columns[$avgGenerationTimeRequested]);
-                $avgGenerationTimeRequested = true;
-            }
-        } else {
-            // get all columns
-            unset($metrics['Actions_avg_time_generation']);
-            $columns = array_keys($metrics);
-            $nameReplace = & $metrics;
-            $avgGenerationTimeRequested = true;
-        }
+        $inDbColumnNames = array_map(function ($value) { return 'Actions_' . $value; }, $columns);
+        $dataTable = $archive->getDataTableFromNumeric($inDbColumnNames);
 
-        if ($avgGenerationTimeRequested) {
-            $tempColumns = array(
-                Archiver::METRIC_SUM_TIME_RECORD_NAME,
-                Archiver::METRIC_HITS_TIMED_RECORD_NAME,
-            );
-            $columns = array_merge($columns, $tempColumns);
-            $columns = array_unique($columns);
+        $newNameMapping = array_combine(array_values($inDbColumnNames), $columns);
+        $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
-            $nameReplace[Archiver::METRIC_SUM_TIME_RECORD_NAME] = 'sum_time_generation';
-            $nameReplace[Archiver::METRIC_HITS_TIMED_RECORD_NAME] = 'nb_hits_with_time_generation';
-        }
+        $dataTable->filter('ColumnDelete', array(array('sum_time_generation','nb_hits_with_time_generation')));
 
-        $table = $archive->getDataTableFromNumeric($columns);
-
-        // replace labels (remove Actions_)
-        $table->filter('ReplaceColumnNames', array($nameReplace));
-
-        // compute avg generation time
-        if ($avgGenerationTimeRequested) {
-            $table->filter('ColumnCallbackAddColumnQuotient', array('avg_time_generation', 'sum_time_generation', 'nb_hits_with_time_generation', 3));
-            $table->deleteColumns(array('sum_time_generation', 'nb_hits_with_time_generation'));
-        }
-
-        return $table;
+        return $dataTable;
     }
 
     /**

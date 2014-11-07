@@ -23,6 +23,8 @@ use Piwik\DataTable\Row;
  *
  *     $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('bounce_rate', 'bounce_count', 'nb_visits', $precision = 2));
  *
+ * TODO: deprecate filters meant for processed metrics? shouldn't remove, but could deprecate.
+ *
  * @api
  */
 class ColumnCallbackAddColumnQuotient extends BaseFilter
