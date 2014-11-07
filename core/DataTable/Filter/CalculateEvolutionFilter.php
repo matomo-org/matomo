@@ -8,6 +8,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Site;
@@ -121,6 +122,8 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     {
         $value = self::getPercentageValue($value, $divisor, $this->quotientPrecision);
         $value = self::appendPercentSign($value);
+
+        $value = Common::forceDotAsSeparatorForDecimalPoint($value);
 
         return $value;
     }

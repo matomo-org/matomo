@@ -1244,6 +1244,8 @@ class API extends \Piwik\Plugin\API
 
         $return = array();
         foreach ($GmtOffsets as $offset) {
+            $offset = Common::forceDotAsSeparatorForDecimalPoint($offset);
+
             if ($offset > 0) {
                 $offset = '+' . $offset;
             } elseif ($offset == 0) {

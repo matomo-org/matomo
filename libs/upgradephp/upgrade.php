@@ -349,7 +349,7 @@ function _safe_serialize( $value )
 	}
 	if(is_float($value))
 	{
-		return 'd:'.$value.';';
+		return 'd:'.str_replace(',', '.', $value).';';
 	}
 	if(is_string($value))
 	{

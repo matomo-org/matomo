@@ -646,6 +646,9 @@ class PiwikTracker
         if (empty($sku)) {
             throw new Exception("You must specify a SKU for the Ecommerce item");
         }
+
+        $price = $this->forceDotAsSeparatorForDecimalPoint($price);
+
         $this->ecommerceItems[$sku] = array($sku, $name, $category, $price, $quantity);
     }
 
@@ -747,7 +750,9 @@ class PiwikTracker
         $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY] = array('_pkc', $category);
 
         if (!empty($price)) {
-            $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_PRICE] = array('_pkp', (float)$price);
+            $price = (float) $price;
+            $price = $this->forceDotAsSeparatorForDecimalPoint($price);
+            $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_PRICE] = array('_pkp', $price);
         }
 
         // On a category page, do not record "Product name not defined"
@@ -761,6 +766,22 @@ class PiwikTracker
             $name = "";
         }
         $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_NAME] = array('_pkn', $name);
+    }
+
+    /**
+     * Force the separator for decimal point to be a dot. See https://github.com/piwik/piwik/issues/6435
+     * If for instance a German locale is used it would be a comma otherwise.
+     *
+     * @param  float|string $value
+     * @return string
+     */
+    private function forceDotAsSeparatorForDecimalPoint($value)
+    {
+        if (null === $value || false === $value) {
+            return $value;
+        }
+
+        return str_replace(',', '.', $value);
     }
 
     /**
@@ -807,18 +828,23 @@ class PiwikTracker
         $url = $this->getRequest($this->idSite);
         $url .= '&idgoal=0';
         if (!empty($grandTotal)) {
+            $grandTotal = $this->forceDotAsSeparatorForDecimalPoint($grandTotal);
             $url .= '&revenue=' . $grandTotal;
         }
         if (!empty($subTotal)) {
+            $subTotal = $this->forceDotAsSeparatorForDecimalPoint($subTotal);
             $url .= '&ec_st=' . $subTotal;
         }
         if (!empty($tax)) {
+            $tax  = $this->forceDotAsSeparatorForDecimalPoint($tax);
             $url .= '&ec_tx=' . $tax;
         }
         if (!empty($shipping)) {
+            $shipping = $this->forceDotAsSeparatorForDecimalPoint($shipping);
             $url .= '&ec_sh=' . $shipping;
         }
         if (!empty($discount)) {
+            $discount = $this->forceDotAsSeparatorForDecimalPoint($discount);
             $url .= '&ec_dt=' . $discount;
         }
         if (!empty($this->ecommerceItems)) {
@@ -876,7 +902,8 @@ class PiwikTracker
             $url .= '&e_n=' . urlencode($name);
         }
         if(strlen($value) > 0) {
-            $url .= '&e_v=' . $value;
+            $value = $this->forceDotAsSeparatorForDecimalPoint($value);
+            $url  .= '&e_v=' . $value;
         }
         return $url;
     }
@@ -982,7 +1009,8 @@ class PiwikTracker
         $url = $this->getRequest($this->idSite);
         $url .= '&idgoal=' . $idGoal;
         if (!empty($revenue)) {
-            $url .= '&revenue=' . $revenue;
+            $revenue = $this->forceDotAsSeparatorForDecimalPoint($revenue);
+            $url    .= '&revenue=' . $revenue;
         }
         return $url;
     }

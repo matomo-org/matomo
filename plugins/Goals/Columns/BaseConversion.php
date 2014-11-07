@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals\Columns;
 
+use Piwik\Common;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Tracker\GoalManager;
 
@@ -29,6 +30,8 @@ abstract class BaseConversion extends ConversionDimension
             return $revenue;
         }
 
-        return round($revenue, GoalManager::REVENUE_PRECISION);
+        $value = round($revenue, GoalManager::REVENUE_PRECISION);
+
+        return $value;
     }
 }
