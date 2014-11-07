@@ -237,10 +237,12 @@ class TestsSetupFixture extends ConsoleCommand
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 
         $fixturesToLoad = array(
+            '/tests/PHPUnit/Fixtures/*.php',
             '/tests/PHPUnit/UI/Fixtures/*.php',
             '/plugins/*/tests/Fixtures/*.php',
             '/plugins/*/Test/Fixtures/*.php',
         );
+
         foreach($fixturesToLoad as $fixturePath) {
             foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
                 require_once $file;
