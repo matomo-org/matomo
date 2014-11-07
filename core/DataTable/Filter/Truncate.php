@@ -69,6 +69,10 @@ class Truncate extends BaseFilter
      */
     public function filter($table)
     {
+        if ($this->truncateAfter < 0) {
+            return;
+        }
+
         $this->addSummaryRow($table);
         $table->queueFilter('ReplaceSummaryRowLabel', array($this->labelSummaryRow));
 
