@@ -428,6 +428,23 @@ class Report
             }
         }
 
+        $processedMetrics = $this->processedMetrics ?: array();
+        foreach ($processedMetrics as $processedMetric) {
+            if (!($processedMetric instanceof ProcessedMetric)) {
+                continue;
+            }
+
+            $name = $processedMetric->getName();
+            $metricDocs = $processedMetric->getDocumentation();
+            if (empty($metricDocs)) {
+                $metricDocs = @$translations[$name];
+            }
+
+            if (!empty($metricDocs)) {
+                $documentation[$processedMetric->getName()] = $metricDocs;
+            }
+        }
+
         return $documentation;
     }
 

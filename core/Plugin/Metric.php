@@ -55,6 +55,14 @@ abstract class Metric
     /**
      * TODO
      */
+    public function getDocumentation()
+    {
+        return "";
+    }
+
+    /**
+     * TODO
+     */
     public function format($value)
     {
         return $value;
