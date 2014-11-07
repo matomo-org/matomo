@@ -367,24 +367,28 @@ class Report
     {
         if (empty($allColumns)) {
             $allColumns = $this->metrics;
+
+            foreach ($this->processedMetrics as $processedMetric) {
+                $allColumns[] = $processedMetric instanceof ProcessedMetric ? $processedMetric->getName() : $processedMetric;
+            }
         }
 
         if (empty($restrictToColumns)) {
-            return $allColumns;
-        } else {
-            $processedMetricsById = $this->getProcessedMetricsById();
-            $metricsSet = array_flip($allColumns);
-
-            $metrics = array();
-            foreach ($restrictToColumns as $column) {
-                if (isset($processedMetricsById[$column])) {
-                    $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependenctMetrics());
-                } else if (isset($metricsSet[$column])) { // TODO: this may cause regression w/ #2531, check?
-                    $metrics[] = $column;
-                }
-            }
-            return array_unique($metrics);
+            $restrictToColumns = $allColumns;
         }
+
+        $processedMetricsById = $this->getProcessedMetricsById();
+        $metricsSet = array_flip($allColumns);
+
+        $metrics = array();
+        foreach ($restrictToColumns as $column) {
+            if (isset($processedMetricsById[$column])) {
+                $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependenctMetrics());
+            } else if (isset($metricsSet[$column])) { // TODO: this may cause regression w/ #2531, check?
+                $metrics[] = $column;
+            }
+        }
+        return array_unique($metrics);
     }
 
     /**
@@ -694,27 +698,6 @@ class Report
 
     /**
      * TODO
-     * TODO: recursion (+ for format)
-     */
-    public function computeProcessedMetrics(DataTable $dataTable)
-    {
-        $processedMetrics = $this->getProcessedMetricsFor($dataTable);
-        if (empty($processedMetrics)) {
-            return;
-        }
-
-        foreach ($dataTable->getRows() as $row) {
-            /** @var ProcessedMetric $processedMetric */
-            foreach ($processedMetrics as $name => $processedMetric) {
-                if ($row->getColumn($name) === false) { // do not compute the metric if it has been computed already
-                    $row->addColumn($name, $processedMetric->compute($row));
-                }
-            }
-        }
-    }
-
-    /**
-     * TODO
      *
      * @return ProcessedMetric[]
      */
@@ -738,9 +721,42 @@ class Report
 
     /**
      * TODO
+     * TODO: recursion (+ for format)
+     */
+    public function computeProcessedMetrics(DataTable $dataTable)
+    {
+        if ($dataTable->getMetadata('processed_metrics_computed')) {
+            return;
+        }
+
+        $dataTable->setMetadata('processed_metrics_computed', true); // TODO: metadataname should be const
+
+        $processedMetrics = $this->getProcessedMetricsFor($dataTable);
+        if (empty($processedMetrics)) {
+            return;
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            /** @var ProcessedMetric $processedMetric */
+            foreach ($processedMetrics as $name => $processedMetric) {
+                if ($row->getColumn($name) === false) { // do not compute the metric if it has been computed already
+                    $row->addColumn($name, $processedMetric->compute($row));
+                }
+            }
+        }
+    }
+
+    /**
+     * TODO
      */
     public function formatProcessedMetrics(DataTable $dataTable)
     {
+        if ($dataTable->getMetadata('processed_metrics_formatted')) {
+            return;
+        }
+
+        $dataTable->setMetadata('processed_metrics_formatted', true); // TODO: metadataname should be const
+
         $processedMetrics = $this->getProcessedMetricsFor($dataTable);
         if (empty($processedMetrics)) {
             return;
@@ -761,7 +777,8 @@ class Report
      */
     public function hasProcessedMetric($name)
     {
-        foreach ($this->processedMetrics as $metric) {
+        $processedMetrics = $this->processedMetrics ?: array(); // TODO: shouldn't allow processedMetrics to be non-array
+        foreach ($processedMetrics as $metric) {
             if ($metric instanceof ProcessedMetric
                 && $metric->getName() == $name
             ) {

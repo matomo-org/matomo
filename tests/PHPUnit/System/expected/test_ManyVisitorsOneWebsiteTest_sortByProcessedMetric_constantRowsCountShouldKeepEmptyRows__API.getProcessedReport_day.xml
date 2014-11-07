@@ -50,17 +50,6 @@
 	</columns>
 	<reportData>
 		<row>
-			<label>12h</label>
-			<nb_uniq_visitors>4</nb_uniq_visitors>
-			<nb_visits>4</nb_visits>
-			<nb_actions>12</nb_actions>
-			<nb_users>0</nb_users>
-			<revenue>$ 40</revenue>
-			<nb_actions_per_visit>3</nb_actions_per_visit>
-			<avg_time_on_site>00:21:01</avg_time_on_site>
-			<bounce_rate>0%</bounce_rate>
-		</row>
-		<row>
 			<label>11h</label>
 			<nb_uniq_visitors>4</nb_uniq_visitors>
 			<nb_visits>4</nb_visits>
@@ -70,6 +59,17 @@
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>12h</label>
+			<nb_uniq_visitors>4</nb_uniq_visitors>
+			<nb_visits>4</nb_visits>
+			<nb_actions>12</nb_actions>
+			<nb_users>0</nb_users>
+			<revenue>$ 40</revenue>
+			<nb_actions_per_visit>3</nb_actions_per_visit>
+			<avg_time_on_site>00:21:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
 		</row>
 		<row>
 			<label>0h</label>

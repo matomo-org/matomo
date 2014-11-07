@@ -171,6 +171,8 @@ class ResponseBuilder
         $label = $this->getLabelFromRequest($this->request);
         $report = Report::factory($this->apiModule, $this->apiMethod);
 
+        $genericFilter = new DataTableGenericFilter($this->request, $report);
+
         // handle pivot by dimension filter
         $pivotBy = Common::getRequestVar('pivotBy', false, 'string', $this->request);
         if (!empty($pivotBy)) {
@@ -192,19 +194,26 @@ class ResponseBuilder
         }
 
         if (1 == Common::getRequestVar('totals', '1', 'integer', $this->request)) {
-            $genericFilter = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request);
-            $datatable     = $genericFilter->calculate($datatable);
+            $reportTotalsCalculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request);
+            $datatable     = $reportTotalsCalculator->calculate($datatable);
         }
 
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
-            $genericFilter = new DataTableGenericFilter($this->request, $report);
+            $datatable->filter(function (DataTable $table) use ($genericFilter) {
+                $genericFilter->computeProcessedMetricsIfNeeded($table);
+            });
+
             if (!empty($label)) {
                 $genericFilter->disableFilters(array('Limit', 'Truncate'));
             }
 
             $genericFilter->filter($datatable);
         }
+
+        $datatable->filter(function (DataTable $table) use ($genericFilter) {
+            $genericFilter->computeProcessedMetrics($table);
+        });
 
         // we automatically safe decode all datatable labels (against xss)
         $datatable->queueFilter('SafeDecodeLabel');
@@ -236,10 +245,12 @@ class ResponseBuilder
             $datatable = $filter->filter($label, $datatable, $addLabelIndex);
         }
 
-        if (!($this->apiRenderer instanceof Original)
-            && !empty($report)
-        ) {
-            $datatable->filter(array($report, 'formatProcessedMetrics'));
+        if (!empty($report)) {
+            if (!($this->apiRenderer instanceof Original)) {
+                $datatable->filter(array($report, 'formatProcessedMetrics'));
+            } else {
+                $datatable->queueFilter(array($report, 'formatProcessedMetrics'));
+            }
         }
 
         return $this->apiRenderer->renderDataTable($datatable);

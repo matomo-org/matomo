@@ -136,8 +136,6 @@ class DataTableGenericFilter
             return;
         }
 
-        $computed = $this->computeProcessedMetricsIfNeeded($datatable);
-
         $genericFilters = self::getGenericFiltersInformation();
 
         $filterApplied = false;
@@ -177,14 +175,10 @@ class DataTableGenericFilter
             }
         }
 
-        if (!$computed) {
-            $this->computeProcessedMetrics($datatable);
-        }
-
         return $filterApplied;
     }
 
-    private function computeProcessedMetricsIfNeeded(DataTable $dataTable)
+    public function computeProcessedMetricsIfNeeded(DataTable $dataTable)
     {
         if (!$this->doesColumnQueryParamReferenceProcessedMetric()) {
             return false;
@@ -195,7 +189,7 @@ class DataTableGenericFilter
         return true;
     }
 
-    private function computeProcessedMetrics(DataTable $dataTable)
+    public function computeProcessedMetrics(DataTable $dataTable)
     {
         if (empty($this->report)) {
             return;

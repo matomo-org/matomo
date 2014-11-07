@@ -54,7 +54,7 @@ class API extends \Piwik\Plugin\API
         $archive = Archive::build($idSite, $period, $date, $segment);
 
         $columns = Piwik::getArrayFromApiParameter($columns);
-        $columns = Report::factory("Actions", "get")->getMetricsRequiredForReport(Archiver::$actionsAggregateMetrics, $columns);
+        $columns = Report::factory("Actions", "get")->getMetricsRequiredForReport($allColumns = null, $columns);
 
         $inDbColumnNames = array_map(function ($value) { return 'Actions_' . $value; }, $columns);
         $dataTable = $archive->getDataTableFromNumeric($inDbColumnNames);
@@ -62,7 +62,7 @@ class API extends \Piwik\Plugin\API
         $newNameMapping = array_combine($inDbColumnNames, $columns);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
-        $dataTable->filter('ColumnDelete', array(array('sum_time_generation','nb_hits_with_time_generation')));
+        $dataTable->queueFilter('ColumnDelete', array(array('sum_time_generation', 'nb_hits_with_time_generation')));
 
         return $dataTable;
     }
