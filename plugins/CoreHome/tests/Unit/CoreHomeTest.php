@@ -65,7 +65,7 @@ foo("bar");
 //#  .map
 init();
 x = 6;
-//#
+//# 
 foo("bar");
 ';
         $this->coreHome->filterMergedJavaScripts($content);
