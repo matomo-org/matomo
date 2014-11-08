@@ -10,7 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Site;
+use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
 
 /**
  * A {@link DataTable} filter that calculates the evolution of a metric and adds
@@ -25,23 +25,12 @@ use Piwik\Site;
  *
  *     ((currentValue - pastValue) / pastValue) * 100
  *
- * TODO: deprecate and use Evolutionmetric
- *
  * @api
+ * @deprecated since 2.9.0
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
-    /**
-     * The the DataTable that contains past data.
-     *
-     * @var DataTable
-     */
-    protected $pastDataTable;
-
-    /**
-     * Tells if column being added is the revenue evolution column.
-     */
-    protected $isRevenueEvolution = null;
+    protected $evolutionMetric;
 
     /**
      * Constructor.
@@ -57,86 +46,19 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
         parent::__construct(
             $table, $columnToAdd, $columnToRead, $columnToRead, $quotientPrecision, $shouldSkipRows = true);
 
-        $this->pastDataTable = $pastDataTable;
-
-        $this->isRevenueEvolution = $columnToAdd == 'revenue_evolution';
+        $this->evolutionMetric = new EvolutionMetric($columnToRead, $pastDataTable, $columnToAdd, $quotientPrecision);
     }
 
     /**
-     * Returns the difference between the column in the specific row and its
-     * sister column in the past DataTable.
-     *
-     * @param Row $row
-     * @return int|float
+     * @param DataTable $table
      */
-    protected function getDividend($row)
+    public function filter($table)
     {
-        $currentValue = $row->getColumn($this->columnValueToRead);
-
-        // if the site this is for doesn't support ecommerce & this is for the revenue_evolution column,
-        // we don't add the new column
-        // TODO: replicate this logic in MultiSites/API.php (create RevenueEvolutionMetric in Goals & add this check)
-        if ($currentValue === false
-            && $this->isRevenueEvolution
-            && !Site::isEcommerceEnabledFor($row->getColumn('label'))
-        ) {
-            return false;
+        $evolutionName = $this->evolutionMetric->getName();
+        foreach ($table->getRows() as $row) {
+            $value = $this->evolutionMetric->compute($row);
+            $row->addColumn($evolutionName, $value);
         }
-
-        $pastRow = $this->getPastRowFromCurrent($row);
-        if ($pastRow) {
-            $pastValue = $pastRow->getColumn($this->columnValueToRead);
-        } else {
-            $pastValue = 0;
-        }
-
-        return $currentValue - $pastValue;
-    }
-
-    /**
-     * Returns the value of the column in $row's sister row in the past
-     * DataTable.
-     *
-     * @param Row $row
-     * @return int|float
-     */
-    protected function getDivisor($row)
-    {
-        $pastRow = $this->getPastRowFromCurrent($row);
-        if (!$pastRow) return 0;
-
-        return $pastRow->getColumn($this->columnNameUsedAsDivisor);
-    }
-
-    /**
-     * Calculates and formats a quotient based on a divisor and dividend.
-     *
-     * Unlike ColumnCallbackAddColumnPercentage's,
-     * version of this method, this method will return 100% if the past
-     * value of a metric is 0, and the current value is not 0. For a
-     * value representative of an evolution, this makes sense.
-     *
-     * @param int|float $value The dividend.
-     * @param int|float $divisor
-     * @return string
-     */
-    protected function formatValue($value, $divisor)
-    {
-        $value = self::getPercentageValue($value, $divisor, $this->quotientPrecision);
-        $value = self::appendPercentSign($value);
-
-        return $value;
-    }
-
-    /**
-     * Utility function. Returns the current row in the past DataTable.
-     *
-     * @param Row $row The row in the 'current' DataTable.
-     * @return bool|Row
-     */
-    protected function getPastRowFromCurrent($row)
-    {
-        return $this->pastDataTable->getRowFromLabel($row->getColumn('label'));
     }
 
     /**
@@ -149,6 +71,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * @param bool $appendPercentSign Whether to append a '%' sign to the end of the number or not.
      *
      * @return string The evolution percent, eg `'15%'`.
+     * @deprecated since 2.9.0
      */
     public static function calculate($currentValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = true)
     {

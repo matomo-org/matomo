@@ -200,7 +200,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     const LABEL_SUMMARY_ROW = -1;
 
     /**
-     * TODO
+     * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
+     * These metrics will be added in addition to the ones specified in the table's associated
+     * {@link Piwik\Plugin\Report} class.
      */
     const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
 

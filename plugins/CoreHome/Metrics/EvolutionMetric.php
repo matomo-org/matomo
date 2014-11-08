@@ -96,12 +96,12 @@ class EvolutionMetric extends ProcessedMetric
         return array($this->getWrappedName());
     }
 
-    private function getWrappedName()
+    protected function getWrappedName()
     {
         return $this->wrapped instanceof Metric ? $this->wrapped->getName() : $this->wrapped;
     }
 
-    private function getPastRowFromCurrent(Row $row)
+    protected function getPastRowFromCurrent(Row $row)
     {
         return $this->pastData->getRowFromLabel($row->getColumn('label'));
     }

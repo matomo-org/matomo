@@ -329,7 +329,11 @@ class API extends \Piwik\Plugin\API
         } else {
             $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
             foreach ($apiMetrics as $metricSettings) {
-                $extraProcessedMetrics[] = new EvolutionMetric(
+                $evolutionMetricClass = $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY] == 'revenue'
+                                      ? "Piwik\\Plugins\\MultiSites\\Metrics\\RevenueEvolution"
+                                      : "Piwik\\Plugins\\CoreHome\\Metrics\\EvolutionMetric";
+
+                $extraProcessedMetrics[] = new $evolutionMetricClass(
                     $metricSettings[self::METRIC_RECORD_NAME_KEY],
                     $pastData,
                     $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
