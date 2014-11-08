@@ -64,7 +64,11 @@ class AveragePageGenerationTime extends ProcessedMetric
                 Metrics::INDEX_PAGE_SUM_TIME_GENERATION,
                 Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION,
                 Metrics::INDEX_PAGE_MIN_TIME_GENERATION,
-                Metrics::INDEX_PAGE_MAX_TIME_GENERATION
+                Metrics::INDEX_PAGE_MAX_TIME_GENERATION,
+                'sum_time_generation',
+                'nb_hits_with_time_generation',
+                'min_time_generation',
+                'max_time_generation'
             )));
 
             if ($table instanceof DataTable) {

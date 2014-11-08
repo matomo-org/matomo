@@ -38,7 +38,7 @@ class ArchiveWebTest extends SystemTestCase
 
         $url    = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token;
         $output = Http::sendHttpRequest($url, 600);
-
+echo "OUTPUT: ".$output."\n";
         // ignore random build issues
         if (empty($output) || strpos($output, \Piwik\CronArchive::NO_ERROR) === false) {
             $message = "This test has failed. Because it sometimes randomly fails, we skip the test, and ignore this failure.\n";

@@ -58,7 +58,7 @@ class VisitsPercent extends ProcessedMetric
         return array('nb_visits');
     }
 
-    public function beforeCompute(Report $report, DataTable $table)
+    public function beforeCompute($report, DataTable $table)
     {
         if ($this->forceTotalVisits === null) {
             $columnName = 'nb_visits';

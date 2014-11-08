@@ -1205,6 +1205,10 @@ class CronArchive
 
         $today = end($stats);
 
+        if (empty($today)) {
+            return 0;
+        }
+
         return $today['nb_visits'];
     }
 
