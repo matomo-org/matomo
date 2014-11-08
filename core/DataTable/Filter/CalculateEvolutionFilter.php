@@ -25,6 +25,8 @@ use Piwik\Site;
  *
  *     ((currentValue - pastValue) / pastValue) * 100
  *
+ * TODO: deprecate and use Evolutionmetric
+ *
  * @api
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
@@ -73,6 +75,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 
         // if the site this is for doesn't support ecommerce & this is for the revenue_evolution column,
         // we don't add the new column
+        // TODO: replicate this logic in MultiSites/API.php (create RevenueEvolutionMetric in Goals & add this check)
         if ($currentValue === false
             && $this->isRevenueEvolution
             && !Site::isEcommerceEnabledFor($row->getColumn('label'))

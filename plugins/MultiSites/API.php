@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
@@ -326,16 +327,16 @@ class API extends \Piwik\Plugin\API
                 next($pastArray);
             }
         } else {
+            $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
             foreach ($apiMetrics as $metricSettings) {
-                $currentData->filter(
-                    'CalculateEvolutionFilter',
-                    array(
-                         $pastData,
-                         $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
-                         $metricSettings[self::METRIC_RECORD_NAME_KEY],
-                         $quotientPrecision = 1)
+                $extraProcessedMetrics[] = new EvolutionMetric(
+                    $metricSettings[self::METRIC_RECORD_NAME_KEY],
+                    $pastData,
+                    $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
+                    $quotientPrecision = 1
                 );
             }
+            $currentData->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }
     }
 
