@@ -71,13 +71,13 @@ abstract class Metric
     /**
      * TODO
      */
-    public function getColumn($row, $columnName, $mappingIdToName = null)
+    public static function getMetric($row, $columnName, $mappingIdToName = null)
     {
         if (empty($mappingIdToName)) {
             $mappingIdToName = Metrics::getMappingFromNameToId();
         }
 
-        if ($row instanceof Row) {
+        if ($row instanceof Row) { // TODO: benchmark w/ array-access (so we don't need this if statement).
             $value = $row->getColumn($columnName);
             if ($value === false
                 && isset($mappingIdToName[$columnName])

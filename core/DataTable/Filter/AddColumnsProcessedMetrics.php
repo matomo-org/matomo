@@ -11,7 +11,7 @@ namespace Piwik\DataTable\Filter;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
-use Piwik\Metrics;
+use Piwik\Plugin\Metric;
 use Piwik\Plugins\CoreHome\Metrics\ActionsPerVisit;
 use Piwik\Plugins\CoreHome\Metrics\AverageTimeOnSite;
 use Piwik\Plugins\CoreHome\Metrics\BounceRate;
@@ -81,11 +81,9 @@ class AddColumnsProcessedMetrics extends BaseFilter
 
     private function deleteRowsWithNoVisit(DataTable $table)
     {
-        $metrics = new Metrics\Base();
-
         foreach ($table->getRows() as $key => $row) {
-            $nbVisits  = $metrics->getColumn($row, Metrics::INDEX_NB_VISITS);
-            $nbActions = $metrics->getColumn($row, Metrics::INDEX_NB_ACTIONS);
+            $nbVisits  = Metric::getMetric($row, Metrics::INDEX_NB_VISITS);
+            $nbActions = Metric::getMetric($row, Metrics::INDEX_NB_ACTIONS);
 
             if ($nbVisits == 0
                 && $nbActions == 0

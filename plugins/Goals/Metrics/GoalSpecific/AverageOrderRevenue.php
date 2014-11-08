@@ -39,8 +39,8 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
 
         $goalMetrics = $row->getColumn($row, 'goals');
 
-        $goalRevenue = $this->getColumn($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
-        $conversions = $this->getColumn($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
+        $goalRevenue = $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
+        $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
 
         return Piwik::getQuotientSafe($goalRevenue, $conversions, GoalManager::REVENUE_PRECISION);
     }

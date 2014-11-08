@@ -24,8 +24,8 @@ class ActionsPerVisit extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $actions = $this->getColumn($row, 'nb_actions');
-        $visits = $this->getColumn($row, 'nb_visits');
+        $actions = $this->getMetric($row, 'nb_actions');
+        $visits = $this->getMetric($row, 'nb_visits');
 
         return Piwik::getQuotientSafe($actions, $visits, $precision = 2);
     }

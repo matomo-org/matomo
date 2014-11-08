@@ -40,10 +40,10 @@ class ConversionRate extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getColumn($row, 'goals');
+        $goalMetrics = $this->getMetric($row, 'goals');
 
-        $nbVisits = $this->getColumn($row, 'nb_visits');
-        $conversions = $this->getColumn($goalMetrics, 'nb_conversions');
+        $nbVisits = $this->getMetric($row, 'nb_visits');
+        $conversions = $this->getMetric($goalMetrics, 'nb_conversions');
 
         return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION);
     }

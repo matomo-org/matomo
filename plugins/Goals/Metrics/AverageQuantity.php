@@ -30,9 +30,9 @@ class AverageQuantity extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $quantity = $this->getColumn($row, 'quantity');
-        $orders = $this->getColumn($row, 'orders');
-        $abandonedCarts = $this->getColumn($row, 'abandoned_carts');
+        $quantity = $this->getMetric($row, 'quantity');
+        $orders = $this->getMetric($row, 'orders');
+        $abandonedCarts = $this->getMetric($row, 'abandoned_carts');
 
         return Piwik::getQuotientSafe($quantity, $orders === false ? $abandonedCarts : $orders, $precision = 1);
     }

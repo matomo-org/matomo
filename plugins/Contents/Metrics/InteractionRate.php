@@ -30,8 +30,8 @@ class InteractionRate extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $interactions = $this->getColumn($row, 'nb_interactions');
-        $impressions = $this->getColumn($row, 'nb_impressions');
+        $interactions = $this->getMetric($row, 'nb_interactions');
+        $impressions = $this->getMetric($row, 'nb_impressions');
 
         return Piwik::getQuotientSafe($interactions, $impressions, $precision = 4);
     }

@@ -35,12 +35,12 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getColumn($row, 'goals');
+        $goalMetrics = $this->getMetric($row, 'goals');
 
-        $nbVisits = $this->getColumn($row, 'nb_visits');
-        $conversions = $this->getColumn($goalMetrics, 'nb_conversions');
+        $nbVisits = $this->getMetric($row, 'nb_visits');
+        $conversions = $this->getMetric($goalMetrics, 'nb_conversions');
 
-        $goalRevenue = (float) $this->getColumn($goalMetrics, 'revenue');
+        $goalRevenue = (float) $this->getMetric($goalMetrics, 'revenue');
 
         return Piwik::getQuotientSafe($goalRevenue, $nbVisits == 0 ? $conversions : $nbVisits, GoalManager::REVENUE_PRECISION);
     }

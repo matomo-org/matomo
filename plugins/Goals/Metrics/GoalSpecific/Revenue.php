@@ -33,7 +33,7 @@ class Revenue extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getColumn($row, 'goals');
-        return (float) $this->getCOlumn($goalMetrics, 'revenue');
+        $goalMetrics = $this->getMetric($row, 'goals');
+        return (float) $this->getMetric($goalMetrics, 'revenue');
     }
 }

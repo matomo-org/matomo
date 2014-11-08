@@ -38,8 +38,8 @@ class ConversionRate extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $nbVisitsConverted = $this->getColumn($row, 'nb_visits_converted');
-        $nbVisits = $this->getColumn($row, 'nb_visits');
+        $nbVisitsConverted = $this->getMetric($row, 'nb_visits_converted');
+        $nbVisits = $this->getMetric($row, 'nb_visits');
 
         return Piwik::getQuotientSafe($nbVisitsConverted, $nbVisits, $precision = 4);
     }

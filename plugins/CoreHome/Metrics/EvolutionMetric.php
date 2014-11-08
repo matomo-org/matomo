@@ -71,8 +71,8 @@ class EvolutionMetric extends ProcessedMetric
         $columnName = $this->getWrappedName();
         $pastRow = $this->getPastRowFromCurrent($row);
 
-        $currentValue = $this->getColumn($row, $columnName);
-        $pastValue = $pastRow ? $this->getColumn($pastRow, $columnName) : 0;
+        $currentValue = $this->getMetric($row, $columnName);
+        $pastValue = $pastRow ? $this->getMetric($pastRow, $columnName) : 0;
 
         $dividend = $currentValue - $pastValue;
         $divisor = $pastValue;

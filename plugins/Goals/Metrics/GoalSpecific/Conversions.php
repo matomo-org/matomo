@@ -33,7 +33,7 @@ class Conversions extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getColumn($row, 'goals');
-        return (int) $this->getCOlumn($goalMetrics, 'nb_conversions');
+        $goalMetrics = $this->getMetric($row, 'goals');
+        return (int) $this->getMetric($goalMetrics, 'nb_conversions');
     }
 }

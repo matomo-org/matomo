@@ -12,6 +12,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Metric;
 use Piwik\Plugins\Goals\Metrics\GoalSpecific\AverageOrderRevenue;
 use Piwik\Plugins\Goals\Metrics\GoalSpecific\ConversionRate;
 use Piwik\Plugins\Goals\Metrics\GoalSpecific\Conversions;
@@ -160,11 +161,9 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 
     private function getGoalsInTable(DataTable $table)
     {
-        $metrics = new Metrics\Base(); // TODO: should probably get rid of Base too...
-
         $result = array();
         foreach ($table->getRows() as $row) {
-            $goals = $metrics->getColumn($row, Metrics::INDEX_GOALS);
+            $goals = Metric::getMetric($row, Metrics::INDEX_GOALS);
             if (!$goals) {
                 continue;
             }

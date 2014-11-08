@@ -29,8 +29,8 @@ class BounceRate extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $entryBounceCount = $this->getColumn($row, 'entry_bounce_count');
-        $entryVisits = $this->getColumn($row, 'entry_nb_visits');
+        $entryBounceCount = $this->getMetric($row, 'entry_bounce_count');
+        $entryVisits = $this->getMetric($row, 'entry_nb_visits');
 
         return Piwik::getQuotientSafe($entryBounceCount, $entryVisits, $precision = 2);
     }

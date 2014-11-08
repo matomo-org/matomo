@@ -33,7 +33,7 @@ class ItemsCount extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getColumn($row, 'goals');
-        return (int) $this->getCOlumn($goalMetrics, 'items');
+        $goalMetrics = $this->getMetric($row, 'goals');
+        return (int) $this->getMetric($goalMetrics, 'items');
     }
 }

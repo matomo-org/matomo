@@ -29,8 +29,8 @@ class AverageEventValue extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $sumEventValue = $this->getColumn($row, 'sum_event_value');
-        $eventsWithValue = $this->getColumn($row, 'nb_events_with_value');
+        $sumEventValue = $this->getMetric($row, 'sum_event_value');
+        $eventsWithValue = $this->getMetric($row, 'nb_events_with_value');
 
         return Piwik::getQuotientSafe($sumEventValue, $eventsWithValue, $precision = 2); // TODO: used to use shouldSkipRows = true
     }

@@ -23,8 +23,8 @@ class AverageOrderRevenue extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $revenue = $this->getColumn($row, 'revenue');
-        $conversions = $this->getColumn($row, 'nb_conversions');
+        $revenue = $this->getMetric($row, 'revenue');
+        $conversions = $this->getMetric($row, 'nb_conversions');
 
         return Piwik::getQuotientSafe($revenue, $conversions, $precision = 2);
     }

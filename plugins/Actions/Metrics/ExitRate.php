@@ -29,8 +29,8 @@ class ExitRate extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $exitVisits = $this->getColumn($row, 'exit_nb_visits');
-        $visits = $this->getColumn($row, 'nb_visits');
+        $exitVisits = $this->getMetric($row, 'exit_nb_visits');
+        $visits = $this->getMetric($row, 'nb_visits');
 
         return Piwik::getQuotientSafe($exitVisits, $visits, $precision = 2);
     }
