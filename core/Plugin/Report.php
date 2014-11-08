@@ -764,15 +764,15 @@ class Report
         $metrics = array();
 
         foreach ($metricsToTranslate as $metric) {
-            if ($metric instanceof ProcessedMetric) {
-                $metric = $metric->getName();
+            if ($metric instanceof Metric) {
+                $metricName = $metric->getName();
+                $translation = $metric->getTranslatedName();
+            } else {
+                $metricName = $metric;
+                $translation = @$translations[$metric];
             }
 
-            if (!empty($translations[$metric])) {
-                $metrics[$metric] = $translations[$metric];
-            } else {
-                $metrics[$metric] = $metric;
-            }
+            $metrics[$metricName] = $translation ?: $metricName;
         }
 
         return $metrics;

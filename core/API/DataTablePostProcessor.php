@@ -80,13 +80,14 @@ class DataTablePostProcessor
         $dataTable = $this->applyGenericFilters($label, $dataTable);
 
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
-        echo print_r($dataTable, true);
+
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
 
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($label, $dataTable);
+
         $dataTable = $this->applyProcessedMetricsFormatting($dataTable, $applyFormatting);
 
         return $dataTable;

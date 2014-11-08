@@ -26,7 +26,12 @@ class ProductConversionRate extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('General_ColumnConversionRate');
+        return Piwik::translate('General_ProductConversionRate');
+    }
+
+    public function format($value)
+    {
+        return ($value * 100) . '%';
     }
 
     public function compute(Row $row)
@@ -35,7 +40,7 @@ class ProductConversionRate extends ProcessedMetric
         $abandonedCarts = $this->getMetric($row, 'abandoned_carts');
         $visits = $this->getMetric($row, 'nb_visits');
 
-        return Piwik::getQuotientSafe($orders === false ? $abandonedCarts : $orders, $visits, GoalManager::REVENUE_PRECISION);
+        return Piwik::getQuotientSafe($orders === false ? $abandonedCarts : $orders, $visits, GoalManager::REVENUE_PRECISION + 2);
     }
 
     public function getDependenctMetrics()

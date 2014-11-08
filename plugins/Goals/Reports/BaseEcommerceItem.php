@@ -37,8 +37,6 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $metrics = parent::getMetrics();
         $metrics['revenue']         = Piwik::translate('General_ProductRevenue');
         $metrics['orders']          = Piwik::translate('General_UniquePurchases');
-        $metrics['conversion_rate'] = Piwik::translate('General_ProductConversionRate');
-
         return $metrics;
     }
 
