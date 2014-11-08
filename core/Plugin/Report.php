@@ -121,10 +121,8 @@ class Report
      * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
      * @var array|false
      * @api
-     *
-     * TODO: shouldn't be public
      */
-    public $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
+    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
     // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
 
     /**
@@ -361,7 +359,18 @@ class Report
     }
 
     /**
-     * TODO
+     * Returns the list of metrics required at minimum for a report factoring in the columns requested by
+     * the report requester.
+     *
+     * This will return all the metrics requested (or all the metrics in the report if nothing is requested)
+     * **plus** the metrics required to calculate the requested processed metrics.
+     *
+     * This method should be used in **Plugin.get** API methods.
+     *
+     * @param string[]|null $allColumns The list of all available columns. Defaults to this report's metrics
+     *                                  and processed metrics.
+     * @param string[]|null $restrictToColumns The requested columns.
+     * @return string[]
      */
     public function getMetricsRequiredForReport($allColumns = null, $restrictToColumns = null)
     {
@@ -697,97 +706,13 @@ class Report
     }
 
     /**
-     * TODO
+     * Returns true if this report has a processed metric with the `$name` name.
      *
-     * @return ProcessedMetric[]
-     */
-    public function getProcessedMetricsFor(DataTable $dataTable)
-    {
-        $dataTableProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
-
-        $processedMetrics = $this->processedMetrics ?: array();
-        $processedMetrics = array_merge($processedMetrics, $dataTableProcessedMetrics);
-
-        $result = array();
-        foreach ($processedMetrics as $metric) {
-            if (!($metric instanceof ProcessedMetric)) {
-                continue;
-            }
-
-            $result[$metric->getName()] = $metric;
-        }
-        return $result;
-    }
-
-    /**
-     * TODO
+     * Will only search through {@link Piwik\Plugin\ProcessedMetric} instances, so string entries
+     * in {@link $processedMetrics} will be ignored.
      *
-     * TODO: put in new non-filter class. do not mark w/ @api.
-     */
-    public function computeProcessedMetrics(DataTable $dataTable)
-    {
-        if ($dataTable->getMetadata('processed_metrics_computed')) {
-            return;
-        }
-
-        $dataTable->setMetadata('processed_metrics_computed', true); // TODO: metadataname should be const
-
-        $processedMetrics = $this->getProcessedMetricsFor($dataTable);
-        if (empty($processedMetrics)) {
-            return;
-        }
-
-        foreach ($processedMetrics as $name => $processedMetric) {
-            if (!$processedMetric->beforeCompute($this, $dataTable)) {
-                continue;
-            }
-
-            foreach ($dataTable->getRows() as $row) {
-                if ($row->getColumn($name) === false) { // do not compute the metric if it has been computed already
-                    $row->addColumn($name, $processedMetric->compute($row));
-
-                    $subtable = $row->getSubtable();
-                    if (!empty($subtable)) {
-                        $this->computeProcessedMetrics($subtable);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * TODO
-     */
-    public function formatProcessedMetrics(DataTable $dataTable)
-    {
-        if ($dataTable->getMetadata('processed_metrics_formatted')) {
-            return;
-        }
-
-        $dataTable->setMetadata('processed_metrics_formatted', true); // TODO: metadataname should be const
-
-        $processedMetrics = $this->getProcessedMetricsFor($dataTable);
-        if (empty($processedMetrics)) {
-            return;
-        }
-
-        foreach ($dataTable->getRows() as $row) {
-            foreach ($processedMetrics as $name => $processedMetric) {
-                $columnValue = $row->getColumn($name);
-                if ($columnValue !== false) {
-                    $row->setColumn($name, $processedMetric->format($columnValue));
-                }
-
-                $subtable = $row->getSubtable();
-                if (!empty($subtable)) {
-                    $this->formatProcessedMetrics($subtable);
-                }
-            }
-        }
-    }
-
-    /**
-     * TODO
+     * @param string $name
+     * @return bool
      */
     public function hasProcessedMetric($name)
     {

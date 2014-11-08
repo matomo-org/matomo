@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
-use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
 class DataTableGenericFilter
@@ -25,21 +24,13 @@ class DataTableGenericFilter
     private $disabledFilters = array();
 
     /**
-     * TODO
-     *
-     * @var Report|null-
-     */
-    private $report;
-
-    /**
      * Constructor
      *
      * @param $request
      */
-    function __construct($request, $report = null)
+    function __construct($request)
     {
         $this->request = $request;
-        $this->report = $report;
     }
 
     /**
@@ -178,27 +169,7 @@ class DataTableGenericFilter
         return $filterApplied;
     }
 
-    public function computeProcessedMetricsIfNeeded(DataTable $dataTable)
-    {
-        if (!$this->doesColumnQueryParamReferenceProcessedMetric()) {
-            return false;
-        }
-
-        $this->computeProcessedMetrics($dataTable);
-
-        return true;
-    }
-
-    public function computeProcessedMetrics(DataTable $dataTable)
-    {
-        if (empty($this->report)) {
-            return;
-        }
-
-        $this->report->computeProcessedMetrics($dataTable);
-    }
-
-    private function doesColumnQueryParamReferenceProcessedMetric()
+    public function areProcessedMetricsNeededFor(Report $report)
     {
         $columnQueryParameters = array(
             'filter_column',
@@ -208,9 +179,9 @@ class DataTableGenericFilter
         );
 
         foreach ($columnQueryParameters as $queryParamName) {
-            $queryParamValue = Common::getRequestVar($queryParamName, false);
+            $queryParamValue = Common::getRequestVar($queryParamName, false, $type = null, $this->request);
             if (!empty($queryParamValue)
-                && $this->report->hasProcessedMetric($queryParamValue)
+                && $report->hasProcessedMetric($queryParamValue)
             ) {
                 return true;
             }
