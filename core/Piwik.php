@@ -116,7 +116,12 @@ class Piwik
     }
 
     /**
-     * TODO
+     * Safely compute a ratio. Returns 0 if divisor is 0 (to avoid division by 0 error).
+     *
+     * @param number $dividend
+     * @param number $divisor
+     * @param int $precision
+     * @return number
      */
     public static function getQuotientSafe($dividend, $divisor, $precision = 0)
     {

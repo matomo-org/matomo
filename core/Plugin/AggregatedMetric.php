@@ -10,9 +10,11 @@ namespace Piwik\Plugin;
 use Piwik\DataTable\Row;
 
 /**
- * TODO
+ * Base type for metric metadata classes that describe aggregated metrics. These metrics are
+ * computed in the backend data store and are aggregated in PHP when Piwik archives period reports.
  *
- * TODO: note that this will be filled out in another issue
+ * Note: This class is a placeholder. It will be filled out at a later date. Right now, only
+ * processed metrics can be defined this way.
  */
 abstract class AggregatedMetric extends Metric
 {
