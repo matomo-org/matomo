@@ -82,8 +82,8 @@ class AddColumnsProcessedMetrics extends BaseFilter
     private function deleteRowsWithNoVisit(DataTable $table)
     {
         foreach ($table->getRows() as $key => $row) {
-            $nbVisits  = Metric::getMetric($row, Metrics::INDEX_NB_VISITS);
-            $nbActions = Metric::getMetric($row, Metrics::INDEX_NB_ACTIONS);
+            $nbVisits  = Metric::getMetric($row, 'nb_visits');
+            $nbActions = Metric::getMetric($row, 'nb_actions');
 
             if ($nbVisits == 0
                 && $nbActions == 0

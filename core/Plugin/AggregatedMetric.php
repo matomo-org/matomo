@@ -11,6 +11,8 @@ use Piwik\DataTable\Row;
 
 /**
  * TODO
+ *
+ * TODO: note that this will be filled out in another issue
  */
 abstract class AggregatedMetric extends Metric
 {

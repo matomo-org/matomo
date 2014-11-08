@@ -22,26 +22,6 @@ abstract class ProcessedMetric extends Metric
 
     /**
      * TODO
-     *
-     * @return ProcessedMetric[]
-     */
-    public static function getAll()
-    {
-        $components = Manager::getInstance()->findMultipleComponents(self::COMPONENT_SUBNAMESPACE, __CLASS__);
-
-        $result = array();
-        foreach ($components as $componentClass) {
-            /** @var ProcessedMetric $component */
-            $component = new $componentClass();
-
-            $name = $component->getName();
-            $result[$name] = $component;
-        }
-        return $result;
-    }
-
-    /**
-     * TODO
      */
     abstract public function compute(Row $row);
 

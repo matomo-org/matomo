@@ -163,7 +163,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     {
         $result = array();
         foreach ($table->getRows() as $row) {
-            $goals = Metric::getMetric($row, Metrics::INDEX_GOALS);
+            $goals = Metric::getMetric($row, 'goals');
             if (!$goals) {
                 continue;
             }
