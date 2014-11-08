@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
 class DataTableGenericFilter
@@ -169,7 +170,7 @@ class DataTableGenericFilter
         return $filterApplied;
     }
 
-    public function areProcessedMetricsNeededFor(Report $report)
+    public function areProcessedMetricsNeededFor($metrics)
     {
         $columnQueryParameters = array(
             'filter_column',
@@ -181,12 +182,29 @@ class DataTableGenericFilter
         foreach ($columnQueryParameters as $queryParamName) {
             $queryParamValue = Common::getRequestVar($queryParamName, false, $type = null, $this->request);
             if (!empty($queryParamValue)
-                && $report->hasProcessedMetric($queryParamValue)
+                && $this->containsProcessedMetric($metrics, $queryParamValue)
             ) {
                 return true;
             }
         }
 
+        return false;
+    }
+
+    /**
+     * @param ProcessedMetric[] $metrics
+     * @param string $name
+     * @return bool
+     */
+    private function containsProcessedMetric($metrics, $name)
+    {
+        foreach ($metrics as $metric) {
+            if ($metric instanceof ProcessedMetric
+                && $metric->getName() == $name
+            ) {
+                return true;
+            }
+        }
         return false;
     }
 }

@@ -706,28 +706,6 @@ class Report
     }
 
     /**
-     * Returns true if this report has a processed metric with the `$name` name.
-     *
-     * Will only search through {@link Piwik\Plugin\ProcessedMetric} instances, so string entries
-     * in {@link $processedMetrics} will be ignored.
-     *
-     * @param string $name
-     * @return bool
-     */
-    public function hasProcessedMetric($name)
-    {
-        $processedMetrics = $this->processedMetrics ?: array(); // TODO: shouldn't allow processedMetrics to be non-array
-        foreach ($processedMetrics as $metric) {
-            if ($metric instanceof ProcessedMetric
-                && $metric->getName() == $name
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Get an instance of a specific report belonging to the given module and having the given action.
      * @param  string $module
      * @param  string $action
@@ -831,12 +809,16 @@ class Report
     }
 
     /**
+     * Returns an array mapping the ProcessedMetrics served by this report by their string names.
+     *
      * @return ProcessedMetric[]
      */
-    private function getProcessedMetricsById()
+    public function getProcessedMetricsById()
     {
+        $processedMetrics = $this->processedMetrics ?: array(); // TODO: shouldn't allow processedMetrics to be non-array
+
         $result = array();
-        foreach ($this->processedMetrics as $processedMetric) {
+        foreach ($processedMetrics as $processedMetric) {
             if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
             }

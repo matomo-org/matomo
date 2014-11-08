@@ -50,7 +50,7 @@ abstract class ProcessedMetric extends Metric
      * @return bool Return `true` to compute the metric for the table, `false` to skip computing
      *              this metric.
      */
-    public function beforeCompute(Report $report, DataTable $table)
+    public function beforeCompute($report, DataTable $table)
     {
         return true;
     }

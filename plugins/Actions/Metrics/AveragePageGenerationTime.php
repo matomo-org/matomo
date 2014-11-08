@@ -43,7 +43,7 @@ class AveragePageGenerationTime extends ProcessedMetric
         return Piwik::getQuotientSafe($sumGenerationTime, $hitsWithTimeGeneration, $precision = 3);
     }
 
-    public function beforeCompute(Report $report, DataTable $table)
+    public function beforeCompute($report, DataTable $table)
     {
         $columnName = Metrics::INDEX_PAGE_SUM_TIME_GENERATION;
 

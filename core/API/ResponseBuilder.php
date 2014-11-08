@@ -29,8 +29,6 @@ class ResponseBuilder
     private $apiModule = false;
     private $apiMethod = false;
 
-    private $postProcessor;
-
     /**
      * @param string $outputFormat
      * @param array $request
@@ -40,7 +38,6 @@ class ResponseBuilder
         $this->outputFormat = $outputFormat;
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
-        $this->postProcessor = new DataTablePostProcessor();
     }
 
     public function disableSendHeader()
@@ -167,10 +164,10 @@ class ResponseBuilder
 
     private function handleDataTable(DataTableInterface $datatable)
     {
-        $report = Report::factory($this->apiModule, $this->apiMethod);
-        $applyFormatting = !($this->apiRenderer instanceof Original);
+        $applyFormatting = Common::getRequestVar('force_format_processed_metrics', !($this->apiRenderer instanceof Original), null, $this->request) == 1;
 
-        $datatable = $this->postProcessor->process($datatable, $report, $this->request, $applyFormatting);
+        $postProcessor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
+        $datatable = $postProcessor->process($datatable, $applyFormatting);
 
         return $this->apiRenderer->renderDataTable($datatable);
     }

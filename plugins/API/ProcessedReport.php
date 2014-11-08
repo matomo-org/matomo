@@ -390,7 +390,8 @@ class ProcessedReport
                                                        'format'     => 'original',
                                                        'serialize'  => '0',
                                                        'language'   => $language,
-                                                       'idSubtable' => $idSubtable
+                                                       'idSubtable' => $idSubtable,
+                                                       'force_format_processed_metrics' => 1,
                                                   ));
 
         if (!empty($segment)) $parameters['segment'] = $segment;
@@ -410,8 +411,6 @@ class ProcessedReport
         } catch (Exception $e) {
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
-
-        $dataTable->filter(array(Report::factory($apiModule, $apiAction), 'formatProcessedMetrics'));
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
 

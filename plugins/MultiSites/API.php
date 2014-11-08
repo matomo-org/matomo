@@ -240,7 +240,6 @@ class API extends \Piwik\Plugin\API
 
             // use past data to calculate evolution percentages
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
-            Common::destroy($pastData);
         }
 
         // remove eCommerce related metrics on non eCommerce Piwik sites
