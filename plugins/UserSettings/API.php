@@ -13,6 +13,8 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\DevicesDetection\Archiver AS DDArchiver;
+use Piwik\Plugins\UserSettings\Metrics\PluginsVisitsPercent;
+use Piwik\Plugins\VisitorInterest\Metrics\VisitsPercent;
 
 /**
  * @see plugins/UserSettings/functions.php
@@ -189,41 +191,27 @@ class API extends \Piwik\Plugin\API
 
         // walk through the results and calculate the percentage
         foreach ($dataTableMap as $key => $table) {
-            // get according browserType table
-            foreach ($browserTypesArray as $k => $browsers) {
-                if ($k == $key) {
-                    $browserType = $browsers;
-                }
-            }
-
             // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
             $ieVisits = 0;
 
-            $ieStats = $browserType->getRowFromLabel('Trident');
+            $ieStats = $browserTypesArray[$key]->getRowFromLabel('Trident');
             if ($ieStats !== false) {
                 $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
             }
 
             // get according visitsSum
-            foreach ($visitSumsArray as $k => $visits) {
-                if ($k == $key) {
-                    if (is_object($visits)) {
-                        if ($visits->getRowsCount() == 0) {
-                            $visitsSumTotal = 0;
-                        } else {
-                            $visitsSumTotal = (float)$visits->getFirstRow()->getColumn('nb_visits');
-                        }
-                    } else {
-                        $visitsSumTotal = (float)$visits;
-                    }
-                }
+            $visits = $visitSumsArray[$key];
+            if ($visits->getRowsCount() == 0) {
+                $visitsSumTotal = 0;
+            } else {
+                $visitsSumTotal = (float) $visits->getFirstRow()->getColumn('nb_visits');
             }
 
             $visitsSum = $visitsSumTotal - $ieVisits;
 
-            // TODO: refactor this message before using PluginsVisitsPercent
-            $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Metrics::INDEX_NB_VISITS, $visitsSum, 1));
-            $table->filter('RangeCheck', array('nb_visits_percentage'));
+            $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            $extraProcessedMetrics[] = new VisitsPercent($visitsSum); // TODO: move to CoreHome/Metrics
+            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }
 
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));
