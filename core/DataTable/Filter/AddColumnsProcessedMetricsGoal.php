@@ -10,7 +10,6 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\Goals\Metrics\GoalSpecific\AverageOrderRevenue;
@@ -110,7 +109,6 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 
         $goals = $this->getGoalsInTable($table);
 
-        // TODO: all metrics depend on 'goals' row paremter
         $extraProcessedMetrics[] = new RevenuePerVisit();
         if ($this->processOnlyIdGoal != self::GOALS_MINIMAL_REPORT) {
             foreach ($goals as $idGoal) {
@@ -142,7 +140,8 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 
         $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
 
-        /*$expectedColumns = array_keys($this->expectedColumns);
+        /* TODO: remove this?
+        $expectedColumns = array_keys($this->expectedColumns);
         $rows = $table->getRows();
         foreach ($rows as $row) {
             foreach ($expectedColumns as $name) {
