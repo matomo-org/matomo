@@ -21,6 +21,15 @@ use Piwik\Plugin\Report;
 class VisitsPercent extends ProcessedMetric
 {
     private $cachedTotalVisits = null;
+    private $forceTotalVisits = null;
+
+    /**
+     * TODO
+     */
+    public function __construct($totalVisits = null)
+    {
+        $this->forceTotalVisits = $totalVisits;
+    }
 
     public function getName()
     {
@@ -51,16 +60,20 @@ class VisitsPercent extends ProcessedMetric
 
     public function beforeCompute(Report $report, DataTable $table)
     {
-        $columnName = 'nb_visits';
+        if ($this->forceTotalVisits === null) {
+            $columnName = 'nb_visits';
 
-        $firstRow = $table->getFirstRow();
-        if (!empty($firstRow)
-            && $firstRow->getColumn($columnName) === false
-        ) {
-            $columnName = Metrics::INDEX_NB_VISITS;
+            $firstRow = $table->getFirstRow();
+            if (!empty($firstRow)
+                && $firstRow->getColumn($columnName) === false
+            ) {
+                $columnName = Metrics::INDEX_NB_VISITS;
+            }
+
+            $this->cachedTotalVisits = array_sum($table->getColumn($columnName));
+        } else {
+            $this->cachedTotalVisits = $this->forceTotalVisits;
         }
-
-        $this->cachedTotalVisits = array_sum($table->getColumn($columnName));
 
         return true; // always compute
     }

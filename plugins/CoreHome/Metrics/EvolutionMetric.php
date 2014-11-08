@@ -78,9 +78,9 @@ class EvolutionMetric extends ProcessedMetric
         $divisor = $pastValue;
 
         if ($dividend == 0) {
-            return $dividend;
+            return 0;
         } else if ($divisor == 0) {
-            return $divisor;
+            return 1;
         } else {
             return Piwik::getQuotientSafe($dividend, $divisor, $this->quotientPrecision);
         }

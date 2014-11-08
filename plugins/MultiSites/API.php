@@ -31,6 +31,7 @@ class API extends \Piwik\Plugin\API
     const METRIC_TRANSLATION_KEY = 'translation';
     const METRIC_EVOLUTION_COL_NAME_KEY = 'evolution_column_name';
     const METRIC_RECORD_NAME_KEY = 'record_name';
+    const METRIC_COL_NAME_KEY = 'metric_column_name';
     const METRIC_IS_ECOMMERCE_KEY = 'is_ecommerce';
 
     const NB_VISITS_METRIC = 'nb_visits';
@@ -47,12 +48,14 @@ class API extends \Piwik\Plugin\API
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbVisits',
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'visits_evolution',
             self::METRIC_RECORD_NAME_KEY        => self::NB_VISITS_METRIC,
+            self::METRIC_COL_NAME_KEY           => self::NB_VISITS_METRIC,
             self::METRIC_IS_ECOMMERCE_KEY       => false,
         ),
         self::NB_ACTIONS_METRIC  => array(
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbActions',
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'actions_evolution',
             self::METRIC_RECORD_NAME_KEY        => self::NB_ACTIONS_METRIC,
+            self::METRIC_COL_NAME_KEY           => self::NB_ACTIONS_METRIC,
             self::METRIC_IS_ECOMMERCE_KEY       => false,
         )
     );
@@ -333,7 +336,7 @@ class API extends \Piwik\Plugin\API
                                       : "Piwik\\Plugins\\CoreHome\\Metrics\\EvolutionMetric";
 
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
-                    $metricSettings[self::METRIC_RECORD_NAME_KEY],
+                    $metricSettings[self::METRIC_COL_NAME_KEY],
                     $pastData,
                     $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
                     $quotientPrecision = 1
@@ -355,6 +358,7 @@ class API extends \Piwik\Plugin\API
                 self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
                 self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
+                self::METRIC_COL_NAME_KEY           => self::NB_PAGEVIEWS_LABEL,
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             );
         }
@@ -365,6 +369,7 @@ class API extends \Piwik\Plugin\API
                 self::METRIC_TRANSLATION_KEY        => 'General_ColumnRevenue',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_REVENUE_METRIC . '_evolution',
                 self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC),
+                self::METRIC_COL_NAME_KEY           => self::GOAL_REVENUE_METRIC,
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             );
 
@@ -374,6 +379,7 @@ class API extends \Piwik\Plugin\API
                     self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnConversions',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_CONVERSION_METRIC . '_evolution',
                     self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC),
+                    self::METRIC_COL_NAME_KEY           => self::GOAL_CONVERSION_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => false,
                 );
 
@@ -382,6 +388,7 @@ class API extends \Piwik\Plugin\API
                     self::METRIC_TRANSLATION_KEY        => 'General_EcommerceOrders',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_ORDERS_METRIC . '_evolution',
                     self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
+                    self::METRIC_COL_NAME_KEY           => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 );
 
@@ -390,6 +397,7 @@ class API extends \Piwik\Plugin\API
                     self::METRIC_TRANSLATION_KEY        => 'General_ProductRevenue',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_REVENUE_METRIC . '_evolution',
                     self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0),
+                    self::METRIC_COL_NAME_KEY           => Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0), // TODO: need to test this...
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 );
             }
