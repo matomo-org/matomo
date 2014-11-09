@@ -33,7 +33,7 @@ class ManyVisitsWithGeoIP extends Fixture
         '::ffff:137.82.130.49', // in British Columbia (mapped ipv4)
         '137.82.130.0', // anonymization tests
         '137.82.0.0',
-        '2001:db8:85a3:0:0:8a2e:370:7334', // ipv6 (geoip lookup not supported)
+        '2001:db8:85a3:0:0:8a2e:370:7334', // ipv6
         '113.62.1.1', // in Lhasa, Tibet
         '151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)
         '103.29.196.229', // in Indonesia (Bali), (only Indonesia will show up)
