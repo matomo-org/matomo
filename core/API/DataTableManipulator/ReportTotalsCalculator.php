@@ -73,12 +73,13 @@ class ReportTotalsCalculator extends DataTableManipulator
         $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
 
         foreach ($metricsToCalculate as $metricId) {
-            if (!$this->hasDataTableMetric($firstLevelTable, $metricId)) {
+            $realMetricName = $this->hasDataTableMetric($firstLevelTable, $metricId);
+            if (empty($realMetricName)) {
                 continue;
             }
 
             foreach ($firstLevelTable->getRows() as $row) {
-                $totalValues = $this->sumColumnValueToTotal($row, $metricId, $totalValues);
+                $totalValues = $this->sumColumnValueToTotal($row, $metricId, $realMetricName, $totalValues);
             }
         }
 
@@ -95,34 +96,20 @@ class ReportTotalsCalculator extends DataTableManipulator
             return false;
         }
 
-        if (false === $this->getColumn($firstRow, $metricId)) {
-            return false;
-        }
+        $readableColumnName = Metrics::getReadableColumnName($metricId);
+        $columnAlternatives = array(
+            $metricId,
+            $readableColumnName,
+            // TODO: this and below is a hack to get report totals to work correctly w/ MultiSites.getAll. can be corrected
+            //       when all metrics are described by Metadata classes & internal naming quirks are handled by core system.
+            'Goal_' . $readableColumnName,
+            'Actions_' . $readableColumnName
+        );
 
-        return true;
-    }
-
-    /**
-     * Returns column from a given row.
-     * Will work with 2 types of datatable
-     * - raw datatables coming from the archive DB, which columns are int indexed
-     * - datatables processed resulting of API calls, which columns have human readable english names
-     *
-     * @param Row|array $row
-     * @param int $columnIdRaw see consts in Metrics::
-     * @return mixed  Value of column, false if not found
-     */
-    private function getColumn($row, $columnIdRaw)
-    {
-        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
-
-        if ($row instanceof Row) {
-            $raw = $row->getColumn($columnIdRaw);
-            if ($raw !== false) {
-                return $raw;
+        foreach ($columnAlternatives as $column) {
+            if ($firstRow->getColumn($column) !== false) {
+                return $column;
             }
-
-            return $row->getColumn($columnIdReadable);
         }
 
         return false;
@@ -170,9 +157,9 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $table;
     }
 
-    private function sumColumnValueToTotal(Row $row, $metricId, $totalValues)
+    private function sumColumnValueToTotal(Row $row, $metricId, $realMetricId, $totalValues)
     {
-        $value = $this->getColumn($row, $metricId);
+        $value = $row->getColumn($realMetricId);
 
         if (false === $value) {
 

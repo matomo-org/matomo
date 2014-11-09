@@ -45,7 +45,7 @@ class VisitsPercent extends ProcessedMetric
     {
         $visits = $this->getMetric($row, 'nb_visits');
 
-        return Piwik::getQuotientSafe($visits, $this->cachedTotalVisits, $precision = 2);
+        return Piwik::getQuotientSafe($visits, $this->cachedTotalVisits, $precision = 3);
     }
 
     public function format($value)

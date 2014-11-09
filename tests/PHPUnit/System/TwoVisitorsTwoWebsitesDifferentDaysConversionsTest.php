@@ -125,7 +125,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $idSite1 = self::$fixture->idSite1;
 
         $archive = Archive::build($idSite1, 'range', $dateTimeRange);
-        $result = $archive->getDataTableFromNumeric($columns);
+        $result = $archive->getNumeric($columns);
         $this->assertEquals(
             array(
                 'nb_visits' => 4,

@@ -79,7 +79,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyTotalsCalculator($dataTable);
         $dataTable = $this->applyGenericFilters($label, $dataTable);
 
-        $dataTable->filter(array($this, 'computeProcessedMetrics'));
+        $this->applyComputeProcessedMetrics($dataTable);
 
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
@@ -101,6 +101,8 @@ class DataTablePostProcessor
     {
         $pivotBy = Common::getRequestVar('pivotBy', false, 'string', $this->request);
         if (!empty($pivotBy)) {
+            $this->applyComputeProcessedMetrics($dataTable);
+
             $reportId = $this->apiModule . '.' . $this->apiMethod;
             $pivotByColumn = Common::getRequestVar('pivotByColumn', false, 'string', $this->request);
             $pivotByColumnLimit = Common::getRequestVar('pivotByColumnLimit', false, 'int', $this->request);
@@ -352,5 +354,10 @@ class DataTablePostProcessor
             $result[$metric->getName()] = $metric;
         }
         return $result;
+    }
+
+    private function applyComputeProcessedMetrics(DataTableInterface $dataTable)
+    {
+        $dataTable->filter(array($this, 'computeProcessedMetrics'));
     }
 }

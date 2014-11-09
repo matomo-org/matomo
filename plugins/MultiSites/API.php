@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
@@ -264,15 +263,15 @@ class API extends \Piwik\Plugin\API
 
         // set the label of each row to the site name
         if ($multipleWebsitesRequested) {
-            $dataTable->filter('ColumnCallbackReplace', array('label', '\Piwik\Site::getNameFor'));
+            $dataTable->queueFilter('ColumnCallbackReplace', array('label', '\Piwik\Site::getNameFor'));
         } else {
-            $dataTable->filter('ColumnDelete', array('label'));
+            $dataTable->queueFilter('ColumnDelete', array('label'));
         }
 
         Site::clearCache();
 
         // replace record names with user friendly metric names
-        $dataTable->filter('ReplaceColumnNames', array($columnNameRewrites));
+        $dataTable->queueFilter('ReplaceColumnNames', array($columnNameRewrites));
 
         // Ensures data set sorted, for Metadata output
         $dataTable->filter('Sort', array(self::NB_VISITS_METRIC, 'desc', $naturalSort = false));
@@ -336,7 +335,7 @@ class API extends \Piwik\Plugin\API
                                       : "Piwik\\Plugins\\CoreHome\\Metrics\\EvolutionMetric";
 
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
-                    $metricSettings[self::METRIC_COL_NAME_KEY],
+                    $metricSettings[self::METRIC_RECORD_NAME_KEY],
                     $pastData,
                     $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
                     $quotientPrecision = 1

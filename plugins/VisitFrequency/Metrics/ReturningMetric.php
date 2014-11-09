@@ -17,9 +17,9 @@ use Piwik\Plugin\ProcessedMetric;
 class ReturningMetric extends ProcessedMetric
 {
     private static $translations = array(
-        'avg_time_on_site_returning' => 'ColumnAverageVisitDurationForReturningVisitors',
-        'nb_actions_per_visit_returning' => 'ColumnAvgActionsPerReturningVisit',
-        'bounce_rate_returning' => 'ColumnBounceRateForReturningVisits',
+        'avg_time_on_site_returning' => 'VisitFrequency_ColumnAverageVisitDurationForReturningVisitors',
+        'nb_actions_per_visit_returning' => 'VisitFrequency_ColumnAvgActionsPerReturningVisit',
+        'bounce_rate_returning' => 'VisitFrequency_ColumnBounceRateForReturningVisits',
     );
 
     /**

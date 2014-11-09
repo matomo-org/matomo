@@ -10,9 +10,9 @@
 			<bounce_count>2</bounce_count>
 			<sum_visit_length>722</sum_visit_length>
 			<max_actions>4</max_actions>
+			<bounce_rate>66.67%</bounce_rate>
 			<nb_actions_per_visit>2</nb_actions_per_visit>
 			<avg_time_on_site>241</avg_time_on_site>
-			<bounce_rate>67%</bounce_rate>
 		</result>
 		<result date="2010-01-04" />
 		<result date="2010-01-05" />

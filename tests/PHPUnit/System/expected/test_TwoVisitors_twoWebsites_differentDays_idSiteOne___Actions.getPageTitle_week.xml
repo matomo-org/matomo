@@ -7,6 +7,7 @@
 			<nb_visits>6</nb_visits>
 			<nb_hits>6</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
+			<sum_time_generation>2.712</sum_time_generation>
 			<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
@@ -25,6 +26,7 @@
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
+			<sum_time_generation>0.904</sum_time_generation>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>

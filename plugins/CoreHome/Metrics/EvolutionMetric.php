@@ -82,7 +82,7 @@ class EvolutionMetric extends ProcessedMetric
         } else if ($divisor == 0) {
             return 1;
         } else {
-            return Piwik::getQuotientSafe($dividend, $divisor, $this->quotientPrecision);
+            return Piwik::getQuotientSafe($dividend, $divisor, $this->quotientPrecision + 2);
         }
     }
 

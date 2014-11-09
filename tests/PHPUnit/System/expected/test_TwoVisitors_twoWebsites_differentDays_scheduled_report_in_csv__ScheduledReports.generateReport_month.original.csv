@@ -1,11 +1,11 @@
 All Websites dashboard
-label,nb_visits,nb_actions,nb_pageviews,revenue,nb_conversions,visits_evolution,actions_evolution,pageviews_evolution,revenue_evolution,nb_conversions_evolution,orders,orders_evolution,ecommerce_revenue,ecommerce_revenue_evolution
-Site 1,10,43,43,$ 0,0,100%,100%,100%,0%,0%,0,0,$ 0,0
-Site 2,1,3,3,$ 0,0,100%,100%,100%,0%,0%,0,0,$ 0,0
+label,nb_visits,nb_actions,nb_pageviews,revenue,nb_conversions,visits_evolution,actions_evolution,pageviews_evolution,revenue_evolution,nb_conversions_evolution,orders_evolution,ecommerce_revenue_evolution,orders,ecommerce_revenue
+Site 1,10,43,43,$ 0,0,100%,100%,100%,0%,0%,0%,0%,0,$ 0
+Site 2,1,3,3,$ 0,0,100%,100%,100%,0%,0%,0%,0%,0,$ 0
 
 Visits Summary
 nb_uniq_visitors,nb_users,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
-2,0,10,43,5,4.3,00:12:37,0.1%
+2,0,10,43,5,4.3,00:12:37,10%
 
 Visits by Server Time
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
@@ -143,38 +143,38 @@ nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uni
 43,27,0,0,0,0,0,0,0.3s
 
 Page URLs
-label,nb_visits,nb_hits,avg_time_on_page,bounce_rate,exit_rate,avg_time_generation
-/index.htm,9,9,00:05:20,0%,0%,0.3s
-Page URL not defined,9,17,00:00:00,0%,0%,0.22s
-/thankyou,8,16,00:06:00,0%,100%,0.31s
-/products,1,1,00:00:00,100%,100%,0.15s
+label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
+/index.htm,9,9,0%,00:05:20,0%,0.3s
+Page URL not defined,9,17,0%,00:00:00,0%,0.22s
+/thankyou,8,16,0%,00:06:00,100%,0.31s
+/products,1,1,100%,00:00:00,100%,0.15s
 
 Entry pages
-label,entry_nb_visits,entry_bounce_count,bounce_rate
-/index.htm,8,0,0%
-/products,1,1,100%
+label,entry_nb_visits,entry_bounce_count,avg_time_on_page,bounce_rate,exit_rate,avg_time_generation
+/index.htm,8,0,00:05:20,0%,0%,0.3s
+/products,1,1,00:00:00,100%,100%,0.15s
 
 Exit pages
-label,nb_visits,exit_nb_visits,exit_rate
-/thankyou,8,8,100%
-/products,1,1,100%
+label,nb_visits,exit_nb_visits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
+/thankyou,8,8,0%,00:06:00,100%,0.31s
+/products,1,1,100%,00:00:00,100%,0.15s
 
 Page titles
-label,nb_visits,nb_hits,avg_time_on_page,bounce_rate,exit_rate,avg_time_generation
-second visitor,16,16,00:07:30,0%,0%,0.25s
-Checkout,8,8,00:00:00,0%,100%,0.45s
- first page view,2,2,00:00:00,100%,50%,0.14s
-Page Name not defined,1,1,00:00:00,0%,0%,0.22s
+label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
+second visitor,16,16,0%,00:07:30,0%,0.25s
+Checkout,8,8,0%,00:00:00,100%,0.45s
+ first page view,2,2,100%,00:00:00,50%,0.14s
+Page Name not defined,1,1,0%,00:00:00,0%,0.22s
 
 Entry page titles
-label,entry_nb_visits,entry_bounce_count,bounce_rate
-second visitor,8,0,0%
- first page view,1,1,100%
+label,entry_nb_visits,entry_bounce_count,avg_time_on_page,bounce_rate,exit_rate,avg_time_generation
+second visitor,8,0,00:07:30,0%,0%,0.25s
+ first page view,1,1,00:00:00,100%,50%,0.14s
 
 Exit page titles
-label,nb_visits,exit_nb_visits,exit_rate
-Checkout,8,8,100%
- first page view,2,1,50%
+label,nb_visits,exit_nb_visits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
+Checkout,8,8,0%,00:00:00,100%,0.45s
+ first page view,2,1,100%,00:00:00,50%,0.14s
 
 Outlinks
 No data available
@@ -333,8 +333,8 @@ New visits,2
 365+ days,0
 
 Returning Visits
-nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,nb_visits_converted_returning,sum_visit_length_returning,max_actions_returning,nb_actions_per_visit_returning,avg_time_on_site_returning,bounce_rate_returning
-1,0,8,40,0,7208,5,5,00:15:01,0%
+nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,nb_visits_converted_returning,sum_visit_length_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
+1,0,8,40,0,7208,5,0%,5,00:15:01
 
 Provider
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

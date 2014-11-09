@@ -5,6 +5,7 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>5</nb_hits>
 		<sum_time_spent>170</sum_time_spent>
+		<sum_time_generation>2.214</sum_time_generation>
 		<nb_hits_with_time_generation>5</nb_hits_with_time_generation>
 		<min_time_generation>0.023</min_time_generation>
 		<max_time_generation>1.324</max_time_generation>
@@ -22,6 +23,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>5</nb_hits>
 				<sum_time_spent>170</sum_time_spent>
+				<sum_time_generation>2.214</sum_time_generation>
 				<nb_hits_with_time_generation>5</nb_hits_with_time_generation>
 				<min_time_generation>0.023</min_time_generation>
 				<max_time_generation>1.324</max_time_generation>
@@ -39,6 +41,7 @@
 						<nb_visits>1</nb_visits>
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>14</sum_time_spent>
+						<sum_time_generation>1.948</sum_time_generation>
 						<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 						<min_time_generation>0.624</min_time_generation>
 						<max_time_generation>1.324</max_time_generation>
@@ -53,6 +56,7 @@
 								<nb_uniq_visitors>1</nb_uniq_visitors>
 								<nb_hits>2</nb_hits>
 								<sum_time_spent>14</sum_time_spent>
+								<sum_time_generation>1.948</sum_time_generation>
 								<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 								<min_time_generation>0.624</min_time_generation>
 								<max_time_generation>1.324</max_time_generation>
@@ -69,6 +73,7 @@
 						<nb_visits>1</nb_visits>
 						<nb_hits>3</nb_hits>
 						<sum_time_spent>156</sum_time_spent>
+						<sum_time_generation>0.266</sum_time_generation>
 						<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 						<min_time_generation>0.023</min_time_generation>
 						<max_time_generation>0.123</max_time_generation>
@@ -87,6 +92,7 @@
 								<nb_uniq_visitors>1</nb_uniq_visitors>
 								<nb_hits>3</nb_hits>
 								<sum_time_spent>156</sum_time_spent>
+								<sum_time_generation>0.266</sum_time_generation>
 								<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 								<min_time_generation>0.023</min_time_generation>
 								<max_time_generation>0.123</max_time_generation>
@@ -112,6 +118,7 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0.886</sum_time_generation>
 		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<min_time_generation>0.343</min_time_generation>
 		<max_time_generation>0.543</max_time_generation>
@@ -125,6 +132,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0.886</sum_time_generation>
 				<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 				<min_time_generation>0.343</min_time_generation>
 				<max_time_generation>0.543</max_time_generation>
@@ -139,6 +147,7 @@
 						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
+						<sum_time_generation>0.886</sum_time_generation>
 						<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 						<min_time_generation>0.343</min_time_generation>
 						<max_time_generation>0.543</max_time_generation>
@@ -157,6 +166,7 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>3</nb_hits>
 		<sum_time_spent>52</sum_time_spent>
+		<sum_time_generation>0.765</sum_time_generation>
 		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 		<min_time_generation>0.234</min_time_generation>
 		<max_time_generation>0.294</max_time_generation>
@@ -172,6 +182,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>3</nb_hits>
 				<sum_time_spent>52</sum_time_spent>
+				<sum_time_generation>0.765</sum_time_generation>
 				<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 				<min_time_generation>0.234</min_time_generation>
 				<max_time_generation>0.294</max_time_generation>

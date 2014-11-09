@@ -498,13 +498,15 @@ class API extends \Piwik\Plugin\API
         return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $skipAggregationOfSubTables, $depth);
     }
 
-    private function addPageprocessedMetrics(DataTable $dataTable)
+    private function addPageProcessedMetrics(DataTable\DataTableInterface $dataTable)
     {
-        $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-        $extraProcessedMetrics[] = new AverageTimeOnPage();
-        $extraProcessedMetrics[] = new BounceRate();
-        $extraProcessedMetrics[] = new ExitRate();
-        $extraProcessedMetrics[] = new AveragePageGenerationTime();
-        $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+        $dataTable->filter(function (DataTable $table) {
+            $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            $extraProcessedMetrics[] = new AverageTimeOnPage();
+            $extraProcessedMetrics[] = new BounceRate();
+            $extraProcessedMetrics[] = new ExitRate();
+            $extraProcessedMetrics[] = new AveragePageGenerationTime();
+            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+        });
     }
 }

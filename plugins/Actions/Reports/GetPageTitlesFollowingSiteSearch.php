@@ -11,6 +11,10 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\DestinationPage;
+use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Metrics\ExitRate;
 
 class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
 {
@@ -21,6 +25,12 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
         $this->name          = Piwik::translate('Actions_WidgetPageTitlesFollowingSearch');
         $this->documentation = Piwik::translate('Actions_SiteSearchFollowingPagesDoc') . '<br/>' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
         $this->metrics       = array('nb_hits_following_search', 'nb_hits');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->order = 19;
         $this->widgetTitle  = 'Actions_WidgetPageTitlesFollowingSearch';
     }

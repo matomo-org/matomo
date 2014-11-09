@@ -11,9 +11,9 @@
 			<bounce_count_returning>0</bounce_count_returning>
 			<sum_visit_length_returning>5406</sum_visit_length_returning>
 			<max_actions_returning>5</max_actions_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>901</avg_time_on_site_returning>
-			<bounce_rate_returning>0%</bounce_rate_returning>
 		</result>
 		<result date="From 2010-01-11 to 2010-01-17">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
@@ -24,9 +24,9 @@
 			<bounce_count_returning>0</bounce_count_returning>
 			<sum_visit_length_returning>1802</sum_visit_length_returning>
 			<max_actions_returning>5</max_actions_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>901</avg_time_on_site_returning>
-			<bounce_rate_returning>0%</bounce_rate_returning>
 		</result>
 		<result date="From 2010-01-18 to 2010-01-24" />
 		<result date="From 2010-01-25 to 2010-01-31" />
