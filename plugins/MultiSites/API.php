@@ -378,7 +378,7 @@ class API extends \Piwik\Plugin\API
                 $metrics[self::GOAL_CONVERSION_METRIC] = array(
                     self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnConversions',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_CONVERSION_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC),
+                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC), // TODO: need to test this...
                     self::METRIC_COL_NAME_KEY           => self::GOAL_CONVERSION_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => false,
                 );
@@ -388,7 +388,7 @@ class API extends \Piwik\Plugin\API
                     self::METRIC_TRANSLATION_KEY        => 'General_EcommerceOrders',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_ORDERS_METRIC . '_evolution',
                     self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
-                    self::METRIC_COL_NAME_KEY           => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
+                    self::METRIC_COL_NAME_KEY           => self::ECOMMERCE_ORDERS_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 );
 
@@ -397,7 +397,7 @@ class API extends \Piwik\Plugin\API
                     self::METRIC_TRANSLATION_KEY        => 'General_ProductRevenue',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_REVENUE_METRIC . '_evolution',
                     self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0),
-                    self::METRIC_COL_NAME_KEY           => Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0), // TODO: need to test this...
+                    self::METRIC_COL_NAME_KEY           => self::ECOMMERCE_REVENUE_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 );
             }

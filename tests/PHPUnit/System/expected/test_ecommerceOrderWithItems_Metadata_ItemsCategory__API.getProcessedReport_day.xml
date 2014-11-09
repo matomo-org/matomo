@@ -40,9 +40,9 @@
 			<quantity>3</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
-			<conversion_rate>66.67%</conversion_rate>
 			<avg_price>1000</avg_price>
 			<avg_quantity>1.5</avg_quantity>
+			<conversion_rate>66.67%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 1</label>
@@ -50,9 +50,9 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<conversion_rate>100%</conversion_rate>
 			<avg_price>500</avg_price>
 			<avg_quantity>2</avg_quantity>
+			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 2</label>
@@ -60,9 +60,9 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<conversion_rate>100%</conversion_rate>
 			<avg_price>500</avg_price>
 			<avg_quantity>2</avg_quantity>
+			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 4</label>
@@ -70,9 +70,9 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<conversion_rate>100%</conversion_rate>
 			<avg_price>500</avg_price>
 			<avg_quantity>2</avg_quantity>
+			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Multiple Category 5</label>
@@ -80,9 +80,9 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<conversion_rate>100%</conversion_rate>
 			<avg_price>500</avg_price>
 			<avg_quantity>2</avg_quantity>
+			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>
 			<label>Product Category not defined</label>
@@ -90,16 +90,16 @@
 			<quantity>7</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
-			<conversion_rate>66.67%</conversion_rate>
 			<avg_price>55.61</avg_price>
 			<avg_quantity>3.5</avg_quantity>
+			<conversion_rate>66.67%</conversion_rate>
 		</row>
 		<row>
 			<label>Category TWO LEFT in cart</label>
 			<nb_visits>2</nb_visits>
-			<conversion_rate>0%</conversion_rate>
 			<avg_price>0</avg_price>
 			<avg_quantity>0</avg_quantity>
+			<conversion_rate>0%</conversion_rate>
 			<revenue>$ 0</revenue>
 			<quantity>0</quantity>
 			<orders>0</orders>

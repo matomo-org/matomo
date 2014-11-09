@@ -398,6 +398,7 @@ class ProcessedReport
 
         if (!empty($reportMetadata['processedMetrics'])
             && !empty($reportMetadata['metrics']['nb_visits'])
+            && @$reportMetadata['category'] != Piwik::translate('Goals_Ecommerce')
         ) {
             $deleteRowsWithNoVisits = empty($reportMetadata['constantRowsCount']) ? '1' : '0';
             $parameters['filter_add_columns_when_show_all_columns'] = $deleteRowsWithNoVisits;
