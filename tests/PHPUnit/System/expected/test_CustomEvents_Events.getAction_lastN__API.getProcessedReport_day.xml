@@ -24,7 +24,7 @@
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</metricsDocumentation>
 		<processedMetrics>
-			<avg_event_value>Average value</avg_event_value>
+			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
 		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
@@ -38,7 +38,7 @@
 		<min_event_value>Minimum value</min_event_value>
 		<max_event_value>Maximum value</max_event_value>
 		<nb_events_with_value>Events with a value</nb_events_with_value>
-		<avg_event_value>Average value</avg_event_value>
+		<avg_event_value>The average of all values for this event</avg_event_value>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">

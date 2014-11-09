@@ -5,9 +5,8 @@
 	<nb_users>0</nb_users>
 	<nb_actions>4</nb_actions>
 	<max_actions>2</max_actions>
-	<bounce_rate>0%</bounce_rate>
-	<nb_actions_per_visit>2</nb_actions_per_visit>
-	<avg_time_on_site>632</avg_time_on_site>
+	<bounce_count>0</bounce_count>
+	<sum_visit_length>1264</sum_visit_length>
 	<nb_visits_returning>0</nb_visits_returning>
 	<nb_actions_returning>0</nb_actions_returning>
 	<nb_uniq_visitors_returning>0</nb_uniq_visitors_returning>
@@ -30,5 +29,7 @@
 	<nb_uniq_outlinks>0</nb_uniq_outlinks>
 	<nb_searches>1</nb_searches>
 	<nb_keywords>1</nb_keywords>
-	<avg_time_generation>0</avg_time_generation>
+	<bounce_rate>0%</bounce_rate>
+	<nb_actions_per_visit>2</nb_actions_per_visit>
+	<avg_time_on_site>632</avg_time_on_site>
 </result>

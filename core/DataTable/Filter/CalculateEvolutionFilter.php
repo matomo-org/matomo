@@ -30,6 +30,9 @@ use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
+    /**
+     * @var EvolutionMetric
+     */
     protected $evolutionMetric;
 
     /**

@@ -101,7 +101,10 @@ class EvolutionMetric extends ProcessedMetric
         return $this->wrapped instanceof Metric ? $this->wrapped->getName() : $this->wrapped;
     }
 
-    protected function getPastRowFromCurrent(Row $row)
+    /**
+     * public for Insights use.
+     */
+    public function getPastRowFromCurrent(Row $row)
     {
         return $this->pastData->getRowFromLabel($row->getColumn('label'));
     }
