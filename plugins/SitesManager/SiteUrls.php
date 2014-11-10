@@ -24,7 +24,7 @@ class SiteUrls
         $cache    = $this->getCache();
         $siteUrls = $cache->get(self::$allUrlsCacheKey);
 
-        if (empty($siteUrls)) {
+        if (empty($siteUrls) || Development::isEnabled()) {
             $siteUrls = $this->getAllSiteUrls();
             $cache->set(self::$allUrlsCacheKey, $siteUrls);
         }
