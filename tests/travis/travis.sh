@@ -8,20 +8,6 @@ source $SCRIPT_DIR/travis-helper.sh
 # go to tests directory
 cd ../PHPUnit
 
-if [ "$TEST_SUITE" != "UITests" ] && [ "$TEST_SUITE" != "AngularJSTests" ]
-then
-    if [ `phpunit --group __nogroup__ | grep "No tests executed" | wc -l` -ne 1 ]
-    then
-        echo "=====> There are some tests functions which do not have a @group set or have no tests. "
-        echo "       Please add the @group phpdoc comment to the following tests: <====="
-        phpunit --group __nogroup__ --testdox | grep "[x]"
-
-        echo "Initial output of \$phpunit --group __nogroup__ "
-        phpunit --group __nogroup__
-        exit 1
-    fi
-fi
-
 if [ -n "$TEST_SUITE" ]
 then
     echo "Executing tests in test suite $TEST_SUITE..."
