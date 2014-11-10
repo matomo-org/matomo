@@ -12,7 +12,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
+ * The percent of visits that result in a conversion. Calculated as:
+ *
+ *     nb_visits_converted / nb_visits
+ *
+ * nb_visits_converted & nb_visits are calculated by the archiving process.
  */
 class ConversionRate extends ProcessedMetric
 {

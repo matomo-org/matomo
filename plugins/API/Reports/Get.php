@@ -15,7 +15,7 @@ use Piwik\Plugin\Report;
 class Get extends Report
 {
     /**
-     * TODO
+     * List of Plugin.Get reports that are merged in this one.
      *
      * @var Report[]
      */

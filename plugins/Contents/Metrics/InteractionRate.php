@@ -13,8 +13,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
-// Content interaction rate = interactions / impressions
+ * The content interaction rate. Calculated as:
+ *
+ *     nb_interactions / nb_impressions
+ *
+ * nb_interactions & nb_impressions are calculated by the Contents archiver.
  */
 class InteractionRate extends ProcessedMetric
 {

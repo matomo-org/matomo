@@ -13,10 +13,14 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\Actions\Archiver;
 
 /**
- * TODO
+ * The average amount of time it takes to generate a page. Calculated as
+ *
+ *     sum_time_generation / nb_hits_with_time_generation
+ *
+ * The above metrics are calculated during archiving. This metric is calculated before
+ * serving a report.
  */
 class AveragePageGenerationTime extends ProcessedMetric
 {
@@ -45,19 +49,9 @@ class AveragePageGenerationTime extends ProcessedMetric
 
     public function beforeCompute($report, DataTable $table)
     {
-        $columnName = Metrics::INDEX_PAGE_SUM_TIME_GENERATION;
+        $hasTimeGeneration = array_sum($this->getMetricValues($table, 'sum_time_generation')) > 0;
 
-        // TODO: code redundancy w/ another metric (VisitsPercent i think?)
-        $firstRow = $table->getFirstRow();
-        if (!empty($firstRow)
-            && $firstRow->getColumn($columnName) === false
-        ) {
-            $columnName = 'sum_time_generation';
-        }
-
-        $hasTimeGeneration = array_sum($table->getColumn($columnName)) > 0;
-
-        if (!$hasTimeGeneration) { // TODO: ideally this logic shouldn't exist...
+        if (!$hasTimeGeneration) {
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that
             // the columns can also be removed from the view
             $table->filter('ColumnDelete', array(array(
@@ -72,7 +66,7 @@ class AveragePageGenerationTime extends ProcessedMetric
             )));
 
             if ($table instanceof DataTable) {
-                $emptyColumns = $table->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME); // TODO: this metadata feels like a hack, should investigate removing it in a new issue
+                $emptyColumns = $table->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
                 if (!is_array($emptyColumns)) {
                     $emptyColumns = array();
                 }

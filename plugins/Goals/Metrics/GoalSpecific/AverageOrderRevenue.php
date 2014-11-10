@@ -14,7 +14,9 @@ use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Tracker\GoalManager;
 
 /**
- * TODO
+ * The average order revenue for a specific goal. Calculated as:
+ *
+ *     goals' revenue / goal's nb_conversions
  */
 class AverageOrderRevenue extends GoalSpecificProcessedMetric
 {
@@ -37,7 +39,7 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
     {
         $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
 
-        $goalMetrics = $row->getColumn($row, 'goals');
+        $goalMetrics = $this->getGoalMetrics($row);
 
         $goalRevenue = $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
         $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);

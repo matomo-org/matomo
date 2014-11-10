@@ -13,8 +13,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\DevicesDetection\Archiver AS DDArchiver;
-use Piwik\Plugins\UserSettings\Metrics\PluginsVisitsPercent;
-use Piwik\Plugins\VisitorInterest\Metrics\VisitsPercent;
+use Piwik\Plugins\CoreHome\Metrics\VisitsPercent;
 
 /**
  * @see plugins/UserSettings/functions.php
@@ -210,7 +209,7 @@ class API extends \Piwik\Plugin\API
             $visitsSum = $visitsSumTotal - $ieVisits;
 
             $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-            $extraProcessedMetrics[] = new VisitsPercent($visitsSum); // TODO: move to CoreHome/Metrics
+            $extraProcessedMetrics[] = new VisitsPercent($visitsSum);
             $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }
 

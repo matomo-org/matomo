@@ -13,8 +13,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
-// Average quantity = sum product quantity / abandoned carts
+ * The average amount of products in each order or abandoned cart. Calculated as:
+ *
+ *     quantity / (orders or abandoned_carts)
+ *
+ * quantity, orders and abandoned_carts are calculated by the Goals archiver.
  */
 class AverageQuantity extends ProcessedMetric
 {

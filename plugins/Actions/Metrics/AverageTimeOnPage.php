@@ -12,8 +12,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
- *         // Average time on page = total time on page / number visits on that page
+ * The average amount of time spent on a page. Calculated as:
+ *
+ *     sum_time_spent / nb_visits
+ *
+ * sum_time_spent and nb_visits are calculated by Archiver classes.
  */
 class AverageTimeOnPage extends ProcessedMetric
 {

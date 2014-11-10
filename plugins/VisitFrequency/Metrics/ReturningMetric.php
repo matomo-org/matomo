@@ -12,7 +12,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
+ * Processed metric for VisitFrequency.get API method which just copies VisitsSummary.get
+ * metrics as differently named metrics.
+ *
+ * This metric must be supplied in order to ensure correct formatting for processed
+ * metrics that are copied from VisitsSummary.get.
  */
 class ReturningMetric extends ProcessedMetric
 {

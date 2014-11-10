@@ -183,14 +183,6 @@ abstract class DataTableManipulator
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
         $dataTable = $response->getResponse($dataTable, $apiModule, $method);
-
-        /*TODO: remove
-        if (Common::getRequestVar('disable_queued_filters', 0, 'int', $request) == 0) {
-            if (method_exists($dataTable, 'applyQueuedFilters')) {
-                //$dataTable->applyQueuedFilters();
-            }
-        }*/
-
         return $dataTable;
     }
 }

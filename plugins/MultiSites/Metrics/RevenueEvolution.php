@@ -13,7 +13,9 @@ use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
 use Piwik\Site;
 
 /**
- * TODO
+ * Revenue evolution. This is a special processed metric for MultiSites API methods. It will
+ * only be calculated for sites that have ecommerce enabled. The site is determined by the label
+ * of each row.
  */
 class RevenueEvolution extends EvolutionMetric
 {

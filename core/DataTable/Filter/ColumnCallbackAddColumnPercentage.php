@@ -11,6 +11,8 @@ namespace Piwik\DataTable\Filter;
 use Piwik\Piwik;
 
 /**
+ * **This class is deprecated, use {@link Piwik\Plugin\ProcessedMetric}s instead.**
+ *
  * Calculates a percentage value for each row of a {@link DataTable} and adds the result
  * to each row.
  *
@@ -22,6 +24,7 @@ use Piwik\Piwik;
  *     $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *
  * @api
+ * @deprecated since v2.9.0
  */
 class ColumnCallbackAddColumnPercentage extends ColumnCallbackAddColumnQuotient
 {

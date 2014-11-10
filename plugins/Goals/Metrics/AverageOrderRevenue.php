@@ -12,7 +12,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
+ * The average value for each order. Calculated as:
+ *
+ *     revenue / nb_conversions
+ *
+ * revenue & nb_conversions are calculated by the Goals archiver.
  */
 class AverageOrderRevenue extends ProcessedMetric
 {
@@ -31,7 +35,7 @@ class AverageOrderRevenue extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate(''); // TODO: no translated name?
+        return Piwik::translate('General_AverageOrderValue');
     }
 
     public function getDependenctMetrics()

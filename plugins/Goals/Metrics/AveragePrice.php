@@ -14,8 +14,11 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
 
 /**
- * TODO
-// Average price = sum product revenue / quantity
+ * The average price for each ecommerce order or abandoned cart. Calculated as:
+ *
+ *     price / (orders or abandoned_carts)
+ *
+ * price, orders and abandoned_carts are calculated by the Goals archiver.
  */
 class AveragePrice extends ProcessedMetric
 {

@@ -12,8 +12,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
-// Bounce rate = single page visits on this page / visits started on this page
+ * The bounce rate for individual pages. Calculated as:
+ *
+ *     entry_bounce_count (single page visits on this page) / entry_nb_visits (all visits that started on this page)
+ *
+ * entry_bounce_count & entry_nb_visits are calculated by the Actions archiver.
  */
 class BounceRate extends ProcessedMetric
 {

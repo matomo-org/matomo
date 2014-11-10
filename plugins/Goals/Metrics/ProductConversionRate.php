@@ -14,8 +14,11 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
 
 /**
- * TODO
-// Product conversion rate = orders / visits
+ * The conversion rate for ecommerce orders. Calculated as:
+ *
+ *     (orders or abandoned_carts) / nb_visits
+ *
+ * orders and abandoned_carts are calculated by the Goals archiver.
  */
 class ProductConversionRate extends ProcessedMetric
 {

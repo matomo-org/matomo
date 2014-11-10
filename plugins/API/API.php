@@ -403,25 +403,6 @@ class API extends \Piwik\Plugin\API
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
 
-            // make sure the table has all columns
-            /* TODO: keep removed?
-            $array = ($dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : array($dataTable));
-            foreach ($array as $table) {
-                // we don't support idSites=all&date=DATE1,DATE2
-                if ($table instanceof DataTable) {
-                    $firstRow = $table->getFirstRow();
-                    if (!$firstRow) {
-                        $firstRow = new Row;
-                        $table->addRow($firstRow);
-                    }
-                    foreach ($columns as $column) {
-                        if ($firstRow->getColumn($column) === false) {
-                            $firstRow->setColumn($column, 0);
-                        }
-                    }
-                }
-            }*/
-
             // merge reports
             if ($mergedDataTable === false) {
                 $mergedDataTable = $dataTable;

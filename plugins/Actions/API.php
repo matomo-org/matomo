@@ -66,10 +66,6 @@ class API extends \Piwik\Plugin\API
         $newNameMapping = array_combine($inDbColumnNames, $columns);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
-        // TODO: either replace w/ temporary metrics, or just include them in the results and let people remove them if
-        //       they want.
-        $dataTable->queueFilter('ColumnDelete', array(array('sum_time_generation', 'nb_hits_with_time_generation')));
-
         return $dataTable;
     }
 

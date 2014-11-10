@@ -8,11 +8,11 @@
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 
 /**
- * TODO
+ * The number of ecommerce order items for conversions of a goal. Returns the 'items'
+ * goal specific metric.
  */
 class ItemsCount extends GoalSpecificProcessedMetric
 {
@@ -33,7 +33,7 @@ class ItemsCount extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getMetric($row, 'goals');
+        $goalMetrics = $this->getGoalMetrics($row);
         return (int) $this->getMetric($goalMetrics, 'items');
     }
 }

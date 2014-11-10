@@ -12,8 +12,11 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
-// % Exit = Number of visits that finished on this page / visits on this page
+ * Percent of visits that finished on this page. Calculated as:
+ *
+ *     exit_nb_visits / nb_visits
+ *
+ * exit_nb_visits & nb_visits are calculated by the Actions archiver.
  */
 class ExitRate extends ProcessedMetric
 {
@@ -35,7 +38,7 @@ class ExitRate extends ProcessedMetric
         return Piwik::getQuotientSafe($exitVisits, $visits, $precision = 2);
     }
 
-    public function format($value) // TODO: should create ratio & percent processed metric base types
+    public function format($value)
     {
         return ($value * 100) . '%';
     }

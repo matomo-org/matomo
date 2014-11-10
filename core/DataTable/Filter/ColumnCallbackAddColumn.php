@@ -12,6 +12,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
 
 /**
+ * **This class is deprecated, use {@link Piwik\Plugin\ProcessedMetric}s instead.**
+ *
  * Adds a new column to every row of a {@link DataTable} based on the result of callback.
  *
  * **Basic usage example**
@@ -23,6 +25,7 @@ use Piwik\DataTable\BaseFilter;
  *     $dataTable->filter('ColumnCallbackAddColumn', array(array('nb_visits', 'sum_time_spent'), 'avg_time_on_site', $callback));
  *
  * @api
+ * @deprecated since v2.9.0
  */
 class ColumnCallbackAddColumn extends BaseFilter
 {

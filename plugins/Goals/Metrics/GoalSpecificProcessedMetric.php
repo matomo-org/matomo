@@ -8,23 +8,25 @@
 namespace Piwik\Plugins\Goals\Metrics;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
-use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
-use Piwik\Tracker\GoalManager;
 
 /**
- * TODO
+ * Base class for processed metrics that are calculated using metrics that are
+ * specific to certain goals.
  */
 abstract class GoalSpecificProcessedMetric extends ProcessedMetric
 {
     /**
-     * TODO
+     * The ID of the goal to calculate metrics for.
+     *
+     * @var int
      */
     protected $idGoal;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param int $idGoal The ID of the goal to calculate metrics for.
      */
     public function __construct($idGoal)
     {
@@ -34,5 +36,11 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     protected function getColumnPrefix()
     {
         return 'goal_' . $this->idGoal;
+    }
+
+    protected function getGoalMetrics(Row $row)
+    {
+        $allGoalMetrics = $this->getMetric($row, 'goals');
+        return @$allGoalMetrics[$this->idGoal] ?: array();
     }
 }

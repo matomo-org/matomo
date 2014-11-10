@@ -139,23 +139,6 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
         }
 
         $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
-
-        /* TODO: remove this?
-        $expectedColumns = array_keys($this->expectedColumns);
-        $rows = $table->getRows();
-        foreach ($rows as $row) {
-            foreach ($expectedColumns as $name) {
-                if (!$row->hasColumn($name)) {
-                    if (strpos($name, 'conversion_rate') !== false) {
-                        $row->addColumn($name, function () {
-                            return '0%';
-                        });
-                    } else {
-                        $row->addColumn($name, 0);
-                    }
-                }
-            }
-        }*/
     }
 
     private function getGoalsInTable(DataTable $table)

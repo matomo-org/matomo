@@ -13,7 +13,11 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Translate;
 
 /**
- * TODO
+ * The average number of actions per visit. Calculated as:
+ *
+ *     nb_actions / nb_visits
+ *
+ * nb_actions & nb_visits are calculated during archiving.
  */
 class ActionsPerVisit extends ProcessedMetric
 {

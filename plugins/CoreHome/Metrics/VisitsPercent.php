@@ -6,17 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\VisitorInterest\Metrics;
+namespace Piwik\Plugins\CoreHome\Metrics;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
 /**
- * TODO
+ * Percent of visits in the whole table. Calculated as:
+ *
+ *     nb_visits / sum(all nb_visits in table)
+ *
+ * nb_visits is calculated by core archiving process.
  */
 class VisitsPercent extends ProcessedMetric
 {
@@ -24,7 +27,9 @@ class VisitsPercent extends ProcessedMetric
     private $forceTotalVisits = null;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param int|null $totalVisits The forced value of total visits to use.
      */
     public function __construct($totalVisits = null)
     {
@@ -61,16 +66,7 @@ class VisitsPercent extends ProcessedMetric
     public function beforeCompute($report, DataTable $table)
     {
         if ($this->forceTotalVisits === null) {
-            $columnName = 'nb_visits';
-
-            $firstRow = $table->getFirstRow();
-            if (!empty($firstRow)
-                && $firstRow->getColumn($columnName) === false
-            ) {
-                $columnName = Metrics::INDEX_NB_VISITS;
-            }
-
-            $this->cachedTotalVisits = array_sum($table->getColumn($columnName));
+            $this->cachedTotalVisits = array_sum($this->getMetricValues($table, 'nb_visits'));
         } else {
             $this->cachedTotalVisits = $this->forceTotalVisits;
         }

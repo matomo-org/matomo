@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 
@@ -112,5 +113,31 @@ abstract class Metric
         }
 
         return $value;
+    }
+
+    /**
+     * Helper method that will determine the actual column name for a metric in a
+     * {@link Piwik\DataTable} and return every column value for this name.
+     *
+     * @param DataTable $table
+     * @param string $columnName
+     * @param int[]|null $mappingNameToId A custom mapping of metric names to special index values. By
+     *                                    default {@link Metrics::getMappingFromNameToId()} is used.
+     * @return array
+     */
+    public static function getMetricValues(DataTable $table, $columnName, $mappingNameToId = null)
+    {
+        if (empty($mappingIdToName)) {
+            $mappingNameToId = Metrics::getMappingFromNameToId();
+        }
+
+        $firstRow = $table->getFirstRow();
+        if (!empty($firstRow)
+            && $firstRow->getColumn($columnName) === false
+        ) {
+            $columnName = $mappingNameToId[$columnName];
+        }
+
+        return $table->getColumn($columnName);
     }
 }

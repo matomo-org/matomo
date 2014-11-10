@@ -119,7 +119,7 @@ class Report
      * platform default processed metrics, see {@link Metrics::getDefaultProcessedMetrics()}. Set it to boolean `false`
      * if your report does not support any processed metrics at all. Otherwise an array of metric names.
      * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
-     * @var array|false
+     * @var array
      * @api
      */
     protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
@@ -393,7 +393,7 @@ class Report
         foreach ($restrictToColumns as $column) {
             if (isset($processedMetricsById[$column])) {
                 $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependenctMetrics());
-            } else if (isset($metricsSet[$column])) { // TODO: this may cause regression w/ #2531, check?
+            } else if (isset($metricsSet[$column])) {
                 $metrics[] = $column;
             }
         }
@@ -815,7 +815,7 @@ class Report
      */
     public function getProcessedMetricsById()
     {
-        $processedMetrics = $this->processedMetrics ?: array(); // TODO: shouldn't allow processedMetrics to be non-array
+        $processedMetrics = $this->processedMetrics ?: array();
 
         $result = array();
         foreach ($processedMetrics as $processedMetric) {

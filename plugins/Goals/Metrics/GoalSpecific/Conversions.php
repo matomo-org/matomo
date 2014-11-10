@@ -8,11 +8,11 @@
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 
 /**
- * TODO
+ * The conversions for a specific goal. Returns the conversions for a single goal which
+ * is then treated as a new column.
  */
 class Conversions extends GoalSpecificProcessedMetric
 {
@@ -33,7 +33,7 @@ class Conversions extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getMetric($row, 'goals');
+        $goalMetrics = $this->getGoalMetrics($row);
         return (int) $this->getMetric($goalMetrics, 'nb_conversions');
     }
 }

@@ -13,6 +13,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
+ * **This class is deprecated, use {@link Piwik\Plugin\ProcessedMetric}s instead.**
+ *
  * Replaces one or more column values in each row of a DataTable with the results
  * of a callback.
  *
@@ -29,6 +31,7 @@ use Piwik\DataTable\Row;
  *     // label, url and truncate_length are columns in $dataTable
  *     $dataTable->filter('ColumnCallbackReplace', array('label', 'url'), $truncateString, null, array('truncate_length'));
  *
+ * @deprecated since v2.9.0
  */
 class ColumnCallbackReplace extends BaseFilter
 {

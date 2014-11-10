@@ -15,7 +15,12 @@ use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
+ * Calculates evolution values for any other metric. An evolution is the percent change from a
+ * point in the past to the present. They are computed as:
+ *
+ *     (current value - value in past) / value in past
+ *
+ * @api
  */
 class EvolutionMetric extends ProcessedMetric
 {
@@ -40,9 +45,15 @@ class EvolutionMetric extends ProcessedMetric
     private $pastData;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param string|Metric $wrapped The metric used to calculate the evolution.
+     * @param DataTable $pastData The data in the past to use when calculating evolutions.
+     * @param string|false $evolutionMetricName The name of the evolution processed metric. Defaults to
+     *                                          $wrapped's name with `'_evolution'` appended.
+     * @param int $quotientPrecision The percent's quotient precision.
      */
-    public function __construct($wrapped, $pastData, $evolutionMetricName = false, $quotientPrecision = 0)
+    public function __construct($wrapped, DataTable $pastData, $evolutionMetricName = false, $quotientPrecision = 0)
     {
         $this->wrapped = $wrapped;
         $this->pastData = $pastData;

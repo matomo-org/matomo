@@ -12,7 +12,13 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
+ * The average number of seconds spent on the site per visit. Calculated as:
+ *
+ *     sum_visit_length / nb_visits
+ *
+ * sum_visit_length & nb_visits are calculated during archiving.
+ *
+ * @api
  */
 class AverageTimeOnSite extends ProcessedMetric
 {

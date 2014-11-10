@@ -12,7 +12,12 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
 /**
- * TODO
+ * The percentage of visits that leave the site without visiting another page. Calculated
+ * as:
+ *
+ *     bounce_count / nb_visits
+ *
+ * bounce_count & nb_visits are calculated by an Archiver.
  */
 class BounceRate extends ProcessedMetric
 {
@@ -41,6 +46,6 @@ class BounceRate extends ProcessedMetric
         $bounceCount = $this->getMetric($row, 'bounce_count');
         $visits = $this->getMetric($row, 'nb_visits');
 
-        return Piwik::getQuotientSafe($bounceCount, $visits, $precision = 4);
+        return Piwik::getQuotientSafe($bounceCount, $visits, $precision = 2);
     }
 }

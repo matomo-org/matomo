@@ -8,11 +8,10 @@
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 
 /**
- * TODO
+ * Revenue for a specific goal.
  */
 class Revenue extends GoalSpecificProcessedMetric
 {
@@ -33,7 +32,7 @@ class Revenue extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $goalMetrics = $this->getMetric($row, 'goals');
+        $goalMetrics = $this->getGoalMetrics($row);
         return (float) $this->getMetric($goalMetrics, 'revenue');
     }
 }

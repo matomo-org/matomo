@@ -14,7 +14,11 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
 
 /**
- * TODO
+ * The amount of revenue per visit (or per conversion if there are no visits). Calculated as:
+ *
+ *     sum(revenue for all goals) / (nb_visits or nb_conversions if no visits)
+ *
+ * Goal revenue and nb_visits & nb_conversions are calculated by the archiving process.
  */
 class RevenuePerVisit extends ProcessedMetric
 {
