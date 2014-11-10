@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\CacheFile;
+use Piwik\Development;
 
 class SiteUrls
 {
