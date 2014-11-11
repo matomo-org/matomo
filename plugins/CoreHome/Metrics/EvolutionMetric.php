@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CoreHome\Metrics;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
@@ -99,7 +100,9 @@ class EvolutionMetric extends ProcessedMetric
 
     public function format($value)
     {
-        return ($value * 100) . '%';
+        $value = ($value * 100) . '%';
+        $value = Common::forceDotAsSeparatorForDecimalPoint($value); // TODO: need to create helper function for this in Piwik and use in all percent classes?
+        return $value;
     }
 
     public function getDependentMetrics()

@@ -353,6 +353,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         $view->showWarningCron = $showWarningCron;
         $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
+        $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
         $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];

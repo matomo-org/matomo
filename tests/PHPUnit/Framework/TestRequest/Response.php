@@ -251,8 +251,6 @@ class Response
         // http://bugs.php.net/bug.php?id=54508
         $response = str_replace('.000000</l', '</l', $response); //lat/long
         $response = str_replace('.00</revenue>', '</revenue>', $response);
-        $response = str_replace('.1</revenue>', '</revenue>', $response);
-        $response = str_replace('.11</revenue>', '</revenue>', $response);
 
         return $response;
     }

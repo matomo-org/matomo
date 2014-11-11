@@ -20,7 +20,6 @@ class Updates_2_9_0_b1 extends Updates
     static function getSql()
     {
         $sql = array();
-
         $sql = self::updateBrowserEngine($sql);
 
         return $sql;
@@ -45,10 +44,10 @@ class Updates_2_9_0_b1 extends Updates
 
         $browserEngineMatch = array(
             'Trident' => array('IE'),
-            'Gecko'   => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
-            'KHTML'   => array('KO'),
-            'WebKit'  => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
-            'Presto'  => array('OP'),
+            'Gecko' => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
+            'KHTML' => array('KO'),
+            'WebKit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
+            'Presto' => array('OP'),
         );
 
         // Update visits, fill in now missing engine

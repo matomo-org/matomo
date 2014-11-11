@@ -11,7 +11,6 @@ namespace Piwik\DataAccess;
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
 use Piwik\Period;
@@ -139,28 +138,10 @@ class ArchiveWriter
 
     protected function allocateNewArchiveId()
     {
-        $this->idArchive = $this->insertNewArchiveId();
-        return $this->idArchive;
-    }
-
-    /**
-     * Locks the archive table to generate a new archive ID.
-     *
-     * We lock to make sure that
-     * if several archiving processes are running at the same time (for different websites and/or periods)
-     * then they will each use a unique archive ID.
-     *
-     * @return int
-     */
-    protected function insertNewArchiveId()
-    {
         $numericTable = $this->getTableNumeric();
-        $idSite = $this->idSite;
-        $date = date("Y-m-d H:i:s");
 
-        $id = $this->getModel()->insertNewArchiveId($numericTable, $idSite, $date);
-
-        return $id;
+        $this->idArchive = $this->getModel()->allocateNewArchiveId($numericTable);
+        return $this->idArchive;
     }
 
     private function getModel()

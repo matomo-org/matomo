@@ -142,6 +142,10 @@ This feature is still beta and there might be problems with pictures and/or bina
 
     private function getCurrentGitHash()
     {
+        // we should not use 'git' executable unless we are in a git clone
+        if(!file_exists(PIWIK_INCLUDE_PATH . '/.git/')) {
+            return 'WARN: it does not look like a Piwik repository clone - you must setup Piwik from git to proceed';
+        }
         return trim(`git rev-parse HEAD`);
     }
 

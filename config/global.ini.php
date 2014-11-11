@@ -58,7 +58,7 @@ log_writers[] = screen
 ; log level, everything logged w/ this level or one of greater severity
 ; will be logged. everything else will be ignored. possible values are:
 ; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
-log_level = WARN
+log_level = ERROR
 
 ; if set to 1, only requests done in CLI mode (eg. the ./console core:archive cron run) will be logged
 ; NOTE: log_only_when_debug_parameter will also be checked for
@@ -319,6 +319,11 @@ feedback_email_address = "feedback@piwik.org"
 
 ; using to set reply_to in reports e-mail to login of report creator
 scheduled_reports_replyto_is_user_email_and_alias = 0
+
+; scheduled reports truncate limit
+; the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
+; 23 rows table fits in one portrait page
+scheduled_reports_truncate = 23
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)

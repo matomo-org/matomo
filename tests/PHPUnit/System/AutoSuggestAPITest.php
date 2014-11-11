@@ -8,6 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
@@ -97,6 +98,9 @@ class AutoSuggestAPITest extends SystemTestCase
         $topSegmentValue = @$response[0];
 
         if ($topSegmentValue !== false && !is_null($topSegmentValue)) {
+            if (is_numeric($topSegmentValue) || is_float($topSegmentValue) || preg_match('/^\d*?,\d*$/', $topSegmentValue)) {
+                $topSegmentValue = Common::forceDotAsSeparatorForDecimalPoint($topSegmentValue);
+            }
             // Now build the segment request
             $segmentValue = rawurlencode(html_entity_decode($topSegmentValue));
             $params['segment'] = $params['segmentToComplete'] . '==' . $segmentValue;
