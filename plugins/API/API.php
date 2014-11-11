@@ -410,6 +410,11 @@ class API extends \Piwik\Plugin\API
                 $this->mergeDataTables($mergedDataTable, $dataTable);
             }
         }
+
+        if (!empty($columnsMap)) {
+            $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
+        }
+
         return $mergedDataTable;
     }
 
