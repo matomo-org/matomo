@@ -83,21 +83,26 @@ class TestsRun extends ConsoleCommand
             putenv('PIWIK_USE_XHPROF=1');
         }
 
+        $suite    = $this->getTestsuite($input);
         $testFile = $input->getOption('file');
+
         if (!empty($testFile)) {
-            $this->executeTestFile($testFile, $options, $command, $output);
+            $this->executeTestFile($suite, $testFile, $options, $command, $output);
         } else {
-            $suite = $this->getTestsuite($input);
             $this->executeTestGroups($suite, $groups, $options, $command, $output);
         }
 
         return $this->returnVar;
     }
 
-    private function executeTestFile($testFile, $options, $command, OutputInterface $output)
+    private function executeTestFile($suite, $testFile, $options, $command, OutputInterface $output)
     {
         if ('/' !== substr($testFile, 0, 1)) {
             $testFile = '../../' . $testFile;
+        }
+
+        if (!empty($suite)) {
+            $options .= ' --testsuite ' . $suite;
         }
 
         $params = $options . " " . $testFile;
