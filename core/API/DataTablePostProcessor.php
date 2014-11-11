@@ -155,7 +155,7 @@ class DataTablePostProcessor
             $self = $this;
             $report = $this->report;
             $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self) {
-                $processedMetrics = $this->getProcessedMetricsFor($table, $report);
+                $processedMetrics = $self->getProcessedMetricsFor($table, $report);
                 if ($genericFilter->areProcessedMetricsNeededFor($processedMetrics)) {
                     $self->computeProcessedMetrics($table);
                 }
@@ -332,7 +332,7 @@ class DataTablePostProcessor
      * @param Report $report
      * @return ProcessedMetric[]
      */
-    private function getProcessedMetricsFor(DataTable $dataTable, $report)
+    public function getProcessedMetricsFor(DataTable $dataTable, $report)
     {
         $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
 
