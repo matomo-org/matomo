@@ -5,9 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit\ScheduledTime;
+
+use Exception;
 use Piwik\ScheduledTime\Hourly;
 
-class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
+class ScheduledTime_HourlyTest extends \PHPUnit_Framework_TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
     private static $_JANUARY_01_1971_09_10_00;

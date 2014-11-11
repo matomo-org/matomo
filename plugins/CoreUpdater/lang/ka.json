@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "დააწკაპუნეთ აქ, რომ იხილოთ და გადაწეროთ SQL ბრძანებები, რომლებიც საჭიროა შესრულდეს",
-        "CreatingBackupOfConfigurationFile": "კონფიგურაციის ფაილის სარეზერვო ასლის შექმნა %s საქაღალდეში",
         "CriticalErrorDuringTheUpgradeProcess": "განახლების პროცესის დროს მომხდარი კრიტიკული შეცდომა:",
         "DatabaseUpgradeRequired": "საჭიროა მონაცემთა ბაზის განახლება",
         "DownloadingUpdateFromX": "ჩამოტვირთეთ განახლება აქედან %s",

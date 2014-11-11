@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 
+use Piwik\Network\IPUtils;
 use Piwik\Session;
 
 /**
@@ -547,7 +548,7 @@ class Url
         $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host
         $parsedUrl = @parse_url($url);
-        $host = IP::sanitizeIp(@$parsedUrl['host']);
+        $host = IPUtils::sanitizeIp(@$parsedUrl['host']);
         return !empty($host)
         && ($disableHostCheck || in_array($host, $hosts))
         && !empty($parsedUrl['scheme'])
@@ -585,7 +586,10 @@ class Url
      */
     public static function getHostSanitized($host)
     {
-        return IP::sanitizeIp($host);
+        if (!class_exists("Piwik\\Network\\IPUtils")) {
+            throw new Exception("Piwik\\Network\\IPUtils could not be found, maybe you are using Piwik from git and need to update Composer. $ php composer.phar update");
+        }
+        return IPUtils::sanitizeIp($host);
     }
 
     protected static function getHostsFromConfig($domain, $key)

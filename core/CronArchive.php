@@ -13,7 +13,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
+use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
@@ -604,14 +604,16 @@ class CronArchive
         // Remove this website from the list of websites to be invalidated
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
-        if ($this->isOldReportInvalidatedForWebsite($idSite)) {
-            $this->removeWebsiteFromInvalidatedWebsites($idSite);
+        $websiteInvalidatedShouldReprocess = $this->isOldReportInvalidatedForWebsite($idSite);
+        if ($websiteInvalidatedShouldReprocess) {
+            $store = new InvalidatedReports();
+            $store->storeSiteIsReprocessed($idSite);
         }
 
         // when some data was purged from this website
         // we make sure we query all previous days/weeks/months
         $processDaysSince = $lastTimestampWebsiteProcessedDay;
-        if ($this->isOldReportInvalidatedForWebsite($idSite)
+        if ($websiteInvalidatedShouldReprocess
             // when --force-all-websites option,
             // also forces to archive last52 days to be safe
             || $this->shouldArchiveAllSites) {
@@ -629,6 +631,12 @@ class CronArchive
         ) {
             // cancel the succesful run flag
             Option::set($this->lastRunKey($idSite, "day"), 0);
+
+            // cancel marking the site as reprocessed
+            if($websiteInvalidatedShouldReprocess) {
+                $store = new InvalidatedReports();
+                $store->addInvalidatedSitesToReprocess(array($idSite));
+            }
 
             $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
             $this->skipped++;
@@ -930,7 +938,7 @@ class CronArchive
 
         $websiteIds = array_merge(
             $this->addWebsiteIdsWithVisitsSinceLastRun(),
-            $this->getWebsiteIdsToInvalidate()
+            $this->getInvalidatedSitesToReprocess()
         );
         $websiteIds = array_merge($websiteIds, $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds));
         return array_unique($websiteIds);
@@ -998,7 +1006,8 @@ class CronArchive
 
     private function updateIdSitesInvalidatedOldReports()
     {
-        $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
+        $store = new InvalidatedReports();
+        $this->idSitesInvalidatedOldReports = $store->getSitesToReprocess();
     }
 
     /**
@@ -1008,7 +1017,7 @@ class CronArchive
      *
      * @return array
      */
-    private function getWebsiteIdsToInvalidate()
+    private function getInvalidatedSitesToReprocess()
     {
         $this->updateIdSitesInvalidatedOldReports();
 
@@ -1180,22 +1189,6 @@ class CronArchive
         }
 
         return true;
-    }
-
-    /**
-     * @param $idSite
-     */
-    protected function removeWebsiteFromInvalidatedWebsites($idSite)
-    {
-        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
-
-        if (count($websiteIdsInvalidated)) {
-            $found = array_search($idSite, $websiteIdsInvalidated);
-            if ($found !== false) {
-                unset($websiteIdsInvalidated[$found]);
-                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
-            }
-        }
     }
 
     private function logFatalErrorUrlExpected()

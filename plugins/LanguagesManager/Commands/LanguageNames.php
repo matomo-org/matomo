@@ -9,14 +9,13 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
-use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class LanguageNames extends ConsoleCommand
+class LanguageNames extends TranslationBase
 {
     protected function configure()
     {

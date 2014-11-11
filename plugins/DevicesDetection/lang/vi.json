@@ -1,0 +1,5 @@
+{
+    "DevicesDetection": {
+        "BrowserEngineDocumentation": "Biểu đồ này cho thấy các trình duyệt khách truy cập của bạn chia thành các họ trình duyệt. %s Thông tin quan trọng nhất đối với nhà phát triển web là loại công cụ rendering nào khách truy cập của họ đang sử dụng. Các nhãn chứa tên của các công cụ tiếp theo của trình duyệt phổ biến nhất đang sử dụng công cụ cho trong giấu ngoặc đơn."
+    }
+}

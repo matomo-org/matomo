@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngineDocumentation": "Deze grafiek toont de browsers van uw bezoekers, verdeeld in browserfamilies. %s De belangrijkste informatie voor webontwikkelaars is wat voor soort renderingengine hun bezoekers gebruiken. De labels bevatten de namen van de engines, gevolgd door de meest voorkomende browsers (tussen haakjes) die deze engine gebruiken.",
         "BrowserVersions": "Browser versies",
         "Camera": "Fototoestel",
         "CarBrowser": "Auto browser",
@@ -15,6 +16,7 @@
         "DeviceModel": "Apparaat model",
         "DevicesDetection": "Bezoeker Apparaten",
         "DeviceType": "Apparaat type",
+        "FeaturePhone": "Toekomstige telefoon",
         "OperatingSystemFamilies": "Besturingssysteem families",
         "OperatingSystemVersions": "Besturingssysteem versies",
         "PluginDescription": "Deze plugin geeft uitgebreide informatie over mobile apparaten, zoals Merk (fabrikant), Model (apparaat versie), betere Apparaat type detectie (tv, consoles, smart phones, desktop, enz) en meer. Deze plugin voegt een nieuw rapport toe in 'Bezoekers > Devices'.",
@@ -22,6 +24,7 @@
         "Smartphone": "Smartphone",
         "submenu": "Apparaten",
         "Tablet": "Tablet",
-        "TV": "Tv"
+        "TV": "Tv",
+        "UserAgent": "Gebruikers-agent"
     }
 }

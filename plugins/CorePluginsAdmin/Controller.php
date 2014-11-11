@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Exceptions\HtmlMessageException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;
@@ -283,7 +284,7 @@ class Controller extends Plugin\ControllerAdmin
     protected function getPluginsInfo($themesOnly = false)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
-        $plugins = $pluginManager->returnLoadedPluginsInfo();
+        $plugins = $pluginManager->loadAllPluginsAndGetTheirInfo();
 
         foreach ($plugins as $pluginName => &$plugin) {
 
@@ -361,15 +362,15 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
-        if (Common::isPhpCliMode()) {
-            Piwik_ExitWithMessage("Error:" . var_export($lastError, true));
+        if (Common::isPhpCliMode()) { // TODO: I can't find how this will ever get called / safeMode is never set for Console
+            throw new Exception("Error: " . var_export($lastError, true));
         }
 
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
-        $view->plugins         = Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
+        $view->plugins         = Plugin\Manager::getInstance()->loadAllPluginsAndGetTheirInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
@@ -445,7 +446,8 @@ class Controller extends Plugin\ControllerAdmin
                 $pluginName);
             $exitMessage = $messageIntro . "<br/><br/>" . $messagePermissions;
             $exitMessage .= "<br> Or manually delete this directory (using FTP or SSH access)";
-            Piwik_ExitWithMessage($exitMessage, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = true);
+
+            throw new HtmlMessageException($exitMessage);
         }
 
         $this->redirectAfterModification($redirectAfter);

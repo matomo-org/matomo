@@ -1,0 +1,19 @@
+{
+  "name": "TestRunner",
+  "version": "0.1.0",
+  "description": "Let's you run Piwik tests. Only needed in development.",
+  "theme": false,
+  "require": {
+     "piwik": ">=2.8.1-rc1"
+  },
+  "authors": [
+      {
+          "name": "Piwik",
+          "email": "hello@piwik.org",
+          "homepage": "http://piwik.org"
+      }
+  ],
+  "license": "GPL v3+",
+  "keywords": ["test", "runner"],
+  "homepage": "http://piwik.org"
+}

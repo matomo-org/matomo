@@ -64,6 +64,7 @@
         "ShowTrackingTag": "mostra tag de rastreamento",
         "Sites": "Websites",
         "SiteSearchUse": "Você pode usar Piwik para acompanhar e relatar o que os visitantes estão procurando no motor de seu site de pesquisa interna.",
+        "SuperUserAccessCan": "Um usuário com privilégio de Super Usuário também pode %s especificar configurações globais%s para novos sites.",
         "Timezone": "Fuso horário",
         "TrackingSiteSearch": "Acompanhamento de pesquisa interna do site",
         "TrackingTags": "Rastreando tags para %s",

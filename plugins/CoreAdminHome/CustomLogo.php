@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Piwik\Config;
 use Piwik\Filesystem;
 use Piwik\Option;
+use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
 
 class CustomLogo
@@ -114,7 +115,12 @@ class CustomLogo
 
         $logo = $defaultLogo;
 
-        $themeName = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
+        $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
+        if(!$theme) {
+            $themeName = Manager::DEFAULT_THEME;
+        } else {
+            $themeName = $theme->getPluginName();
+        }
         $themeLogo = sprintf($themeLogo, $themeName);
 
         if (file_exists($pathToPiwikRoot . '/' . $themeLogo)) {

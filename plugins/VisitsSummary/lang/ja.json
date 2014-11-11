@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "%s 平均発生時間",
         "AverageVisitDuration": "%s ビジットの平均持続時間",
         "GenerateQueries": "実行されたクエリ %s",
         "GenerateTime": "ページ生成時間 %s 秒",
@@ -7,8 +8,10 @@
         "NbActionsDescription": "%s アクション（ページビュー、ダウンロード、外部リンク）",
         "NbActionsPerVisit": "%s ビジット単位のアクション数",
         "NbDownloadsDescription": "%s ダウンロード数",
+        "NbKeywordsDescription": "%s ユニークキーワード",
         "NbOutlinksDescription": "%s 外部リンク数",
         "NbPageviewsDescription": "%s ページビュー数",
+        "NbSearchesDescription": "%s ウェブサイトでの総検索数",
         "NbUniqueDownloadsDescription": "%s ユニークダウンロード数",
         "NbUniqueOutlinksDescription": "%s ユニーク外部リンク数",
         "NbUniquePageviewsDescription": "%s ユニークページビュー数",

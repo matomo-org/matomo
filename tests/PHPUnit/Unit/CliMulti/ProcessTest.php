@@ -6,13 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit\CliMulti;
+
 use Piwik\CliMulti\Process;
+use ReflectionProperty;
 
 /**
- * Class ProcessTest
  * @group Core
  */
-class ProcessTest extends PHPUnit_Framework_TestCase
+class ProcessTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Process
@@ -102,11 +104,13 @@ class ProcessTest extends PHPUnit_Framework_TestCase
 
     public function test_getSecondsSinceCreation()
     {
-        sleep(2);
+        // This is not proper, but it avoids using sleep and stopping the tests for several seconds
+        $r = new ReflectionProperty($this->process, 'timeCreation');
+        $r->setAccessible(true);
+        $r->setValue($this->process, time() - 2);
+
         $seconds = $this->process->getSecondsSinceCreation();
 
-        $this->assertGreaterThanOrEqual(2, $seconds);
-        $this->assertLessThanOrEqual(3, $seconds);
+        $this->assertEquals(2, $seconds);
     }
-
 }

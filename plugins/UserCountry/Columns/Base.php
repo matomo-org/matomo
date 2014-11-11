@@ -9,12 +9,12 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
+use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
-use Piwik\IP;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\Request;
@@ -111,7 +111,7 @@ abstract class Base extends VisitDimension
             $ip = $anonymizedIp;
         }
 
-        $ipAddress = IP::N2P($ip);
+        $ipAddress = IPUtils::binaryToStringIP($ip);
 
         return $ipAddress;
     }

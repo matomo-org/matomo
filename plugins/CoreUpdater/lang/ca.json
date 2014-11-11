@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Feu click aquí per veure i copiar la llista de consultes SQL que s'executaran",
-        "CreatingBackupOfConfigurationFile": "S'està creant una còpia de seguretat del fitxer de configuració a %s",
         "CriticalErrorDuringTheUpgradeProcess": "Hi ha hagut un error crític durant el procés d'actualització:",
         "DatabaseUpgradeRequired": "És necessari actualitzar la base de dades",
         "DownloadingUpdateFromX": "S'està descarregant l'actualització de %s",

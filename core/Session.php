@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Exceptions\HtmlMessageException;
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Session;
 
@@ -38,6 +39,7 @@ class Session extends Zend_Session
      *
      * @param array|bool $options An array of configuration options; the auto-start (bool) setting is ignored
      * @return void
+     * @throws Exception if starting a session fails
      */
     public static function start($options = false)
     {
@@ -113,7 +115,7 @@ class Session extends Zend_Session
             parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
-            Log::warning('Unable to start session: ' . $e->getMessage());
+            Log::error('Unable to start session: ' . $e->getMessage());
 
             $enableDbSessions = '';
             if (DbHelper::isInstalled()) {
@@ -130,7 +132,7 @@ class Session extends Zend_Session
                 $e->getMessage()
             );
 
-            Piwik_ExitWithMessage($message, $e->getTraceAsString());
+            throw new HtmlMessageException($message, $e->getCode(), $e);
         }
     }
 

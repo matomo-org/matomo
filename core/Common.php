@@ -474,7 +474,10 @@ class Common
             } elseif ($varType === 'integer') {
                 if ($value == (string)(int)$value) $ok = true;
             } elseif ($varType === 'float') {
-                if ($value == (string)(float)$value) $ok = true;
+                $valueToCompare = (string)(float)$value;
+                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($valueToCompare);
+
+                if ($value == $valueToCompare) $ok = true;
             } elseif ($varType === 'array') {
                 if (is_array($value)) $ok = true;
             } else {
@@ -1075,6 +1078,22 @@ class Common
             return "''";
         }
         return '?' . str_repeat(',?', $count - 1);
+    }
+
+    /**
+     * Force the separator for decimal point to be a dot. See https://github.com/piwik/piwik/issues/6435
+     * If for instance a German locale is used it would be a comma otherwise.
+     *
+     * @param  float|string $value
+     * @return string
+     */
+    public static function forceDotAsSeparatorForDecimalPoint($value)
+    {
+        if (null === $value || false === $value) {
+            return $value;
+        }
+
+        return str_replace(',', '.', $value);
     }
 
     /**

@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "选择这里来查看并复制即将执行的 SQL 语句列表",
-        "CreatingBackupOfConfigurationFile": "正在生成配置文件的备份 %s",
         "CriticalErrorDuringTheUpgradeProcess": "在升级过程中发生严重的错误:",
         "DatabaseUpgradeRequired": "数据库需要升级",
         "DownloadingUpdateFromX": "正在从 %s 下载新版本",

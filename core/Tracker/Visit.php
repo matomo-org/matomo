@@ -11,7 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker;
@@ -241,7 +241,7 @@ class Visit implements VisitInterface
      */
     protected function handleExistingVisit($visitor, $action, $visitIsConverted)
     {
-        Common::printDebug("Visit is known (IP = " . IP::N2P($this->getVisitorIp()) . ")");
+        Common::printDebug("Visit is known (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
 
         $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($visitor, $action, $visitIsConverted);
 
@@ -301,7 +301,7 @@ class Visit implements VisitInterface
      */
     protected function handleNewVisit($visitor, $action, $visitIsConverted)
     {
-        Common::printDebug("New Visit (IP = " . IP::N2P($this->getVisitorIp()) . ")");
+        Common::printDebug("New Visit (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
 
         $this->setNewVisitorInformation($visitor);
 
@@ -467,7 +467,7 @@ class Visit implements VisitInterface
         $debugVisitInfo = $this->visitorInfo;
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
         $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
-        $debugVisitInfo['location_ip'] = IP::N2P($debugVisitInfo['location_ip']);
+        $debugVisitInfo['location_ip'] = IPUtils::binaryToStringIP($debugVisitInfo['location_ip']);
         Common::printDebug($debugVisitInfo);
     }
 
@@ -531,6 +531,10 @@ class Visit implements VisitInterface
             if ($value !== false) {
                 $fieldName = $dimension->getColumnName();
                 $visitor->setVisitorColumn($fieldName, $value);
+
+                if (is_float($value)) {
+                    $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+                }
 
                 if ($valuesToUpdate !== null) {
                     $valuesToUpdate[$fieldName] = $value;

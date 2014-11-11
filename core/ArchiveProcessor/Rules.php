@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Exception;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
@@ -109,6 +110,8 @@ class Rules
     }
 
     /**
+     * Return done flags used to tell how the archiving process for a specific archive was completed,
+     *
      * @param array $plugins
      * @param $segment
      * @return array
@@ -128,11 +131,13 @@ class Rules
     }
 
     /**
-     * Given a monthly archive table, will delete all reports that are now outdated,
-     * or reports that ended with an error
+     * Returns false if we should not purge data for this month,
+     * or returns a timestamp indicating outdated archives older than this timestamp (processed before) can be purged.
+     *
+     * Note: when calling this function it is assumed that the callee will purge the outdated archives afterwards.
      *
      * @param \Piwik\Date $date
-     * @return int|bool  False, or timestamp indicating which archives to delete
+     * @return int|bool  Outdated archives older than this timestamp should be purged
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
@@ -213,6 +218,11 @@ class Rules
                 return $timeToLive;
             }
         }
+        return self::getTodayArchiveTimeToLiveDefault();
+    }
+
+    public static function getTodayArchiveTimeToLiveDefault()
+    {
         return Config::getInstance()->General['time_before_today_archive_considered_outdated'];
     }
 
@@ -307,4 +317,22 @@ class Rules
         }
         return false;
     }
+
+    /**
+     * Returns done flag values allowed to be selected
+     *
+     * @return string
+     */
+    public static function getSelectableDoneFlagValues()
+    {
+        $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
+
+        if (!Rules::isRequestAuthorizedToArchive()) {
+            //If request is not authorized to archive then fetch also invalidated archives
+            $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
+        }
+
+        return $possibleValues;
+    }
+
 }

@@ -5,13 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit;
+
+use Exception;
 use Piwik\Date;
 use Piwik\SettingsServer;
 
 /**
  * @group Core_DateTest
  */
-class DateTest extends PHPUnit_Framework_TestCase
+class DateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * create today object check that timestamp is correct (midnight)

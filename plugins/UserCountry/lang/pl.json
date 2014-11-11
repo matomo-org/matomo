@@ -315,6 +315,7 @@
         "Region": "Region",
         "SetupAutomaticUpdatesOfGeoIP": "Ustaw automatyczne aktualizacje dla bazy danych GeoIP",
         "SubmenuLocations": "Położenia",
+        "UnsupportedArchiveType": "Napotkał nieobsługiwany typ archiwum %1$s.",
         "WidgetLocation": "Lokalizacja odwiedzającego"
     }
 }

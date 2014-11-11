@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Spauskite čia SQL užklausų, kurias reikia įvykdyti, sąrašui gauti.",
-        "CreatingBackupOfConfigurationFile": "Sukuriama atsarginė konfigūracijos failų kopija %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kritinė klaida atnaujinimo metu:",
         "DatabaseUpgradeRequired": "Reikalingas duombazės atnaujinimas",
         "DownloadingUpdateFromX": "Atsisiunčiamas atnaujinimas iš %s",

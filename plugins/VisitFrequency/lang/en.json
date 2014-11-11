@@ -10,6 +10,7 @@
         "ColumnReturningVisits": "Returning Visits",
         "ColumnSumVisitLengthReturning": "Total time spent by returning visitors (in seconds)",
         "ColumnUniqueReturningVisitors": "Unique returning visitors",
+        "ColumnReturningUsers": "Returning Users",
         "PluginDescription": "Reports various statistics about the Returning Visitor versus the First time visitor.",
         "ReturnActions": "%s actions by the returning visits",
         "ReturnAverageVisitDuration": "%s average visit duration for returning visitors",

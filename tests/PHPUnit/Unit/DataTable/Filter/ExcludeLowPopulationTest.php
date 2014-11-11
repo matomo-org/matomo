@@ -5,11 +5,14 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit\DataTable\Filter;
+
 use Piwik\DataTable\Filter\ExcludeLowPopulation;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
-class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCase
+class DataTable_Filter_ExcludeLowPopulationTest extends \PHPUnit_Framework_TestCase
 {
     protected function getTestDataTable()
     {

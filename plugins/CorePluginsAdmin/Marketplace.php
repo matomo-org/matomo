@@ -105,7 +105,7 @@ class Marketplace
     public function getPluginsHavingUpdate($themesOnly)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
-        $pluginManager->returnLoadedPluginsInfo();
+        $pluginManager->loadAllPluginsAndGetTheirInfo();
         $loadedPlugins = $pluginManager->getLoadedPlugins();
 
         try {

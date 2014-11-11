@@ -8,6 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
@@ -97,6 +98,9 @@ class AutoSuggestAPITest extends SystemTestCase
         $topSegmentValue = @$response[0];
 
         if ($topSegmentValue !== false && !is_null($topSegmentValue)) {
+            if (is_numeric($topSegmentValue) || is_float($topSegmentValue) || preg_match('/^\d*?,\d*$/', $topSegmentValue)) {
+                $topSegmentValue = Common::forceDotAsSeparatorForDecimalPoint($topSegmentValue);
+            }
             // Now build the segment request
             $segmentValue = rawurlencode(html_entity_decode($topSegmentValue));
             $params['segment'] = $params['segmentToComplete'] . '==' . $segmentValue;
@@ -139,8 +143,9 @@ class AutoSuggestAPITest extends SystemTestCase
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
         // and check that most others have been tested
-        $minimumSegmentsToTest = 46;
-        $this->assertTrue(self::$processed >= $minimumSegmentsToTest, 'PROCESSED ' . self::$processed . ' segments --> it seems some segments "auto-suggested values" haven\'t been tested as we were expecting');
+        $minimumSegmentsToTest = 43;
+        $message = 'PROCESSED ' . self::$processed . ' segments --> it seems some segments "auto-suggested values" haven\'t been tested as we were expecting. ';
+        $this->assertTrue(self::$processed >= $minimumSegmentsToTest, $message);
     }
 }
 

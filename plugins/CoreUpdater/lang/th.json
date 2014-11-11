@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "คลิกที่นี่เพื่อดู และคัดลอกรายการ รันคิวรี SQL ที่จะได้รับดำเนินการ",
-        "CreatingBackupOfConfigurationFile": "สำรองไฟล์ข้อมูลการตั้งค่าใน %s",
         "CriticalErrorDuringTheUpgradeProcess": "ข้อผิดพลาดร้ายแรง ในระหว่างกระบวนการอัพเดต",
         "DatabaseUpgradeRequired": "จำเป็นต้องอัพเกรดฐานข้อมูล",
         "DownloadingUpdateFromX": "ดาวน์โหลดโปรแกรมอัพเดตจาก %s",

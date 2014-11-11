@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Kliknij tutaj, aby wyświetlić i skopiować listę zapytań SQL, która zostanie wykonana",
-        "CreatingBackupOfConfigurationFile": "Utworzenie archiwum pliku konfiguracyjnego w %s",
         "CriticalErrorDuringTheUpgradeProcess": "Błąd krytyczny w trakcie procesu aktualizacji:",
         "DatabaseUpgradeRequired": "Wymagana aktualizacja bazy danych",
         "DisablingIncompatiblePlugins": "Wyłączanie niekompatybilnych wtyczek: %s",
@@ -24,6 +23,7 @@
         "HelpMessageIntroductionWhenError": "Powyżej znajduje się główny komunikat o błędzie. To powinno pomóc ustalić przyczynę problemu, ale jeżeli problem wymaga dodatkowej pomocy:",
         "HelpMessageIntroductionWhenWarning": "Aktualizacja zakończona sukcesem, jednakże nie obyło się bez problemów podczas tego procesu. Proszę zaposnać się z powyższym opisem by poznać szczegóły. Więcej pomocy możesz uzyskać:",
         "HighTrafficPiwikServerEnableMaintenance": "Jeśli zarządzasz serwerem Piwik o dużym ruchu, zalecamy %stymczasowo wyłączyć śledzenie odwiedzających i przełączyć Interfejs Użytkownika Piwik w tryb konserwacji%s",
+        "IncompatbilePluginsWillBeDisabledInfo": "Uwaga: niektóre wtyczki nie są zgodne z Piwik %s. Będą wyłączone podczas aktualizacji:",
         "InstallingTheLatestVersion": "Instalowanie najnowszej wersji",
         "MajorUpdateWarning1": "To jest znacząca aktualizacja i potrwa dłużej niż zwykle.",
         "MajorUpdateWarning2": "Poniższe porady są szczególnie ważne dla dużych instalacji.",

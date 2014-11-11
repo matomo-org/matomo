@@ -156,7 +156,7 @@ class UsersManagerTest extends IntegrationTestCase
     {
         return array(
             array("geggeqgeqag", "pas", "email@email.com", "alias"), // too short -> exception
-            array("ghqgeggg", "gegageqqqqqqqgeqgqeg84897897897897g122", "email@email.com", "alias"), // too long -> exception
+            array("ghqgeggg", "gegageqqqqqqqgeqgqeg84897897897897g122gerrgageqqqqqqqgeqgqeg84897897897897g12234k3", "email@email.com", "alias"), // too long -> exception
             array("geggeqgeqag", "", "email@email.com", "alias"), // empty -> exception
         );
     }

@@ -19,6 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class GeneratePluginBase extends ConsoleCommand
 {
+    public function isEnabled()
+    {
+        return Development::isEnabled();
+    }
+
     public function getPluginPath($pluginName)
     {
         return PIWIK_INCLUDE_PATH . $this->getRelativePluginPath($pluginName);

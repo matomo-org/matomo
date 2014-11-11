@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Sequence;
 
 /**
  * Cleans up outdated archives
@@ -20,26 +21,79 @@ use Piwik\DbHelper;
  */
 class Model
 {
-    const PREFIX_SQL_LOCK = "locked_";
 
-    public function purgeInvalidatedArchiveTable($archiveTable)
+    /**
+     * Returns the archives IDs that have already been invalidated and have been since re-processed.
+     *
+     * These archives { archive name (includes segment hash) , idsite, date, period } will be deleted.
+     *
+     * @param string $archiveTable
+     * @param array $idSites
+     * @return array
+     * @throws Exception
+     */
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, array $idSites)
     {
-        /**
-         * Select the archives that have already been invalidated and have been since re-processed.
-         * It purges records for each distinct { archive name (includes segment hash) , idsite, date, period } tuple.
-         */
+        // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
+        Db::get()->query('SET SQL_BIG_SELECTS=1');
+
         $query = 'SELECT t1.idarchive FROM `' . $archiveTable . '` t1
                   INNER JOIN `' . $archiveTable . '` t2
-                      ON t1.name = t2.name AND t1.idsite=t2.idsite
-                      AND t1.date1=t2.date1 AND t1.date2=t2.date2 AND t1.period=t2.period
+                      ON t1.name    = t2.name
+                      AND t1.idsite = t2.idsite
+                      AND t1.date1  = t2.date1
+                      AND t1.date2  = t2.date2
+                      AND t1.period = t2.period
                   WHERE t1.value = ' . ArchiveWriter::DONE_INVALIDATED . '
+                  AND t1.idsite IN (' . implode(",", $idSites) . ')
                   AND t2.value IN(' . ArchiveWriter::DONE_OK . ', ' . ArchiveWriter::DONE_OK_TEMPORARY . ')
-                  AND t1.ts_archived < t2.ts_archived AND t1.name LIKE \'done%\'';
+                  AND t1.ts_archived < t2.ts_archived
+                  AND t1.name LIKE \'done%\'
+        ';
 
         $result = Db::fetchAll($query);
 
-        return $result;
+        $archiveIds = array_map(
+            function ($elm) {
+                return $elm['idarchive'];
+            },
+            $result
+        );
+        return $archiveIds;
     }
+
+    /**
+     * @param $archiveTable
+     * @param $idSites
+     * @param $periodId
+     * @param $datesToDelete
+     * @throws Exception
+     */
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodId, $datesToDelete)
+    {
+        $sql = $bind = array();
+        $datesToDelete = array_unique($datesToDelete);
+        foreach ($datesToDelete as $dateToDelete) {
+            $sql[] = '(date1 <= ? AND ? <= date2 AND name LIKE \'done%\')';
+            $bind[] = $dateToDelete;
+            $bind[] = $dateToDelete;
+        }
+        $sql = implode(" OR ", $sql);
+
+        $sqlPeriod = "";
+        if ($periodId) {
+            $sqlPeriod = " AND period = ? ";
+            $bind[] = $periodId;
+        }
+
+        $query = "UPDATE $archiveTable " .
+            " SET value = " . ArchiveWriter::DONE_INVALIDATED .
+            " WHERE ( $sql ) " .
+            " AND idsite IN (" . implode(",", $idSites) . ")" .
+            $sqlPeriod;
+        Db::query($query, $bind);
+    }
+
 
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)
     {
@@ -52,13 +106,10 @@ class Model
         return Db::fetchAll($query, array($purgeArchivesOlderThan));
     }
 
-    /*
-     * Deleting "Custom Date Range" reports, since they can be re-processed and would take up un-necessary space
-     */
-    public function deleteArchivesWithPeriodRange($numericTable, $blobTable, $range, $date)
+    public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)
     {
         $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
-        $bind  = array($range, $date);
+        $bind  = array($period, $date);
 
         Db::query(sprintf($query, $numericTable), $bind);
 
@@ -82,7 +133,7 @@ class Model
         }
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $possibleValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
@@ -96,7 +147,7 @@ class Model
             $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
         }
 
-        $sqlWhereArchiveName = self::getNameCondition($doneFlags, $possibleValues);
+        $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
         $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
                      WHERE idsite = ?
@@ -130,53 +181,37 @@ class Model
                 throw $e;
             }
         }
+
+        try {
+            if (ArchiveTableCreator::NUMERIC_TABLE === ArchiveTableCreator::getTypeFromTableName($tableName)) {
+                $sequence = new Sequence($tableName);
+                $sequence->create();
+            }
+        } catch (Exception $e) {
+
+        }
     }
 
-    /**
-     * Locks the archive table to generate a new archive ID.
-     *
-     * We lock to make sure that
-     * if several archiving processes are running at the same time (for different websites and/or periods)
-     * then they will each use a unique archive ID.
-     *
-     * @return int
-     */
-    public function insertNewArchiveId($numericTable, $idSite, $date)
+    public function allocateNewArchiveId($numericTable)
     {
-        $this->acquireArchiveTableLock($numericTable);
+        $sequence  = new Sequence($numericTable);
+        $idarchive = $sequence->getNextId();
 
-        $locked = self::PREFIX_SQL_LOCK . Common::generateUniqId();
-
-        $insertSql = "INSERT INTO $numericTable "
-            . " SELECT IFNULL( MAX(idarchive), 0 ) + 1,
-                                '" . $locked . "',
-                                " . (int)$idSite . ",
-                                '" . $date . "',
-                                '" . $date . "',
-                                0,
-                                '" . $date . "',
-                                0 "
-            . " FROM $numericTable as tb1";
-        Db::get()->exec($insertSql);
-
-        $this->releaseArchiveTableLock($numericTable);
-
-        $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
-        $id = Db::get()->fetchOne($selectIdSql, $locked);
-        return $id;
+        return $idarchive;
     }
 
     public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
     {
-        // without advisory lock here, the DELETE would acquire Exclusive Lock
-        $this->acquireArchiveTableLock($numericTable);
+        $dbLockName = "deletePreviousArchiveStatus.$numericTable.$archiveId";
 
-        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag
-                . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
+        // without advisory lock here, the DELETE would acquire Exclusive Lock
+        $this->acquireArchiveTableLock($dbLockName);
+
+        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag . "')",
             array($archiveId)
         );
 
-        $this->releaseArchiveTableLock($numericTable);
+        $this->releaseArchiveTableLock($dbLockName);
     }
 
     public function insertRecord($tableName, $fields, $record, $name, $value)
@@ -206,24 +241,16 @@ class Model
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    protected function acquireArchiveTableLock($numericTable)
+    protected function acquireArchiveTableLock($dbLockName)
     {
-        $dbLockName = $this->getArchiveLockName($numericTable);
-
         if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("allocateNewArchiveId: Cannot get named lock $dbLockName.");
+            throw new Exception("Cannot get named lock $dbLockName.");
         }
     }
 
-    protected function releaseArchiveTableLock($numericTable)
+    protected function releaseArchiveTableLock($dbLockName)
     {
-        $dbLockName = $this->getArchiveLockName($numericTable);
         Db::releaseDbLock($dbLockName);
-    }
-
-    protected function getArchiveLockName($numericTable)
-    {
-        return "allocateNewArchiveId.$numericTable";
     }
 
 }

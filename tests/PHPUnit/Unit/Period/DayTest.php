@@ -5,14 +5,14 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit\Period;
+
 use Piwik\Date;
 use Piwik\Period\Day;
 use Piwik\Translate;
 
-/**
- * Testing Period_Day
- */
-class Period_DayTest extends PHPUnit_Framework_TestCase
+class Period_DayTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
@@ -21,7 +21,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     {
         try {
             new Day('Invalid Date');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
         $this->fail('Expected Exception not raised');
@@ -203,7 +203,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
 
         try {
             $period->addSubperiod('');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
         // expected string

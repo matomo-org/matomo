@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Πατήστε εδώ για να δείτε και να αντιγράψετε τη λίστα των ερωτημάτων που θα εκτελεστούν",
-        "CreatingBackupOfConfigurationFile": "Δημιουργία εφεδρείας του αρχείου ρυθμίσεων στο %s",
         "CriticalErrorDuringTheUpgradeProcess": "Κρίσιμο σφάλμα κατά τη διαδικασία αναβάθμισης:",
         "DatabaseUpgradeRequired": "Απαιτείται Αναβάθμιση της Βάσης Δεδομένων",
         "DisablingIncompatiblePlugins": "Απενεργοποίηση των μη συμβατών πρόσθετων: %s",

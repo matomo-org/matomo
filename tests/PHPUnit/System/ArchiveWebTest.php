@@ -62,7 +62,7 @@ class ArchiveWebTest extends SystemTestCase
         list($returnCode, $output) = $this->runArchivePhpScriptWithPhpCgi();
 
         $this->assertEquals(0, $returnCode);
-        $this->assertWebArchivingDone($output);
+        $this->assertWebArchivingDone($output, $checkArchivedSite = false);
     }
 
     private function compareArchivePhpOutputAgainstExpected($output)
@@ -80,10 +80,12 @@ class ArchiveWebTest extends SystemTestCase
         }
     }
 
-    private function assertWebArchivingDone($output)
+    private function assertWebArchivingDone($output, $checkArchivedSite = true)
     {
         $this->assertContains('Starting Piwik reports archiving...', $output);
-        $this->assertContains('Archived website id = 1', $output);
+        if ($checkArchivedSite) {
+            $this->assertContains('Archived website id = 1', $output);
+        }
         $this->assertContains('Done archiving!', $output);
     }
 

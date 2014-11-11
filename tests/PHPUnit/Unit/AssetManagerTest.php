@@ -5,6 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit;
+
+use PHPUnit_Framework_TestCase;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager;
@@ -13,11 +17,10 @@ use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\EventDispatcher;
-
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/UIAssetCacheBusterMock.php";
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/PluginManagerMock.php";
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/PluginMock.php";
-require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Unit/AssetManager/ThemeMock.php";
+use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
+use Piwik\Tests\Unit\AssetManager\PluginMock;
+use Piwik\Tests\Unit\AssetManager\ThemeMock;
+use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
 
 /**
  * @group AssetManagerTest
@@ -50,12 +53,12 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     private $mergedAsset;
 
     /**
-     * @var UIAssetCacheBusterMock
+     * @var \Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock
      */
     private $cacheBuster;
 
     /**
-     * @var PluginManagerMock
+     * @var \Piwik\Tests\Unit\AssetManager\PluginManagerMock
      */
     private $pluginManager;
 
@@ -239,23 +242,9 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    private function clearDateCache()
+    private function getAssetContent()
     {
-        clearstatcache();
-    }
-
-    /**
-     * @return int
-     */
-    private function waitAndGetModificationDate()
-    {
-        $this->clearDateCache();
-
-        sleep(1.5);
-
-        $modificationDate = $this->mergedAsset->getModificationDate();
-
-        return $modificationDate;
+        return $this->mergedAsset->getContent();
     }
 
     /**
@@ -393,23 +382,19 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $previousDate
+     * @param string $previousContent
      */
-    private function validateDateDidNotChange($previousDate)
+    private function assertAssetContentIsSameAs($previousContent)
     {
-        $this->clearDateCache();
-
-        $this->assertEquals($previousDate, $this->mergedAsset->getModificationDate());
+        $this->assertEquals($previousContent, $this->getAssetContent());
     }
 
     /**
-     * @param int $previousDate
+     * @param string $previousContent
      */
-    private function validateDateIsMoreRecent($previousDate)
+    private function assertAssetContentChanged($previousContent)
     {
-        $this->clearDateCache();
-
-        $this->assertTrue($previousDate < $this->mergedAsset->getModificationDate());
+        $this->assertNotEquals($previousContent, $this->getAssetContent());
     }
 
     /**
@@ -496,11 +481,11 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $this->validateDateDidNotChange($modDateBeforeSecondRequest);
+        $this->assertAssetContentIsSameAs($content);
     }
 
     /**
@@ -514,13 +499,13 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->setJSCacheBuster(self::SECOND_CACHE_BUSTER_JS);
 
         $this->triggerGetMergedCoreJavaScript();
 
-        $this->validateDateIsMoreRecent($modDateBeforeSecondRequest);
+        $this->assertAssetContentChanged($content);
 
         $this->validateMergedCoreJs();
     }
@@ -549,13 +534,13 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedStylesheet();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->setStylesheetCacheBuster(self::SECOND_CACHE_BUSTER_SS);
 
         $this->triggerGetMergedStylesheet();
 
-        $this->validateDateIsMoreRecent($modDateBeforeSecondRequest);
+        $this->assertAssetContentChanged($content);
 
         $this->validateMergedStylesheet();
     }
@@ -572,13 +557,13 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedStylesheet();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->setStylesheetCacheBuster(self::SECOND_CACHE_BUSTER_SS);
 
         $this->triggerGetMergedStylesheet();
 
-        $this->validateDateIsMoreRecent($modDateBeforeSecondRequest);
+        $this->assertAssetContentChanged($content);
 
         $this->validateMergedStylesheet();
     }
@@ -594,11 +579,11 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedStylesheet();
 
-        $modDateBeforeSecondRequest = $this->waitAndGetModificationDate();
+        $content = $this->getAssetContent();
 
         $this->triggerGetMergedStylesheet();
 
-        $this->validateDateDidNotChange($modDateBeforeSecondRequest);
+        $this->assertAssetContentIsSameAs($content);
     }
 
     /**

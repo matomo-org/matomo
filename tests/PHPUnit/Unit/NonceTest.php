@@ -1,14 +1,20 @@
 <?php
-use Piwik\Config;
-use Piwik\Nonce;
-
 /**
  * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class NonceTest extends PHPUnit_Framework_TestCase
+
+namespace Piwik\Tests\Unit;
+
+use Piwik\Config;
+use Piwik\Nonce;
+
+/**
+ * @backupGlobals enabled
+ */
+class NonceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for acceptable origins test

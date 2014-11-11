@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Нажмите здесь чтобы просмотреть и скопировать список SQL запросов, который необходимо выполнить",
-        "CreatingBackupOfConfigurationFile": "Создаю резервную копию файла конфигурации в %s",
         "CriticalErrorDuringTheUpgradeProcess": "Критическая ошибка во время обновления:",
         "DatabaseUpgradeRequired": "Требуется обновление базы данных",
         "DisablingIncompatiblePlugins": "Отключить несовместимые плагины: %s",

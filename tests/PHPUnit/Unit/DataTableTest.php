@@ -6,13 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit;
+
 use Piwik\Common;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Timer;
 
-class DataTableTest extends PHPUnit_Framework_TestCase
+class DataTableTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
@@ -311,7 +313,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      *
      * @group Core
      *
-     * @expectedException Exception
      */
     public function testSumRow_stringException()
     {
@@ -326,7 +327,8 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $row2 = new Row(array(Row::COLUMNS => $columns2));
 
         $row2->sumRow($row1);
-        $this->fail("sumRow did not throw when adding two string columns.");
+        $this->assertTrue($noException = true);
+
     }
 
     /**
@@ -335,7 +337,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      *
      * @group Core
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testSerializeWithInfiniteRecursion()
     {

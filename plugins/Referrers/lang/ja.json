@@ -1,10 +1,12 @@
 {
     "Referrers": {
+        "AllReferrersReportDocumentation": "このレポートは、すべての参照元を確認することができる統合レポートです。ビジターがサイト閲覧の際に利用したすべてのウェブサイト、検索キーワード、キャンペーンを一覧表示します。",
         "Campaigns": "キャンペーン",
         "CampaignsDocumentation": "キャンペーンの結果としてウェブサイトを訪れたビジター。詳細のリポートは %s こちら %s",
         "CampaignsReportDocumentation": "このリポートは、ウェブサイトに訪問者を導いたキャンペーンについて示します。 %s キャンペーンのトラッキングの詳細については、%s piwik.orgのキャンペーンについてのドキュメント %s を読んでください。",
         "ColumnCampaign": "キャンペーン",
         "ColumnSearchEngine": "検索エンジン",
+        "ColumnSocial": "ソーシャルネットワーク",
         "ColumnWebsite": "ウェブサイト",
         "ColumnWebsitePage": "ウェブサイトページ",
         "DetailsByReferrerType": "参照元タイプごとの詳細",
@@ -20,12 +22,16 @@
         "Keywords": "キーワード",
         "KeywordsReportDocumentation": "このリポートは、ユーザーがウェブサイトをビジットするのに使用した検索したキーワードを示します。 %s テーブル内の行をクリックすると、キーワードに対して照会された検索エンジンの分布を見ることができます。",
         "PluginDescription": "検索エンジン、キーワード、ウェブサイト、キャンペーントラッキング、直接アクセスの参照元データをリポートします。",
+        "Referrer": "参照元",
         "ReferrerName": "参照元の名称",
         "Referrers": "参照元",
+        "ReferrersOverview": "参照元概観",
         "SearchEngines": "検索エンジン",
         "SearchEnginesDocumentation": "検索エンジンを参照してウェブサイトに来たビジター。詳細のリポートは %s こちら %s",
         "SearchEnginesReportDocumentation": "このリポートは、どの検索エンジンがこのウェブサイトにユーザーを呼びこんだかを示しています。 %s テーブル内の行をクリックすると、ユーザーが特定の検索エンジンを使って何を検索していたかを確認できます。",
+        "SocialFooterMessage": "これは、左のウェブサイトレポートのサブセットです。これは、他のウェブサイトをふるいにかけて選別するため、直接ソーシャルネットワークの参照元を比較することができます。",
         "Socials": "ソーシャルネットワーク",
+        "SocialsReportDocumentation": "このレポートでは、ビジターがサイト訪問時に経由したソーシャルネットワークを表示します。<br\/> 表の列をクリックして、ビジターが経由したソーシャルネットワークページを確認してください。",
         "SubmenuSearchEngines": "検索エンジンとキーワード",
         "SubmenuWebsites": "ウェブサイト",
         "Type": "参照元タイプ",
@@ -35,10 +41,16 @@
         "TypeSearchEngines": "%s 検索エンジン経由",
         "TypeWebsites": "%s ウェブサイト経由",
         "UsingNDistinctUrls": "（%s の個別 URL を使用）",
+        "ViewAllReferrers": "全参照元を表示",
+        "ViewReferrersBy": "%s による参照元を表示",
         "Websites": "ウェブサイト",
         "WebsitesDocumentation": "別のウェブサイト上のリンクをクリックしてやってきたビジター。詳細のリポートは %s こちら %s",
         "WebsitesReportDocumentation": "このテーブルでは、どのウェブサイトがビジターの参照元になっているかを示します。%s テーブル内の行をクリックすると、クリックされたURLのリンクを見ることが出来ます。",
         "WidgetExternalWebsites": "外部ウェブサイト一覧",
-        "WidgetKeywords": "キーワード一覧"
+        "WidgetGetAll": "全参照元",
+        "WidgetKeywords": "キーワード一覧",
+        "WidgetSocials": "ソーシャルネットワークのリスト",
+        "WidgetTopKeywordsForPages": "ページ URL のトップキーワード",
+        "XPercentOfVisits": "訪問の %s%%"
     }
 }

@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Clique aqui para ver e copiar a lista de consultas SQL que serão executadas",
-        "CreatingBackupOfConfigurationFile": "A criar uma cópia de segurança do ficheiro de configuração em %s",
         "CriticalErrorDuringTheUpgradeProcess": "Erro Crítico durante o processo de actualização:",
         "DatabaseUpgradeRequired": "Actualização da Base de Dados Necessário",
         "DownloadingUpdateFromX": "A transferir actualização de %s",

@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Click vào đây để xem và sao chép danh sách các truy vấn SQL sẽ được thực hiện.",
-        "CreatingBackupOfConfigurationFile": "Tạo một bản sao lưu của file cấu hình ở %s",
         "CriticalErrorDuringTheUpgradeProcess": "Lỗi nghiêm trọng trong quá trình cập nhạt:",
         "DatabaseUpgradeRequired": "Nâng cấp cơ sở dữ liệu",
         "DownloadingUpdateFromX": "Đang download để update từ %s",

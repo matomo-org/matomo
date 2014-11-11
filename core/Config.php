@@ -314,13 +314,13 @@ class Config extends Singleton
 
         // read defaults from global.ini.php
         if (!is_readable($this->pathGlobal) && $reportError) {
-            Piwik_ExitWithMessage(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
+            throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
         }
 
         $this->configGlobal = _parse_ini_file($this->pathGlobal, true);
 
         if (empty($this->configGlobal) && $reportError) {
-            Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
+            throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
         }
 
         $this->configCommon = _parse_ini_file($this->pathCommon, true);
@@ -330,7 +330,7 @@ class Config extends Singleton
 
         $this->configLocal = _parse_ini_file($this->pathLocal, true);
         if (empty($this->configLocal) && $reportError) {
-            Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
+            throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
         }
     }
 
@@ -382,6 +382,10 @@ class Config extends Singleton
                 $value = $this->encodeValues($value);
             }
         } else {
+            if (is_float($values)) {
+                $values = Common::forceDotAsSeparatorForDecimalPoint($values);
+            }
+
             $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
             $values = str_replace('$', '&#36;', $values);
         }
@@ -725,5 +729,4 @@ class Config extends Singleton
         }
         return $merged;
     }
-
 }

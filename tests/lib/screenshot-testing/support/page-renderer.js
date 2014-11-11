@@ -233,15 +233,15 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         }
 
         var result = page.evaluate(function(selector) {
-            function isInvalidBoundingRect (rect) {
-                var docWidth = $(document).width(),
-                    docHeight = $(document).height();
+            var docWidth = $(document).width(),
+                docHeight = $(document).height();
 
+            function isInvalidBoundingRect (rect) {
                 return !rect.width || !rect.height
-                    || rect.left < 0 || rect.left > docWidth
-                    || rect.top < 0 || rect.top > docHeight
-                    || rect.right < 0 || rect.right > docWidth
-                    || rect.bottom < 0 || rect.bottom > docHeight;
+                    || (rect.left < 0 && rect.right < 0)
+                    || (rect.left > docWidth && rect.right > docWidth)
+                    || (rect.top < 0 && rect.bottom < 0)
+                    || (rect.top > docHeight && rect.bottom > docHeight);
             }
 
             var element = window.jQuery(selector);

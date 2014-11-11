@@ -36,7 +36,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
     const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest/';
 
     private $coreError = false;
@@ -97,7 +96,6 @@ class Controller extends \Piwik\Plugin\Controller
             array('oneClick_Download', Piwik::translate('CoreUpdater_DownloadingUpdateFromX', $url)),
             array('oneClick_Unpack', Piwik::translate('CoreUpdater_UnpackingTheUpdate')),
             array('oneClick_Verify', Piwik::translate('CoreUpdater_VerifyingUnpackedFiles')),
-            array('oneClick_CreateConfigFileBackup', Piwik::translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP))
         );
         $incompatiblePlugins = $this->getIncompatiblePlugins($this->newVersion);
         if (!empty($incompatiblePlugins)) {
@@ -214,13 +212,6 @@ class Controller extends \Piwik\Plugin\Controller
                 throw new Exception(Piwik::translate('CoreUpdater_ExceptionArchiveIncomplete', $file));
             }
         }
-    }
-
-    private function oneClick_CreateConfigFileBackup()
-    {
-        $configFileBefore = PIWIK_USER_PATH . '/config/global.ini.php';
-        $configFileAfter = PIWIK_USER_PATH . self::CONFIG_FILE_BACKUP;
-        Filesystem::copy($configFileBefore, $configFileAfter);
     }
 
     private function oneClick_DisableIncompatiblePlugins()

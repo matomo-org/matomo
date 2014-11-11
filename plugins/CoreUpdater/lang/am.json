@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "CreatingBackupOfConfigurationFile": "የውቅረት ፋይሉን መጠባበቂያ በመፍጠር ላይ %s",
         "CriticalErrorDuringTheUpgradeProcess": "በማላቅ ሂደት ላይ ያጋጠመ ከባድ እንከን:",
         "DatabaseUpgradeRequired": "የውሂብ ጎታ ማላቅ ያስፈልጋል",
         "DownloadX": "አውርድ %s",

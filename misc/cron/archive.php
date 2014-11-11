@@ -40,7 +40,7 @@ To get help use '/path/to/php $piwikHome/console core:archive --help'
 See also: http://piwik.org/docs/setup-auto-archiving/
 
 If you cannot use the console because it requires CLI
-try 'php archive.php -- url=http://your.piwik/path'
+try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 \n\n";
 }

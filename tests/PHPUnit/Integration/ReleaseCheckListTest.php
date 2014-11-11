@@ -82,7 +82,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
         $this->_checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
         // logging messages are disabled
-        $this->_checkEqual(array('log' => 'log_level'), 'WARN');
+        $this->_checkEqual(array('log' => 'log_level'), 'ERROR');
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
@@ -114,7 +114,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $patternFailIfFound = 'dump(';
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
-            if ($file == PIWIK_INCLUDE_PATH . '/plugins/CoreConsole/templates/travis.yml.twig') {
+            if ($file == PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig') {
                 continue;
             }
 
@@ -271,6 +271,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
                 strpos($file, '/libs/bower_components') !== false ||
+                (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false
             ) {
                 continue;

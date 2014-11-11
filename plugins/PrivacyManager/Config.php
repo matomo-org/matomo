@@ -28,9 +28,9 @@ class Config
 {
     private $properties = array(
         'useAnonymizedIpForVisitEnrichment' => array('type' => 'boolean', 'default' => true),
-        'ipAddressMaskLength'               => array('type' => 'integer', 'default' => 1),
+        'ipAddressMaskLength'               => array('type' => 'integer', 'default' => 2),
         'doNotTrackEnabled'                 => array('type' => 'boolean', 'default' => true),
-        'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => false),
+        'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => true),
     );
 
     public function __set($name, $value)

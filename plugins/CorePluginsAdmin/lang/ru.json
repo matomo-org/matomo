@@ -60,6 +60,7 @@
         "PluginNotWorkingAlternative": "Если вы используете этот плагин, может быть, вы сможете найти более новые версии в Marketplace. Если нет — можете удалить его.",
         "PluginRequirement": "%1$s требуется %2$s.",
         "PluginsManagement": "Управление плагинами",
+        "PluginUpdateAvailable": "Вы используете версию %s последняя доступная %s",
         "PluginWebsite": "Сайт плагина",
         "Screenshots": "Скриншоты",
         "SortByAlpha": "по названию",
