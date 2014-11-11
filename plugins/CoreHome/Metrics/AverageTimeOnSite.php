@@ -40,7 +40,7 @@ class AverageTimeOnSite extends ProcessedMetric
         return Piwik::translate('General_ColumnAvgTimeOnSite');
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('sum_visit_length', 'nb_visits');
     }

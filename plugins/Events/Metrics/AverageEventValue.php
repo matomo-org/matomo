@@ -38,7 +38,7 @@ class AverageEventValue extends ProcessedMetric
         return Piwik::getQuotientSafe($sumEventValue, $eventsWithValue, $precision = 2);
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('sum_event_value', 'nb_events_with_value');
     }

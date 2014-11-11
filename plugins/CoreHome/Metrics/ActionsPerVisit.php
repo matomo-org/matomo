@@ -31,7 +31,7 @@ class ActionsPerVisit extends ProcessedMetric
         $actions = $this->getMetric($row, 'nb_actions');
         $visits = $this->getMetric($row, 'nb_visits');
 
-        return Piwik::getQuotientSafe($actions, $visits, $precision = 2);
+        return Piwik::getQuotientSafe($actions, $visits, $precision = 1);
     }
 
     public function getTranslatedName()
@@ -39,7 +39,7 @@ class ActionsPerVisit extends ProcessedMetric
         return Piwik::translate('General_ColumnActionsPerVisit');
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('nb_actions', 'nb_visits');
     }

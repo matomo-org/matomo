@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\API\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
 
 class Get extends Report
@@ -49,7 +48,7 @@ class Get extends Report
             $this->metrics = array_merge($this->metrics, $report->metrics);
         }
 
-        $this->order = 1;
+        $this->order = 6;
     }
 
     public function getMetrics()
@@ -61,19 +60,32 @@ class Get extends Report
         return $metrics;
     }
 
+    public function getProcessedMetrics()
+    {
+        $processedMetrics = array();
+        foreach ($this->reportsToMerge as $report) {
+            $processedMetrics = array_merge($processedMetrics, $report->getProcessedMetrics());
+        }
+        return $processedMetrics;
+    }
+
     /**
      * @return Report[]
      */
     private function getReportsToMerge()
     {
         $result = array();
-        foreach (Manager::getInstance()->getLoadedPluginsName() as $moduleName) {
-            if ($moduleName == 'API') {
+        foreach (Report::getAllReportClasses() as $reportClass) {
+            if ($reportClass == 'Piwik\\Plugins\\API\\Reports\\Get') {
                 continue;
             }
 
-            $report = Report::factory($moduleName, 'get');
-            if (empty($report)) {
+            /** @var Report $report */
+            $report = new $reportClass();
+
+            if ($report->getModule() == 'API'
+                || $report->getAction() != 'get'
+            ) {
                 continue;
             }
 

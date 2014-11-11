@@ -44,7 +44,7 @@ class InteractionRate extends ProcessedMetric
         return ($value * 100) . '%';
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('nb_interactions', 'nb_impressions');
     }

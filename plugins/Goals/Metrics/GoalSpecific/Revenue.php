@@ -25,7 +25,7 @@ class Revenue extends GoalSpecificProcessedMetric
         return self::getName(); // TODO???
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('goals');
     }

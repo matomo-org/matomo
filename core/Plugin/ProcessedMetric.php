@@ -39,7 +39,7 @@ abstract class ProcessedMetric extends Metric
      *
      * @return string[]
      */
-    abstract public function getDependenctMetrics();
+    abstract public function getDependentMetrics();
 
     /**
      * Executed before computing all processed metrics for a report. Implementers can return `false`

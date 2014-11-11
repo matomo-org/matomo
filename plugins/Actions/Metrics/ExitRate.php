@@ -43,7 +43,7 @@ class ExitRate extends ProcessedMetric
         return ($value * 100) . '%';
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('exit_nb_visits', 'nb_visits');
     }

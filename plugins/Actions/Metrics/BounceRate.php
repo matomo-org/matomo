@@ -43,7 +43,7 @@ class BounceRate extends ProcessedMetric
         return ($value * 100) . '%'; // TODO: how does this affect the float/locale bug?
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('entry_bounce_count', 'entry_nb_visits');
     }

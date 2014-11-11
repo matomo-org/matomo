@@ -56,7 +56,7 @@ class ReturningMetric extends ProcessedMetric
         return 0; // (metric is not computed, it is copied from segmented report)
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array();
     }

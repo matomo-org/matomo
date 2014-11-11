@@ -31,7 +31,7 @@ class BounceRate extends ProcessedMetric
         return Piwik::translate('General_ColumnBounceRate');
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('bounce_count', 'nb_visits');
     }

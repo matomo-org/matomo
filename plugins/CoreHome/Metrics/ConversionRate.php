@@ -30,7 +30,7 @@ class ConversionRate extends ProcessedMetric
         return Piwik::translate('General_ColumnConversionRate');
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('nb_visits_converted', 'nb_visits');
     }

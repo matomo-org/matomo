@@ -41,7 +41,7 @@ class AveragePrice extends ProcessedMetric
         return Piwik::getQuotientSafe($price, $orders === false ? $abandonedCarts : $orders, GoalManager::REVENUE_PRECISION);
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('price', 'orders', 'abandoned_carts');
     }

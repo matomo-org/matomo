@@ -39,6 +39,18 @@ class GetEntryPageTitles extends Base
         $this->widgetTitle = 'Actions_WidgetEntryPageTitles';
     }
 
+    public function getProcessedMetrics()
+    {
+        $result = parent::getProcessedMetrics();
+
+        // these metrics are not displayed in the API.getProcessedReport version of this report,
+        // so they are removed here.
+        unset($result['avg_time_on_page']);
+        unset($result['exit_rate']);
+
+        return $result;
+    }
+
     protected function getMetricsDocumentation()
     {
         $metrics = parent::getMetricsDocumentation();

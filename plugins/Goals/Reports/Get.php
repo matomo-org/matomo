@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\Goals\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\Metrics\AverageOrderRevenue;
 
 class Get extends BaseGoal
 {
@@ -19,7 +17,7 @@ class Get extends BaseGoal
         parent::init();
 
         $this->name = Piwik::translate('Goals_Goals');
-        $this->processedMetrics = array();
+        $this->processedMetrics = array('avg_order_revenue');
         $this->documentation = ''; // TODO
         $this->order = 1;
         $this->orderGoal = 50;

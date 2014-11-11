@@ -102,7 +102,7 @@ class EvolutionMetric extends ProcessedMetric
         return ($value * 100) . '%';
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array($this->getWrappedName());
     }

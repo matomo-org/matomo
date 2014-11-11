@@ -392,7 +392,7 @@ class Report
         $metrics = array();
         foreach ($restrictToColumns as $column) {
             if (isset($processedMetricsById[$column])) {
-                $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependenctMetrics());
+                $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependentMetrics());
             } else if (isset($metricsSet[$column])) {
                 $metrics[] = $column;
             }
@@ -725,7 +725,7 @@ class Report
      */
     public static function getAllReports()
     {
-        $reports = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
+        $reports = self::getAllReportClasses();
         $cache   = new LanguageAwareStaticCache('Reports' . implode('', $reports));
 
         if (!$cache->has()) {
@@ -741,6 +741,17 @@ class Report
         }
 
         return $cache->get();
+    }
+
+    /**
+     * Returns class names of all Report metadata classes.
+     *
+     * @return string[]
+     * @api
+     */
+    public static function getAllReportClasses()
+    {
+        return PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
     }
 
     /**

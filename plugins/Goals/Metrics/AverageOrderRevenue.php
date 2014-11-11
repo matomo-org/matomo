@@ -38,7 +38,7 @@ class AverageOrderRevenue extends ProcessedMetric
         return Piwik::translate('General_AverageOrderValue');
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('revenue', 'nb_conversions');
     }

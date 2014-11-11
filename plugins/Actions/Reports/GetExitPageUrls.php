@@ -44,6 +44,18 @@ class GetExitPageUrls extends Base
         $this->widgetTitle = 'Actions_WidgetPagesExit';
     }
 
+    public function getProcessedMetrics()
+    {
+        $result = parent::getProcessedMetrics();
+
+        // these metrics are not displayed in the API.getProcessedReport version of this report,
+        // so they are removed here.
+        unset($result['bounce_rate']);
+        unset($result['avg_time_on_page']);
+
+        return $result;
+    }
+
     public function getMetrics()
     {
         $metrics = parent::getMetrics();

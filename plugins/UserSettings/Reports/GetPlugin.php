@@ -20,7 +20,7 @@ class GetPlugin extends Base
         $this->dimension     = new Plugin();
         $this->name          = Piwik::translate('UserSettings_WidgetPlugins');
         $this->documentation = Piwik::translate('UserSettings_WidgetPluginsDocumentation', '<br />');
-        $this->metrics       = array('nb_visits', 'nb_visits_percentage');
+        $this->metrics       = array('nb_visits');
         $this->constantRowsCount = true;
         $this->processedMetrics = array();
         $this->order = 4;

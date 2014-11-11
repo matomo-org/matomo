@@ -40,7 +40,7 @@ class AverageQuantity extends ProcessedMetric
         return Piwik::getQuotientSafe($quantity, $orders === false ? $abandonedCarts : $orders, $precision = 1);
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('quantity', 'orders', 'abandoned_carts');
     }

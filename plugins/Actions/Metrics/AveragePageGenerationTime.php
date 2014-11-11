@@ -34,7 +34,7 @@ class AveragePageGenerationTime extends ProcessedMetric
         return Piwik::translate('General_ColumnAverageGenerationTime');
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('sum_time_generation', 'nb_hits_with_time_generation');
     }

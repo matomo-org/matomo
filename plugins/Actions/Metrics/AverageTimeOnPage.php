@@ -38,7 +38,7 @@ class AverageTimeOnPage extends ProcessedMetric
         return Piwik::getQuotientSafe($sumTimeSpent, $visits, $precision = 0);
     }
 
-    public function getDependenctMetrics()
+    public function getDependentMetrics()
     {
         return array('sum_time_spent', 'nb_visits');
     }
