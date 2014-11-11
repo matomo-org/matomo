@@ -19,6 +19,7 @@ sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" ./tests/PHPUnit/config.ini.travis.php > .
 
 # Prepare phpunit.xml
 echo "Adjusting phpunit.xml"
+cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 
 if [ -n "$PLUGIN_NAME" ];
 then
