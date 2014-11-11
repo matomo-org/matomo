@@ -66,6 +66,18 @@ class Sequence
     }
 
     /**
+     * Returns true if the sequence exist.
+     *
+     * @return bool
+     */
+    public function exists()
+    {
+        $query = $this->db->query('SELECT * FROM ' . $this->getTableName() . ' WHERE name = ?', $this->name);
+
+        return $query->rowCount() > 0;
+    }
+
+    /**
      * Get / allocate / reserve a new id for the current sequence. Important: Getting the next id will fail in case
      * no such sequence exists. Make sure to create one if needed, see {@link create()}.
      *

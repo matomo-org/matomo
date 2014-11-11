@@ -87,6 +87,18 @@ class SequenceTest extends IntegrationTestCase
         $this->assertNull($id);
     }
 
+    public function test_exists_shouldReturnTrueIfSequenceExist()
+    {
+        $sequence = $this->getExistingSequence();
+        $this->assertTrue($sequence->exists());
+    }
+
+    public function test_exists_shouldReturnFalseIfSequenceExist()
+    {
+        $sequence = $this->getEmptySequence();
+        $this->assertFalse($sequence->exists());
+    }
+
     private function assertNextIdGenerated(Sequence $sequence, $expectedId)
     {
         $id = $sequence->getNextId();
