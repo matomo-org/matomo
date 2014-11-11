@@ -28,7 +28,7 @@ class TestsRun extends ConsoleCommand
     {
         $this->setName('tests:run');
         $this->setDescription('Run Piwik PHPUnit tests one testsuite after the other');
-        $this->addArgument('magic', InputArgument::OPTIONAL, 'Eg a path to a file or directory, the name of a testsuite, the name of a plugin, ... We will try to detect what you meant.', '');
+        $this->addArgument('variables', InputArgument::IS_ARRAY, 'Eg a path to a file or directory, the name of a testsuite, the name of a plugin, ... We will try to detect what you meant. You can define multiple values', array());
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
         $this->addOption('group', null, InputOption::VALUE_REQUIRED, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
@@ -40,7 +40,7 @@ class TestsRun extends ConsoleCommand
     {
         $options = $input->getOption('options');
         $groups  = $input->getOption('group');
-        $magic   = $input->getArgument('magic');
+        $magics  = $input->getArgument('variables');
 
         $groups = $this->getGroupsFromString($groups);
 
@@ -88,15 +88,23 @@ class TestsRun extends ConsoleCommand
         $suite    = $this->getTestsuite($input);
         $testFile = $this->getTestFile($input);
 
-        if (!empty($magic)) {
-            if (empty($suite) && (in_array($magic, $this->getTestsSuites()) || in_array($magic, array('plugin', 'core')))) {
-                $suite = $this->buildTestSuiteName($magic);
-            } elseif (empty($testFile) && file_exists($magic)) {
-                $testFile = $this->fixPathToTestFileOrDirectory($magic);
-            } elseif (empty($testFile) && $this->getPluginTestFolderName($magic)) {
-                $testFile = $this->getPluginTestFolderName($magic);
-            } elseif (empty($groups)) {
-                $groups = $this->getGroupsFromString($magic);
+        if (!empty($magics)) {
+            foreach ($magics as $magic) {
+                if (empty($suite) && (in_array($magic, $this->getTestsSuites()))) {
+                    $suite = $this->buildTestSuiteName($magic);
+                } elseif (empty($testFile) && 'core' === $magic) {
+                    $testFile = $this->fixPathToTestFileOrDirectory('tests/PHPUnit');
+                } elseif (empty($testFile) && 'plugins' === $magic) {
+                    $testFile = $this->fixPathToTestFileOrDirectory('plugins');
+                } elseif (empty($testFile) && file_exists($magic)) {
+                    $testFile = $this->fixPathToTestFileOrDirectory($magic);
+                } elseif (empty($testFile) && $this->getPluginTestFolderName($magic)) {
+                    $testFile = $this->getPluginTestFolderName($magic);
+                } elseif (empty($groups)) {
+                    $groups = $this->getGroupsFromString($magic);
+                } else {
+                    $groups[] = $magic;
+                }
             }
         }
 
@@ -159,7 +167,7 @@ class TestsRun extends ConsoleCommand
         $params = $this->buildPhpUnitCliParams($suite, $groups, $options);
 
         if (!empty($testFile)) {
-            $params .= $params . " " . $testFile;
+            $params = $params . " " . $testFile;
         }
 
         $this->executeTestRun($command, $params, $output);
