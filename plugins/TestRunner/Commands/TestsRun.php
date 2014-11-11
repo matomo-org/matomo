@@ -84,43 +84,44 @@ class TestsRun extends ConsoleCommand
         }
 
         $suite    = $this->getTestsuite($input);
-        $testFile = $input->getOption('file');
+        $testFile = $this->getTestFile($input);
 
-        if (!empty($testFile)) {
-            $this->executeTestFile($suite, $testFile, $options, $command, $output);
-        } else {
-            $this->executeTestGroups($suite, $groups, $options, $command, $output);
-        }
+        $this->executeTests($suite, $testFile, $groups, $options, $command, $output);
 
         return $this->returnVar;
     }
 
-    private function executeTestFile($suite, $testFile, $options, $command, OutputInterface $output)
+    private function getTestFile(InputInterface $input)
     {
+        $testFile = $input->getOption('file');
+
+        if (empty($testFile)) {
+            return '';
+        }
+
         if ('/' !== substr($testFile, 0, 1)) {
             $testFile = '../../' . $testFile;
         }
 
-        if (!empty($suite)) {
-            $options .= ' --testsuite ' . $suite;
-        }
-
-        $params = $options . " " . $testFile;
-        $this->executeTestRun($command, $params, $output);
+        return $testFile;
     }
 
-    private function executeTestGroups($suite, $groups, $options, $command, OutputInterface $output)
+    private function executeTests($suite, $testFile, $groups, $options, $command, OutputInterface $output)
     {
-        if (empty($suite) && empty($groups)) {
+        if (empty($suite) && empty($groups) && empty($testFile)) {
             foreach ($this->getTestsSuites() as $suite) {
                 $suite = $this->buildTestSuiteName($suite);
-                $this->executeTestGroups($suite, $groups, $options, $command, $output);
+                $this->executeTests($suite, $testFile, $groups, $options, $command, $output);
             }
 
             return;
         }
 
         $params = $this->buildPhpUnitCliParams($suite, $groups, $options);
+
+        if (!empty($testFile)) {
+            $params .= $params . " " . $testFile;
+        }
 
         $this->executeTestRun($command, $params, $output);
     }
