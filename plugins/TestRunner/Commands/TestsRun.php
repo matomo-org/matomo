@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Plugin;
 use Piwik\Profiler;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,9 +28,10 @@ class TestsRun extends ConsoleCommand
     {
         $this->setName('tests:run');
         $this->setDescription('Run Piwik PHPUnit tests one testsuite after the other');
-        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
+        $this->addArgument('magic', InputArgument::OPTIONAL, 'Eg a path to a file or directory, the name of a testsuite, the name of a plugin, ... We will try to detect what you meant.', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
+        $this->addOption('group', null, InputOption::VALUE_REQUIRED, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
         $this->addOption('file', null, InputOption::VALUE_REQUIRED, 'Execute tests within this file. Should be a path relative to the tests/PHPUnit directory.');
         $this->addOption('testsuite', null, InputOption::VALUE_REQUIRED, 'Execute tests of a specific test suite, for instance unit, integration or system.');
     }
@@ -37,10 +39,10 @@ class TestsRun extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $options = $input->getOption('options');
-        $groups  = $input->getArgument('group');
+        $groups  = $input->getOption('group');
+        $magic   = $input->getArgument('magic');
 
-        $groups = explode(",", $groups);
-        $groups = array_filter($groups, 'strlen');
+        $groups = $this->getGroupsFromString($groups);
 
         $command = '../../vendor/phpunit/phpunit/phpunit';
 
@@ -86,9 +88,50 @@ class TestsRun extends ConsoleCommand
         $suite    = $this->getTestsuite($input);
         $testFile = $this->getTestFile($input);
 
+        if (!empty($magic)) {
+            if (empty($suite) && (in_array($magic, $this->getTestsSuites()) || in_array($magic, array('plugin', 'core')))) {
+                $suite = $this->buildTestSuiteName($magic);
+            } elseif (empty($testFile) && file_exists($magic)) {
+                $testFile = $this->fixPathToTestFileOrDirectory($magic);
+            } elseif (empty($testFile) && $this->getPluginTestFolderName($magic)) {
+                $testFile = $this->getPluginTestFolderName($magic);
+            } elseif (empty($groups)) {
+                $groups = $this->getGroupsFromString($magic);
+            }
+        }
+
         $this->executeTests($suite, $testFile, $groups, $options, $command, $output);
 
         return $this->returnVar;
+    }
+
+    private function getPluginTestFolderName($name)
+    {
+        $pluginName = $this->getPluginName($name);
+
+        $folder = '';
+        if (!empty($pluginName)) {
+            $path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName;
+
+            if (is_dir($path . '/tests')) {
+                $folder = $this->fixPathToTestFileOrDirectory($path . '/tests');
+            } elseif (is_dir($path . '/Tests')) {
+                $folder = $this->fixPathToTestFileOrDirectory($path . '/Tests');
+            }
+        }
+
+        return $folder;
+    }
+
+    private function getPluginName($name)
+    {
+        $pluginNames = Plugin\Manager::getInstance()->getAllPluginsNames();
+
+        foreach ($pluginNames as $pluginName) {
+            if (strtolower($pluginName) === strtolower($name)) {
+                return $pluginName;
+            }
+        }
     }
 
     private function getTestFile(InputInterface $input)
@@ -99,11 +142,7 @@ class TestsRun extends ConsoleCommand
             return '';
         }
 
-        if ('/' !== substr($testFile, 0, 1)) {
-            $testFile = '../../' . $testFile;
-        }
-
-        return $testFile;
+        return $this->fixPathToTestFileOrDirectory($testFile);
     }
 
     private function executeTests($suite, $testFile, $groups, $options, $command, OutputInterface $output)
@@ -206,6 +245,23 @@ class TestsRun extends ConsoleCommand
     private function isXdebugLoaded()
     {
         return extension_loaded('xdebug');
+    }
+
+    private function fixPathToTestFileOrDirectory($testFile)
+    {
+        if ('/' !== substr($testFile, 0, 1)) {
+            $testFile = '../../' . $testFile;
+        }
+
+        return $testFile;
+    }
+
+    private function getGroupsFromString($groups)
+    {
+        $groups = explode(",", $groups);
+        $groups = array_filter($groups, 'strlen');
+
+        return $groups;
     }
 
 }
