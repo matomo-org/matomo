@@ -143,8 +143,9 @@ class AutoSuggestAPITest extends SystemTestCase
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
         // and check that most others have been tested
-        $minimumSegmentsToTest = 46;
-        $this->assertTrue(self::$processed >= $minimumSegmentsToTest, 'PROCESSED ' . self::$processed . ' segments --> it seems some segments "auto-suggested values" haven\'t been tested as we were expecting');
+        $minimumSegmentsToTest = 43;
+        $message = 'PROCESSED ' . self::$processed . ' segments --> it seems some segments "auto-suggested values" haven\'t been tested as we were expecting. ';
+        $this->assertTrue(self::$processed >= $minimumSegmentsToTest, $message);
     }
 }
 
