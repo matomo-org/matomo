@@ -28,12 +28,13 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        $columns = Piwik::getArrayFromApiParameter($columns);
+        $requestedColumns = Piwik::getArrayFromApiParameter($columns);
 
         $report = Report::factory("VisitsSummary", "get");
-        $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $columns);
+        $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $requestedColumns);
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
+        $dataTable->deleteColumns(array_diff($requestedColumns, $columns));
         return $dataTable;
     }
 

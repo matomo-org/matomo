@@ -57,15 +57,15 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        $columns = Piwik::getArrayFromApiParameter($columns);
-        $columns = Report::factory("Actions", "get")->getMetricsRequiredForReport($allColumns = null, $columns);
+        $requestedColumns = Piwik::getArrayFromApiParameter($columns);
+        $columns = Report::factory("Actions", "get")->getMetricsRequiredForReport($allColumns = null, $requestedColumns);
 
         $inDbColumnNames = array_map(function ($value) { return 'Actions_' . $value; }, $columns);
         $dataTable = $archive->getDataTableFromNumeric($inDbColumnNames);
+        $dataTable->deleteColumns(array_diff($requestedColumns, $columns));
 
         $newNameMapping = array_combine($inDbColumnNames, $columns);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
-
         return $dataTable;
     }
 

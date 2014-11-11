@@ -333,8 +333,8 @@ class API extends \Piwik\Plugin\API
 
         $allMetrics = Goals::getGoalColumns($idGoal);
 
-        $columns = Piwik::getArrayFromApiParameter($columns);
-        $columnsToGet = Report::factory("Goals", "get")->getMetricsRequiredForReport($allMetrics, $columns);
+        $requestedColumns = Piwik::getArrayFromApiParameter($columns);
+        $columnsToGet = Report::factory("Goals", "get")->getMetricsRequiredForReport($allMetrics, $requestedColumns);
 
         $inDbMetricNames = array_map(function ($value) use ($idGoal) { return Archiver::getRecordName($value, $idGoal); }, $columnsToGet);
         $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
@@ -342,12 +342,15 @@ class API extends \Piwik\Plugin\API
         $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
+        $dataTable->deleteColumns(array_diff($requestedColumns, $columnsToGet));
+
         // TODO: this should be in Goals/Get.php but it depends on idGoal parameter which isn't always in _GET (ie,
         //       it's not in ProcessedReport.php). more refactoring must be done to report class before this can be
         //       corrected.
-        if ((in_array('avg_order_revenue', $columns)
-             || empty($columns))
-            && $idGoal === GoalManager::IDGOAL_ORDER
+        if ((in_array('avg_order_revenue', $requestedColumns)
+             || empty($requestedColumns))
+            && ($idGoal === GoalManager::IDGOAL_ORDER
+            || $idGoal === GoalManager::IDGOAL_CART)
         ) {
             $dataTable->filter(function (DataTable $table) {
                 $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);

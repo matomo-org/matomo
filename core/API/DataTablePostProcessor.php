@@ -195,12 +195,6 @@ class DataTablePostProcessor
         // after queued filters are run so processed metrics can be removed, too)
         $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
-        if (empty($showColumns)) {
-            // if 'columns' is used, we remove all temporary metrics by showing only the columns specified in
-            // 'columns'
-            $showColumns = Common::getRequestVar('columns', '', 'string', $this->request);
-        }
-
         if (!empty($hideColumns)
             || !empty($showColumns)
         ) {
