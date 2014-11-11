@@ -40,7 +40,7 @@ class RevenuePerVisit extends ProcessedMetric
     public function compute(Row $row)
     {
         $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
-        $goals = $this->getMetric($row, 'goals');
+        $goals = $this->getMetric($row, 'goals') ?: array();
 
         $revenue = 0;
         foreach ($goals as $goalId => $goalMetrics) {

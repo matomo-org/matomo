@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -38,12 +39,14 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
+        $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
+
         $goalMetrics = $this->getGoalMetrics($row);
 
         $nbVisits = $this->getMetric($row, 'nb_visits');
-        $conversions = $this->getMetric($goalMetrics, 'nb_conversions');
+        $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
 
-        $goalRevenue = (float) $this->getMetric($goalMetrics, 'revenue');
+        $goalRevenue = (float) $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
 
         return Piwik::getQuotientSafe($goalRevenue, $nbVisits == 0 ? $conversions : $nbVisits, GoalManager::REVENUE_PRECISION);
     }

@@ -72,21 +72,17 @@ class DataTablePostProcessor
      */
     public function process(DataTableInterface $dataTable, $applyFormatting = true)
     {
-        $label = self::getLabelFromRequest($this->request);
-
         $dataTable = $this->applyPivotByFilter($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
-        $dataTable = $this->applyGenericFilters($label, $dataTable);
-
-        $this->applyComputeProcessedMetrics($dataTable);
+        $dataTable = $this->applyGenericFilters($dataTable);
 
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
 
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
-        $dataTable = $this->applyLabelFilter($label, $dataTable);
+        $dataTable = $this->applyLabelFilter($dataTable);
 
         $dataTable = $this->applyProcessedMetricsFormatting($dataTable, $applyFormatting);
 
@@ -97,7 +93,7 @@ class DataTablePostProcessor
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    private function applyPivotByFilter(DataTableInterface $dataTable)
+    public function applyPivotByFilter(DataTableInterface $dataTable)
     {
         $pivotBy = Common::getRequestVar('pivotBy', false, 'string', $this->request);
         if (!empty($pivotBy)) {
@@ -117,7 +113,7 @@ class DataTablePostProcessor
      * @param DataTableInterface $dataTable
      * @return DataTable|DataTableInterface|DataTable\Map
      */
-    private function applyFlattener($dataTable)
+    public function applyFlattener($dataTable)
     {
         if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
             $flattener = new Flattener($this->apiModule, $this->apiMethod, $this->request);
@@ -133,7 +129,7 @@ class DataTablePostProcessor
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    private function applyTotalsCalculator($dataTable)
+    public function applyTotalsCalculator($dataTable)
     {
         if (1 == Common::getRequestVar('totals', '1', 'integer', $this->request)) {
             $reportTotalsCalculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request);
@@ -143,14 +139,15 @@ class DataTablePostProcessor
     }
 
     /**
-     * @param string $label
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    private function applyGenericFilters($label, $dataTable)
+    public function applyGenericFilters($dataTable)
     {
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
+            $label = self::getLabelFromRequest($this->request);
+
             $genericFilter = new DataTableGenericFilter($this->request);
 
             $self = $this;
@@ -176,7 +173,7 @@ class DataTablePostProcessor
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    private function applyQueuedFilters($dataTable)
+    public function applyQueuedFilters($dataTable)
     {
         // if the flag disable_queued_filters is defined we skip the filters that were queued
         if (Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) == 0) {
@@ -189,7 +186,7 @@ class DataTablePostProcessor
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    private function applyRequestedColumnDeletion($dataTable)
+    public function applyRequestedColumnDeletion($dataTable)
     {
         // use the ColumnDelete filter if hideColumns/showColumns is provided (must be done
         // after queued filters are run so processed metrics can be removed, too)
@@ -205,12 +202,13 @@ class DataTablePostProcessor
     }
 
     /**
-     * @param string $label
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    private function applyLabelFilter($label, $dataTable)
+    public function applyLabelFilter($dataTable)
     {
+        $label = self::getLabelFromRequest($this->request);
+
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
         if (!empty($label)) {
             $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
@@ -225,7 +223,7 @@ class DataTablePostProcessor
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    private function applyProcessedMetricsFormatting($dataTable, $applyFormatting)
+    public function applyProcessedMetricsFormatting($dataTable, $applyFormatting)
     {
         if ($applyFormatting) {
             $dataTable->filter(array($this, 'formatProcessedMetrics'));
@@ -271,12 +269,12 @@ class DataTablePostProcessor
             return;
         }
 
-        $dataTable->setMetadata(self::PROCESSED_METRICS_COMPUTED_FLAG, true);
-
         $processedMetrics = $this->getProcessedMetricsFor($dataTable, $this->report);
         if (empty($processedMetrics)) {
             return;
         }
+
+        $dataTable->setMetadata(self::PROCESSED_METRICS_COMPUTED_FLAG, true);
 
         foreach ($processedMetrics as $name => $processedMetric) {
             if (!$processedMetric->beforeCompute($this->report, $dataTable)) {
@@ -305,12 +303,12 @@ class DataTablePostProcessor
             return;
         }
 
-        $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
-
         $processedMetrics = $this->getProcessedMetricsFor($dataTable, $this->report);
         if (empty($processedMetrics)) {
             return;
         }
+
+        $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
 
         foreach ($dataTable->getRows() as $row) {
             foreach ($processedMetrics as $name => $processedMetric) {
@@ -351,7 +349,7 @@ class DataTablePostProcessor
         return $result;
     }
 
-    private function applyComputeProcessedMetrics(DataTableInterface $dataTable)
+    public function applyComputeProcessedMetrics(DataTableInterface $dataTable)
     {
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
     }

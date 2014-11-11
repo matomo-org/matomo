@@ -91,7 +91,7 @@ abstract class Metric
      */
     public static function getMetric($row, $columnName, $mappingNameToId = null)
     {
-        if (empty($mappingIdToName)) {
+        if (empty($mappingNameToId)) {
             $mappingNameToId = Metrics::getMappingFromNameToId();
         }
 
@@ -104,10 +104,11 @@ abstract class Metric
             }
         } else {
             $value = @$row[$columnName];
-            if ($value === false
+            if ($value === null
                 && isset($mappingNameToId[$columnName])
             ) {
-                $value = $row[$mappingNameToId[$columnName]];
+                $columnName = $mappingNameToId[$columnName];
+                $value = @$row[$columnName];
             }
             return $value;
         }

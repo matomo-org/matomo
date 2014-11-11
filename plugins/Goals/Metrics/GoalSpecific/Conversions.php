@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 
 /**
@@ -33,7 +34,9 @@ class Conversions extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
+        $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
+
         $goalMetrics = $this->getGoalMetrics($row);
-        return (int) $this->getMetric($goalMetrics, 'nb_conversions');
+        return (int) $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
     }
 }

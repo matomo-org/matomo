@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\API\DataTablePostProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
@@ -163,7 +164,7 @@ class Visualization extends ViewDataTable
 
             $this->beforeLoadDataTable();
 
-            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1));
+            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1, 'disable_queued_filters' => 1));
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
@@ -308,6 +309,8 @@ class Visualization extends ViewDataTable
 
     private function applyFilters()
     {
+        $postProcessor = $this->makeDataTablePostProcessor();
+
         list($priorityFilters, $otherFilters) = $this->config->getFiltersToRun();
 
         // First, filters that delete rows
@@ -323,8 +326,10 @@ class Visualization extends ViewDataTable
         }
 
         if (!$this->requestConfig->areGenericFiltersDisabled()) {
-            $this->applyGenericFilters();
+            $this->dataTable = $postProcessor->applyGenericFilters($this->dataTable);
         }
+
+        $postProcessor->applyComputeProcessedMetrics($this->dataTable);
 
         $this->afterGenericFiltersAreAppliedToLoadedDataTable();
 
@@ -567,10 +572,7 @@ class Visualization extends ViewDataTable
         // eg $this->config->showFooterColumns = true;
     }
 
-    /**
-     * Second, generic filters (Sort, Limit, Replace Column Names, etc.)
-     */
-    private function applyGenericFilters()
+    private function makeDataTablePostProcessor()
     {
         $requestArray = $this->request->getRequestArray();
         $request      = \Piwik\API\Request::getRequestArrayFromString($requestArray);
@@ -580,8 +582,7 @@ class Visualization extends ViewDataTable
             $request['filter_sort_order']  = '';
         }
 
-        $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
-        $genericFilter->filter($this->dataTable);
+        return new DataTablePostProcessor($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest(), $request);
     }
 
     private function logMessageIfRequestPropertiesHaveChanged(array $requestPropertiesBefore)
