@@ -253,14 +253,7 @@ class ArchiveWriter
     protected function getTableNumeric()
     {
         return ArchiveTableCreator::getNumericTable($this->dateStart);
-    }
-
-    protected function getInsertFields()
-    {
-        return $this->fields;
-    }
-
-    protected function isRecordZero($value)
+    }TRecordZero($value)
     {
         return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
