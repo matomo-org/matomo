@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Db\AdapterInterface;
 
 /**
  * Used for generating auto increment ids.
@@ -24,13 +25,20 @@ class Sequence
     private $name;
 
     /**
+     * @var AdapterInterface
+     */
+    private $db;
+
+    /**
      * The name of the table or sequence you want to get an id for.
      *
      * @param string $name eg 'archive_numeric_2014_11'
+     * @param AdapterInterface $db You can optionally pass a DB adapter to make it work against another database.
      */
-    public function __construct($name)
+    public function __construct($name, $db = null)
     {
         $this->name = $name;
+        $this->db = $db ?: Db::get();
     }
 
     private function getTableName()
@@ -51,11 +59,22 @@ class Sequence
         $initialValue = (int) $initialValue;
 
         $table = $this->getTableName();
-        $db    = $this->getDb();
 
-        $db->insert($table, array('name' => $this->name, 'value' => $initialValue));
+        $this->db->insert($table, array('name' => $this->name, 'value' => $initialValue));
 
         return $initialValue;
+    }
+
+    /**
+     * Returns true if the sequence exist.
+     *
+     * @return bool
+     */
+    public function exists()
+    {
+        $query = $this->db->query('SELECT * FROM ' . $this->getTableName() . ' WHERE name = ?', $this->name);
+
+        return $query->rowCount() > 0;
     }
 
     /**
@@ -70,15 +89,14 @@ class Sequence
         $table = $this->getTableName();
         $sql   = 'UPDATE ' . $table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
 
-        $db       = $this->getDb();
-        $result   = $db->query($sql, array($this->name));
+        $result   = $this->db->query($sql, array($this->name));
         $rowCount = $result->rowCount();
 
         if (1 !== $rowCount) {
             throw new Exception("Sequence '" . $this->name . "' not found.");
         }
 
-        $createdId = $db->lastInsertId();
+        $createdId = $this->db->lastInsertId();
 
         return (int) $createdId;
     }
@@ -93,16 +111,10 @@ class Sequence
         $table = $this->getTableName();
         $sql   = 'SELECT value FROM ' . $table . ' WHERE name = ?';
 
-        $db = $this->getDb();
-        $id = $db->fetchOne($sql, array($this->name));
+        $id = $this->db->fetchOne($sql, array($this->name));
 
         if (!empty($id) || '0' === $id || 0 === $id) {
             return (int) $id;
         }
-    }
-
-    private function getDb()
-    {
-        return Db::get();
     }
 }

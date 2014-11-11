@@ -183,7 +183,7 @@ class API extends \Piwik\Plugin\API
             // The filter must be applied now so that the new column can
             // be sorted by the generic filters (applied right after this loop exits)
             $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Metrics::INDEX_NB_VISITS, $visitsSum, 1));
-            $table->filter('RangeCheck', array('nb_visits_percentage'));
+            $table->filter('RangeCheck', array('nb_visits_percentage', '0.00%', '100.00%'));
         }
 
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));
