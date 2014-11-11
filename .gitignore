@@ -38,7 +38,6 @@ php_errors.log
 /tests/lib/geoip-files/*.dat*
 /tests/lib/xhprof*
 /tests/PHPUnit/System/processed/
-/tests/PHPUnit/phpunit.xml
 /tests/results/
 /.htaccess
 /config/.htaccess

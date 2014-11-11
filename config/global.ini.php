@@ -39,6 +39,10 @@ type = InnoDB
 schema = Mysql
 
 [tests]
+http_host   = localhost
+request_uri = "@REQUEST_URI@"
+remote_addr = "127.0.0.1"
+
 ; access key and secret as listed in AWS -> IAM -> Users
 aws_accesskey = ""
 aws_secret = ""

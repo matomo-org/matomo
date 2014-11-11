@@ -1,4 +1,5 @@
 <?php
+
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
 
@@ -55,12 +56,16 @@ foreach($fixturesToLoad as $fixturePath) {
     }
 }
 
+\Piwik\Config::getInstance()->init();
+$testConfig = \Piwik\Config::getInstance()->tests;
+
+$_SERVER['HTTP_HOST']   = $testConfig['http_host'];
+$_SERVER['REQUEST_URI'] = $testConfig['request_uri'];
+$_SERVER['REMOTE_ADDR'] = $testConfig['remote_addr'];
+
 // General requirement checks & help: a webserver must be running for tests to work if not running UnitTests!
 if (empty($_SERVER['argv']) || !in_array('UnitTests', $_SERVER['argv'])) {
     checkPiwikSetupForTests();
-} else {
-    // To prevent a weird bug
-    Piwik\Config::getInstance()->init();
 }
 
 function checkPiwikSetupForTests()
