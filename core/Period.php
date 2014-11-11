@@ -265,7 +265,6 @@ abstract class Period
     /**
      * Returns the date range string comprising two dates
      *
-     * @api
      * @return string eg, `'2012-01-01,2012-01-31'`.
      */
     public function getRangeString()
