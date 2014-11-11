@@ -21,7 +21,7 @@ class GenerateArchiver extends GeneratePluginBase
     {
         $this->setName('generate:archiver')
             ->setDescription('Adds an Archiver to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have an API yet');
+            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have an Archiver yet');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -30,7 +30,7 @@ class GenerateArchiver extends GeneratePluginBase
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
 
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array('ExamplePlugin' => $pluginName);
+        $replace        = array('ExamplePlugin' => ucfirst($pluginName));
         $whitelistFiles = array('/Archiver.php');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
