@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Container\StaticContainer;
 use Piwik\Exceptions\HtmlMessageException;
 use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
