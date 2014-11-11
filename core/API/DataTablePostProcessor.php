@@ -77,6 +77,8 @@ class DataTablePostProcessor
         $dataTable = $this->applyTotalsCalculator($dataTable);
         $dataTable = $this->applyGenericFilters($dataTable);
 
+        $this->applyComputeProcessedMetrics($dataTable);
+
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
 
