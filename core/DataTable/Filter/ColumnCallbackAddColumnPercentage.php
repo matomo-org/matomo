@@ -24,7 +24,6 @@ use Piwik\Piwik;
  *     $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *
  * @api
- * @deprecated since v2.9.0
  */
 class ColumnCallbackAddColumnPercentage extends ColumnCallbackAddColumnQuotient
 {

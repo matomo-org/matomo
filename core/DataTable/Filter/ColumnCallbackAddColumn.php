@@ -25,7 +25,6 @@ use Piwik\DataTable\BaseFilter;
  *     $dataTable->filter('ColumnCallbackAddColumn', array(array('nb_visits', 'sum_time_spent'), 'avg_time_on_site', $callback));
  *
  * @api
- * @deprecated since v2.9.0
  */
 class ColumnCallbackAddColumn extends BaseFilter
 {

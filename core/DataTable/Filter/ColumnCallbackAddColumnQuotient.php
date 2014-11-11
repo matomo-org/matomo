@@ -26,7 +26,6 @@ use Piwik\DataTable\Row;
  *     $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('bounce_rate', 'bounce_count', 'nb_visits', $precision = 2));
  *
  * @api
- * @deprecated since v2.9.0
  */
 class ColumnCallbackAddColumnQuotient extends BaseFilter
 {

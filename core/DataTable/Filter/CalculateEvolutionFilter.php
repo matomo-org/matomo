@@ -26,7 +26,6 @@ use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
  *     ((currentValue - pastValue) / pastValue) * 100
  *
  * @api
- * @deprecated since 2.9.0
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
@@ -74,7 +73,6 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * @param bool $appendPercentSign Whether to append a '%' sign to the end of the number or not.
      *
      * @return string The evolution percent, eg `'15%'`.
-     * @deprecated since 2.9.0
      */
     public static function calculate($currentValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = true)
     {
