@@ -73,7 +73,7 @@ Sunday,2,6,0%,3,00:07:31,50%
 
 Screen Resolution
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-800x300,9,41,0%,4.56,00:13:21,11.11%
+800x300,9,41,0%,4.6,00:13:21,11%
 1024x768,1,2,0%,2,00:06:01,0%
 
 Visitor Browser
@@ -103,7 +103,7 @@ Windowsmedia,0,0%
 
 Normal / Widescreen
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Dual,9,41,0%,4.56,00:13:21,11.11%
+Dual,9,41,0%,4.6,00:13:21,11%
 Normal,1,2,0%,2,00:06:01,0%
 
 Operating System
@@ -150,14 +150,14 @@ Page URL not defined,9,17,0%,00:00:00,0%,0.22s
 /products,1,1,100%,00:00:00,100%,0.15s
 
 Entry pages
-label,entry_nb_visits,entry_bounce_count,avg_time_on_page,bounce_rate,exit_rate,avg_time_generation
-/index.htm,8,0,00:05:20,0%,0%,0.3s
-/products,1,1,00:00:00,100%,100%,0.15s
+label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
+/index.htm,8,0,0%,0.3s
+/products,1,1,100%,0.15s
 
 Exit pages
-label,nb_visits,exit_nb_visits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
-/thankyou,8,8,0%,00:06:00,100%,0.31s
-/products,1,1,100%,00:00:00,100%,0.15s
+label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
+/thankyou,8,8,100%,0.31s
+/products,1,1,100%,0.15s
 
 Page titles
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
@@ -167,14 +167,14 @@ Checkout,8,8,0%,00:00:00,100%,0.45s
 Page Name not defined,1,1,0%,00:00:00,0%,0.22s
 
 Entry page titles
-label,entry_nb_visits,entry_bounce_count,avg_time_on_page,bounce_rate,exit_rate,avg_time_generation
-second visitor,8,0,00:07:30,0%,0%,0.25s
- first page view,1,1,00:00:00,100%,50%,0.14s
+label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
+second visitor,8,0,0%,0.25s
+ first page view,1,1,100%,0.14s
 
 Exit page titles
-label,nb_visits,exit_nb_visits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
-Checkout,8,8,0%,00:00:00,100%,0.45s
- first page view,2,1,100%,00:00:00,50%,0.14s
+label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
+Checkout,8,8,100%,0.45s
+ first page view,2,1,50%,0.14s
 
 Outlinks
 No data available
@@ -241,8 +241,8 @@ Social Networks
 No data available
 
 Goals
-nb_conversions,nb_visits_converted,conversion_rate,revenue
-0,0,0%,$ 0
+nb_conversions,nb_visits_converted,conversion_rate,revenue,avg_order_revenue
+0,0,0%,$ 0,$ 0
 
 Visits to Conversion
 No data available

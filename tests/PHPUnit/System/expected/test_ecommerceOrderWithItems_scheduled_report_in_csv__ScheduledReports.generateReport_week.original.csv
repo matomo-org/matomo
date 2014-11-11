@@ -64,7 +64,7 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Visits by Day of Week
 label,nb_visits,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_actions
 Monday,0,0%,0,00:00:00,0%,0
-Tuesday,3,66.67%,4.33,00:30:01,0%,13
+Tuesday,3,66.67%,4.3,00:30:01,0%,13
 Wednesday,2,100%,1.5,00:12:02,50%,3
 Thursday,0,0%,0,00:00:00,0%,0
 Friday,0,0%,0,00:00:00,0%,0
@@ -165,8 +165,8 @@ label,nb_conversions
 365+ days,0
 
 Abandoned Carts
-nb_conversions,conversion_rate,revenue,items
-3,60%,$ 7530.33,12
+nb_conversions,conversion_rate,revenue,items,avg_order_revenue
+3,60%,$ 7530.33,12,$ 0
 
 Abandoned Carts - Visits to Conversion
 label,nb_conversions
@@ -238,12 +238,12 @@ label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
 /index.htm,4,16,0%,00:13:30,100%
 
 Entry pages
-label,entry_nb_visits,entry_bounce_count,avg_time_on_page,bounce_rate,exit_rate
-/index.htm,3,0,00:13:30,0%,100%
+label,entry_nb_visits,entry_bounce_count,bounce_rate
+/index.htm,3,0,0%
 
 Exit pages
-label,nb_visits,exit_nb_visits,bounce_rate,avg_time_on_page,exit_rate
-/index.htm,4,4,0%,00:13:30,100%
+label,nb_visits,exit_nb_visits,exit_rate
+/index.htm,4,4,100%
 
 Page titles
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
@@ -257,15 +257,15 @@ label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
  Looking at product page,1,1,0%,00:12:00,0%
 
 Entry page titles
-label,entry_nb_visits,entry_bounce_count,avg_time_on_page,bounce_rate,exit_rate
- View product left in cart,1,0,00:06:00,0%,100%
- incredible title!,1,0,00:06:00,0%,0%
- Looking at Electronics & Cameras page with a page level custom variable,1,0,00:06:00,0%,0%
+label,entry_nb_visits,entry_bounce_count,bounce_rate
+ View product left in cart,1,0,0%
+ incredible title!,1,0,0%
+ Looking at Electronics & Cameras page with a page level custom variable,1,0,0%
 
 Exit page titles
-label,nb_visits,exit_nb_visits,bounce_rate,avg_time_on_page,exit_rate
- View product left in cart,3,3,0%,00:06:00,100%
- Another Product page with multiple categories,1,1,0%,00:00:00,100%
+label,nb_visits,exit_nb_visits,exit_rate
+ View product left in cart,3,3,100%
+ Another Product page with multiple categories,1,1,100%
 
 Outlinks
 No data available
@@ -326,8 +326,8 @@ Social Networks
 No data available
 
 Goals
-nb_conversions,nb_visits_converted,conversion_rate,revenue
-5,4,80%,$ 13361.11
+nb_conversions,nb_visits_converted,conversion_rate,revenue,avg_order_revenue
+5,4,80%,$ 13361.11,$ 0
 
 Visits to Conversion
 label,nb_conversions,revenue
@@ -363,8 +363,8 @@ label,nb_conversions,revenue
 365+ days,0,$ 0
 
 Goal title match  triggered ONCE
-nb_conversions,nb_visits_converted,conversion_rate,revenue
-1,1,20%,$ 10
+nb_conversions,nb_visits_converted,conversion_rate,revenue,avg_order_revenue
+1,1,20%,$ 10,$ 0
 
 title match  triggered ONCE - Visits to Conversion
 label,nb_conversions
