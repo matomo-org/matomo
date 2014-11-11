@@ -263,8 +263,9 @@ abstract class Period
     abstract public function getLocalizedLongString();
 
     /**
-     * Returns a succinct string describing this period.
+     * Returns the date range string comprising two dates
      *
+     * @api
      * @return string eg, `'2012-01-01,2012-01-31'`.
      */
     public function getRangeString()
