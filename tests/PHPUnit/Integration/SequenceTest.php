@@ -5,31 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
 use Piwik\Db;
 use Piwik\Sequence;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Core_SequenceTest
- *
  * @group Core
  * @group Sequence
  */
-class Core_SequenceTest extends IntegrationTestCase
+class SequenceTest extends IntegrationTestCase
 {
-    /**
-     * @var Sequence
-     */
-    private $sequence;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->sequence = new Sequence('mySequence0815');
-        $this->sequence->create();
-    }
-
     public function test_create_shouldAddNewSequenceWithInitalId1()
     {
         $sequence = $this->getEmptySequence();
@@ -60,14 +48,18 @@ class Core_SequenceTest extends IntegrationTestCase
      */
     public function test_create_shouldFailIfSequenceAlreadyExists()
     {
-        $this->sequence->create();
+        $sequence = $this->getExistingSequence();
+
+        $sequence->create();
     }
 
     public function test_getNextId_shouldGenerateNextId()
     {
-        $this->assertNextIdGenerated(1);
-        $this->assertNextIdGenerated(2);
-        $this->assertNextIdGenerated(3);
+        $sequence = $this->getExistingSequence();
+
+        $this->assertNextIdGenerated($sequence, 1);
+        $this->assertNextIdGenerated($sequence, 2);
+        $this->assertNextIdGenerated($sequence, 3);
     }
 
     /**
@@ -80,19 +72,11 @@ class Core_SequenceTest extends IntegrationTestCase
         $sequence->getNextId();
     }
 
-    private function assertNextIdGenerated($expectedId)
-    {
-        $id = $this->sequence->getNextId();
-        $this->assertSame($expectedId, $id);
-
-        // verify
-        $id = $this->sequence->getCurrentId();
-        $this->assertSame($expectedId, $id);
-    }
-
     public function test_getCurrentId_shouldReturnTheCurrentIdAsInt()
     {
-        $id = $this->sequence->getCurrentId();
+        $sequence = $this->getExistingSequence();
+
+        $id = $sequence->getCurrentId();
         $this->assertSame(0, $id);
     }
 
@@ -103,10 +87,26 @@ class Core_SequenceTest extends IntegrationTestCase
         $this->assertNull($id);
     }
 
+    private function assertNextIdGenerated(Sequence $sequence, $expectedId)
+    {
+        $id = $sequence->getNextId();
+        $this->assertSame($expectedId, $id);
+
+        // verify
+        $id = $sequence->getCurrentId();
+        $this->assertSame($expectedId, $id);
+    }
+
     private function getEmptySequence()
     {
         return new Sequence('notCreatedSequence');
     }
 
+    private function getExistingSequence()
+    {
+        $sequence = new Sequence('mySequence0815');
+        $sequence->create();
 
+        return $sequence;
+    }
 }
