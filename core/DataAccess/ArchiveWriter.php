@@ -51,13 +51,13 @@ class ArchiveWriter
     const DONE_INVALIDATED = 4;
 
     protected $fields = array('idarchive',
-                              'idsite',
-                              'date1',
-                              'date2',
-                              'period',
-                              'ts_archived',
-                              'name',
-                              'value');
+        'idsite',
+        'date1',
+        'date2',
+        'period',
+        'ts_archived',
+        'name',
+        'value');
 
     public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
     {
@@ -234,11 +234,11 @@ class ArchiveWriter
     protected function getInsertRecordBind()
     {
         return array($this->getIdArchive(),
-                     $this->idSite,
-                     $this->dateStart->toString('Y-m-d'),
-                     $this->period->getDateEnd()->toString('Y-m-d'),
-                     $this->period->getId(),
-                     date("Y-m-d H:i:s"));
+            $this->idSite,
+            $this->dateStart->toString('Y-m-d'),
+            $this->period->getDateEnd()->toString('Y-m-d'),
+            $this->period->getId(),
+            date("Y-m-d H:i:s"));
     }
 
     protected function getTableNameToInsert($value)
@@ -253,7 +253,14 @@ class ArchiveWriter
     protected function getTableNumeric()
     {
         return ArchiveTableCreator::getNumericTable($this->dateStart);
-    }TRecordZero($value)
+    }
+
+    protected function getInsertFields()
+    {
+        return $this->fields;
+    }
+
+    protected function isRecordZero($value)
     {
         return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
