@@ -156,7 +156,8 @@ class DataTablePostProcessor
             $self = $this;
             $report = $this->report;
             $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self) {
-                if ($genericFilter->areProcessedMetricsNeededFor($this->getProcessedMetricsFor($table, $this->report))) {
+                $processedMetrics = $this->getProcessedMetricsFor($table, $report);
+                if ($genericFilter->areProcessedMetricsNeededFor($processedMetrics)) {
                     $self->computeProcessedMetrics($table);
                 }
             });
@@ -235,7 +236,7 @@ class DataTablePostProcessor
         if ($applyFormatting) {
             $dataTable->filter(array($this, 'formatProcessedMetrics'));
         } else {
-            $dataTable->queueFilter(array($this, 'formatProcessedMetrics')); // TODO: queuing does not always work.
+            $dataTable->queueFilter(array($this, 'formatProcessedMetrics'));
         }
         return $dataTable;
     }

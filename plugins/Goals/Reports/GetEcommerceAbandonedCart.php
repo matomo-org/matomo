@@ -17,9 +17,9 @@ class GetEcommerceAbandonedCart extends BaseEcommerce
         parent::init();
         $this->action = 'get';
         $this->name = Piwik::translate('General_AbandonedCarts');
-        $this->processedMetrics = false;
+        $this->processedMetrics = array('avg_order_revenue');
         $this->order = 15;
-        $this->metrics = array('nb_conversions', 'revenue', 'items');
+        $this->metrics = array('nb_conversions', 'conversion_rate', 'revenue', 'items');
 
         $this->parameters = array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
     }

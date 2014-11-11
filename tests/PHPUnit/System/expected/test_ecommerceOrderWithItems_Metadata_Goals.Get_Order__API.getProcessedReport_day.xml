@@ -20,11 +20,13 @@
 			<revenue_shipping>Shipping</revenue_shipping>
 			<revenue_discount>Discount</revenue_discount>
 			<items>Purchased Products</items>
-			<avg_order_revenue>Average Order Value</avg_order_revenue>
 		</metrics>
 		<metricsDocumentation>
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 		</metricsDocumentation>
+		<processedMetrics>
+			<avg_order_revenue>Average Order Value</avg_order_revenue>
+		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>

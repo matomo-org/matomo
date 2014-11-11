@@ -33,7 +33,8 @@ class GetEcommerceOrder extends BaseEcommerce
         $this->parameters = array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
     }
 
-    public function getMetrics() {
+    public function getMetrics()
+    {
         $metrics = parent::getMetrics();
 
         $metrics['nb_conversions'] = Piwik::translate('General_EcommerceOrders');
