@@ -56,12 +56,30 @@ foreach($fixturesToLoad as $fixturePath) {
     }
 }
 
-\Piwik\Config::getInstance()->init();
-$testConfig = \Piwik\Config::getInstance()->tests;
+function prepareServerVariables()
+{
+    \Piwik\Config::getInstance()->init();
+    $testConfig = \Piwik\Config::getInstance()->tests;
 
-$_SERVER['HTTP_HOST']   = $testConfig['http_host'];
-$_SERVER['REQUEST_URI'] = $testConfig['request_uri'];
-$_SERVER['REMOTE_ADDR'] = $testConfig['remote_addr'];
+    if ('@REQUEST_URI@' === $testConfig['request_uri']) {
+        // config not done yet, if Piwik is installed we can automatically configure request_uri and http_host
+        $url = \Piwik\SettingsPiwik::getPiwikUrl();
+
+        if (!empty($url)) {
+            $parsedUrl = parse_url($url);
+            $testConfig['request_uri'] = $parsedUrl['path'];
+            $testConfig['http_host']   = $parsedUrl['host'];
+            \Piwik\Config::getInstance()->tests = $testConfig;
+            \Piwik\Config::getInstance()->forceSave();
+        }
+    }
+
+    $_SERVER['HTTP_HOST']   = $testConfig['http_host'];
+    $_SERVER['REQUEST_URI'] = $testConfig['request_uri'];
+    $_SERVER['REMOTE_ADDR'] = $testConfig['remote_addr'];
+}
+
+prepareServerVariables();
 
 // General requirement checks & help: a webserver must be running for tests to work if not running UnitTests!
 if (empty($_SERVER['argv']) || !in_array('UnitTests', $_SERVER['argv'])) {
@@ -77,11 +95,13 @@ function checkPiwikSetupForTests()
 1) Install webserver on localhost, eg. apache
 2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/
 3) Install Piwik by going through the installation process
-4) Copy phpunit.xml.dist to phpunit.xml
-5) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
+4) Configure tests section if needed in config/config.ini.php:
+[tests]
+http_host   = \"localhost\"
+request_uri = \"@REQUEST_URI@\"
+remote_addr = \"127.0.0.1\"
 
-Try again.
--> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
+Try again.";
         exit(1);
     }
     $baseUrl = \Piwik\Tests\Framework\Fixture::getRootUrl();
