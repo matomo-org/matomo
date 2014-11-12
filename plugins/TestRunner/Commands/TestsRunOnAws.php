@@ -142,13 +142,17 @@ This feature is still beta and there might be problems with pictures and/or bina
 
     private function getCurrentGitHash()
     {
+        // we should not use 'git' executable unless we are in a git clone
+        if(!file_exists(PIWIK_INCLUDE_PATH . '/.git/')) {
+            return 'WARN: it does not look like a Piwik repository clone - you must setup Piwik from git to proceed';
+        }
         return trim(`git rev-parse HEAD`);
     }
 
     private function buildFinishedMessage($testSuite, $host)
     {
         if (in_array($testSuite, array('system', 'all'))) {
-            $message = "<info>Tests finished. You can browse processed files at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>";
+            $message = "<info>Tests finished. You can browse processed files and download artifacts at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>";
         } elseif ('ui' === $testSuite) {
             $message = "<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/PHPUnit/UI/screenshot-diffs/diffviewer.html</comment>";
         } else {

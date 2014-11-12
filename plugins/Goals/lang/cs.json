@@ -27,6 +27,7 @@
         "ColumnVisits": "Celkový počet návštěv bez ohledu na to, jestli došlo k vyvolání cíle.",
         "ColumnVisitsProductDocumentation": "Počet návštěv stránky produktu\/kategorie. Toto je také použito k výpočtu konverzního poměru pro %s. Toto měření je ve hlášení pouze, pokud bylo na stránkách produktů\/kategorií nastaveno sledování elektronického obchodu.",
         "Contains": "obsahuje %s",
+        "ConversionByTypeReportDocumentation": "Toto hlášení poskytuje podrobné informace o výkonu cíle (konverze, konverzní poměr, celkový příjem za návštěvu) pro každou z kategorií zobrazených v levém panelu. %s Klikněte na jednu z kategorií pro zobrazení hlášení. %s Pro více informací si přečtěte %sdokumentaci sledování cílů%s",
         "ConversionRate": "%s frekvence konverzí",
         "Conversions": "%s konverzí",
         "ConversionsOverview": "Přehled konverzí",

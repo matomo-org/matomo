@@ -41,12 +41,6 @@ matrix:
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
     - php: 5.6
       env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
-  include:
-    # Code Coverage
-    - php: 5.6
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
-    - php: 5.6
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
   exclude:
     # Run test suites separately only on PHP 5.4 with PDO
     - php: 5.3.3
@@ -91,11 +85,10 @@ install:
   - git checkout master -- ./tests/travis ./plugins/TestRunner || true
 
 before_script:
-  - if ([ -n "$TEST_SUITE" ]);
-    then phpenv config-rm xdebug.ini;
-    fi
   - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
+    else
+    phpenv config-rm xdebug.ini;
     fi
 
   - ./tests/travis/configure_git.sh

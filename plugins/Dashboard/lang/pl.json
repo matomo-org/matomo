@@ -9,6 +9,7 @@
         "DashboardCopied": "Aktualny panel z powodzeniem można skopiować do wybranego użytkownika.",
         "DashboardEmptyNotification": "Twój panel nie zatwiera, żadnych gadżetów. Rozpocznij pracę od dodawania różnych gazetów lub po prostu zresetuj panel, aby przywrócić domyślną sekcję gadżetów.",
         "DashboardName": "Nazwa tablicy analiz:",
+        "DashboardOf": "Panel z %s",
         "DefaultDashboard": "Domyślny panel - używa domyślnej sekcji gadżetów i kolumn układu.",
         "DeleteWidgetConfirm": "Czy jesteś pewien, że chcesz usunąć ten widżet z tej tablicy statystyk?",
         "EmptyDashboard": "Pusty panel - wskaż swóje ulubione gadżety",
@@ -28,6 +29,7 @@
         "SetAsDefaultWidgets": "Ustaw wybrane gadżety jako domyślne",
         "SetAsDefaultWidgetsConfirm": "Czy na pewno chcesz, aby ustawić wybór i układ gadżetów na bieżącym panelu jako domyślny szablon panelu ?",
         "SetAsDefaultWidgetsConfirmHelp": "Ta sekcja gadżetów i układ kolumn będzie używany, gdy jakikolwiek użytkownik stworzy nowy panel albo gdy funkcja \"%s\" jest w użyciu.",
+        "TopLinkTooltip": "Podgląd raportów Web Analytics %s.",
         "WidgetNotFound": "Widżet nie został znaleziony",
         "WidgetPreview": "Podgląd widżetu",
         "WidgetsAndDashboard": "Widżety i Tablica analiz"

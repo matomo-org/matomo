@@ -8,11 +8,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit;
+
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 
-class IPTest extends PHPUnit_Framework_TestCase
+class IPTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for long2ip test

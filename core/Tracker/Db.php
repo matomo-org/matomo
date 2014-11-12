@@ -102,6 +102,7 @@ abstract class Db
 
         foreach ($this->queriesProfiling as $query => $info) {
             $time  = $info['sum_time_ms'];
+            $time  = Common::forceDotAsSeparatorForDecimalPoint($time);
             $count = $info['count'];
 
             $queryProfiling = "INSERT INTO " . Common::prefixTable('log_profiling') . "

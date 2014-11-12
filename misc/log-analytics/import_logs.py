@@ -630,6 +630,9 @@ class Configuration(object):
             if self.options.enable_testmode:
                 command.append('--testmode')
 
+            hostname = urlparse.urlparse( self.options.piwik_url ).hostname
+            command.append('--piwik-domain=' + hostname )
+
             command = subprocess.list2cmdline(command)
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             [stdout, stderr] = process.communicate()

@@ -6,19 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit\Menu;
+
 use Piwik\Access;
 use Piwik\Plugin\Report;
 use Piwik\Piwik;
 use Piwik\Metrics;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Manager as PluginManager;
 
-
 /**
  * @group Core
  */
-class Menu_ReportingTest extends PHPUnit_Framework_TestCase
+class ReportingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var MenuReporting

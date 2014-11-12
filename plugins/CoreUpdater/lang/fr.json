@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Cliquez ici pour visualiser la liste des commandes SQL qui vont être exécutées",
-        "CreatingBackupOfConfigurationFile": "Création d'une sauvegarde du fichier de configuration dans le répertoire %s",
         "CriticalErrorDuringTheUpgradeProcess": "Erreur Critique pendant le procédé de mise à jour :",
         "DatabaseUpgradeRequired": "Mise à jour de la base de données requise",
         "DisablingIncompatiblePlugins": "Désactivation des plugins incompatibles : %s",

@@ -28,10 +28,10 @@ class Remote
         $this->ssh->exec('git reset --hard');
         $this->ssh->exec('git submodule foreach --recursive git reset --hard');
         $this->ssh->exec('git clean -d -f');
+        $this->ssh->exec('git submodule foreach git clean -f');
         $this->ssh->exec('git fetch --all');
         $this->ssh->exec('git checkout ' . trim($gitHash));
         $this->ssh->exec('git submodule update --recursive --force');
-        $this->ssh->exec('git submodule foreach git clean -f');
         $this->ssh->exec('composer.phar install');
     }
 
@@ -64,8 +64,6 @@ class Remote
 
     private function prepareTestRun($host)
     {
-        $this->ssh->exec('cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml');
-        $this->ssh->exec("sed -i 's/@REQUEST_URI@/\\//g' ./tests/PHPUnit/phpunit.xml");
         $this->ssh->exec("sed -i 's/amazonAwsUrl/$host/g' ./config/config.ini.php");
     }
 
@@ -78,6 +76,8 @@ class Remote
 
     private function doRunTests($testSuite)
     {
+        $this->ssh->exec("ps -ef | grep \"php console tests:run\" | grep -v grep | awk '{print $2}' | xargs kill -9");
+
         if ('all' === $testSuite) {
             $this->ssh->exec('php console tests:run --options="--colors"');
         } elseif ('ui' === $testSuite) {
@@ -85,6 +85,10 @@ class Remote
         } else {
             $this->ssh->exec('php console tests:run --options="--colors" --testsuite="unit"');
             $this->ssh->exec('php console tests:run --options="--colors" --testsuite="' . $testSuite . '"');
+        }
+
+        if ('system' === $testSuite) {
+            $this->ssh->exec("tar -cjf tests/PHPUnit/System/processed/processed.tar.bz2 tests/PHPUnit/System/processed/ plugins/*/tests/System/processed/ --exclude='.gitkeep' --exclude='tests/PHPUnit/System/processed/processed.tar.bz2'");
         }
     }
 }

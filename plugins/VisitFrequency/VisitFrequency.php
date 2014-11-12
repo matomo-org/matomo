@@ -31,7 +31,8 @@ class VisitFrequency extends \Piwik\Plugin
             'avg_time_on_site_returning' => 'VisitFrequency_ColumnAverageVisitDurationForReturningVisitors',
             'bounce_rate_returning'      => 'VisitFrequency_ColumnBounceRateForReturningVisits',
             'nb_actions_per_visit_returning' => 'VisitFrequency_ColumnAvgActionsPerReturningVisit',
-            'nb_uniq_visitors_returning'     => 'VisitFrequency_ColumnUniqueReturningVisitors'
+            'nb_uniq_visitors_returning'     => 'VisitFrequency_ColumnUniqueReturningVisitors',
+            'nb_users_returning' => 'VisitFrequency_ColumnReturningUsers'
         );
 
         $translations = array_merge($translations, $metrics);

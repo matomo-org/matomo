@@ -6,11 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit\AssetManager;
+
+use PHPUnit_Framework_TestCase;
 use Piwik\AssetManager\UIAssetCacheBuster;
 
 class UIAssetCacheBusterTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var UIAssetCacheBuster
      */

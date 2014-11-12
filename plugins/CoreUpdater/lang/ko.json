@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "이 목록을 실행하는 SQL 쿼리를 조회하고 복사하려면 여기를 클릭하세요",
-        "CreatingBackupOfConfigurationFile": "%s 안의 설정 파일 백업 생성중",
         "CriticalErrorDuringTheUpgradeProcess": "업데이트 과정중에 치명적인 에러 발생:",
         "DatabaseUpgradeRequired": "데이터베이스 업그레이드 필요함",
         "DownloadingUpdateFromX": "%s에서 업데이트를 다운로드 중",

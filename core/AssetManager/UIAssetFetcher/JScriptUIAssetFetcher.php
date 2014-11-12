@@ -10,7 +10,6 @@ namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Piwik;
-use string;
 
 class JScriptUIAssetFetcher extends UIAssetFetcher
 {

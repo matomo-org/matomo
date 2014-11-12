@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "點選這裡來查看並複製即將執行的 SQL 語法列表",
-        "CreatingBackupOfConfigurationFile": "建立一個設定檔的備份於 %s",
         "CriticalErrorDuringTheUpgradeProcess": "在更新過程中發生嚴重的錯誤：",
         "DatabaseUpgradeRequired": "資料庫需要升級",
         "DownloadingUpdateFromX": "從 %s 下載更新中",

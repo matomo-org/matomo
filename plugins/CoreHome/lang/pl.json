@@ -20,6 +20,7 @@
         "IncludeRowsWithLowPopulation": "Wiersze z niską populacją zostały ukryte %s Pokaż wszystkie wiersze",
         "InjectedHostEmailBody": "Witaj, próbowałem dostać się dzisiaj do Piwika i napotkałem ostrzeżenie o nieznanym hoście.",
         "InjectedHostEmailSubject": "Piwik został otwarty z nieznaną nazwą hosta: %s",
+        "InjectedHostNonSuperUserWarning": "%1$sKliknij tutaj, aby uzyskać dostęp do Piwik bezpiecznie%2$s i usunąć to ostrzeżenie. Możesz również skontaktować się z administratorem Piwik i powiadomić o problemie (%3$sKliknij tutaj email%4$s).",
         "InjectedHostSuperUserWarning": "Piwik mógł zostać błędnie skonfigurowany (np. jeśli Piwik został ostatnio przeniesiony na nowy serwer lub adres URL). Możesz %1$skliknąć tutaj i dodać %2$s jako prawidłową nazwę hosta Piwik (jeśli jej ufasz)%3$s, lub %4$skliknąć tutaj aby przejść do %5$s aby uzyskać bezpieczny dostęp do Piwik'a%6$s.",
         "InjectedHostWarningIntro": "Uzyskujesz obecnie dostęp do Piwik pod adresem %1$s, ale Piwik został skonfigurowany aby działać pod adresem: %2$s.",
         "JavascriptDisabled": "Aby użyć standardowego widoku Piwik, wymagane jest zezwolenie do działanie skryptów Java.<br \/>Wydaje się jednak, że tutaj JavaScript nie działa lub jest niepoprawnie wspierany przez twoją przeglądarkę.<br \/>By użyć standardowego widoku, włącz działanie JavaScript w opcjach swojej przeglądarki, i wtedy %1$sspróbuj ponownie%2$s.<br \/>",

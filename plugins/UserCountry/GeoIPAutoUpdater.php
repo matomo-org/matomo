@@ -538,7 +538,7 @@ class GeoIPAutoUpdater extends ScheduledTask
             self::getTestLocationCatchPhpErrors($provider);
             if (self::$unzipPhpError !== null) {
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-                Log::warning("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
+                Log::error("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
                     . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
 
                 // get the current filename for the DB and an available new one to rename it to

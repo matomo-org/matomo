@@ -12,6 +12,7 @@
         "DeleteLogsOlderThan": "Usuń logi starsze niż",
         "DeleteMaxRows": "Maksymalna liczba wierszy, aby usunąć w jednym przebiegu:",
         "DeleteMaxRowsNoLimit": "bez limitu",
+        "DeleteReportsInfo": "Jeśli opcja jest włączona, stare raporty zostaną usunięte. %s Zalecane włączyć tylko wtedy, gdy baza danych jest ma ograniczoną przestrzeń. %s",
         "DeleteReportsInfo3": "Jeśli włączysz \"%s\", dane zostaną trwale utracone.",
         "DeleteReportsOlderThan": "Usuń raporty starsze niż",
         "DeleteSchedulingSettings": "Ustawienia harmonogramu",

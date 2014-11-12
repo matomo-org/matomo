@@ -290,6 +290,11 @@ abstract class Action
             $value = $dimension->onLookupAction($this->request, $this);
 
             if (false !== $value) {
+
+                if (is_float($value)) {
+                    $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+                }
+
                 $field = $dimension->getColumnName();
 
                 if (empty($field)) {
@@ -342,6 +347,11 @@ abstract class Action
             $value = $dimension->onNewAction($this->request, $visitor, $this);
 
             if ($value !== false) {
+
+                if (is_float($value)) {
+                    $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+                }
+
                 $visitAction[$dimension->getColumnName()] = $value;
             }
         }
@@ -357,7 +367,7 @@ abstract class Action
 
         $customValue = $this->getCustomFloatValue();
         if (!empty($customValue)) {
-            $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = $customValue;
+            $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = Common::forceDotAsSeparatorForDecimalPoint($customValue);
         }
 
         $customVariables = $this->getCustomVariables();

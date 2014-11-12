@@ -23,6 +23,7 @@
         "TitleConsideredInsightsGrowth": "Le righe seguenti hanno una crescita di almeno %1$s%% comparata a %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Sono considerate protagoniste se sono cresciute di più di %1$s%% visite o si sono contratte di meno di %2$s%% visite, nuove entrate se sono aumentate di più di %3$s%% visite (%4$s), e righe scomparse se si sono contratte di meno di %5$s%% visite (%6$s).",
         "TitleConsideredMoversAndShakersGrowth": "%1$s cambiate da %2$s a %3$s comparate a %4$s. Basandoci su ciò ci si aspetta un'evoluzione per ciascuna riga di %5$s%%.",
+        "TitleRowChangeDetails": "'%1$s' è cambiato da %2$s (%3$s) a %4$s (%5$s) %6$s",
         "TitleRowDisappearedDetails": "'%1$s' è diminuita di %2$s e scomparsa in %3$s comparata a %4$s.",
         "TitleRowMoverAndShaker": "Questa riga ha avuto un impatto più alto della media.",
         "TitleRowNewDetails": "'%1$s' è aumentata di %2$s ed è nuova comparata a %3$s.",

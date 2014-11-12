@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Klicka här för att visa och kopiera listan över SQL-frågor som kommer att exekveras",
-        "CreatingBackupOfConfigurationFile": "Skapar en backup av konfigurationsfilen i %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kritiskt fel uppstod under uppdateringsprocessen:",
         "DatabaseUpgradeRequired": "Databasuppgradering krävs",
         "DisablingIncompatiblePlugins": "Inaktiverar inkompatibla tillägg: %s",
@@ -23,6 +22,7 @@
         "HelpMessageContent": "Kolla i %1$s Piwik FAQ %2$s vilken förklarar de vanligaste fel vid uppdateringar. %3$s Fråga din systemadministratör - de kanske kan hjälpa dig med det fel som är mest sannolikt relaterat till din server eller MySQL installation.",
         "HelpMessageIntroductionWhenError": "Ovanstående är huvudsakliga felmeddelandet. Det bör bidra till att förklara orsaken, men om du behöver mer hjälp vänligen:",
         "HelpMessageIntroductionWhenWarning": "Uppdateringen slutfördes framgångsrikt, men det fanns dock problem under processen. Vänligen läs ovanstående beskrivningar för detaljer. För ytterligare hjälp:",
+        "HighTrafficPiwikServerEnableMaintenance": "Om du hanterar en Piwik server med mycket trafik rekommenderar vi att du tillfälligt %sinaktiverar spårning av besökare och sätter Piwik's användargränssnitt i underhållsläge%s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Obs: vissa tillägg är inte kompatibla med Piwik %s. De kommer att inaktiveras när du uppgraderar:",
         "InstallingTheLatestVersion": "Installerar den senaste versionen",
         "MajorUpdateWarning1": "Det här är en stor uppdatering! Den kommer att ta längre tid än vanligt.",

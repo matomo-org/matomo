@@ -6,17 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit\API;
+
+use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\DataTable;
+use Piwik\Plugin\Manager;
 
 /**
  * @group Core
  */
-class ResponseBuilderTest extends PHPUnit_Framework_TestCase
+class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API'));
+        Manager::getInstance()->loadPlugins(array('API'));
     }
 
     public function test_getResponseException_shouldFormatExceptionDependingOnFormatAndAddDebugHelp()

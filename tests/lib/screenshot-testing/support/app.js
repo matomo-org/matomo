@@ -118,6 +118,11 @@ Application.prototype.loadTestModules = function () {
         });
     }
 
+    if (!mocha.suite.suites.length) {
+        console.log("No tests are executing... are you running tests for a plugin? Make sure to use the"
+                  + " --plugin=MyPlugin option.");
+    }
+
     // configure suites (auto-add fixture setup/teardown)
     mocha.suite.suites.forEach(function (suite) {
         var fixture = typeof suite.fixture === 'undefined' ? 'UITestFixture' : suite.fixture;

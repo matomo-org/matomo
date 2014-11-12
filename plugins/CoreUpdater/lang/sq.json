@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Klikoni këtu që të shihni dhe të kopjoni listën e kërkesave SQL që ka për t'u ekzekutuar",
-        "CreatingBackupOfConfigurationFile": "Po krijohet një kopjeruajtje e kartelës së formësimit te %s",
         "CriticalErrorDuringTheUpgradeProcess": "Gabim Kritik gjatë procesit të përditësimit:",
         "DatabaseUpgradeRequired": "Lypset Përmirësim i Bazës së të Dhënave",
         "DownloadingUpdateFromX": "Po shkarkohet përditësimi prej %s",

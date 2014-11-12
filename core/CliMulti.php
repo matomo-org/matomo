@@ -58,10 +58,14 @@ class CliMulti {
      * If multi cli is not supported (eg windows) it will initiate an HTTP request instead (not async).
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
+     *
      *                               `array('http://www.example.com/piwik?module=API...')`
+     *
      *                               If you plan on scheduling more requests in the `$onRequestsFinishedCallback`
      *                               callback, the index of each item in this array must be globally unique. That is
      *                               to say, if an ID of `0` was used before,
+     *
+     *                               **Make sure query parameter values are properly encoded in the URLs.**
      * @param callback  $onRequestsFinishedCallback Callback executed when one or more requests finishes. Can be used
      *                                              to schedule more requests.
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case

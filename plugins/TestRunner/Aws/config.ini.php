@@ -8,6 +8,9 @@ dbname = "piwik"
 tables_prefix = "piwik_"
 charset = "utf8"
 
+[tests]
+request_uri = "/"
+
 [database_tests]
 password = "secure"
 tables_prefix = ""

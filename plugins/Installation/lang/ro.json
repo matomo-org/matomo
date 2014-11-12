@@ -24,6 +24,8 @@
         "Installation": "Installation",
         "InstallationStatus": "Installation status",
         "InsufficientPrivilegesHelp": "Poți adăuga aceste drepturi folosind o unealtă ca phpMyAdmin sau prin executarea query-lor SQL corecte. Dacă nu știi să faci asta, adresează-te te rog administratorului de sistem pentru a aloca aceste drepturi.",
+        "InsufficientPrivilegesMain": "Fie baza de date nu există (și nu ar putea fi creata), sau Utilizatorul specificat nu are suficiente privilegii . Utilizatorul bazei de date trebuie să aibă următoarele privilegii: %s",
+        "JsTagArchivingHelp1": "Pentru site-urile cu trafic mare si mediu există anumite optimizări care ar trebui să fie făcute pentru a ajuta Piwik sa mearga mai repede (cum ar fi %1$setari auto-arhivarea%2$s).",
         "JSTracking_EndNote": "Notă: După procesul de instalare, puteți genera codul de urmărire personalizat în %1$sCodul de urmarire %2$s secțiune admin.",
         "JSTracking_Intro": "Pentru a urmări traficul web cu Piwik aveți nevoie să vă asigurați ca un cod suplimentar este adăugat la fiecare dintre paginile dvs. de Web",
         "LargePiwikInstances": "Ajutor pentru utilizatorii site-urilor cu trafic intens",

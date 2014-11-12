@@ -7,9 +7,11 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * Development related [console commands](http://developer.piwik.org/guides/piwik-on-the-command-line) are only available if the development mode is enabled. To enable the development mode execute `./console development:enable`.
+* The command `php console core:update` does no longer have a parameter `--dry-run`. A dry run is now executed by default followed by a question whether one actually wants to execute the updates. To skip this confirmation step one can use the `--yes` option.
 
 ### Deprecations
 * Most methods of `Piwik\IP` have been deprecated in favor of the new [piwik/network](https://github.com/piwik/component-network) component.
+* The file `tests/PHPUnit/phpunit.xml` is no longer needed in order to run tests and we suggest to delete it. The test configuration is now done automatically if possible. In case the tests do no longer work check out the `[tests]` section in `config/global.ini.php`
 
 ### Library updates
 * Code for manipulating IP addresses has been moved to a separate standalone component: [piwik/network](https://github.com/piwik/component-network). Backward compatibility is kept in Piwik core.

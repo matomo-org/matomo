@@ -21,6 +21,7 @@ use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\WidgetsList;
 use Piwik\Tests\Framework\OverrideLogin;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * Fixture for UI tests.

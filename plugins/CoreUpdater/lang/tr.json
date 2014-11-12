@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Çalıştırılacak olan SQL sorgularının listesini görmek ve kopyalamak için tıklayın",
-        "CreatingBackupOfConfigurationFile": "%s konumunda ayar dosyasının yedeği oluşturuluyor",
         "DatabaseUpgradeRequired": "Veritabanı güncellemesi gerekiyor",
         "DownloadingUpdateFromX": "Güncelleme %sdan indiriliyor",
         "DownloadX": "İndir %s",

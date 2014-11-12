@@ -5,9 +5,12 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Unit;
+
 use Piwik\SegmentExpression;
 
-class SegmentExpressionTest extends PHPUnit_Framework_TestCase
+class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testSegmentSqlSimpleNoOperation
@@ -121,7 +124,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
             $segment = new SegmentExpression($bogus);
             $segment->parseSubExpressions();
             $segment->getSql();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
         $this->fail('Expected exception not raised for:' . var_export($segment->getSql(), true));

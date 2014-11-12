@@ -5,6 +5,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\DbHelper;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -215,6 +216,16 @@ class Piwik_TestingEnvironment
                 @\Piwik\Filesystem::deleteAllCacheOnUpdate();
             } catch (Exception $ex) {
                 // pass
+            }
+        });
+        Piwik::addAction('Platform.initialized', function () use ($testingEnvironment) {
+            static $archivingTablesDeleted = false;
+
+            if ($testingEnvironment->deleteArchiveTables
+                && !$archivingTablesDeleted
+            ) {
+                $archivingTablesDeleted = true;
+                DbHelper::deleteArchiveTables();
             }
         });
 

@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "צפייה והעתקת השאילתות שירוצו",
-        "CreatingBackupOfConfigurationFile": "יוצר גיבוי של קובץ ההגדרות ב%s",
         "CriticalErrorDuringTheUpgradeProcess": "שגיאה קריטית במהלך תהליך השדרוג:",
         "DatabaseUpgradeRequired": "שדרוג בסיס נתונים נדרש",
         "DownloadingUpdateFromX": "מוריד עדכון מ%s",

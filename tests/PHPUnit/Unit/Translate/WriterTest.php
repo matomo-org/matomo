@@ -1,4 +1,12 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Tests\Unit\Translate;
 
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
@@ -7,13 +15,7 @@ use Piwik\Translate\Validate\CoreTranslations;
 use Piwik\Translate\Validate\NoScripts;
 use Piwik\Translate\Writer;
 
-/**
- * Piwik - free/libre analytics platform
- *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-class WriterTest extends PHPUnit_Framework_TestCase
+class WriterTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -46,7 +48,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testConstructorInvalid()
     {
@@ -126,7 +128,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testSaveException()
     {
@@ -137,7 +139,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testSaveTemporaryException()
     {
@@ -249,7 +251,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      * @dataProvider getInvalidLanguages
      */
     public function testSetLanguageInvalid($language)

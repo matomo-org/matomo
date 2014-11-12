@@ -101,7 +101,7 @@ The Piwik project uses an ever-expanding comprehensive set of thousands of unit 
 
 Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik) - Screenshot tests Build  [![Build Status](https://travis-ci.org/piwik/piwik-ui-tests.svg?branch=master)](https://travis-ci.org/piwik/piwik-ui-tests)
 
-Code Coverage: [![Coverage Status](https://coveralls.io/repos/piwik/piwik/badge.png?branch=master)](https://coveralls.io/r/piwik/piwik?branch=master)
+Code Coverage: [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
 
 Issue tracker metrics: [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue") - [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
  

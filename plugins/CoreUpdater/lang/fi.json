@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Paina tästä nähdäksesi tarvittavat SQL-kyselyt",
-        "CreatingBackupOfConfigurationFile": "Luodaan varmuuskopiota asetustiedostosta: %s",
         "CriticalErrorDuringTheUpgradeProcess": "Kriittinen virhe päivitysprosessissa:",
         "DatabaseUpgradeRequired": "Tietokannan päivitys tarvitaan",
         "DisablingIncompatiblePlugins": "Poistetaan epäyhteensopivat lisäosat käytöstä: %s",
@@ -19,6 +18,7 @@
         "ExceptionArchiveEmpty": "Tyhjä arkistotiedosto.",
         "ExceptionArchiveIncompatible": "Virheellinen arkisto: %s",
         "ExceptionArchiveIncomplete": "Arkisto on viallinen: osa tiedostoista puuttuu (esim. %s).",
+        "FeedbackRequest": "Jaa ideoita ja suosituksia Piwik-tiimin kanssa tässä:",
         "HelpMessageContent": "Tarkista %1$s Piwikin FAQ:sta%2$s yleisimmät virheet. %3$s Kysy järjestelmän ylläpitäjältä - he voivat auttaa virheissä, jotka johtuvat luultavasti palvelimesta tai tietokannasta.",
         "HelpMessageIntroductionWhenError": "Alla on ytimen virheviesti: Sen pitäisi auttaa virheen etsimisessä, mutta jos tarvitset lisää apua:",
         "HelpMessageIntroductionWhenWarning": "Päivitys valmistui onnistuneesti, mutta prosessin aikana tapahtui virheitä. Ole hyvä ja lue alla olevat kuvaukset. Lisää apua:",
@@ -38,7 +38,9 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwikin tietokanta päivitetään versiosta %1$s versioon %2$s.",
         "PluginDescription": "Piwikin päivitysjärjestelmä",
         "ReadyToGo": "Valmis jatkamaan?",
+        "TheFollowingDimensionsWillBeUpgradedX": "Seuraavat asiat päivitetään: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Seuraavat lisäosat päivitetään: %s.",
+        "ThereIsNewPluginVersionAvailableForUpdate": "Osa lisäosista on päivitetty marketissa:",
         "ThereIsNewVersionAvailableForUpdate": "Piwikistä on uusi versio",
         "TheUpgradeProcessMayFailExecuteCommand": "Jos Piwikin tietokanta on suuri, päivittäminen saattaa kestää liian kauan. Voit ajaa komentoriviltä komennon %s",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Tietokannan päivitys vie aikaa, ole kärsivällinen.",

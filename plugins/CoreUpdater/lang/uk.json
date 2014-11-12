@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "Клацніть тут для перегляду та копіювання пеерліку SQL запитів що повинні бути виконані.",
-        "CreatingBackupOfConfigurationFile": "Створення резервної копії файлів конфігурції в %s",
         "CriticalErrorDuringTheUpgradeProcess": "Критична помилка протягом процесу поновлення:",
         "DatabaseUpgradeRequired": "Необхідно поновити базу даних",
         "DownloadingUpdateFromX": "Завантажити поновлення від %s",

@@ -532,6 +532,10 @@ class Visit implements VisitInterface
                 $fieldName = $dimension->getColumnName();
                 $visitor->setVisitorColumn($fieldName, $value);
 
+                if (is_float($value)) {
+                    $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+                }
+
                 if ($valuesToUpdate !== null) {
                     $valuesToUpdate[$fieldName] = $value;
                 } else {
