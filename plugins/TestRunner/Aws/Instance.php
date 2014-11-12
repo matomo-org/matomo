@@ -126,12 +126,17 @@ class Instance
     public function verifySetup($instanceIds)
     {
         $awsCloudWatch = new CloudWatch($this->config);
-        $hasAlarms = $awsCloudWatch->hasAssignedAlarms($instanceIds);
+        $hasAlarms     = $awsCloudWatch->hasAssignedAlarms($instanceIds);
 
         if (!$hasAlarms) {
-            return $this->setup($instanceIds);
-        }
+            $this->setup($instanceIds); // try setup again
 
+            $hasAlarms = $awsCloudWatch->hasAssignedAlarms($instanceIds);
+
+            if (!$hasAlarms) { // declare it as failed if it still does not work
+                throw new \Exception('Failed to assign alarms for InstanceIds: ' . implode(', ' , $instanceIds));
+            }
+        }
     }
 
     /**
