@@ -26,7 +26,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 {
     /**
      * It is a good practice to store your archive names (reports stored in database)
-     * in Archiver class constants. You can define as many record namesas you want
+     * in Archiver class constants. You can define as many record names as you want
      * for your plugin.
      *
      * Also important thing is that record name must be prefixed with plugin name.
