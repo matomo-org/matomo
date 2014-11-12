@@ -132,13 +132,31 @@ abstract class Metric
             $mappingNameToId = Metrics::getMappingFromNameToId();
         }
 
+        $columnName = self::getActualMetricColumn($table, $columnName, $mappingNameToId);
+        return $table->getColumn($columnName);
+    }
+
+    /**
+     * Helper method that determines the actual column for a metric in a {@link Piwik\DataTable}.
+     *
+     * @param DataTable $table
+     * @param string $columnName
+     * @param int[]|null $mappingNameToId A custom mapping of metric names to special index values. By
+     *                                    default {@link Metrics::getMappingFromNameToId()} is used.
+     * @return string
+     */
+    public static function getActualMetricColumn(DataTable $table, $columnName, $mappingNameToId = null)
+    {
+        if (empty($mappingIdToName)) {
+            $mappingNameToId = Metrics::getMappingFromNameToId();
+        }
+
         $firstRow = $table->getFirstRow();
         if (!empty($firstRow)
             && $firstRow->getColumn($columnName) === false
         ) {
             $columnName = $mappingNameToId[$columnName];
         }
-
-        return $table->getColumn($columnName);
+        return $columnName;
     }
 }

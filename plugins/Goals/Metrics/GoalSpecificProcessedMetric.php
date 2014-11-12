@@ -41,6 +41,15 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     protected function getGoalMetrics(Row $row)
     {
         $allGoalMetrics = $this->getMetric($row, 'goals');
-        return @$allGoalMetrics[$this->idGoal] ?: array();
+        if (isset($allGoalMetrics[$this->idGoal])) {
+            return $allGoalMetrics[$this->idGoal];
+        } else {
+            $alternateKey = 'idgoal=' . $this->idGoal;
+            if (isset($allGoalMetrics[$alternateKey])) {
+                return $allGoalMetrics[$alternateKey];
+            } else {
+                return array();
+            }
+        }
     }
 }
