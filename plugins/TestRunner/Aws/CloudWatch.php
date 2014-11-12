@@ -21,16 +21,33 @@ class CloudWatch
      */
     private $config;
 
+    /**
+     * @var CloudWatchClient
+     */
+    private $client;
+
     public function __construct(Config $awsConfig)
     {
         $this->config = $awsConfig;
+        $this->client = $this->getCloudWatchClient();
+    }
+
+    public function hasAssignedAlarms($instanceIds)
+    {
+        $result = $this->client->describeAlarmsForMetric(array(
+            'MetricName' => 'CPUUtilization',
+            'Namespace'  => $this->getNamespace(),
+            'Dimensions' => $this->getDimensions($instanceIds)
+        ));
+
+        $metricAlarms = $result->getPath('MetricAlarms');
+
+        return !empty($metricAlarms);
     }
 
     public function terminateInstanceIfIdleForTooLong($instanceIds)
     {
-        $client = $this->getCloudWatchClient();
-
-        $client->putMetricAlarm(array(
+        $this->client->putMetricAlarm(array(
             'AlarmName' => 'TerminateInstanceBecauseIdle',
             'AlarmDescription' => 'Terminate instances if CPU is on average < 10% for 5 minutes in a row 8 times consecutively',
             'ActionsEnabled' => true,
@@ -48,7 +65,7 @@ class CloudWatch
             'ComparisonOperator' => ComparisonOperator::LESS_THAN_THRESHOLD,
         ));
 
-        $client->putMetricAlarm(array(
+        $this->client->putMetricAlarm(array(
             'AlarmName' => 'TerminateInstanceIfStatusCheckFails',
             'AlarmDescription' => 'Terminate instances in case two status check fail within one minute',
             'ActionsEnabled' => true,

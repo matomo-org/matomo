@@ -63,6 +63,9 @@ class Instance
         if (!empty($reservations)) {
             $host = $this->getHostFromDescribedInstances($instances);
 
+            $instanceIds = $instances->getPath('Reservations/*/Instances/*/InstanceId');
+            $this->verifySetup($instanceIds);
+
             return $host;
         }
     }
@@ -96,15 +99,15 @@ class Instance
 
         $instanceIds = $result->getPath('Instances/*/InstanceId');
 
+        $this->client->waitUntilInstanceRunning(array(
+            'InstanceIds' => $instanceIds,
+        ));
+
         return $instanceIds;
     }
 
     public function setup($instanceIds)
     {
-        $this->client->waitUntilInstanceRunning(array(
-            'InstanceIds' => $instanceIds,
-        ));
-
         $awsCloudWatch = new CloudWatch($this->config);
         $awsCloudWatch->terminateInstanceIfIdleForTooLong($instanceIds);
 
@@ -118,6 +121,17 @@ class Instance
         $host = $this->getHostFromDescribedInstances($instances);
 
         return $host;
+    }
+
+    public function verifySetup($instanceIds)
+    {
+        $awsCloudWatch = new CloudWatch($this->config);
+        $hasAlarms = $awsCloudWatch->hasAssignedAlarms($instanceIds);
+
+        if (!$hasAlarms) {
+            return $this->setup($instanceIds);
+        }
+
     }
 
     /**
