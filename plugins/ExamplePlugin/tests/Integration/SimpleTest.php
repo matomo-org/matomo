@@ -18,6 +18,23 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class SimpleTest extends IntegrationTestCase
 {
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        // set up your test here if needed
+    }
+
+    public function tearDown()
+    {
+        // clean up your test here if needed
+
+        parent::tearDown();
+    }
+
+    /**
+     * All your actual test methods should start with the name "test"
+     */
     public function testSimpleAddition()
     {
         $this->assertEquals(2, 1+1);
