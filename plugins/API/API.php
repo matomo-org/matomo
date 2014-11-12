@@ -411,7 +411,9 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        if (!empty($columnsMap)) {
+        if (!empty($columnsMap)
+            && !empty($mergedDataTable)
+        ) {
             $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
         }
 
