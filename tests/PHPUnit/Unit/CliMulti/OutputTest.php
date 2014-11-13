@@ -26,6 +26,7 @@ class OutputTest extends UnitTestCase
 
     public function setUp()
     {
+        parent::setup();
         Url::setHost(false);
         $this->output = new Output('myid');
     }
@@ -33,6 +34,7 @@ class OutputTest extends UnitTestCase
     public function tearDown()
     {
         $this->output->destroy();
+        parent::tearDown();
     }
 
     /**
