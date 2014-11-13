@@ -76,7 +76,7 @@ dummy backtrace'
         parent::setUp();
 
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
-        Config::getInstance()->log['logger_file_path'] = self::getDefaultLogFileLocation();
+        Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
         @unlink(self::getLogFileLocation());
         Log::unsetInstance();
         Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
