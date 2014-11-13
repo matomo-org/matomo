@@ -640,10 +640,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
             return $newValue;
         }
 
-        if (is_string($columnToSumValue)) {
-            throw new Exception("Trying to add two strings in DataTable\Row::sumRowArray: "
-                              . "'$thisColumnValue' + '$columnToSumValue'" . " for row " . $this->__toString());
-        }
+        $this->warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue);
 
         return 0;
     }
@@ -757,6 +754,18 @@ class Row implements \ArrayAccess, \IteratorAggregate
                 $this->getColumn('label'),
                 implode(", ", $this->getColumns()),
                 $this->getIdSubDataTable()
+            );
+        }
+    }
+
+    protected function warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue)
+    {
+        if (is_string($columnToSumValue)) {
+            Log::warning(
+                "Trying to add two strings in DataTable\Row::sumRowArray: %s + %s for row %s",
+                $thisColumnValue,
+                $columnToSumValue,
+                $this->__toString()
             );
         }
     }

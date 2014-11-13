@@ -64,8 +64,6 @@ class Remote
 
     private function prepareTestRun($host)
     {
-        $this->ssh->exec('cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml');
-        $this->ssh->exec("sed -i 's/@REQUEST_URI@/\\//g' ./tests/PHPUnit/phpunit.xml");
         $this->ssh->exec("sed -i 's/amazonAwsUrl/$host/g' ./config/config.ini.php");
     }
 

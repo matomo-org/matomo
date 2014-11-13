@@ -16,6 +16,9 @@ namespace Piwik\Plugins\ExamplePlugin\tests\Unit;
 class SimpleTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * All your actual test methods should start with the name "test"
+     */
     public function testSimpleAddition()
     {
         $this->assertEquals(2, 1+1);

@@ -137,7 +137,8 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     public function testRangeComma2()
     {
 
-        $range = new Range('day', '2007-12-22,2008-01-03');
+        $rangeString = '2007-12-22,2008-01-03';
+        $range = new Range('day', $rangeString);
 
         $correct = array(
             '2007-12-22',
@@ -157,6 +158,7 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(13, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
+        $this->assertEquals($rangeString, $range->getRangeString());
     }
 
     // test range date1,date2
@@ -166,7 +168,8 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     public function testRangeWeekcomma1()
     {
         $range = new Range('week', '2007-12-22,2008-01-03');
-        $range2 = new Range('week', '2007-12-19,2008-01-03');
+        $range2String = '2007-12-19,2008-01-03';
+        $range2 = new Range('week', $range2String);
 
         $correct = array(
             array(
@@ -202,6 +205,7 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($correct), $range2->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals($correct, $range2->toString());
+        $this->assertEquals('2007-12-17,2008-01-06' , $range2->getRangeString());
     }
 
     // test range date1,date2
@@ -245,6 +249,7 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
+        $this->assertEquals('2006-01-01,2007-12-31', $range->getRangeString());
     }
 
     // test range date1,date2
@@ -326,6 +331,7 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
+        $this->assertEquals('2006-12-01,2007-01-31', $range->getRangeString());
     }
 
     // test range WEEK
@@ -654,7 +660,8 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomRangeYear_UsesCurrentYear()
     {
-        $range = new Range('range', '2013-01-01,2013-11-01', 'UTC', Date::factory('2013-11-01'));
+        $rangeString = '2013-01-01,2013-11-01';
+        $range = new Range('range', $rangeString, 'UTC', Date::factory('2013-11-01'));
         $year2013 = new Year(Date::factory('2013-02-02'));
 
         $correct = array(
@@ -663,6 +670,8 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
+        $this->assertEquals($correct, $range->toString());
+        $this->assertEquals($rangeString, $range->getRangeString());
     }
 
     /**

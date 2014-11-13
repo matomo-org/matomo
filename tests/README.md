@@ -42,34 +42,13 @@ To execute the tests:
 
 ## PHPUnit Tests
 
-1. 	To install PHPUnit, run `php composer.phar update` in the Piwik root directory.
+1. 	To install PHPUnit, run `php composer.phar install --dev` in the Piwik root directory.
 
-    Add the PHPUnit binary path to the your PATH environment variable. For example on Linux:
-    Edit `.bashrc` in your home directory and add the following line:
-
-        export PATH=/path/to/dir:$PATH
-
-    You will need to source your `.bashrc` or logout/login (or restart the terminal) for the changes to take effect.
-    To source your `.bashrc`, in your home directory simply type
-
-        $ source .bashrc
-
-    See [PHPUnit doc](http://www.phpunit.de/manual/current/en/installation.html).
-    Note: if you were already using PHPUnit using PEAR, you may delete the PEAR PHPUnit with `sudo rm /usr/bin/phpunit`
-
-2. 	Configure PHPUnit: Copy the file `piwik/tests/PHPUnit/phpunit.xml.dist` to `phpunit.xml`.
-	In this file, you will find the following lines.
-	Please edit HTTP_HOST and REQUEST_URI to match the hostname and path of the Piwik files.
-    For example if your Piwik is available at http://localhost/path/to/piwik/ you would write:
-
-		<server name="HTTP_HOST" value="localhost"/>
-		<server name="REQUEST_URI" value="/path/to/piwik/"/>
-
-3.	Ensure the `[database_tests]` section in `piwik/config/config.php.ini` is set up correctly,
+2.	Ensure the `[database_tests]` section in `piwik/config/config.php.ini` is set up correctly,
 	i.e. with the correct password to prevent the following error:
 	`SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
 
-4. 	Run the tests
+3. 	Run the tests
 
 	$ cd /path/to/piwik
 	$ ./console tests:run --testsuite unit
@@ -87,7 +66,7 @@ To execute the tests:
 	To execute multiple groups you can separate them via a comma:
 	`./console tests:run CustomAlerts,Insights`. This would run all unit, integration and system tests of the CustomAlerts and Insights plugin.
 
-5.	Write more tests :)
+4.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
 ## How to differentiate between unit, integration or system tests?

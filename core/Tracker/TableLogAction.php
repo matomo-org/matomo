@@ -172,7 +172,7 @@ class TableLogAction
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
 
-        $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
+        $valueToMatch = self::normaliseActionString($actionType, $valueToMatch);
 
         if ($matchType == SegmentExpression::MATCH_EQUAL
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
@@ -230,6 +230,42 @@ class TableLogAction
         } else {
             throw new \Exception("We cannot guess the action type from the segment $segmentName.");
         }
+    }
+
+    /**
+     * This function will sanitize or not if it's needed for the specified action type
+     *
+     * URLs (Page URLs, Downloads, Outlinks) are stored raw (unsanitized)
+     * while other action types are stored Sanitized
+     *
+     * @param $actionType
+     * @param $actionString
+     * @return string
+     */
+    private static function normaliseActionString($actionType, $actionString)
+    {
+        $actionString = Common::unsanitizeInputValue($actionString);
+
+        if (self::isActionTypeStoredSanitized($actionType)) {
+            return Common::sanitizeInputValue($actionString);
+        }
+        return $actionString;
+    }
+
+    /**
+     * @param $actionType
+     * @return bool
+     */
+    private static function isActionTypeStoredSanitized($actionType)
+    {
+        $actionsTypesStoredUnsanitized = array(
+            $actionType == Action::TYPE_PAGE_URL,
+            $actionType == Action::TYPE_DOWNLOAD,
+            $actionType == Action::TYPE_OUTLINK,
+        );
+
+        $isStoredUnsanitized = in_array($actionType, $actionsTypesStoredUnsanitized);
+        return !$isStoredUnsanitized;
     }
 
 }

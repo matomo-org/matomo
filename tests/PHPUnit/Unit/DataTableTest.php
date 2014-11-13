@@ -313,7 +313,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      *
      * @group Core
      *
-     * @expectedException \Exception
      */
     public function testSumRow_stringException()
     {
@@ -328,7 +327,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $row2 = new Row(array(Row::COLUMNS => $columns2));
 
         $row2->sumRow($row1);
-        $this->fail("sumRow did not throw when adding two string columns.");
+        $this->assertTrue($noException = true);
+
     }
 
     /**

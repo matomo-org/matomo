@@ -12,6 +12,9 @@ adapter = PDO\MYSQL
 tables_prefix =
 ;charset = utf8
 
+[tests]
+request_uri = "/"
+
 [database_tests]
 host = localhost
 username = root
