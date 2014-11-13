@@ -1177,13 +1177,14 @@ class Common
 
         if (strpos(PHP_SAPI, '-fcgi') === false) {
             $key = $_SERVER['SERVER_PROTOCOL'];
+
+            if (strlen($key) > 15 || empty($key)) {
+                $key = 'HTTP/1.1';
+            }
+
         } else {
             // FastCGI
             $key = 'Status:';
-        }
-
-        if (strlen($key) > 11 || 0 !== strpos(strtolower($key), 'http')) {
-            $key = 'HTTP/1.1';
         }
 
         $message = $messages[$code];
