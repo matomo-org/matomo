@@ -17,6 +17,8 @@
         "DatabaseSetupLogin": "Όνομα χρήστη",
         "DatabaseSetupServer": "Διακομιστής βάσης δεδομένων",
         "DatabaseSetupTablePrefix": "Πρόθεμα πινάκων",
+        "DefaultSettings": "Προκαθορισμένες ρυθμίσεις του Piwik",
+        "DefaultSettingsHelp": "Το Piwik έρχεται με προκαθορισμένες ρυθμίσεις. Μπορείτε να τις αλλάξετε τώρα ή αργότερα στην οθόνη διαχείρισης.",
         "Email": "Ηλεκτρονική διεύθυνση",
         "Extension": "επέκταση",
         "Filesystem": "Σύστημα αρχείων",

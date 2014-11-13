@@ -4,7 +4,7 @@
         "ColumnAverageVisitDurationForReturningVisitors": "Durée moyenne des visites pour les visiteurs connus (en secondes)",
         "ColumnAvgActionsPerReturningVisit": "Nombre d'actions moyen par visiteur connu.",
         "ColumnBounceCountForReturningVisits": "Compteur rebond pour visites de retour",
-        "ColumnBounceRateForReturningVisits": "Pourcentage de rebond par les visites retour",
+        "ColumnBounceRateForReturningVisits": "Pourcentage de rebond pour les visites retour",
         "ColumnMaxActionsInReturningVisit": "Actions maximum dans une visite de retour",
         "ColumnNbReturningVisitsConverted": "Nombre de visites converties de retour",
         "ColumnReturningVisits": "Visites retour",

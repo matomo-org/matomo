@@ -9,7 +9,7 @@
         "CancelAndReturnToReports": "Annuler et %s retourner à la liste des rapports%s",
         "CreateAndScheduleReport": "Créer et planifier un rapport",
         "CreateReport": "Créer le rapport",
-        "CustomVisitorSegment": "Segment de visiteur personnalisé:",
+        "CustomVisitorSegment": "Segment de visiteur personnalisé :",
         "DescriptionOnFirstPage": "La description du rapport sera affichée sur la première page du rapport.",
         "DisplayFormat_TablesOnly": "Afficher uniquement les tableaux (pas de graphiques)",
         "EmailHello": "Bonjour,",
