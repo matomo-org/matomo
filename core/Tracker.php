@@ -943,44 +943,4 @@ class Tracker
         return array_unique($siteIds);
     }
 
-    /**
-     * @param $e
-     * @param $authenticated
-     */
-    private function outputException($e, $authenticated)
-    {
-        if ($this->usingBulkTracking) {
-            // when doing bulk tracking we return JSON so the caller will know how many succeeded
-            $result = array(
-                'status' => 'error',
-                'tracked' => $this->countOfLoggedRequests
-            );
-            // send error when in debug mode or when authenticated (which happens when doing log importing,
-            if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
-                || $authenticated
-            ) {
-                $result['message'] = $this->getMessageFromException($e);
-            }
-            Common::sendHeader('Content-Type: application/json');
-            echo Common::json_encode($result);
-            return;
-        }
-
-        if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            Common::sendHeader('Content-Type: text/html; charset=utf-8');
-            $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
-            $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
-            $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
-            $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
-
-            echo $headerPage . '<p>' . $this->getMessageFromException($e) . '</p>' . $trailer . $footerPage;
-        } // If not debug, but running authenticated (eg. during log import) then we display raw errors
-        elseif ($authenticated) {
-            Common::sendHeader('Content-Type: text/html; charset=utf-8');
-            echo $this->getMessageFromException($e);
-        } else {
-            $this->outputTransparentGif();
-        }
-    }
-
 }
