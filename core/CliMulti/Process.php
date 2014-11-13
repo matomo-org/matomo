@@ -24,6 +24,7 @@ class Process
     private $pidFile = '';
     private $timeCreation = null;
     private $isSupported = null;
+    private $pid = null;
 
     public function __construct($pid)
     {
@@ -37,8 +38,14 @@ class Process
         $this->isSupported  = self::isSupported();
         $this->pidFile      = $pidDir . '/' . $pid . '.pid';
         $this->timeCreation = time();
+        $this->pid = $pid;
 
         $this->markAsNotStarted();
+    }
+
+    public function getPid()
+    {
+        return $this->pid;
     }
 
     private function markAsNotStarted()
@@ -97,6 +104,11 @@ class Process
             return false;
         }
 
+        if (!$this->pidFileSizeIsNormal()) {
+            $this->finishProcess();
+            return false;
+        }
+
         if ($this->isProcessStillRunning($content)) {
             return true;
         }
@@ -106,6 +118,13 @@ class Process
         }
 
         return false;
+    }
+
+    private function pidFileSizeIsNormal()
+    {
+        $size = Filesystem::getFileSize($this->pidFile);
+
+        return $size !== null && $size < 500;
     }
 
     public function finishProcess()

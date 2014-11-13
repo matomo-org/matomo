@@ -9,12 +9,15 @@
 namespace Piwik\Tests\Unit\CliMulti;
 
 use Piwik\CliMulti\Output;
+use Piwik\Tests\Framework\Mock\File;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Url;
 
 /**
  * @group Core
+ * @group CliMulti
  */
-class OutputTest extends \PHPUnit_Framework_TestCase
+class OutputTest extends UnitTestCase
 {
     /**
      * @var Output
@@ -41,6 +44,11 @@ class OutputTest extends \PHPUnit_Framework_TestCase
         new Output('../../');
     }
 
+    public function test_getOutputId()
+    {
+        $this->assertSame('myid', $this->output->getOutputId());
+    }
+
     public function test_exists_ShouldReturnsFalse_IfNothingWrittenYet()
     {
         $this->assertFalse($this->output->exists());
@@ -52,6 +60,27 @@ class OutputTest extends \PHPUnit_Framework_TestCase
 
         $this->assertStringEndsWith($expectedEnd, $this->output->getPathToFile());
         $this->assertGreaterThan(strlen($expectedEnd), strlen($this->output->getPathToFile()));
+    }
+
+    public function test_isAbormal_ShouldReturnFalse_IfFileDoesNotExist()
+    {
+        $this->assertFalse($this->output->isAbnormal());
+    }
+
+    public function test_isAbormal_ShouldReturnTrue_IfFilesizeIsNotTooBig()
+    {
+        File::setFileSize(1024 * 1024 * 99);
+        File::setFileExists(true);
+
+        $this->assertFalse($this->output->isAbnormal());
+    }
+
+    public function test_isAbormal_ShouldReturnTrue_IfFilesizeIsTooBig()
+    {
+        File::setFileSize(1024 * 1024 * 101);
+        File::setFileExists(true);
+
+        $this->assertTrue($this->output->isAbnormal());
     }
 
     public function test_exists_ShouldReturnTrue_IfSomethingIsWritten()
