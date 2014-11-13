@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UserSettings\Columns;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
@@ -32,12 +33,23 @@ class Language extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $language = $request->getBrowserLanguage();
+        return $this->getSingleLanguageFromAcceptedLanguages($request->getBrowserLanguage());
+    }
 
-        if (empty($language)) {
+    /**
+     * For better privacy we store only the main language code, instead of the whole browser language string.
+     * 
+     * @param $acceptLanguagesString
+     * @return string
+     */
+    protected function getSingleLanguageFromAcceptedLanguages($acceptLanguagesString)
+    {
+        if (empty($acceptLanguagesString)) {
             return '';
         }
 
-        return substr($language, 0, 20);
+        $allLanguageCodes = array_keys(Common::getLanguagesList());
+        $languageCode = Common::extractLanguageCodeFromBrowserLanguage($acceptLanguagesString, $allLanguageCodes);
+        return $languageCode;
     }
 }
