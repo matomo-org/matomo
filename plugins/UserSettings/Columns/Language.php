@@ -48,8 +48,7 @@ class Language extends VisitDimension
             return '';
         }
 
-        $allLanguageCodes = array_keys(Common::getLanguagesList());
-        $languageCode = Common::extractLanguageCodeFromBrowserLanguage($acceptLanguagesString, $allLanguageCodes);
+        $languageCode = Common::extractLanguageAndRegionCodeFromBrowserLanguage($acceptLanguagesString);
         return $languageCode;
     }
 }
