@@ -7,8 +7,11 @@
  */
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\MetricsFormatter;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 
 /**
@@ -23,7 +26,12 @@ class Revenue extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return self::getName(); // TODO???
+        return Piwik::translate('%s ' . Piwik::translate('General_ColumnRevenue'), $this->getGoalName());
+    }
+
+    public function getDocumentation()
+    {
+        return Piwik::translate('Goals_ColumnRevenueDocumentation', $this->getGoalNameForDocs());
     }
 
     public function getDependentMetrics()
@@ -37,5 +45,16 @@ class Revenue extends GoalSpecificProcessedMetric
 
         $goalMetrics = $this->getGoalMetrics($row);
         return (float) $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
+    }
+
+    public function format($value)
+    {
+        return MetricsFormatter::getPrettyMoney(sprintf("%.2f", $value), $this->idSite, $isHtml = false);
+    }
+
+    public function beforeFormat($report, DataTable $table)
+    {
+        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }

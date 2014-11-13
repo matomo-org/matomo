@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 
 /**
@@ -24,7 +25,12 @@ class ItemsCount extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return self::getName(); // TODO???
+        return Piwik::translate('General_PurchasedProducts');
+    }
+
+    public function getDocumentation()
+    {
+        return Piwik::translate('Goals_ColumnPurchasedProductsDocumentation', $this->getGoalNameForDocs());
     }
 
     public function getDependentMetrics()

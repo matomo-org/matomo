@@ -7,8 +7,10 @@
  */
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -27,7 +29,12 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return self::getName(); // TODO???
+        return Piwik::translate('General_AverageOrderValue');
+    }
+
+    public function getDocumentation()
+    {
+        return Piwik::translate('Goals_ColumnAverageOrderRevenueDocumentation', $this->getGoalNameForDocs());
     }
 
     public function getDependentMetrics()
@@ -45,5 +52,16 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
         $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
 
         return Piwik::getQuotientSafe($goalRevenue, $conversions, GoalManager::REVENUE_PRECISION);
+    }
+
+    public function format($value)
+    {
+        return MetricsFormatter::getPrettyMoney(sprintf("%.1f", $value), $this->idSite, $isHtml = false);
+    }
+
+    public function beforeFormat($report, DataTable $table)
+    {
+        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }

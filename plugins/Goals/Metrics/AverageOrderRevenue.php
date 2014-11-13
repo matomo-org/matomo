@@ -7,7 +7,9 @@
  */
 namespace Piwik\Plugins\Goals\Metrics;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -20,6 +22,8 @@ use Piwik\Plugin\ProcessedMetric;
  */
 class AverageOrderRevenue extends ProcessedMetric
 {
+    private $idSite;
+
     public function getName()
     {
         return 'avg_order_revenue';
@@ -41,5 +45,16 @@ class AverageOrderRevenue extends ProcessedMetric
     public function getDependentMetrics()
     {
         return array('revenue', 'nb_conversions');
+    }
+
+    public function format($value)
+    {
+        return MetricsFormatter::getPrettyMoney(sprintf("%.1f", $value), $this->idSite, $isHtml = false);
+    }
+
+    public function beforeFormat($report, DataTable $table)
+    {
+        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }

@@ -68,7 +68,7 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $view->config->show_exclude_low_population = false;
         $view->config->show_table_all_columns      = false;
 
-        $moneyColumns = array('revenue', 'avg_price');
+        $moneyColumns = array('revenue');
         $formatter    = '\Piwik\MetricsFormatter::getPrettyMoney';
         $view->config->filters[] = array('ColumnCallbackReplace', array($moneyColumns, $formatter, array($idSite)));
 

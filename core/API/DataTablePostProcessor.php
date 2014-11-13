@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
-use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
 /**
@@ -155,7 +154,7 @@ class DataTablePostProcessor
             $self = $this;
             $report = $this->report;
             $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self) {
-                $processedMetrics = $self->getProcessedMetricsFor($table, $report);
+                $processedMetrics = Report::getProcessedMetricsFor($table, $report);
                 if ($genericFilter->areProcessedMetricsNeededFor($processedMetrics)) {
                     $self->computeProcessedMetrics($table);
                 }
@@ -222,15 +221,15 @@ class DataTablePostProcessor
     }
 
     /**
+     * TODO: remove applyFormatting parameter
+     *
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
-    public function applyProcessedMetricsFormatting($dataTable, $applyFormatting)
+    public function applyProcessedMetricsFormatting($dataTable, $applyFormatting = true)
     {
         if ($applyFormatting) {
             $dataTable->filter(array($this, 'formatProcessedMetrics'));
-        } else {
-            $dataTable->queueFilter(array($this, 'formatProcessedMetrics'));
         }
         return $dataTable;
     }
@@ -271,7 +270,7 @@ class DataTablePostProcessor
             return;
         }
 
-        $processedMetrics = $this->getProcessedMetricsFor($dataTable, $this->report);
+        $processedMetrics = Report::getProcessedMetricsFor($dataTable, $this->report);
         if (empty($processedMetrics)) {
             return;
         }
@@ -305,15 +304,19 @@ class DataTablePostProcessor
             return;
         }
 
-        $processedMetrics = $this->getProcessedMetricsFor($dataTable, $this->report);
+        $processedMetrics = Report::getProcessedMetricsFor($dataTable, $this->report);
         if (empty($processedMetrics)) {
             return;
         }
 
         $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
 
-        foreach ($dataTable->getRows() as $row) {
-            foreach ($processedMetrics as $name => $processedMetric) {
+        foreach ($processedMetrics as $name => $processedMetric) {
+            if (!$processedMetric->beforeFormat($this->report, $dataTable)) {
+                continue;
+            }
+
+            foreach ($dataTable->getRows() as $row) {
                 $columnValue = $row->getColumn($name);
                 if ($columnValue !== false) {
                     $row->setColumn($name, $processedMetric->format($columnValue));
@@ -325,30 +328,6 @@ class DataTablePostProcessor
                 }
             }
         }
-    }
-
-    /**
-     * @param DataTable $dataTable
-     * @param Report $report
-     * @return ProcessedMetric[]
-     */
-    public function getProcessedMetricsFor(DataTable $dataTable, $report)
-    {
-        $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
-
-        if (!empty($report)) {
-            $processedMetrics = array_merge($processedMetrics, $report->getProcessedMetricsById());
-        }
-
-        $result = array();
-        foreach ($processedMetrics as $metric) {
-            if (!($metric instanceof ProcessedMetric)) {
-                continue;
-            }
-
-            $result[$metric->getName()] = $metric;
-        }
-        return $result;
     }
 
     public function applyComputeProcessedMetrics(DataTableInterface $dataTable)

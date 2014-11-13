@@ -7,8 +7,10 @@
  */
 namespace Piwik\Plugins\Goals\Metrics;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -22,6 +24,8 @@ use Piwik\Tracker\GoalManager;
  */
 class RevenuePerVisit extends ProcessedMetric
 {
+    private $idSite;
+
     public function getName()
     {
         return 'revenue_per_visit';
@@ -64,5 +68,17 @@ class RevenuePerVisit extends ProcessedMetric
         // If no visit for this metric, but some conversions, we still want to display some kind of "revenue per visit"
         // even though it will actually be in this edge case "Revenue per conversion"
         return Piwik::getQuotientSafe($revenue, $nbVisits == 0 ? $conversions : $nbVisits, GoalManager::REVENUE_PRECISION);
+    }
+
+    public function format($value)
+    {
+        // TODO: is the sprintf necessary?
+        return MetricsFormatter::getPrettyMoney(sprintf("%.2f", $value), $this->idSite, $isHtml = false);
+    }
+
+    public function beforeFormat($report, DataTable $table)
+    {
+        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }

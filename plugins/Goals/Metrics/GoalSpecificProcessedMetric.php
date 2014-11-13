@@ -7,8 +7,12 @@
  */
 namespace Piwik\Plugins\Goals\Metrics;
 
+use Piwik\Common;
 use Piwik\DataTable\Row;
+use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Base class for processed metrics that are calculated using metrics that are
@@ -24,16 +28,26 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     protected $idGoal;
 
     /**
+     * The ID of the site the goal belongs to.
+     *
+     * @var int
+     */
+    protected $idSite;
+
+    /**
      * Constructor.
      *
+     * @param int|null $idSite The ID of the site the goal belongs to. If supplied, affects the formatting
+     *                         and translated name of the metric.
      * @param int $idGoal The ID of the goal to calculate metrics for.
      */
-    public function __construct($idGoal)
+    public function __construct($idSite, $idGoal)
     {
+        $this->idSite = $idSite;
         $this->idGoal = $idGoal;
     }
 
-    protected function getColumnPrefix()
+    protected function getColumnPrefix() // TODO: should cache this information somehow
     {
         return 'goal_' . $this->idGoal;
     }
@@ -51,5 +65,29 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
                 return array();
             }
         }
+    }
+
+    protected function getGoalName()
+    {
+        if ($this->idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            return Piwik::translate('Goals_EcommerceOrder');
+        }
+
+        if (isset($this->idSite)) {
+            $allGoals = GoalsAPI::getInstance()->getGoals($this->idSite);
+            $goalName = @$allGoals[$this->idGoal]['name'];
+            return Common::sanitizeInputValue($goalName);
+        } else {
+            return "";
+        }
+    }
+
+    protected function getGoalNameForDocs()
+    {
+        $goalName = $this->getGoalName();
+        if ($goalName == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            $goalName = '"' . $goalName . '"';
+        }
+        return $goalName;
     }
 }

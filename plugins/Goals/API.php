@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals;
 
 use Exception;
 use Piwik\Archive;
+use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
@@ -53,29 +54,31 @@ class API extends \Piwik\Plugin\API
      */
     public function getGoals($idSite)
     {
-        //TODO calls to this function could be cached as static
-        // would help UI at least, since some UI requests would call this 2-3 times..
-        $idSite = Site::getIdSitesFromIdSitesString($idSite);
+        $cache = new PluginAwareStaticCache("Goals.getGoals.$idSite");
+        if (!$cache->has()) {
+            $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
-        if (empty($idSite)) {
-            return array();
-        }
-
-        Piwik::checkUserHasViewAccess($idSite);
-
-        $goals = $this->getModel()->getActiveGoals($idSite);
-
-        $cleanedGoals = array();
-        foreach ($goals as &$goal) {
-            if ($goal['match_attribute'] == 'manually') {
-                unset($goal['pattern']);
-                unset($goal['pattern_type']);
-                unset($goal['case_sensitive']);
+            if (empty($idSite)) {
+                return array();
             }
-            $cleanedGoals[$goal['idgoal']] = $goal;
-        }
 
-        return $cleanedGoals;
+            Piwik::checkUserHasViewAccess($idSite);
+
+            $goals = $this->getModel()->getActiveGoals($idSite);
+
+            $cleanedGoals = array();
+            foreach ($goals as &$goal) {
+                if ($goal['match_attribute'] == 'manually') {
+                    unset($goal['pattern']);
+                    unset($goal['pattern_type']);
+                    unset($goal['case_sensitive']);
+                }
+                $cleanedGoals[$goal['idgoal']] = $goal;
+            }
+
+            $cache->set($cleanedGoals);
+        }
+        return $cache->get();
     }
 
     /**

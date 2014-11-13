@@ -8,7 +8,9 @@
 
 namespace Piwik\Plugins\Goals\Metrics;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -22,6 +24,8 @@ use Piwik\Tracker\GoalManager;
  */
 class AveragePrice extends ProcessedMetric
 {
+    private $idSite;
+
     public function getName()
     {
         return 'avg_price';
@@ -44,5 +48,16 @@ class AveragePrice extends ProcessedMetric
     public function getDependentMetrics()
     {
         return array('price', 'orders', 'abandoned_carts');
+    }
+
+    public function format($value)
+    {
+        return MetricsFormatter::getPrettyMoney(sprintf("%.2f", $value), $this->idSite, $isHtml = false);
+    }
+
+    public function beforeFormat($report, DataTable $table)
+    {
+        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }

@@ -30,7 +30,12 @@ class ConversionRate extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return self::getName(); // TODO???
+        return Piwik::translate('Goals_ConversionRate', $this->getGoalName());
+    }
+
+    public function getDocumentation()
+    {
+        return Piwik::translate('Goals_ColumnConversionRateDocumentation', $this->getGoalNameForDocs());
     }
 
     public function getDependentMetrics()

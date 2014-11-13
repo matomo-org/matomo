@@ -7,8 +7,10 @@
  */
 namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -29,7 +31,16 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return self::getName(); // TODO???
+        return $this->getGoalName() . ' ' . Piwik::translate('General_ColumnValuePerVisit');
+    }
+
+    public function getDocumentation()
+    {
+        if ($this->idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            return Piwik::translate('Goals_ColumnAverageOrderRevenueDocumentation', $this->getGoalNameForDocs());
+        } else {
+            return Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik::translate('Goals_EcommerceAndGoalsMenu'));
+        }
     }
 
     public function getDependentMetrics()
@@ -49,5 +60,16 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
         $goalRevenue = (float) $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
 
         return Piwik::getQuotientSafe($goalRevenue, $nbVisits == 0 ? $conversions : $nbVisits, GoalManager::REVENUE_PRECISION);
+    }
+
+    public function format($value)
+    {
+        return MetricsFormatter::getPrettyMoney(sprintf("%.1f", $value), $this->idSite, $isHtml = false);
+    }
+
+    public function beforeFormat($report, DataTable $table)
+    {
+        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }

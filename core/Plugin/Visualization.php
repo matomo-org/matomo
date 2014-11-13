@@ -170,6 +170,7 @@ class Visualization extends ViewDataTable
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
 
             $this->applyFilters();
+            $this->addVisualizationInfoFromMetricMetadata();
             $this->afterAllFiltersAreApplied();
             $this->beforeRender();
 
@@ -307,6 +308,28 @@ class Visualization extends ViewDataTable
         }
     }
 
+    private function addVisualizationInfoFromMetricMetadata()
+    {
+        $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
+        $dataTable = $this->dataTable instanceof DataTable\Map ? $this->dataTable->getFirstRow() : $this->dataTable;
+
+        $processedMetrics = Report::getProcessedMetricsFor($dataTable, $report);
+
+        // TODO: instead of iterating & calling translate everywhere, maybe we can get all translated names in one place.
+        //       may be difficult, though, since translated metrics are specific to the report.
+        foreach ($processedMetrics as $metric) {
+            $name = $metric->getName();
+
+            if (empty($this->config->translations[$name])) {
+                $this->config->translations[$name] = $metric->getTranslatedName();
+            }
+
+            if (empty($this->config->metrics_documentation[$name])) {
+                $this->config->metrics_documentation[$name] = $metric->getDocumentation();
+            }
+        }
+    }
+
     private function applyFilters()
     {
         $postProcessor = $this->makeDataTablePostProcessor();
@@ -343,6 +366,8 @@ class Visualization extends ViewDataTable
         if (!$this->requestConfig->areQueuedFiltersDisabled()) {
             $this->dataTable->applyQueuedFilters();
         }
+
+        $postProcessor->applyProcessedMetricsFormatting($this->dataTable);
     }
 
     private function removeEmptyColumnsFromDisplay()
