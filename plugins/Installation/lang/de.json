@@ -17,6 +17,8 @@
         "DatabaseSetupLogin": "Benutzer",
         "DatabaseSetupServer": "Datenbank-Server",
         "DatabaseSetupTablePrefix": "Tabellen-Prefix",
+        "DefaultSettings": "Standard Piwik Einstellungen",
+        "DefaultSettingsHelp": "Piwik ist mit Standardeinstellungen vorkonfiguriert. Sie können diese nun personalisieren oder dies später im Adminbereich nachholen.",
         "Email": "E-Mail",
         "Extension": "Erweiterung",
         "Filesystem": "Dateisystem",
