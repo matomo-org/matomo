@@ -10,9 +10,9 @@ namespace Piwik\Plugins\Installation;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Exceptions\HtmlMessageException;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
 use Piwik\Translate;
 use Piwik\View as PiwikView;
 
@@ -43,7 +43,10 @@ class Installation extends \Piwik\Plugin
         $view = new PiwikView("@Installation/cannotConnectToDb");
         $view->exceptionMessage = $exception->getMessage();
 
-        throw new HtmlMessageException($view->render());
+        $ex = new DatabaseConnectionFailedException($view->render());
+        $ex->setIsHtmlMessage();
+
+        throw $ex;
     }
 
     public function dispatchIfNotInstalledYet(&$module, &$action, &$parameters)

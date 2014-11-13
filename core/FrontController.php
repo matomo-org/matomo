@@ -13,7 +13,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\StaticContainer;
-use Piwik\Exceptions\HtmlMessageException;
+use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Http\Router;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
@@ -421,10 +421,15 @@ class FrontController extends Singleton
         try {
             $authAdapter = Registry::get('auth');
         } catch (Exception $e) {
-            throw new HtmlMessageException("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
-                            <br />You can activate the plugin by adding:<br />
-                            <code>Plugins[] = Login</code><br />
-                            under the <code>[Plugins]</code> section in your config/config.ini.php");
+            $message = "Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
+                        <br />You can activate the plugin by adding:<br />
+                        <code>Plugins[] = Login</code><br />
+                        under the <code>[Plugins]</code> section in your config/config.ini.php";
+
+            $ex = new AuthenticationFailedException($message);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
         Access::getInstance()->reloadAccess($authAdapter);
 
@@ -615,10 +620,10 @@ class FrontController extends Singleton
     {
         $debugTrace = $ex->getTraceAsString();
 
-        if (method_exists($ex, 'getHtmlMessage')) {
-            $message = $ex->getHtmlMessage();
-        } else {
-            $message = Common::sanitizeInputValue($ex->getMessage());
+        $message = $ex->getMessage();
+
+        if (!method_exists($ex, 'isHtmlMessage') || !$ex->isHtmlMessage()) {
+            $message = Common::sanitizeInputValue($message);
         }
 
         $logo = new CustomLogo();

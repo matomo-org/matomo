@@ -26,12 +26,13 @@ class ManagePlugin extends ConsoleCommand
     {
         $this->setName('core:plugin');
         $this->setDescription("Perform various actions regarding one or more plugins.");
-        $this->addArgument("operation", InputArgument::REQUIRED, "Operation to apply (can be 'activate' or 'deactivate').");
-        $this->addArgument("plugins", InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Plugin name(s) to activate.');
+        $this->addArgument("operation", InputArgument::REQUIRED, "Operation to apply (can be 'activate' or 'deactivate' or 'list').");
+        $this->addArgument("plugins", InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Plugin name(s) to activate.');
         $this->addOption('domain', null, InputOption::VALUE_REQUIRED, "The domain to activate the plugin for.");
 
         $this->operations['activate'] = 'activatePlugin';
         $this->operations['deactivate'] = 'deactivatePlugin';
+        $this->operations['list'] = 'listPlugins';
     }
 
     /**
@@ -47,6 +48,23 @@ class ManagePlugin extends ConsoleCommand
         }
 
         $fn = $this->operations[$operation];
+
+
+        if($fn == 'listPlugins') {
+            call_user_func(array($this, $fn), $input, $output);
+        } else {
+            $this->applyOperationToEachPlugin($input, $output, $plugins, $fn);
+        }
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param $plugins
+     * @param $fn
+     */
+    protected function applyOperationToEachPlugin(InputInterface $input, OutputInterface $output, $plugins, $fn)
+    {
         foreach ($plugins as $plugin) {
             call_user_func(array($this, $fn), $input, $output, $plugin);
         }
@@ -64,5 +82,17 @@ class ManagePlugin extends ConsoleCommand
         Manager::getInstance()->deactivatePlugin($plugin, $input, $output);
 
         $output->writeln("Deactivated plugin <info>$plugin</info>");
+    }
+
+    private function listPlugins(InputInterface $input, OutputInterface $output, $plugin)
+    {
+        $plugins = Manager::getInstance()->getPluginsLoadedAndActivated();
+
+        $count = count($plugins);
+        $output->writeln("Listing $count activated plugins:");
+        foreach($plugins as $plugin) {
+            $pluginName = $plugin->getPluginName();
+            $output->writeln("<info>$pluginName</info>");
+        };
     }
 }

@@ -39,6 +39,13 @@ type = InnoDB
 schema = Mysql
 
 [tests]
+; needed in order to run tests.
+; if Piwik is available at http://localhost/dev/piwik/ replace @REQUEST_URI@ with /dev/piwik/
+; note: the REQUEST_URI should not contain "plugins" or "tests" in the PATH
+http_host   = localhost
+remote_addr = "127.0.0.1"
+request_uri = "@REQUEST_URI@"
+
 ; access key and secret as listed in AWS -> IAM -> Users
 aws_accesskey = ""
 aws_secret = ""

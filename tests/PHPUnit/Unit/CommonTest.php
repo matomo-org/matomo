@@ -395,23 +395,29 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Dataprovider for testExtractLanguageCodeFromBrowserLanguage
+     * Dataprovider for testExtractLanguageAndRegionCodeFromBrowserLanguage
      */
-    public function getLanguageDataToExtract()
+    public function getLanguageDataToExtractLanguageRegionCode()
     {
-        return array( // browser language, valid languages, expected result
-            array("fr-ca", array("fr"), "fr"),
+        return array(
+            // browser language, valid languages (with optional region), expected result
+            array("fr-ca", array("fr"), "fr-ca"),
+            array("fr-ca", array("ca"), "xx"),
             array("", array(), "xx"),
             array("", array("en"), "xx"),
             array("fr", array("en"), "xx"),
             array("en", array("en"), "en"),
+            array("en", array("en-ca"), "xx"),
             array("en-ca", array("en-ca"), "en-ca"),
-            array("en-ca", array("en"), "en"),
+            array("en-ca", array("en"), "en-ca"),
             array("fr,en-us", array("fr", "en"), "fr"),
             array("fr,en-us", array("en", "fr"), "fr"),
-            array("fr-fr,fr-ca", array("fr"), "fr"),
+            array("fr-fr,fr-ca", array("fr"), "fr-fr"),
             array("fr-fr,fr-ca", array("fr-ca"), "fr-ca"),
+            array("-ca", array("fr","ca"), "xx"),
             array("fr-fr;q=1.0,fr-ca;q=0.9", array("fr-ca"), "fr-ca"),
+            array("es,en,fr;q=0.7,de;q=0.3", array("fr", "es", "de", "en"), "es"),
+            array("zh-sg,de;q=0.3", array("zh", "es", "de"), "zh-sg"),
             array("fr-ca,fr;q=0.1", array("fr-ca"), "fr-ca"),
             array("r5,fr;q=1,de", array("fr", "de"), "fr"),
             array("Zen§gq1", array("en"), "xx"),
@@ -419,7 +425,42 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getLanguageDataToExtract
+     * @dataProvider getLanguageDataToExtractLanguageRegionCode
+     * @group Core
+     */
+    public function testExtractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages, $expected)
+    {
+        $this->assertEquals($expected, Common::extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
+    }
+
+
+    /**
+     * Dataprovider for testExtractLanguageCodeFromBrowserLanguage
+     */
+    public function getLanguageDataToExtractLanguageCode()
+    {
+        return array(
+            // browser language, valid languages, expected result
+            array("fr-ca", array("fr"), "fr"),
+            array("fr-ca", array("ca"), "xx"),
+            array("", array("en"), "xx"),
+            array("fr", array("en"), "xx"),
+            array("en", array("en"), "en"),
+            array("en", array("en-ca"), "xx"),
+            array("en-ca", array("en"), "en"),
+            array("fr,en-us", array("fr", "en"), "fr"),
+            array("fr,en-us", array("en", "fr"), "fr"),
+            array("fr-fr,fr-ca", array("fr"), "fr"),
+            array("-ca", array("fr","ca"), "xx"),
+            array("es,en,fr;q=0.7,de;q=0.3", array("fr", "es", "de", "en"), "es"),
+            array("zh-sg,de;q=0.3", array("zh", "es", "de"), "zh"),
+            array("r5,fr;q=1,de", array("fr", "de"), "fr"),
+            array("Zen§gq1", array("en"), "xx"),
+        );
+    }
+
+    /**
+     * @dataProvider getLanguageDataToExtractLanguageCode
      * @group Core
      */
     public function testExtractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages, $expected)

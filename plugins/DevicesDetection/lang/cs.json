@@ -1,6 +1,8 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Vykreslovací jádro",
         "BrowserEngineDocumentation": "Tento graf zobrazuje prohlížeče vašich návštěvníků odle prodin prohlížečů. %s Nejdůležitější informací pro webové vývojáře je to, jaká vykreslovací jádra návštěvníci používají. Název vykreslovacího jádra je v popisku následován v závorkách nejčastějším prohlížečem, který ho používá.",
+        "BrowserEngines": "Vykreslovací jádra",
         "BrowserVersions": "Verze prohlížečů",
         "Camera": "Fotoaparát",
         "CarBrowser": "Prohlížeč v autě",

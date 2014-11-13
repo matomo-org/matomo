@@ -34,14 +34,6 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "core",
-    "plugins",
-    "libs",
-    "misc",
-    "tmp",
-    "config",
-    "lang",
     "tests"
   ]
 }

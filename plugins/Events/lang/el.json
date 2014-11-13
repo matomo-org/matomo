@@ -14,6 +14,7 @@
         "EventsWithValue": "Γεγονότα με τιμή",
         "EventsWithValueDocumentation": "Αριθμός γεγονότων στα οποία έχει οριστεί μια τιμή",
         "EventValue": "Τιμή Συμβάντος",
+        "EventValueTooltip": "Η συνολική αξία συμβάντος είναι το άθροισμα %s τιμών συμβάντων %s μεταξύ ελάχιστου %s και μέγιστου %s.",
         "MaxValue": "Μέγιστη τιμή",
         "MaxValueDocumentation": "Μέγιστη τιμή για το συμβάν",
         "MinValue": "Ελάχιστη τιμή",
