@@ -3,6 +3,14 @@
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
 
+## Piwik 2.10.0
+
+### Breaking Changes
+* The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
+
+### Deprecations
+* `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
+
 ## Piwik 2.9.0
 
 ### Breaking Changes

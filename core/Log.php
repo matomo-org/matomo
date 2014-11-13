@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 
 /**
@@ -313,16 +314,16 @@ class Log extends Singleton
     private function setLogFilePathFromConfig($logConfig)
     {
         $logPath = @$logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
+        // Remove 'tmp/' at the beginning
+        if (strpos($logPath, 'tmp/') === 0) {
+            $logPath = substr($logPath, strlen('tmp'));
+        }
+
         if (empty($logPath)) {
             $logPath = $this->getDefaultFileLogPath();
         }
 
-        if (!SettingsServer::isWindows()
-            && $logPath[0] != '/'
-        ) {
-            $logPath = PIWIK_USER_PATH . DIRECTORY_SEPARATOR . $logPath;
-        }
-        $logPath = SettingsPiwik::rewriteTmpPathWithInstanceId($logPath);
+        $logPath = StaticContainer::getContainer()->get('path.tmp') . $logPath;
         if (is_dir($logPath)) {
             $logPath .= '/piwik.log';
         }
@@ -331,7 +332,7 @@ class Log extends Singleton
 
     private function getDefaultFileLogPath()
     {
-        return 'tmp/logs/piwik.log';
+        return '/logs/piwik.log';
     }
 
     private function getAvailableWriters()

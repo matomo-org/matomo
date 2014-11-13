@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Installation;
 use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Db\Adapter;
 use Piwik\DbHelper;
@@ -34,16 +35,18 @@ class SystemCheck
 
         $infos = array();
 
+        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
+
         $directoriesToCheck = array(
-            '/tmp/',
-            '/tmp/assets/',
-            '/tmp/cache/',
-            '/tmp/climulti/',
-            '/tmp/latest/',
-            '/tmp/logs/',
-            '/tmp/sessions/',
-            '/tmp/tcpdf/',
-            '/tmp/templates_c/',
+            $tmpPath,
+            $tmpPath . '/assets/',
+            $tmpPath . '/cache/',
+            $tmpPath . '/climulti/',
+            $tmpPath . '/latest/',
+            $tmpPath . '/logs/',
+            $tmpPath . '/sessions/',
+            $tmpPath . '/tcpdf/',
+            $tmpPath . '/templates_c/',
         );
 
         if (!DbHelper::isInstalled()) {

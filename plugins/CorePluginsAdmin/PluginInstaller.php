@@ -8,11 +8,11 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugin\Dependency as PluginDependency;
-use Piwik\SettingsPiwik;
 use Piwik\Unzip;
 
 /**
@@ -20,7 +20,7 @@ use Piwik\Unzip;
  */
 class PluginInstaller
 {
-    const PATH_TO_DOWNLOAD = '/tmp/latest/plugins/';
+    const PATH_TO_DOWNLOAD = '/latest/plugins/';
     const PATH_TO_EXTRACT = '/plugins/';
 
     private $pluginName;
@@ -32,11 +32,10 @@ class PluginInstaller
 
     public function installOrUpdatePluginFromMarketplace()
     {
-        $tmpPluginZip = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName . '.zip';
-        $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
+        $tmpPluginPath = StaticContainer::getContainer()->get('path.tmp') . '/latest/plugins/';
 
-        $tmpPluginZip = SettingsPiwik::rewriteTmpPathWithInstanceId($tmpPluginZip);
-        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithInstanceId($tmpPluginFolder);
+        $tmpPluginZip = $tmpPluginPath . $this->pluginName . '.zip';
+        $tmpPluginFolder = $tmpPluginPath . $this->pluginName;
 
         try {
             $this->makeSureFoldersAreWritable();
@@ -64,8 +63,7 @@ class PluginInstaller
 
     public function installOrUpdatePluginFromFile($pathToZip)
     {
-        $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
-        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithInstanceId($tmpPluginFolder);
+        $tmpPluginFolder = StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_DOWNLOAD . $this->pluginName;
 
         try {
             $this->makeSureFoldersAreWritable();
@@ -98,7 +96,10 @@ class PluginInstaller
 
     private function makeSureFoldersAreWritable()
     {
-        Filechecks::dieIfDirectoriesNotWritable(array(self::PATH_TO_DOWNLOAD, self::PATH_TO_EXTRACT));
+        Filechecks::dieIfDirectoriesNotWritable(array(
+            StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_DOWNLOAD,
+            self::PATH_TO_EXTRACT
+        ));
     }
 
     private function downloadPluginFromMarketplace($pluginZipTargetFile)

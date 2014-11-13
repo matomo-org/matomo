@@ -12,8 +12,8 @@ namespace Piwik\Plugins\ImageGraph;
 use Exception;
 use pData;
 use pImage;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\SettingsPiwik;
 use Piwik\BaseFactory;
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
@@ -229,8 +229,7 @@ abstract class StaticGraph extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
-        $outputFilename = SettingsPiwik::rewriteTmpPathWithInstanceId($outputFilename);
+        $outputFilename = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);

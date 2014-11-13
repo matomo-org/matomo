@@ -11,6 +11,8 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
+
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 }
@@ -57,9 +59,7 @@ $token = Db::get()->fetchOne("SELECT token_auth
                               WHERE superuser_access = 1
                               ORDER BY date_registered ASC");
 
-$filename = PIWIK_INCLUDE_PATH . '/tmp/cache/token.php';
-
-$filename = SettingsPiwik::rewriteTmpPathWithInstanceId($filename);
+$filename = StaticContainer::getContainer()->get('path.tmp') . '/cache/token.php';
 
 $content  = "<?php exit; //\t" . $token;
 file_put_contents($filename, $content);

@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use XHProfRuns_Default;
 
 /**
@@ -337,6 +338,6 @@ class Profiler
      */
     private static function getPathToXHProfRunIds()
     {
-        return PIWIK_INCLUDE_PATH . '/tmp/cache/tests-xhprof-runs';
+        return StaticContainer::getContainer()->get('path.tmp') . '/cache/tests-xhprof-runs';
     }
 }

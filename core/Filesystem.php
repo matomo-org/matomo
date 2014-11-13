@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Tracker\Cache;
 
 /**
@@ -379,7 +380,7 @@ class Filesystem
      */
     private static function getChmodForPath($path)
     {
-        $pathIsTmp = self::getPathToPiwikRoot() . '/tmp';
+        $pathIsTmp = StaticContainer::getContainer()->get('path.tmp');
         if (strpos($path, $pathIsTmp) === 0) {
             // tmp/* folder
             return 0750;

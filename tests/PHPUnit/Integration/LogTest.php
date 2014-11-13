@@ -7,6 +7,7 @@
  */
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Error;
 use Piwik\ExceptionHandler;
@@ -290,15 +291,6 @@ dummy backtrace'
 
     public static function getLogFileLocation()
     {
-        $path = self::getDefaultLogFileLocation();
-        $path = \Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId($path);
-        return $path;
+        return StaticContainer::getContainer()->get('path.tmp') . '/logs/piwik.test.log';
     }
-
-    protected static function getDefaultLogFileLocation()
-    {
-        $path = PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.test.log';
-        return $path;
-    }
-
 }
