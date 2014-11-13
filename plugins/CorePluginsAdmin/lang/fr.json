@@ -61,7 +61,7 @@
         "OriginThirdParty": "Tierce-Partie",
         "PluginDescription": "Interface d'administration des plugins.",
         "PluginHomepage": "Page d'accueil du plugin",
-        "PluginKeywords": "Mots-Clefs",
+        "PluginKeywords": "Mots-clés",
         "PluginNotCompatibleWith": "Le composant %1$s n'est pas compatible avec %2$s.",
         "PluginNotWorkingAlternative": "Si vous avez utilisé ce composant additionnel, peut être pourriez vous trouver une version plus récente sur le Marché. Le cas échéant vous devriez le désinstaller.",
         "PluginRequirement": "%1$s requiert %2$s.",

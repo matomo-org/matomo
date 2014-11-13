@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\Exceptions\HtmlMessageException;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Session;
 
@@ -124,8 +124,8 @@ class Session extends Zend_Session
 			            			we recommend that you <a href='http://piwik.org/faq/how-to-install/#faq_133' target='_blank'>enable database session storage</a>.";
             }
 
-            $pathToSessions = StaticContainer::getContainer()->get('path.tmp') . '/sessions/';
-            $pathToSessions = Filechecks::getErrorMessageMissingPermissions($pathToSessions);
+            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/');
+            $pathToSessions = SettingsPiwik::rewriteTmpPathWithInstanceId($pathToSessions);
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
@@ -144,7 +144,8 @@ class Session extends Zend_Session
      */
     public static function getSessionsDirectory()
     {
-        return StaticContainer::getContainer()->get('path.tmp') . '/sessions';
+        $path = PIWIK_USER_PATH . '/tmp/sessions';
+        return SettingsPiwik::rewriteTmpPathWithInstanceId($path);
     }
 
     public static function close()

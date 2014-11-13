@@ -8,7 +8,7 @@
  */
 namespace Piwik;
 
-use Piwik\Exceptions\HtmlMessageException;
+use Piwik\Exception\MissingFilePermissionException;
 
 class Filechecks
 {
@@ -92,7 +92,7 @@ class Filechecks
             }
         }
 
-        $directoryMessage = "<p><b>Piwik couldn't write to some directories $optionalUserInfo</b>.</p>";
+        $directoryMessage  = "<p><b>Piwik couldn't write to some directories $optionalUserInfo</b>.</p>";
         $directoryMessage .= "<p>Try to Execute the following commands on your server, to allow Write access on these directories"
             . ":</p>"
             . "<blockquote>$directoryList</blockquote>"
@@ -100,7 +100,10 @@ class Filechecks
             . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
             . "<p>If you need more help, try <a href='?module=Proxy&action=redirect&url=http://piwik.org'>Piwik.org</a>.</p>";
 
-        throw new HtmlMessageException($directoryMessage);
+        $ex = new MissingFilePermissionException($directoryMessage);
+        $ex->setIsHtmlMessage();
+
+        throw $ex;
     }
 
     /**
