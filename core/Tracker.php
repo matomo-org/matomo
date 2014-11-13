@@ -669,7 +669,8 @@ class Tracker
         $request = $_GET + $_POST;
 
         if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
-            Common::sendHeader("HTTP/1.1 204 No Response");
+            Common::sendResponseCode(204);
+
             return;
         }
 

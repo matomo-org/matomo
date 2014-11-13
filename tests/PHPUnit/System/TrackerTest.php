@@ -69,4 +69,12 @@ class TrackerTest extends SystemTestCase
         $this->assertResponseCode(204, $url);
     }
 
+    public function test_response_ShouldSend400ResponseCode_IfSiteIdIsInvalid()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=100';
+
+        $this->assertResponseCode(400, $url);
+    }
+
 }
