@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Cache;
@@ -412,15 +413,16 @@ class Tracker
      *
      * @param Exception $e
      * @param bool $authenticated
+     * @param int  $statusCode eg 500
      */
-    protected function exitWithException($e, $authenticated = false)
+    protected function exitWithException($e, $authenticated = false, $statusCode = 500)
     {
         if ($this->hasRedirectUrl()) {
             $this->performRedirectToUrlIfSet();
             exit;
         }
 
-        Common::sendHeader('HTTP/1.1 500 Internal Server Error');
+        Common::sendResponseCode($statusCode);
         error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
 
         if ($this->usingBulkTracking) {
@@ -456,6 +458,7 @@ class Tracker
         } else {
             $this->sendResponse();
         }
+
         die(1);
         exit;
     }
@@ -841,6 +844,9 @@ class Tracker
             } else {
                 Common::printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
             }
+        } catch (UnexpectedWebsiteFoundException $e) {
+            Common::printDebug("Exception: " . $e->getMessage());
+            $this->exitWithException($e, $isAuthenticated, 400);
         } catch (DbException $e) {
             Common::printDebug("Exception: " . $e->getMessage());
             $this->exitWithException($e, $isAuthenticated);
@@ -935,6 +941,46 @@ class Tracker
         }
 
         return array_unique($siteIds);
+    }
+
+    /**
+     * @param $e
+     * @param $authenticated
+     */
+    private function outputException($e, $authenticated)
+    {
+        if ($this->usingBulkTracking) {
+            // when doing bulk tracking we return JSON so the caller will know how many succeeded
+            $result = array(
+                'status' => 'error',
+                'tracked' => $this->countOfLoggedRequests
+            );
+            // send error when in debug mode or when authenticated (which happens when doing log importing,
+            if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
+                || $authenticated
+            ) {
+                $result['message'] = $this->getMessageFromException($e);
+            }
+            Common::sendHeader('Content-Type: application/json');
+            echo Common::json_encode($result);
+            return;
+        }
+
+        if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            Common::sendHeader('Content-Type: text/html; charset=utf-8');
+            $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
+            $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
+            $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
+            $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+
+            echo $headerPage . '<p>' . $this->getMessageFromException($e) . '</p>' . $trailer . $footerPage;
+        } // If not debug, but running authenticated (eg. during log import) then we display raw errors
+        elseif ($authenticated) {
+            Common::sendHeader('Content-Type: text/html; charset=utf-8');
+            echo $this->getMessageFromException($e);
+        } else {
+            $this->outputTransparentGif();
+        }
     }
 
 }
