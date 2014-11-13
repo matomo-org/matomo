@@ -399,7 +399,8 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function getLanguageDataToExtract()
     {
-        return array( // browser language, valid languages, expected result
+        return array(
+            // browser language, valid languages, expected result
             array("fr-ca", array("fr"), "fr"),
             array("", array(), "xx"),
             array("", array("en"), "xx"),
@@ -412,6 +413,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             array("fr-fr,fr-ca", array("fr"), "fr"),
             array("fr-fr,fr-ca", array("fr-ca"), "fr-ca"),
             array("fr-fr;q=1.0,fr-ca;q=0.9", array("fr-ca"), "fr-ca"),
+            array("es,en,fr;q=0.7,de;q=0.3", array("fr", "es", "de", "en"), "es"),
             array("fr-ca,fr;q=0.1", array("fr-ca"), "fr-ca"),
             array("r5,fr;q=1,de", array("fr", "de"), "fr"),
             array("Zen§gq1", array("en"), "xx"),
