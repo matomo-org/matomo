@@ -314,6 +314,13 @@ class Log extends Singleton
     private function setLogFilePathFromConfig($logConfig)
     {
         $logPath = @$logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
+
+        // Absolute path
+        if (strpos($logPath, '/') === 0) {
+            $this->logToFilePath = $logPath;
+            return;
+        }
+
         // Remove 'tmp/' at the beginning
         if (strpos($logPath, 'tmp/') === 0) {
             $logPath = substr($logPath, strlen('tmp'));
