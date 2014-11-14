@@ -34,9 +34,9 @@ class LogTest extends IntegrationTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Core_LogTest] LogTest.php(166): dummy error message
+        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
   dummy backtrace',
-        'database' => '[Core_LogTest] LogTest.php(166): dummy error message
+        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
 dummy backtrace'
     );
 
@@ -48,9 +48,9 @@ dummy backtrace'
 <br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
 dummy backtrace</div><br />
  </pre></div><br />',
-        'file' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'file' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace',
-        'database' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'database' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
 dummy backtrace'
     );
 
