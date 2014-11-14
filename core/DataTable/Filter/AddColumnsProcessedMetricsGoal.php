@@ -159,9 +159,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                 $goalId = str_replace("idgoal=", "", $goalId);
                 $result[] = $goalId;
             }
-
-            break;
         }
-        return $result;
+        return array_unique($result);
     }
 }

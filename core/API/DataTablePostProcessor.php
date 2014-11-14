@@ -75,6 +75,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyPivotByFilter($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
+
         $dataTable = $this->applyGenericFilters($dataTable);
 
         $this->applyComputeProcessedMetrics($dataTable);

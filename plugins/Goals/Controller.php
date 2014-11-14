@@ -200,6 +200,7 @@ class Controller extends \Piwik\Plugin\Controller
         $request = new Request("method=Goals.get&format=original&idGoal=");
         $datatable = $request->process();
         $dataRow = $datatable->getFirstRow();
+
         $view->nb_conversions = $dataRow->getColumn('nb_conversions');
         $view->nb_visits_converted = $dataRow->getColumn('nb_visits_converted');
         $view->conversion_rate = $this->formatConversionRate($dataRow->getColumn('conversion_rate'));
