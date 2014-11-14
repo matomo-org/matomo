@@ -77,4 +77,12 @@ class TrackerTest extends SystemTestCase
         $this->assertResponseCode(400, $url);
     }
 
+    public function test_response_ShouldSend400ResponseCode_IfSiteIdIsZero()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=0';
+
+        $this->assertResponseCode(400, $url);
+    }
+
 }
