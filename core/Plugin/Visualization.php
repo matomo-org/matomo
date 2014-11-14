@@ -335,8 +335,6 @@ class Visualization extends ViewDataTable
 
     private function applyFilters()
     {
-        $postProcessor = $this->makeDataTablePostProcessor();
-
         list($priorityFilters, $otherFilters) = $this->config->getFiltersToRun();
 
         // First, filters that delete rows
@@ -350,6 +348,8 @@ class Visualization extends ViewDataTable
             $hasNbUniqVisitors = in_array('nb_uniq_visitors', $this->config->columns_to_display);
             $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $this->dataTable->getColumns());
         }
+
+        $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
 
         if (!$this->requestConfig->areGenericFiltersDisabled()) {
             $this->dataTable = $postProcessor->applyGenericFilters($this->dataTable);
