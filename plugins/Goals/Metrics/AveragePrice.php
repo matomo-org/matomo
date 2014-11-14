@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Goals\Metrics;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -50,9 +50,9 @@ class AveragePrice extends ProcessedMetric
         return array('price', 'orders', 'abandoned_carts');
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return MetricsFormatter::getPrettyMoney(sprintf("%.2f", $value), $this->idSite, $isHtml = false);
+        return $formatter->getPrettyMoney($value, $this->idSite);
     }
 
     public function beforeFormat($report, DataTable $table)

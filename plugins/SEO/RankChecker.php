@@ -11,7 +11,7 @@ namespace Piwik\Plugins\SEO;
 use Exception;
 use Piwik\Http;
 use Piwik\Log;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 
 /**
  * The functions below are derived/adapted from GetRank.org's
@@ -25,10 +25,12 @@ class RankChecker
 {
     private $url;
     private $majesticInfo = null;
+    private $formatter = null;
 
     public function __construct($url)
     {
         $this->url = self::extractDomainFromUrl($url);
+        $this->formatter = new Formatter();
     }
 
     /**
@@ -171,7 +173,7 @@ class RankChecker
         }
 
         if ($maxAge) {
-            return MetricsFormatter::getPrettyTimeFromSeconds(time() - $maxAge);
+            return $this->formatter->getPrettyTimeFromSeconds(time() - $maxAge);
         }
         return false;
     }

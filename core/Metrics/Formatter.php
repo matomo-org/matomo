@@ -4,18 +4,24 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
-namespace Piwik;
+namespace Piwik\Metrics;
 
+use Piwik\Common;
+use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
 /**
- * Contains helper function that format numerical values in different ways.
+ * Contains methods to format metric values. Passed to the {@link \Piwik\Plugin\Metric::format()}
+ * method when formatting Metrics.
  *
  * @api
+ *
+ * TODO: backwards compatibility, re-introduce MetricsFormatter as deprecated and make it use Formatter internally.
+ *       do after tests passing.
  */
-class MetricsFormatter
+class Formatter
 {
     /**
      * Returns a prettified string representation of a number. The result will have
@@ -25,7 +31,7 @@ class MetricsFormatter
      * @param number $value
      * @return string
      */
-    public static function getPrettyNumber($value)
+    public function getPrettyNumber($value)
     {
         static $decimalPoint = null;
         static $thousandsSeparator = null;
@@ -49,7 +55,7 @@ class MetricsFormatter
      * @param bool $round Whether to round to the nearest second or not.
      * @return string
      */
-    public static function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $isHtml = true, $round = false)
+    public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $round = false)
     {
         $numberOfSeconds = $round ? (int)$numberOfSeconds : (float)$numberOfSeconds;
 
@@ -106,10 +112,6 @@ class MetricsFormatter
             $return = '-' . $return;
         }
 
-        if ($isHtml) {
-            return str_replace(' ', '&nbsp;', $return);
-        }
-
         return $return;
     }
 
@@ -121,13 +123,15 @@ class MetricsFormatter
      * @param int $precision The precision to use when rounding.
      * @return string eg, `'128 M'` or `'256 K'`.
      */
-    public static function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
+    public function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
     {
         if ($size == 0) {
             return '0 M';
         }
 
         $units = array('B', 'K', 'M', 'G', 'T');
+
+        $currentUnit = null;
         foreach ($units as $currentUnit) {
             if ($size >= 1024 && $unit != $currentUnit) {
                 $size = $size / 1024;
@@ -147,14 +151,11 @@ class MetricsFormatter
      * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @return string
      */
-    public static function getPrettyMoney($value, $idSite, $isHtml = true)
+    public function getPrettyMoney($value, $idSite)
     {
-        $currencyBefore = MetricsFormatter::getCurrencySymbol($idSite);
+        $currencyBefore = self::getCurrencySymbol($idSite);
 
         $space = ' ';
-        if ($isHtml) {
-            $space = '&nbsp;';
-        }
 
         $currencyAfter = '';
         // (maybe more currencies prefer this notation?)
@@ -183,36 +184,16 @@ class MetricsFormatter
     }
 
     /**
-     * Prettifies a metric value based on the column name.
+     * Returns a percent string from a quotient value. Forces the use of a '.'
+     * decimal place.
      *
-     * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
-     * @param string $columnName The metric name.
-     * @param mixed $value The metric value.
-     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
+     * @param float $value
      * @return string
      */
-    public static function getPrettyValue($idSite, $columnName, $value, $isHtml)
+    public function getPrettyPercentFromQuotient($value)
     {
-        // Display time in human readable
-        if (strpos($columnName, 'time') !== false) {
-            // Little hack: Display 15s rather than 00:00:15, only for "(avg|min|max)_generation_time"
-            $timeAsSentence = (substr($columnName, -16) == '_time_generation');
-            return self::getPrettyTimeFromSeconds($value, $timeAsSentence);
-        }
-
-        // Add revenue symbol to revenues
-        if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
-            return self::getPrettyMoney($value, $idSite, $isHtml);
-        }
-
-        // Add % symbol to rates
-        if (strpos($columnName, '_rate') !== false) {
-            if (strpos($value, "%") === false) {
-                return $value . "%";
-            }
-        }
-
-        return $value;
+        $result = ($value * 100) . '%';
+        return Common::forceDotAsSeparatorForDecimalPoint($result);
     }
 
     /**
@@ -223,9 +204,8 @@ class MetricsFormatter
      */
     public static function getCurrencySymbol($idSite)
     {
-        $symbols  = MetricsFormatter::getCurrencyList();
-        $site     = new Site($idSite);
-        $currency = $site->getCurrency();
+        $symbols  = self::getCurrencyList();
+        $currency = Site::getCurrencyFor($idSite);
 
         if (isset($symbols[$currency])) {
             return $symbols[$currency][0];

@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -43,9 +44,9 @@ class ConversionRate extends GoalSpecificProcessedMetric
         return array('goals');
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return ($value * 100) . '%';
+        return $formatter->getPrettyPercentFromQuotient($value);
     }
 
     public function compute(Row $row)

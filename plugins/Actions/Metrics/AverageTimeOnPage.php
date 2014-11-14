@@ -8,7 +8,7 @@
 namespace Piwik\Plugins\Actions\Metrics;
 
 use Piwik\DataTable\Row;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -39,9 +39,9 @@ class AverageTimeOnPage extends ProcessedMetric
         return Piwik::getQuotientSafe($sumTimeSpent, $visits, $precision = 0);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return MetricsFormatter::getPrettyTimeFromSeconds($value);
+        return $formatter->getPrettyTimeFromSeconds($value);
     }
 
     public function getDependentMetrics()

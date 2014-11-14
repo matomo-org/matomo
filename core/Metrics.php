@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Cache\LanguageAwareStaticCache;
 use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Metrics\Formatter;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -234,7 +235,7 @@ class Metrics
     {
         $nameToUnit = array(
             '_rate'   => '%',
-            'revenue' => MetricsFormatter::getCurrencySymbol($idSite),
+            'revenue' => Formatter::getCurrencySymbol($idSite),
             '_time_'  => 's'
         );
 

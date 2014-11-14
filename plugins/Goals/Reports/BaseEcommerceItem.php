@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\Common;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
@@ -69,7 +70,7 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $view->config->show_table_all_columns      = false;
 
         $moneyColumns = array('revenue');
-        $formatter    = '\Piwik\MetricsFormatter::getPrettyMoney';
+        $formatter    = array(new Formatter(), 'getPrettyMoney');
         $view->config->filters[] = array('ColumnCallbackReplace', array($moneyColumns, $formatter, array($idSite)));
 
         $view->requestConfig->filter_limit       = 10;

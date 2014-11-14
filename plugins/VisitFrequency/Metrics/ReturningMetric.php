@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\VisitFrequency\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -46,9 +47,9 @@ class ReturningMetric extends ProcessedMetric
         return Piwik::translate(self::$translations[$this->getName()]);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return $this->wrapped->format($value);
+        return $this->wrapped->format($value, $formatter);
     }
 
     public function compute(Row $row)

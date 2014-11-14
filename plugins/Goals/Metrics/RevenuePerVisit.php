@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Goals\Metrics;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -70,10 +70,9 @@ class RevenuePerVisit extends ProcessedMetric
         return Piwik::getQuotientSafe($revenue, $nbVisits == 0 ? $conversions : $nbVisits, GoalManager::REVENUE_PRECISION);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        // TODO: is the sprintf necessary?
-        return MetricsFormatter::getPrettyMoney(sprintf("%.2f", $value), $this->idSite, $isHtml = false);
+        return $formatter->getPrettyMoney($value, $this->idSite);
     }
 
     public function beforeFormat($report, DataTable $table)

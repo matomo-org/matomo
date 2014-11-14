@@ -15,7 +15,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Period\Range;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -346,7 +346,8 @@ class API extends \Piwik\Plugin\API
                 round($pageGenerationTimeTotal / $result['totalPageViews'], $precision = 2);
         }
 
-        $result['totalVisitDurationPretty'] = MetricsFormatter::getPrettyTimeFromSeconds($result['totalVisitDuration']);
+        $formatter = new Formatter();
+        $result['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($result['totalVisitDuration']);
 
         // use requested visits for first/last visit info
         $rows = $visits->getRows();

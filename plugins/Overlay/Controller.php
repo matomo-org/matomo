@@ -13,7 +13,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -77,6 +76,8 @@ class Controller extends \Piwik\Plugin\Controller
         );
         $dataTable = $request->process();
 
+        $formatter = new Metrics\Formatter();
+
         $data = array();
         if ($dataTable->getRowsCount() > 0) {
             $row = $dataTable->getFirstRow();
@@ -92,7 +93,7 @@ class Controller extends \Piwik\Plugin\Controller
                     continue;
                 }
                 if ($metric == 'avg_time_on_page') {
-                    $value = MetricsFormatter::getPrettyTimeFromSeconds($value);
+                    $value = $formatter->getPrettyTimeFromSeconds($value);
                 }
                 $data[] = array(
                     'name'  => $translations[$metric],

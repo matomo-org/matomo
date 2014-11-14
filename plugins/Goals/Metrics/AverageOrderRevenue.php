@@ -9,7 +9,7 @@ namespace Piwik\Plugins\Goals\Metrics;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -47,9 +47,9 @@ class AverageOrderRevenue extends ProcessedMetric
         return array('revenue', 'nb_conversions');
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return MetricsFormatter::getPrettyMoney(sprintf("%.1f", $value), $this->idSite, $isHtml = false);
+        return $formatter->getPrettyMoney($value, $this->idSite);
     }
 
     public function beforeFormat($report, DataTable $table)

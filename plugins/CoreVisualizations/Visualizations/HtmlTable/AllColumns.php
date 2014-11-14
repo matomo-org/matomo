@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
+use Piwik\DataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\View;
 
@@ -36,7 +37,7 @@ class AllColumns extends HtmlTable
 
         $properties = $this->config;
 
-        $this->dataTable->filter(function ($dataTable) use ($properties) {
+        $this->dataTable->filter(function (DataTable $dataTable) use ($properties) {
             $columnsToDisplay = array('label', 'nb_visits');
 
             if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
@@ -59,12 +60,5 @@ class AllColumns extends HtmlTable
 
             $properties->columns_to_display = $columnsToDisplay;
         });
-    }
-
-    public function afterGenericFiltersAreAppliedToLoadedDataTable()
-    {
-        $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
-
-        $this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
     }
 }

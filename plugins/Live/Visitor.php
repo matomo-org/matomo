@@ -13,6 +13,7 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Metrics\Formatter;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -282,6 +283,8 @@ class Visitor implements VisitorInterface
 				 ";
         $actionDetails = Db::fetchAll($sql, array($idVisit));
 
+        $formatter = new Formatter();
+
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];
             $customVariablesPage = array();
@@ -327,7 +330,7 @@ class Visitor implements VisitorInterface
                     $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
                 }
             } elseif ($actionDetail['custom_float'] > 0) {
-                $actionDetail['generationTime'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
+                $actionDetail['generationTime'] = $formatter->getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
             }
             unset($actionDetail['custom_float']);
 
@@ -343,7 +346,7 @@ class Visitor implements VisitorInterface
             // Set the time spent for this action (which is the timeSpentRef of the next action)
             if (isset($actionDetails[$actionIdx + 1])) {
                 $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
-                $actionDetail['timeSpentPretty'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($actionDetail['timeSpent']);
+                $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent']);
             }
             unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
 

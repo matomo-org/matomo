@@ -14,7 +14,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Period;
@@ -144,6 +144,7 @@ class Visualization extends ViewDataTable
     private $templateVars = array();
     private $reportLastUpdatedMessage = null;
     private $metadata = null;
+    protected $metricsFormatter = null;
 
     final public function __construct($controllerAction, $apiMethodToRequestDataTable, $params = array())
     {
@@ -152,6 +153,8 @@ class Visualization extends ViewDataTable
         if (empty($templateFile)) {
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
+
+        $this->metricsFormatter = new HtmlFormatter();
 
         parent::__construct($controllerAction, $apiMethodToRequestDataTable, $params);
     }
@@ -367,7 +370,7 @@ class Visualization extends ViewDataTable
             $this->dataTable->applyQueuedFilters();
         }
 
-        $postProcessor->applyProcessedMetricsFormatting($this->dataTable);
+        $postProcessor->applyProcessedMetricsFormatting($this->dataTable, $this->metricsFormatter);
     }
 
     private function removeEmptyColumnsFromDisplay()
@@ -402,9 +405,8 @@ class Visualization extends ViewDataTable
         $today    = mktime(0, 0, 0);
 
         if ($date->getTimestamp() > $today) {
-
             $elapsedSeconds = time() - $date->getTimestamp();
-            $timeAgo        = MetricsFormatter::getPrettyTimeFromSeconds($elapsedSeconds);
+            $timeAgo        = $this->metricsFormatter->getPrettyTimeFromSeconds($elapsedSeconds);
 
             return Piwik::translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }

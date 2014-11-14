@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 
@@ -47,9 +47,9 @@ class Revenue extends GoalSpecificProcessedMetric
         return (float) $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return MetricsFormatter::getPrettyMoney(sprintf("%.2f", $value), $this->idSite, $isHtml = false);
+        return $formatter->getPrettyMoney($value, $this->idSite);
     }
 
     public function beforeFormat($report, DataTable $table)

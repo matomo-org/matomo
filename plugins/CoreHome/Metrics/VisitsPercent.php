@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Metrics;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
@@ -53,9 +54,9 @@ class VisitsPercent extends ProcessedMetric
         return Piwik::getQuotientSafe($visits, $this->cachedTotalVisits, $precision = 3);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return ($value * 100) . '%';
+        return $formatter->getPrettyPercentFromQuotient($value);
     }
 
     public function getDependentMetrics()

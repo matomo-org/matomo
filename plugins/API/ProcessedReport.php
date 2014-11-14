@@ -18,7 +18,7 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\Date;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -647,6 +647,8 @@ class ProcessedReport
             $enhancedDataTable = new Simple();
         }
 
+        $formatter = new Formatter();
+
         foreach ($simpleDataTable->getRows() as $row) {
             $rowMetrics = $row->getColumns();
 
@@ -673,7 +675,8 @@ class ProcessedReport
                         $idSiteForRow = (int) $row->getMetadata('idsite');
                     }
 
-                    $prettyValue = MetricsFormatter::getPrettyValue($idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
+                    // TODO: should not call this for formatted processed metrics
+                    $prettyValue = $this->getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
                 elseif ($returnRawMetrics) {
@@ -796,5 +799,36 @@ class ProcessedReport
             }
             return $entry;
         }, $v));
+    }
+
+    /**
+     * Prettifies a metric value based on the column name.
+     *
+     * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
+     * @param string $columnName The metric name.
+     * @param mixed $value The metric value.
+     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
+     * @return string
+     */
+    public function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value) // TODO: is this method used? if not remove it
+    {
+        // Display time in human readable
+        if (strpos($columnName, 'time') !== false) {
+            return $formatter->getPrettyTimeFromSeconds($value);
+        }
+
+        // Add revenue symbol to revenues
+        if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
+            return $formatter->getPrettyMoney($value, $idSite);
+        }
+
+        // Add % symbol to rates
+        if (strpos($columnName, '_rate') !== false) {
+            if (strpos($value, "%") === false) {
+                return $value . "%";
+            }
+        }
+
+        return $value;
     }
 }

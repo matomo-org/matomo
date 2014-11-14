@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\Metrics\Formatter;
 
 /**
  * Base type of metric metadata classes.
@@ -72,9 +73,11 @@ abstract class Metric
      *
      * By default, just returns the value.
      *
+     * @param mixed $value The metric value.
+     * @param Formatter $formatter The formatter to use when formatting a value.
      * @return mixed $value
      */
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
         return $value;
     }

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Contents\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -39,9 +40,9 @@ class InteractionRate extends ProcessedMetric
         return Piwik::getQuotientSafe($interactions, $impressions, $precision = 4);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return ($value * 100) . '%';
+        return $formatter->getPrettyPercentFromQuotient($value);
     }
 
     public function getDependentMetrics()

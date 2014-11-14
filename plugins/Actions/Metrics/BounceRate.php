@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Actions\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -38,9 +39,9 @@ class BounceRate extends ProcessedMetric
         return Piwik::getQuotientSafe($entryBounceCount, $entryVisits, $precision = 2);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return ($value * 100) . '%'; // TODO: how does this affect the float/locale bug?
+        return $formatter->getPrettyPercentFromQuotient($value);
     }
 
     public function getDependentMetrics()

@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreHome\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -33,6 +34,11 @@ class AverageTimeOnSite extends ProcessedMetric
         $nbVisits = $this->getMetric($row, 'nb_visits');
 
         return Piwik::getQuotientSafe($sumVisitLength, $nbVisits, $precision = 0);
+    }
+
+    public function format($value, Formatter $formatter)
+    {
+        return $formatter->getPrettyTimeFromSeconds($value);
     }
 
     public function getTranslatedName()

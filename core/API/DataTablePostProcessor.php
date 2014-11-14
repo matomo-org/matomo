@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Report;
 
 /**
@@ -85,7 +86,9 @@ class DataTablePostProcessor
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
 
-        $dataTable = $this->applyProcessedMetricsFormatting($dataTable, $applyFormatting);
+        if ($applyFormatting) {
+            $dataTable = $this->applyProcessedMetricsFormatting($dataTable);
+        }
 
         return $dataTable;
     }
@@ -224,13 +227,17 @@ class DataTablePostProcessor
      * TODO: remove applyFormatting parameter
      *
      * @param DataTableInterface $dataTable
+     * @param Formatter|null $formatter
      * @return DataTableInterface
      */
-    public function applyProcessedMetricsFormatting($dataTable, $applyFormatting = true)
+    public function applyProcessedMetricsFormatting($dataTable, Formatter $formatter = null)
     {
-        if ($applyFormatting) {
-            $dataTable->filter(array($this, 'formatProcessedMetrics'));
+        if ($formatter === null)
+        {
+            $formatter = new Formatter();
         }
+
+        $dataTable->filter(array($this, 'formatProcessedMetrics'), array($formatter));
         return $dataTable;
     }
 
@@ -288,7 +295,7 @@ class DataTablePostProcessor
 
                     $subtable = $row->getSubtable();
                     if (!empty($subtable)) {
-                        $this->computeProcessedMetrics($subtable, $this->report);
+                        $this->computeProcessedMetrics($subtable);
                     }
                 }
             }
@@ -298,7 +305,7 @@ class DataTablePostProcessor
     /**
      * public for use as callback.
      */
-    public function formatProcessedMetrics(DataTable $dataTable)
+    public function formatProcessedMetrics(DataTable $dataTable, Formatter $formatter)
     {
         if ($dataTable->getMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG)) {
             return;
@@ -319,12 +326,12 @@ class DataTablePostProcessor
             foreach ($dataTable->getRows() as $row) {
                 $columnValue = $row->getColumn($name);
                 if ($columnValue !== false) {
-                    $row->setColumn($name, $processedMetric->format($columnValue));
+                    $row->setColumn($name, $processedMetric->format($columnValue, $formatter));
                 }
 
                 $subtable = $row->getSubtable();
                 if (!empty($subtable)) {
-                    $this->formatProcessedMetrics($subtable, $this->report);
+                    $this->formatProcessedMetrics($subtable, $formatter);
                 }
             }
         }

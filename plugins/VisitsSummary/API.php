@@ -9,8 +9,7 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
-use Piwik\Common;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\SettingsPiwik;
@@ -119,12 +118,14 @@ class API extends \Piwik\Plugin\API
 
     public function getSumVisitsLengthPretty($idSite, $period, $date, $segment = false)
     {
+        $formatter = new Formatter();
+
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
         if (is_object($table)) {
             $table->filter('ColumnCallbackReplace',
-                array('sum_visit_length', '\Piwik\MetricsFormatter::getPrettyTimeFromSeconds'));
+                array('sum_visit_length', array($formatter, 'getPrettyTimeFromSeconds')));
         } else {
-            $table = MetricsFormatter::getPrettyTimeFromSeconds($table);
+            $table = $formatter->getPrettyTimeFromSeconds($table);
         }
         return $table;
     }

@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreHome\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -35,9 +36,9 @@ class ConversionRate extends ProcessedMetric
         return array('nb_visits_converted', 'nb_visits');
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return ($value * 100) . '%';
+        return $formatter->getPrettyPercentFromQuotient($value);
     }
 
     public function compute(Row $row)

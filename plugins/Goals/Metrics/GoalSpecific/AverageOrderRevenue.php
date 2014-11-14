@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Goals\Metrics\GoalSpecific;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -54,9 +54,9 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
         return Piwik::getQuotientSafe($goalRevenue, $conversions, GoalManager::REVENUE_PRECISION);
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return MetricsFormatter::getPrettyMoney(sprintf("%.1f", $value), $this->idSite, $isHtml = false);
+        return $formatter->getPrettyMoney($value, $this->idSite);
     }
 
     public function beforeFormat($report, DataTable $table)

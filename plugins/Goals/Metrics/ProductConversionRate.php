@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Tracker\GoalManager;
@@ -32,9 +33,9 @@ class ProductConversionRate extends ProcessedMetric
         return Piwik::translate('General_ProductConversionRate');
     }
 
-    public function format($value)
+    public function format($value, Formatter $formatter)
     {
-        return ($value * 100) . '%';
+        return $formatter->getPrettyPercentFromQuotient($value);
     }
 
     public function compute(Row $row)
