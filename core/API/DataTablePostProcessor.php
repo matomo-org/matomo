@@ -150,7 +150,7 @@ class DataTablePostProcessor
     {
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
-            $label = self::getLabelFromRequest($this->request);
+            $this->applyProcessedMetricsGenericFilters($dataTable);
 
             $genericFilter = new DataTableGenericFilter($this->request);
 
@@ -163,11 +163,36 @@ class DataTablePostProcessor
                 }
             });
 
+            $label = self::getLabelFromRequest($this->request);
             if (!empty($label)) {
                 $genericFilter->disableFilters(array('Limit', 'Truncate'));
             }
 
             $genericFilter->filter($dataTable);
+        }
+
+        return $dataTable;
+    }
+
+    /**
+     * @param DataTableInterface $dataTable
+     * @return DataTableInterface
+     */
+    public function applyProcessedMetricsGenericFilters($dataTable)
+    {
+        $addNormalProcessedMetrics = Common::getRequestVar(
+            'filter_add_columns_when_show_all_columns', false, 'integer', $this->request);
+        if ($addNormalProcessedMetrics !== false) {
+            $dataTable->filter('AddColumnsProcessedMetrics', array($addNormalProcessedMetrics));
+        }
+
+        $addGoalProcessedMetrics = Common::getRequestVar(
+            'filter_update_columns_when_show_all_goals', false, 'integer', $this->request);
+        if ($addGoalProcessedMetrics !== false) {
+            $idGoal = Common::getRequestVar(
+                'idGoal', DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string', $this->request);
+
+            $dataTable->filter('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal));
         }
 
         return $dataTable;

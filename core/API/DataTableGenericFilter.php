@@ -84,15 +84,6 @@ class DataTableGenericFilter
                       'filter_excludelowpop'       => array('string'),
                       'filter_excludelowpop_value' => array('float', '0'),
                   )),
-            array('AddColumnsProcessedMetrics',
-                  array(
-                      'filter_add_columns_when_show_all_columns' => array('integer')
-                  )),
-            array('AddColumnsProcessedMetricsGoal',
-                  array(
-                      'filter_update_columns_when_show_all_goals' => array('integer'),
-                      'idGoal'                                    => array('string', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
-                  )),
             array('Sort',
                   array(
                       'filter_sort_column' => array('string'),
