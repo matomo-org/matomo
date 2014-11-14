@@ -135,9 +135,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $result['next_screen'] = $this->getGeoIpUpdaterManageScreen();
                 }
 
-                return Common::json_encode($result);
+                return json_encode($result);
             } catch (Exception $ex) {
-                return Common::json_encode(array('error' => $ex->getMessage()));
+                return json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -207,15 +207,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // the browser so it can download it next
                 $info = $this->getNextMissingDbUrlInfo();
                 if ($info !== false) {
-                    return Common::json_encode($info);
+                    return json_encode($info);
                 } else {
                     $view = new View("@UserCountry/_updaterNextRunTime");
                     $view->nextRunTime = GeoIPAutoUpdater::getNextRunTime();
                     $nextRunTimeHtml = $view->render();
-                    return Common::json_encode(array('nextRunTime' => $nextRunTimeHtml));
+                    return json_encode(array('nextRunTime' => $nextRunTimeHtml));
                 }
             } catch (Exception $ex) {
-                return Common::json_encode(array('error' => $ex->getMessage()));
+                return json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -270,13 +270,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                     $info = $this->getNextMissingDbUrlInfo();
                     if ($info !== false) {
-                        return Common::json_encode($info);
+                        return json_encode($info);
                     }
                 }
 
-                return Common::json_encode($result);
+                return json_encode($result);
             } catch (Exception $ex) {
-                return Common::json_encode(array('error' => $ex->getMessage()));
+                return json_encode(array('error' => $ex->getMessage()));
             }
         }
     }

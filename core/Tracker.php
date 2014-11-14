@@ -436,7 +436,7 @@ class Tracker
                 $result['message'] = $this->getMessageFromException($e);
             }
             Common::sendHeader('Content-Type: application/json');
-            echo Common::json_encode($result);
+            echo json_encode($result);
             die(1);
             exit;
         }
@@ -496,7 +496,7 @@ class Tracker
             $this->outputAccessControlHeaders();
 
             Common::sendHeader('Content-Type: application/json');
-            echo Common::json_encode($result);
+            echo json_encode($result);
             exit;
         }
         switch ($this->getState()) {

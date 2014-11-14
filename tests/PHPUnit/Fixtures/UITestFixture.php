@@ -249,7 +249,7 @@ class UITestFixture extends SqlDump
             } else {
                 $_GET['name'] = 'dashboard name' . $id;
             }
-            $_GET['layout'] = Common::json_encode($layout);
+            $_GET['layout'] = json_encode($layout);
             $_GET['idDashboard'] = $id + 1;
             FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         }
@@ -271,7 +271,7 @@ class UITestFixture extends SqlDump
         );
 
         $_GET['name'] = 'D4';
-        $_GET['layout'] = Common::json_encode($dashboard);
+        $_GET['layout'] = json_encode($dashboard);
         $_GET['idDashboard'] = 5;
         $_GET['idSite'] = 2;
         FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');

@@ -462,7 +462,7 @@ class Common
         // we deal w/ json differently
         if ($varType == 'json') {
             $value = self::undoMagicQuotes($requestArrayToUse[$varName]);
-            $value = self::json_decode($value, $assoc = true);
+            $value = json_decode($value, $assoc = true);
             return self::sanitizeInputValues($value, $alreadyStripslashed = true);
         }
 
