@@ -14,8 +14,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use FakeAccess;
 use Exception;
 
 /**

@@ -12,8 +12,8 @@ use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Site;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use FakeAccess;
 use Exception;
 use PHPUnit_Framework_Constraint_IsType;
 

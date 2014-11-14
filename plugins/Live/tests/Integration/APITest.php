@@ -12,9 +12,9 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\Live\API;
-use FakeAccess;
 use Piwik\Access;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
