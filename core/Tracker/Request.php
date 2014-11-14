@@ -12,6 +12,8 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
+use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Exception\InvalidVisitorIdException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Piwik\Network\IPUtils;
@@ -304,7 +306,7 @@ class Request
         );
 
         if (!isset($supportedParams[$name])) {
-            throw new Exception("Requested parameter $name is not a known Tracking API Parameter.");
+            throw new InvalidRequestParameterException("Requested parameter $name is not a known Tracking API Parameter.");
         }
 
         $paramDefaultValue = $supportedParams[$name][0];
@@ -524,7 +526,7 @@ class Request
             $idVisitor = $this->getForcedVisitorId();
             if (!empty($idVisitor)) {
                 if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
-                    throw new Exception("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
+                    throw new InvalidRequestParameterException("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
                 }
                 Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
                 $found = true;
