@@ -4,14 +4,12 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 
 namespace Piwik\Plugins\Goals\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Goals\API as APIGoals;
@@ -103,9 +101,8 @@ class Goals extends HtmlTable
         ));
 
         $goalName = Piwik::translate('General_EcommerceOrders');
-        $this->config->metrics_documentation += array(
-            'revenue_per_visit'                     => Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', $goalName)
-        );
+        $this->config->metrics_documentation['revenue_per_visit'] =
+            Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', $goalName);
     }
 
     private function setPropertiesForGoalsOverview($idSite)

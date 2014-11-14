@@ -58,22 +58,8 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $view->config->addTranslations(array(
             'nb_hits'             => Piwik::translate('General_ColumnPageviews'),
-            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews'),
-            'avg_time_on_page'    => Piwik::translate('General_ColumnAverageTimeOnPage'),
-            'bounce_rate'         => Piwik::translate('General_ColumnBounceRate'),
-            'exit_rate'           => Piwik::translate('General_ColumnExitRate'),
-            'avg_time_generation' => Piwik::translate('General_ColumnAverageGenerationTime'),
+            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews')
         ));
-
-        // prettify avg_time_on_page column
-        $getPrettyTimeFromSeconds = '\Piwik\MetricsFormatter::getPrettyTimeFromSeconds';
-        $view->config->filters[] = array('ColumnCallbackReplace', array('avg_time_on_page', $getPrettyTimeFromSeconds));
-
-        // prettify avg_time_generation column
-        $avgTimeCallback = function ($time) {
-            return $time ? MetricsFormatter::getPrettyTimeFromSeconds($time, true, true, false) : "-";
-        };
-        $view->config->filters[] = array('ColumnCallbackReplace', array('avg_time_generation', $avgTimeCallback));
 
         // add avg_generation_time tooltip
         $tooltipCallback = function ($hits, $min, $max) {
@@ -115,5 +101,4 @@ abstract class Base extends \Piwik\Plugin\Report
             };
         }
     }
-
 }

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Actions\Metrics;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
@@ -45,6 +46,12 @@ class AveragePageGenerationTime extends ProcessedMetric
         $hitsWithTimeGeneration = $this->getMetric($row, 'nb_hits_with_time_generation');
 
         return Piwik::getQuotientSafe($sumGenerationTime, $hitsWithTimeGeneration, $precision = 3);
+    }
+
+    public function format($value)
+    {
+        // TODO: isHtml needs to be true for this & for revenue columns. perhaps we can make MetricsFormatter an object.
+        return $value ? MetricsFormatter::getPrettyTimeFromSeconds($value, $displayAsSentence = true, $isHtml = false) : "-";
     }
 
     public function beforeCompute($report, DataTable $table)
