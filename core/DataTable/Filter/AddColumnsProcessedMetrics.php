@@ -12,10 +12,10 @@ use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Plugin\Metric;
-use Piwik\Plugins\CoreHome\Metrics\ActionsPerVisit;
-use Piwik\Plugins\CoreHome\Metrics\AverageTimeOnSite;
-use Piwik\Plugins\CoreHome\Metrics\BounceRate;
-use Piwik\Plugins\CoreHome\Metrics\ConversionRate;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
+use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
+use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 
 /**
  * Adds processed metrics columns to a {@link DataTable} using metrics that already exist.

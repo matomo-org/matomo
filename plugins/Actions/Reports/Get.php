@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 
 class Get extends Base
 {

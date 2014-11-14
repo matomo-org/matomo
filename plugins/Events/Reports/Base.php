@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Events\Reports;
 
 use Piwik\Plugins\Events\API;
-use Piwik\Plugins\Events\Metrics\AverageEventValue;
+use Piwik\Plugins\Events\Columns\Metrics\AverageEventValue;
 
 abstract class Base extends \Piwik\Plugin\Report
 {

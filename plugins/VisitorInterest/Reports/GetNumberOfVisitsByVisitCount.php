@@ -12,7 +12,7 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\VisitorInterest\Columns\VisitsbyVisitNumber;
-use Piwik\Plugins\CoreHome\Metrics\VisitsPercent;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
 class GetNumberOfVisitsByVisitCount extends Base
 {

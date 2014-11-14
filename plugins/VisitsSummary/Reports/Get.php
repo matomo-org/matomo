@@ -9,9 +9,9 @@
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugins\CoreHome\Metrics\ActionsPerVisit;
-use Piwik\Plugins\CoreHome\Metrics\AverageTimeOnSite;
-use Piwik\Plugins\CoreHome\Metrics\BounceRate;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
+use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
+use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
 
 class Get extends \Piwik\Plugin\Report
 {

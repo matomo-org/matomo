@@ -11,10 +11,10 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\KeywordwithNoSearchResult;
-use Piwik\Plugins\Actions\Metrics\AveragePageGenerationTime;
-use Piwik\Plugins\Actions\Metrics\AverageTimeOnPage;
-use Piwik\Plugins\Actions\Metrics\BounceRate;
-use Piwik\Plugins\Actions\Metrics\ExitRate;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
 
 class GetSiteSearchNoResultKeywords extends SiteSearchBase
 {

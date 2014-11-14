@@ -17,7 +17,7 @@ use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\Goals\Metrics\AverageOrderRevenue;
+use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;

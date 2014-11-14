@@ -14,9 +14,9 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Goals\Goals;
-use Piwik\Plugins\Goals\Metrics\AveragePrice;
-use Piwik\Plugins\Goals\Metrics\AverageQuantity;
-use Piwik\Plugins\Goals\Metrics\ProductConversionRate;
+use Piwik\Plugins\Goals\Columns\Metrics\AveragePrice;
+use Piwik\Plugins\Goals\Columns\Metrics\AverageQuantity;
+use Piwik\Plugins\Goals\Columns\Metrics\ProductConversionRate;
 
 abstract class BaseEcommerceItem extends BaseEcommerce
 {

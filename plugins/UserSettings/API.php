@@ -13,7 +13,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\DevicesDetection\Archiver AS DDArchiver;
-use Piwik\Plugins\CoreHome\Metrics\VisitsPercent;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
 /**
  * @see plugins/UserSettings/functions.php

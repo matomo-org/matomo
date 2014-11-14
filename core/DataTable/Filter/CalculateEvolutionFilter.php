@@ -10,7 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
+use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 
 /**
  * A {@link DataTable} filter that calculates the evolution of a metric and adds
@@ -30,7 +30,7 @@ use Piwik\Plugins\CoreHome\Metrics\EvolutionMetric;
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
     /**
-     * @var EvolutionMetric
+     * @var \Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric
      */
     protected $evolutionMetric;
 

@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Contents\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Contents\Columns\ContentPiece;
-use Piwik\Plugins\Contents\Metrics\InteractionRate;
+use Piwik\Plugins\Contents\Columns\Metrics\InteractionRate;
 use Piwik\View;
 
 /**

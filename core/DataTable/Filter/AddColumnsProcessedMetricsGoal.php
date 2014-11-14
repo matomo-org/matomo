@@ -12,13 +12,13 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
-use Piwik\Plugins\Goals\Metrics\GoalSpecific\AverageOrderRevenue;
-use Piwik\Plugins\Goals\Metrics\GoalSpecific\ConversionRate;
-use Piwik\Plugins\Goals\Metrics\GoalSpecific\Conversions;
-use Piwik\Plugins\Goals\Metrics\GoalSpecific\ItemsCount;
-use Piwik\Plugins\Goals\Metrics\GoalSpecific\Revenue;
-use Piwik\Plugins\Goals\Metrics\GoalSpecific\RevenuePerVisit as GoalSpecificRevenuePerVisit;
-use Piwik\Plugins\Goals\Metrics\RevenuePerVisit;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\AverageOrderRevenue;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Conversions;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ItemsCount;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Revenue;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit as GoalSpecificRevenuePerVisit;
+use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
 
 /**
  * Adds goal related metrics to a {@link DataTable} using metrics that already exist.
