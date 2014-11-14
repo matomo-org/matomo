@@ -306,7 +306,7 @@ class Request
         );
 
         if (!isset($supportedParams[$name])) {
-            throw new InvalidRequestParameterException("Requested parameter $name is not a known Tracking API Parameter.");
+            throw new Exception("Requested parameter $name is not a known Tracking API Parameter.");
         }
 
         $paramDefaultValue = $supportedParams[$name][0];

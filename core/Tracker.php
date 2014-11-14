@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\SitesManager\SiteUrls;
@@ -846,6 +847,9 @@ class Tracker
                 Common::printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
             }
         } catch (UnexpectedWebsiteFoundException $e) {
+            Common::printDebug("Exception: " . $e->getMessage());
+            $this->exitWithException($e, $isAuthenticated, 400);
+        } catch (InvalidRequestParameterException $e) {
             Common::printDebug("Exception: " . $e->getMessage());
             $this->exitWithException($e, $isAuthenticated, 400);
         } catch (DbException $e) {
