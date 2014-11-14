@@ -5,16 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
+use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Core_AccessTest
- *
  * @group Core
  */
-class Core_AccessTest extends IntegrationTestCase
+class AccessTest extends IntegrationTestCase
 {
     public function setUp()
     {
@@ -88,7 +90,7 @@ class Core_AccessTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException Piwik\NoAccessException
+     * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasSuperUserAccessWithEmptyAccess()
     {
@@ -104,7 +106,7 @@ class Core_AccessTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException Piwik\NoAccessException
+     * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
     {
@@ -134,7 +136,7 @@ class Core_AccessTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException Piwik\NoAccessException
+     * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasSomeViewAccessWithEmptyAccess()
     {
@@ -164,7 +166,7 @@ class Core_AccessTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException Piwik\NoAccessException
+     * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithEmptyAccessNoSiteIdsGiven()
     {
@@ -208,7 +210,7 @@ class Core_AccessTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException Piwik\NoAccessException
+     * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithSomeAccessFailure()
     {
@@ -232,7 +234,7 @@ class Core_AccessTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException Piwik\NoAccessException
+     * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
     {
@@ -273,7 +275,7 @@ class Core_AccessTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException Piwik\NoAccessException
+     * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithSomeAccessFailure()
     {
@@ -304,8 +306,8 @@ class Core_AccessTest extends IntegrationTestCase
 
     public function testReloadAccessWithMockedAuthValid()
     {
-        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
-                                                      'setPassword', 'setPasswordHash'));
+        $mock = $this->getMock('Piwik\\Auth', array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
+                                                    'setPassword', 'setPasswordHash'));
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));

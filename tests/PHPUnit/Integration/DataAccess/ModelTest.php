@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration\DataAccess;
+
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\DataAccess\Model;
 
@@ -13,7 +15,7 @@ use Piwik\DataAccess\Model;
  * @group Core
  * @group DataAccess
  */
-class Core_DataAccess_ModelTest extends IntegrationTestCase
+class ModelTest extends IntegrationTestCase
 {
     /**
      * @var Model
@@ -45,5 +47,4 @@ class Core_DataAccess_ModelTest extends IntegrationTestCase
 
         $this->assertEquals($expectedId, $id);
     }
-
 }
