@@ -326,7 +326,7 @@ class AccessTest extends IntegrationTestCase
         $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
 
         Access::doAsSuperUser(function () {
-            Core_AccessTest::assertTrue(Access::getInstance()->hasSuperUserAccess());
+            AccessTest::assertTrue(Access::getInstance()->hasSuperUserAccess());
         });
 
         $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
@@ -367,9 +367,9 @@ class AccessTest extends IntegrationTestCase
         Access::doAsSuperUser(function () {
             $access = Access::getInstance();
 
-            Core_AccessTest::assertTrue($access->hasSuperUserAccess());
+            AccessTest::assertTrue($access->hasSuperUserAccess());
             $access->reloadAccess();
-            Core_AccessTest::assertTrue($access->hasSuperUserAccess());
+            AccessTest::assertTrue($access->hasSuperUserAccess());
         });
     }
 }
