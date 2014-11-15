@@ -46,7 +46,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -146,7 +145,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>

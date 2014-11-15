@@ -83,7 +83,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -237,7 +236,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -360,7 +358,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -514,7 +511,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -637,7 +633,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -791,7 +786,6 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>UNK</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
@@ -906,7 +900,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>

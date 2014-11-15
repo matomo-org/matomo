@@ -64,7 +64,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemCode>W81</operatingSystemCode>
-		<operatingSystemShortName>Windows 8.1</operatingSystemShortName>
 		<operatingSystemIcon>W81</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
@@ -202,7 +201,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -315,7 +313,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
@@ -461,7 +458,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -576,7 +572,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
@@ -702,7 +697,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
@@ -835,7 +829,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -957,7 +950,6 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemShortName>Android</operatingSystemShortName>
 		<operatingSystemIcon>AND</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -1071,7 +1063,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -1240,7 +1231,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemCode>WI8</operatingSystemCode>
-		<operatingSystemShortName>Win 8</operatingSystemShortName>
 		<operatingSystemIcon>WI8</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -1358,7 +1348,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
@@ -1484,7 +1473,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
@@ -1768,7 +1756,6 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>UNK</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
@@ -1884,7 +1871,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -2001,7 +1987,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>WXP</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -2134,7 +2119,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -2259,7 +2243,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -2391,7 +2374,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -2499,7 +2481,6 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
-		<operatingSystemShortName>Bot</operatingSystemShortName>
 		<operatingSystemIcon>BOT</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
@@ -2607,7 +2588,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -2705,7 +2685,6 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>UNK</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
@@ -2813,7 +2792,6 @@
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemShortName>Android</operatingSystemShortName>
 		<operatingSystemIcon>AND</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -2921,7 +2899,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -3025,7 +3002,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -3129,7 +3105,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -3233,7 +3208,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -3337,7 +3311,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -3441,7 +3414,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -3545,7 +3517,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -3649,7 +3620,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -3753,7 +3723,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -3857,7 +3826,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -3961,7 +3929,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -4065,7 +4032,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -4169,7 +4135,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -4273,7 +4238,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemShortName>Win 7</operatingSystemShortName>
 		<operatingSystemIcon>WI7</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -4377,7 +4341,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
@@ -4481,7 +4444,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemShortName>GNU/Linux</operatingSystemShortName>
 		<operatingSystemIcon>LIN</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -4585,7 +4547,6 @@
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemShortName>Android</operatingSystemShortName>
 		<operatingSystemIcon>AND</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
@@ -4689,7 +4650,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemShortName>Mac</operatingSystemShortName>
 		<operatingSystemIcon>MAC</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>

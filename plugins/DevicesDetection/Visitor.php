@@ -34,14 +34,9 @@ class Visitor
         return getOsFullName($this->details['config_os']);
     }
 
-    public function getOperatingSystemShortName()
-    {
-        return getOsShortName($this->details['config_os']);
-    }
-
     public function getOperatingSystemIcon()
     {
-        return getBrowserEngineName($this->details['config_os']);
+        return getOsLogo($this->details['config_os']);
     }
 
     public function getBrowserEngineDescription()

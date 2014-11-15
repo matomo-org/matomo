@@ -136,12 +136,9 @@ class API extends \Piwik\Plugin\API
      * @param bool|string $segment
      * @return DataTable
      */
-    public function getOsVersions($idSite, $period, $date, $segment = false, $addShortLabel = true)
+    public function getOsVersions($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
-        if ($addShortLabel) {
-            $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'shortLabel', __NAMESPACE__ . '\getOsShortName'));
-        }
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsLogo'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getOsFullName'));
         return $dataTable;

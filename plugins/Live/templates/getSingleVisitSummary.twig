@@ -31,7 +31,7 @@
             {% endif %}
 
             <div class="visitor-profile-os">
-                {% if visitData.operatingSystemIcon is defined %}<img src="{{ visitData.operatingSystemIcon }}"/>{% endif %}{% if visitData.operatingSystemShortName is defined %}<span>{{ visitData.operatingSystemShortName }}</span>{% endif %}
+                {% if visitData.operatingSystemIcon is defined %}<img src="{{ visitData.operatingSystemIcon }}"/>{% endif %}{% if visitData.operatingSystem is defined %}<span>{{ visitData.operatingSystem }}</span>{% endif %}
             </div>
         </li>
         {% if visitData.resolution is defined %}<li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}

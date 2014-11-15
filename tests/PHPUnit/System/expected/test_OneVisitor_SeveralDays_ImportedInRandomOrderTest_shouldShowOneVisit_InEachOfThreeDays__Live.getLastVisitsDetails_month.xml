@@ -48,7 +48,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemShortName>Win Vista</operatingSystemShortName>
 		<operatingSystemIcon>WVI</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -141,7 +140,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemShortName>Win Vista</operatingSystemShortName>
 		<operatingSystemIcon>WVI</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
@@ -234,7 +232,6 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemShortName>Win Vista</operatingSystemShortName>
 		<operatingSystemIcon>WVI</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
