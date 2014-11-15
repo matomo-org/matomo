@@ -17,7 +17,8 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
-use Piwik\Exceptions\HtmlMessageException;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\FrontController;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
@@ -841,16 +842,22 @@ abstract class Controller
             $message = "Error: no website was found in this Piwik installation.
 			<br />Check the table '$siteTableName' in your database, it should contain your Piwik websites.";
 
-            throw new HtmlMessageException($message);
+            $ex = new NoWebsiteFoundException($message);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
 
         if (!Piwik::isUserIsAnonymous()) {
             $currentLogin = Piwik::getCurrentUserLogin();
             $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
-            $errorMessage = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
+            $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
 
-            throw new HtmlMessageException($errorMessage);
+            $ex = new NoPrivilegesException($errorMessage);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
 
         echo FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);

@@ -5,12 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
+use Exception;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Segment;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
+ * @group Core
  * @group SegmentTest
  */
 class SegmentTest extends IntegrationTestCase
@@ -91,7 +97,6 @@ class SegmentTest extends IntegrationTestCase
 
     /**
      * @dataProvider getCommonTestData
-     * @group Core
      */
     public function testCommon($segment, $expected)
     {
@@ -121,9 +126,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($segment->getHash()));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryNoJoin()
     {
         $select = '*';
@@ -151,9 +153,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryJoinVisitOnAction()
     {
         $select = '*';
@@ -182,9 +181,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryJoinActionOnVisit()
     {
         $select = 'sum(log_visit.visit_total_actions) as nb_actions, max(log_visit.visit_total_actions) as max_actions, sum(log_visit.visit_total_time) as sum_visit_length';
@@ -220,9 +216,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryJoinConversionOnAction()
     {
         $select = '*';
@@ -251,9 +244,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryJoinActionOnConversion()
     {
         $select = '*';
@@ -282,9 +272,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryJoinConversionOnVisit()
     {
         $select = 'log_visit.*';
@@ -319,9 +306,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryConversionOnly()
     {
         $select = 'log_conversion.*';
@@ -349,9 +333,6 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSelectQueryJoinVisitOnConversion()
     {
         $select = '*';
@@ -383,8 +364,6 @@ class SegmentTest extends IntegrationTestCase
     /**
      * visit is joined on action, then conversion is joined
      * make sure that conversion is joined on action not visit
-     *
-     * @group Core
      */
     public function testGetSelectQueryJoinVisitAndConversionOnAction()
     {
@@ -416,8 +395,6 @@ class SegmentTest extends IntegrationTestCase
     /**
      * join conversion on visit, then actions
      * make sure actions are joined before conversions
-     *
-     * @group Core
      */
     public function testGetSelectQueryJoinConversionAndActionOnVisit()
     {
@@ -465,14 +442,12 @@ class SegmentTest extends IntegrationTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getBogusSegments
      */
     public function testBogusSegmentThrowsException($segment)
     {
         try {
-            $segment = new Segment($segment, $idSites = array());
+            new Segment($segment, $idSites = array());
         } catch (Exception $e) {
             return;
         }

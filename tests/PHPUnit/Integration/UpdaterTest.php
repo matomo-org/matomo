@@ -5,15 +5,14 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Integration\Core;
+
+namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
 use Piwik\Tests\Framework\Fixture;
 
 /**
- * Class Core_UpdaterTest
- *
  * @group Core
  * @group Core_UpdaterTest
  */

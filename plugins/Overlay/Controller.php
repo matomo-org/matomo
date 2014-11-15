@@ -160,7 +160,7 @@ class Controller extends \Piwik\Plugin\Controller
 					var urlToRedirect = window.location.hash.substr(1);
 					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
 
-					var knownUrls = ' . Common::json_encode($urls) . ';
+					var knownUrls = ' . json_encode($urls) . ';
 					for (var i = 0; i < knownUrls.length; i++) {
 						var testUrl = removeUrlPrefix(knownUrls[i]);
 						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {

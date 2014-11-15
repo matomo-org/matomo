@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Exceptions\HtmlMessageException;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;
@@ -444,10 +444,13 @@ class Controller extends Plugin\ControllerAdmin
 
             $messageIntro = Piwik::translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
                 $pluginName);
-            $exitMessage = $messageIntro . "<br/><br/>" . $messagePermissions;
+            $exitMessage  = $messageIntro . "<br/><br/>" . $messagePermissions;
             $exitMessage .= "<br> Or manually delete this directory (using FTP or SSH access)";
 
-            throw new HtmlMessageException($exitMessage);
+            $ex = new MissingFilePermissionException($exitMessage);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
 
         $this->redirectAfterModification($redirectAfter);

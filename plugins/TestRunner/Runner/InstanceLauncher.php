@@ -40,6 +40,7 @@ class InstanceLauncher {
 
         try {
             $host = $this->instance->setup($instanceIds);
+            $this->instance->verifySetup($instanceIds);
         } catch (\Exception $e) {
             $this->instance->terminate($instanceIds);
 

@@ -39,7 +39,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View($template);
         $this->setGeneralVariablesView($view);
 
-        $view->availableWidgets = Common::json_encode(WidgetsList::get());
+        $view->availableWidgets = json_encode(WidgetsList::get());
         $view->availableLayouts = $this->getAvailableLayouts();
 
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
@@ -75,7 +75,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkTokenInUrl();
 
         Json::sendHeaderJSON();
-        return Common::json_encode(WidgetsList::get());
+        return json_encode(WidgetsList::get());
     }
 
     public function getDashboardLayout($checkToken = true)
@@ -148,7 +148,7 @@ class Controller extends \Piwik\Plugin\Controller
         $dashboards = $this->dashboard->getAllDashboards($login);
 
         Json::sendHeaderJSON();
-        return Common::json_encode($dashboards);
+        return json_encode($dashboards);
     }
 
     /**
@@ -175,7 +175,7 @@ class Controller extends \Piwik\Plugin\Controller
         $nextId = $this->getModel()->createNewDashboardForUser($login, $name, $layout);
 
         Json::sendHeaderJSON();
-        return Common::json_encode($nextId);
+        return json_encode($nextId);
     }
 
     public function copyDashboardToUser()
@@ -197,7 +197,7 @@ class Controller extends \Piwik\Plugin\Controller
             $nextId = $this->getModel()->createNewDashboardForUser($user, $name, $layout);
 
             Json::sendHeaderJSON();
-            return Common::json_encode($nextId);
+            return json_encode($nextId);
         }
     }
 

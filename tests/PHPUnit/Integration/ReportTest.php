@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration;
+
 use Piwik\API\Proxy;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
@@ -72,7 +74,7 @@ class GetDisabledReport extends GetBasicReport
 /**
  * @group Core
  */
-class Plugin_ReportTest extends IntegrationTestCase
+class ReportTest extends IntegrationTestCase
 {
     /**
      * @var Report
