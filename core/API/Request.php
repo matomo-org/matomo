@@ -79,15 +79,19 @@ class Request
      *
      * @param string|array $request The base request string or array, eg,
      *                              `'module=UserSettings&action=getWidescreen'`.
+     * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded
+     *                              from this. Defaults to `$_GET + $_POST`.
      * @return array
      */
-    public static function getRequestArrayFromString($request)
+    public static function getRequestArrayFromString($request, $defaultRequest = null)
     {
-        $defaultRequest = $_GET + $_POST;
+        if ($defaultRequest === null) {
+            $defaultRequest = $_GET + $_POST;
 
-        $requestRaw = self::getRequestParametersGET();
-        if (!empty($requestRaw['segment'])) {
-            $defaultRequest['segment'] = $requestRaw['segment'];
+            $requestRaw = self::getRequestParametersGET();
+            if (!empty($requestRaw['segment'])) {
+                $defaultRequest['segment'] = $requestRaw['segment'];
+            }
         }
 
         $requestArray = $defaultRequest;
@@ -120,10 +124,12 @@ class Request
      *                              eg, `'method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml'`
      *                              If a request is not provided, then we use the values in the `$_GET` and `$_POST`
      *                              superglobals.
+     * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded
+     *                              from this. Defaults to `$_GET + $_POST`.
      */
-    public function __construct($request = null)
+    public function __construct($request = null, $defaultRequest = null)
     {
-        $this->request = self::getRequestArrayFromString($request);
+        $this->request = self::getRequestArrayFromString($request, $defaultRequest);
         $this->sanitizeRequest();
     }
 
@@ -289,9 +295,13 @@ class Request
      * @param string $method The API method to call, ie, `'Actions.getPageTitles'`.
      * @param array $paramOverride The parameter name-value pairs to use instead of what's
      *                             in `$_GET` & `$_POST`.
+     * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded
+     *                              from this. Defaults to `$_GET + $_POST`.
+     *
+     *                              To avoid using any parameters from $_GET or $_POST, set this to an empty `array()`.
      * @return mixed The result of the API request. See {@link process()}.
      */
-    public static function processRequest($method, $paramOverride = array())
+    public static function processRequest($method, $paramOverride = array(), $defaultRequest = null)
     {
         $params = array();
         $params['format'] = 'original';
@@ -300,7 +310,7 @@ class Request
         $params = $paramOverride + $params;
 
         // process request
-        $request = new Request($params);
+        $request = new Request($params, $defaultRequest);
         return $request->process();
     }
 
