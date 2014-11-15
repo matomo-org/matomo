@@ -45,7 +45,7 @@ class AveragePageGenerationTime extends ProcessedMetric
         $sumGenerationTime = $this->getMetric($row, 'sum_time_generation');
         $hitsWithTimeGeneration = $this->getMetric($row, 'nb_hits_with_time_generation');
 
-        return Piwik::getQuotientSafe($sumGenerationTime, $hitsWithTimeGeneration, $precision = 3);
+        return Piwik::getQuotientSafe($sumGenerationTime, $hitsWithTimeGeneration, $precision = 4);
     }
 
     public function format($value, Formatter $formatter)
