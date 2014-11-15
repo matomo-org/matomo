@@ -36,35 +36,7 @@ class Visitor
 
     public function getOperatingSystemShortName()
     {
-        $shortNameMapping = array(
-            'PS3' => 'PS3',
-            'PSP' => 'PSP',
-            'WII' => 'Wii',
-            'WIU' => 'Wii U',
-            'NDS' => 'DS',
-            'DSI' => 'DSi',
-            '3DS' => '3DS',
-            'PSV' => 'PS Vita',
-            'WI8' => 'Win 8',
-            'WI7' => 'Win 7',
-            'WVI' => 'Win Vista',
-            'WS3' => 'Win S2003',
-            'WXP' => 'Win XP',
-            'W98' => 'Win 98',
-            'W2K' => 'Win 2000',
-            'WNT' => 'Win NT',
-            'WME' => 'Win Me',
-            'W95' => 'Win 95',
-            'WPH' => 'WinPhone',
-            'WMO' => 'WinMo',
-            'WCE' => 'Win CE',
-            'WOS' => 'webOS',
-        );
-        $osShort = $this->details['config_os'];
-        if (array_key_exists($osShort, $shortNameMapping)) {
-            return $shortNameMapping[$osShort];
-        }
-        return getOsFullName($osShort);
+        return getOsShortName($this->details['config_os']);
     }
 
     public function getOperatingSystemIcon()
