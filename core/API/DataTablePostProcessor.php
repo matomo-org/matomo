@@ -8,6 +8,7 @@
 
 namespace Piwik\API;
 
+use Exception;
 use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\DataTableManipulator\ReportTotalsCalculator;
@@ -72,12 +73,14 @@ class DataTablePostProcessor
      */
     public function process(DataTableInterface $dataTable, $applyFormatting = true)
     {
-        $dataTable = $this->applyPivotByFilter($dataTable);
+        // TODO: when calculating metrics before hand, only calculate for needed metrics, not all.
+        $dataTable = $this->applyPivotByFilter($dataTable); // TODO: if pivot by column is processed metric, must calculate processed metric. need test for this.
         $dataTable = $this->applyFlattener($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
 
         $dataTable = $this->applyGenericFilters($dataTable);
 
+        // TODO: if dependent metrics for a processed metric are not present in first row of a table, skip computation
         $this->applyComputeProcessedMetrics($dataTable);
 
         // we automatically safe decode all datatable labels (against xss)
@@ -181,15 +184,27 @@ class DataTablePostProcessor
      */
     public function applyProcessedMetricsGenericFilters($dataTable)
     {
-        $addNormalProcessedMetrics = Common::getRequestVar(
-            'filter_add_columns_when_show_all_columns', false, 'integer', $this->request);
-        if ($addNormalProcessedMetrics !== false) {
+        $addNormalProcessedMetrics = null;
+        try {
+            $addNormalProcessedMetrics = Common::getRequestVar(
+                'filter_add_columns_when_show_all_columns', null, 'integer', $this->request);
+        } catch (Exception $ex) {
+            // ignore
+        }
+
+        if ($addNormalProcessedMetrics !== null) {
             $dataTable->filter('AddColumnsProcessedMetrics', array($addNormalProcessedMetrics));
         }
 
-        $addGoalProcessedMetrics = Common::getRequestVar(
-            'filter_update_columns_when_show_all_goals', false, 'integer', $this->request);
-        if ($addGoalProcessedMetrics !== false) {
+        $addGoalProcessedMetrics = null;
+        try {
+            $addGoalProcessedMetrics = Common::getRequestVar(
+                'filter_update_columns_when_show_all_goals', null, 'integer', $this->request);
+        } catch (Exception $ex) {
+            // ignore
+        }
+
+        if ($addGoalProcessedMetrics !== null) {
             $idGoal = Common::getRequestVar(
                 'idGoal', DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string', $this->request);
 
