@@ -43,8 +43,7 @@
 		<deviceType>Inconnu</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
-		<operatingSystemShortName>Bot</operatingSystemShortName>
-		<operatingSystemIcon>BOT</operatingSystemIcon>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browserName>Inconnu</browserName>
@@ -150,8 +149,7 @@
 		<deviceType>Inconnu</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
-		<operatingSystemShortName>Bot</operatingSystemShortName>
-		<operatingSystemIcon>BOT</operatingSystemIcon>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browserName>Inconnu</browserName>
@@ -165,7 +163,7 @@
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
-		<referrerKeyword>Mot clef indéfini</referrerKeyword>
+		<referrerKeyword>Mot-clé indéfini</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
