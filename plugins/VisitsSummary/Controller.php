@@ -161,8 +161,14 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (Common::isActionsPluginEnabled()) {
             $view->showActionsPluginReports = true;
-            $dataTableActions = APIActions::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
-                \Piwik\API\Request::getRawSegmentFromRequest());
+
+            $dataTableActions = Request::processRequest("Actions.get", array(
+                'idSite' => $idSite,
+                'period' => Common::getRequestVar('period'),
+                'date' => Common::getRequestVar('date'),
+                'segment' => Request::getRawSegmentFromRequest()
+            ), $defaultParams = array());
+
             $dataActionsRow =
                 $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
 
