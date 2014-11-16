@@ -173,7 +173,7 @@ abstract class DataTableManipulator
         $request['serialize'] = 0;
         $request['expanded'] = 0;
         $request['format'] = 'original';
-        $request['force_format_processed_metrics'] = 0;
+        $request['format_metrics'] = 0;
 
         // don't want to run recursive filters on the subtables as they are loaded,
         // otherwise the result will be empty in places (or everywhere). instead we

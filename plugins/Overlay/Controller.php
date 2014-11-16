@@ -72,7 +72,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&period=' . urlencode($period)
             . '&label=' . urlencode($label)
             . '&format=original'
-            . '&force_format_processed_metrics=1'
+            . '&format_metrics=1'
         );
         $dataTable = $request->process();
 

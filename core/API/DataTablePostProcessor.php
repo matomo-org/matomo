@@ -80,7 +80,9 @@ class DataTablePostProcessor
      */
     public function process(DataTableInterface $dataTable)
     {
-        // TODO: when calculating metrics before hand, only calculate for needed metrics, not all.
+        // TODO: when calculating metrics before hand, only calculate for needed metrics, not all. NOTE:
+        //       this is non-trivial since it will require, eg, to make sure processed metrics aren't added
+        //       after pivotBy is handled.
         $dataTable = $this->applyPivotByFilter($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
