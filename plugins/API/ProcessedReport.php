@@ -810,8 +810,12 @@ class ProcessedReport
      * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @return string
      */
-    public function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value) // TODO: is this method used? if not remove it
+    private function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value)
     {
+        if (!is_numeric($value)) {
+            return $value;
+        }
+
         // Display time in human readable
         if (strpos($columnName, 'time') !== false) {
             return $formatter->getPrettyTimeFromSeconds($value);
