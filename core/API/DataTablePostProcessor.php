@@ -97,7 +97,14 @@ class DataTablePostProcessor
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
 
-        $dataTable = $this->applyProcessedMetricsFormatting($dataTable);
+        $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
+        if ($formatMetrics != '0') {
+            // in Piwik 2.X & below, metrics are not formatted in API responses except for percents.
+            // this code implements this inconsistency
+            $onlyFormatPercents = $formatMetrics === 'bc';
+
+            $dataTable = $this->applyProcessedMetricsFormatting($dataTable, null, $onlyFormatPercents);
+        }
 
         return $dataTable;
     }
@@ -272,23 +279,17 @@ class DataTablePostProcessor
     /**
      * @param DataTableInterface $dataTable
      * @param Formatter|null $formatter
+     * @param bool $onlyFormatPercents
      * @return DataTableInterface
      */
-    public function applyProcessedMetricsFormatting($dataTable, Formatter $formatter = null)
+    public function applyProcessedMetricsFormatting($dataTable, Formatter $formatter = null, $onlyFormatPercents = false)
     {
-        $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
-        if ($formatMetrics == '0') {
-            return $dataTable;
-        }
-
         if ($formatter === null) {
             $formatter = new Formatter();
         }
 
-        // in Piwik 2.X & below, metrics are not formatted in API responses except for percents.
-        // this code implements this inconsistency
         $metricsToFormat = null;
-        if ($formatMetrics === 'bc') {
+        if ($onlyFormatPercents) {
             $metricsToFormat = $this->apiInconsistencies->getPercentMetricsToFormat();
         }
 

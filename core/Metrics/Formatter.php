@@ -55,7 +55,7 @@ class Formatter
      * @param bool $round Whether to round to the nearest second or not.
      * @return string
      */
-    public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $round = false)
+    public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = false, $round = false)
     {
         $numberOfSeconds = $round ? (int)$numberOfSeconds : (float)$numberOfSeconds;
 
