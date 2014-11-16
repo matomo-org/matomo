@@ -67,6 +67,7 @@
         "ColumnNbUniqVisitors": "Visiteurs uniques",
         "ColumnNbUniqVisitorsDocumentation": "Nombre de visiteurs uniques visitant votre site web. Chaque utilisateur n'est compté qu'une seule fois, même s'il visite le site plusieurs fois dans la journée.",
         "ColumnNbUsers": "Utilisateurs",
+        "ColumnNbUsersDocumentation": "Le nombre de visiteurs enregistrés connectés sur votre site. C'est le nombre de visiteurs uniques actifs qui ont un ID utilisateur enregistré (via la fonction nde code de suivi 'setUserId'",
         "ColumnNbVisits": "Visites",
         "ColumnNbVisitsDocumentation": "Si un visiteur se rend sur votre site web pour la première fois ou s'il visite une page plus de 30 minutes après sa dernière page, il sera enregistré en tant que nouvelle visite.",
         "ColumnPageBounceRateDocumentation": "Pourcentage de visites qui ont commencé sur cette page et ont tout de suite quitté le site.",

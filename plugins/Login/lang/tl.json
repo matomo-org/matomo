@@ -1,0 +1,22 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Ang link na upang ma-konpirma ang iyong detalye ay ipinadala na sa iyong inbox. Tignan ang iyong e-mail at bisitahin ang link na ito upang masagawa ang iyong hiling na baguhin ang iyong password.",
+        "ContactAdmin": "Mga posibleng dahilan: maaaring hindi pinagana ng iyong host ang function mail (). <br \/> Mangyaring makipag-ugnay sa iyong Piwik administrator.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ang isang user na may Super-access ay hindi maaaring e-authenticate gamit ang '%s' mechanism.",
+        "ExceptionPasswordMD5HashExpected": "Ang parameter ng password ay inaasahan na maging isang MD5 hash ng password.",
+        "InvalidNonceOrHeadersOrReferrer": "Form security failed. Mangyaring i-reload ang form at suriin kung ang iyong cookies ay gumagana. Kung ikaw ay gumagamit ng proxy server dapat mong %s i-configure ang Piwik upang makatanggap ng proxy header %s para ma e-forward sa host header. At dapat mong e-check ang iyong Referrer header kung ito ay napadala ng tama.",
+        "InvalidOrExpiredToken": "Ang token ay hindi wasto o nag-expire.",
+        "InvalidUsernameEmail": "Di-wasto ang username o e-mail address.",
+        "LogIn": "Mag-sign in",
+        "LoginOrEmail": "Username o E-mail",
+        "LoginPasswordNotCorrect": "Maling kumbinasyon ng Username at Password",
+        "LostYourPassword": "Naiwala ang iyong password?",
+        "MailTopicPasswordChange": "Kumpirmahin ang pag papalit ng password",
+        "PasswordChanged": "Ang iyong password ay nabago na.",
+        "PasswordRepeat": "Password (ulitin)",
+        "PasswordsDoNotMatch": "Ang mga password ay hindi tugma.",
+        "PluginDescription": "Login Authentication plugin binabasa ang credentials mula sa config\/config.ini php file para sa initial na Super User at mula sa Database para sa iba pang mga user. Ito ay madaling mapapalitan upang maipapakilala sa isang bagong Authentication mechanism (OpenID htaccess custom Auth atbp.",
+        "RememberMe": "Tandaan Ako",
+        "ResetPasswordInstructions": "Magpasok ng isang bagong password para sa iyong account."
+    }
+}
