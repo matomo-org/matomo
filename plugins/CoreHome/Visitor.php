@@ -99,7 +99,7 @@ class Visitor
 
     function getVisitLengthPretty()
     {
-        return $this->metricsFormatter->getPrettyTimeFromSeconds($this->details['visit_total_time']);
+        return $this->metricsFormatter->getPrettyTimeFromSeconds($this->details['visit_total_time'], true);
     }
 
     function getUserId()
