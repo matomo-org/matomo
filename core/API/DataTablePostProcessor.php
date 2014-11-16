@@ -74,7 +74,7 @@ class DataTablePostProcessor
     public function process(DataTableInterface $dataTable, $applyFormatting = true)
     {
         // TODO: when calculating metrics before hand, only calculate for needed metrics, not all.
-        $dataTable = $this->applyPivotByFilter($dataTable); // TODO: if pivot by column is processed metric, must calculate processed metric. need test for this.
+        $dataTable = $this->applyPivotByFilter($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
 
