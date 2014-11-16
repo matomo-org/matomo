@@ -12,9 +12,9 @@ use Piwik\Access;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use FakeAccess;
 use Exception;
 
 

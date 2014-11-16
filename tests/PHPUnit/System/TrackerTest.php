@@ -69,4 +69,29 @@ class TrackerTest extends SystemTestCase
         $this->assertResponseCode(204, $url);
     }
 
+    public function test_response_ShouldSend400ResponseCode_IfSiteIdIsInvalid()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=100';
+
+        $this->assertResponseCode(400, $url);
+    }
+
+    public function test_response_ShouldSend400ResponseCode_IfSiteIdIsZero()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=0';
+
+        $this->assertResponseCode(400, $url);
+    }
+
+    public function test_response_ShouldSend400ResponseCode_IfInvalidRequestParameterIsGiven()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&cid=' . str_pad('1', 16, '1');
+
+        $this->assertResponseCode(200, $url);
+        $this->assertResponseCode(400, $url . '1'); // has to be 16 char, but is 17 now
+    }
+
 }

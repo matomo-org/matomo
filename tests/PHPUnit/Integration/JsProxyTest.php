@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration;
+
 use Piwik\Tests\Framework\Fixture;
 
-class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
+/**
+ * @group Core
+ */
+class JsProxyTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
-    function testPiwikJs()
+    public function testPiwikJs()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/');
@@ -28,10 +30,7 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
         $this->assertEquals($piwik_js, $fullResponse, 'script content');
     }
 
-    /**
-     * @group Core
-     */
-    function testPiwikJsNoComment()
+    public function testPiwikJsNoComment()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/tracker.php');
@@ -47,10 +46,7 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
         $this->assertEquals($piwikNoCommentJs, $fullResponse, 'script content (if comment shows, $byteStart value in /js/tracker.php)');
     }
 
-    /**
-     * @group Core
-     */
-    function testPiwikPhp()
+    public function testPiwikPhp()
     {
         $curlHandle = curl_init();
         $url = $this->getStaticSrvUrl() . '/js/?idsite=1';

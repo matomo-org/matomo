@@ -5,18 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Core_DbTest
- *
  * @group Core
  */
-class Core_DbTest extends IntegrationTestCase
+class DbTest extends IntegrationTestCase
 {
-
     public function test_getColumnNamesFromTable()
     {
         $this->assertColumnNames('access', array('login', 'idsite', 'access'));
@@ -29,5 +29,4 @@ class Core_DbTest extends IntegrationTestCase
 
         $this->assertEquals($expectedColumnNames, $colmuns);
     }
-
 }

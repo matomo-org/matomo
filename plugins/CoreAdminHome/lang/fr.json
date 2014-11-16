@@ -28,6 +28,7 @@
         "JSTracking_CodeNote": "Assurez-vous que ce code est sur toutes les pages de votre site web avant la balise %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Utilisez des paramètres de requête personnalisés pour le nom et le mot-clé de la campagne",
         "JSTracking_CustomCampaignQueryParamDesc": "Note : %1$sPiwik détectera automatiquement les paramètres de Google Analytics.%2$s",
+        "JSTracking_DisableCookies": "Désactiver tous les cookies de tracking",
         "JSTracking_EnableDoNotTrack": "Activer la détection côté client de \"ne pas suivre\"",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Note : Le support de la détection côté serveur de \"ne pas suivre\" est activé, cette option n'aura donc aucun effet.",
         "JSTracking_EnableDoNotTrackDesc": "Donc les requêtes de suivi ne seront pas envoyées si les visiteurs ne souhaitent pas être suivis.",

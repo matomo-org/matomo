@@ -8,6 +8,9 @@
 
 namespace Piwik\Tests;
 
+/**
+ * @deprecated since 2.10.0 use \Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase instead
+ */
 class ConsoleCommandTestCase extends Framework\TestCase\ConsoleCommandTestCase
 {
 }

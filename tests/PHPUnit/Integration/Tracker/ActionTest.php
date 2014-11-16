@@ -5,9 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration\Tracker;
+
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
@@ -16,15 +20,10 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Piwik - free/libre analytics platform
- *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  * @group Core
  * @group ActionTest
  */
-class Core_Tracker_ActionTest extends IntegrationTestCase
+class ActionTest extends IntegrationTestCase
 {
     public function setUp()
     {
@@ -123,7 +122,6 @@ class Core_Tracker_ActionTest extends IntegrationTestCase
     /**
      * No excluded query parameters specified, apart from the standard "session" parameters, always excluded
      *
-     * @group Core
      * @dataProvider getTestUrls
      */
     public function testExcludeQueryParametersNone($url, $filteredUrl)
@@ -151,7 +149,6 @@ class Core_Tracker_ActionTest extends IntegrationTestCase
 
     /**
      * Test removing hash tag
-     * @group Core
      * @dataProvider getTestUrlsHashtag
      */
     public function testRemoveTrailingHashtag($url, $expectedUrl)
@@ -161,7 +158,6 @@ class Core_Tracker_ActionTest extends IntegrationTestCase
 
     /**
      * Testing with some website specific parameters excluded
-     * @group Core
      * @dataProvider getTestUrls
      */
     public function testExcludeQueryParametersSiteExcluded($url, $filteredUrl)
@@ -177,7 +173,6 @@ class Core_Tracker_ActionTest extends IntegrationTestCase
 
     /**
      * Testing with some website specific and some global excluded query parameters
-     * @group Core
      * @dataProvider getTestUrls
      */
     public function testExcludeQueryParametersSiteAndGlobalExcluded($url, $filteredUrl)
@@ -367,7 +362,6 @@ class Core_Tracker_ActionTest extends IntegrationTestCase
 
     /**
      * @dataProvider getExtractUrlData
-     * @group Core
      */
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {

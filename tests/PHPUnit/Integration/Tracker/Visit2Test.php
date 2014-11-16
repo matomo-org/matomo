@@ -6,11 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration\Tracker;
 
 // Tests Visits and Dimensions behavior which is a lot of logic so not in VisitTest
 
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit;
 use Piwik\Tracker\Visitor;
 use Piwik\Piwik;
 use Piwik\EventDispatcher;
@@ -88,7 +90,7 @@ class FakeTrackerVisitDimension4 extends VisitDimension
 }
 
 
-class FakeTrackerVisit extends \Piwik\Tracker\Visit
+class FakeTrackerVisit extends Visit
 {
     public function __construct($request)
     {
@@ -124,12 +126,10 @@ class FakeTrackerVisit extends \Piwik\Tracker\Visit
 
     protected function insertNewVisit($visit)
     {
-
     }
 
     protected function updateExistingVisit($valuesToUpdate)
     {
-
     }
 }
 
@@ -137,9 +137,8 @@ class FakeTrackerVisit extends \Piwik\Tracker\Visit
  * @group Core
  * @group VisitTest
  */
-class VisitTest extends IntegrationTestCase
+class Visit2Test extends IntegrationTestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -157,8 +156,8 @@ class VisitTest extends IntegrationTestCase
 
     public function test_handleNewVisitWithoutConversion_shouldTriggerDimensions()
     {
-        $request = new \Piwik\Tracker\Request(array());
-        $visitor = new \Piwik\Tracker\Visitor($request, '');
+        $request = new Request(array());
+        $visitor = new Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, false);
@@ -179,8 +178,8 @@ class VisitTest extends IntegrationTestCase
 
     public function test_handleNewVisitWithConversion_shouldTriggerDimensions()
     {
-        $request = new \Piwik\Tracker\Request(array());
-        $visitor = new \Piwik\Tracker\Visitor($request, '');
+        $request = new Request(array());
+        $visitor = new Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, true);
@@ -197,8 +196,8 @@ class VisitTest extends IntegrationTestCase
 
     public function test_handleExistingVisitWithoutConversion_shouldTriggerDimensions()
     {
-        $request = new \Piwik\Tracker\Request(array());
-        $visitor = new \Piwik\Tracker\Visitor($request, '');
+        $request = new Request(array());
+        $visitor = new Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, false);
@@ -220,8 +219,8 @@ class VisitTest extends IntegrationTestCase
 
     public function test_handleExistingVisitWithConversion_shouldTriggerDimensions()
     {
-        $request = new \Piwik\Tracker\Request(array());
-        $visitor = new \Piwik\Tracker\Visitor($request, '');
+        $request = new Request(array());
+        $visitor = new Visitor($request, '');
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, false);

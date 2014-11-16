@@ -1,0 +1,11 @@
+{
+    "DevicesDetection": {
+        "BrowserEngines": "Pogoni brskalnikov",
+        "DeviceBrand": "Znamka naprave",
+        "DeviceModel": "Model naprave",
+        "DevicesDetection": "Naprave obiskovalcev",
+        "DeviceType": "Tip naprave",
+        "OperatingSystemFamilies": "Družine operacijskih sistemov",
+        "submenu": "Naprave"
+    }
+}

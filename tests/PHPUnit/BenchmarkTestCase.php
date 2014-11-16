@@ -8,6 +8,8 @@
 
 /**
  * Base class for benchmarks.
+ *
+ * @deprecated since 2.10.0 use Piwik\Tests\Framework\TestCase\BenchmarkTestCase instead
  */
 abstract class BenchmarkTestCase extends \Piwik\Tests\Framework\TestCase\BenchmarkTestCase
 {

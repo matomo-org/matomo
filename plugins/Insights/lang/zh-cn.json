@@ -1,0 +1,12 @@
+{
+    "Insights": {
+        "Filter": "条件",
+        "FilterOnlyDecreaser": "仅限减少的",
+        "FilterOnlyDisappeared": "仅限消失的",
+        "FilterOnlyIncreaser": "仅限增加的",
+        "FilterOnlyMovers": "仅限移动的",
+        "FilterOnlyNew": "仅限新的",
+        "WeekComparedToPreviousWeek": "上一周",
+        "YearComparedToPreviousYear": "上一年"
+    }
+}

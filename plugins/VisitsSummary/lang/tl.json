@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s average na henerasyon ng panahon",
+        "AverageVisitDuration": "average na tagal ng pagbisita %s",
+        "GenerateQueries": "mga query sa %s isagawa",
+        "GenerateTime": "segundo %s upang makabuo ng pahina.",
+        "MaxNbActions": "max na mga aksyon %s ng isang pagbisita",
+        "NbActionsDescription": "%s mga aksyon",
+        "NbActionsPerVisit": "Mga aksyon %s (mga page view downloads outlinks at panloob na paghahanap sa site) sa bawat pagbisita",
+        "NbDownloadsDescription": "%s downloads",
+        "NbKeywordsDescription": "mga natatanging mga keyword %s",
+        "NbOutlinksDescription": "%s outlinks",
+        "NbPageviewsDescription": "mga pageview %s",
+        "NbSearchesDescription": "Kabuuan ng mga paghahanap %s sa iyong website.",
+        "NbUniqueDownloadsDescription": "natatanging pag-download %s",
+        "NbUniqueOutlinksDescription": "natatanging outlinks %s",
+        "NbUniquePageviewsDescription": "%s natatanging mga pageview",
+        "NbUniqueVisitors": "mga natatanging bisita %s",
+        "NbVisitsBounced": "%s na pagbisita ay bumalik (umalis sa website pagkatapos ng isang pahina)",
+        "PluginDescription": "Mga bilang na may Ulat ng pangkalahatang ng Analytics: pagbisita mga natatanging bisita bilang ng mga aksyon rate ng biglaang pag-alis atbp.",
+        "VisitsSummary": "Buod ng mga Pagbisita",
+        "VisitsSummaryDocumentation": "Ito ay isang pangkalahatang-ideya sa ebolusyon ng pagbisita",
+        "WidgetLastVisits": "Mga pagbisita sa paglipas ng panahon",
+        "WidgetOverviewGraph": "Mga pagbisita pangkalahatang-ideya ng (na may mga graph)",
+        "WidgetVisits": "Visits Overview"
+    }
+}

@@ -6,9 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration\Plugin;
+
 use Piwik\Access;
 use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\Setting;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
@@ -25,11 +28,10 @@ class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settin
 }
 
 /**
- * Class Core_Plugin_SettingsTest
  * @group Core
  * @group PluginSettings
  */
-class Core_Plugin_SettingsTest extends IntegrationTestCase
+class SettingsTest extends IntegrationTestCase
 {
     /**
      * @var CorePluginSettingsTest
@@ -604,7 +606,7 @@ class Core_Plugin_SettingsTest extends IntegrationTestCase
 
     public function test_construct_shouldDetectTheNameOfThePluginAutomatically_IfPluginNameNotGiven()
     {
-        $setting = new Piwik\Plugins\ExampleSettingsPlugin\Settings();
+        $setting = new \Piwik\Plugins\ExampleSettingsPlugin\Settings();
 
         $this->assertEquals('ExampleSettingsPlugin', $setting->getPluginName());
     }

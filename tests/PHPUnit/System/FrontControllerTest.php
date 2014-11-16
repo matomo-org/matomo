@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
