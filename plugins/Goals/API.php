@@ -54,7 +54,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getGoals($idSite)
     {
-        $cache = new PluginAwareStaticCache("Goals.getGoals.$idSite");
+        $cache = $this->getGoalsInfoStaticCache($idSite);
         if (!$cache->has()) {
             $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
@@ -118,6 +118,8 @@ class API extends \Piwik\Plugin\API
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
 
+        $this->getGoalsInfoStaticCache($idSite)->clear();
+
         Cache::regenerateCacheWebsiteAttributes($idSite);
         return $idGoal;
     }
@@ -163,6 +165,8 @@ class API extends \Piwik\Plugin\API
             'revenue'         => $revenue,
         ));
 
+        $this->getGoalsInfoStaticCache($idSite)->clear();
+
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
@@ -200,6 +204,8 @@ class API extends \Piwik\Plugin\API
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);
+
+        $this->getGoalsInfoStaticCache($idSite)->clear();
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
@@ -545,5 +551,10 @@ class API extends \Piwik\Plugin\API
             }
             $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
         }
+    }
+
+    private function getGoalsInfoStaticCache($idSite)
+    {
+        return new PluginAwareStaticCache("Goals.getGoals.$idSite");
     }
 }
