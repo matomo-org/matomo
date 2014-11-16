@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
-use Piwik\Exception\InvalidVisitorIdException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Piwik\Network\IPUtils;
