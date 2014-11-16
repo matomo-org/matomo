@@ -52,7 +52,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
         $segments = API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
 
         $minimumExpectedSegmentsCount = 55; // as of Piwik 1.12
-        $this->assertTrue( count($segments) >= $minimumExpectedSegmentsCount);
+        $this->assertGreaterThan($minimumExpectedSegmentsCount, count($segments));
         $segmentExpression = array();
 
         $seenVisitorId = false;
