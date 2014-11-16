@@ -92,6 +92,11 @@ class Request
             if (!empty($requestRaw['segment'])) {
                 $defaultRequest['segment'] = $requestRaw['segment'];
             }
+
+            // TODO: comment on why this code is here, and make sure to mention in Inconsistencies class
+            if (empty($defaultRequest['format_metrics'])) {
+                $defaultRequest['format_metrics'] = 'bc';
+            }
         }
 
         $requestArray = $defaultRequest;

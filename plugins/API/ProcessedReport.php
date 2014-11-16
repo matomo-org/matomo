@@ -391,7 +391,7 @@ class ProcessedReport
                                                        'serialize'  => '0',
                                                        'language'   => $language,
                                                        'idSubtable' => $idSubtable,
-                                                       'force_format_processed_metrics' => 1,
+                                                       'format_metrics' => 1,
                                                   ));
 
         if (!empty($segment)) $parameters['segment'] = $segment;

@@ -164,10 +164,8 @@ class ResponseBuilder
 
     private function handleDataTable(DataTableInterface $datatable)
     {
-        $applyFormatting = Common::getRequestVar('force_format_processed_metrics', !($this->apiRenderer instanceof Original), null, $this->request) == 1;
-
         $postProcessor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
-        $datatable = $postProcessor->process($datatable, $applyFormatting);
+        $datatable = $postProcessor->process($datatable);
 
         return $this->apiRenderer->renderDataTable($datatable);
     }

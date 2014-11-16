@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics\Formatter;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
 /**
@@ -50,6 +51,11 @@ class DataTablePostProcessor
     private $apiMethod;
 
     /**
+     * @var Inconsistencies
+     */
+    private $apiInconsistencies;
+
+    /**
      * Constructor.
      */
     public function __construct($apiModule, $apiMethod, $request)
@@ -59,6 +65,7 @@ class DataTablePostProcessor
         $this->request = $request;
 
         $this->report = Report::factory($apiModule, $apiMethod);
+        $this->apiInconsistencies = new Inconsistencies();
     }
 
     /**
@@ -71,7 +78,7 @@ class DataTablePostProcessor
      * @param bool $applyFormatting Whether to format processed metrics or not.
      * @return DataTableInterface A new data table.
      */
-    public function process(DataTableInterface $dataTable, $applyFormatting = true)
+    public function process(DataTableInterface $dataTable)
     {
         // TODO: when calculating metrics before hand, only calculate for needed metrics, not all.
         $dataTable = $this->applyPivotByFilter($dataTable);
@@ -90,9 +97,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
 
-        if ($applyFormatting) {
-            $dataTable = $this->applyProcessedMetricsFormatting($dataTable);
-        }
+        $dataTable = $this->applyProcessedMetricsFormatting($dataTable);
 
         return $dataTable;
     }
@@ -265,20 +270,29 @@ class DataTablePostProcessor
     }
 
     /**
-     * TODO: remove applyFormatting parameter
-     *
      * @param DataTableInterface $dataTable
      * @param Formatter|null $formatter
      * @return DataTableInterface
      */
     public function applyProcessedMetricsFormatting($dataTable, Formatter $formatter = null)
     {
-        if ($formatter === null)
-        {
+        $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
+        if ($formatMetrics == '0') {
+            return $dataTable;
+        }
+
+        if ($formatter === null) {
             $formatter = new Formatter();
         }
 
-        $dataTable->filter(array($this, 'formatProcessedMetrics'), array($formatter));
+        // in Piwik 2.X & below, metrics are not formatted in API responses except for percents.
+        // this code implements this inconsistency
+        $metricsToFormat = null;
+        if ($formatMetrics === 'bc') {
+            $metricsToFormat = $this->apiInconsistencies->getPercentMetricsToFormat();
+        }
+
+        $dataTable->filter(array($this, 'formatProcessedMetrics'), array($formatter, $metricsToFormat));
         return $dataTable;
     }
 
@@ -346,18 +360,22 @@ class DataTablePostProcessor
     /**
      * public for use as callback.
      */
-    public function formatProcessedMetrics(DataTable $dataTable, Formatter $formatter)
+    public function formatProcessedMetrics(DataTable $dataTable, Formatter $formatter, $metricsToFormat = null)
     {
-        if ($dataTable->getMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG)) {
-            return;
-        }
-
         $processedMetrics = Report::getProcessedMetricsFor($dataTable, $this->report);
-        if (empty($processedMetrics)) {
+        if (empty($processedMetrics)
+            || $dataTable->getMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG)
+        ) {
             return;
         }
 
         $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
+
+        if ($metricsToFormat !== null) {
+            $processedMetrics = array_filter($processedMetrics, function (ProcessedMetric $metric) use ($metricsToFormat) {
+                return in_array($metric->getName(), $metricsToFormat);
+            });
+        }
 
         foreach ($processedMetrics as $name => $processedMetric) {
             if (!$processedMetric->beforeFormat($this->report, $dataTable)) {
@@ -372,7 +390,7 @@ class DataTablePostProcessor
 
                 $subtable = $row->getSubtable();
                 if (!empty($subtable)) {
-                    $this->formatProcessedMetrics($subtable, $formatter);
+                    $this->formatProcessedMetrics($subtable, $formatter, $metricsToFormat);
                 }
             }
         }

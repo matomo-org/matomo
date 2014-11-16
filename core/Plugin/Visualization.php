@@ -164,10 +164,9 @@ class Visualization extends ViewDataTable
         $this->overrideSomeConfigPropertiesIfNeeded();
 
         try {
-
             $this->beforeLoadDataTable();
 
-            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1));
+            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1, 'format_metrics' => 0));
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
@@ -178,7 +177,6 @@ class Visualization extends ViewDataTable
             $this->beforeRender();
 
             $this->logMessageIfRequestPropertiesHaveChanged($requestPropertiesAfterLoadDataTable);
-
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
