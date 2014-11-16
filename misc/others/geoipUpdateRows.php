@@ -10,7 +10,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 
 require_once './cli-script-bootstrap.php';
 
-ini_set("memory_limit", "512M");
+@ini_set("memory_limit", "512M");
 
 $query = "SELECT count(*) FROM " . Common::prefixTable('log_visit');
 $count = Db::fetchOne($query);
