@@ -206,6 +206,7 @@ class SitesManager extends \Piwik\Plugin
     {
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_OrCancel";
+        $translationKeys[] = "Actions_SubmenuSitesearch";
         $translationKeys[] = "SitesManager_OnlyOneSiteAtTime";
         $translationKeys[] = "SitesManager_DeleteConfirm";
         $translationKeys[] = "SitesManager_Urls";
@@ -264,6 +265,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_SelectDefaultTimezone";
         $translationKeys[] = "SitesManager_DefaultCurrencyForNewWebsites";
         $translationKeys[] = "SitesManager_SelectDefaultCurrency";
+        $translationKeys[] = "SitesManager_AddSite";
         $translationKeys[] = "Goals_Ecommerce";
     }
 }

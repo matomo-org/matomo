@@ -444,7 +444,8 @@ abstract class LocationProvider
 
     /**
      * Returns an IP address from an array that was passed into getLocation. This
-     * will return an IPv4 address or IPv6 address.
+     * will return an IPv4 address or null if the address is IPv6 (IPv6 is not
+     * supported yet).
      *
      * @param  array $info Must have 'ip' key.
      * @return string|null
@@ -453,11 +454,7 @@ abstract class LocationProvider
     {
         $ip = \Piwik\Network\IP::fromStringIP($info['ip']);
 
-        if ($ip instanceof \Piwik\Network\IPv6 && $ip->isMappedIPv4()) {
-            return $ip->toIPv4String();
-        } else {
-            return $ip->toString();
-        }
+        return $ip->toIPv4String();
     }
 }
 

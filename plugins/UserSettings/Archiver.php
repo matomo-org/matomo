@@ -140,12 +140,11 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function aggregateByLanguage()
     {
         $query = $this->getLogAggregator()->queryVisitsByDimension(array("label" => self::LANGUAGE_DIMENSION));
-        $languageCodes = array_keys(Common::getLanguagesList());
         $countryCodes = Common::getCountriesList($includeInternalCodes = true);
         $metricsByLanguage = new DataArray();
 
         while ($row = $query->fetch()) {
-            $langCode = Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
+            $langCode = Common::extractLanguageCodeFromBrowserLanguage($row['label']);
             $countryCode = Common::extractCountryCodeFromBrowserLanguage($row['label'], $countryCodes, $enableLanguageToCountryGuess = true);
 
             if ($countryCode == 'xx' || $countryCode == $langCode) {

@@ -5,13 +5,24 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
+use Exception;
+use Piwik\Config;
 use Piwik\Filesystem;
+use Piwik\Plugin\Manager;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
+ * @group Core
  * @group ReleaseCheckListTest
  */
-class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
+class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 {
+    private $globalConfig;
+
     public function setUp()
     {
         $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
@@ -19,9 +30,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
-    /**
-     * @group Core
-     */
     public function test_icoFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
@@ -30,9 +38,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInPngFormat($files);
     }
 
-    /**
-     * @group Core
-     */
     public function test_pngFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.png');
@@ -41,9 +46,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInPngFormat($files);
     }
 
-    /**
-     * @group Core
-     */
     public function test_gifFilesIconsShouldBeInGifFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.gif');
@@ -52,9 +54,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInGifFormat($files);
     }
 
-    /**
-     * @group Core
-     */
     public function test_jpgImagesShouldBeInJpgFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.jpg');
@@ -67,9 +66,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInJpgFormat($files);
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckThatConfigurationValuesAreProductionValues()
     {
         $this->_checkEqual(array('Debug' => 'always_archive_data_day'), '0');
@@ -106,9 +102,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($valueExpected, $value, "$section -> $optionName was '" . var_export($value, true) . "', expected '" . var_export($valueExpected, true) . "'");
     }
 
-    /**
-     * @group Core
-     */
     public function testTemplatesDontContainDebug()
     {
         $patternFailIfFound = 'dump(';
@@ -123,9 +116,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
         $pluginsShouldBeDisabled = array(
@@ -141,7 +131,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
     /**
      * test that the profiler is disabled (mandatory on a production server)
-     * @group Core
      */
     public function testProfilingDisabledInProduction()
     {
@@ -149,9 +138,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(\Piwik\Tracker\Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Db::$profiling');
     }
 
-    /**
-     * @group Core
-     */
     public function testPiwikTrackerDebugIsOff()
     {
         $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
@@ -161,7 +147,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     /**
      * This tests that all PHP files start with <?php
      * This would help detect errors such as a php file starting with spaces
-     * @group Core
      */
     public function test_phpFilesStartWithRightCharacter()
     {
@@ -187,9 +172,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function test_directoriesShouldBeChmod755()
     {
         $pluginsPath = realpath(PIWIK_INCLUDE_PATH . '/plugins/');
@@ -222,17 +204,15 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      * Check that directories in plugins/ folder are specifically either enabled or disabled.
      *
      * This fails when a new folder is added to plugins/* and forgot to enable or mark as disabled in Manager.php.
-     *
-     * @group Core
      */
     public function test_DirectoriesInPluginsFolder_areKnown()
     {
-        $pluginsBundledWithPiwik = \Piwik\Config::getInstance()->getFromGlobalConfig('Plugins');
+        $pluginsBundledWithPiwik = Config::getInstance()->getFromGlobalConfig('Plugins');
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
         $magicPlugins = 42;
         $this->assertTrue(count($pluginsBundledWithPiwik) > $magicPlugins);
 
-        $plugins = _glob(\Piwik\Plugin\Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR);
+        $plugins = _glob(Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR);
         $count = 1;
         foreach($plugins as $pluginPath) {
             $pluginName = basename($pluginPath);
@@ -243,7 +223,7 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 // if not added to git, then it is not part of the release checklist.
                 continue;
             }
-            $manager = \Piwik\Plugin\Manager::getInstance();
+            $manager = Manager::getInstance();
             $isGitSubmodule = $manager->isPluginOfficialAndNotBundledWithCore($pluginName);
             $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
 
@@ -258,9 +238,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($count > $magicPlugins);
     }
 
-    /**
-     * @group Core
-     */
     public function testEndOfLines()
     {
         foreach (Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*') as $file) {
@@ -300,9 +277,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testPiwikJavaScript()
     {
         // check source against Snort rule 8443
@@ -316,9 +290,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(preg_match($pattern, $contents) == 0);
     }
 
-    /**
-     * @param $files
-     */
     private function checkFilesAreInPngFormat($files)
     {
         $this->checkFilesAreInFormat($files, "png");
@@ -333,10 +304,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInFormat($files, "gif");
     }
 
-    /**
-     * @param $files
-     * @param $format
-     */
     private function checkFilesAreInFormat($files, $format)
     {
         $errors = array();
@@ -353,15 +320,12 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         }
 
         if (!empty($errors)) {
-            $icons = var_export($errors, true);
             $icons = "gimp " . implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
     }
 
     /**
-     * @param $file
-     * @param $isIniFile
      * @return bool
      */
     protected function isSkipPhpFileStartWithPhpBlock($file, $isIniFile)
@@ -378,7 +342,6 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $pluginPath
      * @return bool
      */
     protected function isPathAddedToGit($pluginPath)
@@ -387,5 +350,4 @@ class Test_Piwik_ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
         return $addedToGit;
     }
-
 }

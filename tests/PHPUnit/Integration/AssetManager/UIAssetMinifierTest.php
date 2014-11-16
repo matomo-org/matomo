@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Piwik - free/libre analytics platform
  *
@@ -7,12 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration\AssetManager;
+
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetMinifier;
 
-class Piwik_Test_UIAssetMinifierTest extends PHPUnit_Framework_TestCase
+class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var UIAssetMinifier
      */

@@ -233,6 +233,11 @@ class TableLogAction
     }
 
     /**
+     * This function will sanitize or not if it's needed for the specified action type
+     *
+     * URLs (Page URLs, Downloads, Outlinks) are stored raw (unsanitized)
+     * while other action types are stored Sanitized
+     *
      * @param $actionType
      * @param $actionString
      * @return string

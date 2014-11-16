@@ -436,7 +436,7 @@ class Tracker
                 $result['message'] = $this->getMessageFromException($e);
             }
             Common::sendHeader('Content-Type: application/json');
-            echo Common::json_encode($result);
+            echo json_encode($result);
             die(1);
             exit;
         }
@@ -454,7 +454,7 @@ class Tracker
             Common::sendHeader('Content-Type: text/html; charset=utf-8');
             echo $this->getMessageFromException($e);
         } else {
-            $this->outputTransparentGif();
+            $this->sendResponse();
         }
         die(1);
         exit;
@@ -496,12 +496,12 @@ class Tracker
             $this->outputAccessControlHeaders();
 
             Common::sendHeader('Content-Type: application/json');
-            echo Common::json_encode($result);
+            echo json_encode($result);
             exit;
         }
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
-                $this->outputTransparentGif ();
+                $this->sendResponse();
                 Common::printDebug("Logging disabled, display transparent logo");
                 break;
 
@@ -513,7 +513,7 @@ class Tracker
             case self::STATE_NOSCRIPT_REQUEST:
             case self::STATE_NOTHING_TO_NOTICE:
             default:
-                $this->outputTransparentGif ();
+                $this->sendResponse();
                 Common::printDebug("Nothing to notice => default behaviour");
                 break;
         }
@@ -648,7 +648,7 @@ class Tracker
         return $visit;
     }
 
-    protected function outputTransparentGif ()
+    private function sendResponse()
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG'])
             && $GLOBALS['PIWIK_TRACKER_DEBUG']
@@ -660,10 +660,23 @@ class Tracker
             // If there was an error during tracker, return so errors can be flushed
             return;
         }
-        $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-        Common::sendHeader('Content-Type: image/gif');
 
         $this->outputAccessControlHeaders();
+
+        $request = $_GET + $_POST;
+
+        if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
+            Common::sendHeader("HTTP/1.1 204 No Response");
+            return;
+        }
+
+        $this->outputTransparentGif();
+    }
+
+    protected function outputTransparentGif ()
+    {
+        $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        Common::sendHeader('Content-Type: image/gif');
 
         print(base64_decode($transGifBase64));
     }

@@ -17,6 +17,8 @@
         "DatabaseSetupLogin": "uživatelské jméno",
         "DatabaseSetupServer": "server s databází",
         "DatabaseSetupTablePrefix": "prefix tabulek",
+        "DefaultSettings": "Výchozí nastavení Piwiku",
+        "DefaultSettingsHelp": "Piwik má výchozí nastavení. Můžete je změnit teď, nebo později z administračního rozhraní.",
         "Email": "e-mail",
         "Extension": "přípona",
         "Filesystem": "Souborový systém",

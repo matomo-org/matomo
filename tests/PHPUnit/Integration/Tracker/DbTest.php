@@ -5,9 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration\Tracker;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker;
 
 /**
  * Tracker DB test
@@ -15,11 +19,11 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  * @group Core
  * @group TrackerDbTest
  */
-class Core_Tracker_DbTest extends IntegrationTestCase
+class DbTest extends IntegrationTestCase
 {
     public function test_rowCount_whenUpdating_returnsAllMatchedRowsNotOnlyUpdatedRows()
     {
-        $db = \Piwik\Tracker::getDatabase();
+        $db = Tracker::getDatabase();
         // insert one record
         $db->query("INSERT INTO `" . Common::prefixTable('option') . "` VALUES ('rowid', '1', false)");
 
@@ -39,5 +43,4 @@ class Core_Tracker_DbTest extends IntegrationTestCase
         $result = $db->query($sqlUpdate . " WHERE option_name = 'rowid'");
         $this->assertSame(1, $db->rowCount($result));
     }
-
 }

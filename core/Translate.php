@@ -173,7 +173,7 @@ class Translate
             $clientSideTranslations[$key] = $translations[$plugin][$stringName];
         }
 
-        $js = 'var translations = ' . Common::json_encode($clientSideTranslations) . ';';
+        $js = 'var translations = ' . json_encode($clientSideTranslations) . ';';
         $js .= "\n" . 'if (typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }' .
             'for(var i in translations) { piwik_translations[i] = translations[i];} ';
         return $js;

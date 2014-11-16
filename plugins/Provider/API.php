@@ -30,11 +30,10 @@ class API extends \Piwik\Plugin\API
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable(Archiver::PROVIDER_RECORD_NAME);
         $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getHostnameUrl'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getPrettyProviderName'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getHostnameUrl'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getPrettyProviderName'));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
-        $dataTable->queueFilter('GroupBy', array('label'));
         return $dataTable;
     }
 }

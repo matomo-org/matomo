@@ -5,22 +5,20 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Core_OptionTest
- *
  * @group Core
  * @group Core_OptionTest
  */
-class Core_OptionTest extends IntegrationTestCase
+class OptionTest extends IntegrationTestCase
 {
-    /**
-     * @group Core
-     */
     public function testGet()
     {
         // empty table, expect false (i.e., not found)
@@ -39,9 +37,6 @@ class Core_OptionTest extends IntegrationTestCase
         $this->assertFalse(Option::get('anonymous_defaultReport'));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetOption()
     {
         // empty table, expect false (i.e., not found)
@@ -60,9 +55,6 @@ class Core_OptionTest extends IntegrationTestCase
         $this->assertFalse(Option::get('anonymous_defaultReport'));
     }
 
-    /**
-     * @group Core
-     */
     public function testSet()
     {
         // empty table, expect false (i.e., not found)
@@ -73,9 +65,6 @@ class Core_OptionTest extends IntegrationTestCase
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
     }
 
-    /**
-     * @group Core
-     */
     public function testSetOption()
     {
         // empty table, expect false (i.e., not found)
@@ -86,9 +75,6 @@ class Core_OptionTest extends IntegrationTestCase
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
     }
 
-    /**
-     * @group Core
-     */
     public function testDelete()
     {
         // empty table, expect false (i.e., not found)
@@ -121,9 +107,6 @@ class Core_OptionTest extends IntegrationTestCase
         $this->assertFalse(Option::get('admin_defaultReport'));
     }
 
-    /**
-     * @group Core
-     */
     public function testDeleteLike()
     {
         // empty table, expect false (i.e., not found)

@@ -365,7 +365,7 @@ class API extends \Piwik\Plugin\API
     {
         Option::set(
             $user . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION,
-            Common::json_encode($settings)
+            json_encode($settings)
         );
     }
 
@@ -392,7 +392,7 @@ class API extends \Piwik\Plugin\API
         if (empty($userSettings)) {
             $userSettings = array();
         } else {
-            $userSettings = Common::json_decode($userSettings, true);
+            $userSettings = json_decode($userSettings, true);
         }
 
         return $userSettings;

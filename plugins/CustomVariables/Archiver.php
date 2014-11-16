@@ -154,7 +154,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             if (substr($value, -2) != '"]') {
                 $value .= '"]';
             }
-            $decoded = @Common::json_decode($value);
+            $decoded = json_decode($value);
             if (is_array($decoded)) {
                 $count = 0;
                 foreach ($decoded as $category) {

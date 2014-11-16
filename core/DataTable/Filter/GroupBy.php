@@ -10,6 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
+use Piwik\DataTable\Row;
 
 /**
  * DataTable filter that will group {@link DataTable} rows together based on the results
@@ -71,6 +72,7 @@ class GroupBy extends BaseFilter
      */
     public function filter($table)
     {
+        /** @var Row[] $groupByRows */
         $groupByRows = array();
         $nonGroupByRowIds = array();
 

@@ -11,7 +11,6 @@ namespace Piwik;
 use Exception;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
-use Piwik\Period\Range;
 use Piwik\Translate;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
@@ -250,7 +249,7 @@ class Twig
     protected function addFilter_prettyDate()
     {
         $prettyDate = new Twig_SimpleFilter('prettyDate', function ($dateString, $period) {
-            return Range::factory($period, $dateString)->getLocalizedShortString();
+            return Period\Factory::build($period, $dateString)->getLocalizedShortString();
         });
         $this->twig->addFilter($prettyDate);
     }

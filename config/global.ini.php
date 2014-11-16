@@ -39,6 +39,13 @@ type = InnoDB
 schema = Mysql
 
 [tests]
+; needed in order to run tests.
+; if Piwik is available at http://localhost/dev/piwik/ replace @REQUEST_URI@ with /dev/piwik/
+; note: the REQUEST_URI should not contain "plugins" or "tests" in the PATH
+http_host   = localhost
+remote_addr = "127.0.0.1"
+request_uri = "@REQUEST_URI@"
+
 ; access key and secret as listed in AWS -> IAM -> Users
 aws_accesskey = ""
 aws_secret = ""
@@ -564,13 +571,13 @@ ignore_visits_cookie_name = piwik_ignore
 ; Comma separated list of variable names that will be read to define a Campaign name, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referrer named 'Adwords-CPC'
 ; Includes by default the GA style campaign parameters
-campaign_var_name = "pk_campaign,piwik_campaign,utm_campaign,utm_source,utm_medium"
+campaign_var_name = "pk_cpn,pk_campaign,piwik_campaign,utm_campaign,utm_source,utm_medium"
 
 ; Comma separated list of variable names that will be read to track a Campaign Keyword
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' ;
 ; then it will be counted as a campaign referrer named 'Adwords-CPC' with the keyword 'My killer keyword'
 ; Includes by default the GA style campaign keyword parameter utm_term
-campaign_keyword_var_name = "pk_kwd,piwik_kwd,pk_keyword,utm_term"
+campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,utm_term"
 
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
