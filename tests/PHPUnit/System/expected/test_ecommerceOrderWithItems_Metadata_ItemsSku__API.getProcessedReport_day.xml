@@ -40,7 +40,7 @@
 			<quantity>1</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
-			<avg_price>1500</avg_price>
+			<avg_price>$ 1500</avg_price>
 			<avg_quantity>1</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
 		</row>
@@ -50,7 +50,7 @@
 			<quantity>3</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
-			<avg_price>255.61</avg_price>
+			<avg_price>$ 255.61</avg_price>
 			<avg_quantity>1.5</avg_quantity>
 			<conversion_rate>66.67%</conversion_rate>
 		</row>
@@ -59,7 +59,7 @@
 			<revenue>$ 600</revenue>
 			<quantity>6</quantity>
 			<orders>1</orders>
-			<avg_price>100</avg_price>
+			<avg_price>$ 100</avg_price>
 			<avg_quantity>6</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<nb_visits>0</nb_visits>
@@ -67,7 +67,7 @@
 		<row>
 			<label>SKU IN ABANDONED CART TWO</label>
 			<nb_visits>2</nb_visits>
-			<avg_price>0</avg_price>
+			<avg_price>$ 0</avg_price>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<revenue>$ 0</revenue>
