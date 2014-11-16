@@ -1,0 +1,18 @@
+{
+    "Insights": {
+        "DayComparedToPreviousDay": "nakaraang araw",
+        "DayComparedToPreviousWeek": "Sa parehong araw sa nakaraang linggo",
+        "DayComparedToPreviousYear": "Sa parehong araw sa nakaraang taon",
+        "MonthComparedToPreviousMonth": "nakaraang buwan",
+        "MonthComparedToPreviousYear": "Parehong buwan sa nakaraang taon",
+        "TitleConsideredMoversAndShakersChanges": "Masasabing movers kung ito ay tumaas ng mahigit sa %1$s%% pagbisita o bumababa ng higit sa %2$s%% pagbisita ang mga bagong entry kung ang kanilang pagtaas ay mahigit sa %3$s%% pagbisita (%4$s) at kung mawawala ang rows ng mas mababa sa %5$s%% pagbisita (%6$s).",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s ay nagbago mula sa %2$s sa %3$s kumpara sa %4$s. Base sa isang paglaki ng bawat hilera ng%5$s%% ay inaasahan.",
+        "TitleRowChangeDetails": "'%1$s' ay nagbago mula %2$s (%3$s) hanggang %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "'%1$s' ay binawasan ng %2$s at nawala sa %3$s kumpara sa %4$s.",
+        "TitleRowMoverAndShaker": "Ang hanay na ito ay nagkaroon ng mas mataas na epekto kaysa karaniwan.",
+        "TitleRowNewDetails": "%1$s ay tumaas ng %2$s at bago kumpara sa %3$s",
+        "WeekComparedToPreviousWeek": "nakaraang linggo",
+        "WidgetCategory": "Mga Pananaw",
+        "YearComparedToPreviousYear": "nakaraang taon"
+    }
+}

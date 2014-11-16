@@ -1,0 +1,26 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Makipag-ugnay sa team ng Piwik!",
+        "DoYouHaveBugReportOrFeatureRequest": "Mayroon ka bang iuulat na bug o hihilinging feature?",
+        "GetInTouch": "Aming pinahahalagahan ang iyong feedback at laging naming binabasa ang lahat ng mensahe. Kung ikaw ay may maibabahagi na negosyo makipagkasundo sa aming Piwik consultant magkwento sa amin ng isang kwento ng tagumpay o magsabi lamang ng Hello!",
+        "HowToCreateTicket": "Mangyaring basahin ang rekomendasyon sa mahusay na pagsusulat %1$sbug report%2$s o %3$sfeature request%4$s. Pagkatapos magrehistro o mag-login sa %5$sour issue tracker%6$s at gumawa ng %7$snew issue%8$s.",
+        "IWantTo": "Gusto kong:",
+        "LearnWaysToParticipate": "Pag-aralan ang lahat ng daan upang %s makasali sa %s",
+        "ManuallySendEmailTo": "Mangyaring manu-manong ipadala ang iyong mensahe sa.",
+        "PluginDescription": "Padala ang iyong Feedback sa aming Piwik Team. Ibahagi ang iyong mga ideya at mungkahi sa amin!",
+        "PrivacyClaim": "Nirerespeto ng Piwik ang iyong %1$s privacy %2$s at nagbibigay sa iyo ng ganap na kontrol sa iyong data.",
+        "RateFeatureLeaveMessageDislike": "Ikinalulungkot namin na hindi mo ito gustong marinig! Mangyaring ipaalam samin kung paano naman ito mapapabuti.",
+        "RateFeatureLeaveMessageLike": "Kami ay natutuwa na gusto mo ito! Mangyaring ipaalam sa amin kung ano ang gusto mo ang pinaka o kung mayroon kang gustong feature na pwedeng i-dagdag.",
+        "RateFeatureSendFeedbackInformation": "Ang iyong Piwik platform ay aming ipapadala(Ang pangkat ng Piwik) ang email (kasama ang iyong email address) upang pwede ka namin kontakin kung ikaw ay merong mga katanungan.",
+        "RateFeatureThankYouTitle": "Salamat sa pag-rate '%s'!",
+        "RateFeatureTitle": "Gusto mo ba ang '%s' feature? Paki-rate at mag-iwan ng komento",
+        "SendFeedback": "Magpadala ng Feedback",
+        "SpecialRequest": "Meron ka bang espesyal na kahilingan para sa Piwik team?",
+        "ThankYou": "Salamat sa pagtulong sa amin upang maging mas mabuti ang Piwik!",
+        "TopLinkTooltip": "Sabihin sa amin ang iyong iniisip o humiling ng Propesyonal na Suporta.",
+        "ViewAnswersToFAQ": "Ipakita ang sagot sa %s Mga Madalas Itanong %s",
+        "ViewUserGuides": "Alamin kung paano i-configure ang Piwik at kung paano epektibong pag-aralan ang iyong data sa aming %1$suser gabay sa %2$s.",
+        "VisitTheForums": "Bisitahin ang mga %s Forum %s at makakuha ng tulong mula sa komunidad ng mga Piwik user.",
+        "WantToThankConsiderDonating": "Sa tingin mo ba ang Piwik ay mahusay at gusto mo kaming pasalamatan?"
+    }
+}

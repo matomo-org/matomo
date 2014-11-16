@@ -44,7 +44,9 @@
         "WidgetPagesEntry": "Vstopne strani",
         "WidgetPagesExit": "Izhodne strani",
         "WidgetPageTitles": "Naslovi strani",
+        "WidgetPageUrlsFollowingSearch": "Strani obiskane po iskanju na strani",
         "WidgetSearchCategories": "Kategorije za iskanje",
-        "WidgetSearchKeywords": "Ključne besede"
+        "WidgetSearchKeywords": "Ključne besede",
+        "WidgetSearchNoResultKeywords": "Ključne besede brez zadetkov"
     }
 }

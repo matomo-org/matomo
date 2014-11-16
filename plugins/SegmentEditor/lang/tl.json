@@ -1,0 +1,28 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Magdagdag kundisyon %s",
+        "AddingSegmentForAllWebsitesDisabled": "Ang pagdagdag ng bahagi para sa lahat ng website ay hindi na pinagana.",
+        "AddNewSegment": "Magdagdag ng bagong segment",
+        "AreYouSureDeleteSegment": "Sigurado ka bang gusto mong tanggalin ang bahaging ito?",
+        "AutoArchivePreProcessed": "Ang kaputol na ulat ay naka pre-processed (ang mas mabilis ay nangangailangan ng cron).",
+        "AutoArchiveRealTime": "ang mga hinating ulat ay iprinoseso sa aktwal na oras",
+        "ChooseASegment": "Pumili ng segment",
+        "DataAvailableAtLaterDate": "Ang iyong segment na ulat ng analytics ay magiging available sa ibang pagkakataon. Kami ay humingi ng paumanhin sa abala.",
+        "DefaultAllVisits": "Lahat ng pagbisita",
+        "DragDropCondition": "Drag at Drop ang kondisyon",
+        "LoadingSegmentedDataMayTakeSomeTime": "Maaaring tumagal ng ilang minuto ang pagproseso ng kaputol na datos ng bisita.",
+        "OperatorAND": "AT",
+        "OperatorOR": "OR",
+        "SaveAndApply": "I-save at I-apply",
+        "SegmentDisplayedThisWebsiteOnly": "ang website na ito lamang",
+        "SegmentIsDisplayedForWebsite": "at ipinapakita para sa",
+        "SegmentNotApplied": "Hindi nai-apply ang Segment '%s'",
+        "SelectSegmentOfVisitors": "Pumili ng isang segment sa mga bisita:",
+        "ThisSegmentIsVisibleTo": "Ang segment na ito ay makikita sa:",
+        "VisibleToAllUsers": "lahat ng mga user",
+        "VisibleToMe": "ako",
+        "YouDontHaveAccessToCreateSegments": "Wala kang mga kinakailangang access level upang lumikha at mag edit ng mga segment.",
+        "YouMayChangeSetting": "Maaari mo ring baguhin ang settings sa config file (%s) o i-edit ang mga Segment at piliin ang '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Kailangan mong mag log-in upang gumawa at mag-edit ng custom visitor segments."
+    }
+}

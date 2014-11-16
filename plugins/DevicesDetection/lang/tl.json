@@ -1,0 +1,30 @@
+{
+    "DevicesDetection": {
+        "BrowserEngineDocumentation": "Ipinapakita ng chart na ito ang magkaka hiwa-hiwalay na pamilya ng browser na gamit ng iyong bisita. %s Ang pinakamahalagang impormasyon na kinakailangan ng web developers ay kung anong klaseng rendering engine ang ginagamit ng bisita. Ang mga label ay naglalaman ng mga pangalan ng mga engines na sinusundan ng mga pang-karaniwang browser na gumagamit ng parehas na engine alinsunod sa mga sumusunod na nasa brackets.",
+        "BrowserVersions": "mga bersyon ng browser",
+        "Camera": "Camera",
+        "CarBrowser": "Car browser",
+        "Console": "Console",
+        "dataTableLabelBrands": "Tatak",
+        "dataTableLabelBrowserFamily": "Pamilya ng browser",
+        "dataTableLabelModels": "Modelo",
+        "dataTableLabelSystemVersion": "Bersyon ng Operating System",
+        "dataTableLabelTypes": "Uri",
+        "Device": "Aparato",
+        "DeviceBrand": "Brand ng device",
+        "DeviceDetection": "Pag detect ng device",
+        "DeviceModel": "Modelo ng device",
+        "DevicesDetection": "Device ng Bisita",
+        "DeviceType": "Uri ng device",
+        "FeaturePhone": "Feature phone",
+        "OperatingSystemFamilies": "Mga pamilya ng Operating System",
+        "OperatingSystemVersions": "Mga bersyon ng Operating System",
+        "PluginDescription": "Ang plugin na ito ay nagbibigay ng malawak na impormasyon tungkol sa mga mobile devices. tulad ng Brand (tagagawa) Model (device version) mas mahusay na uri ng device (tv consoles smart phones atbp) at higit pa. Ang Plugin na ito ay nagdadagdag ng isang bagong ulat sa 'Mga Bisita> Mga Device'.",
+        "SmartDisplay": "Smart display",
+        "Smartphone": "Smartphone",
+        "submenu": "Mga Device",
+        "Tablet": "Tableta",
+        "TV": "Tv",
+        "UserAgent": "User-Agent"
+    }
+}
