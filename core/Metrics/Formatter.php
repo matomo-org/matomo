@@ -23,6 +23,9 @@ use Piwik\Tracker\GoalManager;
  */
 class Formatter
 {
+    private $decimalPoint = null;
+    private $thousandsSeparator = null;
+
     /**
      * Returns a prettified string representation of a number. The result will have
      * thousands separators and a decimal point specific to the current locale, eg,
@@ -31,19 +34,16 @@ class Formatter
      * @param number $value
      * @return string
      */
-    public function getPrettyNumber($value)
+    public function getPrettyNumber($value, $precision = 0)
     {
-        static $decimalPoint = null;
-        static $thousandsSeparator = null;
-
-        if ($decimalPoint === null) {
+        if ($this->decimalPoint === null) {
             $locale = localeconv();
 
-            $decimalPoint = $locale['decimal_point'];
-            $thousandsSeparator = $locale['thousands_sep'];
+            $this->decimalPoint = $locale['decimal_point'];
+            $this->thousandsSeparator = $locale['thousands_sep'];
         }
 
-        return number_format($value, 0, $decimalPoint, $thousandsSeparator);
+        return number_format($value, $precision, $this->decimalPoint, $this->thousandsSeparator);
     }
 
     /**
@@ -51,7 +51,6 @@ class Formatter
      *
      * @param int $numberOfSeconds The number of seconds.
      * @param bool $displayTimeAsSentence If set to true, will output `"5min 17s"`, if false `"00:05:17"`.
-     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @param bool $round Whether to round to the nearest second or not.
      * @return string
      */
@@ -132,8 +131,8 @@ class Formatter
         $units = array('B', 'K', 'M', 'G', 'T');
 
         $currentUnit = null;
-        foreach ($units as $currentUnit) {
-            if ($size >= 1024 && $unit != $currentUnit) {
+        foreach ($units as $idx => $currentUnit) {
+            if ($size >= 1024 && $unit != $currentUnit && $idx != count($units) - 1) {
                 $size = $size / 1024;
             } else {
                 break;
@@ -148,22 +147,23 @@ class Formatter
      *
      * @param int|string $value The monetary value to format.
      * @param int $idSite The ID of the site whose currency will be used.
-     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @return string
      */
     public function getPrettyMoney($value, $idSite)
     {
-        $currencyBefore = self::getCurrencySymbol($idSite);
-
         $space = ' ';
 
+        $currencySymbol = self::getCurrencySymbol($idSite);
+
+        $currencyBefore =  $currencySymbol . $space;
         $currencyAfter = '';
+
         // (maybe more currencies prefer this notation?)
         $currencySymbolToAppend = array('€', 'kr', 'zł');
 
         // manually put the currency symbol after the amount
-        if (in_array($currencyBefore, $currencySymbolToAppend)) {
-            $currencyAfter = $space . $currencyBefore;
+        if (in_array($currencySymbol, $currencySymbolToAppend)) {
+            $currencyAfter = $space . $currencySymbol;
             $currencyBefore = '';
         }
 
@@ -179,7 +179,7 @@ class Formatter
             }
         }
 
-        $prettyMoney = $currencyBefore . $space . $value . $currencyAfter;
+        $prettyMoney = $currencyBefore . $value . $currencyAfter;
         return $prettyMoney;
     }
 

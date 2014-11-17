@@ -76,7 +76,8 @@ class Controller extends \Piwik\Plugin\Controller
         );
         $dataTable = $request->process();
 
-        $formatter = new Metrics\Formatter();
+        // TODO: move metric formatting logic to Formatter\Html from DataTablePostProcessor
+        $formatter = new Metrics\Formatter\Html();
 
         $data = array();
         if ($dataTable->getRowsCount() > 0) {
