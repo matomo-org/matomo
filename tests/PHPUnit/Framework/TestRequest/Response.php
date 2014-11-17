@@ -115,20 +115,9 @@ class Response
         $apiResponse = $this->normalizePdfContent($apiResponse);
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
-        $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
 
         return $apiResponse;
-    }
-
-    private function normalizeEncodingPhp533($apiResponse)
-    {
-        if (!SystemTestCase::isPhpVersion53()
-            || strpos($apiResponse, '<result') === false) {
-            return $apiResponse;
-        }
-
-        return str_replace('&amp;#039;', "'", $apiResponse);
     }
 
     private function removeIdSubtableParamFromUrlsInResponse($apiResponse)
