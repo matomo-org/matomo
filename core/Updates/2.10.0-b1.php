@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Updates;
@@ -60,7 +61,12 @@ class Updates_2_10_0_b1 extends Updates
         static $archiveBlobTables;
 
         if (empty($archiveBlobTables)) {
-            $archiveBlobTables = Db::get()->fetchCol("SHOW TABLES LIKE '%archive_blob%'");
+
+            $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
+
+            $archiveBlobTables = array_filter($archiveTables, function($name) {
+                return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::BLOB_TABLE;
+            });
 
             // sort tables so we have them in order of their date
             rsort($archiveBlobTables);
