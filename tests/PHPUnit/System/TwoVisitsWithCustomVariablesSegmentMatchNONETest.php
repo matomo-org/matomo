@@ -8,6 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 use Piwik\Tests\Framework\Fixture;
@@ -51,6 +52,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
+        Model::install();
 
         // Segment matching NONE
         $segments = API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
