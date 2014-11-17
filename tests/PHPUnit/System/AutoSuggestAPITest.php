@@ -119,10 +119,9 @@ class AutoSuggestAPITest extends SystemTestCase
 
     public function getAnotherApiForTesting()
     {
-
+        $segments = self::getSegmentsMetadata(self::$fixture->idSite);
 
         $apiForTesting = array();
-        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
         foreach ($segments as $segment) {
             if(self::isTravisCI() && $segment['segment'] == 'deviceType') {
                 // test started failing after bc19503 and I cannot understand why
