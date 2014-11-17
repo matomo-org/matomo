@@ -34,7 +34,7 @@
         "NotificationSubjectAvailableCoreUpdate": "Piwik %s est maintenant disponible",
         "NotificationSubjectAvailablePluginUpdate": "Mises à jour disponibles pour vos plugins Piwik",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik a été mis à jour avec succès !",
-        "PiwikUpdatedSuccessfully": "Piwik a été mis à jour avec succès!",
+        "PiwikUpdatedSuccessfully": "Piwik a été mis à jour avec succès !",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "La base de données de Piwik sera mise à jour depuis la version %1$s vers la version %2$s.",
         "PluginDescription": "Mécanisme de mise à jour Piwik",
         "ReadyToGo": "Prêt à démarrer?",
