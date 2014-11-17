@@ -119,6 +119,8 @@ class AutoSuggestAPITest extends SystemTestCase
 
     public function getAnotherApiForTesting()
     {
+
+
         $apiForTesting = array();
         $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
         foreach ($segments as $segment) {
@@ -143,14 +145,27 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots)
         $maximumSegmentsToSkip = 16;
-        $this->assertTrue(count(self::$skipped) <= $maximumSegmentsToSkip, 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
+        $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped) , 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
         // and check that most others have been tested
         $minimumSegmentsToTest = 46;
         $message = 'PROCESSED ' . self::$processed . ' segments --> it seems some segments "auto-suggested values" haven\'t been tested as we were expecting. ';
-        $this->assertTrue(self::$processed >= $minimumSegmentsToTest, $message);
+        $this->assertGreaterThan($minimumSegmentsToTest, self::$processed, $message);
     }
+
+    public static function getSegmentsMetadata($idSite)
+    {
+        // Refresh cache for CustomVariables\Model
+        Cache::clearCacheGeneral();
+
+        \Piwik\Plugins\CustomVariables\Model::install();
+
+        // Segment matching NONE
+        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata($idSite);
+        return $segments;
+    }
+
 }
 
 AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
