@@ -146,6 +146,11 @@ class Visualization extends ViewDataTable
     private $metadata = null;
     protected $metricsFormatter = null;
 
+    /**
+     * @var Report
+     */
+    protected $report;
+
     final public function __construct($controllerAction, $apiMethodToRequestDataTable, $params = array())
     {
         $templateFile = static::TEMPLATE_FILE;
@@ -157,6 +162,8 @@ class Visualization extends ViewDataTable
         $this->metricsFormatter = new HtmlFormatter();
 
         parent::__construct($controllerAction, $apiMethodToRequestDataTable, $params);
+
+        $this->report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
     }
 
     protected function buildView()
@@ -311,10 +318,9 @@ class Visualization extends ViewDataTable
 
     private function addVisualizationInfoFromMetricMetadata()
     {
-        $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
         $dataTable = $this->dataTable instanceof DataTable\Map ? $this->dataTable->getFirstRow() : $this->dataTable;
 
-        $processedMetrics = Report::getProcessedMetricsFor($dataTable, $report);
+        $processedMetrics = $this->metricsFormatter->getMetricsToFormat($dataTable, $this->report);
 
         // TODO: instead of iterating & calling translate everywhere, maybe we can get all translated names in one place.
         //       may be difficult, though, since translated metrics are specific to the report.
@@ -368,7 +374,7 @@ class Visualization extends ViewDataTable
             $this->dataTable->applyQueuedFilters();
         }
 
-        $postProcessor->applyProcessedMetricsFormatting($this->dataTable, $this->metricsFormatter);
+        $this->metricsFormatter->formatMetrics($this->dataTable, $this->report);
     }
 
     private function removeEmptyColumnsFromDisplay()

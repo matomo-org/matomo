@@ -8,7 +8,11 @@
 namespace Piwik\Metrics;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Plugin\Metric;
+use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugin\Report;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -23,6 +27,8 @@ use Piwik\Tracker\GoalManager;
  */
 class Formatter
 {
+    const PROCESSED_METRICS_FORMATTED_FLAG = 'processed_metrics_formatted';
+
     private $decimalPoint = null;
     private $thousandsSeparator = null;
 
@@ -230,5 +236,90 @@ class Formatter
         }
 
         return $currenciesList;
+    }
+
+    /**
+     * Formats all metrics, including processed metrics, for a DataTable. Metrics to format
+     * are found through report metadata and DataTable metadata.
+     *
+     * @param DataTable $dataTable The table to format metrics for.
+     * @param Report|null $report The report the table belongs to.
+     * @param string[]|null $metricsToFormat Whitelist of names of metrics to format.
+     */
+    public function formatMetrics(DataTable $dataTable, Report $report = null, $metricsToFormat = null)
+    {
+        $metrics = $this->getMetricsToFormat($dataTable, $report);
+        if (empty($metrics)
+            || $dataTable->getMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG)
+        ) {
+            return;
+        }
+
+        $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
+
+        if ($metricsToFormat !== null) {
+            $metricMatchRegex = $this->makeRegexToMatchMetrics($metricsToFormat);
+            $metrics = array_filter($metrics, function (ProcessedMetric $metric) use ($metricMatchRegex) {
+                return preg_match($metricMatchRegex, $metric->getName());
+            });
+        }
+
+        foreach ($metrics as $name => $metric) {
+            if (!$metric->beforeFormat($report, $dataTable)) {
+                continue;
+            }
+
+            foreach ($dataTable->getRows() as $row) {
+                $columnValue = $row->getColumn($name);
+                if ($columnValue !== false) {
+                    $row->setColumn($name, $metric->format($columnValue, $this));
+                }
+
+                $subtable = $row->getSubtable();
+                if (!empty($subtable)) {
+                    $this->formatMetrics($subtable, $report, $metricsToFormat);
+                }
+            }
+        }
+    }
+
+    private function makeRegexToMatchMetrics($metricsToFormat)
+    {
+        $metricsRegexParts = array();
+        foreach ($metricsToFormat as $metricFilter) {
+            if ($metricFilter[0] == '/') {
+                $metricsRegexParts[] = '(?:' . substr($metricFilter, 1, strlen($metricFilter) - 2) . ')';
+            } else {
+                $metricsRegexParts[] = preg_quote($metricFilter);
+            }
+        }
+        return '/^' . implode('|', $metricsRegexParts) . '$/';
+    }
+
+    /**
+     * @param DataTable $dataTable
+     * @param Report $report
+     * @return Metric[]
+     */
+    public function getMetricsToFormat(DataTable $dataTable, Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
+    {
+        $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
+
+        if (!empty($report)) {
+            $metrics = array_merge($metrics, $report->getProcessedMetricsById());
+        }
+
+        $result = array();
+
+        /** @var Metric $metric */
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof $baseType)) {
+                continue;
+            }
+
+            $result[$metric->getName()] = $metric;
+        }
+
+        return $result;
     }
 }

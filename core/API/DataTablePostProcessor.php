@@ -27,7 +27,6 @@ use Piwik\Plugin\Report;
  */
 class DataTablePostProcessor
 {
-    const PROCESSED_METRICS_FORMATTED_FLAG = 'processed_metrics_formatted';
     const PROCESSED_METRICS_COMPUTED_FLAG = 'processed_metrics_computed';
 
     /**
@@ -56,6 +55,11 @@ class DataTablePostProcessor
     private $apiInconsistencies;
 
     /**
+     * @var Formatter
+     */
+    private $formatter;
+
+    /**
      * Constructor.
      */
     public function __construct($apiModule, $apiMethod, $request)
@@ -66,16 +70,13 @@ class DataTablePostProcessor
 
         $this->report = Report::factory($apiModule, $apiMethod);
         $this->apiInconsistencies = new Inconsistencies();
+        $this->formatter = new Formatter();
     }
 
     /**
      * Apply post-processing logic to a DataTable of a report for an API request.
      *
      * @param DataTableInterface $dataTable The data table to process.
-     * @param Report|null $report The Report metadata class for the DataTable's report, or null if
-     *                            there is none.
-     * @param string[] $request The API request that
-     * @param bool $applyFormatting Whether to format processed metrics or not.
      * @return DataTableInterface A new data table.
      */
     public function process(DataTableInterface $dataTable)
@@ -99,14 +100,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
 
-        $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
-        if ($formatMetrics != '0') {
-            // in Piwik 2.X & below, metrics are not formatted in API responses except for percents.
-            // this code implements this inconsistency
-            $onlyFormatPercents = $formatMetrics === 'bc';
-
-            $dataTable = $this->applyProcessedMetricsFormatting($dataTable, null, $onlyFormatPercents);
-        }
+        $dataTable = $this->applyMetricsFormatting($dataTable, null);
 
         return $dataTable;
     }
@@ -174,8 +168,9 @@ class DataTablePostProcessor
 
             $self = $this;
             $report = $this->report;
-            $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self) {
-                $processedMetrics = Report::getProcessedMetricsFor($table, $report);
+            $formatter = $this->formatter;
+            $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self, $formatter) {
+                $processedMetrics = $formatter->getMetricsToFormat($table, $report, 'Piwik\\Plugin\\ProcessedMetric');
                 if ($genericFilter->areProcessedMetricsNeededFor($processedMetrics)) {
                     $self->computeProcessedMetrics($table);
                 }
@@ -280,22 +275,25 @@ class DataTablePostProcessor
 
     /**
      * @param DataTableInterface $dataTable
-     * @param Formatter|null $formatter
-     * @param bool $onlyFormatPercents
      * @return DataTableInterface
      */
-    public function applyProcessedMetricsFormatting($dataTable, Formatter $formatter = null, $onlyFormatPercents = false)
+    public function applyMetricsFormatting($dataTable)
     {
-        if ($formatter === null) {
-            $formatter = new Formatter();
+        $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
+        if ($formatMetrics == '0') {
+            return $dataTable;
         }
+
+        // in Piwik 2.X & below, metrics are not formatted in API responses except for percents.
+        // this code implements this inconsistency
+        $onlyFormatPercents = $formatMetrics === 'bc';
 
         $metricsToFormat = null;
         if ($onlyFormatPercents) {
             $metricsToFormat = $this->apiInconsistencies->getPercentMetricsToFormat();
         }
 
-        $dataTable->filter(array($this, 'formatProcessedMetrics'), array($formatter, $metricsToFormat));
+        $dataTable->filter(array($this->formatter, 'formatMetrics'), array($this->report, $metricsToFormat));
         return $dataTable;
     }
 
@@ -335,7 +333,8 @@ class DataTablePostProcessor
             return;
         }
 
-        $processedMetrics = Report::getProcessedMetricsFor($dataTable, $this->report);
+        /** @var ProcessedMetric[] $processedMetrics */
+        $processedMetrics = $this->formatter->getMetricsToFormat($dataTable, $this->report, 'Piwik\\Plugin\\ProcessedMetric');
         if (empty($processedMetrics)) {
             return;
         }
@@ -360,61 +359,8 @@ class DataTablePostProcessor
         }
     }
 
-    /**
-     * public for use as callback.
-     */
-    public function formatProcessedMetrics(DataTable $dataTable, Formatter $formatter, $metricsToFormat = null)
-    {
-        $processedMetrics = Report::getProcessedMetricsFor($dataTable, $this->report);
-        if (empty($processedMetrics)
-            || $dataTable->getMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG)
-        ) {
-            return;
-        }
-
-        $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
-
-        if ($metricsToFormat !== null) {
-            $metricMatchRegex = $this->makeRegexToMatchMetrics($metricsToFormat);
-            $processedMetrics = array_filter($processedMetrics, function (ProcessedMetric $metric) use ($metricMatchRegex) {
-                return preg_match($metricMatchRegex, $metric->getName());
-            });
-        }
-
-        foreach ($processedMetrics as $name => $processedMetric) {
-            if (!$processedMetric->beforeFormat($this->report, $dataTable)) {
-                continue;
-            }
-
-            foreach ($dataTable->getRows() as $row) {
-                $columnValue = $row->getColumn($name);
-                if ($columnValue !== false) {
-                    $row->setColumn($name, $processedMetric->format($columnValue, $formatter));
-                }
-
-                $subtable = $row->getSubtable();
-                if (!empty($subtable)) {
-                    $this->formatProcessedMetrics($subtable, $formatter, $metricsToFormat);
-                }
-            }
-        }
-    }
-
     public function applyComputeProcessedMetrics(DataTableInterface $dataTable)
     {
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
-    }
-
-    private function makeRegexToMatchMetrics($metricsToFormat)
-    {
-        $metricsRegexParts = array();
-        foreach ($metricsToFormat as $metricFilter) {
-            if ($metricFilter[0] == '/') {
-                $metricsRegexParts[] = '(?:' . substr($metricFilter, 1, strlen($metricFilter) - 2) . ')';
-            } else {
-                $metricsRegexParts[] = preg_quote($metricFilter);
-            }
-        }
-        return '/^' . implode('|', $metricsRegexParts) . '$/';
     }
 }

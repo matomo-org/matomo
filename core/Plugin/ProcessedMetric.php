@@ -54,18 +54,4 @@ abstract class ProcessedMetric extends Metric
     {
         return true;
     }
-
-    /**
-     * Executed before formatting all processed metrics for a report. Implementers can return `false`
-     * to skip formatting this metric and can use this method to access information needed for
-     * formatting (for example, the site ID).
-     *
-     * @param Report $report
-     * @param DataTable $table
-     * @return bool Return `true` to format the metric for the table, `false` to skip formatting.
-     */
-    public function beforeFormat($report, DataTable $table)
-    {
-        return true;
-    }
 }

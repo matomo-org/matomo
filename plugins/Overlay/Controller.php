@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
@@ -72,12 +73,12 @@ class Controller extends \Piwik\Plugin\Controller
             . '&period=' . urlencode($period)
             . '&label=' . urlencode($label)
             . '&format=original'
-            . '&format_metrics=1'
+            . '&format_metrics=0'
         );
         $dataTable = $request->process();
 
-        // TODO: move metric formatting logic to Formatter\Html from DataTablePostProcessor
         $formatter = new Metrics\Formatter\Html();
+        $formatter->formatMetrics($dataTable, Report::factory("Actions", "getPageUrls"));
 
         $data = array();
         if ($dataTable->getRowsCount() > 0) {
@@ -92,9 +93,6 @@ class Controller extends \Piwik\Plugin\Controller
                 if ($value === false) {
                     // skip unique visitors for period != day
                     continue;
-                }
-                if ($metric == 'avg_time_on_page') {
-                    $value = $formatter->getPrettyTimeFromSeconds($value);
                 }
                 $data[] = array(
                     'name'  => $translations[$metric],

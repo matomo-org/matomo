@@ -836,29 +836,4 @@ class Report
         }
         return $result;
     }
-
-
-    /**
-     * @param DataTable $dataTable
-     * @param Report $report
-     * @return ProcessedMetric[]
-     */
-    public static function getProcessedMetricsFor(DataTable $dataTable, Report $report = null)
-    {
-        $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
-
-        if (!empty($report)) {
-            $processedMetrics = array_merge($processedMetrics, $report->getProcessedMetricsById());
-        }
-
-        $result = array();
-        foreach ($processedMetrics as $metric) {
-            if (!($metric instanceof ProcessedMetric)) {
-                continue;
-            }
-
-            $result[$metric->getName()] = $metric;
-        }
-        return $result;
-    }
 }
