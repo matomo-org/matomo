@@ -9,11 +9,13 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Filesystem;
+use Piwik\Tests\Framework\Mock\File;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group Core
  */
-class FilesystemTest extends \PHPUnit_Framework_TestCase
+class FilesystemTest extends UnitTestCase
 {
     private $testPath;
 
@@ -243,6 +245,104 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         Filesystem::mkdir($this->testPath . '/target');
 
         return $this->testPath . '/target';
+    }
+
+    public function test_getFileSize_ZeroSize()
+    {
+        File::setFileSize(0);
+
+        $size = Filesystem::getFileSize(__FILE__);
+        $this->assertEquals(0, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'KB');
+        $this->assertEquals(0, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'MB');
+        $this->assertEquals(0, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'GB');
+        $this->assertEquals(0, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'TB');
+        $this->assertEquals(0, $size);
+    }
+
+    public function test_getFileSize_LowSize()
+    {
+        File::setFileSize(1024);
+
+        $size = Filesystem::getFileSize(__FILE__);
+        $this->assertEquals(1024, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'KB');
+        $this->assertEquals(1, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'MB');
+        $this->assertGreaterThanOrEqual(0.0009, $size);
+        $this->assertLessThanOrEqual(0.0011, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'GB');
+        $this->assertGreaterThanOrEqual(0.0000009, $size);
+        $this->assertLessThanOrEqual(0.0000011, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'TB');
+        $this->assertGreaterThanOrEqual(0.0000000009, $size);
+        $this->assertLessThanOrEqual(0.0000000011, $size);
+    }
+
+    public function test_getFileSize_HighSize()
+    {
+        File::setFileSize(1073741824);
+
+        $size = Filesystem::getFileSize(__FILE__, 'B');
+        $this->assertEquals(1073741824, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'KB');
+        $this->assertEquals(1048576, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'MB');
+        $this->assertEquals(1024, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'GB');
+        $this->assertEquals(1, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'TB');
+        $this->assertGreaterThanOrEqual(0.0009, $size);
+        $this->assertLessThanOrEqual(0.0011, $size);
+    }
+
+    public function test_getFileSize_ShouldRecognizeLowerUnits()
+    {
+        File::setFileSize(1073741824);
+
+        $size = Filesystem::getFileSize(__FILE__, 'b');
+        $this->assertEquals(1073741824, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'kb');
+        $this->assertEquals(1048576, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'mB');
+        $this->assertEquals(1024, $size);
+
+        $size = Filesystem::getFileSize(__FILE__, 'Gb');
+        $this->assertEquals(1, $size);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid unit given
+     */
+    public function test_getFileSize_ShouldThrowException_IfInvalidUnit()
+    {
+        Filesystem::getFileSize(__FILE__, 'iV');
+    }
+
+    public function test_getFileSize_ShouldReturnNull_IfFileDoesNotExists()
+    {
+        File::setFileExists(false);
+        $size = Filesystem::getFileSize(__FILE__);
+
+        $this->assertNull($size);
     }
 
 }

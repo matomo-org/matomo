@@ -9,6 +9,8 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Cache;
@@ -412,15 +414,16 @@ class Tracker
      *
      * @param Exception $e
      * @param bool $authenticated
+     * @param int  $statusCode eg 500
      */
-    protected function exitWithException($e, $authenticated = false)
+    protected function exitWithException($e, $authenticated = false, $statusCode = 500)
     {
         if ($this->hasRedirectUrl()) {
             $this->performRedirectToUrlIfSet();
             exit;
         }
 
-        Common::sendHeader('HTTP/1.1 500 Internal Server Error');
+        Common::sendResponseCode($statusCode);
         error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
 
         if ($this->usingBulkTracking) {
@@ -456,6 +459,7 @@ class Tracker
         } else {
             $this->sendResponse();
         }
+
         die(1);
         exit;
     }
@@ -666,7 +670,8 @@ class Tracker
         $request = $_GET + $_POST;
 
         if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
-            Common::sendHeader("HTTP/1.1 204 No Response");
+            Common::sendResponseCode(204);
+
             return;
         }
 
@@ -841,6 +846,12 @@ class Tracker
             } else {
                 Common::printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
             }
+        } catch (UnexpectedWebsiteFoundException $e) {
+            Common::printDebug("Exception: " . $e->getMessage());
+            $this->exitWithException($e, $isAuthenticated, 400);
+        } catch (InvalidRequestParameterException $e) {
+            Common::printDebug("Exception: " . $e->getMessage());
+            $this->exitWithException($e, $isAuthenticated, 400);
         } catch (DbException $e) {
             Common::printDebug("Exception: " . $e->getMessage());
             $this->exitWithException($e, $isAuthenticated);

@@ -1,0 +1,21 @@
+{
+    "DBStats": {
+        "DatabaseUsage": "Paggamit ng Database",
+        "DataSize": "Laki ng datos",
+        "DBSize": "laki ng DB",
+        "EstimatedSize": "Tinantyang laki",
+        "IndexSize": "Laki ng index",
+        "LearnMore": "Upang malaman kung paano pina-process ng Piwik ang data at kung papano paganahin ang Piwik ng may katam-taman at mataas na website traffic tignan ang dokumentasyon na ito: %s.",
+        "MainDescription": "Nilalagay ng Piwik ang lahat ng iyong web analytics sa MySQL database. Sa kasalukuyan Piwik tables ay mayroong %s na espasyo.",
+        "MetricDataByYear": "Talaan ng sukatan ayon sa taon",
+        "MetricTables": "Table ng sukatan",
+        "OtherTables": "Iba pang mga table",
+        "PluginDescription": "Inulat ng plugin ang MySQL database sa paggamit ng talahayanan ng Piwik.",
+        "ReportDataByYear": "Ulat talahaan ayon sa taon",
+        "ReportTables": "Talaan ng mga table",
+        "RowCount": "Bilang ng row",
+        "Table": "Talahanayan",
+        "TotalSize": "Kabuuang laki",
+        "TrackerTables": "Tracker Tables"
+    }
+}

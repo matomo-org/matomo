@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Ranggo sa Alexa",
+        "Bing_IndexedPages": "Mga na index na pahina ng bing",
+        "Dmoz": "DMOZ entries",
+        "DomainAge": "Edad ng Domain",
+        "ExternalBacklinks": "Panlabas na Backlink (Majestic)",
+        "Google_IndexedPages": "Na index ng Google ang mga pahina",
+        "Rank": "Ranggo",
+        "ReferrerDomains": "Referrer Domain (Majestic)",
+        "SeoRankings": "Ranggo sa SEO",
+        "SEORankingsFor": "Ranggo ng SEO para sa %s",
+        "ViewBacklinksOnMajesticSEO": "Tingnan ang mga ulat sa External Backlinks sa MajesticSEO.com"
+    }
+}

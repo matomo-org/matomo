@@ -10,7 +10,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 
 require_once './cli-script-bootstrap.php';
 
-ini_set("memory_limit", "512M");
+@ini_set("memory_limit", "512M");
 
 $query = "SELECT count(*) FROM " . Common::prefixTable('log_visit');
 $count = Db::fetchOne($query);
@@ -87,7 +87,7 @@ if (!Common::isPhpCliMode()) {
 function geoipUpdateError($message)
 {
     Log::error($message);
-    Common::sendHeader('HTTP/1.1 500 Internal Server Error', $replace = true, $responseCode = 500);
+    Common::sendResponseCode(500);
     exit;
 }
 

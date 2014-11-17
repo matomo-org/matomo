@@ -1150,6 +1150,48 @@ class Common
     }
 
     /**
+     * Sends the given response code if supported.
+     *
+     * @param int $code  Eg 204
+     *
+     * @throws Exception
+     */
+    public static function sendResponseCode($code)
+    {
+        $messages = array(
+            200 => 'Ok',
+            204 => 'No Response',
+            301 => 'Moved Permanently',
+            302 => 'Found',
+            304 => 'Not Modified',
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            500 => 'Internal Server Error'
+        );
+
+        if (!array_key_exists($code, $messages)) {
+            throw new Exception('Response code not supported: ' . $code);
+        }
+
+        if (strpos(PHP_SAPI, '-fcgi') === false) {
+            $key = $_SERVER['SERVER_PROTOCOL'];
+
+            if (strlen($key) > 15 || empty($key)) {
+                $key = 'HTTP/1.1';
+            }
+
+        } else {
+            // FastCGI
+            $key = 'Status:';
+        }
+
+        $message = $messages[$code];
+        Common::sendHeader($key . ' ' . $code . ' ' . $message);
+    }
+
+    /**
      * Returns the ID of the current LocationProvider (see UserCountry plugin code) from
      * the Tracker cache.
      */

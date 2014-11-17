@@ -166,7 +166,7 @@ class Model
                     $model->addCustomVariable();
                 }
             } catch (\Exception $e) {
-                Log::warning('Failed to add custom variable: ' . $e->getMessage());
+                Log::error('Failed to add custom variable: ' . $e->getMessage());
             }
         }
     }

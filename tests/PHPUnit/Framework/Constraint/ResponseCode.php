@@ -9,6 +9,7 @@ namespace Piwik\Tests\Framework\Constraint;
 
 class ResponseCode extends \PHPUnit_Framework_Constraint
 {
+    private $actualCode;
 
     /**
      * @param integer $value Expected response code
@@ -41,7 +42,9 @@ class ResponseCode extends \PHPUnit_Framework_Constraint
         $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        return $this->value === (int) $responseCode;
+        $this->actualCode = (int) $responseCode;
+
+        return $this->value === $this->actualCode;
     }
 
     /**
@@ -51,6 +54,6 @@ class ResponseCode extends \PHPUnit_Framework_Constraint
      */
     public function toString()
     {
-        return 'does not return response code ' . $this->exporter->export($this->value);
+        return 'does not return response code ' . $this->exporter->export($this->value) . ' it is ' . $this->actualCode;
     }
 }?>

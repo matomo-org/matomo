@@ -107,7 +107,7 @@ class Mail extends Zend_Mail
 
         $tr = new \Zend_Mail_Transport_Smtp($mailConfig['host'], $smtpConfig);
         Mail::setDefaultTransport($tr);
-        ini_set("smtp_port", $mailConfig['port']);
+        @ini_set("smtp_port", $mailConfig['port']);
     }
 
     public function send($transport = NULL)

@@ -9,12 +9,15 @@
 namespace Piwik\Tests\Unit\CliMulti;
 
 use Piwik\CliMulti\Process;
+use Piwik\Tests\Framework\Mock\File;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use ReflectionProperty;
 
 /**
  * @group Core
+ * @group CliMulti
  */
-class ProcessTest extends \PHPUnit_Framework_TestCase
+class ProcessTest extends UnitTestCase
 {
     /**
      * @var Process
@@ -23,6 +26,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setup();
         $this->process = new Process('testPid');
     }
 
@@ -38,6 +42,11 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     public function test_construct_shouldFailInCasePidIsInvalid()
     {
         new Process('../../htaccess');
+    }
+
+    public function test_getPid()
+    {
+        $this->assertSame('testPid', $this->process->getPid());
     }
 
     public function test_construct_shouldBeNotStarted_IfPidJustCreated()
@@ -82,6 +91,22 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->process->isRunning());
         $this->assertTrue($this->process->hasStarted());
+        $this->assertTrue($this->process->hasFinished());
+    }
+
+    public function test_isRunning_ShouldMarkProcessAsFinished_IfPidFileIsTooBig()
+    {
+        if (! Process::isSupported()) {
+            $this->markTestSkipped('Not supported');
+        }
+
+        $this->process->startProcess();
+        $this->assertTrue($this->process->isRunning());
+        $this->assertFalse($this->process->hasFinished());
+
+        File::setFileSize(505);
+
+        $this->assertFalse($this->process->isRunning());
         $this->assertTrue($this->process->hasFinished());
     }
 

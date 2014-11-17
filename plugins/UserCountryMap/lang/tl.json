@@ -1,0 +1,27 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "at %s iba",
+        "Cities": "Lungsod",
+        "Countries": "Mga Bansa",
+        "DaysAgo": "araw %s na ang nakalipas",
+        "GoalConversions": "Mga %s goal conversion",
+        "Hours": "oras",
+        "HoursAgo": "oras %s na ang nakalipas",
+        "map": "mapa",
+        "Minutes": "minuto",
+        "MinutesAgo": "%s minuto ang nakalipas",
+        "None": "Wala",
+        "NoVisit": "walang bumisita",
+        "RealTimeMap": "Real-time Map",
+        "Regions": "Mga Rehiyon",
+        "Searches": "%s searches",
+        "Seconds": "segundo",
+        "SecondsAgo": "segundo %s na ang nakalipas",
+        "ShowingVisits": "Geo-located na pagbisita ng huling",
+        "Unlocated": "<b> %s <b> %p sa mga pagbisita mula sa %c ay hindi pwedeng i-geolocated.",
+        "VisitorMap": "Mapa ng bumisita",
+        "WithUnknownCity": "%s hindi kilalang lungsod",
+        "WithUnknownRegion": "%s na may hindi kilalang rehiyon",
+        "WorldWide": "World-Wide"
+    }
+}

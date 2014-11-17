@@ -8,13 +8,26 @@
 
 namespace Piwik\Plugins\ExamplePlugin\tests\Unit;
 
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
+
 /**
  * @group ExamplePlugin
  * @group SimpleTest
  * @group Plugins
  */
-class SimpleTest extends \PHPUnit_Framework_TestCase
+class SimpleTest extends UnitTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        // set up here if needed
+    }
+    
+    public function tearDown()
+    {
+        // tear down here if needed
+        parent::tearDown();
+    }
 
     /**
      * All your actual test methods should start with the name "test"
