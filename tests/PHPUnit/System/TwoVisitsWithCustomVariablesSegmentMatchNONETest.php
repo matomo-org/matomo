@@ -11,6 +11,7 @@ use Piwik\Plugins\API\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Cache;
 
 /**
  * testing a segment containing all supported fields
@@ -27,6 +28,9 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        // Refresh cache for CustomVariables\Model
+        Cache::clearCacheGeneral();
+
         $this->runApiTests($api, $params);
     }
 
