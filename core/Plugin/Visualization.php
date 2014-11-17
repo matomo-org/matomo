@@ -374,7 +374,11 @@ class Visualization extends ViewDataTable
             $this->dataTable->applyQueuedFilters();
         }
 
-        $this->metricsFormatter->formatMetrics($this->dataTable, $this->report);
+        $formatter = $this->metricsFormatter;
+        $report = $this->report;
+        $this->dataTable->filter(function (DataTable $table) use ($formatter, $report) {
+            $formatter->formatMetrics($table, $report);
+        });
     }
 
     private function removeEmptyColumnsFromDisplay()
