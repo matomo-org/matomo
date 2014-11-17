@@ -45,7 +45,8 @@ class API extends \Piwik\Plugin\API
             'segment'   => $segment,
             'columns'   => implode(',', $columns),
             'format'    => 'original',
-            'serialize' => 0 // tests set this to 1
+            'serialize' => 0, // tests set this to 1
+            'format_metrics' => 0
         );
 
         $table = Request::processRequest('VisitsSummary.get', $params);
