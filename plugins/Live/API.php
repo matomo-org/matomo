@@ -347,7 +347,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $formatter = new Formatter();
-        $result['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($result['totalVisitDuration']);
+        $result['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($result['totalVisitDuration'], true);
 
         // use requested visits for first/last visit info
         $rows = $visits->getRows();
