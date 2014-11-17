@@ -134,24 +134,7 @@ class Updates_2_10_0_b1 extends Updates
         // rebuild archives without versions
         $browserBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'DevicesDetection_browserVersions'", $table));
         foreach ($browserBlobs as $blob) {
-
-            $blob['value'] = @gzuncompress($blob['value']);
-
-            $datatable = DataTable::fromSerializedArray($blob['value']);
-            $datatable->filter('GroupBy', array('label', function ($label) {
-                if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches) === 0) {
-                    return $label;
-                }
-
-                return $matches[1];
-            }));
-
-            $newData = $datatable->getSerialized();
-
-            $blob['value'] = $newData[0];
-            $blob['name'] = 'DevicesDetection_browsers';
-
-            Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blob));
+            self::createArchiveBlobWithoutVersions($blob, 'DevicesDetection_browsers', $table);
         }
     }
 
@@ -176,24 +159,28 @@ class Updates_2_10_0_b1 extends Updates
         // rebuild archives without versions
         $osBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'DevicesDetection_osVersions'", $table));
         foreach ($osBlobs as $blob) {
-
-            $blob['value'] = @gzuncompress($blob['value']);
-
-            $datatable = DataTable::fromSerializedArray($blob['value']);
-            $datatable->filter('GroupBy', array('label', function ($label) {
-                if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches) === 0) {
-                    return $label;
-                }
-
-                return $matches[1];
-            }));
-
-            $newData = $datatable->getSerialized();
-
-            $blob['value'] = $newData[0];
-            $blob['name'] = 'DevicesDetection_os';
-
-            Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blob));
+            self::createArchiveBlobWithoutVersions($blob, 'DevicesDetection_os', $table);
         }
+    }
+
+    protected static function createArchiveBlobWithoutVersions($blob, $newName, $table)
+    {
+        $blob['value'] = @gzuncompress($blob['value']);
+
+        $datatable = DataTable::fromSerializedArray($blob['value']);
+        $datatable->filter('GroupBy', array('label', function ($label) {
+            if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches) === 0) {
+                return $label;
+            }
+
+            return $matches[1];
+        }));
+
+        $newData = $datatable->getSerialized();
+
+        $blob['value'] = @gzcompress($newData[0]);
+        $blob['name'] = $newName;
+
+        Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blobData));
     }
 }
