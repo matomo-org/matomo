@@ -26,7 +26,7 @@
 			<prettyName>France</prettyName>
 		</row>
 	</countries>
-	<totalVisitDurationPretty>6 min 1s</totalVisitDurationPretty>
+	<totalVisitDurationPretty>6 min 1s</totalVisitDurationPretty>
 	<firstVisit>
 		
 		
@@ -196,7 +196,7 @@
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 			<visitDuration>361</visitDuration>
-			<visitDurationPretty>6 min 1s</visitDurationPretty>
+			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<customVariables>
 				<row>
 					<customVariableName1>VisitorType</customVariableName1>
