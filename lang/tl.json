@@ -280,6 +280,7 @@
         "OptionalSmtpPort": "Opsyonal. Ang mga default sa 25 ay para sa hindi na-encrypt at TLS SMTP at 465 para sa SSL SMTP.",
         "Options": "Mga Pagpipilian",
         "OrCancel": "o %s Kanselahin ang %s",
+        "OriginalLanguageName": "Tagalog",
         "Others": "Iba",
         "Outlink": "Outlink",
         "Outlinks": "Mga Outlink",
