@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
+use Piwik\Cache\StaticCache;
 use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Config;
@@ -241,6 +242,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
         Piwik_TestingEnvironment::addSendMailHook();
+
+        StaticCache::clearAll();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
