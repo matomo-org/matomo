@@ -50,7 +50,13 @@ class AveragePageGenerationTime extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
-        return $value ? $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true) : "-";
+        if ($formatter instanceof Formatter\Html
+            && !$value
+        ) {
+            return '-';
+        } else {
+            return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
+        }
     }
 
     public function beforeCompute($report, DataTable $table)
