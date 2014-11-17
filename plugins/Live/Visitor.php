@@ -330,7 +330,7 @@ class Visitor implements VisitorInterface
                     $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
                 }
             } elseif ($actionDetail['custom_float'] > 0) {
-                $actionDetail['generationTime'] = $formatter->getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
+                $actionDetail['generationTime'] = $formatter->getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000, true);
             }
             unset($actionDetail['custom_float']);
 

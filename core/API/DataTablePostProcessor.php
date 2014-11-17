@@ -375,8 +375,9 @@ class DataTablePostProcessor
         $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
 
         if ($metricsToFormat !== null) {
-            $processedMetrics = array_filter($processedMetrics, function (ProcessedMetric $metric) use ($metricsToFormat) {
-                return in_array($metric->getName(), $metricsToFormat);
+            $metricMatchRegex = $this->makeRegexToMatchMetrics($metricsToFormat);
+            $processedMetrics = array_filter($processedMetrics, function (ProcessedMetric $metric) use ($metricMatchRegex) {
+                return preg_match($metricMatchRegex, $metric->getName());
             });
         }
 
@@ -402,5 +403,18 @@ class DataTablePostProcessor
     public function applyComputeProcessedMetrics(DataTableInterface $dataTable)
     {
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
+    }
+
+    private function makeRegexToMatchMetrics($metricsToFormat)
+    {
+        $metricsRegexParts = array();
+        foreach ($metricsToFormat as $metricFilter) {
+            if ($metricFilter[0] == '/') {
+                $metricsRegexParts[] = '(?:' . substr($metricFilter, 1, strlen($metricFilter) - 2) . ')';
+            } else {
+                $metricsRegexParts[] = preg_quote($metricFilter);
+            }
+        }
+        return '/^' . implode('|', $metricsRegexParts) . '$/';
     }
 }

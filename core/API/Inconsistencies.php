@@ -30,8 +30,10 @@ class Inconsistencies
             'conversion_rate',
             'interaction_rate',
             'exit_rate',
-            'bounce_rate_returning'
-             // TODO: what about goal & evolution metrics? need to use regex i guess.
+            'bounce_rate_returning',
+            'nb_visits_percentage',
+            '/.*_evolution/',
+            '/goal_.*_conversion_rate/'
         );
     }
 }

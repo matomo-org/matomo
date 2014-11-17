@@ -19,7 +19,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageTitle>It's pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>61</pageId>
@@ -131,7 +131,7 @@
 				
 				<pageId>30</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -148,7 +148,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -193,7 +193,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -282,7 +282,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>29</pageId>
@@ -412,7 +412,7 @@
 				
 				<pageId>27</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -457,7 +457,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -546,7 +546,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>26</pageId>
@@ -676,7 +676,7 @@
 				
 				<pageId>23</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -693,7 +693,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -738,7 +738,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -827,7 +827,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>22</pageId>
@@ -957,7 +957,7 @@
 				
 				<pageId>20</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1002,7 +1002,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -1091,7 +1091,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>19</pageId>
@@ -1221,7 +1221,7 @@
 				
 				<pageId>16</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1238,7 +1238,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -1283,7 +1283,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -1372,7 +1372,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>15</pageId>
@@ -1502,7 +1502,7 @@
 				
 				<pageId>13</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1547,7 +1547,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -1641,7 +1641,7 @@
 				
 				<pageId>52</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1686,7 +1686,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -1767,7 +1767,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>12</pageId>
@@ -1892,7 +1892,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>51</pageId>
@@ -2022,7 +2022,7 @@
 				
 				<pageId>9</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2039,7 +2039,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -2084,7 +2084,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -2178,7 +2178,7 @@
 				
 				<pageId>48</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2195,7 +2195,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -2240,7 +2240,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -2321,7 +2321,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>8</pageId>
@@ -2446,7 +2446,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>47</pageId>
@@ -2576,7 +2576,7 @@
 				
 				<pageId>6</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2621,7 +2621,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -2715,7 +2715,7 @@
 				
 				<pageId>38</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2760,7 +2760,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -2854,7 +2854,7 @@
 				
 				<pageId>45</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2899,7 +2899,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -2985,7 +2985,7 @@
 				
 				<pageId>59</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3030,7 +3030,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -3119,7 +3119,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>5</pageId>
@@ -3244,7 +3244,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>37</pageId>
@@ -3369,7 +3369,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>44</pageId>
@@ -3494,7 +3494,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>58</pageId>
@@ -3624,7 +3624,7 @@
 				
 				<pageId>2</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3641,7 +3641,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -3686,7 +3686,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -3780,7 +3780,7 @@
 				
 				<pageId>34</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3797,7 +3797,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -3842,7 +3842,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -3936,7 +3936,7 @@
 				
 				<pageId>41</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3953,7 +3953,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -3998,7 +3998,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -4084,7 +4084,7 @@
 				
 				<pageId>55</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -4101,7 +4101,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -4146,7 +4146,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -4235,7 +4235,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
@@ -4360,7 +4360,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>33</pageId>
@@ -4485,7 +4485,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>40</pageId>
@@ -4610,7 +4610,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>54</pageId>

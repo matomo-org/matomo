@@ -123,9 +123,9 @@ class API extends \Piwik\Plugin\API
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
         if (is_object($table)) {
             $table->filter('ColumnCallbackReplace',
-                array('sum_visit_length', array($formatter, 'getPrettyTimeFromSeconds')));
+                array('sum_visit_length', array($formatter, 'getPrettyTimeFromSeconds'), array(true)));
         } else {
-            $table = $formatter->getPrettyTimeFromSeconds($table);
+            $table = $formatter->getPrettyTimeFromSeconds($table, true);
         }
         return $table;
     }
