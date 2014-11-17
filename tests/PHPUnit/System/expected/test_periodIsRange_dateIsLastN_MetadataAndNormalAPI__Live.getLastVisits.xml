@@ -152,7 +152,7 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
-		<visitDurationPretty>6 min 1s</visitDurationPretty>
+		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
@@ -244,7 +244,7 @@
 				
 				<pageId>1</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -323,7 +323,7 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>364</visitDuration>
-		<visitDurationPretty>6 min 4s</visitDurationPretty>
+		<visitDurationPretty>6 min 4s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>

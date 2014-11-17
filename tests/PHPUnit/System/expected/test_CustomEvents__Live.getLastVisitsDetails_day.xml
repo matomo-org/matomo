@@ -489,7 +489,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
-				<generationTime>00:00:00.33</generationTime>
+				<generationTime>0.33s</generationTime>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
@@ -646,7 +646,7 @@
 				<pageIdAction>12</pageIdAction>
 				
 				<pageId>9</pageId>
-				<generationTime>00:00:00.66</generationTime>
+				<generationTime>0.67s</generationTime>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
@@ -1286,7 +1286,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>25</pageId>
-				<generationTime>00:00:00.33</generationTime>
+				<generationTime>0.33s</generationTime>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
@@ -1443,7 +1443,7 @@
 				<pageIdAction>12</pageIdAction>
 				
 				<pageId>33</pageId>
-				<generationTime>00:00:00.66</generationTime>
+				<generationTime>0.67s</generationTime>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />

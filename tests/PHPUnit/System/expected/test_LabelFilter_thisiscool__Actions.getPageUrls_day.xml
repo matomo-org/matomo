@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>/ééé&quot;&amp;#039;... &lt;this is cool&gt;!</label>
+		<label>/ééé&quot;'... &lt;this is cool&gt;!</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
