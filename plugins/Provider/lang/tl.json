@@ -1,0 +1,10 @@
+{
+    "Provider": {
+        "ColumnProvider": "Tagapagtustos",
+        "PluginDescription": "Mga Ulat ng provider ng mga bisita.",
+        "ProviderReportDocumentation": "Ang ulat na itoy ang nagpapakita kung anong Internet Server Providers ang gamit ng iyung bisita upang ma-access ang website. Maari mong e-click ang pangalan ng provider para sa karagdagang detalye. %s kung ang Piwik ay hindi matukoy ang provider ng bisita. ito ay nakalista bilang IP.",
+        "ProviderReportFooter": "Ang hindi kilalang provider ay hindi makikita ang IP address.",
+        "SubmenuLocationsProvider": "Mga Lokasyon at Provider",
+        "WidgetProviders": "Mga Tagapagtustos"
+    }
+}

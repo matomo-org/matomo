@@ -22,6 +22,10 @@ use Piwik\Db\AdapterInterface;
  */
 class Sequence
 {
+    const TABLE_NAME = 'sequence';
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -30,20 +34,22 @@ class Sequence
     private $db;
 
     /**
+     * @var string
+     */
+    private $table;
+
+    /**
      * The name of the table or sequence you want to get an id for.
      *
      * @param string $name eg 'archive_numeric_2014_11'
      * @param AdapterInterface $db You can optionally pass a DB adapter to make it work against another database.
+     * @param string|null $tablePrefix
      */
-    public function __construct($name, $db = null)
+    public function __construct($name, $db = null, $tablePrefix = null)
     {
         $this->name = $name;
         $this->db = $db ?: Db::get();
-    }
-
-    private function getTableName()
-    {
-        return Common::prefixTable('sequence');
+        $this->table = $this->getTableName($tablePrefix);
     }
 
     /**
@@ -58,9 +64,7 @@ class Sequence
     {
         $initialValue = (int) $initialValue;
 
-        $table = $this->getTableName();
-
-        $this->db->insert($table, array('name' => $this->name, 'value' => $initialValue));
+        $this->db->insert($this->table, array('name' => $this->name, 'value' => $initialValue));
 
         return $initialValue;
     }
@@ -72,7 +76,7 @@ class Sequence
      */
     public function exists()
     {
-        $query = $this->db->query('SELECT * FROM ' . $this->getTableName() . ' WHERE name = ?', $this->name);
+        $query = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE name = ?', $this->name);
 
         return $query->rowCount() > 0;
     }
@@ -86,8 +90,7 @@ class Sequence
      */
     public function getNextId()
     {
-        $table = $this->getTableName();
-        $sql   = 'UPDATE ' . $table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
+        $sql   = 'UPDATE ' . $this->table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
 
         $result   = $this->db->query($sql, array($this->name));
         $rowCount = $result->rowCount();
@@ -108,13 +111,17 @@ class Sequence
      */
     public function getCurrentId()
     {
-        $table = $this->getTableName();
-        $sql   = 'SELECT value FROM ' . $table . ' WHERE name = ?';
+        $sql   = 'SELECT value FROM ' . $this->table . ' WHERE name = ?';
 
         $id = $this->db->fetchOne($sql, array($this->name));
 
         if (!empty($id) || '0' === $id || 0 === $id) {
             return (int) $id;
         }
+    }
+
+    private function getTableName($prefix)
+    {
+        return ($prefix !== null) ? $prefix . self::TABLE_NAME : Common::prefixTable(self::TABLE_NAME);
     }
 }

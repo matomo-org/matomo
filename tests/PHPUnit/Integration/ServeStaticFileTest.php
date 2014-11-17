@@ -131,7 +131,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         // Restoring file mode
         chmod(TEST_FILE_LOCATION, 0644);
 
-        $this->assertEquals($responseInfo["http_code"], 505);
+        $this->assertEquals($responseInfo["http_code"], 500);
     }
 
     /**
