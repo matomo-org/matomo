@@ -28,9 +28,6 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        // Refresh cache for CustomVariables\Model
-        Cache::clearCacheGeneral();
-
         $this->runApiTests($api, $params);
     }
 
@@ -52,6 +49,9 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
 
     public function getSegmentToTest()
     {
+        // Refresh cache for CustomVariables\Model
+        Cache::clearCacheGeneral();
+
         // Segment matching NONE
         $segments = API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
 
