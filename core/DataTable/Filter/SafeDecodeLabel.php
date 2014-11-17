@@ -39,10 +39,16 @@ class SafeDecodeLabel extends BaseFilter
         if (empty($value)) {
             return $value;
         }
-
         $raw = urldecode($value);
         $value = htmlspecialchars_decode($raw, ENT_QUOTES);
-        // TODO: add test for XSS and invalid UTF in label
+
+        // ENT_IGNORE so that if utf8 string has some errors, we simply discard invalid code unit sequences
+        $style = ENT_IGNORE;
+
+        // See changes in 5.4: http://nikic.github.com/2012/01/28/htmlspecialchars-improvements-in-PHP-5-4.html
+        // Note: at some point we should change ENT_IGNORE to ENT_SUBSTITUTE
+        $value = htmlspecialchars($value, $style, 'UTF-8');
+
         return $value;
     }
 
