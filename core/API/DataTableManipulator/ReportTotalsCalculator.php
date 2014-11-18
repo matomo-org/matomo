@@ -122,8 +122,8 @@ class ReportTotalsCalculator extends DataTableManipulator
             $module = $this->apiModule;
             $action = $this->apiMethod;
         } else {
-            $module = $firstLevelReport['module'];
-            $action = $firstLevelReport['action'];
+            $module = $firstLevelReport->getModule();
+            $action = $firstLevelReport->getAction();
         }
 
         $request = $this->request;
