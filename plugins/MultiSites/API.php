@@ -377,7 +377,7 @@ class API extends \Piwik\Plugin\API
                 $metrics[self::GOAL_CONVERSION_METRIC] = array(
                     self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnConversions',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_CONVERSION_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC), // TODO: need to test this...
+                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC),
                     self::METRIC_COL_NAME_KEY           => self::GOAL_CONVERSION_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => false,
                 );

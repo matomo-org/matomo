@@ -154,10 +154,9 @@ class Goals extends HtmlTable
 
     private $goalsForCurrentSite = null;
 
-    private function getGoals($idSite) // TODO: cache the result in private variable
+    private function getGoals($idSite)
     {
-        if ($this->goalsForCurrentSite === null)
-        {
+        if ($this->goalsForCurrentSite === null) {
             // get all goals to display info for
             $allGoals = array();
 
