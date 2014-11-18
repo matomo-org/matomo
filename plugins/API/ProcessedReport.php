@@ -676,7 +676,7 @@ class ProcessedReport
                     }
 
                     // TODO: should not call this for formatted processed metrics
-                    $prettyValue = $this->getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
+                    $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
                 elseif ($returnRawMetrics) {
@@ -810,7 +810,7 @@ class ProcessedReport
      * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @return string
      */
-    private function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value)
+    public static function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value)
     {
         if (!is_numeric($value)) {
             return $value;

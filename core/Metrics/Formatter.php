@@ -21,9 +21,6 @@ use Piwik\Tracker\GoalManager;
  * method when formatting Metrics.
  *
  * @api
- *
- * TODO: backwards compatibility, re-introduce MetricsFormatter as deprecated and make it use Formatter internally.
- *       do after tests passing.
  */
 class Formatter
 {
