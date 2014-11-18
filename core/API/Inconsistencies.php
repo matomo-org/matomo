@@ -12,7 +12,10 @@ namespace Piwik\API;
  * to provide a way to clean up existing Piwik code and behavior without breaking
  * backwards compatibility immediately.
  *
- * Should be removed before releasing Piwik 3.0. [TODO: note in issue about 3.0.]
+ * Code that handles the case when the 'format_metrics' query parameter value is
+ * 'bc' should be removed as well. This code is in API\Request and DataTablePostProcessor.
+ *
+ * Should be removed before releasing Piwik 3.0.
  */
 class Inconsistencies
 {

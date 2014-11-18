@@ -232,7 +232,7 @@ class API extends \Piwik\Plugin\API
 
         // First rename the avg_price_viewed column
         $renameColumn = array(self::AVG_PRICE_VIEWED => 'avg_price');
-        $dataTable->filter('ReplaceColumnNames', array($renameColumn)); // TODO: benchmark this change
+        $dataTable->filter('ReplaceColumnNames', array($renameColumn));
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
