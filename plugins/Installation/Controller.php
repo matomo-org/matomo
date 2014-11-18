@@ -396,8 +396,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
-        $this->markInstallationAsCompleted();
-
         $view = new View(
             '@Installation/finished',
             $this->getInstallationSteps(),
@@ -423,6 +421,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                  * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
                  */
                 Piwik::postEvent('Installation.defaultSettingsForm.submit', array($form));
+
+                $this->markInstallationAsCompleted();
 
                 Url::redirectToUrl('index.php');
             } catch (Exception $e) {

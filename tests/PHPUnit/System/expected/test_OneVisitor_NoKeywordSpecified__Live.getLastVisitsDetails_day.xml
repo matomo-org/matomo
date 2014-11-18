@@ -23,6 +23,8 @@
 		
 		
 		
+		<searches>0</searches>
+		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -39,7 +41,7 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Inconnu</deviceType>
-		<browserFamily>unknown</browserFamily>
+		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<events>0</events>
 		<provider>Inconnu</provider>
@@ -86,19 +88,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Inconnu</deviceType>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -159,7 +148,7 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Inconnu</deviceType>
-		<browserFamily>unknown</browserFamily>
+		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<events>0</events>
 		<provider>Inconnu</provider>
@@ -168,7 +157,7 @@
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
-		<referrerKeyword>Mot clef indéfini</referrerKeyword>
+		<referrerKeyword>Mot-clé indéfini</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
@@ -206,19 +195,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<deviceType>Inconnu</deviceType>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
