@@ -13,7 +13,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Plugins\API\API;
+use Piwik\Plugin\Report;
 
 /**
  * This class is responsible for setting the metadata property 'totals' on each dataTable if the report
@@ -22,12 +22,6 @@ use Piwik\Plugins\API\API;
  */
 class ReportTotalsCalculator extends DataTableManipulator
 {
-    /**
-     * Cached report metadata array.
-     * @var array
-     */
-    private static $reportMetadata = array();
-
     /**
      * @param  DataTable $table
      * @return \Piwik\DataTable|\Piwik\DataTable\Map
@@ -61,7 +55,7 @@ class ReportTotalsCalculator extends DataTableManipulator
     {
         $report = $this->findCurrentReport();
 
-        if (!empty($report) && empty($report['dimension'])) {
+        if (!empty($report) && $report->getDimension()) {
             // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
         }
@@ -204,38 +198,21 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $request;
     }
 
-    private function getReportMetadata()
-    {
-        if (!empty(static::$reportMetadata)) {
-            return static::$reportMetadata;
-        }
-
-        static::$reportMetadata = API::getInstance()->getReportMetadata();
-
-        return static::$reportMetadata;
-    }
-
     private function findCurrentReport()
     {
-        foreach ($this->getReportMetadata() as $report) {
-            if ($this->apiMethod == $report['action']
-                && $this->apiModule == $report['module']) {
-
-                return $report;
-            }
-        }
+        return Report::factory($this->apiModule, $this->apiMethod);
     }
 
     private function findFirstLevelReport()
     {
-        foreach ($this->getReportMetadata() as $report) {
-            if (!empty($report['actionToLoadSubTables'])
-                && $this->apiMethod == $report['actionToLoadSubTables']
-                && $this->apiModule == $report['module']
+        foreach (Report::getAllReports() as $report) {
+            $actionToLoadSubtables = $report->getActionToLoadSubTables();
+            if ($actionToLoadSubtables == $this->apiMethod
+                && $this->apiModule == $report->getModule()
             ) {
-
                 return $report;
             }
         }
+        return null;
     }
 }
