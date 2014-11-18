@@ -51,11 +51,6 @@ class API extends \Piwik\Plugin\API
 
         $table = Request::processRequest('VisitsSummary.get', $params);
         $this->prefixColumns($table, $period);
-
-        $table->filter(function (DataTable $table) {
-            $table->clearQueuedFilters();
-        });
-
         return $table;
     }
 

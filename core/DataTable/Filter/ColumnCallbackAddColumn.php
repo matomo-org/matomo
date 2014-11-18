@@ -12,8 +12,6 @@ use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
 
 /**
- * **This class is deprecated, use {@link Piwik\Plugin\ProcessedMetric}s instead.**
- *
  * Adds a new column to every row of a {@link DataTable} based on the result of callback.
  *
  * **Basic usage example**

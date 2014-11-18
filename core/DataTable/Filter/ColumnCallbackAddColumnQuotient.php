@@ -13,8 +13,6 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
- * **This class is deprecated, use {@link Piwik\Plugin\ProcessedMetric}s instead.**
- *
  * Calculates the quotient of two columns and adds the result as a new column
  * for each row of a DataTable.
  *

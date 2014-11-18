@@ -675,7 +675,6 @@ class ProcessedReport
                         $idSiteForRow = (int) $row->getMetadata('idsite');
                     }
 
-                    // TODO: should not call this for formatted processed metrics
                     $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis

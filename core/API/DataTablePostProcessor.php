@@ -23,7 +23,7 @@ use Piwik\Plugin\Report;
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
  * special query parameters and computes processed metrics. It does not included rendering to
- * output formates (eg, 'xml').
+ * output formats (eg, 'xml').
  */
 class DataTablePostProcessor
 {
@@ -90,7 +90,6 @@ class DataTablePostProcessor
 
         $dataTable = $this->applyGenericFilters($dataTable);
 
-        // TODO: if dependent metrics for a processed metric are not present in first row of a table, skip computation
         $this->applyComputeProcessedMetrics($dataTable);
 
         // we automatically safe decode all datatable labels (against xss)
