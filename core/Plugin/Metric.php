@@ -112,7 +112,7 @@ abstract class Metric
             $mappingNameToId = Metrics::getMappingFromNameToId();
         }
 
-        if ($row instanceof Row) { // TODO: benchmark w/ array-access (so we don't need this if statement).
+        if ($row instanceof Row) {
             $value = $row->getColumn($columnName);
             if ($value === false
                 && isset($mappingNameToId[$columnName])
