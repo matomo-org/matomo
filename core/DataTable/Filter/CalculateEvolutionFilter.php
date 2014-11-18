@@ -8,9 +8,10 @@
  */
 namespace Piwik\DataTable\Filter;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Site;
 
 /**
  * A {@link DataTable} filter that calculates the evolution of a metric and adds
@@ -26,13 +27,21 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
  *     ((currentValue - pastValue) / pastValue) * 100
  *
  * @api
+ * @deprecated since v2.10.0
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
     /**
-     * @var \Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric
+     * The the DataTable that contains past data.
+     *
+     * @var DataTable
      */
-    protected $evolutionMetric;
+    protected $pastDataTable;
+
+    /**
+     * Tells if column being added is the revenue evolution column.
+     */
+    protected $isRevenueEvolution = null;
 
     /**
      * Constructor.
@@ -48,19 +57,87 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
         parent::__construct(
             $table, $columnToAdd, $columnToRead, $columnToRead, $quotientPrecision, $shouldSkipRows = true);
 
-        $this->evolutionMetric = new EvolutionMetric($columnToRead, $pastDataTable, $columnToAdd, $quotientPrecision);
+        $this->pastDataTable = $pastDataTable;
+
+        $this->isRevenueEvolution = $columnToAdd == 'revenue_evolution';
     }
 
     /**
-     * @param DataTable $table
+     * Returns the difference between the column in the specific row and its
+     * sister column in the past DataTable.
+     *
+     * @param Row $row
+     * @return int|float
      */
-    public function filter($table)
+    protected function getDividend($row)
     {
-        $evolutionName = $this->evolutionMetric->getName();
-        foreach ($table->getRows() as $row) {
-            $value = $this->evolutionMetric->compute($row);
-            $row->addColumn($evolutionName, $value);
+        $currentValue = $row->getColumn($this->columnValueToRead);
+
+        // if the site this is for doesn't support ecommerce & this is for the revenue_evolution column,
+        // we don't add the new column
+        if ($currentValue === false
+            && $this->isRevenueEvolution
+            && !Site::isEcommerceEnabledFor($row->getColumn('label'))
+        ) {
+            return false;
         }
+
+        $pastRow = $this->getPastRowFromCurrent($row);
+        if ($pastRow) {
+            $pastValue = $pastRow->getColumn($this->columnValueToRead);
+        } else {
+            $pastValue = 0;
+        }
+
+        return $currentValue - $pastValue;
+    }
+
+    /**
+     * Returns the value of the column in $row's sister row in the past
+     * DataTable.
+     *
+     * @param Row $row
+     * @return int|float
+     */
+    protected function getDivisor($row)
+    {
+        $pastRow = $this->getPastRowFromCurrent($row);
+        if (!$pastRow) return 0;
+
+        return $pastRow->getColumn($this->columnNameUsedAsDivisor);
+    }
+
+    /**
+     * Calculates and formats a quotient based on a divisor and dividend.
+     *
+     * Unlike ColumnCallbackAddColumnPercentage's,
+     * version of this method, this method will return 100% if the past
+     * value of a metric is 0, and the current value is not 0. For a
+     * value representative of an evolution, this makes sense.
+     *
+     * @param int|float $value The dividend.
+     * @param int|float $divisor
+     * @return string
+     */
+    protected function formatValue($value, $divisor)
+    {
+        $value = self::getPercentageValue($value, $divisor, $this->quotientPrecision);
+        $value = self::appendPercentSign($value);
+
+        $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+
+        return $value;
+    }
+
+    /**
+     * Utility function. Returns the current row in the past DataTable.
+     *
+     * @param Row $row The row in the 'current' DataTable.
+     * @return bool|Row
+     */
+    protected function getPastRowFromCurrent($row)
+    {
+        return $this->pastDataTable->getRowFromLabel($row->getColumn('label'));
     }
 
     /**

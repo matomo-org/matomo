@@ -16,7 +16,6 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
     private $considerNew;
     private $considerDisappeared;
     private $currentDataTable;
-    private $pastDataTable;
 
     public function __construct($table, $currentDataTable, $pastDataTable, $columnToRead,
                                 $considerMovers, $considerNew, $considerDisappeared)
@@ -27,7 +26,6 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         $this->considerMovers = $considerMovers;
         $this->considerNew = $considerNew;
         $this->considerDisappeared = $considerDisappeared;
-        $this->pastDataTable = $pastDataTable;
     }
 
     public function filter($table)
@@ -64,7 +62,7 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
 
     private function addRowIfNewOrMover(DataTable $table, DataTable\Row $row)
     {
-        $pastRow = $this->evolutionMetric->getPastRowFromCurrent($row);
+        $pastRow = $this->getPastRowFromCurrent($row);
 
         if (!$pastRow && !$this->considerNew) {
             return;
