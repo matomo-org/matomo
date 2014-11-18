@@ -88,14 +88,22 @@ class UserCountryTest extends \PHPUnit_Framework_Testcase
 
         // run redundant checks
         $updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictest();
+
+        // we know the db checks fail (they should), so we buffer the output and throw it away
+        ob_start();
         $updater->performRedundantDbChecks();
+        ob_end_clean();
 
         // check that files are renamed correctly
         $this->checkBrokenGeoIPState();
 
         // create empty files again & run checks again
         $this->createEmptyISPOrgFiles();
+
+        // we know the db checks fail (they should), so we buffer the output and throw it away
+        ob_start();
         $updater->performRedundantDbChecks();
+        ob_end_clean();
 
         // check that w/ broken files already there, redundant checks still work correctly
         $this->checkBrokenGeoIPState();
