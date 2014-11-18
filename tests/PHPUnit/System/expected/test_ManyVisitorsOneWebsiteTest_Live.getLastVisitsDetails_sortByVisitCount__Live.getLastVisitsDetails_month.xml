@@ -24,7 +24,7 @@
 				
 				<pageId>30</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -41,7 +41,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -86,7 +86,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -305,7 +305,7 @@
 				
 				<pageId>23</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -322,7 +322,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -367,7 +367,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -461,7 +461,7 @@
 				
 				<pageId>27</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -506,7 +506,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
