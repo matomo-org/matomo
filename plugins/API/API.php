@@ -440,16 +440,18 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
+        $firstRow2 = $table2->getFirstRow();
+        if (!($firstRow2 instanceof Row)) {
+            return;
+        }
+
         $firstRow1 = $table1->getFirstRow();
         if (empty($firstRow1)) {
             $firstRow1 = $table1->addRow(new Row());
         }
 
-        $firstRow2 = $table2->getFirstRow();
-        if ($firstRow2 instanceof Row) {
-            foreach ($firstRow2->getColumns() as $metric => $value) {
-                $firstRow1->setColumn($metric, $value);
-            }
+        foreach ($firstRow2->getColumns() as $metric => $value) {
+            $firstRow1->setColumn($metric, $value);
         }
     }
 

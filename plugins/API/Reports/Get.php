@@ -26,6 +26,9 @@ class Get extends Report
 
         $this->reportsToMerge = $this->getReportsToMerge();
 
+        $this->module        = 'API';
+        $this->action        = 'get';
+
         $this->category      = 'API';
         $this->name          = Piwik::translate('General_MainMetrics');
         $this->documentation = '';

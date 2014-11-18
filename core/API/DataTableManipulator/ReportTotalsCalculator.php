@@ -55,7 +55,7 @@ class ReportTotalsCalculator extends DataTableManipulator
     {
         $report = $this->findCurrentReport();
 
-        if (!empty($report) && !$report->getDimension()) {
+        if (!empty($report) && !$report->getDimension() && !$this->isReportAllMetricsReport($report)) {
             // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
         }
@@ -214,5 +214,10 @@ class ReportTotalsCalculator extends DataTableManipulator
             }
         }
         return null;
+    }
+
+    private function isReportAllMetricsReport(Report $report)
+    {
+        return $report->getModule() == 'API' && $report->getAction() == 'get';
     }
 }

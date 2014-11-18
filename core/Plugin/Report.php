@@ -196,6 +196,7 @@ class Report
         'General_Visitors',
         'DevicesDetection_DevicesDetection',
         'UserSettings_VisitorSettings',
+        'API'
     );
 
     /**
