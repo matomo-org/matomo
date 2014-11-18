@@ -80,8 +80,7 @@ class ApiTest extends SystemTestCase
             'minDisappearedPercent' => 2,
             'lastTotalValue' => 59,
             'evolutionTotal' => -15.3,
-            'evolutionDifference' => -9,
-            'processed_metrics_computed' => true
+            'evolutionDifference' => -9
         );
 
         $this->assertInternalType('array', $metadata['report']);
