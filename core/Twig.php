@@ -293,7 +293,7 @@ class Twig
     {
         $formatter = $this->formatter;
         $sumtimeFilter = new Twig_SimpleFilter('sumtime', function ($numberOfSeconds) use ($formatter) {
-            return $formatter->getPrettyTimeFromSeconds($numberOfSeconds);
+            return $formatter->getPrettyTimeFromSeconds($numberOfSeconds, true);
         });
         $this->twig->addFilter($sumtimeFilter);
     }
