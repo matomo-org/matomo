@@ -127,7 +127,7 @@ class Response
             || strpos($apiResponse, '<result') === false) {
             return $apiResponse;
         }
-        return str_replace("'", '&amp;#039;', $apiResponse);
+        return str_replace('&amp;#039;', "'", $apiResponse);
     }
 
     private function removeIdSubtableParamFromUrlsInResponse($apiResponse)
