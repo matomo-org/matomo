@@ -2,7 +2,7 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
-## Piwik 2.10.0
+## Piwik 2.9.1
 
 ### Breaking Changes
 * The HTTP Tracker API does now respond with a HTTP 400 instead of a HTTP 500 in case an invalid `idsite` or `forcedVisitorId` is used.
