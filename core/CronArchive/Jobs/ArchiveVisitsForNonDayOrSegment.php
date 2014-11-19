@@ -12,13 +12,15 @@ use Piwik\CronArchive\BaseJob;
 use Piwik\Option;
 
 /**
- * TODO
+ * Job that handles archiving for a non-day period or segment. Will mark serialization for periods
+ * for a site as done and execute appropriate CronArchive hooks.
+ *
+ * TODO: instead of passing options to distributed callbacks, we should depend on DI container
  */
 class ArchiveVisitsForNonDayOrSegment extends BaseJob
 {
     /**
-     * TODO
-    // TODO: instead of passing options to distributed callbacks, we should depend on DI container
+     * Executes after the job finishes.
      */
     public function jobFinished($response)
     {

@@ -24,91 +24,92 @@ class Statistics extends Hooks
     const SEMAPHORE_PREFIX = 'CronArchive.';
 
     /**
-     * TODO
-     *    -> # of websites with visits today
-     *       * on day archiving finished, ++value if visits > 0
+     * Semaphore that holds the number of websites with visits today. When day archiving finishes,
+     * the value is incremented if the visit count for the day is > 0.
      *
      * @var Semaphore
      */
     public $countOfWebsitesWithVisitsToday;
 
     /**
-     * TODO
-     *    -> days skipped because archives still valid
-     *       * on skip if reason starts w/ 'was archived' ++value
+     * Semaphore that holds the number of days skipped because existing archive data is still valid.
+     *
+     * When day archiving is skipped and the reason string starts with 'was archived', the value is
+     * incremented.
      *
      * @var Semaphore
      */
     public $dayArchivingsSkippedBecauseArchivesStillValid;
 
     /**
-     * TODO
-     *    -> periods skipped because archives still valid
-     *       * on skip period archiving w/ reason starts w/ 'was archived' ++value
+     * Semaphore that holds the number of periods skipped because existing archive data is still valid.
+     *
+     * When period archiving is skipped and the reason string starts with 'was archived', the value is
+     * incremented.
      *
      * @var Semaphore
      */
     public $periodArchivingsSkippedBecauseArchivesStillValid;
 
     /**
-     * TODO
-     *    -> total number of visits today
-     *       * on day archiving finished, value += visits
+     * Semaphore that holds the total number of visits today.
+     *
+     * When day archiving is finished for the 'today' date, the number of visits is added to this value.
      *
      * @var Semaphore
      */
     public $totalNumberOfVisitsToday;
 
     /**
-     * TODO
-     *    -> websites successfully processed
-     *       * on site archiving finished ++value
+     * Semaphore that holds the number of websites successfully processed.
+     *
+     * When archiving for a site is completed, this value is incremented.
      *
      * @var Semaphore
      */
     public $countOfWebsitesSuccessfullyProcessed;
 
     /**
-     * TODO
+     * Semaphore that contains the number of websites for whom period archiving finished.
+     *
+     * When period archiving for a site is completed, this value is incremented.
      *
      * @var Semaphore
      */
     public $countOfWebsitesWhosePeriodsWereArchived;
 
     /**
-     * TODO
+     * Semaphore that contains the total number of archiving API requests made. After every API request
+     * is finished, this value is incremented.
      *
      * @var Semaphore
      */
     public $totalArchivingApiRequestsMade;
 
     /**
-     * TODO
-     *    -> errors
-     *       * on any error (network or otherwise), push to distributed list (new class AtomicList in core/Concurrency)
+     * Distributed list that contains all errors that occurred during cron archiving.
      *
      * @var AtomicList
      */
     public $errors;
 
     /**
-     * TODO
-     *    -> total time spent archiving for website
-     *       * on site request finished, add elapsed time to semaphore
+     * Semaphores that contains the elapsed time for the archiving of each site. When an archiving request
+     * finishes, the elapsed time for the request is added to the semaphore for the idSite in the request.
      *
      * @var Semaphore[]
      */
     public $elapsedArchivingTimePerSite = array();
 
     /**
-     * TODO
+     * The start time of archiving.
      *
      * @var int
      */
     public $cronArchiveStartTime;
 
     /**
-     * TODO
+     * Constructor.
      */
     public function __construct()
     {

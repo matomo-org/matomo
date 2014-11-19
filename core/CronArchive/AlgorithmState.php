@@ -12,6 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive;
+use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Date;
 use Piwik\MetricsFormatter;
 use Piwik\Option;
@@ -710,7 +711,8 @@ class AlgorithmState
     public function getWebsitesWithInvalidatedArchiveData()
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmState $self, CronArchive $container) {
-            return APICoreAdminHome::getWebsiteIdsToInvalidate();
+            $invalidated = new InvalidatedReports();
+            return $invalidated->getSitesToReprocess();
         });
     }
 

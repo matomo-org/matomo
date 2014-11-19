@@ -27,11 +27,14 @@ use Piwik\Option;
  *
  * **push-ing and unshift-ing**
  *
- * TODO
+ * When adding new items, an INSERT INTO ... ON DUPLICATE KEY UPDATE ... statement is created
+ * that will atomically append or prepend serialized PHP objects onto the list.
  *
  * **pull-ing and pop-ing**
  *
- * TODO
+ * Items are removed from the list using an UPDATE statement. The statement finds the item
+ * nth delimiter and removes everything before or after it. The statement will use user
+ * variables to capture the list data to return part of the list that was removed.
  */
 class AtomicList
 {
@@ -219,6 +222,7 @@ class AtomicList
 
         Db::query($sql, $bind);
 
+        // TODO: shouldn't get the whole list, in case it's pretty big. instead
         $vars = Db::fetchRow("SELECT @wholeOption, @remainingLength");
         return substr($vars['@wholeOption'], $vars['@remainingLength']);
     }

@@ -10,17 +10,20 @@ namespace Piwik\CronArchive\Jobs;
 use Piwik\CronArchive;
 use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\BaseJob;
+use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 
 /**
- * TODO
+ * Job that handles archiving for one day. When archiving is finished, archiving jobs for
+ * periods and segments are queued.
+ *
+ * Will execute appropriate CronArchive hooks as well.
  */
 class ArchiveDayVisits extends BaseJob
 {
     /**
-     * TODO
+     * Constructor.
      */
     public function __construct($idSite, $date, AlgorithmOptions $options)
     {
@@ -28,7 +31,7 @@ class ArchiveDayVisits extends BaseJob
     }
 
     /**
-     * TODO
+     * Executes before the job starts.
      */
     public function jobStarting()
     {
@@ -41,12 +44,13 @@ class ArchiveDayVisits extends BaseJob
          * site.
          *
          * @param int $idSite The ID of the site we're archiving data for.
+         * @deprecated
          */
         Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idSite));
     }
 
     /**
-     * TODO
+     * Executes after the job finishes.
      */
     public function jobFinished($response)
     {
@@ -107,14 +111,7 @@ class ArchiveDayVisits extends BaseJob
      */
     private function removeWebsiteFromInvalidatedWebsites($idSite)
     {
-        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
-
-        if (count($websiteIdsInvalidated)) {
-            $found = array_search($idSite, $websiteIdsInvalidated);
-            if ($found !== false) {
-                unset($websiteIdsInvalidated[$found]);
-                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
-            }
-        }
+        $invalidatedWebsites = new InvalidatedReports();
+        $invalidatedWebsites->storeSiteIsReprocessed($idSite);
     }
 }
