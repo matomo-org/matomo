@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\SettingsPiwik;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,7 +22,7 @@ class GitCommit extends ConsoleCommand
 {
     public function isEnabled()
     {
-        return Development::isEnabled();
+        return Development::isEnabled() && SettingsPiwik::isGitDeployment();
     }
 
     protected function configure()
