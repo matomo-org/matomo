@@ -1,3 +1,18 @@
+<div class="ui-confirm" id="installPluginByUpload">
+    <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByUpload'|translate }}</h2>
+
+    <p class="description"> {{ 'CorePluginsAdmin_AllowedUploadFormats'|translate }} </p>
+
+    <form enctype="multipart/form-data"
+          method="post"
+          id="uploadPluginForm"
+          action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
+        <input type="file" name="pluginZip">
+        <br />
+        <input class="startUpload" type="submit" value="{{ 'CorePluginsAdmin_UploadZipFile'|translate }}">
+    </form>
+</div>
+
 <div class="sort">
     <a href="{{ linkTo({'sort': 'popular', 'query': ''}) }}" {% if 'popular' == sort %}class="active"{% endif %}>{{ 'CorePluginsAdmin_SortByPopular'|translate }}</a>
     |

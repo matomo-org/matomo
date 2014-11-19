@@ -55,7 +55,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         if ($this->isAllowedToSeeMarketPlace()) {
             $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   $this->urlForAction('extend', array('activated' => '')),
+                                   $this->urlForAction('browsePlugins', array('activated' => '')),
                                    $order = 5);
 
         }
