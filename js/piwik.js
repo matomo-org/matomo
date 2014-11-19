@@ -2925,7 +2925,8 @@ if (typeof Piwik !== 'object') {
                     '&_viewts=' + lastVisitTs +
                     (String(lastEcommerceOrderTs).length ? '&_ects=' + lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
-                    (charSet ? '&cs=' + encodeWrapper(charSet) : '');
+                    (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
+                    '&send_image=0';
 
                 // browser features
                 for (i in browserFeatures) {

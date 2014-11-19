@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Tinutukoy ang default system para sa lahat ng iyong mga user.",
+        "GlobalSettingInlineHelp": "Ang user ay maari makapag pagana o hindi makapag pagana ng menu sa kaliwa na independent sa system default.",
+        "GlobalSettingTitle": "Ang kaliwa menu ay gumagana bilang default",
+        "SettingsIntroduction": "Ang kaliwang menu na may plugin ay pwedeng ilipat ang menu kung saan makikita ang ulat mula sa taas papunta sa kaliwa kung ito ay gumagana. Ito ay lalong mapapakinabangan sa malalaking display.",
+        "UserSettingInlineHelp": "Ang menu sa kaliwa ay pwede mong paganahin o wag paganahin at hindi maapektuhan ang ibang mga user. Ang Super User ay pwedeng baguhin ang lahat pangunahing pagpipilian sa lahat ng users.",
+        "UserSettingTitle": "Pagahanin ang kaliwang menu na pang ulat"
+    }
+}

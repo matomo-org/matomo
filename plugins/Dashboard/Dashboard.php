@@ -193,12 +193,12 @@ class Dashboard extends \Piwik\Plugin
         $layout = str_replace("\\\"", "\"", $layout);
         $layout = str_replace("\n", "", $layout);
 
-        return Common::json_decode($layout, $assoc = false);
+        return json_decode($layout, $assoc = false);
     }
 
     public function encodeLayout($layout)
     {
-        return Common::json_encode($layout);
+        return json_encode($layout);
     }
 
     public function getJsFiles(&$jsFiles)

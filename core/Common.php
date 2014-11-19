@@ -34,6 +34,7 @@ class Common
     /*
      * Database
      */
+    const LANGUAGE_CODE_INVALID = 'xx';
 
     /**
      * Hashes a string into an integer which should be very low collision risks
@@ -461,7 +462,7 @@ class Common
         // we deal w/ json differently
         if ($varType == 'json') {
             $value = self::undoMagicQuotes($requestArrayToUse[$varName]);
-            $value = self::json_decode($value, $assoc = true);
+            $value = json_decode($value, $assoc = true);
             return self::sanitizeInputValues($value, $alreadyStripslashed = true);
         }
 
@@ -937,8 +938,8 @@ class Common
      */
     public static function getCountry($lang, $enableLanguageToCountryGuess, $ip)
     {
-        if (empty($lang) || strlen($lang) < 2 || $lang == 'xx') {
-            return 'xx';
+        if (empty($lang) || strlen($lang) < 2 || $lang == self::LANGUAGE_CODE_INVALID) {
+            return self::LANGUAGE_CODE_INVALID;
         }
 
         $validCountries = self::getCountriesList();
@@ -974,35 +975,73 @@ class Common
                 }
             }
         }
-        return 'xx';
+        return self::LANGUAGE_CODE_INVALID;
     }
 
     /**
-     * Returns the visitor language based only on the Browser 'accepted language' information
+     * Returns the language and region string, based only on the Browser 'accepted language' information.
+     * * The language tag is defined by ISO 639-1
      *
      * @param string $browserLanguage Browser's accepted langauge header
      * @param array $validLanguages array of valid language codes
-     * @return string  2 letter ISO 639 code
+     * @return string  2 letter ISO 639 code  'es' (Spanish)
      */
-    public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
+    public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages = array())
     {
-        // assumes language preference is sorted;
-        // does not handle language-script-region tags or language range (*)
-        if (!empty($validLanguages) && preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $parts) {
-                if (count($parts) == 3) {
-                    // match locale (language and location)
-                    if (in_array($parts[1] . $parts[2], $validLanguages)) {
-                        return $parts[1] . $parts[2];
-                    }
+        $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
+        $languageRegionCode = self::extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages);
+
+        if(strlen($languageRegionCode) == 2) {
+            $languageCode = $languageRegionCode;
+        } else {
+            $languageCode = substr($languageRegionCode, 0, 2);
+        }
+        if(in_array($languageCode, $validLanguages)) {
+            return $languageCode;
+        }
+        return self::LANGUAGE_CODE_INVALID;
+    }
+
+    /**
+     * Returns the language and region string, based only on the Browser 'accepted language' information.
+     * * The language tag is defined by ISO 639-1
+     * * The region tag is defined by ISO 3166-1
+     *
+     * @param string $browserLanguage Browser's accepted langauge header
+     * @param array $validLanguages array of valid language codes. Note that if the array includes "fr" then it will consider all regional variants of this language valid, such as "fr-ca" etc.
+     * @return string 2 letter ISO 639 code 'es' (Spanish) or if found, includes the region as well: 'es-ar'
+     */
+    public static function extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages = array() )
+    {
+        $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
+
+        if(!preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
+            return self::LANGUAGE_CODE_INVALID;
+        }
+        foreach ($matches as $parts) {
+            $langIso639 = $parts[1];
+            if(empty($langIso639)) {
+                continue;
+            }
+
+            // If a region tag is found eg. "fr-ca"
+            if (count($parts) == 3) {
+                $regionIso3166 = $parts[2]; // eg. "-ca"
+
+                if (in_array($langIso639 . $regionIso3166, $validLanguages)) {
+                    return $langIso639 . $regionIso3166;
                 }
-                // match language only (where no region provided)
-                if (in_array($parts[1], $validLanguages)) {
-                    return $parts[1];
+
+                if (in_array($langIso639, $validLanguages)) {
+                    return $langIso639 . $regionIso3166;
                 }
             }
+            // eg. "fr" or "es"
+            if (in_array($langIso639, $validLanguages)) {
+                return $langIso639;
+            }
         }
-        return 'xx';
+        return self::LANGUAGE_CODE_INVALID;
     }
 
     /**
@@ -1111,6 +1150,48 @@ class Common
     }
 
     /**
+     * Sends the given response code if supported.
+     *
+     * @param int $code  Eg 204
+     *
+     * @throws Exception
+     */
+    public static function sendResponseCode($code)
+    {
+        $messages = array(
+            200 => 'Ok',
+            204 => 'No Response',
+            301 => 'Moved Permanently',
+            302 => 'Found',
+            304 => 'Not Modified',
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            500 => 'Internal Server Error'
+        );
+
+        if (!array_key_exists($code, $messages)) {
+            throw new Exception('Response code not supported: ' . $code);
+        }
+
+        if (strpos(PHP_SAPI, '-fcgi') === false) {
+            $key = $_SERVER['SERVER_PROTOCOL'];
+
+            if (strlen($key) > 15 || empty($key)) {
+                $key = 'HTTP/1.1';
+            }
+
+        } else {
+            // FastCGI
+            $key = 'Status:';
+        }
+
+        $message = $messages[$code];
+        Common::sendHeader($key . ' ' . $code . ' ' . $message);
+    }
+
+    /**
      * Returns the ID of the current LocationProvider (see UserCountry plugin code) from
      * the Tracker cache.
      */
@@ -1160,5 +1241,18 @@ class Common
                 }
             }
         }
+    }
+
+    /**
+     * @param $validLanguages
+     * @return array
+     */
+    protected static function checkValidLanguagesIsSet($validLanguages)
+    {
+        if (empty($validLanguages)) {
+            $validLanguages = array_keys(Common::getLanguagesList());
+            return $validLanguages;
+        }
+        return $validLanguages;
     }
 }

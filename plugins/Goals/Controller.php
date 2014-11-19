@@ -168,7 +168,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
             }
         }
-        $view->goalsJSON = Common::json_encode($goals);
+        $view->goalsJSON = json_encode($goals);
 
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();

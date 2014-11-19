@@ -17,6 +17,8 @@
         "DatabaseSetupLogin": "Brugernavn",
         "DatabaseSetupServer": "Databaseserver",
         "DatabaseSetupTablePrefix": "Tabel præfiks",
+        "DefaultSettings": "Piwik standardindstillinger",
+        "DefaultSettingsHelp": "Piwik leveres med standardindstillinger. Tilpas dem nu, eller gør det senere på adminskærmen.",
         "Email": "E-mail",
         "Extension": "udvidelse",
         "Filesystem": "Filsystem",

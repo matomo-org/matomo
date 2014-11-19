@@ -1,16 +1,17 @@
 <?php
 /**
- * Copyright (C) Piwik PRO - All rights reserved.
+ * Piwik - free/libre analytics platform
  *
- * Using this code requires that you first get a license from Piwik PRO.
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- *
- * @link http://piwik.pro
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
+use PHPUnit_Framework_TestCase;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\EventDispatcher;
-use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * @group Core

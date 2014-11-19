@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Le fournisseur avec le nom '%s' est inconnu. Essayez un de ceux-ci à la place: %s.",
+        "Exception_UnknownProvider": "Le fournisseur avec le nom '%s' est inconnu. Essayez un de ceux-ci à la place : %s.",
         "MobileReport_AdditionalPhoneNumbers": "Vous pouvez ajouter plus de numéro de téléphone en accédant à",
         "MobileReport_MobileMessagingSettingsLink": "la page des paramètres mobiles",
         "MobileReport_NoPhoneNumbers": "Veuillez activer au moins un des numéros de téléphone en accédant à",
@@ -25,7 +25,7 @@
         "Settings_PhoneNumbers_Help": "Avant de recevoir des rapports par SMS sur un téléphone, le numéro de téléphone doit être entré ci-dessous.",
         "Settings_PhoneNumbers_HelpAdd": "Quand vous cliquez sur \"Ajouter\", un SMS contenant un code sera envoyé au téléphone. L'utilisateur qui recevra le code devra ensuite se connecter à Piwik, Cliquer sur Paramètres, puis sur Messagerie Mobile. Après avoir entré le code, l'utilisateur sera capable de recevoir des rapports sur son téléphone.",
         "Settings_PleaseSignUp": "Pour créer un rapport SMS et en recevoir avec les statistiques de vos sites web sur votre téléphone mobile, veuillez vous enregistrer auprès d'une API SMS et entrer vos informations ci-dessous.",
-        "Settings_SMSAPIAccount": "Gérer le compte d'API SMS",
+        "Settings_SMSAPIAccount": "Paramètres de compte d'API SMS",
         "Settings_SMSProvider": "Fournisseur SMS",
         "Settings_SuperAdmin": "Paramètres Super Utilisateur",
         "Settings_SuspiciousPhoneNumber": "Si vous ne recevez pas de SMS, vous devriez essayer sans le zéro initial. ie. %s",

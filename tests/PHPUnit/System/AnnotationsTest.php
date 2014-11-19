@@ -10,9 +10,9 @@ namespace Piwik\Tests\System;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Plugins\Annotations\API;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesWithAnnotations;
-use FakeAccess;
 use Exception;
 
 /**

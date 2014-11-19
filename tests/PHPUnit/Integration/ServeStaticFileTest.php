@@ -11,10 +11,11 @@
  * serverStaticFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
  */
 
+namespace Piwik\Tests\Integration;
+
 // This is Piwik logo, the static file used in this test suit
 
-// TODO this is an integration or system test! not a unit test
-
+use Exception;
 use Piwik\ProxyHttp;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
@@ -46,7 +47,7 @@ define("PARTIAL_BYTE_START", 1204);
 define("PARTIAL_BYTE_END", 14724);
 
 // If the static file server has not been requested, the standard unit test case class is defined
-class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
+class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {
@@ -130,7 +131,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         // Restoring file mode
         chmod(TEST_FILE_LOCATION, 0644);
 
-        $this->assertEquals($responseInfo["http_code"], 505);
+        $this->assertEquals($responseInfo["http_code"], 500);
     }
 
     /**

@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UserCountry\tests\Unit;
 
+use Piwik\Log;
 use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry;
@@ -173,9 +174,10 @@ class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends GeoIPAutoUpdater
         // empty
     }
 
-    public function performRedundantDbChecks()
+    // during tests do not call the Log::error or they will be displayed in the output
+    public function performRedundantDbChecks($logErrors = false)
     {
-        parent::performRedundantDbChecks();
+        parent::performRedundantDbChecks($logErrors);
     }
 
     public function downloadFile($type, $url)

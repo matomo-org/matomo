@@ -1,6 +1,8 @@
 {
     "UserCountryMap": {
         "map": "zemljevid",
-        "RealTimeMap": "Zemljevid v realnem času"
+        "RealTimeMap": "Zemljevid v realnem času",
+        "Regions": "Regije",
+        "VisitorMap": "Zemljevid obiskovalcev"
     }
 }

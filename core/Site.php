@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\SitesManager\API;
 
 /**
@@ -95,7 +96,7 @@ class Site
     protected static function setSite($idSite, $infoSite)
     {
         if (empty($idSite) || empty($infoSite)) {
-            throw new Exception("An unexpected website was found, check idSite in the request.");
+            throw new UnexpectedWebsiteFoundException("An unexpected website was found, check idSite in the request.");
         }
 
         /**

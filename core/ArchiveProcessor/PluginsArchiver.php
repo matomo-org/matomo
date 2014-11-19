@@ -96,7 +96,7 @@ class PluginsArchiver
             $archiver = new $archiverClass($this->archiveProcessor);
 
             if (!$archiver->isEnabled()) {
-                Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s'.", __FUNCTION__, $pluginName);
+                Log::verbose("PluginsArchiver::%s: Skipping archiving for plugin '%s'.", __FUNCTION__, $pluginName);
                 continue;
             }
 
@@ -111,7 +111,7 @@ class PluginsArchiver
                     $archiver->aggregateMultipleReports();
                 }
             } else {
-                Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
+                Log::verbose("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
             }
 
             Manager::getInstance()->deleteAll($latestUsedTableId);

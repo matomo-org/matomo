@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
+use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -15,27 +16,34 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\EventDispatcher;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
+use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Registry;
 use Piwik\ReportRenderer;
+use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Site;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
 use PHPUnit_Framework_Assert;
 use Piwik_TestingEnvironment;
-use FakeAccess;
 use PiwikTracker;
 use Piwik_LocalTracker;
 use Piwik\Updater;
@@ -91,7 +99,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     protected static function getPythonBinary()
     {
-        if (\Piwik\SettingsServer::isWindows()) {
+        if (SettingsServer::isWindows()) {
             return "C:\Python27\python.exe";
         }
 
@@ -172,7 +180,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
             DbHelper::createTables();
 
-            \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
+            Manager::getInstance()->unloadPlugins();
 
         } catch (Exception $e) {
             static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
@@ -214,12 +222,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         FakeAccess::$superUserLogin = 'superUserLogin';
 
-        \Piwik\SettingsPiwik::$cachedKnownSegmentsToArchive = null;
-        \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+        SettingsPiwik::$cachedKnownSegmentsToArchive = null;
+        CacheFile::$invalidateOpCacheBeforeRead = true;
 
         if ($this->configureComponents) {
-            \Piwik\Plugins\PrivacyManager\IPAnonymizer::deactivate();
-            \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::deactivate();
+            IPAnonymizer::deactivate();
+            DoNotTrackHeaderChecker::deactivate();
         }
 
         if ($this->createSuperUser) {
@@ -295,15 +303,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
-        \Piwik\Registry::unsetInstance();
-        \Piwik\EventDispatcher::getInstance()->clearAllObservers();
+        Registry::unsetInstance();
+        EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();
         Translate::unloadEnglishTranslation();
 
         Config::unsetInstance();
 
-        \Piwik\Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
+        Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
     }
 
@@ -314,15 +322,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         DbHelper::createTables();
-        $pluginsManager = \Piwik\Plugin\Manager::getInstance();
+        $pluginsManager = Manager::getInstance();
 
         $plugins = $testEnvironment->getCoreAndSupportedPlugins();
 
         // make sure the plugin that executed this method is included in the plugins to load
         $extraPlugins = array_merge($extraPluginsToLoad, array(
-            \Piwik\Plugin::getPluginNameFromBacktrace(debug_backtrace()),
-            \Piwik\Plugin::getPluginNameFromNamespace($testCaseClass),
-            \Piwik\Plugin::getPluginNameFromNamespace(get_called_class())
+            Plugin::getPluginNameFromBacktrace(debug_backtrace()),
+            Plugin::getPluginNameFromNamespace($testCaseClass),
+            Plugin::getPluginNameFromNamespace(get_called_class())
         ));
         foreach ($extraPlugins as $pluginName) {
             if (empty($pluginName)) {
@@ -346,7 +354,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public static function installAndActivatePlugins()
     {
-        $pluginsManager = \Piwik\Plugin\Manager::getInstance();
+        $pluginsManager = Manager::getInstance();
 
         // Install plugins
         $messages = $pluginsManager->installLoadedPlugins();
@@ -366,12 +374,12 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function unloadAllPlugins()
     {
         try {
-            $manager = \Piwik\Plugin\Manager::getInstance();
+            $manager = Manager::getInstance();
             $plugins = $manager->getLoadedPlugins();
             foreach ($plugins as $plugin) {
                 $plugin->uninstall();
             }
-            \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
+            Manager::getInstance()->unloadPlugins();
         } catch (Exception $e) {
         }
     }

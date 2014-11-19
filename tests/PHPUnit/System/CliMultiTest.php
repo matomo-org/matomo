@@ -16,6 +16,7 @@ use Piwik\Tests\Framework\Fixture;
  *
  * @group Core
  * @group Core_CliMultiTest
+ * @group CliMulti
  */
 class Core_CliMultiTest extends SystemTestCase
 {

@@ -190,6 +190,14 @@ class CliMulti {
                 continue;
             }
 
+            $pid = $process->getPid();
+            foreach ($this->outputs as $output) {
+                if ($output->getOutputId() === $pid && $output->isAbnormal()) {
+                    $process->finishProcess();
+                    return true;
+                }
+            }
+
             if ($process->hasFinished()) {
                 $results[$id] = $this->outputs[$id]->get();
 

@@ -47,6 +47,7 @@
         "MarketplaceSellPluginSubject": "Marketplace - Vendita Plugin",
         "MenuPlatform": "Piattaforma",
         "MissingRequirementsNotice": "Aggiorna %1$s %2$s a una versione più recente, è richiesto %1$s %3$s.",
+        "MissingRequirementsPleaseInstallNotice": "Si prega di installare %1$s %2$s come richiesto da %3$s.",
         "NoPluginsFound": "Non sono stati trovati plugin",
         "NotAllowedToBrowseMarketplacePlugins": "Puoi esplorare la lista dei plugin che possono essere installati per personalizzare o espandere la tua piattaforma Piwik. Contatta il tuo amministratore se desideri installarne qualcuno.",
         "NotAllowedToBrowseMarketplaceThemes": "Puoi esplorare la lista dei temi che possono essere installati per personalizzare l'aspetto della tua piattaforma Piwik. Contatta il tuo amministratore se desideri che ne installi qualcuno.",
