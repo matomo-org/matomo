@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
+use Piwik\Plugins\ClickPath\API as ClickPathAPI;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -569,5 +570,56 @@ class API extends \Piwik\Plugin\API
             }
             $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
         }
+    }
+
+    public function getGoalsWithDescriptions($idSites = 'all')
+    {
+        $goals = ClickPathAPI::getInstance()->getGoalSiteRepository()->getGoalsWithAvailabilityStatus($idSites);
+        foreach($goals as &$goal)
+        {
+            $match = $goal['match_attribute'];
+            switch ($match) {
+                case 'manually':
+                    $goal['description'] = Piwik::translate('Goals_ManuallyTriggeredUsingJavascriptFunction');
+                    break;
+
+                case 'url':
+                    $goal['description'] = $this->getGoalDescription(Piwik::translate('Goals_VisitUrl'), $goal);
+                    break;
+
+                case 'title':
+                    $goal['description'] = $this->getGoalDescription(Piwik::translate('Goals_VisitPageTitle'), $goal);
+                    break;
+
+                case 'event_category':
+                case 'event_action':
+                case 'event_name':
+                    $goal['description'] = $this->getGoalDescription(Piwik::translate('Goals_SendEvent'), $goal);
+                    break;
+
+                case 'file':
+                    $goal['description'] = $this->getGoalDescription(Piwik::translate('Goals_Download'), $goal);
+                    break;
+
+                case 'external_website':
+                    $goal['description'] = $this->getGoalDescription(Piwik::translate('Goals_ClickOutlink'), $goal);
+                    break;
+
+                default:
+                    $goal['description'] = '';
+            }
+        }
+
+        return $goals;
+    }
+
+    protected function getGoalDescription($matchAttributeTranslation, $goal)
+    {
+        return sprintf(
+            '%s %s %s',
+            $matchAttributeTranslation,
+            Piwik::translate(sprintf('ClickPath_PatternType%s', $goal['pattern_type'])),
+            $goal['pattern']
+        );
     }
 }
