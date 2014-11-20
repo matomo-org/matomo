@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit\Translate\Filter;
 
 use Piwik\Translate\Filter\ByParameterCount;
 
+/**
+ * @group ByParameterCountTest
+ */
 class ByParameterCountTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()
@@ -44,11 +47,7 @@ class ByParameterCountTest extends \PHPUnit_Framework_TestCase
                         'key' => 'value',
                     )
                 ),
-                array(
-                    'test' => array(
-                        'test' => 'test',
-                    )
-                ),
+                array(),
                 array(
                     'test' => array(
                         'key' => 'val%sue',
@@ -97,9 +96,6 @@ class ByParameterCountTest extends \PHPUnit_Framework_TestCase
                     'empty' => array(
                         'test' => 't%1$sest'
                     ),
-                    'test' => array(
-                        'empty' => '     ',
-                    )
                 ),
                 array(
                     'test' => array(
@@ -118,7 +114,8 @@ class ByParameterCountTest extends \PHPUnit_Framework_TestCase
     {
         $filter = new ByParameterCount($baseTranslations);
         $result = $filter->filter($translations);
-        $this->assertEquals($expected, $result);
+        $message = sprintf("got %s but expected %s", var_export($result, true), var_export($expected, true));
+        $this->assertEquals($expected, $result, $message);
         $this->assertEquals($filteredData, $filter->getFilteredData());
     }
 }

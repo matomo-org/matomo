@@ -335,6 +335,7 @@ class API extends \Piwik\Plugin\API
 
                 if ($apiAction == 'getAll') {
                     $_GET['filter_truncate'] = false;
+                    $_GET['filter_limit'] = -1; // show all websites in all websites report
 
                     // when a view/admin user created a report, workaround the fact that "Super User"
                     // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access

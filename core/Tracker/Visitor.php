@@ -204,20 +204,17 @@ class Visitor
                 $fields[] = $dimension->getColumnName();
             }
 
-            /**
-             * This event collects a list of [visit entity]() properties that should be loaded when reading
-             * the existing visit. Properties that appear in this list will be available in other tracking
-             * events such as 'onExistingVisit'.
-             *
-             * Plugins can use this event to load additional visit entity properties for later use during tracking.
-             */
             foreach ($dimension->getRequiredVisitFields() as $field) {
                 $fields[] = $field;
             }
         }
 
         /**
-         * @ignore
+         * This event collects a list of [visit entity](/guides/persistence-and-the-mysql-backend#visits) properties that should be loaded when reading
+         * the existing visit. Properties that appear in this list will be available in other tracking
+         * events such as 'onExistingVisit'.
+         *
+         * Plugins can use this event to load additional visit entity properties for later use during tracking.
          */
         Piwik::postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
 
