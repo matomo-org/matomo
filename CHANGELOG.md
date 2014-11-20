@@ -10,6 +10,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### New APIs
 * New URL parameter `send_image=0` in the [HTTP Tracking API](http://developer.piwik.org/api-reference/tracking-api) to receive a HTTP 204 response code instead of a GIF image. This improves performance and can fix errors if images are not allowed to be obtained directly (eg Chrome Apps).
 
+### New commands
+* `core:plugin list` lists all plugins currently activated in Piwik.
+
 ## Piwik 2.9.0
 
 ### Breaking Changes
