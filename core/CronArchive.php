@@ -173,7 +173,6 @@ class CronArchive
         return null;
     }
 
-    // TODO: deal w/ InvalidatedReports class (see code in master)
     public function runScheduledTasksInTrackerMode()
     {
         $this->executeHook('onInitTrackerTasks');

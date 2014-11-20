@@ -21,7 +21,7 @@ class PiwikOption extends Option
         $this->forcedOptionValue = $forcedOptionValue;
     }
 
-    protected function getValue($name)
+    protected function getValue($name, $useCache)
     {
         return $this->forcedOptionValue;
     }
