@@ -47,6 +47,7 @@ class Updates_2_10_0_b1 extends Updates
     {
         $sqls = array('# ATTENTION: This update script will execute some more SQL queries than that below as it is necessary to rebuilt some archives #' => false);
 
+        // update scheduled reports to use new plugin
         $reportsToReplace = array(
             'UserSettings_getBrowserVersion' => 'DevicesDetection_getBrowserVersions',
             'UserSettings_getBrowser' => 'DevicesDetection_getBrowsers',
@@ -59,6 +60,63 @@ class Updates_2_10_0_b1 extends Updates
 
         foreach ($reportsToReplace as $old => $new) {
             $sqls["UPDATE " . Common::prefixTable('report') . " SET reports = REPLACE(reports, '".$old."', '".$new."')"] = false;
+        }
+
+        // update dashboard to use new widgets
+        $widgetsToReplace = array(
+            'widgetUserSettingsgetBrowserVersion' => array('module' => 'DevicesDetection', 'action' => 'getBrowserVersions'),
+            'widgetUserSettingsgetBrowser' => array('module' => 'DevicesDetection', 'action' => 'getBrowsers'),
+            'widgetUserSettingsgetOSFamily' => array('module' => 'DevicesDetection', 'action' => 'getOsFamilies'),
+            'widgetUserSettingsgetOS' => array('module' => 'DevicesDetection', 'action' => 'getOsVersions'),
+            'widgetUserSettingsgetMobileVsDesktop' => array('module' => 'DevicesDetection', 'action' => 'getType'),
+            'widgetUserSettingsgetBrowserType' => array('module' => 'DevicesDetection', 'action' => 'getBrowserEngines'),
+            'widgetUserSettingsgetWideScreen' => array('module' => 'UserSettings', 'action' => 'getScreenType'),
+        );
+
+        $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
+
+        foreach($allDashboards AS $dashboard) {
+
+            $dashboardLayout = json_decode($dashboard['layout']);
+
+            $newColumns = array();
+
+            foreach ($dashboardLayout->columns as $id => $column) {
+
+                $newColumn = array();
+
+                foreach ($column as $widget) {
+
+                    foreach ($widgetsToReplace AS $oldWidgetId => $newParameters) {
+
+                        if ($widget->uniqueId == $oldWidgetId) {
+
+                            $newWidgetId = 'widget'.$newParameters['module'].$newParameters['action'];
+
+                            // is new widget already is on dashboard just remove the old one
+                            if (strpos($dashboard['layout'], $newWidgetId) !== false) {
+                                continue 2;
+                            }
+
+                            $widget->uniqueId = $newWidgetId;
+                            $widget->parameters->module = $newParameters['module'];
+                            $widget->parameters->action = $newParameters['action'];
+                        }
+                    }
+
+
+                    $newColumn[] = $widget;
+                }
+
+                $newColumns[] = $newColumn;
+            }
+
+            $dashboardLayout->columns = $newColumns;
+
+            $newLayout = json_encode($dashboardLayout);
+            if ($newLayout != $dashboard['layout']) {
+                $sqls["UPDATE " . Common::prefixTable('user_dashboard') . " SET layout = '".addslashes($newLayout)."' WHERE iddashboard = ".$dashboard['iddashboard']] = false;
+            }
         }
 
         return $sqls;
@@ -151,8 +209,8 @@ class Updates_2_10_0_b1 extends Updates
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
 
-                Db::get()->query(sprintf("DELETE FROM %s WHERE id_archive = ? AND name = ?", $table), array($blob['id_archive'], 'DevicesDetection_browserVersions'));
-                Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE id_archive = ? AND name = ?", $table), array('DevicesDetection_browserVersions', $blob['id_archive'], 'UserSettings_browser'));
+                Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_browserVersions'));
+                Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_browserVersions', $blob['idarchive'], 'UserSettings_browser'));
             }
         }
 
@@ -176,8 +234,8 @@ class Updates_2_10_0_b1 extends Updates
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
 
-                Db::get()->query(sprintf("DELETE FROM %s WHERE id_archive = ? AND name = ?", $table), array($blob['id_archive'], 'DevicesDetection_osVersions'));
-                Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE id_archive = ? AND name = ?", $table), array('DevicesDetection_osVersions', $blob['id_archive'], 'UserSettings_os'));
+                Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_osVersions'));
+                Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_osVersions', $blob['idarchive'], 'UserSettings_os'));
             }
         }
 
