@@ -9,9 +9,11 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\Updater;
 use Piwik\Updates;
 use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
@@ -32,7 +34,7 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
  * those archives, where they do not exist.
  *
  * NOTE: Some archives might not contain "all" data.
- * That might have happend directly after the day DevicesDetection plugin was enbaled. For the days before, there were
+ * That might have happened directly after the day DevicesDetection plugin was enabled. For the days before, there were
  * no archives calculated. So week/month/year archives will only contain data for the days, where archives were generated
  * To find a date after which it is safe to use DevicesDetection archives we need to find the first day-archive that
  * contains DevicesDetection data. Day archives will always contain full data, but week/month/year archives may not.
@@ -41,8 +43,31 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 class Updates_2_10_0_b1 extends Updates
 {
 
+    static function getSql()
+    {
+        $sqls = array('# ATTENTION: This update script will execute some more SQL queries than that below as it is necessary to rebuilt some archives #' => false);
+
+        $reportsToReplace = array(
+            'UserSettings_getBrowserVersion' => 'DevicesDetection_getBrowserVersions',
+            'UserSettings_getBrowser' => 'DevicesDetection_getBrowsers',
+            'UserSettings_getOSFamily' => 'DevicesDetection_getOsFamilies',
+            'UserSettings_getOS' => 'DevicesDetection_getOsVersions',
+            'UserSettings_getMobileVsDesktop' => 'DevicesDetection_getType',
+            'UserSettings_getBrowserType' => 'DevicesDetection_getBrowserEngines',
+            'UserSettings_getWideScreen' => 'UserSettings_getScreenType',
+        );
+
+        foreach ($reportsToReplace as $old => $new) {
+            $sqls["UPDATE " . Common::prefixTable('report') . " SET reports = REPLACE(reports, '".$old."', '".$new."')"] = false;
+        }
+
+        return $sqls;
+    }
+
     static function update()
     {
+        Updater::updateDatabase(__FILE__, self::getSql());
+
         $archiveBlobTables = self::getAllArchiveBlobTables();
 
         foreach ($archiveBlobTables as $table) {
@@ -181,6 +206,6 @@ class Updates_2_10_0_b1 extends Updates
         $blob['value'] = @gzcompress($newData[0]);
         $blob['name'] = $newName;
 
-        Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blobData));
+        Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blob));
     }
 }
