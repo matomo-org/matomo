@@ -16,6 +16,7 @@ use Piwik\Plugins\TestRunner\Aws\Instance;
 use Piwik\Plugins\TestRunner\Aws\Ssh;
 use Piwik\Plugins\TestRunner\Runner\InstanceLauncher;
 use Piwik\Plugins\TestRunner\Runner\Remote;
+use Piwik\SettingsPiwik;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -143,7 +144,7 @@ This feature is still beta and there might be problems with pictures and/or bina
     private function getCurrentGitHash()
     {
         // we should not use 'git' executable unless we are in a git clone
-        if(!file_exists(PIWIK_INCLUDE_PATH . '/.git/')) {
+        if(!SettingsPiwik::isGitDeployment()) {
             return 'WARN: it does not look like a Piwik repository clone - you must setup Piwik from git to proceed';
         }
         return trim(`git rev-parse HEAD`);
