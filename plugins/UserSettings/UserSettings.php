@@ -24,8 +24,34 @@ class UserSettings extends \Piwik\Plugin
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Live.getAllVisitorDetails'            => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
+            'Request.dispatch'                     => 'mapDeprecatedActions'
         );
+    }
+
+    /**
+     * Maps the deprecated actions that were 'moved' to DevicesDetection plugin
+     *
+     * @deprecated
+     * @param $module
+     * @param $action
+     * @param $parameters
+     */
+    public function mapDeprecatedActions(&$module, &$action, &$parameters)
+    {
+        $movedMethods = array(
+            'getBrowser' => 'getBrowsers',
+            'getBrowserVersion' => 'getBrowserVersions',
+            'getMobileVsDesktop' => 'getType',
+            'getOS' => 'getOsVersions',
+            'getOSFamily' => 'getOsFamilies',
+            'getBrowserType' => 'getBrowserEngines'
+        );
+
+        if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
+            $module = 'DevicesDetection';
+            $action = $movedMethods[$action];
+        }
     }
 
     public function extendVisitorDetails(&$visitor, $details)
