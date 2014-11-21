@@ -57,7 +57,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getOS($idSite, $period, $date, $segment = false, $addShortLabel = true)
     {
@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getOSFamily($idSite, $period, $date, $segment = false)
     {
@@ -74,7 +74,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets a DataTable displaying number of visits by device type.
-     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getMobileVsDesktop($idSite, $period, $date, $segment = false)
     {
@@ -82,7 +82,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getBrowserVersion($idSite, $period, $date, $segment = false)
     {
@@ -90,7 +90,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated since 2.9.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getBrowser($idSite, $period, $date, $segment = false)
     {
@@ -106,7 +106,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated since 2.9.0   Use {@link getScreenType} instead.
+     * @deprecated since 2.10.0   Use {@link getScreenType} instead.
      */
     public function getWideScreen($idSite, $period, $date, $segment = false)
     {
