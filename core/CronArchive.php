@@ -20,7 +20,7 @@ use Piwik\CronArchive\Jobs\ArchiveVisitsForNonDayOrSegment;
 use Piwik\Jobs\Job;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Impl\CliProcessor;
-use Piwik\Jobs\Impl\DistributedQueue;
+use Piwik\Jobs\Impl\DistributedJobsQueue;
 use Piwik\Jobs\Queue;
 
 /**
@@ -115,7 +115,7 @@ class CronArchive
      * Constructor.
      *
      * @param AlgorithmOptions $options Options to manipulate how CronArchive behaves.
-     * @param Queue|null $queue The queue to store distributed jobs. If null, a DistributedQueue instance
+     * @param Queue|null $queue The queue to store distributed jobs. If null, a DistributedJobsQueue instance
      *                          iscreated.
      * @param Processor|null $processor The job processor that will consume jobs in this CronArchive run.
      *                                  If null, a CliProcessor instances is created.
@@ -127,7 +127,7 @@ class CronArchive
         $this->algorithmLogger = new AlgorithmLogger();
 
         if (empty($queue)) {
-            $queue = new DistributedQueue(self::ARCHIVING_JOB_NAMESPACE);
+            $queue = new DistributedJobsQueue(self::ARCHIVING_JOB_NAMESPACE);
 
             if (empty($processor)) {
                 $processor = new CliProcessor($queue);
