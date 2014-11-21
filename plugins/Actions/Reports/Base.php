@@ -67,7 +67,7 @@ abstract class Base extends \Piwik\Plugin\Report
 
         // prettify avg_time_on_page column
         $getPrettyTimeFromSeconds = function ($time) {
-            return MetricsFormatter::getPrettyTimeFromSeconds($time, false, true, false);
+            return MetricsFormatter::getPrettyTimeFromSeconds($time, $timeAsSentence = false);
         };
         $view->config->filters[] = array('ColumnCallbackReplace', array('avg_time_on_page', $getPrettyTimeFromSeconds));
 
