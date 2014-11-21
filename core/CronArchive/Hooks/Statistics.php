@@ -7,7 +7,6 @@
  */
 namespace Piwik\CronArchive\Hooks;
 
-use Piwik\Concurrency\AtomicList;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive;
 use Piwik\CronArchive\AlgorithmLogger;
@@ -87,9 +86,9 @@ class Statistics extends Hooks
     public $totalArchivingApiRequestsMade;
 
     /**
-     * Distributed list that contains all errors that occurred during cron archiving.
+     * Semaphore that contains the total number of errors that occurred during this CronArchive run.
      *
-     * @var AtomicList
+     * @var Semaphore
      */
     public $errors;
 
@@ -120,7 +119,7 @@ class Statistics extends Hooks
         $this->countOfWebsitesSuccessfullyProcessed = $this->makeSemaphore('countOfWebsitesSuccessfullyProcessed');
         $this->countOfWebsitesWhosePeriodsWereArchived = $this->makeSemaphore('countOfWebsitesWhosePeriodsWereArchived');
         $this->totalArchivingApiRequestsMade = $this->makeSemaphore('totalArchivingApiRequestsMade');
-        $this->errors = $this->makeAtomicLlist('errors');
+        $this->errors = $this->makeSemaphore('errors');
     }
 
     /** TODO: deal w/ following concurrency issue
@@ -141,7 +140,7 @@ class Statistics extends Hooks
         $this->countOfWebsitesSuccessfullyProcessed->set(0);
         $this->countOfWebsitesWhosePeriodsWereArchived->set(0);
         $this->totalArchivingApiRequestsMade->set(0);
-        $this->errors->clear();
+        $this->errors->set(0);
         $this->cronArchiveStartTime = time();
 
         // create and reset site specific semaphores
@@ -155,14 +154,12 @@ class Statistics extends Hooks
     public function onApiRequestError(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger,
                                       $url, $errorMessage)
     {
-        // push error to list for summary of errors
-        $this->errors->push(array("API error: $errorMessage [for $url]"));
+        $this->errors->increment();
     }
 
     public function onError(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $errorMessage)
     {
-        // push error to list for summary of errors
-        $this->errors->push(array($errorMessage));
+        $this->errors->increment();
     }
 
     public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger,
@@ -228,11 +225,6 @@ class Statistics extends Hooks
     private function makeSemaphore($name, $idSite = null)
     {
         return new Semaphore($this->getPrimitiveName($name, $idSite));
-    }
-
-    private function makeAtomicLlist($name, $idSite = null)
-    {
-        return new AtomicList($this->getPrimitiveName($name, $idSite));
     }
 
     private function getPrimitiveName($name, $idSite)

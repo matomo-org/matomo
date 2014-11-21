@@ -132,17 +132,12 @@ class Logging extends Hooks
         /** @var Statistics $stats */
         $stats = $context->getHooks("Piwik\\CronArchive\\Hooks\\Statistics");
 
-        $errorCount = $stats->errors->count();
+        $errorCount = $stats->errors->get();
         if ($errorCount <= 0) {
             return;
         }
 
-        $logger->logSection("SUMMARY OF ERRORS");
-        foreach ($stats->errors as $error) {
-            $logger->log("Error: " . $error); // do not logError since errors are already in stderr
-        }
-
-        $logger->logFatalError("$errorCount total errors during this script execution, please investigate and try and fix these errors.");
+        $logger->logFatalError("$errorCount total errors during this script execution, please investigate and try and fix these errors. See CronArchive and job server logs for more information.");
     }
 
     public function onEndProcessing(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
@@ -177,11 +172,16 @@ class Logging extends Hooks
         $percent = count($websites) == 0
             ? ""
             : " " . round($processedCount * 100 / count($websites), 0) . "%";
+
+        /** @var Statistics $stats */
+        $stats = $context->getHooks("Piwik\\CronArchive\\Hooks\\Statistics");
+        $errorCount = $stats->errors->get();
+
         $logger->log("done: " .
             $processedCount . "/" . count($websites) . "" . $percent . ", " .
             $visitsToday . " vtoday, $countOfWebsitesWithVisitsToday wtoday, $countOfWebsitesWhosePeriodsWereArchived wperiods, " .
             $apiRequestsMade . " req, " . $stats->getTotalCronArchiveTimePretty() . " ms, " .
-            (empty($this->errors) ? "no error" : (count($this->errors) . " errors."))
+            ($errorCount <= 0 ? "no error" : ($errorCount . " errors."))
         );
     }
 

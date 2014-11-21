@@ -12,7 +12,8 @@ use Piwik\Db;
 use Piwik\Option;
 
 /**
- * Limited atomic list structure implemented in MySQL.
+ * Limited atomic list structure implemented in MySQL. Should only be used for small-ish amount
+ * of items (ie, hundreds not thousands).
  *
  * This class uses an Option entry to manage a list of PHP objects in MySQL. The option data
  * is a list of serialized PHP objects separated by a delimiter (see {@link ITEM_DELIMITER}).
