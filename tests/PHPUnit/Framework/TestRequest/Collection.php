@@ -288,7 +288,7 @@ class Collection
         return $result;
     }
 
-    private function shouldSkipApiMethod($moduleName, $methodName) {
+    protected function shouldSkipApiMethod($moduleName, $methodName) {
         $apiId = $moduleName . '.' . $methodName;
 
         // If Api to test were set, we only test these
