@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Updater;
 use Piwik\Updates;
 use DeviceDetector\Parser\Client\Browser AS BrowserParser;
+use Piwik\Plugins\Dashboard\Model AS DashboardModel;
 
 /**
  * This Update script will update all browser and os archives of UserSettings and DevicesDetection plugin
@@ -63,14 +64,24 @@ class Updates_2_10_0_b1 extends Updates
         }
 
         // update dashboard to use new widgets
-        $widgetsToReplace = array(
-            'widgetUserSettingsgetBrowserVersion' => array('module' => 'DevicesDetection', 'action' => 'getBrowserVersions'),
-            'widgetUserSettingsgetBrowser' => array('module' => 'DevicesDetection', 'action' => 'getBrowsers'),
-            'widgetUserSettingsgetOSFamily' => array('module' => 'DevicesDetection', 'action' => 'getOsFamilies'),
-            'widgetUserSettingsgetOS' => array('module' => 'DevicesDetection', 'action' => 'getOsVersions'),
-            'widgetUserSettingsgetMobileVsDesktop' => array('module' => 'DevicesDetection', 'action' => 'getType'),
-            'widgetUserSettingsgetBrowserType' => array('module' => 'DevicesDetection', 'action' => 'getBrowserEngines'),
-            'widgetUserSettingsgetWideScreen' => array('module' => 'UserSettings', 'action' => 'getScreenType'),
+        $oldWidgets = array(
+            array('module' => 'UserSettings', 'action' => 'getBrowserVersion', 'params' => array()),
+            array('module' => 'UserSettings', 'action' => 'getBrowser', 'params' => array()),
+            array('module' => 'UserSettings', 'action' => 'getOSFamily', 'params' => array()),
+            array('module' => 'UserSettings', 'action' => 'getOS', 'params' => array()),
+            array('module' => 'UserSettings', 'action' => 'getMobileVsDesktop', 'params' => array()),
+            array('module' => 'UserSettings', 'action' => 'getBrowserType', 'params' => array()),
+            array('module' => 'UserSettings', 'action' => 'getWideScreen', 'params' => array()),
+        );
+
+        $newWidgets = array(
+            array('module' => 'DevicesDetection', 'action' => 'getBrowserVersions', 'params' => array()),
+            array('module' => 'DevicesDetection', 'action' => 'getBrowsers', 'params' => array()),
+            array('module' => 'DevicesDetection', 'action' => 'getOsFamilies', 'params' => array()),
+            array('module' => 'DevicesDetection', 'action' => 'getOsVersions', 'params' => array()),
+            array('module' => 'DevicesDetection', 'action' => 'getType', 'params' => array()),
+            array('module' => 'DevicesDetection', 'action' => 'getBrowserEngines', 'params' => array()),
+            array('module' => 'UserSettings', 'action' => 'getScreenType', 'params' => array()),
         );
 
         $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
@@ -79,39 +90,7 @@ class Updates_2_10_0_b1 extends Updates
 
             $dashboardLayout = json_decode($dashboard['layout']);
 
-            $newColumns = array();
-
-            foreach ($dashboardLayout->columns as $id => $column) {
-
-                $newColumn = array();
-
-                foreach ($column as $widget) {
-
-                    foreach ($widgetsToReplace AS $oldWidgetId => $newParameters) {
-
-                        if ($widget->uniqueId == $oldWidgetId) {
-
-                            $newWidgetId = 'widget'.$newParameters['module'].$newParameters['action'];
-
-                            // is new widget already is on dashboard just remove the old one
-                            if (strpos($dashboard['layout'], $newWidgetId) !== false) {
-                                continue 2;
-                            }
-
-                            $widget->uniqueId = $newWidgetId;
-                            $widget->parameters->module = $newParameters['module'];
-                            $widget->parameters->action = $newParameters['action'];
-                        }
-                    }
-
-
-                    $newColumn[] = $widget;
-                }
-
-                $newColumns[] = $newColumn;
-            }
-
-            $dashboardLayout->columns = $newColumns;
+            $dashboardLayout = DashboardModel::replaceDashboardWidgets($dashboardLayout, $oldWidgets, $newWidgets);
 
             $newLayout = json_encode($dashboardLayout);
             if ($newLayout != $dashboard['layout']) {

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Dashboard;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\WidgetsList;
 
 class Model
 {
@@ -143,5 +144,102 @@ class Model
     public static function uninstall()
     {
         Db::dropTables(Common::prefixTable(self::$rawPrefix));
+    }
+
+    /**
+     * Replaces widgets on the given dashboard layout with other ones
+     *
+     * It uses the given widget definitions to find the old and to create the new widgets
+     * Each widget is defined with an array containing the following information
+     * array (
+     *      'module' => string
+     *      'action' => string
+     *      'params' => array()
+     * )
+     *
+     * if $newWidget does not contain a widget definition at the current position,
+     * the old widget will simply be removed
+     *
+     * @param array $oldWidgets array containing widget definitions
+     * @param array $newWidgets array containing widget definitions
+     */
+    public static function replaceDashboardWidgets($dashboardLayout, $oldWidgets, $newWidgets)
+    {
+        if (empty($dashboardLayout) || !isset($dashboardLayout->columns)) {
+            return $dashboardLayout;
+        }
+
+        $newColumns = array();
+
+        foreach ($dashboardLayout->columns as $id => $column) {
+
+            $newColumn = array();
+
+            foreach ($column as $widget) {
+
+                foreach ($oldWidgets AS $pos => $oldWidgetData) {
+
+                    $oldWidgetId = WidgetsList::getWidgetUniqueId($oldWidgetData['module'], $oldWidgetData['action'], $oldWidgetData['params']);
+
+                    if (empty($newWidgets[$pos])) {
+                        continue 2;
+                    }
+
+                    $newWidget = $newWidgets[$pos];
+
+                    if ($widget->uniqueId == $oldWidgetId) {
+
+                        $newWidgetId = WidgetsList::getWidgetUniqueId($newWidget['module'], $newWidget['action'], $newWidget['params']);
+
+                        // is new widget already is on dashboard just remove the old one
+                        if (self::layoutContainsWidget($dashboardLayout, $newWidgetId)) {
+                            continue 2;
+                        }
+
+                        $widget->uniqueId = $newWidgetId;
+                        $widget->parameters->module = $newWidget['module'];
+                        $widget->parameters->action = $newWidget['action'];
+                        foreach ($newWidget['params'] as $key => $value) {
+                            $widget->parameters->{$key} = $value;
+                        }
+                    }
+                }
+
+
+                $newColumn[] = $widget;
+            }
+
+            $newColumns[] = $newColumn;
+        }
+
+        $dashboardLayout->columns = $newColumns;
+
+        return $dashboardLayout;
+    }
+
+    /**
+     * Checks if a given dashboard layout contains a given widget
+     *
+     * @param $dashboardLayout
+     * @param $widgetId
+     * @return bool
+     */
+    protected static function layoutContainsWidget($dashboardLayout, $widgetId)
+    {
+        if (!isset($dashboardLayout->columns)) {
+            return false;
+        }
+
+        foreach ($dashboardLayout->columns as $id => $column) {
+
+            foreach ($column as $widget) {
+
+                if ($widget->uniqueId == $widgetId) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
