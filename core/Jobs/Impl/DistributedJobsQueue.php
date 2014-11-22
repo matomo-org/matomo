@@ -12,6 +12,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Jobs\Job;
 use Piwik\Jobs\Queue;
+use Piwik\Sequence;
 
 /**
  * MySQL based distributed queue implementation.
@@ -24,12 +25,19 @@ class DistributedJobsQueue implements Queue
 {
     const TABLE_NAME = 'jobs';
 
+    private $distributedSequence;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
         self::createTableIfNotExists();
+
+        $this->distributedSequence = new Sequence("DistributedJobsQueue.lockid");
+        if (!$this->distributedSequence->exists()) {
+            $this->distributedSequence->create(0);
+        }
     }
 
     /**
@@ -69,10 +77,13 @@ class DistributedJobsQueue implements Queue
      */
     public function pull($count)
     {
-        $lockId = $this->generateLockId(); // TODO: if two machines generate the same lock id at the same time, this won't work.
-                                           //       use sequence table? would mean another query.
+        $lockId = $this->generateLockId();
 
-        Db::query("UPDATE `" . self::getTableName() . "` SET lockid = ? WHERE lockid IS NULL LIMIT " . (int) $count, array($lockId));
+        Db::query("UPDATE `" . self::getTableName() . "`
+                      SET lockid = ?
+                    WHERE lockid IS NULL
+                 ORDER BY idjob ASC
+                    LIMIT " . (int) $count, array($lockId));
 
         $serializedJobs = Db::fetchAll("SELECT data FROM `" . self::getTableName() . "` WHERE lockid = ?", array($lockId));
 
@@ -115,13 +126,14 @@ class DistributedJobsQueue implements Queue
 
     /**
      * Generates a unique lock ID for job rows. A lock ID is used so we can issue multiple queries
-     * w/o using explicit locks when pulling jobs.
+     * w/o using explicit locks when pulling jobs. The lock ID must be unique across different
+     * processes and machines.
      *
      * @return int
      */
     private function generateLockId()
     {
-        return time();
+        return $this->distributedSequence->getNextId();
     }
 
     private function unserializeJob($serializedJob)
