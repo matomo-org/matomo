@@ -6,7 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Jobs;
+
 use Piwik\Url;
+use Piwik\UrlHelper;
 
 /**
  * Description of a job that should be processed by a job processor.
@@ -58,10 +60,14 @@ class Job
     /**
      * Constructor.
      *
-     * @param string[] $url An array of query parameters.
+     * @param string[]|string $url An array of query parameters.
      */
     public function __construct($url = null)
     {
+        if (is_string($url)) {
+            $url = UrlHelper::getArrayFromQueryString($url);
+        }
+
         $this->url = $url;
     }
 

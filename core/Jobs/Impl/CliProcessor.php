@@ -18,8 +18,6 @@ use Piwik\Url;
 /**
  * Job processor that uses processes executed via shell_exec to process jobs in a
  * distributed queue.
- *
- * TODO: add logging
  */
 class CliProcessor implements Processor
 {
@@ -69,11 +67,11 @@ class CliProcessor implements Processor
     private $sleepTimeBetweenBatchJobExecutions;
 
     /**
-     * For CliMulti. See {@link \Piwik\CliMulti::setAcceptInvalidSSLCertificate()}.
+     * CliMulti instance used to execute Piwik requests asynchronously.
      *
-     * @var bool
+     * @var CliMulti
      */
-    private $acceptInvalidSSLCertificate;
+    private $cliMulti;
 
     /**
      * List of jobs currently being executed. CliMulti only acts on URLs so the
@@ -98,11 +96,18 @@ class CliProcessor implements Processor
      */
     public function __construct(Queue $jobQueue, $maxNumberOfSpawnedProcesses = self::DEFAULT_MAX_SPAWNED_PROCESS_COUNT,
                                 $sleepTimeBetweenBatchJobExecutions = self::DEFAULT_SLEEP_TIME,
-                                $acceptInvalidSSLCertificate = false)
+                                $acceptInvalidSSLCertificate = false, CliMulti $cliMulti = null)
     {
         $this->jobQueue = $jobQueue;
         $this->maxNumberOfSpawnedProcesses = $maxNumberOfSpawnedProcesses;
-        $this->acceptInvalidSSLCertificate = $acceptInvalidSSLCertificate;
+
+        if ($cliMulti === null) {
+            $cliMulti = new CliMulti();
+        }
+
+        $this->cliMulti = $cliMulti;
+        $this->cliMulti->setAcceptInvalidSSLCertificate($acceptInvalidSSLCertificate);
+        $this->cliMulti->setConcurrentProcessesLimit($maxNumberOfSpawnedProcesses);
     }
 
     /**
@@ -143,10 +148,7 @@ class CliProcessor implements Processor
      */
     public function startProcessing($finishWhenNoJobs = false)
     {
-        $cliMulti = new CliMulti();
-        $cliMulti->setConcurrentProcessesLimit($this->maxNumberOfSpawnedProcesses);
-        $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
-
+        $cliMulti = $this->cliMulti;
         $this->processing = true;
 
         try {
@@ -155,12 +157,15 @@ class CliProcessor implements Processor
 
                 if (!empty($jobUrls)) {
                     $self = $this;
-                    $onFinishJobs = $self->onJobsFinishedCallback;
-                    $cliMulti->request($jobUrls, function ($responses) use ($cliMulti, $self, $onFinishJobs) {
+                    $cliMulti->request($jobUrls, function ($responses) use ($cliMulti, $self) {
+                        Log::debug("CliProcessor::startProcessing: %s jobs finished", count($responses));
+
                         $self->executeJobFinishedCallbacks($responses);
 
                         $newRequests = $self->pullJobs($cliMulti->getUnusedProcessCount());
-                        $cliMulti->start($newRequests);
+                        if (!empty($newRequests)) {
+                            $cliMulti->start($newRequests);
+                        }
                     });
                 }
 
@@ -205,6 +210,9 @@ class CliProcessor implements Processor
 
         /** @var Job[] $jobs */
         $jobs = $this->jobQueue->pull($count) ?: array();
+        if (empty($jobs)) {
+            return array();
+        }
 
         foreach ($jobs as $job) {
             try {
@@ -233,11 +241,17 @@ class CliProcessor implements Processor
         $this->jobs = array_merge($this->jobs, $jobs);
 
         $newJobs = array_slice($this->jobs, $oldJobsArrayLength, $length = null, $preserveKeys = true);
-        return array_map(function (Job $job) { return $job->getUrlString(); }, $newJobs);
+        $jobUrls = array_map(function (Job $job) { return $job->getUrlString(); }, $newJobs);
+
+        Log::debug("CliProcessor::%s: pulled %s jobs: %s", __FUNCTION__, count($jobUrls), $jobUrls);
+
+        return $jobUrls;
     }
 
     private function waitBeforeCheckingForMoreJobs()
     {
+        Log::debug("CliProcessor::%s: Waiting %ss for new jobs.", __FUNCTION__, $this->sleepTimeBetweenBatchJobExecutions);
+
         sleep($this->sleepTimeBetweenBatchJobExecutions);
     }
 
@@ -279,25 +293,5 @@ class CliProcessor implements Processor
                 Log::debug($ex);
             }
         }
-    }
-
-    /**
-     * Returns the {@link $acceptInvalidSSLCertificate} property.
-     *
-     * @return boolean
-     */
-    public function getAcceptInvalidSSLCertificate()
-    {
-        return $this->acceptInvalidSSLCertificate;
-    }
-
-    /**
-     * Sets the {@link $acceptInvalidSSLCertificate} property.
-     *
-     * @param boolean $acceptInvalidSSLCertificate
-     */
-    public function setAcceptInvalidSSLCertificate($acceptInvalidSSLCertificate)
-    {
-        $this->acceptInvalidSSLCertificate = $acceptInvalidSSLCertificate;
     }
 }

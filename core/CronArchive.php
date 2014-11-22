@@ -130,8 +130,12 @@ class CronArchive
             $queue = new DistributedJobsQueue(self::ARCHIVING_JOB_NAMESPACE);
 
             if (empty($processor)) {
-                $processor = new CliProcessor($queue);
-                $processor->setAcceptInvalidSSLCertificate($this->options->acceptInvalidSSLCertificate);
+                $processor = new CliProcessor(
+                    $queue,
+                    CliProcessor::DEFAULT_MAX_SPAWNED_PROCESS_COUNT,
+                    CliProcessor::DEFAULT_SLEEP_TIME,
+                    $this->options->acceptInvalidSSLCertificate
+                );
             }
         }
 
