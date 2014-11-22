@@ -74,8 +74,7 @@ class Semaphore
     public function get()
     {
         $optionName = $this->getOptionName();
-        Option::clearCachedOption($optionName);
-        return Option::get($optionName);
+        return Option::get($optionName, $useCache = false);
     }
 
     /**
