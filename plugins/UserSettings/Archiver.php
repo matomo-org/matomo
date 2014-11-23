@@ -36,8 +36,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     /**
      * Daily archive of User Settings report. Processes reports for Visits by Resolution,
-     * by Browser, Browser family, etc. Some reports are built from the logs, some reports
-     * are superset of an existing report (eg. Browser family is built from the Browser report)
+     * browser plugins, etc. Some reports are built from the logs, some reports are superset of an existing report
      */
     public function aggregateDayReport()
     {

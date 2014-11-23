@@ -20,8 +20,8 @@ use Piwik\Plugins\DevicesDetection\Archiver AS DDArchiver;
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
 /**
- * The UserSettings API lets you access reports about your Visitors technical settings: browsers, browser types (rendering engine),
- * operating systems, plugins supported in their browser, Screen resolution and Screen types (normal, widescreen, dual screen or mobile).
+ * The UserSettings API lets you access reports about some of your Visitors technical settings:
+ * plugins supported in their browser, Screen resolution and Screen types (normal, widescreen, dual screen or mobile).
  *
  * @method static \Piwik\Plugins\UserSettings\API getInstance()
  */
