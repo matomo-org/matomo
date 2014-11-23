@@ -32,7 +32,7 @@ class UserSettings extends \Piwik\Plugin
     /**
      * Maps the deprecated actions that were 'moved' to DevicesDetection plugin
      *
-     * @deprecated
+     * @deprecated since 2.10.0 and will be removed from May 1st 2015
      * @param $module
      * @param $action
      * @param $parameters
