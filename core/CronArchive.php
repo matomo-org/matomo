@@ -27,8 +27,6 @@ use Piwik\Jobs\Queue;
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
  * and pre-process reports for a Fast dashboard rendering.
  *
- * TODO: make sure correct number of jobs pulled all the time (ie, if < max current, try pulling again)
- *       will require changes to CliMulti.
  * TODO: test if multiple servers doing job processing will work
  */
 class CronArchive

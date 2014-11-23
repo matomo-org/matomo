@@ -66,12 +66,12 @@ class CliMulti {
      *                               to say, if an ID of `0` was used before,
      *
      *                               **Make sure query parameter values are properly encoded in the URLs.**
-     * @param callback  $onRequestsFinishedCallback Callback executed when one or more requests finishes. Can be used
-     *                                              to schedule more requests.
+     * @param callback  $afterPollCallback Callback executed after each polling check. Accepts an array of responses.
+     *                                     Can be used to schedule more requests.
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
      *               there was a problem with a request, for instance if the process died unexpected.
      */
-    public function request(array $piwikUrls, $onRequestsFinishedCallback = null)
+    public function request(array $piwikUrls, $afterPollCallback = null)
     {
         $chunks = array($piwikUrls);
         if ($this->concurrentProcessesLimit) {
@@ -80,7 +80,7 @@ class CliMulti {
 
         $results = array();
         foreach($chunks as $urlsChunk) {
-            $results = array_merge($results, $this->requestUrls($urlsChunk, $onRequestsFinishedCallback));
+            $results = array_merge($results, $this->requestUrls($urlsChunk, $afterPollCallback));
         }
 
         return $results;
@@ -332,7 +332,7 @@ class CliMulti {
      * @param array $piwikUrls
      * @return array
      */
-    private function requestUrls(array $piwikUrls, $onRequestsFinishedCallback)
+    private function requestUrls(array $piwikUrls, $afterPollCallback)
     {
         $this->start($piwikUrls);
 
@@ -340,10 +340,8 @@ class CliMulti {
             usleep(100000); // 100 * 1000 = 100ms
 
             $finishedRequests = $this->getFinishedOutputs();
-            if (!empty($finishedRequests)
-                && !empty($onRequestsFinishedCallback)
-            ) {
-                $onRequestsFinishedCallback($finishedRequests);
+            if (!empty($afterPollCallback)) {
+                $afterPollCallback($finishedRequests);
             }
         } while ($this->getRunningProcessCount() > 0);
 

@@ -93,6 +93,8 @@ class CliProcessor implements Processor
      * @param int $maxNumberOfSpawnedProcesses The maximum number of jobs to process simultaneously.
      * @param int $sleepTimeBetweenBatchJobExecutions The amount of time to wait before checking the queue for
      *                                                more jobs.
+     * @param bool $acceptInvalidSSLCertificate See {@link \Piwik\CliMulti}.
+     * @param CliMulti|null $cliMulti Custom CliMulti instance to use. For testing.
      */
     public function __construct(Queue $jobQueue, $maxNumberOfSpawnedProcesses = self::DEFAULT_MAX_SPAWNED_PROCESS_COUNT,
                                 $sleepTimeBetweenBatchJobExecutions = self::DEFAULT_SLEEP_TIME,
@@ -160,11 +162,16 @@ class CliProcessor implements Processor
                     $cliMulti->request($jobUrls, function ($responses) use ($cliMulti, $self) {
                         Log::debug("CliProcessor::startProcessing: %s jobs finished", count($responses));
 
-                        $self->executeJobFinishedCallbacks($responses);
+                        if (!empty($responses)) {
+                            $self->executeJobFinishedCallbacks($responses);
+                        }
 
-                        $newRequests = $self->pullJobs($cliMulti->getUnusedProcessCount());
-                        if (!empty($newRequests)) {
-                            $cliMulti->start($newRequests);
+                        $unusedProcessCount = $cliMulti->getUnusedProcessCount();
+                        if ($unusedProcessCount > 0) {
+                            $newRequests = $self->pullJobs($unusedProcessCount);
+                            if (!empty($newRequests)) {
+                                $cliMulti->start($newRequests);
+                            }
                         }
                     });
                 }
