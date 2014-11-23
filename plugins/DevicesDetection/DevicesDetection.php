@@ -54,7 +54,8 @@ class DevicesDetection extends \Piwik\Plugin
         $visitor['operatingSystemIcon']      = $instance->getOperatingSystemIcon();
         $visitor['browserFamily']            = $instance->getBrowserEngine();
         $visitor['browserFamilyDescription'] = $instance->getBrowserEngineDescription();
-        $visitor['browserName']              = $instance->getBrowser();
+        $visitor['browser']                  = $instance->getBrowser();
+        $visitor['browserName']              = $instance->getBrowserName();
         $visitor['browserIcon']              = $instance->getBrowserIcon();
         $visitor['browserCode']              = $instance->getBrowserCode();
         $visitor['browserVersion']           = $instance->getBrowserVersion();

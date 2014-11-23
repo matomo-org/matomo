@@ -67,7 +67,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/W81.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browserName>Chrome 33.0</browserName>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
@@ -204,7 +205,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browserName>Internet Explorer 8.0</browserName>
+		<browser>Internet Explorer 8.0</browser>
+		<browserName>Internet Explorer</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
@@ -316,7 +318,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browserName>Chrome 34.0</browserName>
+		<browser>Chrome 34.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
@@ -461,7 +464,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Safari 7.0</browserName>
+		<browser>Safari 7.0</browser>
+		<browserName>Safari</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
@@ -575,7 +579,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browserName>Chrome 33.0</browserName>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
@@ -700,7 +705,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browserName>Chrome 33.0</browserName>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
@@ -832,7 +838,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Safari 7.0</browserName>
+		<browser>Safari 7.0</browser>
+		<browserName>Safari</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
@@ -953,7 +960,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 27.0</browserName>
+		<browser>Firefox 27.0</browser>
+		<browserName>Firefox</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
@@ -1066,7 +1074,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 27.0</browserName>
+		<browser>Firefox 27.0</browser>
+		<browserName>Firefox</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
@@ -1234,7 +1243,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI8.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 27.0</browserName>
+		<browser>Firefox 27.0</browser>
+		<browserName>Firefox</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
@@ -1351,7 +1361,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browserName>Chrome 33.0</browserName>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
@@ -1476,7 +1487,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browserName>Chrome 33.0</browserName>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
@@ -1759,6 +1771,7 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -1874,7 +1887,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browserName>Internet Explorer 6.0</browserName>
+		<browser>Internet Explorer 6.0</browser>
+		<browserName>Internet Explorer</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
@@ -1990,7 +2004,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Chrome 11.0</browserName>
+		<browser>Chrome 11.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>11.0</browserVersion>
@@ -2122,7 +2137,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>RockMelt 0.9</browserName>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
@@ -2246,7 +2262,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>RockMelt 0.9</browserName>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
@@ -2377,7 +2394,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>RockMelt 0.9</browserName>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
@@ -2484,6 +2502,7 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -2591,7 +2610,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browserName>Internet Explorer 9.0</browserName>
+		<browser>Internet Explorer 9.0</browser>
+		<browserName>Internet Explorer</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
@@ -2688,6 +2708,7 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
@@ -2795,6 +2816,7 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
 		<browserCode>AN</browserCode>
@@ -2902,7 +2924,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>RockMelt 0.9</browserName>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
@@ -3005,7 +3028,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Chrome 20.0</browserName>
+		<browser>Chrome 20.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
@@ -3108,7 +3132,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Epiphany 2.30</browserName>
+		<browser>Epiphany 2.30</browser>
+		<browserName>Epiphany</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -3211,7 +3236,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Chrome 20.0</browserName>
+		<browser>Chrome 20.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
@@ -3314,7 +3340,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Epiphany 2.30</browserName>
+		<browser>Epiphany 2.30</browser>
+		<browserName>Epiphany</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -3417,7 +3444,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browserName>Internet Explorer 9.0</browserName>
+		<browser>Internet Explorer 9.0</browser>
+		<browserName>Internet Explorer</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
@@ -3520,7 +3548,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Epiphany 2.30</browserName>
+		<browser>Epiphany 2.30</browser>
+		<browserName>Epiphany</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -3623,7 +3652,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browserName>Internet Explorer 9.0</browserName>
+		<browser>Internet Explorer 9.0</browser>
+		<browserName>Internet Explorer</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
@@ -3726,7 +3756,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browserName>Internet Explorer 9.0</browserName>
+		<browser>Internet Explorer 9.0</browser>
+		<browserName>Internet Explorer</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
@@ -3829,7 +3860,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Chrome 19.0</browserName>
+		<browser>Chrome 19.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
@@ -3932,7 +3964,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 6.0</browserName>
+		<browser>Firefox 6.0</browser>
+		<browserName>Firefox</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
@@ -4035,7 +4068,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Chrome 19.0</browserName>
+		<browser>Chrome 19.0</browser>
+		<browserName>Chrome</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
@@ -4138,7 +4172,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Epiphany 2.30</browserName>
+		<browser>Epiphany 2.30</browser>
+		<browserName>Epiphany</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -4241,7 +4276,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browserName>Internet Explorer 9.0</browserName>
+		<browser>Internet Explorer 9.0</browser>
+		<browserName>Internet Explorer</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
@@ -4344,7 +4380,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 6.0</browserName>
+		<browser>Firefox 6.0</browser>
+		<browserName>Firefox</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
@@ -4447,7 +4484,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>Epiphany 2.30</browserName>
+		<browser>Epiphany 2.30</browser>
+		<browserName>Epiphany</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -4550,6 +4588,7 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
 		<browserCode>AN</browserCode>
@@ -4653,7 +4692,8 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browserName>RockMelt 0.9</browserName>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>

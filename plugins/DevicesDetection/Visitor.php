@@ -61,6 +61,11 @@ class Visitor
 
     public function getBrowser()
     {
+        return getBrowserNameWithVersion($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
+    }
+
+    public function getBrowserName()
+    {
         return getBrowserName($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
     }
 

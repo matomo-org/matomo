@@ -97,7 +97,8 @@
 			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-			<browserName>Firefox 3.0</browserName>
+			<browser>Firefox 3.0</browser>
+			<browserName>Firefox</browserName>
 			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
@@ -212,7 +213,8 @@
 			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-			<browserName>Firefox 3.0</browserName>
+			<browser>Firefox 3.0</browser>
+			<browserName>Firefox</browserName>
 			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
