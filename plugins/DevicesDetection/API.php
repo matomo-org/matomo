@@ -140,7 +140,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsLogo'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getOsFullName'));
+        // use GroupBy filter to avoid duplicate rows if old (UserSettings) and new (DevicesDetection) reports were combined
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOsFullName'));
         return $dataTable;
     }
 
@@ -170,7 +171,7 @@ class API extends \Piwik\Plugin\API
     public function getBrowsers($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserFamilyFullName'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserName'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogo'));
         return $dataTable;
     }
@@ -187,7 +188,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserLogo'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserName'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserNameWithVersion'));
         return $dataTable;
     }
 
