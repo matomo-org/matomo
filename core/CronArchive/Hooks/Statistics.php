@@ -11,7 +11,7 @@ use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive;
 use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmOptions;
-use Piwik\CronArchive\AlgorithmState;
+use Piwik\CronArchive\AlgorithmRules;
 use Piwik\CronArchive\Hooks;
 use Piwik\MetricsFormatter;
 
@@ -130,7 +130,7 @@ class Statistics extends Hooks
      * there needs to be a run ID for cronarchive. store in options.
      */
 
-    public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger)
+    public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // reset counters & lists, in case they exist in the DB
         $this->countOfWebsitesWithVisitsToday->set(0);
@@ -151,18 +151,18 @@ class Statistics extends Hooks
         }
     }
 
-    public function onApiRequestError(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger,
+    public function onApiRequestError(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
                                       $url, $errorMessage)
     {
         $this->errors->increment();
     }
 
-    public function onError(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $errorMessage)
+    public function onError(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $errorMessage)
     {
         $this->errors->increment();
     }
 
-    public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger,
+    public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
                                               $idSite, $reason)
     {
         // if reason for skipping was data is still valid, increment $dayArchivingsSkippedBecauseArchivesStillValid
@@ -171,7 +171,7 @@ class Statistics extends Hooks
         }
     }
 
-    public function onSkipWebsitePeriodArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger,
+    public function onSkipWebsitePeriodArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
                                                  $idSite, $reason)
     {
         // if reason for skipping was data is still valid, increment $periodArchivingsSkippedBecauseArchivesStillValid
@@ -180,7 +180,7 @@ class Statistics extends Hooks
         }
     }
 
-    public function onArchiveRequestFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger,
+    public function onArchiveRequestFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
                                              $requestParams, $visits, $visitsLast, $elapsedTime)
     {
         $idSite = @$requestParams['idSite'];
@@ -210,7 +210,7 @@ class Statistics extends Hooks
         $this->totalArchivingApiRequestsMade->increment();
     }
 
-    public function onSiteArchivingFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmState $state, AlgorithmLogger $logger, $idSite)
+    public function onSiteArchivingFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
     {
         // increment $countOfWebsitesSuccessfullyProcessed since site has been successfully processed
         $this->countOfWebsitesSuccessfullyProcessed->increment();

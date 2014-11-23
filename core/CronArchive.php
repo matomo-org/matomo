@@ -12,7 +12,7 @@ use Exception;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmOptions;
-use Piwik\CronArchive\AlgorithmState;
+use Piwik\CronArchive\AlgorithmRules;
 use Piwik\CronArchive\Hooks;
 use Piwik\CronArchive\Hooks\Statistics;
 use Piwik\CronArchive\Jobs\ArchiveDayVisits;
@@ -70,7 +70,7 @@ class CronArchive
     /**
      * The CronArchive algorithm's state & non-queuing logic.
      *
-     * @var AlgorithmState
+     * @var AlgorithmRules
      */
     private $algorithmState;
 
@@ -121,7 +121,7 @@ class CronArchive
     public function __construct(AlgorithmOptions $options, $queue = null, $processor = null)
     {
         $this->options = $options;
-        $this->algorithmState = new AlgorithmState($this);
+        $this->algorithmState = new AlgorithmRules($this);
         $this->algorithmLogger = new AlgorithmLogger();
 
         if (empty($queue)) {
@@ -194,7 +194,7 @@ class CronArchive
      * - when finished display statistics
      *
      * To learn more about the specifics of the algorithm (eg, how it determines when archiving for
-     * a site has been completed), read the docs for the algorithm's components (ie, AlgorithmState,
+     * a site has been completed), read the docs for the algorithm's components (ie, AlgorithmRules,
      * AlgorithmOptions, the jobs, etc.).
      */
     public function run()
@@ -302,7 +302,7 @@ class CronArchive
     /**
      * Returns the {@link $algorithmState} property.
      *
-     * @return AlgorithmState
+     * @return AlgorithmRules
      */
     public function getAlgorithmState()
     {
