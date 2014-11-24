@@ -326,8 +326,8 @@ Social Networks
 No data available
 
 Goals
-nb_conversions,nb_visits_converted,revenue,conversion_rate,avg_order_revenue
-5,4,$ 13361.11,80%,$ 0
+nb_conversions,nb_visits_converted,revenue,conversion_rate
+5,4,$ 13361.11,80%
 
 Visits to Conversion
 label,nb_conversions,revenue
@@ -363,8 +363,8 @@ label,nb_conversions,revenue
 365+ days,0,$ 0
 
 Goal title match  triggered ONCE
-nb_conversions,nb_visits_converted,revenue,conversion_rate,avg_order_revenue
-1,1,$ 10,20%,$ 0
+nb_conversions,nb_visits_converted,revenue,conversion_rate
+1,1,$ 10,20%
 
 title match  triggered ONCE - Visits to Conversion
 label,nb_conversions

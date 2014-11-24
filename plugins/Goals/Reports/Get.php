@@ -18,7 +18,7 @@ class Get extends BaseGoal
         parent::init();
 
         $this->name = Piwik::translate('Goals_Goals');
-        $this->processedMetrics = array(new ConversionRate(), 'avg_order_revenue');
+        $this->processedMetrics = array(new ConversionRate());
         $this->documentation = ''; // TODO
         $this->order = 1;
         $this->orderGoal = 50;
