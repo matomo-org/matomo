@@ -128,8 +128,8 @@ Polish (pl),4,12,75%,3,00:25:32,25%
 French (fr),1,4,100%,4,00:12:01,0%
 
 Ecommerce Orders
-nb_conversions,nb_visits_converted,conversion_rate,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue
-4,2,40%,$ 13351.11,$ 2700,$ 531,$ 120.11,$ 686,12,$ 3337.78
+nb_conversions,nb_visits_converted,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue,conversion_rate
+4,2,$ 13351.11,$ 2700,$ 531,$ 120.11,$ 686,12,$ 3337.78,40%
 
 Ecommerce Orders - Visits to Conversion
 label,nb_conversions
@@ -165,8 +165,8 @@ label,nb_conversions
 365+ days,0
 
 Abandoned Carts
-nb_conversions,conversion_rate,revenue,items,avg_order_revenue
-3,60%,$ 7530.33,12,$ 2510.11
+nb_conversions,revenue,items,avg_order_revenue,conversion_rate
+3,$ 7530.33,12,$ 2510.11,60%
 
 Abandoned Carts - Visits to Conversion
 label,nb_conversions
@@ -326,8 +326,8 @@ Social Networks
 No data available
 
 Goals
-nb_conversions,nb_visits_converted,conversion_rate,revenue,avg_order_revenue
-5,4,80%,$ 13361.11,$ 0
+nb_conversions,nb_visits_converted,revenue,conversion_rate,avg_order_revenue
+5,4,$ 13361.11,80%,$ 0
 
 Visits to Conversion
 label,nb_conversions,revenue
@@ -363,8 +363,8 @@ label,nb_conversions,revenue
 365+ days,0,$ 0
 
 Goal title match  triggered ONCE
-nb_conversions,nb_visits_converted,conversion_rate,revenue,avg_order_revenue
-1,1,20%,$ 10,$ 0
+nb_conversions,nb_visits_converted,revenue,conversion_rate,avg_order_revenue
+1,1,$ 10,20%,$ 0
 
 title match  triggered ONCE - Visits to Conversion
 label,nb_conversions

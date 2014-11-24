@@ -343,27 +343,28 @@ class API extends \Piwik\Plugin\API
 
         // Mapping string idGoal to internal ID
         $idGoal = self::convertSpecialGoalIds($idGoal);
+        $isEcommerceGoal = $idGoal === GoalManager::IDGOAL_ORDER || $idGoal === GoalManager::IDGOAL_CART;
 
         $allMetrics = Goals::getGoalColumns($idGoal);
-
         $requestedColumns = Piwik::getArrayFromApiParameter($columns);
-        $columnsToGet = Report::factory("Goals", "get")->getMetricsRequiredForReport($allMetrics, $requestedColumns);
 
-        $inDbMetricNames = array_map(function ($value) use ($idGoal) { return Archiver::getRecordName($value, $idGoal); }, $columnsToGet);
+        $report = Report::factory("Goals", "get");
+        $columnsToGet = $report->getMetricsRequiredForReport($allMetrics, $requestedColumns);
+
+        $inDbMetricNames = array_map(function ($name) use ($idGoal) {
+            return $name == 'nb_visits' ? $name : Archiver::getRecordName($name, $idGoal);
+        }, $columnsToGet);
         $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
 
         $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
-
-        $dataTable->deleteColumns(array_diff($requestedColumns, $columnsToGet));
 
         // TODO: this should be in Goals/Get.php but it depends on idGoal parameter which isn't always in _GET (ie,
         //       it's not in ProcessedReport.php). more refactoring must be done to report class before this can be
         //       corrected.
         if ((in_array('avg_order_revenue', $requestedColumns)
              || empty($requestedColumns))
-            && ($idGoal === GoalManager::IDGOAL_ORDER
-            || $idGoal === GoalManager::IDGOAL_CART)
+            && $isEcommerceGoal
         ) {
             $dataTable->filter(function (DataTable $table) {
                 $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
@@ -371,6 +372,16 @@ class API extends \Piwik\Plugin\API
                 $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
             });
         }
+
+        // remove temporary metrics that were not explicitly requested
+        $allColumns = $allMetrics;
+        $allColumns[] = 'conversion_rate';
+        if ($isEcommerceGoal) {
+            $allColumns[] = 'avg_order_revenue';
+        }
+
+        $columnsToShow = $requestedColumns ?: $allColumns;
+        $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
 
         return $dataTable;
     }

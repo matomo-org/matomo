@@ -368,27 +368,22 @@ class Report
      *
      * This method should be used in **Plugin.get** API methods.
      *
-     * @param string[]|null $allColumns The list of all available columns. Defaults to this report's metrics
-     *                                  and processed metrics.
+     * @param string[]|null $allMetrics The list of all available metrics. Defaults to this report's metrics.
      * @param string[]|null $restrictToColumns The requested columns.
      * @return string[]
      */
-    public function getMetricsRequiredForReport($allColumns = null, $restrictToColumns = null)
+    public function getMetricsRequiredForReport($allMetrics = null, $restrictToColumns = null)
     {
-        if (empty($allColumns)) {
-            $allColumns = $this->metrics;
-
-            foreach ($this->processedMetrics as $processedMetric) {
-                $allColumns[] = $processedMetric instanceof ProcessedMetric ? $processedMetric->getName() : $processedMetric;
-            }
+        if (empty($allMetrics)) {
+            $allMetrics = $this->metrics;
         }
 
         if (empty($restrictToColumns)) {
-            $restrictToColumns = $allColumns;
+            $restrictToColumns = $allMetrics;
         }
 
         $processedMetricsById = $this->getProcessedMetricsById();
-        $metricsSet = array_flip($allColumns);
+        $metricsSet = array_flip($allMetrics);
 
         $metrics = array();
         foreach ($restrictToColumns as $column) {
@@ -418,6 +413,17 @@ class Report
         }
 
         return $this->getMetricTranslations($this->processedMetrics);
+    }
+
+    /**
+     * Returns the array of all metrics displayed by this report.
+     *
+     * @return array
+     * @api
+     */
+    public function getAllMetrics()
+    {
+        return array_keys(array_merge($this->getMetrics(), $this->getProcessedMetrics()));
     }
 
     /**
