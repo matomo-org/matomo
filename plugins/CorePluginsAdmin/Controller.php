@@ -205,17 +205,6 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
-    public function extend()
-    {
-        static::dieIfMarketplaceIsDisabled();
-
-        $view = $this->configureView('@CorePluginsAdmin/extend');
-        $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
-        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
-
-        return $view->render();
-    }
-
     private function createPluginsOrThemesView($template, $themesOnly)
     {
         Piwik::checkUserHasSuperUserAccess();

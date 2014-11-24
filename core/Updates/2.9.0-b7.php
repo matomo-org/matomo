@@ -47,7 +47,8 @@ class Updates_2_9_0_b7 extends Updates
                 }
 
                 $query = self::getQueryToCreateSequence($table, $maxId);
-                $sql[$query] = false;
+                // refs  #6696, ignores  Integrity constraint violation: 1062 Duplicate entry 'piwik_archive_numeric_2010_01' for key 'PRIMARY'
+                $sql[$query] = '1062';
             }
         }
 

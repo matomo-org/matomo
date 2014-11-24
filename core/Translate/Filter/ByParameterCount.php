@@ -43,7 +43,8 @@ class ByParameterCount extends FilterAbstract
                 if (isset($this->baseTranslations[$pluginName][$key])) {
                     $baseTranslation = $this->baseTranslations[$pluginName][$key];
                 } else {
-                    $baseTranslation = '';
+                    // english string was deleted, do not error
+                    continue;
                 }
 
                 // ensure that translated strings have the same number of %s as the english source strings

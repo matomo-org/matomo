@@ -433,7 +433,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $this->changeLanguage($testConfig->language);
         }
 
-        $testRequests = new Collection($api, $testConfig, $api);
+        $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
             $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
@@ -459,6 +459,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         return count($this->comparisonFailures) == 0;
+    }
+
+    protected function getTestRequestsCollection($api, $testConfig, $api)
+    {
+       return new Collection($api, $testConfig, $api);
     }
 
     private function printComparisonFailures()
