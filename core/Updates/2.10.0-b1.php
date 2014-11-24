@@ -231,11 +231,15 @@ class Updates_2_10_0_b1 extends Updates
 
         $datatable = DataTable::fromSerializedArray($blob['value']);
         $datatable->filter('GroupBy', array('label', function ($label) {
-            if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches) === 0) {
-                return $label;
+            if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches)) {
+                return $matches[1]; // should match for browsers
             }
 
-            return $matches[1];
+            if (strpos($label, ';')) {
+                return substr($label, 0, 3); // should match for os
+            }
+
+            return $label;
         }));
 
         $newData = $datatable->getSerialized();
