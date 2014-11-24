@@ -16,8 +16,7 @@ namespace Piwik\Jobs;
  * - atomically pulling one or more string URLs from the beginning of the queue
  * - and atomically checking the size of the queue
  *
- * NOTE: This API is not stable. It will be considered stable after Dependency Injection is
- *       implemented in core.
+ * **NOTE: This API is not stable.**
  */
 interface Queue
 {

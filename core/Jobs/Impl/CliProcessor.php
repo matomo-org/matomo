@@ -160,12 +160,14 @@ class CliProcessor implements Processor
                 if (!empty($jobUrls)) {
                     $self = $this;
                     $cliMulti->request($jobUrls, function ($responses) use ($cliMulti, $self) {
-                        Log::debug("CliProcessor::startProcessing: %s jobs finished", count($responses));
-
                         if (!empty($responses)) {
+                            Log::debug("CliProcessor::startProcessing: %s jobs finished", count($responses));
+
                             $self->executeJobFinishedCallbacks($responses);
                         }
 
+                        // TODO: if there are no unused processes, then instead of executing this logic on next poll,
+                        //       should wait until a process finishes. Will require re-architecting CliMulti.
                         $unusedProcessCount = $cliMulti->getUnusedProcessCount();
                         if ($unusedProcessCount > 0) {
                             $newRequests = $self->pullJobs($unusedProcessCount);

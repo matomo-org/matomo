@@ -47,6 +47,8 @@ use Piwik\UrlHelper;
  * Jobs are serialized completely when added to a Job queue. This means you should not
  * store large objects w/ lots of dependencies in a Job instance. This may change in the
  * future when Dependency Injection is added.
+ *
+ * **NOTE: This api is not stable.**
  */
 class Job
 {

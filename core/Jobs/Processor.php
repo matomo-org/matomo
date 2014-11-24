@@ -25,8 +25,7 @@ namespace Piwik\Jobs;
  *
  * Should normally be used with a class implementing {@link \Piwik\Jobs|Queue}.
  *
- * NOTE: This API is not stable. It will be considered stable after Dependency Injection is
- *       implemented in core.
+ * **NOTE: This API is not stable.**
  */
 interface Processor
 {
