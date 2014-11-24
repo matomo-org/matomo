@@ -744,7 +744,10 @@ class Archive
      */
     private function getArchiveGroupOfPlugin($plugin)
     {
-        if ($this->getPeriodLabel() != 'range') {
+        $periods = $this->params->getPeriods();
+        $periodLabel = reset($periods)->getLabel();
+        
+        if (Rules::shouldProcessReportsAllPlugins($this->params->getIdSites(), $this->params->getSegment(), $periodLabel)) {
             return self::ARCHIVE_ALL_PLUGINS_FLAG;
         }
 
