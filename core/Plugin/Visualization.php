@@ -320,11 +320,11 @@ class Visualization extends ViewDataTable
     {
         $dataTable = $this->dataTable instanceof DataTable\Map ? $this->dataTable->getFirstRow() : $this->dataTable;
 
-        $processedMetrics = $this->metricsFormatter->getMetricsToFormat($dataTable, $this->report);
+        $metrics = Report::getMetricsForTable($dataTable, $this->report);
 
         // TODO: instead of iterating & calling translate everywhere, maybe we can get all translated names in one place.
         //       may be difficult, though, since translated metrics are specific to the report.
-        foreach ($processedMetrics as $metric) {
+        foreach ($metrics as $metric) {
             $name = $metric->getName();
 
             if (empty($this->config->translations[$name])) {

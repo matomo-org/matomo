@@ -843,4 +843,52 @@ class Report
         }
         return $result;
     }
+
+    /**
+     * Returns the Metrics that are displayed by a DataTable of a certain Report type.
+     *
+     * Includes ProcessedMetrics and Metrics.
+     *
+     * @param DataTable $dataTable
+     * @param Report|null $report
+     * @param string $baseType The base type each metric class needs to be of.
+     * @return Metric[]
+     * @api
+     */
+    public static function getMetricsForTable(DataTable $dataTable, Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
+    {
+        $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
+
+        if (!empty($report)) {
+            $metrics = array_merge($metrics, $report->getProcessedMetricsById());
+        }
+
+        $result = array();
+
+        /** @var Metric $metric */
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof $baseType)) {
+                continue;
+            }
+
+            $result[$metric->getName()] = $metric;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns the ProcessedMetrics that should be computed and formatted for a DataTable of a
+     * certain report. The ProcessedMetrics returned are those specified by the Report metadata
+     * as well as the DataTable metadata.
+     *
+     * @param DataTable $dataTable
+     * @param Report|null $report
+     * @return ProcessedMetric[]
+     * @api
+     */
+    public static function getProcessedMetricsForTable(DataTable $dataTable, Report $report = null)
+    {
+        return self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
+    }
 }

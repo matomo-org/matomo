@@ -298,25 +298,8 @@ class Formatter
      * @param Report $report
      * @return Metric[]
      */
-    public function getMetricsToFormat(DataTable $dataTable, Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
+    private function getMetricsToFormat(DataTable $dataTable, Report $report = null)
     {
-        $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
-
-        if (!empty($report)) {
-            $metrics = array_merge($metrics, $report->getProcessedMetricsById());
-        }
-
-        $result = array();
-
-        /** @var Metric $metric */
-        foreach ($metrics as $metric) {
-            if (!($metric instanceof $baseType)) {
-                continue;
-            }
-
-            $result[$metric->getName()] = $metric;
-        }
-
-        return $result;
+        return Report::getMetricsForTable($dataTable, $report, $baseType = 'Piwik\\Plugin\\Metric');
     }
 }

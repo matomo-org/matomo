@@ -167,9 +167,8 @@ class DataTablePostProcessor
 
             $self = $this;
             $report = $this->report;
-            $formatter = $this->formatter;
-            $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self, $formatter) {
-                $processedMetrics = $formatter->getMetricsToFormat($table, $report, 'Piwik\\Plugin\\ProcessedMetric');
+            $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self) {
+                $processedMetrics = Report::getProcessedMetricsForTable($table, $report);
                 if ($genericFilter->areProcessedMetricsNeededFor($processedMetrics)) {
                     $self->computeProcessedMetrics($table);
                 }
@@ -333,7 +332,7 @@ class DataTablePostProcessor
         }
 
         /** @var ProcessedMetric[] $processedMetrics */
-        $processedMetrics = $this->formatter->getMetricsToFormat($dataTable, $this->report, 'Piwik\\Plugin\\ProcessedMetric');
+        $processedMetrics = Report::getProcessedMetricsForTable($dataTable, $this->report);
         if (empty($processedMetrics)) {
             return;
         }
