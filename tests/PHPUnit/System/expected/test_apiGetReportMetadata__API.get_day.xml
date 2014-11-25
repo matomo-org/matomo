@@ -20,7 +20,6 @@
 	<avg_time_on_site_returning>0</avg_time_on_site_returning>
 	<nb_conversions>1</nb_conversions>
 	<nb_visits_converted>1</nb_visits_converted>
-	<conversion_rate>100</conversion_rate>
 	<revenue>42.26</revenue>
 	<nb_pageviews>1</nb_pageviews>
 	<nb_uniq_pageviews>1</nb_uniq_pageviews>
@@ -30,6 +29,7 @@
 	<nb_uniq_outlinks>0</nb_uniq_outlinks>
 	<nb_searches>0</nb_searches>
 	<nb_keywords>0</nb_keywords>
+	<conversion_rate>100%</conversion_rate>
 	<bounce_rate>100%</bounce_rate>
 	<nb_actions_per_visit>1</nb_actions_per_visit>
 	<avg_time_on_site>1086</avg_time_on_site>
