@@ -2,8 +2,8 @@
 <results>
 	<result date="2010-03">
 		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_visits>2</nb_visits>
 		<nb_users>0</nb_users>
+		<nb_visits>2</nb_visits>
 		<nb_actions>12</nb_actions>
 		<max_actions>6</max_actions>
 		<bounce_rate>0%</bounce_rate>
