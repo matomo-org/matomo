@@ -22,7 +22,10 @@ use Piwik\Tracker\Request;
  */
 class DoNotTrackHeaderChecker
 {
-    public function __construct(Config $config = null)
+    /**
+     * @param Config $config
+     */
+    public function __construct($config = null)
     {
         $this->config = $config ?: new Config();
     }
@@ -69,7 +72,7 @@ class DoNotTrackHeaderChecker
         $request = new Request($_REQUEST);
         $userAgent = $request->getUserAgent();
 
-        if ($this->isUserAgentExcludedFromDNT($userAgent)) {
+        if ($this->isUserAgentWithDoNotTrackAlwaysEnabled($userAgent)) {
             Common::printDebug("INTERNET EXPLORER enable DoNotTrack by default; so Piwik ignores DNT IE browsers...");
             return false;
         }
@@ -118,7 +121,7 @@ class DoNotTrackHeaderChecker
      * @param $userAgent
      * @return bool
      */
-    protected function isUserAgentExcludedFromDNT($userAgent)
+    protected function isUserAgentWithDoNotTrackAlwaysEnabled($userAgent)
     {
         $browsersWithDnt = $this->getBrowsersWithDNTAlwaysEnabled();
         foreach($browsersWithDnt as $userAgentBrowserFragment) {
