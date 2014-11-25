@@ -55,17 +55,24 @@ class API extends \Piwik\Plugin\API
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+
+        $report = Report::factory("Actions", "get");
         $archive = Archive::build($idSite, $period, $date, $segment);
 
         $requestedColumns = Piwik::getArrayFromApiParameter($columns);
-        $columns = Report::factory("Actions", "get")->getMetricsRequiredForReport($allColumns = null, $requestedColumns);
+        $columns = $report->getMetricsRequiredForReport($allColumns = null, $requestedColumns);
 
         $inDbColumnNames = array_map(function ($value) { return 'Actions_' . $value; }, $columns);
         $dataTable = $archive->getDataTableFromNumeric($inDbColumnNames);
+
         $dataTable->deleteColumns(array_diff($requestedColumns, $columns));
 
         $newNameMapping = array_combine($inDbColumnNames, $columns);
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
+
+        $columnsToShow = $requestedColumns ?: $report->getAllMetrics();
+        $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
+
         return $dataTable;
     }
 

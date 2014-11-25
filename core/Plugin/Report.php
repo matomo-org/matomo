@@ -379,7 +379,7 @@ class Report
         }
 
         if (empty($restrictToColumns)) {
-            $restrictToColumns = $allMetrics;
+            $restrictToColumns = $this->getAllMetrics();
         }
 
         $processedMetricsById = $this->getProcessedMetricsById();
