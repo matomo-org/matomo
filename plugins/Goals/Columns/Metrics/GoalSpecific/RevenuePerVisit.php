@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
+use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
@@ -69,7 +70,7 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
 
     public function beforeFormat($report, DataTable $table)
     {
-        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        $this->idSite = DataTableFactory::getSiteIdFromMetadata($table);
         return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }

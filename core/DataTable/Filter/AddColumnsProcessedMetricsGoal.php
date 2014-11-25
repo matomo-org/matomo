@@ -8,6 +8,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
+use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
@@ -110,7 +111,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
             sort($goals);
         }
 
-        $idSite = DataTable::getSiteIdFromMetadata($table);
+        $idSite = GoalSpecificRevenuePerVisit::getSiteIdFromMetadata($table);
 
         $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
 

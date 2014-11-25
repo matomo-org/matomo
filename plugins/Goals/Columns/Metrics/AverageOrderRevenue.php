@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Goals\Columns\Metrics;
 
+use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
@@ -54,7 +55,7 @@ class AverageOrderRevenue extends ProcessedMetric
 
     public function beforeFormat($report, DataTable $table)
     {
-        $this->idSite = DataTable::getSiteIdFromMetadata($table);
+        $this->idSite = DataTableFactory::getSiteIdFromMetadata($table);
         return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
 }
