@@ -125,7 +125,7 @@ class DoNotTrackHeaderChecker
     {
         $browsersWithDnt = $this->getBrowsersWithDNTAlwaysEnabled();
         foreach($browsersWithDnt as $userAgentBrowserFragment) {
-            if (strpos($userAgent, $userAgentBrowserFragment) !== false) {
+            if (stripos($userAgent, $userAgentBrowserFragment) !== false) {
                 return true;
             }
         }
@@ -140,9 +140,12 @@ class DoNotTrackHeaderChecker
     protected function getBrowsersWithDNTAlwaysEnabled()
     {
         return array(
-            //
+            // IE
             'MSIE',
             'Trident',
+
+            // Maxthon
+            'Maxthon',
         );
     }
 }

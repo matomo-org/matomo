@@ -92,6 +92,9 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
             array('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; MAXTHON 2.0)'),
             array('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; Maxthon/4.2.0.4000)'),
             array('Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.4.3.1000 Chrome/30.0.1599.101 Safari/537.36'),
+
+            // With capital letters
+            array('Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) MAXTHON/4.4.3.1000 Chrome/30.0.1599.101 Safari/537.36'),
         );
     }
 
