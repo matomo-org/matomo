@@ -111,7 +111,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
             sort($goals);
         }
 
-        $idSite = GoalSpecificRevenuePerVisit::getSiteIdFromMetadata($table);
+        $idSite = DataTableFactory::getSiteIdFromMetadata($table);
 
         $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
 
