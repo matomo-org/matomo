@@ -78,7 +78,6 @@ class Controller extends \Piwik\Plugin\Controller
         $dataTable = $request->process();
 
         $formatter = new Metrics\Formatter\Html();
-        $formatter->formatMetrics($dataTable, Report::factory("Actions", "getPageUrls"));
 
         $data = array();
         if ($dataTable->getRowsCount() > 0) {
@@ -94,6 +93,15 @@ class Controller extends \Piwik\Plugin\Controller
                     // skip unique visitors for period != day
                     continue;
                 }
+
+                if ($metric == 'bounce_rate'
+                    || $metric == 'exit_rate'
+                ) {
+                    $value = $formatter->getPrettyPercentFromQuotient($value);
+                } else if ($metric == 'avg_time_on_page') {
+                    $value = $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
+                }
+
                 $data[] = array(
                     'name'  => $translations[$metric],
                     'value' => $value
