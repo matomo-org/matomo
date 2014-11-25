@@ -177,7 +177,7 @@ class PrivacyManager extends Plugin
 
         // default values
         $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-            'do_not_track' => DoNotTrackHeaderChecker::isActive(),
+            'do_not_track' => $this->dntChecker->isActive(),
             'anonymise_ip' => IPAnonymizer::isActive(),
         )));
     }
@@ -190,10 +190,11 @@ class PrivacyManager extends Plugin
     public function installationFormSubmit(FormDefaultSettings $form)
     {
         $doNotTrack = (bool) $form->getSubmitValue('do_not_track');
+        $dntChecker = new DoNotTrackHeaderChecker();
         if ($doNotTrack) {
-            DoNotTrackHeaderChecker::activate();
+            $dntChecker->activate();
         } else {
-            DoNotTrackHeaderChecker::deactivate();
+            $dntChecker->deactivate();
         }
 
         $anonymiseIp = (bool) $form->getSubmitValue('anonymise_ip');
