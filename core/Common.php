@@ -471,7 +471,13 @@ class Common
             $ok = false;
 
             if ($varType === 'string') {
-                if (is_string($value)) $ok = true;
+                if (is_string($value) || is_int($value)) {
+                    $ok = true;
+                } else if (is_float($value)) {
+                    $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+                    $ok    = true;
+                }
+
             } elseif ($varType === 'integer') {
                 if ($value == (string)(int)$value) $ok = true;
             } elseif ($varType === 'float') {
