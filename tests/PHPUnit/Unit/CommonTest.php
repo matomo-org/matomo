@@ -15,6 +15,8 @@ use Piwik\Filesystem;
 
 /**
  * @backupGlobals enabled
+ * @group Common
+ * @group Core_CommonTest
  */
 class Core_CommonTest extends PHPUnit_Framework_TestCase
 {
@@ -96,7 +98,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getInputValues
-     * @group Core
      */
     public function testSanitizeInputValues($input, $output)
     {
@@ -113,7 +114,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * emptyvarname => exception
-     * @group Core
      */
     public function testGetRequestVarEmptyVarName()
     {
@@ -128,7 +128,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * nodefault Notype Novalue => exception
-     * @group Core
      */
     public function testGetRequestVarNoDefaultNoTypeNoValue()
     {
@@ -142,7 +141,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * nodefault Notype WithValue => value
-     * @group Core
      */
     public function testGetRequestVarNoDefaultNoTypeWithValue()
     {
@@ -151,24 +149,33 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * nodefault Withtype WithValue => exception cos type not matching
-     * @group Core
-     */
-    public function testGetRequestVarNoDefaultWithTypeWithValue()
+    public function testGetRequestVar_GetStringFloatGiven()
     {
-        try {
-            $_GET['test'] = 1413.431413;
-            Common::getRequestVar('test', null, 'string');
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $_GET['test'] = 1413.431413;
+        $value = Common::getRequestVar('test', null, 'string');
+        $this->assertEquals('1413.431413', $value);
+    }
+
+    public function testGetRequestVar_GetStringIntegerGiven()
+    {
+        $_GET['test'] = 1413;
+        $value = Common::getRequestVar('test', null, 'string');
+        $this->assertEquals('1413', $value);
     }
 
     /**
      * nodefault Withtype WithValue => exception cos type not matching
-     * @group Core
+     * @expectedException \Exception
+     * @expectedExceptionMessage The parameter 'test' isn't set in the Request
+     */
+    public function testGetRequestVarNoDefaultWithTypeWithValue()
+    {
+        $_GET['test'] = false;
+        Common::getRequestVar('test', null, 'string');
+    }
+
+    /**
+     * nodefault Withtype WithValue => exception cos type not matching
      */
     public function testGetRequestVarNoDefaultWithTypeWithValue2()
     {
@@ -246,9 +253,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testIsValidFilenameValidValues()
     {
         $valid = array(
@@ -263,9 +267,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testIsValidFilenameNotValidValues()
     {
         $notvalid = array(
@@ -426,7 +427,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getLanguageDataToExtractLanguageRegionCode
-     * @group Core
      */
     public function testExtractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages, $expected)
     {
@@ -461,16 +461,12 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getLanguageDataToExtractLanguageCode
-     * @group Core
      */
     public function testExtractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages, $expected)
     {
         $this->assertEquals($expected, Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
     }
 
-    /**
-     * @group Core
-     */
     public function testSearchEnginesDefinedCorrectly()
     {
         include "DataFiles/SearchEngines.php";
