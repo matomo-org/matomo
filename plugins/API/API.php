@@ -403,6 +403,10 @@ class API extends \Piwik\Plugin\API
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
 
+            $dataTable->filter(function (DataTable $table) {
+                $table->clearQueuedFilters();
+            });
+
             // merge reports
             if ($mergedDataTable === false) {
                 $mergedDataTable = $dataTable;

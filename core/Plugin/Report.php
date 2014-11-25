@@ -368,7 +368,8 @@ class Report
      *
      * This method should be used in **Plugin.get** API methods.
      *
-     * @param string[]|null $allMetrics The list of all available metrics. Defaults to this report's metrics.
+     * @param string[]|null $allMetrics The list of all available unprocessed metrics. Defaults to this report's
+     *                                  metrics.
      * @param string[]|null $restrictToColumns The requested columns.
      * @return string[]
      */
@@ -379,7 +380,7 @@ class Report
         }
 
         if (empty($restrictToColumns)) {
-            $restrictToColumns = $this->getAllMetrics();
+            $restrictToColumns = array_merge($allMetrics, array_keys($this->getProcessedMetrics()));
         }
 
         $processedMetricsById = $this->getProcessedMetricsById();

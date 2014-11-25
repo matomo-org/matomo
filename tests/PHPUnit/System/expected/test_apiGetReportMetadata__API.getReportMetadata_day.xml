@@ -507,9 +507,7 @@
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
-			<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
-			<nb_visits_converted_returning>Number of converted returning visits</nb_visits_converted_returning>
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
@@ -1924,9 +1922,7 @@
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
-			<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
-			<nb_visits_converted_returning>Number of converted returning visits</nb_visits_converted_returning>
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
 		</metrics>
 		<processedMetrics>

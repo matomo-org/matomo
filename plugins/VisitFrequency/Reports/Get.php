@@ -31,10 +31,7 @@ class Get extends \Piwik\Plugin\Report
             'nb_visits_returning',
             'nb_actions_returning',
             'nb_uniq_visitors_returning',
-            'sum_visit_length_returning',
             'nb_users_returning',
-            'nb_visits_converted_returning',
-            'sum_visit_length_returning',
             'max_actions_returning'
         );
         $this->order = 40;

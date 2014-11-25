@@ -7,9 +7,6 @@
 			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>6</nb_visits_returning>
 			<nb_actions_returning>30</nb_actions_returning>
-			<nb_visits_converted_returning>0</nb_visits_converted_returning>
-			<bounce_count_returning>0</bounce_count_returning>
-			<sum_visit_length_returning>5406</sum_visit_length_returning>
 			<max_actions_returning>5</max_actions_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
@@ -20,9 +17,6 @@
 			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>2</nb_visits_returning>
 			<nb_actions_returning>10</nb_actions_returning>
-			<nb_visits_converted_returning>0</nb_visits_converted_returning>
-			<bounce_count_returning>0</bounce_count_returning>
-			<sum_visit_length_returning>1802</sum_visit_length_returning>
 			<max_actions_returning>5</max_actions_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
