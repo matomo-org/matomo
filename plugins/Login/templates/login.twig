@@ -74,13 +74,8 @@
             {% include '@CoreHome/_warningInvalidHost.twig' %}
         {% else %}
             <div id="message_container">
-                {% if form_data.errors %}
-                    <div class="message_error">
-                        {% for data in form_data.errors %}
-                            <strong>{{ 'General_Error'|translate }}</strong>: {{ data|raw }}<br/>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+
+                {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}
 
                 {% if AccessErrorString %}
                     <div class="message_error">
