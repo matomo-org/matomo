@@ -66,6 +66,9 @@ class GetExitPageTitles extends Base
         $metrics = parent::getMetricsDocumentation();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
 
+        unset($metrics['bounce_rate']);
+        unset($metrics['avg_time_on_page']);
+
         return $metrics;
     }
 

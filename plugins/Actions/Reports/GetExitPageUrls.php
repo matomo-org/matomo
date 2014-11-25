@@ -61,6 +61,9 @@ class GetExitPageUrls extends Base
         $metrics = parent::getMetrics();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviews');
 
+        unset($metrics['bounce_rate']);
+        unset($metrics['avg_time_on_page']);
+
         return $metrics;
     }
 

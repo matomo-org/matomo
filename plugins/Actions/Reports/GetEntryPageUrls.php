@@ -61,6 +61,9 @@ class GetEntryPageUrls extends Base
         $metrics = parent::getMetricsDocumentation();
         $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
 
+        unset($metrics['bounce_rate']);
+        unset($metrics['exit_rate']);
+
         return $metrics;
     }
 
