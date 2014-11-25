@@ -468,6 +468,7 @@ class Piwik
      * in case another Login plugin is being used.
      *
      * @return string
+     * @api
      */
     public static function getLoginPluginName()
     {
