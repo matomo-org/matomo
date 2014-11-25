@@ -23,9 +23,11 @@ class Updates_2_0_3_b7 extends Updates
         $errors = array();
 
         try {
+            $checker = new DoNotTrackHeaderChecker();
+
             // enable DoNotTrack check in PrivacyManager if DoNotTrack plugin was enabled
             if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('DoNotTrack')) {
-                DoNotTrackHeaderChecker::activate();
+                $checker->activate();
             }
 
             // enable IP anonymization if AnonymizeIP plugin was enabled
