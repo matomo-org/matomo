@@ -17,6 +17,7 @@ use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -415,7 +416,9 @@ class API extends \Piwik\Plugin\API
      */
     public function getConversionRate($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        return $this->getNumeric($idSite, $period, $date, $segment, Archiver::getRecordName('conversion_rate', $idGoal));
+        $table = $this->get($idSite, $period, $date, $segment, $idGoal, 'conversion_rate');
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, array(new ConversionRate()));
+        return $table;
     }
 
     /**
