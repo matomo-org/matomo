@@ -3,8 +3,6 @@
         "BrowserFamilies": "عائلات المتصفحات",
         "Browsers": "المتصفحات",
         "ColumnBrowser": "المتصفح",
-        "ColumnBrowserFamily": "عائلة المتصفح",
-        "ColumnBrowserVersion": "إصدار المتصفح",
         "ColumnConfiguration": "الإعداد",
         "ColumnOperatingSystem": "نظام التشغيل",
         "ColumnResolution": "الكثافة النقطية",

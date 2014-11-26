@@ -1,6 +1,8 @@
 {
     "DevicesDetection": {
         "BrowserEngines": "Pogoni brskalnikov",
+        "BrowserFamily": "Družina brskalnika",
+        "BrowserVersion": "Različica brskalnika",
         "DeviceBrand": "Znamka naprave",
         "DeviceModel": "Model naprave",
         "DevicesDetection": "Naprave obiskovalcev",

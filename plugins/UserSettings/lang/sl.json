@@ -6,8 +6,6 @@
         "BrowserWithNoPluginsEnabled": "%1$s brez omogočenih vtičnikov",
         "BrowserWithPluginsEnabled": "%1$s z omogočenimi vtičniki %2$s",
         "ColumnBrowser": "Brskalnik",
-        "ColumnBrowserFamily": "Družina brskalnika",
-        "ColumnBrowserVersion": "Različica brskalnika",
         "ColumnConfiguration": "Nastavitev",
         "ColumnOperatingSystem": "Operacijski sistem",
         "ColumnResolution": "Resolucija",
@@ -204,7 +202,6 @@
         "VisitorSettings": "Nastavitve obiskovalcev",
         "WideScreen": "Širok Zaslon",
         "WidgetBrowsers": "Brskalnik obiskovalca",
-        "WidgetBrowserVersion": "Različica brskalnika",
         "WidgetOperatingSystems": "Operacijski sistemi",
         "WidgetPlugins": "Seznam Vtičnikov",
         "WidgetResolutions": "Resolucija zaslona"

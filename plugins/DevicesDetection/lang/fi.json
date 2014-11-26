@@ -1,12 +1,13 @@
 {
     "DevicesDetection": {
         "BrowserEngineDocumentation": "Tämä kuvaaja näyttää käyttäjien selaimen nimen mukaan. %s Tärkein tieto verkkosivun kehittäjille on käyttäjien selaimen taustajärjestelmä. Taustajärjestelmä löytyy hakasuluissa nimen perästä.",
+        "BrowserFamily": "Selainperhe",
+        "BrowserVersion": "Selaimen versio",
         "BrowserVersions": "Selainversiot",
         "Camera": "Kamera",
         "CarBrowser": "Auton selain",
         "Console": "Konsoli",
         "dataTableLabelBrands": "Merkki",
-        "dataTableLabelBrowserFamily": "Selainperhe",
         "dataTableLabelModels": "Malli",
         "dataTableLabelSystemVersion": "Käyttöjärjestelmäversio",
         "dataTableLabelTypes": "Tyyppi",

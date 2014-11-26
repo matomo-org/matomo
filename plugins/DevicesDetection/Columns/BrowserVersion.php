@@ -23,14 +23,14 @@ class BrowserVersion extends Base
     {
         $segment = new Segment();
         $segment->setSegment('browserVersion');
-        $segment->setName('UserSettings_ColumnBrowserVersion');
+        $segment->setName('DevicesDetection_BrowserVersion');
         $segment->setAcceptedValues('1.0, 8.0, etc.');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('UserSettings_ColumnBrowserVersion');
+        return Piwik::translate('DevicesDetection_BrowserVersion');
     }
 
     /**
