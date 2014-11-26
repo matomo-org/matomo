@@ -1,11 +1,11 @@
 # Piwik Platform Changelog
 
-This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
+This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here. 
 
 ## Piwik 2.9.1
 
 ### Breaking Changes
-* The HTTP Tracker API does now respond with a HTTP 400 instead of a HTTP 500 in case an invalid `idsite` or `forcedVisitorId` is used.
+* The HTTP Tracker API does now respond with a HTTP 400 instead of a HTTP 500 in case an invalid `idsite` is used
 
 ### New APIs
 * New URL parameter `send_image=0` in the [HTTP Tracking API](http://developer.piwik.org/api-reference/tracking-api) to receive a HTTP 204 response code instead of a GIF image. This improves performance and can fix errors if images are not allowed to be obtained directly (eg Chrome Apps).
@@ -170,3 +170,5 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### Library updates
 ### Internal change
  -->
+
+Find the general Piwik Changelogs for each release at [piwik.org/changelog](http://piwik.org/changelog/)
