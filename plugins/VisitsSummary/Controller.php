@@ -147,15 +147,13 @@ class Controller extends \Piwik\Plugin\Controller
 
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
-
         $view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
         $view->nbUsers = (int)$dataRow->getColumn('nb_users');
         $nbVisits = (int)$dataRow->getColumn('nb_visits');
         $view->nbVisits = $nbVisits;
 
         $view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
-        $nbBouncedVisits = $dataRow->getColumn('bounce_count');
-        $view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
+        $view->bounceRate = $dataRow->getColumn('bounce_rate');
         $view->maxActions = (int)$dataRow->getColumn('max_actions');
         $view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
 
