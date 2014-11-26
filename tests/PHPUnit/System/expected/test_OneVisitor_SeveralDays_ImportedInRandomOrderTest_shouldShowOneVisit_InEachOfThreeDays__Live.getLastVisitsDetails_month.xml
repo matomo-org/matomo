@@ -46,8 +46,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemCode>WVI</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -71,14 +79,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemShortName>Win Vista</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 7.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>7.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -139,8 +139,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemCode>WVI</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -164,14 +172,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemShortName>Win Vista</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 7.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>7.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
@@ -232,8 +232,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemCode>WVI</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -257,14 +265,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemShortName>Win Vista</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserName>Internet Explorer 7.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>7.0</browserVersion>
 		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>

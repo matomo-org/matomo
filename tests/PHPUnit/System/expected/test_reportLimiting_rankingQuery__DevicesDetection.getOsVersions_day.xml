@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Linux</label>
+		<label>GNU/Linux</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>20</nb_visits>
 		<nb_actions>20</nb_actions>
@@ -11,10 +11,9 @@
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/os/LIN.gif</logo>
-		<shortLabel>Linux</shortLabel>
 	</row>
 	<row>
-		<label>Android</label>
+		<label>Android 4.0</label>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_visits>15</nb_visits>
 		<nb_actions>15</nb_actions>
@@ -24,7 +23,6 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/os/AND.gif</logo>
-		<shortLabel>Android</shortLabel>
 	</row>
 	<row>
 		<label>Others</label>
@@ -37,6 +35,5 @@
 		<bounce_count>40</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/os/UNK.gif</logo>
-		<shortLabel>-1</shortLabel>
 	</row>
 </result>

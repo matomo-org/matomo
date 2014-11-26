@@ -25,7 +25,7 @@ function getBrandLogo($label)
     }
 }
 
-function getBrowserFamilyFullNameExtended($label)
+function getBrowserFamilyFullName($label)
 {
     foreach (BrowserParser::getAvailableBrowserFamilies() as $name => $family) {
         if (in_array($label, $family)) {
@@ -35,22 +35,33 @@ function getBrowserFamilyFullNameExtended($label)
     return Piwik::translate('General_Unknown');
 }
 
-function getBrowserFamilyLogoExtended($label)
+function getBrowserFamilyLogo($label)
 {
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
     if (!empty($label) && array_key_exists($label, $browserFamilies)) {
-        return getBrowserLogoExtended($browserFamilies[$label][0]);
+        return getBrowserLogo($browserFamilies[$label][0]);
     }
-    return getBrowserLogoExtended($label);
+    return getBrowserLogo($label);
 }
 
-function getBrowserNameExtended($label)
+function getBrowserNameWithVersion($label)
 {
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
     $browsers = BrowserParser::getAvailableBrowsers();
     if (array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]) . ' ' . $ver);
+    } else {
+        return Piwik::translate('General_Unknown');
+    }
+}
+
+function getBrowserName($label)
+{
+    $short = substr($label, 0, 2);
+    $browsers = BrowserParser::getAvailableBrowsers();
+    if (array_key_exists($short, $browsers)) {
+        return trim(ucfirst($browsers[$short]));
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -67,7 +78,7 @@ function getBrowserNameExtended($label)
  *
  * @return string  path to image
  */
-function getBrowserLogoExtended($short)
+function getBrowserLogo($short)
 {
     $path = 'plugins/UserSettings/images/browsers/%s.gif';
 
@@ -82,7 +93,7 @@ function getBrowserLogoExtended($short)
         }
     }
 
-    $family = getBrowserFamilyFullNameExtended($short);
+    $family = getBrowserFamilyFullName($short);
 
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
 
@@ -173,28 +184,36 @@ function getModelName($label)
     return $label;
 }
 
-function getOSFamilyFullNameExtended($label)
+function getOSFamilyFullName($label)
 {
     if ($label == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
     }
-    $label = OperatingSystemParser::getOsFamily($label);
+    $label = OperatingSystemParser::getOsFamily(_mapLegacyOsShortCodes($label));
+
+    if ($label == 'unknown') {
+        $label = Piwik::translate('General_Unknown');
+    } else if ($label == 'Gaming Console') {
+        $label = Piwik::translate('UserSettings_GamingConsole');
+    }
+
     if ($label !== false) {
         return $label;
     }
     return Piwik::translate('General_Unknown');
 }
 
-function getOsFamilyLogoExtended($label)
+function getOsFamilyLogo($label)
 {
+    $label = _mapLegacyOsShortCodes($label);
     $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
     if (!empty($label) && array_key_exists($label, $osFamilies)) {
-        return getOsLogoExtended($osFamilies[$label][0]);
+        return getOsLogo($osFamilies[$label][0]);
     }
-    return getOsLogoExtended($label);
+    return getOsLogo($label);
 }
 
-function getOsFullNameExtended($label)
+function getOsFullName($label)
 {
     if (substr($label, 0, 3) == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
@@ -202,7 +221,7 @@ function getOsFullNameExtended($label)
     if (!empty($label) && $label != ";") {
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
-        $name = OperatingSystemParser::getNameFromId($os, $ver);
+        $name = OperatingSystemParser::getNameFromId(_mapLegacyOsShortCodes($os), $ver);
         if (!empty($name)) {
             return $name;
         }
@@ -210,20 +229,38 @@ function getOsFullNameExtended($label)
     return Piwik::translate('General_Unknown');
 }
 
+function _mapLegacyOsShortCodes($shortCode)
+{
+    $legacyShortCodes = array(
+        'IPA' => 'IOS', // iPad => iOS
+        'IPH' => 'IOS', // iPhone => iOS
+        'IPD' => 'IOS', // iPod => iOS
+        'WIU' => 'WII', // WiiU => Nintendo
+        '3DS' => 'NDS', // Nintendo 3DS => Nintendo Mobile
+        'DSI' => 'NDS', // Nintendo DSi => Nintendo Mobile
+        'PSV' => 'PSP', // PlayStation Vita => PlayStation Portable
+        'MAE' => 'SMG', // Maemo => MeeGo
+        //'VMS' => '', // OpenVMS => ??
+    );
+    return array_key_exists($shortCode, $legacyShortCodes) ? $legacyShortCodes[$shortCode] : $shortCode;
+}
+
 /**
  * Returns the path to the logo for the given OS
  *
  * First try to find a logo for the given short code
  * If none can be found try to find a logo for the os family
- * Return unkown logo otherwise
+ * Return unknown logo otherwise
  *
  * @param string  $short  Shortcode or name of OS
  *
  * @return string  path to image
  */
-function getOsLogoExtended($short)
+function getOsLogo($short)
 {
     $path = 'plugins/UserSettings/images/os/%s.gif';
+
+    $short = _mapLegacyOsShortCodes($short);
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 3) {
@@ -235,7 +272,7 @@ function getOsLogoExtended($short)
         }
     }
 
-    $family = getOsFamilyFullNameExtended($short);
+    $family = getOSFamilyFullName($short);
     $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
 
     if (!empty($short) &&

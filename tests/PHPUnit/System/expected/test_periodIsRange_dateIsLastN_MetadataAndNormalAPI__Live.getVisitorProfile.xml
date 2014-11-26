@@ -92,8 +92,16 @@
 				</row>
 			</customVariables>
 			<deviceType>Desktop</deviceType>
+			<operatingSystem>Windows XP</operatingSystem>
+			<operatingSystemCode>WXP</operatingSystemCode>
+			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+			<browser>Firefox 3.0</browser>
+			<browserName>Firefox</browserName>
+			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+			<browserCode>FF</browserCode>
+			<browserVersion>3.0</browserVersion>
 			<events>0</events>
 			<provider>Unknown</provider>
 			<providerName>Unknown</providerName>
@@ -117,14 +125,6 @@
 			<location>France</location>
 			<latitude />
 			<longitude />
-			<operatingSystem>Windows XP</operatingSystem>
-			<operatingSystemCode>WXP</operatingSystemCode>
-			<operatingSystemShortName>Win XP</operatingSystemShortName>
-			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-			<browserName>Firefox 3.0</browserName>
-			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-			<browserCode>FF</browserCode>
-			<browserVersion>3.0</browserVersion>
 			<screenType>dual</screenType>
 			<resolution>1111x222</resolution>
 			<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
@@ -208,8 +208,16 @@
 				</row>
 			</customVariables>
 			<deviceType>Desktop</deviceType>
+			<operatingSystem>Windows XP</operatingSystem>
+			<operatingSystemCode>WXP</operatingSystemCode>
+			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+			<browser>Firefox 3.0</browser>
+			<browserName>Firefox</browserName>
+			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+			<browserCode>FF</browserCode>
+			<browserVersion>3.0</browserVersion>
 			<events>0</events>
 			<provider>Unknown</provider>
 			<providerName>Unknown</providerName>
@@ -233,14 +241,6 @@
 			<location>France</location>
 			<latitude />
 			<longitude />
-			<operatingSystem>Windows XP</operatingSystem>
-			<operatingSystemCode>WXP</operatingSystemCode>
-			<operatingSystemShortName>Win XP</operatingSystemShortName>
-			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-			<browserName>Firefox 3.0</browserName>
-			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-			<browserCode>FF</browserCode>
-			<browserVersion>3.0</browserVersion>
 			<screenType>dual</screenType>
 			<resolution>1111x222</resolution>
 			<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>

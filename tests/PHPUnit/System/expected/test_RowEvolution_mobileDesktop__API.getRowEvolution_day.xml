@@ -43,7 +43,7 @@
 		<metrics>
 			<nb_visits_0>
 				<name>Desktop (Visits)</name>
-				<logo>plugins/UserSettings/images/screens/normal.gif</logo>
+				<logo>plugins/DevicesDetection/images/screens/normal.gif</logo>
 				<min>0</min>
 				<max>1</max>
 			</nb_visits_0>
@@ -51,7 +51,7 @@
 				<name>Mobile (Visits)</name>
 			</nb_visits_1>
 		</metrics>
-		<dimension>Mobile vs Desktop</dimension>
+		<dimension>Device type</dimension>
 		<columns>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>

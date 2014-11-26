@@ -163,8 +163,8 @@ class RowEvolutionTest extends SystemTestCase
             'otherRequestParameters' => array(
                 'date'      => '2010-03-01,2010-03-06',
                 'period'    => 'month',
-                'apiModule' => 'UserSettings',
-                'apiAction' => 'getBrowser',
+                'apiModule' => 'DevicesDetection',
+                'apiAction' => 'getBrowsers',
                 'label'     => 'Firefox,Chrome,Opera'
             )
         ));
@@ -178,8 +178,8 @@ class RowEvolutionTest extends SystemTestCase
             'otherRequestParameters' => array(
                 'date'      => '2010-03-01,2010-03-06',
                 'period'    => 'month',
-                'apiModule' => 'UserSettings',
-                'apiAction' => 'getMobileVsDesktop',
+                'apiModule' => 'DevicesDetection',
+                'apiAction' => 'getType',
                 'label'     => 'Desktop,Mobile'
             )
         ));

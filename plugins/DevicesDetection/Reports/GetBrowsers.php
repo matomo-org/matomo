@@ -12,16 +12,16 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\DevicesDetection\Columns\BrowserName;
 
-class GetBrowserFamilies extends Base
+class GetBrowsers extends Base
 {
     protected function init()
     {
         parent::init();
         $this->dimension     = new BrowserName();
-        $this->name          = Piwik::translate('UserSettings_BrowserFamilies');
-        $this->documentation = ''; // TODO
-        $this->order = 5;
-        $this->widgetTitle  = 'UserSettings_BrowserFamilies';
+        $this->name          = Piwik::translate('UserSettings_WidgetBrowsers');
+        $this->documentation = Piwik::translate('UserSettings_WidgetBrowsersDocumentation', '<br />');
+        $this->order = 1;
+        $this->widgetTitle  = 'UserSettings_WidgetBrowsers';
     }
 
     public function configureView(ViewDataTable $view)
@@ -29,7 +29,7 @@ class GetBrowserFamilies extends Base
         $view->config->title = $this->name;
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelBrowserFamily"));
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
     public function getRelatedReports()

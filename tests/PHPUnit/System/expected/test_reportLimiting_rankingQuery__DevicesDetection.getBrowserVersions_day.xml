@@ -11,7 +11,6 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
-		<shortLabel>Firefox 6.0</shortLabel>
 	</row>
 	<row>
 		<label>Internet Explorer 9.0</label>
@@ -24,7 +23,6 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
-		<shortLabel>Internet Explorer 9.0</shortLabel>
 	</row>
 	<row>
 		<label>Others</label>
@@ -37,6 +35,5 @@
 		<bounce_count>45</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
-		<shortLabel>-1</shortLabel>
 	</row>
 </result>
