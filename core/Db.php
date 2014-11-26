@@ -46,7 +46,7 @@ class Db
             return Tracker::getDatabase();
         }
 
-        if (self::$connection === null) {
+        if (!self::hasDatabaseObject()) {
             self::createDatabaseObject();
         }
 
@@ -101,6 +101,16 @@ class Db
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 
         self::$connection = $db;
+    }
+
+    /**
+     * Detect whether a database object is initialized / created or not.
+     *
+     * @internal
+     */
+    public static function hasDatabaseObject()
+    {
+        return isset(self::$connection);
     }
 
     /**
