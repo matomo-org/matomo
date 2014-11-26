@@ -244,18 +244,6 @@ class API extends \Piwik\Plugin\API
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
         }
 
-        // remove eCommerce related metrics on non eCommerce Piwik sites
-        // note: this is not optimal in terms of performance: those metrics should not be retrieved in the first place
-        if ($enhanced) {
-            if ($dataTable instanceof DataTable\Map) {
-                foreach ($dataTable->getDataTables() as $table) {
-                    $this->removeEcommerceRelatedMetricsOnNonEcommercePiwikSites($table, $apiECommerceMetrics);
-                }
-            } else {
-                $this->removeEcommerceRelatedMetricsOnNonEcommercePiwikSites($dataTable, $apiECommerceMetrics);
-            }
-        }
-
         // move the site id to a metadata column
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'group', array('\Piwik\Site', 'getGroupFor'), array()));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'main_url', array('\Piwik\Site', 'getMainUrlFor'), array()));
@@ -330,8 +318,8 @@ class API extends \Piwik\Plugin\API
         } else {
             $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
             foreach ($apiMetrics as $metricSettings) {
-                $evolutionMetricClass = $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY] == 'revenue_evolution'
-                                      ? "Piwik\\Plugins\\MultiSites\\Columns\\Metrics\\RevenueEvolution"
+                $evolutionMetricClass = $this->isEcommerceEvolutionMetric($metricSettings)
+                                      ? "Piwik\\Plugins\\MultiSites\\Columns\\Metrics\\EcommerceOnlyEvolutionMetric"
                                       : "Piwik\\Plugins\\CoreHome\\Columns\\Metrics\\EvolutionMetric";
 
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
@@ -508,5 +496,13 @@ class API extends \Piwik\Plugin\API
 
         return $dataTable;
     }
-}
 
+    private function isEcommerceEvolutionMetric($metricSettings)
+    {
+        return in_array($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY], array(
+            self::GOAL_REVENUE_METRIC . '_evolution',
+            self::ECOMMERCE_ORDERS_METRIC . '_evolution',
+            self::ECOMMERCE_REVENUE_METRIC . '_evolution'
+        ));
+    }
+}

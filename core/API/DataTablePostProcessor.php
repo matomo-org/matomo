@@ -367,8 +367,11 @@ class DataTablePostProcessor
             }
 
             foreach ($dataTable->getRows() as $row) {
-                if ($row->getColumn($name) === false) { // do not compute the metric if it has been computed already
-                    $row->addColumn($name, $processedMetric->compute($row));
+                if ($row->getColumn($name) === false) { // only compute the metric if it has not been computed already
+                    $computedValue = $processedMetric->compute($row);
+                    if ($computedValue !== false) {
+                        $row->addColumn($name, $computedValue);
+                    }
 
                     $subtable = $row->getSubtable();
                     if (!empty($subtable)) {
