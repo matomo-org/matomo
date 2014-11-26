@@ -36,4 +36,39 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/screens/smartphone.png</logo>
 	</row>
+	<row>
+		<label>Tablet</label>
+		<nb_visits>0</nb_visits>
+		<logo>plugins/DevicesDetection/images/screens/tablet.png</logo>
+	</row>
+	<row>
+		<label>Feature phone</label>
+		<nb_visits>0</nb_visits>
+		<logo>plugins/DevicesDetection/images/screens/mobile.gif</logo>
+	</row>
+	<row>
+		<label>Console</label>
+		<nb_visits>0</nb_visits>
+		<logo>plugins/DevicesDetection/images/screens/console.gif</logo>
+	</row>
+	<row>
+		<label>Tv</label>
+		<nb_visits>0</nb_visits>
+		<logo>plugins/DevicesDetection/images/screens/tv.png</logo>
+	</row>
+	<row>
+		<label>Car browser</label>
+		<nb_visits>0</nb_visits>
+		<logo>plugins/DevicesDetection/images/screens/carbrowser.png</logo>
+	</row>
+	<row>
+		<label>Smart display</label>
+		<nb_visits>0</nb_visits>
+		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+	</row>
+	<row>
+		<label>Camera</label>
+		<nb_visits>0</nb_visits>
+		<logo>plugins/DevicesDetection/images/screens/camera.png</logo>
+	</row>
 </result>

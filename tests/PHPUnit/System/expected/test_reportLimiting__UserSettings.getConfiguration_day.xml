@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Linux / Firefox / 1920x1080</label>
+		<label>GNU/Linux / Firefox / 1920x1080</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>

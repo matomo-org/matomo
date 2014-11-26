@@ -2,6 +2,20 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here. 
 
+## Piwik 2.10.0
+
+### Breaking Changes
+* Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
+
+### Deprecations
+* The API method `UserSettings.getBrowserVersion` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserVersions` instead
+* The API method `UserSettings.getBrowser` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowsers` instead
+* The API method `UserSettings.getOSFamily` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getOsFamilies` instead
+* The API method `UserSettings.getOS` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getOsVersions` instead
+* The API method `UserSettings.getMobileVsDesktop` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getType` instead
+* The API method `UserSettings.getBrowserType` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserEngines` instead
+* The API method `UserSettings.getWideScreen` is deprecated and will be removed from May 1st 2015. Use `UserSettings.getScreenType` instead
+
 ## Piwik 2.9.1
 
 ### Breaking Changes
@@ -48,13 +62,13 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Deprecations
 * The `Piwik::setUserHasSuperUserAccess` method is deprecated, instead use Access::doAsSuperUser. This method will ensure that super user access is properly rescinded after the callback finishes.
-* The class is `\IntegrationTestCase` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\SystemTestCase` instead.
-* The class is `\DatabaseTestCase` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\IntegrationTestCase` instead.
-* The class is `\BenchmarkTestCase` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\BenchmarkTestCase` instead.
-* The class is `\ConsoleCommandTestCase` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase` instead.
-* The class is `\FakeAccess` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\Mock\FakeAccess` instead.
-* The class is `\Piwik\Tests\Fixture` deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\Fixture` instead.
-* The class is `\Piwik\Tests\OverrideLogin` deprecated and will be removed from February 6ths 2015. Use `\Piwik\Framework\Framework\OverrideLogin` instead.
+* The class `\IntegrationTestCase` is deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\SystemTestCase` instead.
+* The class `\DatabaseTestCase` is deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\IntegrationTestCase` instead.
+* The class `\BenchmarkTestCase` is deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\BenchmarkTestCase` instead.
+* The class `\ConsoleCommandTestCase` is deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase` instead.
+* The class `\FakeAccess` is deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\Mock\FakeAccess` instead.
+* The class `\Piwik\Tests\Fixture` is deprecated and will be removed from February 6th 2015. Use `\Piwik\Tests\Framework\Fixture` instead.
+* The class `\Piwik\Tests\OverrideLogin` is deprecated and will be removed from February 6ths 2015. Use `\Piwik\Framework\Framework\OverrideLogin` instead.
 
 ### New API Features
 * The pivotBy and related query parameters can be used to pivot reports by another dimension. Read more about the new query parameters [here](http://developer.piwik.org/api-reference/reporting-api#optional-api-parameters).

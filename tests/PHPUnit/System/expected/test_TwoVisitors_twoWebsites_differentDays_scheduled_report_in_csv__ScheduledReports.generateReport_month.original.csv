@@ -76,18 +76,6 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 800x300,9,41,0%,4.56,00:13:21,11.11%
 1024x768,1,2,0%,2,00:06:01,0%
 
-Visitor Browser
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Firefox,1,2,0%,2,00:06:01,0%
-Opera,1,1,0%,1,00:00:00,100%
-
-Browser Version
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Firefox 3.6,1,2,0%,2,00:06:01,0%
-Opera 9.63,1,1,0%,1,00:00:00,100%
-
 Browser Plugins
 label,nb_visits,nb_visits_percentage
 Cookie,10,100%
@@ -106,27 +94,11 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Dual,9,41,0%,4.56,00:13:21,11.11%
 Normal,1,2,0%,2,00:06:01,0%
 
-Operating System
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Windows XP,2,3,0%,1.5,00:03:01,50%
-
 Visitor Configuration
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown / Unknown / 800x300,8,40,0%,5,00:15:01,0%
 Windows XP / Firefox / 1024x768,1,2,0%,2,00:06:01,0%
 Windows XP / Opera / 800x300,1,1,0%,1,00:00:00,100%
-
-Operating system family
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Windows,2,3,0%,1.5,00:03:01,50%
-
-Mobile vs Desktop
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Desktop,2,3,0%,1.5,00:03:01,50%
-Mobile,0,0,0%,0,00:00:00,0%
 
 Browser language
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -349,6 +321,18 @@ Device brand
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,10,43,0%,4.3,00:12:37,10%
 
+Visitor Browser
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,8,40,0%,5,00:15:01,0%
+Firefox,1,2,0%,2,00:06:01,0%
+Opera,1,1,0%,1,00:00:00,100%
+
+Browser Version
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,8,40,0%,5,00:15:01,0%
+Firefox 3.6,1,2,0%,2,00:06:01,0%
+Opera 9.63,1,1,0%,1,00:00:00,100%
+
 Device model
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,10,43,0%,4.3,00:12:37,10%
@@ -362,18 +346,6 @@ Operating System versions
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 Windows XP,2,3,0%,1.5,00:03:01,50%
-
-Browser families
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Firefox,1,2,0%,2,00:06:01,0%
-Opera,1,1,0%,1,00:00:00,100%
-
-Browser versions
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Firefox 3.6,1,2,0%,2,00:06:01,0%
-Opera 9.63,1,1,0%,1,00:00:00,100%
 
 Browser engines
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
