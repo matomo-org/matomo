@@ -327,7 +327,7 @@ Unknown,8,40,0%,5,00:15:01,0%
 Firefox,1,2,0%,2,00:06:01,0%
 Opera,1,1,0%,1,00:00:00,100%
 
-Browser Version
+Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 Firefox 3.6,1,2,0%,2,00:06:01,0%

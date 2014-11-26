@@ -1798,7 +1798,7 @@
 	</row>
 	<row>
 		<category>Visitor Devices</category>
-		<name>Browser Version</name>
+		<name>Browser version</name>
 		<module>DevicesDetection</module>
 		<action>getBrowserVersions</action>
 		<dimension>Browser version</dimension>
