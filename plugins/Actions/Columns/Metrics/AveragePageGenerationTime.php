@@ -40,6 +40,11 @@ class AveragePageGenerationTime extends ProcessedMetric
         return array('sum_time_generation', 'nb_hits_with_time_generation');
     }
 
+    public function getTemporaryMetrics()
+    {
+        return array('nb_hits_with_time_generation');
+    }
+
     public function compute(Row $row)
     {
         $sumGenerationTime = $this->getMetric($row, 'sum_time_generation');

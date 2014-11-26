@@ -248,9 +248,31 @@ class DataTablePostProcessor
             || !empty($showColumns)
         ) {
             $dataTable->filter('ColumnDelete', array($hideColumns, $showColumns));
+        } else {
+            $this->removeTemporaryMetrics($dataTable);
         }
 
         return $dataTable;
+    }
+
+    /**
+     * @param DataTableInterface $dataTable
+     */
+    public function removeTemporaryMetrics(DataTableInterface $dataTable)
+    {
+        $allColumns = !empty($this->report) ? $this->report->getAllMetrics() : array();
+
+        $report = $this->report;
+        $dataTable->filter(function (DataTable $table) use ($report, $allColumns) {
+            $processedMetrics = Report::getProcessedMetricsForTable($table, $this->report);
+
+            $allTemporaryMetrics = array();
+            foreach ($processedMetrics as $metric) {
+                $allTemporaryMetrics = array_merge($allTemporaryMetrics, $metric->getTemporaryMetrics());
+            }
+
+            $table->filter('ColumnDelete', array($allTemporaryMetrics));
+        });
     }
 
     /**

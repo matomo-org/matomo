@@ -62,13 +62,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase
         $singlePeriodApi = array('VisitsSummary.get', 'Goals.get');
 
         $periods = array('day', 'week', 'month', 'year');
-return array(
-    array('Goals.get', array('idSite'       => 'all',
-        'date'         => $dateTime,
-        'periods'      => array('day'),
-        'setDateLastN' => false,
-        'testSuffix'   => '_NotLastNPeriods'))
-);
+
         $result = array(
             // Request data for the last 6 periods and idSite=all
             array($apiToCall, array('idSite'       => 'all',
