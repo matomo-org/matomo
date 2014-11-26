@@ -50,6 +50,11 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
         );
     }
 
+    public function getProcessedMetrics()
+    {
+        return array();
+    }
+
     protected function getMetricsDocumentation()
     {
         return array(

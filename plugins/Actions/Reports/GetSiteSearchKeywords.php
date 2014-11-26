@@ -41,6 +41,12 @@ class GetSiteSearchKeywords extends SiteSearchBase
         return array(
             'nb_visits'           => Piwik::translate('Actions_ColumnSearches'),
             'nb_pages_per_search' => Piwik::translate('Actions_ColumnPagesPerSearch'),
+        );
+    }
+
+    public function getProcessedMetrics()
+    {
+        return array(
             'exit_rate'           => Piwik::translate('Actions_ColumnSearchExits'),
         );
     }

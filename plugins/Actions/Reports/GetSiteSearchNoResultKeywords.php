@@ -38,8 +38,14 @@ class GetSiteSearchNoResultKeywords extends SiteSearchBase
     public function getMetrics()
     {
         return array(
-            'nb_visits' => Piwik::translate('Actions_ColumnSearches'),
-            'exit_rate' => Piwik::translate('Actions_ColumnSearchExits'),
+            'nb_visits' => Piwik::translate('Actions_ColumnSearches')
+        );
+    }
+
+    public function getProcessedMetrics()
+    {
+        return array(
+            'exit_rate' => Piwik::translate('Actions_ColumnSearchExits')
         );
     }
 
