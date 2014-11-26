@@ -22,6 +22,7 @@ use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Site;
@@ -235,7 +236,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // get currencies for each viewable site
         $view->currencySymbols = APISitesManager::getInstance()->getCurrencySymbols();
 
-        $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::isActive();
+        $dntChecker = new DoNotTrackHeaderChecker();
+        $view->serverSideDoNotTrackEnabled = $dntChecker->isActive();
 
         return $view->render();
     }

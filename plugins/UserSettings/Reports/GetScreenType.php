@@ -10,33 +10,28 @@ namespace Piwik\Plugins\UserSettings\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\UserSettings\Columns\OperatingsystemFamily;
+use Piwik\Plugins\UserSettings\Columns\TypeOfScreen;
 
-class GetOSFamily extends Base
+class GetScreenType extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new OperatingsystemFamily();
-        $this->name          = Piwik::translate('UserSettings_OperatingSystemFamily');
+        $this->dimension     = new TypeOfScreen();
+        $this->name          = Piwik::translate('UserSettings_WidgetWidescreen');
         $this->documentation = ''; // TODO
-        $this->order = 8;
-        $this->widgetTitle  = 'UserSettings_OperatingSystemFamily';
+        $this->order = 5;
+        $this->widgetTitle  = 'UserSettings_WidgetWidescreen';
     }
 
     public function configureView(ViewDataTable $view)
     {
         $this->getBasicUserSettingsDisplayProperties($view);
 
-        $view->config->title = $this->name;
+        $view->config->title = Piwik::translate('UserSettings_ColumnTypeOfScreen');
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
         $view->config->addTranslation('label', $this->dimension->getName());
     }
-
-    public function getRelatedReports()
-    {
-        return array(
-            new GetOS()
-        );
-    }
-
 }

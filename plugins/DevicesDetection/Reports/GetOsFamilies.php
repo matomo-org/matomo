@@ -29,7 +29,7 @@ class GetOsFamilies extends Base
         $view->config->title = $this->name;
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate("UserSettings_OperatingSystemFamily"));
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
     public function getRelatedReports()

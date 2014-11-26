@@ -159,6 +159,30 @@ class WidgetsList extends Singleton
     }
 
     /**
+     * Returns the unique id of an widget with the given parameters
+     *
+     * @param $controllerName
+     * @param $controllerAction
+     * @param array $customParameters
+     * @return string
+     */
+    public static function getWidgetUniqueId($controllerName, $controllerAction, $customParameters = array())
+    {
+        $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+
+        foreach ($customParameters as $name => $value) {
+            if (is_array($value)) {
+                // use 'Array' for backward compatibility;
+                // could we switch to using $value[0]?
+                $value = 'Array';
+            }
+            $widgetUniqueId .= $name . $value;
+        }
+
+        return $widgetUniqueId;
+    }
+
+    /**
      * Adds a report to the list of dashboard widgets.
      *
      * @param string $widgetCategory The widget category. This can be a translation token.
@@ -171,16 +195,7 @@ class WidgetsList extends Singleton
     public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
         $widgetName     = Piwik::translate($widgetName);
-        $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
-
-        foreach ($customParameters as $name => $value) {
-            if (is_array($value)) {
-                // use 'Array' for backward compatibility;
-                // could we switch to using $value[0]?
-                $value = 'Array';
-            }
-            $widgetUniqueId .= $name . $value;
-        }
+        $widgetUniqueId = self::getWidgetUniqueId($controllerName, $controllerAction, $customParameters);
 
         if (!array_key_exists($widgetCategory, self::$widgets)) {
             self::$widgets[$widgetCategory] = array();

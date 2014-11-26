@@ -228,7 +228,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         if ($this->configureComponents) {
             IPAnonymizer::deactivate();
-            DoNotTrackHeaderChecker::deactivate();
+            $dntChecker = new DoNotTrackHeaderChecker();
+            $dntChecker->deactivate();
         }
 
         if ($this->createSuperUser) {

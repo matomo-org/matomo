@@ -24,22 +24,44 @@ class UserSettings extends \Piwik\Plugin
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Live.getAllVisitorDetails'            => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
+            'Request.dispatch'                     => 'mapDeprecatedActions'
         );
+    }
+
+    /**
+     * Maps the deprecated actions that were 'moved' to DevicesDetection plugin
+     *
+     * @deprecated since 2.10.0 and will be removed from May 1st 2015
+     * @param $module
+     * @param $action
+     * @param $parameters
+     */
+    public function mapDeprecatedActions(&$module, &$action, &$parameters)
+    {
+        $movedMethods = array(
+            'getBrowser' => 'getBrowsers',
+            'getBrowserVersion' => 'getBrowserVersions',
+            'getMobileVsDesktop' => 'getType',
+            'getOS' => 'getOsVersions',
+            'getOSFamily' => 'getOsFamilies',
+            'getBrowserType' => 'getBrowserEngines'
+        );
+
+        if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
+            $module = 'DevicesDetection';
+            $action = $movedMethods[$action];
+        }
+        
+        if ($module == 'UserSettings' && $action == 'getWideScreen') {
+            $action = 'getScreenType';
+        }
     }
 
     public function extendVisitorDetails(&$visitor, $details)
     {
         $instance = new Visitor($details);
 
-        $visitor['operatingSystem']          = $instance->getOperatingSystem();
-        $visitor['operatingSystemCode']      = $instance->getOperatingSystemCode();
-        $visitor['operatingSystemShortName'] = $instance->getOperatingSystemShortName();
-        $visitor['operatingSystemIcon']      = $instance->getOperatingSystemIcon();
-        $visitor['browserName']              = $instance->getBrowser();
-        $visitor['browserIcon']              = $instance->getBrowserIcon();
-        $visitor['browserCode']              = $instance->getBrowserCode();
-        $visitor['browserVersion']           = $instance->getBrowserVersion();
         $visitor['screenType']               = $instance->getScreenType();
         $visitor['resolution']               = $instance->getResolution();
         $visitor['screenTypeIcon']           = $instance->getScreenTypeIcon();
