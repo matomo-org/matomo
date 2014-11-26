@@ -34,8 +34,10 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
 
-        $columnsToShow = $requestedColumns ?: $report->getAllMetrics();
-        $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
+        if (!empty($requestedColumns)) {
+            $columnsToShow = $requestedColumns ?: $report->getAllMetrics();
+            $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
+        }
 
         return $dataTable;
     }

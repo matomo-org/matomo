@@ -424,7 +424,8 @@ class Report
      */
     public function getAllMetrics()
     {
-        return array_keys(array_merge($this->getMetrics(), $this->getProcessedMetrics()));
+        $processedMetrics = $this->getProcessedMetrics() ?: array();
+        return array_keys(array_merge($this->getMetrics(), $processedMetrics));
     }
 
     /**
