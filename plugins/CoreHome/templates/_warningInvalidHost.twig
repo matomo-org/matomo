@@ -1,14 +1,14 @@
 {# untrusted host warning #}
 {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
     {% set invalidHostText %}
-        <a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="plugins/Morpheus/images/help.png"/></a>
+        <a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" rel="noreferrer" target="_blank"><img src="plugins/Morpheus/images/help.png"/></a>
         <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidHostMessage|raw }}
 
         <br>
         <br>
 
         <small>{{ invalidHostMessageHowToFix|raw }}
-        <br/><br/><a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank">{{ 'General_Help'|translate }}
+        <br/><br/><a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" rel="noreferrer" target="_blank">{{ 'General_Help'|translate }}
         <img style="vertical-align: bottom;" src="plugins/Morpheus/images/help.png"/></a><br/>
         </small>
     {% endset %}

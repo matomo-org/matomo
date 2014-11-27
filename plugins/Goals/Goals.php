@@ -24,7 +24,7 @@ class Goals extends \Piwik\Plugin
     public function getInformation()
     {
         $suffix = Piwik::translate('SitesManager_PiwikOffersEcommerceAnalytics',
-            array('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">', '</a>'));
+            array('<a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer"  target="_blank">', '</a>'));
         $info = parent::getInformation();
         $info['description'] .= ' ' . $suffix;
         return $info;

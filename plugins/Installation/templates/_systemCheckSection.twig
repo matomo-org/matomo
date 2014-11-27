@@ -209,7 +209,7 @@
                 {{ warning }}
                 <span class="warn">{{ 'SitesManager_AdvancedTimezoneSupportNotFound'|translate }} </span>
                 <br/>
-                <a href="http://php.net/manual/en/datetime.installation.php" target="_blank">Timezone PHP documentation</a>
+                <a href="http://php.net/manual/en/datetime.installation.php" rel="noreferrer" target="_blank">Timezone PHP documentation</a>
                 .
             {% endif %}
         </td>
@@ -311,12 +311,12 @@
             {% elseif infos.extra.geolocation_using_non_recommended %}
                 {{ warning }}
                 <span class="warn">{{ 'UserCountry_GeoIpLocationProviderNotRecomnended'|translate }}
-                    {{ 'UserCountry_GeoIpLocationProviderDesc_ServerBased2'|translate('<a href="http://piwik.org/docs/geo-locate/" target="_blank">', '', '', '</a>')|raw }}</span>
+                    {{ 'UserCountry_GeoIpLocationProviderDesc_ServerBased2'|translate('<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>')|raw }}</span>
                 <br/>
             {% else %}
                 {{ warning }}
                 <span class="warn">{{ 'UserCountry_DefaultLocationProviderDesc1'|translate }}
-                    {{ 'UserCountry_DefaultLocationProviderDesc2'|translate('<a href="http://piwik.org/docs/geo-locate/" target="_blank">', '', '', '</a>')|raw }} </span>
+                    {{ 'UserCountry_DefaultLocationProviderDesc2'|translate('<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>')|raw }} </span>
                 </span>
             {% endif %}
         </td>
@@ -340,7 +340,7 @@
                         <em><strong>{{ 'General_Error'|translate }}:</strong></em>
                         {{ infos.extra.load_data_infile_error|raw }}
                     {% endif %}
-                    <p>Troubleshooting: <a target='_blank' href="?module=Proxy&action=redirect&url=http://piwik.org/faq/troubleshooting/%23faq_194">FAQ on piwik.org</a></p>
+                    <p>Troubleshooting: <a rel='noreferrer' target='_blank' href="?module=Proxy&action=redirect&url=http://piwik.org/faq/troubleshooting/%23faq_194">FAQ on piwik.org</a></p>
                 {% endif %}
             </td>
         </tr>

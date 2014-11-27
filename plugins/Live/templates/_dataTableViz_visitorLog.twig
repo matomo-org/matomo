@@ -71,7 +71,7 @@
     <div class="referrer">
         {% if visitor.getColumn('referrerType') == 'website' %}
             {{ 'Referrers_ColumnWebsite'|translate }}:
-            <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"
+            <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"
                style="text-decoration:underline;">
                 {{ visitor.getColumn('referrerName') }}
             </a>
@@ -91,7 +91,7 @@
             <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
             {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
                 <br/>
-                <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" style="text-decoration:underline;">
+                <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" style="text-decoration:underline;">
                     "{{ visitor.getColumn('referrerKeyword') }}"</a>
             {% endif %}
             {% set keyword %}{{ visitor.getColumn('referrerKeyword') }}{% endset %}
@@ -134,7 +134,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 {% if visitor.getColumn('provider') %}
                     <br/>
                     {{ 'Provider_ColumnProvider'|translate }}:
-                    <a href="{{ visitor.getColumn('providerUrl') }}" target="_blank" title="{{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
+                    <a href="{{ visitor.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" title="{{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
                         {{ visitor.getColumn('providerName') }}
                     </a>
                 {% endif %}

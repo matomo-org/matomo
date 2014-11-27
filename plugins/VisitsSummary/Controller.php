@@ -61,7 +61,7 @@ class Controller extends \Piwik\Plugin\Controller
             . Piwik::translate('General_ColumnNbActionsDocumentation') . '<br />'
 
             . '<b>' . Piwik::translate('General_ColumnNbUsers') . ':</b> '
-            . Piwik::translate('General_ColumnNbUsersDocumentation') . ' (<a target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
+            . Piwik::translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
 
             . '<b>' . Piwik::translate('General_ColumnActionsPerVisit') . ':</b> '
             . Piwik::translate('General_ColumnActionsPerVisitDocumentation');

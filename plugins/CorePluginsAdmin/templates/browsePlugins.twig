@@ -55,6 +55,6 @@
     {% set marketplaceSellPluginSubject = 'CorePluginsAdmin_MarketplaceSellPluginSubject'|translate %}
         {{ 'CorePluginsAdmin_GetEarlyAccessForPaidPlugins'|translate("<a href='mailto:hello@piwik.org?subject=" ~ marketplaceSellPluginSubject ~ "'>", "</a>")|raw }}
         <br/>
-        {{ 'CorePluginsAdmin_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=http://developer.piwik.org/plugins" target="_blank">', '</a>')|raw }}
+        {{ 'CorePluginsAdmin_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=http://developer.piwik.org/plugins" rel="noreferrer"  target="_blank">', '</a>')|raw }}
     </div>
 {% endblock %}

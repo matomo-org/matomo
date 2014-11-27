@@ -30,7 +30,7 @@ use Piwik\Tracker\PageUrl;
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
  * File Downloads and Clicks on external websites.
  *
- * For example, "getPageTitles" will return all your page titles along with standard <a href='http://piwik.org/docs/analytics-api/reference/#toc-metric-definitions' target='_blank'>Actions metrics</a> for each row.
+ * For example, "getPageTitles" will return all your page titles along with standard <a href='http://piwik.org/docs/analytics-api/reference/#toc-metric-definitions' rel='noreferrer' target='_blank'>Actions metrics</a> for each row.
  *
  * It is also possible to request data for a specific Page Title with "getPageTitle"
  * and setting the parameter pageName to the page title you wish to request.

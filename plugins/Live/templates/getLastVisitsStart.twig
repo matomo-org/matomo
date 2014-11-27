@@ -42,7 +42,7 @@
                 {% if visitor.referrerType is defined and visitor.referrerType != 'direct' %}
                     {{ 'General_FromReferrer'|translate }}
                     {% if visitor.referrerUrl is not empty %}
-                        <a href="{{ visitor.referrerUrl }}" target="_blank">
+                        <a href="{{ visitor.referrerUrl }}" rel="noreferrer"  target="_blank">
                     {% endif %}
                     {% if visitor.searchEngineIcon is defined %}
                         <img src="{{ visitor.searchEngineIcon }}" />

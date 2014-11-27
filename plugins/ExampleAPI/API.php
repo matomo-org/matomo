@@ -16,7 +16,7 @@ use Piwik\Version;
 /**
  * The ExampleAPI is useful to developers building a custom Piwik plugin.
  *
- * Please see the <a href='https://github.com/piwik/piwik/blob/master/plugins/ExampleAPI/API.php' target='_blank'>source code in in the file plugins/ExampleAPI/API.php</a> for more documentation.
+ * Please see the <a href='https://github.com/piwik/piwik/blob/master/plugins/ExampleAPI/API.php' rel='noreferrer' target='_blank'>source code in in the file plugins/ExampleAPI/API.php</a> for more documentation.
  * @method static \Piwik\Plugins\ExampleAPI\API getInstance()
  */
 class API extends \Piwik\Plugin\API
