@@ -20,4 +20,14 @@ return array(
         return $root . '/tmp' . $instanceId;
     }),
 
+
+    // Log
+    'Piwik\Log' => DI\factory(array('Piwik\Log\LoggerFactory', 'createLogger')),
+    'log.format' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('old_config.log.string_message_format')) {
+            return $c->get('old_config.log.string_message_format');
+        }
+        return '%level% %tag%[%datetime%] %message%';
+    }),
+
 );

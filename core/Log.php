@@ -98,8 +98,6 @@ use Piwik\Db;
  *         $debugInfo = new MyDebugInfo($unexpectedError, $myThirdPartyServiceClient);
  *         Log::debug($debugInfo);
  *     }
- *
- * @method static \Piwik\Log getInstance()
  */
 class Log extends Singleton
 {
@@ -126,6 +124,13 @@ class Log extends Singleton
     const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
 
     /**
+     * Singleton instance.
+     *
+     * @var Log
+     */
+    private static $instance;
+
+    /**
      * The current logging level. Everything of equal or greater priority will be logged.
      * Everything else will be ignored.
      *
@@ -147,7 +152,7 @@ class Log extends Singleton
      *
      * @var string
      */
-    private $logMessageFormat = "%level% %tag%[%datetime%] %message%";
+    private $logMessageFormat;
 
     /**
      * If we're logging to a file, this is the path to the file to log to.
@@ -163,17 +168,26 @@ class Log extends Singleton
      */
     private $loggingToScreen;
 
-    /**
-     * Constructor.
-     */
-    protected function __construct()
+    public static function getInstance()
     {
-        $logConfig = Config::getInstance()->log;
-        $this->setCurrentLogLevelFromConfig($logConfig);
-        $this->setLogWritersFromConfig($logConfig);
-        $this->setLogFilePathFromConfig($logConfig);
-        $this->setStringLogMessageFormat($logConfig);
-        $this->disableLoggingBasedOnConfig($logConfig);
+        if (self::$instance === null) {
+            self::$instance = StaticContainer::getContainer()->get(__CLASS__);
+        }
+        return self::$instance;
+    }
+    public static function unsetInstance()
+    {
+        self::$instance = null;
+    }
+    public static function setSingletonInstance($instance)
+    {
+        self::$instance = $instance;
+    }
+
+    public function __construct($logMessageFormat, $logToFilePath)
+    {
+        $this->logMessageFormat = $logMessageFormat;
+        $this->logToFilePath = $logToFilePath;
     }
 
     /**
@@ -262,20 +276,6 @@ class Log extends Singleton
         );
     }
 
-    private function setLogWritersFromConfig($logConfig)
-    {
-        // set the log writers
-        $logWriters = @$logConfig[self::LOG_WRITERS_CONFIG_OPTION];
-        if (empty($logWriters)) {
-            return;
-        }
-
-        $logWriters = array_map('trim', $logWriters);
-        foreach ($logWriters as $writerName) {
-            $this->addLogWriter($writerName);
-        }
-    }
-
     public function addLogWriter($writerName)
     {
         if (array_key_exists($writerName, $this->writers)) {
@@ -289,57 +289,6 @@ class Log extends Singleton
         }
 
         $this->writers[$writerName] = $availableWritersByName[$writerName];
-    }
-
-    private function setCurrentLogLevelFromConfig($logConfig)
-    {
-        if (!empty($logConfig[self::LOG_LEVEL_CONFIG_OPTION])) {
-            $logLevel = $this->getLogLevelFromStringName($logConfig[self::LOG_LEVEL_CONFIG_OPTION]);
-
-            if ($logLevel >= self::NONE // sanity check
-                && $logLevel <= self::VERBOSE
-            ) {
-                $this->setLogLevel($logLevel);
-            }
-        }
-    }
-
-    private function setStringLogMessageFormat($logConfig)
-    {
-        if (isset($logConfig['string_message_format'])) {
-            $this->logMessageFormat = $logConfig['string_message_format'];
-        }
-    }
-
-    private function setLogFilePathFromConfig($logConfig)
-    {
-        $logPath = @$logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
-
-        // Absolute path
-        if (strpos($logPath, '/') === 0) {
-            $this->logToFilePath = $logPath;
-            return;
-        }
-
-        // Remove 'tmp/' at the beginning
-        if (strpos($logPath, 'tmp/') === 0) {
-            $logPath = substr($logPath, strlen('tmp'));
-        }
-
-        if (empty($logPath)) {
-            $logPath = $this->getDefaultFileLogPath();
-        }
-
-        $logPath = StaticContainer::getContainer()->get('path.tmp') . $logPath;
-        if (is_dir($logPath)) {
-            $logPath .= '/piwik.log';
-        }
-        $this->logToFilePath = $logPath;
-    }
-
-    private function getDefaultFileLogPath()
-    {
-        return '/logs/piwik.log';
     }
 
     private function getAvailableWriters()
@@ -486,48 +435,6 @@ class Log extends Singleton
     private function shouldLoggerLog($level)
     {
         return $level <= $this->currentLogLevel;
-    }
-
-    private function disableLoggingBasedOnConfig($logConfig)
-    {
-        $disableLogging = false;
-
-        if (!empty($logConfig['log_only_when_cli'])
-            && !Common::isPhpCliMode()
-        ) {
-            $disableLogging = true;
-        }
-
-        if (!empty($logConfig['log_only_when_debug_parameter'])
-            && !isset($_REQUEST['debug'])
-        ) {
-            $disableLogging = true;
-        }
-
-        if ($disableLogging) {
-            $this->currentLogLevel = self::NONE;
-        }
-    }
-
-    private function getLogLevelFromStringName($name)
-    {
-        $name = strtoupper($name);
-        switch ($name) {
-            case 'NONE':
-                return self::NONE;
-            case 'ERROR':
-                return self::ERROR;
-            case 'WARN':
-                return self::WARN;
-            case 'INFO':
-                return self::INFO;
-            case 'DEBUG':
-                return self::DEBUG;
-            case 'VERBOSE':
-                return self::VERBOSE;
-            default:
-                return -1;
-        }
     }
 
     private function getStringLevel($level)

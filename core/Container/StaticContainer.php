@@ -39,6 +39,11 @@ class StaticContainer
         return self::$container;
     }
 
+    public static function reset()
+    {
+        self::$container = null;
+    }
+
     /**
      * @link http://php-di.org/doc/container-configuration.html
      */

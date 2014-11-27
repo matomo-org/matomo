@@ -35,9 +35,9 @@ class LogTest extends IntegrationTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(162): dummy error message
+        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(168): dummy error message
   dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(162): dummy error message
+        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(168): dummy error message
 dummy backtrace'
     );
 
@@ -77,11 +77,13 @@ dummy backtrace'
     {
         parent::setUp();
 
+        StaticContainer::reset();
+        Log::unsetInstance();
+
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
         Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
         Config::getInstance()->log['log_level'] = Log::INFO;
         @unlink(self::getLogFileLocation());
-        Log::unsetInstance();
         Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
     }
 
@@ -89,7 +91,9 @@ dummy backtrace'
     {
         parent::tearDown();
 
+        StaticContainer::reset();
         Log::unsetInstance();
+
         @unlink(self::getLogFileLocation());
         Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = null;
     }
@@ -99,9 +103,11 @@ dummy backtrace'
      */
     public function getBackendsToTest()
     {
-        return array(array('screen'),
-                     array('file'),
-                     array('database'));
+        return array(
+            'screen'   => array('screen'),
+            'file'     => array('file'),
+            'database' => array('database'),
+        );
     }
 
     /**
