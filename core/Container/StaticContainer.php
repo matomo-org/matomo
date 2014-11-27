@@ -6,11 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik;
+namespace Piwik\Container;
 
 use DI\Container;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
+use Piwik\Config;
 
 /**
  * This class provides a static access to the container.
@@ -48,9 +49,11 @@ class StaticContainer
         }
         $builder = new ContainerBuilder();
 
-        // TODO add cache
+        // TODO set a better cache
         $builder->setDefinitionCache(new ArrayCache());
-        // $builder->writeProxiesToFile(true, PIWIK_USER_PATH . '/tmp/proxies');
+
+        // Old global INI config
+        $builder->addDefinitions(new IniConfigDefinitionSource(Config::getInstance()));
 
         // Global config
         $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
