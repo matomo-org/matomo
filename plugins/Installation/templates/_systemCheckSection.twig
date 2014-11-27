@@ -56,14 +56,13 @@
             {% for needed_extension in infos.needed_extensions %}
                 {% if needed_extension in infos.missing_extensions %}
                     {{ error }}
-                    {% set hasError %}1{% endset %}
+                    <br/>{{ 'Installation_RestartWebServer'|translate }}
                 {% else %}
                     {{ ok }}
                 {% endif %}
                 {{ needed_extension }}
                 <br/>
             {% endfor %}
-            <br/>{% if hasError is defined %}{{ 'Installation_RestartWebServer'|translate }}{% endif %}
         </td>
     </tr>
     {% if infos.missing_extensions|length > 0 %}
@@ -84,16 +83,37 @@
                 {% if needed_function in infos.missing_functions %}
                     {{ error }}
                     <span class='err'>{{ needed_function }}</span>
-                    {% set hasError %}1{% endset %}
                     <p>
-                        <em>{{ helpMessages[needed_function]|translate }}</em>
+                        <em>
+                            {{ helpMessages[needed_function]|translate }}
+                            <br/>{{ 'Installation_RestartWebServer'|translate }}
+                        </em>
                     </p>
                 {% else %}
                     {{ ok }} {{ needed_function }}
                     <br/>
                 {% endif %}
             {% endfor %}
-            <br/>{% if hasError is defined %}{{ 'Installation_RestartWebServer'|translate }}{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td class="label">{{ 'Installation_SystemCheckSettings'|translate }}</td>
+        <td>
+            {% for needed_setting in infos.needed_settings %}
+                {% if needed_setting in infos.missing_settings %}
+                    {{ error }}
+                    <span class='err'>{{ needed_setting }}</span>
+                    <p>
+                        <em>
+                            {{ helpMessages[needed_setting]|translate }}
+                            <br/>{{ 'Installation_RestartWebServer'|translate }}
+                        </em>
+                    </p>
+                {% else %}
+                    {{ ok }} {{ needed_setting }}
+                    <br/>
+                {% endif %}
+            {% endfor %}
         </td>
     </tr>
     <tr>

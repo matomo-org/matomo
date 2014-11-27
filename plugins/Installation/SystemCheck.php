@@ -55,13 +55,11 @@ class SystemCheck
         $infos['desired_extensions'] = self::getRecommendedExtensions();
         $infos['missing_desired_extensions'] = self::getRecommendedExtensionsMissing();
 
+        $infos['desired_functions'] = self::getRecommendedFunctions();
         $infos['missing_desired_functions'] = self::getRecommendedFunctionsMissing();
 
-        //TODO create recommended settings
-        $desired_settings = array(
-            'session.auto_start',
-        );
-        $infos['desired_functions'] = array_merge(self::getRecommendedFunctions(), $desired_settings);
+        $infos['needed_settings'] = self::getRequiredPhpSettings();
+        $infos['missing_settings'] = self::getMissingPhpSettings();
 
         $infos['openurl'] = Http::getTransportMethod();
         $infos['gd_ok'] = SettingsServer::isGdExtensionEnabled();
@@ -159,7 +157,6 @@ class SystemCheck
         if (!DbHelper::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
             $directoriesToCheck[] = '/config/';
-            return $directoriesToCheck;
         }
         return $directoriesToCheck;
     }
@@ -169,7 +166,7 @@ class SystemCheck
      */
     protected static function getRequiredFunctions()
     {
-        return $needed_functions = array(
+        return array(
             'debug_backtrace',
             'create_function',
             'eval',
@@ -372,9 +369,9 @@ class SystemCheck
     protected static function getRequiredExtensionsMissing()
     {
         $missingExtensions = array();
-        foreach (self::getRequiredExtensions() as $needed_extension) {
-            if (!self::isPhpExtensionLoaded($needed_extension)) {
-                $missingExtensions[] = $needed_extension;
+        foreach (self::getRequiredExtensions() as $requiredExtension) {
+            if (!self::isPhpExtensionLoaded($requiredExtension)) {
+                $missingExtensions[] = $requiredExtension;
             }
         }
 
@@ -400,14 +397,7 @@ class SystemCheck
      */
     protected static function getRecommendedFunctionsMissing()
     {
-        $recommendedFunctionsMissing = self::getFunctionsMissing(self::getRecommendedFunctions());
-
-        $sessionAutoStarted = (int)ini_get('session.auto_start');
-        if ($sessionAutoStarted) {
-            $recommendedFunctionsMissing[] = 'session.auto_start';
-        }
-
-        return $recommendedFunctionsMissing;
+        return self::getFunctionsMissing(self::getRecommendedFunctions());
     }
 
     /**
@@ -437,5 +427,45 @@ class SystemCheck
         return Config::getInstance()->General['minimum_memory_limit'];
     }
 
+    private static function isPhpVersionAtLeast56()
+    {
+       return version_compare( PHP_VERSION, '5.6', '>=');
+    }
 
+    /**
+     * @return array
+     */
+    public static function getRequiredPhpSettings()
+    {
+        $requiredPhpSettings = array(
+            // setting = required value
+            // Note: value must be an integer only
+            'session.auto_start=0',
+        );
+
+        if (self::isPhpVersionAtLeast56()) {
+            // always_populate_raw_post_data must be -1
+            $requiredPhpSettings[] = 'always_populate_raw_post_data=-1';
+        }
+        return $requiredPhpSettings;
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getMissingPhpSettings()
+    {
+        $missingPhpSettings = array();
+        foreach(self::getRequiredPhpSettings() as $requiredSetting) {
+            list($requiredSettingName, $requiredSettingValue) = explode('=', $requiredSetting);
+
+            $currentValue = ini_get($requiredSettingName);
+            $currentValue = (int)$currentValue;
+
+            if($currentValue != $requiredSettingValue) {
+                $missingPhpSettings[] = $requiredSetting;
+            }
+        }
+        return $missingPhpSettings;
+    }
 }
