@@ -36,6 +36,7 @@ class Visitor
         } elseif ($status == 'abandonedCart') {
             return "plugins/Morpheus/images/ecommerceAbandonedCart.gif";
         }
+        // Note: it is important that there is no icon when there was no ecommerce conversion
         return null;
     }
 

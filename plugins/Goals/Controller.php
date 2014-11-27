@@ -101,14 +101,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getEcommerceLog($fetch = false)
     {
         $saveGET = $_GET;
-        $filterEcommerce = Common::getRequestVar('filterEcommerce', self::ECOMMERCE_LOG_SHOW_ORDERS, 'int');
-        if ($filterEcommerce == self::ECOMMERCE_LOG_SHOW_ORDERS) {
-            $segment = urlencode('visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart');
-        } else {
-            $segment = urlencode('visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart');
-        }
-        $_GET['segment'] = $segment;
-        $_GET['filterEcommerce'] = $filterEcommerce;
+        $_GET['segment'] = urlencode('visitEcommerceStatus!=none');
         $_GET['widget'] = 1;
         $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
         $_GET = $saveGET;
@@ -438,7 +431,6 @@ class Controller extends \Piwik\Plugin\Controller
         if ($ecommerce) {
             if ($preloadAbandonedCart) {
                 $ecommerceCustomParams['viewDataTable'] = 'ecommerceAbandonedCart';
-                $ecommerceCustomParams['filterEcommerce'] = self::ECOMMERCE_LOG_SHOW_ABANDONED_CARTS;
             }
 
             $goalReportsByDimension->addReport(
@@ -449,7 +441,7 @@ class Controller extends \Piwik\Plugin\Controller
                 'Goals_EcommerceReports', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
 
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_EcommerceLog', 'Goals.getEcommerceLog', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_EcommerceLog', 'Goals.getEcommerceLog', array());
         }
 
         if ($conversions > 0) {
