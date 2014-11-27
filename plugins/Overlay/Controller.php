@@ -13,8 +13,8 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
@@ -73,8 +73,11 @@ class Controller extends \Piwik\Plugin\Controller
             . '&period=' . urlencode($period)
             . '&label=' . urlencode($label)
             . '&format=original'
+            . '&format_metrics=0'
         );
         $dataTable = $request->process();
+
+        $formatter = new Metrics\Formatter\Html();
 
         $data = array();
         if ($dataTable->getRowsCount() > 0) {
@@ -90,9 +93,15 @@ class Controller extends \Piwik\Plugin\Controller
                     // skip unique visitors for period != day
                     continue;
                 }
-                if ($metric == 'avg_time_on_page') {
-                    $value = MetricsFormatter::getPrettyTimeFromSeconds($value);
+
+                if ($metric == 'bounce_rate'
+                    || $metric == 'exit_rate'
+                ) {
+                    $value = $formatter->getPrettyPercentFromQuotient($value);
+                } else if ($metric == 'avg_time_on_page') {
+                    $value = $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
                 }
+
                 $data[] = array(
                     'name'  => $translations[$metric],
                     'value' => $value

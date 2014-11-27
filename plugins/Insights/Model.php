@@ -85,7 +85,7 @@ class Model
 
     public function getTotalValue($idSite, $period, $date, $metric, $segment)
     {
-        $visits   = VisitsSummaryAPI::getInstance()->get($idSite, $period, $date, $segment, array($metric));
+        $visits   = VisitsSummaryAPI::getInstance()->get($idSite, $period, $date, $segment);
         $firstRow = $visits->getFirstRow();
 
         if (empty($firstRow)) {

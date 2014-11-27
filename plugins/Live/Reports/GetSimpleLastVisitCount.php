@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Live\Reports;
 
 use Piwik\Config;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Live\Controller;
@@ -32,11 +32,13 @@ class GetSimpleLastVisitCount extends Base
 
         $lastNData = Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
 
+        $formatter = new Formatter();
+
         $view = new View('@Live/getSimpleLastVisitCount');
         $view->lastMinutes = $lastMinutes;
-        $view->visitors    = MetricsFormatter::getPrettyNumber($lastNData[0]['visitors']);
-        $view->visits      = MetricsFormatter::getPrettyNumber($lastNData[0]['visits']);
-        $view->actions     = MetricsFormatter::getPrettyNumber($lastNData[0]['actions']);
+        $view->visitors    = $formatter->getPrettyNumber($lastNData[0]['visitors']);
+        $view->visits      = $formatter->getPrettyNumber($lastNData[0]['visits']);
+        $view->actions     = $formatter->getPrettyNumber($lastNData[0]['actions']);
         $view->refreshAfterXSecs = Config::getInstance()->General['live_widget_refresh_after_seconds'];
         $view->translations = array(
             'one_visitor' => Piwik::translate('Live_NbVisitor'),
@@ -51,5 +53,4 @@ class GetSimpleLastVisitCount extends Base
 
         return $view->render();
     }
-
 }

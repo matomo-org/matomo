@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 
 class Get extends BaseGoal
 {
@@ -17,11 +18,11 @@ class Get extends BaseGoal
         parent::init();
 
         $this->name = Piwik::translate('Goals_Goals');
-        $this->processedMetrics = array();
+        $this->processedMetrics = array(new ConversionRate());
         $this->documentation = ''; // TODO
         $this->order = 1;
         $this->orderGoal = 50;
-        $this->metrics = array('nb_conversions', 'nb_visits_converted', 'conversion_rate', 'revenue');
+        $this->metrics = array('nb_conversions', 'nb_visits_converted', 'revenue');
         $this->parameters = null;
     }
 

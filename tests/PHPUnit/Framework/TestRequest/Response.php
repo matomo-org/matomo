@@ -77,7 +77,7 @@ class Response
         }
 
         // check content size to get quick feedback and avoid lengthy diff
-        $checkSizeFirst = array('pdf', 'csv');
+        $checkSizeFirst = array('pdf', 'csv', 'html');
         if(!empty($expected->requestUrl['reportFormat'])
             && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)) {
             Asserts::assertEquals(strlen($expectedText), strlen($actualText), $message);
@@ -127,7 +127,6 @@ class Response
             || strpos($apiResponse, '<result') === false) {
             return $apiResponse;
         }
-
         return str_replace('&amp;#039;', "'", $apiResponse);
     }
 

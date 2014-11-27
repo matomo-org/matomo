@@ -52,11 +52,11 @@ if ($minimumPhpInvalid) {
             $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line. "
                 . " <br>Then run this command in a terminal in the piwik directory: <br> $ php composer.phar update ";
         }
-        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
+        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' rel='noreferrer' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
                     "<br/>" . $composerInstall.
                     " This will initialize composer for Piwik and download libraries we use in vendor/* directory.".
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>For more information check out this FAQ: <a href='http://piwik.org/faq/how-to-install/faq_18271/' target='_blank'>How do I use Piwik from the Git repository?</a>." .
+                    "\n\n<br/><br/>For more information check out this FAQ: <a href='http://piwik.org/faq/how-to-install/faq_18271/' rel='noreferrer' target='_blank'>How do I use Piwik from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Piwik release from ".
                     "<a href='http://builds.piwik.org/piwik.zip'>builds.piwik.org</a>.</p>";
     }
@@ -122,11 +122,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if ($optionalLinks) {
             $optionalLinks = '<ul>
-                            <li><a target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
-                            <li><a target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
-                            <li><a target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
-                            <li><a target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
-                            <li><a target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {

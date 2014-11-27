@@ -12,7 +12,7 @@ use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
@@ -197,8 +197,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $totalBytes += $status['Data_length'] + $status['Index_length'];
         }
 
+        $formatter = new Formatter();
         $result = array(
-            'currentSize' => MetricsFormatter::getPrettySizeFromBytes($totalBytes)
+            'currentSize' => $formatter->getPrettySizeFromBytes($totalBytes)
         );
 
         // if the db size estimate feature is enabled, get the estimate
@@ -225,8 +226,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
             }
 
-            $result['sizeAfterPurge'] = MetricsFormatter::getPrettySizeFromBytes($totalAfterPurge);
-            $result['spaceSaved'] = MetricsFormatter::getPrettySizeFromBytes($totalBytes - $totalAfterPurge);
+            $result['sizeAfterPurge'] = $formatter->getPrettySizeFromBytes($totalAfterPurge);
+            $result['spaceSaved'] = $formatter->getPrettySizeFromBytes($totalBytes - $totalAfterPurge);
         }
 
         return $result;
@@ -288,7 +289,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        $deleteDataInfos["nextRunPretty"] = MetricsFormatter::getPrettyTimeFromSeconds($deleteDataInfos["nextScheduleTime"] - time());
+        $formatter = new Formatter();
+
+        $deleteDataInfos["nextRunPretty"] = $formatter->getPrettyTimeFromSeconds($deleteDataInfos["nextScheduleTime"] - time());
 
         return $deleteDataInfos;
     }

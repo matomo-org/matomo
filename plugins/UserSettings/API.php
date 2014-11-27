@@ -13,6 +13,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\DevicesDetection\Archiver AS DDArchiver;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
 /**
  * @see plugins/UserSettings/functions.php
@@ -142,48 +143,27 @@ class API extends \Piwik\Plugin\API
 
         // walk through the results and calculate the percentage
         foreach ($dataTableMap as $key => $table) {
-            // get according browserType table
-            foreach ($browserTypesArray as $k => $browsers) {
-                if ($k == $key) {
-                    $browserType = $browsers;
-                }
-            }
-
-            // get according visitsSum
-            foreach ($visitSumsArray as $k => $visits) {
-                if ($k == $key) {
-                    if (is_object($visits)) {
-                        if ($visits->getRowsCount() == 0) {
-                            $visitsSumTotal = 0;
-                        } else {
-                            $visitsSumTotal = (float)$visits->getFirstRow()->getColumn('nb_visits');
-                        }
-                    } else {
-                        $visitsSumTotal = (float)$visits;
-                    }
-                }
-            }
-
             // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
             $ieVisits = 0;
 
-            $ieStats = $browserType->getRowFromLabel('Trident');
+            $ieStats = $browserTypesArray[$key]->getRowFromLabel('Trident');
             if ($ieStats !== false) {
                 $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
             }
 
+            // get according visitsSum
+            $visits = $visitSumsArray[$key];
+            if ($visits->getRowsCount() == 0) {
+                $visitsSumTotal = 0;
+            } else {
+                $visitsSumTotal = (float) $visits->getFirstRow()->getColumn('nb_visits');
+            }
+
             $visitsSum = $visitsSumTotal - $ieVisits;
 
-            // When Truncate filter is applied, it will call AddSummaryRow which tries to sum all rows.
-            // We tell the object to skip the column nb_visits_percentage when aggregating (since it's not correct to sum % values)
-            $columnAggregationOps = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-            $columnAggregationOps['nb_visits_percentage'] = 'skip';
-            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOps);
-
-            // The filter must be applied now so that the new column can
-            // be sorted by the generic filters (applied right after this loop exits)
-            $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Metrics::INDEX_NB_VISITS, $visitsSum, 1));
-            $table->filter('RangeCheck', array('nb_visits_percentage', '0.00%', '100.00%'));
+            $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            $extraProcessedMetrics[] = new VisitsPercent($visitsSum);
+            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }
 
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));

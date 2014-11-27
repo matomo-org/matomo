@@ -15,7 +15,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Period\Range;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -44,12 +44,12 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  * browser, type of screen, resolution, supported browser plugins (flash, java, silverlight, pdf, etc.), various dates & times format to make
  * it easier for API users... and more!
  *
- * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>'&segment='</a> you can filter the
+ * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
  * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
  *
  * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
  *
- * See also the documentation about <a href='http://piwik.org/docs/real-time/' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
+ * See also the documentation about <a href='http://piwik.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
  * @method static \Piwik\Plugins\Live\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -345,7 +345,8 @@ class API extends \Piwik\Plugin\API
                 round($pageGenerationTimeTotal / $result['totalPageViews'], $precision = 2);
         }
 
-        $result['totalVisitDurationPretty'] = MetricsFormatter::getPrettyTimeFromSeconds($result['totalVisitDuration']);
+        $formatter = new Formatter();
+        $result['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($result['totalVisitDuration'], true);
 
         // use requested visits for first/last visit info
         $rows = $visits->getRows();

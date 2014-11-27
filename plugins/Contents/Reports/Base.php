@@ -37,7 +37,12 @@ abstract class Base extends Report
             $view->config->addTranslations(array('label' => $this->dimension->getName()));
         }
 
-        $view->config->columns_to_display = array_merge(array('label'), $this->metrics, $this->processedMetrics);
+        $view->config->columns_to_display = array_merge(
+            array('label'),
+            array_keys($this->getMetrics()),
+            array_keys($this->getProcessedMetrics())
+        );
+
         $view->requestConfig->filter_sort_column = 'nb_impressions';
 
         if ($this->hasSubtableId()) {

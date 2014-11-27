@@ -132,13 +132,13 @@ class DocumentationGenerator
             $lastNUrls = '';
             if (preg_match('/(&period)|(&date)/', $exampleUrl)) {
                 $exampleUrlRss = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
-                $lastNUrls = ", RSS of the last <a target=_blank href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
+                $lastNUrls = ", RSS of the last <a target='_blank' href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
             }
             $exampleUrl = $prefixUrls . $exampleUrl;
             $str .= " [ Example in
-                                                                    <a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>,
-                                                                    <a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>,
-                                                                    <a target=_blank href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a>
+                                                                    <a target='_blank' href='$exampleUrl&format=xml$token_auth'>XML</a>,
+                                                                    <a target='_blank' href='$exampleUrl&format=JSON$token_auth'>Json</a>,
+                                                                    <a target='_blank' href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a>
                                                                     $lastNUrls
                                                                     ]";
         } else {
@@ -350,13 +350,13 @@ class DocumentationGenerator
                 $lastNUrls = '';
                 if (preg_match('/(&period)|(&date)/', $exampleUrl)) {
                     $exampleUrlRss = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
-                    $lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
+                    $lastNUrls = ",	RSS of the last <a target='_blank' href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
                 }
                 $exampleUrl = $prefixUrls . $exampleUrl;
                 $str .= " [ Example in
-									<a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>,
-									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>,
-									<a target=_blank href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a>
+									<a target='_blank' href='$exampleUrl&format=xml$token_auth'>XML</a>,
+									<a target='_blank' href='$exampleUrl&format=JSON$token_auth'>Json</a>,
+									<a target='_blank' href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a>
 									$lastNUrls
 									]";
             } else {

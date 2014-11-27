@@ -190,7 +190,7 @@
                         </div>
                         {% if plugin.info.license is defined %}
                         <div class="plugin-license">
-                            {% if plugin.info.license_homepage is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" target="_blank" href="{{ plugin.info.license_homepage }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_homepage is defined %}</a>{% endif %}
+                            {% if plugin.info.license_homepage is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" rel="noreferrer" target="_blank" href="{{ plugin.info.license_homepage }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_homepage is defined %}</a>{% endif %}
                         </div>
                         {% endif %}
                         {% if plugin.info.authors is defined %}
@@ -200,7 +200,7 @@
                             {% spaceless %}
                             {% for author in plugin.info.authors if author.name %}
                                 {% if author.homepage is defined %}
-                                    <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" target="_blank">{{ author.name }}</a>
+                                    <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer" target="_blank">{{ author.name }}</a>
                                 {% else %}
                                     {{ author.name }}
                                 {% endif %}

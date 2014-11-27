@@ -144,12 +144,10 @@ class ModelTest extends SystemTestCase
         $this->assertEquals(1, $total);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_getTotalValue_shouldReturnZero_IfColumnDoesNotExist()
     {
-        $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'unknown_ColUmn', false);
+        $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'unknown_ColUmn', false);
+        $this->assertEquals(0, $total);
     }
 
     public function test_getRelevantTotalValue_shouldReturnTotalValue_IfMetricTotalIsHighEnough()

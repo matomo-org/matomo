@@ -16,8 +16,10 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
-			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</metrics>
+		<processedMetrics>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_get</uniqueId>
@@ -31,7 +33,6 @@
 		<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 		<nb_searches>Searches</nb_searches>
 		<nb_keywords>Unique Keywords</nb_keywords>
-		<avg_time_generation>Avg. generation time</avg_time_generation>
 	</columns>
 	<reportData>
 		<nb_pageviews>1</nb_pageviews>
@@ -42,7 +43,6 @@
 		<nb_uniq_outlinks>0</nb_uniq_outlinks>
 		<nb_searches>0</nb_searches>
 		<nb_keywords>0</nb_keywords>
-		<avg_time_generation>0s</avg_time_generation>
 	</reportData>
 	<reportMetadata />
 	<reportTotal>

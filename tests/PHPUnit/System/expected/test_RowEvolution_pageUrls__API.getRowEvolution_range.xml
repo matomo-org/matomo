@@ -8,8 +8,8 @@
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
+				<avg_time_on_page>0</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.45</avg_time_generation>
 			</row>
@@ -30,14 +30,14 @@
 				<min>0</min>
 				<max>2</max>
 			</nb_visits>
+			<avg_time_on_page>
+				<name>Avg. time on page</name>
+			</avg_time_on_page>
 			<bounce_rate>
 				<name>Bounce Rate</name>
 				<min>0</min>
 				<max>100</max>
 			</bounce_rate>
-			<avg_time_on_page>
-				<name>Avg. time on page</name>
-			</avg_time_on_page>
 			<exit_rate>
 				<name>Exit rate</name>
 				<min>0</min>

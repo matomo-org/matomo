@@ -223,10 +223,10 @@ class ServerBased extends GeoIp
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
                 array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
         $installDocs =
-            '<em><a target="_blank" href="http://piwik.org/faq/how-to/#faq_165">'
+            '<em><a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_165">'
             . Piwik::translate('UserCountry_HowToInstallApacheModule')
             . '</a></em><br/><em>'
-            . '<a target="_blank" href="http://piwik.org/faq/how-to/#faq_166">'
+            . '<a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_166">'
             . Piwik::translate('UserCountry_HowToInstallNginxModule')
             . '</a></em>';
 

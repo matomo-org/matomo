@@ -10,7 +10,11 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\PageUrl;
+use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 
 class GetPageUrls extends Base
 {
@@ -25,7 +29,13 @@ class GetPageUrls extends Base
 
         $this->actionToLoadSubTables = $this->action;
         $this->order   = 2;
-        $this->metrics = array('nb_hits', 'nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate', 'avg_time_generation');
+        $this->metrics = array('nb_hits', 'nb_visits');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
 
         $this->segmentSql = 'log_visit.visit_entry_idaction_url';
 

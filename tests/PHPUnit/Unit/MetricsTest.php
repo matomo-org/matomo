@@ -39,7 +39,7 @@ class Core_MetricsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMappingFromIdToName()
     {
-        $mapping = Metrics::getMappingFromIdToName();
+        $mapping = Metrics::getMappingFromNameToId();
         $expectedMapping = array(
             'nb_uniq_visitors' => 1,
             'nb_visits' => 2,

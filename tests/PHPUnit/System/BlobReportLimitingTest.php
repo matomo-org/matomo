@@ -43,7 +43,6 @@ class BlobReportLimitingTest extends SystemTestCase
         );
 
         $ecommerceApi = array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory');
-
         return array(
             array($apiToCall, array('idSite'  => self::$fixture->idSite,
                                     'date'    => self::$fixture->dateTime,

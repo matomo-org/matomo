@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 
 class Get extends Base
 {
@@ -19,6 +20,9 @@ class Get extends Base
         $this->name          = Piwik::translate('General_Actions') . ' - ' . Piwik::translate('General_MainMetrics');
         $this->documentation = ''; // TODO
         $this->order = 1;
+        $this->processedMetrics = array(
+            new AveragePageGenerationTime()
+        );
         $this->metrics  = array(
             'nb_pageviews',
             'nb_uniq_pageviews',
@@ -27,8 +31,7 @@ class Get extends Base
             'nb_outlinks',
             'nb_uniq_outlinks',
             'nb_searches',
-            'nb_keywords',
-            'avg_time_generation'
+            'nb_keywords'
         );
     }
 }

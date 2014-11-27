@@ -24,38 +24,16 @@ use Piwik\SettingsServer;
 
 class SystemCheck
 {
-
     /**
      * Get system information
      */
     public static function getSystemInformation()
     {
         global $piwik_minimumPHPVersion;
-        $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
 
         $infos = array();
 
-        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
-
-        $directoriesToCheck = array(
-            $tmpPath,
-            $tmpPath . '/assets/',
-            $tmpPath . '/cache/',
-            $tmpPath . '/climulti/',
-            $tmpPath . '/latest/',
-            $tmpPath . '/logs/',
-            $tmpPath . '/sessions/',
-            $tmpPath . '/tcpdf/',
-            $tmpPath . '/templates_c/',
-        );
-
-        if (!DbHelper::isInstalled()) {
-            // at install, need /config to be writable (so we can create config.ini.php)
-            $directoriesToCheck[] = '/config/';
-        }
-
-        $infos['directories'] = Filechecks::checkDirectoriesWritable($directoriesToCheck);
-
+        $infos['directories'] = self::getDirectoriesWritableStatus();
         $infos['can_auto_update'] = Filechecks::canAutoUpdate();
 
         self::initServerFilesForSecurity();
@@ -65,111 +43,39 @@ class SystemCheck
         $infos['phpVersion_ok'] = self::isPhpVersionValid($infos['phpVersion']);
 
         // critical errors
-        $extensions = @get_loaded_extensions();
-        $needed_extensions = array(
-            'zlib',
-            'SPL',
-            'iconv',
-            'json',
-            'mbstring',
-        );
-        // HHVM provides the required subset of Reflection but lists Reflections as missing
-        if (!defined('HHVM_VERSION')) {
-            $needed_extensions[] = 'Reflection';
-        }
-        $infos['needed_extensions'] = $needed_extensions;
-        $infos['missing_extensions'] = array();
-        foreach ($needed_extensions as $needed_extension) {
-            if (!in_array($needed_extension, $extensions)) {
-                $infos['missing_extensions'][] = $needed_extension;
-            }
-        }
+        $infos['needed_extensions'] = self::getRequiredExtensions();
+        $infos['missing_extensions'] = self::getRequiredExtensionsMissing();
 
-        // Special case for mbstring
-        if (!function_exists('mb_get_info')
-            || ((int)ini_get('mbstring.func_overload')) != 0) {
-            $infos['missing_extensions'][] = 'mbstring';
-        }
-
-        $infos['pdo_ok'] = false;
-        if (in_array('PDO', $extensions)) {
-            $infos['pdo_ok'] = true;
-        }
-
+        $infos['pdo_ok'] = self::isPhpExtensionLoaded('PDO');
         $infos['adapters'] = Adapter::getAdapters();
 
-        $needed_functions = array(
-            'debug_backtrace',
-            'create_function',
-            'eval',
-            'gzcompress',
-            'gzuncompress',
-            'pack',
-        );
-        $infos['needed_functions'] = $needed_functions;
-        $infos['missing_functions'] = array();
-        foreach ($needed_functions as $needed_function) {
-            if (!self::functionExists($needed_function)) {
-                $infos['missing_functions'][] = $needed_function;
-            }
-        }
+        $infos['needed_functions'] = self::getRequiredFunctions();
+        $infos['missing_functions'] = self::getRequiredFunctionsMissing();;
 
         // warnings
-        $desired_extensions = array(
-            'json',
-            'libxml',
-            'dom',
-            'SimpleXML',
-        );
-        $infos['desired_extensions'] = $desired_extensions;
-        $infos['missing_desired_extensions'] = array();
-        foreach ($desired_extensions as $desired_extension) {
-            if (!in_array($desired_extension, $extensions)) {
-                $infos['missing_desired_extensions'][] = $desired_extension;
-            }
-        }
-        $desired_functions = array(
-            'set_time_limit',
-            'mail',
-            'parse_ini_file',
-            'glob',
-            'gzopen',
-        );
-        $infos['missing_desired_functions'] = array();
-        foreach ($desired_functions as $desired_function) {
-            if (!self::functionExists($desired_function)) {
-                $infos['missing_desired_functions'][] = $desired_function;
-            }
-        }
+        $infos['desired_extensions'] = self::getRecommendedExtensions();
+        $infos['missing_desired_extensions'] = self::getRecommendedExtensionsMissing();
 
-        $sessionAutoStarted = (int)ini_get('session.auto_start');
-        if ($sessionAutoStarted) {
-            $infos['missing_desired_functions'][] = 'session.auto_start';
-        }
+        $infos['desired_functions'] = self::getRecommendedFunctions();
+        $infos['missing_desired_functions'] = self::getRecommendedFunctionsMissing();
 
-        $desired_settings = array(
-            'session.auto_start',
-        );
-        $infos['desired_functions'] = array_merge($desired_functions, $desired_settings);
+        $infos['needed_settings'] = self::getRequiredPhpSettings();
+        $infos['missing_settings'] = self::getMissingPhpSettings();
 
         $infos['openurl'] = Http::getTransportMethod();
-
         $infos['gd_ok'] = SettingsServer::isGdExtensionEnabled();
-
-        $serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
-        $infos['serverVersion'] = addslashes($serverSoftware);
+        $infos['serverVersion'] = addslashes(isset($_SERVER['SERVER_SOFTWARE']) ?: '');
         $infos['serverOs'] = @php_uname();
         $infos['serverTime'] = date('H:i:s');
 
-        $infos['memoryMinimum'] = $minimumMemoryLimit;
-
+        $infos['memoryMinimum'] = self::getMinimumRecommendedMemoryLimit();
         $infos['memory_ok'] = true;
         $infos['memoryCurrent'] = '';
 
-        $raised = SettingsServer::raiseMemoryLimitIfNecessary();
+        SettingsServer::raiseMemoryLimitIfNecessary();
         if (($memoryValue = SettingsServer::getMemoryLimitValue()) > 0) {
             $infos['memoryCurrent'] = $memoryValue . 'M';
-            $infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
+            $infos['memory_ok'] = $memoryValue >= self::getMinimumRecommendedMemoryLimit();
         }
 
         $infos['isWindows'] = SettingsServer::isWindows();
@@ -192,7 +98,6 @@ class SystemCheck
 
         $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 
-        // check if filesystem is NFS, if it is file based sessions won't work properly
         $infos['is_nfs'] = Filesystem::checkIfFileSystemIsNFS();
         $infos = self::enrichSystemChecks($infos);
 
@@ -200,6 +105,9 @@ class SystemCheck
     }
 
     /**
+     * This can be overriden to provide a Customised System Check.
+     *
+     * @api
      * @param $infos
      * @return mixed
      */
@@ -231,31 +139,92 @@ class SystemCheck
     }
 
     /**
-     * Test if function exists.  Also handles case where function is disabled via Suhosin.
-     *
-     * @param string $functionName Function name
-     * @return bool True if function exists (not disabled); False otherwise.
+     * @return array
      */
-    public static function functionExists($functionName)
+    protected static function getDirectoriesShouldBeWritable()
     {
-        // eval() is a language construct
-        if ($functionName == 'eval') {
-            // does not check suhosin.executor.eval.whitelist (or blacklist)
-            if (extension_loaded('suhosin')) {
-                return @ini_get("suhosin.executor.disable_eval") != "1";
-            }
-            return true;
+        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
+
+        $directoriesToCheck = array(
+            $tmpPath,
+            $tmpPath . '/assets/',
+            $tmpPath . '/cache/',
+            $tmpPath . '/climulti/',
+            $tmpPath . '/latest/',
+            $tmpPath . '/logs/',
+            $tmpPath . '/sessions/',
+            $tmpPath . '/tcpdf/',
+            $tmpPath . '/templates_c/',
+        );
+
+        if (!DbHelper::isInstalled()) {
+            // at install, need /config to be writable (so we can create config.ini.php)
+            $directoriesToCheck[] = '/config/';
+        }
+        return $directoriesToCheck;
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRequiredFunctions()
+    {
+        return array(
+            'debug_backtrace',
+            'create_function',
+            'eval',
+            'gzcompress',
+            'gzuncompress',
+            'pack',
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRecommendedExtensions()
+    {
+        return array(
+            'json',
+            'libxml',
+            'dom',
+            'SimpleXML',
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRecommendedFunctions()
+    {
+        return array(
+            'set_time_limit',
+            'mail',
+            'parse_ini_file',
+            'glob',
+            'gzopen',
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRequiredExtensions()
+    {
+        $requiredExtensions = array(
+            'zlib',
+            'SPL',
+            'iconv',
+            'json',
+            'mbstring',
+        );
+
+        if (!defined('HHVM_VERSION')) {
+            // HHVM provides the required subset of Reflection but lists Reflections as missing
+            $requiredExtensions[] = 'Reflection';
         }
 
-        $exists = function_exists($functionName);
-        if (extension_loaded('suhosin')) {
-            $blacklist = @ini_get("suhosin.executor.func.blacklist");
-            if (!empty($blacklist)) {
-                $blacklistFunctions = array_map('strtolower', array_map('trim', explode(',', $blacklist)));
-                return $exists && !in_array($functionName, $blacklistFunctions);
-            }
-        }
-        return $exists;
+        return $requiredExtensions;
     }
 
     /**
@@ -277,6 +246,34 @@ class SystemCheck
         self::checkLoadDataInfile($result);
         self::checkGeolocation($result);
         return $result;
+    }
+
+    /**
+     * Test if function exists.  Also handles case where function is disabled via Suhosin.
+     *
+     * @param string $functionName Function name
+     * @return bool True if function exists (not disabled); False otherwise.
+     */
+    protected static function functionExists($functionName)
+    {
+        // eval() is a language construct
+        if ($functionName == 'eval') {
+            // does not check suhosin.executor.eval.whitelist (or blacklist)
+            if (extension_loaded('suhosin')) {
+                return @ini_get("suhosin.executor.disable_eval") != "1";
+            }
+            return true;
+        }
+
+        $exists = function_exists($functionName);
+        if (extension_loaded('suhosin')) {
+            $blacklist = @ini_get("suhosin.executor.func.blacklist");
+            if (!empty($blacklist)) {
+                $blacklistFunctions = array_map('strtolower', array_map('trim', explode(',', $blacklist)));
+                return $exists && !in_array($functionName, $blacklistFunctions);
+            }
+        }
+        return $exists;
     }
 
     private static function checkGeolocation(&$result)
@@ -323,13 +320,11 @@ class SystemCheck
     {
         ServerFilesGenerator::createWebConfigFiles();
         ServerFilesGenerator::createHtAccessFiles();
-
         ServerFilesGenerator::createWebRootFiles();
     }
 
     /**
-     * @param $piwik_minimumPHPVersion
-     * @param $infos
+     * @param string $phpVersion
      * @return bool
      */
     public static function isPhpVersionValid($phpVersion)
@@ -338,4 +333,142 @@ class SystemCheck
         return version_compare($piwik_minimumPHPVersion, $phpVersion) <= 0;
     }
 
+    /**
+     * @return array
+     */
+    protected static function getDirectoriesWritableStatus()
+    {
+        $directoriesToCheck = self::getDirectoriesShouldBeWritable();
+        $directoriesWritableStatus = Filechecks::checkDirectoriesWritable($directoriesToCheck);
+        return $directoriesWritableStatus;
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getLoadedExtensions()
+    {
+        static $extensions = null;
+
+        if(is_null($extensions)) {
+            $extensions = @get_loaded_extensions();
+        }
+        return $extensions;
+    }
+
+
+    /**
+     * @param $needed_extension
+     * @return bool
+     */
+    protected static function isPhpExtensionLoaded($needed_extension)
+    {
+        return in_array($needed_extension, self::getLoadedExtensions());
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRequiredExtensionsMissing()
+    {
+        $missingExtensions = array();
+        foreach (self::getRequiredExtensions() as $requiredExtension) {
+            if (!self::isPhpExtensionLoaded($requiredExtension)) {
+                $missingExtensions[] = $requiredExtension;
+            }
+        }
+
+        // Special case for mbstring
+        if (!function_exists('mb_get_info')
+            || ((int)ini_get('mbstring.func_overload')) != 0) {
+            $missingExtensions[] = 'mbstring';
+        }
+
+        return $missingExtensions;
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRecommendedExtensionsMissing()
+    {
+        return array_diff(self::getRecommendedExtensions(), self::getLoadedExtensions());
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRecommendedFunctionsMissing()
+    {
+        return self::getFunctionsMissing(self::getRecommendedFunctions());
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getRequiredFunctionsMissing()
+    {
+        return self::getFunctionsMissing(self::getRequiredFunctions());
+    }
+
+    protected static function getFunctionsMissing($functionsToTestFor)
+    {
+        $missingFunctions = array();
+        foreach ($functionsToTestFor as $function) {
+            if (!self::functionExists($function)) {
+                $missingFunctions[] = $function;
+            }
+        }
+        return $missingFunctions;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected static function getMinimumRecommendedMemoryLimit()
+    {
+        return Config::getInstance()->General['minimum_memory_limit'];
+    }
+
+    private static function isPhpVersionAtLeast56()
+    {
+       return version_compare( PHP_VERSION, '5.6', '>=');
+    }
+
+    /**
+     * @return array
+     */
+    public static function getRequiredPhpSettings()
+    {
+        $requiredPhpSettings = array(
+            // setting = required value
+            // Note: value must be an integer only
+            'session.auto_start=0',
+        );
+
+        if (self::isPhpVersionAtLeast56()) {
+            // always_populate_raw_post_data must be -1
+            $requiredPhpSettings[] = 'always_populate_raw_post_data=-1';
+        }
+        return $requiredPhpSettings;
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getMissingPhpSettings()
+    {
+        $missingPhpSettings = array();
+        foreach(self::getRequiredPhpSettings() as $requiredSetting) {
+            list($requiredSettingName, $requiredSettingValue) = explode('=', $requiredSetting);
+
+            $currentValue = ini_get($requiredSettingName);
+            $currentValue = (int)$currentValue;
+
+            if($currentValue != $requiredSettingValue) {
+                $missingPhpSettings[] = $requiredSetting;
+            }
+        }
+        return $missingPhpSettings;
+    }
 }

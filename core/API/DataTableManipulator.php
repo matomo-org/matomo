@@ -172,6 +172,8 @@ abstract class DataTableManipulator
         $request = $this->manipulateSubtableRequest($request);
         $request['serialize'] = 0;
         $request['expanded'] = 0;
+        $request['format'] = 'original';
+        $request['format_metrics'] = 0;
 
         // don't want to run recursive filters on the subtables as they are loaded,
         // otherwise the result will be empty in places (or everywhere). instead we
@@ -181,14 +183,7 @@ abstract class DataTableManipulator
         $dataTable = Proxy::getInstance()->call($class, $method, $request);
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
-        $dataTable = $response->getResponse($dataTable);
-
-        if (Common::getRequestVar('disable_queued_filters', 0, 'int', $request) == 0) {
-            if (method_exists($dataTable, 'applyQueuedFilters')) {
-                $dataTable->applyQueuedFilters();
-            }
-        }
-
+        $dataTable = $response->getResponse($dataTable, $apiModule, $method);
         return $dataTable;
     }
 }

@@ -15,6 +15,6 @@
 	<row>
 		<label>Autres</label>
 		<nb_visits>7</nb_visits>
-		<nb_visits_percentage />
+		<nb_visits_percentage>100%</nb_visits_percentage>
 	</row>
 </result>

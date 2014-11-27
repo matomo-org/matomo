@@ -9,19 +9,27 @@
 namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\Common;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Goals\Goals;
+use Piwik\Plugins\Goals\Columns\Metrics\AveragePrice;
+use Piwik\Plugins\Goals\Columns\Metrics\AverageQuantity;
+use Piwik\Plugins\Goals\Columns\Metrics\ProductConversionRate;
 
 abstract class BaseEcommerceItem extends BaseEcommerce
 {
     protected function init()
     {
         parent::init();
-        $this->processedMetrics = false;
+        $this->processedMetrics = array(
+            new AveragePrice(),
+            new AverageQuantity(),
+            new ProductConversionRate()
+        );
         $this->metrics = array(
-            'revenue', 'quantity', 'orders', 'avg_price', 'avg_quantity', 'nb_visits', 'conversion_rate'
+            'revenue', 'quantity', 'orders', 'nb_visits'
         );
     }
 
@@ -30,8 +38,6 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $metrics = parent::getMetrics();
         $metrics['revenue']         = Piwik::translate('General_ProductRevenue');
         $metrics['orders']          = Piwik::translate('General_UniquePurchases');
-        $metrics['conversion_rate'] = Piwik::translate('General_ProductConversionRate');
-
         return $metrics;
     }
 
@@ -63,8 +69,8 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $view->config->show_exclude_low_population = false;
         $view->config->show_table_all_columns      = false;
 
-        $moneyColumns = array('revenue', 'avg_price');
-        $formatter    = '\Piwik\MetricsFormatter::getPrettyMoney';
+        $moneyColumns = array('revenue');
+        $formatter    = array(new Formatter(), 'getPrettyMoney');
         $view->config->filters[] = array('ColumnCallbackReplace', array($moneyColumns, $formatter, array($idSite)));
 
         $view->requestConfig->filter_limit       = 10;
@@ -75,7 +81,9 @@ abstract class BaseEcommerceItem extends BaseEcommerce
 
         // set columns/translations which differ based on viewDataTable TODO: shouldn't have to do this check...
         // amount of reports should be dynamic, but metadata should be static
-        $columns = $this->getMetrics();
+        $columns = array_merge($this->getMetrics(), $this->getProcessedMetrics());
+        $columnsOrdered = array('label', 'revenue', 'quantity', 'orders', 'avg_price', 'avg_quantity',
+                                'nb_visits', 'conversion_rate');
 
         $abandonedCart = $this->isAbandonedCart();
         if ($abandonedCart) {
@@ -87,12 +95,15 @@ abstract class BaseEcommerceItem extends BaseEcommerce
             unset($columns['conversion_rate']);
 
             $view->requestConfig->request_parameters_to_modify['abandonedCarts'] = '1';
+
+            $columnsOrdered = array('label', 'revenue', 'quantity', 'avg_price', 'avg_quantity', 'nb_visits',
+                                    'abandoned_carts');
         }
 
         $translations = array_merge(array('label' => $this->name), $columns);
 
         $view->config->addTranslations($translations);
-        $view->config->columns_to_display = array_keys($translations);
+        $view->config->columns_to_display = $columnsOrdered;
 
         $view->config->custom_parameters['viewDataTable'] =
             $abandonedCart ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART : Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;

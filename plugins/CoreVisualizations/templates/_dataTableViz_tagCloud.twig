@@ -5,7 +5,7 @@
     {# we strike tags with 0 hits #}
     {% if value.value == 0 %}valueIsZero{% endif %}">
     {% if labelMetadata[value.word].url is not sameas(false) %}
-        <a href="{{ labelMetadata[value.word].url }}" target="_blank">
+        <a href="{{ labelMetadata[value.word].url }}" rel="noreferrer" target="_blank">
     {% endif %}
     {% if labelMetadata[value.word].logo is not sameas(false) %}
         <img src="{{ labelMetadata[value.word].logo }}" width="{{ value.logoWidth }}" />

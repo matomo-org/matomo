@@ -22,7 +22,7 @@ class GetVisitsUntilConversion extends BaseGoal
         $this->name = Piwik::translate('Goals_VisitsUntilConv');
         $this->dimension = new VisitsUntilConversion();
         $this->constantRowsCount = true;
-        $this->processedMetrics = false;
+        $this->processedMetrics = array();
         $this->parameters = array();
         $this->metrics  = array('nb_conversions');
         $this->order = 5;

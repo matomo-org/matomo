@@ -11,6 +11,10 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\EntryPageTitle;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
 
 class GetEntryPageTitles extends Base
 {
@@ -22,17 +26,39 @@ class GetEntryPageTitles extends Base
         $this->name          = Piwik::translate('Actions_EntryPageTitles');
         $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
-        $this->metrics = array('entry_nb_visits', 'entry_bounce_count', 'bounce_rate');
+        $this->metrics = array('entry_nb_visits', 'entry_bounce_count');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->order   = 6;
         $this->actionToLoadSubTables = $this->action;
 
         $this->widgetTitle = 'Actions_WidgetEntryPageTitles';
     }
 
+    public function getProcessedMetrics()
+    {
+        $result = parent::getProcessedMetrics();
+
+        // these metrics are not displayed in the API.getProcessedReport version of this report,
+        // so they are removed here.
+        unset($result['avg_time_on_page']);
+        unset($result['exit_rate']);
+
+        return $result;
+    }
+
     protected function getMetricsDocumentation()
     {
         $metrics = parent::getMetricsDocumentation();
         $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
+
+        // remove these metrics from API.getProcessedReport version of this report
+        unset($metrics['avg_time_on_page']);
+        unset($metrics['exit_rate']);
 
         return $metrics;
     }

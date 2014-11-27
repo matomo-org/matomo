@@ -6,7 +6,7 @@
     <h2 piwik-enriched-headline
         help-url="http://piwik.org/docs/privacy/">{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
-        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<strong><a href="http://piwik.org/privacy/" target="_blank">','</a></strong>')|raw }}</p>
+        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<strong><a href="http://piwik.org/privacy/" rel="noreferrer"  target="_blank">','</a></strong>')|raw }}</p>
     <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
     <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength">
         <div id='anonymizeIpSettings'>
@@ -118,7 +118,7 @@
 				<span id="privacyManagerDeleteLogDescription" style="margin-top: 10px;display:inline-block;">
                     {% set deleteLogDescription %}
                         {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
-                        <a href="http://piwik.org/faq/general/#faq_125" target="_blank">
+                        <a href="http://piwik.org/faq/general/#faq_125" rel="noreferrer"  target="_blank">
                             {{ 'General_ClickHere'|translate }}
                         </a>
                     {% endset %}
@@ -307,7 +307,7 @@
     {% set iframeOptOut %}<iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>{% endset %}
     <code>{{ iframeOptOut|e('html') }}</code>
     <br/>
-    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
+    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' rel='noreferrer' target='_blank'>","</a>")|raw }}
 </p>
 
 <div style="height:100px;"></div>
