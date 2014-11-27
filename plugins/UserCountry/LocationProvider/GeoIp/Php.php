@@ -297,7 +297,7 @@ class Php extends GeoIp
         $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Php1') . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Php2',
                 array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
-        $installDocs = '<em><a target="_blank" href="http://piwik.org/faq/how-to/#faq_163">'
+        $installDocs = '<em><a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_163">'
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</em></a>';
 

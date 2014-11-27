@@ -40,7 +40,7 @@ class GetCountry extends Base
             // if we're using the default location provider, add a note explaining how it works
             $footerMessage = Piwik::translate("General_Note") . ': '
                 . Piwik::translate('UserCountry_DefaultLocationProviderExplanation',
-                    array('<a target="_blank" href="http://piwik.org/docs/geo-locate/">', '</a>'));
+                    array('<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/geo-locate/">', '</a>'));
 
             $view->config->show_footer_message = $footerMessage;
         }

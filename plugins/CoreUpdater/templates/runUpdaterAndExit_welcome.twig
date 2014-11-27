@@ -4,7 +4,7 @@
 {% spaceless %}
 <span style="float:right;">{{ postEvent('Template.topBar')|raw }}</span>
 {% set helpMessage %}
-    {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
+    {{ 'CoreUpdater_HelpMessageContent'|translate('<a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
 {% endset %}
 
 {% if coreError %}
@@ -49,7 +49,7 @@
         {% endif %}
         <ul>
             <li>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate(commandUpgradePiwik)|raw }}</li>
-            <li>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fpiwik.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</li>
+            <li>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fpiwik.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</li>
             <li>{{ 'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate }}<br/>
                 <a href="#titleUpdate" id="showSql" style="margin-left:20px;">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a>
 

@@ -35,14 +35,14 @@
 
     <p>
         <strong>&rsaquo; Widget authentication:</strong> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions
-        to the anonymous user in the <a href='index.php?module=UsersManager' target='_blank'>Users Management section</a>.
+        to the anonymous user in the <a href='index.php?module=UsersManager' rel='noreferrer' target='_blank'>Users Management section</a>.
         <br/>Alternatively, if you are publishing widgets on a password protected or private page,
         you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the
-        <a href='{{ linkTo({'module':'API','action':'listAllAPI'}) }}' target='_blank'>API page</a>) in the widget URL.
+        <a href='{{ linkTo({'module':'API','action':'listAllAPI'}) }}' rel='noreferrer' target='_blank'>API page</a>) in the widget URL.
     </p>
 
     <p><strong>&rsaquo; Widgetize the full dashboard:</strong> You can also display the full Piwik dashboard in your application or website in an IFRAME
-        (<a href='' target='_blank' id='linkDashboardUrl'>see example</a>).
+        (<a href='' rel='noreferrer' target='_blank' id='linkDashboardUrl'>see example</a>).
         The date parameter can be set to a specific calendar date, "today", or "yesterday". The period parameter can be set to "day", "week", "month", or
         "year".
         The language parameter can be set to the language code of a translation, such as language=fr.
@@ -50,7 +50,7 @@
     </p>
 
     <p>
-        <strong>&rsaquo; Widgetize the all websites dashboard in an IFRAME</strong> (<a href='' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
+        <strong>&rsaquo; Widgetize the all websites dashboard in an IFRAME</strong> (<a href='' rel='noreferrer' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
         <span id='exportAllWebsitesDashboard'></span>
     </p>
 

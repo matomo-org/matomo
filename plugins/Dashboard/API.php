@@ -11,7 +11,7 @@ use Piwik\Piwik;
 use Piwik\WidgetsList;
 
 /**
- * This API is the <a href='http://piwik.org/docs/analytics-api/reference/' target='_blank'>Dashboard API</a>: it gives information about dashboards.
+ * This API is the <a href='http://piwik.org/docs/analytics-api/reference/' rel='noreferrer' target='_blank'>Dashboard API</a>: it gives information about dashboards.
  *
  * @method static \Piwik\Plugins\Dashboard\API getInstance()
  */
