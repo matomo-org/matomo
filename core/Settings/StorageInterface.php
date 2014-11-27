@@ -22,7 +22,7 @@ interface StorageInterface
      * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
      *                    of this setting.
      */
-    public function getSettingValue(Setting $setting);
+    public function getValue(Setting $setting);
 
     /**
      * Removes the value for the given setting. Make sure to call `save()` afterwards, otherwise the removal has no
@@ -30,7 +30,7 @@ interface StorageInterface
      *
      * @param Setting $setting
      */
-    public function removeSettingValue(Setting $setting);
+    public function deleteValue(Setting $setting);
 
     /**
      * Sets (overwrites) the value for the given setting. Make sure to call `save()` afterwards, otherwise the change
@@ -43,7 +43,13 @@ interface StorageInterface
      * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
      *                    of this setting.
      */
-    public function setSettingValue(Setting $setting, $value);
+    public function setValue(Setting $setting, $value);
+
+    /**
+     * Removes all settings for this plugin from the database. Useful when uninstalling
+     * a plugin.
+     */
+    public function deleteAllValues();
 
     /**
      * Saves (persists) the current setting values in the database.
