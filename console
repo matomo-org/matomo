@@ -26,5 +26,4 @@ if (!Piwik\Common::isPhpCliMode()) {
 }
 
 $console = new Piwik\Console();
-$console->init();
 $console->run();

@@ -47,7 +47,6 @@ try 'php archive.php --url=http://your.piwik/path'
 
 if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
     $console = new Piwik\Console();
-    $console->init();
 
     // manipulate command line arguments so CoreArchiver command will be executed
     $script = array_shift($_SERVER['argv']);
