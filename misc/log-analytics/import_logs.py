@@ -1162,7 +1162,7 @@ class Recorder(object):
         # We have to do this so visits from the same IP will be added in the right order.
         hits_by_client = [[] for r in cls.recorders]
         for hit in all_hits:
-            hits_by_client[abs(hash(hit.ip)) % len(cls.recorders)].append(hit)
+            hits_by_client[hit.get_visitor_id_hash() % len(cls.recorders)].append(hit)
 
         for i, recorder in enumerate(cls.recorders):
             recorder.queue.put(hits_by_client[i])
@@ -1350,6 +1350,17 @@ class Hit(object):
 
         if config.options.force_lowercase_path:
             self.full_path = self.full_path.lower()
+
+    def get_visitor_id_hash(self):
+        visitor_id = self.ip
+
+        if config.options.replay_tracking:
+            for param_name_to_use in ['uid', 'cid', '_id', 'cip']:
+                if param_name_to_use in self.args:
+                    visitor_id = self.args[param_name_to_use]
+                    break
+
+        return abs(hash(visitor_id))
 
 class Parser(object):
     """

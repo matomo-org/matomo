@@ -2368,12 +2368,14 @@ function PiwikTest() {
     });
 
     test("getRequest()", function() {
-        expect(1);
+        expect(2);
 
         var tracker = Piwik.getTracker();
 
         tracker.setCustomData("key is X", "value is Y");
         equal( tracker.getRequest('hello=world').indexOf('hello=world&idsite=&rec=1&r='), 0);
+
+        ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
     });
 
     // support for setCustomRequestProcessing( customRequestContentProcessingLogic )

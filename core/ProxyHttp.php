@@ -66,7 +66,7 @@ class ProxyHttp
     {
         // if the file cannot be found return HTTP status code '404'
         if (!file_exists($file)) {
-            self::setHttpStatus('404 Not Found');
+            Common::sendResponseCode(404);
             return;
         }
 
@@ -87,7 +87,7 @@ class ProxyHttp
 
         // Return 304 if the file has not modified since
         if ($modifiedSince === $lastModified) {
-            self::setHttpStatus('304 Not Modified');
+            Common::sendResponseCode(304);
             return;
         }
 
@@ -158,7 +158,7 @@ class ProxyHttp
         }
 
         if (!_readfile($file, $byteStart, $byteEnd)) {
-            self::setHttpStatus('505 Internal server error');
+            Common::sendResponseCode(500);
         }
     }
 
@@ -217,24 +217,6 @@ class ProxyHttp
                 Common::sendHeader('Cache-Control: must-revalidate');
             }
         }
-    }
-
-    /**
-     * Set response header, e.g., HTTP/1.0 200 Ok
-     *
-     * @param string $status Status
-     * @return bool
-     */
-    protected static function setHttpStatus($status)
-    {
-        if (strpos(PHP_SAPI, '-fcgi') === false) {
-            $key = $_SERVER['SERVER_PROTOCOL'];
-        } else {
-            // FastCGI
-            $key = 'Status:';
-        }
-
-        Common::sendHeader($key . ' ' . $status);
     }
 
     /**

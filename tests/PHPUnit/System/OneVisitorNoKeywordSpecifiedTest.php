@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsNoKeywordWithBot;
 
@@ -34,11 +35,7 @@ class OneVisitorNoKeywordSpecifiedTest extends SystemTestCase
     public function getApiForTesting()
     {
         $apiToCall = array('Referrers.getKeywords');
-
-        // test started failing after bc19503 and I cannot understand why
-        if(!self::isTravisCI()) {
-            $apiToCall[] = 'Live.getLastVisitsDetails';
-        }
+        $apiToCall[] = 'Live.getLastVisitsDetails';
 
         return array(
             array($apiToCall, array('idSite'   => self::$fixture->idSite,

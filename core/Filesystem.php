@@ -375,6 +375,40 @@ class Filesystem
     }
 
     /**
+     * Get the size of a file in the specified unit.
+     *
+     * @param string $pathToFile
+     * @param string $unit eg 'B' for Byte, 'KB', 'MB', 'GB', 'TB'.
+     *
+     * @return float|null Returns null if file does not exist or the size of the file in the specified unit
+     *
+     * @throws Exception In case the unit is invalid
+     */
+    public static function getFileSize($pathToFile, $unit = 'B')
+    {
+        $unit  = strtoupper($unit);
+        $units = array('TB' => pow(1024, 4),
+                       'GB' => pow(1024, 3),
+                       'MB' => pow(1024, 2),
+                       'KB' => 1024,
+                       'B' => 1);
+
+        if (!array_key_exists($unit, $units)) {
+            throw new Exception('Invalid unit given');
+        }
+
+        if (!file_exists($pathToFile)) {
+            return;
+        }
+
+        $filesize  = filesize($pathToFile);
+        $factor    = $units[$unit];
+        $converted = $filesize / $factor;
+
+        return $converted;
+    }
+
+    /**
      * @param $path
      * @return int
      */

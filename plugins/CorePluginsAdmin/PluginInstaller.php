@@ -166,8 +166,14 @@ class PluginInstaller
         if (!empty($missingDependencies)) {
             $message = '';
             foreach ($missingDependencies as $dep) {
-                $params   = array(ucfirst($dep['requirement']), $dep['actualVersion'], $dep['requiredVersion']);
-                $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsNotice', $params);
+                if (empty($dep['actualVersion'])) {
+                    $params   = array(ucfirst($dep['requirement']), $dep['requiredVersion'], $metadata->name);
+                    $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsPleaseInstallNotice', $params);
+                } else {
+                    $params   = array(ucfirst($dep['requirement']), $dep['actualVersion'], $dep['requiredVersion']);
+                    $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsNotice', $params);
+                }
+
             }
 
             throw new PluginInstallerException($message);

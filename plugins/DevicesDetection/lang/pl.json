@@ -1,11 +1,12 @@
 {
     "DevicesDetection": {
+        "BrowserFamily": "Rodzina przeglądarek",
+        "BrowserVersion": "Wersja przeglądarki",
         "BrowserVersions": "Wersje przeglądarek",
         "Camera": "Aparat fotograficzny",
         "CarBrowser": "Przeglądarka samochodowa",
         "Console": "Konsola",
         "dataTableLabelBrands": "Marka",
-        "dataTableLabelBrowserFamily": "Rodzina przeglądarki",
         "dataTableLabelModels": "Model",
         "dataTableLabelSystemVersion": "Wersja systemu operacyjnego",
         "dataTableLabelTypes": "Typ",

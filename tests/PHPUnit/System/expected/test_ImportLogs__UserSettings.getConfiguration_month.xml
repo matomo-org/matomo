@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Linux / Epiphany / unknown</label>
+		<label>GNU/Linux / Epiphany / unknown</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>
@@ -12,7 +12,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Mac OS / RockMelt / unknown</label>
+		<label>Mac / RockMelt / unknown</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>8</nb_actions>
 		<max_actions>3</max_actions>
@@ -45,7 +45,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Linux / Firefox / unknown</label>
+		<label>GNU/Linux / Firefox / unknown</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
 		<max_actions>1</max_actions>
@@ -78,7 +78,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Linux / Chrome / unknown</label>
+		<label>GNU/Linux / Chrome / unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
@@ -89,7 +89,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Mac OS / Chrome / unknown</label>
+		<label>Mac / Chrome / unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>

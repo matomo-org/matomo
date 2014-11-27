@@ -5,6 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
+use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -18,12 +22,10 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 
 /**
- * Class Core_LogTest
- *
  * @group Core
  * @group Core_LogTest
  */
-class Core_LogTest extends IntegrationTestCase
+class LogTest extends IntegrationTestCase
 {
     const TESTMESSAGE = 'test%smessage';
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
@@ -33,9 +35,9 @@ class Core_LogTest extends IntegrationTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Core_LogTest] LogTest.php(168): dummy error message
+        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
   dummy backtrace',
-        'database' => '[Core_LogTest] LogTest.php(168): dummy error message
+        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
 dummy backtrace'
     );
 
@@ -47,9 +49,9 @@ dummy backtrace'
 <br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
 dummy backtrace</div><br />
  </pre></div><br />',
-        'file' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'file' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace',
-        'database' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'database' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
 dummy backtrace'
     );
 
@@ -103,8 +105,6 @@ dummy backtrace'
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsString($backend)
@@ -116,12 +116,10 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'Core_LogTest');
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = __CLASS__);
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsSprintfString($backend)
@@ -133,12 +131,10 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = 'Core_LogTest');
+        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = __CLASS__);
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsError($backend)
@@ -151,13 +147,11 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedErrorOutput[$backend], $formatMessage = false, $tag = 'Core_LogTest');
+        $this->checkBackend($backend, self::$expectedErrorOutput[$backend], $formatMessage = false, $tag = __CLASS__);
         $this->checkBackend('screen', self::$expectedErrorOutput['screen']); // errors should always written to the screen
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsException($backend)
@@ -170,13 +164,11 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend], $formatMessage = false, $tag = 'Core_LogTest');
+        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend], $formatMessage = false, $tag = __CLASS__);
         $this->checkBackend('screen', self::$expectedExceptionOutput['screen']); // errors should always written to the screen
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getBackendsToTest
      */
     public function testLoggingCorrectlyIdentifiesPlugin($backend)
@@ -192,8 +184,6 @@ dummy backtrace'
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getBackendsToTest
      */
     public function testLogMessagesIgnoredWhenNotWithinLevel($backend)
@@ -210,7 +200,6 @@ dummy backtrace'
     }
 
     /**
-     * @group Core
      * @dataProvider getBackendsToTest
      */
     public function testLogMessagesAreTrimmed($backend)

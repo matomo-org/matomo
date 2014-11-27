@@ -6,22 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration;
+
 use Piwik\Access;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Translate;
 use Piwik\WidgetsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Core_WidgetsListTest
- *
  * @group Core
  */
 class Core_WidgetsListTest extends IntegrationTestCase
 {
-    /**
-     * @group Core
-     */
     public function testGet()
     {
         // setup the access layer
@@ -42,7 +41,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 4,
             'General_Visitors'             => 12,
-            'UserSettings_VisitorSettings' => 11,
+            'UserSettings_VisitorSettings' => 6,
             'General_Actions'              => 10,
             'Events_Events'                => 3,
             'Actions_SubmenuSitesearch'    => 5,
@@ -62,9 +61,6 @@ class Core_WidgetsListTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testGetWithGoals()
     {
         // setup the access layer
@@ -94,9 +90,6 @@ class Core_WidgetsListTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testGetWithGoalsAndEcommerce()
     {
         // setup the access layer
@@ -127,9 +120,6 @@ class Core_WidgetsListTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testRemove()
     {
         // setup the access layer
@@ -167,9 +157,6 @@ class Core_WidgetsListTest extends IntegrationTestCase
         WidgetsList::_reset();
     }
 
-    /**
-     * @group Core
-     */
     public function testIsDefined()
     {
         // setup the access layer
@@ -177,7 +164,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        \Piwik\Translate::loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
 

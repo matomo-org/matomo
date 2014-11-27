@@ -63,7 +63,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->defaultMetric = 'nb_visits';
 
         // some translations
-        $view->localeJSON = Common::json_encode(array(
+        $view->localeJSON = json_encode(array(
                                                      'nb_visits'            => Piwik::translate('General_NVisits'),
                                                      'one_visit'            => Piwik::translate('General_OneVisit'),
                                                      'no_visit'             => Piwik::translate('UserCountryMap_NoVisit'),
@@ -90,7 +90,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
         $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
-        $view->config = Common::json_encode($config);
+        $view->config = json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
         return $view->render();
@@ -198,7 +198,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if ($encode) {
-            $params = Common::json_encode($params);
+            $params = json_encode($params);
         }
         return $params;
     }

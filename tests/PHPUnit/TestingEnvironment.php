@@ -249,7 +249,7 @@ class Piwik_TestingEnvironment
                 'contents' => $outputContent
             );
 
-            file_put_contents($outputFile, Common::json_encode($outputContents));
+            file_put_contents($outputFile, json_encode($outputContents));
         });
     }
 

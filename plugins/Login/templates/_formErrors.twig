@@ -1,0 +1,9 @@
+
+{% if formErrors is defined and formErrors is not empty %}
+    <div class="message_error">
+        {% for data in formErrors %}
+            <strong>{{ 'General_Error'|translate }}</strong>: {{ data|raw }}
+            <br/>
+        {% endfor %}
+    </div>
+{% endif %}

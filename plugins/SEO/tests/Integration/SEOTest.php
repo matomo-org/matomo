@@ -11,8 +11,8 @@ namespace Piwik\Plugins\SEO\tests\Integration;
 use Piwik\Access;
 use Piwik\DataTable\Renderer;
 use Piwik\Plugins\SEO\API;
-use FakeAccess;
 use Exception;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 
 /**
  * @group SEO

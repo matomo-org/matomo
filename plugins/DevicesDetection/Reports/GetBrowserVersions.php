@@ -18,23 +18,23 @@ class GetBrowserVersions extends Base
     {
         parent::init();
         $this->dimension     = new BrowserVersion();
-        $this->name          = Piwik::translate('DevicesDetection_BrowserVersions');
+        $this->name          = Piwik::translate('DevicesDetection_BrowserVersion');
         $this->documentation = ''; // TODO
-        $this->order = 6;
-        $this->widgetTitle  = 'DevicesDetection_BrowserVersions';
+        $this->order = 2;
+        $this->widgetTitle  = 'DevicesDetection_BrowserVersion';
     }
 
     public function configureView(ViewDataTable $view)
     {
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate("UserSettings_ColumnBrowserVersion"));
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
     public function getRelatedReports()
     {
         return array(
-            new GetBrowserFamilies()
+            new GetBrowsers()
         );
     }
 }

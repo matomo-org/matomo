@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration;
+
+use Exception;
 use Piwik\Access;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
@@ -20,18 +23,21 @@ use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class Core_ArchiveProcessorTest extends ArchiveProcessor\Loader {
-
+class ArchiveProcessorTest extends ArchiveProcessor\Loader
+{
     public function getParams()
     {
         return $this->params;
     }
+
     public function public_getMinTimeArchiveProcessed()
     {
         return $this->getMinTimeArchiveProcessed();
     }
+
     public function public_isArchiveTemporary()
     {
         return $this->isArchiveTemporary();
@@ -39,11 +45,9 @@ class Core_ArchiveProcessorTest extends ArchiveProcessor\Loader {
 }
 
 /**
- * Class Core_ArchiveProcessorTest
- *
  * @group Core
  */
-class Core_ArchiveProcessingTest extends IntegrationTestCase
+class ArchiveProcessingTest extends IntegrationTestCase
 {
     public function setUp()
     {
@@ -90,7 +94,7 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
      * @param string $periodLabel
      * @param string $dateLabel
      * @param string $siteTimezone
-     * @return  \Core_ArchiveProcessorTest
+     * @return ArchiveProcessorTest
      */
     private function _createArchiveProcessor($periodLabel, $dateLabel, $siteTimezone)
     {
@@ -100,12 +104,11 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
         $segment = new Segment('', $site->getId());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
-        return new \Core_ArchiveProcessorTest($params);
+        return new ArchiveProcessorTest($params);
     }
 
     /**
      * test of validity of an archive, for a month not finished
-     * @group Core
      */
     public function testInitCurrentMonth()
     {
@@ -138,7 +141,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * test of validity of an archive, for a month in the past
-     * @group Core
      */
     public function testInitDayInPast()
     {
@@ -155,7 +157,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * test of validity of an archive, for a non UTC date in the past
-     * @group Core
      */
     public function testInitDayInPastNonUTCWebsite()
     {
@@ -172,7 +173,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * test of validity of an archive, for a non UTC month in the past
-     * @group Core
      */
     public function testInitMonthInPastNonUTCWebsite()
     {
@@ -189,7 +189,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * test of validity of an archive, for today's archive
-     * @group Core
      */
     public function testInitToday()
     {
@@ -222,7 +221,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * test of validity of an archive, for today's archive with european timezone
-     * @group Core
      */
     public function testInitTodayEurope()
     {
@@ -263,7 +261,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * test of validity of an archive, for today's archive with toronto's timezone
-     * @group Core
      */
     public function testInitTodayToronto()
     {
@@ -303,7 +300,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * Testing batch insert
-     * @group Core
      */
     public function testTableInsertBatch()
     {
@@ -351,7 +347,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * Testing plain inserts
-     * @group Core
      */
     public function testTableInsertBatchIterate()
     {
@@ -374,7 +369,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * Testing batch insert (BLOB)
-     * @group Core
      */
     public function testTableInsertBatchBlob()
     {
@@ -405,7 +399,6 @@ class Core_ArchiveProcessingTest extends IntegrationTestCase
 
     /**
      * Testing plain inserts (BLOB)
-     * @group Core
      */
     public function testTableInsertBatchIterateBlob()
     {

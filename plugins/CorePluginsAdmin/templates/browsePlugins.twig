@@ -10,6 +10,9 @@
             >{{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate }}</h2>
 
         <div class="infoBox">
+            {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
+            {{ 'CorePluginsAdmin_InstallingNewPluginViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">','</a>')|raw }}
+            <br/>
             {{ 'CorePluginsAdmin_BeCarefulUsingPlugins'|translate }}
         </div>
 
@@ -46,5 +49,12 @@
         {% else %}
             {{ 'CorePluginsAdmin_NoPluginsFound'|translate }}
         {% endif %}
+    </div>
+
+    <div class="pluginFooterMessage">
+    {% set marketplaceSellPluginSubject = 'CorePluginsAdmin_MarketplaceSellPluginSubject'|translate %}
+        {{ 'CorePluginsAdmin_GetEarlyAccessForPaidPlugins'|translate("<a href='mailto:hello@piwik.org?subject=" ~ marketplaceSellPluginSubject ~ "'>", "</a>")|raw }}
+        <br/>
+        {{ 'CorePluginsAdmin_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=http://developer.piwik.org/plugins" target="_blank">', '</a>')|raw }}
     </div>
 {% endblock %}

@@ -6,18 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration\ViewDataTable;
+
 use Piwik\Access;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Core_Plugin_SettingsTest
  * @group Core
  * @group ViewDataTable
  */
-class Core_Plugin_ViewDataTable_ManagerTest extends IntegrationTestCase
+class ManagerTest extends IntegrationTestCase
 {
-
     public function setUp()
     {
         parent::setUp();

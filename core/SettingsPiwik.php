@@ -331,6 +331,17 @@ class SettingsPiwik
         }
     }
 
+    /**
+     * Returns true if Piwik is deployed using git
+     * FAQ: http://piwik.org/faq/how-to-install/faq_18271/
+     *
+     * @return bool
+     */
+    public static function isGitDeployment()
+    {
+        return file_exists(PIWIK_INCLUDE_PATH . '/.git/HEAD');
+    }
+
     public static function getCurrentGitBranch()
     {
         $file = PIWIK_INCLUDE_PATH . '/.git/HEAD';
@@ -417,4 +428,5 @@ class SettingsPiwik
     {
         return Config::getInstance()->General['force_ssl'] == 1;
     }
+
 }

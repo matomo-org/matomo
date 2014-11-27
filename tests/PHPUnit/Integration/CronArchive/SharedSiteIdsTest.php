@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration;
+
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -111,5 +113,4 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertEquals(4, $this->sharedSiteIds->getNumProcessedWebsites());
         $this->assertEquals(array(), $this->sharedSiteIds->getAllSiteIdsToArchive());
     }
-
 }

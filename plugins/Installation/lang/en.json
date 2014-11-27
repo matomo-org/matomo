@@ -25,6 +25,7 @@
         "InstallationStatus": "Installation status",
         "InsufficientPrivilegesHelp": "You can add these privileges by using a tool such as phpMyAdmin or by executing the right SQL queries. If you don't know how to do these things, please ask your sysadmin to grant these privileges for you.",
         "InsufficientPrivilegesMain": "Either the Database does not exist (and could not be created), or the specified User has insufficient privileges. Database user must have the following privileges: %s",
+        "InvalidStateError": "Error: Piwik is already installed. %1$s Go back %2$s to Piwik%3$s.",
         "JsTagArchivingHelp1": "For medium and high traffic websites there are certain optimizations that should be made to help Piwik run faster (such as %1$ssetting up auto-archiving%2$s).",
         "JSTracking_EndNote": "Note: After the installation process, you can generate customized tracking code in the %1$sTracking Code%2$s admin section.",
         "JSTracking_Intro": "To track your web traffic with Piwik you need to make sure some extra code is added to each of your webpages.",
