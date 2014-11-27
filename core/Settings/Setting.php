@@ -8,6 +8,8 @@
  */
 
 namespace Piwik\Settings;
+use Piwik\Piwik;
+use Piwik\SettingsServer;
 
 /**
  * Base setting type class.
@@ -152,6 +154,7 @@ abstract class Setting
      * @var StorageInterface
      */
     private $storage;
+    private $pluginName;
 
     /**
      * Constructor.
@@ -201,11 +204,31 @@ abstract class Setting
     /**
      * Sets the object used to persist settings.
      *
-     * @return StorageInterface
+     * @param StorageInterface $storage
      */
     public function setStorage(StorageInterface $storage)
     {
         $this->storage = $storage;
+    }
+
+    /**
+     * @internal
+     * @ignore
+     * @return StorageInterface
+     */
+    public function getStorage()
+    {
+        return $this->storage;
+    }
+
+    /**
+     * Sets th name of the plugin the setting belongs to
+     *
+     * @param string $pluginName
+     */
+    public function setPluginName($pluginName)
+    {
+        $this->pluginName = $pluginName;
     }
 
     /**
@@ -217,7 +240,23 @@ abstract class Setting
      */
     public function getValue()
     {
-        return $this->storage->getSettingValue($this);
+        $this->checkHasEnoughReadPermission();
+
+        return $this->storage->getValue($this);
+    }
+
+    /**
+     * Returns the previously persisted setting value. If no value was set, the default value
+     * is returned.
+     *
+     * @return mixed
+     * @throws \Exception If the current user is not allowed to change the value of this setting.
+     */
+    public function removeValue()
+    {
+        $this->checkHasEnoughWritePermission();
+
+        return $this->storage->deleteValue($this);
     }
 
     /**
@@ -228,7 +267,51 @@ abstract class Setting
      */
     public function setValue($value)
     {
-        return $this->storage->setSettingValue($this, $value);
+        $this->checkHasEnoughWritePermission();
+
+        if ($this->validate && $this->validate instanceof \Closure) {
+            call_user_func($this->validate, $value, $this);
+        }
+
+        if ($this->transform && $this->transform instanceof \Closure) {
+            $value = call_user_func($this->transform, $value, $this);
+        } elseif (isset($this->type)) {
+            settype($value, $this->type);
+        }
+
+        return $this->storage->setValue($this, $value);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function checkHasEnoughWritePermission()
+    {
+        // When the request is a Tracker request, allow plugins to write settings
+        if (SettingsServer::isTrackerApiRequest()) {
+            return;
+        }
+
+        if (!$this->isWritableByCurrentUser()) {
+            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingChangeNotAllowed', array($this->getName(), $this->pluginName));
+            throw new \Exception($errorMsg);
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function checkHasEnoughReadPermission()
+    {
+        // When the request is a Tracker request, allow plugins to read settings
+        if (SettingsServer::isTrackerApiRequest()) {
+            return;
+        }
+
+        if (!$this->isReadableByCurrentUser()) {
+            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingReadNotAllowed', array($this->getName(), $this->pluginName));
+            throw new \Exception($errorMsg);
+        }
     }
 
     /**
