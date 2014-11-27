@@ -331,7 +331,7 @@ Device model
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,10,43,0%,4.3,00:12:37,10%
 
-Browser Version
+Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 Firefox 3.6,1,2,0%,2,00:06:01,0%
