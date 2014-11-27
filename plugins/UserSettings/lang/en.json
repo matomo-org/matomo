@@ -198,7 +198,6 @@
         "Language_zh": "Chinese",
         "Language_zu": "Zulu",
         "LanguageCode": "Language code",
-        "MobileVsDesktop": "Mobile vs Desktop",
         "OperatingSystemFamily": "Operating system family",
         "OperatingSystems": "Operating systems",
         "PluginDescription": "Reports various User Settings: Browser, Browser Family, Operating System, Plugins, Resolution, Global Settings.",

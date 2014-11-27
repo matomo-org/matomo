@@ -197,7 +197,6 @@
         "Language_zh": "中国語",
         "Language_zu": "ズールー語",
         "LanguageCode": "言語コード",
-        "MobileVsDesktop": "モバイル vs デスクトップ",
         "OperatingSystemFamily": "オペレーティングシステムファミリー",
         "OperatingSystems": "オペレーティングシステム",
         "PluginDescription": "各種ユーザー設定（ブラウザ、ブラウザファミリー、オペレーティングシステム、プラグイン、解像度、全般設定）をリポートします。",

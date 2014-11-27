@@ -197,7 +197,6 @@
         "Language_zh": "Chino",
         "Language_zu": "Zulú",
         "LanguageCode": "Código de idioma",
-        "MobileVsDesktop": "Móvil vs Escritorio",
         "OperatingSystemFamily": "Familia de sistema operativo",
         "OperatingSystems": "Sistemas operativos",
         "PluginDescription": "Reporta varias configuraciones de usuario: Navegador, Familia del Navegador, Sistema Operativo, Plugins, Resolución, Configuración General.",

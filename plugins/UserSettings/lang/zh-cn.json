@@ -197,7 +197,6 @@
         "Language_zh": "中文",
         "Language_zu": "祖鲁文",
         "LanguageCode": "语言代码",
-        "MobileVsDesktop": "移动和桌面",
         "OperatingSystemFamily": "操作系统种类",
         "OperatingSystems": "操作系统",
         "PluginDescription": "用户环境报表: 浏览器、浏览器种类、操作系统、插件、分辨率、全局参数。",
