@@ -35,9 +35,9 @@ class LogTest extends IntegrationTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
+        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(162): dummy error message
   dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
+        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(162): dummy error message
 dummy backtrace'
     );
 
