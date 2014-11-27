@@ -458,9 +458,9 @@ class CronArchive
 
         // (*) If there was some old reports invalidated for this website
         // we make sure all these old reports are triggered at least once
-        $websiteIsOldDataInvalidate = $this->isOldReportInvalidatedForWebsite($idSite);
+        $websiteInvalidatedShouldReprocess = $this->isOldReportInvalidatedForWebsite($idSite);
 
-        if ($websiteIsOldDataInvalidate) {
+        if ($websiteInvalidatedShouldReprocess) {
             $shouldArchivePeriods = true;
         }
 
@@ -478,7 +478,7 @@ class CronArchive
         $skipDayArchive = $existingArchiveIsValid;
 
         // Invalidate old website forces the archiving for this site
-        $skipDayArchive = $skipDayArchive && !$websiteIsOldDataInvalidate;
+        $skipDayArchive = $skipDayArchive && !$websiteInvalidatedShouldReprocess;
 
         // Also reprocess when day has ended since last run
         if ($dayHasEndedMustReprocess
@@ -530,6 +530,14 @@ class CronArchive
         // Record succesful run of this website's periods archiving
         if ($success) {
             Option::set($this->lastRunKey($idSite, "periods"), time());
+        }
+
+        if(!$success) {
+            // cancel marking the site as reprocessed
+            if($websiteInvalidatedShouldReprocess) {
+                $store = new InvalidatedReports();
+                $store->addInvalidatedSitesToReprocess(array($idSite));
+            }
         }
 
         $this->archivedPeriodsArchivesWebsite++;

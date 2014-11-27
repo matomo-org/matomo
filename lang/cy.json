@@ -2,6 +2,7 @@
     "General": {
         "AbandonedCarts": "Troliau Siopa a Adawyd",
         "AboutPiwikX": "Am dan Piwik %s",
+        "Actions": "Camau gweithredu",
         "AllowPiwikArchivingToTriggerBrowser": "Caniatáu system archifo Piwik i sbarduno pan fydd adroddiadau yn cael eu hystyried gan y porwr",
         "AllWebsitesDashboard": "Dangosfwrdd Holl Wefannau",
         "API": "API",

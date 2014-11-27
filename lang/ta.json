@@ -35,6 +35,7 @@
         "ColumnGenerationTime": "உற்பத்தி நேரம்",
         "ColumnKeyword": "திறவுச்சொல்",
         "ColumnMaxActions": "ஒரு வருகையின் போது அதிக செயல்கள்",
+        "ColumnNbActions": "செயல்கள்",
         "ColumnNbUniqVisitors": "தனித்துவமான பார்வையாளர்கள்",
         "ColumnNbVisits": "பார்வைகள்",
         "ColumnPageviews": "பக்கப்பார்வைகள்",

@@ -1,12 +1,13 @@
 {
     "DevicesDetection": {
         "BrowserEngineDocumentation": "Este cuadro muestra los navegadores de internet de los visitantes divididos en sus respectivas familias. %s La información más importante para los desarrolladores de sitios de internet es conocer que motor de interpretador están utilizando los visitantes. Los rótulos contienen los nombres de los motores seguidos por el navegador más usual utilizando dicho motor entre corchetes.",
+        "BrowserFamily": "Buscadores por familia",
+        "BrowserVersion": "Versión del navegador",
         "BrowserVersions": "Versiones de navegadores",
         "Camera": "Cámara",
         "CarBrowser": "Navegador para coche",
         "Console": "Consola",
         "dataTableLabelBrands": "Marca",
-        "dataTableLabelBrowserFamily": "Familia de navegadores",
         "dataTableLabelModels": "Modelo",
         "dataTableLabelSystemVersion": "Versión del sistema operativo",
         "dataTableLabelTypes": "Tipo",

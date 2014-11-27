@@ -1,11 +1,12 @@
 {
     "DevicesDetection": {
+        "BrowserFamily": "Sirvija tüüp",
+        "BrowserVersion": "Sirvija versioon",
         "BrowserVersions": "Brauseri versioonid",
         "Camera": "Kaamera",
         "CarBrowser": "Sõiduki sirvik",
         "Console": "Konsool",
         "dataTableLabelBrands": "Bränd",
-        "dataTableLabelBrowserFamily": "Sirvija tüüp",
         "dataTableLabelModels": "Mudel",
         "dataTableLabelSystemVersion": "Operatsioonisüsteemi versioon",
         "dataTableLabelTypes": "Tüüp",

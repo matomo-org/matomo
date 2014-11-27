@@ -18,10 +18,10 @@ class GetBrowserVersions extends Base
     {
         parent::init();
         $this->dimension     = new BrowserVersion();
-        $this->name          = Piwik::translate('UserSettings_WidgetBrowserVersion');
+        $this->name          = Piwik::translate('DevicesDetection_BrowserVersion');
         $this->documentation = ''; // TODO
         $this->order = 2;
-        $this->widgetTitle  = 'UserSettings_WidgetBrowserVersion';
+        $this->widgetTitle  = 'DevicesDetection_BrowserVersion';
     }
 
     public function configureView(ViewDataTable $view)
