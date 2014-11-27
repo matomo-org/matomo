@@ -381,7 +381,8 @@ class API extends \Piwik\Plugin\API
                 && !empty($reportMeta['metrics'])
             ) {
                 $plugin = $reportMeta['module'];
-                foreach ($reportMeta['metrics'] as $column => $columnTranslation) {
+                $allMetrics = array_merge($reportMeta['metrics'], @$reportMeta['processedMetrics'] ?: array());
+                foreach ($allMetrics as $column => $columnTranslation) {
                     // a metric from this report has been requested
                     if (isset($columnsMap[$column])
                         // or by default, return all metrics
@@ -402,23 +403,9 @@ class API extends \Piwik\Plugin\API
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
 
-            // make sure the table has all columns
-            $array = ($dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : array($dataTable));
-            foreach ($array as $table) {
-                // we don't support idSites=all&date=DATE1,DATE2
-                if ($table instanceof DataTable) {
-                    $firstRow = $table->getFirstRow();
-                    if (!$firstRow) {
-                        $firstRow = new Row;
-                        $table->addRow($firstRow);
-                    }
-                    foreach ($columns as $column) {
-                        if ($firstRow->getColumn($column) === false) {
-                            $firstRow->setColumn($column, 0);
-                        }
-                    }
-                }
-            }
+            $dataTable->filter(function (DataTable $table) {
+                $table->clearQueuedFilters();
+            });
 
             // merge reports
             if ($mergedDataTable === false) {
@@ -427,6 +414,13 @@ class API extends \Piwik\Plugin\API
                 $this->mergeDataTables($mergedDataTable, $dataTable);
             }
         }
+
+        if (!empty($columnsMap)
+            && !empty($mergedDataTable)
+        ) {
+            $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
+        }
+
         return $mergedDataTable;
     }
 
@@ -450,12 +444,18 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $firstRow1 = $table1->getFirstRow();
         $firstRow2 = $table2->getFirstRow();
-        if ($firstRow2 instanceof Row) {
-            foreach ($firstRow2->getColumns() as $metric => $value) {
-                $firstRow1->setColumn($metric, $value);
-            }
+        if (!($firstRow2 instanceof Row)) {
+            return;
+        }
+
+        $firstRow1 = $table1->getFirstRow();
+        if (empty($firstRow1)) {
+            $firstRow1 = $table1->addRow(new Row());
+        }
+
+        foreach ($firstRow2->getColumns() as $metric => $value) {
+            $firstRow1->setColumn($metric, $value);
         }
     }
 

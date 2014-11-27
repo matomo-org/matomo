@@ -10,6 +10,7 @@
 namespace Piwik\Archive;
 
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
 use Piwik\Site;
 
@@ -93,6 +94,23 @@ class DataTableFactory
         //here index period by string only
         $this->periods = $periods;
         $this->defaultRow = $defaultRow;
+    }
+
+    /**
+     * Returns the ID of the site a table is related to based on the 'site' metadata entry,
+     * or null if there is none.
+     *
+     * @param DataTable $table
+     * @return int|null
+     */
+    public static function getSiteIdFromMetadata(DataTable $table)
+    {
+        $site = $table->getMetadata('site');
+        if (empty($site)) {
+            return null;
+        } else {
+            return $site->getId();
+        }
     }
 
     /**
@@ -345,10 +363,10 @@ class DataTableFactory
      * Converts site IDs and period string ranges into Site instances and
      * Period instances in DataTable metadata.
      */
-    private function transformMetadata($table)
+    private function transformMetadata(DataTableInterface $table)
     {
         $periods = $this->periods;
-        $table->filter(function ($table) use ($periods) {
+        $table->filter(function (DataTable $table) use ($periods) {
             $table->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, new Site($table->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX)));
             $table->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, $periods[$table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)]);
         });
@@ -373,7 +391,7 @@ class DataTableFactory
      * @param $keyMetadata
      * @param $result
      */
-    private function setTableMetadata($keyMetadata, $result)
+    private function setTableMetadata($keyMetadata, DataTableInterface $result)
     {
         if (!isset($keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX])) {
             $keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX] = reset($this->sitesId);
@@ -385,7 +403,7 @@ class DataTableFactory
         }
 
         // Note: $result can be a DataTable\Map
-        $result->filter(function ($table) use ($keyMetadata) {
+        $result->filter(function (DataTable $table) use ($keyMetadata) {
             foreach ($keyMetadata as $name => $value) {
                 $table->setMetadata($name, $value);
             }
@@ -424,4 +442,3 @@ class DataTableFactory
         return $result;
     }
 }
-

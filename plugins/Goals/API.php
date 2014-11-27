@@ -10,11 +10,15 @@ namespace Piwik\Plugins\Goals;
 
 use Exception;
 use Piwik\Archive;
+use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
+use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
@@ -51,29 +55,31 @@ class API extends \Piwik\Plugin\API
      */
     public function getGoals($idSite)
     {
-        //TODO calls to this function could be cached as static
-        // would help UI at least, since some UI requests would call this 2-3 times..
-        $idSite = Site::getIdSitesFromIdSitesString($idSite);
+        $cache = $this->getGoalsInfoStaticCache($idSite);
+        if (!$cache->has()) {
+            $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
-        if (empty($idSite)) {
-            return array();
-        }
-
-        Piwik::checkUserHasViewAccess($idSite);
-
-        $goals = $this->getModel()->getActiveGoals($idSite);
-
-        $cleanedGoals = array();
-        foreach ($goals as &$goal) {
-            if ($goal['match_attribute'] == 'manually') {
-                unset($goal['pattern']);
-                unset($goal['pattern_type']);
-                unset($goal['case_sensitive']);
+            if (empty($idSite)) {
+                return array();
             }
-            $cleanedGoals[$goal['idgoal']] = $goal;
-        }
 
-        return $cleanedGoals;
+            Piwik::checkUserHasViewAccess($idSite);
+
+            $goals = $this->getModel()->getActiveGoals($idSite);
+
+            $cleanedGoals = array();
+            foreach ($goals as &$goal) {
+                if ($goal['match_attribute'] == 'manually') {
+                    unset($goal['pattern']);
+                    unset($goal['pattern_type']);
+                    unset($goal['case_sensitive']);
+                }
+                $cleanedGoals[$goal['idgoal']] = $goal;
+            }
+
+            $cache->set($cleanedGoals);
+        }
+        return $cache->get();
     }
 
     /**
@@ -112,6 +118,8 @@ class API extends \Piwik\Plugin\API
         );
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
+
+        $this->getGoalsInfoStaticCache($idSite)->clear();
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
         return $idGoal;
@@ -158,6 +166,8 @@ class API extends \Piwik\Plugin\API
             'revenue'         => $revenue,
         ));
 
+        $this->getGoalsInfoStaticCache($idSite)->clear();
+
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
@@ -196,6 +206,8 @@ class API extends \Piwik\Plugin\API
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);
 
+        $this->getGoalsInfoStaticCache($idSite)->clear();
+
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
@@ -221,7 +233,7 @@ class API extends \Piwik\Plugin\API
 
         // First rename the avg_price_viewed column
         $renameColumn = array(self::AVG_PRICE_VIEWED => 'avg_price');
-        $dataTable->queueFilter('ReplaceColumnNames', array($renameColumn));
+        $dataTable->filter('ReplaceColumnNames', array($renameColumn));
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
@@ -232,16 +244,7 @@ class API extends \Piwik\Plugin\API
             $dataTable->renameColumn(Metrics::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
         }
 
-        // Average price = sum product revenue / quantity
-        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_price', 'price', $ordersColumn, GoalManager::REVENUE_PRECISION));
-
-        // Average quantity = sum product quantity / abandoned carts
-        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
-            array('avg_quantity', 'quantity', $ordersColumn, $precision = 1));
         $dataTable->queueFilter('ColumnDelete', array('price'));
-
-        // Product conversion rate = orders / visits
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', GoalManager::REVENUE_PRECISION));
 
         return $dataTable;
     }
@@ -338,59 +341,50 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
-        $columns = Piwik::getArrayFromApiParameter($columns);
 
         // Mapping string idGoal to internal ID
         $idGoal = self::convertSpecialGoalIds($idGoal);
+        $isEcommerceGoal = $idGoal === GoalManager::IDGOAL_ORDER || $idGoal === GoalManager::IDGOAL_CART;
 
-        if (empty($columns)) {
-            $columns = Goals::getGoalColumns($idGoal);
-            if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-                $columns[] = 'avg_order_revenue';
-            }
-        }
-        if (in_array('avg_order_revenue', $columns)
-            && $idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+        $allMetrics = Goals::getGoalColumns($idGoal);
+        $requestedColumns = Piwik::getArrayFromApiParameter($columns);
+
+        $report = Report::factory("Goals", "get");
+        $columnsToGet = $report->getMetricsRequiredForReport($allMetrics, $requestedColumns);
+
+        $inDbMetricNames = array_map(function ($name) use ($idGoal) {
+            return $name == 'nb_visits' ? $name : Archiver::getRecordName($name, $idGoal);
+        }, $columnsToGet);
+        $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
+
+        $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
+        $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
+
+        // TODO: this should be in Goals/Get.php but it depends on idGoal parameter which isn't always in _GET (ie,
+        //       it's not in ProcessedReport.php). more refactoring must be done to report class before this can be
+        //       corrected.
+        if ((in_array('avg_order_revenue', $requestedColumns)
+             || empty($requestedColumns))
+            && $isEcommerceGoal
         ) {
-            $columns[] = 'nb_conversions';
-            $columns[] = 'revenue';
-            $columns = array_values(array_unique($columns));
+            $dataTable->filter(function (DataTable $table) {
+                $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+                $extraProcessedMetrics[] = new AverageOrderRevenue();
+                $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            });
         }
-        $columnsToSelect = array();
-        foreach ($columns as &$columnName) {
-            $columnsToSelect[] = Archiver::getRecordName($columnName, $idGoal);
-        }
-        $dataTable = $archive->getDataTableFromNumeric($columnsToSelect);
 
-        // Rewrite column names as we expect them
-        foreach ($columnsToSelect as $id => $oldName) {
-            $dataTable->renameColumn($oldName, $columns[$id]);
+        // remove temporary metrics that were not explicitly requested
+        $allColumns = $allMetrics;
+        $allColumns[] = 'conversion_rate';
+        if ($isEcommerceGoal) {
+            $allColumns[] = 'avg_order_revenue';
         }
-        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            if ($dataTable instanceof DataTable\Map) {
-                foreach ($dataTable->getDataTables() as $row) {
-                    $this->enrichTable($row);
-                }
-            } else {
-                $this->enrichTable($dataTable);
-            }
-        }
+
+        $columnsToShow = $requestedColumns ?: $allColumns;
+        $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
+
         return $dataTable;
-    }
-
-    protected function enrichTable($table)
-    {
-        $row = $table->getFirstRow();
-        if (!$row) {
-            return;
-        }
-        // AVG order per visit
-        if (false !== $table->getColumn('avg_order_revenue')) {
-            $conversions = $row->getColumn('nb_conversions');
-            if ($conversions) {
-                $row->setColumn('avg_order_revenue', round($row->getColumn('revenue') / $conversions, 2));
-            }
-        }
     }
 
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
@@ -422,7 +416,9 @@ class API extends \Piwik\Plugin\API
      */
     public function getConversionRate($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        return $this->getNumeric($idSite, $period, $date, $segment, Archiver::getRecordName('conversion_rate', $idGoal));
+        $table = $this->get($idSite, $period, $date, $segment, $idGoal, 'conversion_rate');
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, array(new ConversionRate()));
+        return $table;
     }
 
     /**
@@ -569,5 +565,10 @@ class API extends \Piwik\Plugin\API
             }
             $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
         }
+    }
+
+    private function getGoalsInfoStaticCache($idSite)
+    {
+        return new PluginAwareStaticCache("Goals.getGoals.$idSite");
     }
 }

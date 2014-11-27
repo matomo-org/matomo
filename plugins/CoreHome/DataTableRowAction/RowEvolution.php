@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 
 use Exception;
+use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
@@ -85,7 +86,7 @@ class RowEvolution
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 
-        $this->label = ResponseBuilder::getLabelFromRequest($_GET);
+        $this->label = DataTablePostProcessor::getLabelFromRequest($_GET);
         if (!is_array($this->label)) {
             throw new Exception("Expected label to be an array, got instead: " . $this->label);
         }

@@ -13,8 +13,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\IP;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -1157,7 +1156,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currencies = MetricsFormatter::getCurrencyList();
+        $currencies = Formatter::getCurrencyList();
         return array_map(function ($a) {
             return $a[1] . " (" . $a[0] . ")";
         }, $currencies);
@@ -1170,7 +1169,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencySymbols()
     {
-        $currencies = MetricsFormatter::getCurrencyList();
+        $currencies = Formatter::getCurrencyList();
         return array_map(function ($a) {
             return $a[0];
         }, $currencies);

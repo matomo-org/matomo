@@ -154,7 +154,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         // Stats for all goals
         $nbConvertedVisits = $this->getProcessor()->getNumberOfVisitsConverted();
         $metrics = array(
-            self::getRecordName('conversion_rate')     => $this->getConversionRate($nbConvertedVisits),
             self::getRecordName('nb_conversions')      => $totalConversions,
             self::getRecordName('nb_visits_converted') => $nbConvertedVisits,
             self::getRecordName('revenue')             => $totalRevenue,
@@ -172,11 +171,6 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $recordName = self::getRecordName($metricName, $idGoal);
                 $numericRecords[$recordName] = $value;
             }
-            if (!empty($array[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED])) {
-                $conversion_rate = $this->getConversionRate($array[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED]);
-                $recordName = self::getRecordName('conversion_rate', $idGoal);
-                $numericRecords[$recordName] = $conversion_rate;
-            }
         }
         return $numericRecords;
     }
@@ -193,12 +187,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             $idGoalStr = $idGoal . "_";
         }
         return 'Goal_' . $idGoalStr . $recordName;
-    }
-
-    protected function getConversionRate($count)
-    {
-        $visits = $this->getProcessor()->getNumberOfVisits();
-        return round(100 * $count / $visits, GoalManager::REVENUE_PRECISION);
     }
 
     protected function insertReports($recordName, $visitsToConversions)
@@ -389,19 +377,13 @@ class Archiver extends \Piwik\Plugin\Archiver
         $fieldsToSum = array();
         foreach ($goalIdsToSum as $goalId) {
             $metricsToSum = Goals::getGoalColumns($goalId);
-            unset($metricsToSum[array_search('conversion_rate', $metricsToSum)]);
             foreach ($metricsToSum as $metricName) {
                 $fieldsToSum[] = self::getRecordName($metricName, $goalId);
             }
         }
-        $records = $this->getProcessor()->aggregateNumericMetrics($fieldsToSum);
+        $this->getProcessor()->aggregateNumericMetrics($fieldsToSum);
 
-        // also recording conversion_rate for each goal
         foreach ($goalIdsToSum as $goalId) {
-            $nb_conversions = $records[self::getRecordName('nb_visits_converted', $goalId)];
-            $conversion_rate = $this->getConversionRate($nb_conversions);
-            $this->getProcessor()->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
-
             // sum up the visits to conversion data table & the days to conversion data table
             $this->getProcessor()->aggregateDataTableRecords(array(
                                                                   self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),

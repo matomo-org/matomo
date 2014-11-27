@@ -13,6 +13,10 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\EntryPageUrl;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
 
 class GetEntryPageUrls extends Base
 {
@@ -25,7 +29,13 @@ class GetEntryPageUrls extends Base
         $this->documentation = Piwik::translate('Actions_EntryPagesReportDocumentation', '<br />')
                              . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
-        $this->metrics = array('entry_nb_visits', 'entry_bounce_count', 'bounce_rate');
+        $this->metrics = array('entry_nb_visits', 'entry_bounce_count');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->order   = 3;
 
         $this->actionToLoadSubTables = $this->action;
@@ -34,10 +44,25 @@ class GetEntryPageUrls extends Base
         $this->widgetTitle = 'Actions_WidgetPagesEntry';
     }
 
+    public function getProcessedMetrics()
+    {
+        $result = parent::getProcessedMetrics();
+
+        // these metrics are not displayed in the API.getProcessedReport version of this report,
+        // so they are removed here.
+        unset($result['avg_time_on_page']);
+        unset($result['exit_rate']);
+
+        return $result;
+    }
+
     protected function getMetricsDocumentation()
     {
         $metrics = parent::getMetricsDocumentation();
         $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
+
+        unset($metrics['bounce_rate']);
+        unset($metrics['exit_rate']);
 
         return $metrics;
     }

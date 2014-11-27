@@ -192,7 +192,7 @@ class Sort extends BaseFilter
             return $this->columnToSort;
         }
 
-        $columnIdToName = Metrics::getMappingFromIdToName();
+        $columnIdToName = Metrics::getMappingFromNameToId();
         // sorting by "nb_visits" but the index is Metrics::INDEX_NB_VISITS in the table
         if (isset($columnIdToName[$this->columnToSort])) {
             $column = $columnIdToName[$this->columnToSort];

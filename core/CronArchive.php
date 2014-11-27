@@ -12,6 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
+use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -187,6 +188,8 @@ class CronArchive
     private $processed = 0;
     private $archivedPeriodsArchivesWebsite = 0;
 
+    private $formatter;
+
     /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
@@ -209,6 +212,8 @@ class CronArchive
      */
     public function __construct($piwikUrl = false)
     {
+        $this->formatter = new Formatter();
+
         $this->initLog();
         $this->initPiwikHost($piwikUrl);
         $this->initCore();
@@ -489,7 +494,7 @@ class CronArchive
 
         if ($skipDayArchive) {
             $this->log("Skipped website id $idSite, already done "
-                . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
+                . $this->formatter->getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true)
                 . " ago, " . $timerWebsite->__toString());
             $this->skippedDayArchivesWebsites++;
             $this->skipped++;
@@ -503,7 +508,7 @@ class CronArchive
 
         if (!$shouldArchivePeriods) {
             $this->log("Skipped website id $idSite periods processing, already done "
-                . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
+                . $this->formatter->getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true)
                 . " ago, " . $timerWebsite->__toString());
             $this->skippedDayArchivesWebsites++;
             $this->skipped++;
@@ -860,6 +865,8 @@ class CronArchive
 
         $config->log = $log;
 
+        Log::unsetInstance();
+
         // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
         $logLevel = Log::getInstance()->getLogLevel();
         if ($logLevel < Log::INFO) {
@@ -1048,7 +1055,7 @@ class CronArchive
     {
         $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits(time() - $this->shouldArchiveOnlySitesWithTrafficSince);
         $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
-        $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds( $this->shouldArchiveOnlySitesWithTrafficSince, true, false);
+        $prettySeconds = $this->formatter->getPrettyTimeFromSeconds( $this->shouldArchiveOnlySitesWithTrafficSince, true);
         $this->log("- Will process " . count($sitesIdWithVisits) . " websites with new visits since "
             . $prettySeconds
             . " "
@@ -1156,7 +1163,8 @@ class CronArchive
         // Try and not request older data we know is already archived
         if ($this->lastSuccessRunTimestamp !== false) {
             $dateLast = time() - $this->lastSuccessRunTimestamp;
-            $this->log("- Archiving was last executed without error " . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false) . " ago");
+            $this->log("- Archiving was last executed without error "
+                . $this->formatter->getPrettyTimeFromSeconds($dateLast, true) . " ago");
         }
     }
 
@@ -1212,6 +1220,10 @@ class CronArchive
         }
 
         $today = end($stats);
+
+        if (empty($today['nb_visits'])) {
+            return 0;
+        }
 
         return $today['nb_visits'];
     }

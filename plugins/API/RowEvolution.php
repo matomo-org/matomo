@@ -10,6 +10,7 @@ namespace Piwik\Plugins\API;
 
 use Exception;
 use Piwik\API\DataTableManipulator\LabelFilter;
+use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
@@ -48,7 +49,7 @@ class RowEvolution
             throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
         }
 
-        $label = ResponseBuilder::unsanitizeLabelParameter($label);
+        $label = DataTablePostProcessor::unsanitizeLabelParameter($label);
         $labels = Piwik::getArrayFromApiParameter($label);
 
         $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);

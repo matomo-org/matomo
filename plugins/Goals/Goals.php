@@ -69,7 +69,6 @@ class Goals extends \Piwik\Plugin
         $columns = array(
             'nb_conversions',
             'nb_visits_converted',
-            'conversion_rate',
             'revenue',
         );
         if ($idGoal === false) {

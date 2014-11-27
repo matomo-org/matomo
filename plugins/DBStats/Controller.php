@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\DBStats;
 
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\DBStats\Reports\GetAdminDataSummary;
 use Piwik\Plugins\DBStats\Reports\GetDatabaseUsageSummary;
@@ -42,9 +42,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         list($siteCount, $userCount, $totalSpaceUsed) = API::getInstance()->getGeneralInformation();
 
-        $view->siteCount      = MetricsFormatter::getPrettyNumber($siteCount);
-        $view->userCount      = MetricsFormatter::getPrettyNumber($userCount);
-        $view->totalSpaceUsed = MetricsFormatter::getPrettySizeFromBytes($totalSpaceUsed);
+        $formatter = new Formatter();
+        $view->siteCount      = $formatter->getPrettyNumber($siteCount);
+        $view->userCount      = $formatter->getPrettyNumber($userCount);
+        $view->totalSpaceUsed = $formatter->getPrettySizeFromBytes($totalSpaceUsed);
 
         return $view->render();
     }

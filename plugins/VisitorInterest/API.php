@@ -87,28 +87,6 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
 
-        // add visit percent column
-        self::addVisitsPercentColumn($dataTable);
-
         return $dataTable;
-    }
-
-    /**
-     * Utility function that adds a visit percent column to a data table,
-     * regardless of whether the data table is an data table array or just
-     * a data table.
-     *
-     * @param DataTable $dataTable The data table to modify.
-     */
-    private static function addVisitsPercentColumn($dataTable)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $table) {
-                self::addVisitsPercentColumn($table);
-            }
-        } else {
-            $totalVisits = array_sum($dataTable->getColumn(Metrics::INDEX_NB_VISITS));
-            $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', 'nb_visits', $totalVisits));
-        }
     }
 }

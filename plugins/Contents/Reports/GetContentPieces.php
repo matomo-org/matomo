@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Contents\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Contents\Columns\ContentPiece;
+use Piwik\Plugins\Contents\Columns\Metrics\InteractionRate;
 use Piwik\View;
 
 /**
@@ -34,6 +35,6 @@ class GetContentPieces extends Base
         $this->widgetTitle = 'Contents_ContentPiece';
 
         $this->metrics = array('nb_impressions', 'nb_interactions');
-        $this->processedMetrics = array('interaction_rate');
+        $this->processedMetrics = array(new InteractionRate());
     }
 }

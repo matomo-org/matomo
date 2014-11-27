@@ -12,6 +12,8 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
+use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugin\Report;
 
 class DataTableGenericFilter
 {
@@ -82,15 +84,6 @@ class DataTableGenericFilter
                       'filter_excludelowpop'       => array('string'),
                       'filter_excludelowpop_value' => array('float', '0'),
                   )),
-            array('AddColumnsProcessedMetrics',
-                  array(
-                      'filter_add_columns_when_show_all_columns' => array('integer')
-                  )),
-            array('AddColumnsProcessedMetricsGoal',
-                  array(
-                      'filter_update_columns_when_show_all_goals' => array('integer'),
-                      'idGoal'                                    => array('string', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
-                  )),
             array('Sort',
                   array(
                       'filter_sort_column' => array('string'),
@@ -105,7 +98,7 @@ class DataTableGenericFilter
                       'filter_offset'    => array('integer', '0'),
                       'filter_limit'     => array('integer'),
                       'keep_summary_row' => array('integer', '0'),
-                  )),
+                  ))
         );
     }
 
@@ -164,6 +157,45 @@ class DataTableGenericFilter
                 $filterApplied = true;
             }
         }
+
         return $filterApplied;
+    }
+
+    public function areProcessedMetricsNeededFor($metrics)
+    {
+        $columnQueryParameters = array(
+            'filter_column',
+            'filter_column_recursive',
+            'filter_excludelowpop',
+            'filter_sort_column'
+        );
+
+        foreach ($columnQueryParameters as $queryParamName) {
+            $queryParamValue = Common::getRequestVar($queryParamName, false, $type = null, $this->request);
+            if (!empty($queryParamValue)
+                && $this->containsProcessedMetric($metrics, $queryParamValue)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param ProcessedMetric[] $metrics
+     * @param string $name
+     * @return bool
+     */
+    private function containsProcessedMetric($metrics, $name)
+    {
+        foreach ($metrics as $metric) {
+            if ($metric instanceof ProcessedMetric
+                && $metric->getName() == $name
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 }

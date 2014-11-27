@@ -220,7 +220,7 @@
 				<eventAction>play50%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
-				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -233,7 +233,7 @@
 				<eventAction>play75%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>420</timeSpent>
-				<timeSpentPretty>7 min 0s</timeSpentPretty>
+				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -246,7 +246,7 @@
 				<eventAction>Search</eventAction>
 				<eventName>Search query here</eventName>
 				<timeSpent>900</timeSpent>
-				<timeSpentPretty>15 min 0s</timeSpentPretty>
+				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -259,7 +259,7 @@
 				<eventAction>playEnd</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -273,7 +273,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<eventValue>9.66</eventValue>
 				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -310,7 +310,7 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>3481</visitDuration>
-		<visitDurationPretty>58 min 1s</visitDurationPretty>
+		<visitDurationPretty>58 min 1s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -491,7 +491,7 @@
 				<pageId>1</pageId>
 				<generationTime>0.33s</generationTime>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -520,7 +520,7 @@
 				</customVariables>
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -539,7 +539,7 @@
 				</customVariables>
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -558,7 +558,7 @@
 				</customVariables>
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -636,7 +636,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<eventValue>10</eventValue>
 				<timeSpent>1499</timeSpent>
-				<timeSpentPretty>24 min 59s</timeSpentPretty>
+				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -648,7 +648,7 @@
 				<pageId>9</pageId>
 				<generationTime>0.67s</generationTime>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -661,7 +661,7 @@
 				<eventAction>playTrailer</eventAction>
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -674,7 +674,7 @@
 				<eventAction>playTrailer</eventAction>
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -687,7 +687,7 @@
 				<eventAction>playTrailer</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -700,7 +700,7 @@
 				<eventAction>clickBuyNow</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -713,7 +713,7 @@
 				<eventAction>playStart</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
-				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -749,7 +749,7 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>3601</visitDuration>
-		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
+		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -1025,7 +1025,7 @@
 				<eventAction>play50%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
-				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1038,7 +1038,7 @@
 				<eventAction>play75%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>420</timeSpent>
-				<timeSpentPretty>7 min 0s</timeSpentPretty>
+				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1051,7 +1051,7 @@
 				<eventAction>Search</eventAction>
 				<eventName>Search query here</eventName>
 				<timeSpent>900</timeSpent>
-				<timeSpentPretty>15 min 0s</timeSpentPretty>
+				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1064,7 +1064,7 @@
 				<eventAction>playEnd</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1078,7 +1078,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<eventValue>9.66</eventValue>
 				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1115,7 +1115,7 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>3481</visitDuration>
-		<visitDurationPretty>58 min 1s</visitDurationPretty>
+		<visitDurationPretty>58 min 1s</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -1288,7 +1288,7 @@
 				<pageId>25</pageId>
 				<generationTime>0.33s</generationTime>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1317,7 +1317,7 @@
 				</customVariables>
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1336,7 +1336,7 @@
 				</customVariables>
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1355,7 +1355,7 @@
 				</customVariables>
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1433,7 +1433,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<eventValue>10</eventValue>
 				<timeSpent>1499</timeSpent>
-				<timeSpentPretty>24 min 59s</timeSpentPretty>
+				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1445,7 +1445,7 @@
 				<pageId>33</pageId>
 				<generationTime>0.67s</generationTime>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1458,7 +1458,7 @@
 				<eventAction>playTrailer</eventAction>
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1471,7 +1471,7 @@
 				<eventAction>playTrailer</eventAction>
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1484,7 +1484,7 @@
 				<eventAction>playTrailer</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1497,7 +1497,7 @@
 				<eventAction>clickBuyNow</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1510,7 +1510,7 @@
 				<eventAction>playStart</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
-				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
@@ -1546,7 +1546,7 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>3601</visitDuration>
-		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
+		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>

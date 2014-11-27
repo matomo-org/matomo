@@ -9,13 +9,16 @@
 namespace Piwik\Plugins\Events\Reports;
 
 use Piwik\Plugins\Events\API;
+use Piwik\Plugins\Events\Columns\Metrics\AverageEventValue;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
         $this->category = 'Events_Events';
-        $this->processedMetrics = false;
+        $this->processedMetrics = array(
+            new AverageEventValue()
+        );
 
         $this->widgetParams = array(
             'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)

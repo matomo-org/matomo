@@ -466,7 +466,8 @@ class ReportTest extends IntegrationTestCase
                 'date' => '2012-01-02',
                 'format' => 'original',
                 'module' => 'API',
-                'method' => 'ExampleReport.getExampleReport'
+                'method' => 'ExampleReport.getExampleReport',
+                'format_metrics' => 'bc'
             )
         )->willReturn("result");
         Proxy::setSingletonInstance($proxyMock);
@@ -488,7 +489,8 @@ class ReportTest extends IntegrationTestCase
                 'date' => '2012-01-02',
                 'format' => 'original',
                 'module' => 'API',
-                'method' => 'Referrers.getSearchEnginesFromKeywordId'
+                'method' => 'Referrers.getSearchEnginesFromKeywordId',
+                'format_metrics' => 'bc'
             )
         )->willReturn("result");
         Proxy::setSingletonInstance($proxyMock);

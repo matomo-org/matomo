@@ -49,11 +49,15 @@ class Controller extends \Piwik\Plugin\Controller
             if ($conversionRate->getRowsCount() == 0) {
                 $conversionRate = 0;
             } else {
-                $columns = $conversionRate->getFirstRow()->getColumns();
-                $conversionRate = (float)reset($columns);
+                $conversionRate = $conversionRate->getFirstRow()->getColumn('conversion_rate');
             }
         }
-        return sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRate);
+
+        if (!is_numeric($conversionRate)) {
+            $conversionRate = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRate);
+        }
+
+        return $conversionRate;
     }
 
     public function __construct()
@@ -145,11 +149,13 @@ class Controller extends \Piwik\Plugin\Controller
 
         // conversion rate for new and returning visitors
         $segment = urldecode(\Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENT);
-        $conversionRateReturning = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateReturning = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
+
         $segment = 'visitorType==new';
-        $conversionRateNew = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateNew = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
         $view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
+
         $view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
             $view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
         return $view;
@@ -200,6 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
         $request = new Request("method=Goals.get&format=original&idGoal=");
         $datatable = $request->process();
         $dataRow = $datatable->getFirstRow();
+
         $view->nb_conversions = $dataRow->getColumn('nb_conversions');
         $view->nb_visits_converted = $dataRow->getColumn('nb_visits_converted');
         $view->conversion_rate = $this->formatConversionRate($dataRow->getColumn('conversion_rate'));
