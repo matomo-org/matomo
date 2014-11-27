@@ -58,6 +58,9 @@ abstract class Settings implements StorageInterface
     private $introduction;
     private $pluginName;
 
+    // for lazy loading of setting values
+    private $settingValuesLoaded = false;
+
     /**
      * Constructor.
      */
@@ -76,7 +79,6 @@ abstract class Settings implements StorageInterface
         }
 
         $this->init();
-        $this->loadSettings();
     }
 
     /**
@@ -126,7 +128,7 @@ abstract class Settings implements StorageInterface
         });
 
         $settings2 = $settings;
-        
+
         uasort($settings, function ($setting1, $setting2) use ($settings2) {
 
             /** @var Setting $setting1 */ /** @var Setting $setting2 */
@@ -166,6 +168,8 @@ abstract class Settings implements StorageInterface
      */
     public function save()
     {
+        $this->loadSettingsIfNotDoneYet();
+
         Option::set($this->getOptionKey(), serialize($this->settingsValues));
 
         $pluginName = $this->getPluginName();
@@ -195,6 +199,7 @@ abstract class Settings implements StorageInterface
 
         Option::delete($this->getOptionKey());
         $this->settingsValues = array();
+        $this->settingValuesLoaded = false;
     }
 
     /**
@@ -210,6 +215,7 @@ abstract class Settings implements StorageInterface
     {
         $this->checkIsValidSetting($setting->getName());
         $this->checkHasEnoughReadPermission($setting);
+        $this->loadSettingsIfNotDoneYet();
 
         if (array_key_exists($setting->getKey(), $this->settingsValues)) {
 
@@ -247,6 +253,7 @@ abstract class Settings implements StorageInterface
             settype($value, $setting->type);
         }
 
+        $this->loadSettingsIfNotDoneYet();
         $this->settingsValues[$setting->getKey()] = $value;
     }
 
@@ -259,6 +266,7 @@ abstract class Settings implements StorageInterface
     public function removeSettingValue(Setting $setting)
     {
         $this->checkHasEnoughWritePermission($setting);
+        $this->loadSettingsIfNotDoneYet();
 
         $key = $setting->getKey();
 
@@ -296,6 +304,16 @@ abstract class Settings implements StorageInterface
     private function getOptionKey()
     {
         return 'Plugin_' . $this->pluginName . '_Settings';
+    }
+
+    private function loadSettingsIfNotDoneYet()
+    {
+        if ($this->settingValuesLoaded) {
+            return;
+        }
+
+        $this->settingValuesLoaded = true;
+        $this->loadSettings();
     }
 
     private function loadSettings()
@@ -412,7 +430,7 @@ abstract class Settings implements StorageInterface
         $setting->validate = function ($value) use ($setting, $pluginName) {
 
             $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed',
-                                         array($setting->title, $pluginName));
+                array($setting->title, $pluginName));
 
             if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
                 foreach ($value as $val) {

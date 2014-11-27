@@ -13,6 +13,7 @@ use Piwik\Date;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Cache;
 
 /**
  * testing a the auto suggest API for all known segments
@@ -32,6 +33,9 @@ class AutoSuggestAPITest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        // Refresh cache for CustomVariables\Model
+        Cache::clearCacheGeneral();
+
         if(self::isPhpVersion53() && self::isTravisCI()) {
             $this->markTestSkipped("Skipping this test as it seg faults on php 5.3 (bug triggered on travis)");
         }
@@ -115,8 +119,9 @@ class AutoSuggestAPITest extends SystemTestCase
 
     public function getAnotherApiForTesting()
     {
+        $segments = self::getSegmentsMetadata(self::$fixture->idSite);
+
         $apiForTesting = array();
-        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
         foreach ($segments as $segment) {
             if(self::isTravisCI() && $segment['segment'] == 'deviceType') {
                 // test started failing after bc19503 and I cannot understand why
@@ -139,14 +144,27 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots)
         $maximumSegmentsToSkip = 16;
-        $this->assertTrue(count(self::$skipped) <= $maximumSegmentsToSkip, 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
+        $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped) , 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
         // and check that most others have been tested
-        $minimumSegmentsToTest = 43;
+        $minimumSegmentsToTest = 46;
         $message = 'PROCESSED ' . self::$processed . ' segments --> it seems some segments "auto-suggested values" haven\'t been tested as we were expecting. ';
-        $this->assertTrue(self::$processed >= $minimumSegmentsToTest, $message);
+        $this->assertGreaterThan($minimumSegmentsToTest, self::$processed, $message);
     }
+
+    public static function getSegmentsMetadata($idSite)
+    {
+        // Refresh cache for CustomVariables\Model
+        Cache::clearCacheGeneral();
+
+        \Piwik\Plugins\CustomVariables\Model::install();
+
+        // Segment matching NONE
+        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata($idSite);
+        return $segments;
+    }
+
 }
 
 AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();

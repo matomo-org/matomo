@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use Piwik\Piwik;
+use Piwik\Plugins\DevicesDetection\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Settings;
 use Piwik\Tracker\Visitor;
@@ -17,10 +18,20 @@ use Piwik\Tracker\Action;
 class Os extends Base
 {
     protected $columnName = 'config_os';
+    protected $columnType = 'CHAR(3) NOT NULL';
+
+    protected function configureSegments()
+    {
+        $segment = new Segment();
+        $segment->setSegment('operatingSystemCode');
+        $segment->setName('UserSettings_ColumnOperatingSystem');
+        $segment->setAcceptedValues('WXP, WI7, MAC, LIN, AND, IPD, etc.');
+        $this->addSegment($segment);
+    }
 
     public function getName()
     {
-        return Piwik::translate('DevicesDetection_OperatingSystemFamilies');
+        return Piwik::translate('UserSettings_OperatingSystemFamily');
     }
 
     /**

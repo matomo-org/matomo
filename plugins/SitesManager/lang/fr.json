@@ -67,7 +67,7 @@
         "SuperUserAccessCan": "Un utilisateur avec un accès super utilisateur peut aussi %sconfigurer les paramètres globaux%s pour les nouveaux sites web.",
         "Timezone": "Fuseau horaire",
         "TrackingSiteSearch": "Suivi de la recherche interne sur le site",
-        "TrackingTags": "Tags de suivi pour %s",
+        "TrackingTags": "Code de suivi pour %s",
         "Urls": "URLs",
         "UTCTimeIs": "L'heure UTC est %s.",
         "WebsitesManagement": "Gestion des sites",

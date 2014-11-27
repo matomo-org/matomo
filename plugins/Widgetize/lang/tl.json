@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Bukas sa isang bagong window",
+        "PluginDescription": "Ang plugin ay pinapadali ang pag-export ng kahit na anong Piwik widget sa iyong Blog Websit o sa Igoogle at Netvibes!",
+        "TopLinkTooltip": "i-export ang ulat ng Piwik bilang isang Widget at ilagay sa Dashboard ng iyong app bilang iframe."
+    }
+}

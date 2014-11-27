@@ -6,9 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration\Plugin;
+
 use Piwik\Access;
+use Piwik\Db;
 use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\Setting;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
@@ -25,11 +29,10 @@ class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settin
 }
 
 /**
- * Class Core_Plugin_SettingsTest
  * @group Core
  * @group PluginSettings
  */
-class Core_Plugin_SettingsTest extends IntegrationTestCase
+class SettingsTest extends IntegrationTestCase
 {
     /**
      * @var CorePluginSettingsTest
@@ -40,6 +43,7 @@ class Core_Plugin_SettingsTest extends IntegrationTestCase
     {
         parent::setUp();
         Access::setSingletonInstance(null);
+        Db::destroyDatabaseObject();
 
         $this->settings = $this->createSettingsInstance();
     }
@@ -52,6 +56,49 @@ class Core_Plugin_SettingsTest extends IntegrationTestCase
         }
 
         parent::tearDown();
+    }
+
+    public function test_constructor_shouldNotEstablishADatabaseConnection()
+    {
+        Db::destroyDatabaseObject();
+
+        $this->assertNotDbConnectionCreated();
+
+        $this->createSettingsInstance();
+
+        $this->assertNotDbConnectionCreated();
+    }
+
+    public function test_constructor_shouldEstablishADatabaseConnection_AsSoonAsWeGetAValue()
+    {
+        $this->setSuperUser();
+        Db::destroyDatabaseObject();
+
+        $setting  = $this->buildUserSetting('testSetting', 'Test Setting');
+        $settings = $this->createSettingsInstance();
+        $settings->addSetting($setting);
+
+        $this->assertNotDbConnectionCreated();
+
+        $settings->getSettingValue($setting);
+
+        $this->assertDbConnectionCreated();
+    }
+
+    public function test_constructor_shouldEstablishADatabaseConnection_AsSoonAsWeSetAValue()
+    {
+        $this->setSuperUser();
+        Db::destroyDatabaseObject();
+
+        $setting  = $this->buildUserSetting('testSetting', 'Test Setting');
+        $settings = $this->createSettingsInstance();
+        $settings->addSetting($setting);
+
+        $this->assertNotDbConnectionCreated();
+
+        $settings->setSettingValue($setting, '5');
+
+        $this->assertDbConnectionCreated();
     }
 
     /**
@@ -604,7 +651,7 @@ class Core_Plugin_SettingsTest extends IntegrationTestCase
 
     public function test_construct_shouldDetectTheNameOfThePluginAutomatically_IfPluginNameNotGiven()
     {
-        $setting = new Piwik\Plugins\ExampleSettingsPlugin\Settings();
+        $setting = new \Piwik\Plugins\ExampleSettingsPlugin\Settings();
 
         $this->assertEquals('ExampleSettingsPlugin', $setting->getPluginName());
     }

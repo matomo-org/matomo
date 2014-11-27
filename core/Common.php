@@ -462,7 +462,7 @@ class Common
         // we deal w/ json differently
         if ($varType == 'json') {
             $value = self::undoMagicQuotes($requestArrayToUse[$varName]);
-            $value = self::json_decode($value, $assoc = true);
+            $value = json_decode($value, $assoc = true);
             return self::sanitizeInputValues($value, $alreadyStripslashed = true);
         }
 
@@ -471,7 +471,13 @@ class Common
             $ok = false;
 
             if ($varType === 'string') {
-                if (is_string($value)) $ok = true;
+                if (is_string($value) || is_int($value)) {
+                    $ok = true;
+                } else if (is_float($value)) {
+                    $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+                    $ok    = true;
+                }
+
             } elseif ($varType === 'integer') {
                 if ($value == (string)(int)$value) $ok = true;
             } elseif ($varType === 'float') {
@@ -1147,6 +1153,48 @@ class Common
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header($header, $replace);
         }
+    }
+
+    /**
+     * Sends the given response code if supported.
+     *
+     * @param int $code  Eg 204
+     *
+     * @throws Exception
+     */
+    public static function sendResponseCode($code)
+    {
+        $messages = array(
+            200 => 'Ok',
+            204 => 'No Response',
+            301 => 'Moved Permanently',
+            302 => 'Found',
+            304 => 'Not Modified',
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            500 => 'Internal Server Error'
+        );
+
+        if (!array_key_exists($code, $messages)) {
+            throw new Exception('Response code not supported: ' . $code);
+        }
+
+        if (strpos(PHP_SAPI, '-fcgi') === false) {
+            $key = $_SERVER['SERVER_PROTOCOL'];
+
+            if (strlen($key) > 15 || empty($key)) {
+                $key = 'HTTP/1.1';
+            }
+
+        } else {
+            // FastCGI
+            $key = 'Status:';
+        }
+
+        $message = $messages[$code];
+        Common::sendHeader($key . ' ' . $code . ' ' . $message);
     }
 
     /**

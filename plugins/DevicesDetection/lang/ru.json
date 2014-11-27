@@ -1,11 +1,12 @@
 {
     "DevicesDetection": {
         "BrowserEngineDocumentation": "Этот график показывается информацию о браузерах посетителей, разбитую по типу семейства. %s Наиболее важная информация для веб-разработчиков - на каком движке работают браузеры посетителей. Значки содержат имя движка в зависимости от наиболее популярного браузера, который работает на этом движке.",
+        "BrowserFamily": "Семейство браузеров",
+        "BrowserVersion": "Версия браузера",
         "BrowserVersions": "Версии браузеров",
         "CarBrowser": "Автомобильный браузер",
         "Console": "Консоль",
         "dataTableLabelBrands": "Фирма-производитель",
-        "dataTableLabelBrowserFamily": "Семейство браузеров",
         "dataTableLabelModels": "Модель",
         "dataTableLabelSystemVersion": "Версия операционной системы",
         "dataTableLabelTypes": "Тип",

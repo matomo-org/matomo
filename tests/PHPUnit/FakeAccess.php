@@ -10,6 +10,8 @@ use \Piwik\Tests\Framework\Mock\FakeAccess as MockFakeAccess;
 
 /**
  * FakeAccess for UnitTests
+ *
+ * @deprecated since 2.10.0 use \Piwik\Tests\Framework\Mock\FakeAccess instead
  */
 class FakeAccess extends MockFakeAccess
 {

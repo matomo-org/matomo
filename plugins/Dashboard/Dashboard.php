@@ -81,7 +81,7 @@ class Dashboard extends \Piwik\Plugin
                 ],
                 [
                     {"uniqueId":"widgetUserCountryMapvisitorMap","parameters":{"module":"UserCountryMap","action":"visitorMap"}},
-                    {"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
+                    {"uniqueId":"widgetDevicesDetecionGetBrowser","parameters":{"module":"DevicesDetection","action":"getBrowsers"}},
                     {"uniqueId":"widgetReferrersgetSearchEngines","parameters":{"module":"Referrers","action":"getSearchEngines"}},
                     {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
                     {"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
@@ -193,12 +193,12 @@ class Dashboard extends \Piwik\Plugin
         $layout = str_replace("\\\"", "\"", $layout);
         $layout = str_replace("\n", "", $layout);
 
-        return Common::json_decode($layout, $assoc = false);
+        return json_decode($layout, $assoc = false);
     }
 
     public function encodeLayout($layout)
     {
-        return Common::json_encode($layout);
+        return json_encode($layout);
     }
 
     public function getJsFiles(&$jsFiles)

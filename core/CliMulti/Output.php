@@ -13,6 +13,7 @@ use Piwik\Filesystem;
 class Output {
 
     private $tmpFile  = '';
+    private $outputId = null;
 
     public function __construct($outputId)
     {
@@ -23,7 +24,13 @@ class Output {
         $dir = CliMulti::getTmpPath();
         Filesystem::mkdir($dir);
 
-        $this->tmpFile = $dir . '/' . $outputId . '.output';
+        $this->tmpFile  = $dir . '/' . $outputId . '.output';
+        $this->outputId = $outputId;
+    }
+
+    public function getOutputId()
+    {
+        return $this->outputId;
     }
 
     public function write($content)
@@ -34,6 +41,13 @@ class Output {
     public function getPathToFile()
     {
         return $this->tmpFile;
+    }
+
+    public function isAbnormal()
+    {
+        $size = Filesystem::getFileSize($this->tmpFile, 'MB');
+
+        return $size !== null && $size >= 100;
     }
 
     public function exists()

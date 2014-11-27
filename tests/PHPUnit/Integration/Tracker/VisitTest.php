@@ -6,19 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Integration\Tracker;
+
 use Piwik\Access;
 use Piwik\Network\IPUtils;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Core_Tracker_VisitTest
- *
  * @group Core
  */
-class Core_Tracker_VisitTest extends IntegrationTestCase
+class VisitTest extends IntegrationTestCase
 {
     public function setUp()
     {
@@ -29,7 +31,7 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
+        Manager::getInstance()->loadPlugins(array('SitesManager'));
     }
 
     /**
@@ -75,7 +77,6 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
     }
 
     /**
-     * @group Core
      * @dataProvider getExcludedIpTestData
      */
     public function testIsVisitorIpExcluded($excludedIp, $tests)
@@ -120,7 +121,6 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
     }
 
     /**
-     * @group Core
      * @dataProvider getExcludedUserAgentTestData
      */
     public function testIsVisitorUserAgentExcluded($excludedUserAgent, $tests)
@@ -143,7 +143,6 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
     }
 
     /**
-     * @group Core
      * @group referrerIsKnownSpam
      */
     public function testIsVisitor_referrerIsKnownSpam()
@@ -173,7 +172,6 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
     }
 
     /**
-     * @group Core
      * @group IpIsKnownBot
      */
     public function testIsVisitor_ipIsKnownBot()
@@ -203,7 +201,6 @@ class Core_Tracker_VisitTest extends IntegrationTestCase
     }
 
     /**
-     * @group Core
      * @group UserAgentIsKnownBot
      */
     public function testIsVisitor_userAgentIsKnownBot()

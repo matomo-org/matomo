@@ -1,16 +1,20 @@
 <?php
-use Piwik\Db;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-
 /**
  * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ */
+
+namespace Piwik\Tests\Integration;
+
+use Piwik\Db;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+
+/**
  * @group Core
  */
-class Core_SqlTest extends IntegrationTestCase
+class SqlTest extends IntegrationTestCase
 {
     public function setUp()
     {
@@ -30,9 +34,6 @@ class Core_SqlTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    /**
-     * @group Core
-     */
     public function testOptimize()
     {
         // make sure optimizing myisam tables works

@@ -5,13 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+namespace Piwik\Tests\Integration;
+
 use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
 
 /**
+ * @group Core
  * @group HttpTest
  */
-class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testFetchRemoteFile
@@ -26,8 +30,6 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getMethodsToTest
      */
     public function testFetchRemoteFile($method)
@@ -37,9 +39,6 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(strpos($result, 'Piwik') !== false);
     }
 
-    /**
-     * @group Core
-     */
     public function testFetchApiLatestVersion()
     {
         $destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
@@ -48,9 +47,6 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, filesize($destinationPath));
     }
 
-    /**
-     * @group Core
-     */
     public function testFetchLatestZip()
     {
         $destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
@@ -60,7 +56,6 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
      * @dataProvider getMethodsToTest
      */
     public function testCustomByteRange($method)
@@ -88,8 +83,6 @@ class Piwik_Test_HttpTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getMethodsToTest
      */
     public function testHEADOperation($method)

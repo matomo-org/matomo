@@ -16,6 +16,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
+use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -431,7 +432,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $this->changeLanguage($testConfig->language);
         }
 
-        $testRequests = new Collection($api, $testConfig, $api);
+        $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
             $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
@@ -457,6 +458,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         return count($this->comparisonFailures) == 0;
+    }
+
+    protected function getTestRequestsCollection($api, $testConfig, $api)
+    {
+       return new Collection($api, $testConfig, $api);
     }
 
     private function printComparisonFailures()
@@ -578,4 +584,20 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Sometimes fail on php 5.3');
         }
     }
+
+    public function assertResponseCode($expectedResponseCode, $url, $message = '')
+    {
+        self::assertThat($url, new ResponseCode($expectedResponseCode), $message);
+    }
+
+    public function assertNotDbConnectionCreated($message = 'A database connection was created but should not.')
+    {
+        self::assertFalse(Db::hasDatabaseObject(), $message);
+    }
+
+    public function assertDbConnectionCreated($message = 'A database connection was not created but should.')
+    {
+        self::assertTrue(Db::hasDatabaseObject(), $message);
+    }
+
 }

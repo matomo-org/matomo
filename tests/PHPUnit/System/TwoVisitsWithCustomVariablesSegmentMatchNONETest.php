@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Plugins\API\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 use Piwik\Tests\Framework\Fixture;
@@ -48,11 +47,10 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
 
     public function getSegmentToTest()
     {
-        // Segment matching NONE
-        $segments = API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
+        $segments = AutoSuggestAPITest::getSegmentsMetadata(self::$fixture->idSite);
 
         $minimumExpectedSegmentsCount = 55; // as of Piwik 1.12
-        $this->assertTrue( count($segments) >= $minimumExpectedSegmentsCount);
+        $this->assertGreaterThan($minimumExpectedSegmentsCount, count($segments));
         $segmentExpression = array();
 
         $seenVisitorId = false;
@@ -87,6 +85,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
     {
         return 'twoVisitsWithCustomVariables_segmentMatchNONE';
     }
+
 }
 
 TwoVisitsWithCustomVariablesSegmentMatchNONETest::$fixture = new TwoVisitsWithCustomVariables();

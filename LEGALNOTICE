@@ -69,10 +69,6 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Link:  https://github.com/piwik/device-detector
 	License:  LGPL
 
-	Name:  UserAgentParser
-	Link:  https://github.com/piwik/piwik/blob/master/libs/UserAgentParser/
-	License:  New BSD
-
 	Name:  Piwik/Decompress
 	Link:  https://github.com/piwik/component-decompress
 	License:  LGPL v3.0
@@ -259,10 +255,6 @@ THIRD-PARTY CONTENT
 	Notes:
 	- used in ImageGraph plugin
 
-	Name: plugins/CorePluginsAdmin/images/themes.png
-	Link: https://www.iconfinder.com/icons/17022/colors_draw_paint_icon
-	License: Free for commercial use
-
 	Name: plugins/Feedback/angularjs/ratefeature/thumbs-down.png
 	Link: https://www.iconfinder.com/icons/216428/down_thumbs_icon
 	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
@@ -270,10 +262,6 @@ THIRD-PARTY CONTENT
 	Name: plugins/Feedback/angularjs/ratefeature/thumbs-up.png
 	Link: https://www.iconfinder.com/icons/216429/thumbs_up_icon
 	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
-
-	Name: plugins/CorePluginsAdmin/images/plugins.png
-	Link: http://findicons.com/icon/94051/tools_wizard?id=396912
-	License: GNU/GPL
 
     Name: plugins/Insights/images/idea.png
     Link: https://www.iconfinder.com/icons/6074/brainstorm_bulb_idea_jabber_light_icon

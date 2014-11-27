@@ -99,6 +99,11 @@ class DataArray
             return;
         }
 
+        // Edge case fail safe
+        if(!isset($oldRowToUpdate[Metrics::INDEX_NB_VISITS])) {
+            return;
+        }
+
         $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
         $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd[Metrics::INDEX_NB_ACTIONS];
         $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];

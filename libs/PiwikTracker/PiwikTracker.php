@@ -219,6 +219,8 @@ class PiwikTracker
         $this->doBulkRequests = false;
         $this->storedTrackingActions = array();
 
+        $this->sendImageResponse = true;
+
         $this->visitorCustomVar = $this->getCustomVariablesFromCookie();
     }
 
@@ -498,6 +500,14 @@ class PiwikTracker
         $this->configCookiesDisabled = false;
         $this->configCookieDomain = self::domainFixup($domain);
         $this->configCookiePath = $path;
+    }
+
+    /**
+     * If image response is disabled Piwik will respond with a HTTP 204 header instead of responding with a gif.
+     */
+    public function disableSendImageResponse()
+    {
+        $this->sendImageResponse = false;
     }
 
     /**
@@ -1524,6 +1534,7 @@ class PiwikTracker
             (!empty($this->city) ? '&city=' . urlencode($this->city) : '') .
             (!empty($this->lat) ? '&lat=' . urlencode($this->lat) : '') .
             (!empty($this->long) ? '&long=' . urlencode($this->long) : '') .
+            (!$this->sendImageResponse ? '&send_image=0' : '') .
 
             // DEBUG
             $this->DEBUG_APPEND_URL;

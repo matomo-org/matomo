@@ -9,6 +9,8 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Cache;
@@ -412,15 +414,16 @@ class Tracker
      *
      * @param Exception $e
      * @param bool $authenticated
+     * @param int  $statusCode eg 500
      */
-    protected function exitWithException($e, $authenticated = false)
+    protected function exitWithException($e, $authenticated = false, $statusCode = 500)
     {
         if ($this->hasRedirectUrl()) {
             $this->performRedirectToUrlIfSet();
             exit;
         }
 
-        Common::sendHeader('HTTP/1.1 500 Internal Server Error');
+        Common::sendResponseCode($statusCode);
         error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
 
         if ($this->usingBulkTracking) {
@@ -436,7 +439,7 @@ class Tracker
                 $result['message'] = $this->getMessageFromException($e);
             }
             Common::sendHeader('Content-Type: application/json');
-            echo Common::json_encode($result);
+            echo json_encode($result);
             die(1);
             exit;
         }
@@ -454,8 +457,9 @@ class Tracker
             Common::sendHeader('Content-Type: text/html; charset=utf-8');
             echo $this->getMessageFromException($e);
         } else {
-            $this->outputTransparentGif();
+            $this->sendResponse();
         }
+
         die(1);
         exit;
     }
@@ -496,12 +500,12 @@ class Tracker
             $this->outputAccessControlHeaders();
 
             Common::sendHeader('Content-Type: application/json');
-            echo Common::json_encode($result);
+            echo json_encode($result);
             exit;
         }
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
-                $this->outputTransparentGif ();
+                $this->sendResponse();
                 Common::printDebug("Logging disabled, display transparent logo");
                 break;
 
@@ -513,7 +517,7 @@ class Tracker
             case self::STATE_NOSCRIPT_REQUEST:
             case self::STATE_NOTHING_TO_NOTICE:
             default:
-                $this->outputTransparentGif ();
+                $this->sendResponse();
                 Common::printDebug("Nothing to notice => default behaviour");
                 break;
         }
@@ -648,7 +652,7 @@ class Tracker
         return $visit;
     }
 
-    protected function outputTransparentGif ()
+    private function sendResponse()
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG'])
             && $GLOBALS['PIWIK_TRACKER_DEBUG']
@@ -660,10 +664,24 @@ class Tracker
             // If there was an error during tracker, return so errors can be flushed
             return;
         }
-        $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-        Common::sendHeader('Content-Type: image/gif');
 
         $this->outputAccessControlHeaders();
+
+        $request = $_GET + $_POST;
+
+        if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
+            Common::sendResponseCode(204);
+
+            return;
+        }
+
+        $this->outputTransparentGif();
+    }
+
+    protected function outputTransparentGif ()
+    {
+        $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        Common::sendHeader('Content-Type: image/gif');
 
         print(base64_decode($transGifBase64));
     }
@@ -828,6 +846,12 @@ class Tracker
             } else {
                 Common::printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
             }
+        } catch (UnexpectedWebsiteFoundException $e) {
+            Common::printDebug("Exception: " . $e->getMessage());
+            $this->exitWithException($e, $isAuthenticated, 400);
+        } catch (InvalidRequestParameterException $e) {
+            Common::printDebug("Exception: " . $e->getMessage());
+            $this->exitWithException($e, $isAuthenticated, 400);
         } catch (DbException $e) {
             Common::printDebug("Exception: " . $e->getMessage());
             $this->exitWithException($e, $isAuthenticated);

@@ -7,7 +7,7 @@
 
 $(document).ready(function () {
 
-    $('.extendPlatform .uploadPlugin').click(function (event) {
+    $('.pluginslistActionBar .uploadPlugin').click(function (event) {
         event.preventDefault();
 
         piwikHelper.modalConfirm('#installPluginByUpload', {

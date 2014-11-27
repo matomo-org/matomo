@@ -133,7 +133,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Piwik::hasUserSuperUserAccess()) {
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
-            $view->dntSupport = DoNotTrackHeaderChecker::isActive();
+            $dntChecker = new DoNotTrackHeaderChecker();
+            $view->dntSupport = $dntChecker->isActive();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
@@ -297,7 +298,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSuperUserAccess();
         Nonce::checkNonce(self::DEACTIVATE_DNT_NONCE);
 
-        DoNotTrackHeaderChecker::deactivate();
+        $dntChecker = new DoNotTrackHeaderChecker();
+        $dntChecker->deactivate();
 
         $this->redirectToIndex('PrivacyManager', 'privacySettings');
     }
@@ -307,7 +309,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSuperUserAccess();
         Nonce::checkNonce(self::ACTIVATE_DNT_NONCE);
 
-        DoNotTrackHeaderChecker::activate();
+        $dntChecker = new DoNotTrackHeaderChecker();
+        $dntChecker->activate();
 
         $this->redirectToIndex('PrivacyManager', 'privacySettings');
     }

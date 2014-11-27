@@ -66,7 +66,7 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
         $view->reports = $reports;
-        $view->reportsJSON = Common::json_encode($reportsById);
+        $view->reportsJSON = json_encode($reportsById);
 
         $view->downloadOutputType = API::OUTPUT_INLINE;
 

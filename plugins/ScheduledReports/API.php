@@ -236,10 +236,10 @@ class API extends \Piwik\Plugin\API
 
         foreach ($reports as &$report) {
             // decode report parameters
-            $report['parameters'] = Common::json_decode($report['parameters'], true);
+            $report['parameters'] = json_decode($report['parameters'], true);
 
             // decode report list
-            $report['reports'] = Common::json_decode($report['reports'], true);
+            $report['reports'] = json_decode($report['reports'], true);
         }
 
         // static cache
@@ -294,7 +294,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // override and/or validate report parameters
-        $report['parameters'] = Common::json_decode(
+        $report['parameters'] = json_decode(
             self::validateReportParameters($reportType, empty($parameters) ? $report['parameters'] : $parameters),
             true
         );
@@ -335,6 +335,7 @@ class API extends \Piwik\Plugin\API
 
                 if ($apiAction == 'getAll') {
                     $_GET['filter_truncate'] = false;
+                    $_GET['filter_limit'] = -1; // show all websites in all websites report
 
                     // when a view/admin user created a report, workaround the fact that "Super User"
                     // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
@@ -624,7 +625,7 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $reportType));
 
-        return Common::json_encode($parameters);
+        return json_encode($parameters);
     }
 
     private static function validateAndTruncateDescription(&$description)
@@ -653,7 +654,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        return Common::json_encode($requestedReports);
+        return json_encode($requestedReports);
     }
 
     private static function validateCommonReportAttributes($period, $hour, &$description, &$idSegment, $reportType, $reportFormat)

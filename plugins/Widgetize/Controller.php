@@ -22,7 +22,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@Widgetize/index');
-        $view->availableWidgets = Common::json_encode(WidgetsList::get());
+        $view->availableWidgets = json_encode(WidgetsList::get());
         $this->setGeneralVariablesView($view);
         return $view->render();
     }
