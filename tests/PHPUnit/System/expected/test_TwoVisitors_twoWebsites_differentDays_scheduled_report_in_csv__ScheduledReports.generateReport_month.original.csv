@@ -1,7 +1,7 @@
 All Websites dashboard
-label,nb_visits,nb_actions,nb_pageviews,revenue,nb_conversions,visits_evolution,actions_evolution,pageviews_evolution,revenue_evolution,nb_conversions_evolution,orders_evolution,ecommerce_revenue_evolution,orders,ecommerce_revenue
-Site 1,10,43,43,$ 0,0,100%,100%,100%,0%,0%,0%,0%,0,$ 0
-Site 2,1,3,3,$ 0,0,100%,100%,100%,0%,0%,0%,0%,0,$ 0
+label,nb_visits,nb_actions,nb_pageviews,revenue,nb_conversions,visits_evolution,actions_evolution,pageviews_evolution,revenue_evolution,nb_conversions_evolution,orders,orders_evolution,ecommerce_revenue,ecommerce_revenue_evolution
+Site 1,10,43,43,$ 0,0,100%,100%,100%,0%,0%,0,0,$ 0,0
+Site 2,1,3,3,$ 0,0,100%,100%,100%,0%,0%,0,0,$ 0,0
 
 Visits Summary
 nb_uniq_visitors,nb_users,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -317,25 +317,25 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Unknown,8,40,0%,5,00:15:01,0%
 Desktop,2,3,0%,1.5,00:03:01,50%
 
-Device brand
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,10,43,0%,4.3,00:12:37,10%
-
 Visitor Browser
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 Firefox,1,2,0%,2,00:06:01,0%
 Opera,1,1,0%,1,00:00:00,100%
 
+Device brand
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,10,43,0%,4.3,00:12:37,10%
+
+Device model
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,10,43,0%,4.3,00:12:37,10%
+
 Browser Version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 Firefox 3.6,1,2,0%,2,00:06:01,0%
 Opera 9.63,1,1,0%,1,00:00:00,100%
-
-Device model
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,10,43,0%,4.3,00:12:37,10%
 
 Operating System families
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

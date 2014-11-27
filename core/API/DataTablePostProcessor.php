@@ -271,7 +271,9 @@ class DataTablePostProcessor
                 $allTemporaryMetrics = array_merge($allTemporaryMetrics, $metric->getTemporaryMetrics());
             }
 
-            $table->filter('ColumnDelete', array($allTemporaryMetrics));
+            if (!empty($allTemporaryMetrics)) {
+                $table->filter('ColumnDelete', array($allTemporaryMetrics));
+            }
         });
     }
 

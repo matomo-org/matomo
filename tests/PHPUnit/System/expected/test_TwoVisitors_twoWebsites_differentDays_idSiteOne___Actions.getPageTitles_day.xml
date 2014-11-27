@@ -7,7 +7,6 @@
 			<nb_uniq_visitors>2</nb_uniq_visitors>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
-			<sum_time_generation>0.276</sum_time_generation>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.123</min_time_generation>
 			<max_time_generation>0.153</max_time_generation>
@@ -31,7 +30,6 @@
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
-			<sum_time_generation>0.223</sum_time_generation>
 			<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 			<min_time_generation>0.223</min_time_generation>
 			<max_time_generation>0.223</max_time_generation>
@@ -47,7 +45,6 @@
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>900</sum_time_spent>
-			<sum_time_generation>0.496</sum_time_generation>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.173</min_time_generation>
 			<max_time_generation>0.323</max_time_generation>
@@ -65,7 +62,6 @@
 					<nb_visits>2</nb_visits>
 					<nb_hits>2</nb_hits>
 					<sum_time_spent>900</sum_time_spent>
-					<sum_time_generation>0.496</sum_time_generation>
 					<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 					<min_time_generation>0.173</min_time_generation>
 					<max_time_generation>0.323</max_time_generation>
@@ -84,7 +80,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>360</sum_time_spent>
-							<sum_time_generation>0.323</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.323</min_time_generation>
 							<max_time_generation>0.323</max_time_generation>
@@ -104,7 +99,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>540</sum_time_spent>
-							<sum_time_generation>0.173</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.173</min_time_generation>
 							<max_time_generation>0.173</max_time_generation>
@@ -122,7 +116,6 @@
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
-			<sum_time_generation>0.452</sum_time_generation>
 			<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
@@ -138,7 +131,6 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_hits>1</nb_hits>
 					<sum_time_spent>0</sum_time_spent>
-					<sum_time_generation>0.452</sum_time_generation>
 					<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 					<min_time_generation>0.452</min_time_generation>
 					<max_time_generation>0.452</max_time_generation>
@@ -158,7 +150,6 @@
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>900</sum_time_spent>
-			<sum_time_generation>0.496</sum_time_generation>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.173</min_time_generation>
 			<max_time_generation>0.323</max_time_generation>
@@ -176,7 +167,6 @@
 					<nb_visits>2</nb_visits>
 					<nb_hits>2</nb_hits>
 					<sum_time_spent>900</sum_time_spent>
-					<sum_time_generation>0.496</sum_time_generation>
 					<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 					<min_time_generation>0.173</min_time_generation>
 					<max_time_generation>0.323</max_time_generation>
@@ -195,7 +185,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>360</sum_time_spent>
-							<sum_time_generation>0.323</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.323</min_time_generation>
 							<max_time_generation>0.323</max_time_generation>
@@ -215,7 +204,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>540</sum_time_spent>
-							<sum_time_generation>0.173</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.173</min_time_generation>
 							<max_time_generation>0.173</max_time_generation>
@@ -233,7 +221,6 @@
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
-			<sum_time_generation>0.452</sum_time_generation>
 			<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
@@ -249,7 +236,6 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_hits>1</nb_hits>
 					<sum_time_spent>0</sum_time_spent>
-					<sum_time_generation>0.452</sum_time_generation>
 					<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 					<min_time_generation>0.452</min_time_generation>
 					<max_time_generation>0.452</max_time_generation>
@@ -269,7 +255,6 @@
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>900</sum_time_spent>
-			<sum_time_generation>0.496</sum_time_generation>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.173</min_time_generation>
 			<max_time_generation>0.323</max_time_generation>
@@ -287,7 +272,6 @@
 					<nb_visits>2</nb_visits>
 					<nb_hits>2</nb_hits>
 					<sum_time_spent>900</sum_time_spent>
-					<sum_time_generation>0.496</sum_time_generation>
 					<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 					<min_time_generation>0.173</min_time_generation>
 					<max_time_generation>0.323</max_time_generation>
@@ -306,7 +290,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>360</sum_time_spent>
-							<sum_time_generation>0.323</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.323</min_time_generation>
 							<max_time_generation>0.323</max_time_generation>
@@ -326,7 +309,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>540</sum_time_spent>
-							<sum_time_generation>0.173</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.173</min_time_generation>
 							<max_time_generation>0.173</max_time_generation>
@@ -344,7 +326,6 @@
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
-			<sum_time_generation>0.452</sum_time_generation>
 			<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
@@ -360,7 +341,6 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_hits>1</nb_hits>
 					<sum_time_spent>0</sum_time_spent>
-					<sum_time_generation>0.452</sum_time_generation>
 					<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 					<min_time_generation>0.452</min_time_generation>
 					<max_time_generation>0.452</max_time_generation>
@@ -380,7 +360,6 @@
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>900</sum_time_spent>
-			<sum_time_generation>0.496</sum_time_generation>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.173</min_time_generation>
 			<max_time_generation>0.323</max_time_generation>
@@ -398,7 +377,6 @@
 					<nb_visits>2</nb_visits>
 					<nb_hits>2</nb_hits>
 					<sum_time_spent>900</sum_time_spent>
-					<sum_time_generation>0.496</sum_time_generation>
 					<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 					<min_time_generation>0.173</min_time_generation>
 					<max_time_generation>0.323</max_time_generation>
@@ -417,7 +395,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>360</sum_time_spent>
-							<sum_time_generation>0.323</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.323</min_time_generation>
 							<max_time_generation>0.323</max_time_generation>
@@ -437,7 +414,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>540</sum_time_spent>
-							<sum_time_generation>0.173</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.173</min_time_generation>
 							<max_time_generation>0.173</max_time_generation>
@@ -455,7 +431,6 @@
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
-			<sum_time_generation>0.452</sum_time_generation>
 			<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
@@ -471,7 +446,6 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_hits>1</nb_hits>
 					<sum_time_spent>0</sum_time_spent>
-					<sum_time_generation>0.452</sum_time_generation>
 					<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 					<min_time_generation>0.452</min_time_generation>
 					<max_time_generation>0.452</max_time_generation>
@@ -491,7 +465,6 @@
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>900</sum_time_spent>
-			<sum_time_generation>0.496</sum_time_generation>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.173</min_time_generation>
 			<max_time_generation>0.323</max_time_generation>
@@ -509,7 +482,6 @@
 					<nb_visits>2</nb_visits>
 					<nb_hits>2</nb_hits>
 					<sum_time_spent>900</sum_time_spent>
-					<sum_time_generation>0.496</sum_time_generation>
 					<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 					<min_time_generation>0.173</min_time_generation>
 					<max_time_generation>0.323</max_time_generation>
@@ -528,7 +500,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>360</sum_time_spent>
-							<sum_time_generation>0.323</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.323</min_time_generation>
 							<max_time_generation>0.323</max_time_generation>
@@ -548,7 +519,6 @@
 							<nb_uniq_visitors>1</nb_uniq_visitors>
 							<nb_hits>1</nb_hits>
 							<sum_time_spent>540</sum_time_spent>
-							<sum_time_generation>0.173</sum_time_generation>
 							<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 							<min_time_generation>0.173</min_time_generation>
 							<max_time_generation>0.173</max_time_generation>
@@ -566,7 +536,6 @@
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
-			<sum_time_generation>0.452</sum_time_generation>
 			<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
@@ -582,7 +551,6 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_hits>1</nb_hits>
 					<sum_time_spent>0</sum_time_spent>
-					<sum_time_generation>0.452</sum_time_generation>
 					<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 					<min_time_generation>0.452</min_time_generation>
 					<max_time_generation>0.452</max_time_generation>

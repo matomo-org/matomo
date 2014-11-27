@@ -68,7 +68,10 @@ class AveragePageGenerationTime extends ProcessedMetric
     {
         $hasTimeGeneration = array_sum($this->getMetricValues($table, 'sum_time_generation')) > 0;
 
-        if (!$hasTimeGeneration) {
+        if (!$hasTimeGeneration
+            && $table->getRowsCount() != 0
+            && !$this->hasAverageTimeGeneration($table)
+        ) {
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that
             // the columns can also be removed from the view
             $table->filter('ColumnDelete', array(array(
@@ -96,5 +99,10 @@ class AveragePageGenerationTime extends ProcessedMetric
         }
 
         return $hasTimeGeneration;
+    }
+
+    private function hasAverageTimeGeneration(DataTable $table)
+    {
+        return $table->getFirstRow()->getColumn('avg_time_generation') !== false;
     }
 }
