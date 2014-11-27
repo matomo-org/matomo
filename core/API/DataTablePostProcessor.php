@@ -264,7 +264,7 @@ class DataTablePostProcessor
 
         $report = $this->report;
         $dataTable->filter(function (DataTable $table) use ($report, $allColumns) {
-            $processedMetrics = Report::getProcessedMetricsForTable($table, $this->report);
+            $processedMetrics = Report::getProcessedMetricsForTable($table, $report);
 
             $allTemporaryMetrics = array();
             foreach ($processedMetrics as $metric) {
