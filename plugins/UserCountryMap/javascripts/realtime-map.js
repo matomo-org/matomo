@@ -478,6 +478,8 @@
                 if (firstRun && lastVisits.length) {
                     // zoom changed, use cached report data
                     gotNewReport(lastVisits.slice());
+                } else if (Visibility.hidden()) {
+                    nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
                 } else {
                     // request API for new data
                     $('.realTimeMap_overlay img').show();
