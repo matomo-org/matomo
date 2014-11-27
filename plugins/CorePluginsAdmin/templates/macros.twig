@@ -200,7 +200,7 @@
                             {% spaceless %}
                             {% for author in plugin.info.authors if author.name %}
                                 {% if author.homepage is defined %}
-                                    <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ aurel="noreferrer"  target="_blank"" target="_blank">{{ author.name }}</a>
+                                    <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer" target="_blank">{{ author.name }}</a>
                                 {% else %}
                                     {{ author.name }}
                                 {% endif %}
