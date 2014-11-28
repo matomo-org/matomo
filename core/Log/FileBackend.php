@@ -1,6 +1,7 @@
 <?php
 
 namespace Piwik\Log;
+
 use Piwik\Filechecks;
 use Piwik\Log;
 use Piwik\Piwik;
