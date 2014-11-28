@@ -102,6 +102,17 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
                 'periods'                => array('month'),
                 'otherRequestParameters' => array('ip' => '194.57.91.215')
             )),
+
+            array(array('UserCountry.getLocationFromIP'), array(
+                'otherRequestParameters' => array('ip' => '194.57.91.215')
+            )),
+
+            array(array('UserCountry.getLocationFromIP'), array(
+                'testSuffix' => '_IPv6',
+                'otherRequestParameters' => array(
+                    'ip' => '2001:db8:85a3:0:0:8a2e:370:7334',
+                )
+            )),
         );
 
         // Randomly fails on 5.3
