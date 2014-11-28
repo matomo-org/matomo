@@ -164,13 +164,6 @@ class Log extends Singleton
      */
     private $logToFilePath;
 
-    /**
-     * True if we're currently setup to log to a screen, false if otherwise.
-     *
-     * @var bool
-     */
-    private $loggingToScreen;
-
     public static function getInstance()
     {
         if (self::$instance === null) {
