@@ -120,7 +120,7 @@ class Error
         }
     }
 
-    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, $log)
+    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, Log $log)
     {
         if ($message instanceof Error) {
             $message = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)

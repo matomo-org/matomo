@@ -33,7 +33,7 @@ class ExceptionHandler
         set_exception_handler(array('\\Piwik\\ExceptionHandler', 'logException'));
     }
 
-    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, $log)
+    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, Log $log)
     {
         if ($message instanceof \Exception) {
             $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
