@@ -89,6 +89,8 @@
         "SystemCheckOpenURLHelp": "Newsletter subscriptions, update notifications, and one-click updates requires the \"curl\" extension, allow_url_fopen=On, or fsockopen() enabled.",
         "SystemCheckOtherExtensions": "Other extensions",
         "SystemCheckOtherFunctions": "Other functions",
+        "SystemCheckPageSpeedDisabled": "PageSpeed disabled",
+        "SystemCheckPageSpeedWarn": "We recommend to disable the PageSpeed Module in your web server %s: PageSpeed was reported to cause several issues with Piwik.",
         "SystemCheckPackHelp": "The pack() function is required to track visitors in Piwik.",
         "SystemCheckParseIniFileHelp": "This built-in function has been disabled on your host. Piwik will attempt to emulate this function but may encounter further security restrictions. Tracker performance will also be impacted.",
         "SystemCheckPdoAndMysqliHelp": "On a GNU\/Linux server you can compile php with the following options: %1$s In your php.ini, add the following lines: %2$s",

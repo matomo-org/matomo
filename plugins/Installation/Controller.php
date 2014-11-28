@@ -439,6 +439,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
+     * System check will call this page which should load quickly,
+     * in order to look at Response headers (eg. to detect if pagespeed is running)
+     *
+     * @return string
+     */
+    public function getEmptyPageForSystemCheck()
+    {
+        return 'Hello, world!';
+    }
+
+    /**
      * Get system information
      */
     public static function getSystemInformation()
