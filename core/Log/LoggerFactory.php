@@ -24,27 +24,30 @@ class LoggerFactory
         $logConfig = Config::getInstance()->log;
 
         $logFilePath = self::getLogFilePath($logConfig, $container);
+        $logLevel = self::getLogLevel($container);
 
-        $logger = new Log($container->get('log.format'), $logFilePath);
+        $logger = new Log($container->get('log.format'), $logFilePath, $logLevel);
 
-        self::setCurrentLogLevelFromConfig($logger, $logConfig);
         self::setLogWritersFromConfig($logger, $logConfig);
         self::disableLoggingBasedOnConfig($logger, $logConfig);
 
         return $logger;
     }
 
-    private static function setCurrentLogLevelFromConfig(Log $logger, $logConfig)
+    private static function getLogLevel(ContainerInterface $container)
     {
-        if (!empty($logConfig[Log::LOG_LEVEL_CONFIG_OPTION])) {
-            $logLevel = self::getLogLevelFromStringName($logConfig[Log::LOG_LEVEL_CONFIG_OPTION]);
+        $logLevel = Log::WARN;
 
-            if ($logLevel >= Log::NONE // sanity check
-                && $logLevel <= Log::VERBOSE
-            ) {
-                $logger->setLogLevel($logLevel);
+        if ($container->has('old_config.log.log_level')) {
+            $configLogLevel = self::getLogLevelFromStringName($container->get('old_config.log.log_level'));
+
+            // sanity check
+            if ($configLogLevel >= Log::NONE && $configLogLevel <= Log::VERBOSE) {
+                $logLevel = $configLogLevel;
             }
         }
+
+        return $logLevel;
     }
 
     private static function setLogWritersFromConfig(Log $logger, $logConfig)

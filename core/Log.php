@@ -184,10 +184,16 @@ class Log extends Singleton
         self::$instance = $instance;
     }
 
-    public function __construct($logMessageFormat, $logToFilePath)
+    /**
+     * @param string $logMessageFormat
+     * @param string $logToFilePath
+     * @param int $logLevel
+     */
+    public function __construct($logMessageFormat, $logToFilePath, $logLevel)
     {
         $this->logMessageFormat = $logMessageFormat;
         $this->logToFilePath = $logToFilePath;
+        $this->currentLogLevel = $logLevel;
     }
 
     /**
