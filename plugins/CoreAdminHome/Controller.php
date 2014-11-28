@@ -142,13 +142,26 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
             }
 
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+
+            if (!empty($setting)) {
+                $message = $setting->title . ': ' . $message;
+            }
+
+            $message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
+            return json_encode(array('result' => 'error', 'message' => $message));
+        }
+
+        try {
             foreach ($pluginsSettings as $pluginSetting) {
                 $pluginSetting->save();
             }
-
         } catch (Exception $e) {
-            $message = html_entity_decode($e->getMessage(), ENT_QUOTES, 'UTF-8');
-            return json_encode(array('result' => 'error', 'message' => $message));
+            return json_encode(array(
+                'result' => 'error',
+                'message' => Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'))
+            );
         }
 
         Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
