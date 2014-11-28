@@ -43,7 +43,7 @@ dummy backtrace'
     public static $expectedErrorOutput = array(
         'screen' => '<div style=\'word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;\'>
         <strong>There is an error. Please report the message (Piwik 2.0)
-        and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' rel=\'noreferrer\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
+        and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
         Unknown error (102):</strong> <em>dummy error string</em> in <strong>dummyerrorfile.php</strong> on line <strong>145</strong>
 <br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
 dummy backtrace</div><br />

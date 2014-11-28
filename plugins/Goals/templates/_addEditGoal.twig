@@ -4,7 +4,7 @@
     <p>{{ 'Goals_NewGoalDescription'|translate }}
         {{ 'Goals_NewWhatDoYouWantUsersToDo'|translate }}
         {{ 'Goals_NewGoalYouWillBeAbleTo'|translate }}</p>
-    <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>","</a>")|raw }}
+    <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
     </p>
 {% else %}
     <div class="clear"></div>
@@ -13,7 +13,7 @@
         <ul class='listCircle'>
             <li><a onclick='' name='linkAddNewGoal'>{{ 'Goals_CreateNewGOal'|translate }}</a></li>
             <li><a onclick='' name='linkEditGoals'>{{ 'Goals_ViewAndEditGoals'|translate }}</a></li>
-            <li>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>","</a>")|raw }}</li>
+            <li>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}</li>
 
             <li>
                 {% if not ecommerceEnabled %}

@@ -36,7 +36,7 @@
             {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
         {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
             {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}
-            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' rel='noreferrer' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' rel='noreferrer' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
+            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
         {% elseif isSuperUser and adminMenu is defined and adminMenu %}
             {{ updateCheck|raw }}
             <br />

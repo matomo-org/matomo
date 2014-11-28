@@ -24,13 +24,13 @@
 
                     <input id="enableBrowserTriggerArchiving-no" type="radio" value="0" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
                     <label for="enableBrowserTriggerArchiving-no">{{ 'General_No'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' rel='noreferrer' target='_blank'>","</a>")|raw }}</span>
+                    <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
                 </fieldset>
             <td>
                 {% set browserArchivingHelp %}
                     {{ 'General_ArchivingInlineHelp'|translate }}
                     <br/>
-                    {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' rel='noreferrer' target='_blank'>","</a>")|raw }}
+                    {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
                 {% endset %}
                 {{ piwik.inlineHelp(browserArchivingHelp) }}
             </td>
@@ -100,9 +100,9 @@
                 </fieldset>
             <td>
                 {% set checkReleaseHelp %}
-                    {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' rel='noreferrer' target='_blank'>","</a>")|raw }}
+                    {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>")|raw }}
                     <br/>
-                    {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' rel='noreferrer' target='_blank'>","</a>")|raw }}
+                    {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>","</a>")|raw }}
                 {% endset %}
                 {{ piwik.inlineHelp(checkReleaseHelp) }}
             </td>
