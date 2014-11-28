@@ -8,6 +8,9 @@
  */
 namespace Piwik;
 
+use Piwik\Log\Formatter\ErrorHtmlFormatter;
+use Piwik\Log\Formatter\ErrorTextFormatter;
+
 require_once PIWIK_INCLUDE_PATH . '/core/Log.php';
 
 /**
@@ -122,53 +125,23 @@ class Error
 
     public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, Log $log)
     {
-        if ($message instanceof Error) {
-            $message = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)
-                . ' - ' . $message->errstr . "\n" . $message->backtrace;
-
-            $message = $log->formatMessage($level, $tag, $datetime, $message);
-        }
+        $formatter = new ErrorTextFormatter();
+        $message = $formatter->format($message, $level, $tag, $datetime, $log);
     }
 
     public static function formatScreenMessage(&$message, $level, $tag, $datetime, $log)
     {
-        if ($message instanceof Error) {
-            $errno = $message->errno & error_reporting();
-
-            // problem when using error_reporting with the @ silent fail operator
-            // it gives an errno 0, and in this case the objective is to NOT display anything on the screen!
-            // is there any other case where the errno is zero at this point?
-            if ($errno == 0) {
-                $message = false;
-                return;
-            }
-
-            Common::sendHeader('Content-Type: text/html; charset=utf-8');
-
-            $htmlString = '';
-            $htmlString .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
-        <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
-        and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' rel='noreferrer' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
-        ";
-            $htmlString .= Error::getErrNoString($message->errno);
-            $htmlString .= ":</strong> <em>{$message->errstr}</em> in <strong>{$message->errfile}</strong>";
-            $htmlString .= " on line <strong>{$message->errline}</strong>\n";
-            $htmlString .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\"><br />\n";
-            $htmlString .= str_replace("\n", "<br />\n", $message->backtrace);
-            $htmlString .= "</div><br />";
-            $htmlString .= "\n </pre></div><br />";
-
-            $message = $htmlString;
-        }
+        $formatter = new ErrorHtmlFormatter();
+        $message = $formatter->format($message, $level, $tag, $datetime, $log);
     }
 
     public static function setErrorHandler()
     {
-        Piwik::addAction('Log.formatFileMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
-        Piwik::addAction('Log.formatDatabaseMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
-        Piwik::addAction('Log.formatScreenMessage', array('\\Piwik\\Error', 'formatScreenMessage'));
+        Piwik::addAction('Log.formatFileMessage', array('Piwik\Error', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatDatabaseMessage', array('Piwik\Error', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatScreenMessage', array('Piwik\Error', 'formatScreenMessage'));
 
-        set_error_handler(array('\\Piwik\\Error', 'errorHandler'));
+        set_error_handler(array('Piwik\Error', 'errorHandler'));
     }
 
     public static function errorHandler($errno, $errstr, $errfile, $errline)

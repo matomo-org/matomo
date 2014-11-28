@@ -8,7 +8,8 @@
  */
 namespace Piwik;
 
-use Piwik\API\ResponseBuilder;
+use Piwik\Log\Formatter\ExceptionHtmlFormatter;
+use Piwik\Log\Formatter\ExceptionTextFormatter;
 use Piwik\Plugin;
 
 /**
@@ -26,32 +27,23 @@ class ExceptionHandler
 
     public static function setUp()
     {
-        Piwik::addAction('Log.formatFileMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
-        Piwik::addAction('Log.formatDatabaseMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
-        Piwik::addAction('Log.formatScreenMessage', array('\\Piwik\\ExceptionHandler', 'formatScreenMessage'));
+        Piwik::addAction('Log.formatFileMessage', array('Piwik\ExceptionHandler', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatDatabaseMessage', array('Piwik\ExceptionHandler', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatScreenMessage', array('Piwik\ExceptionHandler', 'formatScreenMessage'));
 
-        set_exception_handler(array('\\Piwik\\ExceptionHandler', 'logException'));
+        set_exception_handler(array('Piwik\ExceptionHandler', 'logException'));
     }
 
     public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, Log $log)
     {
-        if ($message instanceof \Exception) {
-            $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
-                self::$debugBacktraceForTests ? : $message->getTraceAsString());
-
-            $message = $log->formatMessage($level, $tag, $datetime, $message);
-        }
+        $formatter = new ExceptionTextFormatter();
+        $message = $formatter->format($message, $level, $tag, $datetime, $log);
     }
 
     public static function formatScreenMessage(&$message, $level, $tag, $datetime, $log)
     {
-        if ($message instanceof \Exception) {
-            Common::sendHeader('Content-Type: text/html; charset=utf-8');
-
-            $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
-            $response = new ResponseBuilder($outputFormat);
-            $message = $response->getResponseException(new \Exception($message->getMessage()));
-        }
+        $formatter = new ExceptionHtmlFormatter();
+        $message = $formatter->format($message, $level, $tag, $datetime, $log);
     }
 
     public static function logException(\Exception $exception)
