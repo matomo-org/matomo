@@ -10,8 +10,6 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Log\DatabaseBackend;
-use Piwik\Log\FileBackend;
 use Piwik\Log\ScreenBackend;
 
 /**
@@ -142,7 +140,7 @@ class Log extends Singleton
     private $currentLogLevel = self::WARN;
 
     /**
-     * The array of callbacks executed when logging to a file. Each callback writes a log
+     * The array of callbacks executed when logging a message. Each callback writes a log
      * message to a logging backend.
      *
      * @var array
@@ -156,13 +154,6 @@ class Log extends Singleton
      * @var string
      */
     private $logMessageFormat;
-
-    /**
-     * If we're logging to a file, this is the path to the file to log to.
-     *
-     * @var string
-     */
-    private $logToFilePath;
 
     public static function getInstance()
     {
@@ -181,14 +172,14 @@ class Log extends Singleton
     }
 
     /**
+     * @param callable[] $writers
      * @param string $logMessageFormat
-     * @param string $logToFilePath
      * @param int $logLevel
      */
-    public function __construct($logMessageFormat, $logToFilePath, $logLevel)
+    public function __construct(array $writers, $logMessageFormat, $logLevel)
     {
+        $this->writers = $writers;
         $this->logMessageFormat = $logMessageFormat;
-        $this->logToFilePath = $logToFilePath;
         $this->currentLogLevel = $logLevel;
     }
 
@@ -278,60 +269,6 @@ class Log extends Singleton
         );
     }
 
-    public function addLogWriter($writerName)
-    {
-        if (array_key_exists($writerName, $this->writers)) {
-            return;
-        }
-
-        $availableWritersByName = $this->getAvailableWriters();
-
-        if (empty($availableWritersByName[$writerName])) {
-            return;
-        }
-
-        $this->writers[$writerName] = $availableWritersByName[$writerName];
-    }
-
-    private function getAvailableWriters()
-    {
-        $writers = array();
-
-        /**
-         * This event is called when the Log instance is created. Plugins can use this event to
-         * make new logging writers available.
-         *
-         * A logging writer is a callback with the following signature:
-         *
-         *     function (int $level, string $tag, string $datetime, string $message)
-         *
-         * `$level` is the log level to use, `$tag` is the log tag used, `$datetime` is the date time
-         * of the logging call and `$message` is the formatted log message.
-         *
-         * Logging writers must be associated by name in the array passed to event handlers. The
-         * name specified can be used in Piwik's INI configuration.
-         *
-         * **Example**
-         *
-         *     public function getAvailableWriters(&$writers) {
-         *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
-         *             // ...
-         *         };
-         *     }
-         *
-         *     // 'myloggername' can now be used in the log_writers config option.
-         *
-         * @param array $writers Array mapping writer names with logging writers.
-         */
-        Piwik::postEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
-
-        $writers['file'] = new FileBackend($this->logMessageFormat, $this->logToFilePath);
-        $writers['screen'] = new ScreenBackend($this->logMessageFormat);
-        $writers['database'] = new DatabaseBackend($this->logMessageFormat);
-
-        return $writers;
-    }
-
     public function setLogLevel($logLevel)
     {
         $this->currentLogLevel = $logLevel;
@@ -383,10 +320,9 @@ class Log extends Singleton
             call_user_func($writer, $level, $tag, $datetime, $message, $this);
         }
 
+        // TODO this hack should be removed
         if ($level == self::ERROR) {
-            $writers = $this->getAvailableWriters();
-            /** @var ScreenBackend $screenBackend */
-            $screenBackend = $writers['screen'];
+            $screenBackend = new ScreenBackend($this->logMessageFormat);
             $message = $screenBackend->getMessageFormattedScreen($level, $tag, $datetime, $message, $this);
             $this->writeErrorToStandardErrorOutput($message);
             if (!isset($this->writers['screen'])) {

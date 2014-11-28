@@ -12,6 +12,7 @@ use Interop\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Log;
+use Piwik\Piwik;
 
 class LoggerFactory
 {
@@ -25,14 +26,12 @@ class LoggerFactory
     {
         $logConfig = Config::getInstance()->log;
 
+        $messageFormat = $container->get('log.format');
         $logFilePath = self::getLogFilePath($logConfig, $container);
         $logLevel = self::getLogLevel($logConfig, $container);
+        $writers = self::getLogWriters($logConfig, $messageFormat, $logFilePath);
 
-        $logger = new Log($container->get('log.format'), $logFilePath, $logLevel);
-
-        self::setLogWritersFromConfig($logger, $logConfig);
-
-        return $logger;
+        return new Log($writers, $messageFormat, $logLevel);
     }
 
     private static function getLogLevel($logConfig, ContainerInterface $container)
@@ -53,18 +52,28 @@ class LoggerFactory
         return Log::WARN;
     }
 
-    private static function setLogWritersFromConfig(Log $logger, $logConfig)
+    private static function getLogWriters($logConfig, $messageFormat, $logFilePath)
     {
-        // set the log writers
-        $logWriters = @$logConfig[Log::LOG_WRITERS_CONFIG_OPTION];
-        if (empty($logWriters)) {
-            return;
+        $writerNames = @$logConfig[Log::LOG_WRITERS_CONFIG_OPTION];
+
+        if (empty($writerNames)) {
+            return array();
         }
 
-        $logWriters = array_map('trim', $logWriters);
-        foreach ($logWriters as $writerName) {
-            $logger->addLogWriter($writerName);
+        $availableWriters = self::getAvailableWriters($messageFormat, $logFilePath);
+
+        $writerNames = array_map('trim', $writerNames);
+        $writers = array();
+
+        foreach ($writerNames as $writerName) {
+            if (! isset($availableWriters[$writerName])) {
+                continue;
+            }
+
+            $writers[$writerName] = $availableWriters[$writerName];
         }
+
+        return $writers;
     }
 
     private static function getLogFilePath($logConfig, ContainerInterface $container)
@@ -125,5 +134,44 @@ class LoggerFactory
             default:
                 return -1;
         }
+    }
+
+    private static function getAvailableWriters($logMessageFormat, $logFilePath)
+    {
+        $writers = array();
+
+        /**
+         * This event is called when the Log instance is created. Plugins can use this event to
+         * make new logging writers available.
+         *
+         * A logging writer is a callback with the following signature:
+         *
+         *     function (int $level, string $tag, string $datetime, string $message)
+         *
+         * `$level` is the log level to use, `$tag` is the log tag used, `$datetime` is the date time
+         * of the logging call and `$message` is the formatted log message.
+         *
+         * Logging writers must be associated by name in the array passed to event handlers. The
+         * name specified can be used in Piwik's INI configuration.
+         *
+         * **Example**
+         *
+         *     public function getAvailableWriters(&$writers) {
+         *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
+         *             // ...
+         *         };
+         *     }
+         *
+         *     // 'myloggername' can now be used in the log_writers config option.
+         *
+         * @param array $writers Array mapping writer names with logging writers.
+         */
+        Piwik::postEvent(Log::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
+
+        $writers['file'] = new FileBackend($logMessageFormat, $logFilePath);
+        $writers['screen'] = new ScreenBackend($logMessageFormat);
+        $writers['database'] = new DatabaseBackend($logMessageFormat);
+
+        return $writers;
     }
 }
