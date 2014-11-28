@@ -24,30 +24,31 @@ class LoggerFactory
         $logConfig = Config::getInstance()->log;
 
         $logFilePath = self::getLogFilePath($logConfig, $container);
-        $logLevel = self::getLogLevel($container);
+        $logLevel = self::getLogLevel($logConfig, $container);
 
         $logger = new Log($container->get('log.format'), $logFilePath, $logLevel);
 
         self::setLogWritersFromConfig($logger, $logConfig);
-        self::disableLoggingBasedOnConfig($logger, $logConfig);
 
         return $logger;
     }
 
-    private static function getLogLevel(ContainerInterface $container)
+    private static function getLogLevel($logConfig, ContainerInterface $container)
     {
-        $logLevel = Log::WARN;
+        if (self::isLoggingDisabled($logConfig)) {
+            return Log::NONE;
+        }
 
         if ($container->has('old_config.log.log_level')) {
             $configLogLevel = self::getLogLevelFromStringName($container->get('old_config.log.log_level'));
 
             // sanity check
             if ($configLogLevel >= Log::NONE && $configLogLevel <= Log::VERBOSE) {
-                $logLevel = $configLogLevel;
+                return $configLogLevel;
             }
         }
 
-        return $logLevel;
+        return Log::WARN;
     }
 
     private static function setLogWritersFromConfig(Log $logger, $logConfig)
@@ -90,21 +91,17 @@ class LoggerFactory
         return $logPath;
     }
 
-    private static function disableLoggingBasedOnConfig(Log $logger, $logConfig)
+    private static function isLoggingDisabled($logConfig)
     {
-        $disableLogging = false;
-
         if (!empty($logConfig['log_only_when_cli']) && !Common::isPhpCliMode()) {
-            $disableLogging = true;
+            return true;
         }
 
         if (!empty($logConfig['log_only_when_debug_parameter']) && !isset($_REQUEST['debug'])) {
-            $disableLogging = true;
+            return true;
         }
 
-        if ($disableLogging) {
-            $logger->setLogLevel(Log::NONE);
-        }
+        return false;
     }
 
     private static function getDefaultFileLogPath()
