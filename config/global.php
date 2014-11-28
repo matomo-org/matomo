@@ -9,7 +9,7 @@ return array(
     'path.tmp' => DI\factory(function (ContainerInterface $c) {
         $root = $c->get('path.root');
 
-        // TODO remove that special case and instead have CloudAdmin plugin override 'path.tmp' to add the instance id
+        // TODO remove that special case and instead have plugins override 'path.tmp' to add the instance id
         if ($c->has('old_config.General.instance_id')) {
             $instanceId = $c->get('old_config.General.instance_id');
             $instanceId = $instanceId ? '/' . $instanceId : '';
