@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Log\FileBackend;
 
 /**
  * Logging utility class.
@@ -329,7 +330,7 @@ class Log extends Singleton
          */
         Piwik::postEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
-        $writers['file'] = array($this, 'logToFile');
+        $writers['file'] = new FileBackend($this->logMessageFormat, $this->logToFilePath);
         $writers['screen'] = array($this, 'logToScreen');
         $writers['database'] = array($this, 'logToDatabase');
         return $writers;
@@ -343,21 +344,6 @@ class Log extends Singleton
     public function getLogLevel()
     {
         return $this->currentLogLevel;
-    }
-
-    private function logToFile($level, $tag, $datetime, $message)
-    {
-        $message = $this->getMessageFormattedFile($level, $tag, $datetime, $message);
-        if (empty($message)) {
-            return;
-        }
-
-        if (!@file_put_contents($this->logToFilePath, $message, FILE_APPEND)
-            && !defined('PIWIK_TEST_MODE')
-        ) {
-            $message = Filechecks::getErrorMessageMissingPermissions($this->logToFilePath);
-            throw new \Exception($message);
-        }
     }
 
     private function logToScreen($level, $tag, $datetime, $message)
@@ -421,7 +407,7 @@ class Log extends Singleton
     private function writeMessage($level, $tag, $datetime, $message)
     {
         foreach ($this->writers as $writer) {
-            call_user_func($writer, $level, $tag, $datetime, $message);
+            call_user_func($writer, $level, $tag, $datetime, $message, $this);
         }
 
         if ($level == self::ERROR) {
@@ -579,48 +565,5 @@ class Log extends Singleton
         }
         $message = trim($message);
         return $message;
-    }
-
-    /**
-     * @param $level
-     * @param $tag
-     * @param $datetime
-     * @param $message
-     * @return string
-     */
-    private function getMessageFormattedFile($level, $tag, $datetime, $message)
-    {
-        if (is_string($message)) {
-            $message = $this->formatMessage($level, $tag, $datetime, $message);
-        } else {
-            $logger = $this;
-
-            /**
-             * Triggered when trying to log an object to a file. Plugins can use
-             * this event to convert objects to strings before they are logged.
-             *
-             * **Example**
-             *
-             *     public function formatFileMessage(&$message, $level, $tag, $datetime, $logger) {
-             *         if ($message instanceof MyCustomDebugInfo) {
-             *             $message = $message->formatForFile();
-             *         }
-             *     }
-             *
-             * @param mixed &$message The object that is being logged. Event handlers should
-             *                        check if the object is of a certain type and if it is,
-             *                        set `$message` to the string that should be logged.
-             * @param int $level The log level used with this log entry.
-             * @param string $tag The current plugin that started logging (or if no plugin,
-             *                    the current class).
-             * @param string $datetime Datetime of the logging call.
-             * @param Log $logger The Log singleton.
-             */
-            Piwik::postEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
-        }
-
-        $message = trim($message);
-        $message = str_replace("\n", "\n  ", $message);
-        return $message . "\n";
     }
 }
