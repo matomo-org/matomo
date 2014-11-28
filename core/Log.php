@@ -4,12 +4,13 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Log\DatabaseBackend;
 use Piwik\Log\FileBackend;
 use Piwik\Log\ScreenBackend;
 
@@ -333,7 +334,8 @@ class Log extends Singleton
 
         $writers['file'] = new FileBackend($this->logMessageFormat, $this->logToFilePath);
         $writers['screen'] = new ScreenBackend($this->logMessageFormat);
-        $writers['database'] = array($this, 'logToDatabase');
+        $writers['database'] = new DatabaseBackend($this->logMessageFormat);
+
         return $writers;
     }
 
@@ -345,19 +347,6 @@ class Log extends Singleton
     public function getLogLevel()
     {
         return $this->currentLogLevel;
-    }
-
-    private function logToDatabase($level, $tag, $datetime, $message)
-    {
-        $message = $this->getMessageFormattedDatabase($level, $tag, $datetime, $message);
-        if (empty($message)) {
-            return;
-        }
-
-        $sql = "INSERT INTO " . Common::prefixTable('logger_message')
-            . " (tag, timestamp, level, message)"
-            . " VALUES (?, ?, ?, ?)";
-        Db::query($sql, array($tag, $datetime, self::getStringLevel($level), (string)$message));
     }
 
     private function doLog($level, $message, $sprintfParams = array())
@@ -461,46 +450,5 @@ class Log extends Singleton
         }
         $fe = fopen('php://stderr', 'w');
         fwrite($fe, $message);
-    }
-
-    /**
-     * @param $level
-     * @param $tag
-     * @param $datetime
-     * @param $message
-     * @return string
-     */
-    private function getMessageFormattedDatabase($level, $tag, $datetime, $message)
-    {
-        if (is_string($message)) {
-            $message = $this->formatMessage($level, $tag, $datetime, $message);
-        } else {
-            $logger = $this;
-
-            /**
-             * Triggered when trying to log an object to a database table. Plugins can use
-             * this event to convert objects to strings before they are logged.
-             *
-             * **Example**
-             *
-             *     public function formatDatabaseMessage(&$message, $level, $tag, $datetime, $logger) {
-             *         if ($message instanceof MyCustomDebugInfo) {
-             *             $message = $message->formatForDatabase();
-             *         }
-             *     }
-             *
-             * @param mixed &$message The object that is being logged. Event handlers should
-             *                        check if the object is of a certain type and if it is,
-             *                        set `$message` to the string that should be logged.
-             * @param int $level The log level used with this log entry.
-             * @param string $tag The current plugin that started logging (or if no plugin,
-             *                    the current class).
-             * @param string $datetime Datetime of the logging call.
-             * @param Log $logger The Log singleton.
-             */
-            Piwik::postEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
-        }
-        $message = trim($message);
-        return $message;
     }
 }
