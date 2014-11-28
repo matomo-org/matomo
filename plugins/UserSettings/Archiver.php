@@ -26,7 +26,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 {
     const LANGUAGE_RECORD_NAME = 'UserSettings_language';
     const PLUGIN_RECORD_NAME = 'UserSettings_plugin';
-    const SCREEN_TYPE_RECORD_NAME = 'UserSettings_wideScreen';
     const RESOLUTION_RECORD_NAME = 'UserSettings_resolution';
     const CONFIGURATION_RECORD_NAME = 'UserSettings_configuration';
 
@@ -41,7 +40,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateDayReport()
     {
         $this->aggregateByConfiguration();
-        $this->aggregateByResolutionAndScreenType();
+        $this->aggregateByResolution();
         $this->aggregateByPlugin();
         $this->aggregateByLanguage();
     }
@@ -54,7 +53,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $dataTableRecords = array(
             self::CONFIGURATION_RECORD_NAME,
             self::RESOLUTION_RECORD_NAME,
-            self::SCREEN_TYPE_RECORD_NAME,
             self::PLUGIN_RECORD_NAME,
             self::LANGUAGE_RECORD_NAME,
         );
@@ -67,12 +65,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->insertTable(self::CONFIGURATION_RECORD_NAME, $metrics);
     }
 
-    protected function aggregateByResolutionAndScreenType()
-    {
-        $resolutions = $this->aggregateByResolution();
-        $this->aggregateByScreenType($resolutions);
-    }
-
     protected function aggregateByResolution()
     {
         $table = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::RESOLUTION_DIMENSION)->asDataTable();
@@ -81,12 +73,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         }));
         $this->insertTable(self::RESOLUTION_RECORD_NAME, $table);
         return $table;
-    }
-
-    protected function aggregateByScreenType(DataTable $resolutions)
-    {
-        $resolutions->filter('GroupBy', array('label', __NAMESPACE__ . '\getScreenTypeFromResolution'));
-        $this->insertTable(self::SCREEN_TYPE_RECORD_NAME, $resolutions);
     }
 
     protected function aggregateByPlugin()

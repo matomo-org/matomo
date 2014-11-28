@@ -208,7 +208,6 @@
         "WidgetOperatingSystems": "Sistemes operatius",
         "WidgetPlugins": "Llistat de connectors",
         "WidgetPluginsDocumentation": "Aquest informe mostra quines extensions tenen els vostres visitants activades. Aquesta informació pot ser important per determinar la forma correcta de mostrar el contingut.",
-        "WidgetResolutions": "Resolucions",
-        "WidgetWidescreen": "Normal \/ panoràmica"
+        "WidgetResolutions": "Resolucions"
     }
 }

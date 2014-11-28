@@ -162,7 +162,6 @@
         "WidgetGlobalVisitors": "Bisitarien konfigurazioa",
         "WidgetOperatingSystems": "Sistema eragileak",
         "WidgetPlugins": "Pluginen zerrenda",
-        "WidgetResolutions": "Pantailaren bereizmenak",
-        "WidgetWidescreen": "Normala \/ Panoramikoa"
+        "WidgetResolutions": "Pantailaren bereizmenak"
     }
 }

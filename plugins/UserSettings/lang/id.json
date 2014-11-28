@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Sistem Operasi",
         "WidgetPlugins": "Daftar Pengaya",
         "WidgetPluginsDocumentation": "Laporan ini menunjukkan pengaya peramban yang diaktifkan oleh pengunjung. Informasi yang tersedia kemungkinan penting untuk memilih cara terbaik untuk menyampaikan konten Anda.",
-        "WidgetResolutions": "Resolusi layar",
-        "WidgetWidescreen": "Normal \/ LayarLebar"
+        "WidgetResolutions": "Resolusi layar"
     }
 }

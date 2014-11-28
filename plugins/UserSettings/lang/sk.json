@@ -203,7 +203,6 @@
         "WidgetGlobalVisitors": "Globálne konfigurácie návštevníkov",
         "WidgetOperatingSystems": "Operačné systémy",
         "WidgetPlugins": "Zoznam modulov",
-        "WidgetResolutions": "Rozlíšenie obrazovky",
-        "WidgetWidescreen": "Bežný\/Širokouhlý"
+        "WidgetResolutions": "Rozlíšenie obrazovky"
     }
 }

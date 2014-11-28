@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Sisteme operare",
         "WidgetPlugins": "Lista pluginurilor",
         "WidgetPluginsDocumentation": "Acest raport arată ce plugin-uri de browser-ul au activat vizitatorii. Aceste informație ar putea fi importanta pentru a alege modul corect de a livra conținut.",
-        "WidgetResolutions": "Rezolutii ecran",
-        "WidgetWidescreen": "Normal \/ Ecran extins"
+        "WidgetResolutions": "Rezolutii ecran"
     }
 }

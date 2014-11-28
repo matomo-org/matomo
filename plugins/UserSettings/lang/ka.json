@@ -176,7 +176,6 @@
         "WidgetGlobalVisitors": "ვიზიტორების გლობალური კონფიგურაცია",
         "WidgetOperatingSystems": "ოპერაციული სისტემები",
         "WidgetPlugins": "პლაგინების სია",
-        "WidgetResolutions": "ეკრანის რეზოლუვიები",
-        "WidgetWidescreen": "ნორმალური \/ ფართოეკრანიანი"
+        "WidgetResolutions": "ეკრანის რეზოლუვიები"
     }
 }

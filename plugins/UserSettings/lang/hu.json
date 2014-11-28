@@ -203,7 +203,6 @@
         "WidgetGlobalVisitors": "Globális látogatói beállítások",
         "WidgetOperatingSystems": "Operációs rendszerek",
         "WidgetPlugins": "Bővítmények listája",
-        "WidgetResolutions": "Képernyőfelbontások",
-        "WidgetWidescreen": "Normál\/szélesvásznú"
+        "WidgetResolutions": "Képernyőfelbontások"
     }
 }

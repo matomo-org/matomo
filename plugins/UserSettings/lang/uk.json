@@ -203,7 +203,6 @@
         "WidgetGlobalVisitors": "Загальна конфігурація відвідувачів",
         "WidgetOperatingSystems": "Операційні системи",
         "WidgetPlugins": "Список плагінів",
-        "WidgetResolutions": "Роздільні здатності",
-        "WidgetWidescreen": "Нормальний \/ Широкоформатний"
+        "WidgetResolutions": "Роздільні здатності"
     }
 }

@@ -123,7 +123,6 @@
         "WidgetOperatingSystems": "Sisteme operativë",
         "WidgetPlugins": "Listë e Shtojcave",
         "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj.",
-        "WidgetResolutions": "Qartësi ekrani",
-        "WidgetWidescreen": "Normal \/ Ekran së gjeri"
+        "WidgetResolutions": "Qartësi ekrani"
     }
 }

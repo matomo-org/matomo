@@ -203,7 +203,6 @@
         "WidgetGlobalVisitors": "Bendri lankytojų nustatymai",
         "WidgetOperatingSystems": "Operacinės sistemos",
         "WidgetPlugins": "Papildinių sąrašas",
-        "WidgetResolutions": "Ekrano raiška",
-        "WidgetWidescreen": "Normalus \/ Plačiaekranis"
+        "WidgetResolutions": "Ekrano raiška"
     }
 }

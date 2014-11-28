@@ -10,7 +10,6 @@
         "ColumnOperatingSystem": "Operating system",
         "ColumnResolution": "Resolution",
         "ColumnTypeOfScreen": "Type of screen",
-        "ScreenTypes": "Screen types",
         "Configurations": "Configurations",
         "GamingConsole": "Gaming Console",
         "Language_aa": "Afar",
@@ -212,7 +211,6 @@
         "WidgetOperatingSystems": "Operating System",
         "WidgetPlugins": "Browser Plugins",
         "WidgetPluginsDocumentation": "This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.",
-        "WidgetResolutions": "Screen Resolution",
-        "WidgetWidescreen": "Normal \/ Widescreen"
+        "WidgetResolutions": "Screen Resolution"
     }
 }

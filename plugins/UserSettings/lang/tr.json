@@ -203,7 +203,6 @@
         "WidgetGlobalVisitors": "Global ziyaretçi konfikasyonu",
         "WidgetOperatingSystems": "İşletim sistemleri",
         "WidgetPlugins": "Eklenti Listesi",
-        "WidgetResolutions": "Ekran çözünürlükleri",
-        "WidgetWidescreen": "Normal \/ Geniş ekran"
+        "WidgetResolutions": "Ekran çözünürlükleri"
     }
 }

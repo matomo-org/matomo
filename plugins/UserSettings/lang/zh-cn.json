@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "操作系统",
         "WidgetPlugins": "浏览器插件清单",
         "WidgetPluginsDocumentation": "本报表显示访客使用的浏览器插件，这可能对如何发布您的内容很重要。",
-        "WidgetResolutions": "画面分辨率",
-        "WidgetWidescreen": "传统屏幕 \/ 宽屏幕"
+        "WidgetResolutions": "画面分辨率"
     }
 }

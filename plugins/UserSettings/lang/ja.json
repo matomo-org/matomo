@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "オペレーティングシステム",
         "WidgetPlugins": "プラグイン一覧",
         "WidgetPluginsDocumentation": "ビジターが利用しているブラウザのプラグインについてのリポートです。コンテンツの最適な表示方法を選択するために重要な情報です。",
-        "WidgetResolutions": "画面解像度",
-        "WidgetWidescreen": "ノーマル \/ ワイド画面"
+        "WidgetResolutions": "画面解像度"
     }
 }

@@ -203,7 +203,6 @@
         "WidgetGlobalVisitors": "การตั้งค่าผู้เข้าชมโดยรวม",
         "WidgetOperatingSystems": "ระบบปฎิบัติการ",
         "WidgetPlugins": "รายการปลั้กอิน",
-        "WidgetResolutions": "ความละเอียดจอภาพ",
-        "WidgetWidescreen": "จอปกติ\/จอแบบกว้าง"
+        "WidgetResolutions": "ความละเอียดจอภาพ"
     }
 }

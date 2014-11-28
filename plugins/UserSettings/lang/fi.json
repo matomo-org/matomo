@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Käyttöjärjestelmät",
         "WidgetPlugins": "Lista lisäosista",
         "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainlisäosia vierailijoillasi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään vierailijoille.",
-        "WidgetResolutions": "Näytön resoluutio",
-        "WidgetWidescreen": "Normaali \/ laajakuva"
+        "WidgetResolutions": "Näytön resoluutio"
     }
 }

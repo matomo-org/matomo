@@ -67,7 +67,7 @@ DataTable.registerFooterIconHandler = function (id, handler) {
 /**
  * Returns the first datatable div displaying a specific report.
  *
- * @param {string} report  The report, eg, UserSettings.getWideScreen
+ * @param {string} report  The report, eg, UserSettings.getLanguage
  * @return {Element} The datatable div displaying the report, or undefined if
  *                   it cannot be found.
  */

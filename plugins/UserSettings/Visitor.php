@@ -63,15 +63,6 @@ class Visitor
         return null;
     }
 
-    function getScreenType()
-    {
-        if (!array_key_exists('config_resolution', $this->details)) {
-            return null;
-        }
-
-        return getScreenTypeFromResolution($this->details['config_resolution']);
-    }
-
     function getResolution()
     {
         if (!array_key_exists('config_resolution', $this->details)) {
@@ -80,16 +71,4 @@ class Visitor
 
         return $this->details['config_resolution'];
     }
-
-    function getScreenTypeIcon()
-    {
-        $type = $this->getScreenType();
-
-        if (empty($type)) {
-            return null;
-        }
-
-        return getScreensLogo($type);
-    }
-
 }

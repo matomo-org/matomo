@@ -202,7 +202,6 @@
         "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
         "WidgetOperatingSystems": "Operativsystemer",
         "WidgetPlugins": "Liste over tillegg",
-        "WidgetResolutions": "Skjermoppløsninger",
-        "WidgetWidescreen": "Normal \/ Widescreen"
+        "WidgetResolutions": "Skjermoppløsninger"
     }
 }

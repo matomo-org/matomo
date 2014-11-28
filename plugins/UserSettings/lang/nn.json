@@ -203,7 +203,6 @@
         "WidgetGlobalVisitors": "Global vitjarkonfigurasjon",
         "WidgetOperatingSystems": "Operativsystem",
         "WidgetPlugins": "Liste over innstikk",
-        "WidgetResolutions": "Skjermoppløysing",
-        "WidgetWidescreen": "Vanleg \/ Breiskjerm"
+        "WidgetResolutions": "Skjermoppløysing"
     }
 }

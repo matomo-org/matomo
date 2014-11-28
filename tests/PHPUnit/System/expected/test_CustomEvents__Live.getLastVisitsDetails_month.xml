@@ -79,9 +79,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -181,9 +179,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -351,9 +347,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -453,9 +447,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -790,9 +782,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -892,9 +882,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
 		<pluginsIcons>
 			<row>
@@ -990,9 +978,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
 		<pluginsIcons>
 			<row>
@@ -1156,9 +1142,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
 		<pluginsIcons>
 			<row>
@@ -1254,9 +1238,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
 		<pluginsIcons>
 			<row>
@@ -1587,9 +1569,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>director</plugins>
 		<pluginsIcons>
 			<row>

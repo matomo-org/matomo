@@ -95,9 +95,7 @@
 		<location>Raleigh, North Carolina, United States</location>
 		<latitude>35.771999</latitude>
 		<longitude>-78.639000</longitude>
-		<screenType>wide</screenType>
 		<resolution>1366x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -233,9 +231,7 @@
 		<location>Lake Forest, California, United States</location>
 		<latitude>33.645000</latitude>
 		<longitude>-117.679001</longitude>
-		<screenType>wide</screenType>
 		<resolution>1536x864</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:33:27</visitLocalTime>
@@ -346,9 +342,7 @@
 		<location>Germany</location>
 		<latitude>51</latitude>
 		<longitude>9</longitude>
-		<screenType>wide</screenType>
 		<resolution>1920x1200</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -492,9 +486,7 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<screenType>wide</screenType>
 		<resolution>2880x1800</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
@@ -607,9 +599,7 @@
 		<location>Maaseik, Limburg, Belgium</location>
 		<latitude>51.099998</latitude>
 		<longitude>5.800000</longitude>
-		<screenType>wide</screenType>
 		<resolution>1920x1080</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -733,9 +723,7 @@
 		<location>San Francisco, California, United States</location>
 		<latitude>37.792000</latitude>
 		<longitude>-122.408997</longitude>
-		<screenType>wide</screenType>
 		<resolution>1360x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -866,9 +854,7 @@
 		<location>Nihon'odori, Kanagawa, Japan</location>
 		<latitude>35.450001</latitude>
 		<longitude>139.649994</longitude>
-		<screenType>wide</screenType>
 		<resolution>2560x1440</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
@@ -988,9 +974,7 @@
 		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
 		<latitude>50.766998</latitude>
 		<longitude>6.833000</longitude>
-		<screenType>mobile</screenType>
 		<resolution>360x640</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/mobile.gif</screenTypeIcon>
 		<plugins>flash</plugins>
 		<pluginsIcons>
 			<row>
@@ -1102,9 +1086,7 @@
 		<location>Mainz, Rheinland-Pfalz, Germany</location>
 		<latitude>50</latitude>
 		<longitude>8.271000</longitude>
-		<screenType>wide</screenType>
 		<resolution>2560x1440</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1271,9 +1253,7 @@
 		<location>Moscow, Moscow City, Russian Federation</location>
 		<latitude>55.751999</latitude>
 		<longitude>37.616001</longitude>
-		<screenType>wide</screenType>
 		<resolution>1920x1080</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1389,9 +1369,7 @@
 		<location>Esentepe, Rize, Turkey</location>
 		<latitude>40.979000</latitude>
 		<longitude>40.415001</longitude>
-		<screenType>wide</screenType>
 		<resolution>1366x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1515,9 +1493,7 @@
 		<location>Maaseik, Limburg, Belgium</location>
 		<latitude>51.099998</latitude>
 		<longitude>5.800000</longitude>
-		<screenType>wide</screenType>
 		<resolution>1920x1080</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1799,9 +1775,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:10:38</visitLocalTime>
@@ -1915,9 +1889,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2032,9 +2004,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>wide</screenType>
 		<resolution>1280x800</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
 		<pluginsIcons>
 			<row>
@@ -2165,9 +2135,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:15:41</visitLocalTime>
@@ -2290,9 +2258,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>19:12:40</visitLocalTime>
@@ -2422,9 +2388,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>18:10:38</visitLocalTime>
@@ -2530,9 +2494,7 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:48:08</visitLocalTime>
@@ -2638,9 +2600,7 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:48:07</visitLocalTime>
@@ -2736,9 +2696,7 @@
 		<location>Australia</location>
 		<latitude>-27</latitude>
 		<longitude>133</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:46:03</visitLocalTime>
@@ -2844,9 +2802,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>16:11:30</visitLocalTime>
@@ -2952,9 +2908,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>16:10:38</visitLocalTime>
@@ -3056,9 +3010,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>15:31:05</visitLocalTime>
@@ -3160,9 +3112,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:49:46</visitLocalTime>
@@ -3264,9 +3214,7 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:22:08</visitLocalTime>
@@ -3368,9 +3316,7 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:21:28</visitLocalTime>
@@ -3472,9 +3418,7 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:21:03</visitLocalTime>
@@ -3576,9 +3520,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:01:17</visitLocalTime>
@@ -3680,9 +3622,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>19:59:50</visitLocalTime>
@@ -3784,9 +3724,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>18:03:40</visitLocalTime>
@@ -3888,9 +3826,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>21:00:42</visitLocalTime>
@@ -3992,9 +3928,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:56:45</visitLocalTime>
@@ -4096,9 +4030,7 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:49:48</visitLocalTime>
@@ -4200,9 +4132,7 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:48:20</visitLocalTime>
@@ -4304,9 +4234,7 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:48:07</visitLocalTime>
@@ -4408,9 +4336,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:12:03</visitLocalTime>
@@ -4512,9 +4438,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:11:56</visitLocalTime>
@@ -4616,9 +4540,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:11:30</visitLocalTime>
@@ -4720,9 +4642,7 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:10:38</visitLocalTime>

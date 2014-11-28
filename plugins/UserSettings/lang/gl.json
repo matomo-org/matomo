@@ -157,7 +157,6 @@
         "WidgetGlobalVisitors": "Configuración global de visitantes",
         "WidgetOperatingSystems": "Sistemas Operativos",
         "WidgetPlugins": "Lista de plugins",
-        "WidgetResolutions": "Resolucións de pantalla",
-        "WidgetWidescreen": "Normal \/ Panorámica"
+        "WidgetResolutions": "Resolucións de pantalla"
     }
 }

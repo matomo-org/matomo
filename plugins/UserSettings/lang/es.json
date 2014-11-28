@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Sistemas operativos",
         "WidgetPlugins": "Lista de Plugins",
         "WidgetPluginsDocumentation": "Este informe muestra que extensiones del navegador sus visitantes han habilitado. Esta información puede ser importante sea para elegir el método eficiente de enviar su contenido.",
-        "WidgetResolutions": "Resoluciones de pantalla",
-        "WidgetWidescreen": "Normal \/ Panorámica"
+        "WidgetResolutions": "Resoluciones de pantalla"
     }
 }

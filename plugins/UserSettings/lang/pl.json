@@ -206,7 +206,6 @@
         "WidgetGlobalVisitors": "Ogólna konfiguracja odwiedzających",
         "WidgetOperatingSystems": "Systemy operacyjne",
         "WidgetPlugins": "Lista wtyczek",
-        "WidgetResolutions": "Rozdzielczość ekranu",
-        "WidgetWidescreen": "Monitory klasyczne \/ panoramicznie"
+        "WidgetResolutions": "Rozdzielczość ekranu"
     }
 }

@@ -52,19 +52,13 @@ class UserSettings extends \Piwik\Plugin
             $module = 'DevicesDetection';
             $action = $movedMethods[$action];
         }
-        
-        if ($module == 'UserSettings' && $action == 'getWideScreen') {
-            $action = 'getScreenType';
-        }
     }
 
     public function extendVisitorDetails(&$visitor, $details)
     {
         $instance = new Visitor($details);
 
-        $visitor['screenType']               = $instance->getScreenType();
         $visitor['resolution']               = $instance->getResolution();
-        $visitor['screenTypeIcon']           = $instance->getScreenTypeIcon();
         $visitor['plugins']                  = $instance->getPlugins();
         $visitor['pluginsIcons']             = $instance->getPluginIcons();
     }

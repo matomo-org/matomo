@@ -37,43 +37,6 @@ function getConfigurationLabel($str)
     return $os . " / " . $browser . " / " . $resolution;
 }
 
-function getLogoImageFromId($dir, $id)
-{
-    $path = $dir . '/' . $id . '.gif';
-    if (file_exists(PIWIK_INCLUDE_PATH . '/' . $path)) {
-        return $path;
-    } else {
-        return $dir . '/UNK.gif';
-    }
-}
-
-function getScreensLogo($label)
-{
-    return 'plugins/UserSettings/images/screens/' . $label . '.gif';
-}
-
-function getScreenTypeFromResolution($resolution)
-{
-    if ($resolution === Request::UNKNOWN_RESOLUTION) {
-        return $resolution;
-    }
-
-    $width = intval(substr($resolution, 0, strpos($resolution, 'x')));
-    $height = intval(substr($resolution, strpos($resolution, 'x') + 1));
-    $ratio = Piwik::secureDiv($width, $height);
-
-    if ($width < 640) {
-        $name = 'mobile';
-    } elseif ($ratio < 1.4) {
-        $name = 'normal';
-    } else if ($ratio < 2) {
-        $name = 'wide';
-    } else {
-        $name = 'dual';
-    }
-    return $name;
-}
-
 /**
  * Returns the given language code to translated language name
  *

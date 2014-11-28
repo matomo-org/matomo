@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Betriebssysteme",
         "WidgetPlugins": "Liste der Plugins",
         "WidgetPluginsDocumentation": "Dieser Bericht zeigt Ihnen, welche Plugins Ihre Besucher in Ihren Browser aktiviert haben. Diese Informationen kann Ihnen dabei helfen, die beste Art zu finden, Ihre Inhalte auszuliefern.",
-        "WidgetResolutions": "Bildschirmauflösungen",
-        "WidgetWidescreen": "Normal \/ Breitbild"
+        "WidgetResolutions": "Bildschirmauflösungen"
     }
 }

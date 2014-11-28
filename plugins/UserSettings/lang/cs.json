@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Operační systémy",
         "WidgetPlugins": "Seznam zásuvných modulů",
         "WidgetPluginsDocumentation": "Toto hlášení zobrazuje zásuvné moduly, které měli vaši návštěvníci povoleny. Tato informace může být důležitá při rozhodování o tom, jakým způsobem prezentovat obsah.",
-        "WidgetResolutions": "Rozlišení obrazovky",
-        "WidgetWidescreen": "Normální \/ Širokoúhlá"
+        "WidgetResolutions": "Rozlišení obrazovky"
     }
 }

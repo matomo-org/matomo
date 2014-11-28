@@ -205,7 +205,6 @@
         "WidgetGlobalVisitors": "Kohalike külastajate seaded",
         "WidgetOperatingSystems": "Operatsioonisüsteemid",
         "WidgetPlugins": "Sirviku lisatarkvarad",
-        "WidgetResolutions": "Ekraani resolutsioonid",
-        "WidgetWidescreen": "Normaal \/ Laiekraan"
+        "WidgetResolutions": "Ekraani resolutsioonid"
     }
 }

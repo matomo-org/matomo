@@ -202,7 +202,6 @@
         "WidgetGlobalVisitors": "الإعدادات العامة للزوار",
         "WidgetOperatingSystems": "أنظمة التشغيل",
         "WidgetPlugins": "قائمة الإضافات",
-        "WidgetResolutions": "كثافات الشاشة النقطية",
-        "WidgetWidescreen": "عادية \/ عريضة"
+        "WidgetResolutions": "كثافات الشاشة النقطية"
     }
 }

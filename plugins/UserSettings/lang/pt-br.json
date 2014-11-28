@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Sistemas Operacionais",
         "WidgetPlugins": "Lista de Plugins",
         "WidgetPluginsDocumentation": "Este relatório mostra quais plugins de navegador seus visitantes tinham ativado. Esta informação pode ser importante para escolher o caminho certo para levar o seu conteúdo.",
-        "WidgetResolutions": "Resoluções de Tela",
-        "WidgetWidescreen": "Normal \/ Widescreen"
+        "WidgetResolutions": "Resoluções de Tela"
     }
 }

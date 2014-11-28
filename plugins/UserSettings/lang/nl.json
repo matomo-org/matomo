@@ -211,7 +211,6 @@
         "WidgetOperatingSystems": "Besturings systemen",
         "WidgetPlugins": "Geïnstalleerde plugins",
         "WidgetPluginsDocumentation": "Dit rapport laat zien welke browserplugins uw bezoekers haden geïnstalleerd. Deze informatie kan van belang zijn voor het kiezen van de juiste manier om uw content aan te bieden.",
-        "WidgetResolutions": "Schermresoluties",
-        "WidgetWidescreen": "Normaal\/Breedbeeld"
+        "WidgetResolutions": "Schermresoluties"
     }
 }
