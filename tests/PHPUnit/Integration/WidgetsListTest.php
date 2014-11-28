@@ -41,7 +41,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 4,
             'General_Visitors'             => 12,
-            'UserSettings_VisitorSettings' => 6,
+            'UserSettings_VisitorSettings' => 5,
             'General_Actions'              => 10,
             'Events_Events'                => 3,
             'Actions_SubmenuSitesearch'    => 5,
