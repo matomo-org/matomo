@@ -15,6 +15,8 @@ use Piwik\Log;
 
 class LoggerFactory
 {
+    const DEFAULT_LOG_FILE = '/logs/piwik.log';
+
     /**
      * @param ContainerInterface $container
      * @return Log
@@ -80,7 +82,7 @@ class LoggerFactory
         }
 
         if (empty($logPath)) {
-            return self::getDefaultFileLogPath();
+            $logPath = self::DEFAULT_LOG_FILE;
         }
 
         $logPath = $container->get('path.tmp') . $logPath;
@@ -102,11 +104,6 @@ class LoggerFactory
         }
 
         return false;
-    }
-
-    private static function getDefaultFileLogPath()
-    {
-        return '/logs/piwik.log';
     }
 
     private static function getLogLevelFromStringName($name)
