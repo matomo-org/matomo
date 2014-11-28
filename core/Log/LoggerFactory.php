@@ -12,6 +12,9 @@ use Interop\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Log;
+use Piwik\Log\Backend\DatabaseBackend;
+use Piwik\Log\Backend\FileBackend;
+use Piwik\Log\Backend\ScreenBackend;
 use Piwik\Piwik;
 
 class LoggerFactory

@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Log\ScreenBackend;
+use Piwik\Log\Backend\ScreenBackend;
 
 /**
  * Logging utility class.

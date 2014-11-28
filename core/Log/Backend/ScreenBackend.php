@@ -6,46 +6,58 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log;
+namespace Piwik\Log\Backend;
 
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Log;
 use Piwik\Piwik;
 
 /**
- * Writes log to database.
+ * Writes log to screen.
  */
-class DatabaseBackend extends Backend
+class ScreenBackend extends Backend
 {
     public function __invoke($level, $tag, $datetime, $message, Log $logger)
     {
-        $message = $this->getMessageFormattedDatabase($level, $tag, $datetime, $message, $logger);
+        $message = $this->getMessageFormattedScreen($level, $tag, $datetime, $message, $logger);
         if (empty($message)) {
             return;
         }
 
-        $sql = "INSERT INTO " . Common::prefixTable('logger_message')
-            . " (tag, timestamp, level, message)"
-            . " VALUES (?, ?, ?, ?)";
-
-        Db::query($sql, array($tag, $datetime, self::getStringLevel($level), (string)$message));
+        echo $message;
     }
 
-    private function getMessageFormattedDatabase($level, $tag, $datetime, $message, $logger)
+    public function getMessageFormattedScreen($level, $tag, $datetime, $message, Log $logger)
     {
+        static $currentRequestKey;
+
+        if (empty($currentRequestKey)) {
+            $currentRequestKey = substr(Common::generateUniqId(), 0, 5);
+        }
+
         if (is_string($message)) {
+            if (!defined('PIWIK_TEST_MODE')) {
+                $message = '[' . $currentRequestKey . '] ' . $message;
+            }
             $message = $this->formatMessage($level, $tag, $datetime, $message);
+
+            if (!Common::isPhpCliMode()) {
+                $message = Common::sanitizeInputValue($message);
+                $message = '<pre>' . $message . '</pre>';
+            }
         } else {
             /**
-             * Triggered when trying to log an object to a database table. Plugins can use
+             * Triggered when trying to log an object to the screen. Plugins can use
              * this event to convert objects to strings before they are logged.
+             *
+             * The result of this callback can be HTML so no sanitization is done on the result.
+             * This means **YOU MUST SANITIZE THE MESSAGE YOURSELF** if you use this event.
              *
              * **Example**
              *
-             *     public function formatDatabaseMessage(&$message, $level, $tag, $datetime, $logger) {
+             *     public function formatScreenMessage(&$message, $level, $tag, $datetime, $logger) {
              *         if ($message instanceof MyCustomDebugInfo) {
-             *             $message = $message->formatForDatabase();
+             *             $message = Common::sanitizeInputValue($message->formatForScreen());
              *         }
              *     }
              *
@@ -58,10 +70,10 @@ class DatabaseBackend extends Backend
              * @param string $datetime Datetime of the logging call.
              * @param Log $logger The Log singleton.
              */
-            Piwik::postEvent(Log::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
+            Piwik::postEvent(Log::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
         $message = trim($message);
 
-        return $message;
+        return $message . "\n";
     }
 }

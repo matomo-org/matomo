@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log;
+namespace Piwik\Log\Backend;
 
 use Piwik\Log;
 
