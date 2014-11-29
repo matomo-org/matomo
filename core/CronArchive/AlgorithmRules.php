@@ -82,15 +82,7 @@ class AlgorithmRules
      */
     public function getLastTimestampWebsiteProcessedDay($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
-            if ($self->getArchiveAndRespectTTL()) {
-                $optionName = CronArchive::lastRunKey($idSite, "day");
-                Option::clearCachedOption($optionName);
-                return Option::get($optionName);
-            } else {
-                return false;
-            }
-        });
+        return $this->getLastTimestampWebsiteProcessedFor($idSite, "day");
     }
 
     /**
@@ -106,15 +98,7 @@ class AlgorithmRules
      */
     public function getLastTimestampWebsiteProcessedPeriods($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
-            if ($self->getArchiveAndRespectTTL()) {
-                $optionName = $container->lastRunKey($idSite, "periods");
-                Option::clearCachedOption($optionName);
-                return Option::get($optionName);
-            } else {
-                return false;
-            }
-        });
+        return $this->getLastTimestampWebsiteProcessedFor($idSite, "periods");
     }
 
     /**
@@ -128,7 +112,7 @@ class AlgorithmRules
      */
     public function getSecondsSinceLastExecution($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             // For period other than days, we only re-process the reports at most
             // 1) every $processPeriodsMaximumEverySeconds
             $result = $self->getCronArchivingStartTime() - $self->getLastTimestampWebsiteProcessedPeriods($idSite);
@@ -154,7 +138,7 @@ class AlgorithmRules
      */
     public function getDayHasEndedMustReprocesses($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             return in_array($idSite, $self->getWebsitesInTimezoneWithNewDay());
         });
     }
@@ -168,7 +152,7 @@ class AlgorithmRules
      */
     public function getIsOldReportInvalidedForWebsite($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             return in_array($idSite, $self->getWebsitesWithInvalidatedArchiveData());
         });
     }
@@ -204,7 +188,7 @@ class AlgorithmRules
      */
     public function getShouldArchivePeriodsForWebsite($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             $lastTimeProcessedPeriods = $self->getLastTimestampWebsiteProcessedPeriods($idSite);
             if (empty($lastTimeProcessedPeriods)) {
                 // 2) OR always if script never executed for this website before
@@ -241,7 +225,7 @@ class AlgorithmRules
      */
     public function getElapsedTimeSinceLastArchiving($idSite, $pretty = false)
     {
-        $result = $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        $result = $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             return $self->getCronArchivingStartTime() - $self->getLastTimestampWebsiteProcessedDay($idSite);
         });
 
@@ -261,7 +245,7 @@ class AlgorithmRules
      */
     public function getIsExistingArchiveForWebsiteValid($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             return $self->getElapsedTimeSinceLastArchiving($idSite) < $self->getTodayArchiveTimeToLive();
         });
     }
@@ -275,7 +259,7 @@ class AlgorithmRules
      */
     public function getHasWebsiteDataBeenProcessedAfterLastMidnight($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             $lastTimestampWebsiteProcessedDay = $self->getLastTimestampWebsiteProcessedDay($idSite);
 
             if (false === $lastTimestampWebsiteProcessedDay) {
@@ -305,7 +289,7 @@ class AlgorithmRules
      */
     public function getShouldSkipDayArchive($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             $isExistingArchiveValid = $self->getIsExistingArchiveForWebsiteValid($idSite);
 
             // Skip this day archive if last archive was newer than TTL
@@ -347,7 +331,7 @@ class AlgorithmRules
      */
     public function getActiveRequestsSemaphore($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function () use ($idSite) {
             return new Semaphore(AlgorithmRules::ACTIVE_REQUESTS_SEMAPHORE_NAME . '.' . $idSite);
         });
     }
@@ -366,7 +350,7 @@ class AlgorithmRules
      */
     public function getFailedRequestsSemaphore($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function () use ($idSite) {
             return new Semaphore(AlgorithmRules::FAILED_REQUESTS_SEMAPHORE_NAME . '.' . $idSite);
         });
     }
@@ -379,12 +363,11 @@ class AlgorithmRules
      * The main CronArchive process will print these statistics out when archiving finishes. All
      * other job processing servers will not.
      *
-     * @param int $idSite
      * @return Semaphore
      */
     public function getProcessedWebsitesSemaphore()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             return new Semaphore(AlgorithmRules::PROCESSED_WEBSITES_SEMAPHORE);
         });
     }
@@ -399,7 +382,7 @@ class AlgorithmRules
      */
     public function getTodayArchiveTimeToLive()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             return Rules::getTodayArchiveTimeToLive();
         });
     }
@@ -436,7 +419,7 @@ class AlgorithmRules
      */
     public function getSegmentsToArchiveForSite($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             $segmentsAllSites = $self->getSegmentsForAllSites();
             $segmentsThisSite = $self->getSegmentsForSingleSite($idSite);
             return array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
@@ -451,7 +434,7 @@ class AlgorithmRules
      */
     public function getSegmentsForSingleSite($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function () use ($idSite) {
             return SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
         });
     }
@@ -464,7 +447,7 @@ class AlgorithmRules
      */
     public function getSegmentsForAllSites()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             $segments = SettingsPiwik::getKnownSegmentsToArchive();
 
             if (empty($segments)) {
@@ -485,7 +468,7 @@ class AlgorithmRules
      */
     public function getLastSuccessRunTimestamp()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             return Option::get(AlgorithmRules::OPTION_ARCHIVING_FINISHED_TS);
         });
     }
@@ -548,7 +531,7 @@ class AlgorithmRules
      */
     public function getShouldArchiveOnlySitesWithTrafficSinceLastNSecs()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
             $lastSuccessRunTimestamp = $self->getLastSuccessRunTimestamp();
             $shouldArchiveOnlySitesWithTrafficSince = $self->getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs();
 
@@ -609,7 +592,7 @@ class AlgorithmRules
      */
     public function getArchiveAndRespectTTL()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
             return $self->getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs() === false; // return true if force-all-periods was not set
         });
     }
@@ -621,7 +604,7 @@ class AlgorithmRules
      */
     public function getAllWebsites()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             return APISitesManager::getInstance()->getAllSitesId();
         });
     }
@@ -691,7 +674,7 @@ class AlgorithmRules
      */
     public function getWebsitesWithVisitsSinceLastRun()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             $shouldArchiveOnlySitesWithTrafficSince = $this->getShouldArchiveOnlySitesWithTrafficSinceLastNSecs();
             return APISitesManager::getInstance()->getSitesIdWithVisits(time() - $shouldArchiveOnlySitesWithTrafficSince);
         });
@@ -706,7 +689,7 @@ class AlgorithmRules
      */
     public function getWebsitesWithInvalidatedArchiveData()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             $invalidated = new InvalidatedReports();
             return $invalidated->getSitesToReprocess();
         });
@@ -719,7 +702,7 @@ class AlgorithmRules
      */
     public function getWebsitesInTimezoneWithNewDay()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             $timezones = $this->getTimezonesHavingNewDay();
             return APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
         });
@@ -732,7 +715,7 @@ class AlgorithmRules
      */
     public function getTimezonesHavingNewDay()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
             $timestamp = $self->getLastSuccessRunTimestamp();
             $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
 
@@ -757,7 +740,7 @@ class AlgorithmRules
      */
     public function getCronArchivingStartTime()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             return time();
         });
     }
@@ -770,7 +753,7 @@ class AlgorithmRules
      */
     public function getShouldProcessPeriod($period)
     {
-        return $this->getOrSetInCache($period, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($period) {
+        return $this->getOrSetInCache($period, __FUNCTION__, function (AlgorithmRules $self) use ($period) {
             $periodsToProcess = $self->getPeriodsToProcess();
             if (empty($periodsToProcess)) {
                 return true;
@@ -786,7 +769,7 @@ class AlgorithmRules
      */
     public function getShouldProcessAllPeriods()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             return $this->getShouldProcessNonDayPeriods() && $this->getShouldProcessPeriod('day');
         });
     }
@@ -799,7 +782,7 @@ class AlgorithmRules
      */
     public function getShouldProcessNonDayPeriods()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             foreach (array('week', 'month', 'year') as $period) {
                 if (!$this->getShouldProcessPeriod($period)) {
                     return false;
@@ -896,8 +879,21 @@ class AlgorithmRules
      */
     public function isOldReportDataInvalidatedForWebsite($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite) {
             return in_array($idSite, $self->getWebsitesWithInvalidatedArchiveData());
+        });
+    }
+
+    private function getLastTimestampWebsiteProcessedFor($idSite, $key)
+    {
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self) use ($idSite, $key) {
+            if ($self->getArchiveAndRespectTTL()) {
+                $optionName = self::lastRunKey($idSite, "day");
+                Option::clearCachedOption($optionName);
+                return Option::get($optionName);
+            } else {
+                return false;
+            }
         });
     }
 
@@ -921,5 +917,17 @@ class AlgorithmRules
     private function clearInCache($idSite, $infoKey)
     {
         unset($this->stateCache[$idSite][$infoKey]);
+    }
+
+    /**
+     * Returns the option name of the option that stores the time core:archive was last executed.
+     *
+     * @param int $idSite
+     * @param string $period
+     * @return string
+     */
+    public static function lastRunKey($idSite, $period)
+    {
+        return "lastRunArchive" . $period . "_" . $idSite;
     }
 }

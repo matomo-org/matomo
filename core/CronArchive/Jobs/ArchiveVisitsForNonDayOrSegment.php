@@ -8,6 +8,7 @@
 namespace Piwik\CronArchive\Jobs;
 
 use Piwik\CronArchive;
+use Piwik\CronArchive\AlgorithmRules;
 use Piwik\CronArchive\BaseJob;
 use Piwik\Option;
 
@@ -40,7 +41,7 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
         if ($failedRequestsCount->get() === 0
             && $context->getAlgorithmState()->getShouldProcessNonDayPeriods() // if any period is skipped, do not mark periods archiving as complete
         ) {
-            Option::set(CronArchive::lastRunKey($idSite, "periods"), time());
+            Option::set(AlgorithmRules::lastRunKey($idSite, "periods"), time());
         }
 
         $this->archivingRequestFinished($context, $idSite, $visits, $visitsLast);

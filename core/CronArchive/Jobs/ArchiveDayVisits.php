@@ -9,6 +9,7 @@ namespace Piwik\CronArchive\Jobs;
 
 use Piwik\CronArchive;
 use Piwik\CronArchive\AlgorithmOptions;
+use Piwik\CronArchive\AlgorithmRules;
 use Piwik\CronArchive\BaseJob;
 use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Option;
@@ -99,7 +100,7 @@ class ArchiveDayVisits extends BaseJob
         }
 
         // mark 'day' period as successfully archived
-        Option::set(CronArchive::lastRunKey($idSite, "day"), time());
+        Option::set(AlgorithmRules::lastRunKey($idSite, "day"), time());
 
         $context->queuePeriodAndSegmentArchivingFor($idSite);
 

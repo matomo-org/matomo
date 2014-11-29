@@ -98,18 +98,6 @@ class CronArchive
     private $hooks = array();
 
     /**
-     * Returns the option name of the option that stores the time core:archive was last executed.
-     *
-     * @param int $idSite
-     * @param string $period
-     * @return string
-     */
-    public static function lastRunKey($idSite, $period)
-    {
-        return "lastRunArchive" . $period . "_" . $idSite;
-    }
-
-    /**
      * Constructor.
      *
      * @param AlgorithmOptions $options Options to manipulate how CronArchive behaves.

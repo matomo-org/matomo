@@ -169,6 +169,10 @@ class BaseJob extends Job
 
         $today = end($stats);
 
+        if (!isset($today['nb_visits'])) {
+            return 0;
+        }
+
         return $today['nb_visits'];
     }
 
