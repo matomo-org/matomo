@@ -14,7 +14,6 @@ use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\AlgorithmRules;
 use Piwik\CronArchive\Hooks;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -23,6 +22,13 @@ use Piwik\Version;
  */
 class Logging extends Hooks
 {
+    private $formatter;
+
+    public function __construct()
+    {
+        $this->formatter = new Metrics\Formatter();
+    }
+
     public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         $this->startInitSection($logger);
@@ -42,7 +48,7 @@ class Logging extends Hooks
         $lastSuccessRunTimestamp = $state->getLastSuccessRunTimestamp();
         if ($lastSuccessRunTimestamp !== false) {
             $dateLast = time() - $lastSuccessRunTimestamp;
-            $logger->log("- Archiving was last executed without error " . MetricsFormatter::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false) . " ago");
+            $logger->log("- Archiving was last executed without error " . $this->formatter->getPrettyTimeFromSeconds($dateLast, true) . " ago");
         }
 
         $periodsToProcess = $state->getPeriodsToProcess();
@@ -59,8 +65,7 @@ class Logging extends Hooks
             $shouldArchiveOnlySitesWithTrafficSince = $state->getShouldArchiveOnlySitesWithTrafficSinceLastNSecs();
             $websitesWithVisit = $state->getWebsitesWithVisitsSinceLastRun();
 
-            $formatter = new Metrics\Formatter();
-            $prettySeconds = $formatter->getPrettyTimeFromSeconds($shouldArchiveOnlySitesWithTrafficSince, true);
+            $prettySeconds = $this->formatter->getPrettyTimeFromSeconds($shouldArchiveOnlySitesWithTrafficSince, true);
             $logger->log("- Will process " . count($websitesWithVisit) . " websites with new visits since $prettySeconds"
                 . " , IDs: [" . implode(", ", $websitesWithVisit) . "]");
 
@@ -242,7 +247,7 @@ class Logging extends Hooks
             $visitsInLastPeriod = '';
         }
 
-        $elapsedTime = MetricsFormatter::getPrettyTimeFromSeconds($elapsedTime, true, false);
+        $elapsedTime = $this->formatter->getPrettyTimeFromSeconds($elapsedTime, true, false);
         $logger->log("Archived website id = $idSite in $elapsedTime, period = $period, " . $visitsInLastPeriods . $visitsInLastPeriod . " [segment = $segment]");
     }
 
@@ -255,7 +260,7 @@ class Logging extends Hooks
         if (!empty($stats)
             && !empty($stats->elapsedArchivingTimePerSite[$idSite])
         ) {
-            $elapsedTime = MetricsFormatter::getPrettyTimeFromSeconds($stats->elapsedArchivingTimePerSite[$idSite]->get(), true, false);
+            $elapsedTime = $this->formatter->getPrettyTimeFromSeconds($stats->elapsedArchivingTimePerSite[$idSite]->get(), true, false);
         }
 
         $logger->log("Archived website id = $idSite, $elapsedTime"
