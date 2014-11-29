@@ -105,12 +105,13 @@ class Updates_2_10_0_b1 extends Updates
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
-        $archiveBlobTables = self::getAllArchiveBlobTables();
-
-        foreach ($archiveBlobTables as $table) {
-            self::updateBrowserArchives($table);
-            self::updateOsArchives($table);
-        }
+        // DeviceDetection upgrade in beta1 timed out on demo #6750
+//        $archiveBlobTables = self::getAllArchiveBlobTables();
+//
+//        foreach ($archiveBlobTables as $table) {
+//            self::updateBrowserArchives($table);
+//            self::updateOsArchives($table);
+//        }
     }
 
     /**
