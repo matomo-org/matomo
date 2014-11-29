@@ -106,7 +106,7 @@ class BaseJob extends Job
 
     protected function parseVisitsApiResponse(CronArchive $context, $textResponse, $idSite)
     {
-        $context->getAlgorithmState()->getActiveRequestsSemaphore($idSite)->decrement();
+        $context->getAlgorithmRules()->getActiveRequestsSemaphore($idSite)->decrement();
 
         $response = @unserialize($textResponse);
 
@@ -121,7 +121,7 @@ class BaseJob extends Job
             $visitsLast = $this->getVisitsFromApiResponse($response);
 
             // if the response is valid, decrement the failed requests semaphore
-            $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite)->decrement();
+            $context->getAlgorithmRules()->getFailedRequestsSemaphore($idSite)->decrement();
         }
 
         return array($visits, $visitsLast);
@@ -131,11 +131,11 @@ class BaseJob extends Job
     {
         $context->executeHook('onArchiveRequestFinished', array($this->url, $visits, $visitsLast, $this->elapsedTime));
 
-        if ($context->getAlgorithmState()->getActiveRequestsSemaphore($idSite)->get() === 0) {
-            $processedWebsitesCount = $context->getAlgorithmState()->getProcessedWebsitesSemaphore();
+        if ($context->getAlgorithmRules()->getActiveRequestsSemaphore($idSite)->get() === 0) {
+            $processedWebsitesCount = $context->getAlgorithmRules()->getProcessedWebsitesSemaphore();
             $processedWebsitesCount->increment();
 
-            $completed = $context->getAlgorithmState()->getShouldProcessAllPeriods();
+            $completed = $context->getAlgorithmRules()->getShouldProcessAllPeriods();
 
             /**
              * This event is triggered immediately after the cron archiving process starts archiving data for a single

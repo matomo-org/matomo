@@ -37,9 +37,9 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
             return;
         }
 
-        $failedRequestsCount = $context->getAlgorithmState()->getFailedRequestsSemaphore($idSite);
+        $failedRequestsCount = $context->getAlgorithmRules()->getFailedRequestsSemaphore($idSite);
         if ($failedRequestsCount->get() === 0
-            && $context->getAlgorithmState()->getShouldProcessNonDayPeriods() // if any period is skipped, do not mark periods archiving as complete
+            && $context->getAlgorithmRules()->getShouldProcessNonDayPeriods() // if any period is skipped, do not mark periods archiving as complete
         ) {
             Option::set(AlgorithmRules::lastRunKey($idSite, "periods"), time());
         }

@@ -72,7 +72,7 @@ class CronArchive
      *
      * @var AlgorithmRules
      */
-    private $algorithmState;
+    private $algorithmRules;
 
     /**
      * The class used to log information to the screen. By default the logger will just use {@link \Piwik\Log}.
@@ -109,7 +109,7 @@ class CronArchive
     public function __construct(AlgorithmOptions $options, $queue = null, $processor = null)
     {
         $this->options = $options;
-        $this->algorithmState = new AlgorithmRules($this);
+        $this->algorithmRules = new AlgorithmRules($this);
         $this->algorithmLogger = new AlgorithmLogger();
 
         if (empty($queue)) {
@@ -140,7 +140,7 @@ class CronArchive
      */
     public function executeHook($name, $args = array())
     {
-        $args = array_merge(array($this, $this->options, $this->algorithmState, $this->algorithmLogger), $args);
+        $args = array_merge(array($this, $this->options, $this->algorithmRules, $this->algorithmLogger), $args);
 
         foreach ($this->hooks as $hookCollection) {
             call_user_func_array(array($hookCollection, $name), $args);
@@ -204,11 +204,11 @@ class CronArchive
          *                          already been processed.
          * @deprecated
          */
-        Piwik::postEvent('CronArchive.init.finish', array($this->algorithmState->getWebsitesToArchive()));
+        Piwik::postEvent('CronArchive.init.finish', array($this->algorithmRules->getWebsitesToArchive()));
 
         Semaphore::deleteLike("CronArchive%");
 
-        foreach ($this->algorithmState->getWebsitesToArchive() as $idSite) {
+        foreach ($this->algorithmRules->getWebsitesToArchive() as $idSite) {
             $this->queueDayArchivingJobsForSite($idSite);
         }
 
@@ -225,7 +225,7 @@ class CronArchive
         $stats = $this->getHooks("Piwik\\CronArchive\\Hooks\\Statistics");
         if (empty($stats->errors)) {
             // if no error mark this execution as the last successfully run execution
-            $this->algorithmState->setLastSuccessRunTimestamp(time());
+            $this->algorithmRules->setLastSuccessRunTimestamp(time());
         }
 
         $this->executeHook('onEnd');
@@ -288,13 +288,13 @@ class CronArchive
     }
 
     /**
-     * Returns the {@link $algorithmState} property.
+     * Returns the {@link $algorithmRules} property.
      *
      * @return AlgorithmRules
      */
-    public function getAlgorithmState()
+    public function getAlgorithmRules()
     {
-        return $this->algorithmState;
+        return $this->algorithmRules;
     }
 
     /**
@@ -314,14 +314,14 @@ class CronArchive
         }
 
         // Test if we should process this website
-        if ($this->algorithmState->getShouldSkipDayArchive($idSite)) {
-            $reason = "was archived " . $this->algorithmState->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
+        if ($this->algorithmRules->getShouldSkipDayArchive($idSite)) {
+            $reason = "was archived " . $this->algorithmRules->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
             $this->executeHook('onSkipWebsiteDayArchiving', array($idSite, $reason));
 
             return;
         }
 
-        if (!$this->algorithmState->getShouldProcessPeriod("day")) {
+        if (!$this->algorithmRules->getShouldProcessPeriod("day")) {
             // skip day archiving and proceed to period processing
             $this->queuePeriodAndSegmentArchivingFor($idSite);
             return;
@@ -329,7 +329,7 @@ class CronArchive
 
         $this->executeHook('onQueueDayArchiving', array($idSite));
 
-        $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, "day");
+        $date = $this->algorithmRules->getArchivingRequestDateParameterFor($idSite, "day");
 
         $job = new ArchiveDayVisits($idSite, $date, $this->options);
         $this->enqueueJob($job, $idSite);
@@ -339,15 +339,15 @@ class CronArchive
     {
         $this->executeHook('onQueuePeriodAndSegmentArchiving', array($idSite));
 
-        $dayDate = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, 'day');
+        $dayDate = $this->algorithmRules->getArchivingRequestDateParameterFor($idSite, 'day');
         $this->queueSegmentsArchivingFor($idSite, 'day', $dayDate);
 
         foreach (array('week', 'month', 'year') as $period) {
-            if (!$this->algorithmState->getShouldProcessPeriod($period)) {
+            if (!$this->algorithmRules->getShouldProcessPeriod($period)) {
                 continue;
             }
 
-            $date = $this->algorithmState->getArchivingRequestDateParameterFor($idSite, $period);
+            $date = $this->algorithmRules->getArchivingRequestDateParameterFor($idSite, $period);
 
             $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment = false, $this->options);
             $this->enqueueJob($job, $idSite);
@@ -358,7 +358,7 @@ class CronArchive
 
     private function queueSegmentsArchivingFor($idSite, $period, $date)
     {
-        foreach ($this->algorithmState->getSegmentsToArchiveForSite($idSite) as $segment) {
+        foreach ($this->algorithmRules->getSegmentsToArchiveForSite($idSite) as $segment) {
             $job = new ArchiveVisitsForNonDayOrSegment($idSite, $date, $period, $segment, $this->options);
             $this->enqueueJob($job, $idSite);
         }
@@ -370,7 +370,7 @@ class CronArchive
 
         $this->queue->enqueue(array($job));
 
-        $this->algorithmState->getFailedRequestsSemaphore($idSite)->increment();
-        $this->algorithmState->getActiveRequestsSemaphore($idSite)->increment();
+        $this->algorithmRules->getFailedRequestsSemaphore($idSite)->increment();
+        $this->algorithmRules->getActiveRequestsSemaphore($idSite)->increment();
     }
 }

@@ -14,7 +14,6 @@ use Piwik\CronArchive;
 use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Date;
 use Piwik\Metrics\Formatter;
-use Piwik\MetricsFormatter;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;

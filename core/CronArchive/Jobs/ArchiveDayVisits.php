@@ -64,7 +64,7 @@ class ArchiveDayVisits extends BaseJob
 
         // TODO: this seems incorrect, but I'm not sure what correct behavior is. if data has been invalidated, is it invalidated
         //       for all periods? then we should wait until all are done. what if only some finish successfully? still invalidated?
-        if ($context->getAlgorithmState()->isOldReportDataInvalidatedForWebsite($idSite)) {
+        if ($context->getAlgorithmRules()->isOldReportDataInvalidatedForWebsite($idSite)) {
             $this->removeWebsiteFromInvalidatedWebsites($idSite);
         }
 
@@ -74,7 +74,7 @@ class ArchiveDayVisits extends BaseJob
             return;
         }
 
-        $shouldArchivePeriods = $context->getAlgorithmState()->getShouldArchivePeriodsForWebsite($idSite);
+        $shouldArchivePeriods = $context->getAlgorithmRules()->getShouldArchivePeriodsForWebsite($idSite);
 
         // If there is no visit today and we don't need to process this website, we can skip remaining archives
         if ($visits == 0
@@ -93,7 +93,7 @@ class ArchiveDayVisits extends BaseJob
         }
 
         if (!$shouldArchivePeriods) {
-            $reason = "was archived " . $context->getAlgorithmState()->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
+            $reason = "was archived " . $context->getAlgorithmRules()->getElapsedTimeSinceLastArchiving($idSite, $pretty = true) . " ago";
             $context->executeHook('onSkipWebsitePeriodArchiving', array($idSite, $reason));
 
             return;
