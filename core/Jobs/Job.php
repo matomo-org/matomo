@@ -49,6 +49,8 @@ use Piwik\UrlHelper;
  * future when Dependency Injection is added.
  *
  * **NOTE: This api is not stable.**
+ *
+ * TODO: do not use serialize/unserialize.
  */
 class Job
 {
@@ -70,7 +72,6 @@ class Job
             $url = UrlHelper::getArrayFromQueryString($url);
         }
 
-        $url = array_map('urlencode', $url);
         $this->url = $url;
     }
 
@@ -99,6 +100,7 @@ class Job
      */
     public function getUrlString()
     {
-        return '?' . Url::getQueryStringFromParameters($this->url); // TODO: getQueryStringFromParameters doesn't urlencode. maybe a problem.
+        $url = array_map('urlencode', $this->url);
+        return '?' . Url::getQueryStringFromParameters($url);
     }
 }
