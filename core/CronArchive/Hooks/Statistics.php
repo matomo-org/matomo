@@ -10,10 +10,9 @@ namespace Piwik\CronArchive\Hooks;
 use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive;
 use Piwik\CronArchive\AlgorithmLogger;
-use Piwik\CronArchive\AlgorithmOptions;
 use Piwik\CronArchive\AlgorithmRules;
 use Piwik\CronArchive\Hooks;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 
 /**
  * CronArchive statistics calculating logic.
@@ -21,6 +20,11 @@ use Piwik\MetricsFormatter;
 class Statistics extends Hooks
 {
     const SEMAPHORE_PREFIX = 'CronArchive.';
+
+    /**
+     * @var Formatter
+     */
+    private $formatter;
 
     /**
      * Semaphore that holds the number of websites with visits today. When day archiving finishes,
@@ -112,9 +116,11 @@ class Statistics extends Hooks
      */
     public function __construct()
     {
+        $this->formatter = new Formatter();
+
         $this->countOfWebsitesWithVisitsToday = $this->makeSemaphore('countOfWebsitesWithVisitsToday');
         $this->dayArchivingsSkippedBecauseArchivesStillValid = $this->makeSemaphore('dayArchivingsSkippedBecauseArchivesStillValid');
-        $this->periodArchivingsSkippedBecauseArchivesStillValid = $this->makeSemaphore('$periodArchivingsSkippedBecauseArchivesStillValid');
+        $this->periodArchivingsSkippedBecauseArchivesStillValid = $this->makeSemaphore('periodArchivingsSkippedBecauseArchivesStillValid');
         $this->totalNumberOfVisitsToday = $this->makeSemaphore('totalNumberOfVisitsToday');
         $this->countOfWebsitesSuccessfullyProcessed = $this->makeSemaphore('countOfWebsitesSuccessfullyProcessed');
         $this->countOfWebsitesWhosePeriodsWereArchived = $this->makeSemaphore('countOfWebsitesWhosePeriodsWereArchived');
@@ -122,17 +128,11 @@ class Statistics extends Hooks
         $this->errors = $this->makeSemaphore('errors');
     }
 
-    /** TODO: deal w/ following concurrency issue
-     * - cron:archive started
-     * - while cron:archive running, another cron:archive started
-     * - stats for first cron:archive overwritten & merged w/ second
-     *
-     * there needs to be a run ID for cronarchive. store in options.
+    /**
      * @param CronArchive $context
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      */
-
     public function onInit(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // reset counters & lists, in case they exist in the DB
@@ -218,7 +218,7 @@ class Statistics extends Hooks
     public function getTotalCronArchiveTimePretty()
     {
         $elapsed = time() - $this->cronArchiveStartTime;
-        return MetricsFormatter::getPrettyTimeFromSeconds($elapsed, true, false);
+        return $this->formatter->getPrettyTimeFromSeconds($elapsed, true);
     }
 
     private function makeSemaphore($name, $idSite = null)

@@ -165,7 +165,7 @@ class AlgorithmOptions extends Hooks
         if ($this->shouldStartProfiler) {
             Profiler::setupProfilerXHProf($mainRun = true);
 
-            $logger->log("XHProf profiling is enabled.");
+            $logger->log("- XHProf profiling is enabled.");
         }
     }
 

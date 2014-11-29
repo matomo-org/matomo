@@ -32,6 +32,7 @@ use Piwik\Jobs\Queue;
 class CronArchive
 {
     const ARCHIVING_JOB_NAMESPACE = 'CronArchive';
+    const OPTION_CRON_ARCHIVE_IN_PROCESS = 'CronArchive.inProgress';
 
     // the url can be set here before the init, and it will be used instead of --url=
     public static $url = false;
@@ -141,7 +142,7 @@ class CronArchive
      */
     public function executeHook($name, $args = array())
     {
-        $args = array_merge(array($this, $this->options, $this->algorithmRules, $this->algorithmLogger), $args);
+        $args = array_merge(array($this, $this->algorithmRules, $this->algorithmLogger), $args);
 
         foreach ($this->hooks as $hookCollection) {
             call_user_func_array(array($hookCollection, $name), $args);
@@ -188,10 +189,40 @@ class CronArchive
      */
     public function run()
     {
+        if (!$this->isCronArchivingAlreadyInProcess()) {
+            $this->startCronArchiving();
+        } else {
+            $this->algorithmLogger->log("- Archiving already in progress, processing jobs for existing archiving run.");
+        }
+
+        $this->processQueuedJobs();
+
+        $this->runScheduledTasks();
+
+        /** @var Statistics $stats */
+        $stats = $this->getHooks("Piwik\\CronArchive\\Hooks\\Statistics");
+        if ($stats->errors->get() == 0) {
+            // if no error mark this execution as the last successfully run execution
+            $this->algorithmRules->setLastSuccessRunTimestamp(time());
+        }
+
+        $this->executeHook('onEnd');
+    }
+
+    private function isCronArchivingAlreadyInProcess()
+    {
+        return Option::get(self::OPTION_CRON_ARCHIVE_IN_PROCESS) !== false
+            && $this->queue->peek() > 0;
+    }
+
+    private function startCronArchiving()
+    {
+        $this->executeHook('onInit');
+
+        Option::set(self::OPTION_CRON_ARCHIVE_IN_PROCESS, 1);
+
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
-
-        $this->executeHook('onInit');
 
         /**
          * This event is triggered after a CronArchive instance is initialized.
@@ -208,28 +239,16 @@ class CronArchive
         foreach ($this->algorithmRules->getWebsitesToArchive() as $idSite) {
             $this->queueDayArchivingJobsForSite($idSite);
         }
-
-        // we allow the consumer to be empty in case another server does the actual job processing
-        if (empty($this->processor)) {
-            return;
-        }
-
-        $this->processQueuedJobs();
-
-        $this->runScheduledTasks();
-
-        /** @var Statistics $stats */
-        $stats = $this->getHooks("Piwik\\CronArchive\\Hooks\\Statistics");
-        if (empty($stats->errors)) {
-            // if no error mark this execution as the last successfully run execution
-            $this->algorithmRules->setLastSuccessRunTimestamp(time());
-        }
-
-        $this->executeHook('onEnd');
     }
 
     private function processQueuedJobs()
     {
+        // we allow the consumer to be empty in case another server does the actual job processing
+        if (empty($this->processor)) {
+            $this->algorithmLogger->log("- No processor configured/specified, skipping job processing. Another server may be configured to process jobs.");
+            return;
+        }
+
         $this->executeHook('onStartProcessing');
         $this->processor->startProcessing($finishWhenNoJobs = true);
         $this->executeHook('onEndProcessing');

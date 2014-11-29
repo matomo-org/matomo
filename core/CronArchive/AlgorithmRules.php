@@ -906,7 +906,7 @@ class AlgorithmRules
     private function getOrSetInCache($idSite, $infoKey, $calculateCallback)
     {
         if (!isset($this->stateCache[$idSite][$infoKey])) {
-            $value = $calculateCallback($this, $this->container);
+            $value = $calculateCallback($this);
 
             $this->container->executeHook('onRulePropertyComputed', array($infoKey, $idSite, &$value));
 
