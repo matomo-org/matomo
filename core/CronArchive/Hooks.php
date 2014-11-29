@@ -21,11 +21,10 @@ abstract class Hooks
      * Executed when initialization is finished.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      */
-    public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onInit(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -34,11 +33,10 @@ abstract class Hooks
      * Executed before scheduled tasks are run during the tracker.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      */
-    public function onInitTrackerTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onInitTrackerTasks(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -47,11 +45,10 @@ abstract class Hooks
      * Executed before job processing starts.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      */
-    public function onStartProcessing(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onStartProcessing(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -60,11 +57,10 @@ abstract class Hooks
      * Executed after all jobs are processed.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      */
-    public function onEndProcessing(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onEndProcessing(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -73,11 +69,10 @@ abstract class Hooks
      * Executed before scheduled tasks are run.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      */
-    public function onStartRunScheduledTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onStartRunScheduledTasks(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -86,12 +81,11 @@ abstract class Hooks
      * Executed after scheduled tasks are run.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param $tasksOutput
      */
-    public function onEndRunScheduledTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $tasksOutput)
+    public function onEndRunScheduledTasks(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $tasksOutput)
     {
         // empty
     }
@@ -100,11 +94,10 @@ abstract class Hooks
      * Executed after the CronArchive algorithm finishes.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      */
-    public function onEnd(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onEnd(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         // empty
     }
@@ -113,13 +106,12 @@ abstract class Hooks
      * Executed when an API request results in an error.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param string $url The API request URL.
      * @param string $errorMessage The error message returned from the API.
      */
-    public function onApiRequestError(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $url, $errorMessage)
+    public function onApiRequestError(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $url, $errorMessage)
     {
         // empty
     }
@@ -128,12 +120,11 @@ abstract class Hooks
      * Executed after on a non-API related error.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param string $errorMessage The error message.
      */
-    public function onError(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $errorMessage)
+    public function onError(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $errorMessage)
     {
         // empty
     }
@@ -142,13 +133,12 @@ abstract class Hooks
      * Executed when day archiving for a website is skipped.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param int $idSite The ID of the site archiving was skipped for.
      * @param string $reason The reason for skipping.
      */
-    public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
+    public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
     {
         // empty
     }
@@ -157,13 +147,12 @@ abstract class Hooks
      * Executed when period archiving for a website is skipped.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param int $idSite The ID of the site archiving was skipped for.
      * @param string $reason The reason for skipping.
      */
-    public function onSkipWebsitePeriodArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
+    public function onSkipWebsitePeriodArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
     {
         // empty
     }
@@ -172,7 +161,6 @@ abstract class Hooks
      * Executed after an archiving API request finishes successfully.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param string[] $requestParams The query parameters in the API request that was made.
@@ -180,8 +168,7 @@ abstract class Hooks
      * @param int $visitsLast The number of visits in the last N periods (where N is determined by CronArchive logic).
      * @param float $elapsedTime The elapsed time in seconds it took for the archiving request to complete.
      */
-    public function onArchiveRequestFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
-                                             $requestParams, $visits, $visitsLast, $elapsedTime)
+    public function onArchiveRequestFinished(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $requestParams, $visits, $visitsLast, $elapsedTime)
     {
         // empty
     }
@@ -190,12 +177,11 @@ abstract class Hooks
      * Executed after all archiving for a site is completed.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param int $idSite The ID of the site whose archiving is finished.
      */
-    public function onSiteArchivingFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
+    public function onSiteArchivingFinished(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
     {
         // empty
     }
@@ -204,12 +190,11 @@ abstract class Hooks
      * Executed before period & segment archiving requests are queued as jobs to process.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param int $idSite The ID of the site for whom archiving requests were queued..
      */
-    public function onQueuePeriodAndSegmentArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
+    public function onQueuePeriodAndSegmentArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
     {
         // empty
     }
@@ -218,12 +203,11 @@ abstract class Hooks
      * Executed before period & segment archiving requests are queued as jobs to process.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param int $idSite The ID of the site for whom archiving requests were queued..
      */
-    public function onQueueDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
+    public function onQueueDayArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
     {
         // empty
     }
@@ -232,29 +216,25 @@ abstract class Hooks
      * Executed before a job is queued for processing.
      *
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param Job $job
      * @param int $idSite The ID of the site the Job is for.
      */
-    public function onEnqueueJob(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, Job $job, $idSite)
+    public function onEnqueueJob(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, Job $job, $idSite)
     {
         // empty
     }
 
-    // TODO: remove $options param from Hooks
     /**
      * @param CronArchive $context
-     * @param AlgorithmOptions $options
      * @param AlgorithmRules $state
      * @param AlgorithmLogger $logger
      * @param string $getterName
      * @param int|string $idSite A site ID or `"none"`.
      * @param mixed $value
      */
-    public function onRulePropertyComputed(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
-                                           $getterName, $idSite, &$value)
+    public function onRulePropertyComputed(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $getterName, $idSite, &$value)
     {
         // empty
     }

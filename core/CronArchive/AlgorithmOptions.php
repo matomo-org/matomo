@@ -160,7 +160,7 @@ class AlgorithmOptions extends Hooks
         return in_array($idSite, $this->shouldSkipSpecifiedSites);
     }
 
-    public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onInit(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         if ($this->shouldStartProfiler) {
             Profiler::setupProfilerXHProf($mainRun = true);
@@ -169,8 +169,7 @@ class AlgorithmOptions extends Hooks
         }
     }
 
-    public function onRulePropertyComputed(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
-                                           $getterName, $idSite, &$value)
+    public function onRulePropertyComputed(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $getterName, $idSite, &$value)
     {
         switch ($getterName) {
             case 'getIsWebsiteArchivingForced':

@@ -29,8 +29,11 @@ class Logging extends Hooks
         $this->formatter = new Metrics\Formatter();
     }
 
-    public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onInit(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
+        /** @var AlgorithmOptions $options */
+        $options = $context->getHooks("Piwik\\CronArchive\\AlgorithmOptions");
+
         $this->startInitSection($logger);
 
         $logger->logSection("NOTES");
@@ -97,18 +100,18 @@ class Logging extends Hooks
         $logger->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
     }
 
-    public function onInitTrackerTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onInitTrackerTasks(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         $this->startInitSection($logger);
     }
 
-    public function onStartProcessing(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onStartProcessing(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         $logger->logSection("START");
         $logger->log("Starting Piwik reports archiving...");
     }
 
-    public function onQueuePeriodAndSegmentArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
+    public function onQueuePeriodAndSegmentArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
     {
         $segmentsForSite = $state->getSegmentsForSingleSite($idSite);
         if (!empty($segmentsForSite)) {
@@ -117,7 +120,7 @@ class Logging extends Hooks
         }
     }
 
-    public function onEnd(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onEnd(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         /** @var Statistics $stats */
         $stats = $context->getHooks("Piwik\\CronArchive\\Hooks\\Statistics");
@@ -130,7 +133,7 @@ class Logging extends Hooks
         $logger->logFatalError("$errorCount total errors during this script execution, please investigate and try and fix these errors. See CronArchive and job server logs for more information.");
     }
 
-    public function onEndProcessing(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onEndProcessing(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
         $logger->log("Done archiving!");
 
@@ -175,8 +178,11 @@ class Logging extends Hooks
         );
     }
 
-    public function onStartRunScheduledTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    public function onStartRunScheduledTasks(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
     {
+        /** @var AlgorithmOptions $options */
+        $options = $context->getHooks("Piwik\\CronArchive\\AlgorithmOptions");
+
         $logger->logSection("SCHEDULED TASKS");
 
         if ($options->disableScheduledTasks) {
@@ -187,7 +193,7 @@ class Logging extends Hooks
         $logger->log("Starting Scheduled tasks... ");
     }
 
-    public function onEndRunScheduledTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $tasksOutput)
+    public function onEndRunScheduledTasks(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $tasksOutput)
     {
         if ($tasksOutput == \Piwik\DataTable\Renderer\Csv::NO_DATA_AVAILABLE) {
             $tasksOutput = " No task to run";
@@ -198,7 +204,7 @@ class Logging extends Hooks
         $logger->logSection("");
     }
 
-    public function onApiRequestError(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $url, $errorMessage)
+    public function onApiRequestError(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $url, $errorMessage)
     {
         if (is_array($url)) {
             $url = Url::getQueryStringFromParameters($url);
@@ -212,26 +218,25 @@ class Logging extends Hooks
             $message .= "Response was '$errorMessage'";
         }
 
-        $this->onError($context, $options, $state, $logger, $message);
+        $this->onError($context, $state, $logger, $message);
     }
 
-    public function onError(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $errorMessage)
+    public function onError(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $errorMessage)
     {
         $logger->logError($errorMessage);
     }
 
-    public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
+    public function onSkipWebsiteDayArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
     {
         $logger->log("Skipped day archiving for website id $idSite, $reason");
     }
 
-    public function onSkipWebsitePeriodArchiving(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
+    public function onSkipWebsitePeriodArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite, $reason)
     {
         $logger->log("Skipped period archiving for website id $idSite, $reason");
     }
 
-    public function onArchiveRequestFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $requestParams,
-                                             $visitsInThisPeriod, $visitsInLastPeriods, $elapsedTime)
+    public function onArchiveRequestFinished(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $requestParams, $visits, $visitsLast, $elapsedTime)
     {
         $idSite = @$requestParams['idSite'] ?: '';
         $date = @$requestParams['date'] ?: '';
@@ -239,19 +244,19 @@ class Logging extends Hooks
         $segment = @$requestParams['segment'] ?: '';
 
         if (substr($date, 0, 4) === 'last') {
-            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
+            $visitsLast = (int)$visitsLast . " visits in last " . $date . " " . $period . "s, ";
             $thisPeriod = $period == "day" ? "today" : "this " . $period;
-            $visitsInLastPeriod = (int)$visitsInThisPeriod . " visits " . $thisPeriod . ", ";
+            $visitsInLastPeriod = (int)$visits . " visits " . $thisPeriod . ", ";
         } else {
-            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in " . $period . "s included in: $date, ";
+            $visitsLast = (int)$visitsLast . " visits in " . $period . "s included in: $date, ";
             $visitsInLastPeriod = '';
         }
 
         $elapsedTime = $this->formatter->getPrettyTimeFromSeconds($elapsedTime, true, false);
-        $logger->log("Archived website id = $idSite in $elapsedTime, period = $period, " . $visitsInLastPeriods . $visitsInLastPeriod . " [segment = $segment]");
+        $logger->log("Archived website id = $idSite in $elapsedTime, period = $period, " . $visitsLast . $visitsInLastPeriod . " [segment = $segment]");
     }
 
-    public function onSiteArchivingFinished(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
+    public function onSiteArchivingFinished(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
     {
         $elapsedTime = "";
 
