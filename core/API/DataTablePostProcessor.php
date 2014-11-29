@@ -99,7 +99,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
 
-        $dataTable = $this->applyMetricsFormatting($dataTable, null);
+        $dataTable = $this->applyMetricsFormatting($dataTable);
 
         return $dataTable;
     }
