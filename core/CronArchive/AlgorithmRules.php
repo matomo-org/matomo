@@ -13,6 +13,7 @@ use Piwik\Concurrency\Semaphore;
 use Piwik\CronArchive;
 use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Date;
+use Piwik\Metrics\Formatter;
 use Piwik\MetricsFormatter;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -230,7 +231,8 @@ class AlgorithmRules
         });
 
         if ($pretty) {
-            $result = MetricsFormatter::getPrettyTimeFromSeconds($result, true, $isHtml = false);
+            $formatter = new Formatter();
+            $result = $formatter->getPrettyTimeFromSeconds($result, true);
         }
 
         return $result;
