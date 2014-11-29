@@ -32,10 +32,7 @@ class ArchiveCronTest extends SystemTestCase
     {
         $results = array();
 
-        // First, API calls for Segmented reports
-        // Disabling these tests as they randomly fail... This could actually be a bug.
-        // FIXME - I have failed finding the cause for these test to randomly fail
-        // eg.
+        // API calls for Segmented reports
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
             $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                           'date'       => '2012-08-09',
@@ -60,7 +57,7 @@ class ArchiveCronTest extends SystemTestCase
         );
         foreach($segments as $idx => $segment) {
             // Test with a pre-processed segment
-            // TODO: 'VisitFrequency.get' fails because it modifies the segment; i guess cron archiving doesn't
+            // TODO: 'VisitFrequency.get' fails because it modifies the segment; I guess cron archiving doesn't
             //       invoke VisitFrequency archiving...
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails'),
                                array('idSite'     => '1',

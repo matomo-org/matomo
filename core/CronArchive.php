@@ -79,7 +79,7 @@ class CronArchive
      *
      * @var AlgorithmLogger
      */
-    public $algorithmLogger;
+    private $algorithmLogger;
 
     /**
      * The options that can alter the way this CronArchive instance behaves. Each option is available as
@@ -87,7 +87,7 @@ class CronArchive
      *
      * @var AlgorithmOptions
      */
-    public $options;
+    private $options;
 
     /**
      * List of hooks that extend basic CronArchive behavior. These objects are used to apply cross-cutting
@@ -128,6 +128,7 @@ class CronArchive
         $this->queue = $queue;
         $this->processor = $processor;
 
+        $this->hooks[] = $this->options;
         $this->hooks[] = new Hooks\Logging();
         $this->hooks[] = new Hooks\Statistics();
     }
@@ -189,10 +190,6 @@ class CronArchive
     {
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
-
-        if ($this->options->shouldStartProfiler) {
-            Profiler::setupProfilerXHProf($mainRun = true);
-        }
 
         $this->executeHook('onInit');
 

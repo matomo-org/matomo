@@ -242,4 +242,20 @@ abstract class Hooks
     {
         // empty
     }
+
+    // TODO: remove $options param from Hooks
+    /**
+     * @param CronArchive $context
+     * @param AlgorithmOptions $options
+     * @param AlgorithmRules $state
+     * @param AlgorithmLogger $logger
+     * @param string $getterName
+     * @param int|string $idSite A site ID or `"none"`.
+     * @param mixed $value
+     */
+    public function onRulePropertyComputed(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
+                                           $getterName, $idSite, &$value)
+    {
+        // empty
+    }
 }

@@ -59,7 +59,8 @@ class Logging extends Hooks
             $shouldArchiveOnlySitesWithTrafficSince = $state->getShouldArchiveOnlySitesWithTrafficSinceLastNSecs();
             $websitesWithVisit = $state->getWebsitesWithVisitsSinceLastRun();
 
-            $prettySeconds = MetricsFormatter::getPrettyTimeFromSeconds($shouldArchiveOnlySitesWithTrafficSince, true, false);
+            $formatter = new Metrics\Formatter();
+            $prettySeconds = $formatter->getPrettyTimeFromSeconds($shouldArchiveOnlySitesWithTrafficSince, true);
             $logger->log("- Will process " . count($websitesWithVisit) . " websites with new visits since $prettySeconds"
                 . " , IDs: [" . implode(", ", $websitesWithVisit) . "]");
 
@@ -89,22 +90,6 @@ class Logging extends Hooks
         // log segments that will be applied to all sites
         $segments = $state->getSegmentsForAllSites();
         $logger->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
-
-        // TODO: some of these logs duplicate logic in AlgorithmRules (mostly conditions). perhaps adding a onPropertyComputed event
-        //       would help w/ that.
-
-        // log warnings
-        if (!empty($options->forceTimeoutPeriod)
-            && $options->forceTimeoutPeriod > $state->getTodayArchiveTimeToLive()
-        ) {
-            $logger->log("WARNING: Automatically increasing --force-timeout-for-periods from {$options->forceTimeoutPeriod} to "
-                . $state->getTodayArchiveTimeToLive()
-                . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
-        }
-
-        if ($options->shouldStartProfiler) {
-            $logger->log("XHProf profiling is enabled.");
-        }
     }
 
     public function onInitTrackerTasks(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)

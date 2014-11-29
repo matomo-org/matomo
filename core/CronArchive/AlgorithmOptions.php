@@ -9,12 +9,14 @@
 namespace Piwik\CronArchive;
 
 use Exception;
+use Piwik\CronArchive;
+use Piwik\Profiler;
 
 /**
  * Contains all editable options for the CronArchive algorithm. Each option has a corresponding
  * command line option in the core:archive command.
  */
-class AlgorithmOptions
+class AlgorithmOptions extends Hooks
 {
     // Flag to know when the archive cron is calling the API
     const APPEND_TO_API_REQUEST = '&trigger=archivephp';
@@ -27,7 +29,7 @@ class AlgorithmOptions
     public $testmode = false;
 
     /**
-     * The list of IDs for sites for whom archiving should be initiated. If supplied, only these
+     * The list of IDs for sites for whom archiving should be initiated. If not empty, only these
      * sites will be archived.
      *
      * @var int[]
@@ -147,25 +149,6 @@ class AlgorithmOptions
     }
 
     /**
-     * Returns the date range to restrict archiving to.
-     *
-     * @return false|string false if there is no restriction, or a date range if there is.
-     * @throws Exception if the date range is non-empty and has no comma.
-     */
-    public function getDateRangeToProcess()
-    {
-        if (empty($this->restrictToDateRange)) {
-            return false;
-        }
-
-        if (strpos($this->restrictToDateRange, ',') === false) {
-            throw new Exception("--force-date-range expects a date range ie. YYYY-MM-DD,YYYY-MM-DD");
-        }
-
-        return $this->restrictToDateRange;
-    }
-
-    /**
      * Returns true if the specified site should be skipped based on the CronArchive options set. Returns
      * false if otherwise.
      *
@@ -175,5 +158,124 @@ class AlgorithmOptions
     public function shouldSkipWebsite($idSite)
     {
         return in_array($idSite, $this->shouldSkipSpecifiedSites);
+    }
+
+    public function onInit(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger)
+    {
+        if ($this->shouldStartProfiler) {
+            Profiler::setupProfilerXHProf($mainRun = true);
+
+            $logger->log("XHProf profiling is enabled.");
+        }
+    }
+
+    public function onRulePropertyComputed(CronArchive $context, AlgorithmOptions $options, AlgorithmRules $state, AlgorithmLogger $logger,
+                                           $getterName, $idSite, &$value)
+    {
+        switch ($getterName) {
+            case 'getIsWebsiteArchivingForced':
+                $this->setIsWebsiteArchivingForced($idSite, $value);
+                break;
+            case 'getProcessPeriodsMaximumEverySeconds':
+                $this->applyForcePeriodTimeout($state, $logger, $value);
+                break;
+            case 'getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs':
+                $this->applyShouldArchiveAllPeriodsSince($value);
+                break;
+            case 'getPeriodsToProcess':
+                $this->applyRestrictToPeriods($value);
+                break;
+            case 'getForcedWebsitesToArchive':
+                $this->setForcedWebsitesToArchive($state, $value);
+                break;
+            case 'getForcedDateRangeToProcess':
+                $this->setForcedDateRangeToProcess($value);
+                break;
+            case 'getLastTimestampWebsiteProcessedDay':
+                $this->unsetLastTimestampWebsiteProcessedDayIfForceAllWebsites($value);
+                break;
+        }
+    }
+
+    private function setIsWebsiteArchivingForced($idSite, &$value)
+    {
+        if (empty($this->shouldArchiveSpecifiedSites)) {
+            return;
+        }
+
+        $value = in_array($idSite, $this->shouldArchiveSpecifiedSites);
+    }
+
+    private function applyForcePeriodTimeout(AlgorithmRules $rules, AlgorithmLogger $logger, &$value)
+    {
+        if (empty($this->forceTimeoutPeriod)) {
+            return;
+        }
+
+        // Ensure the cache for periods is at least as high as cache for today
+        if ($rules->getTodayArchiveTimeToLive() > $this->forceTimeoutPeriod) {
+            $value = $rules->getTodayArchiveTimeToLive();
+
+            $logger->log("WARNING: Automatically increasing --force-timeout-for-periods from {$this->forceTimeoutPeriod} to "
+                . $rules->getTodayArchiveTimeToLive()
+                . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
+        } else {
+            $value = $this->forceTimeoutPeriod;
+        }
+    }
+
+    private function applyShouldArchiveAllPeriodsSince(&$value)
+    {
+        if (empty($this->shouldArchiveAllPeriodsSince)) {
+            return;
+        }
+
+        if (is_numeric($this->shouldArchiveAllPeriodsSince)
+            && $this->shouldArchiveAllPeriodsSince > 1
+        ) {
+            $value = (int)$this->shouldArchiveAllPeriodsSince;
+        } else {
+            $value = true;
+        }
+    }
+
+    private function applyRestrictToPeriods(&$value)
+    {
+        if (empty($this->restrictToPeriods)) {
+            return;
+        }
+
+        $value = array_intersect($this->restrictToPeriods, $value);
+    }
+
+    private function setForcedWebsitesToArchive(AlgorithmRules $rules, &$value)
+    {
+        if (count($this->shouldArchiveSpecifiedSites) > 0) {
+            $value = $this->shouldArchiveSpecifiedSites;
+        } else if ($this->shouldArchiveAllSites) {
+            $value = $rules->getAllWebsites();
+        }
+    }
+
+    private function setForcedDateRangeToProcess(&$value)
+    {
+        if (empty($this->restrictToDateRange)) {
+            return;
+        }
+
+        if (strpos($this->restrictToDateRange, ',') === false) {
+            throw new Exception("--force-date-range expects a date range ie. YYYY-MM-DD,YYYY-MM-DD");
+        }
+
+        $value = $this->restrictToDateRange;
+    }
+
+    private function unsetLastTimestampWebsiteProcessedDayIfForceAllWebsites(&$value)
+    {
+        // when --force-all-websites option,
+        // also forces to archive last52 days to be safe
+        if ($this->shouldArchiveAllSites) {
+            $value = false;
+        }
     }
 }

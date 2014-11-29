@@ -25,7 +25,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
  * Encapsulates the logic of the CronArchive archiving algorithm in separate isolated
  * getters.
  *
- * The result of getters is cached. Getters that return data based on site is cached by
+ * The result of each getter is cached. Getters that return data based on a site is cached by
  * site ID.
  */
 class AlgorithmRules
@@ -166,8 +166,8 @@ class AlgorithmRules
      */
     public function getIsWebsiteArchivingForced($idSite)
     {
-        return $this->getOrSetInCache($idSite, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite) {
-            return in_array($idSite, $container->options->shouldArchiveSpecifiedSites);
+        return $this->getOrSetInCache($idSite, __FUNCTION__, function () use ($idSite) {
+            return false;
         });
     }
 
@@ -397,17 +397,8 @@ class AlgorithmRules
      */
     public function getProcessPeriodsMaximumEverySeconds()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
-            if (empty($container->options->forceTimeoutPeriod)) {
-                return AlgorithmRules::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
-            }
-
-            // Ensure the cache for periods is at least as high as cache for today
-            if ($container->options->forceTimeoutPeriod > $self->getTodayArchiveTimeToLive()) {
-                return $container->options->forceTimeoutPeriod;
-            }
-
-            return $self->getTodayArchiveTimeToLive();
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
+            return max(AlgorithmRules::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES, $self->getTodayArchiveTimeToLive());
         });
     }
 
@@ -499,18 +490,8 @@ class AlgorithmRules
      */
     public function getShouldArchivePeriodsOnlyForSitesWithTrafficSinceLastNSecs()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
-            if (empty($container->options->shouldArchiveAllPeriodsSince)) {
-                return false;
-            }
-
-            if (is_numeric($container->options->shouldArchiveAllPeriodsSince)
-                && $container->options->shouldArchiveAllPeriodsSince > 1
-            ) {
-                return (int)$container->options->shouldArchiveAllPeriodsSince;
-            }
-
-            return true;
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
+            return false;
         });
     }
 
@@ -566,8 +547,8 @@ class AlgorithmRules
      */
     public function getPeriodsToProcess()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
-            $periods = array_intersect($container->options->restrictToPeriods, $self->getDefaultPeriodsToProcess());
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
+            $periods = $self->getDefaultPeriodsToProcess();
             $periods = array_intersect($periods, PeriodFactory::getPeriodsEnabledForAPI());
             return $periods;
         });
@@ -587,7 +568,7 @@ class AlgorithmRules
      * Returns `true` if we should respect the archiving TTL, `false` if otherwise.
      *
      * TODO: I don't know what it means for the CronArchive algorithm if this returns false (ie, we **shouldn't**
-     *       respect the archiving TTL.
+     *       respect the archiving TTL).
      *
      * @return bool
      */
@@ -607,6 +588,19 @@ class AlgorithmRules
     {
         return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
             return APISitesManager::getInstance()->getAllSitesId();
+        });
+    }
+
+    /**
+     * Returns the list of IDs of sites for whom archiving is being forced. By default, the result is an empty array.
+     * AlgorithmOptions will modify the result if certain options are set.
+     *
+     * @return int[]
+     */
+    public function getForcedWebsitesToArchive()
+    {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUnCTION__, function () {
+            return array();
         });
     }
 
@@ -631,12 +625,10 @@ class AlgorithmRules
      */
     public function getWebsitesToArchive()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) {
-            if (count($container->options->shouldArchiveSpecifiedSites) > 0) {
-                $websiteIds = $container->options->shouldArchiveSpecifiedSites;
-            } else if ($container->options->shouldArchiveAllSites) {
-                $websiteIds = $self->getAllWebsites();
-            } else {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
+            $websiteIds = $self->getForcedWebsitesToArchive();
+
+            if (empty($websiteIds)) {
                 $websiteIds = array_merge(
                     $self->getWebsitesWithVisitsSinceLastRun(),
                     $self->getWebsitesWithInvalidatedArchiveData(),
@@ -794,6 +786,18 @@ class AlgorithmRules
     }
 
     /**
+     * Returns the date range to process. Set by the AlgorithmOptions hooks implementation.
+     *
+     * @return string|false
+     */
+    public function getForcedDateRangeToProcess()
+    {
+        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function () {
+            return false;
+        });
+    }
+
+    /**
      * Returns the value of the date query parameter to use in an archiving API request for a
      * site and period.
      *
@@ -806,9 +810,8 @@ class AlgorithmRules
      */
     public function getArchivingRequestDateParameterFor($idSite, $period)
     {
-        return $this->getOrSetInCache($idSite . '_' . $period, __FUNCTION__, function (AlgorithmRules $self, CronArchive $container) use ($idSite, $period) {
-            $dateRangeForced = $container->options->getDateRangeToProcess();
-
+        return $this->getOrSetInCache($idSite . '_' . $period, __FUNCTION__, function (AlgorithmRules $self) use ($idSite, $period) {
+            $dateRangeForced = $self->getForcedDateRangeToProcess();
             if (!empty($dateRangeForced)) {
                 return $dateRangeForced;
             }
@@ -819,11 +822,7 @@ class AlgorithmRules
                 // TODO: this comment says to query all days/weeks/months but in oldcode it only resets last timestamp for days. correct or incorrect?
                 // when some data was purged from this website
                 // we make sure we query all previous days/weeks/months
-                if ($self->isOldReportDataInvalidatedForWebsite($idSite)
-                    // when --force-all-websites option,
-                    // also forces to archive last52 days to be safe
-                    || $container->options->shouldArchiveAllSites
-                ) {
+                if ($self->isOldReportDataInvalidatedForWebsite($idSite)) {
                     $lastTimestampWebsiteProcessed = false;
                 }
             } else {
@@ -908,6 +907,8 @@ class AlgorithmRules
     {
         if (!isset($this->stateCache[$idSite][$infoKey])) {
             $value = $calculateCallback($this, $this->container);
+
+            $this->container->executeHook('onRulePropertyComputed', array($infoKey, $idSite, &$value));
 
             $this->stateCache[$idSite][$infoKey] = $value;
         }
