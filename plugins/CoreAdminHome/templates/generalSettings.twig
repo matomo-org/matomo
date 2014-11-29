@@ -225,7 +225,7 @@
                 <td id="inlineHelpCustomLogo">
                     {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
                     {% set customLogoHelp %}
-                    {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
+                    {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' rel='noreferrer' target='_blank'>","</a>")|raw }}
                     {% endset %}
                     {{ piwik.inlineHelp(customLogoHelp) }}
                 </td>
@@ -344,7 +344,7 @@
     {% endset %}
     <code>{{ iframeOptOut|escape }}</code>
     <br/>
-    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
+    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' rel='noreferrer' target='_blank'>","</a>")|raw }}
 </p>
 
 {% endblock %}

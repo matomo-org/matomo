@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
+use DeviceDetector\Parser\Device\DeviceParserAbstract;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -50,9 +51,34 @@ class API extends \Piwik\Plugin\API
     public function getType($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_types', $idSite, $period, $date, $segment);
+        // ensure all device types are in the list
+        $this->ensureDefaultRowsInTable($dataTable);
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
         return $dataTable;
+    }
+
+    protected function ensureDefaultRowsInTable($dataTable)
+    {
+        $requiredRows = array_fill(0, count(DeviceParserAbstract::getAvailableDeviceTypes()), Metrics::INDEX_NB_VISITS);
+
+        $dataTables = array($dataTable);
+
+        if (!($dataTable instanceof DataTable\Map)) {
+            foreach ($dataTables as $table) {
+                if ($table->getRowsCount() == 0) {
+                    continue;
+                }
+                foreach ($requiredRows as $requiredRow => $key) {
+                    $row = $table->getRowFromLabel($requiredRow);
+                    if (empty($row)) {
+                        $table->addRowsFromSimpleArray(array(
+                            array('label' => $requiredRow, $key => 0)
+                        ));
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -97,8 +123,8 @@ class API extends \Piwik\Plugin\API
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_os', $idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamilyFullNameExtended'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsFamilyLogoExtended'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamilyFullName'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsFamilyLogo'));
         return $dataTable;
     }
 
@@ -113,9 +139,9 @@ class API extends \Piwik\Plugin\API
     public function getOsVersions($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsLogoExtended'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getOsFullNameExtended'));
-
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsLogo'));
+        // use GroupBy filter to avoid duplicate rows if old (UserSettings) and new (DevicesDetection) reports were combined
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOsFullName'));
         return $dataTable;
     }
 
@@ -126,12 +152,27 @@ class API extends \Piwik\Plugin\API
      * @param string $date
      * @param bool|string $segment
      * @return DataTable
+     *
+     * @deprecated since 2.9.0   Use {@link getBrowsers} instead.
      */
     public function getBrowserFamilies($idSite, $period, $date, $segment = false)
     {
+        return $this->getBrowsers($idSite, $period, $date, $segment);
+    }
+
+    /**
+     * Gets datatable displaying number of visits by Browser (Without version)
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
+     * @param bool|string $segment
+     * @return DataTable
+     */
+    public function getBrowsers($idSite, $period, $date, $segment = false)
+    {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserFamilyFullNameExtended'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogoExtended'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserName'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogo'));
         return $dataTable;
     }
 
@@ -146,8 +187,8 @@ class API extends \Piwik\Plugin\API
     public function getBrowserVersions($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserLogoExtended'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserNameExtended'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserLogo'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserNameWithVersion'));
         return $dataTable;
     }
 

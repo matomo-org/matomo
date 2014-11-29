@@ -18,7 +18,7 @@
                 {{ 'General_Error'|translate }}
             {% else %}
                 {% set cleanUrl %}
-                    <a href="http://{{ urlToRank }}" target="_blank">{{ urlToRank }}</a>
+                    <a href="http://{{ urlToRank }}" rel="noreferrer"  target="_blank">{{ urlToRank }}</a>
                 {% endset %}
                 {{ 'SEO_SEORankingsFor'|translate(cleanUrl)|raw }}
                 <table cellspacing="2" style="margin:auto;line-height:1.5em;padding-top:10px;">

@@ -8,15 +8,18 @@
  */
 namespace Piwik\Plugins\CoreHome;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
 
 class Visitor
 {
     private $details = array();
+    private $metricsFormatter = null;
 
     public function __construct($details)
     {
         $this->details = $details;
+        $this->metricsFormatter = new Formatter();
     }
 
     function getTimestampFirstAction()
@@ -33,6 +36,7 @@ class Visitor
         } elseif ($status == 'abandonedCart') {
             return "plugins/Morpheus/images/ecommerceAbandonedCart.gif";
         }
+        // Note: it is important that there is no icon when there was no ecommerce conversion
         return null;
     }
 
@@ -96,7 +100,7 @@ class Visitor
 
     function getVisitLengthPretty()
     {
-        return \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->details['visit_total_time']);
+        return $this->metricsFormatter->getPrettyTimeFromSeconds($this->details['visit_total_time'], true);
     }
 
     function getUserId()
@@ -107,5 +111,4 @@ class Visitor
         }
         return null;
     }
-
 }

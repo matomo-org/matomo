@@ -22,6 +22,7 @@ use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Site;
@@ -141,13 +142,26 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
             }
 
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+
+            if (!empty($setting)) {
+                $message = $setting->title . ': ' . $message;
+            }
+
+            $message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
+            return json_encode(array('result' => 'error', 'message' => $message));
+        }
+
+        try {
             foreach ($pluginsSettings as $pluginSetting) {
                 $pluginSetting->save();
             }
-
         } catch (Exception $e) {
-            $message = html_entity_decode($e->getMessage(), ENT_QUOTES, 'UTF-8');
-            return json_encode(array('result' => 'error', 'message' => $message));
+            return json_encode(array(
+                'result' => 'error',
+                'message' => Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'))
+            );
         }
 
         Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
@@ -218,7 +232,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
 
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
-        $view->defaultSiteRevenue = \Piwik\MetricsFormatter::getCurrencySymbol($view->idSite);
+        $view->defaultSiteRevenue = \Piwik\Metrics\Formatter::getCurrencySymbol($view->idSite);
         $view->maxCustomVariables = CustomVariables::getMaxCustomVariables();
 
         $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
@@ -235,7 +249,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // get currencies for each viewable site
         $view->currencySymbols = APISitesManager::getInstance()->getCurrencySymbols();
 
-        $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::isActive();
+        $dntChecker = new DoNotTrackHeaderChecker();
+        $view->serverSideDoNotTrackEnabled = $dntChecker->isActive();
 
         return $view->render();
     }

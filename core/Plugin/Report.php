@@ -119,7 +119,7 @@ class Report
      * platform default processed metrics, see {@link Metrics::getDefaultProcessedMetrics()}. Set it to boolean `false`
      * if your report does not support any processed metrics at all. Otherwise an array of metric names.
      * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
-     * @var array|false
+     * @var array
      * @api
      */
     protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
@@ -196,6 +196,7 @@ class Report
         'General_Visitors',
         'DevicesDetection_DevicesDetection',
         'UserSettings_VisitorSettings',
+        'API'
     );
 
     /**
@@ -359,6 +360,44 @@ class Report
     }
 
     /**
+     * Returns the list of metrics required at minimum for a report factoring in the columns requested by
+     * the report requester.
+     *
+     * This will return all the metrics requested (or all the metrics in the report if nothing is requested)
+     * **plus** the metrics required to calculate the requested processed metrics.
+     *
+     * This method should be used in **Plugin.get** API methods.
+     *
+     * @param string[]|null $allMetrics The list of all available unprocessed metrics. Defaults to this report's
+     *                                  metrics.
+     * @param string[]|null $restrictToColumns The requested columns.
+     * @return string[]
+     */
+    public function getMetricsRequiredForReport($allMetrics = null, $restrictToColumns = null)
+    {
+        if (empty($allMetrics)) {
+            $allMetrics = $this->metrics;
+        }
+
+        if (empty($restrictToColumns)) {
+            $restrictToColumns = array_merge($allMetrics, array_keys($this->getProcessedMetrics()));
+        }
+
+        $processedMetricsById = $this->getProcessedMetricsById();
+        $metricsSet = array_flip($allMetrics);
+
+        $metrics = array();
+        foreach ($restrictToColumns as $column) {
+            if (isset($processedMetricsById[$column])) {
+                $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependentMetrics());
+            } else if (isset($metricsSet[$column])) {
+                $metrics[] = $column;
+            }
+        }
+        return array_unique($metrics);
+    }
+
+    /**
      * Returns an array of supported processed metrics and their corresponding translations. Eg
      * `array('nb_visits' => 'Visits')`. By default the given {@link $processedMetrics} are used and their
      * corresponding translations are looked up automatically. If a metric is not translated, you should add the
@@ -375,6 +414,18 @@ class Report
         }
 
         return $this->getMetricTranslations($this->processedMetrics);
+    }
+
+    /**
+     * Returns the array of all metrics displayed by this report.
+     *
+     * @return array
+     * @api
+     */
+    public function getAllMetrics()
+    {
+        $processedMetrics = $this->getProcessedMetrics() ?: array();
+        return array_keys(array_merge($this->getMetrics(), $processedMetrics));
     }
 
     /**
@@ -396,6 +447,23 @@ class Report
         foreach ($this->metrics as $metric) {
             if (!empty($translations[$metric])) {
                 $documentation[$metric] = $translations[$metric];
+            }
+        }
+
+        $processedMetrics = $this->processedMetrics ?: array();
+        foreach ($processedMetrics as $processedMetric) {
+            if (!($processedMetric instanceof ProcessedMetric)) {
+                continue;
+            }
+
+            $name = $processedMetric->getName();
+            $metricDocs = $processedMetric->getDocumentation();
+            if (empty($metricDocs)) {
+                $metricDocs = @$translations[$name];
+            }
+
+            if (!empty($metricDocs)) {
+                $documentation[$processedMetric->getName()] = $metricDocs;
             }
         }
 
@@ -666,7 +734,7 @@ class Report
      */
     public static function getAllReports()
     {
-        $reports = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
+        $reports = self::getAllReportClasses();
         $cache   = new LanguageAwareStaticCache('Reports' . implode('', $reports));
 
         if (!$cache->has()) {
@@ -682,6 +750,17 @@ class Report
         }
 
         return $cache->get();
+    }
+
+    /**
+     * Returns class names of all Report metadata classes.
+     *
+     * @return string[]
+     * @api
+     */
+    public static function getAllReportClasses()
+    {
+        return PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
     }
 
     /**
@@ -705,11 +784,15 @@ class Report
         $metrics = array();
 
         foreach ($metricsToTranslate as $metric) {
-            if (!empty($translations[$metric])) {
-                $metrics[$metric] = $translations[$metric];
+            if ($metric instanceof Metric) {
+                $metricName = $metric->getName();
+                $translation = $metric->getTranslatedName();
             } else {
-                $metrics[$metric] = $metric;
+                $metricName = $metric;
+                $translation = @$translations[$metric];
             }
+
+            $metrics[$metricName] = $translation ?: $metricName;
         }
 
         return $metrics;
@@ -738,10 +821,76 @@ class Report
      */
     public static function getForDimension(Dimension $dimension)
     {
-        return ComponentFactory::getComponentif (__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
+        return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
             return !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId();
         });
+    }
+
+    /**
+     * Returns an array mapping the ProcessedMetrics served by this report by their string names.
+     *
+     * @return ProcessedMetric[]
+     */
+    public function getProcessedMetricsById()
+    {
+        $processedMetrics = $this->processedMetrics ?: array();
+
+        $result = array();
+        foreach ($processedMetrics as $processedMetric) {
+            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+                $result[$processedMetric->getName()] = $processedMetric;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Returns the Metrics that are displayed by a DataTable of a certain Report type.
+     *
+     * Includes ProcessedMetrics and Metrics.
+     *
+     * @param DataTable $dataTable
+     * @param Report|null $report
+     * @param string $baseType The base type each metric class needs to be of.
+     * @return Metric[]
+     * @api
+     */
+    public static function getMetricsForTable(DataTable $dataTable, Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
+    {
+        $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
+
+        if (!empty($report)) {
+            $metrics = array_merge($metrics, $report->getProcessedMetricsById());
+        }
+
+        $result = array();
+
+        /** @var Metric $metric */
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof $baseType)) {
+                continue;
+            }
+
+            $result[$metric->getName()] = $metric;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns the ProcessedMetrics that should be computed and formatted for a DataTable of a
+     * certain report. The ProcessedMetrics returned are those specified by the Report metadata
+     * as well as the DataTable metadata.
+     *
+     * @param DataTable $dataTable
+     * @param Report|null $report
+     * @return ProcessedMetric[]
+     * @api
+     */
+    public static function getProcessedMetricsForTable(DataTable $dataTable, Report $report = null)
+    {
+        return self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
     }
 }

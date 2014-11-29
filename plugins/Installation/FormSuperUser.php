@@ -61,7 +61,7 @@ class FormSuperUser extends QuickForm2
         $this->addElement('checkbox', 'subscribe_newsletter_piwikpro', null,
             array(
                 'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_PiwikProNewsletter',
-                        array("<a href='http://piwik.pro' style='color:#444;' target='_blank'>", "</a>")
+                        array("<a href='http://piwik.pro' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
                     ),
             ));
 

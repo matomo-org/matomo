@@ -310,12 +310,8 @@ class Rules
         // Turns out the getString() above returns the URL decoded segment string
         $segmentsToProcessUrlDecoded = array_map('urldecode', $segmentsToProcess);
 
-        if (in_array($segment, $segmentsToProcess)
-            || in_array($segment, $segmentsToProcessUrlDecoded)
-        ) {
-            return true;
-        }
-        return false;
+        return in_array($segment, $segmentsToProcess)
+            || in_array($segment, $segmentsToProcessUrlDecoded);
     }
 
     /**

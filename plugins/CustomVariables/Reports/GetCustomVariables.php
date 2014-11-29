@@ -20,7 +20,7 @@ class GetCustomVariables extends Base
         $this->dimension     = new CustomVariableName();
         $this->name          = Piwik::translate('CustomVariables_CustomVariables');
         $this->documentation = Piwik::translate('CustomVariables_CustomVariablesReportDocumentation',
-                               array('<br />', '<a href="http://piwik.org/docs/custom-variables/" target="_blank">', '</a>'));
+                               array('<br />', '<a href="http://piwik.org/docs/custom-variables/" rel="noreferrer"  target="_blank">', '</a>'));
         $this->actionToLoadSubTables = 'getCustomVariablesValuesFromNameId';
         $this->order = 10;
         $this->widgetTitle  = 'CustomVariables_CustomVariables';

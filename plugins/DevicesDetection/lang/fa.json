@@ -1,11 +1,12 @@
 {
     "DevicesDetection": {
+        "BrowserFamily": "خانواده مرورگر",
+        "BrowserVersion": "نسخه مرورگر",
         "BrowserVersions": "نسخه مرورگر",
         "Camera": "دوربین",
         "CarBrowser": "مرورگر خودرو",
         "Console": "کنسول",
         "dataTableLabelBrands": "مارک",
-        "dataTableLabelBrowserFamily": "خانواده مرورگر",
         "dataTableLabelModels": "مدل",
         "dataTableLabelSystemVersion": "نسخه سیستم عامل",
         "dataTableLabelTypes": "نوع",

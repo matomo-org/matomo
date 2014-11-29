@@ -295,7 +295,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         try {
-            Response::assertEquals($expectedResponse, $processedResponse, "Differences with expected in '$processedFilePath'");
+            $errorMessage = get_class($this) . ": Differences with expected in '$processedFilePath'";
+            Response::assertEquals($expectedResponse, $processedResponse, $errorMessage);
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }
@@ -432,7 +433,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $this->changeLanguage($testConfig->language);
         }
 
-        $testRequests = new Collection($api, $testConfig, $api);
+        $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
             $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
@@ -458,6 +459,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         return count($this->comparisonFailures) == 0;
+    }
+
+    protected function getTestRequestsCollection($api, $testConfig, $api)
+    {
+       return new Collection($api, $testConfig, $api);
     }
 
     private function printComparisonFailures()
@@ -584,4 +590,15 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     {
         self::assertThat($url, new ResponseCode($expectedResponseCode), $message);
     }
+
+    public function assertNotDbConnectionCreated($message = 'A database connection was created but should not.')
+    {
+        self::assertFalse(Db::hasDatabaseObject(), $message);
+    }
+
+    public function assertDbConnectionCreated($message = 'A database connection was not created but should.')
+    {
+        self::assertTrue(Db::hasDatabaseObject(), $message);
+    }
+
 }

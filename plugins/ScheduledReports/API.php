@@ -31,7 +31,7 @@ use Piwik\Translate;
  *
  * You can also get the list of all existing reports via "getReports", create new reports via "addReport",
  * or manage existing reports with "updateReport" and "deleteReport".
- * See also the documentation about <a href='http://piwik.org/docs/email-reports/' target='_blank'>Scheduled Email reports</a> in Piwik.
+ * See also the documentation about <a href='http://piwik.org/docs/email-reports/' rel='noreferrer' target='_blank'>Scheduled Email reports</a> in Piwik.
  *
  * @method static \Piwik\Plugins\ScheduledReports\API getInstance()
  */
@@ -335,6 +335,7 @@ class API extends \Piwik\Plugin\API
 
                 if ($apiAction == 'getAll') {
                     $_GET['filter_truncate'] = false;
+                    $_GET['filter_limit'] = -1; // show all websites in all websites report
 
                     // when a view/admin user created a report, workaround the fact that "Super User"
                     // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access

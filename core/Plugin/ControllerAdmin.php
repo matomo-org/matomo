@@ -131,7 +131,7 @@ abstract class ControllerAdmin extends Controller
         $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
             We have disabled eAccelerator, which might affect the performance of Piwik.
             Read the %srelated ticket%s for more information and how to fix this problem.",
-            '<a target="_blank" href="https://github.com/piwik/piwik/issues/4439">', '</a>');
+            '<a rel="noreferrer" target="_blank" href="https://github.com/piwik/piwik/issues/4439">', '</a>');
 
         $notification = new Notification($message);
         $notification->context = Notification::CONTEXT_WARNING;

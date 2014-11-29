@@ -11,7 +11,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -83,6 +83,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $superUsers        = array();
         $usersAliasByLogin = array();
 
+        $formatter = new Formatter();
+
         if (Piwik::isUserHasSomeAdminAccess()) {
             $view->showLastSeen = true;
 
@@ -92,7 +94,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 $lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login']);
                 $users[$index]['last_seen'] = $lastSeen == 0
-                                            ? false : MetricsFormatter::getPrettyTimeFromSeconds(time() - $lastSeen);
+                                            ? false : $formatter->getPrettyTimeFromSeconds(time() - $lastSeen);
             }
 
             if (Piwik::hasUserSuperUserAccess()) {

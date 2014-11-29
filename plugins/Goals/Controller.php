@@ -49,11 +49,15 @@ class Controller extends \Piwik\Plugin\Controller
             if ($conversionRate->getRowsCount() == 0) {
                 $conversionRate = 0;
             } else {
-                $columns = $conversionRate->getFirstRow()->getColumns();
-                $conversionRate = (float)reset($columns);
+                $conversionRate = $conversionRate->getFirstRow()->getColumn('conversion_rate');
             }
         }
-        return sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRate);
+
+        if (!is_numeric($conversionRate)) {
+            $conversionRate = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRate);
+        }
+
+        return $conversionRate;
     }
 
     public function __construct()
@@ -97,14 +101,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getEcommerceLog($fetch = false)
     {
         $saveGET = $_GET;
-        $filterEcommerce = Common::getRequestVar('filterEcommerce', self::ECOMMERCE_LOG_SHOW_ORDERS, 'int');
-        if ($filterEcommerce == self::ECOMMERCE_LOG_SHOW_ORDERS) {
-            $segment = urlencode('visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart');
-        } else {
-            $segment = urlencode('visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart');
-        }
-        $_GET['segment'] = $segment;
-        $_GET['filterEcommerce'] = $filterEcommerce;
+        $_GET['segment'] = urlencode('visitEcommerceStatus!=none');
         $_GET['widget'] = 1;
         $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
         $_GET = $saveGET;
@@ -145,11 +142,13 @@ class Controller extends \Piwik\Plugin\Controller
 
         // conversion rate for new and returning visitors
         $segment = urldecode(\Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENT);
-        $conversionRateReturning = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateReturning = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
+
         $segment = 'visitorType==new';
-        $conversionRateNew = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateNew = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
         $view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
+
         $view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
             $view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
         return $view;
@@ -200,6 +199,7 @@ class Controller extends \Piwik\Plugin\Controller
         $request = new Request("method=Goals.get&format=original&idGoal=");
         $datatable = $request->process();
         $dataRow = $datatable->getFirstRow();
+
         $view->nb_conversions = $dataRow->getColumn('nb_conversions');
         $view->nb_visits_converted = $dataRow->getColumn('nb_visits_converted');
         $view->conversion_rate = $this->formatConversionRate($dataRow->getColumn('conversion_rate'));
@@ -431,7 +431,6 @@ class Controller extends \Piwik\Plugin\Controller
         if ($ecommerce) {
             if ($preloadAbandonedCart) {
                 $ecommerceCustomParams['viewDataTable'] = 'ecommerceAbandonedCart';
-                $ecommerceCustomParams['filterEcommerce'] = self::ECOMMERCE_LOG_SHOW_ABANDONED_CARTS;
             }
 
             $goalReportsByDimension->addReport(
@@ -442,7 +441,7 @@ class Controller extends \Piwik\Plugin\Controller
                 'Goals_EcommerceReports', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
 
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_EcommerceLog', 'Goals.getEcommerceLog', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_EcommerceLog', 'Goals.getEcommerceLog', array());
         }
 
         if ($conversions > 0) {

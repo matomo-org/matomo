@@ -12,34 +12,34 @@
             {% endfor %}
         {% endif %}
     {% endset %}
-    {% if not clientSideParameters.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
-        <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
-            title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
+
+    <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
+        title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
 
 {{ action.url }}{% endif %}{% if customVariablesTooltip|trim|length %}
 
 {{ customVariablesTooltip|trim }}{% endif -%}
-            {%- if action.generationTime is defined %}
+        {%- if action.generationTime is defined %}
 
 {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}
-            {%- if action.timeSpentPretty is defined %}
+        {%- if action.timeSpentPretty is defined %}
 
 {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif -%}">
-            <div>
-            {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
-            {# Ecommerce Abandoned Cart / Ecommerce Order #}
-                <img src="{{ action.icon }}"/>
-                {% if action.type == 'ecommerceOrder' %}
-                    <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
-                    <span style='color:#666;'>({{ action.orderId }})</span>
-                {% else %}
-                    <strong>{{'Goals_AbandonedCart'|translate}}</strong>
+        <div>
+        {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
+        {# Ecommerce Abandoned Cart / Ecommerce Order #}
+            <img src="{{ action.icon }}"/>
+            {% if action.type == 'ecommerceOrder' %}
+                <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
+                <span style='color:#666;'>({{ action.orderId }})</span>
+            {% else %}
+                <strong>{{'Goals_AbandonedCart'|translate}}</strong>
 
-                    {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
-                {% endif %}
-                <p>
-                <span {% if not isWidget %}style='margin-left:20px;'{% endif %}>
-                    {% if action.type == 'ecommerceOrder' %}
+                {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
+            {% endif %}
+            <p>
+            <span {% if not isWidget %}style='margin-left:20px;'{% endif %}>
+                {% if action.type == 'ecommerceOrder' %}
 {# spacing is important for tooltip to look nice #}
 {% set ecommerceOrderTooltip %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(clientSideParameters.idSite)|raw }}
 {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(clientSideParameters.idSite)|raw }}{% endif %}
@@ -50,83 +50,82 @@
 
 {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(clientSideParameters.idSite)|raw }}{% endif %}
 {% endset %}
-                    <abbr title="{{ ecommerceOrderTooltip }}">{{ 'General_ColumnRevenue'|translate }}:
-                    {% else %}
-                        {% set revenueLeft %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
-                        {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
-                    {% endif %}
-                        <strong>{{ action.revenue|money(clientSideParameters.idSite)|raw }}</strong>
-                    {% if action.type == 'ecommerceOrder' %}
-                    </abbr>
-                    {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
-
-                    {# Ecommerce items in Cart/Order #}
-                    {% if action.itemDetails is not empty %}
-                        <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px;'>
-                            {% for product in action.itemDetails %}
-                                <li>
-                                    {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
-                                    {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
-                                    ,
-                                    {{ 'General_Quantity'|translate }}: {{ product.quantity }},
-                                    {{ 'General_Price'|translate }}: {{ product.price|money(clientSideParameters.idSite)|raw }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </span>
-                </p>
-            {% elseif action.goalName is not defined%}
-                {# Page view / Download / Outlink / Event #}
-                {% if action.pageTitle|default(false) is not empty %}
-                    <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
+                <abbr title="{{ ecommerceOrderTooltip }}">{{ 'General_ColumnRevenue'|translate }}:
+                {% else %}
+                    {% set revenueLeft %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
+                    {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
                 {% endif %}
-                {% if action.siteSearchKeyword is defined %}
-                    {% if action.type == 'search' %}
-                        <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}' class="action-list-action-icon">
-                    {% endif %}
-                    <span class="truncated-text-line">{{ action.siteSearchKeyword }}</span>
-                {% endif %}
-                {% if action.eventCategory|default(false) is not empty %}
-                    <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon">
-                    <span class="truncated-text-line">{{ action.eventCategory|rawSafeDecoded }} - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
-                {% endif %}
-                {% if action.url is not empty %}
-                    {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
-                    {% if action.type == 'download' or action.type == 'outlink' %}
-                        <img src='{{ action.icon }}' class="action-list-action-icon">
-                    {% endif %}
-
-                    {% if action.eventCategory|default(false) is not empty
-                        and previousAction.url|default(false) == action.url %}
-                        {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
-                    {% else %}
-                        <a href="{{ action.url }}" target="_blank" class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
-                           {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle|default(false) is not empty %}margin-left: 9px;{% endif %}text-decoration:underline;"{% endif %}>
-                           {% if action.eventCategory|default(false) is not empty %}
-                               (url)
-                           {% else %}
-                               {{ action.url }}
-                           {% endif %}
-                        </a>
-                    {% endif %}
-                    {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}
-                {% elseif action.type != 'search' and action.type != 'event' %}
-                    <p>
-                    <span style="margin-left: 9px;">{{ clientSideParameters.pageUrlNotDefined }}</span>
-                    </p>
-                {% endif %}
-            {% else %}
-                {# Goal conversion #}
-                <img src="{{ action.icon }}" />
-                <strong>{{ action.goalName }}</strong>
-                {% if action.revenue > 0 %}, {{ 'General_ColumnRevenue'|translate }}:
                     <strong>{{ action.revenue|money(clientSideParameters.idSite)|raw }}</strong>
+                {% if action.type == 'ecommerceOrder' %}
+                </abbr>
+                {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
+
+                {# Ecommerce items in Cart/Order #}
+                {% if action.itemDetails is not empty %}
+                    <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px;'>
+                        {% for product in action.itemDetails %}
+                            <li>
+                                {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
+                                {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
+                                ,
+                                {{ 'General_Quantity'|translate }}: {{ product.quantity }},
+                                {{ 'General_Price'|translate }}: {{ product.price|money(clientSideParameters.idSite)|raw }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 {% endif %}
+            </span>
+            </p>
+        {% elseif action.goalName is not defined%}
+            {# Page view / Download / Outlink / Event #}
+            {% if action.pageTitle|default(false) is not empty %}
+                <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
             {% endif %}
-            </div>
-        </li>
-    {% endif %}
+            {% if action.siteSearchKeyword is defined %}
+                {% if action.type == 'search' %}
+                    <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}' class="action-list-action-icon">
+                {% endif %}
+                <span class="truncated-text-line">{{ action.siteSearchKeyword }}</span>
+            {% endif %}
+            {% if action.eventCategory|default(false) is not empty %}
+                <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon">
+                <span class="truncated-text-line">{{ action.eventCategory|rawSafeDecoded }} - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
+            {% endif %}
+            {% if action.url is not empty %}
+                {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
+                {% if action.type == 'download' or action.type == 'outlink' %}
+                    <img src='{{ action.icon }}' class="action-list-action-icon">
+                {% endif %}
+
+                {% if action.eventCategory|default(false) is not empty
+                    and previousAction.url|default(false) == action.url %}
+                    {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
+                {% else %}
+                    <a href="{{ action.url }}" rel="noreferrer"  target="_blank" rel="noreferrer" class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
+                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle|default(false) is not empty %}margin-left: 9px;{% endif %}text-decoration:underline;"{% endif %}>
+                       {% if action.eventCategory|default(false) is not empty %}
+                           (url)
+                       {% else %}
+                           {{ action.url }}
+                       {% endif %}
+                    </a>
+                {% endif %}
+                {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}
+            {% elseif action.type != 'search' and action.type != 'event' %}
+                <p>
+                <span style="margin-left: 9px;">{{ clientSideParameters.pageUrlNotDefined }}</span>
+                </p>
+            {% endif %}
+        {% else %}
+            {# Goal conversion #}
+            <img src="{{ action.icon }}" />
+            <strong>{{ action.goalName }}</strong>
+            {% if action.revenue > 0 %}, {{ 'General_ColumnRevenue'|translate }}:
+                <strong>{{ action.revenue|money(clientSideParameters.idSite)|raw }}</strong>
+            {% endif %}
+        {% endif %}
+        </div>
+    </li>
 
     {% set previousAction = action %}
 {% endfor %}

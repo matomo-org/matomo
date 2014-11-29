@@ -74,7 +74,7 @@ class ComponentFactory
      * @param callback $predicate
      * @return mixed The component that satisfies $predicate or null if not found.
      */
-    public static function getComponentif ($componentTypeClass, $pluginName, $predicate)
+    public static function getComponentIf($componentTypeClass, $pluginName, $predicate)
     {
         $pluginManager = PluginManager::getInstance();
 

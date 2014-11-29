@@ -9,8 +9,6 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Access;
-use Piwik\Filesystem;
-use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
@@ -80,52 +78,6 @@ class PiwikTest extends IntegrationTestCase
     }
 
     /**
-     * Dataprovider for testGetPrettyTimeFromSeconds
-     */
-    public function getPrettyTimeFromSecondsData()
-    {
-        return array(
-            array(30, array('30s', '00:00:30')),
-            array(60, array('1 min 0s', '00:01:00')),
-            array(100, array('1 min 40s', '00:01:40')),
-            array(3600, array('1 hours 0 min', '01:00:00')),
-            array(3700, array('1 hours 1 min', '01:01:40')),
-            array(86400 + 3600 * 10, array('1 days 10 hours', '34:00:00')),
-            array(86400 * 365, array('365 days 0 hours', '8760:00:00')),
-            array((86400 * (365.25 + 10)), array('1 years 10 days', '9006:00:00')),
-            array(1.342, array('1.34s', '00:00:01.34')),
-            array(.342, array('0.34s', '00:00:00.34')),
-            array(.02, array('0.02s', '00:00:00.02')),
-            array(.002, array('0.002s', '00:00:00')),
-            array(1.002, array('1s', '00:00:01')),
-            array(1.02, array('1.02s', '00:00:01.02')),
-            array(1.2, array('1.2s', '00:00:01.20')),
-            array(122.1, array('2 min 2.1s', '00:02:02.10')),
-            array(-122.1, array('-2 min 2.1s', '-00:02:02.10')),
-            array(86400 * -365, array('-365 days 0 hours', '-8760:00:00'))
-        );
-    }
-
-    /**
-     * @dataProvider getPrettyTimeFromSecondsData
-     */
-    public function testGetPrettyTimeFromSeconds($seconds, $expected)
-    {
-        if (($seconds * 100) > PHP_INT_MAX) {
-            $this->markTestSkipped("Will not pass on 32-bit machine.");
-        }
-
-        Translate::loadEnglishTranslation();
-
-        $sentenceExpected = str_replace(' ', '&nbsp;', $expected[0]);
-        $numericExpected = $expected[1];
-        $this->assertEquals($sentenceExpected, MetricsFormatter::getPrettyTimeFromSeconds($seconds, $sentence = true));
-        $this->assertEquals($numericExpected, MetricsFormatter::getPrettyTimeFromSeconds($seconds, $sentence = false));
-
-        Translate::unloadEnglishTranslation();
-    }
-
-    /**
      * Dataprovider for testCheckValidLoginString
      */
     public function getInvalidLoginStringData()
@@ -181,41 +133,6 @@ class PiwikTest extends IntegrationTestCase
     public function testCheckValidLoginString($toTest)
     {
         $this->assertNull(Piwik::checkValidLoginString($toTest));
-    }
-
-    /**
-     * Dataprovider for testGetPrettyValue
-     */
-    public function getGetPrettyValueTestCases()
-    {
-        return array(
-            array('revenue', 12, '$ 12'),
-            array('revenue_evolution', '100 %', '100 %'),
-            array('avg_time_generation', '3.333', '3.33s'),
-            array('avg_time_generation', '333.333', '5&nbsp;min&nbsp;33.33s'),
-            array('avg_time_on_page', '3', '00:00:03'),
-            array('avg_time_on_page', '333', '00:05:33'),
-        );
-    }
-
-    /**
-     * @dataProvider getGetPrettyValueTestCases
-     */
-    public function testGetPrettyValue($columnName, $value, $expected)
-    {
-        Translate::loadEnglishTranslation();
-
-        $access = Access::getInstance();
-        $access->setSuperUserAccess(true);
-
-        $idsite = API::getInstance()->addSite("test", "http://test");
-
-        $this->assertEquals(
-            $expected,
-            MetricsFormatter::getPrettyValue($idsite, $columnName, $value, false, false)
-        );
-
-        Translate::unloadEnglishTranslation();
     }
 
     /**

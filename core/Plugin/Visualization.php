@@ -9,11 +9,12 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\API\DataTablePostProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Period;
@@ -143,6 +144,12 @@ class Visualization extends ViewDataTable
     private $templateVars = array();
     private $reportLastUpdatedMessage = null;
     private $metadata = null;
+    protected $metricsFormatter = null;
+
+    /**
+     * @var Report
+     */
+    protected $report;
 
     final public function __construct($controllerAction, $apiMethodToRequestDataTable, $params = array())
     {
@@ -152,7 +159,11 @@ class Visualization extends ViewDataTable
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
 
+        $this->metricsFormatter = new HtmlFormatter();
+
         parent::__construct($controllerAction, $apiMethodToRequestDataTable, $params);
+
+        $this->report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
     }
 
     protected function buildView()
@@ -160,20 +171,19 @@ class Visualization extends ViewDataTable
         $this->overrideSomeConfigPropertiesIfNeeded();
 
         try {
-
             $this->beforeLoadDataTable();
 
-            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1));
+            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1, 'format_metrics' => 0));
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
 
             $this->applyFilters();
+            $this->addVisualizationInfoFromMetricMetadata();
             $this->afterAllFiltersAreApplied();
             $this->beforeRender();
 
             $this->logMessageIfRequestPropertiesHaveChanged($requestPropertiesAfterLoadDataTable);
-
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
@@ -306,6 +316,27 @@ class Visualization extends ViewDataTable
         }
     }
 
+    private function addVisualizationInfoFromMetricMetadata()
+    {
+        $dataTable = $this->dataTable instanceof DataTable\Map ? $this->dataTable->getFirstRow() : $this->dataTable;
+
+        $metrics = Report::getMetricsForTable($dataTable, $this->report);
+
+        // TODO: instead of iterating & calling translate everywhere, maybe we can get all translated names in one place.
+        //       may be difficult, though, since translated metrics are specific to the report.
+        foreach ($metrics as $metric) {
+            $name = $metric->getName();
+
+            if (empty($this->config->translations[$name])) {
+                $this->config->translations[$name] = $metric->getTranslatedName();
+            }
+
+            if (empty($this->config->metrics_documentation[$name])) {
+                $this->config->metrics_documentation[$name] = $metric->getDocumentation();
+            }
+        }
+    }
+
     private function applyFilters()
     {
         list($priorityFilters, $otherFilters) = $this->config->getFiltersToRun();
@@ -322,9 +353,13 @@ class Visualization extends ViewDataTable
             $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $this->dataTable->getColumns());
         }
 
+        $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
+
         if (!$this->requestConfig->areGenericFiltersDisabled()) {
-            $this->applyGenericFilters();
+            $this->dataTable = $postProcessor->applyGenericFilters($this->dataTable);
         }
+
+        $postProcessor->applyComputeProcessedMetrics($this->dataTable);
 
         $this->afterGenericFiltersAreAppliedToLoadedDataTable();
 
@@ -338,6 +373,12 @@ class Visualization extends ViewDataTable
         if (!$this->requestConfig->areQueuedFiltersDisabled()) {
             $this->dataTable->applyQueuedFilters();
         }
+
+        $formatter = $this->metricsFormatter;
+        $report = $this->report;
+        $this->dataTable->filter(function (DataTable $table) use ($formatter, $report) {
+            $formatter->formatMetrics($table, $report);
+        });
     }
 
     private function removeEmptyColumnsFromDisplay()
@@ -372,9 +413,8 @@ class Visualization extends ViewDataTable
         $today    = mktime(0, 0, 0);
 
         if ($date->getTimestamp() > $today) {
-
             $elapsedSeconds = time() - $date->getTimestamp();
-            $timeAgo        = MetricsFormatter::getPrettyTimeFromSeconds($elapsedSeconds);
+            $timeAgo        = $this->metricsFormatter->getPrettyTimeFromSeconds($elapsedSeconds);
 
             return Piwik::translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }
@@ -567,10 +607,7 @@ class Visualization extends ViewDataTable
         // eg $this->config->showFooterColumns = true;
     }
 
-    /**
-     * Second, generic filters (Sort, Limit, Replace Column Names, etc.)
-     */
-    private function applyGenericFilters()
+    private function makeDataTablePostProcessor()
     {
         $requestArray = $this->request->getRequestArray();
         $request      = \Piwik\API\Request::getRequestArrayFromString($requestArray);
@@ -580,8 +617,7 @@ class Visualization extends ViewDataTable
             $request['filter_sort_order']  = '';
         }
 
-        $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
-        $genericFilter->filter($this->dataTable);
+        return new DataTablePostProcessor($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest(), $request);
     }
 
     private function logMessageIfRequestPropertiesHaveChanged(array $requestPropertiesBefore)

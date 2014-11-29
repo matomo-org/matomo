@@ -51,7 +51,6 @@ class HtmlTable extends Visualization
         }
 
         if ($this->dataTable->getRowsCount()) {
-
             $request = new ApiRequest(array(
                 'method' => 'API.get',
                 'module' => 'API',

@@ -30,7 +30,7 @@ use Piwik\Version;
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
- * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
+ * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
  * human readable and more complete outputs than normal API methods.
  *
  * Some of the information that is returned by the Metadata API:
@@ -43,7 +43,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * <li>the method "getSuggestedValuesForSegment" returns top suggested values for a particular segment. It uses the Live.getLastVisitsDetails API to fetch the most recently used values, and will return the most often used values first.</li>
  * </ul>
  * The Metadata API is for example used by the Piwik Mobile App to automatically display all Piwik reports, with translated report & columns names and nicely formatted values.
- * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
+ * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
  *
  * @method static \Piwik\Plugins\API\API getInstance()
  */
@@ -381,7 +381,8 @@ class API extends \Piwik\Plugin\API
                 && !empty($reportMeta['metrics'])
             ) {
                 $plugin = $reportMeta['module'];
-                foreach ($reportMeta['metrics'] as $column => $columnTranslation) {
+                $allMetrics = array_merge($reportMeta['metrics'], @$reportMeta['processedMetrics'] ?: array());
+                foreach ($allMetrics as $column => $columnTranslation) {
                     // a metric from this report has been requested
                     if (isset($columnsMap[$column])
                         // or by default, return all metrics
@@ -402,23 +403,9 @@ class API extends \Piwik\Plugin\API
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
 
-            // make sure the table has all columns
-            $array = ($dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : array($dataTable));
-            foreach ($array as $table) {
-                // we don't support idSites=all&date=DATE1,DATE2
-                if ($table instanceof DataTable) {
-                    $firstRow = $table->getFirstRow();
-                    if (!$firstRow) {
-                        $firstRow = new Row;
-                        $table->addRow($firstRow);
-                    }
-                    foreach ($columns as $column) {
-                        if ($firstRow->getColumn($column) === false) {
-                            $firstRow->setColumn($column, 0);
-                        }
-                    }
-                }
-            }
+            $dataTable->filter(function (DataTable $table) {
+                $table->clearQueuedFilters();
+            });
 
             // merge reports
             if ($mergedDataTable === false) {
@@ -427,6 +414,13 @@ class API extends \Piwik\Plugin\API
                 $this->mergeDataTables($mergedDataTable, $dataTable);
             }
         }
+
+        if (!empty($columnsMap)
+            && !empty($mergedDataTable)
+        ) {
+            $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
+        }
+
         return $mergedDataTable;
     }
 
@@ -450,12 +444,18 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $firstRow1 = $table1->getFirstRow();
         $firstRow2 = $table2->getFirstRow();
-        if ($firstRow2 instanceof Row) {
-            foreach ($firstRow2->getColumns() as $metric => $value) {
-                $firstRow1->setColumn($metric, $value);
-            }
+        if (!($firstRow2 instanceof Row)) {
+            return;
+        }
+
+        $firstRow1 = $table1->getFirstRow();
+        if (empty($firstRow1)) {
+            $firstRow1 = $table1->addRow(new Row());
+        }
+
+        foreach ($firstRow2->getColumns() as $metric => $value) {
+            $firstRow1->setColumn($metric, $value);
         }
     }
 

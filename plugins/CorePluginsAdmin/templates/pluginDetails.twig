@@ -69,7 +69,7 @@
                             {{ pluginsMacro.missingRequirementsPleaseUpdateNotice(plugin) }}
                             {% if plugin.canBeUpdated %}
                                 <p class="updateAvailableNotice">{{ 'CorePluginsAdmin_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}
-                                    {% if plugin.repositoryChangelogUrl %}<a target="_blank" href="{{ plugin.repositoryChangelogUrl }}">{{ 'CorePluginsAdmin_ViewRepositoryChangelog'|translate }}</a>{% endif %}
+                                    {% if plugin.repositoryChangelogUrl %}<a rel="noreferrer"  target="_blank" href="{{ plugin.repositoryChangelogUrl }}">{{ 'CorePluginsAdmin_ViewRepositoryChangelog'|translate }}</a>{% endif %}
                                 </p>
                             {% endif %}
 

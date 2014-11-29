@@ -384,6 +384,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -398,6 +399,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -414,6 +416,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/sub/dir/dir1/page1.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>

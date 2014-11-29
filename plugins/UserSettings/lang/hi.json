@@ -6,8 +6,6 @@
         "BrowserWithNoPluginsEnabled": "%1$s के साथ प्लगइन सक्रिय नहीं",
         "BrowserWithPluginsEnabled": "प्लगिन %2$s से %1$s सक्षम",
         "ColumnBrowser": "ब्राउज़र",
-        "ColumnBrowserFamily": "ब्राउज़र परिवार",
-        "ColumnBrowserVersion": "ब्राउज़र संस्करण",
         "ColumnConfiguration": "विन्यास",
         "ColumnOperatingSystem": "आपरेटिंग सिस्टम",
         "ColumnResolution": "संकल्प",
@@ -199,7 +197,6 @@
         "Language_zh": "चीनी",
         "Language_zu": "ज़ुलू",
         "LanguageCode": "भाषा कोड",
-        "MobileVsDesktop": "मोबाइल बनाम डेस्कटॉप",
         "OperatingSystemFamily": "आपरेटिंग सिस्टम परिवार",
         "OperatingSystems": "आपरेटिंग सिस्टम",
         "PluginDescription": "विभिन्न उपयोगकर्ता सेटिंग्स की रिपोर्ट: ब्राउज़र, ब्राउज़र परिवार, आपरेटिंग सिस्टम, प्लगइन्स, संकल्प, वैश्विक सेटिंग्स.",
@@ -208,7 +205,6 @@
         "VisitorSettings": "आगंतुक सेटिंग्स",
         "WideScreen": "वाइड स्क्रीन",
         "WidgetBrowsers": "आगंतुक ब्राउज़र",
-        "WidgetBrowserVersion": "ब्राउज़र संस्करण",
         "WidgetGlobalVisitors": "आगंतुक विन्यास",
         "WidgetOperatingSystems": "ऑपरेटिंग सिस्टम"
     }

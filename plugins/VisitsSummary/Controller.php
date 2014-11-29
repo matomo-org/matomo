@@ -61,7 +61,7 @@ class Controller extends \Piwik\Plugin\Controller
             . Piwik::translate('General_ColumnNbActionsDocumentation') . '<br />'
 
             . '<b>' . Piwik::translate('General_ColumnNbUsers') . ':</b> '
-            . Piwik::translate('General_ColumnNbUsersDocumentation') . ' (<a target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
+            . Piwik::translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
 
             . '<b>' . Piwik::translate('General_ColumnActionsPerVisit') . ':</b> '
             . Piwik::translate('General_ColumnActionsPerVisitDocumentation');
@@ -147,22 +147,26 @@ class Controller extends \Piwik\Plugin\Controller
 
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
-
         $view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
         $view->nbUsers = (int)$dataRow->getColumn('nb_users');
         $nbVisits = (int)$dataRow->getColumn('nb_visits');
         $view->nbVisits = $nbVisits;
 
         $view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
-        $nbBouncedVisits = $dataRow->getColumn('bounce_count');
-        $view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
+        $view->bounceRate = $dataRow->getColumn('bounce_rate');
         $view->maxActions = (int)$dataRow->getColumn('max_actions');
         $view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
 
         if (Common::isActionsPluginEnabled()) {
             $view->showActionsPluginReports = true;
-            $dataTableActions = APIActions::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
-                \Piwik\API\Request::getRawSegmentFromRequest());
+
+            $dataTableActions = Request::processRequest("Actions.get", array(
+                'idSite' => $idSite,
+                'period' => Common::getRequestVar('period'),
+                'date' => Common::getRequestVar('date'),
+                'segment' => Request::getRawSegmentFromRequest()
+            ), $defaultParams = array());
+
             $dataActionsRow =
                 $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
 

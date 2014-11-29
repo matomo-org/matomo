@@ -4,6 +4,7 @@
 
     <span ng-show="view.showIcons">
         <a ng-if="helpUrl && !inlineHelp"
+           rel="noreferrer"
            target="_blank"
            href="{{ helpUrl }}"
            title="{{ 'CoreHome_ExternalHelp'|translate }}"
@@ -22,6 +23,7 @@
     <div class="inlineHelp" ng-show="view.showIcons && view.showInlineHelp">
         <div ng-bind-html="inlineHelp"></div>
         <a ng-if="helpUrl"
+           rel="noreferrer"
            target="_blank"
            href="{{ helpUrl }}"
            class="readMore">{{ 'General_MoreDetails'|translate }}</a>

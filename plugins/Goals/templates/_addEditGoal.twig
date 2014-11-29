@@ -21,11 +21,11 @@
                         <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
                     {% endset %}
                     {% set ecommerceReportText %}
-                        <a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
+                        <a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
                     {% endset %}
                     {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
                 {% else %}
-                    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">',"</a>")|raw }}
+                    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate('<a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">',"</a>")|raw }}
                 {% endif %}
             </li>
         </ul>

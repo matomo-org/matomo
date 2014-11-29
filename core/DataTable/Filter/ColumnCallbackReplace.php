@@ -29,6 +29,7 @@ use Piwik\DataTable\Row;
  *     // label, url and truncate_length are columns in $dataTable
  *     $dataTable->filter('ColumnCallbackReplace', array('label', 'url'), $truncateString, null, array('truncate_length'));
  *
+ * @api
  */
 class ColumnCallbackReplace extends BaseFilter
 {

@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Cache\LanguageAwareStaticCache;
 use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Metrics\Formatter;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -183,11 +184,22 @@ class Metrics
         return $names;
     }
 
-    // TODO: this method is named wrong
-    public static function getMappingFromIdToName()
+    public static function getMappingFromNameToId()
     {
-        $idToName = array_flip(self::$mappingFromIdToName);
-        return $idToName;
+        static $nameToId = null;
+        if ($nameToId === null) {
+            $nameToId = array_flip(self::$mappingFromIdToName);
+        }
+        return $nameToId;
+    }
+
+    public static function getMappingFromNameToIdGoal()
+    {
+        static $nameToId = null;
+        if ($nameToId === null) {
+            $nameToId = array_flip(self::$mappingFromIdToNameGoal);
+        }
+        return $nameToId;
     }
 
     /**
@@ -223,7 +235,7 @@ class Metrics
     {
         $nameToUnit = array(
             '_rate'   => '%',
-            'revenue' => MetricsFormatter::getCurrencySymbol($idSite),
+            'revenue' => Formatter::getCurrencySymbol($idSite),
             '_time_'  => 's'
         );
 

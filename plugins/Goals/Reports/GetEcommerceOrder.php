@@ -17,7 +17,7 @@ class GetEcommerceOrder extends BaseEcommerce
         parent::init();
         $this->action = 'get';
         $this->name = Piwik::translate('General_EcommerceOrders');
-        $this->processedMetrics = false;
+        $this->processedMetrics = array('avg_order_revenue');
         $this->order = 10;
         $this->metrics = array(
             'nb_conversions',
@@ -27,15 +27,14 @@ class GetEcommerceOrder extends BaseEcommerce
             'revenue_subtotal',
             'revenue_tax',
             'revenue_shipping',
-            'revenue_discount',
-            'items',
-            'avg_order_revenue'
+            'revenue_discount'
         );
 
         $this->parameters = array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
     }
 
-    public function getMetrics() {
+    public function getMetrics()
+    {
         $metrics = parent::getMetrics();
 
         $metrics['nb_conversions'] = Piwik::translate('General_EcommerceOrders');

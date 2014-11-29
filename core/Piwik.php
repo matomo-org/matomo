@@ -112,10 +112,23 @@ class Piwik
      */
     public static function getPercentageSafe($dividend, $divisor, $precision = 0)
     {
+        return self::getQuotientSafe(100 * $dividend, $divisor, $precision);
+    }
+
+    /**
+     * Safely compute a ratio. Returns 0 if divisor is 0 (to avoid division by 0 error).
+     *
+     * @param number $dividend
+     * @param number $divisor
+     * @param int $precision
+     * @return number
+     */
+    public static function getQuotientSafe($dividend, $divisor, $precision = 0)
+    {
         if ($divisor == 0) {
             return 0;
         }
-        return round(100 * $dividend / $divisor, $precision);
+        return round($dividend / $divisor, $precision);
     }
 
     /**
@@ -468,6 +481,7 @@ class Piwik
      * in case another Login plugin is being used.
      *
      * @return string
+     * @api
      */
     public static function getLoginPluginName()
     {

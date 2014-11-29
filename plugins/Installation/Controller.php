@@ -439,6 +439,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
+     * System check will call this page which should load quickly,
+     * in order to look at Response headers (eg. to detect if pagespeed is running)
+     *
+     * @return string
+     */
+    public function getEmptyPageForSystemCheck()
+    {
+        return 'Hello, world!';
+    }
+
+    /**
      * Get system information
      */
     public static function getSystemInformation()
@@ -552,8 +563,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         \Piwik\Plugins\Login\Controller::clearSession();
         $message = Piwik::translate('Installation_InvalidStateError',
             array('<br /><strong>',
-                  '</strong>',
-                  '<a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
+                  '</strong><a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
                   '</a>')
         );
         Piwik::exitWithErrorMessage($message);
@@ -636,30 +646,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view->infos = self::getSystemInformation();
 
-        $view->helpMessages = array(
-            'zlib'            => 'Installation_SystemCheckZlibHelp',
-            'gzopen'          => 'Installation_SystemCheckZlibHelp',
-            'SPL'             => 'Installation_SystemCheckSplHelp',
-            'iconv'           => 'Installation_SystemCheckIconvHelp',
-            'mbstring'        => 'Installation_SystemCheckMbstringHelp',
-            'Reflection'      => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
-            'json'            => 'Installation_SystemCheckWarnJsonHelp',
-            'libxml'          => 'Installation_SystemCheckWarnLibXmlHelp',
-            'dom'             => 'Installation_SystemCheckWarnDomHelp',
-            'SimpleXML'       => 'Installation_SystemCheckWarnSimpleXMLHelp',
-            'set_time_limit'  => 'Installation_SystemCheckTimeLimitHelp',
-            'mail'            => 'Installation_SystemCheckMailHelp',
-            'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
-            'glob'            => 'Installation_SystemCheckGlobHelp',
-            'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
-            'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
-            'eval'            => 'Installation_SystemCheckEvalHelp',
-            'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
-            'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
-            'pack'            => 'Installation_SystemCheckPackHelp',
-            'php5-json'       => 'Installation_SystemCheckJsonHelp',
-            'session.auto_start' => 'Installation_SystemCheckSessionAutostart',
-        );
+        $view->helpMessages = $this->getSystemCheckHelpMessages();
 
         $view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
     }
@@ -746,5 +733,45 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
             return $result;
         });
+    }
+
+    /**
+     * @return array
+     */
+    private function getSystemCheckHelpMessages()
+    {
+        $helpMessages = array(
+            // Extensions
+            'zlib' => 'Installation_SystemCheckZlibHelp',
+            'gzopen' => 'Installation_SystemCheckZlibHelp',
+            'SPL' => 'Installation_SystemCheckSplHelp',
+            'iconv' => 'Installation_SystemCheckIconvHelp',
+            'mbstring' => 'Installation_SystemCheckMbstringHelp',
+            'Reflection' => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
+            'json' => 'Installation_SystemCheckWarnJsonHelp',
+            'libxml' => 'Installation_SystemCheckWarnLibXmlHelp',
+            'dom' => 'Installation_SystemCheckWarnDomHelp',
+            'SimpleXML' => 'Installation_SystemCheckWarnSimpleXMLHelp',
+
+            // Functions
+            'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
+            'mail' => 'Installation_SystemCheckMailHelp',
+            'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
+            'glob' => 'Installation_SystemCheckGlobHelp',
+            'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
+            'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
+            'eval' => 'Installation_SystemCheckEvalHelp',
+            'gzcompress' => 'Installation_SystemCheckGzcompressHelp',
+            'gzuncompress' => 'Installation_SystemCheckGzuncompressHelp',
+            'pack' => 'Installation_SystemCheckPackHelp',
+            'php5-json' => 'Installation_SystemCheckJsonHelp',
+        );
+
+        // Add standard message for required PHP.ini settings
+        $requiredSettings = SystemCheck::getRequiredPhpSettings();
+        foreach($requiredSettings as $requiredSetting) {
+            $helpMessages[$requiredSetting] = Piwik::translate('Installation_SystemCheckPhpSetting', $requiredSetting);
+        }
+        return $helpMessages;
     }
 }

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DBStats\Reports;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -17,7 +18,6 @@ use Piwik\Plugins\DBStats\DBStats;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
-
     public function isEnabled()
     {
         return Piwik::hasUserSuperUserAccess();
@@ -119,7 +119,9 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->config->selectable_rows = array();
         }
 
-        $getPrettySize = array('\Piwik\MetricsFormatter', 'getPrettySizeFromBytes');
+        $formatter = new Formatter();
+
+        $getPrettySize = array($formatter, 'getPrettySizeFromBytes');
         $params        = !isset($fixedMemoryUnit) ? array() : array($fixedMemoryUnit);
 
         $view->config->filters[] = function ($dataTable) use ($sizeColumns, $getPrettySize, $params) {
@@ -135,7 +137,7 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->config->filters[] = array('ColumnCallbackReplace', array($sizeColumns, $replaceSpaces));
         }
 
-        $getPrettyNumber = array('\Piwik\MetricsFormatter', 'getPrettyNumber');
+        $getPrettyNumber = array($formatter, 'getPrettyNumber');
         $view->config->filters[] = array('ColumnCallbackReplace', array('row_count', $getPrettyNumber));
     }
 

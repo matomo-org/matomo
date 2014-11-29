@@ -56,14 +56,6 @@
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Safari </browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
-		<browserCode>SF</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -79,8 +71,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Safari</browser>
+		<browserName>Safari</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserCode>SF</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -131,7 +131,7 @@
 				
 				<pageId>30</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -148,7 +148,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -193,7 +193,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -204,14 +204,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -227,8 +219,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -329,14 +329,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -352,8 +344,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -412,7 +412,7 @@
 				
 				<pageId>27</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -457,7 +457,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -468,14 +468,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -491,8 +483,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -593,14 +593,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -616,8 +608,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -676,7 +676,7 @@
 				
 				<pageId>23</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -693,7 +693,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -738,7 +738,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -749,14 +749,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -772,8 +764,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -874,14 +874,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -897,8 +889,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -957,7 +957,7 @@
 				
 				<pageId>20</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1002,7 +1002,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -1013,14 +1013,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1036,8 +1028,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1138,14 +1138,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1161,8 +1153,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1221,7 +1221,7 @@
 				
 				<pageId>16</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1238,7 +1238,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -1283,7 +1283,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -1294,14 +1294,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1317,8 +1309,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1419,14 +1419,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1442,8 +1434,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1502,7 +1502,7 @@
 				
 				<pageId>13</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1547,7 +1547,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -1558,14 +1558,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1581,8 +1573,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1641,7 +1641,7 @@
 				
 				<pageId>52</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -1686,7 +1686,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -1697,14 +1697,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1720,8 +1712,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>1</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -1814,14 +1814,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1837,8 +1829,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1939,14 +1939,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -1962,8 +1954,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -2022,7 +2022,7 @@
 				
 				<pageId>9</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2039,7 +2039,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -2084,7 +2084,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -2095,14 +2095,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -2118,8 +2110,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -2178,7 +2178,7 @@
 				
 				<pageId>48</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2195,7 +2195,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -2240,7 +2240,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -2251,14 +2251,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -2274,20 +2266,28 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>1</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<location>United States</location>
+		<latitude>38</latitude>
+		<longitude>-97</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -2368,14 +2368,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -2391,8 +2383,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -2493,14 +2493,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -2516,20 +2508,28 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<location>United States</location>
+		<latitude>38</latitude>
+		<longitude>-97</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
@@ -2576,7 +2576,7 @@
 				
 				<pageId>6</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2621,7 +2621,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -2632,14 +2632,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -2655,8 +2647,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -2715,7 +2715,7 @@
 				
 				<pageId>38</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2760,7 +2760,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -2771,14 +2771,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -2794,8 +2786,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -2854,7 +2854,7 @@
 				
 				<pageId>45</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -2899,7 +2899,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -2910,14 +2910,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -2933,8 +2925,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -2985,7 +2985,7 @@
 				
 				<pageId>59</pageId>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3030,7 +3030,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
 		<referrerType>direct</referrerType>
@@ -3041,14 +3041,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -3064,8 +3056,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -3166,14 +3166,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -3189,8 +3181,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -3291,14 +3291,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -3314,8 +3306,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3416,14 +3416,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -3439,8 +3431,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3541,14 +3541,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -3564,8 +3556,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -3624,7 +3624,7 @@
 				
 				<pageId>2</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3641,7 +3641,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -3686,7 +3686,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -3697,14 +3697,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -3720,8 +3712,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -3780,7 +3780,7 @@
 				
 				<pageId>34</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3797,7 +3797,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -3842,7 +3842,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -3853,14 +3853,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -3876,8 +3868,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -3936,7 +3936,7 @@
 				
 				<pageId>41</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -3953,7 +3953,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -3998,7 +3998,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -4009,14 +4009,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemShortName>Unknown</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -4032,8 +4024,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -4084,7 +4084,7 @@
 				
 				<pageId>55</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -4101,7 +4101,7 @@
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -4146,7 +4146,7 @@
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
 		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDurationPretty>21 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>3</actions>
 		<referrerType>direct</referrerType>
@@ -4157,14 +4157,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -4180,8 +4172,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4282,14 +4282,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -4305,8 +4297,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4407,14 +4407,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -4430,8 +4422,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4532,14 +4532,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -4555,8 +4547,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -4657,14 +4657,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -4680,8 +4672,16 @@
 			</row>
 		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>

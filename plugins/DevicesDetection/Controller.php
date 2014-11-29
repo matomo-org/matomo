@@ -14,10 +14,10 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\DevicesDetection\Reports\GetBrand;
-use Piwik\Plugins\DevicesDetection\Reports\GetBrowserFamilies;
 use Piwik\Plugins\DevicesDetection\Reports\GetBrowserEngines;
+use Piwik\Plugins\DevicesDetection\Reports\GetBrowsers;
 use Piwik\Plugins\DevicesDetection\Reports\GetModel;
-use Piwik\Plugins\DevicesDetection\Reports\GetOsFamilies;
+use Piwik\Plugins\DevicesDetection\Reports\GetOsVersions;
 use Piwik\Plugins\DevicesDetection\Reports\GetType;
 use Piwik\View;
 
@@ -30,8 +30,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->deviceTypes = $this->renderReport(new GetType());
         $view->deviceBrands = $this->renderReport(new GetBrand());
         $view->deviceModels = $this->renderReport(new GetModel());
-        $view->osReport = $this->renderReport(new GetOsFamilies());
-        $view->browserReport = $this->renderReport(new GetBrowserFamilies());
+        $view->osReport = $this->renderReport(new GetOsVersions());
+        $view->browserReport = $this->renderReport(new GetBrowsers());
         $view->browserEngineReport = $this->renderReport(new GetBrowserEngines());
         return $view->render();
     }
@@ -53,14 +53,14 @@ class Controller extends \Piwik\Plugin\Controller
         $view->browser_name        = $uaParser->getClient('name');
         $view->browser_short_name  = $uaParser->getClient('short_name');
         $view->browser_version     = $uaParser->getClient('version');
-        $view->browser_logo        = getBrowserLogoExtended($uaParser->getClient('short_name'));
+        $view->browser_logo        = getBrowserLogo($uaParser->getClient('short_name'));
         $view->browser_family      = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($uaParser->getClient('short_name'));
-        $view->browser_family_logo = getBrowserFamilyLogoExtended($view->browser_family);
+        $view->browser_family_logo = getBrowserFamilyLogo($view->browser_family);
         $view->os_name             = $uaParser->getOs('name');
-        $view->os_logo             = getOsLogoExtended($uaParser->getOs('short_name'));
+        $view->os_logo             = getOsLogo($uaParser->getOs('short_name'));
         $view->os_short_name       = $uaParser->getOs('short_name');
         $view->os_family           = \DeviceDetector\Parser\OperatingSystem::getOsFamily($uaParser->getOs('short_name'));
-        $view->os_family_logo      = getOsFamilyLogoExtended($view->os_family);
+        $view->os_family_logo      = getOsFamilyLogo($view->os_family);
         $view->os_version          = $uaParser->getOs('version');
         $view->device_type         = getDeviceTypeLabel($uaParser->getDeviceName());
         $view->device_type_logo    = getDeviceTypeLogo($uaParser->getDeviceName());
@@ -96,7 +96,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $availableBrowsers = \DeviceDetector\Parser\Client\Browser::getAvailableBrowsers();
 
                 foreach ($availableBrowsers as $short => $name) {
-                    $list[$name] = getBrowserLogoExtended($short);
+                    $list[$name] = getBrowserLogo($short);
                 }
                 break;
 
@@ -104,7 +104,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $availableBrowserFamilies = \DeviceDetector\Parser\Client\Browser::getAvailableBrowserFamilies();
 
                 foreach ($availableBrowserFamilies as $name => $browsers) {
-                    $list[$name] = getBrowserFamilyLogoExtended($name);
+                    $list[$name] = getBrowserFamilyLogo($name);
                 }
                 break;
 
@@ -112,7 +112,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $availableOSs = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystems();
 
                 foreach ($availableOSs as $short => $name) {
-                    $list[$name] = getOsLogoExtended($short);
+                    $list[$name] = getOsLogo($short);
                 }
                 break;
 
@@ -120,7 +120,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $osFamilies = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystemFamilies();
 
                 foreach ($osFamilies as $name => $oss) {
-                    $list[$name] = getOsFamilyLogoExtended($name);
+                    $list[$name] = getOsFamilyLogo($name);
                 }
                 break;
 

@@ -10,25 +10,27 @@
 		<dimension>Website</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-			<visits_evolution>Visits Evolution</visits_evolution>
 			<nb_actions>Actions</nb_actions>
-			<actions_evolution>Actions Evolution</actions_evolution>
 			<nb_pageviews>Pageviews</nb_pageviews>
-			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<revenue>Revenue</revenue>
-			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions>Conversions</nb_conversions>
-			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders>Ecommerce Orders</orders>
-			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
-			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
 		</metricsDocumentation>
+		<processedMetrics>
+			<visits_evolution>Visits Evolution</visits_evolution>
+			<actions_evolution>Actions Evolution</actions_evolution>
+			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+			<revenue_evolution>Revenue Evolution</revenue_evolution>
+			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
+			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
+			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
+		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
@@ -36,18 +38,18 @@
 	<columns>
 		<label>Website</label>
 		<nb_visits>Visits</nb_visits>
-		<visits_evolution>Visits Evolution</visits_evolution>
 		<nb_actions>Actions</nb_actions>
-		<actions_evolution>Actions Evolution</actions_evolution>
 		<nb_pageviews>Pageviews</nb_pageviews>
-		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 		<revenue>Revenue</revenue>
-		<revenue_evolution>Revenue Evolution</revenue_evolution>
 		<nb_conversions>Conversions</nb_conversions>
-		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders>Ecommerce Orders</orders>
-		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
+		<visits_evolution>Visits Evolution</visits_evolution>
+		<actions_evolution>Actions Evolution</actions_evolution>
+		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+		<revenue_evolution>Revenue Evolution</revenue_evolution>
+		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
+		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
 	</columns>
 	<reportData>
@@ -63,10 +65,10 @@
 				<pageviews_evolution>100%</pageviews_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
@@ -82,10 +84,10 @@
 				<pageviews_evolution>-50%</pageviews_evolution>
 				<revenue_evolution>-100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 			<row>
@@ -99,10 +101,10 @@
 				<pageviews_evolution>100%</pageviews_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
@@ -118,10 +120,10 @@
 				<pageviews_evolution>400%</pageviews_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
@@ -137,10 +139,10 @@
 				<pageviews_evolution>0%</pageviews_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
@@ -156,10 +158,10 @@
 				<pageviews_evolution>0%</pageviews_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
@@ -175,10 +177,10 @@
 				<pageviews_evolution>0%</pageviews_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
@@ -194,10 +196,10 @@
 				<pageviews_evolution>0%</pageviews_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
-				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
-				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>

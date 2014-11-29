@@ -27,6 +27,7 @@ use Piwik\Site;
  *     ((currentValue - pastValue) / pastValue) * 100
  *
  * @api
+ * @deprecated since v2.10.0
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {

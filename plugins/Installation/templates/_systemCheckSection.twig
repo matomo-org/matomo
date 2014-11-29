@@ -56,14 +56,13 @@
             {% for needed_extension in infos.needed_extensions %}
                 {% if needed_extension in infos.missing_extensions %}
                     {{ error }}
-                    {% set hasError %}1{% endset %}
+                    <br/>{{ 'Installation_RestartWebServer'|translate }}
                 {% else %}
                     {{ ok }}
                 {% endif %}
                 {{ needed_extension }}
                 <br/>
             {% endfor %}
-            <br/>{% if hasError is defined %}{{ 'Installation_RestartWebServer'|translate }}{% endif %}
         </td>
     </tr>
     {% if infos.missing_extensions|length > 0 %}
@@ -84,16 +83,37 @@
                 {% if needed_function in infos.missing_functions %}
                     {{ error }}
                     <span class='err'>{{ needed_function }}</span>
-                    {% set hasError %}1{% endset %}
                     <p>
-                        <em>{{ helpMessages[needed_function]|translate }}</em>
+                        <em>
+                            {{ helpMessages[needed_function]|translate }}
+                            <br/>{{ 'Installation_RestartWebServer'|translate }}
+                        </em>
                     </p>
                 {% else %}
                     {{ ok }} {{ needed_function }}
                     <br/>
                 {% endif %}
             {% endfor %}
-            <br/>{% if hasError is defined %}{{ 'Installation_RestartWebServer'|translate }}{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td class="label">{{ 'Installation_SystemCheckSettings'|translate }}</td>
+        <td>
+            {% for needed_setting in infos.needed_settings %}
+                {% if needed_setting in infos.missing_settings %}
+                    {{ error }}
+                    <span class='err'>{{ needed_setting }}</span>
+                    <p>
+                        <em>
+                            {{ helpMessages[needed_setting]|translate }}
+                            <br/>{{ 'Installation_RestartWebServer'|translate }}
+                        </em>
+                    </p>
+                {% else %}
+                    {{ ok }} {{ needed_setting }}
+                    <br/>
+                {% endif %}
+            {% endfor %}
         </td>
     </tr>
     <tr>
@@ -189,7 +209,7 @@
                 {{ warning }}
                 <span class="warn">{{ 'SitesManager_AdvancedTimezoneSupportNotFound'|translate }} </span>
                 <br/>
-                <a href="http://php.net/manual/en/datetime.installation.php" target="_blank">Timezone PHP documentation</a>
+                <a href="http://php.net/manual/en/datetime.installation.php" rel="noreferrer" target="_blank">Timezone PHP documentation</a>
                 .
             {% endif %}
         </td>
@@ -206,6 +226,16 @@
             {% if not infos.can_auto_update %}
                 <br/>
                 {{ warning }} <span class="warn">{{ 'Installation_SystemCheckAutoUpdateHelp'|translate }}</span>
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td class="label">{{ 'Installation_SystemCheckPageSpeedDisabled'|translate }}</td>
+        <td>
+            {% if infos.pagespeed_module_disabled_ok %}
+                {{ ok }}
+            {% else %}
+                {{ warning }} <span class="warn">{{ 'Installation_SystemCheckPageSpeedWarn'|translate('(eg. Apache, Nginx or IIS)') }}</span>
             {% endif %}
         </td>
     </tr>
@@ -291,12 +321,12 @@
             {% elseif infos.extra.geolocation_using_non_recommended %}
                 {{ warning }}
                 <span class="warn">{{ 'UserCountry_GeoIpLocationProviderNotRecomnended'|translate }}
-                    {{ 'UserCountry_GeoIpLocationProviderDesc_ServerBased2'|translate('<a href="http://piwik.org/docs/geo-locate/" target="_blank">', '', '', '</a>')|raw }}</span>
+                    {{ 'UserCountry_GeoIpLocationProviderDesc_ServerBased2'|translate('<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>')|raw }}</span>
                 <br/>
             {% else %}
                 {{ warning }}
                 <span class="warn">{{ 'UserCountry_DefaultLocationProviderDesc1'|translate }}
-                    {{ 'UserCountry_DefaultLocationProviderDesc2'|translate('<a href="http://piwik.org/docs/geo-locate/" target="_blank">', '', '', '</a>')|raw }} </span>
+                    {{ 'UserCountry_DefaultLocationProviderDesc2'|translate('<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>')|raw }} </span>
                 </span>
             {% endif %}
         </td>
@@ -320,7 +350,7 @@
                         <em><strong>{{ 'General_Error'|translate }}:</strong></em>
                         {{ infos.extra.load_data_infile_error|raw }}
                     {% endif %}
-                    <p>Troubleshooting: <a target='_blank' href="?module=Proxy&action=redirect&url=http://piwik.org/faq/troubleshooting/%23faq_194">FAQ on piwik.org</a></p>
+                    <p>Troubleshooting: <a rel='noreferrer' target='_blank' href="?module=Proxy&action=redirect&url=http://piwik.org/faq/troubleshooting/%23faq_194">FAQ on piwik.org</a></p>
                 {% endif %}
             </td>
         </tr>

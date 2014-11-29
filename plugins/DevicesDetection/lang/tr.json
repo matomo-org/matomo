@@ -1,11 +1,12 @@
 {
     "DevicesDetection": {
+        "BrowserFamily": "Tarayıcı ailesi",
+        "BrowserVersion": "Tarayıcı sürümü",
         "BrowserVersions": "Tarayıcı versiyonları",
         "Camera": "Kamera",
         "CarBrowser": "Araba tarayıcısı",
         "Console": "Konsol",
         "dataTableLabelBrands": "Marka",
-        "dataTableLabelBrowserFamily": "Tarayıcı ailesi",
         "dataTableLabelModels": "Model",
         "dataTableLabelSystemVersion": "İşletim Sistemi versiyonu",
         "dataTableLabelTypes": "Tip",

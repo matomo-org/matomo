@@ -98,8 +98,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nbActionsReturning = $dataRow->getColumn('nb_actions_returning');
         $view->nbActionsPerVisitReturning = $dataRow->getColumn('nb_actions_per_visit_returning');
         $view->avgVisitDurationReturning = $dataRow->getColumn('avg_time_on_site_returning');
-        $nbBouncedReturningVisits = $dataRow->getColumn('bounce_count_returning');
-        $view->bounceRateReturning = Piwik::getPercentageSafe($nbBouncedReturningVisits, $nbVisitsReturning);
+        $view->bounceRateReturning = $dataRow->getColumn('bounce_rate_returning');
     }
 
     protected function getSummary()

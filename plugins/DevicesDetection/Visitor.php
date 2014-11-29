@@ -24,6 +24,21 @@ class Visitor
         return getDeviceTypeLabel($this->details['config_device_type']);
     }
 
+    public function getOperatingSystemCode()
+    {
+        return $this->details['config_os'];
+    }
+
+    public function getOperatingSystem()
+    {
+        return getOsFullName($this->details['config_os']);
+    }
+
+    public function getOperatingSystemIcon()
+    {
+        return getOsLogo($this->details['config_os']);
+    }
+
     public function getBrowserEngineDescription()
     {
         return getBrowserEngineName($this->getBrowserEngine());
@@ -32,5 +47,30 @@ class Visitor
     public function getBrowserEngine()
     {
         return $this->details['config_browser_engine'];
+    }
+
+    public function getBrowserCode()
+    {
+        return $this->details['config_browser_name'];
+    }
+
+    public function getBrowserVersion()
+    {
+        return $this->details['config_browser_version'];
+    }
+
+    public function getBrowser()
+    {
+        return getBrowserNameWithVersion($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
+    }
+
+    public function getBrowserName()
+    {
+        return getBrowserName($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
+    }
+
+    public function getBrowserIcon()
+    {
+        return getBrowserLogo($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
     }
 }

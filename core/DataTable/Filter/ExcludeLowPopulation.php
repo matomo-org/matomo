@@ -10,6 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
+use Piwik\Plugin\Metric;
 
 /**
  * Deletes all rows for which a specific column has a value that is lower than
@@ -59,6 +60,7 @@ class ExcludeLowPopulation extends BaseFilter
     public function __construct($table, $columnToFilter, $minimumValue, $minimumPercentageThreshold = false)
     {
         parent::__construct($table);
+
         $this->columnToFilter = $columnToFilter;
 
         if ($minimumValue == 0) {

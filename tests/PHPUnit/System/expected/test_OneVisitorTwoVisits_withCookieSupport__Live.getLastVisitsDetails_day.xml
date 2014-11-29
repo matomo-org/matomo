@@ -52,8 +52,16 @@
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -77,14 +85,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -123,7 +123,7 @@
 				<pageId>1</pageId>
 				<generationTime>0.23s</generationTime>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -135,7 +135,7 @@
 				<pageId>2</pageId>
 				<generationTime>0.22s</generationTime>
 				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -146,7 +146,7 @@
 				
 				<pageId>3</pageId>
 				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 			<row>
@@ -157,7 +157,7 @@
 				
 				<pageId>4</pageId>
 				<timeSpent>72</timeSpent>
-				<timeSpentPretty>1 min 12s</timeSpentPretty>
+				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 			<row>
@@ -168,7 +168,7 @@
 				
 				<pageId>5</pageId>
 				<timeSpent>108</timeSpent>
-				<timeSpentPretty>1 min 48s</timeSpentPretty>
+				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 			<row>
@@ -179,7 +179,7 @@
 				
 				<pageId>6</pageId>
 				<timeSpent>72</timeSpent>
-				<timeSpentPretty>1 min 12s</timeSpentPretty>
+				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 			<row>
@@ -201,7 +201,7 @@
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<generationTime>0.81s</generationTime>
 				<timeSpent>108</timeSpent>
-				<timeSpentPretty>1 min 48s</timeSpentPretty>
+				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -236,12 +236,20 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<customVariables>
 		</customVariables>
 		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<events>0</events>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
@@ -265,14 +273,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>

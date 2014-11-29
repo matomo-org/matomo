@@ -13,7 +13,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Plugins\API\API;
+use Piwik\Plugin\Report;
 
 /**
  * This class is responsible for setting the metadata property 'totals' on each dataTable if the report
@@ -22,12 +22,6 @@ use Piwik\Plugins\API\API;
  */
 class ReportTotalsCalculator extends DataTableManipulator
 {
-    /**
-     * Cached report metadata array.
-     * @var array
-     */
-    private static $reportMetadata = array();
-
     /**
      * @param  DataTable $table
      * @return \Piwik\DataTable|\Piwik\DataTable\Map
@@ -61,7 +55,7 @@ class ReportTotalsCalculator extends DataTableManipulator
     {
         $report = $this->findCurrentReport();
 
-        if (!empty($report) && empty($report['dimension'])) {
+        if (!empty($report) && !$report->getDimension() && !$this->isReportAllMetricsReport($report)) {
             // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
         }
@@ -73,12 +67,13 @@ class ReportTotalsCalculator extends DataTableManipulator
         $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
 
         foreach ($metricsToCalculate as $metricId) {
-            if (!$this->hasDataTableMetric($firstLevelTable, $metricId)) {
+            $realMetricName = $this->hasDataTableMetric($firstLevelTable, $metricId);
+            if (empty($realMetricName)) {
                 continue;
             }
 
             foreach ($firstLevelTable->getRows() as $row) {
-                $totalValues = $this->sumColumnValueToTotal($row, $metricId, $totalValues);
+                $totalValues = $this->sumColumnValueToTotal($row, $metricId, $realMetricName, $totalValues);
             }
         }
 
@@ -95,34 +90,20 @@ class ReportTotalsCalculator extends DataTableManipulator
             return false;
         }
 
-        if (false === $this->getColumn($firstRow, $metricId)) {
-            return false;
-        }
+        $readableColumnName = Metrics::getReadableColumnName($metricId);
+        $columnAlternatives = array(
+            $metricId,
+            $readableColumnName,
+            // TODO: this and below is a hack to get report totals to work correctly w/ MultiSites.getAll. can be corrected
+            //       when all metrics are described by Metadata classes & internal naming quirks are handled by core system.
+            'Goal_' . $readableColumnName,
+            'Actions_' . $readableColumnName
+        );
 
-        return true;
-    }
-
-    /**
-     * Returns column from a given row.
-     * Will work with 2 types of datatable
-     * - raw datatables coming from the archive DB, which columns are int indexed
-     * - datatables processed resulting of API calls, which columns have human readable english names
-     *
-     * @param Row|array $row
-     * @param int $columnIdRaw see consts in Metrics::
-     * @return mixed  Value of column, false if not found
-     */
-    private function getColumn($row, $columnIdRaw)
-    {
-        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
-
-        if ($row instanceof Row) {
-            $raw = $row->getColumn($columnIdRaw);
-            if ($raw !== false) {
-                return $raw;
+        foreach ($columnAlternatives as $column) {
+            if ($firstRow->getColumn($column) !== false) {
+                return $column;
             }
-
-            return $row->getColumn($columnIdReadable);
         }
 
         return false;
@@ -141,8 +122,8 @@ class ReportTotalsCalculator extends DataTableManipulator
             $module = $this->apiModule;
             $action = $this->apiMethod;
         } else {
-            $module = $firstLevelReport['module'];
-            $action = $firstLevelReport['action'];
+            $module = $firstLevelReport->getModule();
+            $action = $firstLevelReport->getAction();
         }
 
         $request = $this->request;
@@ -170,9 +151,9 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $table;
     }
 
-    private function sumColumnValueToTotal(Row $row, $metricId, $totalValues)
+    private function sumColumnValueToTotal(Row $row, $metricId, $realMetricId, $totalValues)
     {
-        $value = $this->getColumn($row, $metricId);
+        $value = $row->getColumn($realMetricId);
 
         if (false === $value) {
 
@@ -217,38 +198,26 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $request;
     }
 
-    private function getReportMetadata()
-    {
-        if (!empty(static::$reportMetadata)) {
-            return static::$reportMetadata;
-        }
-
-        static::$reportMetadata = API::getInstance()->getReportMetadata();
-
-        return static::$reportMetadata;
-    }
-
     private function findCurrentReport()
     {
-        foreach ($this->getReportMetadata() as $report) {
-            if ($this->apiMethod == $report['action']
-                && $this->apiModule == $report['module']) {
-
-                return $report;
-            }
-        }
+        return Report::factory($this->apiModule, $this->apiMethod);
     }
 
     private function findFirstLevelReport()
     {
-        foreach ($this->getReportMetadata() as $report) {
-            if (!empty($report['actionToLoadSubTables'])
-                && $this->apiMethod == $report['actionToLoadSubTables']
-                && $this->apiModule == $report['module']
+        foreach (Report::getAllReports() as $report) {
+            $actionToLoadSubtables = $report->getActionToLoadSubTables();
+            if ($actionToLoadSubtables == $this->apiMethod
+                && $this->apiModule == $report->getModule()
             ) {
-
                 return $report;
             }
         }
+        return null;
+    }
+
+    private function isReportAllMetricsReport(Report $report)
+    {
+        return $report->getModule() == 'API' && $report->getAction() == 'get';
     }
 }
