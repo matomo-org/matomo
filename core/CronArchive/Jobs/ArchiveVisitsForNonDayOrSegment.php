@@ -33,7 +33,7 @@ class ArchiveVisitsForNonDayOrSegment extends BaseJob
         list($visits, $visitsLast) = $this->parseVisitsApiResponse($context, $response, $idSite);
 
         if ($visits === null) {
-            $this->handleError($context, "Error unserializing the following response from {$this->url}: " . $response);
+            $this->handleError($context, "Error unserializing the following response from ".$this->getUrlString().": " . $response);
             return;
         }
 

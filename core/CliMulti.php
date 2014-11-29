@@ -180,8 +180,8 @@ class CliMulti {
                 // if process was created more than 8 seconds ago but still not started there must be something wrong.
                 // ==> declare the process as finished
                 $process->finishProcess();
-                continue;
 
+                continue;
             } elseif (!$hasStarted) {
                 continue;
             }
@@ -194,7 +194,7 @@ class CliMulti {
             foreach ($this->outputs as $output) {
                 if ($output->getOutputId() === $pid && $output->isAbnormal()) {
                     $process->finishProcess();
-                    return true;
+                    break;
                 }
             }
 

@@ -70,6 +70,7 @@ class Job
             $url = UrlHelper::getArrayFromQueryString($url);
         }
 
+        $url = array_map('urlencode', $url);
         $this->url = $url;
     }
 
