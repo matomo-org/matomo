@@ -16,28 +16,36 @@ use Piwik\Sequence;
 
 /**
  * MySQL based distributed queue implementation.
- *
- * Uses an option value.
- *
- * TODO: change to using table causes random failure in ArchiveCronTests. likely due to pull method.
  */
 class DistributedJobsQueue implements Queue
 {
     const TABLE_NAME = 'jobs';
 
+    /**
+     * @var Sequence
+     */
     private $distributedSequence;
 
     /**
-     * Constructor.
+     * @var string
      */
-    public function __construct()
+    private $tableName;
+
+    /**
+     * Constructor.
+     *
+     * @param string $tableName
+     */
+    public function __construct($tableName = self::TABLE_NAME)
     {
-        self::createTableIfNotExists();
+        $this->tableName = Common::prefixTable($tableName);
 
         $this->distributedSequence = new Sequence("DistributedJobsQueue.lockid");
         if (!$this->distributedSequence->exists()) {
             $this->distributedSequence->create(0);
         }
+
+        $this->createTableIfNotExists();
     }
 
     /**
@@ -49,7 +57,7 @@ class DistributedJobsQueue implements Queue
      */
     public function enqueue($jobs)
     {
-        $sql = "INSERT INTO `" . self::getTableName() . "` (data) VALUES ";
+        $sql = "INSERT INTO `" . $this->tableName . "` (data) VALUES ";
 
         reset($jobs);
         $firstKey = key($jobs);
@@ -70,8 +78,6 @@ class DistributedJobsQueue implements Queue
     /**
      * Atomically pops N jobs from the queue in the Piwik Option and returns them.
      *
-     * This operation uses a named lock to ensure atomicity.
-     *
      * @param int $count The maximum number of jobs to get.
      * @return Job[] The jobs at the front of the queue.
      */
@@ -79,15 +85,15 @@ class DistributedJobsQueue implements Queue
     {
         $lockId = $this->generateLockId();
 
-        Db::query("UPDATE `" . self::getTableName() . "`
+        Db::query("UPDATE `" . $this->tableName . "`
                       SET lockid = ?
                     WHERE lockid IS NULL
                  ORDER BY idjob ASC
                     LIMIT " . (int) $count, array($lockId));
 
-        $serializedJobs = Db::fetchAll("SELECT data FROM `" . self::getTableName() . "` WHERE lockid = ?", array($lockId));
+        $serializedJobs = Db::fetchAll("SELECT data FROM `" . $this->tableName . "` WHERE lockid = ?", array($lockId));
 
-        Db::query("DELETE FROM `" . self::getTableName() . "` WHERE lockid = ?", array($lockId));
+        Db::query("DELETE FROM `" . $this->tableName . "` WHERE lockid = ?", array($lockId));
 
         $jobs = array();
         foreach ($serializedJobs as $row) {
@@ -99,13 +105,11 @@ class DistributedJobsQueue implements Queue
     /**
      * Returns the number of URLs in the queue in the Piwik Option.
      *
-     * This operation uses a named lock to ensure atomicity.
-     *
      * @return int
      */
     public function peek()
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM `" . self::getTableName() . "` WHERE lockid IS NULL");
+        return Db::fetchOne("SELECT COUNT(*) FROM `" . $this->tableName . "` WHERE lockid IS NULL");
     }
 
     private function getSerializedJob(Job $job)
@@ -113,14 +117,18 @@ class DistributedJobsQueue implements Queue
         return serialize($job);
     }
 
-    private static function getTableName()
+    private static function getDefaultTableName()
     {
         return Common::prefixTable(self::TABLE_NAME);
     }
 
-    private static function createTableIfNotExists()
+    private function createTableIfNotExists()
     {
-        $createTableSql = DbHelper::getTableCreateSql(self::getTableName());
+        $defaultTableName = self::getDefaultTableName();
+
+        $createTableSql = DbHelper::getTableCreateSql($defaultTableName);
+        $createTableSql = str_replace($defaultTableName, $this->tableName, $createTableSql);
+
         Db::query($createTableSql);
     }
 
