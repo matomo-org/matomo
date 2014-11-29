@@ -25,6 +25,7 @@ use Exception;
  */
 class ArchiveCronTest extends SystemTestCase
 {
+    /** @var ManySitesImportedLogs */
     public static $fixture = null; // initialized below class definition
 
     public function getApiForTesting()
@@ -35,21 +36,18 @@ class ArchiveCronTest extends SystemTestCase
         // Disabling these tests as they randomly fail... This could actually be a bug.
         // FIXME - I have failed finding the cause for these test to randomly fail
         // eg.
-//        foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
-//            $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
-//                                                          'date'       => '2012-08-09',
-//                                                          'periods'    => array('day', 'week', 'month', 'year'),
-//                                                          'segment'    => $info['definition'],
-//                                                          'testSuffix' => '_' . $segmentName));
-//
-//
-//        }
+        foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
+            $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
+                                                          'date'       => '2012-08-09',
+                                                          'periods'    => array('day', 'week', 'month', 'year'),
+                                                          'segment'    => $info['definition'],
+                                                          'testSuffix' => '_' . $segmentName));
+        }
 
         // API Call Without segments
-        // TODO uncomment week and year period
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
-                                                      'periods' => array('day', 'month', /* 'year',  'week' */)));
+                                                      'periods' => array('day', 'month', 'year',  'week')));
 
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
@@ -60,17 +58,16 @@ class ArchiveCronTest extends SystemTestCase
         $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
-        foreach($segments as $segment) {
-            // TODO debugging travis
-            continue;
-
+        foreach($segments as $idx => $segment) {
             // Test with a pre-processed segment
-            $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
+            // TODO: 'VisitFrequency.get' fails because it modifies the segment; i guess cron archiving doesn't
+            //       invoke VisitFrequency archiving...
+            $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails'),
                                array('idSite'     => '1',
                                      'date'       => '2012-08-09',
                                      'periods'    => array('day', 'year'),
                                      'segment'    => $segment,
-                                     'testSuffix' => '_preArchivedSegment'));
+                                     'testSuffix' => '_preArchivedSegment_' . $idx));
         }
 
         return $results;
