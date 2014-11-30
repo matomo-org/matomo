@@ -83,5 +83,26 @@ class API extends \Piwik\Plugin\API
         return $output;
     }
 
+    public function executeJob($jobClassName, $jobData)
+    {
+        Piwik::checkUserHasSuperUserAccess();
 
+        $jobClassName = urldecode($jobClassName);
+        $jobData = urldecode($jobData);
+
+        if (!is_subclass_of($jobClassName, "Piwik\\Jobs\\Job")) {
+            throw new Exception("Job class '$jobClassName' must derive from Piwik\\Jobs\\Job.");
+        }
+
+        if (!method_exists($jobClassName, 'execute')) {
+            throw new Exception("Job class '$jobClassName' does not have an execute method.");
+        }
+
+        $jobData = json_decode($jobData, true);
+        if (!is_array($jobData)) {
+            $jobData = array($jobData);
+        }
+
+        return call_user_func_array(array($jobClassName, 'execute'), $jobData);
+    }
 }

@@ -8,29 +8,31 @@
 namespace Piwik\Jobs;
 
 use Piwik\Url;
-use Piwik\UrlHelper;
 
 /**
  * Description of a job that should be processed by a job processor.
  *
- * Job instances store a URL that points to the logic to execute when processed by a job
- * processor. Additionally, they can contain logic to execute before and after the job
- * is processed.
+ * Job classes define a static **execute** method that does something unspecified. Job
+ * processors will execute this method when processing jobs. Additionally, they can contain
+ * logic to execute before and after the job is processed.
  *
  * If you want to queue a job and don't care about executing logic before or after the job,
- * you can simply create a new instance of Job w/ the URL to execute, eg:
+ * you can simply create a new instance of {@link Piwik\Jobs\UrlJob} w/ the URL to execute, eg:
  *
- *     $job = new Job("?module=API&method=MyPlugin.myApiMethod&myParam=1");
+ *     $job = new UrlJob("?module=API&method=MyPlugin.myApiMethod&myParam=1");
  *     $queue->enqueue($job);
  *
- * If you want to execute code before or after a job, you must create a new class that
- * derives from Job and implement the jobStarting & jobFinished methods:
+ * If you want to execute code before or after a job, or execute code that is not accessible via
+ * a Piwik URL, you must create a new class that derives from Job and implement the required
+ * methods:
  *
  *     class MyJob extends Job
  *     {
- *         public function __construct()
+ *         private $myData;
+ *
+ *         public function __construct($myData)
  *         {
- *             parent::__construct("?module=API&method=MyPlugin.myApiMethod&myParam=1");
+ *             $this->myData = $myData;
  *         }
  *
  *         public function jobStarting()
@@ -42,11 +44,17 @@ use Piwik\UrlHelper;
  *         {
  *             // ...
  *         }
- *    }
  *
- * Jobs are serialized completely when added to a Job queue. This means you should not
- * store large objects w/ lots of dependencies in a Job instance. This may change in the
- * future when Dependency Injection is added.
+ *         public function getJobData()
+ *         {
+ *             return array($this->myData);
+ *         }
+ *
+ *         public static function execute($myData)
+ *         {
+ *             // ...
+ *         }
+ *    }
  *
  * **NOTE: This api is not stable.**
  *
@@ -54,27 +62,6 @@ use Piwik\UrlHelper;
  */
 class Job
 {
-    /**
-     * The URL that the Job processor should execute.
-     *
-     * @var string[]
-     */
-    public $url;
-
-    /**
-     * Constructor.
-     *
-     * @param string[]|string $url An array of query parameters.
-     */
-    public function __construct($url = null)
-    {
-        if (is_string($url)) {
-            $url = UrlHelper::getArrayFromQueryString($url);
-        }
-
-        $this->url = $url;
-    }
-
     /**
      * The method that is executed before a job starts.
      */
@@ -94,13 +81,33 @@ class Job
     }
 
     /**
+     * Returns data that should be passed to the derived class' static 'execute' method.
+     *
+     * @return array
+     */
+    public function getJobData()
+    {
+        return array();
+    }
+
+    /**
      * Returns the URL as a string instead of an array of query parameter values.
      *
      * @return string
      */
     public function getUrlString()
     {
-        $url = array_map('urlencode', $this->url);
-        return '?' . Url::getQueryStringFromParameters($url);
+        $jobClass = get_class($this);
+        $jobData = json_encode($this->getJobData());
+
+        $params = array(
+            'module' => 'CoreAdminHome',
+            'method' => 'executeJob',
+            'jobClassName' => urlencode($jobClass),
+            'jobData' => urlencode($jobData),
+            'format' => 'json'
+        );
+
+        return '?' . Url::getQueryStringFromParameters($params);
     }
 }

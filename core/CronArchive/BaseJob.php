@@ -9,7 +9,7 @@ namespace Piwik\CronArchive;
 
 use Exception;
 use Piwik\CronArchive;
-use Piwik\Jobs\Job;
+use Piwik\Jobs\UrlJob;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Url;
@@ -22,7 +22,7 @@ use Piwik\Url;
  *
  * CronArchive jobs should be able to be executed from different machines if necessary.
  */
-class BaseJob extends Job
+class BaseJob extends UrlJob
 {
     /**
      * The CronArchive options used in this CronArchive run. The options are stored with the Job to reconstruct
