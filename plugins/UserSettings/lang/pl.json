@@ -3,7 +3,6 @@
         "BrowserLanguage": "Język przeglądarki",
         "ColumnConfiguration": "Konfiguracja",
         "ColumnResolution": "Rozdzielczość",
-        "ColumnTypeOfScreen": "Typ ekranu",
         "Configurations": "Konfiguracje",
         "Language_aa": "afar",
         "Language_ab": "abchaski",
@@ -194,7 +193,6 @@
         "PluginDetectionDoesNotWorkInIE": "Uwaga: wykrywanie wtyczek nie działa w przypadku Internet Explorera. Raport ten pokaże tylko wyniki w oparciu o badanie innych przeglądarek, nie opartych na silniku IE.",
         "Resolutions": "Rozdzielczość",
         "VisitorSettings": "Konfiguracje użytkownika",
-        "WideScreen": "Ekran monitora",
         "WidgetGlobalVisitors": "Ogólna konfiguracja odwiedzających",
         "WidgetPlugins": "Lista wtyczek",
         "WidgetResolutions": "Rozdzielczość ekranu"

@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Konfigurazioa",
         "ColumnResolution": "Bereizmena",
-        "ColumnTypeOfScreen": "Pantaila mota",
         "Configurations": "Konfigurazioak",
         "Language_ab": "abkhazera",
         "Language_af": "afrikaans",
@@ -152,7 +151,6 @@
         "LanguageCode": "Hizkuntza-kodea",
         "Resolutions": "Bereizmenak",
         "VisitorSettings": "Bisitariaren ezarpenak",
-        "WideScreen": "Pantaila panoramikoa",
         "WidgetGlobalVisitors": "Bisitarien konfigurazioa",
         "WidgetPlugins": "Pluginen zerrenda",
         "WidgetResolutions": "Pantailaren bereizmenak"

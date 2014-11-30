@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "प्लगिन %2$s से %1$s सक्षम",
         "ColumnConfiguration": "विन्यास",
         "ColumnResolution": "संकल्प",
-        "ColumnTypeOfScreen": "स्क्रीन के प्रकार",
         "Configurations": "विन्यास",
         "Language_aa": "अफ़ार",
         "Language_ab": "अब्खाज़ियन्",
@@ -196,7 +195,6 @@
         "PluginDetectionDoesNotWorkInIE": "नोट: प्लगइन्स का पता लगाने इंटरनेट एक्सप्लोरर में काम नहीं करता है. यह रिपोर्ट केवल गैर आईई ब्राउज़रों पर आधारित है.",
         "Resolutions": "संकल्प",
         "VisitorSettings": "आगंतुक सेटिंग्स",
-        "WideScreen": "वाइड स्क्रीन",
         "WidgetGlobalVisitors": "आगंतुक विन्यास"
     }
 }

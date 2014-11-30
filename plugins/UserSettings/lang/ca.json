@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Configuració",
         "ColumnResolution": "Resolució",
-        "ColumnTypeOfScreen": "Tipus de pantalla",
         "Configurations": "Configuracions",
         "Language_aa": "Afar",
         "Language_ab": "Abkhazian",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Nota: La detecció d'extensions no funciona amb Internet Explorer. L'informe es basa nomes amb navegadors diferents de l'Internet Explorer",
         "Resolutions": "Resolucions",
         "VisitorSettings": "Configuració del visitant",
-        "WideScreen": "Pantalla panoràmica",
         "WidgetGlobalVisitors": "Configuracions globals dels visitants",
         "WidgetGlobalVisitorsDocumentation": "Aquest informe mostra les configuracions més comuns que tenen els vostres visitants. Una configuració es la combinació de Sistema Operatiu, tipus de navegador i resolució de pantalla.",
         "WidgetPlugins": "Llistat de connectors",

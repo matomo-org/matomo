@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Configuração",
         "ColumnResolution": "Resolução",
-        "ColumnTypeOfScreen": "Tipo de ecrã",
         "Configurations": "Configurações",
         "Language_aa": "afar",
         "Language_ab": "abcázio",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Nota: Detecção de plugins não funciona no Internet Explorer. Este relatório só se baseia em navegadores não-IE.",
         "Resolutions": "Resoluções",
         "VisitorSettings": "Definições do Visitante",
-        "WideScreen": "Ecrã Panorama",
         "WidgetGlobalVisitors": "Configuração global dos visitantes",
         "WidgetGlobalVisitorsDocumentation": "Este relatório mostra as configurações gerais mais comuns que os visitantes tiveram. Uma configuração é a combinação de um sistema operativo, um tipo de navegador e uma resolução de visualização.",
         "WidgetPlugins": "Lista de Plugins",

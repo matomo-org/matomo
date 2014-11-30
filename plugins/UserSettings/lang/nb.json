@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Konfigurasjon",
         "ColumnResolution": "Oppløsning",
-        "ColumnTypeOfScreen": "Skjermtype",
         "Configurations": "Konfigurasjon",
         "Language_aa": "afar",
         "Language_ab": "abkhasisk",
@@ -192,7 +191,6 @@
         "PluginDescription": "Rapporterer forskjellige brukerinnstillinger: Nettleser, nettleserfamilie, operativsystem, tillegg, oppløsning, globale innstillinger.",
         "Resolutions": "Oppløsninger",
         "VisitorSettings": "Besøkendes innstillinger",
-        "WideScreen": "Widescreen",
         "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
         "WidgetPlugins": "Liste over tillegg",
         "WidgetResolutions": "Skjermoppløsninger"

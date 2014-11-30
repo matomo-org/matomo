@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "კონფიგურაცია",
         "ColumnResolution": "რეზოლუცია",
-        "ColumnTypeOfScreen": "ეკრანის ტიპი",
         "Configurations": "გონფიგურაციები",
         "Language_aa": "აფარი",
         "Language_ab": "აფხაზური",
@@ -166,7 +165,6 @@
         "PluginDetectionDoesNotWorkInIE": "შენიშვნა: პლაგინების ამოცნობა არ ხდება ინტერნეტ ექსპლორერში. ეს რეპორტი მუშაოაბს მხოლოდ არა–IE ბრაუზერებზე.",
         "Resolutions": "რეზოლუციები",
         "VisitorSettings": "ვიზიტორის პარამეტრები",
-        "WideScreen": "ფართო ეკრანი",
         "WidgetGlobalVisitors": "ვიზიტორების გლობალური კონფიგურაცია",
         "WidgetPlugins": "პლაგინების სია",
         "WidgetResolutions": "ეკრანის რეზოლუვიები"

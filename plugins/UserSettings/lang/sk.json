@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Konfigurácia",
         "ColumnResolution": "Rozlíšenie",
-        "ColumnTypeOfScreen": "Typ obrazovky",
         "Configurations": "Konfigurácia",
         "Language_aa": "afarčina",
         "Language_ab": "abcházština",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Poznámka: Plugin detekcia nefunguje v Internet Exploreri. Táto správa je založená len na non-IE prehliadačov.",
         "Resolutions": "Rozlíšenie",
         "VisitorSettings": "Nastavenia návštevníkov",
-        "WideScreen": "Širokouhlá obrazovka",
         "WidgetGlobalVisitors": "Globálne konfigurácie návštevníkov",
         "WidgetPlugins": "Zoznam modulov",
         "WidgetResolutions": "Rozlíšenie obrazovky"

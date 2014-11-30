@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "الإعداد",
         "ColumnResolution": "الكثافة النقطية",
-        "ColumnTypeOfScreen": "نوع الشاشة",
         "Configurations": "الإعدادات",
         "Language_aa": "الأفارية",
         "Language_ab": "الأبخازية",
@@ -192,7 +191,6 @@
         "PluginDetectionDoesNotWorkInIE": "ملاحظة: اكتشاف الإضافات البرمجية لا تعمل في متصفح إنترنت إكسبلورر. هذه الخاصية ترتكز للمتصفحات من العائلات الأخرى غير إنترنت إكسبلورر.",
         "Resolutions": "الكثافات النقطية",
         "VisitorSettings": "إعدادات الزوار",
-        "WideScreen": "شاشة عريضة",
         "WidgetGlobalVisitors": "الإعدادات العامة للزوار",
         "WidgetPlugins": "قائمة الإضافات",
         "WidgetResolutions": "كثافات الشاشة النقطية"

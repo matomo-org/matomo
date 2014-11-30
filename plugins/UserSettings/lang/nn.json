@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Konfigurasjon",
         "ColumnResolution": "Oppløysing",
-        "ColumnTypeOfScreen": "Type skjerm",
         "Configurations": "Konfigurasjonar",
         "Language_aa": "afar",
         "Language_ab": "abkhasisk",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Merk: Registrering av innstikk virkar ikkje i Internet Explorer. Denne rapporten er berre basert på andre nettlesarar enn IE.",
         "Resolutions": "Oppløysingar",
         "VisitorSettings": "Vitjarinnstillingar",
-        "WideScreen": "Breiskjerm",
         "WidgetGlobalVisitors": "Global vitjarkonfigurasjon",
         "WidgetPlugins": "Liste over innstikk",
         "WidgetResolutions": "Skjermoppløysing"

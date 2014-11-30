@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Konfigūracija",
         "ColumnResolution": "Ekrano raiška",
-        "ColumnTypeOfScreen": "Ekrano tipas",
         "Configurations": "Konfigūracijos",
         "Language_aa": "afarų",
         "Language_ab": "abchazų",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Pastaba: papildinio aptikimas neveikia Internet Explorer naršyklėje. Ši ataskaita bus sugeneruota tik kitose naršyklėse.",
         "Resolutions": "Ekranų raiškos",
         "VisitorSettings": "Lankytojų nustatymai",
-        "WideScreen": "Plačiaekranis",
         "WidgetGlobalVisitors": "Bendri lankytojų nustatymai",
         "WidgetPlugins": "Papildinių sąrašas",
         "WidgetResolutions": "Ekrano raiška"

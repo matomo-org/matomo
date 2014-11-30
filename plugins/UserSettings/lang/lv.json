@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Konfigurācija",
         "ColumnResolution": "Ekrāna izšķirtspēja",
-        "ColumnTypeOfScreen": "Ekrāna tips",
         "Configurations": "Konfigurācijas",
         "Language_aa": "afāru",
         "Language_ab": "abhāzu",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Piezīme: spraudņu noteikšana nedarbojas Internet Explorer pārlūkā. Šī atskaite ir bāzēta tikai uz ne-IE pārlūkiem.",
         "Resolutions": "Ekrāna izšķirtspējas",
         "VisitorSettings": "Apmeklētāju iestatījumi",
-        "WideScreen": "Platekrāns",
         "WidgetGlobalVisitors": "Globālā apmeklētāju konfigurācija",
         "WidgetGlobalVisitorsDocumentation": "Šajā atskaitē redzamas visbiežāk izmantotās apmeklētāju konfigurācijas. Konfigurācija ir operētājsistēmas, pārlūka tipa un ekrāna izšķirtspējas kombinācija.",
         "WidgetPlugins": "Spraudņu saraksts",

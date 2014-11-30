@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Konfiguráció",
         "ColumnResolution": "Felbontás",
-        "ColumnTypeOfScreen": "Képernyő típusa",
         "Configurations": "Konfigurációk",
         "Language_aa": "afar",
         "Language_ab": "abház",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "A böngészők bővítményeinek detektálása nem működik az Internet Exlporernél, így ez a jelentés csak a nem Internet Explorert használó látogatók adatait jeleníti meg.",
         "Resolutions": "Képernyőfelbontások",
         "VisitorSettings": "Látogatók adatai",
-        "WideScreen": "Képernyő oldalarányai",
         "WidgetGlobalVisitors": "Globális látogatói beállítások",
         "WidgetPlugins": "Bővítmények listája",
         "WidgetResolutions": "Képernyőfelbontások"

@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Конфігурація",
         "ColumnResolution": "Роздільна здатність",
-        "ColumnTypeOfScreen": "Тип екрану",
         "Configurations": "Конфігурації",
         "Language_aa": "афарська",
         "Language_ab": "абхазька",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Примітка: Визначення плагінів не працює в Internet Explorer. Цей звіт базується лише на не-IE веб-оглядачах.",
         "Resolutions": "Роздільні здатності",
         "VisitorSettings": "Налаштування відвідувача",
-        "WideScreen": "Широкоформатні",
         "WidgetGlobalVisitors": "Загальна конфігурація відвідувачів",
         "WidgetPlugins": "Список плагінів",
         "WidgetResolutions": "Роздільні здатності"

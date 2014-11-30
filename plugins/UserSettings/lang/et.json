@@ -3,7 +3,6 @@
         "BrowserLanguage": "Veebisirvija keel",
         "ColumnConfiguration": "Konfiguratsioon",
         "ColumnResolution": "Resolutsioon",
-        "ColumnTypeOfScreen": "Ekraani tüüp",
         "Configurations": "Konfiguratsioonid",
         "Language_aa": "afari",
         "Language_ab": "abhaasi",
@@ -193,7 +192,6 @@
         "PluginDetectionDoesNotWorkInIE": "Märge: Lisatarkvara tuvastamine ei tööta Internet Exploreriga külastajatel. See raport kuvab andmeid mitte-IE veebisirvikute kohta.",
         "Resolutions": "Ekraani resolutsioonid",
         "VisitorSettings": "Külastajate seaded",
-        "WideScreen": "Laiekraan",
         "WidgetGlobalVisitors": "Kohalike külastajate seaded",
         "WidgetPlugins": "Sirviku lisatarkvarad",
         "WidgetResolutions": "Ekraani resolutsioonid"
