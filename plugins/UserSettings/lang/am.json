@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "የማሰሺያ ቤተሰቦች",
-        "Browsers": "ማሰሻዎች",
-        "ColumnBrowser": "ማሰሺያ",
         "ColumnConfiguration": "ውቅረት",
         "ColumnResolution": "ጥራት",
         "ColumnTypeOfScreen": "የማያ ዓይነት",
@@ -165,9 +162,7 @@
         "Resolutions": "ጥራቶች",
         "VisitorSettings": "የጎበኚዎች ቅንብሮች",
         "WideScreen": "ሰፊ ማያ",
-        "WidgetBrowsers": "የጎብኚ ማሰሻዎች",
         "WidgetGlobalVisitors": "የሁሉም ጎብኚዎች ውቅረት",
-        "WidgetOperatingSystems": "ስርዓተ ክወናዎች",
         "WidgetPlugins": "የተሰኪዎች ዝርዝር",
         "WidgetResolutions": "የማያ ጥራቶች",
         "WidgetWidescreen": "የተለመደ \/ ሰፊ ማያ"

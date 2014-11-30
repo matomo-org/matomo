@@ -98,7 +98,6 @@
         "SystemCheckPdoAndMysqliHelp": "Na GNU\/Linux systému můžete zkompilovat PHP s následujícími volbami: %1$s Přidejte následující řádky do php.ini: %2$s",
         "SystemCheckPhp": "Verze PHP",
         "SystemCheckPhpPdoAndMysqli": "Více informací na: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
-        "SystemCheckSessionAutostart": "Pro zabránění určitým problémům nastavte následující ve vašem souboru php.ini: session.auto_start=0",
         "SystemCheckSplHelp": "Musíte překompilovat PHP s povolenou standardní PHP knihovou (ve výchozím stavu povolena).",
         "SystemCheckSummaryNoProblems": "Hurááá! Nejsou zde žádné problémy s nastavením Piwiku. Gratulujeme",
         "SystemCheckSummaryThereWereErrors": "Ajaj! Piwik zjistil %1$skritické problémy%2$s s nastavením instalace Piwiku. %3$sTyto problémy musí být okamžitě vyřešeny.%4$s",

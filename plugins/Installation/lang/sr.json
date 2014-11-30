@@ -96,7 +96,6 @@
         "SystemCheckPdoAndMysqliHelp": "Na Linux serveru možete kompajlirati PHP sa sledećim opcijama: %1$s U datoteku php.ini dodajte sledeće linije: %2$s",
         "SystemCheckPhp": "Verzija PHP-a",
         "SystemCheckPhpPdoAndMysqli": "Više informacija na: %1$sPHP PDO%2$s i %3$sMYSQLI%4$s.",
-        "SystemCheckSessionAutostart": "Da bismo sprečili eventualne probleme, molimo vas da postavite sledeće u datoteci php.ini: session.auto_start=0",
         "SystemCheckSplHelp": "Potrebno je da kompajlirate PHP sa standardnom PHP bibiotekom (SPL).",
         "SystemCheckSummaryNoProblems": "Bravo! Nema problema sa vašom instalacijom Piwik-a. Možete biti zadovoljni.",
         "SystemCheckSummaryThereWereErrors": "Piwik je otkrio %1$skritične probleme%2$s sa vašom instalacijom. %3$sPotrebno je da ih odmah rešite.%4$s",

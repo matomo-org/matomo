@@ -94,7 +94,6 @@
         "SystemCheckPdoAndMysqliHelp": "På en Linux server kan du kompilera php med följande alternativ: %1$s I din php.ini, lägg till följande rader: %2$s",
         "SystemCheckPhp": "PHP version",
         "SystemCheckPhpPdoAndMysqli": "Mer information finner du på: %1$sPHP PDO%2$s och %3$sYSQLI%4$s.",
-        "SystemCheckSessionAutostart": "För att förhindra att några problem uppstår, vänligen ange följande i din php.ini fil: session.auto_start=0",
         "SystemCheckSplHelp": "Du måste konfigurera och installera PHP på nytt med Standard PHP Bibliotek (SPL) aktiverat (som standard).",
         "SystemCheckSummaryNoProblems": "Jippiii! Det finns inga problem med installationen av Piwik. Ge dig själv en klapp på axeln.",
         "SystemCheckSummaryThereWereErrors": "Oj då.. Piwik har upptäckt några %1$skritiska problem%2$s med installationen. %3$sDessa problem bör åtgärdas omgående.%4$s",
