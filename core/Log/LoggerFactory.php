@@ -15,6 +15,7 @@ use Piwik\Log;
 use Piwik\Log\Backend\DatabaseBackend;
 use Piwik\Log\Backend\FileBackend;
 use Piwik\Log\Backend\ScreenBackend;
+use Piwik\Log\Processor\SprintfProcessor;
 use Piwik\Piwik;
 
 class LoggerFactory
@@ -33,8 +34,9 @@ class LoggerFactory
         $logFilePath = self::getLogFilePath($logConfig, $container);
         $logLevel = self::getLogLevel($logConfig, $container);
         $writers = self::getLogWriters($logConfig, $messageFormat, $logFilePath);
+        $processors = $container->get('log.processors');
 
-        return new Log($writers, $messageFormat, $logLevel);
+        return new Log($writers, $messageFormat, $logLevel, $processors);
     }
 
     private static function getLogLevel($logConfig, ContainerInterface $container)

@@ -140,10 +140,17 @@ class Log extends Singleton
     private $currentLogLevel = self::WARN;
 
     /**
+     * Processors process log messages before they are being sent to backends.
+     *
+     * @var callable[]
+     */
+    private $processors = array();
+
+    /**
      * The array of callbacks executed when logging a message. Each callback writes a log
      * message to a logging backend.
      *
-     * @var array
+     * @var callable[]
      */
     private $writers = array();
 
@@ -175,12 +182,14 @@ class Log extends Singleton
      * @param callable[] $writers
      * @param string $logMessageFormat
      * @param int $logLevel
+     * @param callable[] $processors
      */
-    public function __construct(array $writers, $logMessageFormat, $logLevel)
+    public function __construct(array $writers, $logMessageFormat, $logLevel, array $processors)
     {
         $this->writers = $writers;
         $this->logMessageFormat = $logMessageFormat;
         $this->currentLogLevel = $logLevel;
+        $this->processors = $processors;
     }
 
     /**
@@ -286,17 +295,9 @@ class Log extends Singleton
         }
 
         $datetime = date("Y-m-d H:i:s");
-        if (is_string($message)
-            && !empty($sprintfParams)
-        ) {
-            // handle array sprintf parameters
-            foreach ($sprintfParams as &$param) {
-                if (is_array($param)) {
-                    $param = json_encode($param);
-                }
-            }
 
-            $message = vsprintf($message, $sprintfParams);
+        foreach ($this->processors as $processor) {
+            $message = $processor($message, $sprintfParams, $level);
         }
 
         if (version_compare(phpversion(), '5.3.6', '>=')) {

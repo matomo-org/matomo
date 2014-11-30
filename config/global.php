@@ -29,5 +29,8 @@ return array(
         }
         return '%level% %tag%[%datetime%] %message%';
     }),
+    'log.processors' => array(
+        DI\link('Piwik\Log\Processor\SprintfProcessor'),
+    ),
 
 );
