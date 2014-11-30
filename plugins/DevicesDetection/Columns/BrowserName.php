@@ -23,14 +23,14 @@ class BrowserName extends Base
     {
         $segment = new Segment();
         $segment->setSegment('browserCode');
-        $segment->setName('UserSettings_ColumnBrowser');
+        $segment->setName('DevicesDetection_ColumnBrowser');
         $segment->setAcceptedValues('FF, IE, CH, SF, OP, etc.');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('UserSettings_ColumnBrowser');
+        return Piwik::translate('DevicesDetection_ColumnBrowser');
     }
 
     /**

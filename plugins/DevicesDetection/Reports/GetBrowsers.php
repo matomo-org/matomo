@@ -18,10 +18,10 @@ class GetBrowsers extends Base
     {
         parent::init();
         $this->dimension     = new BrowserName();
-        $this->name          = Piwik::translate('UserSettings_WidgetBrowsers');
-        $this->documentation = Piwik::translate('UserSettings_WidgetBrowsersDocumentation', '<br />');
+        $this->name          = Piwik::translate('DevicesDetection_WidgetBrowsers');
+        $this->documentation = Piwik::translate('DevicesDetection_WidgetBrowsersDocumentation', '<br />');
         $this->order = 1;
-        $this->widgetTitle  = 'UserSettings_WidgetBrowsers';
+        $this->widgetTitle  = 'DevicesDetection_WidgetBrowsers';
     }
 
     public function configureView(ViewDataTable $view)
