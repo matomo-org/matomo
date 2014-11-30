@@ -13,6 +13,7 @@ use Piwik\CronArchive\AlgorithmLogger;
 use Piwik\CronArchive\AlgorithmRules;
 use Piwik\CronArchive\Hooks;
 use Piwik\Metrics\Formatter;
+use Piwik\Timer;
 
 /**
  * CronArchive statistics calculating logic.
@@ -73,6 +74,15 @@ class Statistics extends Hooks
     public $countOfWebsitesSuccessfullyProcessed;
 
     /**
+     * Semaphore that contains the number of websites for whom day archiving finished.
+     *
+     * When day archiving for a site is completed, this value is incremented.
+     *
+     * @var Semaphore
+     */
+    public $countOfWebsitesWhoseDaysWereArchived;
+
+    /**
      * Semaphore that contains the number of websites for whom period archiving finished.
      *
      * When period archiving for a site is completed, this value is incremented.
@@ -105,11 +115,11 @@ class Statistics extends Hooks
     public $elapsedArchivingTimePerSite = array();
 
     /**
-     * The start time of archiving.
+     * Used to time this CronArchive process.
      *
-     * @var int
+     * @var Timer
      */
-    public $cronArchiveStartTime;
+    public $cronArchiveTimer;
 
     /**
      * Constructor.
@@ -123,6 +133,7 @@ class Statistics extends Hooks
         $this->periodArchivingsSkippedBecauseArchivesStillValid = $this->makeSemaphore('periodArchivingsSkippedBecauseArchivesStillValid');
         $this->totalNumberOfVisitsToday = $this->makeSemaphore('totalNumberOfVisitsToday');
         $this->countOfWebsitesSuccessfullyProcessed = $this->makeSemaphore('countOfWebsitesSuccessfullyProcessed');
+        $this->countOfWebsitesWhoseDaysWereArchived = $this->makeSemaphore('countOfWebsitesWhoseDaysWereArchived');
         $this->countOfWebsitesWhosePeriodsWereArchived = $this->makeSemaphore('countOfWebsitesWhosePeriodsWereArchived');
         $this->totalArchivingApiRequestsMade = $this->makeSemaphore('totalArchivingApiRequestsMade');
         $this->errors = $this->makeSemaphore('errors');
@@ -141,10 +152,11 @@ class Statistics extends Hooks
         $this->periodArchivingsSkippedBecauseArchivesStillValid->set(0);
         $this->totalNumberOfVisitsToday->set(0);
         $this->countOfWebsitesSuccessfullyProcessed->set(0);
+        $this->countOfWebsitesWhoseDaysWereArchived->set(0);
         $this->countOfWebsitesWhosePeriodsWereArchived->set(0);
         $this->totalArchivingApiRequestsMade->set(0);
         $this->errors->set(0);
-        $this->cronArchiveStartTime = time();
+        $this->cronArchiveTimer = new Timer();
 
         // create and reset site specific semaphores
         foreach ($state->getWebsitesToArchive() as $idSite) {
@@ -195,7 +207,9 @@ class Statistics extends Hooks
         }
 
         // if this request was archiving for a non-day period, increment countOfWebsitesWhosePeriodsWereArchived
-        if ($period != 'day') {
+        if ($period == 'day') {
+            $this->countOfWebsitesWhoseDaysWereArchived->increment();
+        } else if ($state->getActiveRequestsSemaphore($idSite)->get() == 0) {
             $this->countOfWebsitesWhosePeriodsWereArchived->increment();
         }
 
@@ -217,7 +231,7 @@ class Statistics extends Hooks
 
     public function getTotalCronArchiveTimePretty()
     {
-        $elapsed = time() - $this->cronArchiveStartTime;
+        $elapsed = $this->cronArchiveTimer->getTime();
         return $this->formatter->getPrettyTimeFromSeconds($elapsed, true);
     }
 

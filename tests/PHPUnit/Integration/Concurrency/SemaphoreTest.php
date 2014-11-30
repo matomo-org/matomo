@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Unit\Concurrency;
+namespace Piwik\Tests\Integration\Concurrency;
 
 use Piwik\Common;
 use Piwik\Concurrency\Semaphore;
@@ -35,9 +35,11 @@ class SemaphoreTest extends IntegrationTestCase
 
         $this->semaphore->increment();
         $this->assertEquals(1, $this->getSemaphoreValue());
+        $this->assertEquals(1, $this->semaphore->get());
 
         $this->semaphore->increment();
         $this->assertEquals(2, $this->getSemaphoreValue());
+        $this->assertEquals(2, $this->semaphore->get());
     }
 
     public function test_decrement_SubtractsOneToValue()
@@ -46,10 +48,12 @@ class SemaphoreTest extends IntegrationTestCase
 
         $this->semaphore->decrement();
         $this->assertEquals(-1, $this->getSemaphoreValue());
+        $this->assertEquals(-1, $this->semaphore->get());
 
         $this->semaphore->set(10);
         $this->semaphore->decrement();
         $this->assertEquals(9, $this->getSemaphoreValue());
+        $this->assertEquals(9, $this->semaphore->get());
     }
 
     public function test_advance_AddsAnyValueToStoredValue()
@@ -58,9 +62,11 @@ class SemaphoreTest extends IntegrationTestCase
 
         $this->semaphore->advance(10);
         $this->assertEquals(10, $this->getSemaphoreValue());
+        $this->assertEquals(10, $this->semaphore->get());
 
         $this->semaphore->advance(5);
         $this->assertEquals(15, $this->getSemaphoreValue());
+        $this->assertEquals(15, $this->semaphore->get());
     }
 
     public function test_deleteLike_CorrectlyDeletesStoredSemaphores()

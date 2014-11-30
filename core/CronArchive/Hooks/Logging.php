@@ -70,7 +70,7 @@ class Logging extends Hooks
 
             $prettySeconds = $this->formatter->getPrettyTimeFromSeconds($shouldArchiveOnlySitesWithTrafficSince, true);
             $logger->log("- Will process " . count($websitesWithVisit) . " websites with new visits since $prettySeconds"
-                . " , IDs: [" . implode(", ", $websitesWithVisit) . "]");
+                . ", IDs: [" . implode(", ", $websitesWithVisit) . "]");
 
             // log websites with invalidated data
             $websitesInvalidatedOldReports = $state->getWebsitesWithInvalidatedArchiveData();
@@ -98,6 +98,15 @@ class Logging extends Hooks
         // log segments that will be applied to all sites
         $segments = $state->getSegmentsForAllSites();
         $logger->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
+
+        // log segments that will be applied to individual sites
+        foreach ($state->getWebsitesToArchive() as $idSite) {
+            $segmentsForSite = $state->getSegmentsForSingleSite($idSite);
+            if (!empty($segmentsForSite)) {
+                $logger->log("- Will pre-process the following " . count($segmentsForSite) . " Segments for this website (id = $idSite): ["
+                    . implode(", ", $segmentsForSite) . "]");
+            }
+        }
     }
 
     public function onInitTrackerTasks(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
@@ -109,15 +118,6 @@ class Logging extends Hooks
     {
         $logger->logSection("START");
         $logger->log("Starting Piwik reports archiving...");
-    }
-
-    public function onQueuePeriodAndSegmentArchiving(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
-    {
-        $segmentsForSite = $state->getSegmentsForSingleSite($idSite);
-        if (!empty($segmentsForSite)) {
-            $logger->log("Will pre-process the following " . count($segmentsForSite) . " Segments for this website (id = $idSite): ["
-                . implode(", ", $segmentsForSite) . "]");
-        }
     }
 
     public function onEnd(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger)
@@ -147,18 +147,16 @@ class Logging extends Hooks
         $processedCount = $stats->countOfWebsitesSuccessfullyProcessed->get();
         $visitsToday = $stats->totalNumberOfVisitsToday->get();
         $apiRequestsMade = $stats->totalArchivingApiRequestsMade->get();
-        $countOfWebsitesWithVisitsToday = $stats->countOfWebsitesWithVisitsToday->get();
+        $countOfWebsitesWhoseDaysWereArchived = $stats->countOfWebsitesWhoseDaysWereArchived->get();
         $countOfWebsitesWhosePeriodsWereArchived = $stats->countOfWebsitesWhosePeriodsWereArchived->get();
 
         $logger->logSection("SUMMARY");
         $logger->log("Total visits for today across archived websites: " . $visitsToday);
 
-        $logger->log("Archived today's reports for $countOfWebsitesWithVisitsToday websites");
+        $logger->log("Archived today's reports for $countOfWebsitesWhoseDaysWereArchived websites");
         $logger->log("Archived week/month/year for $countOfWebsitesWhosePeriodsWereArchived websites");
-        $logger->log("Skipped {$stats->dayArchivingsSkippedBecauseArchivesStillValid->get()} websites day archiving: existing "
-                   . "daily reports are less than {$state->getTodayArchiveTimeToLive()} seconds old");
-        $logger->log("Skipped {$stats->periodArchivingsSkippedBecauseArchivesStillValid->get()} websites week/month/year archiving:"
-                   . " existing periods reports are less than {$state->getProcessPeriodsMaximumEverySeconds()} seconds old");
+        $logger->log("Skipped {$stats->dayArchivingsSkippedBecauseArchivesStillValid->get()} websites day archiving");
+        $logger->log("Skipped {$stats->periodArchivingsSkippedBecauseArchivesStillValid->get()} websites week/month/year archiving");
         $logger->log("Total API requests: $apiRequestsMade");
 
         //DONE: done/total, visits, wtoday, wperiods, reqs, time, errors[count]: first eg.
@@ -172,8 +170,8 @@ class Logging extends Hooks
 
         $logger->log("done: " .
             $processedCount . "/" . count($websites) . "" . $percent . ", " .
-            $visitsToday . " vtoday, $countOfWebsitesWithVisitsToday wtoday, $countOfWebsitesWhosePeriodsWereArchived wperiods, " .
-            $apiRequestsMade . " req, " . $stats->getTotalCronArchiveTimePretty() . " ms, " .
+            $visitsToday . " vtoday, $countOfWebsitesWhoseDaysWereArchived wtoday, $countOfWebsitesWhosePeriodsWereArchived wperiods, " .
+            $apiRequestsMade . " req, " . $stats->getTotalCronArchiveTimePretty() . ", " .
             ($errorCount <= 0 ? "no error" : ($errorCount . " errors."))
         );
     }
@@ -246,14 +244,22 @@ class Logging extends Hooks
         if (substr($date, 0, 4) === 'last') {
             $visitsLast = (int)$visitsLast . " visits in last " . $date . " " . $period . "s, ";
             $thisPeriod = $period == "day" ? "today" : "this " . $period;
-            $visitsInLastPeriod = (int)$visits . " visits " . $thisPeriod . ", ";
+            $visitsInLastPeriod = (int)$visits . " visits " . $thisPeriod;
         } else {
-            $visitsLast = (int)$visitsLast . " visits in " . $period . "s included in: $date, ";
+            $visitsLast = (int)$visitsLast . " visits in " . $period . "s included in: $date";
             $visitsInLastPeriod = '';
         }
 
-        $elapsedTime = $this->formatter->getPrettyTimeFromSeconds($elapsedTime, true, false);
-        $logger->log("Archived website id = $idSite in $elapsedTime, period = $period, " . $visitsLast . $visitsInLastPeriod . " [segment = $segment]");
+        if (!empty($segment)) {
+            $segmentsDesc = "with segment, ";
+            $segmentsDescSuffix = " [segment = $segment]";
+        } else {
+            $segmentsDesc = "";
+            $segmentsDescSuffix = "";
+        }
+
+        $elapsedTime = $this->formatter->getPrettyTimeFromSeconds($elapsedTime / 1000.0, true, false);
+        $logger->log("Archived website id = $idSite, period = $period, $segmentsDesc" . $visitsLast . $visitsInLastPeriod . " in $elapsedTime$segmentsDescSuffix");
     }
 
     public function onSiteArchivingFinished(CronArchive $context, AlgorithmRules $state, AlgorithmLogger $logger, $idSite)
@@ -265,10 +271,11 @@ class Logging extends Hooks
         if (!empty($stats)
             && !empty($stats->elapsedArchivingTimePerSite[$idSite])
         ) {
-            $elapsedTime = $this->formatter->getPrettyTimeFromSeconds($stats->elapsedArchivingTimePerSite[$idSite]->get(), true, false);
+            $elapsedTimeMs = $stats->elapsedArchivingTimePerSite[$idSite]->get();
+            $elapsedTime = " in " . $this->formatter->getPrettyTimeFromSeconds($elapsedTimeMs / 1000.0, true, false);
         }
 
-        $logger->log("Archived website id = $idSite, $elapsedTime"
+        $logger->log("Archived website id = $idSite$elapsedTime"
             . " [" . $state->getProcessedWebsitesSemaphore()->get() . "/"
             . count($state->getWebsitesToArchive())
             . " done]");

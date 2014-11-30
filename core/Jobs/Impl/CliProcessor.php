@@ -87,6 +87,14 @@ class CliProcessor implements Processor
     private $jobs = array();
 
     /**
+     * Current max job ID. Used to compute next unique job ID. Job IDs are unique within this
+     * processor's execution and are used only w/ CliMulti.
+     *
+     * @var int
+     */
+    private $currentJobId = 0;
+
+    /**
      * Constructor.
      *
      * @param Queue $jobQueue The distributed queue containing jobs.
@@ -245,12 +253,13 @@ class CliProcessor implements Processor
         // add the jobs to the list of currently executing jobs and return the job URLs for the new
         // jobs to execute. the URL array is mapped by the jobs' unique IDs.
 
-        $oldJobsArrayLength = count($this->jobs);
+        $jobUrls = array();
+        foreach ($jobs as $job) {
+            $jobId = $this->getNextJobId();
 
-        $this->jobs = array_merge($this->jobs, $jobs);
-
-        $newJobs = array_slice($this->jobs, $oldJobsArrayLength, $length = null, $preserveKeys = true);
-        $jobUrls = array_map(function (Job $job) { return $job->getUrlString(); }, $newJobs);
+            $this->jobs[$jobId] = $job;
+            $jobUrls[$jobId] = $job->getUrlString();
+        }
 
         Log::debug("CliProcessor::%s: pulled %s jobs: %s", __FUNCTION__, count($jobUrls), $jobUrls);
 
@@ -302,5 +311,11 @@ class CliProcessor implements Processor
                 Log::debug($ex);
             }
         }
+    }
+
+    private function getNextJobId()
+    {
+        ++$this->currentJobId;
+        return $this->currentJobId;
     }
 }

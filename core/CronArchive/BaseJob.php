@@ -11,6 +11,7 @@ use Exception;
 use Piwik\CronArchive;
 use Piwik\Jobs\Job;
 use Piwik\Piwik;
+use Piwik\Timer;
 use Piwik\Url;
 
 /**
@@ -35,11 +36,11 @@ class BaseJob extends Job
     protected $cronArchiveOptions;
 
     /**
-     * The time this job was started. Used to get the elapsed time later. Set in jobStarted().
+     * The Timer instance used to time this job's execution.
      *
-     * @var int
+     * @var Timer
      */
-    protected $startTime;
+    protected $timer;
 
     /**
      * The elapsed time it took to run this job. Computed in jobFinished().
@@ -81,14 +82,14 @@ class BaseJob extends Job
     {
         parent::jobStarting();
 
-        $this->startTime = time();
+        $this->timer = new Timer();
     }
 
     public function jobFinished($response)
     {
         parent::jobFinished($response);
 
-        $this->elapsedTime = time() - $this->startTime;
+        $this->elapsedTime = $this->timer->getTimeMs($decimals = 0);
     }
 
     protected function parseJobUrl()
@@ -131,7 +132,7 @@ class BaseJob extends Job
     {
         $context->executeHook('onArchiveRequestFinished', array($this->url, $visits, $visitsLast, $this->elapsedTime));
 
-        if ($context->getAlgorithmRules()->getActiveRequestsSemaphore($idSite)->get() === 0) {
+        if ($context->getAlgorithmRules()->getActiveRequestsSemaphore($idSite)->get() == 0) {
             $processedWebsitesCount = $context->getAlgorithmRules()->getProcessedWebsitesSemaphore();
             $processedWebsitesCount->increment();
 

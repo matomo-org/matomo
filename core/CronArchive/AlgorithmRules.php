@@ -625,7 +625,7 @@ class AlgorithmRules
      */
     public function getWebsitesToArchive()
     {
-        return $this->getOrSetInCache(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
+        return $this->getOrSetInOption(self::NO_SITE_ID, __FUNCTION__, function (AlgorithmRules $self) {
             $websiteIds = $self->getForcedWebsitesToArchive();
 
             if (empty($websiteIds)) {
@@ -914,6 +914,39 @@ class AlgorithmRules
         }
 
         return $this->stateCache[$idSite][$infoKey];
+    }
+
+    const TEMPORARY_OPTION_PREFIX = 'CronArchive.temporary.';
+
+    /**
+     * Gets (or calculates and gets) a property that is cached both in the member variable cache and
+     * the Option table. This is for data that can change after the CronArchive process starts running
+     * (like the getWebsitesToArchive()).
+     *
+     * @param $idSite
+     * @param $infoKey
+     * @param $calculateCallback
+     */
+    private function getOrSetInOption($idSite, $infoKey, $calculateCallback)
+    {
+        return $this->getOrSetInCache($idSite, $infoKey, function (AlgorithmRules $self) use ($idSite, $infoKey, $calculateCallback) {
+            $optionName = self::TEMPORARY_OPTION_PREFIX . $infoKey . '.' . $idSite;
+            $value = Option::get($optionName);
+
+            if (empty($value)) {
+                $value = $calculateCallback($self);
+                Option::set($optionName, json_encode($value));
+            } else {
+                $value = json_decode($value, true);
+            }
+
+            return $value;
+        });
+    }
+
+    public function clearTemporaryOptions()
+    {
+        Option::deleteLike(self::TEMPORARY_OPTION_PREFIX . '%');
     }
 
     private function clearInCache($idSite, $infoKey)

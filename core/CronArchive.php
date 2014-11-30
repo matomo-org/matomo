@@ -80,7 +80,7 @@ class CronArchive
      *
      * @var AlgorithmLogger
      */
-    private $algorithmLogger;
+    public $algorithmLogger;
 
     /**
      * The options that can alter the way this CronArchive instance behaves. Each option is available as
@@ -217,9 +217,12 @@ class CronArchive
 
     private function startCronArchiving()
     {
-        $this->executeHook('onInit');
-
         Option::set(self::OPTION_CRON_ARCHIVE_IN_PROCESS, 1);
+
+        Semaphore::deleteLike("CronArchive%");
+        $this->algorithmRules->clearTemporaryOptions();
+
+        $this->executeHook('onInit');
 
         // record archiving start time
         Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
@@ -234,7 +237,7 @@ class CronArchive
          */
         Piwik::postEvent('CronArchive.init.finish', array($this->algorithmRules->getWebsitesToArchive()));
 
-        Semaphore::deleteLike("CronArchive%");
+        $this->algorithmRules->getProcessedWebsitesSemaphore()->set(0);
 
         foreach ($this->algorithmRules->getWebsitesToArchive() as $idSite) {
             $this->queueDayArchivingJobsForSite($idSite);
@@ -342,6 +345,10 @@ class CronArchive
             $this->queuePeriodAndSegmentArchivingFor($idSite);
             return;
         }
+
+        // initialize idSite request semaphores
+        $this->algorithmRules->getActiveRequestsSemaphore($idSite)->set(0);
+        $this->algorithmRules->getFailedRequestsSemaphore($idSite)->set(0);
 
         $this->executeHook('onQueueDayArchiving', array($idSite));
 
