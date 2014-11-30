@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Familje shfletuesi",
-        "Browsers": "Shfletuesa",
-        "ColumnBrowser": "Shfletues",
         "ColumnConfiguration": "Formësim",
-        "ColumnOperatingSystem": "Sistem operativ",
         "ColumnResolution": "Qartësi",
         "ColumnTypeOfScreen": "Lloj ekrani",
         "Configurations": "Formësime",
@@ -110,17 +106,13 @@
         "Language_zh": "Kineze",
         "Language_zu": "Zulu",
         "LanguageCode": "Kod Gjuhe",
-        "OperatingSystems": "Sisteme operativë",
         "PluginDescription": "Raporton Rregullime të ndryshme të Përdoruesit: Shfletues, Familje Shfletuesi, Sistem Operativ, Shtojca, Qartësi, Rregullime Globale.",
         "PluginDetectionDoesNotWorkInIE": "Shënim: Zbulimi i shtojcave nuk funksionon nën Internet Explorer. Ky raport mund të kihet vetëm nën shfletuesa jo-IE.",
         "Resolutions": "Qartësi",
         "VisitorSettings": "Rregullimet për Vizitor",
         "WideScreen": "Ekran së Gjeri",
-        "WidgetBrowsers": "Shfletuesa vizitorësh",
-        "WidgetBrowsersDocumentation": "Ky raport përmban të dhëna rreth llojeve të shfletuesit që përdornin vizitorët tuaj. Secili version i një shfletuesi tregohet veçmas.",
         "WidgetGlobalVisitors": "Formësime globale vizitorësh",
         "WidgetGlobalVisitorsDocumentation": "Ky raport shfaq formësimet e përgjithshme më të rëndomta të përdorura nga vizitorët tuaj. Formësimi përmban të dhënat për sistemin operativ, llojin e shfletuesit dhe qartësinë e ekranit.",
-        "WidgetOperatingSystems": "Sisteme operativë",
         "WidgetPlugins": "Listë e Shtojcave",
         "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj.",
         "WidgetResolutions": "Qartësi ekrani"

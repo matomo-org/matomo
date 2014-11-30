@@ -24,14 +24,14 @@ class Os extends Base
     {
         $segment = new Segment();
         $segment->setSegment('operatingSystemCode');
-        $segment->setName('UserSettings_ColumnOperatingSystem');
+        $segment->setName('DevicesDetection_ColumnOperatingSystem');
         $segment->setAcceptedValues('WXP, WI7, MAC, LIN, AND, IPD, etc.');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('UserSettings_OperatingSystemFamily');
+        return Piwik::translate('DevicesDetection_OperatingSystemFamily');
     }
 
     /**

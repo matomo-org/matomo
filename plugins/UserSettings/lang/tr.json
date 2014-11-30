@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Tarayıcı aileleri",
-        "Browsers": "Tarayıcılar",
-        "ColumnBrowser": "Tarayıcı",
         "ColumnConfiguration": "Konfigürasyon",
-        "ColumnOperatingSystem": "İşletim sistemi",
         "ColumnResolution": "Çözünürlük",
         "ColumnTypeOfScreen": "Ekran seçimi",
         "Configurations": "Konfigürasyonları",
@@ -193,15 +189,12 @@
         "Language_zh": "Çince",
         "Language_zu": "Zulu",
         "LanguageCode": "Dil kodu",
-        "OperatingSystems": "İşletim sistemleri",
         "PluginDescription": "Çeşitli kullanıcı rapor ayalari: Tarayıcı, Tarayıcı Ailesi, İşletim Sistemi, Eklentiler, Çözünürlük, Genel Ayarlar.",
         "PluginDetectionDoesNotWorkInIE": "Not: Hedeflenen eklenti Internet Explorer çalışmamaktadir. Bu not\/rapor sadece IE içindir.",
         "Resolutions": "Çözünürlükler",
         "VisitorSettings": "Ziyaretçi Ayarlari",
         "WideScreen": "Geniş ekran",
-        "WidgetBrowsers": "Ziyaretçi tarayıcılari",
         "WidgetGlobalVisitors": "Global ziyaretçi konfikasyonu",
-        "WidgetOperatingSystems": "İşletim sistemleri",
         "WidgetPlugins": "Eklenti Listesi",
         "WidgetResolutions": "Ekran çözünürlükleri"
     }

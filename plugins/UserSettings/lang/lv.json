@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Pārlūku ģimenes",
-        "Browsers": "Pārlūki",
-        "ColumnBrowser": "Pārlūks",
         "ColumnConfiguration": "Konfigurācija",
-        "ColumnOperatingSystem": "Operētājsistēma",
         "ColumnResolution": "Ekrāna izšķirtspēja",
         "ColumnTypeOfScreen": "Ekrāna tips",
         "Configurations": "Konfigurācijas",
@@ -193,17 +189,13 @@
         "Language_zh": "ķīniešu",
         "Language_zu": "zulu",
         "LanguageCode": "Valodas kods",
-        "OperatingSystems": "Operētājsistēmas",
         "PluginDescription": "Apskata dažādus lietotāju iestatījumus: pārlūku, pārlūku ģimeni, operētājsistēmu, spraudņus, ekrāna izšķirtspēju, globālos iestatījumus.",
         "PluginDetectionDoesNotWorkInIE": "Piezīme: spraudņu noteikšana nedarbojas Internet Explorer pārlūkā. Šī atskaite ir bāzēta tikai uz ne-IE pārlūkiem.",
         "Resolutions": "Ekrāna izšķirtspējas",
         "VisitorSettings": "Apmeklētāju iestatījumi",
         "WideScreen": "Platekrāns",
-        "WidgetBrowsers": "Apmeklētāju pārlūki",
-        "WidgetBrowsersDocumentation": "Šajā atskaitē ir informācija par to kādus pārlūkus Jūsu apmeklētāji izmanto. Katra pārlūka versija ir izdalīta atsevišķi.",
         "WidgetGlobalVisitors": "Globālā apmeklētāju konfigurācija",
         "WidgetGlobalVisitorsDocumentation": "Šajā atskaitē redzamas visbiežāk izmantotās apmeklētāju konfigurācijas. Konfigurācija ir operētājsistēmas, pārlūka tipa un ekrāna izšķirtspējas kombinācija.",
-        "WidgetOperatingSystems": "Operētājsistēmas",
         "WidgetPlugins": "Spraudņu saraksts",
         "WidgetPluginsDocumentation": "Šajā atskaitē ir redzami pārlūku spraudņi, kuri bija ieslēgti apmeklētāju pārlūkos. Šī informācija ir svarīga, lai izvēlētos vislabāko veidu kā piegādāt saturu apmeklētājiem.",
         "WidgetResolutions": "Ekrāna izšķirtspējas"

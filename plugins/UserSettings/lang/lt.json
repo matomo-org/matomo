@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Naršyklių šeimos",
-        "Browsers": "Naršyklės",
-        "ColumnBrowser": "Naršyklė",
         "ColumnConfiguration": "Konfigūracija",
-        "ColumnOperatingSystem": "Operacinė sistema",
         "ColumnResolution": "Ekrano raiška",
         "ColumnTypeOfScreen": "Ekrano tipas",
         "Configurations": "Konfigūracijos",
@@ -193,15 +189,12 @@
         "Language_zh": "kinų",
         "Language_zu": "zulų",
         "LanguageCode": "Kalbos kodas",
-        "OperatingSystems": "Operacinės sistemos",
         "PluginDescription": "Parodo įvairius lankytojo nustatymus: naršyklę, naršyklės šeimą, operacinę sistemą, papildinius, ekrano raišką, skiriamąją gebą, globalius nustatymus.",
         "PluginDetectionDoesNotWorkInIE": "Pastaba: papildinio aptikimas neveikia Internet Explorer naršyklėje. Ši ataskaita bus sugeneruota tik kitose naršyklėse.",
         "Resolutions": "Ekranų raiškos",
         "VisitorSettings": "Lankytojų nustatymai",
         "WideScreen": "Plačiaekranis",
-        "WidgetBrowsers": "Lankytojų naršyklės",
         "WidgetGlobalVisitors": "Bendri lankytojų nustatymai",
-        "WidgetOperatingSystems": "Operacinės sistemos",
         "WidgetPlugins": "Papildinių sąrašas",
         "WidgetResolutions": "Ekrano raiška"
     }

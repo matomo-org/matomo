@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "విహారిణి కుటుంబాలు",
-        "Browsers": "విహారిణులు",
-        "ColumnBrowser": "విహారిణి",
         "ColumnConfiguration": "స్వరూపణం",
-        "ColumnOperatingSystem": "నిర్వాహక వ్యవస్థ",
         "ColumnTypeOfScreen": "తెర యొక్క రకం",
         "Configurations": "స్వరూపణలు",
         "Language_aa": "అఫార్",
@@ -192,10 +188,6 @@
         "Language_zh": "చైనీస్",
         "Language_zu": "జూలూ",
         "LanguageCode": "భాషా సంకేతం",
-        "OperatingSystemFamily": "నిర్వాహక వ్యవస్థ కుటుంబం",
-        "OperatingSystems": "నిర్వాహక వ్యవస్థలు",
-        "VisitorSettings": "సందర్శకుల అమరికలు",
-        "WidgetBrowsers": "సందర్శకుల విహారిణులు",
-        "WidgetOperatingSystems": "నిర్వాహక వ్యవస్థలు"
+        "VisitorSettings": "సందర్శకుల అమరికలు"
     }
 }

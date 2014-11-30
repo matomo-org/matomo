@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Категорії веб-оглядачів",
-        "Browsers": "Веб-оглядачі",
-        "ColumnBrowser": "Веб-оглядач",
         "ColumnConfiguration": "Конфігурація",
-        "ColumnOperatingSystem": "Операційна система",
         "ColumnResolution": "Роздільна здатність",
         "ColumnTypeOfScreen": "Тип екрану",
         "Configurations": "Конфігурації",
@@ -193,15 +189,12 @@
         "Language_zh": "китайська",
         "Language_zu": "зулуська",
         "LanguageCode": "Код мови",
-        "OperatingSystems": "Операційні системи",
         "PluginDescription": "Повідомляє різні налаштуванян користовувача: веб-оглядач, родина веб-оглядача, операційна система, плагіни, роздільна здатність, глобальні налаштування.",
         "PluginDetectionDoesNotWorkInIE": "Примітка: Визначення плагінів не працює в Internet Explorer. Цей звіт базується лише на не-IE веб-оглядачах.",
         "Resolutions": "Роздільні здатності",
         "VisitorSettings": "Налаштування відвідувача",
         "WideScreen": "Широкоформатні",
-        "WidgetBrowsers": "Веб-оглядачі відвідувачів",
         "WidgetGlobalVisitors": "Загальна конфігурація відвідувачів",
-        "WidgetOperatingSystems": "Операційні системи",
         "WidgetPlugins": "Список плагінів",
         "WidgetResolutions": "Роздільні здатності"
     }

@@ -1,7 +1,5 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Familias de navegadores",
-        "Browsers": "Navegadores",
         "Configurations": "Configuracións",
         "Language_ab": "abkhazo",
         "Language_af": "Afrikaans",
@@ -150,12 +148,9 @@
         "Language_zh": "Chinés",
         "Language_zu": "Zulú",
         "LanguageCode": "Código de idioma",
-        "OperatingSystems": "Sistemas Operativos",
         "Resolutions": "Resolucións",
         "WideScreen": "Pantalla panorámica",
-        "WidgetBrowsers": "Navegadores dos visitantes",
         "WidgetGlobalVisitors": "Configuración global de visitantes",
-        "WidgetOperatingSystems": "Sistemas Operativos",
         "WidgetPlugins": "Lista de plugins",
         "WidgetResolutions": "Resolucións de pantalla"
     }

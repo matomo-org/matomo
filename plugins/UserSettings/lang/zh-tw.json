@@ -1,11 +1,7 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "瀏覽器家族",
         "BrowserLanguage": "瀏覽器語系",
-        "Browsers": "使用瀏覽器",
-        "ColumnBrowser": "瀏覽器",
         "ColumnConfiguration": "客戶端配置",
-        "ColumnOperatingSystem": "作業系統",
         "ColumnResolution": "解析度",
         "ColumnTypeOfScreen": "螢幕類型",
         "Configurations": "客戶端配置",
@@ -194,17 +190,13 @@
         "Language_zh": "中文",
         "Language_zu": "祖鲁文",
         "LanguageCode": "語系代碼",
-        "OperatingSystemFamily": "作業系統家族",
-        "OperatingSystems": "作業系統",
         "PluginDescription": "各個用戶設定報表：瀏覽器、瀏覽器家族、作業系統、外掛、解析度、全域設定。",
         "PluginDetectionDoesNotWorkInIE": "注意：外掛偵測無法在 Internet Explorer 上運作。這個報告僅提供非 IE 瀏覽器。",
         "Resolutions": "解析度",
         "VisitorSettings": "造訪者設定值",
         "WideScreen": "寬螢幕",
-        "WidgetBrowsers": "使用瀏覽器",
         "WidgetGlobalVisitors": "全域訪客配置",
         "WidgetGlobalVisitorsDocumentation": "此報表列出貴站訪客最常見的設定配置。設定配置包含作業系統、瀏覽器、螢幕解析度等資訊。",
-        "WidgetOperatingSystems": "作業系統",
         "WidgetPlugins": "瀏覽器外掛清單",
         "WidgetResolutions": "畫面解析度"
     }

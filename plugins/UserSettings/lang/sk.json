@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Rodina prehliadača",
-        "Browsers": "Prehliadače",
-        "ColumnBrowser": "Prehliadač",
         "ColumnConfiguration": "Konfigurácia",
-        "ColumnOperatingSystem": "Operačný systém",
         "ColumnResolution": "Rozlíšenie",
         "ColumnTypeOfScreen": "Typ obrazovky",
         "Configurations": "Konfigurácia",
@@ -193,15 +189,12 @@
         "Language_zh": "čínština",
         "Language_zu": "zuluština",
         "LanguageCode": "Kód jazyka",
-        "OperatingSystems": "Operačný systém",
         "PluginDescription": "Rôzne reporty užívateľského nastavenia: Prehliadač, Rodina prehliadača, Operačný systém, Pluginy, Rozlíšenie, Globálne nastavenia.",
         "PluginDetectionDoesNotWorkInIE": "Poznámka: Plugin detekcia nefunguje v Internet Exploreri. Táto správa je založená len na non-IE prehliadačov.",
         "Resolutions": "Rozlíšenie",
         "VisitorSettings": "Nastavenia návštevníkov",
         "WideScreen": "Širokouhlá obrazovka",
-        "WidgetBrowsers": "Prehliadače návštevníkov",
         "WidgetGlobalVisitors": "Globálne konfigurácie návštevníkov",
-        "WidgetOperatingSystems": "Operačné systémy",
         "WidgetPlugins": "Zoznam modulov",
         "WidgetResolutions": "Rozlíšenie obrazovky"
     }

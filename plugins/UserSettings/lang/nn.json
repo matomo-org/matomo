@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Nettlesarfamiliar",
-        "Browsers": "Nettlesarar",
-        "ColumnBrowser": "Nettlesar",
         "ColumnConfiguration": "Konfigurasjon",
-        "ColumnOperatingSystem": "Operativsystem",
         "ColumnResolution": "Oppløysing",
         "ColumnTypeOfScreen": "Type skjerm",
         "Configurations": "Konfigurasjonar",
@@ -193,15 +189,12 @@
         "Language_zh": "kinesisk",
         "Language_zu": "zulu",
         "LanguageCode": "Språkkode",
-        "OperatingSystems": "Operativsystem",
         "PluginDescription": "Rapporter diverse vitjarinnstillingar: Nettlesar, Nettlesarfamilie, operativsystem, oppløysing og globale innstillingar.",
         "PluginDetectionDoesNotWorkInIE": "Merk: Registrering av innstikk virkar ikkje i Internet Explorer. Denne rapporten er berre basert på andre nettlesarar enn IE.",
         "Resolutions": "Oppløysingar",
         "VisitorSettings": "Vitjarinnstillingar",
         "WideScreen": "Breiskjerm",
-        "WidgetBrowsers": "Nytta nettlesarar",
         "WidgetGlobalVisitors": "Global vitjarkonfigurasjon",
-        "WidgetOperatingSystems": "Operativsystem",
         "WidgetPlugins": "Liste over innstikk",
         "WidgetResolutions": "Skjermoppløysing"
     }

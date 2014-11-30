@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Nettleserfamilier",
-        "Browsers": "Nettlesere",
-        "ColumnBrowser": "Nettleser",
         "ColumnConfiguration": "Konfigurasjon",
-        "ColumnOperatingSystem": "Operativsystem",
         "ColumnResolution": "Oppløsning",
         "ColumnTypeOfScreen": "Skjermtype",
         "Configurations": "Konfigurasjon",
@@ -193,14 +189,11 @@
         "Language_zh": "kinesisk",
         "Language_zu": "zulu",
         "LanguageCode": "Språkkode",
-        "OperatingSystems": "Operativsystem",
         "PluginDescription": "Rapporterer forskjellige brukerinnstillinger: Nettleser, nettleserfamilie, operativsystem, tillegg, oppløsning, globale innstillinger.",
         "Resolutions": "Oppløsninger",
         "VisitorSettings": "Besøkendes innstillinger",
         "WideScreen": "Widescreen",
-        "WidgetBrowsers": "Besøkendes nettlesere",
         "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
-        "WidgetOperatingSystems": "Operativsystemer",
         "WidgetPlugins": "Liste over tillegg",
         "WidgetResolutions": "Skjermoppløsninger"
     }
