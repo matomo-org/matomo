@@ -294,25 +294,13 @@ class Log extends Singleton
             return;
         }
 
-        $datetime = date("Y-m-d H:i:s");
-
         foreach ($this->processors as $processor) {
             $message = $processor($message, $sprintfParams, $level);
         }
 
-        if (version_compare(phpversion(), '5.3.6', '>=')) {
-            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT);
-        } else {
-            $backtrace = debug_backtrace();
-        }
-        $tag = Plugin::getPluginNameFromBacktrace($backtrace);
+        $tag = $this->getLoggingClassName();
 
-        // if we can't determine the plugin, use the name of the calling class
-        if ($tag == false) {
-            $tag = $this->getClassNameThatIsLogging($backtrace);
-        }
-
-        $this->writeMessage($level, $tag, $datetime, $message);
+        $this->writeMessage($level, $tag, date("Y-m-d H:i:s"), $message);
     }
 
     private function writeMessage($level, $tag, $datetime, $message)
@@ -359,9 +347,9 @@ class Log extends Singleton
     {
         foreach ($backtrace as $tracepoint) {
             if (isset($tracepoint['class'])
-                && $tracepoint['class'] != "Piwik\\Log"
-                && $tracepoint['class'] != "Piwik\\Piwik"
-                && $tracepoint['class'] != "Piwik\\CronArchive"
+                && $tracepoint['class'] != 'Piwik\Log'
+                && $tracepoint['class'] != 'Piwik\Piwik'
+                && $tracepoint['class'] != 'Piwik\CronArchive'
             ) {
                 return $tracepoint['class'];
             }
@@ -380,5 +368,28 @@ class Log extends Singleton
         }
         $fe = fopen('php://stderr', 'w');
         fwrite($fe, $message);
+    }
+
+    /**
+     * Returns the name of the plugin/class that triggered the log.
+     *
+     * @return string
+     */
+    private function getLoggingClassName()
+    {
+        if (version_compare(phpversion(), '5.3.6', '>=')) {
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT);
+        } else {
+            $backtrace = debug_backtrace();
+        }
+
+        $tag = Plugin::getPluginNameFromBacktrace($backtrace);
+
+        // if we can't determine the plugin, use the name of the calling class
+        if ($tag == false) {
+            $tag = $this->getClassNameThatIsLogging($backtrace);
+            return $tag;
+        }
+        return $tag;
     }
 }
