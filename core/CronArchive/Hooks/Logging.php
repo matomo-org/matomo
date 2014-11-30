@@ -76,7 +76,7 @@ class Logging extends Hooks
             $websitesInvalidatedOldReports = $state->getWebsitesWithInvalidatedArchiveData();
             if (count($websitesInvalidatedOldReports) > 0) {
                 $logger->log("- Will process " . count($websitesInvalidatedOldReports)
-                    . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
+                    . " other websites because some old data reports have been invalidated (eg. using the Log Import script)"
                     . ", IDs: [" . implode(", ", $websitesInvalidatedOldReports) . "]");
             }
 
@@ -90,7 +90,7 @@ class Logging extends Hooks
                 );
 
                 $logger->log("- Will process " . count($websiteDayHasFinishedSinceLastRun)
-                    . " other websites because the last time they were archived was on a different day (in the website's timezone) "
+                    . " other websites because the last time they were archived was on a different day (in the website's timezone)"
                     . ", IDs: [" . implode(", ", $websiteDayHasFinishedSinceLastRun) . "]");
             }
         }

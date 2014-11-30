@@ -22,6 +22,7 @@ use Piwik\Jobs\Processor;
 use Piwik\Jobs\Impl\CliProcessor;
 use Piwik\Jobs\Impl\DistributedJobsQueue;
 use Piwik\Jobs\Queue;
+use Piwik\Jobs\Helper as JobsHelper;
 
 /**
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
@@ -31,7 +32,6 @@ use Piwik\Jobs\Queue;
  */
 class CronArchive
 {
-    const ARCHIVING_JOB_NAMESPACE = 'CronArchive';
     const OPTION_CRON_ARCHIVE_IN_PROCESS = 'CronArchive.inProgress';
 
     // the url can be set here before the init, and it will be used instead of --url=
@@ -103,27 +103,23 @@ class CronArchive
      *
      * @param AlgorithmOptions $options Options to manipulate how CronArchive behaves.
      * @param Queue|null $queue The queue to store distributed jobs. If null, a DistributedJobsQueue instance
-     *                          iscreated.
-     * @param Processor|null $processor The job processor that will consume jobs in this CronArchive run.
+     *                                 is created.
+     * @param Processor|string|null $processor The job processor that will consume jobs in this CronArchive run.
      *                                  If null, a CliProcessor instances is created.
+     * @throws Exception if a named Queue cannot be found or if $queue is not an implementation of Queue.
      */
-    public function __construct(AlgorithmOptions $options, $queue = null, $processor = null)
+    public function __construct(AlgorithmOptions $options, Queue $queue = null, Processor $processor = null)
     {
         $this->options = $options;
         $this->algorithmRules = new AlgorithmRules($this);
         $this->algorithmLogger = new AlgorithmLogger();
 
         if (empty($queue)) {
-            $queue = new DistributedJobsQueue(self::ARCHIVING_JOB_NAMESPACE);
+            $queue = new DistributedJobsQueue();
+        }
 
-            if (empty($processor)) {
-                $processor = new CliProcessor(
-                    $queue,
-                    CliProcessor::DEFAULT_MAX_SPAWNED_PROCESS_COUNT,
-                    CliProcessor::DEFAULT_SLEEP_TIME,
-                    $this->options->acceptInvalidSSLCertificate
-                );
-            }
+        if (empty($processor)) {
+            $processor = new CliProcessor($queue);
         }
 
         $this->queue = $queue;

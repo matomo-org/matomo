@@ -119,11 +119,10 @@ class ArchiveCronTest extends SystemTestCase
 
     private function runArchivePhpCron()
     {
-        $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
-        $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
+        $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/console';
 
         // create the command
-        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" 2>&1";
+        $cmd = "php \"$archivePhpScript\" core:archive --testmode 2>&1";
 
         // run the command
         exec($cmd, $output, $result);
