@@ -8,6 +8,7 @@
 
 namespace Piwik\Log\Backend;
 
+use Monolog\Logger;
 use Piwik\Log;
 use Piwik\Log\Formatter\Formatter;
 
@@ -30,7 +31,7 @@ class StdErrBackend extends Backend
 
     public function __invoke(array $record, Log $logger)
     {
-        if ($record['level'] != Log::ERROR) {
+        if ($record['level'] < Logger::ERROR) {
             return;
         }
 

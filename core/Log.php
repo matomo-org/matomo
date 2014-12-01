@@ -8,6 +8,7 @@
 
 namespace Piwik;
 
+use Monolog\Logger;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 
@@ -255,7 +256,7 @@ class Log extends Singleton
             'message'    => $message,
             'context'    => $parameters,
             'channel'    => 'piwik',
-            'level'      => $level,
+            'level'      => $this->getMonologLevel($level),
             'level_name' => self::getStringLevel($level),
             'time'       => new \DateTime(),
             'extra'      => array(),
@@ -335,5 +336,25 @@ class Log extends Singleton
             Log::VERBOSE => 'VERBOSE'
         );
         return $levelToName[$level];
+    }
+
+    private function getMonologLevel($level)
+    {
+        switch ($level) {
+            case self::ERROR:
+                return Logger::ERROR;
+            case self::WARN:
+                return Logger::WARNING;
+            case self::INFO:
+                return Logger::INFO;
+            case self::DEBUG:
+                return Logger::DEBUG;
+            case self::VERBOSE:
+                return Logger::DEBUG;
+            case self::NONE:
+            default:
+                // Highest level possible, need to do better in the future...
+                return Logger::EMERGENCY;
+        }
     }
 }
