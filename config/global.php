@@ -30,6 +30,7 @@ return array(
     // Log
     'Piwik\Log' => DI\factory(array('Piwik\Log\LoggerFactory', 'createLogger')),
     'log.processors' => array(
+        DI\link('Piwik\Log\Processor\ClassNameProcessor'),
         DI\link('Piwik\Log\Processor\SprintfProcessor'),
     ),
     'Piwik\Log\Backend\FileBackend' => DI\object()

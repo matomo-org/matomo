@@ -266,63 +266,19 @@ class Log extends Singleton
             $record = $processor($record);
         }
 
-        $record['extra']['class'] = $this->getLoggingClassName();
-
-        $this->writeMessage($record, date("Y-m-d H:i:s"));
-    }
-
-    private function writeMessage(array $record)
-    {
         foreach ($this->writers as $writer) {
             call_user_func($writer, $record, $this);
         }
     }
 
-    private static function logMessage($level, $message, $sprintfParams)
+    private static function logMessage($level, $message, $parameters)
     {
-        self::getInstance()->doLog($level, $message, $sprintfParams);
+        self::getInstance()->doLog($level, $message, $parameters);
     }
 
     private function shouldLoggerLog($level)
     {
         return $level <= $this->currentLogLevel;
-    }
-
-    private function getClassNameThatIsLogging($backtrace)
-    {
-        foreach ($backtrace as $tracepoint) {
-            if (isset($tracepoint['class'])
-                && $tracepoint['class'] != 'Piwik\Log'
-                && $tracepoint['class'] != 'Piwik\Piwik'
-                && $tracepoint['class'] != 'Piwik\CronArchive'
-            ) {
-                return $tracepoint['class'];
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns the name of the plugin/class that triggered the log.
-     *
-     * @return string
-     */
-    private function getLoggingClassName()
-    {
-        if (version_compare(phpversion(), '5.3.6', '>=')) {
-            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT);
-        } else {
-            $backtrace = debug_backtrace();
-        }
-
-        $tag = Plugin::getPluginNameFromBacktrace($backtrace);
-
-        // if we can't determine the plugin, use the name of the calling class
-        if ($tag == false) {
-            $tag = $this->getClassNameThatIsLogging($backtrace);
-            return $tag;
-        }
-        return $tag;
     }
 
     private function getStringLevel($level)
