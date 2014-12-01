@@ -25,7 +25,8 @@
 <tbody>
 {% set cycleIndex=0 %}
 {% for visitor in dataTable.getRows() %}
-    {% set breakBeforeVisitorRank = (visitor.getColumn('visitEcommerceStatusIcon') and visitor.getColumn('visitorTypeIcon')) ? true : false %}
+    {% set visitHasEcommerceActivity = visitor.getColumn('visitEcommerceStatusIcon') %}
+    {% set breakBeforeVisitorRank = (visitHasEcommerceActivity and visitor.getColumn('visitorTypeIcon')) ? true : false %}
     {% set visitorColumnContent %}
         {% if visitor.getColumn('countryFlag') %}<img src="{{ visitor.getColumn('countryFlag') }}" title="{{ visitor.getColumn('location') }}, Provider {{ visitor.getColumn('providerName') }}"/>{% endif %}
         &nbsp;
@@ -43,18 +44,24 @@
                  title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>{% endif %}
         {% endif %}
         {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}<br/><br />{% endif %}
+
+        {# Goals, and/or Ecommerce activity #}
         {% if visitor.getColumn('visitConverted') %}
             <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank'
                   {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}style="margin-left:0;"{% endif %}>
-            <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
-            <span class='hash'>#</span>
-            {{ visitor.getColumn('goalConversions') }}
-            {% if visitor.getColumn('visitEcommerceStatusIcon') %}
-                &nbsp;-
-                <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
-            {% endif %}
+                <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
+                <span class='hash'>#</span>
+                {{ visitor.getColumn('goalConversions') }}
+                {% if visitHasEcommerceActivity %}
+                    &nbsp;-
+                    <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
+                {% endif %}
             </span>
+        {# Ecommerce activity only (no goal) #}
+        {% elseif visitHasEcommerceActivity %}
+            <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
         {% endif %}
+
         {% if not displayVisitorsInOwnColumn %}<br/><br />{% endif %}
         {% if displayVisitorsInOwnColumn %}
             {% if visitor.getColumn('pluginsIcons')|length > 0 %}
