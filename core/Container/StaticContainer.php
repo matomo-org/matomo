@@ -49,10 +49,13 @@ class StaticContainer
      */
     private static function createContainer()
     {
-        if (!class_exists("DI\\ContainerBuilder")) {
-            throw new \Exception("DI\\ContainerBuilder could not be found, maybe you are using Piwik from git and need to update Composer. $ php composer.phar update");
+        if (!class_exists('DI\ContainerBuilder')) {
+            throw new \Exception('DI\ContainerBuilder could not be found, maybe you are using Piwik from git and need to update Composer: php composer.phar update');
         }
+
         $builder = new ContainerBuilder();
+
+        $builder->useAnnotations(false);
 
         // TODO set a better cache
         $builder->setDefinitionCache(new ArrayCache());
