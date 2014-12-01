@@ -6,6 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
+* API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
 
 ### Deprecations
 * The API method `UserSettings.getBrowserVersion` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserVersions` instead
