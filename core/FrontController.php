@@ -311,6 +311,8 @@ class FrontController extends Singleton
 
         Registry::set('timer', new Timer);
 
+        $exceptionToThrow = self::createConfigObject();
+
         $tmpPath = StaticContainer::getContainer()->get('path.tmp');
 
         $directoriesToCheck = array(
@@ -325,8 +327,6 @@ class FrontController extends Singleton
         Translate::loadEnglishTranslation();
 
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
-
-        $exceptionToThrow = self::createConfigObject();
 
         $this->handleMaintenanceMode();
         $this->handleProfiler();
