@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;
@@ -122,6 +123,19 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertEquals(0, $this->getCountOfConversions());
         $this->assertEquals(0, count($this->getConversionItems()));
+    }
+
+    public function test_scheduledTasksRun_WhenSuperUserTokenAuthNotUsed()
+    {
+        $urlToTest = "?idsite=1&rec=1&url=" . urlencode('http://garbage.com/whenigrowup') . '&_runScheduledTasksInTests=1';
+
+        Option::delete('lastTrackerCronRun');
+
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        Fixture::checkResponse($response);
+
+        $lastTrackerRun = Option::get('lastTrackerCronRun');
+        $this->assertNotEquals(false, $lastTrackerRun);
     }
 
     protected function issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed)

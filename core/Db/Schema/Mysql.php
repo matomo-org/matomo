@@ -272,6 +272,13 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY(`name`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
+
+            'jobs'            => "CREATE TABLE IF NOT EXISTS {$prefixTables}jobs (
+                                      `idjob` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `lockid` INTEGER NULL,
+                                      `data` TEXT,
+                                      PRIMARY KEY (`idjob`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8"
         );
 
         return $tables;
@@ -441,6 +448,7 @@ class Mysql implements SchemaInterface
         $tablesToCreate = $this->getTablesCreateSql();
         unset($tablesToCreate['archive_blob']);
         unset($tablesToCreate['archive_numeric']);
+        unset($tablesToCreate['jobs']);
 
         foreach ($tablesToCreate as $tableName => $tableSql) {
             $tableName = $prefixTables . $tableName;

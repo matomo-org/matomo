@@ -1,0 +1,8 @@
+<?php
+require realpath(dirname(__FILE__)) . "/includes.php";
+
+Piwik_TestingEnvironment::addHooks();
+
+$_SERVER['argv'][] = '--testmode';
+
+require_once PIWIK_INCLUDE_PATH . '/console';
