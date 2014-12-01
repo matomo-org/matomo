@@ -16,13 +16,15 @@ use Piwik\Log;
  */
 class ErrorTextFormatter extends Formatter
 {
-    public function format($message, $level, $tag, $datetime, Log $logger)
+    public function format(array $record, Log $logger)
     {
+        $message = $record['message'];
+
         if ($message instanceof Error) {
-            $message = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)
+            $record['message'] = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)
                 . ' - ' . $message->errstr . "\n" . $message->backtrace;
         }
 
-        return $this->next($message, $level, $tag, $datetime, $logger);
+        return $this->next($record, $logger);
     }
 }

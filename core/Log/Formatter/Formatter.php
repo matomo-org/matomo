@@ -24,15 +24,12 @@ abstract class Formatter
     protected $next;
 
     /**
-     * @param mixed $message Log message.
-     * @param int $level The log level used with this log entry.
-     * @param string $tag The current plugin that started logging (or if no plugin, the current class).
-     * @param string $datetime Datetime of the logging call.
+     * @param array $record
      * @param Log $logger
      *
-     * @return mixed
+     * @return array Updated record.
      */
-    public abstract function format($message, $level, $tag, $datetime, Log $logger);
+    public abstract function format(array $record, Log $logger);
 
     /**
      * Chain of responsibility pattern.
@@ -44,12 +41,12 @@ abstract class Formatter
         $this->next = $formatter;
     }
 
-    protected function next($message, $level, $tag, $datetime, Log $logger)
+    protected function next(array $record, Log $logger)
     {
         if (! $this->next) {
-            return $message;
+            return $record;
         }
 
-        return $this->next->format($message, $level, $tag, $datetime, $logger);
+        return $this->next->format($record, $logger);
     }
 }

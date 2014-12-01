@@ -15,10 +15,8 @@ use Piwik\Log;
  */
 class StdOutBackend extends Backend
 {
-    public function __invoke($level, $tag, $datetime, $message, Log $logger)
+    public function __invoke(array $record, Log $logger)
     {
-        $message = $this->formatMessage($level, $tag, $datetime, $message, $logger);
-
-        echo $message . "\n";
+        echo $this->formatMessage($record, $logger) . "\n";
     }
 }

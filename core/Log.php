@@ -244,25 +244,36 @@ class Log extends Singleton
         return $this->currentLogLevel;
     }
 
-    private function doLog($level, $message, $sprintfParams = array())
+    private function doLog($level, $message, $parameters = array())
     {
         if (!$this->shouldLoggerLog($level)) {
             return;
         }
 
+        // Create a record similar to Monolog to ease future transition
+        $record = array(
+            'message'    => $message,
+            'context'    => $parameters,
+            'channel'    => 'piwik',
+            'level'      => $level,
+            'level_name' => self::getStringLevel($level),
+            'time'       => new \DateTime(),
+            'extra'      => array(),
+        );
+
         foreach ($this->processors as $processor) {
-            $message = $processor($message, $sprintfParams, $level);
+            $record = $processor($record);
         }
 
-        $tag = $this->getLoggingClassName();
+        $record['extra']['class'] = $this->getLoggingClassName();
 
-        $this->writeMessage($level, $tag, date("Y-m-d H:i:s"), $message);
+        $this->writeMessage($record, date("Y-m-d H:i:s"));
     }
 
-    private function writeMessage($level, $tag, $datetime, $message)
+    private function writeMessage(array $record)
     {
         foreach ($this->writers as $writer) {
-            call_user_func($writer, $level, $tag, $datetime, $message, $this);
+            call_user_func($writer, $record, $this);
         }
     }
 
@@ -311,5 +322,18 @@ class Log extends Singleton
             return $tag;
         }
         return $tag;
+    }
+
+    private function getStringLevel($level)
+    {
+        static $levelToName = array(
+            Log::NONE    => 'NONE',
+            Log::ERROR   => 'ERROR',
+            Log::WARN    => 'WARN',
+            Log::INFO    => 'INFO',
+            Log::DEBUG   => 'DEBUG',
+            Log::VERBOSE => 'VERBOSE'
+        );
+        return $levelToName[$level];
     }
 }

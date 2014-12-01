@@ -28,13 +28,13 @@ class StdErrBackend extends Backend
         parent::__construct($formatter);
     }
 
-    public function __invoke($level, $tag, $datetime, $message, Log $logger)
+    public function __invoke(array $record, Log $logger)
     {
-        if ($level != Log::ERROR) {
+        if ($record['level'] != Log::ERROR) {
             return;
         }
 
-        $message = $this->formatMessage($level, $tag, $datetime, $message, $logger) . "\n";
+        $message = $this->formatMessage($record, $logger) . "\n";
 
         // Do not log on stderr during tests (prevent display of errors in CI output)
         if (! defined('PIWIK_TEST_MODE')) {

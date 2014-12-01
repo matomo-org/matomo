@@ -17,9 +17,9 @@ use Piwik\Log;
  */
 class DatabaseBackend extends Backend
 {
-    public function __invoke($level, $tag, $datetime, $message, Log $logger)
+    public function __invoke(array $record, Log $logger)
     {
-        $message = $this->formatMessage($level, $tag, $datetime, $message, $logger);
+        $message = $this->formatMessage($record, $logger);
 
         if (empty($message)) {
             return;
@@ -29,6 +29,6 @@ class DatabaseBackend extends Backend
             . " (tag, timestamp, level, message)"
             . " VALUES (?, ?, ?, ?)";
 
-        Db::query($sql, array($tag, $datetime, self::getStringLevel($level), (string)$message));
+        Db::query($sql, array($record['extra']['class'], $record['time']->format('Y-m-d H:i:s'), $record['level_name'], (string) $message));
     }
 }

@@ -18,10 +18,12 @@ use Piwik\Version;
  */
 class ErrorHtmlFormatter extends Formatter
 {
-    public function format($message, $level, $tag, $datetime, Log $logger)
+    public function format(array $record, Log $logger)
     {
+        $message = $record['message'];
+
         if (! $message instanceof Error) {
-            return $this->next($message, $level, $tag, $datetime, $logger);
+            return $this->next($record, $logger);
         }
 
         $errno = $message->errno & error_reporting();
@@ -50,6 +52,8 @@ class ErrorHtmlFormatter extends Formatter
         $html .= "</div><br />";
         $html .= "\n </pre></div><br />";
 
-        return $html;
+        $record['message'] = $html;
+
+        return $record;
     }
 }

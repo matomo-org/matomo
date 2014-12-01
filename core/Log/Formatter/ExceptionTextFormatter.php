@@ -16,13 +16,15 @@ use Piwik\Log;
  */
 class ExceptionTextFormatter extends Formatter
 {
-    public function format($message, $level, $tag, $datetime, Log $logger)
+    public function format(array $record, Log $logger)
     {
+        $message = $record['message'];
+
         if ($message instanceof \Exception) {
-            $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
+            $record['message'] = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
                 ExceptionHandler::$debugBacktraceForTests ?: $message->getTraceAsString());
         }
 
-        return $this->next($message, $level, $tag, $datetime, $logger);
+        return $this->next($record, $logger);
     }
 }

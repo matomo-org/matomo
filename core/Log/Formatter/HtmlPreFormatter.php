@@ -16,19 +16,18 @@ use Piwik\Log;
  */
 class HtmlPreFormatter extends Formatter
 {
-    public function format($message, $level, $tag, $datetime, Log $logger)
+    public function format(array $record, Log $logger)
     {
-        $message = $this->next($message, $level, $tag, $datetime, $logger);
+        $record = $this->next($record, $logger);
 
-        if (! is_string($message)) {
-            return $message;
+        if (! is_string($record['message'])) {
+            return $record;
         }
 
         if (!Common::isPhpCliMode()) {
-            $message = Common::sanitizeInputValue($message);
-            $message = '<pre>' . $message . '</pre>';
+            $record['message'] = '<pre>' . Common::sanitizeInputValue($record['message']) . '</pre>';
         }
 
-        return $message;
+        return $record;
     }
 }

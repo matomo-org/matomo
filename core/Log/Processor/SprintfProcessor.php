@@ -13,15 +13,18 @@ namespace Piwik\Log\Processor;
  */
 class SprintfProcessor
 {
-    public function __invoke($message, array $parameters = array(), $level)
+    public function __invoke(array $record)
     {
+        $message = $record['message'];
+        $parameters = $record['context'];
+
         if (is_string($message) && !empty($parameters)) {
             $parameters = $this->ensureParametersAreStrings($parameters);
 
-            $message = vsprintf($message, $parameters);
+            $record['message'] = vsprintf($message, $parameters);
         }
 
-        return $message;
+        return $record;
     }
 
     private function ensureParametersAreStrings(array $parameters)

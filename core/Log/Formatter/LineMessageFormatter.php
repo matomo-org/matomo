@@ -28,31 +28,18 @@ class LineMessageFormatter extends Formatter
         $this->logMessageFormat = $logMessageFormat;
     }
 
-    public function format($message, $level, $tag, $datetime, Log $logger)
+    public function format(array $record, Log $logger)
     {
-        if (! is_string($message)) {
+        if (! is_string($record['message'])) {
             throw new \InvalidArgumentException('Trying to log a message that is not a string');
         }
 
-        $message = str_replace(
+        $record['message'] = str_replace(
             array("%tag%", "%message%", "%datetime%", "%level%"),
-            array($tag, trim($message), $datetime, $this->getStringLevel($level)),
+            array($record['extra']['class'], trim($record['message']), $record['time']->format('Y-m-d H:i:s'), $record['level_name']),
             $this->logMessageFormat
         );
 
-        return $this->next($message, $level, $tag, $datetime, $logger);
-    }
-
-    private function getStringLevel($level)
-    {
-        static $levelToName = array(
-            Log::NONE    => 'NONE',
-            Log::ERROR   => 'ERROR',
-            Log::WARN    => 'WARN',
-            Log::INFO    => 'INFO',
-            Log::DEBUG   => 'DEBUG',
-            Log::VERBOSE => 'VERBOSE'
-        );
-        return $levelToName[$level];
+        return $this->next($record, $logger);
     }
 }

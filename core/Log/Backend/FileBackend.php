@@ -31,9 +31,9 @@ class FileBackend extends Backend
         parent::__construct($formatter);
     }
 
-    public function __invoke($level, $tag, $datetime, $message, Log $logger)
+    public function __invoke(array $record, Log $logger)
     {
-        $message = $this->formatMessage($level, $tag, $datetime, $message, $logger);
+        $message = $this->formatMessage($record, $logger);
         $message = str_replace("\n", "\n  ", $message) . "\n";
 
         if (!@file_put_contents($this->logToFilePath, $message, FILE_APPEND)

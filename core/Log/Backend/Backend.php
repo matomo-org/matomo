@@ -26,33 +26,25 @@ abstract class Backend
         $this->formatter = $formatter;
     }
 
-    public abstract function __invoke($level, $tag, $datetime, $message, Log $logger);
+    /**
+     * Write the log record to the backend.
+     *
+     * @param array $record
+     * @param Log $logger
+     */
+    public abstract function __invoke(array $record, Log $logger);
 
     /**
      * Formats the log message using the configured formatter.
      *
-     * @param int $level
-     * @param string $tag
-     * @param string $datetime
-     * @param string $message
+     * @param array $record
      * @param Log $logger
      * @return string
      */
-    protected function formatMessage($level, $tag, $datetime, $message, Log $logger)
+    protected function formatMessage(array $record, Log $logger)
     {
-        return trim($this->formatter->format($message, $level, $tag, $datetime, $logger));
-    }
+        $record = $this->formatter->format($record, $logger);
 
-    protected function getStringLevel($level)
-    {
-        static $levelToName = array(
-            Log::NONE    => 'NONE',
-            Log::ERROR   => 'ERROR',
-            Log::WARN    => 'WARN',
-            Log::INFO    => 'INFO',
-            Log::DEBUG   => 'DEBUG',
-            Log::VERBOSE => 'VERBOSE'
-        );
-        return $levelToName[$level];
+        return trim($record['message']);
     }
 }
