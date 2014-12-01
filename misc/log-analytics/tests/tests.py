@@ -233,6 +233,7 @@ def check_iis_groups(groups):
 def check_s3_groups(groups):
     assert groups['host'] == 'www.example.com'
     assert groups['date'] == '10/Feb/2012:16:42:07'
+	assert groups['timezone'] == '-0500'
     assert groups['ip'] == '1.2.3.4'
     assert groups['path'] == '/index'
     assert groups['status'] == '200'
