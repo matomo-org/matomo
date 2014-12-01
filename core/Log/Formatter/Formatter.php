@@ -27,11 +27,6 @@ abstract class Formatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public abstract function format(array $record);
-
-    /**
-     * {@inheritdoc}
-     */
     public function formatBatch(array $records)
     {
         foreach ($records as $key => $record) {
