@@ -55,12 +55,8 @@ use Piwik\Db;
  *
  * ### Custom message formatting
  *
- * If you'd like to format log messages differently for different backends, you can use
- * one of the `'Log.format...Message'` events.
- *
- * These events are fired when an object is logged. You can create your own custom class
- * containing the information to log and listen to these events to format it correctly for
- * different backends.
+ * If you'd like to format log messages differently for different backends, you can
+ * implement a new `Piwik\Log\Formatter\Formatter`.
  *
  * If you don't care about the backend when formatting an object, implement a `__toString()`
  * in the custom class.
@@ -114,12 +110,6 @@ class Log extends Singleton
     const LOG_WRITERS_CONFIG_OPTION = 'log_writers';
     const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
     const STRING_MESSAGE_FORMAT_OPTION = 'string_message_format';
-
-    const FORMAT_FILE_MESSAGE_EVENT = 'Log.formatFileMessage';
-
-    const FORMAT_SCREEN_MESSAGE_EVENT = 'Log.formatScreenMessage';
-
-    const FORMAT_DATABASE_MESSAGE_EVENT = 'Log.formatDatabaseMessage';
 
     const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
 
