@@ -190,6 +190,6 @@
 }
 
 /* IE < 9 will use this */
-html.old-ie .ie-hide {
+body.old-ie .ie-hide {
     display: none;
 }

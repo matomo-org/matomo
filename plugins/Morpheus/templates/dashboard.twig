@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 9 ]>
-<html class="old-ie" id="ng-app" ng-app="piwikApp"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html id="ng-app" ng-app="piwikApp"><!--<![endif]-->
+<html id="ng-app" ng-app="piwikApp">
     <head>
         {% block head %}
             <meta charset="utf-8">
@@ -24,7 +21,10 @@
             <![endif]-->
         {% endblock %}
     </head>
-    <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'dashboard') }}">
+    <!--[if lt IE 9 ]>
+    <body ng-app="app" class="old-ie {{ postEvent('Template.bodyClass', 'dashboard') }}"> <![endif]-->
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'dashboard') }}"><!--<![endif]-->
     {% include "_iframeBuster.twig" %}
     {% include "@CoreHome/_javaScriptDisabled.twig" %}
 

@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 9 ]>
-<html class="old-ie" id="ng-app" ng-app="piwikApp"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html id="ng-app" ng-app="piwikApp"><!--<![endif]-->
+<html id="ng-app" ng-app="piwikApp">
     <head>
         <meta charset="utf-8">
         {% include "_jsGlobalVariables.twig" %}
@@ -14,7 +11,11 @@
         <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/ieonly.css"/>
         <![endif]-->
     </head>
+    <!--[if lt IE 9 ]>
+    <body ng-app="app" class="old-ie"> <![endif]-->
+    <!--[if (gte IE 9)|!(IE)]><!-->
     <body ng-app="app">
+    <![endif]-->
         <div class="widget">
             {{ content|raw }}
         </div>

@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 9 ]>
-<html class="old-ie"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html><!--<![endif]-->
+<html>
 <head>
     <meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="IE=EDGE,chrome=1" >
@@ -32,7 +29,10 @@
         });
 	</script>
 	</head>
-	<body id="loginPage">
+	<!--[if lt IE 9 ]>
+	<body id="loginPage" class="old-ie"> <![endif]-->
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <body id="loginPage"><!--<![endif]-->
     {{ postEvent("Template.beforeTopBar", "login") }}
     {{ postEvent("Template.beforeContent", "login") }}
 
