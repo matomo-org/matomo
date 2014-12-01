@@ -60,7 +60,7 @@ class LoggerFactory
             return array();
         }
 
-        $availableWriters = self::getAvailableWriters($container);
+        $availableWriters = self::getAvailableWriters();
 
         $writerNames = array_map('trim', $writerNames);
         $writers = array();
@@ -70,7 +70,12 @@ class LoggerFactory
                 continue;
             }
 
-            $writers[$writerName] = $availableWriters[$writerName];
+            $writer = $availableWriters[$writerName];
+            if (is_string($writer)) {
+                $writer = $container->get($writer);
+            }
+
+            $writers[$writerName] = $writer;
         }
 
         // Always add the stderr backend
@@ -114,7 +119,7 @@ class LoggerFactory
         }
     }
 
-    private static function getAvailableWriters(ContainerInterface $container)
+    private static function getAvailableWriters()
     {
         $writers = array();
 
@@ -146,9 +151,9 @@ class LoggerFactory
          */
         Piwik::postEvent(Log::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
-        $writers['file'] = $container->get('Piwik\Log\Backend\FileBackend');
-        $writers['screen'] = $container->get('Piwik\Log\Backend\StdOutBackend');
-        $writers['database'] = $container->get('Piwik\Log\Backend\DatabaseBackend');
+        $writers['file'] = 'Piwik\Log\Backend\FileBackend';
+        $writers['screen'] = 'Piwik\Log\Backend\StdOutBackend';
+        $writers['database'] = 'Piwik\Log\Backend\DatabaseBackend';
 
         return $writers;
     }
