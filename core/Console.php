@@ -10,16 +10,16 @@ namespace Piwik;
 
 use Piwik\Plugin\Manager as PluginManager;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Console extends Application
 {
     public function __construct()
     {
+        $this->checkCompatibility();
+
         parent::__construct();
 
         $option = new InputOption('piwik-domain',
@@ -29,11 +29,6 @@ class Console extends Application
         );
 
         $this->getDefinition()->addOption($option);
-    }
-
-    public function init()
-    {
-        $this->checkCompatibility();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)

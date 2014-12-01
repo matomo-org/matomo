@@ -1,0 +1,29 @@
+tools:
+  php_sim: true
+  php_pdepend: true
+  php_analyzer:
+    config:
+      check_variables:
+        enabled: false
+
+filter:
+  excluded_paths:
+    - 'tests/*'
+    - 'libs/*'
+    - 'misc/*'
+    - 'lang/*'
+
+build:
+  environment:
+    php:
+      version: 5.5.12
+  dependencies:
+    before:
+      - cp tests/PHPUnit/config.ini.travis.php config/config.ini.php
+  tests:
+    override:
+      -
+        command: cd tests/PHPUnit && phpunit --testsuite UnitTests --coverage-clover clover-unit.xml
+        coverage:
+          file: tests/PHPUnit/clover-unit.xml
+          format: php-clover

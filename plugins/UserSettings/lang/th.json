@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "ตระกูลเบราว์เซอร์",
-        "Browsers": "เบราว์เซอร์",
-        "ColumnBrowser": "เบราว์เซอร์",
         "ColumnConfiguration": "การตั้งค่า",
-        "ColumnOperatingSystem": "ระบบปฏิบัติการ",
         "ColumnResolution": "ความละเอียด",
         "ColumnTypeOfScreen": "ชนิดของจอภาพ",
         "Configurations": "การกำหนดค่า",
@@ -193,16 +189,12 @@
         "Language_zh": "จีน",
         "Language_zu": "ซูลู",
         "LanguageCode": "รหัสภาษา",
-        "MobileVsDesktop": "มือถือ vs เดสก์ท็อป",
-        "OperatingSystems": "ระบบปฏิบัติการ",
         "PluginDescription": "รายงานการตั้งค่าผู้ใช้ต่างๆ: เบราว์เซอร์, ตระกูลเบราว์เซอร์,ระบบปฏิบัติการ, ปลั๊กอิน, การแก้ไขและการตั้งค่าส่วนกลาง",
         "PluginDetectionDoesNotWorkInIE": "หมายเหตุ: ตรวจสอบปลั๊กอินไม่ทำงานใน Internet Explorer รายงานนี้จะอิงตามเฉพาะเบราว์เซอร์ที่ไม่ใช่ IE",
         "Resolutions": "ความละเอียด",
         "VisitorSettings": "การตั้งค่าของผู้เข้าชม",
         "WideScreen": "ความกว้างหน้าจอ",
-        "WidgetBrowsers": "เบราว์เซอร์ของผู้เข้าชม",
         "WidgetGlobalVisitors": "การตั้งค่าผู้เข้าชมโดยรวม",
-        "WidgetOperatingSystems": "ระบบปฎิบัติการ",
         "WidgetPlugins": "รายการปลั้กอิน",
         "WidgetResolutions": "ความละเอียดจอภาพ",
         "WidgetWidescreen": "จอปกติ\/จอแบบกว้าง"

@@ -28,7 +28,8 @@
     "jquery-mousewheel": "~3.1.12",
     "jquery-placeholder": "~2.0.8",
     "jquery.scrollTo": "~1.4.13",
-    "chroma-js": "~0.6.0"
+    "chroma-js": "~0.6.0",
+    "visibilityjs": "~1.2.1"
   },
   "license": "GPLv3 or later",
   "ignore": [

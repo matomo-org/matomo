@@ -8,11 +8,11 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Settings\Setting;
+use Piwik\Settings\Storage;
 use Piwik\Settings\StorageInterface;
-use Piwik\SettingsServer;
+use Piwik\Tracker\SettingsStorage;
 
 /**
  * Base class of all plugin settings providers. Plugins that define their own configuration settings
@@ -25,7 +25,7 @@ use Piwik\SettingsServer;
  *
  * @api
  */
-abstract class Settings implements StorageInterface
+abstract class Settings
 {
     const TYPE_INT    = 'integer';
     const TYPE_FLOAT  = 'float';
@@ -48,18 +48,13 @@ abstract class Settings implements StorageInterface
      */
     private $settings = array();
 
-    /**
-     * Array containing all plugin settings values: Array( [setting-key] => [setting-value] ).
-     *
-     * @var array
-     */
-    private $settingsValues = array();
-
     private $introduction;
     private $pluginName;
 
-    // for lazy loading of setting values
-    private $settingValuesLoaded = false;
+    /**
+     * @var StorageInterface
+     */
+    private $storage;
 
     /**
      * Constructor.
@@ -70,13 +65,15 @@ abstract class Settings implements StorageInterface
             $this->pluginName = $pluginName;
         } else {
 
-            $classname    = get_class($this);
-            $parts        = explode('\\', $classname);
+            $classname = get_class($this);
+            $parts     = explode('\\', $classname);
 
             if (3 <= count($parts)) {
                 $this->pluginName = $parts[2];
             }
         }
+
+        $this->storage = Storage\Factory::make($this->pluginName);
 
         $this->init();
     }
@@ -87,6 +84,17 @@ abstract class Settings implements StorageInterface
     public function getPluginName()
     {
         return $this->pluginName;
+    }
+
+    /**
+     * @ignore
+     * @return Setting
+     */
+    public function getSetting($name)
+    {
+        if (array_key_exists($name, $this->settings)) {
+            return $this->settings[$name];
+        }
     }
 
     /**
@@ -164,118 +172,6 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Saves (persists) the current setting values in the database.
-     */
-    public function save()
-    {
-        $this->loadSettingsIfNotDoneYet();
-
-        Option::set($this->getOptionKey(), serialize($this->settingsValues));
-
-        $pluginName = $this->getPluginName();
-
-        /**
-         * Triggered after a plugin settings have been updated.
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Settings.MyPlugin.settingsUpdated', function (Settings $settings) {
-         *         $value = $settings->someSetting->getValue();
-         *         // Do something with the new setting value
-         *     });
-         *
-         * @param Settings $settings The plugin settings object.
-         */
-        Piwik::postEvent(sprintf('Settings.%s.settingsUpdated', $pluginName), array($this));
-    }
-
-    /**
-     * Removes all settings for this plugin from the database. Useful when uninstalling
-     * a plugin.
-     */
-    public function removeAllPluginSettings()
-    {
-        Piwik::checkUserHasSuperUserAccess();
-
-        Option::delete($this->getOptionKey());
-        $this->settingsValues = array();
-        $this->settingValuesLoaded = false;
-    }
-
-    /**
-     * Returns the current value for a setting. If no value is stored, the default value
-     * is be returned.
-     *
-     * @param Setting $setting
-     * @return mixed
-     * @throws \Exception If the setting does not exist or if the current user is not allowed to change the value
-     *                    of this setting.
-     */
-    public function getSettingValue(Setting $setting)
-    {
-        $this->checkIsValidSetting($setting->getName());
-        $this->checkHasEnoughReadPermission($setting);
-        $this->loadSettingsIfNotDoneYet();
-
-        if (array_key_exists($setting->getKey(), $this->settingsValues)) {
-
-            return $this->settingsValues[$setting->getKey()];
-        }
-
-        return $setting->defaultValue;
-    }
-
-    /**
-     * Sets (overwrites) the value of a setting in memory. To persist the change, {@link save()} must be
-     * called afterwards, otherwise the change has no effect.
-     *
-     * Before the setting is changed, the {@link Piwik\Settings\Setting::$validate} and
-     * {@link Piwik\Settings\Setting::$transform} closures will be invoked (if defined). If there is no validation
-     * filter, the setting value will be casted to the appropriate data type.
-     *
-     * @param Setting $setting
-     * @param string $value
-     * @throws \Exception If the setting does not exist or if the current user is not allowed to change the value
-     *                    of this setting.
-     */
-    public function setSettingValue(Setting $setting, $value)
-    {
-        $this->checkIsValidSetting($setting->getName());
-        $this->checkHasEnoughWritePermission($setting);
-
-        if ($setting->validate && $setting->validate instanceof \Closure) {
-            call_user_func($setting->validate, $value, $setting);
-        }
-
-        if ($setting->transform && $setting->transform instanceof \Closure) {
-            $value = call_user_func($setting->transform, $value, $setting);
-        } elseif (isset($setting->type)) {
-            settype($value, $setting->type);
-        }
-
-        $this->loadSettingsIfNotDoneYet();
-        $this->settingsValues[$setting->getKey()] = $value;
-    }
-
-    /**
-     * Unsets a setting value in memory. To persist the change, {@link save()} must be
-     * called afterwards, otherwise the change has no effect.
-     *
-     * @param Setting $setting
-     */
-    public function removeSettingValue(Setting $setting)
-    {
-        $this->checkHasEnoughWritePermission($setting);
-        $this->loadSettingsIfNotDoneYet();
-
-        $key = $setting->getKey();
-
-        if (array_key_exists($key, $this->settingsValues)) {
-            unset($this->settingsValues[$key]);
-        }
-    }
-
-    /**
      * Makes a new plugin setting available.
      *
      * @param Setting $setting
@@ -296,53 +192,47 @@ abstract class Settings implements StorageInterface
         $this->setDefaultTypeAndFieldIfNeeded($setting);
         $this->addValidatorIfNeeded($setting);
 
-        $setting->setStorage($this);
+        $setting->setStorage($this->storage);
+        $setting->setPluginName($this->pluginName);
 
         $this->settings[$setting->getName()] = $setting;
     }
 
-    private function getOptionKey()
+    /**
+     * Saves (persists) the current setting values in the database.
+     */
+    public function save()
     {
-        return 'Plugin_' . $this->pluginName . '_Settings';
-    }
+        $this->storage->save();
 
-    private function loadSettingsIfNotDoneYet()
-    {
-        if ($this->settingValuesLoaded) {
-            return;
-        }
+        SettingsStorage::clearCache();
 
-        $this->settingValuesLoaded = true;
-        $this->loadSettings();
-    }
-
-    private function loadSettings()
-    {
-        $values = Option::get($this->getOptionKey());
-
-        if (!empty($values)) {
-            $this->settingsValues = unserialize($values);
-        }
-    }
-
-    private function checkIsValidSetting($name)
-    {
-        $setting = $this->getSetting($name);
-
-        if (empty($setting)) {
-            throw new \Exception(sprintf('The setting %s does not exist', $name));
-        }
+        /**
+         * Triggered after a plugin settings have been updated.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Settings.MyPlugin.settingsUpdated', function (Settings $settings) {
+         *         $value = $settings->someSetting->getValue();
+         *         // Do something with the new setting value
+         *     });
+         *
+         * @param Settings $settings The plugin settings object.
+         */
+        Piwik::postEvent(sprintf('Settings.%s.settingsUpdated', $this->pluginName), array($this));
     }
 
     /**
-     * @param  $name
-     * @return Setting|null
+     * Removes all settings for this plugin from the database. Useful when uninstalling
+     * a plugin.
      */
-    private function getSetting($name)
+    public function removeAllPluginSettings()
     {
-        if (array_key_exists($name, $this->settings)) {
-            return $this->settings[$name];
-        }
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->storage->deleteAllValues();
+
+        SettingsStorage::clearCache();
     }
 
     private function getDefaultType($controlType)
@@ -371,40 +261,6 @@ abstract class Settings implements StorageInterface
         );
 
         return $defaultControlTypes[$type];
-    }
-
-    /**
-     * @param $setting
-     * @throws \Exception
-     */
-    private function checkHasEnoughWritePermission(Setting $setting)
-    {
-        // When the request is a Tracker request, allow plugins to write settings
-        if (SettingsServer::isTrackerApiRequest()) {
-            return;
-        }
-
-        if (!$setting->isWritableByCurrentUser()) {
-            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingChangeNotAllowed', array($setting->getName(), $this->pluginName));
-            throw new \Exception($errorMsg);
-        }
-    }
-
-    /**
-     * @param $setting
-     * @throws \Exception
-     */
-    private function checkHasEnoughReadPermission(Setting $setting)
-    {
-        // When the request is a Tracker request, allow plugins to read settings
-        if (SettingsServer::isTrackerApiRequest()) {
-            return;
-        }
-
-        if (!$setting->isReadableByCurrentUser()) {
-            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingReadNotAllowed', array($setting->getName(), $this->pluginName));
-            throw new \Exception($errorMsg);
-        }
     }
 
     private function setDefaultTypeAndFieldIfNeeded(Setting $setting)

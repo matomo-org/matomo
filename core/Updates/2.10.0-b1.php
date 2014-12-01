@@ -105,12 +105,13 @@ class Updates_2_10_0_b1 extends Updates
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
-        $archiveBlobTables = self::getAllArchiveBlobTables();
-
-        foreach ($archiveBlobTables as $table) {
-            self::updateBrowserArchives($table);
-            self::updateOsArchives($table);
-        }
+        // DeviceDetection upgrade in beta1 timed out on demo #6750
+//        $archiveBlobTables = self::getAllArchiveBlobTables();
+//
+//        foreach ($archiveBlobTables as $table) {
+//            self::updateBrowserArchives($table);
+//            self::updateOsArchives($table);
+//        }
     }
 
     /**
@@ -229,24 +230,28 @@ class Updates_2_10_0_b1 extends Updates
     {
         $blob['value'] = @gzuncompress($blob['value']);
 
-        $datatable = DataTable::fromSerializedArray($blob['value']);
-        $datatable->filter('GroupBy', array('label', function ($label) {
-            if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches)) {
-                return $matches[1]; // should match for browsers
-            }
+        try {
+            $datatable = DataTable::fromSerializedArray($blob['value']);
+            $datatable->filter('GroupBy', array('label', function ($label) {
+                if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches)) {
+                    return $matches[1]; // should match for browsers
+                }
 
-            if (strpos($label, ';')) {
-                return substr($label, 0, 3); // should match for os
-            }
+                if (strpos($label, ';')) {
+                    return substr($label, 0, 3); // should match for os
+                }
 
-            return $label;
-        }));
+                return $label;
+            }));
 
-        $newData = $datatable->getSerialized();
+            $newData = $datatable->getSerialized();
 
-        $blob['value'] = @gzcompress($newData[0]);
-        $blob['name'] = $newName;
+            $blob['value'] = @gzcompress($newData[0]);
+            $blob['name'] = $newName;
 
-        Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blob));
+            Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blob));
+        } catch (\Exception $e) {
+            // fail silently and simply skip the current record
+        }
     }
 }

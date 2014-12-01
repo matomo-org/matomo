@@ -15,7 +15,6 @@
         <ol class="visitor-profile-actions">
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
                                                        'clientSideParameters': {
-                                                            'filterEcommerce': false,
                                                             'idSite': idSite,
                                                             'pageUrlNotDefined': 'General_NotDefined'|translate('Actions_ColumnPageURL'|translate)
                                                         },

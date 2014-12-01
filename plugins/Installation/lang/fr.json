@@ -98,7 +98,6 @@
         "SystemCheckPdoAndMysqliHelp": "Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s Dans votre php.ini, ajoutez les lignes suivantes: %2$s",
         "SystemCheckPhp": "Version PHP",
         "SystemCheckPhpPdoAndMysqli": "Plus d'informations sur: %1$sPHP PDO%2$s et %3$sMYSQLI%4$s.",
-        "SystemCheckSessionAutostart": "Pour éviter certains problèmes veuillez définir le paramètre suivant dans votre fichier php.ini : session.auto_start=0",
         "SystemCheckSplHelp": "Vous devez configurer et recompiler PHP avec la librairie standard (par défaut).",
         "SystemCheckSummaryNoProblems": "Génial ! Il n'y a aucun problème avec votre installation de Piwik. Donnez-vous une tape dans le dos.",
         "SystemCheckSummaryThereWereErrors": "Oh-oh ! Piwik a détecté des %1$sproblèmes critiques%2$s avec votre installation de Piwik. %3$sCes problèmes critiques doivent être fixés immédiatement.%4$s",

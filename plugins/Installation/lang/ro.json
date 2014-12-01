@@ -94,7 +94,6 @@
         "SystemCheckPdoAndMysqliHelp": "Pe un server Linux, puteți compila php cu următoarele opțiuni: %1$s în php.ini dvs., adăugați următoarele linii: %2$s",
         "SystemCheckPhp": "PHP version",
         "SystemCheckPhpPdoAndMysqli": "Mai multe informatii pe:%1$sPHP PDO%2$s si %3$sMYSQLI%4$s.",
-        "SystemCheckSessionAutostart": "Pentru a evita unele probleme pune la începutul fișierului php.ini: session.auto_start=0",
         "SystemCheckSplHelp": "Aveți nevoie pentru a configura și reconstrui PHP cu PHP Biblioteca Standard (SPL) activata (implicit).",
         "SystemCheckSummaryNoProblems": "Huzzah! Nu există probleme cu configurarea Piwik. Dă-ți o palma pe spate.",
         "SystemCheckSummaryThereWereErrors": "Uh-oh! Piwik a detectat unele probleme %1$s critic %2$s cu configurarea Piwik. %3$s Aceste probleme ar trebui să fie fixate imediat.%4$s",

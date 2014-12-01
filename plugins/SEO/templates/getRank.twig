@@ -25,7 +25,7 @@
                     {% for rank in ranks %}
                         <tr>
 {% set seoLink %}{% if rank.logo_link is defined %}<a class="linkContent" href="?module=Proxy&action=redirect&url={{ rank.logo_link|url_encode }}"
-                                                    rel="noreferrer"  target="_blank"
+                                                    target="_blank"
                          {% if rank.logo_tooltip is not empty %}title="{{ rank.logo_tooltip }}"{% endif %}>{% endif %}{% endset %}
                             {% set majesticLink %}{{ seoLink }}Majestic</a>{% endset %}
                             <td>{% if rank.logo_link is defined %}{{ seoLink|raw }}{% endif %}<img

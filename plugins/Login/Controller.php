@@ -194,7 +194,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function getMessageExceptionNoAccess()
     {
-        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a href="?module=Proxy&action=redirect&url=' . urlencode('http://piwik.org/faq/how-to-install/#faq_98') . '" rel="noreferrer"  target="_blank">', '</a>'));
+        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a href="?module=Proxy&action=redirect&url=' . urlencode('http://piwik.org/faq/how-to-install/#faq_98') . '" target="_blank">', '</a>'));
         // Should mention trusted_hosts or link to FAQ
         return $message;
     }

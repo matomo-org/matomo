@@ -93,7 +93,6 @@
         "SystemCheckPdoAndMysqliHelp": "Sa GNU\/Linux server ay maari mong e-compile ang iyong php kasama ang mag option na ito: %1$s In your php.ini idag-dag ang mga sumusunod na mga linya: %2$s",
         "SystemCheckPhp": "Bersyon ng PHP",
         "SystemCheckPhpPdoAndMysqli": "Marami pang impormasyon sa: : %1$sPHP PDO%2$s at %3$sMYSQLI%4$s.",
-        "SystemCheckSessionAutostart": "Upang maiwasan ang ilang mga isyu mangyaring ilagay ang mga sumusunod sa inyong php.ini file: session.auto_start = 0.",
         "SystemCheckSplHelp": "kailangan mong i-configure at muling e-build ang PHP na may Standard PHP Library (SPL) na syang gumagana(default).",
         "SystemCheckSummaryNoProblems": "Huzzah! Walang mga problema sa pag-setup mo ng Piwk. Bigyan ang iyong sarili ng isang magandang pahinga.",
         "SystemCheckSummaryThereWereErrors": "Naku! Ang piwik ay may nakitang i-ilang %1$s critical isyo sa %2$s sa iyong Piwik setup. %3$s Ang mga isyung ito ay dapat na maayos ka-agad. %4$s",

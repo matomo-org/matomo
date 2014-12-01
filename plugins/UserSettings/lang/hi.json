@@ -1,17 +1,12 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "ब्राउज़र के परिवारों",
         "BrowserLanguage": "ब्राउज़र की भाषा",
-        "Browsers": "ब्राउज़र्स",
         "BrowserWithNoPluginsEnabled": "%1$s के साथ प्लगइन सक्रिय नहीं",
         "BrowserWithPluginsEnabled": "प्लगिन %2$s से %1$s सक्षम",
-        "ColumnBrowser": "ब्राउज़र",
         "ColumnConfiguration": "विन्यास",
-        "ColumnOperatingSystem": "आपरेटिंग सिस्टम",
         "ColumnResolution": "संकल्प",
         "ColumnTypeOfScreen": "स्क्रीन के प्रकार",
         "Configurations": "विन्यास",
-        "GamingConsole": "गेमिंग कंसोल",
         "Language_aa": "अफ़ार",
         "Language_ab": "अब्खाज़ियन्",
         "Language_ae": "अवेस्तन",
@@ -197,16 +192,11 @@
         "Language_zh": "चीनी",
         "Language_zu": "ज़ुलू",
         "LanguageCode": "भाषा कोड",
-        "MobileVsDesktop": "मोबाइल बनाम डेस्कटॉप",
-        "OperatingSystemFamily": "आपरेटिंग सिस्टम परिवार",
-        "OperatingSystems": "आपरेटिंग सिस्टम",
         "PluginDescription": "विभिन्न उपयोगकर्ता सेटिंग्स की रिपोर्ट: ब्राउज़र, ब्राउज़र परिवार, आपरेटिंग सिस्टम, प्लगइन्स, संकल्प, वैश्विक सेटिंग्स.",
         "PluginDetectionDoesNotWorkInIE": "नोट: प्लगइन्स का पता लगाने इंटरनेट एक्सप्लोरर में काम नहीं करता है. यह रिपोर्ट केवल गैर आईई ब्राउज़रों पर आधारित है.",
         "Resolutions": "संकल्प",
         "VisitorSettings": "आगंतुक सेटिंग्स",
         "WideScreen": "वाइड स्क्रीन",
-        "WidgetBrowsers": "आगंतुक ब्राउज़र",
-        "WidgetGlobalVisitors": "आगंतुक विन्यास",
-        "WidgetOperatingSystems": "ऑपरेटिंग सिस्टम"
+        "WidgetGlobalVisitors": "आगंतुक विन्यास"
     }
 }

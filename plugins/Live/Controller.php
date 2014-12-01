@@ -57,7 +57,6 @@ class Controller extends \Piwik\Plugin\Controller
     public function indexVisitorLog()
     {
         $view = new View('@Live/indexVisitorLog.twig');
-        $view->filterEcommerce = Common::getRequestVar('filterEcommerce', 0, 'int');
         $view->visitorLog = $this->renderReport(new GetLastVisitsDetails());
         return $view->render();
     }

@@ -108,7 +108,7 @@ class UserSetting extends Setting
 
                 if ($setting instanceof UserSetting) {
                     $setting->setUserLogin($userLogin);
-                    $pluginSettings->removeSettingValue($setting);
+                    $setting->removeValue();
                 }
 
             }

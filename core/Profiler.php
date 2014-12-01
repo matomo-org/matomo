@@ -236,7 +236,7 @@ class Profiler
         $currentGitBranch = SettingsPiwik::getCurrentGitBranch();
         $profilerNamespace = "piwik";
         if ($currentGitBranch != 'master') {
-            $profilerNamespace .= "." . $currentGitBranch;
+            $profilerNamespace .= "-" . $currentGitBranch;
         }
 
         xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
@@ -271,7 +271,7 @@ class Profiler
                 $baseUrl = $baseUrlStored . "vendor/facebook/xhprof/xhprof_html/?source=$profilerNamespace&run=$runId";
 
                 $out .= "Profiler report is available at:\n";
-                $out .= $baseUrl;
+                $out .= "<a href='$baseUrl'>$baseUrl</a>";
                 $out .= "\n\n";
 
                 echo $out;

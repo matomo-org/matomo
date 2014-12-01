@@ -230,6 +230,16 @@
         </td>
     </tr>
     <tr>
+        <td class="label">{{ 'Installation_SystemCheckPageSpeedDisabled'|translate }}</td>
+        <td>
+            {% if infos.pagespeed_module_disabled_ok %}
+                {{ ok }}
+            {% else %}
+                {{ warning }} <span class="warn">{{ 'Installation_SystemCheckPageSpeedWarn'|translate('(eg. Apache, Nginx or IIS)') }}</span>
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
         <td class="label">{{ 'Installation_SystemCheckGDFreeType'|translate }}</td>
         <td>
             {% if infos.gd_ok %}

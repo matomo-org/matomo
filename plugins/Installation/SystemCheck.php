@@ -21,6 +21,7 @@ use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\SettingsServer;
+use Piwik\Url;
 
 class SystemCheck
 {
@@ -50,7 +51,7 @@ class SystemCheck
         $infos['adapters'] = Adapter::getAdapters();
 
         $infos['needed_functions'] = self::getRequiredFunctions();
-        $infos['missing_functions'] = self::getRequiredFunctionsMissing();;
+        $infos['missing_functions'] = self::getRequiredFunctionsMissing();
 
         // warnings
         $infos['desired_extensions'] = self::getRecommendedExtensions();
@@ -61,6 +62,8 @@ class SystemCheck
 
         $infos['needed_settings'] = self::getRequiredPhpSettings();
         $infos['missing_settings'] = self::getMissingPhpSettings();
+
+        $infos['pagespeed_module_disabled_ok'] = self::isPageSpeedDisabled();
 
         $infos['openurl'] = Http::getTransportMethod();
         $infos['gd_ok'] = SettingsServer::isGdExtensionEnabled();
@@ -470,5 +473,41 @@ class SystemCheck
             }
         }
         return $missingPhpSettings;
+    }
+
+    protected static function isPageSpeedDisabled()
+    {
+        $url = Url::getCurrentUrlWithoutQueryString() . '?module=Installation&action=getEmptyPageForSystemCheck';
+
+        try {
+            $page = Http::sendHttpRequest($url,
+                $timeout = 1,
+                $userAgent = null,
+                $destinationPath = null,
+                $followDepth = 0,
+                $acceptLanguage = false,
+                $byteRange = false,
+
+                // Return headers
+                $getExtendedInfo = true
+            );
+        } catch(\Exception $e) {
+
+            // If the test failed, we assume Page speed is not enabled
+            return true;
+        }
+
+        $headers = $page['headers'];
+
+        return !self::isPageSpeedHeaderFound($headers);
+    }
+
+    /**
+     * @param $headers
+     * @return bool
+     */
+    protected static function isPageSpeedHeaderFound($headers)
+    {
+        return isset($headers['X-Mod-Pagespeed']) || isset($headers['X-Page-Speed']);
     }
 }
