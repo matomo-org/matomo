@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s のプラグイン %2$s は有効",
         "ColumnConfiguration": "環境設定",
         "ColumnResolution": "解像度",
-        "ColumnTypeOfScreen": "画面タイプ",
         "Configurations": "環境設定",
         "Language_aa": "アファル語",
         "Language_ab": "アブハズ語",
@@ -196,12 +195,10 @@
         "PluginDetectionDoesNotWorkInIE": "注意： Internet Explorer ではプラグインの検出が動作しません。 このリポートは、非 IE ブラウザのみに基づきます。",
         "Resolutions": "解像度",
         "VisitorSettings": "ビジターの環境",
-        "WideScreen": "ワイド画面",
         "WidgetGlobalVisitors": "ビジターの全般的な環境設定",
         "WidgetGlobalVisitorsDocumentation": "ビジターの最も一般的な利用環境についてのリポートです。オペレーティングシステム、ブラウザの種類と画面の解像度の組合せで表示します。",
         "WidgetPlugins": "プラグイン一覧",
         "WidgetPluginsDocumentation": "ビジターが利用しているブラウザのプラグインについてのリポートです。コンテンツの最適な表示方法を選択するために重要な情報です。",
-        "WidgetResolutions": "画面解像度",
-        "WidgetWidescreen": "ノーマル \/ ワイド画面"
+        "WidgetResolutions": "画面解像度"
     }
 }

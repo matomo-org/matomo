@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Uppsetning",
         "ColumnResolution": "Skjáupplausn",
-        "ColumnTypeOfScreen": "Skjátegund",
         "Configurations": "Uppsetningar",
         "Language_aa": "afár",
         "Language_ab": "abkasíska",
@@ -193,10 +192,8 @@
         "PluginDetectionDoesNotWorkInIE": "Ath: uppgötvun á íbótum virkar ekki með Internet Explorer. Þessi skýrsla er aðeins unnin út frá öðrum vöfrum en IE.",
         "Resolutions": "Skjáupplausnir",
         "VisitorSettings": "Stillingar gesta",
-        "WideScreen": "Breiðskjár",
         "WidgetGlobalVisitors": "Altæk gestastilling",
         "WidgetPlugins": "Listi yfir íbætur",
-        "WidgetResolutions": "Skjáupplausnir",
-        "WidgetWidescreen": "Normal\/Breiðtjald"
+        "WidgetResolutions": "Skjáupplausnir"
     }
 }

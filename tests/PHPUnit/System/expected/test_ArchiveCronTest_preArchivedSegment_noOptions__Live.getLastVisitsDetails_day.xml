@@ -84,10 +84,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -180,10 +178,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -276,10 +272,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -372,10 +366,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -468,10 +460,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -564,10 +554,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -660,10 +648,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -756,10 +742,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
-		<screenType>unknown</screenType>
 		<deviceType>Smartphone</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -852,10 +836,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		

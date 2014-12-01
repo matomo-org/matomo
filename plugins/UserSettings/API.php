@@ -106,22 +106,6 @@ class API extends \Piwik\Plugin\API
         return $this->getDevicesDetectorApi()->getBrowserEngines($idSite, $period, $date, $segment);
     }
 
-    /**
-     * @deprecated since 2.10.0   Use {@link getScreenType} instead.
-     */
-    public function getWideScreen($idSite, $period, $date, $segment = false)
-    {
-        return $this->getScreenType($idSite, $period, $date, $segment);
-    }
-
-    public function getScreenType($idSite, $period, $date, $segment = false)
-    {
-        $dataTable = $this->getDataTable(Archiver::SCREEN_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getScreensLogo'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
-        return $dataTable;
-    }
-
     public function getPlugin($idSite, $period, $date, $segment = false)
     {
         // fetch all archive data required

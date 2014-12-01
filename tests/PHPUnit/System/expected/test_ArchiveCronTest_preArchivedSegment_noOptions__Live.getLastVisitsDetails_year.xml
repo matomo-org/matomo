@@ -193,10 +193,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -307,10 +305,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -416,10 +412,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -539,10 +533,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -651,10 +643,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -751,10 +741,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -857,10 +845,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -947,10 +933,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -1053,10 +1037,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
-		<screenType>unknown</screenType>
 		<deviceType>Smartphone</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		
@@ -1153,10 +1135,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
-		<screenType>unknown</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		

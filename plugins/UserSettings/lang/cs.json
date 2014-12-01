@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s s povolenými zásuvnými moduly %2$s",
         "ColumnConfiguration": "Konfigurace",
         "ColumnResolution": "Rozlišení",
-        "ColumnTypeOfScreen": "Typ obrazovky",
         "Configurations": "Nastavení",
         "Language_aa": "afarština",
         "Language_ab": "abcházština",
@@ -196,12 +195,10 @@
         "PluginDetectionDoesNotWorkInIE": "Poznámka: Detekce zásuvných modulů nepracuje v prohlížeči Interet Explorer. Toto hlášení je založeno na ostatních prohlížečích",
         "Resolutions": "Rozlišení",
         "VisitorSettings": "Nastavení návštěvníků",
-        "WideScreen": "Širokoúhlá obrazovka",
         "WidgetGlobalVisitors": "Hlavní nastavení návštěvníků",
         "WidgetGlobalVisitorsDocumentation": "Toto hlášení zobrazuje nejčastější konfigurace, které vaši návštěvníci měli. Konfigurace je kombinace operačního systému, prohlížeče a rozlišení.",
         "WidgetPlugins": "Seznam zásuvných modulů",
         "WidgetPluginsDocumentation": "Toto hlášení zobrazuje zásuvné moduly, které měli vaši návštěvníci povoleny. Tato informace může být důležitá při rozhodování o tom, jakým způsobem prezentovat obsah.",
-        "WidgetResolutions": "Rozlišení obrazovky",
-        "WidgetWidescreen": "Normální \/ Širokoúhlá"
+        "WidgetResolutions": "Rozlišení obrazovky"
     }
 }

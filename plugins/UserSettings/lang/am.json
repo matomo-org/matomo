@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "ውቅረት",
         "ColumnResolution": "ጥራት",
-        "ColumnTypeOfScreen": "የማያ ዓይነት",
         "Configurations": "ውቅረቶች",
         "Language_aa": "አፋርኛ",
         "Language_ab": "አብሐዚኛ",
@@ -161,10 +160,8 @@
         "LanguageCode": "የቋንቋ ኮድ",
         "Resolutions": "ጥራቶች",
         "VisitorSettings": "የጎበኚዎች ቅንብሮች",
-        "WideScreen": "ሰፊ ማያ",
         "WidgetGlobalVisitors": "የሁሉም ጎብኚዎች ውቅረት",
         "WidgetPlugins": "የተሰኪዎች ዝርዝር",
-        "WidgetResolutions": "የማያ ጥራቶች",
-        "WidgetWidescreen": "የተለመደ \/ ሰፊ ማያ"
+        "WidgetResolutions": "የማያ ጥራቶች"
     }
 }

@@ -37,7 +37,7 @@
         {% endif %}
         {% if visitor.getColumn('operatingSystemIcon') %}&nbsp;
         <img src="{{ visitor.getColumn('operatingSystemIcon') }}"
-             title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }} ({{ visitor.getColumn('screenType') }})"/>{% endif %}
+             title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }}"/>{% endif %}
         {% if visitor.getColumn('visitorTypeIcon') %}
             {% if visitor.getColumn('visitorTypeIcon') %}&nbsp;-
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"

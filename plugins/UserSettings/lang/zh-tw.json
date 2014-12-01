@@ -3,7 +3,6 @@
         "BrowserLanguage": "瀏覽器語系",
         "ColumnConfiguration": "客戶端配置",
         "ColumnResolution": "解析度",
-        "ColumnTypeOfScreen": "螢幕類型",
         "Configurations": "客戶端配置",
         "Language_aa": "阿法文",
         "Language_ab": "阿布哈西亚文",
@@ -194,11 +193,9 @@
         "PluginDetectionDoesNotWorkInIE": "注意：外掛偵測無法在 Internet Explorer 上運作。這個報告僅提供非 IE 瀏覽器。",
         "Resolutions": "解析度",
         "VisitorSettings": "造訪者設定值",
-        "WideScreen": "寬螢幕",
         "WidgetGlobalVisitors": "全域訪客配置",
         "WidgetGlobalVisitorsDocumentation": "此報表列出貴站訪客最常見的設定配置。設定配置包含作業系統、瀏覽器、螢幕解析度等資訊。",
         "WidgetPlugins": "瀏覽器外掛清單",
-        "WidgetResolutions": "畫面解析度",
-        "WidgetWidescreen": "傳統螢幕 \/ 寬螢幕"
+        "WidgetResolutions": "畫面解析度"
     }
 }

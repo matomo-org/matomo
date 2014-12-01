@@ -102,10 +102,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -225,10 +223,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -348,10 +344,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -471,10 +465,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -625,10 +617,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -779,10 +769,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -925,10 +913,8 @@
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
-		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>

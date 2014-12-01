@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s liitännäisillä %2$s on aktivoitu",
         "ColumnConfiguration": "Asetukset",
         "ColumnResolution": "Resoluutio",
-        "ColumnTypeOfScreen": "Näytön tyyppi",
         "Configurations": "Asetukset",
         "Language_aa": "afar",
         "Language_ab": "abkhazian",
@@ -196,12 +195,10 @@
         "PluginDetectionDoesNotWorkInIE": "Huom: lisäosien tunnistus ei toimi Internet Explorerissa. Tämä raportti perustuu vain ei-IE-selaimiin.",
         "Resolutions": "Resoluutio",
         "VisitorSettings": "Kävijöiden asetukset",
-        "WideScreen": "Laajakulma",
         "WidgetGlobalVisitors": "Kaikkien kävijöiden asetukset",
         "WidgetGlobalVisitorsDocumentation": "Tämä raportti näyttää yleiskuvan eri käyttäjien asetuksista. Asetukset on yhdistelmä käyttöjärjestelmästä, selaimen tyypistä ja näytön resoluutiosta.",
         "WidgetPlugins": "Lista lisäosista",
         "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainlisäosia vierailijoillasi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään vierailijoille.",
-        "WidgetResolutions": "Näytön resoluutio",
-        "WidgetWidescreen": "Normaali \/ laajakuva"
+        "WidgetResolutions": "Näytön resoluutio"
     }
 }

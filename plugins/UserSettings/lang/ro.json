@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s cu plugin-uri %2$s activate",
         "ColumnConfiguration": "Configuraţia",
         "ColumnResolution": "Rezoluţie ecran",
-        "ColumnTypeOfScreen": "Tip ecran",
         "Configurations": "Configurare",
         "Language_aa": "Afar",
         "Language_ab": "abhază",
@@ -196,12 +195,10 @@
         "PluginDetectionDoesNotWorkInIE": "Notă: de detectare a plugin-uri nu funcționează în Internet Explorer. Acest raport se bazează doar pe browsere non-IE.",
         "Resolutions": "Rezolutii",
         "VisitorSettings": "Setări vizitatori",
-        "WideScreen": "Ecran extins",
         "WidgetGlobalVisitors": "Configurare vizitatori globala",
         "WidgetGlobalVisitorsDocumentation": "Acest raport arată cele mai comune configurații generale,pe care vizitatorii le au avut. O configurație este combinația dintre un sistem de operare, un tip de browser și o rezoluție a ecranului.",
         "WidgetPlugins": "Lista pluginurilor",
         "WidgetPluginsDocumentation": "Acest raport arată ce plugin-uri de browser-ul au activat vizitatorii. Aceste informație ar putea fi importanta pentru a alege modul corect de a livra conținut.",
-        "WidgetResolutions": "Rezolutii ecran",
-        "WidgetWidescreen": "Normal \/ Ecran extins"
+        "WidgetResolutions": "Rezolutii ecran"
     }
 }

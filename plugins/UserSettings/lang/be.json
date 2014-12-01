@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "Канфігурацыя",
         "ColumnResolution": "Дазвол",
-        "ColumnTypeOfScreen": "Тып экрана",
         "Configurations": "Па канфігурацыі",
         "Language_ab": "абхазская",
         "Language_af": "афрыкаанс",
@@ -123,12 +122,10 @@
         "PluginDetectionDoesNotWorkInIE": "Заўважце: Плагіны не вызначаюцца ў Internet Explorer. Гэта справаздача заснавана на не-IE браўзарах.",
         "Resolutions": "Па дазволе манітораў",
         "VisitorSettings": "Налады карыстача",
-        "WideScreen": "Па шырыні экрана",
         "WidgetGlobalVisitors": "Глабальная канфігурацыя",
         "WidgetGlobalVisitorsDocumentation": "Гэтая справаздача паказвае найбольш распаўсюджаныя агульныя канфігурацыі, якія мелі вашы наведвальнікі. Канфігурацыя - гэта спалучэнне аперацыйнай сістэмы, тыпу браўзэра і дазволу экрана.",
         "WidgetPlugins": "Спіс плагінаў",
         "WidgetPluginsDocumentation": "Гэтая справаздача паказвае, якія плагіны были ўключаны ў браўзэраў Вашых наведвальнікаў. Гэтая інфармацыя можа мець важнае значэнне для выбару правільнага спосабу дастаўкі кантэнту.",
-        "WidgetResolutions": "Дазвол манітораў",
-        "WidgetWidescreen": "Звычайны \/ Шырокаэкранны"
+        "WidgetResolutions": "Дазвол манітораў"
     }
 }
