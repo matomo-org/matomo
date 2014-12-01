@@ -16,9 +16,9 @@ use Piwik\Log;
  */
 class HtmlPreFormatter extends Formatter
 {
-    public function format(array $record, Log $logger)
+    public function format(array $record)
     {
-        $record = $this->next($record, $logger);
+        $record = $this->next($record);
 
         if (! is_string($record['message'])) {
             return $record;

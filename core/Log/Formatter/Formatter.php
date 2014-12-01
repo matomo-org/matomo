@@ -8,6 +8,7 @@
 
 namespace Piwik\Log\Formatter;
 
+use Monolog\Formatter\FormatterInterface;
 use Piwik\Log;
 
 /**
@@ -16,7 +17,7 @@ use Piwik\Log;
  * Follows the Chain of responsibility design pattern, so don't forget to call `$this->next(...)`
  * at the end of the `format()` method.
  */
-abstract class Formatter
+abstract class Formatter implements FormatterInterface
 {
     /**
      * @var Formatter|null
@@ -24,12 +25,21 @@ abstract class Formatter
     protected $next;
 
     /**
-     * @param array $record
-     * @param Log $logger
-     *
-     * @return array Updated record.
+     * {@inheritdoc}
      */
-    public abstract function format(array $record, Log $logger);
+    public abstract function format(array $record);
+
+    /**
+     * {@inheritdoc}
+     */
+    public function formatBatch(array $records)
+    {
+        foreach ($records as $key => $record) {
+            $records[$key] = $this->format($record);
+        }
+
+        return $records;
+    }
 
     /**
      * Chain of responsibility pattern.
@@ -41,12 +51,12 @@ abstract class Formatter
         $this->next = $formatter;
     }
 
-    protected function next(array $record, Log $logger)
+    protected function next(array $record)
     {
         if (! $this->next) {
             return $record;
         }
 
-        return $this->next->format($record, $logger);
+        return $this->next->format($record);
     }
 }

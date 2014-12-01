@@ -16,7 +16,7 @@ use Piwik\Log;
  */
 class ErrorTextFormatter extends Formatter
 {
-    public function format(array $record, Log $logger)
+    public function format(array $record)
     {
         $message = $record['message'];
 
@@ -25,6 +25,6 @@ class ErrorTextFormatter extends Formatter
                 . ' - ' . $message->errstr . "\n" . $message->backtrace;
         }
 
-        return $this->next($record, $logger);
+        return $this->next($record);
     }
 }

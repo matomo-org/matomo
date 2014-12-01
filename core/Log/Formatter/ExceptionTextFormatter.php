@@ -16,7 +16,7 @@ use Piwik\Log;
  */
 class ExceptionTextFormatter extends Formatter
 {
-    public function format(array $record, Log $logger)
+    public function format(array $record)
     {
         $message = $record['message'];
 
@@ -25,6 +25,6 @@ class ExceptionTextFormatter extends Formatter
                 ExceptionHandler::$debugBacktraceForTests ?: $message->getTraceAsString());
         }
 
-        return $this->next($record, $logger);
+        return $this->next($record);
     }
 }

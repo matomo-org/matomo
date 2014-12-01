@@ -28,7 +28,7 @@ class LineMessageFormatter extends Formatter
         $this->logMessageFormat = $logMessageFormat;
     }
 
-    public function format(array $record, Log $logger)
+    public function format(array $record)
     {
         if (! is_string($record['message'])) {
             throw new \InvalidArgumentException('Trying to log a message that is not a string');
@@ -40,6 +40,6 @@ class LineMessageFormatter extends Formatter
             $this->logMessageFormat
         );
 
-        return $this->next($record, $logger);
+        return $this->next($record);
     }
 }

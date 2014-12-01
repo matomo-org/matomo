@@ -16,7 +16,7 @@ use Piwik\Log;
  */
 class AddRequestIdFormatter extends Formatter
 {
-    public function format(array $record, Log $logger)
+    public function format(array $record)
     {
         static $currentRequestKey;
 
@@ -24,7 +24,7 @@ class AddRequestIdFormatter extends Formatter
             $currentRequestKey = substr(Common::generateUniqId(), 0, 5);
         }
 
-        $record = $this->next($record, $logger);
+        $record = $this->next($record);
 
         if (! is_string($record['message'])) {
             return $record;

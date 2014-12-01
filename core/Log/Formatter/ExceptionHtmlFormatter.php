@@ -17,10 +17,10 @@ use Piwik\Log;
  */
 class ExceptionHtmlFormatter extends Formatter
 {
-    public function format(array $record, Log $logger)
+    public function format(array $record)
     {
         if (! $record['message'] instanceof \Exception) {
-            return $this->next($record, $logger);
+            return $this->next($record);
         }
 
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
