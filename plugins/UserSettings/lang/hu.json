@@ -1,10 +1,6 @@
 {
     "UserSettings": {
-        "BrowserFamilies": "Böngészőcsaládok",
-        "Browsers": "Böngészők",
-        "ColumnBrowser": "Böngésző",
         "ColumnConfiguration": "Konfiguráció",
-        "ColumnOperatingSystem": "Operációs rendszer",
         "ColumnResolution": "Felbontás",
         "ColumnTypeOfScreen": "Képernyő típusa",
         "Configurations": "Konfigurációk",
@@ -193,15 +189,12 @@
         "Language_zh": "kínai",
         "Language_zu": "zulu",
         "LanguageCode": "Nyelvi kód",
-        "OperatingSystems": "Operációs rendszerek",
         "PluginDescription": "Jelentéseket készít a látogatóknál észlelt beállításokról és rendszerkörnyezetről mint például: böngésző típusa, böngészőcsaládok, operációs rendszer, böngésző bővítmények, képernyőfelbontás, globális beállítások.",
         "PluginDetectionDoesNotWorkInIE": "A böngészők bővítményeinek detektálása nem működik az Internet Exlporernél, így ez a jelentés csak a nem Internet Explorert használó látogatók adatait jeleníti meg.",
         "Resolutions": "Képernyőfelbontások",
         "VisitorSettings": "Látogatók adatai",
         "WideScreen": "Képernyő oldalarányai",
-        "WidgetBrowsers": "Látogatók böngészői",
         "WidgetGlobalVisitors": "Globális látogatói beállítások",
-        "WidgetOperatingSystems": "Operációs rendszerek",
         "WidgetPlugins": "Bővítmények listája",
         "WidgetResolutions": "Képernyőfelbontások",
         "WidgetWidescreen": "Normál\/szélesvásznú"

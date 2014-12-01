@@ -1,13 +1,16 @@
 {
     "DevicesDetection": {
-        "BrowserVersions": "Browser versions",
         "BrowserEngine": "Browser engine",
-        "BrowserEngines": "Browser engines",
         "BrowserEngineDocumentation": "This report shows your visitors' browsers broken down into browser eninges. %s The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.",
+        "BrowserEngines": "Browser engines",
         "BrowserFamily": "Browser family",
+        "Browsers": "Browsers",
         "BrowserVersion": "Browser version",
+        "BrowserVersions": "Browser versions",
         "Camera": "Camera",
         "CarBrowser": "Car browser",
+        "ColumnBrowser": "Browser",
+        "ColumnOperatingSystem": "Operating system",
         "Console": "Console",
         "dataTableLabelBrands": "Brand",
         "dataTableLabelModels": "Model",
@@ -21,6 +24,8 @@
         "DeviceType": "Device type",
         "FeaturePhone": "Feature phone",
         "OperatingSystemFamilies": "Operating System families",
+        "OperatingSystemFamily": "Operating system family",
+        "OperatingSystems": "Operating systems",
         "OperatingSystemVersions": "Operating System versions",
         "PluginDescription": "This plugin provides extended information about mobile devices, such as Brand (manufacturer), Model (device version), better Device type detection (tv, consoles, smart phones, desktop, etc) and more. This plugin adds a new report in 'Visitors > Devices'.",
         "SmartDisplay": "Smart display",
@@ -28,6 +33,8 @@
         "submenu": "Devices",
         "Tablet": "Tablet",
         "TV": "Tv",
-        "UserAgent": "User-Agent"
+        "UserAgent": "User-Agent",
+        "WidgetBrowsers": "Visitor Browser",
+        "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately."
     }
 }

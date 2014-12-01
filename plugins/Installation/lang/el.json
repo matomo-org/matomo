@@ -98,7 +98,6 @@
         "SystemCheckPdoAndMysqliHelp": "Σε διακομιστή Linux μπορείτε να ρυθμίσετε την php με τις ακόλουθες επιλογές: %1$s στο αρχείο php.ini, προσθέστε τις ακόλουθες γραμμές: %2$s",
         "SystemCheckPhp": "Έκδοση PHP",
         "SystemCheckPhpPdoAndMysqli": "Περισσότερες πληροφορίες στο: %1$sPHP PDO%2$s και %3$sMYSQLI%4$s.",
-        "SystemCheckSessionAutostart": "Για την αποφυγή ορισμένων προβλημάτων, ορίστε την παρακάτω τιμή στο php.ini αρχείο: session.auto_start=0",
         "SystemCheckSplHelp": "Πρέπει να ρυθμίσετε και ξαναεγκαταστήσετε την PHP με τη Βασική Βιβλιοθήκη PHP (SPL) ενεργοποιήμένη (ως προεπιλογή).",
         "SystemCheckSummaryNoProblems": "Δεν υπάρχουν προβλήματα με την εγκατάσταση του Piwik. Όλα καλά!",
         "SystemCheckSummaryThereWereErrors": "Ώωχ, το Piwik εντόπισε %1$sκρίσιμα θέματα%2$s με την εγκατάσταση του Piwik. %3$sΑυτά τα θέματα πρέπει να διορθωθούν άμεσα.%4$s",

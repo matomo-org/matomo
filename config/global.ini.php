@@ -55,7 +55,7 @@ aws_keyname = ""
 aws_pem_file = "<path to pem file>"
 aws_securitygroups[] = "default"
 aws_region = "us-east-1"
-aws_ami = "ami-609c1e08"
+aws_ami = "ami-ac24bac4"
 aws_instance_type = "c3.large"
 
 [log]

@@ -194,7 +194,7 @@ function getOSFamilyFullName($label)
     if ($label == 'unknown') {
         $label = Piwik::translate('General_Unknown');
     } else if ($label == 'Gaming Console') {
-        $label = Piwik::translate('UserSettings_GamingConsole');
+        $label = Piwik::translate('DevicesDetection_Console');
     }
 
     if ($label !== false) {

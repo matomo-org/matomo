@@ -96,7 +96,6 @@
         "SystemCheckPdoAndMysqliHelp": "Linux サーバーでは、次のオプションで PHP をコンパイルします：%1$sphp.ini に次の行を追加します：%2$s",
         "SystemCheckPhp": "PHP バージョン",
         "SystemCheckPhpPdoAndMysqli": "詳細ドキュメント：%1$sPHP PDO%2$s、%3$sMYSQLI%4$s",
-        "SystemCheckSessionAutostart": "いくつかの問題を避けるには、php.ini ファイルを以下のように設定してください。session.auto_start=0",
         "SystemCheckSplHelp": "Standard PHP Library (SPL) を有効にして、PHP の再構築と設定を行う必要があります（通常はデフォルト）。",
         "SystemCheckSummaryNoProblems": "安心してください。Piwik のセットアップに問題はありません。",
         "SystemCheckSummaryThereWereErrors": "Piwikセットアップで、いくつかの %1$scritical issues%2$s が検知されました。 %3$sThese issues should be fixed immediately.%4$s",

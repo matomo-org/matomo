@@ -1,8 +1,6 @@
 {
     "UserSettings": {
-        "Browsers": "Pretraživači",
         "ColumnConfiguration": "KOnfiguracija",
-        "ColumnOperatingSystem": "Operativni sustav",
         "ColumnResolution": "Rezolucija",
         "Configurations": "Konfiguracija",
         "Language_aa": "afarski",
@@ -189,7 +187,6 @@
         "Language_za": "zhuang",
         "Language_zh": "kineski",
         "Language_zu": "zulu",
-        "VisitorSettings": "Postavke posjetitelja",
-        "WidgetBrowsers": "Pretraživać posjetitelja"
+        "VisitorSettings": "Postavke posjetitelja"
     }
 }
