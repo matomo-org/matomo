@@ -8,6 +8,7 @@
 
 namespace Piwik\Log\Backend;
 
+use Monolog\Handler\AbstractProcessingHandler;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Log;
@@ -15,20 +16,16 @@ use Piwik\Log;
 /**
  * Writes log to database.
  */
-class DatabaseBackend extends Backend
+class DatabaseBackend extends AbstractProcessingHandler
 {
-    public function __invoke(array $record, Log $logger)
+    protected function write(array $record)
     {
-        $message = $this->formatMessage($record, $logger);
-
-        if (empty($message)) {
-            return;
-        }
+        $record = $record['formatted'];
 
         $sql = "INSERT INTO " . Common::prefixTable('logger_message')
             . " (tag, timestamp, level, message)"
             . " VALUES (?, ?, ?, ?)";
 
-        Db::query($sql, array($record['extra']['class'], $record['time']->format('Y-m-d H:i:s'), $record['level_name'], (string) $message));
+        Db::query($sql, array($record['extra']['class'], $record['time']->format('Y-m-d H:i:s'), $record['level_name'], (string) $record['message']));
     }
 }

@@ -8,15 +8,16 @@
 
 namespace Piwik\Log\Backend;
 
+use Monolog\Handler\AbstractProcessingHandler;
 use Piwik\Log;
 
 /**
  * Writes log to stdout.
  */
-class StdOutBackend extends Backend
+class StdOutBackend extends AbstractProcessingHandler
 {
-    public function __invoke(array $record, Log $logger)
+    protected function write(array $record)
     {
-        echo $this->formatMessage($record, $logger) . "\n";
+        echo $record['formatted']['message'] . "\n";
     }
 }

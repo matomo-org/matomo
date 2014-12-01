@@ -1,6 +1,8 @@
 <?php
 
 use Interop\Container\ContainerInterface;
+use Piwik\Common;
+use Piwik\Log;
 use Piwik\Log\Formatter\AddRequestIdFormatter;
 use Piwik\Log\Formatter\ErrorHtmlFormatter;
 use Piwik\Log\Formatter\ErrorTextFormatter;
@@ -29,16 +31,45 @@ return array(
 
     // Log
     'Piwik\Log' => DI\factory(array('Piwik\Log\LoggerFactory', 'createLogger')),
+    'log.level.monolog' => DI\factory(function (ContainerInterface $c) {
+        return Log::getMonologLevel($c->get('log.level.piwik'));
+    }),
+    'log.level.piwik' => DI\factory(function (ContainerInterface $c) {
+        if ($c->get('log.disabled')) {
+            return Log::NONE;
+        }
+        if ($c->has('old_config.log.log_level')) {
+            $level = strtoupper($c->get('old_config.log.log_level'));
+            if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
+                return constant('Piwik\Log::'.strtoupper($level));
+            }
+        }
+        return Log::WARN;
+    }),
+    'log.disabled' => DI\factory(function (ContainerInterface $c) {
+        $logOnlyCli = $c->has('old_config.log.log_only_when_cli') ? $c->get('old_config.log.log_only_when_cli') : false;
+        if ($logOnlyCli && !Common::isPhpCliMode()) {
+            return true;
+        }
+        $logOnlyWhenDebugParameter = $c->has('old_config.log.log_only_when_debug_parameter') ? $c->get('old_config.log.log_only_when_debug_parameter') : false;
+        if ($logOnlyWhenDebugParameter && !isset($_REQUEST['debug'])) {
+            return true;
+        }
+        return false;
+    }),
     'log.processors' => array(
         DI\link('Piwik\Log\Processor\ClassNameProcessor'),
         DI\link('Piwik\Log\Processor\SprintfProcessor'),
     ),
     'Piwik\Log\Backend\FileBackend' => DI\object()
-        ->constructor(DI\link('log.formatter.text'), DI\link('log.file.filename')),
+        ->constructor(DI\link('log.file.filename'), DI\link('log.level.monolog'))
+        ->method('setFormatter', DI\link('log.formatter.text')),
     'Piwik\Log\Backend\DatabaseBackend' => DI\object()
-        ->constructor(DI\link('log.formatter.text')),
+        ->constructor(DI\link('log.level.monolog'))
+        ->method('setFormatter', DI\link('log.formatter.text')),
     'Piwik\Log\Backend\StdOutBackend' => DI\object()
-        ->constructor(DI\link('log.formatter.html')),
+        ->constructor(DI\link('log.level.monolog'))
+        ->method('setFormatter', DI\link('log.formatter.html')),
     'log.file.filename' => DI\factory(function (ContainerInterface $c) {
         $logPath = $c->get('old_config.log.logger_file_path');
 

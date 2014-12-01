@@ -8,34 +8,36 @@
 
 namespace Piwik\Log\Backend;
 
+use Monolog\Formatter\FormatterInterface;
+use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Piwik\Log;
-use Piwik\Log\Formatter\Formatter;
 
 /**
  * Writes log to stderr.
  */
-class StdErrBackend extends Backend
+class StdErrBackend extends AbstractProcessingHandler
 {
     /**
      * @var bool
      */
     private $isLoggingToStdOut;
 
-    public function __construct(Formatter $formatter, $isLoggingToStdOut)
+    public function __construct(FormatterInterface $formatter, $isLoggingToStdOut)
     {
         $this->isLoggingToStdOut = $isLoggingToStdOut;
 
-        parent::__construct($formatter);
+        // Log level is hardcoded for this one
+        $level = Logger::ERROR;
+
+        parent::__construct($level);
+
+        $this->setFormatter($formatter);
     }
 
-    public function __invoke(array $record, Log $logger)
+    protected function write(array $record)
     {
-        if ($record['level'] < Logger::ERROR) {
-            return;
-        }
-
-        $message = $this->formatMessage($record, $logger) . "\n";
+        $message = $record['formatted']['message'] . "\n";
 
         // Do not log on stderr during tests (prevent display of errors in CI output)
         if (! defined('PIWIK_TEST_MODE')) {

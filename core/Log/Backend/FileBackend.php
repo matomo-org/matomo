@@ -8,14 +8,15 @@
 
 namespace Piwik\Log\Backend;
 
+use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Logger;
 use Piwik\Filechecks;
 use Piwik\Log;
-use Piwik\Log\Formatter\Formatter;
 
 /**
  * Writes log to file.
  */
-class FileBackend extends Backend
+class FileBackend extends AbstractProcessingHandler
 {
     /**
      * Path to the file to log to.
@@ -24,17 +25,16 @@ class FileBackend extends Backend
      */
     private $logToFilePath;
 
-    public function __construct(Formatter $formatter, $logToFilePath)
+    public function __construct($logToFilePath, $level = Logger::DEBUG)
     {
         $this->logToFilePath = $logToFilePath;
 
-        parent::__construct($formatter);
+        parent::__construct($level);
     }
 
-    public function __invoke(array $record, Log $logger)
+    protected function write(array $record)
     {
-        $message = $this->formatMessage($record, $logger);
-        $message = str_replace("\n", "\n  ", $message) . "\n";
+        $message = str_replace("\n", "\n  ", $record['formatted']['message']) . "\n";
 
         if (!@file_put_contents($this->logToFilePath, $message, FILE_APPEND)
             && !defined('PIWIK_TEST_MODE')

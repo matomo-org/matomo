@@ -8,6 +8,8 @@
 
 namespace Piwik;
 
+use Monolog\Handler\AbstractHandler;
+use Monolog\Handler\HandlerInterface;
 use Monolog\Logger;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
@@ -137,12 +139,12 @@ class Log extends Singleton
     private $processors = array();
 
     /**
-     * The array of callbacks executed when logging a message. Each callback writes a log
+     * The array of handlers called when logging a message. Each handler writes a log
      * message to a logging backend.
      *
-     * @var callable[]
+     * @var HandlerInterface[]
      */
-    private $writers = array();
+    private $handlers = array();
 
     public static function getInstance()
     {
@@ -161,13 +163,13 @@ class Log extends Singleton
     }
 
     /**
-     * @param callable[] $writers
+     * @param HandlerInterface[] $handlers
      * @param int $logLevel
      * @param callable[] $processors
      */
-    public function __construct(array $writers, $logLevel, array $processors)
+    public function __construct(array $handlers, $logLevel, array $processors)
     {
-        $this->writers = $writers;
+        $this->handlers = $handlers;
         $this->currentLogLevel = $logLevel;
         $this->processors = $processors;
     }
@@ -235,9 +237,21 @@ class Log extends Singleton
         self::logMessage(self::VERBOSE, $message, array_slice(func_get_args(), 1));
     }
 
+    /**
+     * @param int $logLevel
+     * @deprecated We should remove the log level from this class entirely
+     */
     public function setLogLevel($logLevel)
     {
         $this->currentLogLevel = $logLevel;
+
+        // Apply the log level to all handlers
+        $logLevel = self::getMonologLevel($logLevel);
+        foreach ($this->handlers as $handler) {
+            if ($handler instanceof AbstractHandler) {
+                $handler->setLevel($logLevel);
+            }
+        }
     }
 
     public function getLogLevel()
@@ -247,10 +261,6 @@ class Log extends Singleton
 
     private function doLog($level, $message, $parameters = array())
     {
-        if (!$this->shouldLoggerLog($level)) {
-            return;
-        }
-
         // Create a record similar to Monolog to ease future transition
         $record = array(
             'message'    => $message,
@@ -266,19 +276,16 @@ class Log extends Singleton
             $record = $processor($record);
         }
 
-        foreach ($this->writers as $writer) {
-            call_user_func($writer, $record, $this);
+        foreach ($this->handlers as $handler) {
+            if ($handler->isHandling($record)) {
+                $handler->handle($record);
+            }
         }
     }
 
     private static function logMessage($level, $message, $parameters)
     {
         self::getInstance()->doLog($level, $message, $parameters);
-    }
-
-    private function shouldLoggerLog($level)
-    {
-        return $level <= $this->currentLogLevel;
     }
 
     private function getStringLevel($level)
@@ -294,7 +301,7 @@ class Log extends Singleton
         return $levelToName[$level];
     }
 
-    private function getMonologLevel($level)
+    public static function getMonologLevel($level)
     {
         switch ($level) {
             case self::ERROR:

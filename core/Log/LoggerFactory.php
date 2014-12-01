@@ -9,7 +9,6 @@
 namespace Piwik\Log;
 
 use Interop\Container\ContainerInterface;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Log;
 use Piwik\Log\Backend\StdErrBackend;
@@ -25,29 +24,11 @@ class LoggerFactory
     {
         $logConfig = Config::getInstance()->log;
 
-        $logLevel = self::getLogLevel($logConfig, $container);
+        $logLevel = $container->get('log.level.piwik');
         $writers = self::getLogWriters($logConfig, $container);
         $processors = $container->get('log.processors');
 
         return new Log($writers, $logLevel, $processors);
-    }
-
-    private static function getLogLevel($logConfig, ContainerInterface $container)
-    {
-        if (self::isLoggingDisabled($logConfig)) {
-            return Log::NONE;
-        }
-
-        if ($container->has('old_config.log.log_level')) {
-            $configLogLevel = self::getLogLevelFromStringName($container->get('old_config.log.log_level'));
-
-            // sanity check
-            if ($configLogLevel >= Log::NONE && $configLogLevel <= Log::VERBOSE) {
-                return $configLogLevel;
-            }
-        }
-
-        return Log::WARN;
     }
 
     private static function getLogWriters($logConfig, ContainerInterface $container)
@@ -81,40 +62,6 @@ class LoggerFactory
         $writers['stderr'] = new StdErrBackend($container->get('log.formatter.html'), $isLoggingToStdOut);
 
         return $writers;
-    }
-
-    private static function isLoggingDisabled($logConfig)
-    {
-        if (!empty($logConfig['log_only_when_cli']) && !Common::isPhpCliMode()) {
-            return true;
-        }
-
-        if (!empty($logConfig['log_only_when_debug_parameter']) && !isset($_REQUEST['debug'])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private static function getLogLevelFromStringName($name)
-    {
-        $name = strtoupper($name);
-        switch ($name) {
-            case 'NONE':
-                return Log::NONE;
-            case 'ERROR':
-                return Log::ERROR;
-            case 'WARN':
-                return Log::WARN;
-            case 'INFO':
-                return Log::INFO;
-            case 'DEBUG':
-                return Log::DEBUG;
-            case 'VERBOSE':
-                return Log::VERBOSE;
-            default:
-                return -1;
-        }
     }
 
     private static function getAvailableWriters()
