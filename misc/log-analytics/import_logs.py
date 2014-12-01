@@ -1606,12 +1606,13 @@ class Parser(object):
 
             try:
                 hit.query_string = format.get('query_string')
-                # IIS detaults to - when there is no query string, but we want empty string
-                if hit.query_string == '-':
-                    hit.query_string = ''
                 hit.path = hit.full_path
             except BaseFormatException:
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
+
+            # IIS detaults to - when there is no query string, but we want empty string
+            if hit.query_string == '-':
+                hit.query_string = ''
 
             hit.extension = hit.path.rsplit('.')[-1].lower()
 
