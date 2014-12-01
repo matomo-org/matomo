@@ -17,8 +17,6 @@ use Piwik\Piwik;
 
 class LoggerFactory
 {
-    const DEFAULT_LOG_FILE = '/logs/piwik.log';
-
     /**
      * @param ContainerInterface $container
      * @return Log
