@@ -12,6 +12,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Jobs\Job;
 use Piwik\Jobs\Queue;
+use Piwik\Piwik;
 use Piwik\Sequence;
 
 /**
@@ -146,7 +147,7 @@ class DistributedJobsQueue implements Queue
 
     private function unserializeJob($serializedJob)
     {
-        $job = unserialize($serializedJob);
+        $job = Piwik::secureUnserialize($serializedJob, "Piwik\\Jobs\\Job");
         if (!($job instanceof Job)) {
             $job = null;
         }

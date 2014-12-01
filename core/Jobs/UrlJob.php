@@ -51,6 +51,11 @@ class UrlJob extends Job
         // empty
     }
 
+    public function getJobData()
+    {
+        return array($this->url);
+    }
+
     public function getUrlString()
     {
         $url = array_map('urlencode', $this->url);

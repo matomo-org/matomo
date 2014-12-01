@@ -7,16 +7,20 @@
  */
 namespace Piwik\Tests\Integration\Jobs\Impl;
 
-use Exception;
 use PHPUnit_Framework_Error;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Jobs\Impl\DistributedJobsQueue;
 use Piwik\Jobs\Job;
+use Piwik\Jobs\UrlJob;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class DerivedJob extends Job
 {
+    public function getJobData()
+    {
+        return array();
+    }
 }
 
 class DistributedJobsQueueTest extends IntegrationTestCase
@@ -36,7 +40,7 @@ class DistributedJobsQueueTest extends IntegrationTestCase
     public function test_enqueue_ShouldInsertsJobs()
     {
         $jobs = array(
-            new Job("?whatever=value"),
+            new UrlJob("?whatever=value"),
             new DerivedJob()
         );
 
@@ -59,7 +63,7 @@ class DistributedJobsQueueTest extends IntegrationTestCase
     public function test_enqueue_ShouldFailsToInsertNonJobInstances()
     {
         $jobs = array(
-            new Job(),
+            new UrlJob(),
             "non job"
         );
 
@@ -134,9 +138,9 @@ class DistributedJobsQueueTest extends IntegrationTestCase
     private function insertQueuedJobs()
     {
         $jobs = array(
-            new Job("?first=url"),
-            new Job("?second=url"),
-            new Job("?third=url")
+            new UrlJob("?first=url"),
+            new UrlJob("?second=url"),
+            new UrlJob("?third=url")
         );
         Db::query(
             "INSERT INTO `" . Common::prefixTable(DistributedJobsQueue::TABLE_NAME) . "` (data) VALUES (?), (?), (?)",
@@ -153,10 +157,10 @@ class DistributedJobsQueueTest extends IntegrationTestCase
         $lockId = 12345;
 
         $jobs = array(
-            new Job("?fourth=url"),
-            new Job("?fifth=url"),
-            new Job("?sixth=url"),
-            new Job("?seventh=url")
+            new UrlJob("?fourth=url"),
+            new UrlJob("?fifth=url"),
+            new UrlJob("?sixth=url"),
+            new UrlJob("?seventh=url")
         );
 
         Db::query(

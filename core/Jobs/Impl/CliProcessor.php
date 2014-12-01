@@ -12,6 +12,7 @@ use Piwik\CliMulti;
 use Piwik\Jobs\Job;
 use Piwik\Jobs\Processor;
 use Piwik\Jobs\Queue;
+use Piwik\Jobs\UrlJob;
 use Piwik\Log;
 use Piwik\Url;
 
@@ -258,7 +259,7 @@ class CliProcessor implements Processor
             $jobId = $this->getNextJobId();
 
             $this->jobs[$jobId] = $job;
-            $jobUrls[$jobId] = $job->getUrlString();
+            $jobUrls[$jobId] = $this->getUrlString($job);
         }
 
         Log::debug("CliProcessor::%s: pulled %s jobs: %s", __FUNCTION__, count($jobUrls), $jobUrls);
@@ -317,5 +318,37 @@ class CliProcessor implements Processor
     {
         ++$this->currentJobId;
         return $this->currentJobId;
+    }
+
+
+    /**
+     * Returns the URL as a string instead of an array of query parameter values.
+     *
+     * @return string
+     */
+    private function getUrlString(Job $job)
+    {
+        // for URL jobs, just use the URL to the Job so we don't have to unnecessarily json_encode/decode
+        if ($job instanceof UrlJob) {
+            return $job->getUrlString();
+        } else {
+            return $this->getGenericJobUrlString($job);
+        }
+    }
+
+    private function getGenericJobUrlString(Job $job)
+    {
+        $jobClass = get_class($job);
+        $jobData = $job->getJobData();
+
+        $params = array(
+            'module' => 'CoreAdminHome',
+            'method' => 'executeJob',
+            'jobClassName' => urlencode($jobClass),
+            'jobData' => urlencode($jobData),
+            'format' => 'json'
+        );
+
+        return '?' . Url::getQueryStringFromParameters($params);
     }
 }

@@ -35,12 +35,12 @@ use Piwik\Url;
  *             $this->myData = $myData;
  *         }
  *
- *         public function jobStarting()
+ *         public static function jobStarting()
  *         {
  *             // ...
  *         }
  *
- *         public function jobFinished($response)
+ *         public static function jobFinished($response)
  *         {
  *             // ...
  *         }
@@ -56,11 +56,13 @@ use Piwik\Url;
  *         }
  *    }
  *
- * **NOTE: This api is not stable.**
+ * Jobs are serialized completely when added to a Job queue. This means you should not
+ * store large objects w/ lots of dependencies in a Job instance. This may change in the
+ * future when Dependency Injection is added.
  *
- * TODO: do not use serialize/unserialize.
+ * **NOTE: This api is not stable.**
  */
-class Job
+abstract class Job
 {
     /**
      * The method that is executed before a job starts.
@@ -85,29 +87,5 @@ class Job
      *
      * @return array
      */
-    public function getJobData()
-    {
-        return array();
-    }
-
-    /**
-     * Returns the URL as a string instead of an array of query parameter values.
-     *
-     * @return string
-     */
-    public function getUrlString()
-    {
-        $jobClass = get_class($this);
-        $jobData = json_encode($this->getJobData());
-
-        $params = array(
-            'module' => 'CoreAdminHome',
-            'method' => 'executeJob',
-            'jobClassName' => urlencode($jobClass),
-            'jobData' => urlencode($jobData),
-            'format' => 'json'
-        );
-
-        return '?' . Url::getQueryStringFromParameters($params);
-    }
+    abstract public function getJobData();
 }

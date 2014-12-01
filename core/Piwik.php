@@ -779,4 +779,28 @@ class Piwik
 
         return $result;
     }
+
+    /**
+     * Unserializes an object only if the object's class derives from a required base type.
+     *
+     * @param string $serializedData
+     * @param string $requiredBaseClass
+     * @return mixed|null
+     * @api
+     */
+    public static function secureUnserialize($serializedData, $requiredBaseClass)
+    {
+        preg_match("/^O:\\d+:\\\"([^\"]+)\\\"/", $serializedData, $matches);
+        $serializedClass = @$matches[1];
+
+        if (!is_subclass_of($serializedClass, $requiredBaseClass)
+            && $serializedClass !== $requiredBaseClass
+        ) {
+            Log::warning("Piwik::secure_unserialize(): Found invalid serialized data, serialized class '%s' is not derived from '%s'. [serialized data = '%s']",
+                $serializedClass, $requiredBaseClass, $serializedData);
+            return null;
+        }
+
+        return unserialize($serializedData);
+    }
 }

@@ -8,11 +8,17 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Access;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+
+class TestBase {}
+
+class TestDerived extends TestBase {}
+
+interface TestOtherBase {}
+
+class TestOtherDerived implements TestOtherBase {}
 
 /**
  * @group Core
@@ -156,5 +162,34 @@ class PiwikTest extends IntegrationTestCase
     public function testIsAssociativeArray($array, $expected)
     {
         $this->assertEquals($expected, Piwik::isAssociativeArray($array));
+    }
+
+    /**
+     * @dataProvider getSecureUnserializeTestData
+     */
+    public function test_secureUnserialize_WorksAsExpected($serializedData, $requiredBaseType, $expectNull)
+    {
+        $result = Piwik::secureUnserialize($serializedData, $requiredBaseType);
+
+        if ($expectNull) {
+            $this->assertNull($result);
+        } else {
+            $this->assertNotNull($result);
+            $this->assertInstanceOf($requiredBaseType, $result);
+        }
+    }
+
+    public function getSecureUnserializeTestData()
+    {
+        return array(
+            array(serialize(array()), "Piwik\\Tests\\Integration\\TestBase", true),
+            array(serialize("sldjkfs"), "Piwik\\Tests\\Integration\\TestBase", true),
+            array(serialize(193), "Piwik\\Tests\\Integration\\TestBase", true),
+            array(serialize(new TestBase()), "Piwik\\Tests\\Integration\\TestBase", false),
+            array(serialize(new TestBase()), "Piwik\\Tests\\Integration\\TestDerived", true),
+            array(serialize(new TestDerived()), "Piwik\\Tests\\Integration\\TestBase", false),
+            array(serialize(new TestOtherDerived()), "Piwik\\Tests\\Integration\\TestBase", true),
+            array(serialize(new TestOtherDerived()), "Piwik\\Tests\\Integration\\TestOtherBase", false),
+        );
     }
 }
