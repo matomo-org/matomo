@@ -8,6 +8,7 @@
 namespace Piwik\Jobs;
 
 use Piwik\Url;
+use Piwik\UrlHelper;
 
 /**
  * A Job that executes a Piwik URL.
@@ -30,6 +31,10 @@ class UrlJob extends Job
      */
     public function __construct($url = null)
     {
+        if (is_string($url)) {
+            $url = UrlHelper::getArrayFromQueryString($url);
+        }
+
         $this->url = $url;
     }
 

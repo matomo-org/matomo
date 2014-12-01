@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;

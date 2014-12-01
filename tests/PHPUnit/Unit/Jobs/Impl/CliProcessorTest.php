@@ -11,6 +11,7 @@ use Piwik\CliMulti;
 use Piwik\Jobs\Impl\CliProcessor;
 use Piwik\Jobs\Job;
 use Piwik\Jobs\Queue;
+use Piwik\Jobs\UrlJob;
 
 class CliProcessorTest extends \PHPUnit_Framework_TestCase
 {
@@ -153,23 +154,41 @@ class CliProcessorTest extends \PHPUnit_Framework_TestCase
         $onJobsFinished = null;
 
         $finishJobsChunk = function ($onJobsFinished) use ($self) {
-            $finishedJobUrls = array_splice($self->executingJobs, 0, 3);
+            reset($self->executingJobs);
+
+            $finishedJobUrls = array();
+            $i = 0;
+            foreach ($self->executingJobs as $key => $job) {
+                if ($i >= 3) {
+                    break;
+                }
+
+                $finishedJobUrls[$key] = $job;
+                unset($self->executingJobs[$key]);
+
+                ++$i;
+            }
+
             $self->jobsExecuted = array_merge($self->jobsExecuted, $finishedJobUrls);
 
-            $onJobsFinished($finishedJobUrls); // TODO will this work?
+            $onJobsFinished($finishedJobUrls);
         };
 
         $mock = $this->getMock("Piwik\\CliMulti", array('request', 'start', 'getUnusedProcessCount'));
         $mock->expects($this->any())->method('request')->will($this->returnCallback(function ($urls, $callback)
             use ($self, &$onJobsFinished, $finishJobsChunk) {
-            $self->executingJobs = array_merge($self->executingJobs, $urls);
+            foreach ($urls as $id => $url) {
+                $self->executingJobs[$id] = $url;
+            }
             $onJobsFinished = $callback;
 
             $finishJobsChunk($callback);
         }));
         $mock->expects($this->any())->method('start')->will($this->returnCallback(function ($urls)
             use ($self, &$onJobsFinished, $finishJobsChunk) {
-            $self->executingJobs = array_merge($self->executingJobs, $urls);
+            foreach ($urls as $id => $url) {
+                $self->executingJobs[$id] = $url;
+            }
 
             $finishJobsChunk($onJobsFinished);
         }));
@@ -183,7 +202,7 @@ class CliProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $jobs = array();
         for ($i = 0; $i != $n; ++$i) {
-            $jobs[] = new Job("?jobN=$i");
+            $jobs[] = new UrlJob("?jobN=$i");
         }
         $this->mockQueue->enqueue($jobs);
     }
@@ -194,7 +213,7 @@ class CliProcessorTest extends \PHPUnit_Framework_TestCase
 
         $jobs = array();
         for ($i = 0; $i != $n; ++$i) {
-            $job = $this->getMock("Piwik\\Jobs\\Job", array('jobStarting', 'jobFinished'));
+            $job = $this->getMock("Piwik\\Jobs\\UrlJob", array('jobStarting', 'jobFinished'));
 
             if ($throw) {
                 $job->expects($this->any())->method('jobStarting')->will($this->returnCallback(function () use ($i) {
