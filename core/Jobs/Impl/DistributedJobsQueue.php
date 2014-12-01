@@ -118,17 +118,10 @@ class DistributedJobsQueue implements Queue
         return serialize($job);
     }
 
-    private static function getDefaultTableName()
-    {
-        return Common::prefixTable(self::TABLE_NAME);
-    }
-
     private function createTableIfNotExists()
     {
-        $defaultTableName = self::getDefaultTableName();
-
-        $createTableSql = DbHelper::getTableCreateSql($defaultTableName);
-        $createTableSql = str_replace($defaultTableName, $this->tableName, $createTableSql);
+        $createTableSql = DbHelper::getTableCreateSql(self::TABLE_NAME);
+        $createTableSql = str_replace(self::TABLE_NAME, $this->tableName, $createTableSql);
 
         Db::query($createTableSql);
     }

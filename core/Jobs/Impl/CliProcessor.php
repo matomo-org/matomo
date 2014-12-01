@@ -141,7 +141,7 @@ class CliProcessor implements Processor
      *
      * @param string $onJobsStartingCallback The callback to execute. Signature must be:
      *
-     *                                           function (Job[] $urls)
+     *                                           function (Job[] $jobs)
      */
     public function setOnJobsStartingCallback($onJobsStartingCallback)
     {
