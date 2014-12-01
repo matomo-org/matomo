@@ -10,7 +10,8 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Log\Backend\ScreenBackend;
+use Piwik\Log\Backend\StdOutBackend;
+use Piwik\Log\LoggerFactory;
 
 /**
  * Logging utility class.
@@ -308,16 +309,6 @@ class Log extends Singleton
         foreach ($this->writers as $writer) {
             call_user_func($writer, $level, $tag, $datetime, $message, $this);
         }
-
-        // TODO this hack should be removed
-        if ($level == self::ERROR) {
-            $screenBackend = new ScreenBackend($this->logMessageFormat);
-            $message = $screenBackend->getMessageFormattedScreen($level, $tag, $datetime, $message, $this);
-            $this->writeErrorToStandardErrorOutput($message);
-            if (!isset($this->writers['screen'])) {
-                echo $message;
-            }
-        }
     }
 
     private static function logMessage($level, $message, $sprintfParams)
@@ -355,19 +346,6 @@ class Log extends Singleton
             }
         }
         return false;
-    }
-
-    /**
-     * @param $message
-     */
-    private function writeErrorToStandardErrorOutput($message)
-    {
-        if (defined('PIWIK_TEST_MODE')) {
-            // do not log on stderr during tests (prevent display of errors in CI output)
-            return;
-        }
-        $fe = fopen('php://stderr', 'w');
-        fwrite($fe, $message);
     }
 
     /**

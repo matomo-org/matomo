@@ -14,12 +14,12 @@ use Piwik\Log;
 /**
  * Formats a log message containing a Piwik\Error object into a textual string.
  */
-class ErrorTextFormatter implements Formatter
+class ErrorTextFormatter extends Formatter
 {
     public function format($message, $level, $tag, $datetime, Log $logger)
     {
         if (! $message instanceof Error) {
-            return $message;
+            return $this->next($message, $level, $tag, $datetime, $logger);
         }
 
         $message = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)

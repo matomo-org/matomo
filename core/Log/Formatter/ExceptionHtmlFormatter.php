@@ -15,12 +15,12 @@ use Piwik\Log;
 /**
  * Formats a log message containing an exception object into an HTML response.
  */
-class ExceptionHtmlFormatter implements Formatter
+class ExceptionHtmlFormatter extends Formatter
 {
     public function format($message, $level, $tag, $datetime, Log $logger)
     {
         if (! $message instanceof \Exception) {
-            return $message;
+            return $this->next($message, $level, $tag, $datetime, $logger);
         }
 
         Common::sendHeader('Content-Type: text/html; charset=utf-8');

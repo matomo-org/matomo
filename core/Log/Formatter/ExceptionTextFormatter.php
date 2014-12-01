@@ -14,12 +14,12 @@ use Piwik\Log;
 /**
  * Formats a log message containing an exception object into a textual string.
  */
-class ExceptionTextFormatter implements Formatter
+class ExceptionTextFormatter extends Formatter
 {
     public function format($message, $level, $tag, $datetime, Log $logger)
     {
         if (! $message instanceof \Exception) {
-            return $message;
+            return $this->next($message, $level, $tag, $datetime, $logger);
         }
 
         $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),

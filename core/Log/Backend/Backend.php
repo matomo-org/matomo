@@ -9,6 +9,7 @@
 namespace Piwik\Log\Backend;
 
 use Piwik\Log;
+use Piwik\Log\Formatter\Formatter;
 
 /**
  * Log backend.
@@ -16,41 +17,30 @@ use Piwik\Log;
 abstract class Backend
 {
     /**
-     * The log message format string that turns a tag name, date-time and message into
-     * one string to log.
-     *
-     * @var string
+     * @var Formatter
      */
-    private $logMessageFormat;
+    private $formatter;
 
-    public function __construct($logMessageFormat)
+    public function __construct(Formatter $formatter)
     {
-        $this->logMessageFormat = $logMessageFormat;
+        $this->formatter = $formatter;
     }
 
     public abstract function __invoke($level, $tag, $datetime, $message, Log $logger);
 
     /**
-     * Creates log message combining logging info including a log level, tag name,
-     * date time, and caller-provided log message. The log message can be set through
-     * the `[log] string_message_format` INI config option. By default it will
-     * create log messages like:
-     *
-     * **LEVEL [tag:datetime] log message**
+     * Formats the log message using the configured formatter.
      *
      * @param int $level
      * @param string $tag
      * @param string $datetime
      * @param string $message
+     * @param Log $logger
      * @return string
      */
-    protected function formatMessage($level, $tag, $datetime, $message)
+    protected function formatMessage($level, $tag, $datetime, $message, Log $logger)
     {
-        return str_replace(
-            array("%tag%", "%message%", "%datetime%", "%level%"),
-            array($tag, trim($message), $datetime, $this->getStringLevel($level)),
-            $this->logMessageFormat
-        );
+        return trim($this->formatter->format($message, $level, $tag, $datetime, $logger));
     }
 
     protected function getStringLevel($level)

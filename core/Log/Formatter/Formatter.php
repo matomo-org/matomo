@@ -12,9 +12,17 @@ use Piwik\Log;
 
 /**
  * Formats a log message.
+ *
+ * Follows the Chain of responsibility design pattern, so don't forget to call `$this->next(...)`
+ * at the end of the `format()` method.
  */
-interface Formatter
+abstract class Formatter
 {
+    /**
+     * @var Formatter|null
+     */
+    protected $next;
+
     /**
      * @param mixed $message Log message.
      * @param int $level The log level used with this log entry.
@@ -24,5 +32,24 @@ interface Formatter
      *
      * @return mixed
      */
-    public function format($message, $level, $tag, $datetime, Log $logger);
+    public abstract function format($message, $level, $tag, $datetime, Log $logger);
+
+    /**
+     * Chain of responsibility pattern.
+     *
+     * @param Formatter $formatter
+     */
+    public function setNext(Formatter $formatter)
+    {
+        $this->next = $formatter;
+    }
+
+    protected function next($message, $level, $tag, $datetime, Log $logger)
+    {
+        if (! $this->next) {
+            return $message;
+        }
+
+        return $this->next->format($message, $level, $tag, $datetime, $logger);
+    }
 }

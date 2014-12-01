@@ -16,12 +16,12 @@ use Piwik\Version;
 /**
  * Formats a log message containing a Piwik\Error object into an HTML string.
  */
-class ErrorHtmlFormatter implements Formatter
+class ErrorHtmlFormatter extends Formatter
 {
     public function format($message, $level, $tag, $datetime, Log $logger)
     {
         if (! $message instanceof Error) {
-            return $message;
+            return $this->next($message, $level, $tag, $datetime, $logger);
         }
 
         $errno = $message->errno & error_reporting();

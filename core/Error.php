@@ -8,9 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Log\Formatter\ErrorHtmlFormatter;
-use Piwik\Log\Formatter\ErrorTextFormatter;
-
 require_once PIWIK_INCLUDE_PATH . '/core/Log.php';
 
 /**
@@ -123,24 +120,8 @@ class Error
         }
     }
 
-    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, Log $log)
-    {
-        $formatter = new ErrorTextFormatter();
-        $message = $formatter->format($message, $level, $tag, $datetime, $log);
-    }
-
-    public static function formatScreenMessage(&$message, $level, $tag, $datetime, $log)
-    {
-        $formatter = new ErrorHtmlFormatter();
-        $message = $formatter->format($message, $level, $tag, $datetime, $log);
-    }
-
     public static function setErrorHandler()
     {
-        Piwik::addAction('Log.formatFileMessage', array('Piwik\Error', 'formatFileAndDBLogMessage'));
-        Piwik::addAction('Log.formatDatabaseMessage', array('Piwik\Error', 'formatFileAndDBLogMessage'));
-        Piwik::addAction('Log.formatScreenMessage', array('Piwik\Error', 'formatScreenMessage'));
-
         set_error_handler(array('Piwik\Error', 'errorHandler'));
     }
 
