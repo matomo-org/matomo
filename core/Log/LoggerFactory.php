@@ -12,17 +12,7 @@ use Interop\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Log;
-use Piwik\Log\Backend\DatabaseBackend;
-use Piwik\Log\Backend\FileBackend;
-use Piwik\Log\Backend\StdOutBackend;
 use Piwik\Log\Backend\StdErrBackend;
-use Piwik\Log\Formatter\AddRequestIdFormatter;
-use Piwik\Log\Formatter\ErrorHtmlFormatter;
-use Piwik\Log\Formatter\ErrorTextFormatter;
-use Piwik\Log\Formatter\ExceptionHtmlFormatter;
-use Piwik\Log\Formatter\ExceptionTextFormatter;
-use Piwik\Log\Formatter\HtmlPreFormatter;
-use Piwik\Log\Formatter\LineMessageFormatter;
 use Piwik\Piwik;
 
 class LoggerFactory
@@ -37,10 +27,8 @@ class LoggerFactory
     {
         $logConfig = Config::getInstance()->log;
 
-        $messageFormat = $container->get('log.format');
-        $logFilePath = self::getLogFilePath($logConfig, $container);
         $logLevel = self::getLogLevel($logConfig, $container);
-        $writers = self::getLogWriters($logConfig, $messageFormat, $logFilePath);
+        $writers = self::getLogWriters($logConfig, $container);
         $processors = $container->get('log.processors');
 
         return new Log($writers, $logLevel, $processors);
@@ -64,7 +52,7 @@ class LoggerFactory
         return Log::WARN;
     }
 
-    private static function getLogWriters($logConfig, $messageFormat, $logFilePath)
+    private static function getLogWriters($logConfig, ContainerInterface $container)
     {
         $writerNames = @$logConfig[Log::LOG_WRITERS_CONFIG_OPTION];
 
@@ -72,7 +60,7 @@ class LoggerFactory
             return array();
         }
 
-        $availableWriters = self::getAvailableWriters($messageFormat, $logFilePath);
+        $availableWriters = self::getAvailableWriters($container);
 
         $writerNames = array_map('trim', $writerNames);
         $writers = array();
@@ -87,35 +75,9 @@ class LoggerFactory
 
         // Always add the stderr backend
         $isLoggingToStdOut = isset($writers['screen']);
-        $writers['stderr'] = new StdErrBackend(self::getScreenFormatter($messageFormat), $isLoggingToStdOut);
+        $writers['stderr'] = new StdErrBackend($container->get('log.formatter.html'), $isLoggingToStdOut);
 
         return $writers;
-    }
-
-    private static function getLogFilePath($logConfig, ContainerInterface $container)
-    {
-        $logPath = @$logConfig[Log::LOGGER_FILE_PATH_CONFIG_OPTION];
-
-        // Absolute path
-        if (strpos($logPath, '/') === 0) {
-            return $logPath;
-        }
-
-        // Remove 'tmp/' at the beginning
-        if (strpos($logPath, 'tmp/') === 0) {
-            $logPath = substr($logPath, strlen('tmp'));
-        }
-
-        if (empty($logPath)) {
-            $logPath = self::DEFAULT_LOG_FILE;
-        }
-
-        $logPath = $container->get('path.tmp') . $logPath;
-        if (is_dir($logPath)) {
-            $logPath .= '/piwik.log';
-        }
-
-        return $logPath;
     }
 
     private static function isLoggingDisabled($logConfig)
@@ -152,7 +114,7 @@ class LoggerFactory
         }
     }
 
-    private static function getAvailableWriters($messageFormat, $logFilePath)
+    private static function getAvailableWriters(ContainerInterface $container)
     {
         $writers = array();
 
@@ -184,49 +146,10 @@ class LoggerFactory
          */
         Piwik::postEvent(Log::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
-        $writers['file'] = new FileBackend(self::getFileAndDbFormatter($messageFormat), $logFilePath);
-        $writers['screen'] = new StdOutBackend(self::getScreenFormatter($messageFormat));
-        $writers['database'] = new DatabaseBackend(self::getFileAndDbFormatter($messageFormat));
+        $writers['file'] = $container->get('Piwik\Log\Backend\FileBackend');
+        $writers['screen'] = $container->get('Piwik\Log\Backend\StdOutBackend');
+        $writers['database'] = $container->get('Piwik\Log\Backend\DatabaseBackend');
 
         return $writers;
-    }
-
-    public static function createScreenBackend($messageFormat)
-    {
-        return new StdOutBackend(self::getScreenFormatter($messageFormat));
-    }
-
-    private static function getFileAndDbFormatter($messageFormat)
-    {
-        // Chain of responsibility pattern
-        $lineFormatter = new LineMessageFormatter($messageFormat);
-
-        $exceptionFormatter = new ExceptionTextFormatter();
-        $exceptionFormatter->setNext($lineFormatter);
-
-        $errorFormatter = new ErrorTextFormatter();
-        $errorFormatter->setNext($exceptionFormatter);
-
-        return $errorFormatter;
-    }
-
-    private static function getScreenFormatter($messageFormat)
-    {
-        // Chain of responsibility pattern
-        $lineFormatter = new LineMessageFormatter($messageFormat);
-
-        $addRequestIdFormatter = new AddRequestIdFormatter();
-        $addRequestIdFormatter->setNext($lineFormatter);
-
-        $htmlPreFormatter = new HtmlPreFormatter();
-        $htmlPreFormatter->setNext($addRequestIdFormatter);
-
-        $exceptionFormatter = new ExceptionHtmlFormatter();
-        $exceptionFormatter->setNext($htmlPreFormatter);
-
-        $errorFormatter = new ErrorHtmlFormatter();
-        $errorFormatter->setNext($exceptionFormatter);
-
-        return $errorFormatter;
     }
 }
