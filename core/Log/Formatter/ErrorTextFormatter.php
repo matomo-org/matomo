@@ -18,13 +18,11 @@ class ErrorTextFormatter extends Formatter
 {
     public function format($message, $level, $tag, $datetime, Log $logger)
     {
-        if (! $message instanceof Error) {
-            return $this->next($message, $level, $tag, $datetime, $logger);
+        if ($message instanceof Error) {
+            $message = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)
+                . ' - ' . $message->errstr . "\n" . $message->backtrace;
         }
 
-        $message = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)
-            . ' - ' . $message->errstr . "\n" . $message->backtrace;
-
-        return $logger->formatMessage($level, $tag, $datetime, $message);
+        return $this->next($message, $level, $tag, $datetime, $logger);
     }
 }

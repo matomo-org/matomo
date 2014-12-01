@@ -18,13 +18,11 @@ class ExceptionTextFormatter extends Formatter
 {
     public function format($message, $level, $tag, $datetime, Log $logger)
     {
-        if (! $message instanceof \Exception) {
-            return $this->next($message, $level, $tag, $datetime, $logger);
+        if ($message instanceof \Exception) {
+            $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
+                ExceptionHandler::$debugBacktraceForTests ?: $message->getTraceAsString());
         }
 
-        $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
-            ExceptionHandler::$debugBacktraceForTests ?: $message->getTraceAsString());
-
-        return $logger->formatMessage($level, $tag, $datetime, $message);
+        return $this->next($message, $level, $tag, $datetime, $logger);
     }
 }

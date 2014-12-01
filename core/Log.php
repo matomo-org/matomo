@@ -10,8 +10,6 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Log\Backend\StdOutBackend;
-use Piwik\Log\LoggerFactory;
 
 /**
  * Logging utility class.
@@ -155,14 +153,6 @@ class Log extends Singleton
      */
     private $writers = array();
 
-    /**
-     * The log message format string that turns a tag name, date-time and message into
-     * one string to log.
-     *
-     * @var string
-     */
-    private $logMessageFormat;
-
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -181,14 +171,12 @@ class Log extends Singleton
 
     /**
      * @param callable[] $writers
-     * @param string $logMessageFormat
      * @param int $logLevel
      * @param callable[] $processors
      */
-    public function __construct(array $writers, $logMessageFormat, $logLevel, array $processors)
+    public function __construct(array $writers, $logLevel, array $processors)
     {
         $this->writers = $writers;
-        $this->logMessageFormat = $logMessageFormat;
         $this->currentLogLevel = $logLevel;
         $this->processors = $processors;
     }
@@ -256,29 +244,6 @@ class Log extends Singleton
         self::logMessage(self::VERBOSE, $message, array_slice(func_get_args(), 1));
     }
 
-    /**
-     * Creates log message combining logging info including a log level, tag name,
-     * date time, and caller-provided log message. The log message can be set through
-     * the `[log] string_message_format` INI config option. By default it will
-     * create log messages like:
-     *
-     * **LEVEL [tag:datetime] log message**
-     *
-     * @param int $level
-     * @param string $tag
-     * @param string $datetime
-     * @param string $message
-     * @return string
-     */
-    public function formatMessage($level, $tag, $datetime, $message)
-    {
-        return str_replace(
-            array("%tag%", "%message%", "%datetime%", "%level%"),
-            array($tag, trim($message), $datetime, $this->getStringLevel($level)),
-            $this->logMessageFormat
-        );
-    }
-
     public function setLogLevel($logLevel)
     {
         $this->currentLogLevel = $logLevel;
@@ -319,19 +284,6 @@ class Log extends Singleton
     private function shouldLoggerLog($level)
     {
         return $level <= $this->currentLogLevel;
-    }
-
-    private function getStringLevel($level)
-    {
-        static $levelToName = array(
-            self::NONE    => 'NONE',
-            self::ERROR   => 'ERROR',
-            self::WARN    => 'WARN',
-            self::INFO    => 'INFO',
-            self::DEBUG   => 'DEBUG',
-            self::VERBOSE => 'VERBOSE'
-        );
-        return $levelToName[$level];
     }
 
     private function getClassNameThatIsLogging($backtrace)

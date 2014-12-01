@@ -43,7 +43,7 @@ class LoggerFactory
         $writers = self::getLogWriters($logConfig, $messageFormat, $logFilePath);
         $processors = $container->get('log.processors');
 
-        return new Log($writers, $messageFormat, $logLevel, $processors);
+        return new Log($writers, $logLevel, $processors);
     }
 
     private static function getLogLevel($logConfig, ContainerInterface $container)
