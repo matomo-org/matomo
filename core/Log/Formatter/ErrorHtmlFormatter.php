@@ -40,7 +40,7 @@ class ErrorHtmlFormatter extends Formatter
         $html = '';
         $html .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
         <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
-        and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' rel='noreferrer' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
+        and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
         ";
         $html .= Error::getErrNoString($message->errno);
         $html .= ":</strong> <em>{$message->errstr}</em> in <strong>{$message->errfile}</strong>";
