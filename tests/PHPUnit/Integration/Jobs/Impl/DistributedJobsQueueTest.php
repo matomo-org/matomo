@@ -115,13 +115,13 @@ class DistributedJobsQueueTest extends IntegrationTestCase
         $this->assertEquals(3, count($jobs));
 
         $this->assertInstanceOf("Piwik\\Jobs\\Job", $jobs[0]);
-        $this->assertEquals("?first=url", $jobs[0]->url);
+        $this->assertEquals(array('first' => 'url'), $jobs[0]->url);
 
         $this->assertInstanceOf("Piwik\\Jobs\\Job", $jobs[1]);
-        $this->assertEquals("?second=url", $jobs[1]->url);
+        $this->assertEquals(array('second' => 'url'), $jobs[1]->url);
 
         $this->assertInstanceOf("Piwik\\Jobs\\Job", $jobs[2]);
-        $this->assertEquals("?third=url", $jobs[2]->url);
+        $this->assertEquals(array('third' => 'url'), $jobs[2]->url);
     }
 
     private function getAllJobData()
