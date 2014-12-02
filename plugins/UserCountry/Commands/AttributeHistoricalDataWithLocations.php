@@ -32,7 +32,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     const SEGMENT_LIMIT_OPTION = 'segmentLimit';
 
     /**
-     * @var LogsRepositoryInterface
+     * @var LogRaw
      */
     protected $repository;
 
@@ -147,9 +147,6 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $this->start = time();
         $lastId = 0;
 
-        /**
-         * @var PDORow $row
-         */
         do {
             $logs = $this->repository->getVisitsWithDatesLimit(
                 $from, $to,
