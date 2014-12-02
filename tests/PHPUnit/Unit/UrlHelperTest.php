@@ -21,6 +21,7 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
         return array(
             // valid urls
             array('http://piwik.org', true),
+            array('//piwik.org', true), // valid network-path reference RFC3986
             array('http://www.piwik.org', true),
             array('https://piwik.org', true),
             array('https://piwik.org/dir/dir2/?oeajkgea7aega=&ge=a', true),
@@ -207,6 +208,7 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path'));
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path?test=test2'));
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('localhost/path'));
+        $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path'));
         $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('sub.localhost/path'));
         $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('http://sub.localhost/path/?query=test'));
     }
