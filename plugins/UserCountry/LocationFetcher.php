@@ -22,40 +22,56 @@ class LocationFetcher
     protected static $cachedLocations = array();
 
     /**
-     * @var LocationFetcherProvider
+     * @var string
      */
-    protected $locationFetcherProvider;
+    protected $currentLocationProviderId;
 
     /**
-     * @param LocationFetcherProvider|null $locationFetcherProvider
+     * @var callable|string
      */
-    public function __construct(LocationFetcherProvider $locationFetcherProvider = null)
+    protected $getProviderByIdCallback;
+
+    /**
+     * @param null|string $currentLocationProviderId
+     * @param null $getProviderByIdCallback
+     */
+    public function __construct($currentLocationProviderId = null, $getProviderByIdCallback = null)
     {
-        if ($locationFetcherProvider === null) {
-            $locationFetcherProvider = new LocationFetcherProvider();
+        if ($currentLocationProviderId === null) {
+            $currentLocationProviderId = Common::getCurrentLocationProviderId();
         }
 
-        $this->locationFetcherProvider = $locationFetcherProvider;
+        $this->currentLocationProviderId = $currentLocationProviderId;
+
+        if (!is_callable($getProviderByIdCallback)) {
+            $getProviderByIdCallback = '\Piwik\Plugins\UserCountry\LocationProvider::getProviderById';
+        }
+
+        $this->getProviderByIdCallback = $getProviderByIdCallback;
     }
 
-    public function getLocation($userInfo, $useClassCache = true)
+    public function getLocation($userInfo, $useClassCache = true, $defaultProviderId = null)
     {
+        if ($defaultProviderId === null) {
+            $defaultProviderId = DefaultProvider::ID;
+        }
+
         $userInfoKey = md5(implode(',', $userInfo));
 
         if (array_key_exists($userInfoKey, self::$cachedLocations) && $useClassCache) {
             return self::$cachedLocations[$userInfoKey];
         }
 
-        $provider = $this->locationFetcherProvider->get();
+        $provider = $this->getProvider();
         $location = $this->getLocationObject($provider, $userInfo);
 
         if (empty($location)) {
             $providerId = $provider->getId();
             Common::printDebug("GEO: couldn't find a location with Geo Module '$providerId'");
 
-            if (!$this->locationFetcherProvider->isDefaultProvider($provider)) {
+            if (empty($provider) && $defaultProviderId == $provider->getId()) {
                 Common::printDebug("Using default provider as fallback...");
-                $provider = $this->locationFetcherProvider->getDefaultProvider();
+                $provider = call_user_func($this->getProviderByIdCallback, $defaultProviderId);
                 $location = $this->getLocationObject($provider, $userInfo);
             }
         }
@@ -71,6 +87,23 @@ class LocationFetcher
         self::$cachedLocations[$userInfoKey] = $location;
 
         return $location;
+    }
+
+    public function getProvider($defaultProviderId = null)
+    {
+        if ($defaultProviderId === null) {
+            $defaultProviderId = DefaultProvider::ID;
+        }
+
+        $id = $this->currentLocationProviderId;
+        $provider = call_user_func($this->getProviderByIdCallback, $id);
+
+        if ($provider === false) {
+            $provider = call_user_func($this->getProviderByIdCallback, $defaultProviderId);
+            Common::printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
+        }
+
+        return $provider;
     }
 
     /**
