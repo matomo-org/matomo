@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UserCountry\tests\Unit;
 
 use PHPUnit_Framework_MockObject_MockObject;
 use Piwik\Plugins\UserCountry\LocationFetcher;
-use Piwik\Plugins\UserCountry\LocationFetcherProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;
 
@@ -34,9 +33,7 @@ class LocationFetcherTest extends ProviderTest
             ->method('getLocation')
             ->will($this->returnValue($location));
 
-        $locationFetcherProvider = $this->getLocationFetcherProviderMock($provider);
-
-        $locationFetcher = new LocationFetcher($locationFetcherProvider);
+        $locationFetcher = $this->getLocationFetcherWithProviderMock($provider, 'mock_provider');
 
         $this->assertEquals(
             $location,
@@ -44,6 +41,9 @@ class LocationFetcherTest extends ProviderTest
         );
     }
 
+    /**
+     *
+     */
     public function test_getLocation_shouldReturnLocationForProvider_IfLocationCountryCodeIsNotSetShouldSetAsxx()
     {
         $location = array(
@@ -55,9 +55,7 @@ class LocationFetcherTest extends ProviderTest
             ->method('getLocation')
             ->will($this->returnValue($location));
 
-        $locationFetcherProvider = $this->getLocationFetcherProviderMock($provider);
-
-        $locationFetcher = new LocationFetcher($locationFetcherProvider);
+        $locationFetcher = $this->getLocationFetcherWithProviderMock($provider, 'mock_provider');
 
         $this->assertEquals(
             array_merge(
@@ -89,9 +87,7 @@ class LocationFetcherTest extends ProviderTest
             ->method('getLocation')
             ->will($this->returnValue($locations['pl']));
 
-        $locationFetcherProvider = $this->getLocationFetcherProviderMock($poland);
-
-        $locationFetcher = new LocationFetcher($locationFetcherProvider);
+        $locationFetcher = $this->getLocationFetcherWithProviderMock($poland, 'mock_provider');
         $locationFetcher->getLocation(array('ip' => '10.0.0.1'));
 
         $nz = $this->getProviderMock();
@@ -99,12 +95,8 @@ class LocationFetcherTest extends ProviderTest
             ->method('getLocation')
             ->will($this->returnValue($locations['nz']));
 
-        $locationFetcherProvider = $this->getLocationFetcherProviderMock($nz);
-
-        $locationFetcher = new LocationFetcher($locationFetcherProvider);
+        $locationFetcher = $this->getLocationFetcherWithProviderMock($nz, 'mock_provider');
         $locationFetcher->getLocation(array('ip' => '10.0.0.2'));
-
-        $locationFetcher = new LocationFetcher($this->getLocationFetcherProviderMock());
 
         $this->assertEquals(
             $locations,
@@ -115,26 +107,82 @@ class LocationFetcherTest extends ProviderTest
         );
     }
 
-    /**
-     * @param LocationProvider $provider
-     * @return PHPUnit_Framework_MockObject_MockObject|LocationFetcherProvider
-     */
-    public function getLocationFetcherProviderMock(LocationProvider $provider = null)
+    public function test_get_shouldReturnDefaultProvider_IfCurrentProviderReturnFalse()
     {
-        /**
-         * @var PHPUnit_Framework_MockObject_MockObject|LocationFetcherProvider $mock
-         */
-        $mock = $this->getMockBuilder('\Piwik\Plugins\UserCountry\LocationFetcherProvider')
-            ->disableOriginalConstructor()
-            ->setMethods(array('get'))
+        $providerGetterMock = $this->getMockBuilder('\Piwik\Plugins\UserCountry\tests\Mock\ProviderGetterMock')
+            ->setMethods(array('getProviderById'))
             ->getMock();
 
-        if ($provider !== null) {
-            $mock->expects($this->once())
-                ->method('get')
-                ->will($this->returnValue($provider));
-        }
+        $providerGetterMock->expects($this->exactly(2))
+            ->method('getProviderById')
+            ->will($this->returnCallback(
+                function ($id)
+                {
+                    switch ($id) {
+                        case 'CurrentProviderId':
+                            return false;
 
-        return $mock;
+                        case 'DefaultProviderId':
+                            return 'DefaultProvider';
+                    }
+
+                    return false;
+                }
+            ));
+
+        $locationFetcher = new LocationFetcher(
+            'CurrentProviderId', array($providerGetterMock, 'getProviderById'), 'DefaultProviderId'
+        );
+
+        $this->assertEquals('DefaultProvider', $locationFetcher->getProvider('DefaultProviderId'));
     }
-} 
+
+    public function test_get_shouldReturnCurrentProvider_IfCurrentProviderIsSet()
+    {
+        $providerGetterMock = $this->getMockBuilder('\Piwik\Plugins\UserCountry\tests\Mock\ProviderGetterMock')
+            ->setMethods(array('getProviderById'))
+            ->getMock();
+
+        $providerGetterMock->expects($this->once())
+            ->method('getProviderById')
+            ->will($this->returnCallback(
+                function ($id)
+                {
+                    switch ($id) {
+                        case 'CurrentProviderId':
+                            return 'CurrentProvider';
+
+                        case 'DefaultProviderId':
+                            return 'DefaultProvider';
+                    }
+
+                    return false;
+                }
+            ));
+
+        $locationFetcher = new LocationFetcher(
+            'CurrentProviderId', array($providerGetterMock, 'getProviderById')
+        );
+
+        $this->assertEquals('CurrentProvider', $locationFetcher->getProvider('DefaultProviderId'));
+    }
+
+    /**
+     * @param $provider
+     * @param string $currentLocationProviderId
+     * @return PHPUnit_Framework_MockObject_MockObject|LocationFetcher
+     */
+    protected function getLocationFetcherWithProviderMock($provider, $currentLocationProviderId = null)
+    {
+        $locationFetcher = $this->getMockBuilder('\Piwik\Plugins\UserCountry\LocationFetcher')
+            ->setConstructorArgs(array($currentLocationProviderId))
+            ->setMethods(array('getProvider'))
+            ->getMock();
+
+        $locationFetcher->expects($this->once())
+            ->method('getProvider')
+            ->willReturn($provider);
+
+        return $locationFetcher;
+    }
+}
