@@ -14,7 +14,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugins\CustomPages\Visualization\HtmlTable;
 use Piwik\Plugins\Goals\Goals;
 use Piwik\Plugins\Goals\Columns\Metrics\AveragePrice;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageQuantity;
@@ -98,8 +97,6 @@ abstract class BaseEcommerceItem extends BaseEcommerce
             unset($columns['orders']);
             unset($columns['conversion_rate']);
 
-            $view->requestConfig->request_parameters_to_modify['abandonedCarts'] = '1';
-
             $columnsOrdered = array('label', 'revenue', 'quantity', 'avg_price', 'avg_quantity', 'nb_visits',
                                     'abandoned_carts');
         }
@@ -108,15 +105,10 @@ abstract class BaseEcommerceItem extends BaseEcommerce
 
         $view->config->addTranslations($translations);
         $view->config->columns_to_display = $columnsOrdered;
-
-        if ($view instanceof HtmlTable) {
-            $view->config->custom_parameters['viewDataTable'] =
-                $abandonedCart ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART : Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
-        }
     }
 
     private function isAbandonedCart()
     {
-        return Common::getRequestVar('viewDataTable', 'ecommerceOrder', 'string') == 'ecommerceAbandonedCart';
+        return Common::getRequestVar('abandonedCarts', '0', 'string') == 1;
     }
 }

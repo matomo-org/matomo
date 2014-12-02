@@ -1890,11 +1890,21 @@ var switchToHtmlTable = function (dataTable, viewDataTable) {
     dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };
 
+var switchToEcommerceView = function (dataTable, viewDataTable) {
+    if (viewDataTable == 'ecommerceOrder') {
+        dataTable.param.abandonedCarts = '0';
+    } else {
+        dataTable.param.abandonedCarts = '1';
+    }
+
+    switchToHtmlTable(dataTable, dataTable.param.viewDataTable);
+};
+
 DataTable.registerFooterIconHandler('table', switchToHtmlTable);
 DataTable.registerFooterIconHandler('tableAllColumns', switchToHtmlTable);
 DataTable.registerFooterIconHandler('tableGoals', switchToHtmlTable);
-DataTable.registerFooterIconHandler('ecommerceOrder', switchToHtmlTable);
-DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToHtmlTable);
+DataTable.registerFooterIconHandler('ecommerceOrder', switchToEcommerceView);
+DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToEcommerceView);
 
 // generic function to handle switch to graph visualizations
 DataTable.switchToGraph = function (dataTable, viewDataTable) {

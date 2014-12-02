@@ -179,7 +179,7 @@ class Model
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
-        $this->getDb()->update($this->table,
+        $this->getDb()->update(Common::prefixTable('user'),//$this->table,
             array(
                 'superuser_access' => $hasSuperUserAccess ? 1 : 0
             ),
