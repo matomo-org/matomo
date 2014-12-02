@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\UserCountry\Commands;
 
 use PDORow;
-use Piwik\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\LocationFetcher;
 use Piwik\Plugins\UserCountry\LocationFetcherProvider;
@@ -17,6 +17,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Repository\Mysql\LogsRepository;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Piwik\Plugins\UserCountry\Repository\LogsRepository as LogsRepositoryInterface;
 
@@ -28,6 +29,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     const PROVIDER_ARGUMENT = 'provider';
 
+    const SEGMENT_LIMIT_OPTION = 'segmentLimit';
+
     /**
      * @var LogsRepositoryInterface
      */
@@ -37,6 +40,31 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      * @var LocationFetcher
      */
     protected $locationFetcher;
+
+    /**
+     * @var int
+     */
+    private $processed = 0;
+
+    /**
+     * @var int
+     */
+    private $amountOfVisits;
+
+    /**
+     * @var int
+     */
+    private $start;
+
+    /**
+     * @var int
+     */
+    private $percentStep;
+
+    /**
+     * @var array
+     */
+    private $percentConfirmed;
 
     /**
      * @var array
@@ -72,6 +100,14 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             'Provider id which should be used to attribute visits. If empty then Piwik will use default provider.'
         );
 
+        $this->addOption(
+            self::SEGMENT_LIMIT_OPTION,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Number of segments in single iteration.',
+            1000
+        );
+
         $this->repository = new LogsRepository();
     }
 
@@ -84,8 +120,10 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     {
         $from = $this->getDateArgument($input, self::DATES_RANGE_ARGUMENT, 0);
         $to = $this->getDateArgument($input, self::DATES_RANGE_ARGUMENT, 1);
+        $segmentLimit = $input->getOption(self::SEGMENT_LIMIT_OPTION);
 
-        $percentStep = $this->getPercentStep($input);
+        $this->percentStep = $this->getPercentStep($input);
+        $this->amountOfVisits = $this->repository->countVisitsWithDatesLimit($from, $to);
 
         if (!$from || !$to) {
             $output->writeln(
@@ -97,106 +135,67 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             return 1;
         }
 
-        $locationFetcherProvider = new LocationFetcherProvider(
-            $input->getArgument(self::PROVIDER_ARGUMENT)
-        );
-
+        $locationFetcherProvider = new LocationFetcherProvider($input->getArgument(self::PROVIDER_ARGUMENT));
         $this->locationFetcher = new LocationFetcher($locationFetcherProvider);
-
-        $logsCursor = $this->repository->getVisitsWithDatesLimit(
-            $from, $to,
-            array_keys($this->logVisitFieldsToUpdate)
-        );
-        $amountOfVisits = $this->repository->countVisitsWithDatesLimit($from, $to);
 
         $output->writeln(
             sprintf('Re-attribution for date range: %s to %s. %d visits to process with provider "%s".',
-                $from, $to, $amountOfVisits, $locationFetcherProvider->get()->getId()
+                $from, $to, $this->amountOfVisits, $locationFetcherProvider->get()->getId()
             )
         );
 
-        $start = time();
-        $processed = 0;
-
-        $percentConfirmed = array();
+        $this->start = time();
+        $lastId = 0;
 
         /**
          * @var PDORow $row
          */
-        while ($row = $logsCursor->fetch()) {
-            if (empty($row->idvisit)) {
-                if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                    $output->writeln('Empty idvisit field. Skipping...');
-                }
+        do {
+            $logs = $this->repository->getVisitsWithDatesLimit(
+                $from, $to,
+                array_keys($this->logVisitFieldsToUpdate),
+                $lastId,
+                $segmentLimit
+            );
 
-                continue;
+            if (!empty($logs)) {
+                $lastId = $logs[count($logs) - 1]['idvisit'];
             }
 
-            if (empty($row->location_ip)) {
+            /**
+             * @var array $row
+             */
+            foreach ($logs as $row) {
+                if (!$this->isRowComplete($output, $row)) {
+                    continue;
+                }
+
+                $idVisit = $row['idvisit'];
+                $ip = IPUtils::binaryToStringIP($row['location_ip']);
+                list($columnsToSet, $bind) = $this->parseRowIntoColumnsAndBind($row, $ip);
+
+                ++$this->processed;
+                $this->trackProgress($output);
+
+                if ($this->shouldSkipAttribution($output, $columnsToSet, (string) $idVisit, $ip)) {
+                    continue;
+                }
+
+                $bind[] = $idVisit;
+
                 if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
                     $output->writeln(
-                        sprintf('Empty location_ip field for idvisit = %s. Skipping...', (string) $row->idvisit)
+                        sprintf('Updating visit with idvisit = %s and ip = %s.', (string) $idVisit, $ip)
                     );
                 }
 
-                continue;
+                $this->repository->updateVisits($columnsToSet, $bind);
+                $this->repository->updateConversions($columnsToSet, $bind);
             }
 
-            $ip = IP::N2P($row->location_ip);
-            $location = $this->locationFetcher->getLocation(array('ip' => $ip));
+        } while (count($logs) == $segmentLimit);
 
-            $columnsToSet = array();
-            $bind = array();
-            foreach ($this->logVisitFieldsToUpdate as $column => $locationKey) {
-                if (!empty($location[$locationKey])) {
-                    if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
-                        if (strtolower($location[$locationKey]) != strtolower($row->{$column})) {
-                            $columnsToSet[] = $column;
-                            $bind[] = strtolower($location[$locationKey]);
-                        }
-                    } else {
-                        if ($location[$locationKey] != $row->{$column}) {
-                            $columnsToSet[] = $column;
-                            $bind[] = $location[$locationKey];
-                        }
-                    }
-                }
-            }
-
-            ++$processed;
-            $percent = ceil($processed / $amountOfVisits * 100);
-
-            if (!in_array($percent, $percentConfirmed, true) && $percent % $percentStep === 0) {
-                $output->writeln(
-                    sprintf('%d%% processed. [in %d seconds]', $percent, time() - $start)
-                );
-
-                $percentConfirmed[] = $percent;
-            }
-
-            if (empty($columnsToSet)) {
-                if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                    $output->writeln(
-                        sprintf('Visit with idvisit = %s and ip = %s is attributed. Skipping...', (string) $row->idvisit, $ip)
-                    );
-                }
-
-                continue;
-            }
-
-            $bind[] = $row->idvisit;
-
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                $output->writeln(
-                    sprintf('Updating visit with idvisit = %s and ip = %s.', (string) $row->idvisit, $ip)
-                );
-            }
-
-            $this->repository->updateVisits($columnsToSet, $bind);
-            $this->repository->updateConversions($columnsToSet, $bind);
-        }
-
-        $output->writeln(sprintf('Completed in %d seconds.', time() - $start));
+        $output->writeln(sprintf('Completed in %d seconds.', time() - $this->start));
 
         return 0;
     }
@@ -239,5 +238,102 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         }
 
         return $percentStep;
+    }
+
+    /**
+     * @param $row
+     * @param $ip
+     * @return array
+     */
+    protected function parseRowIntoColumnsAndBind($row, $ip)
+    {
+        $columnsToSet = array();
+        $bind = array();
+
+        $location = $this->locationFetcher->getLocation(
+            array(
+                'ip' => $ip
+            )
+        );
+
+        foreach ($this->logVisitFieldsToUpdate as $column => $locationKey) {
+            if (!empty($location[$locationKey])) {
+                if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
+                    if (strtolower($location[$locationKey]) != strtolower($row[$column])) {
+                        $columnsToSet[] = $column;
+                        $bind[] = strtolower($location[$locationKey]);
+                    }
+                } else {
+                    if ($location[$locationKey] != $row[$column]) {
+                        $columnsToSet[] = $column;
+                        $bind[] = $location[$locationKey];
+                    }
+                }
+            }
+        }
+        return array($columnsToSet, $bind);
+    }
+
+    protected function trackProgress(OutputInterface $output)
+    {
+        $percent = ceil($this->processed / $this->amountOfVisits * 100);
+
+        if (!in_array($percent, $this->percentConfirmed, true) && $percent % $this->percentStep === 0) {
+            $output->writeln(
+                sprintf('%d%% processed. [in %d seconds]', $percent, time() - $this->start)
+            );
+
+            $this->percentConfirmed[] = $percent;
+        }
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param array $row
+     * @return bool
+     */
+    protected function isRowComplete(OutputInterface $output, array $row)
+    {
+        if (empty($row['idvisit'])) {
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                $output->writeln('Empty idvisit field. Skipping...');
+            }
+
+            return false;
+        }
+
+        if (empty($row['location_ip'])) {
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                $output->writeln(
+                    sprintf('Empty location_ip field for idvisit = %s. Skipping...', (string) $row['idvisit'])
+                );
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param array $columnsToSet
+     * @param string $idVisit
+     * @param string $ip
+     * @return bool
+     */
+    protected function shouldSkipAttribution(OutputInterface $output, array $columnsToSet, $idVisit, $ip)
+    {
+        if (empty($columnsToSet)) {
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                $output->writeln(
+                    sprintf('Visit with idvisit = %s and ip = %s is attributed. Skipping...', $idVisit, $ip)
+                );
+            }
+
+            return true;
+        }
+
+        return false;
     }
 } 

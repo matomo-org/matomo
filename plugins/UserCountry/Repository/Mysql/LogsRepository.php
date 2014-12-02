@@ -11,7 +11,6 @@ namespace Piwik\Plugins\UserCountry\Repository\Mysql;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\UserCountry\Repository\LogsRepository as LogsRepositoryInterface;
-use Zend_Db_Statement_Pdo;
 
 class LogsRepository implements LogsRepositoryInterface
 {
@@ -19,23 +18,23 @@ class LogsRepository implements LogsRepositoryInterface
      * @param string $from
      * @param string $to
      * @param array $locationFields
-     * @return Zend_Db_Statement_Pdo
+     * @param int $fromId
+     * @param int $limit
+     * @return array
      */
-    public function getVisitsWithDatesLimit($from, $to, $locationFields = array())
+    public function getVisitsWithDatesLimit($from, $to, $locationFields = array(), $fromId = 0, $limit = 1000)
     {
         $sql = array(
             "SELECT idvisit, location_ip, " . implode(',', $locationFields),
             "FROM " . Common::prefixTable('log_visit'),
-            "WHERE visit_first_action_time >= ? AND visit_last_action_time < ?"
+            "WHERE visit_first_action_time >= ? AND visit_last_action_time < ?",
+            "AND idvisit > ?",
+            sprintf("LIMIT %d", $limit)
         );
 
-        $bind = array($from, $to);
+        $bind = array($from, $to, $fromId);
 
-        Db::get()->setFetchMode(\PDO::FETCH_LAZY);
-        $result = Db::get()->query(implode(' ', $sql), $bind);
-        Db::get()->setFetchMode(\PDO::FETCH_ASSOC);
-
-        return $result;
+        return Db::get()->fetchAll(implode(' ', $sql), $bind);
     }
 
     /**
