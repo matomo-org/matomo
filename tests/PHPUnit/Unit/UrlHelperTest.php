@@ -28,9 +28,17 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('news://www.pi-wik.org', true),
             array('https://www.tëteâ.org', true),
             array('http://汉语/漢語.cn', true), //chinese
+
+            // valid network-path reference RFC3986
+            array('//piwik.org', true),
+            array('//piwik/hello?world=test&test', true),
+            array('//piwik.org/hello?world=test&test', true),
+
             // invalid urls
             array('it doesnt look like url', false),
             array('/index?page=test', false),
+            array('http:/index?page=test', false),
+            array('http/index?page=test', false),
             array('test.html', false),
             array('/\/\/\/\/\/\\\http://test.com////', false),
             array('jmleslangues.php', false),
@@ -46,7 +54,7 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsUrl($url, $isValid)
     {
-        $this->assertEquals($isValid, UrlHelper::isLookLikeUrl($url));
+        $this->assertEquals($isValid, UrlHelper::isLookLikeUrl($url), "$url failed test");
     }
 
     /**
@@ -196,6 +204,8 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', UrlHelper::getHostFromUrl(null));
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('http://localhost'));
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('http://localhost/path'));
+        $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path'));
+        $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path?test=test2'));
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('localhost/path'));
         $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('sub.localhost/path'));
         $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('http://sub.localhost/path/?query=test'));
