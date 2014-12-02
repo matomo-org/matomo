@@ -58,7 +58,9 @@ abstract class Graph extends Visualization
             $this->requestConfig->request_parameters_to_modify['filter_truncate'] = $this->config->max_graph_elements - 1;
         }
 
+        $this->requestConfig->disable_queued_filters = 1;
         $this->requestConfig->request_parameters_to_modify['disable_queued_filters'] = 1;
+        $this->requestConfig->request_parameters_to_modify['format_metrics'] = 0;
     }
 
     /**

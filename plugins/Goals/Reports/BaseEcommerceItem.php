@@ -13,6 +13,8 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
+use Piwik\Plugins\CustomPages\Visualization\HtmlTable;
 use Piwik\Plugins\Goals\Goals;
 use Piwik\Plugins\Goals\Columns\Metrics\AveragePrice;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageQuantity;
@@ -105,8 +107,10 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $view->config->addTranslations($translations);
         $view->config->columns_to_display = $columnsOrdered;
 
-        $view->config->custom_parameters['viewDataTable'] =
-            $abandonedCart ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART : Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        if ($view instanceof HtmlTable) {
+            $view->config->custom_parameters['viewDataTable'] =
+                $abandonedCart ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART : Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        }
     }
 
     private function isAbandonedCart()
