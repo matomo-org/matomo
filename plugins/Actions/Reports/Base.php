@@ -72,8 +72,8 @@ abstract class Base extends \Piwik\Plugin\Report
             return Piwik::translate("Actions_AvgGenerationTimeTooltip", array(
                 $hits,
                 "<br />",
-                $formatter->getPrettyTimeFromSeconds($min),
-                $formatter->getPrettyTimeFromSeconds($max)
+                $formatter->getPrettyTimeFromSeconds($min, true),
+                $formatter->getPrettyTimeFromSeconds($max, true)
             ));
         };
         $view->config->filters[] = array('ColumnCallbackAddMetadata',
