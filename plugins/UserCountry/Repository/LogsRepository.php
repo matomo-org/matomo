@@ -8,15 +8,13 @@
  */
 namespace Piwik\Plugins\UserCountry\Repository;
 
-use Zend_Db_Statement_Pdo;
-
 interface LogsRepository
 {
     /**
      * @param string $from
      * @param string $to
      * @param array $locationFields
-     * @return Zend_Db_Statement_Pdo
+     * @return array
      */
     public function getVisitsWithDatesLimit($from, $to, $locationFields = array());
 
