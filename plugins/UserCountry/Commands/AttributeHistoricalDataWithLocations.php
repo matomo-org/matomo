@@ -26,9 +26,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     const PERCENT_STEP_ARGUMENT = 'percent-step';
 
+    const PERCENT_STEP_ARGUMENT_DEFAULT = 5;
+
     const PROVIDER_ARGUMENT = 'provider';
 
     const SEGMENT_LIMIT_OPTION = 'segmentLimit';
+
+    const SEGMENT_LIMIT_OPTION_DEFAULT = 1000;
 
     /**
      * @var RawLogFetcher
@@ -95,7 +99,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             self::PERCENT_STEP_ARGUMENT,
             InputArgument::OPTIONAL,
             'How often command should write about current state.',
-            5
+            self::PERCENT_STEP_ARGUMENT_DEFAULT
         );
 
         $this->addArgument(
@@ -109,7 +113,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             null,
             InputOption::VALUE_OPTIONAL,
             'Number of segments in single iteration.',
-            1000
+            self::SEGMENT_LIMIT_OPTION_DEFAULT
         );
 
         $this->fetcher = new RawLogFetcher();
@@ -224,14 +228,11 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $percentStep = $input->getArgument(self::PERCENT_STEP_ARGUMENT);
 
         if (!is_numeric($percentStep)) {
-            return 5;
+            return self::PERCENT_STEP_ARGUMENT_DEFAULT;
         }
 
-        if ($percentStep > 99) {
-            return 100;
-        }
-
-        if ($percentStep < 1) {
+        // Percent step should be between maximum percent value and minimum percent value (1-100)
+        if ($percentStep > 99 || $percentStep < 1) {
             return 100;
         }
 
@@ -239,11 +240,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     }
 
     /**
-     * @param $row
-     * @param $ip
+     * Parse row into proper values. (only if provider found difference)
+     *
+     * @param array $row
+     * @param string $ip
      * @return array
      */
-    protected function parseRowIntoValues($row, $ip)
+    protected function parseRowIntoValues(array $row, $ip)
     {
         $values = array();
 
@@ -269,6 +272,10 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         return $values;
     }
 
+    /**
+     * Print information about progress.
+     * @param OutputInterface $output
+     */
     protected function trackProgress(OutputInterface $output)
     {
         $percent = ceil($this->processed / $this->amountOfVisits * 100);
@@ -283,6 +290,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     }
 
     /**
+     * Validate if row contains required columns.
      * @param OutputInterface $output
      * @param array $row
      * @return bool
@@ -311,6 +319,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     }
 
     /**
+     * Check if given visit should be re attributed.
      * @param OutputInterface $output
      * @param array $values
      * @param string $idVisit
