@@ -8,18 +8,17 @@
  */
 namespace Piwik\Plugins\UserCountry\Commands;
 
-use PDORow;
+use Piwik\DataAccess\RawLogUpdater;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\LocationFetcher;
 use Piwik\Plugins\UserCountry\LocationFetcherProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\Repository\Mysql\LogsRepository;
+use Piwik\DataAccess\RawLogFetcher;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Piwik\Plugins\UserCountry\Repository\LogsRepository as LogsRepositoryInterface;
 
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
@@ -32,9 +31,14 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     const SEGMENT_LIMIT_OPTION = 'segmentLimit';
 
     /**
-     * @var LogRaw
+     * @var RawLogFetcher
      */
-    protected $repository;
+    protected $fetcher;
+
+    /**
+     * @var RawLogUpdater
+     */
+    protected $updater;
 
     /**
      * @var LocationFetcher
@@ -64,7 +68,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     /**
      * @var array
      */
-    private $percentConfirmed;
+    private $percentConfirmed = array();
 
     /**
      * @var array
@@ -108,7 +112,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             1000
         );
 
-        $this->repository = new LogsRepository();
+        $this->fetcher = new RawLogFetcher();
+        $this->updater = new RawLogUpdater();
     }
 
     /**
@@ -123,7 +128,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $segmentLimit = $input->getOption(self::SEGMENT_LIMIT_OPTION);
 
         $this->percentStep = $this->getPercentStep($input);
-        $this->amountOfVisits = $this->repository->countVisitsWithDatesLimit($from, $to);
+        $this->amountOfVisits = $this->fetcher->countVisitsWithDatesLimit($from, $to);
 
         if (!$from || !$to) {
             $output->writeln(
@@ -146,15 +151,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
         $this->start = time();
         $lastId = 0;
+        $visitFields = array_merge(
+            array('idvisit', 'location_ip'),
+            array_keys($this->logVisitFieldsToUpdate)
+        );
 
         do {
-            $logs = $this->repository->getVisitsWithDatesLimit(
-                $from, $to,
-                array_keys($this->logVisitFieldsToUpdate),
-                $lastId,
-                $segmentLimit
-            );
-
+            $logs = $this->fetcher->getVisitsWithDatesLimit($from, $to, $visitFields, $lastId, $segmentLimit);
             if (!empty($logs)) {
                 $lastId = $logs[count($logs) - 1]['idvisit'];
             }
@@ -169,16 +172,14 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
                 $idVisit = $row['idvisit'];
                 $ip = IPUtils::binaryToStringIP($row['location_ip']);
-                list($columnsToSet, $bind) = $this->parseRowIntoColumnsAndBind($row, $ip);
+                $values = $this->parseRowIntoValues($row, $ip);
 
                 ++$this->processed;
                 $this->trackProgress($output);
 
-                if ($this->shouldSkipAttribution($output, $columnsToSet, (string) $idVisit, $ip)) {
+                if ($this->shouldSkipAttribution($output, $values, (string) $idVisit, $ip)) {
                     continue;
                 }
-
-                $bind[] = $idVisit;
 
                 if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
                     $output->writeln(
@@ -186,8 +187,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
                     );
                 }
 
-                $this->repository->updateVisits($columnsToSet, $bind);
-                $this->repository->updateConversions($columnsToSet, $bind);
+                $this->updater->updateVisits($values, $idVisit);
+                $this->updater->updateConversions($values, $idVisit);
             }
 
         } while (count($logs) == $segmentLimit);
@@ -242,10 +243,9 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      * @param $ip
      * @return array
      */
-    protected function parseRowIntoColumnsAndBind($row, $ip)
+    protected function parseRowIntoValues($row, $ip)
     {
-        $columnsToSet = array();
-        $bind = array();
+        $values = array();
 
         $location = $this->locationFetcher->getLocation(
             array(
@@ -257,18 +257,16 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             if (!empty($location[$locationKey])) {
                 if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
                     if (strtolower($location[$locationKey]) != strtolower($row[$column])) {
-                        $columnsToSet[] = $column;
-                        $bind[] = strtolower($location[$locationKey]);
+                        $values[$column] = strtolower($location[$locationKey]);
                     }
                 } else {
                     if ($location[$locationKey] != $row[$column]) {
-                        $columnsToSet[] = $column;
-                        $bind[] = $location[$locationKey];
+                        $values[$column] = $location[$locationKey];
                     }
                 }
             }
         }
-        return array($columnsToSet, $bind);
+        return $values;
     }
 
     protected function trackProgress(OutputInterface $output)
@@ -314,14 +312,14 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     /**
      * @param OutputInterface $output
-     * @param array $columnsToSet
+     * @param array $values
      * @param string $idVisit
      * @param string $ip
      * @return bool
      */
-    protected function shouldSkipAttribution(OutputInterface $output, array $columnsToSet, $idVisit, $ip)
+    protected function shouldSkipAttribution(OutputInterface $output, array $values, $idVisit, $ip)
     {
-        if (empty($columnsToSet)) {
+        if (empty($values)) {
             if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
                 $output->writeln(
                     sprintf('Visit with idvisit = %s and ip = %s is attributed. Skipping...', $idVisit, $ip)
