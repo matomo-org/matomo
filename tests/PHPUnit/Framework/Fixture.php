@@ -727,6 +727,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $dump = fopen($url, 'rb');
         $outfile = fopen($outfileName, 'wb');
+        if(!$outfile) {
+            throw new Exception("Failed to create file $outfileName - please check permissions");
+        }
+
         while (!feof($dump)) {
             fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
         }
