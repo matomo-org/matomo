@@ -10,6 +10,7 @@ namespace Piwik;
 use Piwik\CliMulti\CliPhp;
 use Piwik\CliMulti\Output;
 use Piwik\CliMulti\Process;
+use Piwik\Container\StaticContainer;
 
 /**
  * Class CliMulti.
@@ -228,8 +229,7 @@ class CliMulti {
 
     public static function getTmpPath()
     {
-        $dir = PIWIK_INCLUDE_PATH . '/tmp/climulti';
-        return SettingsPiwik::rewriteTmpPathWithInstanceId($dir);
+        return StaticContainer::getContainer()->get('path.tmp') . '/climulti';
     }
 
     private function executeAsyncCli($url, Output $output, $cmdId)

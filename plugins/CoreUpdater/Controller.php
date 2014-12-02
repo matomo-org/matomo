@@ -12,6 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -22,7 +23,6 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Marketplace;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Unzip;
 use Piwik\UpdateCheck;
@@ -36,7 +36,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest/';
+    const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
 
     private $coreError = false;
     private $warningMessages = array();
@@ -164,10 +164,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function oneClick_Download()
     {
-        $pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . 'latest.zip';
-        $this->pathPiwikZip = SettingsPiwik::rewriteTmpPathWithInstanceId($pathPiwikZip);
+        $path = StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_EXTRACT_LATEST_VERSION;
+        $this->pathPiwikZip = $path . 'latest.zip';
 
-        Filechecks::dieIfDirectoriesNotWritable(array(self::PATH_TO_EXTRACT_LATEST_VERSION));
+        Filechecks::dieIfDirectoriesNotWritable(array($path));
 
         // we catch exceptions in the caller (i.e., oneClickUpdate)
         $url = self::getLatestZipUrl($this->newVersion) . '?cb=' . $this->newVersion;
@@ -177,8 +177,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function oneClick_Unpack()
     {
-        $pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
-        $pathExtracted = SettingsPiwik::rewriteTmpPathWithInstanceId($pathExtracted);
+        $pathExtracted = StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_EXTRACT_LATEST_VERSION;
 
         $this->pathRootExtractedPiwik = $pathExtracted . 'piwik';
 

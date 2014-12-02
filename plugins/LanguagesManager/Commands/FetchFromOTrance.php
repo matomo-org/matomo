@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Unzip;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,12 +19,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class FetchFromOTrance extends TranslationBase
 {
-    const DOWNLOADPATH = 'tmp/oTrance';
+    const DOWNLOAD_PATH = '/oTrance';
 
     protected function configure()
     {
+        $path = StaticContainer::getContainer()->get('path.tmp') . self::DOWNLOAD_PATH;
+
         $this->setName('translations:fetch')
-             ->setDescription('Fetches translations files from oTrance to '.self::DOWNLOADPATH)
+             ->setDescription('Fetches translations files from oTrance to ' . $path)
              ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'oTrance username')
              ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password')
              ->addOption('keep-english', 'k', InputOption::VALUE_NONE, 'keep english file');
@@ -162,9 +165,9 @@ class FetchFromOTrance extends TranslationBase
         $output->writeln("Finished fetching new language files from oTrance");
     }
 
-    public static function getDownloadPath() {
-
-        $path = PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . self::DOWNLOADPATH;
+    public static function getDownloadPath()
+    {
+        $path = StaticContainer::getContainer()->get('path.tmp') . self::DOWNLOAD_PATH;
 
         if (!is_dir($path)) {
             mkdir($path);

@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Error;
 use Piwik\ExceptionHandler;
@@ -34,9 +35,9 @@ class LogTest extends IntegrationTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
+        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(162): dummy error message
   dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(160): dummy error message
+        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(162): dummy error message
 dummy backtrace'
     );
 
@@ -77,7 +78,8 @@ dummy backtrace'
         parent::setUp();
 
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
-        Config::getInstance()->log['logger_file_path'] = self::getDefaultLogFileLocation();
+        Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
+        Config::getInstance()->log['log_level'] = Log::INFO;
         @unlink(self::getLogFileLocation());
         Log::unsetInstance();
         Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
@@ -279,14 +281,6 @@ dummy backtrace'
 
     public static function getLogFileLocation()
     {
-        $path = self::getDefaultLogFileLocation();
-        $path = \Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId($path);
-        return $path;
-    }
-
-    protected static function getDefaultLogFileLocation()
-    {
-        $path = PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.test.log';
-        return $path;
+        return StaticContainer::getContainer()->get('path.tmp') . '/logs/piwik.test.log';
     }
 }

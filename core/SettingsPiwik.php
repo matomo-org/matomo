@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 
 /**
  * Contains helper methods that can be used to get common Piwik settings.
@@ -257,18 +258,12 @@ class SettingsPiwik
     }
 
     /**
-     * @deprecated Use SettingsPiwik::rewriteTmpPathWithInstanceId instead
-     */
-    public static function rewriteTmpPathWithHostname($path)
-    {
-        return self::rewriteTmpPathWithInstanceId($path);
-    }
-
-    /**
      * If Piwik uses per-domain config file, also make tmp/ folder per-domain
      * @param $path
      * @return string
      * @throws \Exception
+     *
+     * @deprecated Get the 'path.tmp' config from the container instead.
      */
     public static function rewriteTmpPathWithInstanceId($path)
     {

@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
@@ -144,8 +145,7 @@ abstract class ReportRenderer extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
-        $outputFilename = SettingsPiwik::rewriteTmpPathWithInstanceId($outputFilename);
+        $outputFilename = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);

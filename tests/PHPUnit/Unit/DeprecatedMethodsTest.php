@@ -29,7 +29,6 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'removeEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'addEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'removeEntry', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('\Piwik\SettingsPiwik', 'rewriteTmpPathWithHostname', $validTill);
 
         $validTill = '2015-02-06';
         $this->assertDeprecatedClassIsRemoved('\IntegrationTestCase', $validTill);
@@ -54,6 +53,7 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getIpsForRange', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isIpInRange', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getHostByAddr', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\SettingsPiwik', 'rewriteTmpPathWithInstanceId', $validTill);
 
         $validTill = '2015-05-01';
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowserVersion', $validTill);

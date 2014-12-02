@@ -311,20 +311,22 @@ class FrontController extends Singleton
 
         Registry::set('timer', new Timer);
 
+        $exceptionToThrow = self::createConfigObject();
+
+        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
+
         $directoriesToCheck = array(
-            '/tmp/',
-            '/tmp/assets/',
-            '/tmp/cache/',
-            '/tmp/logs/',
-            '/tmp/tcpdf/',
-            '/tmp/templates_c/',
+            $tmpPath,
+            $tmpPath . '/assets/',
+            $tmpPath . '/cache/',
+            $tmpPath . '/logs/',
+            $tmpPath . '/tcpdf/',
+            $tmpPath . '/templates_c/',
         );
 
         Translate::loadEnglishTranslation();
 
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
-
-        $exceptionToThrow = self::createConfigObject();
 
         $this->handleMaintenanceMode();
         $this->handleProfiler();

@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 
 /**
  * This class is used to cache data on the filesystem.
@@ -43,8 +44,7 @@ class CacheFile
      */
     public function __construct($directory, $timeToLiveInSeconds = 300)
     {
-        $cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
-        $this->cachePath = SettingsPiwik::rewriteTmpPathWithInstanceId($cachePath);
+        $this->cachePath = StaticContainer::getContainer()->get('path.tmp') . '/cache/' . $directory . '/';
 
         if ($timeToLiveInSeconds < self::MINIMUM_TTL) {
             $timeToLiveInSeconds = self::MINIMUM_TTL;

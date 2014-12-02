@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Session;

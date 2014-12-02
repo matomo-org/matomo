@@ -10,6 +10,7 @@
 namespace Piwik\Translate;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Translate\Filter\FilterAbstract;
@@ -200,7 +201,7 @@ class Writer
         if (!empty($this->pluginName)) {
 
             if ($base == 'tmp') {
-                return sprintf('%s/tmp/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->pluginName, $lang);
+                return sprintf('%s/plugins/%s/lang/%s.json', StaticContainer::getContainer()->get('path.tmp'), $this->pluginName, $lang);
             } else {
                 return sprintf('%s/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->pluginName, $lang);
             }

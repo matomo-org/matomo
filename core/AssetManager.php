@@ -20,6 +20,7 @@ use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
 use Piwik\Config as PiwikConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 use Piwik\Translate;
 
@@ -252,8 +253,7 @@ class AssetManager extends Singleton
      */
     public function getAssetDirectory()
     {
-        $mergedFileDirectory = PIWIK_USER_PATH . "/tmp/assets";
-        $mergedFileDirectory = SettingsPiwik::rewriteTmpPathWithInstanceId($mergedFileDirectory);
+        $mergedFileDirectory = StaticContainer::getContainer()->get('path.tmp') . '/assets';
 
         if (!is_dir($mergedFileDirectory)) {
             Filesystem::mkdir($mergedFileDirectory);
