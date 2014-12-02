@@ -48,7 +48,6 @@
         "WebsitesReportDocumentation": "In this table, you can see which websites referred visitors to your site. %s By clicking on a row in the table, you can see which URLs the links to your website were on.",
         "WidgetExternalWebsites": "Referrer Websites",
         "WidgetGetAll": "All Referrers",
-        "WidgetKeywords": "Keywords",
         "WidgetSocials": "List of social networks",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL",
         "XPercentOfVisits": "%s%% of visits"

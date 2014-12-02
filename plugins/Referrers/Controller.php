@@ -115,7 +115,7 @@ class Controller extends \Piwik\Plugin\Controller
 
             $byTypeCategory = Piwik::translate('Referrers_ViewReferrersBy', Piwik::translate('Live_GoalType'));
             $referrersReportsByDimension->addReport(
-                $byTypeCategory, 'Referrers_WidgetKeywords', 'Referrers.getKeywords');
+                $byTypeCategory, 'Referrers_Keywords', 'Referrers.getKeywords');
             $referrersReportsByDimension->addReport($byTypeCategory, 'SitesManager_Sites', 'Referrers.getWebsites');
             $referrersReportsByDimension->addReport($byTypeCategory, 'Referrers_Campaigns', 'Referrers.getCampaigns');
 

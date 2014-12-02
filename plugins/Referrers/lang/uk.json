@@ -25,7 +25,6 @@
         "TypeWebsites": "%s з веб-сайтів",
         "UsingNDistinctUrls": "(використовуючи %s унікальні URL)",
         "Websites": "Веб-сайти",
-        "WidgetExternalWebsites": "Список зовнішніх веб-сайтів",
-        "WidgetKeywords": "Список ключових слів"
+        "WidgetExternalWebsites": "Список зовнішніх веб-сайтів"
     }
 }

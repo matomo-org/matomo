@@ -48,7 +48,6 @@
         "WebsitesReportDocumentation": "I denna tabell kan du se vilka webbplatser som hänvisade besökare till din webbplats. %s Genom att klicka på en rad i tabellen så kan du se vilka webbadresser som länkarna till din webbplats var på.",
         "WidgetExternalWebsites": "Lista på externa webbsidor",
         "WidgetGetAll": "Alla hänvisningar",
-        "WidgetKeywords": "Lista över sökord",
         "WidgetSocials": "Lista över sociala nätverk",
         "WidgetTopKeywordsForPages": "Toppsökord för sid-URL",
         "XPercentOfVisits": "%s%% av besökare"

@@ -37,7 +37,6 @@
         "Websites": "Websites",
         "WebsitesDocumentation": "O visitante seguiu um link noutro website que apontava para o seu. %s Veja o relatório %s para mais detalhes.",
         "WebsitesReportDocumentation": "Nesta tabela, pode ver quais os website que levaram referentes para o seu site. %s Ao clicar numa linha da tabela pode ver quais os URLs onde os links para o seu site estavam.",
-        "WidgetExternalWebsites": "Lista de Websites externos",
-        "WidgetKeywords": "Lista de Palavras Chave"
+        "WidgetExternalWebsites": "Lista de Websites externos"
     }
 }

@@ -26,7 +26,6 @@
         "TypeWebsites": "%s ze stron",
         "UsingNDistinctUrls": "(używając %s wyróżnionych adresów url)",
         "Websites": "Strony",
-        "WidgetExternalWebsites": "Lista zewnętrznych serwisów internetowych",
-        "WidgetKeywords": "Lista słów kluczowych"
+        "WidgetExternalWebsites": "Lista zewnętrznych serwisów internetowych"
     }
 }

@@ -19,7 +19,6 @@
         "TypeSearchEngines": "%s no meklēšanas dzinējiem",
         "TypeWebsites": "%s no vietnēm",
         "Websites": "Vietnes",
-        "WidgetExternalWebsites": "Ārējo vietņu saraksts",
-        "WidgetKeywords": "Atslēgvārdu saraksts"
+        "WidgetExternalWebsites": "Ārējo vietņu saraksts"
     }
 }

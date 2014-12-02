@@ -25,7 +25,6 @@
         "TypeWebsites": "%s a weboldalakról",
         "UsingNDistinctUrls": "(%s különböző URL által)",
         "Websites": "Weboldalak",
-        "WidgetExternalWebsites": "Külső weboldalak listája",
-        "WidgetKeywords": "Kulcsszavak listája"
+        "WidgetExternalWebsites": "Külső weboldalak listája"
     }
 }

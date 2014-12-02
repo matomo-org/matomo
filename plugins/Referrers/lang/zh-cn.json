@@ -48,7 +48,6 @@
         "WebsitesReportDocumentation": "本报表显示哪些网站给您带来了访客， %s 点击表中的一行，可查看来源链接的网址。",
         "WidgetExternalWebsites": "来源网站",
         "WidgetGetAll": "所有来源",
-        "WidgetKeywords": "关键词",
         "WidgetSocials": "社交网络",
         "WidgetTopKeywordsForPages": "主要关键词"
     }

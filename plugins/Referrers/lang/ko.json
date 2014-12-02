@@ -48,7 +48,6 @@
         "WebsitesReportDocumentation": "이 표에서 귀하의 사이트로 방문자를 연결하는 추천 웹사이트를 볼 수 있습니다. %s 테이블의 행을 클릭하면 클릭된 URL 링크를 볼 수 있습니다.",
         "WidgetExternalWebsites": "외부 웹사이트 목록",
         "WidgetGetAll": "모든 리퍼러",
-        "WidgetKeywords": "검색어 목록",
         "WidgetSocials": "소셜 네트워크의 목록",
         "WidgetTopKeywordsForPages": "패지 URL의 상위 키워드"
     }
