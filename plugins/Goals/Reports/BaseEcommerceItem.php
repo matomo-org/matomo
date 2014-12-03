@@ -99,6 +99,10 @@ abstract class BaseEcommerceItem extends BaseEcommerce
 
             $columnsOrdered = array('label', 'revenue', 'quantity', 'avg_price', 'avg_quantity', 'nb_visits',
                                     'abandoned_carts');
+
+            $view->config->custom_parameters['abandonedCarts'] = '1';
+        } else {
+            $view->config->custom_parameters['abandonedCarts'] = '0';
         }
 
         $translations = array_merge(array('label' => $this->name), $columns);
