@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
 use Piwik\Log;
 
@@ -101,6 +102,7 @@ class PluginsArchiver
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
+                $memoryUsageBeforePluginArchiving = memory_get_usage(true);
                 if ($this->isSingleSiteDayArchive) {
                     Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
@@ -110,6 +112,14 @@ class PluginsArchiver
 
                     $archiver->aggregateMultipleReports();
                 }
+
+                $memoryUsageInArchiving = memory_get_usage(true) - $memoryUsageBeforePluginArchiving;
+                Log::debug("PluginsArchiver::%s: Used %s memory while archiving %s reports for plugin '%s'.",
+                    __FUNCTION__,
+                    Piwik::bytesToSize($memoryUsageInArchiving),
+                    $this->isSingleSiteDayArchive ? 'day' : 'period',
+                    $pluginName
+                );
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
             }
