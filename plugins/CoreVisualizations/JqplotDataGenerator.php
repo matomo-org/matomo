@@ -86,6 +86,7 @@ class JqplotDataGenerator
                 $dataTable->queueFilter('AddSummaryRow', Piwik::translate('General_Total'));
             }
 
+            $dataTable->applyQueuedFilters();
             $this->initChartObjectData($dataTable, $visualization);
         }
 

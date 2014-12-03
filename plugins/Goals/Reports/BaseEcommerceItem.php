@@ -71,9 +71,11 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $view->config->show_exclude_low_population = false;
         $view->config->show_table_all_columns      = false;
 
-        $moneyColumns = array('revenue');
-        $formatter    = array(new Formatter(), 'getPrettyMoney');
-        $view->config->filters[] = array('ColumnCallbackReplace', array($moneyColumns, $formatter, array($idSite)));
+        if (!($view instanceof Evolution)) {
+            $moneyColumns = array('revenue');
+            $formatter    = array(new Formatter(), 'getPrettyMoney');
+            $view->config->filters[] = array('ColumnCallbackReplace', array($moneyColumns, $formatter, array($idSite)));
+        }
 
         $view->requestConfig->filter_limit       = 10;
         $view->requestConfig->filter_sort_column = 'revenue';
