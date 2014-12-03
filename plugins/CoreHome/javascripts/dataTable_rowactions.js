@@ -316,7 +316,7 @@ DataTable_RowActions_RowEvolution.prototype.doOpenPopover = function (urlParam) 
         // assume the parameter is an int/string describing whether to use multi row evolution
         if (extraParamsString == '1') {
             extraParams.action = 'getMultiRowEvolutionPopover';
-        } else if (extraParams != '0') {
+        } else if (extraParamsString != '0') {
             extraParams.action = 'getMultiRowEvolutionPopover';
             extraParams.column = extraParamsString;
         }
@@ -376,7 +376,8 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         box.find('select.multirowevoltion-metric').change(function () {
             var metric = $(this).val();
             Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
-            self.openPopover(apiMethod, metric, label);
+            var extraParams = {action: 'getMultiRowEvolutionPopover', column: metric};
+            self.openPopover(apiMethod, extraParams, label);
             return true;
         });
     };
