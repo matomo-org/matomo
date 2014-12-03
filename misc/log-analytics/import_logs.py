@@ -1539,7 +1539,7 @@ class Parser(object):
             file = sys.stdin
         else:
             if not os.path.exists(filename):
-                print >> sys.stderr, 'File %s does not exist' % filename
+                print >> sys.stderr, "\n=====> Warning: File %s does not exist <=====" % filename
                 return
             else:
                 if filename.endswith('.bz2'):
