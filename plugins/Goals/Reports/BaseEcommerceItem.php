@@ -105,6 +105,17 @@ abstract class BaseEcommerceItem extends BaseEcommerce
 
         $view->config->addTranslations($translations);
         $view->config->columns_to_display = $columnsOrdered;
+
+        // handle old case where viewDataTable is set to ecommerceOrder/ecommerceAbandonedCart. in this case, we
+        // set abandonedCarts accordingly and remove the ecommerceOrder/ecommerceAbandonedCart as viewDataTable.
+        $viewDataTable = Common::getRequestVar('viewDataTable', '');
+        if ($viewDataTable == 'ecommerceOrder') {
+            $view->config->custom_parameters['abandonedCarts'] = '0';
+            $view->config->custom_parameters['viewDataTable'] = 'table';
+        } else if ($viewDataTable == 'ecommerceAbandonedCart') {
+            $view->config->custom_parameters['abandonedCarts'] = '1';
+            $view->config->custom_parameters['viewDataTable'] = 'table';
+        }
     }
 
     private function isAbandonedCart()

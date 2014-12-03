@@ -1897,7 +1897,12 @@ var switchToEcommerceView = function (dataTable, viewDataTable) {
         dataTable.param.abandonedCarts = '1';
     }
 
-    switchToHtmlTable(dataTable, dataTable.param.viewDataTable);
+    var viewDataTable = dataTable.param.viewDataTable;
+    if (viewDataTable == 'ecommerceOrder' || viewDataTable == 'ecommerceAbandonedCart') {
+        viewDataTable = 'table';
+    }
+
+    switchToHtmlTable(dataTable, viewDataTable);
 };
 
 DataTable.registerFooterIconHandler('table', switchToHtmlTable);
