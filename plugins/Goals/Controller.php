@@ -430,7 +430,9 @@ class Controller extends \Piwik\Plugin\Controller
         $ecommerceCustomParams = array();
         if ($ecommerce) {
             if ($preloadAbandonedCart) {
-                $ecommerceCustomParams['viewDataTable'] = 'ecommerceAbandonedCart';
+                $ecommerceCustomParams['abandonedCarts'] = '1';
+            } else {
+                $ecommerceCustomParams['abandonedCarts'] = '0';
             }
 
             $goalReportsByDimension->addReport(
@@ -457,7 +459,9 @@ class Controller extends \Piwik\Plugin\Controller
             foreach ($allReports as $category => $reports) {
                 $categoryText = Piwik::translate('Goals_ViewGoalsBy', $category);
                 foreach ($reports as $report) {
-                    if (empty($report['viewDataTable'])) {
+                    if (empty($report['viewDataTable'])
+                        && empty($report['abandonedCarts'])
+                    ) {
                         $report['viewDataTable'] = 'tableGoals';
                     }
                     $customParams['viewDataTable'] = $report['viewDataTable'];
