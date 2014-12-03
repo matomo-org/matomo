@@ -2183,7 +2183,7 @@ if (typeof Piwik !== 'object') {
                 configLinkClasses = [],
 
                 // Maximum delay to wait for web bug image to be fetched (in milliseconds)
-                configTrackerPause = 500,
+                configTrackerPause = 5000,
 
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
@@ -2415,15 +2415,28 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
+             * Send beacon request to Piwik server using navigator.sendBeacon.
+             */
+            function sendBeacon(request, callback) {
+                return false;   // why? because it looks like piwik does not like the post requests that sendBeacon does (wrong content-type?)
+
+        		if (navigator && navigator.sendBeacon && navigator.sendBeacon(configTrackerUrl, request)) {
+        			if (typeof callback === 'function') { callback(); }
+        			setExpireDateTime(0);
+        			return true;
+        		} else return false;
+            }
+
+            /*
              * Send image request to Piwik server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
                 var image = new Image(1, 1);
 
-                image.onload = function () {
-                    iterator = 0; // To avoid JSLint warning of empty block
+                image.onerror = image.onload = function () {
                     if (typeof callback === 'function') { callback(); }
+                    setExpireDateTime(0);
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -2451,9 +2464,10 @@ if (typeof Piwik !== 'object') {
                     // fallback on error
                     xhr.onreadystatechange = function () {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
-                            getImage(request, callback);
+                            if (!sendBeacon(request, callback)) getImage(request, callback);
                         } else {
                             if (typeof callback === 'function') { callback(); }
+                            setExpireDateTime(0);
                         }
                     };
 
@@ -2463,7 +2477,7 @@ if (typeof Piwik !== 'object') {
                 } catch (e) {
                     if (fallbackToGet) {
                         // fallback
-                        getImage(request, callback);
+                        if (!sendBeacon(request, callback)) getImage(request, callback);
                     }
                 }
             }
@@ -2513,13 +2527,12 @@ if (typeof Piwik !== 'object') {
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+                        setExpireDateTime(delay);
                         if (configRequestMethod === 'POST') {
                             sendXmlHttpRequest(request, callback);
                         } else {
-                            getImage(request, callback);
+                            if (!sendBeacon(request, callback)) getImage(request, callback);
                         }
-
-                        setExpireDateTime(delay);
                     });
                 }
             }
