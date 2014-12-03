@@ -2422,7 +2422,6 @@ if (typeof Piwik !== 'object') {
 
         		if (navigator && navigator.sendBeacon && navigator.sendBeacon(configTrackerUrl, request)) {
         			if (typeof callback === 'function') { callback(); }
-        			setExpireDateTime(0);
         			return true;
         		} else return false;
             }
@@ -2436,7 +2435,6 @@ if (typeof Piwik !== 'object') {
 
                 image.onerror = image.onload = function () {
                     if (typeof callback === 'function') { callback(); }
-                    setExpireDateTime(0);
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -2467,7 +2465,6 @@ if (typeof Piwik !== 'object') {
                             if (!sendBeacon(request, callback)) getImage(request, callback);
                         } else {
                             if (typeof callback === 'function') { callback(); }
-                            setExpireDateTime(0);
                         }
                     };
 
