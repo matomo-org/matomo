@@ -88,7 +88,19 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $columnsOrdered = array('label', 'revenue', 'quantity', 'orders', 'avg_price', 'avg_quantity',
                                 'nb_visits', 'conversion_rate');
 
-        $abandonedCart = $this->isAbandonedCart();
+        // handle old case where viewDataTable is set to ecommerceOrder/ecommerceAbandonedCart. in this case, we
+        // set abandonedCarts accordingly and remove the ecommerceOrder/ecommerceAbandonedCart as viewDataTable.
+        $viewDataTable = Common::getRequestVar('viewDataTable', '');
+        if ($viewDataTable == 'ecommerceOrder') {
+            $view->config->custom_parameters['viewDataTable'] = 'table';
+            $abandonedCart = false;
+        } else if ($viewDataTable == 'ecommerceAbandonedCart') {
+            $view->config->custom_parameters['viewDataTable'] = 'table';
+            $abandonedCart = true;
+        } else {
+            $abandonedCart = $this->isAbandonedCart();
+        }
+
         if ($abandonedCart) {
             $columns['abandoned_carts'] = Piwik::translate('General_AbandonedCarts');
             $columns['revenue'] = Piwik::translate('Goals_LeftInCart', $columns['revenue']);
@@ -105,21 +117,12 @@ abstract class BaseEcommerceItem extends BaseEcommerce
             $view->config->custom_parameters['abandonedCarts'] = '0';
         }
 
+        $view->requestConfig->request_parameters_to_modify['abandonedCarts'] = $view->config->custom_parameters['abandonedCarts'];
+
         $translations = array_merge(array('label' => $this->name), $columns);
 
         $view->config->addTranslations($translations);
         $view->config->columns_to_display = $columnsOrdered;
-
-        // handle old case where viewDataTable is set to ecommerceOrder/ecommerceAbandonedCart. in this case, we
-        // set abandonedCarts accordingly and remove the ecommerceOrder/ecommerceAbandonedCart as viewDataTable.
-        $viewDataTable = Common::getRequestVar('viewDataTable', '');
-        if ($viewDataTable == 'ecommerceOrder') {
-            $view->config->custom_parameters['abandonedCarts'] = '0';
-            $view->config->custom_parameters['viewDataTable'] = 'table';
-        } else if ($viewDataTable == 'ecommerceAbandonedCart') {
-            $view->config->custom_parameters['abandonedCarts'] = '1';
-            $view->config->custom_parameters['viewDataTable'] = 'table';
-        }
     }
 
     private function isAbandonedCart()
