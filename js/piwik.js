@@ -2183,7 +2183,7 @@ if (typeof Piwik !== 'object') {
                 configLinkClasses = [],
 
                 // Maximum delay to wait for web bug image to be fetched (in milliseconds)
-                configTrackerPause = 5000,
+                configTrackerPause = 500,
 
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
