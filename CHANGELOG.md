@@ -11,6 +11,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `Log.formatDatabaseMessage`
   * `Log.formatScreenMessage`
   * These events where very specific events for an internal need (logging exceptions) and have been replaced by a more extensible solution.
+* The event `Log.getAvailableWriters` has been removed: to add custom log backends, you now need to configure Monolog handlers
 
 ### Deprecations
 * The API method `UserSettings.getBrowserVersion` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserVersions` instead

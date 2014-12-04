@@ -114,8 +114,6 @@ class Log extends Singleton
     const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
     const STRING_MESSAGE_FORMAT_OPTION = 'string_message_format';
 
-    const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
-
     /**
      * The backtrace string to use when testing.
      *
