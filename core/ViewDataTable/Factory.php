@@ -125,6 +125,8 @@ class Factory
             $type = $defaultType ? : HtmlTable::ID;
         }
 
+        $params['viewDataTable'] = $type;
+
         $visualizations = Manager::getAvailableViewDataTables();
 
         if (array_key_exists($type, $visualizations)) {

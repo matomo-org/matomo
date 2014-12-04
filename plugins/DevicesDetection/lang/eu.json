@@ -1,5 +1,10 @@
 {
     "DevicesDetection": {
-        "BrowserFamily": "Nabigatzaile-familia"
+        "BrowserFamily": "Nabigatzaile-familia",
+        "Browsers": "Nabigatzaileak",
+        "ColumnBrowser": "Nabigatzailea",
+        "ColumnOperatingSystem": "Sistema eragilea",
+        "OperatingSystems": "Sistema eragileak",
+        "WidgetBrowsers": "Bisitarien nabigatzaileak"
     }
 }

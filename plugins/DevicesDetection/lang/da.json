@@ -4,10 +4,13 @@
         "BrowserEngineDocumentation": "Diagrammet viser de besøgendes browsere opdelt i grupper. %s De vigtigste oplysninger for web-udviklere er, hvilken slags rendering motor de besøgende bruger. Etiketterne indeholder navnene på motorerne, efterfulgt af de mest almindelige browsere, der benytter motoren i parentes.",
         "BrowserEngines": "Browser",
         "BrowserFamily": "Browsertype",
+        "Browsers": "Browsere",
         "BrowserVersion": "Browserversion",
         "BrowserVersions": "Browser-versioner",
         "Camera": "Kamera",
         "CarBrowser": "Bil browser",
+        "ColumnBrowser": "Browser",
+        "ColumnOperatingSystem": "Operativsystem",
         "Console": "Konsol",
         "dataTableLabelBrands": "Mærke",
         "dataTableLabelModels": "Model",
@@ -21,6 +24,8 @@
         "DeviceType": "Enhedstypen",
         "FeaturePhone": "Telefonfunktioner",
         "OperatingSystemFamilies": "Operativsystem familier",
+        "OperatingSystemFamily": "Operativsystemsfamilie",
+        "OperatingSystems": "Operativsystemer",
         "OperatingSystemVersions": "Operativsystem-versioner",
         "PluginDescription": "Udvidelsen indeholderudvidet information om mobile enheder, såsom mærke (producent), model (enhed version) og bedre enhedstype detektion (tv, konsoller, smartphones, desktop, osv). Programudvidelsen tilføjer en ny rapport i 'Besøgende > Enheder'.",
         "SmartDisplay": "Smart skærm",
@@ -28,6 +33,8 @@
         "submenu": "Enheder",
         "Tablet": "Tablet",
         "TV": "TV",
-        "UserAgent": "Brugeragent"
+        "UserAgent": "Brugeragent",
+        "WidgetBrowsers": "Besøgendes browser",
+        "WidgetBrowsersDocumentation": "Rapporten indeholder oplysninger om hvilken browser de besøgende bruger. Hver version er angivet særskilt."
     }
 }

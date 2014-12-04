@@ -2,10 +2,13 @@
     "DevicesDetection": {
         "BrowserEngineDocumentation": "Detta diagram visar besökarnas webbläsare delas upp i webbläsarfamiljer. %s Den viktigaste informationen för webbutvecklare är vilken typ av renderingsmotorn deras besökare använder. Etiketterna innehåller namnen på de motorer som följt av den vanligaste webbläsaren med den motorn inom parentes.",
         "BrowserFamily": "Webbläsarfamilj",
+        "Browsers": "Webbläsare",
         "BrowserVersion": "Webbläsarversion",
         "BrowserVersions": "Version av webbläsare",
         "Camera": "Kamera",
         "CarBrowser": "Car browser",
+        "ColumnBrowser": "Webbläsare",
+        "ColumnOperatingSystem": "Operativsystem",
         "Console": "Konsol",
         "dataTableLabelBrands": "Märke",
         "dataTableLabelModels": "Modell",
@@ -19,6 +22,8 @@
         "DeviceType": "Utrustningstyp",
         "FeaturePhone": "Telefonmodell",
         "OperatingSystemFamilies": "Hanterar System familjer",
+        "OperatingSystemFamily": "Operativsystemsfamilj",
+        "OperatingSystems": "Operativsystem",
         "OperatingSystemVersions": "Nuvarande System version",
         "PluginDescription": "Det här pluginet innehåller förlängd information om mobilverktyg, så som märke (tillvärkare), modell (modellens version), tv, konsol, smart phones, laptops och annat. Det här pluginet lägger till nya rapporter i 'Visitors > Verktyg'.",
         "SmartDisplay": "Smart skärm",
@@ -26,6 +31,8 @@
         "submenu": "Utrustning",
         "Tablet": "Bord",
         "TV": "TV",
-        "UserAgent": "Användar-Agent"
+        "UserAgent": "Användar-Agent",
+        "WidgetBrowsers": "Webbläsare",
+        "WidgetBrowsersDocumentation": "Denna rapport innehåller information om vilken typ av webbläsare dina besökare använde. Varje version av webbläsare är listad separat."
     }
 }

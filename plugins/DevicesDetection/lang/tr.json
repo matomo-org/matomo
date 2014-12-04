@@ -1,10 +1,13 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "Tarayıcı ailesi",
+        "Browsers": "Tarayıcılar",
         "BrowserVersion": "Tarayıcı sürümü",
         "BrowserVersions": "Tarayıcı versiyonları",
         "Camera": "Kamera",
         "CarBrowser": "Araba tarayıcısı",
+        "ColumnBrowser": "Tarayıcı",
+        "ColumnOperatingSystem": "İşletim sistemi",
         "Console": "Konsol",
         "dataTableLabelBrands": "Marka",
         "dataTableLabelModels": "Model",
@@ -17,12 +20,14 @@
         "DevicesDetection": "Ziyaretçi Cihazları",
         "DeviceType": "Cihaz tipi",
         "OperatingSystemFamilies": "İşletim Sistemi aileleri",
+        "OperatingSystems": "İşletim sistemleri",
         "OperatingSystemVersions": "İşletim Sistemi versiyonları",
         "SmartDisplay": "Akıllı görüntüleme",
         "Smartphone": "Akıllı Telefon",
         "submenu": "Cihazlar",
         "Tablet": "Tablet",
         "TV": "Tv",
-        "UserAgent": "User-Agent"
+        "UserAgent": "User-Agent",
+        "WidgetBrowsers": "Ziyaretçi tarayıcılari"
     }
 }

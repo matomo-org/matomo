@@ -1,5 +1,10 @@
 {
     "DevicesDetection": {
-        "BrowserFamily": "ბრაუზერის ოჯახი"
+        "BrowserFamily": "ბრაუზერის ოჯახი",
+        "Browsers": "ბრაუზერები",
+        "ColumnBrowser": "ბრაუზერი",
+        "ColumnOperatingSystem": "ოპერაციული სისტემა",
+        "OperatingSystems": "ოპერაციული სიტემები",
+        "WidgetBrowsers": "ვიზიტორის ბრაუზერები"
     }
 }
