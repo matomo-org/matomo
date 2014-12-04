@@ -509,7 +509,14 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; on a per-request basis;
 pivot_by_filter_default_column_limit = 10
 
+
+[Redis]
+host = 127.0.0.1
+port = 6379
+timeout = 0.0
+
 [Tracker]
+
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
 ; this is useful when you want to do cross websites analysis
@@ -709,6 +716,7 @@ Plugins[] = LeftMenu
 Plugins[] = Morpheus
 Plugins[] = Contents
 Plugins[] = TestRunner
+Plugins[] = BulkTracking
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

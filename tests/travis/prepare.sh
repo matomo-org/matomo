@@ -43,3 +43,9 @@ mkdir ./tmp/tcpdf
 mkdir ./tmp/climulti
 chmod a+rw ./tests/lib/geoip-files
 chmod a+rw ./plugins/*/tests/System/processed
+
+# install phpredis
+echo 'extension="redis.so"' > ./tmp/redis.ini
+phpenv config-add ./tmp/redis.ini
+
+php -i

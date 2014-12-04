@@ -53,7 +53,7 @@ class Settings extends \Piwik\Plugin\Settings
         // User setting --> textbox converted to int defining a validator and filter
         $this->createRefreshIntervalSetting();
 
-        // User setting --> readio
+        // User setting --> radio
         $this->createColorSetting();
 
         // System setting --> allows selection of a single value

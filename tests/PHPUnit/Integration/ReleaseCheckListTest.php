@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Config;
 use Piwik\Filesystem;
 use Piwik\Plugin\Manager;
+use Piwik\Tracker;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -142,6 +143,9 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
         $this->assertEquals(0, $this->globalConfig['Tracker']['debug']);
+
+        $tracker = new Tracker();
+        $this->assertFalse($tracker->isDebugModeEnabled());
     }
 
     /**

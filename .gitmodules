@@ -30,3 +30,6 @@
 	path = plugins/LoginHttpAuth
 	url = https://github.com/piwik/plugin-LoginHttpAuth.git
     branch = master
+[submodule "plugins/QueuedTracking"]
+	path = plugins/QueuedTracking
+	url = https://github.com/piwik/plugin-QueuedTracking.git

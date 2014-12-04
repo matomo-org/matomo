@@ -14,6 +14,9 @@ php:
   - 5.3.3
 #  - hhvm
 
+services:
+  - redis-server
+
 # Separate different test suites
 env:
   matrix:

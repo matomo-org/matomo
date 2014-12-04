@@ -243,6 +243,17 @@ class Date
     }
 
     /**
+     * Returns the date in the "Y-m-d H:i:s" PHP format
+     *
+     * @param int $timestamp
+     * @return string
+     */
+    public static function getDatetimeFromTimestamp($timestamp)
+    {
+        return date("Y-m-d H:i:s", $timestamp);
+    }
+
+    /**
      * Returns the Unix timestamp of the date in UTC.
      *
      * @return int

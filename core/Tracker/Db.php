@@ -11,8 +11,13 @@ namespace Piwik\Tracker;
 use Exception;
 use PDOStatement;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Timer;
+use Piwik\Tracker;
 use Piwik\Tracker\Db\DbException;
+use Piwik\Tracker\Db\Mysqli;
+use Piwik\Tracker\Db\Pdo\Mysql;
 
 /**
  * Simple database wrapper.
@@ -226,4 +231,63 @@ abstract class Db
      * @return bool  True if error number matches; false otherwise
      */
     abstract public function isErrNo($e, $errno);
+
+    /**
+     * Factory to create database objects
+     *
+     * @param array $configDb Database configuration
+     * @throws Exception
+     * @return \Piwik\Tracker\Db\Mysqli|\Piwik\Tracker\Db\Pdo\Mysql
+     */
+    public static function factory($configDb)
+    {
+        /**
+         * Triggered before a connection to the database is established by the Tracker.
+         *
+         * This event can be used to change the database connection settings used by the Tracker.
+         *
+         * @param array $dbInfos Reference to an array containing database connection info,
+         *                       including:
+         *
+         *                       - **host**: The host name or IP address to the MySQL database.
+         *                       - **username**: The username to use when connecting to the
+         *                                       database.
+         *                       - **password**: The password to use when connecting to the
+         *                                       database.
+         *                       - **dbname**: The name of the Piwik MySQL database.
+         *                       - **port**: The MySQL database port to use.
+         *                       - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
+         *                       - **type**: The MySQL engine to use, for instance 'InnoDB'
+         */
+        Piwik::postEvent('Tracker.getDatabaseConfig', array(&$configDb));
+
+        switch ($configDb['adapter']) {
+            case 'PDO\MYSQL':
+            case 'PDO_MYSQL': // old format pre Piwik 2
+                require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Pdo/Mysql.php';
+                return new Mysql($configDb);
+
+            case 'MYSQLI':
+                require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Mysqli.php';
+                return new Mysqli($configDb);
+        }
+
+        throw new Exception('Unsupported database adapter ' . $configDb['adapter']);
+    }
+
+    public static function connectPiwikTrackerDb()
+    {
+        $db = null;
+        $configDb = Config::getInstance()->database;
+
+        if (!isset($configDb['port'])) {
+            // before 0.2.4 there is no port specified in config file
+            $configDb['port'] = '3306';
+        }
+
+        $db = self::factory($configDb);
+        $db->connect();
+
+        return $db;
+    }
 }
