@@ -1,14 +1,19 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "Nettleserfamilie",
+        "Browsers": "Nettlesere",
         "BrowserVersion": "Nettleserversjon",
         "BrowserVersions": "Nettleser-versjoner",
         "Camera": "Kamera",
+        "ColumnBrowser": "Nettleser",
+        "ColumnOperatingSystem": "Operativsystem",
         "dataTableLabelModels": "Modell",
         "Device": "Enhet",
+        "OperatingSystems": "Operativsystem",
         "Smartphone": "Smarttelefon",
         "submenu": "Enheter",
         "Tablet": "Nettbrett",
-        "TV": "TV"
+        "TV": "TV",
+        "WidgetBrowsers": "Besøkendes nettlesere"
     }
 }

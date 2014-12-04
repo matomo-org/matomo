@@ -2,10 +2,13 @@
     "DevicesDetection": {
         "BrowserEngineDocumentation": "Deze grafiek toont de browsers van uw bezoekers, verdeeld in browserfamilies. %s De belangrijkste informatie voor webontwikkelaars is wat voor soort renderingengine hun bezoekers gebruiken. De labels bevatten de namen van de engines, gevolgd door de meest voorkomende browsers (tussen haakjes) die deze engine gebruiken.",
         "BrowserFamily": "Browser per Type",
+        "Browsers": "Browser per versie",
         "BrowserVersion": "Browserversie",
         "BrowserVersions": "Browser versies",
         "Camera": "Fototoestel",
         "CarBrowser": "Auto browser",
+        "ColumnBrowser": "Browser",
+        "ColumnOperatingSystem": "Besturingssysteem",
         "Console": "Console",
         "dataTableLabelBrands": "Merk",
         "dataTableLabelModels": "Model",
@@ -19,6 +22,8 @@
         "DeviceType": "Apparaat type",
         "FeaturePhone": "Toekomstige telefoon",
         "OperatingSystemFamilies": "Besturingssysteem families",
+        "OperatingSystemFamily": "Besturingssyteem familie",
+        "OperatingSystems": "Besturingssystemen",
         "OperatingSystemVersions": "Besturingssysteem versies",
         "PluginDescription": "Deze plugin geeft uitgebreide informatie over mobile apparaten, zoals Merk (fabrikant), Model (apparaat versie), betere Apparaat type detectie (tv, consoles, smart phones, desktop, enz) en meer. Deze plugin voegt een nieuw rapport toe in 'Bezoekers > Devices'.",
         "SmartDisplay": "Slim scherm",
@@ -26,6 +31,8 @@
         "submenu": "Apparaten",
         "Tablet": "Tablet",
         "TV": "Tv",
-        "UserAgent": "Gebruikers-agent"
+        "UserAgent": "Gebruikers-agent",
+        "WidgetBrowsers": "Browsers bezoekers",
+        "WidgetBrowsersDocumentation": "Dit rapport bevat informatie over het type browsers dat door door uw bezoekers werd gebruikt. Elke browserversie wordt apart vermeld."
     }
 }
