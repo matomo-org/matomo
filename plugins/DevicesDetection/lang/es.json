@@ -2,10 +2,13 @@
     "DevicesDetection": {
         "BrowserEngineDocumentation": "Este cuadro muestra los navegadores de internet de los visitantes divididos en sus respectivas familias. %s La información más importante para los desarrolladores de sitios de internet es conocer que motor de interpretador están utilizando los visitantes. Los rótulos contienen los nombres de los motores seguidos por el navegador más usual utilizando dicho motor entre corchetes.",
         "BrowserFamily": "Buscadores por familia",
+        "Browsers": "Navegadores",
         "BrowserVersion": "Versión del navegador",
         "BrowserVersions": "Versiones de navegadores",
         "Camera": "Cámara",
         "CarBrowser": "Navegador para coche",
+        "ColumnBrowser": "Navegador",
+        "ColumnOperatingSystem": "Sistemas operativos",
         "Console": "Consola",
         "dataTableLabelBrands": "Marca",
         "dataTableLabelModels": "Modelo",
@@ -19,6 +22,8 @@
         "DeviceType": "Tipo de dispositivo",
         "FeaturePhone": "Teléfono principal",
         "OperatingSystemFamilies": "Familia de sistemas operativos",
+        "OperatingSystemFamily": "Familia de sistema operativo",
+        "OperatingSystems": "Sistemas operativos",
         "OperatingSystemVersions": "Versiones de sistema operativo",
         "PluginDescription": "Este plugin ofrece amplia información sobre dispositivos móviles, como Marca (fabricación), Modelo (versión de dispositivo), una mejor detección de Dispositivo (televisión, consola, smartphone, escritorio, etc.) y más. Este plugin agrega un nuevo informe en la sección ´Visitantes > Dispositivos´.",
         "SmartDisplay": "Pantalla inteligente",
@@ -26,6 +31,8 @@
         "submenu": "Dispositivos",
         "Tablet": "Tablet",
         "TV": "Televisión",
-        "UserAgent": "Agente de usuario"
+        "UserAgent": "Agente de usuario",
+        "WidgetBrowsers": "Navegadores de los visitantes",
+        "WidgetBrowsersDocumentation": "Este informe contiene información acerca de qué tipo de navegador el visitante está utilizando. Cada versión de navegador está alistado separadamente."
     }
 }

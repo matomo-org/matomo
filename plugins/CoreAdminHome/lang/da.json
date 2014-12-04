@@ -68,6 +68,7 @@
         "PluginSettingReadNotAllowed": "Du har ikke tilladelse til at læse værdien af ​​indstillingen \"%s\" i udvidelsen \"%s\"",
         "PluginSettings": "Programudvidelses indstilinger",
         "PluginSettingsIntro": "Her kan du ændre indstillingerne for følgende 3. parts udvidelsesmoduler:",
+        "PluginSettingsSaveFailed": "Kunne ikke gemme udvidelsesmodul indstillinger",
         "PluginSettingsValueNotAllowed": "Værdien for feltet \"%s\" i udvidelsen \"%s\" er ikke tilladt",
         "SendPluginUpdateCommunication": "Send mig en e-mail når der er en ny opdatering af denne programudvidelse.",
         "SendPluginUpdateCommunicationHelp": "En e-mail vil blive sendt til Superbrugere, når der er en ny version tilgængelig for denne programudvidelse.",

@@ -2,10 +2,13 @@
     "DevicesDetection": {
         "BrowserEngineDocumentation": "このチャートは、ビジターのブラウザをブラウザファミリー別に表示します。 %s Web開発者にとって最も重要な情報は、ビジターが使用しているレンダリングエンジンの種類です。ラベルはエンジンの名前で、括弧内にそのエンジンを使う最も一般的なブラウザ名を表示しています。",
         "BrowserFamily": "ブラウザファミリー",
+        "Browsers": "ブラウザ",
         "BrowserVersion": "ブラウザのバージョン",
         "BrowserVersions": "ブラウザのバージョン",
         "Camera": "カメラ",
         "CarBrowser": "車載ブラウザ",
+        "ColumnBrowser": "ブラウザ",
+        "ColumnOperatingSystem": "オペレーティングシステム",
         "Console": "コンソール",
         "dataTableLabelBrands": "ブランド",
         "dataTableLabelModels": "モデル",
@@ -19,6 +22,8 @@
         "DeviceType": "デバイスタイプ",
         "FeaturePhone": "携帯電話",
         "OperatingSystemFamilies": "オペレーティングシステムファミリー",
+        "OperatingSystemFamily": "オペレーティングシステムファミリー",
+        "OperatingSystems": "オペレーティングシステム",
         "OperatingSystemVersions": "オペレーティングシステムのバージョン",
         "PluginDescription": "このプラグインは、訪問者の使用する接続機器情報を表示します。モバイル端末のブランド（メーカー）やモデル（デバイスのバージョン）や、また多くの機種（テレビ、コンソール、スマートフォン、デスクトップPCなど）も検出します。このプラグインはメニューの「ビジター > デバイス」に新しいレポートが追加されます。",
         "SmartDisplay": "スマートディスプレイ",
@@ -26,6 +31,8 @@
         "submenu": "デバイス",
         "Tablet": "タブレット",
         "TV": "TV",
-        "UserAgent": "ユーザーエージェント"
+        "UserAgent": "ユーザーエージェント",
+        "WidgetBrowsers": "ブラウザ",
+        "WidgetBrowsersDocumentation": "ビジターがどのブラウザを使っているかについてのリポートです。各ブラウザのバージョンは別途記載されています。"
     }
 }

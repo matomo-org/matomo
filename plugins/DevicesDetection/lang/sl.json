@@ -2,12 +2,17 @@
     "DevicesDetection": {
         "BrowserEngines": "Pogoni brskalnikov",
         "BrowserFamily": "Družina brskalnika",
+        "Browsers": "Brskalniki",
         "BrowserVersion": "Različica brskalnika",
+        "ColumnBrowser": "Brskalnik",
+        "ColumnOperatingSystem": "Operacijski sistem",
         "DeviceBrand": "Znamka naprave",
         "DeviceModel": "Model naprave",
         "DevicesDetection": "Naprave obiskovalcev",
         "DeviceType": "Tip naprave",
         "OperatingSystemFamilies": "Družine operacijskih sistemov",
-        "submenu": "Naprave"
+        "OperatingSystems": "Operacijski sistemi",
+        "submenu": "Naprave",
+        "WidgetBrowsers": "Brskalnik obiskovalca"
     }
 }
