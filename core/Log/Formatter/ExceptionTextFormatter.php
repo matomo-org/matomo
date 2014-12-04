@@ -8,7 +8,7 @@
 
 namespace Piwik\Log\Formatter;
 
-use Piwik\ExceptionHandler;
+use Piwik\Error;
 use Piwik\Log;
 
 /**
@@ -25,10 +25,14 @@ class ExceptionTextFormatter extends Formatter
         /** @var \Exception $exception */
         $exception = $record['context']['exception'];
 
-        $record['message'] = sprintf("%s(%d): %s\n%s", $exception->getFile(), $exception->getLine(), $exception->getMessage(),
-            Log::$debugBacktraceForTests ?: $exception->getTraceAsString());
+        $record['message'] = sprintf(
+            "%s(%d): %s\n%s",
+            $exception->getFile(),
+            $exception->getLine(),
+            $this->getMessage($exception),
+            $this->getStackTrace($exception)
+        );
 
-        // Remove the exception so that it's not formatted again by another formatter
         unset($record['context']['exception']);
 
         return $this->next($record);
@@ -38,5 +42,19 @@ class ExceptionTextFormatter extends Formatter
     {
         return isset($record['context']['exception'])
             && $record['context']['exception'] instanceof \Exception;
+    }
+
+    private function getMessage(\Exception $exception)
+    {
+        if ($exception instanceof \ErrorException) {
+            return Error::getErrNoString($exception->getSeverity()) . ' - ' . $exception->getMessage();
+        }
+
+        return $exception->getMessage();
+    }
+
+    private function getStackTrace(\Exception $exception)
+    {
+        return Log::$debugBacktraceForTests ?: $exception->getTraceAsString();
     }
 }

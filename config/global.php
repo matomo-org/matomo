@@ -6,7 +6,6 @@ use Piwik\Log;
 use Piwik\Log\Backend\StdErrBackend;
 use Piwik\Log\Formatter\AddRequestIdFormatter;
 use Piwik\Log\Formatter\ErrorHtmlFormatter;
-use Piwik\Log\Formatter\ErrorTextFormatter;
 use Piwik\Log\Formatter\ExceptionHtmlFormatter;
 use Piwik\Log\Formatter\ExceptionTextFormatter;
 use Piwik\Log\Formatter\HtmlPreFormatter;
@@ -130,16 +129,11 @@ return array(
         return $logPath;
     }),
     'log.formatter.text' => DI\factory(function (ContainerInterface $c) {
-        // Chain of responsibility pattern
-        $lineFormatter = new LineMessageFormatter($c->get('log.format'));
-
         $exceptionFormatter = new ExceptionTextFormatter();
-        $exceptionFormatter->setNext($lineFormatter);
-
-        $errorFormatter = new ErrorTextFormatter();
-        $errorFormatter->setNext($exceptionFormatter);
-
-        return $errorFormatter;
+        $exceptionFormatter->setNext(
+            new LineMessageFormatter($c->get('log.format'))
+        );
+        return $exceptionFormatter;
     }),
     'log.formatter.html' => DI\factory(function (ContainerInterface $c) {
         // Chain of responsibility pattern
