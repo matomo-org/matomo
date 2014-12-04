@@ -34,7 +34,5 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);
 
-Config::getInstance()->log['log_writers'][] = 'screen';
-Config::getInstance()->log['log_level'] = 'VERBOSE';
 Config::getInstance()->log['string_message_format'] = "%message%";
 FrontController::getInstance()->init();

@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Tests\Framework\TestCase;
+use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\Mock\File;
 
 
@@ -21,6 +22,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         File::reset();
+        EventDispatcher::getInstance()->clearAllObservers();
     }
 
     public function tearDown()

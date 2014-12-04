@@ -270,12 +270,13 @@ class Mysql extends Db
      */
     public function commit($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false ) {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
             return;
         }
+
         $this->activeTransaction = false;
 
-        if (!$this->connection->commit() ) {
+        if (!$this->connection->commit()) {
             throw new DbException("Commit failed");
         }
     }
@@ -288,12 +289,13 @@ class Mysql extends Db
      */
     public function rollBack($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false ) {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
             return;
         }
+
         $this->activeTransaction = false;
 
-        if (!$this->connection->rollBack() ) {
+        if (!$this->connection->rollBack()) {
             throw new DbException("Rollback failed");
         }
     }
