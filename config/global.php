@@ -93,6 +93,7 @@ return array(
     'log.processors' => array(
         DI\link('Piwik\Log\Processor\ClassNameProcessor'),
         DI\link('Piwik\Log\Processor\SprintfProcessor'),
+        DI\link('Monolog\Processor\PsrLogMessageProcessor'),
     ),
     'Piwik\Log\Backend\FileBackend' => DI\object()
         ->constructor(DI\link('log.file.filename'), DI\link('log.level.monolog'))
