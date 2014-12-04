@@ -280,6 +280,7 @@ class Log extends Singleton
             'level'      => $this->getMonologLevel($level),
             'level_name' => self::getStringLevel($level),
             'time'       => new \DateTime(),
+            'datetime'   => new \DateTime(),
             'extra'      => array(),
         );
 

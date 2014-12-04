@@ -8,7 +8,9 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
+use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,12 +31,15 @@ class Console extends Application
         );
 
         $this->getDefinition()->addOption($option);
+
+        StaticContainer::loadCliConfig();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->initPiwikHost($input);
         $this->initConfig($output);
+        $this->initLoggerOutput($output);
 
         try {
             self::initPlugins();
@@ -140,6 +145,21 @@ class Console extends Application
         } catch (\Exception $e) {
             $output->writeln($e->getMessage() . "\n");
         }
+    }
+
+    /**
+     * Register the console output into the logger.
+     *
+     * Ideally, this should be done automatically with events:
+     * @see http://symfony.com/fr/doc/current/components/console/events.html
+     * @see Symfony\Bridge\Monolog\Handler\ConsoleHandler::onCommand()
+     * But it would require to install Symfony's Event Dispatcher.
+     */
+    private function initLoggerOutput(OutputInterface $output)
+    {
+        /** @var ConsoleHandler $consoleLogHandler */
+        $consoleLogHandler = StaticContainer::getContainer()->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
+        $consoleLogHandler->setOutput($output);
     }
 
     public static function initPlugins()
