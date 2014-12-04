@@ -3,6 +3,7 @@
 use Interop\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Log;
+use Piwik\Log\Backend\StdErrBackend;
 use Piwik\Log\Formatter\AddRequestIdFormatter;
 use Piwik\Log\Formatter\ErrorHtmlFormatter;
 use Piwik\Log\Formatter\ErrorTextFormatter;
@@ -30,7 +31,8 @@ return array(
     }),
 
     // Log
-    'Piwik\Log' => DI\factory(array('Piwik\Log\LoggerFactory', 'createLogger')),
+    'Piwik\Log' => DI\object()
+        ->constructor(DI\link('log.handlers'), DI\link('log.level.piwik'), DI\link('log.processors')),
     'log.level.monolog' => DI\factory(function (ContainerInterface $c) {
         return Log::getMonologLevel($c->get('log.level.piwik'));
     }),
@@ -56,6 +58,35 @@ return array(
             return true;
         }
         return false;
+    }),
+    'log.handlers' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('old_config.log.log_writers')) {
+            $writerNames = $c->get('old_config.log.log_writers');
+        }
+        if (empty($writerNames)) {
+            return array();
+        }
+
+        $classes = array(
+            'file'     => 'Piwik\Log\Backend\FileBackend',
+            'screen'   => 'Piwik\Log\Backend\StdOutBackend',
+            'database' => 'Piwik\Log\Backend\DatabaseBackend',
+        );
+
+        $writerNames = array_map('trim', $writerNames);
+        $writers = array();
+        foreach ($writerNames as $writerName) {
+            if (isset($classes[$writerName])) {
+                $class = $classes[$writerName];
+                $writers[$writerName] = $c->get($class);
+            }
+        }
+
+        // Always add the stderr backend
+        $isLoggingToStdOut = isset($writers['screen']);
+        $writers['stderr'] = new StdErrBackend($c->get('log.formatter.html'), $isLoggingToStdOut);
+
+        return $writers;
     }),
     'log.processors' => array(
         DI\link('Piwik\Log\Processor\ClassNameProcessor'),
