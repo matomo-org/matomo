@@ -180,8 +180,6 @@ class RequestSet
 
         foreach ($this->getRequests() as $request) {
             $requests['requests'][] = $request->getRawParams();
-            // todo we maybe need to save cdt (timestamp), tokenAuth, maybe also urlref and IP as well but we need to be
-            // careful with restoring those values etc since we'd probably need to check permissions etc in some cases
         }
 
         return $requests;
