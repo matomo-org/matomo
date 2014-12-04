@@ -30,7 +30,13 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
-        return $request->process();
+        $response = $request->process();
+
+        if (is_array($response)) {
+            $response = var_export($response, true);
+        }
+
+        return $response;
     }
 
     public function listAllMethods()
