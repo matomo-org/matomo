@@ -12,15 +12,11 @@ namespace Piwik\Updates;
 use Piwik\Updates;
 
 /**
- * Update for version 2.9.1.
+ * Update for version 2.10.0-b4.
  */
-class Updates_2_9_1 extends Updates
+class Updates_2_10_0_b4 extends Updates
 {
 
-    /**
-     * Here you can define any action that should be performed during the update. For instance executing SQL statements,
-     * renaming config entries, updating files, etc.
-     */
     static function update()
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
