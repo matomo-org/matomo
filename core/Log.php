@@ -244,19 +244,10 @@ class Log extends Singleton
 
     /**
      * @param int $logLevel
-     * @deprecated We should remove the log level from this class entirely
+     * @deprecated Will be removed
      */
     public function setLogLevel($logLevel)
     {
-        $this->currentLogLevel = $logLevel;
-
-        // Apply the log level to all handlers
-        $logLevel = self::getMonologLevel($logLevel);
-        foreach ($this->handlers as $handler) {
-            if ($handler instanceof AbstractHandler) {
-                $handler->setLevel($logLevel);
-            }
-        }
     }
 
     public function getLogLevel()

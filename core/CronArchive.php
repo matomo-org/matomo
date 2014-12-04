@@ -214,7 +214,6 @@ class CronArchive
     {
         $this->formatter = new Formatter();
 
-        $this->initLog();
         $this->initPiwikHost($piwikUrl);
         $this->initCore();
         $this->initTokenAuth();
@@ -850,28 +849,6 @@ class CronArchive
             return $this->logNetworkError($url, $response);
         }
         return true;
-    }
-
-    /**
-     * Configures Piwik\Log so messages are written in output
-     */
-    private function initLog()
-    {
-        $config = Config::getInstance();
-
-        $log = $config->log;
-        $log['log_only_when_debug_parameter'] = 0;
-        $log[Log::LOG_WRITERS_CONFIG_OPTION][] = "screen";
-
-        $config->log = $log;
-
-        Log::unsetInstance();
-
-        // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
-        $logLevel = Log::getInstance()->getLogLevel();
-        if ($logLevel < Log::INFO) {
-            Log::getInstance()->setLogLevel(Log::INFO);
-        }
     }
 
     /**

@@ -1225,6 +1225,10 @@ class Common
         $var = null;
     }
 
+    /**
+     * @todo This method is weird, it's debugging statements but seem to only work for the tracker, maybe it
+     * should be moved elsewhere
+     */
     public static function printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
@@ -1232,8 +1236,6 @@ class Common
             if (is_object($info)) {
                 $info = var_export($info, true);
             }
-
-            Log::getInstance()->setLogLevel(Log::DEBUG);
 
             if (is_array($info) || is_object($info)) {
                 $info = Common::sanitizeInputValues($info);
