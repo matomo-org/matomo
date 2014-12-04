@@ -9,7 +9,6 @@
 namespace Piwik\Log\Formatter;
 
 use Piwik\Common;
-use Piwik\Log;
 
 /**
  * Formats the message into `<pre></pre>` HTML tags.

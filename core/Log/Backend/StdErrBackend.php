@@ -11,7 +11,6 @@ namespace Piwik\Log\Backend;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use Piwik\Log;
 
 /**
  * Writes log to stderr.

@@ -11,7 +11,6 @@ namespace Piwik\Log\Backend;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Piwik\Filechecks;
-use Piwik\Log;
 
 /**
  * Writes log to file.

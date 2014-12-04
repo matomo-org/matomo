@@ -8,11 +8,9 @@
 
 namespace Piwik;
 
-use Monolog\Handler\AbstractHandler;
-use Monolog\Handler\HandlerInterface;
 use Monolog\Logger;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
+use Psr\Log\LoggerInterface;
 
 /**
  * Logging utility class.
@@ -129,27 +127,9 @@ class Log extends Singleton
     private static $instance;
 
     /**
-     * The current logging level. Everything of equal or greater priority will be logged.
-     * Everything else will be ignored.
-     *
-     * @var int
+     * @var LoggerInterface
      */
-    private $currentLogLevel = self::WARN;
-
-    /**
-     * Processors process log messages before they are being sent to backends.
-     *
-     * @var callable[]
-     */
-    private $processors = array();
-
-    /**
-     * The array of handlers called when logging a message. Each handler writes a log
-     * message to a logging backend.
-     *
-     * @var HandlerInterface[]
-     */
-    private $handlers = array();
+    private $logger;
 
     public static function getInstance()
     {
@@ -168,15 +148,11 @@ class Log extends Singleton
     }
 
     /**
-     * @param HandlerInterface[] $handlers
-     * @param int $logLevel
-     * @param callable[] $processors
+     * @param LoggerInterface $logger
      */
-    public function __construct(array $handlers, $logLevel, array $processors)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->handlers = $handlers;
-        $this->currentLogLevel = $logLevel;
-        $this->processors = $processors;
+        $this->logger = $logger;
     }
 
     /**
@@ -191,7 +167,7 @@ class Log extends Singleton
      */
     public static function error($message /* ... */)
     {
-        self::logMessage(self::ERROR, $message, array_slice(func_get_args(), 1));
+        self::logMessage(Logger::ERROR, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -203,7 +179,7 @@ class Log extends Singleton
      */
     public static function warning($message /* ... */)
     {
-        self::logMessage(self::WARN, $message, array_slice(func_get_args(), 1));
+        self::logMessage(Logger::WARNING, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -215,7 +191,7 @@ class Log extends Singleton
      */
     public static function info($message /* ... */)
     {
-        self::logMessage(self::INFO, $message, array_slice(func_get_args(), 1));
+        self::logMessage(Logger::INFO, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -227,7 +203,7 @@ class Log extends Singleton
      */
     public static function debug($message /* ... */)
     {
-        self::logMessage(self::DEBUG, $message, array_slice(func_get_args(), 1));
+        self::logMessage(Logger::DEBUG, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -239,7 +215,7 @@ class Log extends Singleton
      */
     public static function verbose($message /* ... */)
     {
-        self::logMessage(self::VERBOSE, $message, array_slice(func_get_args(), 1));
+        self::logMessage(Logger::DEBUG, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -250,9 +226,11 @@ class Log extends Singleton
     {
     }
 
+    /**
+     * @deprecated Will be removed
+     */
     public function getLogLevel()
     {
-        return $this->currentLogLevel;
     }
 
     private function doLog($level, $message, $parameters = array())
@@ -262,46 +240,16 @@ class Log extends Singleton
             $parameters['exception'] = $message;
             $message = $message->getMessage();
         }
-
-        // Create a record similar to Monolog to ease future transition
-        $record = array(
-            'message'    => $message,
-            'context'    => $parameters,
-            'channel'    => 'piwik',
-            'level'      => $this->getMonologLevel($level),
-            'level_name' => self::getStringLevel($level),
-            'time'       => new \DateTime(),
-            'datetime'   => new \DateTime(),
-            'extra'      => array(),
-        );
-
-        foreach ($this->processors as $processor) {
-            $record = $processor($record);
+        if (! is_string($message)) {
+            throw new \InvalidArgumentException('Trying to log a message that is not a string');
         }
 
-        foreach ($this->handlers as $handler) {
-            if ($handler->isHandling($record)) {
-                $handler->handle($record);
-            }
-        }
+        $this->logger->log($level, $message, $parameters);
     }
 
     private static function logMessage($level, $message, $parameters)
     {
         self::getInstance()->doLog($level, $message, $parameters);
-    }
-
-    private function getStringLevel($level)
-    {
-        static $levelToName = array(
-            Log::NONE    => 'NONE',
-            Log::ERROR   => 'ERROR',
-            Log::WARN    => 'WARN',
-            Log::INFO    => 'INFO',
-            Log::DEBUG   => 'DEBUG',
-            Log::VERBOSE => 'VERBOSE'
-        );
-        return $levelToName[$level];
     }
 
     public static function getMonologLevel($level)

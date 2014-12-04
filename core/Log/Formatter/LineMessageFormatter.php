@@ -8,8 +8,6 @@
 
 namespace Piwik\Log\Formatter;
 
-use Piwik\Log;
-
 /**
  * Formats a log message into a single line of text.
  */
@@ -30,13 +28,9 @@ class LineMessageFormatter extends Formatter
 
     public function format(array $record)
     {
-        if (! is_string($record['message'])) {
-            throw new \InvalidArgumentException('Trying to log a message that is not a string');
-        }
-
         $record['message'] = str_replace(
             array("%tag%", "%message%", "%datetime%", "%level%"),
-            array($record['extra']['class'], trim($record['message']), $record['time']->format('Y-m-d H:i:s'), $record['level_name']),
+            array($record['extra']['class'], trim($record['message']), $record['datetime']->format('Y-m-d H:i:s'), $record['level_name']),
             $this->logMessageFormat
         );
 

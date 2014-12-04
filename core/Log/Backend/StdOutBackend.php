@@ -9,7 +9,6 @@
 namespace Piwik\Log\Backend;
 
 use Monolog\Handler\AbstractProcessingHandler;
-use Piwik\Log;
 
 /**
  * Writes log to stdout.

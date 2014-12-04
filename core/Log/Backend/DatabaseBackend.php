@@ -11,7 +11,6 @@ namespace Piwik\Log\Backend;
 use Monolog\Handler\AbstractProcessingHandler;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Log;
 
 /**
  * Writes log to database.
@@ -26,6 +25,6 @@ class DatabaseBackend extends AbstractProcessingHandler
             . " (tag, timestamp, level, message)"
             . " VALUES (?, ?, ?, ?)";
 
-        Db::query($sql, array($record['extra']['class'], $record['time']->format('Y-m-d H:i:s'), $record['level_name'], (string) $record['message']));
+        Db::query($sql, array($record['extra']['class'], $record['datetime']->format('Y-m-d H:i:s'), $record['level_name'], (string) $record['message']));
     }
 }

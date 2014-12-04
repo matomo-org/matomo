@@ -31,8 +31,10 @@ return array(
     }),
 
     // Log
+    'Psr\Log\LoggerInterface' => DI\object('Monolog\Logger')
+        ->constructor('piwik', DI\link('log.handlers'), DI\link('log.processors')),
     'Piwik\Log' => DI\object()
-        ->constructor(DI\link('log.handlers'), DI\link('log.level.piwik'), DI\link('log.processors')),
+        ->constructor(DI\link('Psr\Log\LoggerInterface')),
     'log.level.monolog' => DI\factory(function (ContainerInterface $c) {
         return Log::getMonologLevel($c->get('log.level.piwik'));
     }),
@@ -86,7 +88,7 @@ return array(
         $isLoggingToStdOut = isset($writers['screen']);
         $writers['stderr'] = new StdErrBackend($c->get('log.formatter.html'), $isLoggingToStdOut);
 
-        return $writers;
+        return array_values($writers);
     }),
     'log.processors' => array(
         DI\link('Piwik\Log\Processor\ClassNameProcessor'),

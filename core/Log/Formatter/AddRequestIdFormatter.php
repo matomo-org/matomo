@@ -9,7 +9,6 @@
 namespace Piwik\Log\Formatter;
 
 use Piwik\Common;
-use Piwik\Log;
 
 /**
  * Adds a unique "request id" to the log message to follow log entries for each HTTP request.

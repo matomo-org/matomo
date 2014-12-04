@@ -9,7 +9,6 @@
 namespace Piwik\Log\Formatter;
 
 use Monolog\Formatter\FormatterInterface;
-use Piwik\Log;
 
 /**
  * Formats a log message.
