@@ -92,6 +92,18 @@ class RequestSet
             return;
         }
 
+        /**
+         * Triggered when detecting tracking requests. A plugin can use this event to set
+         * requests that should be tracked by calling the {@link RequestSet::setRequests()} method.
+         * For example the BulkTracking plugin uses this event to detect tracking requests and auth token based on
+         * a sent JSON instead of default $_GET+$_POST. It would allow you for example to track requests based on
+         * XML or you could import tracking requests stored in a file.
+         *
+         * @param \Piwik\Tracker\RequestSet &$requestSet  Call {@link setRequests()} to initialize requests and
+         *                                                {@link setTokenAuth()} to set a detected auth token.
+         *
+         * @ignore This event is not public yet as the RequestSet API is not really stable yet
+         */
         Piwik::postEvent('Tracker.initRequestSet', array($this));
 
         if (!$this->areRequestsInitialized()) {

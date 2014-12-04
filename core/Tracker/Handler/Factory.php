@@ -27,6 +27,7 @@ class Factory
          * @param \Piwik\Tracker\Handler &$handler Initialized to null, but can be set to
          *                                         a new handler object. If it isn't modified
          *                                         Piwik uses the default class.
+         * @ignore This event is not public yet as the Handler API is not really stable yet
          */
         Piwik::postEvent('Tracker.newHandler', array(&$handler));
 
