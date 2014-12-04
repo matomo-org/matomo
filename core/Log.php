@@ -117,6 +117,13 @@ class Log extends Singleton
     const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
 
     /**
+     * The backtrace string to use when testing.
+     *
+     * @var string
+     */
+    public static $debugBacktraceForTests;
+
+    /**
      * Singleton instance.
      *
      * @var Log
@@ -261,6 +268,12 @@ class Log extends Singleton
 
     private function doLog($level, $message, $parameters = array())
     {
+        // To ensure the compatibility with PSR-3, the message must be a string
+        if ($message instanceof \Exception) {
+            $parameters['exception'] = $message;
+            $message = $message->getMessage();
+        }
+
         // Create a record similar to Monolog to ease future transition
         $record = array(
             'message'    => $message,

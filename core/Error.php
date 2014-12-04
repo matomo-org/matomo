@@ -11,71 +11,10 @@ namespace Piwik;
 require_once PIWIK_INCLUDE_PATH . '/core/Log.php';
 
 /**
- * Holds PHP error information (non-exception errors). Also contains log formatting logic
- * for PHP errors and Piwik's error handler function.
+ * Piwik's error handler function.
  */
 class Error
 {
-    /**
-     * The backtrace string to use when testing.
-     *
-     * @var string
-     */
-    public static $debugBacktraceForTests = null;
-
-    /**
-     * The error number. See http://php.net/manual/en/errorfunc.constants.php#errorfunc.constants.errorlevels
-     *
-     * @var int
-     */
-    public $errno;
-
-    /**
-     * The error message.
-     *
-     * @var string
-     */
-    public $errstr;
-
-    /**
-     * The file in which the error occurred.
-     *
-     * @var string
-     */
-    public $errfile;
-
-    /**
-     * The line number on which the error occurred.
-     *
-     * @var int
-     */
-    public $errline;
-
-    /**
-     * The error backtrace.
-     *
-     * @var string
-     */
-    public $backtrace;
-
-    /**
-     * Constructor.
-     *
-     * @param int $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int $errline
-     * @param string $backtrace
-     */
-    public function __construct($errno, $errstr, $errfile, $errline, $backtrace)
-    {
-        $this->errno = $errno;
-        $this->errstr = $errstr;
-        $this->errfile = $errfile;
-        $this->errline = $errline;
-        $this->backtrace = $backtrace;
-    }
-
     /**
      * Returns a string description of a PHP error number.
      *
@@ -132,25 +71,7 @@ class Error
             return;
         }
 
-        $backtrace = '';
-        if (empty(self::$debugBacktraceForTests)) {
-            $bt = @debug_backtrace();
-            if ($bt !== null && isset($bt[0])) {
-                foreach ($bt as $i => $debug) {
-                    $backtrace .= "#$i  "
-                        . (isset($debug['class']) ? $debug['class'] : '')
-                        . (isset($debug['type']) ? $debug['type'] : '')
-                        . (isset($debug['function']) ? $debug['function'] : '')
-                        . '(...) called at ['
-                        . (isset($debug['file']) ? $debug['file'] : '') . ':'
-                        . (isset($debug['line']) ? $debug['line'] : '') . ']' . "\n";
-                }
-            }
-        } else {
-            $backtrace = self::$debugBacktraceForTests;
-        }
-
-        $error = new Error($errno, $errstr, $errfile, $errline, $backtrace);
+        $error = new \ErrorException($errstr, 0, $errno, $errfile, $errline);
         Log::error($error);
 
         switch ($errno) {

@@ -19,7 +19,7 @@ class ExceptionHtmlFormatter extends Formatter
 {
     public function format(array $record)
     {
-        if (! $record['message'] instanceof \Exception) {
+        if (! $this->contextContainsException($record)) {
             return $this->next($record);
         }
 
@@ -28,8 +28,23 @@ class ExceptionHtmlFormatter extends Formatter
         $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
         $response = new ResponseBuilder($outputFormat);
 
-        $record['message'] = $response->getResponseException(new \Exception($record['message']->getMessage()));
+        /** @var \Exception $exception */
+        $exception = $record['context']['exception'];
+
+        // Why do we create a new exception and not use the real one??
+        $exception = new \Exception($exception->getMessage());
+
+        $record['message'] = $response->getResponseException($exception);
+
+        // Remove the exception so that it's not formatted again by another formatter
+        unset($record['context']['exception']);
 
         return $record;
+    }
+
+    private function contextContainsException($record)
+    {
+        return isset($record['context']['exception'])
+            && $record['context']['exception'] instanceof \Exception;
     }
 }

@@ -84,7 +84,7 @@ dummy backtrace'
         Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
         Config::getInstance()->log['log_level'] = Log::INFO;
         @unlink(self::getLogFileLocation());
-        Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
+        Log::$debugBacktraceForTests = "dummy backtrace";
     }
 
     public function tearDown()
@@ -95,7 +95,7 @@ dummy backtrace'
         Log::unsetInstance();
 
         @unlink(self::getLogFileLocation());
-        Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = null;
+        Log::$debugBacktraceForTests = null;
     }
 
     /**
@@ -148,7 +148,7 @@ dummy backtrace'
         Config::getInstance()->log['log_writers'] = array($backend);
 
         ob_start();
-        $error = new Error(102, "dummy error string", "dummyerrorfile.php", 145, "dummy backtrace");
+        $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
         $this->screenOutput = ob_get_contents();
         ob_end_clean();

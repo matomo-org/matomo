@@ -18,13 +18,25 @@ class ExceptionTextFormatter extends Formatter
 {
     public function format(array $record)
     {
-        $message = $record['message'];
-
-        if ($message instanceof \Exception) {
-            $record['message'] = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
-                ExceptionHandler::$debugBacktraceForTests ?: $message->getTraceAsString());
+        if (! $this->contextContainsException($record)) {
+            return $this->next($record);
         }
 
+        /** @var \Exception $exception */
+        $exception = $record['context']['exception'];
+
+        $record['message'] = sprintf("%s(%d): %s\n%s", $exception->getFile(), $exception->getLine(), $exception->getMessage(),
+            Log::$debugBacktraceForTests ?: $exception->getTraceAsString());
+
+        // Remove the exception so that it's not formatted again by another formatter
+        unset($record['context']['exception']);
+
         return $this->next($record);
+    }
+
+    private function contextContainsException($record)
+    {
+        return isset($record['context']['exception'])
+            && $record['context']['exception'] instanceof \Exception;
     }
 }

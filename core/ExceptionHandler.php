@@ -9,18 +9,10 @@
 namespace Piwik;
 
 /**
- * Contains Piwik's uncaught exception handler and log file formatting for exception
- * instances.
+ * Contains Piwik's uncaught exception handler.
  */
 class ExceptionHandler
 {
-    /**
-     * The backtrace string to use when testing.
-     *
-     * @var string
-     */
-    public static $debugBacktraceForTests = null;
-
     public static function setUp()
     {
         set_exception_handler(array('Piwik\ExceptionHandler', 'logException'));

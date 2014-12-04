@@ -18,13 +18,27 @@ class ErrorTextFormatter extends Formatter
 {
     public function format(array $record)
     {
-        $message = $record['message'];
-
-        if ($message instanceof Error) {
-            $record['message'] = $message->errfile . '(' . $message->errline . '): ' . Error::getErrNoString($message->errno)
-                . ' - ' . $message->errstr . "\n" . $message->backtrace;
+        if (! $this->contextContainsError($record)) {
+            return $this->next($record);
         }
 
+        /** @var \ErrorException $exception */
+        $exception = $record['context']['exception'];
+
+        $trace = Log::$debugBacktraceForTests ?: $exception->getTraceAsString();
+
+        $record['message'] = $exception->getFile() . '(' . $exception->getLine() . '): ' . Error::getErrNoString($exception->getSeverity())
+            . ' - ' . $exception->getMessage() . "\n" . $trace;
+
+        // Remove the exception so that it's not formatted again by another formatter
+        unset($record['context']['exception']);
+
         return $this->next($record);
+    }
+
+    private function contextContainsError($record)
+    {
+        return isset($record['context']['exception'])
+            && $record['context']['exception'] instanceof \ErrorException;
     }
 }
