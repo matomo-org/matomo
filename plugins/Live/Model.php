@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\plugins\Live;
+namespace Piwik\Plugins\Live;
 
 use Exception;
 use Piwik\Common;
@@ -216,12 +216,18 @@ class Model
 
 
     /**
-     * @param $idSite
-     * @param $visitorId
-     * @param $visitLastActionTime
-     * @param $segment
-     * @param $getNext
-     * @return string
+     * Returns the ID of a visitor that is adjacent to another visitor (by time of last action)
+     * in the log_visit table.
+     *
+     * @param int $idSite The ID of the site whose visits should be looked at.
+     * @param string $visitorId The ID of the visitor to get an adjacent visitor for.
+     * @param string $visitLastActionTime The last action time of the latest visit for $visitorId.
+     * @param string $segment
+     * @param bool $getNext Whether to retrieve the next visitor or the previous visitor. The next
+     *                      visitor will be the visitor that appears chronologically later in the
+     *                      log_visit table. The previous visitor will be the visitor that appears
+     *                      earlier.
+     * @return string The hex visitor ID.
      * @throws Exception
      */
     public function queryAdjacentVisitorId($idSite, $visitorId, $visitLastActionTime, $segment, $getNext)
