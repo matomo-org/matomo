@@ -126,7 +126,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($segment->getHash()));
     }
 
-    public function testGetSelectQueryNoJoin()
+    public function test_getSelectQuery_whenNoJoin()
     {
         $select = '*';
         $from = 'log_visit';
@@ -153,7 +153,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    public function testGetSelectQueryJoinVisitOnAction()
+    public function test_getSelectQuery_whenJoinVisitOnAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -181,7 +181,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    public function testGetSelectQueryJoinActionOnVisit()
+    public function test_getSelectQuery_whenJoinActionOnVisit()
     {
         $select = 'sum(log_visit.visit_total_actions) as nb_actions, max(log_visit.visit_total_actions) as max_actions, sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -217,7 +217,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    public function testGetSelectQueryJoinConversionOnAction()
+    public function test_getSelectQuery_whenJoinConversionOnAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -245,7 +245,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    public function testGetSelectQueryJoinActionOnConversion()
+    public function test_getSelectQuery_whenJoinActionOnConversion()
     {
         $select = '*';
         $from = 'log_conversion';
@@ -273,7 +273,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    public function testGetSelectQueryJoinConversionOnVisit()
+    public function test_getSelectQuery_whenJoinConversionOnVisit()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -308,7 +308,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    public function testGetSelectQueryConversionOnly()
+    public function test_getSelectQuery_whenJoinConversionOnly()
     {
         $select = 'log_conversion.*';
         $from = 'log_conversion';
@@ -335,7 +335,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 
-    public function testGetSelectQueryJoinVisitOnConversion()
+    public function test_getSelectQuery_whenJoinVisitOnConversion()
     {
         $select = '*';
         $from = 'log_conversion';
@@ -367,7 +367,7 @@ class SegmentTest extends IntegrationTestCase
      * visit is joined on action, then conversion is joined
      * make sure that conversion is joined on action not visit
      */
-    public function testGetSelectQueryJoinVisitAndConversionOnAction()
+    public function test_getSelectQuery_whenJoinVisitAndConversionOnAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -398,7 +398,7 @@ class SegmentTest extends IntegrationTestCase
      * join conversion on visit, then actions
      * make sure actions are joined before conversions
      */
-    public function testGetSelectQueryJoinConversionAndActionOnVisit()
+    public function test_getSelectQuery_whenJoinConversionAndActionOnVisit()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -433,7 +433,7 @@ class SegmentTest extends IntegrationTestCase
     }
 
     /**
-     * Dataprovider for testBogusSegmentThrowsException
+     * Dataprovider for test_bogusSegment_shouldThrowException
      */
     public function getBogusSegments()
     {
@@ -447,7 +447,7 @@ class SegmentTest extends IntegrationTestCase
     /**
      * @dataProvider getBogusSegments
      */
-    public function testBogusSegmentThrowsException($segment)
+    public function test_bogusSegment_shouldThrowException($segment)
     {
         try {
             new Segment($segment, $idSites = array());
@@ -455,5 +455,47 @@ class SegmentTest extends IntegrationTestCase
             return;
         }
         $this->fail('Expected exception not raised');
+    }
+
+
+    public function test_getSelectQuery_whenLimit_innerQueryShouldHaveLimit()
+    {
+        $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
+        $from = 'log_visit';
+        $where = 'log_visit.idvisit = ?';
+        $bind = array(1);
+
+        $segment = 'customVariablePageName1==Test';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = false;
+        $groupBy = false;
+        $limit = 33;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    sum(log_visit.visit_total_time) as sum_visit_length
+                FROM
+                    (
+                SELECT
+                    log_visit.visit_total_time
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE
+                    ( log_visit.idvisit = ? )
+                    AND
+                    ( log_link_visit_action.custom_var_k1 = ? )
+                GROUP BY log_visit.idvisit
+                ORDER BY NULL
+                LIMIT 33
+                    ) AS log_inner
+                LIMIT 33",
+            "bind" => array(1, 'Test'));
+
+        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
     }
 }
