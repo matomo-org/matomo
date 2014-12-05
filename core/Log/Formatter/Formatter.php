@@ -23,6 +23,11 @@ abstract class Formatter implements FormatterInterface
      */
     protected $next;
 
+    public function __construct(Formatter $next = null)
+    {
+        $this->next = $next;
+    }
+
     /**
      * {@inheritdoc}
      */

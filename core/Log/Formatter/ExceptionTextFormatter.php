@@ -33,8 +33,6 @@ class ExceptionTextFormatter extends Formatter
             $this->getStackTrace($exception)
         );
 
-        unset($record['context']['exception']);
-
         return $this->next($record);
     }
 

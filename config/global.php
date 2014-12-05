@@ -1,12 +1,10 @@
 <?php
 
 use Interop\Container\ContainerInterface;
+use Monolog\Logger;
 use Piwik\Common;
 use Piwik\Log;
 use Piwik\Log\Backend\StdErrBackend;
-use Piwik\Log\Formatter\ExceptionHtmlFormatter;
-use Piwik\Log\Formatter\ExceptionTextFormatter;
-use Piwik\Log\Formatter\LineMessageFormatter;
 
 return array(
 
@@ -31,32 +29,6 @@ return array(
         ->constructor('piwik', DI\link('log.handlers'), DI\link('log.processors')),
     'Piwik\Log' => DI\object()
         ->constructor(DI\link('Psr\Log\LoggerInterface')),
-    'log.level.monolog' => DI\factory(function (ContainerInterface $c) {
-        return Log::getMonologLevel($c->get('log.level.piwik'));
-    }),
-    'log.level.piwik' => DI\factory(function (ContainerInterface $c) {
-        if ($c->get('log.disabled')) {
-            return Log::NONE;
-        }
-        if ($c->has('old_config.log.log_level')) {
-            $level = strtoupper($c->get('old_config.log.log_level'));
-            if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
-                return constant('Piwik\Log::'.strtoupper($level));
-            }
-        }
-        return Log::WARN;
-    }),
-    'log.disabled' => DI\factory(function (ContainerInterface $c) {
-        $logOnlyCli = $c->has('old_config.log.log_only_when_cli') ? $c->get('old_config.log.log_only_when_cli') : false;
-        if ($logOnlyCli && !Common::isPhpCliMode()) {
-            return true;
-        }
-        $logOnlyWhenDebugParameter = $c->has('old_config.log.log_only_when_debug_parameter') ? $c->get('old_config.log.log_only_when_debug_parameter') : false;
-        if ($logOnlyWhenDebugParameter && !isset($_REQUEST['debug'])) {
-            return true;
-        }
-        return false;
-    }),
     'log.handlers' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('old_config.log.log_writers')) {
             $writerNames = $c->get('old_config.log.log_writers');
@@ -82,7 +54,7 @@ return array(
 
         // Always add the stderr backend
         $isLoggingToStdOut = isset($writers['screen']);
-        $writers['stderr'] = new StdErrBackend($c->get('log.formatter.html'), $isLoggingToStdOut);
+        $writers['stderr'] = new StdErrBackend($c->get('Piwik\Log\Formatter\ExceptionHtmlFormatter'), $isLoggingToStdOut);
 
         return array_values($writers);
     }),
@@ -93,14 +65,37 @@ return array(
         DI\link('Monolog\Processor\PsrLogMessageProcessor'),
     ),
     'Piwik\Log\Backend\FileBackend' => DI\object()
-        ->constructor(DI\link('log.file.filename'), DI\link('log.level.monolog'))
-        ->method('setFormatter', DI\link('log.formatter.text')),
+        ->constructor(DI\link('log.file.filename'), DI\link('log.level'))
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionTextFormatter')),
     'Piwik\Log\Backend\DatabaseBackend' => DI\object()
-        ->constructor(DI\link('log.level.monolog'))
-        ->method('setFormatter', DI\link('log.formatter.text')),
+        ->constructor(DI\link('log.level'))
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionTextFormatter')),
     'Piwik\Log\Backend\StdOutBackend' => DI\object()
-        ->constructor(DI\link('log.level.monolog'))
-        ->method('setFormatter', DI\link('log.formatter.html')),
+        ->constructor(DI\link('log.level'))
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionHtmlFormatter')),
+    'log.level' => DI\factory(function (ContainerInterface $c) {
+        if ($c->get('log.disabled')) {
+            return Log::getMonologLevel(Log::NONE);
+        }
+        if ($c->has('old_config.log.log_level')) {
+            $level = strtoupper($c->get('old_config.log.log_level'));
+            if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
+                return Log::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
+            }
+        }
+        return Logger::WARNING;
+    }),
+    'log.disabled' => DI\factory(function (ContainerInterface $c) {
+        $logOnlyCli = $c->has('old_config.log.log_only_when_cli') ? $c->get('old_config.log.log_only_when_cli') : false;
+        if ($logOnlyCli && !Common::isPhpCliMode()) {
+            return true;
+        }
+        $logOnlyWhenDebugParameter = $c->has('old_config.log.log_only_when_debug_parameter') ? $c->get('old_config.log.log_only_when_debug_parameter') : false;
+        if ($logOnlyWhenDebugParameter && !isset($_REQUEST['debug'])) {
+            return true;
+        }
+        return false;
+    }),
     'log.file.filename' => DI\factory(function (ContainerInterface $c) {
         $logPath = $c->get('old_config.log.logger_file_path');
 
@@ -126,20 +121,12 @@ return array(
 
         return $logPath;
     }),
-    'log.formatter.text' => DI\factory(function (ContainerInterface $c) {
-        $exceptionFormatter = new ExceptionTextFormatter();
-        $exceptionFormatter->setNext(
-            new LineMessageFormatter($c->get('log.format'))
-        );
-        return $exceptionFormatter;
-    }),
-    'log.formatter.html' => DI\factory(function (ContainerInterface $c) {
-        $exceptionFormatter = new ExceptionHtmlFormatter();
-        $exceptionFormatter->setNext(
-            new LineMessageFormatter($c->get('log.format'))
-        );
-        return $exceptionFormatter;
-    }),
+    'Piwik\Log\Formatter\ExceptionTextFormatter' => DI\object()
+        ->constructor(DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
+    'Piwik\Log\Formatter\ExceptionHtmlFormatter' => DI\object()
+        ->constructor(DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
+    'Piwik\Log\Formatter\LineMessageFormatter' => DI\object()
+        ->constructor(DI\link('log.format')),
     'log.format' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('old_config.log.string_message_format')) {
             return $c->get('old_config.log.string_message_format');
