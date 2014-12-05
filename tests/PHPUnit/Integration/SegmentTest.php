@@ -210,6 +210,7 @@ class SegmentTest extends IntegrationTestCase
                     AND
                     ( log_link_visit_action.custom_var_k1 = ? AND log_visit.visitor_returning = ? )
                 GROUP BY log_visit.idvisit
+                ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(1, 'Test', 0));
 
@@ -300,6 +301,7 @@ class SegmentTest extends IntegrationTestCase
                     AND
                     ( log_conversion.idgoal = ? )
                 GROUP BY log_visit.idvisit
+                ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(1, 1));
 
@@ -423,6 +425,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
                 GROUP BY log_visit.idvisit
+                ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(1, 12, 'Test'));
 
