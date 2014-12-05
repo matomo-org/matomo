@@ -398,14 +398,14 @@ class SegmentTest extends IntegrationTestCase
      * join conversion on visit, then actions
      * make sure actions are joined before conversions
      */
-    public function test_getSelectQuery_whenJoinConversionAndActionOnVisit()
+    public function test_getSelectQuery_whenJoinConversionAndActionOnVisit_andPageUrlSet()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
         $where = false;
         $bind = array();
 
-        $segment = 'visitConvertedGoalId==1;visitServerHour==12;customVariablePageName1==Test';
+        $segment = 'visitConvertedGoalId==1;visitServerHour==12;customVariablePageName1==Test;pageUrl!=';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -424,6 +424,11 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
                 WHERE
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
+                      AND (
+                            log_link_visit_action.idaction_url IS NOT NULL
+                            AND (log_link_visit_action.idaction_url <> ''
+                                OR log_link_visit_action.idaction_url = 0)
+                            )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
