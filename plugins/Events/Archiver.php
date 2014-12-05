@@ -189,7 +189,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         // apply ranking query
         if ($rankingQuery) {
-            $query['sql'] = $rankingQuery->generateQuery($query['sql']);
+            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
         }
 
         // get result

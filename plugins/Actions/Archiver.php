@@ -254,7 +254,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->isSiteSearchEnabled;
     }
 
-    protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $sprintfField, $rankingQuery = false)
+    protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $sprintfField, RankingQuery $rankingQuery = null)
     {
         $select = sprintf($select, $sprintfField);
 
@@ -266,7 +266,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         // apply ranking query
         if ($rankingQuery) {
-            $querySql = $rankingQuery->generateQuery($querySql);
+            $querySql = $rankingQuery->generateRankingQuery($querySql);
         }
 
         // get result
