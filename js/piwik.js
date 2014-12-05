@@ -2509,11 +2509,12 @@ if (typeof Piwik !== 'object') {
              * Construct formData from URI and send as beacon
              */
             function sendBeacon(url, request) {
+                var form, pairs, pair, i;
                 try {
-                    var form = new FormData();
-                    var pairs = request.split('&');
-                    for (var i = 0; i < pairs.length; ++i) {
-                        var pair = pairs[i].split('=');
+                    form = new FormData();
+                    pairs = request.split('&');
+                    for (i = 0; i < pairs.length; ++i) {
+                        pair = pairs[i].split('=');
                         form.append(decodeWrapper(pair[0]), decodeWrapper(pair[1]));
                     }
                     return navigator.sendBeacon(url, form);
