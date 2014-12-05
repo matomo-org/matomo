@@ -36,11 +36,11 @@ class SegmentTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    protected function _filterWhiteSpaces($valueToFilter)
+    static public function removeExtraWhiteSpaces($valueToFilter)
     {
         if (is_array($valueToFilter)) {
             foreach ($valueToFilter as $key => $value) {
-                $valueToFilter[$key] = $this->_filterWhiteSpaces($value);
+                $valueToFilter[$key] = self::removeExtraWhiteSpaces($value);
             }
             return $valueToFilter;
         } else {
@@ -117,11 +117,11 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
         $sql = $segment->getSelectQuery($select, $from, false);
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($sql));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
 
         // calling twice should give same results
         $sql = $segment->getSelectQuery($select, array($from));
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($sql));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
 
         $this->assertEquals(32, strlen($segment->getHash()));
     }
@@ -150,7 +150,7 @@ class SegmentTest extends IntegrationTestCase
                     ( log_visit.custom_var_k1 = ? AND log_visit.visitor_returning = ? )",
             "bind" => array(1, 'Test', 0));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     public function test_getSelectQuery_whenJoinVisitOnAction()
@@ -178,7 +178,7 @@ class SegmentTest extends IntegrationTestCase
                     ( log_link_visit_action.custom_var_k1 = ? AND log_visit.visitor_returning = ? )",
             "bind" => array(1, 'Test', 0));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     public function test_getSelectQuery_whenJoinActionOnVisit()
@@ -214,7 +214,7 @@ class SegmentTest extends IntegrationTestCase
                     ) AS log_inner",
             "bind" => array(1, 'Test', 0));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     public function test_getSelectQuery_whenJoinConversionOnAction()
@@ -242,7 +242,7 @@ class SegmentTest extends IntegrationTestCase
                     ( log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? AND log_link_visit_action.custom_var_k2 = ? )",
             "bind" => array(1, 'Test', 1, 'Test2'));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     public function test_getSelectQuery_whenJoinActionOnConversion()
@@ -270,7 +270,7 @@ class SegmentTest extends IntegrationTestCase
                     ( ( log_conversion.idgoal IS NULL OR log_conversion.idgoal <> ? ) AND log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? )",
             "bind" => array(1, 2, 'Test', 1));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     public function test_getSelectQuery_whenJoinConversionOnVisit()
@@ -305,7 +305,7 @@ class SegmentTest extends IntegrationTestCase
                     ) AS log_inner",
             "bind" => array(1, 1));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     public function test_getSelectQuery_whenJoinConversionOnly()
@@ -332,7 +332,7 @@ class SegmentTest extends IntegrationTestCase
                     ( log_conversion.idgoal = ? )",
             "bind" => array(1, 1));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     public function test_getSelectQuery_whenJoinVisitOnConversion()
@@ -360,7 +360,7 @@ class SegmentTest extends IntegrationTestCase
                     ( (log_conversion.idgoal = ? OR HOUR(log_visit.visit_last_action_time) = ? ))",
             "bind" => array(1, 1, 12));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     /**
@@ -391,7 +391,7 @@ class SegmentTest extends IntegrationTestCase
                      HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ? ",
             "bind" => array(12, 1));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     /**
@@ -429,7 +429,7 @@ class SegmentTest extends IntegrationTestCase
                     ) AS log_inner",
             "bind" => array(1, 12, 'Test'));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     /**
@@ -496,6 +496,6 @@ class SegmentTest extends IntegrationTestCase
                 LIMIT 33",
             "bind" => array(1, 'Test'));
 
-        $this->assertEquals($this->_filterWhiteSpaces($expected), $this->_filterWhiteSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 }

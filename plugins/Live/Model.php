@@ -36,105 +36,10 @@ class Model
      */
     public function queryLogVisits($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId, $minTimestamp, $filterSortOrder)
     {
-        $where = $whereBind = array();
+        list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId, $minTimestamp, $filterSortOrder);
 
-        list($whereClause, $idSites) = $this->getIdSitesWhereClause($idSite);
-
-        $where[] = $whereClause;
-        $whereBind = $idSites;
-
-        if (strtolower($filterSortOrder) !== 'asc') {
-            $filterSortOrder = 'DESC';
-        }
-
-        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
-        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
-
-        if (!empty($visitorId)) {
-            $where[] = "log_visit.idvisitor = ? ";
-            $whereBind[] = @Common::hex2bin($visitorId);
-        }
-
-        if (!empty($minTimestamp)) {
-            $where[] = "log_visit.visit_last_action_time > ? ";
-            $whereBind[] = date("Y-m-d H:i:s", $minTimestamp);
-        }
-
-        // If no other filter, only look at the last 24 hours of stats
-        if (empty($visitorId)
-            && empty($countVisitorsToFetch)
-            && empty($period)
-            && empty($date)
-        ) {
-            $period = 'day';
-            $date = 'yesterdaySameTime';
-        }
-
-        // SQL Filter with provided period
-        if (!empty($period) && !empty($date)) {
-            $currentSite = new Site($idSite);
-            $currentTimezone = $currentSite->getTimezone();
-
-            $dateString = $date;
-            if ($period == 'range') {
-                $processedPeriod = new Range('range', $date);
-                if ($parsedDate = Range::parseDateRange($date)) {
-                    $dateString = $parsedDate[2];
-                }
-            } else {
-                $processedDate = Date::factory($date);
-                if ($date == 'today'
-                    || $date == 'now'
-                    || $processedDate->toString() == Date::factory('now', $currentTimezone)->toString()
-                ) {
-                    $processedDate = $processedDate->subDay(1);
-                }
-                $processedPeriod = Period\Factory::build($period, $processedDate);
-            }
-            $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
-            $where[] = "log_visit.visit_last_action_time >= ?";
-            $whereBind[] = $dateStart->toString('Y-m-d H:i:s');
-
-            if (!in_array($date, array('now', 'today', 'yesterdaySameTime'))
-                && strpos($date, 'last') === false
-                && strpos($date, 'previous') === false
-                && Date::factory($dateString)->toString('Y-m-d') != Date::factory('now', $currentTimezone)->toString()
-            ) {
-                $dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
-                $where[] = " log_visit.visit_last_action_time <= ?";
-                $dateEndString = $dateEnd->addDay(1)->toString('Y-m-d H:i:s');
-                $whereBind[] = $dateEndString;
-            }
-        }
-
-        if (count($where) > 0) {
-            $where = join("
-				AND ", $where);
-        } else {
-            $where = false;
-        }
-
-        $segment = new Segment($segment, $idSite);
-
-        // Subquery to use the indexes for ORDER BY
-        $select = "log_visit.*";
-        $from = "log_visit";
-        $groupBy = false;
-        $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy);
-
-        $sqlLimit = $countVisitorsToFetch >= 1 ? " LIMIT 0, " . (int)$countVisitorsToFetch : "";
-
-        // Group by idvisit so that a visitor converting 2 goals only appears once
-        $sql = "
-			SELECT sub.* FROM (
-				" . $subQuery['sql'] . "
-				$sqlLimit
-			) AS sub
-			GROUP BY sub.idvisit
-			ORDER BY $orderByParent
-		";
         try {
-            $data = Db::fetchAll($sql, $subQuery['bind']);
+            $data = Db::fetchAll($sql, $bind);
             return $data;
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -264,5 +169,126 @@ class Model
             $visitorId = bin2hex($visitorId);
         }
         return $visitorId;
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param $segment
+     * @param $countVisitorsToFetch
+     * @param $visitorId
+     * @param $minTimestamp
+     * @param $filterSortOrder
+     * @return array
+     * @throws Exception
+     */
+    public function makeLogVisitsQueryString($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId, $minTimestamp, $filterSortOrder)
+    {
+        $where = $whereBind = array();
+
+        list($whereClause, $idSites) = $this->getIdSitesWhereClause($idSite);
+
+        $where[] = $whereClause;
+        $whereBind = $idSites;
+
+        if (!empty($visitorId)) {
+            $where[] = "log_visit.idvisitor = ? ";
+            $whereBind[] = @Common::hex2bin($visitorId);
+        }
+
+        if (!empty($minTimestamp)) {
+            $where[] = "log_visit.visit_last_action_time > ? ";
+            $whereBind[] = date("Y-m-d H:i:s", $minTimestamp);
+        }
+
+        // If no other filter, only look at the last 24 hours of stats
+        if (empty($visitorId)
+            && empty($countVisitorsToFetch)
+            && empty($period)
+            && empty($date)
+        ) {
+            $period = 'day';
+            $date = 'yesterdaySameTime';
+        }
+
+        // SQL Filter with provided period
+        if (!empty($period) && !empty($date)) {
+            $currentSite = $this->makeSite($idSite);
+            $currentTimezone = $currentSite->getTimezone();
+
+            $dateString = $date;
+            if ($period == 'range') {
+                $processedPeriod = new Range('range', $date);
+                if ($parsedDate = Range::parseDateRange($date)) {
+                    $dateString = $parsedDate[2];
+                }
+            } else {
+                $processedDate = Date::factory($date);
+                if ($date == 'today'
+                    || $date == 'now'
+                    || $processedDate->toString() == Date::factory('now', $currentTimezone)->toString()
+                ) {
+                    $processedDate = $processedDate->subDay(1);
+                }
+                $processedPeriod = Period\Factory::build($period, $processedDate);
+            }
+            $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
+            $where[] = "log_visit.visit_last_action_time >= ?";
+            $whereBind[] = $dateStart->toString('Y-m-d H:i:s');
+
+            if (!in_array($date, array('now', 'today', 'yesterdaySameTime'))
+                && strpos($date, 'last') === false
+                && strpos($date, 'previous') === false
+                && Date::factory($dateString)->toString('Y-m-d') != Date::factory('now', $currentTimezone)->toString()
+            ) {
+                $dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
+                $where[] = " log_visit.visit_last_action_time <= ?";
+                $dateEndString = $dateEnd->addDay(1)->toString('Y-m-d H:i:s');
+                $whereBind[] = $dateEndString;
+            }
+        }
+
+        if (count($where) > 0) {
+            $where = join("
+				AND ", $where);
+        } else {
+            $where = false;
+        }
+
+        if (strtolower($filterSortOrder) !== 'asc') {
+            $filterSortOrder = 'DESC';
+        }
+        $segment = new Segment($segment, $idSite);
+
+        // Subquery to use the indexes for ORDER BY
+        $select = "log_visit.*";
+        $from = "log_visit";
+        $groupBy = false;
+        $limit = $countVisitorsToFetch >= 1 ? (int)$countVisitorsToFetch : 0;
+        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
+        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
+
+        $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit);
+
+        $bind = $subQuery['bind'];
+        // Group by idvisit so that a visitor converting 2 goals only appears once
+        $sql = "
+			SELECT sub.* FROM (
+				" . $subQuery['sql'] . "
+			) AS sub
+			GROUP BY sub.idvisit
+			ORDER BY $orderByParent
+		";
+        return array($sql, $bind);
+    }
+
+    /**
+     * @param $idSite
+     * @return Site
+     */
+    protected function makeSite($idSite)
+    {
+        return new Site($idSite);
     }
 } 
