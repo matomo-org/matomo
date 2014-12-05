@@ -2422,7 +2422,6 @@ if (typeof Piwik !== 'object') {
                 var image = new Image(1, 1);
 
                 image.onerror = image.onload = function () {
-                    iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(true); }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
@@ -2505,6 +2504,23 @@ if (typeof Piwik !== 'object') {
 
                 callback();
             }
+          
+            /*
+             * Construct formData from URI and send as beacon
+             */
+            function sendBeacon(url, request) {
+                try {
+                    var form = new FormData();
+                    var pairs = request.split('&');
+                    for (var i = 0; i < pairs.length; ++i) {
+                        var pair = pairs[i].split('=');
+                        form.append(decodeWrapper(pair[0]), decodeWrapper(pair[1]));
+                    }
+                    return navigator.sendBeacon(url, form);
+                } catch (ignore) {
+                    return false;
+                }
+            }
 
             /*
              * Send request
@@ -2513,15 +2529,20 @@ if (typeof Piwik !== 'object') {
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        if (configRequestMethod === 'POST') {
-                            sendXmlHttpRequest(request, callback);
+                        if (navigator && navigator.sendBeacon && sendBeacon(configTrackerUrl, request))  {
+                            if (typeof callback === 'function') { callback(true); }
                         } else {
-                            getImage(request, callback);
+                            if (configRequestMethod === 'POST') {
+                                sendXmlHttpRequest(request, callback);
+                            } else {
+                                getImage(request, callback);
+                            }
+                            setExpireDateTime(delay);
                         }
-
-                        setExpireDateTime(delay);
                     });
-                } else if (typeof callback === 'function') { callback(false); }
+                } else {
+                    if (typeof callback === 'function') { callback(false); }
+                }
             }
 
             function canSendBulkRequest(requests)
