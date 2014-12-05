@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\SegmentExpression;
+use Piwik\Segment\SegmentExpression;
 
 class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
 {

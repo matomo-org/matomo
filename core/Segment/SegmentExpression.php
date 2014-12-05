@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik;
+namespace Piwik\Segment;
 
 use Exception;
 

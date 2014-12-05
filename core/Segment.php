@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Plugins\API\API;
+use Piwik\Segment\SegmentExpression;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
