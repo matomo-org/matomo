@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s na may mga plugin %2$s na naka-enable",
         "ColumnConfiguration": "Configuration",
         "ColumnResolution": "Resolusyon",
-        "ColumnTypeOfScreen": "Uri ng screen",
         "Configurations": "Configurations",
         "Language_aa": "Afar",
         "Language_ab": "Abkhazian",
@@ -195,12 +194,10 @@
         "PluginDetectionDoesNotWorkInIE": "Tandaan: Ang pagtingin ng Plugin ay hindi gumagana sa Internet Explorer. Ang ulat na ito ay batay lamang sa mga browser na hindi-IE.",
         "Resolutions": "Mga Resolution",
         "VisitorSettings": "Mga Setting ng bisita",
-        "WideScreen": "Wide Screen",
         "WidgetGlobalVisitors": "Configuration ng bisita",
         "WidgetGlobalVisitorsDocumentation": "Ang ulat na ito ay nagpapakita ng karaniwang pangkalahatang configuration na meron ang iyong bisita. Ang configuration ay binubuo ng operating system uri ng mga browser at screen resolution.",
         "WidgetPlugins": "Browser Plugins",
         "WidgetPluginsDocumentation": "Ang ulat na ito ay ipinapakita kung anong browser plugis ang gumagana sa iyong bisita. Ang impormasyon na ito may maaring mahalaga sa pagpili kung paanu ihahatid ang nilalaman nito.",
-        "WidgetResolutions": "Screen Resolution",
-        "WidgetWidescreen": "Normal \/ Widescreen"
+        "WidgetResolutions": "Screen Resolution"
     }
 }

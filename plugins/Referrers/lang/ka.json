@@ -25,7 +25,6 @@
         "TypeWebsites": "%s ვებ საიტებიდან",
         "UsingNDistinctUrls": "(%s განსხვავებული url გამოყენებით)",
         "Websites": "ვებ საიტები",
-        "WidgetExternalWebsites": "გარე ვებ საიტების ჩამონათვალი",
-        "WidgetKeywords": "საკვანძო სიტვების ჩამონათვალი"
+        "WidgetExternalWebsites": "გარე ვებ საიტების ჩამონათვალი"
     }
 }

@@ -4,20 +4,20 @@
 <thead>
 <tr>
     <th style="display:none;"></th>
-    <th id="label" class="sortable label" style="cursor: auto;width:190px;" width="190px">
+    <th id="label" class="sortable label" style="cursor: auto; width: 20%; ">
         <div id="thDIV">{{ 'General_Date'|translate }}</div>
     </th>
     {% if displayVisitorsInOwnColumn %}
-        <th id="label" class="sortable label" style="cursor: auto;width:225px;" width="225px">
+        <th id="label" class="sortable label" style="cursor: auto;width: 15%;">
             <div id="thDIV">{{ 'General_Visitors'|translate }}</div>
         </th>
     {% endif %}
     {% if displayReferrersInOwnColumn %}
-    <th id="label" class="sortable label" style="cursor: auto;width:230px;" width="230px">
+    <th id="label" class="sortable label" style="cursor: auto;width: 15%">
         <div id="thDIV">{{ 'Live_Referrer_URL'|translate }}</div>
     </th>
     {% endif %}
-    <th id="label" class="sortable label" style="cursor: auto;">
+    <th id="label" class="sortable label" style="cursor: auto;width: 60%">
         <div id="thDIV">{{ 'General_ColumnNbActions'|translate }}</div>
     </th>
 </tr>
@@ -25,7 +25,8 @@
 <tbody>
 {% set cycleIndex=0 %}
 {% for visitor in dataTable.getRows() %}
-    {% set breakBeforeVisitorRank = (visitor.getColumn('visitEcommerceStatusIcon') and visitor.getColumn('visitorTypeIcon')) ? true : false %}
+    {% set visitHasEcommerceActivity = visitor.getColumn('visitEcommerceStatusIcon') %}
+    {% set breakBeforeVisitorRank = (visitHasEcommerceActivity and visitor.getColumn('visitorTypeIcon')) ? true : false %}
     {% set visitorColumnContent %}
         {% if visitor.getColumn('countryFlag') %}<img src="{{ visitor.getColumn('countryFlag') }}" title="{{ visitor.getColumn('location') }}, Provider {{ visitor.getColumn('providerName') }}"/>{% endif %}
         &nbsp;
@@ -36,25 +37,31 @@
         {% endif %}
         {% if visitor.getColumn('operatingSystemIcon') %}&nbsp;
         <img src="{{ visitor.getColumn('operatingSystemIcon') }}"
-             title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }} ({{ visitor.getColumn('screenType') }})"/>{% endif %}
+             title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }}"/>{% endif %}
         {% if visitor.getColumn('visitorTypeIcon') %}
             {% if visitor.getColumn('visitorTypeIcon') %}&nbsp;-
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
                  title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>{% endif %}
         {% endif %}
         {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}<br/><br />{% endif %}
+
+        {# Goals, and/or Ecommerce activity #}
         {% if visitor.getColumn('visitConverted') %}
             <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank'
                   {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}style="margin-left:0;"{% endif %}>
-            <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
-            <span class='hash'>#</span>
-            {{ visitor.getColumn('goalConversions') }}
-            {% if visitor.getColumn('visitEcommerceStatusIcon') %}
-                &nbsp;-
-                <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
-            {% endif %}
+                <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
+                <span class='hash'>#</span>
+                {{ visitor.getColumn('goalConversions') }}
+                {% if visitHasEcommerceActivity %}
+                    &nbsp;-
+                    <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
+                {% endif %}
             </span>
+        {# Ecommerce activity only (no goal) #}
+        {% elseif visitHasEcommerceActivity %}
+            <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
         {% endif %}
+
         {% if not displayVisitorsInOwnColumn %}<br/><br />{% endif %}
         {% if displayVisitorsInOwnColumn %}
             {% if visitor.getColumn('pluginsIcons')|length > 0 %}
@@ -134,7 +141,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 {% if visitor.getColumn('provider') %}
                     <br/>
                     {{ 'Provider_ColumnProvider'|translate }}:
-                    <a href="{{ visitor.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" title="{{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
+                    <a href="{{ visitor.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" title="{{ visitor.getColumn('providerName') }} {{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
                         {{ visitor.getColumn('providerName') }}
                     </a>
                 {% endif %}

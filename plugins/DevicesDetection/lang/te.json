@@ -1,6 +1,12 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "విహారిణి కుటుంబం",
-        "BrowserVersion": "విహారిణి సంచిక"
+        "Browsers": "విహారిణులు",
+        "BrowserVersion": "విహారిణి సంచిక",
+        "ColumnBrowser": "విహారిణి",
+        "ColumnOperatingSystem": "నిర్వాహక వ్యవస్థ",
+        "OperatingSystemFamily": "నిర్వాహక వ్యవస్థ కుటుంబం",
+        "OperatingSystems": "నిర్వాహక వ్యవస్థలు",
+        "WidgetBrowsers": "సందర్శకుల విహారిణులు"
     }
 }

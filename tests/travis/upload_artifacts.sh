@@ -68,7 +68,7 @@ else
                 diffviewer_url="http://builds-artifacts.piwik.org/$branch_name/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
             fi
 
-            echo "View UI failures (if any) here: $diffviewer_url"
+            echo =e "View UI failures (if any) here: \n$diffviewer_url\n"
         fi
     else
         echo "No artifacts for $TEST_SUITE tests."

@@ -25,7 +25,6 @@
         "TypeWebsites": "%s zo stránok",
         "UsingNDistinctUrls": "(pomocou %s rôznych adries URL)",
         "Websites": "Webstránky",
-        "WidgetExternalWebsites": "Zoznam externých stránok",
-        "WidgetKeywords": "Zoznam kľúčových slov"
+        "WidgetExternalWebsites": "Zoznam externých stránok"
     }
 }

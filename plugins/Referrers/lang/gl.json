@@ -12,7 +12,6 @@
         "TypeSearchEngines": "%s desde motores de busca",
         "TypeWebsites": "%s desde outras webs",
         "Websites": "Páxinas web",
-        "WidgetExternalWebsites": "Lista de webs externas",
-        "WidgetKeywords": "Lista de palabras clave"
+        "WidgetExternalWebsites": "Lista de webs externas"
     }
 }

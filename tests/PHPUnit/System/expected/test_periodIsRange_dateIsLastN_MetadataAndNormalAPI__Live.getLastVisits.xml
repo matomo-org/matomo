@@ -82,9 +82,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>dual</screenType>
 		<resolution>1111x222</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -197,9 +195,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>dual</screenType>
 		<resolution>1111x222</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -372,9 +368,7 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<screenType>dual</screenType>
 		<resolution>1111x222</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>

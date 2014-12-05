@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s với plugin %2$s đã kích hoạt",
         "ColumnConfiguration": "Cấu hình",
         "ColumnResolution": "Độ phân giải",
-        "ColumnTypeOfScreen": "Loại màn hình",
         "Configurations": "cấu hình",
         "Language_aa": "Tiếng Afar",
         "Language_ab": "Tiếng Abkhazia",
@@ -196,12 +195,10 @@
         "PluginDetectionDoesNotWorkInIE": "Chú ý: Các Plugin phát hiện không làm việc trên Internet Explorer. Báo cáo này chỉ dựa trên trình duyệt không phải IE.",
         "Resolutions": "Độ phân giải",
         "VisitorSettings": "Thiết lập khách truy cập",
-        "WideScreen": "Màn hình rộng",
         "WidgetGlobalVisitors": "Cấu hình khách truy cập",
         "WidgetGlobalVisitorsDocumentation": "Báo cáo này cho thấy các cấu hình tổng thể phổ biến nhất mà khách truy cập của bạn đã có. Một cấu hình là sự kết hợp của một hệ điều hành, một loại trình duyệt và độ phân giải màn hình.",
         "WidgetPlugins": "Các Plugin trình duyệt",
         "WidgetPluginsDocumentation": "Báo cáo này cho thấy các plugin trình duyệt mà khách truy cập của bạn đã kích hoạt. Thông tin này có thể là quan trọng cho việc lựa chọn cách đúng để cung cấp nội dung của bạn.",
-        "WidgetResolutions": "Độ phân giải màn hình",
-        "WidgetWidescreen": "Loại thường\/ màn ảnh rộng"
+        "WidgetResolutions": "Độ phân giải màn hình"
     }
 }

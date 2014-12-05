@@ -130,7 +130,7 @@ class API extends \Piwik\Plugin\API
 
     private function widgetExists($widget)
     {
-        if (empty($widget->parameters)) {
+        if (empty($widget->parameters->module)) {
             return false;
         }
 

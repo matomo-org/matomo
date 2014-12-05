@@ -356,4 +356,9 @@ class RequestConfig
 
         return $method;
     }
+
+    public function shouldFormatMetrics()
+    {
+        return Common::getRequestVar('format_metrics', '1', 'string', $this->request_parameters_to_modify) != 0;
+    }
 }

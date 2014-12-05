@@ -2,10 +2,13 @@
     "DevicesDetection": {
         "BrowserEngineDocumentation": "Ovaj grafikon prikazuje brauzere vaših posetilaca po porodicama. %s Najvažnija informacija za web dizajnere je koju vrstu endžina koriste njihovi posetioci. Naptisi sadrže imena endžina a u zagradi je najčešća lista brauzera koji koriste taj endžin.",
         "BrowserFamily": "Porodica brauzera",
+        "Browsers": "Brauzeri",
         "BrowserVersion": "Verzija brauzera",
         "BrowserVersions": "Verzije pretraživača",
         "Camera": "Kamera",
         "CarBrowser": "Pretraživač za auto",
+        "ColumnBrowser": "Brauzer",
+        "ColumnOperatingSystem": "Operativni sistem",
         "Console": "Konzola",
         "dataTableLabelBrands": "Marka",
         "dataTableLabelModels": "Model",
@@ -19,6 +22,8 @@
         "DeviceType": "Tip uređaja",
         "FeaturePhone": "Telefon",
         "OperatingSystemFamilies": "Porodice operativnih sistema",
+        "OperatingSystemFamily": "Porodica operativnih sistema",
+        "OperatingSystems": "Operativni sistemi",
         "OperatingSystemVersions": "Verzije operativnog sistema",
         "PluginDescription": "Ovaj dodatak omogućuje dodatne informacije o mobilnim uređajima kao što su marka (proizvođača), model (verzija uređaja), bolju detekciju tipa uređaja (TV, konzola, pametni telefon, stoni računar itd.) i još toga. Ovaj dodatak dodaje novi izveštaj u 'Posetioci > Uređaji'.",
         "SmartDisplay": "Pametan displej",
@@ -26,6 +31,8 @@
         "submenu": "Uređaji",
         "Tablet": "Tablet",
         "TV": "TV",
-        "UserAgent": "Korisnički agent"
+        "UserAgent": "Korisnički agent",
+        "WidgetBrowsers": "Brauzeri posetilaca",
+        "WidgetBrowsersDocumentation": "Ovaj izveštaj prikazuje koje brauzere koriste vaši posetioci. Svaka verzija brauzera je prikazana posebno."
     }
 }

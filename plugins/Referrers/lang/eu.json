@@ -23,7 +23,6 @@
         "TypeSearchEngines": "%s bilaketa-motorretatik",
         "TypeWebsites": "%s webguneetatik",
         "Websites": "Webguneak",
-        "WidgetExternalWebsites": "Kanpoko webguneen zerrenda",
-        "WidgetKeywords": "Gako-hitzen zerrenda"
+        "WidgetExternalWebsites": "Kanpoko webguneen zerrenda"
     }
 }

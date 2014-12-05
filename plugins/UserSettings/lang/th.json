@@ -2,7 +2,6 @@
     "UserSettings": {
         "ColumnConfiguration": "การตั้งค่า",
         "ColumnResolution": "ความละเอียด",
-        "ColumnTypeOfScreen": "ชนิดของจอภาพ",
         "Configurations": "การกำหนดค่า",
         "Language_aa": "อะฟาร์",
         "Language_ab": "อับคาซ",
@@ -193,10 +192,8 @@
         "PluginDetectionDoesNotWorkInIE": "หมายเหตุ: ตรวจสอบปลั๊กอินไม่ทำงานใน Internet Explorer รายงานนี้จะอิงตามเฉพาะเบราว์เซอร์ที่ไม่ใช่ IE",
         "Resolutions": "ความละเอียด",
         "VisitorSettings": "การตั้งค่าของผู้เข้าชม",
-        "WideScreen": "ความกว้างหน้าจอ",
         "WidgetGlobalVisitors": "การตั้งค่าผู้เข้าชมโดยรวม",
         "WidgetPlugins": "รายการปลั้กอิน",
-        "WidgetResolutions": "ความละเอียดจอภาพ",
-        "WidgetWidescreen": "จอปกติ\/จอแบบกว้าง"
+        "WidgetResolutions": "ความละเอียดจอภาพ"
     }
 }

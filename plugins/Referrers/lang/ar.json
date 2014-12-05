@@ -25,7 +25,6 @@
         "TypeWebsites": "%s من مواقع ويب",
         "UsingNDistinctUrls": "(باستخدام %s روابط بارزة)",
         "Websites": "المواقع",
-        "WidgetExternalWebsites": "قائمة المواقع الخارجية",
-        "WidgetKeywords": "قائمة الكلمات الدلالية"
+        "WidgetExternalWebsites": "قائمة المواقع الخارجية"
     }
 }

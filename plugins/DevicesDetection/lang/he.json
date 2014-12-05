@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "משפחת דפדפן",
-        "BrowserVersion": "גרסת דפדפן"
+        "BrowserVersion": "גרסת דפדפן",
+        "ColumnBrowser": "דפדפן"
     }
 }

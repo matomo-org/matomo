@@ -7,8 +7,10 @@
         "Deactivate": "Slökkva",
         "Inactive": "Slökkt",
         "LicenseHomepage": "Heimasíða hugbúnaðarleyfis",
+        "OncePluginIsInstalledYouMayActivateHere": "Hérna geturðu kveikteða slökkt á íbót þegar búið er að setja hana inn í kerfið.",
         "PluginDescription": "Viðmót fyrir Íbótastjórnun",
         "PluginHomepage": "Heimasíða íbótar",
+        "PluginsExtendPiwik": "Íbætur auka og víkka virknina í Piwik.",
         "PluginsManagement": "Íbótastjórnun",
         "Status": "Staða",
         "Version": "Útgáfa"

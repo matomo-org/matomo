@@ -31,11 +31,14 @@
                     <div class="tableIconsGroup">
                     <span class="{{ footerIconGroup.class }}">
                     {% for footerIcon in footerIconGroup.buttons %}
+                        {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
+                                ((footerIcon.id == 'ecommerceOrder' and clientSideParameters.abandonedCarts == 0) or
+                                 (footerIcon.id == 'ecommerceAbandonedCart' and clientSideParameters.abandonedCarts == 1)) %}
                         <span>
-                            {% if properties.show_active_view_icon and clientSideParameters.viewDataTable == footerIcon.id %}
+                            {% if properties.show_active_view_icon and (clientSideParameters.viewDataTable == footerIcon.id or isActiveEcommerceView) %}
                                 <img src="plugins/Morpheus/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                             {% endif %}
-                            <a class="tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
+                            <a class="tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id or isActiveEcommerceView %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
                                 <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
                                 {% if footerIcon.text is defined %}<span>{{ footerIcon.text }}</span>{% endif %}
                             </a>

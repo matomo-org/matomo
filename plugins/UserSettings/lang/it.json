@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s con plugin %2$s abilitati",
         "ColumnConfiguration": "Configurazione",
         "ColumnResolution": "Risoluzione",
-        "ColumnTypeOfScreen": "Tipo di schermo",
         "Configurations": "Configurazioni",
         "Language_aa": "afar",
         "Language_ab": "abkhazian",
@@ -195,14 +194,11 @@
         "PluginDescription": "Mostra le varie impostazioni per gli utenti: Browser, Famiglia del Browser, Sistema Operativo, Plugin, Risoluzione, Impostazioni Globali.",
         "PluginDetectionDoesNotWorkInIE": "N.B.: Questo plugin non funziona su Internet Explorer. Questo report è basato solamente sugli utenti di altri browser.",
         "Resolutions": "Risoluzioni",
-        "ScreenTypes": "Tipi di schermo",
         "VisitorSettings": "Impostazioni visitatori",
-        "WideScreen": "Schermo panoramico",
         "WidgetGlobalVisitors": "Riepilogo configurazione visitatori",
         "WidgetGlobalVisitorsDocumentation": "Questo report mostra le configurazioni globali più comuni che i visitatori avevano. Una configurazione è la combinazione di un sistema operativo, un tipo browser e una risoluzione di schermo.",
         "WidgetPlugins": "Lista dei Plugin",
         "WidgetPluginsDocumentation": "Questo report mostra quali plugin del browser i visitatori avevano abilitato. Questa informazione potrebbe essere importante per la scelta del giusto modo di inviare i tuoi contenuti.",
-        "WidgetResolutions": "Risoluzione schermo",
-        "WidgetWidescreen": "Normale \/ Schermo Panoramico"
+        "WidgetResolutions": "Risoluzione schermo"
     }
 }

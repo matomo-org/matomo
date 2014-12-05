@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s с добавки %2$s активиран",
         "ColumnConfiguration": "Обобщена конфигурация",
         "ColumnResolution": "Разделителна способност на екрана",
-        "ColumnTypeOfScreen": "Тип на екрана",
         "Configurations": "Конфигурации",
         "Language_aa": "афарски",
         "Language_ab": "абхазки",
@@ -196,12 +195,10 @@
         "PluginDetectionDoesNotWorkInIE": "Забележка: Засичането на добавки не работи при Internet Explorer. Този доклад е базиран само на браузъри, различни от IE.",
         "Resolutions": "Разделителна способност",
         "VisitorSettings": "Настройки на посетителя",
-        "WideScreen": "Екран",
         "WidgetGlobalVisitors": "Конфигурация на гло",
         "WidgetGlobalVisitorsDocumentation": "Този отчет показва повечето общопознати цялостни конфигурации, които вашите посетители са имали. Конфигурация е комбинацията от операционна система, тип на браузера и резолюция на екрана.",
         "WidgetPlugins": "Добавки",
         "WidgetPluginsDocumentation": "Този отчет показва каква добавка на браузъра са използвали вашите посетители. Тази информация може да е важна, за да изберете правилния начин за доставяне на вашето съдържание.",
-        "WidgetResolutions": "Разделителна способност",
-        "WidgetWidescreen": "Нормален\/Широкоекранен"
+        "WidgetResolutions": "Разделителна способност"
     }
 }

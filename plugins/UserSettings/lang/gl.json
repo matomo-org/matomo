@@ -149,10 +149,8 @@
         "Language_zu": "Zulú",
         "LanguageCode": "Código de idioma",
         "Resolutions": "Resolucións",
-        "WideScreen": "Pantalla panorámica",
         "WidgetGlobalVisitors": "Configuración global de visitantes",
         "WidgetPlugins": "Lista de plugins",
-        "WidgetResolutions": "Resolucións de pantalla",
-        "WidgetWidescreen": "Normal \/ Panorámica"
+        "WidgetResolutions": "Resolucións de pantalla"
     }
 }

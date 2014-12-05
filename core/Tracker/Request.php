@@ -31,8 +31,10 @@ class Request
      * @var array
      */
     protected $params;
+    protected $rawParams;
 
     protected $isAuthenticated = null;
+    private $isEmptyRequest = false;
 
     protected $tokenAuth;
 
@@ -50,20 +52,38 @@ class Request
             $params = array();
         }
         $this->params = $params;
+        $this->rawParams = $params;
         $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
+        $this->isEmptyRequest = empty($params);
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
         // the URL of the page containing the Simple Image beacon
         if (empty($this->params['urlref'])
             && empty($this->params['url'])
+            && array_key_exists('HTTP_REFERER', $_SERVER)
         ) {
-            $url = @$_SERVER['HTTP_REFERER'];
+            $url = $_SERVER['HTTP_REFERER'];
             if (!empty($url)) {
                 $this->params['url'] = $url;
             }
         }
+    }
+
+    /**
+     * Get the params that were originally passed to the instance. These params do not contain any params that were added
+     * within this object.
+     * @return array
+     */
+    public function getRawParams()
+    {
+        return $this->rawParams;
+    }
+
+    public function getTokenAuth()
+    {
+        return $this->tokenAuth;
     }
 
     /**
@@ -82,21 +102,27 @@ class Request
      * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
      * These two attributes can be only set by the Super User (passing token_auth).
      */
-    protected function authenticateTrackingApi($tokenAuthFromBulkRequest)
+    protected function authenticateTrackingApi($tokenAuth)
     {
-        $shouldAuthenticate = Config::getInstance()->Tracker['tracking_requests_require_authentication'];
+        $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication');
+
         if ($shouldAuthenticate) {
-            $tokenAuth = $tokenAuthFromBulkRequest ? $tokenAuthFromBulkRequest : Common::getRequestVar('token_auth', false, 'string', $this->params);
+
+            if (empty($tokenAuth)) {
+                $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $this->params);
+            }
+
             try {
                 $idSite = $this->getIdSite();
-                $this->isAuthenticated = $this->authenticateSuperUserOrAdmin($tokenAuth, $idSite);
+                $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
             } catch (Exception $e) {
                 $this->isAuthenticated = false;
             }
-            if (!$this->isAuthenticated) {
-                return;
+
+            if ($this->isAuthenticated) {
+                Common::printDebug("token_auth is authenticated!");
             }
-            Common::printDebug("token_auth is authenticated!");
+
         } else {
             $this->isAuthenticated = true;
             Common::printDebug("token_auth authentication not required");
@@ -124,10 +150,12 @@ class Request
         // Now checking the list of admin token_auth cached in the Tracker config file
         if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
+
             if (array_key_exists('admin_token_auth', $website) && in_array($tokenAuth, $website['admin_token_auth'])) {
                 return true;
             }
         }
+
         Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
 
         return false;
@@ -139,11 +167,13 @@ class Request
     public function getDaysSinceFirstVisit()
     {
         $cookieFirstVisitTimestamp = $this->getParam('_idts');
+
         if (!$this->isTimestampValid($cookieFirstVisitTimestamp)) {
             $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
         }
 
         $daysSinceFirstVisit = round(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400, $precision = 0);
+
         if ($daysSinceFirstVisit < 0) {
             $daysSinceFirstVisit = 0;
         }
@@ -324,21 +354,31 @@ class Request
     public function getCurrentTimestamp()
     {
         $cdt = $this->getCustomTimestamp();
-        if(!empty($cdt)) {
+
+        if (!empty($cdt)) {
             return $cdt;
         }
+
         return $this->timestamp;
+    }
+
+    public function setCurrentTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
     }
 
     protected function getCustomTimestamp()
     {
         $cdt = $this->getParam('cdt');
+
         if (empty($cdt)) {
             return false;
         }
+
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt);
         }
+
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
             Common::printDebug(sprintf("Datetime %s is not valid", date("Y-m-d H:i:m", $cdt)));
             return false;
@@ -347,6 +387,7 @@ class Request
         // If timestamp in the past, token_auth is required
         $timeFromNow = $this->timestamp - $cdt;
         $isTimestampRecent = $timeFromNow < self::CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN;
+
         if (!$isTimestampRecent) {
             if(!$this->isAuthenticated()) {
                 Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
@@ -354,6 +395,7 @@ class Request
                 return false;
             }
         }
+
         return $cdt;
     }
 
@@ -366,9 +408,10 @@ class Request
      */
     protected function isTimestampValid($time, $now = null)
     {
-        if(empty($now)) {
+        if (empty($now)) {
             $now = $this->getCurrentTimestamp();
         }
+
         return $time <= $now
             && $time > $now - 10 * 365 * 86400;
     }
@@ -400,10 +443,29 @@ class Request
 
     public function getUserAgent()
     {
-        $default = @$_SERVER['HTTP_USER_AGENT'];
-        return Common::getRequestVar('ua', is_null($default) ? false : $default, 'string', $this->params);
+        $default = false;
+
+        if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
+            $default = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        return Common::getRequestVar('ua', $default, 'string', $this->params);
     }
 
+    public function getCustomVariablesInVisitScope()
+    {
+        return $this->getCustomVariables('visit');
+    }
+
+    public function getCustomVariablesInPageScope()
+    {
+        return $this->getCustomVariables('page');
+    }
+
+    /**
+     * @deprecated since Piwik 2.10.0. Use Request::getCustomVariablesInPageScope() or Request::getCustomVariablesInVisitScope() instead.
+     * When we "remove" this method we will only set visibility to "private" and pass $parameter = _cvar|cvar as an argument instead of $scope
+     */
     public function getCustomVariables($scope)
     {
         if ($scope == 'visit') {
@@ -412,16 +474,19 @@ class Request
             $parameter = 'cvar';
         }
 
-        $customVar = Common::unsanitizeInputValues(Common::getRequestVar($parameter, '', 'json', $this->params));
+        $cvar      = Common::getRequestVar($parameter, '', 'json', $this->params);
+        $customVar = Common::unsanitizeInputValues($cvar);
 
         if (!is_array($customVar)) {
             return array();
         }
 
         $customVariables = array();
-        $maxCustomVars = CustomVariables::getMaxCustomVariables();
+        $maxCustomVars   = CustomVariables::getMaxCustomVariables();
+
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
+
             if ($id < 1
                 || $id > $maxCustomVars
                 || count($keyValue) != 2
@@ -437,10 +502,8 @@ class Request
             // We keep in the URL when Custom Variable have empty names
             // and values, as it means they can be deleted server side
 
-            $key   = self::truncateCustomVariable($keyValue[0]);
-            $value = self::truncateCustomVariable($keyValue[1]);
-            $customVariables['custom_var_k' . $id] = $key;
-            $customVariables['custom_var_v' . $id] = $value;
+            $customVariables['custom_var_k' . $id] = self::truncateCustomVariable($keyValue[0]);
+            $customVariables['custom_var_v' . $id] = self::truncateCustomVariable($keyValue[1]);
         }
 
         return $customVariables;
@@ -485,17 +548,17 @@ class Request
 
     protected function getCookieName()
     {
-        return Config::getInstance()->Tracker['cookie_name'];
+        return TrackerConfig::getConfigValue('cookie_name');
     }
 
     protected function getCookieExpire()
     {
-        return $this->getCurrentTimestamp() + Config::getInstance()->Tracker['cookie_expire'];
+        return $this->getCurrentTimestamp() + TrackerConfig::getConfigValue('cookie_expire');
     }
 
     protected function getCookiePath()
     {
-        return Config::getInstance()->Tracker['cookie_path'];
+        return TrackerConfig::getConfigValue('cookie_path');
     }
 
     /**
@@ -594,9 +657,9 @@ class Request
         return $plugins;
     }
 
-    public function getParamsCount()
+    public function isEmptyRequest()
     {
-        return count($this->params);
+        return $this->isEmptyRequest;
     }
 
     const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
@@ -637,18 +700,19 @@ class Request
      * @return mixed|string
      * @throws Exception
      */
-    private function getIpString()
+    public function getIpString()
     {
         $cip = $this->getParam('cip');
 
-        if(empty($cip)) {
+        if (empty($cip)) {
             return IP::getIpFromHeader();
         }
 
-        if(!$this->isAuthenticated()) {
+        if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
             return IP::getIpFromHeader();
         }
+
         return $cip;
     }
 }

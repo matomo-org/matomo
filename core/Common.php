@@ -518,7 +518,13 @@ class Common
      */
     public static function generateUniqId()
     {
-        return md5(uniqid(rand(), true));
+        if (function_exists('mt_rand')) {
+            $rand = mt_rand();
+        } else {
+            $rand = rand();
+        }
+
+        return md5(uniqid($rand, true));
     }
 
     /**
@@ -1182,10 +1188,12 @@ class Common
         }
 
         if (strpos(PHP_SAPI, '-fcgi') === false) {
-            $key = $_SERVER['SERVER_PROTOCOL'];
+            $key = 'HTTP/1.1';
 
-            if (strlen($key) > 15 || empty($key)) {
-                $key = 'HTTP/1.1';
+            if (array_key_exists('SERVER_PROTOCOL', $_SERVER)
+                && strlen($_SERVER['SERVER_PROTOCOL']) < 15
+                && strlen($_SERVER['SERVER_PROTOCOL']) > 1) {
+                $key = $_SERVER['SERVER_PROTOCOL'];
             }
 
         } else {

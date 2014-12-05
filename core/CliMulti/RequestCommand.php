@@ -35,10 +35,12 @@ class RequestCommand extends ConsoleCommand
 
         if ($this->isTestModeEnabled()) {
             Config::getInstance()->setTestEnvironment();
-            $indexFile = '/tests/PHPUnit/proxy/index.php';
+            $indexFile = '/tests/PHPUnit/proxy/';
         } else {
-            $indexFile = '/index.php';
+            $indexFile = '/';
         }
+
+        $indexFile .= 'index.php';
 
         if (!empty($_GET['pid'])) {
             $process = new Process($_GET['pid']);

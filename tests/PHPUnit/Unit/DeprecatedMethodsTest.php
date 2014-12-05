@@ -62,7 +62,6 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getOSFamily', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowserType', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getMobileVsDesktop', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getWideScreen', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\UserSettings', 'mapDeprecatedActions', $validTill);
 
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');

@@ -23,7 +23,6 @@
         "TypeSearchEngines": "%s frå søkjemotorer",
         "TypeWebsites": "%s frå nettstader",
         "Websites": "Nettstader",
-        "WidgetExternalWebsites": "Liste over eksterne nettsider",
-        "WidgetKeywords": "Liste over nøkkelord"
+        "WidgetExternalWebsites": "Liste over eksterne nettsider"
     }
 }

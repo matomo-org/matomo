@@ -1,6 +1,11 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "ตระกูลของเบราว์เซอร์",
-        "BrowserVersion": "รุ่นของโปรแกรมบราวเซอร์"
+        "Browsers": "เบราว์เซอร์",
+        "BrowserVersion": "รุ่นของโปรแกรมบราวเซอร์",
+        "ColumnBrowser": "เบราว์เซอร์",
+        "ColumnOperatingSystem": "ระบบปฏิบัติการ",
+        "OperatingSystems": "ระบบปฏิบัติการ",
+        "WidgetBrowsers": "เบราว์เซอร์ของผู้เข้าชม"
     }
 }

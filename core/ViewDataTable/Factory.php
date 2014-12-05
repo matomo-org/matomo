@@ -119,9 +119,13 @@ class Factory
 
         // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
         // therefore do not pass this as a default value to getRequestVar()
-        if ('' === $type) {
+        if ('' === $type
+            || $forceDefault
+        ) {
             $type = $defaultType ? : HtmlTable::ID;
         }
+
+        $params['viewDataTable'] = $type;
 
         $visualizations = Manager::getAvailableViewDataTables();
 

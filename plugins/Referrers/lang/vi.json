@@ -48,7 +48,6 @@
         "WebsitesReportDocumentation": "Trong bảng này, bạn có thể thấy những website đã chỉ dẫn khách truy cập tới trang web của bạn. %s bằng cách click trên một hàng trong bảng, bạn có thể thấy những URL mà các link tới website của bạn đã dùng.",
         "WidgetExternalWebsites": "Các Website Referrer",
         "WidgetGetAll": "Tất cả các người được giới thiệu",
-        "WidgetKeywords": "Các từ khóa",
         "WidgetSocials": "Danh sách các mạng xã hội",
         "WidgetTopKeywordsForPages": "Từ khóa đứng đầu cho URL trang"
     }

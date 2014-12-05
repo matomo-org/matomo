@@ -97,9 +97,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -222,9 +220,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -378,9 +374,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -517,9 +511,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -642,9 +634,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -767,9 +757,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -882,9 +870,7 @@
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>

@@ -25,7 +25,6 @@
         "TypeWebsites": "%s frá vefjum",
         "UsingNDistinctUrls": "(notuð eru %s mismunandi url)",
         "Websites": "Vefir",
-        "WidgetExternalWebsites": "Listi yfir ytri vefi",
-        "WidgetKeywords": "Listi yfir Leitarorð"
+        "WidgetExternalWebsites": "Listi yfir ytri vefi"
     }
 }

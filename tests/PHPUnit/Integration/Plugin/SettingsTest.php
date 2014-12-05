@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Plugin;
 use Piwik\Db;
 use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\Storage;
+use Piwik\SettingsServer;
 use Piwik\Tests\Integration\Settings\CorePluginTestSettings;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 use Piwik\Tracker\Cache;
@@ -112,13 +113,13 @@ class SettingsTest extends IntegrationTestCase
     {
         $this->setSuperUser();
 
-        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+        SettingsServer::setIsTrackerApiRequest();
 
         $settings = $this->createSettingsInstance();
         $setting = $this->buildUserSetting('myname', 'mytitle', 'myRandomName');
         $settings->addSetting($setting);
 
-        unset($GLOBALS['PIWIK_TRACKER_MODE']);
+        SettingsServer::setIsNotTrackerApiRequest();
 
         $storage = $setting->getStorage();
         $this->assertTrue($storage instanceof SettingsStorage);

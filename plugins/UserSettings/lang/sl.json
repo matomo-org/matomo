@@ -5,7 +5,6 @@
         "BrowserWithPluginsEnabled": "%1$s z omogočenimi vtičniki %2$s",
         "ColumnConfiguration": "Nastavitev",
         "ColumnResolution": "Resolucija",
-        "ColumnTypeOfScreen": "Tip zaslona",
         "Configurations": "Nastavitve",
         "Language_aa": "afarščina",
         "Language_ab": "abhaščina",
@@ -194,7 +193,6 @@
         "LanguageCode": "Šifra jezika",
         "Resolutions": "Resolucije",
         "VisitorSettings": "Nastavitve obiskovalcev",
-        "WideScreen": "Širok Zaslon",
         "WidgetPlugins": "Seznam Vtičnikov",
         "WidgetResolutions": "Resolucija zaslona"
     }

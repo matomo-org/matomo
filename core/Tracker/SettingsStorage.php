@@ -9,6 +9,7 @@
 
 namespace Piwik\Tracker;
 
+use Piwik\Cache\PersistentCache;
 use Piwik\Settings\Storage;
 use Piwik\Tracker;
 
@@ -17,27 +18,16 @@ use Piwik\Tracker;
  */
 class SettingsStorage extends Storage
 {
-
     protected function loadSettings()
     {
-        $trackerCache = Cache::getCacheGeneral();
-        $settings = null;
+        $cache = $this->getCache();
 
-        if (array_key_exists('settingsStorage', $trackerCache)) {
-            $allSettings = $trackerCache['settingsStorage'];
-
-            if (is_array($allSettings) && array_key_exists($this->getOptionKey(), $allSettings)) {
-                $settings = $allSettings[$this->getOptionKey()];
-            }
+        if ($cache->has()) {
+            $settings = $cache->get();
         } else {
-            $trackerCache['settingsStorage'] = array();
-        }
-
-        if (is_null($settings)) {
             $settings = parent::loadSettings();
 
-            $trackerCache['settingsStorage'][$this->getOptionKey()] = $settings;
-            Cache::setCacheGeneral($trackerCache);
+            $cache->set($settings);
         }
 
         return $settings;
@@ -49,9 +39,15 @@ class SettingsStorage extends Storage
         self::clearCache();
     }
 
+    private function getCache()
+    {
+        return new PersistentCache($this->getOptionKey());
+    }
+
     public static function clearCache()
     {
-        Cache::clearCacheGeneral();
+        Cache::deleteTrackerCache();
+        PersistentCache::_reset();
     }
 
 }

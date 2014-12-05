@@ -32,9 +32,11 @@ class ServerFilesGenerator
             "</Files>\n";
 
         $allowStaticAssets =
-            "# Serve HTML files as text/html mime type\n" .
-            "AddHandler text/html .html\n" .
-            "AddHandler text/html .htm\n\n" .
+            "# Serve HTML files as text/html mime type - Note: requires mod_mime apache module!\n" .
+            "<IfModule mod_mime.c>\n" .
+            "   AddHandler text/html .html\n" .
+            "   AddHandler text/html .htm\n" .
+            "</IfModule>\n\n" .
 
             "# Allow to serve static files which are safe\n" .
             "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .

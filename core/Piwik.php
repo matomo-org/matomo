@@ -299,8 +299,10 @@ class Piwik
     public static function hasUserSuperUserAccess()
     {
         try {
-            self::checkUserHasSuperUserAccess();
-            return true;
+            $hasAccess = Access::getInstance()->hasSuperUserAccess();
+
+            return $hasAccess;
+
         } catch (Exception $e) {
             return false;
         }

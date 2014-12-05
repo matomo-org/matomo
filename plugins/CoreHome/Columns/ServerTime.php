@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
@@ -32,6 +33,6 @@ class ServerTime extends ActionDimension
     {
         $timestamp = $request->getCurrentTimestamp();
 
-        return Tracker::getDatetimeFromTimestamp($timestamp);
+        return Date::getDatetimeFromTimestamp($timestamp);
     }
 }

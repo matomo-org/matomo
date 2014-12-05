@@ -79,9 +79,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>10:00:00</visitLocalTime>
@@ -172,9 +170,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>11:00:00</visitLocalTime>
@@ -265,9 +261,7 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<screenType>unknown</screenType>
 		<resolution>unknown</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>12:00:00</visitLocalTime>

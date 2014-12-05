@@ -48,7 +48,6 @@
         "WebsitesReportDocumentation": "このテーブルでは、どのウェブサイトがビジターの参照元になっているかを示します。%s テーブル内の行をクリックすると、クリックされたURLのリンクを見ることが出来ます。",
         "WidgetExternalWebsites": "外部ウェブサイト一覧",
         "WidgetGetAll": "全参照元",
-        "WidgetKeywords": "キーワード一覧",
         "WidgetSocials": "ソーシャルネットワークのリスト",
         "WidgetTopKeywordsForPages": "ページ URL のトップキーワード",
         "XPercentOfVisits": "訪問の %s%%"

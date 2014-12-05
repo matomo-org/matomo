@@ -68,6 +68,7 @@
         "PluginSettingReadNotAllowed": "Απαγορεύεται να δείτε την τιμή της ρύθμισης \"%s\" στο πρόσθετο \"%s\"",
         "PluginSettings": "Ρυθμίσεις πρόσθετου",
         "PluginSettingsIntro": "Εδώ μπορείτε να αλλάξετε τις ρυθμίσεις των παρακάτω πρόσθετων από τρίτους:",
+        "PluginSettingsSaveFailed": "Υπήρξε αποτυχία κατά την αποθήκευση των ρυθμίσεων των πρόσθετων",
         "PluginSettingsValueNotAllowed": "Η τιμή για το πεδίο \"%s\" στο πρόσθετο \"%s\" δεν είναι επιτρεπτή",
         "SendPluginUpdateCommunication": "Να ειδοποιούμαι με e-mail όταν υπάρχει μια νέα ενημέρωση για πρόσθετο",
         "SendPluginUpdateCommunicationHelp": "Ένα e-mail θα στέλνεται στους Υπερ-Χρήστες όταν θα υπάρχει διαθέσιμη νέα έκδοση για ένα πρόσθετο.",

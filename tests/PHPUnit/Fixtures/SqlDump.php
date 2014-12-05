@@ -36,20 +36,12 @@ class SqlDump extends Fixture
             $dumpPath = $this->dumpUrl;
         } else {
             $dumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql.gz';
-            $bufferSize = 1024 * 1024;
+            $bytesRead = $this->downloadDumpInPath($dumpPath);
 
-            $dump = fopen($this->dumpUrl, 'rb');
-            $outfile = fopen($dumpPath, 'wb');
-            $bytesRead = 0;
-            while (!feof($dump)) {
-                fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
-                $bytesRead += $bufferSize;
-            }
-            fclose($dump);
-            fclose($outfile);
-
-            if ($bytesRead <= 40 * 1024 * 1024) { // sanity check
-                throw new Exception("Could not download sql dump!");
+            // sanity check
+            if ($bytesRead <= 40 * 1024 * 1024) {
+                $str = "Could not download sql dump! You can manually download %s into %s";
+                throw new Exception(sprintf($str, $this->dumpUrl, $dumpPath));
             }
         }
 
@@ -92,5 +84,27 @@ class SqlDump extends Fixture
     public function tearDown()
     {
         // empty
+    }
+
+    /**
+     * maybe this could use downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoIPCity.dat');
+     *
+     * @param $dumpPath
+     * @return int
+     */
+    protected function downloadDumpInPath($dumpPath)
+    {
+        $bufferSize = 1024 * 1024;
+
+        $dump = fopen($this->dumpUrl, 'rb');
+        $outfile = fopen($dumpPath, 'wb');
+        $bytesRead = 0;
+        while (!feof($dump)) {
+            fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
+            $bytesRead += $bufferSize;
+        }
+        fclose($dump);
+        fclose($outfile);
+        return $bytesRead;
     }
 }
