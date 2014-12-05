@@ -92,7 +92,7 @@ class ModelTest extends SystemTestCase
                           AND log_visit.visit_last_action_time <= ? )
                           AND ( log_link_visit_action.custom_var_k1 = ? )
                         GROUP BY log_visit.idvisit
-                        ORDER BY NULL
+                        ORDER BY idsite, visit_last_action_time DESC
                         LIMIT 100
                         ) AS log_inner
                     ORDER BY idsite, visit_last_action_time DESC
