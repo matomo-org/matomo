@@ -179,10 +179,10 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_MAX_EVENT_VALUE, 'max');
         }
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, $rankingQuery);
     }
 
-    protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, RankingQuery $rankingQuery)
+    protected function archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, RankingQuery $rankingQuery)
     {
         // get query with segmentation
         $query = $this->getLogAggregator()->generateQuery($select, $from, $where, $groupBy, $orderBy);

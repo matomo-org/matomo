@@ -242,7 +242,7 @@ class Segment
     {
         $segmentExpression = $this->segmentExpression;
         $segmentQuery = new LogQueryBuilder($segmentExpression);
-        return $segmentQuery->getSelectQueryString($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
+        return $segmentQuery->getSelectQueryString($select, $from, $where, $bind, $groupBy, $orderBy, $limit);
     }
 
     /**

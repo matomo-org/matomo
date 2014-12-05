@@ -117,7 +117,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_IMPRESSIONS, Metrics::INDEX_NB_VISITS), 'sum');
         }
 
-        $resultSet = $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
+        $resultSet = $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, $rankingQuery);
 
         while ($row = $resultSet->fetch()) {
             $this->aggregateImpressionRow($row);
@@ -174,14 +174,14 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_INTERACTIONS), 'sum');
         }
 
-        $resultSet = $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
+        $resultSet = $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, $rankingQuery);
 
         while ($row = $resultSet->fetch()) {
             $this->aggregateInteractionRow($row);
         }
     }
 
-    private function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, RankingQuery $rankingQuery)
+    private function archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, RankingQuery $rankingQuery)
     {
         // get query with segmentation
         $query = $this->getLogAggregator()->generateQuery($select, $from, $where, $groupBy, $orderBy);
