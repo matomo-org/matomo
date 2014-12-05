@@ -458,7 +458,7 @@ class SegmentTest extends IntegrationTestCase
     }
 
 
-    public function test_getSelectQuery_whenLimit_innerQueryShouldHaveLimit()
+    public function test_getSelectQuery_whenLimit_innerQueryShouldHaveLimitAndNoGroupBy()
     {
         $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -489,7 +489,6 @@ class SegmentTest extends IntegrationTestCase
                     ( log_visit.idvisit = ? )
                     AND
                     ( log_link_visit_action.custom_var_k1 = ? )
-                GROUP BY log_visit.idvisit
                 ORDER BY NULL
                 LIMIT 33
                     ) AS log_inner

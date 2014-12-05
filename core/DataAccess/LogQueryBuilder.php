@@ -184,13 +184,17 @@ class LogQueryBuilder
         $innerSelect = implode(", \n", $neededFields);
         $innerFrom = $from;
         $innerWhere = $where;
-        $innerGroupBy = "log_visit.idvisit";
-        $innerLimit = $limit;
 
+        $innerLimit = $limit;
+        $innerGroupBy = "log_visit.idvisit";
         $innerOrderBy = "NULL";
-        // Only when there is a LIMIT then we can apply to the inner query the same ORDER BY as the parent query
         if($innerLimit && $orderBy) {
+            // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
             $innerOrderBy = $orderBy;
+        }
+        if($innerLimit) {
+            // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
+            $innerGroupBy = false;
         }
 
         $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerGroupBy, $innerOrderBy, $innerLimit);
