@@ -16,20 +16,25 @@ use Piwik\Segment\SegmentExpression;
 
 class LogQueryBuilder
 {
-    public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $orderBy, $groupBy)
+    public function __construct(SegmentExpression $segmentExpression)
+    {
+        $this->segmentExpression = $segmentExpression;
+    }
+
+    public function getSelectQueryString($select, $from, $where, $bind, $orderBy, $groupBy)
     {
         if (!is_array($from)) {
             $from = array($from);
         }
 
-        if(!$segmentExpression->isEmpty()) {
-            $segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
-            $segmentSql = $segmentExpression->getSql();
+        if(!$this->segmentExpression->isEmpty()) {
+            $this->segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
+            $segmentSql = $this->segmentExpression->getSql();
             $where = $this->getWhereMatchBoth($where, $segmentSql['where']);
             $bind = array_merge($bind, $segmentSql['bind']);
         }
 
-        $joins = $this->generateJoins($from);
+        $joins = $this->generateJoinsString($from);
         $joinWithSubSelect = $joins['joinWithSubSelect'];
         $from = $joins['sql'];
 
@@ -51,7 +56,7 @@ class LogQueryBuilder
      * @throws Exception if tables can't be joined
      * @return array
      */
-    private function generateJoins($tables)
+    private function generateJoinsString($tables)
     {
         $knownTables = array("log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
         $visitsAvailable = $actionsAvailable = $conversionsAvailable = $conversionItemAvailable = false;
@@ -184,7 +189,8 @@ class LogQueryBuilder
         $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerOrderBy, $innerGroupBy);
 
         $select = preg_replace('/'.$matchTables.'\./', 'log_inner.', $select);
-        $from = "(
+        $from = "
+        (
             $innerQuery
         ) AS log_inner";
         $where = false;

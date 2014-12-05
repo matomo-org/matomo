@@ -238,8 +238,8 @@ class Segment
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false)
     {
         $segmentExpression = $this->segmentExpression;
-        $segmentQuery = new LogQueryBuilder();
-        return $segmentQuery->getSelectQueryString($segmentExpression, $select, $from, $where, $bind, $orderBy, $groupBy);
+        $segmentQuery = new LogQueryBuilder($segmentExpression);
+        return $segmentQuery->getSelectQueryString($select, $from, $where, $bind, $orderBy, $groupBy);
     }
     /**
      * Returns the segment string.
