@@ -5,10 +5,8 @@ use Piwik\Common;
 use Piwik\Log;
 use Piwik\Log\Backend\StdErrBackend;
 use Piwik\Log\Formatter\AddRequestIdFormatter;
-use Piwik\Log\Formatter\ErrorHtmlFormatter;
 use Piwik\Log\Formatter\ExceptionHtmlFormatter;
 use Piwik\Log\Formatter\ExceptionTextFormatter;
-use Piwik\Log\Formatter\HtmlPreFormatter;
 use Piwik\Log\Formatter\LineMessageFormatter;
 
 return array(
@@ -136,22 +134,15 @@ return array(
         return $exceptionFormatter;
     }),
     'log.formatter.html' => DI\factory(function (ContainerInterface $c) {
-        // Chain of responsibility pattern
         $lineFormatter = new LineMessageFormatter($c->get('log.format'));
 
         $addRequestIdFormatter = new AddRequestIdFormatter();
         $addRequestIdFormatter->setNext($lineFormatter);
 
-        $htmlPreFormatter = new HtmlPreFormatter();
-        $htmlPreFormatter->setNext($addRequestIdFormatter);
-
         $exceptionFormatter = new ExceptionHtmlFormatter();
-        $exceptionFormatter->setNext($htmlPreFormatter);
+        $exceptionFormatter->setNext($addRequestIdFormatter);
 
-        $errorFormatter = new ErrorHtmlFormatter();
-        $errorFormatter->setNext($exceptionFormatter);
-
-        return $errorFormatter;
+        return $exceptionFormatter;
     }),
     'log.format' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('old_config.log.string_message_format')) {

@@ -32,23 +32,25 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
     public static $expectedExceptionOutput = array(
-        'screen' => 'dummy error message<br />
- <br />
- --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(168): dummy error message
+        'screen' => '<div style=\'word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;\'>
+        <strong>There is an error. Please report the message
+        and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).</strong><br /><br/>
+        <em>dummy error message</em> in <strong>LogTest.php</strong> on line <strong>170</strong>
+<br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
+dummy backtrace</div></div>',
+        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(170): dummy error message
   dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(168): dummy error message
+        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(170): dummy error message
 dummy backtrace'
     );
 
     public static $expectedErrorOutput = array(
         'screen' => '<div style=\'word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;\'>
-        <strong>There is an error. Please report the message (Piwik 2.0)
-        and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
-        Unknown error (102):</strong> <em>dummy error string</em> in <strong>dummyerrorfile.php</strong> on line <strong>145</strong>
+        <strong>There is an error. Please report the message
+        and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).</strong><br /><br/>
+        <em>Unknown error (102) - dummy error string</em> in <strong>dummyerrorfile.php</strong> on line <strong>145</strong>
 <br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
-dummy backtrace</div><br />
- </pre></div><br />',
+dummy backtrace</div></div>',
         'file' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace',
         'database' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
@@ -227,8 +229,7 @@ dummy backtrace'
         }
 
         // remove version number from message
-        $expectedMessage = str_replace("(Piwik 2.0)", "", $expectedMessage);
-        $this->screenOutput = str_replace("(Piwik ". \Piwik\Version::VERSION.")", "", $this->screenOutput);
+        $this->screenOutput = str_replace(" (Piwik ". \Piwik\Version::VERSION.")", "", $this->screenOutput);
 
         if ($backend == 'screen') {
             if ($formatMessage
