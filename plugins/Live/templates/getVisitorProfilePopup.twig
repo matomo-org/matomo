@@ -61,7 +61,7 @@
                         </p>
                         {% endif %}
                         {% if visitorData.averagePageGenerationTime is defined %}
-                        <p title="{{ 'Live_CalculatedOverNPageViews'|translate(visitorData.totalPageViews) }}">
+                        <p title="{{ 'Live_CalculatedOverNPageViews'|translate(visitorData.totalPageViewsWithTiming) }}">
                             {{ 'Live_AveragePageGenerationTime'|translate('<strong>' ~ visitorData.averagePageGenerationTime ~ 's</strong>')|raw }}
                         </p>
                         {% endif %}

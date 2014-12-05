@@ -22,206 +22,69 @@ class VisitorProfile
     const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
     const VISITOR_PROFILE_DATE_FORMAT = '%day% %shortMonth% %longYear%';
 
+    protected $profile = array();
+    private $siteSearchKeywords = array();
+    private $continents = array();
+    private $countries = array();
+    private $cities = array();
+    private $pageGenerationTimeTotal = 0;
+
+    public function __construct($idSite)
+    {
+        $this->idSite = $idSite;
+        $this->isEcommerceEnabled = Site::isEcommerceEnabledFor($this->idSite);
+    }
+
     /**
      * @param $visits
-     * @param $idSite
      * @param $visitorId
      * @param $segment
-     * @param $checkForLatLong
      * @return array
      * @throws Exception
      */
-    public function makeVisitorProfile(DataTable $visits, $idSite, $visitorId, $segment, $checkForLatLong)
+    public function makeVisitorProfile(DataTable $visits, $visitorId, $segment)
     {
-        $isEcommerceEnabled = Site::isEcommerceEnabledFor($idSite);
+        $this->initVisitorProfile();
 
-        $result = array();
-        $result['totalVisits'] = 0;
-        $result['totalVisitDuration'] = 0;
-        $result['totalActions'] = 0;
-        $result['totalSearches'] = 0;
-        $result['totalPageViews'] = 0;
-        $result['totalGoalConversions'] = 0;
-        $result['totalConversionsByGoal'] = array();
-
-        if ($isEcommerceEnabled) {
-            $result['totalEcommerceConversions'] = 0;
-            $result['totalEcommerceRevenue'] = 0;
-            $result['totalEcommerceItems'] = 0;
-            $result['totalAbandonedCarts'] = 0;
-            $result['totalAbandonedCartsRevenue'] = 0;
-            $result['totalAbandonedCartsItems'] = 0;
-        }
-
-        $countries = array();
-        $continents = array();
-        $cities = array();
-        $siteSearchKeywords = array();
-
-        $pageGenerationTimeTotal = 0;
-
-        // aggregate all requested visits info for total_* info
         /** @var DataTable\Row $visit */
         foreach ($visits->getRows() as $visit) {
-            ++$result['totalVisits'];
+            ++$this->profile['totalVisits'];
 
-            $result['totalVisitDuration'] += $visit->getColumn('visitDuration');
-            $result['totalActions'] += $visit->getColumn('actions');
-            $result['totalGoalConversions'] += $visit->getColumn('goalConversions');
+            $this->profile['totalVisitDuration'] += $visit->getColumn('visitDuration');
+            $this->profile['totalActions'] += $visit->getColumn('actions');
+            $this->profile['totalGoalConversions'] += $visit->getColumn('goalConversions');
 
             // individual goal conversions are stored in action details
             foreach ($visit->getColumn('actionDetails') as $action) {
-                if ($action['type'] == 'goal') {
-                    // handle goal conversion
-                    $idGoal = $action['goalId'];
-                    $idGoalKey = 'idgoal=' . $idGoal;
-
-                    if (!isset($result['totalConversionsByGoal'][$idGoalKey])) {
-                        $result['totalConversionsByGoal'][$idGoalKey] = 0;
-                    }
-                    ++$result['totalConversionsByGoal'][$idGoalKey];
-
-                    if (!empty($action['revenue'])) {
-                        if (!isset($result['totalRevenueByGoal'][$idGoalKey])) {
-                            $result['totalRevenueByGoal'][$idGoalKey] = 0;
-                        }
-                        $result['totalRevenueByGoal'][$idGoalKey] += $action['revenue'];
-                    }
-                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER // handle ecommerce order
-                    && $isEcommerceEnabled
-                ) {
-                    ++$result['totalEcommerceConversions'];
-                    $result['totalEcommerceRevenue'] += $action['revenue'];
-                    $result['totalEcommerceItems'] += $action['items'];
-                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART // handler abandoned cart
-                    && $isEcommerceEnabled
-                ) {
-                    ++$result['totalAbandonedCarts'];
-                    $result['totalAbandonedCartsRevenue'] += $action['revenue'];
-                    $result['totalAbandonedCartsItems'] += $action['items'];
-                }
-
-                if (isset($action['siteSearchKeyword'])) {
-                    $keyword = $action['siteSearchKeyword'];
-
-                    if (!isset($siteSearchKeywords[$keyword])) {
-                        $siteSearchKeywords[$keyword] = 0;
-                        ++$result['totalSearches'];
-                    }
-                    ++$siteSearchKeywords[$keyword];
-                }
-
-                if (isset($action['generationTime'])) {
-                    $pageGenerationTimeTotal += $action['generationTime'];
-                    ++$result['totalPageViews'];
-                }
+                $this->handleIfGoalAction($action);
+                $this->handleIfEcommerceAction($action);
+                $this->handleIfSiteSearchAction($action);
+                $this->handleIfPageGenerationTime($action);
             }
-
-            $countryCode = $visit->getColumn('countryCode');
-            if (!isset($countries[$countryCode])) {
-                $countries[$countryCode] = 0;
-            }
-            ++$countries[$countryCode];
-
-            $continentCode = $visit->getColumn('continentCode');
-            if (!isset($continents[$continentCode])) {
-                $continents[$continentCode] = 0;
-            }
-            ++$continents[$continentCode];
-
-            if ($countryCode && !array_key_exists($countryCode, $cities)) {
-                $cities[$countryCode] = array();
-            }
-            $city = $visit->getColumn('city');
-            if (!empty($city)) {
-                $cities[$countryCode][] = $city;
-            }
+            $this->handleGeoLocation($visit);
         }
 
-        // sort countries/continents/search keywords by visit/action
-        asort($countries);
-        asort($continents);
-        arsort($siteSearchKeywords);
-
-        // transform country/continents/search keywords into something that will look good in XML
-        $result['countries'] = $result['continents'] = $result['searches'] = array();
-
-        foreach ($countries as $countryCode => $nbVisits) {
-
-            $countryInfo = array('country' => $countryCode,
-                'nb_visits' => $nbVisits,
-                'flag' => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
-                'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode));
-            if (!empty($cities[$countryCode])) {
-                $countryInfo['cities'] = array_unique($cities[$countryCode]);
-            }
-            $result['countries'][] = $countryInfo;
-        }
-        foreach ($continents as $continentCode => $nbVisits) {
-            $result['continents'][] = array('continent' => $continentCode,
-                'nb_visits' => $nbVisits,
-                'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode));
-        }
-        foreach ($siteSearchKeywords as $keyword => $searchCount) {
-            $result['searches'][] = array('keyword' => $keyword,
-                'searches' => $searchCount);
-        }
-
-        if ($result['totalPageViews']) {
-            $result['averagePageGenerationTime'] =
-                round($pageGenerationTimeTotal / $result['totalPageViews'], $precision = 2);
-        }
+        $this->handleGeoLocationCountries();
+        $this->handleGeoLocationContinents();
+        $this->handleSiteSearches();
+        $this->handleAveragePageGenerationTime();
 
         $formatter = new Formatter();
-        $result['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($result['totalVisitDuration'], true);
+        $this->profile['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($this->profile['totalVisitDuration'], true);
 
-        // use requested visits for first/last visit info
-        $rows = $visits->getRows();
-        $result['firstVisit'] = $this->getVisitorProfileVisitSummary(end($rows));
-        $result['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($rows));
-
-        // check if requested visits have lat/long
-        if ($checkForLatLong) {
-            $result['hasLatLong'] = false;
-            foreach ($rows as $visit) {
-                if ($visit->getColumn('latitude') !== false) { // realtime map only checks for latitude
-                    $result['hasLatLong'] = true;
-                    break;
-                }
-            }
-        }
-
-        // save count of visits we queries
-        $result['visitsAggregated'] = count($rows);
+        $this->handleVisitsSummary($visits);
+        $this->handleAdjacentVisitorIds($visits, $visitorId, $segment);
 
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
-        $result['lastVisits'] = $visits;
 
-        // use the right date format for the pretty server date
-        $timezone = Site::getTimezoneFor($idSite);
-        foreach ($result['lastVisits']->getRows() as $visit) {
-            $dateTimeVisitFirstAction = Date::factory($visit->getColumn('firstActionTimestamp'), $timezone);
+        $this->enrichVisitsWithFirstActionDatetime($visits);
 
-            $datePretty = $dateTimeVisitFirstAction->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT);
-            $visit->setColumn('serverDatePrettyFirstAction', $datePretty);
+        $this->profile['lastVisits'] = $visits;
 
-            $dateTimePretty = $datePretty . ' ' . $visit->getColumn('serverTimePrettyFirstAction');
-            $visit->setColumn('serverDateTimePrettyFirstAction', $dateTimePretty);
-        }
+        $this->profile['userId'] = $visit->getColumn('userId');
 
-        $result['userId'] = $visit->getColumn('userId');
-
-        // get visitor IDs that are adjacent to this one in log_visit
-        // TODO: make sure order of visitor ids is not changed if a returning visitor visits while the user is
-        //       looking at the popup.
-        $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
-
-
-        $model = new Model();
-        $result['nextVisitorId'] = $model->queryAdjacentVisitorId($idSite, $visitorId, $latestVisitTime, $segment, $getNext = true);
-        $result['previousVisitorId'] = $model->queryAdjacentVisitorId($idSite, $visitorId, $latestVisitTime, $segment, $getNext = false);
-        return $result;
+        return $this->profile;
     }
 
     /**
@@ -257,23 +120,242 @@ class VisitorProfile
         if ($referrerType === false
             || $referrerType == 'direct'
         ) {
-            $result = Piwik::translate('Referrers_DirectEntry');
-        } else if ($referrerType == 'search') {
-            $result = $visit->getColumn('referrerName');
+            return Piwik::translate('Referrers_DirectEntry');
+        }
+
+        if ($referrerType == 'search') {
+            $referrerName = $visit->getColumn('referrerName');
 
             $keyword = $visit->getColumn('referrerKeyword');
             if ($keyword !== false
                 && $keyword != APIReferrers::getKeywordNotDefinedString()
             ) {
-                $result .= ' (' . $keyword . ')';
+                $referrerName .= ' (' . $keyword . ')';
             }
-        } else if ($referrerType == 'campaign') {
-            $result = Piwik::translate('Referrers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
-        } else {
-            $result = $visit->getColumn('referrerName');
+            return $referrerName;
         }
 
-        return $result;
+        if ($referrerType == 'campaign') {
+            return Piwik::translate('Referrers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
+        }
+
+        return $visit->getColumn('referrerName');
+    }
+
+    private function isEcommerceEnabled()
+    {
+        return $this->isEcommerceEnabled;
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfEcommerceAction($action)
+    {
+        if (!$this->isEcommerceEnabled()) {
+            return;
+        }
+        if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            ++$this->profile['totalEcommerceConversions'];
+            $this->profile['totalEcommerceRevenue'] += $action['revenue'];
+            $this->profile['totalEcommerceItems'] += $action['items'];
+        } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+            ++$this->profile['totalAbandonedCarts'];
+            $this->profile['totalAbandonedCartsRevenue'] += $action['revenue'];
+            $this->profile['totalAbandonedCartsItems'] += $action['items'];
+        }
+    }
+
+    private function handleIfGoalAction($action)
+    {
+        if ($action['type'] != 'goal') {
+            return;
+        }
+        $idGoal = $action['goalId'];
+        $idGoalKey = 'idgoal=' . $idGoal;
+
+        if (!isset($this->profile['totalConversionsByGoal'][$idGoalKey])) {
+            $this->profile['totalConversionsByGoal'][$idGoalKey] = 0;
+        }
+        ++$this->profile['totalConversionsByGoal'][$idGoalKey];
+
+        if (!empty($action['revenue'])) {
+            if (!isset($this->profile['totalRevenueByGoal'][$idGoalKey])) {
+                $this->profile['totalRevenueByGoal'][$idGoalKey] = 0;
+            }
+            $this->profile['totalRevenueByGoal'][$idGoalKey] += $action['revenue'];
+        }
+    }
+
+    private function handleIfSiteSearchAction($action)
+    {
+        if (!isset($action['siteSearchKeyword'])) {
+            return;
+        }
+        $keyword = $action['siteSearchKeyword'];
+
+        if (!isset($this->siteSearchKeywords[$keyword])) {
+            $this->siteSearchKeywords[$keyword] = 0;
+            ++$this->profile['totalSearches'];
+        }
+        ++$this->siteSearchKeywords[$keyword];
+    }
+
+    private function handleGeoLocation(DataTable\Row $visit)
+    {
+        // realtime map only checks for latitude
+        $hasLatitude = $visit->getColumn('latitude') !== false;
+        if ($hasLatitude) {
+            $this->profile['hasLatLong'] = true;
+        }
+
+        $countryCode = $visit->getColumn('countryCode');
+        if (!isset($this->countries[$countryCode])) {
+            $this->countries[$countryCode] = 0;
+        }
+        ++$this->countries[$countryCode];
+
+        $continentCode = $visit->getColumn('continentCode');
+        if (!isset($this->continents[$continentCode])) {
+            $this->continents[$continentCode] = 0;
+        }
+        ++$this->continents[$continentCode];
+
+        if ($countryCode && !array_key_exists($countryCode, $this->cities)) {
+            $this->cities[$countryCode] = array();
+        }
+        $city = $visit->getColumn('city');
+        if (!empty($city)) {
+            $this->cities[$countryCode][] = $city;
+        }
+    }
+
+    private function handleSiteSearches()
+    {
+        // sort by visit/action
+        arsort($this->siteSearchKeywords);
+
+        foreach ($this->siteSearchKeywords as $keyword => $searchCount) {
+            $this->profile['searches'][] = array('keyword' => $keyword,
+                'searches' => $searchCount);
+        }
+    }
+
+    private function handleGeoLocationContinents()
+    {
+        // sort by visit/action
+        asort($this->continents);
+        foreach ($this->continents as $continentCode => $nbVisits) {
+            $this->profile['continents'][] = array('continent' => $continentCode,
+                'nb_visits' => $nbVisits,
+                'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode));
+        }
+    }
+
+    private function handleGeoLocationCountries()
+    {
+        // sort by visit/action
+        asort($this->countries);
+
+        // transform country/continents/search keywords into something that will look good in XML
+        $this->profile['countries'] = $this->profile['continents'] = $this->profile['searches'] = array();
+
+        foreach ($this->countries as $countryCode => $nbVisits) {
+
+            $countryInfo = array('country' => $countryCode,
+                'nb_visits' => $nbVisits,
+                'flag' => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
+                'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode));
+            if (!empty($this->cities[$countryCode])) {
+                $countryInfo['cities'] = array_unique($this->cities[$countryCode]);
+            }
+            $this->profile['countries'][] = $countryInfo;
+        }
+    }
+
+    private function initVisitorProfile()
+    {
+        $this->profile['totalVisits'] = 0;
+        $this->profile['totalVisitDuration'] = 0;
+        $this->profile['totalActions'] = 0;
+        $this->profile['totalSearches'] = 0;
+        $this->profile['totalPageViewsWithTiming'] = 0;
+        $this->profile['totalGoalConversions'] = 0;
+        $this->profile['totalConversionsByGoal'] = array();
+        $this->profile['hasLatLong'] = false;
+
+        if ($this->isEcommerceEnabled()) {
+            $this->profile['totalEcommerceConversions'] = 0;
+            $this->profile['totalEcommerceRevenue'] = 0;
+            $this->profile['totalEcommerceItems'] = 0;
+            $this->profile['totalAbandonedCarts'] = 0;
+            $this->profile['totalAbandonedCartsRevenue'] = 0;
+            $this->profile['totalAbandonedCartsItems'] = 0;
+        }
+    }
+
+    private function handleAveragePageGenerationTime()
+    {
+        if ($this->profile['totalPageViewsWithTiming']) {
+            $this->profile['averagePageGenerationTime'] =
+                round($this->pageGenerationTimeTotal / $this->profile['totalPageViewsWithTiming'], $precision = 2);
+        }
+    }
+
+    private function handleIfPageGenerationTime($action)
+    {
+        if (isset($action['generationTime'])) {
+            $this->pageGenerationTimeTotal += $action['generationTime'];
+            ++$this->profile['totalPageViewsWithTiming'];
+        }
+    }
+
+    /**
+     * @param DataTable $visits
+     * @param $visitorId
+     * @param $segment
+     */
+    private function handleAdjacentVisitorIds(DataTable $visits, $visitorId, $segment)
+    {
+        // get visitor IDs that are adjacent to this one in log_visit
+        // TODO: make sure order of visitor ids is not changed if a returning visitor visits while the user is
+        //       looking at the popup.
+        $rows = $visits->getRows();
+        $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
+
+        $model = new Model();
+        $this->profile['nextVisitorId'] = $model->queryAdjacentVisitorId($this->idSite, $visitorId, $latestVisitTime, $segment, $getNext = true);
+        $this->profile['previousVisitorId'] = $model->queryAdjacentVisitorId($this->idSite, $visitorId, $latestVisitTime, $segment, $getNext = false);
+    }
+
+    /**
+     * @param DataTable $visits
+     */
+    private function handleVisitsSummary(DataTable $visits)
+    {
+        $rows = $visits->getRows();
+        $this->profile['firstVisit'] = $this->getVisitorProfileVisitSummary(end($rows));
+        $this->profile['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($rows));
+        $this->profile['visitsAggregated'] = count($rows);
+    }
+
+    /**
+     * @param DataTable $visits
+     * @return DataTable\Row
+     * @throws Exception
+     */
+    private function enrichVisitsWithFirstActionDatetime(DataTable $visits)
+    {
+        $timezone = Site::getTimezoneFor($this->idSite);
+        foreach ($visits->getRows() as $visit) {
+            $dateTimeVisitFirstAction = Date::factory($visit->getColumn('firstActionTimestamp'), $timezone);
+
+            $datePretty = $dateTimeVisitFirstAction->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT);
+            $visit->setColumn('serverDatePrettyFirstAction', $datePretty);
+
+            $dateTimePretty = $datePretty . ' ' . $visit->getColumn('serverTimePrettyFirstAction');
+            $visit->setColumn('serverDateTimePrettyFirstAction', $dateTimePretty);
+        }
     }
 
 } 

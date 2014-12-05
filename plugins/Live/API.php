@@ -160,8 +160,8 @@ class API extends \Piwik\Plugin\API
             return array();
         }
 
-        $profile = new VisitorProfile();
-        $result = $profile->makeVisitorProfile($visits, $idSite, $visitorId, $segment);
+        $profile = new VisitorProfile($idSite);
+        $result = $profile->makeVisitorProfile($visits, $visitorId, $segment);
 
         /**
          * Triggered in the Live.getVisitorProfile API method. Plugins can use this event
