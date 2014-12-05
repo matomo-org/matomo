@@ -21,7 +21,7 @@ class LogQueryBuilder
         $this->segmentExpression = $segmentExpression;
     }
 
-    public function getSelectQueryString($select, $from, $where, $bind, $orderBy, $groupBy)
+    public function getSelectQueryString($select, $from, $where, $bind, $orderBy, $groupBy, $limit)
     {
         if (!is_array($from)) {
             $from = array($from);
@@ -39,9 +39,9 @@ class LogQueryBuilder
         $from = $joins['sql'];
 
         if ($joinWithSubSelect) {
-            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $orderBy, $groupBy);
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $orderBy, $groupBy, $limit);
         } else {
-            $sql = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
+            $sql = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy, $limit);
         }
         return array(
             'sql' => $sql,
@@ -166,10 +166,11 @@ class LogQueryBuilder
      * @param string $where
      * @param string $orderBy
      * @param string $groupBy
+     * @param string $limit
      * @throws Exception
      * @return string
      */
-    private function buildWrappedSelectQuery($select, $from, $where, $orderBy, $groupBy)
+    private function buildWrappedSelectQuery($select, $from, $where, $orderBy, $groupBy, $limit)
     {
         $matchTables = "(log_visit|log_conversion_item|log_conversion|log_action)";
         preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
@@ -185,8 +186,9 @@ class LogQueryBuilder
         $innerWhere = $where;
         $innerGroupBy = "log_visit.idvisit";
         $innerOrderBy = "NULL";
+        $innerLimit = $limit;
 
-        $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerOrderBy, $innerGroupBy);
+        $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerOrderBy, $innerGroupBy, $innerLimit);
 
         $select = preg_replace('/'.$matchTables.'\./', 'log_inner.', $select);
         $from = "
@@ -196,7 +198,7 @@ class LogQueryBuilder
         $where = false;
         $orderBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $orderBy);
         $groupBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $groupBy);
-        $query = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
+        $query = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy, $limit);
         return $query;
     }
 
@@ -209,9 +211,10 @@ class LogQueryBuilder
      * @param string $where where clause
      * @param string $orderBy order by clause
      * @param string $groupBy group by clause
+     * @param string $limit limit by clause
      * @return string
      */
-    private function buildSelectQuery($select, $from, $where, $orderBy, $groupBy)
+    private function buildSelectQuery($select, $from, $where, $orderBy, $groupBy, $limit)
     {
         $sql = "
 			SELECT
@@ -235,6 +238,13 @@ class LogQueryBuilder
             $sql .= "
 			ORDER BY
 				$orderBy";
+        }
+
+        $limit = (int)$limit;
+        if ($limit >= 1) {
+            $sql .= "
+            LIMIT
+                $limit";
         }
 
         return $sql;
