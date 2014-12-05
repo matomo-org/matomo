@@ -4,7 +4,6 @@ use Interop\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Log;
 use Piwik\Log\Backend\StdErrBackend;
-use Piwik\Log\Formatter\AddRequestIdFormatter;
 use Piwik\Log\Formatter\ExceptionHtmlFormatter;
 use Piwik\Log\Formatter\ExceptionTextFormatter;
 use Piwik\Log\Formatter\LineMessageFormatter;
@@ -89,6 +88,7 @@ return array(
     }),
     'log.processors' => array(
         DI\link('Piwik\Log\Processor\ClassNameProcessor'),
+        DI\link('Piwik\Log\Processor\RequestIdProcessor'),
         DI\link('Piwik\Log\Processor\SprintfProcessor'),
         DI\link('Monolog\Processor\PsrLogMessageProcessor'),
     ),
@@ -134,14 +134,10 @@ return array(
         return $exceptionFormatter;
     }),
     'log.formatter.html' => DI\factory(function (ContainerInterface $c) {
-        $lineFormatter = new LineMessageFormatter($c->get('log.format'));
-
-        $addRequestIdFormatter = new AddRequestIdFormatter();
-        $addRequestIdFormatter->setNext($lineFormatter);
-
         $exceptionFormatter = new ExceptionHtmlFormatter();
-        $exceptionFormatter->setNext($addRequestIdFormatter);
-
+        $exceptionFormatter->setNext(
+            new LineMessageFormatter($c->get('log.format'))
+        );
         return $exceptionFormatter;
     }),
     'log.format' => DI\factory(function (ContainerInterface $c) {

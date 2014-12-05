@@ -28,12 +28,30 @@ class LineMessageFormatter extends Formatter
 
     public function format(array $record)
     {
+        $class = isset($record['extra']['class']) ? $record['extra']['class'] : '';
+        $date = $record['datetime']->format('Y-m-d H:i:s');
+
+        $message = $this->prefixMessageWithRequestId($record);
+
         $record['message'] = str_replace(
-            array("%tag%", "%message%", "%datetime%", "%level%"),
-            array($record['extra']['class'], trim($record['message']), $record['datetime']->format('Y-m-d H:i:s'), $record['level_name']),
+            array('%tag%', '%message%', '%datetime%', '%level%'),
+            array($class, $message, $date, $record['level_name']),
             $this->logMessageFormat
         );
 
         return $this->next($record);
+    }
+
+    private function prefixMessageWithRequestId(array $record)
+    {
+        $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';
+
+        $message = trim($record['message']);
+
+        if ($requestId) {
+            $message = '[' . $requestId . '] ' . $message;
+        }
+
+        return $message;
     }
 }
