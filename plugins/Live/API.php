@@ -138,11 +138,9 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite Site ID
      * @param bool|false|string $visitorId The ID of the visitor whose profile to retrieve.
      * @param bool|false|string $segment
-     * @param bool $checkForLatLong If true, hasLatLong will appear in the output and be true if
-     *                              one of the first 100 visits has a latitude/longitude.
      * @return array
      */
-    public function getVisitorProfile($idSite, $visitorId = false, $segment = false, $checkForLatLong = false)
+    public function getVisitorProfile($idSite, $visitorId = false, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -163,7 +161,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $profile = new VisitorProfile();
-        $result = $profile->makeVisitorProfile($visits, $idSite, $visitorId, $segment, $checkForLatLong);
+        $result = $profile->makeVisitorProfile($visits, $idSite, $visitorId, $segment);
 
         /**
          * Triggered in the Live.getVisitorProfile API method. Plugins can use this event

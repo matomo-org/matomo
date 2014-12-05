@@ -109,7 +109,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
         $view->goals = APIGoals::getInstance()->getGoals($idSite);
-        $view->visitorData = Request::processRequest('Live.getVisitorProfile', array('checkForLatLong' => true));
+        $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->exportLink = $this->getVisitorProfileExportLink();
 
         if (Common::getRequestVar('showMap', 1) == 1
