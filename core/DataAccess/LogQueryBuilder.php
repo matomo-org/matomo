@@ -189,7 +189,7 @@ class LogQueryBuilder
 
         $innerOrderBy = "NULL";
         // Only when there is a LIMIT then we can apply to the inner query the same ORDER BY as the parent query
-        if($innerLimit) {
+        if($innerLimit && $orderBy) {
             $innerOrderBy = $orderBy;
         }
 
