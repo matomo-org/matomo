@@ -59,7 +59,7 @@ class Segment
     /**
      * @var SegmentExpression
      */
-    protected $segment = null;
+    protected $segmentExpression = null;
 
     /**
      * @var string
@@ -114,7 +114,7 @@ class Segment
         $this->string  = $string;
         $this->idSites = $idSites;
         $segment = new SegmentExpression($string);
-        $this->segment = $segment;
+        $this->segmentExpression = $segment;
 
         // parse segments
         $expressions = $segment->parseSubExpressions();
@@ -138,7 +138,7 @@ class Segment
      */
     public function isEmpty()
     {
-        return $this->segment->isEmpty();
+        return $this->segmentExpression->isEmpty();
     }
 
     protected $availableSegments = array();
@@ -237,7 +237,7 @@ class Segment
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false)
     {
-        $segmentExpression = $this->segment;
+        $segmentExpression = $this->segmentExpression;
         $segmentQuery = new LogQueryBuilder();
         return $segmentQuery->getSelectQueryString($segmentExpression, $select, $from, $where, $bind, $orderBy, $groupBy);
     }

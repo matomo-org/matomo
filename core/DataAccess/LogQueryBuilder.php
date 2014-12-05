@@ -16,50 +16,22 @@ use Piwik\Segment\SegmentExpression;
 
 class LogQueryBuilder
 {
-
-
-    /**
-     * @param $segmentExpression
-     * @param $select
-     * @param $from
-     * @param $where
-     * @param $bind
-     * @param $orderBy
-     * @param $groupBy
-     * @return array
-     * @throws Exception
-     */
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $orderBy, $groupBy)
     {
         if (!is_array($from)) {
             $from = array($from);
         }
 
-        if (!$segmentExpression->isEmpty()) {
+        if(!$segmentExpression->isEmpty()) {
             $segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
-
-            $joins = $this->generateJoins($from);
-            $from = $joins['sql'];
-            $joinWithSubSelect = $joins['joinWithSubSelect'];
-
             $segmentSql = $segmentExpression->getSql();
-            $segmentWhere = $segmentSql['where'];
-            if (!empty($segmentWhere)) {
-                if (!empty($where)) {
-                    $where = "( $where )
-				AND
-				($segmentWhere)";
-                } else {
-                    $where = $segmentWhere;
-                }
-            }
-
+            $where = $this->getWhereMatchBoth($where, $segmentSql['where']);
             $bind = array_merge($bind, $segmentSql['bind']);
-        } else {
-            $joins = $this->generateJoins($from);
-            $from = $joins['sql'];
-            $joinWithSubSelect = $joins['joinWithSubSelect'];
         }
+
+        $joins = $this->generateJoins($from);
+        $joinWithSubSelect = $joins['joinWithSubSelect'];
+        $from = $joins['sql'];
 
         if ($joinWithSubSelect) {
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $orderBy, $groupBy);
@@ -71,6 +43,8 @@ class LogQueryBuilder
             'bind' => $bind
         );
     }
+
+
     /**
      * Generate the join sql based on the needed tables
      * @param array $tables tables to join
@@ -178,43 +152,6 @@ class LogQueryBuilder
 
     }
 
-    /**
-     * Build select query the normal way
-     * @param string $select fieldlist to be selected
-     * @param string $from tablelist to select from
-     * @param string $where where clause
-     * @param string $orderBy order by clause
-     * @param string $groupBy group by clause
-     * @return string
-     */
-    private function buildSelectQuery($select, $from, $where, $orderBy, $groupBy)
-    {
-        $sql = "
-			SELECT
-				$select
-			FROM
-				$from";
-
-        if ($where) {
-            $sql .= "
-			WHERE
-				$where";
-        }
-
-        if ($groupBy) {
-            $sql .= "
-			GROUP BY
-				$groupBy";
-        }
-
-        if ($orderBy) {
-            $sql .= "
-			ORDER BY
-				$orderBy";
-        }
-
-        return $sql;
-    }
 
     /**
      * Build a select query where actions have to be joined on visits (or conversions)
@@ -256,6 +193,67 @@ class LogQueryBuilder
         $where = false;
         $query = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
         return $query;
+    }
+
+
+    /**
+     * Build select query the normal way
+     *
+     * @param string $select fieldlist to be selected
+     * @param string $from tablelist to select from
+     * @param string $where where clause
+     * @param string $orderBy order by clause
+     * @param string $groupBy group by clause
+     * @return string
+     */
+    private function buildSelectQuery($select, $from, $where, $orderBy, $groupBy)
+    {
+        $sql = "
+			SELECT
+				$select
+			FROM
+				$from";
+
+        if ($where) {
+            $sql .= "
+			WHERE
+				$where";
+        }
+
+        if ($groupBy) {
+            $sql .= "
+			GROUP BY
+				$groupBy";
+        }
+
+        if ($orderBy) {
+            $sql .= "
+			ORDER BY
+				$orderBy";
+        }
+
+        return $sql;
+    }
+
+    /**
+     * @param $where
+     * @param $segmentWhere
+     * @return string
+     */
+    protected function getWhereMatchBoth($where, $segmentWhere)
+    {
+        if (empty($segmentWhere) && empty($where)) {
+            throw new \Exception("Segment where clause should be non empty.");
+        }
+        if (empty($segmentWhere)) {
+            return $where;
+        }
+        if (empty($where)) {
+            return $segmentWhere;
+        }
+        return "( $where )
+                AND
+                ($segmentWhere)";
     }
 
 } 
