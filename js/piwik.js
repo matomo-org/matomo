@@ -2423,6 +2423,7 @@ if (typeof Piwik !== 'object') {
 
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
+                image.onerror = image.onload = function () {
                     if (typeof callback === 'function') { callback(); }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
