@@ -11,16 +11,162 @@ namespace Piwik\Plugins\Live;
 
 use Exception;
 use Piwik\Common;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Tracker\GoalManager;
 
 class Model
 {
+
+    /**
+     * @param $idVisit
+     * @param $actionsLimit
+     * @return array
+     * @throws \Exception
+     */
+    public function queryActionsForVisit($idVisit, $actionsLimit)
+    {
+        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+
+        $sqlCustomVariables = '';
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
+            $sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
+        }
+        // The second join is a LEFT join to allow returning records that don't have a matching page title
+        // eg. Downloads, Outlinks. For these, idaction_name is set to 0
+        $sql = "
+				SELECT
+					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
+					log_action.name AS url,
+					log_action.url_prefix,
+					log_action_title.name AS pageTitle,
+					log_action.idaction AS pageIdAction,
+					log_link_visit_action.server_time as serverTimePretty,
+					log_link_visit_action.time_spent_ref_action as timeSpentRef,
+					log_link_visit_action.idlink_va AS pageId,
+					log_link_visit_action.custom_float
+					" . $sqlCustomVariables . ",
+					log_action_event_category.name AS eventCategory,
+					log_action_event_action.name as eventAction
+				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
+					ON  log_link_visit_action.idaction_url = log_action.idaction
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
+					ON  log_link_visit_action.idaction_name = log_action_title.idaction
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_category
+					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_action
+					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction
+				WHERE log_link_visit_action.idvisit = ?
+				ORDER BY server_time ASC
+				LIMIT 0, $actionsLimit
+				 ";
+        $actionDetails = Db::fetchAll($sql, array($idVisit));
+        return $actionDetails;
+    }
+
+    /**
+     * @param $idVisit
+     * @param $limit
+     * @return array
+     * @throws \Exception
+     */
+    public function queryGoalConversionsForVisit($idVisit, $limit)
+    {
+        $sql = "
+				SELECT
+						'goal' as type,
+						goal.name as goalName,
+						goal.idgoal as goalId,
+						goal.revenue as revenue,
+						log_conversion.idlink_va as goalPageId,
+						log_conversion.server_time as serverTimePretty,
+						log_conversion.url as url
+				FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
+				LEFT JOIN " . Common::prefixTable('goal') . " AS goal
+					ON (goal.idsite = log_conversion.idsite
+						AND
+						goal.idgoal = log_conversion.idgoal)
+					AND goal.deleted = 0
+				WHERE log_conversion.idvisit = ?
+					AND log_conversion.idgoal > 0
+                ORDER BY server_time ASC
+				LIMIT 0, $limit
+			";
+        $goalDetails = Db::fetchAll($sql, array($idVisit));
+        return $goalDetails;
+    }
+
+    /**
+     * @param $idVisit
+     * @param $limit
+     * @return array
+     * @throws \Exception
+     */
+    public function queryEcommerceConversionsForVisit($idVisit, $limit)
+    {
+        $sql = "SELECT
+						case idgoal when " . GoalManager::IDGOAL_CART
+                            . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+                            . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
+						idorder as orderId,
+						" . LogAggregator::getSqlRevenue('revenue') . " as revenue,
+						" . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
+						" . LogAggregator::getSqlRevenue('revenue_tax') . " as revenueTax,
+						" . LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
+						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
+						items as items,
+						log_conversion.server_time as serverTimePretty
+					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
+					WHERE idvisit = ?
+						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
+					ORDER BY server_time ASC
+					LIMIT 0, $limit";
+        $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
+        return $ecommerceDetails;
+    }
+
+
+    /**
+     * @param $idVisit
+     * @param $idOrder
+     * @param $actionsLimit
+     * @return array
+     * @throws \Exception
+     */
+    public function queryEcommerceItemsForOrder($idVisit, $idOrder, $actionsLimit)
+    {
+        $sql = "SELECT
+							log_action_sku.name as itemSKU,
+							log_action_name.name as itemName,
+							log_action_category.name as itemCategory,
+							" . LogAggregator::getSqlRevenue('price') . " as price,
+							quantity as quantity
+						FROM " . Common::prefixTable('log_conversion_item') . "
+							INNER JOIN " . Common::prefixTable('log_action') . " AS log_action_sku
+							ON  idaction_sku = log_action_sku.idaction
+							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
+							ON  idaction_name = log_action_name.idaction
+							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_category
+							ON idaction_category = log_action_category.idaction
+						WHERE idvisit = ?
+							AND idorder = ?
+							AND deleted = 0
+						LIMIT 0, $actionsLimit
+				";
+
+        $bind = array($idVisit, $idOrder);
+
+        $itemsDetails = Db::fetchAll($sql, $bind);
+        return $itemsDetails;
+    }
 
     /**
      * @param $idSite
@@ -185,12 +331,70 @@ class Model
      */
     public function makeLogVisitsQueryString($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId, $minTimestamp, $filterSortOrder)
     {
-        $where = $whereBind = array();
+        // If no other filter, only look at the last 24 hours of stats
+        if (empty($visitorId)
+            && empty($countVisitorsToFetch)
+            && empty($period)
+            && empty($date)
+        ) {
+            $period = 'day';
+            $date = 'yesterdaySameTime';
+        }
 
-        list($whereClause, $idSites) = $this->getIdSitesWhereClause($idSite);
+        list($whereBind, $where) = $this->getWhereClauseAndBind($idSite, $period, $date, $visitorId, $minTimestamp);
 
+        if (strtolower($filterSortOrder) !== 'asc') {
+            $filterSortOrder = 'DESC';
+        }
+        $segment = new Segment($segment, $idSite);
+
+        // Subquery to use the indexes for ORDER BY
+        $select = "log_visit.*";
+        $from = "log_visit";
+        $groupBy = false;
+        $limit = $countVisitorsToFetch >= 1 ? (int)$countVisitorsToFetch : 0;
+        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
+        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
+
+        $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit);
+
+        $bind = $subQuery['bind'];
+        // Group by idvisit so that a visitor converting 2 goals only appears once
+        $sql = "
+			SELECT sub.* FROM (
+				" . $subQuery['sql'] . "
+			) AS sub
+			GROUP BY sub.idvisit
+			ORDER BY $orderByParent
+		";
+        return array($sql, $bind);
+    }
+
+    /**
+     * @param $idSite
+     * @return Site
+     */
+    protected function makeSite($idSite)
+    {
+        return new Site($idSite);
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param $visitorId
+     * @param $minTimestamp
+     * @return array
+     * @throws Exception
+     */
+    private function getWhereClauseAndBind($idSite, $period, $date, $visitorId, $minTimestamp)
+    {
+        list($whereClause, $bindIdSites) = $this->getIdSitesWhereClause($idSite);
+
+        $where = array();
         $where[] = $whereClause;
-        $whereBind = $idSites;
+        $whereBind = $bindIdSites;
 
         if (!empty($visitorId)) {
             $where[] = "log_visit.idvisitor = ? ";
@@ -200,16 +404,6 @@ class Model
         if (!empty($minTimestamp)) {
             $where[] = "log_visit.visit_last_action_time > ? ";
             $whereBind[] = date("Y-m-d H:i:s", $minTimestamp);
-        }
-
-        // If no other filter, only look at the last 24 hours of stats
-        if (empty($visitorId)
-            && empty($countVisitorsToFetch)
-            && empty($period)
-            && empty($date)
-        ) {
-            $period = 'day';
-            $date = 'yesterdaySameTime';
         }
 
         // SQL Filter with provided period
@@ -255,40 +449,6 @@ class Model
         } else {
             $where = false;
         }
-
-        if (strtolower($filterSortOrder) !== 'asc') {
-            $filterSortOrder = 'DESC';
-        }
-        $segment = new Segment($segment, $idSite);
-
-        // Subquery to use the indexes for ORDER BY
-        $select = "log_visit.*";
-        $from = "log_visit";
-        $groupBy = false;
-        $limit = $countVisitorsToFetch >= 1 ? (int)$countVisitorsToFetch : 0;
-        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
-        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
-
-        $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit);
-
-        $bind = $subQuery['bind'];
-        // Group by idvisit so that a visitor converting 2 goals only appears once
-        $sql = "
-			SELECT sub.* FROM (
-				" . $subQuery['sql'] . "
-			) AS sub
-			GROUP BY sub.idvisit
-			ORDER BY $orderByParent
-		";
-        return array($sql, $bind);
-    }
-
-    /**
-     * @param $idSite
-     * @return Site
-     */
-    protected function makeSite($idSite)
-    {
-        return new Site($idSite);
+        return array($whereBind, $where);
     }
 } 
