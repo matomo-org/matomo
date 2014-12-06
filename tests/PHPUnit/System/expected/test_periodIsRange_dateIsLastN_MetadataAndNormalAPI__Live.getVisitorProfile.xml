@@ -4,11 +4,12 @@
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
 	<totalSearches>0</totalSearches>
-	<totalPageViews>0</totalPageViews>
+	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
 		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
+	<hasLatLong>0</hasLatLong>
 	<searches>
 	</searches>
 	<continents>
@@ -42,6 +43,8 @@
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>
+	
+	
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
@@ -263,6 +266,4 @@
 		</row>
 	</lastVisits>
 	<userId>0</userId>
-	
-	
 </result>

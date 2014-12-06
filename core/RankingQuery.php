@@ -214,7 +214,7 @@ class RankingQuery
      */
     public function execute($innerQuery, $bind = array())
     {
-        $query = $this->generateQuery($innerQuery);
+        $query = $this->generateRankingQuery($innerQuery);
         $data  = Db::fetchAll($query, $bind);
 
         if ($this->columnToMarkExcludedRows !== false) {
@@ -268,7 +268,7 @@ class RankingQuery
      *                            itself.
      * @return string             The entire ranking query SQL.
      */
-    public function generateQuery($innerQuery)
+    public function generateRankingQuery($innerQuery)
     {
         // +1 to include "Others"
         $limit = $this->limit + 1;

@@ -244,9 +244,9 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->updateQuerySelectFromForSiteSearch($select, $from);
         }
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "idaction_name", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_name", $rankingQuery);
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "idaction_url", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_url", $rankingQuery);
     }
 
     protected function isSiteSearchEnabled()
@@ -254,7 +254,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->isSiteSearchEnabled;
     }
 
-    protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $sprintfField, $rankingQuery = false)
+    protected function archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, $sprintfField, RankingQuery $rankingQuery = null)
     {
         $select = sprintf($select, $sprintfField);
 
@@ -266,7 +266,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         // apply ranking query
         if ($rankingQuery) {
-            $querySql = $rankingQuery->generateQuery($querySql);
+            $querySql = $rankingQuery->generateRankingQuery($querySql);
         }
 
         // get result
@@ -321,9 +321,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $groupBy = "log_visit.%s, idaction";
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "visit_entry_idaction_url", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_entry_idaction_url", $rankingQuery);
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "visit_entry_idaction_name", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_entry_idaction_name", $rankingQuery);
     }
 
     /**
@@ -366,9 +366,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $groupBy = "log_visit.%s, idaction";
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "visit_exit_idaction_url", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_exit_idaction_url", $rankingQuery);
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "visit_exit_idaction_name", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_exit_idaction_name", $rankingQuery);
         return array($rankingQuery, $extraSelects, $from, $orderBy, $select, $where, $groupBy);
     }
 
@@ -412,9 +412,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $groupBy = "log_link_visit_action.%s, idaction";
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "idaction_url_ref", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_url_ref", $rankingQuery);
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "idaction_name_ref", $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_name_ref", $rankingQuery);
     }
 
     /**
