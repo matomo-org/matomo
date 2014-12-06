@@ -93,6 +93,8 @@ class Manager extends Singleton
         'ExampleTheme'
     );
 
+    private $trackerPluginsNotToLoad = array();
+
     /**
      * Loads plugin that are enabled
      */
@@ -108,7 +110,7 @@ class Manager extends Singleton
     public function loadCorePluginsDuringTracker()
     {
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
-        $pluginsToLoad = array_diff($pluginsToLoad, Tracker::getPluginsNotToLoad());
+        $pluginsToLoad = array_diff($pluginsToLoad, $this->getTrackerPluginsNotToLoad());
         $this->loadPlugins($pluginsToLoad);
     }
 
@@ -139,16 +141,40 @@ class Manager extends Singleton
             }
         }
 
-        $this->unloadPlugins();
-
         if (empty($pluginsTracker)) {
+            $this->unloadPlugins();
             return array();
         }
 
-        $pluginsTracker = array_diff($pluginsTracker, Tracker::getPluginsNotToLoad());
+        $pluginsTracker = array_diff($pluginsTracker, $this->getTrackerPluginsNotToLoad());
         $this->doNotLoadAlwaysActivatedPlugins();
         $this->loadPlugins($pluginsTracker);
+
+        // we could simply unload all plugins first before loading plugins but this way it is much faster
+        // since we won't have to create each plugin again and we won't have to parse each plugin metadata file
+        // again etc
+        $this->makeSureOnlyActivatedPluginsAreLoaded();
+
         return $pluginsTracker;
+    }
+
+    /**
+     * Do not load the specified plugins (used during testing, to disable Provider plugin)
+     * @param array $plugins
+     */
+    public function setTrackerPluginsNotToLoad($plugins)
+    {
+        $this->trackerPluginsNotToLoad = $plugins;
+    }
+
+    /**
+     * Get list of plugins to not load
+     *
+     * @return array
+     */
+    public function getTrackerPluginsNotToLoad()
+    {
+        return $this->trackerPluginsNotToLoad;
     }
 
     public function getCorePluginsDisabledByDefault()
@@ -237,7 +263,7 @@ class Manager extends Singleton
     public function isPluginActivated($name)
     {
         return in_array($name, $this->pluginsToLoad)
-        || $this->isPluginAlwaysActivated($name);
+        || ($this->doLoadAlwaysActivatedPlugins && $this->isPluginAlwaysActivated($name));
     }
 
     /**
@@ -1005,8 +1031,9 @@ class Manager extends Singleton
      *
      * @param string $pluginName plugin name without prefix (eg. 'UserCountry')
      * @param Plugin $newPlugin
+     * @internal
      */
-    private function addLoadedPlugin($pluginName, Plugin $newPlugin)
+    public function addLoadedPlugin($pluginName, Plugin $newPlugin)
     {
         $this->loadedPlugins[$pluginName] = $newPlugin;
     }
@@ -1334,6 +1361,15 @@ class Manager extends Singleton
     private function removeInstalledVersionFromOptionTable($version)
     {
         Option::delete('version_' . $version);
+    }
+
+    private function makeSureOnlyActivatedPluginsAreLoaded()
+    {
+        foreach ($this->getLoadedPlugins() as $pluginName => $plugin) {
+            if (!in_array($pluginName, $this->pluginsToLoad)) {
+                $this->unloadPlugin($plugin);
+            }
+        }
     }
 }
 

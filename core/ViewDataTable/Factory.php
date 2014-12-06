@@ -97,10 +97,6 @@ class Factory
 
         $defaultViewType = self::getDefaultViewTypeForReport($apiAction);
 
-        if (!$forceDefault && !empty($defaultViewType)) {
-            $defaultType = $defaultViewType;
-        }
-
         $isWidget = Common::getRequestVar('widget', '0', 'string');
 
         if (!empty($isWidget)) {
@@ -115,13 +111,25 @@ class Factory
             $savedViewDataTable = $params['viewDataTable'];
         }
 
-        $type = Common::getRequestVar('viewDataTable', $savedViewDataTable, 'string');
+        // order of default viewDataTables' priority is: function specified default, saved default, configured default for report
+        //   function specified default is preferred
+        // -> force default == true : defaultType ?: saved ?: defaultView
+        // -> force default == false : saved ?: defaultType ?: defaultView
+        if ($forceDefault) {
+            $defaultType = $defaultType ?: $savedViewDataTable ?: $defaultViewType;
+        } else {
+            $defaultType = $savedViewDataTable ?: $defaultType ?: $defaultViewType;
+        }
+
+        $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
 
         // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
         // therefore do not pass this as a default value to getRequestVar()
         if ('' === $type) {
-            $type = $defaultType ? : HtmlTable::ID;
+            $type = $defaultType ?: HtmlTable::ID;
         }
+
+        $params['viewDataTable'] = $type;
 
         $visualizations = Manager::getAvailableViewDataTables();
 

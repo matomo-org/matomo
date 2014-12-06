@@ -4,10 +4,13 @@
         "BrowserEngineDocumentation": "Questo grafico mostra i browser dei vostri visitatori suddivisi in famiglie di browser. %s Le informazioni più importanti per gli sviluppatori web sono che tipo di motore di rendering i loro visitatori stanno usando. Le etichette contengono i nomi dei motori seguiti dal browser più comune che utilizza quel motore tra parentesi.",
         "BrowserEngines": "Motori browser",
         "BrowserFamily": "Famiglia del Browser",
+        "Browsers": "Browser",
         "BrowserVersion": "Versione del browser",
         "BrowserVersions": "Versioni browser",
         "Camera": "Fotocamera",
         "CarBrowser": "Browser in auto",
+        "ColumnBrowser": "Browser",
+        "ColumnOperatingSystem": "Sistema operativo",
         "Console": "Console",
         "dataTableLabelBrands": "Marca",
         "dataTableLabelModels": "Modello",
@@ -21,6 +24,8 @@
         "DeviceType": "Tipo dispositivo",
         "FeaturePhone": "Feature phone",
         "OperatingSystemFamilies": "Famiglie Sistema Operativo",
+        "OperatingSystemFamily": "Famiglia sistema operativo",
+        "OperatingSystems": "Sistemi Operativi",
         "OperatingSystemVersions": "Versioni Sistema Operativo",
         "PluginDescription": "Questo plugin fornisce informazioni estese sui dispositivi mobili, come Marca (costruttore), Modello (versione dispositivo), una migliore individuazione del dispositivo (tv, console, smartphone, desktop, ecc) e altro. Questo plugin aggiunge un nuovo report in 'Visitatori > Dispositivi'.",
         "SmartDisplay": "Smart display",
@@ -28,6 +33,8 @@
         "submenu": "Dispositivi",
         "Tablet": "Tablet",
         "TV": "Apparecchio TV",
-        "UserAgent": "User-Agent"
+        "UserAgent": "User-Agent",
+        "WidgetBrowsers": "Browser dei visitatori",
+        "WidgetBrowsersDocumentation": "Questo report contiene informazioni sul tipo di browser che i tuoi visitatori hanno utilizzato. Ciascuna versione del browser è elencata separatamente."
     }
 }

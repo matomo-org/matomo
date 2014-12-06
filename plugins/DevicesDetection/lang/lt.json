@@ -1,6 +1,11 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "Naršyklių šeimos",
-        "BrowserVersion": "Naršyklės versija"
+        "Browsers": "Naršyklės",
+        "BrowserVersion": "Naršyklės versija",
+        "ColumnBrowser": "Naršyklė",
+        "ColumnOperatingSystem": "Operacinė sistema",
+        "OperatingSystems": "Operacinės sistemos",
+        "WidgetBrowsers": "Lankytojų naršyklės"
     }
 }

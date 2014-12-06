@@ -5,9 +5,6 @@ use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
-if (!defined('PIWIK_ENABLE_TRACKING')) {
-    define('PIWIK_ENABLE_TRACKING', true);
-}
 
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db.php';
@@ -52,7 +49,7 @@ class Piwik_LocalTracker extends PiwikTracker
         \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
 
         // modify config
-        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+        \Piwik\SettingsServer::setIsTrackerApiRequest();
         $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'] = true;
         Tracker::$initTrackerMode = false;
         Tracker::setTestEnvironment($testEnvironmentArgs, $method);
@@ -73,7 +70,16 @@ class Piwik_LocalTracker extends PiwikTracker
         ob_start();
 
         $localTracker = new Tracker();
-        $localTracker->main($requests);
+        $request = new Tracker\RequestSet();
+        $request->setRequests($requests);
+
+        $handler = Tracker\Handler\Factory::make();
+
+        $response = $localTracker->main($handler, $request);
+
+        if (!is_null($response)) {
+            echo $response;
+        }
 
         $output = ob_get_contents();
 
@@ -85,7 +91,7 @@ class Piwik_LocalTracker extends PiwikTracker
         $_SERVER['HTTP_USER_AGENT'] = $oldUserAgent;
         $_COOKIE = $oldCookie;
         $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'] = false;
-        $GLOBALS['PIWIK_TRACKER_MODE'] = false;
+        \Piwik\SettingsServer::setIsNotTrackerApiRequest();
         unset($_GET['bots']);
 
         // reload plugins

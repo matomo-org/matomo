@@ -131,14 +131,28 @@ class Plugin
         }
         $this->pluginName = $pluginName;
 
-        $metadataLoader = new MetadataLoader($pluginName);
-        $this->pluginInformation = $metadataLoader->load();
+        $cache = new PersistentCache('Plugin' . $pluginName . 'Metadata');
 
-        if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
-            throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
+        if ($cache->has()) {
+            $this->pluginInformation = $cache->get();
+        } else {
+
+            $metadataLoader = new MetadataLoader($pluginName);
+            $this->pluginInformation = $metadataLoader->load();
+
+            if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
+                throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
+            }
+
+            $cache->set($this->pluginInformation);
         }
+    }
 
-        $this->cache = new PersistentCache('Plugin' . $pluginName);
+    private function createCacheIfNeeded()
+    {
+        if (is_null($this->cache)) {
+            $this->cache = new PersistentCache('Plugin' . $this->pluginName);
+        }
     }
 
     private function hasDefinedPluginInformationInPluginClass()
@@ -305,6 +319,8 @@ class Plugin
      */
     public function findComponent($componentName, $expectedSubclass)
     {
+        $this->createCacheIfNeeded();
+
         $this->cache->setCacheKey('Plugin' . $this->pluginName . $componentName . $expectedSubclass);
 
         $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
@@ -349,6 +365,8 @@ class Plugin
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {
+        $this->createCacheIfNeeded();
+
         $this->cache->setCacheKey('Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass);
 
         if ($this->cache->has()) {

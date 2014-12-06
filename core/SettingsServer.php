@@ -41,6 +41,22 @@ class SettingsServer
     }
 
     /**
+     * Mark the current request as a Tracker API request
+     */
+    public static function setIsTrackerApiRequest()
+    {
+        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+    }
+
+    /**
+     * Set the current request is not a tracker API request
+     */
+    public static function setIsNotTrackerApiRequest()
+    {
+        $GLOBALS['PIWIK_TRACKER_MODE'] = false;
+    }
+
+    /**
      * Returns `true` if running on Microsoft IIS 7 (or above), `false` if otherwise.
      *
      * @return bool

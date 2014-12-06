@@ -23,6 +23,12 @@ if (!Common::isPhpCliMode()) {
         Log::error('[error] You must be logged in as Super User to run this script. Please login in to Piwik and refresh this page.');
         exit;
     }
+}
+
+Log::getInstance()->setLogLevel(Log::VERBOSE);
+Log::getInstance()->addLogWriter('screen');
+
+if (!Common::isPhpCliMode()) {
     // the 'start' query param will be supplied by the AJAX requests, so if it's not there, the
     // user is viewing the page in the browser.
     if (Common::getRequestVar('start', false) === false) {

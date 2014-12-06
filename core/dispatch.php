@@ -35,9 +35,7 @@ if (PIWIK_ENABLE_DISPATCH) {
         $controller->init();
         $response = $controller->dispatch();
 
-        if (is_array($response)) {
-            var_export($response);
-        } elseif (!is_null($response)) {
+        if (!is_null($response)) {
             echo $response;
         }
     } catch (Exception $ex) {

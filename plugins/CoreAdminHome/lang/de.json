@@ -68,6 +68,7 @@
         "PluginSettingReadNotAllowed": "Sie haben keine Berechtigung den Wert der Einstellung \"%s\" für das Plugin \"%s\" auszulesen.",
         "PluginSettings": "Plugin-Einstellungen",
         "PluginSettingsIntro": "Hier können Sie die Einstellungen für folgende Drittanbieter Plugins ändern:",
+        "PluginSettingsSaveFailed": "Speichern der Plugin Einstellungen fehlgeschlagen.",
         "PluginSettingsValueNotAllowed": "Der Wert für die Einstellung \"%s\" im Plugin \"%s\" ist nicht erlaubt.",
         "SendPluginUpdateCommunication": "Sende mir eine E-Mail-Benachrichtigung wenn eine neue Plugin-Aktualisierung zur Verfügung steht.",
         "SendPluginUpdateCommunicationHelp": "Der Hauptadministrator wird per E-Mail benachrichtigt, sobald eine neue Version eines Plugins zur Verfügung steht.",

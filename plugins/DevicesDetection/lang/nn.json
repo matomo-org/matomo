@@ -1,5 +1,10 @@
 {
     "DevicesDetection": {
-        "BrowserFamily": "Nettlesarfamilar"
+        "BrowserFamily": "Nettlesarfamilar",
+        "Browsers": "Nettlesarar",
+        "ColumnBrowser": "Nettlesar",
+        "ColumnOperatingSystem": "Operativsystem",
+        "OperatingSystems": "Operativsystem",
+        "WidgetBrowsers": "Nytta nettlesarar"
     }
 }

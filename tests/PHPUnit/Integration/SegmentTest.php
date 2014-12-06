@@ -36,11 +36,11 @@ class SegmentTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    protected function _filterWhitsSpaces($valueToFilter)
+    static public function removeExtraWhiteSpaces($valueToFilter)
     {
         if (is_array($valueToFilter)) {
             foreach ($valueToFilter as $key => $value) {
-                $valueToFilter[$key] = $this->_filterWhitsSpaces($value);
+                $valueToFilter[$key] = self::removeExtraWhiteSpaces($value);
             }
             return $valueToFilter;
         } else {
@@ -117,16 +117,16 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
         $sql = $segment->getSelectQuery($select, $from, false);
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($sql));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
 
         // calling twice should give same results
         $sql = $segment->getSelectQuery($select, array($from));
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($sql));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
 
         $this->assertEquals(32, strlen($segment->getHash()));
     }
 
-    public function testGetSelectQueryNoJoin()
+    public function test_getSelectQuery_whenNoJoin()
     {
         $select = '*';
         $from = 'log_visit';
@@ -150,10 +150,10 @@ class SegmentTest extends IntegrationTestCase
                     ( log_visit.custom_var_k1 = ? AND log_visit.visitor_returning = ? )",
             "bind" => array(1, 'Test', 0));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function testGetSelectQueryJoinVisitOnAction()
+    public function test_getSelectQuery_whenJoinVisitOnAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -178,10 +178,10 @@ class SegmentTest extends IntegrationTestCase
                     ( log_link_visit_action.custom_var_k1 = ? AND log_visit.visitor_returning = ? )",
             "bind" => array(1, 'Test', 0));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function testGetSelectQueryJoinActionOnVisit()
+    public function test_getSelectQuery_whenJoinActionOnVisit()
     {
         $select = 'sum(log_visit.visit_total_actions) as nb_actions, max(log_visit.visit_total_actions) as max_actions, sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -210,13 +210,14 @@ class SegmentTest extends IntegrationTestCase
                     AND
                     ( log_link_visit_action.custom_var_k1 = ? AND log_visit.visitor_returning = ? )
                 GROUP BY log_visit.idvisit
+                ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(1, 'Test', 0));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function testGetSelectQueryJoinConversionOnAction()
+    public function test_getSelectQuery_whenJoinConversionOnAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -241,10 +242,10 @@ class SegmentTest extends IntegrationTestCase
                     ( log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? AND log_link_visit_action.custom_var_k2 = ? )",
             "bind" => array(1, 'Test', 1, 'Test2'));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function testGetSelectQueryJoinActionOnConversion()
+    public function test_getSelectQuery_whenJoinActionOnConversion()
     {
         $select = '*';
         $from = 'log_conversion';
@@ -269,10 +270,10 @@ class SegmentTest extends IntegrationTestCase
                     ( ( log_conversion.idgoal IS NULL OR log_conversion.idgoal <> ? ) AND log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? )",
             "bind" => array(1, 2, 'Test', 1));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function testGetSelectQueryJoinConversionOnVisit()
+    public function test_getSelectQuery_whenJoinConversionOnVisit()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -300,13 +301,14 @@ class SegmentTest extends IntegrationTestCase
                     AND
                     ( log_conversion.idgoal = ? )
                 GROUP BY log_visit.idvisit
+                ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(1, 1));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function testGetSelectQueryConversionOnly()
+    public function test_getSelectQuery_whenJoinConversionOnly()
     {
         $select = 'log_conversion.*';
         $from = 'log_conversion';
@@ -330,10 +332,10 @@ class SegmentTest extends IntegrationTestCase
                     ( log_conversion.idgoal = ? )",
             "bind" => array(1, 1));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function testGetSelectQueryJoinVisitOnConversion()
+    public function test_getSelectQuery_whenJoinVisitOnConversion()
     {
         $select = '*';
         $from = 'log_conversion';
@@ -358,14 +360,14 @@ class SegmentTest extends IntegrationTestCase
                     ( (log_conversion.idgoal = ? OR HOUR(log_visit.visit_last_action_time) = ? ))",
             "bind" => array(1, 1, 12));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     /**
      * visit is joined on action, then conversion is joined
      * make sure that conversion is joined on action not visit
      */
-    public function testGetSelectQueryJoinVisitAndConversionOnAction()
+    public function test_getSelectQuery_whenJoinVisitAndConversionOnAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -389,21 +391,21 @@ class SegmentTest extends IntegrationTestCase
                      HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ? ",
             "bind" => array(12, 1));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     /**
      * join conversion on visit, then actions
      * make sure actions are joined before conversions
      */
-    public function testGetSelectQueryJoinConversionAndActionOnVisit()
+    public function test_getSelectQuery_whenJoinConversionAndActionOnVisit_andPageUrlSet()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
         $where = false;
         $bind = array();
 
-        $segment = 'visitConvertedGoalId==1;visitServerHour==12;customVariablePageName1==Test';
+        $segment = 'visitConvertedGoalId==1;visitServerHour==12;customVariablePageName1==Test;pageUrl!=';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -422,15 +424,21 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
                 WHERE
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
+                      AND (
+                            log_link_visit_action.idaction_url IS NOT NULL
+                            AND (log_link_visit_action.idaction_url <> ''
+                                OR log_link_visit_action.idaction_url = 0)
+                            )
                 GROUP BY log_visit.idvisit
+                ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(1, 12, 'Test'));
 
-        $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     /**
-     * Dataprovider for testBogusSegmentThrowsException
+     * Dataprovider for test_bogusSegment_shouldThrowException
      */
     public function getBogusSegments()
     {
@@ -444,7 +452,7 @@ class SegmentTest extends IntegrationTestCase
     /**
      * @dataProvider getBogusSegments
      */
-    public function testBogusSegmentThrowsException($segment)
+    public function test_bogusSegment_shouldThrowException($segment)
     {
         try {
             new Segment($segment, $idSites = array());
@@ -452,5 +460,46 @@ class SegmentTest extends IntegrationTestCase
             return;
         }
         $this->fail('Expected exception not raised');
+    }
+
+
+    public function test_getSelectQuery_whenLimit_innerQueryShouldHaveLimitAndNoGroupBy()
+    {
+        $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
+        $from = 'log_visit';
+        $where = 'log_visit.idvisit = ?';
+        $bind = array(1);
+
+        $segment = 'customVariablePageName1==Test';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = false;
+        $groupBy = false;
+        $limit = 33;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    sum(log_inner.visit_total_time) as sum_visit_length
+                FROM
+                    (
+                SELECT
+                    log_visit.visit_total_time
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE
+                    ( log_visit.idvisit = ? )
+                    AND
+                    ( log_link_visit_action.custom_var_k1 = ? )
+                ORDER BY NULL
+                LIMIT 33
+                    ) AS log_inner
+                LIMIT 33",
+            "bind" => array(1, 'Test'));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 }

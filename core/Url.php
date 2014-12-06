@@ -466,6 +466,21 @@ class Url
         self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
     }
 
+    private static function redirectToUrlNoExit($url)
+    {
+        if (UrlHelper::isLookLikeUrl($url)
+            || strpos($url, 'index.php') === 0
+        ) {
+            Common::sendHeader("Location: $url");
+        } else {
+            echo "Invalid URL to redirect to.";
+        }
+
+        if (Common::isPhpCliMode()) {
+            throw new Exception("If you were using a browser, Piwik would redirect you to this URL: $url \n\n");
+        }
+    }
+
     /**
      * Redirects the user to the specified URL.
      *
@@ -480,17 +495,8 @@ class Url
         // but it is not always called fast enough
         Session::close();
 
-        if (UrlHelper::isLookLikeUrl($url)
-            || strpos($url, 'index.php') === 0
-        ) {
-            Common::sendHeader("Location: $url");
-        } else {
-            echo "Invalid URL to redirect to.";
-        }
+        self::redirectToUrlNoExit($url);
 
-        if (Common::isPhpCliMode()) {
-            throw new Exception("If you were using a browser, Piwik would redirect you to this URL: $url \n\n");
-        }
         exit;
     }
 

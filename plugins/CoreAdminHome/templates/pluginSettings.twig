@@ -123,6 +123,7 @@
                                     {% if setting.uiControlType == 'checkbox' and settingValue %}
                                         checked="checked"
                                     {% endif %}
+                                    class="control_{{ setting.uiControlType|e('html_attr') }}"
                                     type="{{ setting.uiControlType|e('html_attr') }}"
                                     name="{{ setting.getKey|e('html_attr') }}"
                                     value="{{ settingValue|e('html_attr') }}"

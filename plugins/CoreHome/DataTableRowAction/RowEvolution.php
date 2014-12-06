@@ -81,7 +81,7 @@ class RowEvolution
      * @param null|string $graphType
      * @throws Exception
      */
-    public function __construct($idSite, $date, $graphType = null)
+    public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");

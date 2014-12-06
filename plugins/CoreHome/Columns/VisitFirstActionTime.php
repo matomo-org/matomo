@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Date;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -27,6 +28,6 @@ class VisitFirstActionTime extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        return Tracker::getDatetimeFromTimestamp($request->getCurrentTimestamp());
+        return Date::getDatetimeFromTimestamp($request->getCurrentTimestamp());
     }
 }

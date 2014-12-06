@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -837,7 +838,7 @@ class GoalManager
         $goal = array(
             'idvisit'     => $visitorInformation['idvisit'],
             'idvisitor'   => $visitorInformation['idvisitor'],
-            'server_time' => Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time'])
+            'server_time' => Date::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time'])
         );
 
         $visitDimensions = VisitDimension::getAllDimensions();

@@ -25,6 +25,7 @@ class TravisYmlView extends View
      */
     private static $travisYmlSectionNames = array(
         'php',
+        'services',
         'language',
         'script',
         'before_install',

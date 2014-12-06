@@ -180,12 +180,14 @@ abstract class Settings
      */
     protected function addSetting(Setting $setting)
     {
-        if (!ctype_alnum($setting->getName())) {
+        $name = $setting->getName();
+
+        if (!ctype_alnum($name)) {
             $msg = sprintf('The setting name "%s" in plugin "%s" is not valid. Only alpha and numerical characters are allowed', $setting->getName(), $this->pluginName);
             throw new \Exception($msg);
         }
 
-        if (array_key_exists($setting->getName(), $this->settings)) {
+        if (array_key_exists($name, $this->settings)) {
             throw new \Exception(sprintf('A setting with name "%s" does already exist for plugin "%s"', $setting->getName(), $this->pluginName));
         }
 
@@ -195,7 +197,7 @@ abstract class Settings
         $setting->setStorage($this->storage);
         $setting->setPluginName($this->pluginName);
 
-        $this->settings[$setting->getName()] = $setting;
+        $this->settings[$name] = $setting;
     }
 
     /**
@@ -265,11 +267,14 @@ abstract class Settings
 
     private function setDefaultTypeAndFieldIfNeeded(Setting $setting)
     {
-        if (!is_null($setting->uiControlType) && is_null($setting->type)) {
+        $hasControl = !is_null($setting->uiControlType);
+        $hasType    = !is_null($setting->type);
+
+        if ($hasControl && !$hasType) {
             $setting->type = $this->getDefaultType($setting->uiControlType);
-        } elseif (!is_null($setting->type) && is_null($setting->uiControlType)) {
+        } elseif ($hasType && !$hasControl) {
             $setting->uiControlType = $this->getDefaultCONTROL($setting->type);
-        } elseif (is_null($setting->uiControlType) && is_null($setting->type)) {
+        } elseif (!$hasControl && !$hasType) {
             $setting->type = static::TYPE_STRING;
             $setting->uiControlType = static::CONTROL_TEXT;
         }

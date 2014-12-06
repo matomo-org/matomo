@@ -22,6 +22,9 @@ php:
 {% endfor %}
 {% endif %}
 
+services:
+  - redis-server
+
 # Separate different test suites
 {% if existingEnv|default is empty -%}
 env:
