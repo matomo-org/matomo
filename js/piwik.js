@@ -425,7 +425,7 @@ if (typeof JSON2 !== 'object') {
     setConversionAttributionFirstReferrer,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack,
-    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
+    addListener, enableLinkTracking, enableBeacon, enableJSErrorTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
@@ -2136,6 +2136,8 @@ if (typeof Piwik !== 'object') {
 
                 enableJSErrorTracking = false,
 
+                configUseBeacon = false,
+
                 defaultRequestMethod = 'GET',
 
                 // Request method (GET or POST)
@@ -2421,8 +2423,6 @@ if (typeof Piwik !== 'object') {
             function getImage(request, callback) {
                 var image = new Image(1, 1);
 
-                image.onload = function () {
-                    iterator = 0; // To avoid JSLint warning of empty block
                 image.onerror = image.onload = function () {
                     if (typeof callback === 'function') { callback(); }
                 };
@@ -2506,6 +2506,21 @@ if (typeof Piwik !== 'object') {
 
                 callback();
             }
+          
+            /*
+             * Send bulk requests with navigator.sendBeacon
+             * This was implemented as bulk requests only as sendBeacon send data with text/plain
+             * content type and the server side already has logic to php://input read an array of
+             * requests
+             */
+            function sendBeacon(url, bulk) {
+                if (navigator && navigator.sendBeacon) {
+                    return ( navigator.sendBeacon(url, bulk) );
+                } else {
+                    // navigator.sendBeacon not supported
+                    return false;
+                }
+            }
 
             /*
              * Send request
@@ -2514,13 +2529,16 @@ if (typeof Piwik !== 'object') {
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        if (configRequestMethod === 'POST') {
-                            sendXmlHttpRequest(request, callback);
+                        if (configUseBeacon && sendBeacon(configTrackerUrl, '{"requests":["?' + request + '"]}'))  {
+                            if (typeof callback === 'function') { callback(); }
                         } else {
-                            getImage(request, callback);
+                            if (configRequestMethod === 'POST') {
+                                sendXmlHttpRequest(request, callback);
+                            } else {
+                                getImage(request, callback);
+                            }
+                            setExpireDateTime(delay);
                         }
-
-                        setExpireDateTime(delay);
                     });
                 }
             }
@@ -2546,8 +2564,10 @@ if (typeof Piwik !== 'object') {
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
 
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    sendXmlHttpRequest(bulk, null, false);
-                    setExpireDateTime(delay);
+                    if (!configUseBeacon || !sendBeacon(configTrackerUrl, bulk)) {
+                        sendXmlHttpRequest(bulk, null, false);
+                        setExpireDateTime(delay);
+                    }
                 });
             }
 
@@ -4656,6 +4676,16 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Enable tracking by navigator.sendBeacon
+                 * 
+                 * If enabled and supported, the tracker will use navigator.sendBeacon
+                 * to send data to the server.
+                 */
+                enableBeacon: function() {
+                    configUseBeacon = true;
+                },
+
+                /**
                  * Enable tracking of uncatched JavaScript errors
                  *
                  * If enabled, uncaught JavaScript Errors will be tracked as an event by defining a
@@ -5148,7 +5178,7 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1, enableLinkTracking: 1};
+        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1, enableLinkTracking: 1, enableBeacon: 1};
         var methodName;
 
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
