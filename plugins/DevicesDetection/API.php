@@ -123,9 +123,58 @@ class API extends \Piwik\Plugin\API
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_os', $idSite, $period, $date, $segment);
+
+        // handle legacy archives
+        $this->checkForFallbackToOsVersions($dataTable, $idSite, $period, $date, $segment);
+
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamilyFullName'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsFamilyLogo'));
         return $dataTable;
+    }
+
+
+    /**
+     * That methods handles teh fallback to os version datatables to calculate those without versions.
+     *
+     * Unlike DevicesDetection plugin now, the UserSettings plugin did not store archives holding the os and browser data without
+     * their version number. The "version-less" reports were always generated out of the "version-containing" archives .
+     * For big archives (month/year) that ment that some of the data was truncated, due to the datatable entry limit.
+     * To avoid that data loss / inaccuracy in the future, DevicesDetection plugin will also store archives without the version.
+     * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
+     * them here from the "version-containing" reports if possible.
+     *
+     * @param DataTable\DataTableInterface $dataTable
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param $segment
+     */
+    protected function checkForFallbackToOsVersions(DataTable\DataTableInterface &$dataTable, $idSite, $period, $date, $segment)
+    {
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+            foreach ($dataTables as $date => &$table) {
+                if (!$table->getRowsCount()) {
+                    $subTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
+                    $subTable->filter('GroupBy', array('label', function ($osWithVersion) {
+                        if (strpos($osWithVersion, ';')) {
+                            return substr($osWithVersion, 0, 3);
+                        }
+                        return $osWithVersion;
+                    }));
+                    $dataTable->addTable($subTable, $date);
+                }
+            }
+
+        } else if (!$dataTable->getRowsCount()) {
+            $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
+            $dataTable->filter('GroupBy', array('label', function ($osWithVersion) {
+                if (strpos($osWithVersion, ';')) {
+                    return substr($osWithVersion, 0, 3);
+                }
+                return $osWithVersion;
+            }));
+        }
     }
 
     /**
@@ -171,9 +220,57 @@ class API extends \Piwik\Plugin\API
     public function getBrowsers($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
+
+        // handle legacy archives
+        $this->checkForFallbackToBrowserVersions($dataTable, $idSite, $period, $date, $segment);
+
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserName'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogo'));
         return $dataTable;
+    }
+
+    /**
+     * That methods handles teh fallback to browser version datatables to calculate those without versions.
+     *
+     * Unlike DevicesDetection plugin now, the UserSettings plugin did not store archives holding the os and browser data without
+     * their version number. The "version-less" reports were always generated out of the "version-containing" archives .
+     * For big archives (month/year) that ment that some of the data was truncated, due to the datatable entry limit.
+     * To avoid that data loss / inaccuracy in the future, DevicesDetection plugin will also store archives without the version.
+     * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
+     * them here from the "version-containing" reports if possible.
+     *
+     * @param DataTable\DataTableInterface $dataTable
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param $segment
+     */
+    protected function checkForFallbackToBrowserVersions(DataTable\DataTableInterface &$dataTable, $idSite, $period, $date, $segment)
+    {
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+            foreach ($dataTables as $date => &$table) {
+                if (!$table->getRowsCount()) {
+                    $subTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
+                    $subTable->filter('GroupBy', array('label', function ($browserWithVersion) {
+                        if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $browserWithVersion, $matches) === 0) {
+                            return $browserWithVersion;
+                        }
+                        return $matches[1];
+                    }));
+                    $dataTable->addTable($subTable, $date);
+                }
+            }
+
+        } else if (!$dataTable->getRowsCount()) {
+            $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
+            $dataTable->filter('GroupBy', array('label', function ($browserWithVersion) {
+                if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $browserWithVersion, $matches) === 0) {
+                    return $browserWithVersion;
+                }
+                return $matches[1];
+            }));
+        }
     }
 
     /**
