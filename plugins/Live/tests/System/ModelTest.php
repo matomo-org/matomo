@@ -17,7 +17,8 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Integration\SegmentTest;
 
 /**
- * @group LiveModelTest
+ * @group Live
+ * @group ModelTest
  * @group Plugins
  */
 class ModelTest extends SystemTestCase
@@ -44,7 +45,7 @@ class ModelTest extends SystemTestCase
         $expectedSql = ' SELECT sub.* FROM
                 (
                     SELECT log_visit.*
-                    FROM piwiktests_log_visit AS log_visit
+                    FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
                     WHERE log_visit.idsite in (?)
                       AND log_visit.visit_last_action_time >= ?
                       AND log_visit.visit_last_action_time <= ?
@@ -83,8 +84,8 @@ class ModelTest extends SystemTestCase
                     SELECT log_inner.*
                     FROM (
                         SELECT log_visit.*
-                        FROM piwiktests_log_visit AS log_visit
-                          LEFT JOIN piwiktests_log_link_visit_action AS log_link_visit_action
+                        FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
+                          LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action
                           ON log_link_visit_action.idvisit = log_visit.idvisit
                         WHERE ( log_visit.idsite in (?)
                           AND log_visit.idvisitor = ?
