@@ -2469,8 +2469,13 @@ if (typeof Piwik !== 'object') {
             }
 
             function setExpireDateTime(delay) {
+
                 var now  = new Date();
-                expireDateTime = now.getTime() + delay;
+                var time = now.getTime() + delay;
+
+                if (!expireDateTime || time > expireDateTime) {
+                    expireDateTime = time;
+                }
             }
 
             function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
