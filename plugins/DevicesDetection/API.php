@@ -176,7 +176,6 @@ class API extends \Piwik\Plugin\API
                 }
                 return $label;
             }));
-            echo 'replaced';
             return $dataTable2;
         }
 
