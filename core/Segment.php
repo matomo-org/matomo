@@ -80,7 +80,8 @@ class Segment
      * Constructor.
      *
      * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
-     * @param array $idSites The list of sites the st
+     * @param array $idSites The list of sites the segment will be used with. Some segments are
+     *                       dependent on the site, such as goal segments.
      * @throws
      */
     public function __construct($segmentCondition, $idSites)
