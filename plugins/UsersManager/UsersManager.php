@@ -67,15 +67,13 @@ class UsersManager extends \Piwik\Plugin
         $attributes['admin_token_auth'] = $tokens;
     }
 
-    public function getCronArchiveTokenAuth(&$token)
+    public function getCronArchiveTokenAuth(&$tokens)
     {
         $model      = new Model();
         $superUsers = $model->getUsersHavingSuperUserAccess();
 
-        if (!empty($superUsers)) {
-            $superUser = array_shift($superUsers);
-
-            $token = $superUser['token_auth'];
+        foreach($superUsers as $superUser) {
+            $tokens[] = $superUser['token_auth'];
         }
     }
 
