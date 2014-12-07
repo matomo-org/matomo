@@ -125,7 +125,10 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable('DevicesDetection_os', $idSite, $period, $date, $segment);
 
         // handle legacy archives
-        $this->checkForFallbackToOsVersions($dataTable, $idSite, $period, $date, $segment);
+        if ($dataTable instanceof DataTable\Map || !$dataTable->getRowsCount()) {
+            $versionDataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
+            $dataTable = $this->mergeDataTables($dataTable, $versionDataTable);
+        }
 
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamilyFullName'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsFamilyLogo'));
@@ -134,7 +137,7 @@ class API extends \Piwik\Plugin\API
 
 
     /**
-     * That methods handles teh fallback to os version datatables to calculate those without versions.
+     * That methods handles the fallback to version datatables to calculate those without versions.
      *
      * Unlike DevicesDetection plugin now, the UserSettings plugin did not store archives holding the os and browser data without
      * their version number. The "version-less" reports were always generated out of the "version-containing" archives .
@@ -144,37 +147,40 @@ class API extends \Piwik\Plugin\API
      * them here from the "version-containing" reports if possible.
      *
      * @param DataTable\DataTableInterface $dataTable
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param $segment
+     * @param DataTable\DataTableInterface $dataTable2
+     * @return DataTable\DataTableInterface
      */
-    protected function checkForFallbackToOsVersions(DataTable\DataTableInterface &$dataTable, $idSite, $period, $date, $segment)
+    protected function mergeDataTables(DataTable\DataTableInterface $dataTable, DataTable\DataTableInterface $dataTable2)
     {
         if ($dataTable instanceof DataTable\Map) {
             $dataTables = $dataTable->getDataTables();
-            foreach ($dataTables as $date => &$table) {
-                if (!$table->getRowsCount()) {
-                    $subTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
-                    $subTable->filter('GroupBy', array('label', function ($osWithVersion) {
-                        if (strpos($osWithVersion, ';')) {
-                            return substr($osWithVersion, 0, 3);
-                        }
-                        return $osWithVersion;
-                    }));
-                    $dataTable->addTable($subTable, $date);
+
+            foreach ($dataTables as $label => $table) {
+
+                $versionDataTables = $dataTable2->getDataTables();
+
+                if (!array_key_exists($label, $versionDataTables)) {
+                    continue;
                 }
+                $newDataTable = $this->mergeDataTables($table, $versionDataTables[$label]);
+                $dataTable->addTable($newDataTable, $label);
             }
 
-        } else if (!$dataTable->getRowsCount()) {
-            $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
-            $dataTable->filter('GroupBy', array('label', function ($osWithVersion) {
-                if (strpos($osWithVersion, ';')) {
-                    return substr($osWithVersion, 0, 3);
+        } else if (!$dataTable->getRowsCount() && $dataTable2->getRowsCount()) {
+            $dataTable2->filter('GroupBy', array('label', function ($label) {
+                if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches)) {
+                    return $matches[1]; // should match for browsers
                 }
-                return $osWithVersion;
+                if (strpos($label, ';')) {
+                    return substr($label, 0, 3); // should match for os
+                }
+                return $label;
             }));
+            echo 'replaced';
+            return $dataTable2;
         }
+
+        return $dataTable;
     }
 
     /**
@@ -222,55 +228,14 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
 
         // handle legacy archives
-        $this->checkForFallbackToBrowserVersions($dataTable, $idSite, $period, $date, $segment);
+        if ($dataTable instanceof DataTable\Map || !$dataTable->getRowsCount()) {
+            $versionDataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
+            $dataTable = $this->mergeDataTables($dataTable, $versionDataTable);
+        }
 
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserName'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogo'));
         return $dataTable;
-    }
-
-    /**
-     * That methods handles teh fallback to browser version datatables to calculate those without versions.
-     *
-     * Unlike DevicesDetection plugin now, the UserSettings plugin did not store archives holding the os and browser data without
-     * their version number. The "version-less" reports were always generated out of the "version-containing" archives .
-     * For big archives (month/year) that ment that some of the data was truncated, due to the datatable entry limit.
-     * To avoid that data loss / inaccuracy in the future, DevicesDetection plugin will also store archives without the version.
-     * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
-     * them here from the "version-containing" reports if possible.
-     *
-     * @param DataTable\DataTableInterface $dataTable
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param $segment
-     */
-    protected function checkForFallbackToBrowserVersions(DataTable\DataTableInterface &$dataTable, $idSite, $period, $date, $segment)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            $dataTables = $dataTable->getDataTables();
-            foreach ($dataTables as $date => &$table) {
-                if (!$table->getRowsCount()) {
-                    $subTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
-                    $subTable->filter('GroupBy', array('label', function ($browserWithVersion) {
-                        if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $browserWithVersion, $matches) === 0) {
-                            return $browserWithVersion;
-                        }
-                        return $matches[1];
-                    }));
-                    $dataTable->addTable($subTable, $date);
-                }
-            }
-
-        } else if (!$dataTable->getRowsCount()) {
-            $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
-            $dataTable->filter('GroupBy', array('label', function ($browserWithVersion) {
-                if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $browserWithVersion, $matches) === 0) {
-                    return $browserWithVersion;
-                }
-                return $matches[1];
-            }));
-        }
     }
 
     /**

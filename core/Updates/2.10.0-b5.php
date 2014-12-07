@@ -40,7 +40,7 @@ use Piwik\Plugins\Dashboard\Model AS DashboardModel;
  * contains DevicesDetection data. Day archives will always contain full data, but week/month/year archives may not.
  * So we need to recreate those week/month/year archives.
  */
-class Updates_2_10_0_b1 extends Updates
+class Updates_2_10_0_b5 extends Updates
 {
 
     static function getSql()
