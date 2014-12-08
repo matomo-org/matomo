@@ -207,6 +207,10 @@ class Writer
             }
         }
 
+        if ($base == 'tmp') {
+            return sprintf('%s/%s.json', StaticContainer::getContainer()->get('path.tmp'), $lang);
+        }
+
         return sprintf('%s/%s/%s.json', PIWIK_INCLUDE_PATH, $base, $lang);
     }
 
