@@ -80,7 +80,7 @@ function getBrowserName($label)
  */
 function getBrowserLogo($short)
 {
-    $path = 'plugins/UserSettings/images/browsers/%s.gif';
+    $path = 'plugins/DevicesDetection/images/browsers/%s.gif';
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 2) {
@@ -258,7 +258,7 @@ function _mapLegacyOsShortCodes($shortCode)
  */
 function getOsLogo($short)
 {
-    $path = 'plugins/UserSettings/images/os/%s.gif';
+    $path = 'plugins/DevicesDetection/images/os/%s.gif';
 
     $short = _mapLegacyOsShortCodes($short);
 

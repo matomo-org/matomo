@@ -10,7 +10,7 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/LIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
 	</row>
 	<row>
 		<label>Windows 7</label>
@@ -22,7 +22,7 @@
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/WI7.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WI7.gif</logo>
 	</row>
 	<row>
 		<label>Mac 10.6</label>
@@ -34,7 +34,7 @@
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/MAC.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
 	</row>
 	<row>
 		<label>Android 2.3</label>
@@ -46,7 +46,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/AND.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
 	</row>
 	<row>
 		<label>Windows XP</label>
@@ -58,7 +58,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/WXP.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WXP.gif</logo>
 	</row>
 	<row>
 		<label>Bot</label>
@@ -70,7 +70,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/UNK.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
 	</row>
 	<row>
 		<label>Mac 10.8</label>
@@ -82,7 +82,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/MAC.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -94,6 +94,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/os/UNK.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
 	</row>
 </result>
