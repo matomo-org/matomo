@@ -2421,9 +2421,8 @@ if (typeof Piwik !== 'object') {
             function getImage(request, callback) {
                 var image = new Image(1, 1);
 
-                image.onload = function () {
-                    iterator = 0; // To avoid JSLint warning of empty block
-                    if (typeof callback === 'function') { callback(); }
+                image.onerror = image.onload = function () {
+                    if (typeof callback === 'function') { callback(true); }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -2453,7 +2452,7 @@ if (typeof Piwik !== 'object') {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
                             getImage(request, callback);
                         } else {
-                            if (typeof callback === 'function') { callback(); }
+                            if (typeof callback === 'function') { callback(true); }
                         }
                     };
 
@@ -2505,6 +2504,24 @@ if (typeof Piwik !== 'object') {
 
                 callback();
             }
+          
+            /*
+             * Construct formData from URI and send as beacon
+             */
+            function sendBeacon(url, request) {
+                var form, pairs, pair, i;
+                try {
+                    form = new FormData();
+                    pairs = request.split('&');
+                    for (i = 0; i < pairs.length; ++i) {
+                        pair = pairs[i].split('=');
+                        form.append(decodeWrapper(pair[0]), decodeWrapper(pair[1]));
+                    }
+                    return navigator.sendBeacon(url, form);
+                } catch (ignore) {
+                    return false;
+                }
+            }
 
             /*
              * Send request
@@ -2513,14 +2530,19 @@ if (typeof Piwik !== 'object') {
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        if (configRequestMethod === 'POST') {
-                            sendXmlHttpRequest(request, callback);
+                        if (navigator && navigator.sendBeacon && sendBeacon(configTrackerUrl, request))  {
+                            if (typeof callback === 'function') { callback(true); }
                         } else {
-                            getImage(request, callback);
+                            if (configRequestMethod === 'POST') {
+                                sendXmlHttpRequest(request, callback);
+                            } else {
+                                getImage(request, callback);
+                            }
+                            setExpireDateTime(delay);
                         }
-
-                        setExpireDateTime(delay);
                     });
+                } else {
+                    if (typeof callback === 'function') { callback(false); }
                 }
             }
 
