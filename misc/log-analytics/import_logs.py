@@ -189,37 +189,46 @@ class RegexFormat(BaseFormat):
 
 class IisFormat(RegexFormat):
 
+    fields = {
+        'date': '(?P<date>^\d+[-\d+]+',
+        'time': '[\d+:]+)[.\d]*?', # TODO should not assume date & time will be together
+        'cs-uri-stem': '(?P<path>/\S*)',
+        'cs-uri-query': '(?P<query_string>\S*)',
+        'c-ip': '"?(?P<ip>[\d*.]*)"?',
+        'cs(User-Agent)': '(?P<user_agent>".*?"|\S+)', # TODO: must remove quotes if found. also benchmark regex.
+        'cs(Referer)': '(?P<referrer>\S+)',
+        'sc-status': '(?P<status>\d+)',
+        'sc-bytes': '(?P<length>\S+)',
+        'cs-host': '(?P<host>\S+)',
+    }
+
     def __init__(self):
         super(IisFormat, self).__init__('iis', None, '%Y-%m-%d %H:%M:%S')
 
     def check_format(self, file):
         line = file.readline()
-        if not line.startswith('#Software: Microsoft Internet Information Services '):
+        if not line.startswith('#'):
             file.seek(0)
             return
+
         # Skip the next 2 lines.
         for i in xrange(2):
             file.readline()
-        # Parse the 4th line (regex)
+
+        # Parse the 4th 'Fields: ' line to create the regex to use
         full_regex = []
         line = file.readline()
-        fields = {
-            'date': '(?P<date>^\d+[-\d+]+',
-            'time': '[\d+:]+)',
-            'cs-uri-stem': '(?P<path>/\S*)',
-            'cs-uri-query': '(?P<query_string>\S*)',
-            'c-ip': '(?P<ip>[\d*.]*)',
-            'cs(User-Agent)': '(?P<user_agent>\S+)',
-            'cs(Referer)': '(?P<referrer>\S+)',
-            'sc-status': '(?P<status>\d+)',
-            'sc-bytes': '(?P<length>\S+)',
-            'cs-host': '(?P<host>\S+)',
-        }
+
+        expected_fields = IisFormat.fields.copy() # turn custom field mapping into field => regex mapping
+        for mapped_field_name, field_name in config.options.custom_iis_fields.iteritems():
+            expected_fields[mapped_field_name] = IisFormat.fields[field_name]
+            del expected_fields[field_name]
+
         # Skip the 'Fields: ' prefix.
         line = line[9:]
         for field in line.split():
             try:
-                regex = fields[field]
+                regex = expected_fields[field]
             except KeyError:
                 regex = '\S+'
             full_regex.append(regex)
@@ -485,7 +494,30 @@ class Configuration(object):
             '--download-extensions', dest='download_extensions', default=None,
             help="By default Piwik tracks as Downloads the most popular file extensions. If you set this parameter (format: pdf,doc,...) then files with an extension found in the list will be imported as Downloads, other file extensions downloads will be skipped."
         )
+        option_parser.add_option(
+            '--iis-map-field', action='callback', callback=self._set_iis_field_map, type='string',
+            help="Map a custom log entry field in your IIS log to a default one. Use this option to load custom IIS log "
+                 "files such as those from the Advanced Logging IIS module. Used as, eg, --iis-map-field my-date=date. "
+                 "Recognized default fields include: %s" % (', '.join(IisFormat.fields.keys()))
+        )
         return option_parser
+
+    def _set_iis_field_map(self, option, opt_str, value, parser):
+        parts = value.split('=')
+
+        if len(parts) != 2:
+            fatal_error("Invalid --iis-map-field option: '%s'" % value)
+
+        custom_name, default_name = parts
+
+        if default_name not in IisFormat.fields:
+            fatal_error("custom IIS field mapping error: don't know how to parse and use the '%' field" % default_name)
+            return
+
+        if not hasattr(parser.values, 'custom_iis_fields'):
+            parser.values.custom_iis_fields = {}
+
+        parser.values.custom_iis_fields[custom_name] = default_name
 
     def _parse_args(self, option_parser):
         """
@@ -499,6 +531,9 @@ class Configuration(object):
         if not self.filenames:
             print(option_parser.format_help())
             sys.exit(1)
+
+        if not hasattr(self.options, 'custom_iis_fields'):
+            self.options.custom_iis_fields = {}
 
         # Configure logging before calling logging.{debug,info}.
         logging.basicConfig(
@@ -1507,6 +1542,9 @@ class Parser(object):
         limit = 100000
         while not format and lineno < limit:
             line = file.readline()
+            if not line: # if at eof, don't keep looping
+                break
+
             lineno = lineno + 1
 
             logging.debug("Detecting format against line %i" % lineno)
@@ -1625,6 +1663,11 @@ class Parser(object):
 
             try:
                 hit.user_agent = format.get('user_agent')
+
+                # in case a format parser included enclosing quotes, remove them so they are not
+                # sent to Piwik
+                if hit.user_agent.startswith('"'):
+                    hit.user_agent = hit.user_agent[1:-1]
             except BaseFormatException:
                 hit.user_agent = ''
 

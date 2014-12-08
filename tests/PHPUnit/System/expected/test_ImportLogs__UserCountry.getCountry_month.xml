@@ -24,6 +24,29 @@
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
+		<label>United States</label>
+		<nb_visits>8</nb_visits>
+		<nb_actions>8</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>8</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>8</nb_conversions>
+				<nb_visits_converted>8</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+		</goals>
+		<nb_conversions>8</nb_conversions>
+		<revenue>40</revenue>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>us</code>
+		<logo>plugins/UserCountry/images/flags/us.png</logo>
+		<logoWidth>16</logoWidth>
+		<logoHeight>11</logoHeight>
+	</row>
+	<row>
 		<label>Unknown</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>7</nb_actions>
@@ -43,29 +66,6 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>xx</code>
 		<logo>plugins/UserCountry/images/flags/xx.png</logo>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
-	</row>
-	<row>
-		<label>United States</label>
-		<nb_visits>5</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>5</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>5</nb_conversions>
-				<nb_visits_converted>5</nb_visits_converted>
-				<revenue>25</revenue>
-			</row>
-		</goals>
-		<nb_conversions>5</nb_conversions>
-		<revenue>25</revenue>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<code>us</code>
-		<logo>plugins/UserCountry/images/flags/us.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>

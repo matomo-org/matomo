@@ -27,6 +27,7 @@ class ManySitesImportedLogs extends Fixture
     public $segments = null; // should be array mapping segment name => segment definition
 
     public $addSegments = false;
+    public $includeIisWithCustom = false;
 
     public static function createAccessInstance()
     {
@@ -111,6 +112,10 @@ class ManySitesImportedLogs extends Fixture
         $this->logVisitsWithAllEnabled();
         $this->replayLogFile();
         $this->logCustomFormat();
+
+        if ($this->includeIisWithCustom) {
+            $this->logIisWithCustomFormat();
+        }
     }
 
     private function setupSegments()
@@ -226,6 +231,19 @@ class ManySitesImportedLogs extends Fixture
                       '--token-auth'       => self::getTokenAuth(),
                       '--log-format-regex' => '(?P<ip>\S+) - - \[(?P<date>.*?) (?P<timezone>.*?)\] (?P<status>\S+) '
                           . '\"\S+ (?P<path>.*?) \S+\" (?P<generation_time_micro>\S+)');
+
+        self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logIisWithCustomFormat()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_custom_iis.log';
+
+        $opts = array('--idsite'           => $this->idSite,
+                      '--token-auth'       => self::getTokenAuth(),
+                      '--iis-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host'),
+                      '--enable-http-errors'        => false,
+                      '--enable-http-redirects'     => false,);
 
         self::executeLogImporter($logFile, $opts);
     }
