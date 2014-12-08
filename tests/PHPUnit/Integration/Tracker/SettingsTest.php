@@ -117,10 +117,10 @@ class SettingsTest extends IntegrationTestCase
 
     public function test_getConfigId_isSame_whenIPIsAnonimisedAndBothSame()
     {
-        $settingsIpIsNotAnon = $this->makeSettings(array(), true, '125.2.0.0');
         $settingsIpIsAnon = $this->makeSettings(array(), true, '125.2.0.0');
+        $settingsIpIsAnonBis = $this->makeSettings(array(), true, '125.2.0.0');
 
-        $this->assertSame($settingsIpIsNotAnon->getConfigId(), $settingsIpIsAnon->getConfigId());
+        $this->assertSame($settingsIpIsAnonBis->getConfigId(), $settingsIpIsAnon->getConfigId());
     }
 
     /**

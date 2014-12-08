@@ -386,7 +386,9 @@ class Visit implements VisitInterface
     protected function getSettingsObject()
     {
         if (is_null($this->userSettings)) {
+            // Note: this config settig is also checked in the InterSites plugin
             $isSameFingerprintAcrossWebsites = (bool)Config::getInstance()->Tracker['enable_fingerprinting_across_websites'];
+
             $this->userSettings = new Settings( $this->request, $this->getVisitorIp(), $isSameFingerprintAcrossWebsites );
         }
 
