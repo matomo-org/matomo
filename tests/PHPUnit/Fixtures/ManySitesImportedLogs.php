@@ -28,6 +28,7 @@ class ManySitesImportedLogs extends Fixture
 
     public $addSegments = false;
     public $includeIisWithCustom = false;
+    public $includeNetscaler = false;
 
     public static function createAccessInstance()
     {
@@ -115,6 +116,10 @@ class ManySitesImportedLogs extends Fixture
 
         if ($this->includeIisWithCustom) {
             $this->logIisWithCustomFormat();
+        }
+
+        if ($this->includeNetscaler) {
+            $this->logNetscaler();
         }
     }
 
@@ -243,7 +248,19 @@ class ManySitesImportedLogs extends Fixture
                       '--token-auth'       => self::getTokenAuth(),
                       '--iis-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host'),
                       '--enable-http-errors'        => false,
-                      '--enable-http-redirects'     => false,);
+                      '--enable-http-redirects'     => false);
+
+        self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logNetscaler()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_netscaler.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth(),
+                      '--iis-map-field'             => array(),
+                      '--enable-http-redirects'     => false);
 
         self::executeLogImporter($logFile, $opts);
     }

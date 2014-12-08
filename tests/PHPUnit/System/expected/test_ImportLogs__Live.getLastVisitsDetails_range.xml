@@ -1789,6 +1789,125 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
+		<idVisit>45</idVisit>
+		<visitIp>172.20.1.0</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</url>
+				<pageTitle>302/URL = http%3A%2F%2Fpiwik.net%2FCitrix%2FXenApp%2FWan%2Fauth%2Flogin.jsp</pageTitle>
+				<pageIdAction>61</pageIdAction>
+				
+				<pageId>61</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>302</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>240</timeSpent>
+				<timeSpentPretty>4 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>61</goalPageId>
+				
+				<url>http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/Citrix/XenApp/Wan/auth/silentDetection.jsp</url>
+				<pageTitle />
+				<pageIdAction>62</pageIdAction>
+				
+				<pageId>62</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<searches>0</searches>
+		<actions>2</actions>
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>242</visitDuration>
+		<visitDurationPretty>4 min 2s</visitDurationPretty>
+		<customVariables>
+		</customVariables>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows</operatingSystem>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WIN.gif</operatingSystemIcon>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 8.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>8.0</browserVersion>
+		<events>0</events>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		<visitLocalTime>11:55:13</visitLocalTime>
+		<visitLocalHour>11</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
 		<idVisit>42</idVisit>
 		<visitIp>70.95.0.0</visitIp>
 		

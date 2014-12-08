@@ -191,11 +191,11 @@ class IisFormat(RegexFormat):
 
     fields = {
         'date': '(?P<date>^\d+[-\d+]+',
-        'time': '[\d+:]+)[.\d]*?', # TODO should not assume date & time will be together
+        'time': '[\d+:]+)[.\d]*?', # TODO should not assume date & time will be together not sure how to fix ATM.
         'cs-uri-stem': '(?P<path>/\S*)',
         'cs-uri-query': '(?P<query_string>\S*)',
         'c-ip': '"?(?P<ip>[\d*.]*)"?',
-        'cs(User-Agent)': '(?P<user_agent>".*?"|\S+)', # TODO: must remove quotes if found. also benchmark regex.
+        'cs(User-Agent)': '(?P<user_agent>".*?"|\S+)', # TODO: also benchmark regex.
         'cs(Referer)': '(?P<referrer>\S+)',
         'sc-status': '(?P<status>\d+)',
         'sc-bytes': '(?P<length>\S+)',

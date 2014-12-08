@@ -104,3 +104,4 @@ class ImportLogsTest extends SystemTestCase
 
 ImportLogsTest::$fixture = new ManySitesImportedLogs();
 ImportLogsTest::$fixture->includeIisWithCustom = true;
+ImportLogsTest::$fixture->includeNetscaler = true;
