@@ -242,6 +242,11 @@ class Tracker
         }
 
         // Tests can force the use of 3rd party cookie for ID visitor
+        if (Common::getRequestVar('forceEnableFingerprintingAcrossWebsites', false, null, $args) == 1) {
+            TrackerConfig::setConfigValue('enable_fingerprinting_across_websites', 1);
+        }
+
+        // Tests can force the use of 3rd party cookie for ID visitor
         if (Common::getRequestVar('forceUseThirdPartyCookie', false, null, $args) == 1) {
             TrackerConfig::setConfigValue('use_third_party_id_cookie', 1);
         }

@@ -73,6 +73,7 @@ class CronArchive
     private $segments = array();
     private $piwikUrl = false;
     private $token_auth = false;
+    private $validTokenAuths = array();
     private $visitsToday = 0;
     private $requests = 0;
     private $output = '';
@@ -938,19 +939,25 @@ class CronArchive
 
     private function initTokenAuth()
     {
-        $token = '';
+        $tokens = array();
 
         /**
          * @ignore
          */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$token));
-        
-        $this->token_auth = $token;
+        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
+
+        $this->validTokenAuths = $tokens;
+        $this->token_auth = array_shift($tokens);
     }
 
-    public function getTokenAuth()
+    public function isTokenAuthSuperUserToken($token_auth)
     {
-        return $this->token_auth;
+        if(empty($token_auth)
+            || strlen($token_auth) != 32) {
+            return false;
+        }
+
+        return in_array($token_auth, $this->validTokenAuths);
     }
 
     private function initPiwikHost($piwikUrl = false)

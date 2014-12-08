@@ -25,6 +25,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getWideScreen` is deprecated and will be removed from May 1st 2015. Use `UserSettings.getScreenType` instead
 * The method `Piwik\Log::setLogLevel()` has been deprecated
 
+### Library updates
+* The tracker proxy (previously in `miscproxy-hide-piwik-url/`) has been moved to a separate repository: [https://github.com/piwik/tracker-proxy](https://github.com/piwik/tracker-proxy).
+
 ## Piwik 2.9.1
 
 ### Breaking Changes

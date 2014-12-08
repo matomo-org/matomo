@@ -23,7 +23,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\SegmentExpression;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Translate;
 use Piwik\Version;
 

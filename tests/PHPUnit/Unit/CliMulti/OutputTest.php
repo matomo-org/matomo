@@ -58,7 +58,7 @@ class OutputTest extends UnitTestCase
 
     public function test_getPathToFile_shouldReturnFullPath()
     {
-        $expectedEnd = '/tmp/climulti/myid.output';
+        $expectedEnd = '/climulti/myid.output';
 
         $this->assertStringEndsWith($expectedEnd, $this->output->getPathToFile());
         $this->assertGreaterThan(strlen($expectedEnd), strlen($this->output->getPathToFile()));

@@ -511,6 +511,12 @@ pivot_by_filter_default_column_limit = 10
 
 [Tracker]
 
+; Piwik uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Piwik,
+; Piwik will create for this user a fingerprint that will be different across the multiple websites.
+; If you want to track unique users across websites (for example when using the InterSites plugin) you may set this setting to 1.
+; Note: setting this to 0 increases your users' privacy.
+enable_fingerprinting_across_websites = 0
+
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
 ; this is useful when you want to do cross websites analysis

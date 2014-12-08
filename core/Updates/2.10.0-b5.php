@@ -31,8 +31,7 @@ use Piwik\Plugins\Dashboard\Model AS DashboardModel;
  * For big archives (month/year) that ment that some of the data was truncated, due to the datatable entry limit.
  * To avoid that data loss / inaccuracy in the future, DevicesDetection plugin will also store archives without the version.
  * For data archived after DevicesDetection plugin was enabled, those archive already exist. As we are removing the
- * UserSettings reports, we need to move the existing old data to the new archives, which means we need to build up
- * those archives, where they do not exist.
+ * UserSettings reports, there is a fallback in DevicesDetection API to build the report out of the datatable with versions.
  *
  * NOTE: Some archives might not contain "all" data.
  * That might have happened directly after the day DevicesDetection plugin was enabled. For the days before, there were
@@ -41,7 +40,7 @@ use Piwik\Plugins\Dashboard\Model AS DashboardModel;
  * contains DevicesDetection data. Day archives will always contain full data, but week/month/year archives may not.
  * So we need to recreate those week/month/year archives.
  */
-class Updates_2_10_0_b1 extends Updates
+class Updates_2_10_0_b5 extends Updates
 {
 
     static function getSql()
@@ -106,12 +105,12 @@ class Updates_2_10_0_b1 extends Updates
         Updater::updateDatabase(__FILE__, self::getSql());
 
         // DeviceDetection upgrade in beta1 timed out on demo #6750
-//        $archiveBlobTables = self::getAllArchiveBlobTables();
-//
-//        foreach ($archiveBlobTables as $table) {
-//            self::updateBrowserArchives($table);
-//            self::updateOsArchives($table);
-//        }
+        $archiveBlobTables = self::getAllArchiveBlobTables();
+
+        foreach ($archiveBlobTables as $table) {
+            self::updateBrowserArchives($table);
+            self::updateOsArchives($table);
+        }
     }
 
     /**
@@ -193,12 +192,6 @@ class Updates_2_10_0_b1 extends Updates
                 Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_browserVersions', $blob['idarchive'], 'UserSettings_browser'));
             }
         }
-
-        // rebuild archives without versions
-        $browserBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'DevicesDetection_browserVersions'", $table));
-        foreach ($browserBlobs as $blob) {
-            self::createArchiveBlobWithoutVersions($blob, 'DevicesDetection_browsers', $table);
-        }
     }
 
     public static function updateOsArchives($table) {
@@ -217,41 +210,6 @@ class Updates_2_10_0_b1 extends Updates
                 Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_osVersions'));
                 Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_osVersions', $blob['idarchive'], 'UserSettings_os'));
             }
-        }
-
-        // rebuild archives without versions
-        $osBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'DevicesDetection_osVersions'", $table));
-        foreach ($osBlobs as $blob) {
-            self::createArchiveBlobWithoutVersions($blob, 'DevicesDetection_os', $table);
-        }
-    }
-
-    protected static function createArchiveBlobWithoutVersions($blob, $newName, $table)
-    {
-        $blob['value'] = @gzuncompress($blob['value']);
-
-        try {
-            $datatable = DataTable::fromSerializedArray($blob['value']);
-            $datatable->filter('GroupBy', array('label', function ($label) {
-                if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches)) {
-                    return $matches[1]; // should match for browsers
-                }
-
-                if (strpos($label, ';')) {
-                    return substr($label, 0, 3); // should match for os
-                }
-
-                return $label;
-            }));
-
-            $newData = $datatable->getSerialized();
-
-            $blob['value'] = @gzcompress($newData[0]);
-            $blob['name'] = $newName;
-
-            Db::get()->query(sprintf('REPLACE INTO %s (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_archived`, `value`) VALUES (?, ? , ?, ?, ?, ?, ?, ?)', $table), array_values($blob));
-        } catch (\Exception $e) {
-            // fail silently and simply skip the current record
         }
     }
 }

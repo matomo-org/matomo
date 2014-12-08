@@ -109,7 +109,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
         $view->goals = APIGoals::getInstance()->getGoals($idSite);
-        $view->visitorData = Request::processRequest('Live.getVisitorProfile', array('checkForLatLong' => true));
+        $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->exportLink = $this->getVisitorProfileExportLink();
 
         if (Common::getRequestVar('showMap', 1) == 1
@@ -133,7 +133,7 @@ class Controller extends \Piwik\Plugin\Controller
                                                                             'date'    => false
                                                                        ));
         $view->visitData = $visits->getFirstRow()->getColumns();
-        $view->visitReferralSummary = API::getReferrerSummaryForVisit($visits->getFirstRow());
+        $view->visitReferralSummary = VisitorProfile::getReferrerSummaryForVisit($visits->getFirstRow());
         $view->showLocation = true;
         $this->setWidgetizedVisitorProfileUrl($view);
         $view->exportLink = $this->getVisitorProfileExportLink();
@@ -145,7 +145,7 @@ class Controller extends \Piwik\Plugin\Controller
         $startCounter = Common::getRequestVar('filter_offset', 0, 'int');
         $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
                                                                                 'segment'                 => self::getSegmentWithVisitorId(),
-                                                                                'filter_limit'            => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
+                                                                                'filter_limit'            => VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
                                                                                 'filter_offset'           => $startCounter,
                                                                                 'period'                  => false,
                                                                                 'date'                    => false
