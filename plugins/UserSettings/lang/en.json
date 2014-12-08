@@ -3,9 +3,6 @@
         "BrowserLanguage": "Browser language",
         "BrowserWithNoPluginsEnabled": "%1$s with no plugins enabled",
         "BrowserWithPluginsEnabled": "%1$s with plugins %2$s enabled",
-        "ColumnConfiguration": "Configuration",
-        "ColumnResolution": "Resolution",
-        "Configurations": "Configurations",
         "Language_aa": "Afar",
         "Language_ab": "Abkhazian",
         "Language_ae": "Avestan",
@@ -193,12 +190,8 @@
         "LanguageCode": "Language code",
         "PluginDescription": "Reports various User Settings: Browser, Browser Family, Operating System, Plugins, Resolution, Global Settings.",
         "PluginDetectionDoesNotWorkInIE": "Note: Plugins detection doesn't work in Internet Explorer. This report is only based on non-IE browsers.",
-        "Resolutions": "Resolutions",
         "VisitorSettings": "Visitor Settings",
-        "WidgetGlobalVisitors": "Visitor Configuration",
-        "WidgetGlobalVisitorsDocumentation": "This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.",
         "WidgetPlugins": "Browser Plugins",
-        "WidgetPluginsDocumentation": "This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.",
-        "WidgetResolutions": "Screen Resolution"
+        "WidgetPluginsDocumentation": "This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content."
     }
 }

@@ -717,6 +717,7 @@ Plugins[] = Morpheus
 Plugins[] = Contents
 Plugins[] = TestRunner
 Plugins[] = BulkTracking
+Plugins[] = Resolution
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

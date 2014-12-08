@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\Plugins\UserSettings\Reports\GetConfiguration;
+use Piwik\Plugins\Resolution\Reports\GetConfiguration;
 use Piwik\Plugins\UserSettings\Reports\GetLanguage;
 use Piwik\Plugins\UserSettings\Reports\GetPlugin;
-use Piwik\Plugins\UserSettings\Reports\GetResolution;
+use Piwik\Plugins\Resolution\Reports\GetResolution;
 use Piwik\View;
 
 /**

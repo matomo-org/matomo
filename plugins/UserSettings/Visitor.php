@@ -62,13 +62,4 @@ class Visitor
 
         return null;
     }
-
-    function getResolution()
-    {
-        if (!array_key_exists('config_resolution', $this->details)) {
-            return null;
-        }
-
-        return $this->details['config_resolution'];
-    }
 }

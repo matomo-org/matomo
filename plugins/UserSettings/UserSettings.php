@@ -45,12 +45,16 @@ class UserSettings extends \Piwik\Plugin
             'getMobileVsDesktop' => 'getType',
             'getOS' => 'getOsVersions',
             'getOSFamily' => 'getOsFamilies',
-            'getBrowserType' => 'getBrowserEngines'
+            'getBrowserType' => 'getBrowserEngines',
         );
 
         if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
             $module = 'DevicesDetection';
             $action = $movedMethods[$action];
+        }
+
+        if ($module == 'UserSettings' && $action == 'getResolution') {
+            $module = 'Resolution';
         }
     }
 
@@ -58,7 +62,6 @@ class UserSettings extends \Piwik\Plugin
     {
         $instance = new Visitor($details);
 
-        $visitor['resolution']               = $instance->getResolution();
         $visitor['plugins']                  = $instance->getPlugins();
         $visitor['pluginsIcons']             = $instance->getPluginIcons();
     }

@@ -16,6 +16,8 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getOS` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getOsVersions` instead
 * The API method `UserSettings.getMobileVsDesktop` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getType` instead
 * The API method `UserSettings.getBrowserType` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserEngines` instead
+* The API method `UserSettings.getResolution` is deprecated and will be removed from May 1st 2015. Use `Resolution.getResolution` instead
+* The API method `UserSettings.getConfiguration` is deprecated and will be removed from May 1st 2015. Use `Resolution.getConfiguration` instead
 * The API method `UserSettings.getWideScreen` has been removed
 
 ### Library updates
