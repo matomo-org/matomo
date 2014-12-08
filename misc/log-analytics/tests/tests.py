@@ -232,7 +232,8 @@ def check_iis_groups(groups):
     assert groups['host'] == 'example.com'
 
     expected_hit_properties = ['date', 'path', 'query_string', 'ip', 'referrer', 'user_agent',
-    						   'status', 'length', 'host']
+                               'status', 'length', 'host', 'userid']
+
     for property_name in groups.keys():
         assert property_name in expected_hit_properties
 

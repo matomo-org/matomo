@@ -3,8 +3,8 @@
 	<row>
 		<label>Piwik test</label>
 		<nb_visits>31</nb_visits>
-		<nb_actions>35</nb_actions>
-		<nb_pageviews>31</nb_pageviews>
+		<nb_actions>36</nb_actions>
+		<nb_pageviews>32</nb_pageviews>
 		<revenue>145</revenue>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>

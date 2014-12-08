@@ -3,10 +3,10 @@
 	<row>
 		<label>Unknown</label>
 		<nb_visits>26</nb_visits>
-		<nb_actions>30</nb_actions>
+		<nb_actions>31</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>547</sum_visit_length>
-		<bounce_count>23</bounce_count>
+		<sum_visit_length>550</sum_visit_length>
+		<bounce_count>22</bounce_count>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>24</nb_conversions>
@@ -16,8 +16,8 @@
 		</goals>
 		<nb_conversions>24</nb_conversions>
 		<revenue>120</revenue>
-		<sum_daily_nb_uniq_visitors>26</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>

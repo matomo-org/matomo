@@ -3,10 +3,10 @@
 	<row>
 		<label>Direct Entry</label>
 		<nb_visits>29</nb_visits>
-		<nb_actions>33</nb_actions>
+		<nb_actions>34</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>547</sum_visit_length>
-		<bounce_count>26</bounce_count>
+		<sum_visit_length>550</sum_visit_length>
+		<bounce_count>25</bounce_count>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>27</nb_conversions>
@@ -16,8 +16,8 @@
 		</goals>
 		<nb_conversions>27</nb_conversions>
 		<revenue>135</revenue>
-		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Websites</label>

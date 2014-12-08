@@ -195,11 +195,12 @@ class IisFormat(RegexFormat):
         'cs-uri-stem': '(?P<path>/\S*)',
         'cs-uri-query': '(?P<query_string>\S*)',
         'c-ip': '"?(?P<ip>[\d*.]*)"?',
-        'cs(User-Agent)': '(?P<user_agent>".*?"|\S+)', # TODO: also benchmark regex.
+        'cs(User-Agent)': '(?P<user_agent>".*?"|\S+)',
         'cs(Referer)': '(?P<referrer>\S+)',
         'sc-status': '(?P<status>\d+)',
         'sc-bytes': '(?P<length>\S+)',
         'cs-host': '(?P<host>\S+)',
+        'cs-username': '(?P<userid>\S+)'
     }
 
     def __init__(self):
@@ -1285,8 +1286,9 @@ class Recorder(object):
             'cdt': self.date_to_piwik(hit.date),
             'idsite': site_id,
             'dp': '0' if config.options.reverse_dns else '1',
-            'ua': hit.user_agent.encode('utf8'),
+            'ua': hit.user_agent.encode('utf8')
         }
+
         if config.options.replay_tracking:
             # prevent request to be force recorded when option replay-tracking
             args['rec'] = '0'
@@ -1694,6 +1696,16 @@ class Parser(object):
                 except BaseFormatException:
                     # Some formats have no host.
                     pass
+
+            # Add userid
+            try:
+                hit.userid = None
+
+                userid = format.get('userid')
+                if userid != '-':
+                    hit.args['uid'] = userid
+            except:
+                pass
 
             # Check if the hit must be excluded.
             if not all((method(hit) for method in self.check_methods)):

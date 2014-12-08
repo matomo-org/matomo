@@ -5,11 +5,11 @@
 		<nb_visits>28</nb_visits>
 		<nb_actions>32</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>547</sum_visit_length>
+		<sum_visit_length>548</sum_visit_length>
 		<bounce_count>25</bounce_count>
 		<nb_visits_converted>26</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>27</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Vision</label>
@@ -25,12 +25,12 @@
 	<row>
 		<label>GALAXY S5</label>
 		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>2</sum_visit_length>
+		<bounce_count>0</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 </result>
