@@ -8,6 +8,7 @@
  */
 namespace Piwik\Tracker;
 
+use Piwik\Config;
 use Piwik\Tracker;
 use Piwik\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
@@ -16,10 +17,11 @@ class Settings
 {
     const OS_BOT = 'BOT';
 
-    function __construct(Request $request, $ip)
+    function __construct(Request $request, $ip, $isSameFingerprintsAcrossWebsites)
     {
         $this->request   = $request;
         $this->ipAddress = $ip;
+        $this->isSameFingerprintsAcrossWebsites = $isSameFingerprintsAcrossWebsites;
         $this->configId  = null;
     }
 
@@ -110,8 +112,13 @@ class Settings
             . $browserLang
             . $salt;
 
+        if(!$this->isSameFingerprintsAcrossWebsites) {
+            $configString .= $this->request->getIdSite();
+        }
+
         $hash = md5($configString, $raw_output = true);
 
         return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
+
 }
