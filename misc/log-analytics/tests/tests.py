@@ -369,3 +369,40 @@ def test_iis_custom_format():
     assert hits[2]['is_robot'] == False
     assert hits[2]['full_path'] == u'/hello/world/6,681965'
     assert hits[2]['user_agent'] == u'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36'
+
+def test_netscaler_parsing():
+    """test parsing of netscaler logs (which are similar to IIS logs)"""
+
+    file_ = 'logs/netscaler.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_iis_fields = {}
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.parser.parse(file_)
+
+    hits = [hit.__dict__ for hit in Recorder.recorders]
+
+    assert hits[0]['status'] == u'302'
+    assert hits[0]['userid'] == None
+    assert hits[0]['is_error'] == False
+    assert hits[0]['extension'] == u'jsp'
+    assert hits[0]['is_download'] == False
+    assert hits[0]['referrer'] == ''
+    assert hits[0]['args'] == {}
+    assert hits[0]['generation_time_milli'] == 0
+    assert hits[0]['host'] == 'foo'
+    assert hits[0]['filename'] == 'logs/netscaler.log'
+    assert hits[0]['is_redirect'] == True
+    assert hits[0]['date'] == datetime.datetime(2012, 8, 16, 11, 55, 13)
+    assert hits[0]['lineno'] == 4
+    assert hits[0]['ip'] == u'172.20.1.0'
+    assert hits[0]['query_string'] == ''
+    assert hits[0]['path'] == u'/Citrix/XenApp/Wan/auth/login.jsp'
+    assert hits[0]['is_robot'] == False
+    assert hits[0]['full_path'] == u'/Citrix/XenApp/Wan/auth/login.jsp'
+    assert hits[0]['user_agent'] == u'Mozilla/4.0+(compatible;+MSIE+7.0;+Windows+NT+5.1;+Trident/4.0;+.NET+CLR+1.1.4322;+.NET+CLR+2.0.50727;+.NET+CLR+3.0.04506.648;+.NET+CLR+3.5.21022)'
