@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log\Backend;
+namespace Piwik\Log\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
@@ -15,7 +15,7 @@ use Piwik\Filechecks;
 /**
  * Writes log to file.
  */
-class FileBackend extends AbstractProcessingHandler
+class FileHandler extends AbstractProcessingHandler
 {
     /**
      * Path to the file to log to.

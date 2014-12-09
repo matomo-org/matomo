@@ -4,7 +4,7 @@ use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Common;
 use Piwik\Log;
-use Piwik\Log\Backend\StdErrBackend;
+use Piwik\Log\Handler\StdErrHandler;
 
 return array(
 
@@ -38,9 +38,9 @@ return array(
         }
 
         $classes = array(
-            'file'     => 'Piwik\Log\Backend\FileBackend',
-            'screen'   => 'Piwik\Log\Backend\StdOutBackend',
-            'database' => 'Piwik\Log\Backend\DatabaseBackend',
+            'file'     => 'Piwik\Log\Handler\FileHandler',
+            'screen'   => 'Piwik\Log\Handler\StdOutHandler',
+            'database' => 'Piwik\Log\Handler\DatabaseHandler',
         );
 
         $writerNames = array_map('trim', $writerNames);
@@ -52,9 +52,9 @@ return array(
             }
         }
 
-        // Always add the stderr backend
+        // Always add the stderr handler
         $isLoggingToStdOut = isset($writers['screen']);
-        $writers['stderr'] = new StdErrBackend($c->get('Piwik\Log\Formatter\ExceptionHtmlFormatter'), $isLoggingToStdOut);
+        $writers['stderr'] = new StdErrHandler($c->get('Piwik\Log\Formatter\ExceptionHtmlFormatter'), $isLoggingToStdOut);
 
         return array_values($writers);
     }),
@@ -64,13 +64,13 @@ return array(
         DI\link('Piwik\Log\Processor\SprintfProcessor'),
         DI\link('Monolog\Processor\PsrLogMessageProcessor'),
     ),
-    'Piwik\Log\Backend\FileBackend' => DI\object()
+    'Piwik\Log\Handler\FileHandler' => DI\object()
         ->constructor(DI\link('log.file.filename'), DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionTextFormatter')),
-    'Piwik\Log\Backend\DatabaseBackend' => DI\object()
+    'Piwik\Log\Handler\DatabaseHandler' => DI\object()
         ->constructor(DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionTextFormatter')),
-    'Piwik\Log\Backend\StdOutBackend' => DI\object()
+    'Piwik\Log\Handler\StdOutHandler' => DI\object()
         ->constructor(DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionHtmlFormatter')),
     'log.level' => DI\factory(function (ContainerInterface $c) {

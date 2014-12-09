@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log\Backend;
+namespace Piwik\Log\Handler;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -15,7 +15,7 @@ use Monolog\Logger;
 /**
  * Writes log to stderr.
  */
-class StdErrBackend extends AbstractProcessingHandler
+class StdErrHandler extends AbstractProcessingHandler
 {
     /**
      * @var bool

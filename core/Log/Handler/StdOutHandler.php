@@ -6,14 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log\Backend;
+namespace Piwik\Log\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;
 
 /**
  * Writes log to stdout.
  */
-class StdOutBackend extends AbstractProcessingHandler
+class StdOutHandler extends AbstractProcessingHandler
 {
     protected function write(array $record)
     {
