@@ -1935,6 +1935,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTime>0.36s</generationTime>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2052,6 +2053,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTime>0.11s</generationTime>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
@@ -2156,6 +2158,7 @@
 						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTime>0.36s</generationTime>
 				<icon />
 			</row>
 		</actionDetails>

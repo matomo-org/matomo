@@ -68,6 +68,7 @@ class Options(object):
     enable_http_errors = False
     download_extensions = 'doc,pdf'
     custom_iis_fields = {}
+    iis_time_taken_in_secs = False
 
 class Config(object):
     """Mock configuration."""
@@ -232,7 +233,7 @@ def check_iis_groups(groups):
     assert groups['host'] == 'example.com'
 
     expected_hit_properties = ['date', 'path', 'query_string', 'ip', 'referrer', 'user_agent',
-                               'status', 'length', 'host', 'userid']
+                               'status', 'length', 'host', 'userid', 'generation_time_milli']
 
     for property_name in groups.keys():
         assert property_name in expected_hit_properties
@@ -301,7 +302,8 @@ def test_iis_custom_format():
     import_logs.config.options.custom_iis_fields = {
         'date-local': 'date',
         'time-local': 'time',
-        'cs(Host)': 'cs-host'
+        'cs(Host)': 'cs-host',
+        'TimeTakenMS': 'time-taken'
     }
     Recorder.recorders = []
     import_logs.parser = import_logs.Parser()
@@ -319,7 +321,7 @@ def test_iis_custom_format():
     assert hits[0]['is_download'] == False
     assert hits[0]['referrer'] == u'"http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en"'
     assert hits[0]['args'] == {}
-    assert hits[0]['generation_time_milli'] == 0
+    assert hits[0]['generation_time_milli'] == 109
     assert hits[0]['host'] == 'foo'
     assert hits[0]['filename'] == 'logs/iis_custom.log'
     assert hits[0]['is_redirect'] == False
@@ -357,7 +359,7 @@ def test_iis_custom_format():
     assert hits[2]['is_download'] == False
     assert hits[2]['referrer'] == ''
     assert hits[2]['args'] == {}
-    assert hits[2]['generation_time_milli'] == 0
+    assert hits[2]['generation_time_milli'] == 359
     assert hits[2]['host'] == 'foo'
     assert hits[2]['filename'] == 'logs/iis_custom.log'
     assert hits[2]['is_redirect'] == False
@@ -383,6 +385,7 @@ def test_netscaler_parsing():
     import_logs.config.options.enable_http_redirects = True
     import_logs.config.options.enable_http_errors = True
     import_logs.config.options.replay_tracking = False
+    import_logs.config.options.iis_time_taken_in_secs = True
     import_logs.parser.parse(file_)
 
     hits = [hit.__dict__ for hit in Recorder.recorders]
@@ -394,7 +397,7 @@ def test_netscaler_parsing():
     assert hits[0]['is_download'] == False
     assert hits[0]['referrer'] == ''
     assert hits[0]['args'] == {}
-    assert hits[0]['generation_time_milli'] == 0
+    assert hits[0]['generation_time_milli'] == 1000
     assert hits[0]['host'] == 'foo'
     assert hits[0]['filename'] == 'logs/netscaler.log'
     assert hits[0]['is_redirect'] == True

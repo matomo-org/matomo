@@ -786,9 +786,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
-		<min_time_generation />
-		<max_time_generation>0</max_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
+		<min_time_generation>0.359</min_time_generation>
+		<max_time_generation>0.359</max_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>2</entry_nb_actions>
 		<entry_sum_visit_length>1</entry_sum_visit_length>
@@ -797,13 +797,16 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<avg_time_generation>0</avg_time_generation>
+		<avg_time_generation>0.359</avg_time_generation>
 		<subtable>
 			<row>
 				<label>from</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<min_time_generation>0.359</min_time_generation>
+				<max_time_generation>0.359</max_time_generation>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>1</entry_nb_actions>
 				<entry_sum_visit_length>1</entry_sum_visit_length>
@@ -812,12 +815,16 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.359</avg_time_generation>
 				<subtable>
 					<row>
 						<label>another</label>
 						<nb_visits>1</nb_visits>
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
+						<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+						<min_time_generation>0.359</min_time_generation>
+						<max_time_generation>0.359</max_time_generation>
 						<entry_nb_visits>1</entry_nb_visits>
 						<entry_nb_actions>1</entry_nb_actions>
 						<entry_sum_visit_length>1</entry_sum_visit_length>
@@ -826,12 +833,16 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
+						<avg_time_generation>0.359</avg_time_generation>
 						<subtable>
 							<row>
 								<label>world</label>
 								<nb_visits>1</nb_visits>
 								<nb_hits>1</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
+								<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+								<min_time_generation>0.359</min_time_generation>
+								<max_time_generation>0.359</max_time_generation>
 								<entry_nb_visits>1</entry_nb_visits>
 								<entry_nb_actions>1</entry_nb_actions>
 								<entry_sum_visit_length>1</entry_sum_visit_length>
@@ -840,12 +851,16 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
+								<avg_time_generation>0.359</avg_time_generation>
 								<subtable>
 									<row>
 										<label>/6,681965</label>
 										<nb_visits>1</nb_visits>
 										<nb_hits>1</nb_hits>
 										<sum_time_spent>0</sum_time_spent>
+										<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+										<min_time_generation>0.359</min_time_generation>
+										<max_time_generation>0.359</max_time_generation>
 										<entry_nb_visits>1</entry_nb_visits>
 										<entry_nb_actions>1</entry_nb_actions>
 										<entry_sum_visit_length>1</entry_sum_visit_length>
@@ -857,6 +872,7 @@
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
+										<avg_time_generation>0.359</avg_time_generation>
 										<url>http://piwik.net/hello/from/another/world/6,681965</url>
 									</row>
 								</subtable>
@@ -870,6 +886,9 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<min_time_generation>0.359</min_time_generation>
+				<max_time_generation>0.359</max_time_generation>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>1</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -878,12 +897,16 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.359</avg_time_generation>
 				<subtable>
 					<row>
 						<label>/6,681965</label>
 						<nb_visits>1</nb_visits>
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
+						<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+						<min_time_generation>0.359</min_time_generation>
+						<max_time_generation>0.359</max_time_generation>
 						<entry_nb_visits>1</entry_nb_visits>
 						<entry_nb_actions>1</entry_nb_actions>
 						<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -895,6 +918,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
+						<avg_time_generation>0.359</avg_time_generation>
 						<url>http://piwik.net/hello/world/6,681965</url>
 					</row>
 				</subtable>

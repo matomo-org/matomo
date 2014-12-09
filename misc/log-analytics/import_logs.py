@@ -200,21 +200,19 @@ class IisFormat(RegexFormat):
         'sc-status': '(?P<status>\d+)',
         'sc-bytes': '(?P<length>\S+)',
         'cs-host': '(?P<host>\S+)',
-        'cs-username': '(?P<userid>\S+)'
+        'cs-username': '(?P<userid>\S+)',
+        'time-taken': '(?P<generation_time_milli>\d+)'
     }
 
     def __init__(self):
         super(IisFormat, self).__init__('iis', None, '%Y-%m-%d %H:%M:%S')
 
     def check_format(self, file):
-        line = file.readline()
-        if not line.startswith('#'):
+        header_lines = [file.readline() for i in xrange(3)]
+
+        if not header_lines[0].startswith('#'):
             file.seek(0)
             return
-
-        # Skip the next 2 lines.
-        for i in xrange(2):
-            file.readline()
 
         # Parse the 4th 'Fields: ' line to create the regex to use
         full_regex = []
@@ -224,6 +222,16 @@ class IisFormat(RegexFormat):
         for mapped_field_name, field_name in config.options.custom_iis_fields.iteritems():
             expected_fields[mapped_field_name] = IisFormat.fields[field_name]
             del expected_fields[field_name]
+
+        # if the --iis-time-taken-secs option is used, make sure the time-taken field is interpreted as seconds
+        if config.options.iis_time_taken_in_secs:
+            expected_fields['time-taken'] = '(?P<generation_time_secs>\S+)'
+        else:
+            # check if we're importing netscaler logs and if so, issue a warning
+            if 'netscaler' in header_lines[1].lower():
+                logging.info("WARNING: netscaler log file being parsed without --iis-time-taken-secs option. Netscaler"
+                             " stores second values in the time-taken field. If your logfile does this, the aforementioned"
+                             " option must be used in order to get accurate generation times.")
 
         # Skip the 'Fields: ' prefix.
         line = line[9:]
@@ -500,6 +508,11 @@ class Configuration(object):
             help="Map a custom log entry field in your IIS log to a default one. Use this option to load custom IIS log "
                  "files such as those from the Advanced Logging IIS module. Used as, eg, --iis-map-field my-date=date. "
                  "Recognized default fields include: %s" % (', '.join(IisFormat.fields.keys()))
+        )
+        option_parser.add_option(
+            '--iis-time-taken-secs', action='store_true', default=False, dest='iis_time_taken_in_secs',
+            help="If set, interprets the time-taken IIS log field as a number of seconds. This must be set for importing"
+                 " netscaler logs."
         )
         return option_parser
 
@@ -1686,7 +1699,10 @@ class Parser(object):
                 try:
                     hit.generation_time_milli = int(format.get('generation_time_micro')) / 1000
                 except BaseFormatException:
-                    hit.generation_time_milli = 0
+                    try:
+                        hit.generation_time_milli = int(format.get('generation_time_secs')) * 1000
+                    except BaseFormatException:
+                        hit.generation_time_milli = 0
 
             if config.options.log_hostname:
                 hit.host = config.options.log_hostname
