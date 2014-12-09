@@ -71,6 +71,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1111x222</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -82,7 +83,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<resolution>1111x222</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -184,6 +184,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1111x222</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -195,7 +196,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<resolution>1111x222</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -357,6 +357,7 @@
 		<referrerUrl>http://www.google.com/search?q=this+keyword+should+be+ranked</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<resolution>1111x222</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -368,7 +369,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<resolution>1111x222</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>

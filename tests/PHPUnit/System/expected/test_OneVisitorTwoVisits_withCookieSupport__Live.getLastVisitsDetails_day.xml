@@ -74,6 +74,7 @@
 		<referrerUrl>http://search.yahoo.com/search?p=purchase</referrerUrl>
 		<referrerSearchEngineUrl>http://search.yahoo.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/search.yahoo.com.png</referrerSearchEngineIcon>
+		<resolution>1024x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -85,7 +86,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -260,6 +260,7 @@
 		<referrerUrl>http://referrer.com/page.htm?param=valuewith some spaces</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1024x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -271,7 +272,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>

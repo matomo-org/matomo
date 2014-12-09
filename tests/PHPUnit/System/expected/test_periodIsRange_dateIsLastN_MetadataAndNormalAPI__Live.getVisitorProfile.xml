@@ -117,6 +117,7 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<resolution>1111x222</resolution>
 			<continent>Europe</continent>
 			<continentCode>eur</continentCode>
 			<country>France</country>
@@ -128,7 +129,6 @@
 			<location>France</location>
 			<latitude />
 			<longitude />
-			<resolution>1111x222</resolution>
 			<plugins>flash, java</plugins>
 			<pluginsIcons>
 				<row>
@@ -231,6 +231,7 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<resolution>1111x222</resolution>
 			<continent>Europe</continent>
 			<continentCode>eur</continentCode>
 			<country>France</country>
@@ -242,7 +243,6 @@
 			<location>France</location>
 			<latitude />
 			<longitude />
-			<resolution>1111x222</resolution>
 			<plugins>flash, java</plugins>
 			<pluginsIcons>
 				<row>
