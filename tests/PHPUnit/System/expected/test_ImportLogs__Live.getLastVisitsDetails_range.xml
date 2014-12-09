@@ -64,12 +64,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemCode>W81</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/W81.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/W81.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -200,12 +200,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 8.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
 		<events>0</events>
@@ -311,12 +311,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 34.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
 		<events>0</events>
@@ -455,12 +455,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<events>0</events>
@@ -568,12 +568,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -692,12 +692,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -823,12 +823,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<events>0</events>
@@ -943,12 +943,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
@@ -1055,12 +1055,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
@@ -1222,12 +1222,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemCode>WI8</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI8.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI8.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
@@ -1338,12 +1338,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -1462,12 +1462,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -1744,12 +1744,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -1863,12 +1863,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 8.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
 		<events>0</events>
@@ -1966,12 +1966,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 37.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>37.0</browserVersion>
 		<events>0</events>
@@ -2086,12 +2086,12 @@
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome Mobile 39.0</browser>
 		<browserName>Chrome Mobile</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CM.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CM.gif</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>39.0</browserVersion>
 		<events>0</events>
@@ -2189,12 +2189,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 37.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>37.0</browserVersion>
 		<events>0</events>
@@ -2303,12 +2303,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 6.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<events>0</events>
@@ -2418,12 +2418,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 11.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>11.0</browserVersion>
 		<events>0</events>
@@ -2549,12 +2549,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
@@ -2672,12 +2672,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
@@ -2802,12 +2802,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
@@ -2908,12 +2908,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -3014,12 +3014,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
@@ -3110,12 +3110,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -3216,12 +3216,12 @@
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -3322,12 +3322,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
@@ -3424,12 +3424,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 20.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
 		<events>0</events>
@@ -3526,12 +3526,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Epiphany 2.30</browser>
 		<browserName>Epiphany</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
@@ -3628,12 +3628,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 20.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
 		<events>0</events>
@@ -3730,12 +3730,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Epiphany 2.30</browser>
 		<browserName>Epiphany</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
@@ -3832,12 +3832,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
@@ -3934,12 +3934,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Epiphany 2.30</browser>
 		<browserName>Epiphany</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
@@ -4036,12 +4036,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
@@ -4138,12 +4138,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
@@ -4240,12 +4240,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
 		<events>0</events>
@@ -4342,12 +4342,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 6.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<events>0</events>
@@ -4444,12 +4444,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
 		<events>0</events>
@@ -4546,12 +4546,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Epiphany 2.30</browser>
 		<browserName>Epiphany</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
@@ -4648,12 +4648,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
@@ -4750,12 +4750,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 6.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<events>0</events>
@@ -4852,12 +4852,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Epiphany 2.30</browser>
 		<browserName>Epiphany</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/EP.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/EP.gif</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
@@ -4954,12 +4954,12 @@
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -5056,12 +5056,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>

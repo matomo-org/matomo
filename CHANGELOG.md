@@ -6,6 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
+* os and browser icons are now located in the DevicesDetection plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
 * API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
 
 ### Deprecations
@@ -16,6 +17,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getMobileVsDesktop` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getType` instead
 * The API method `UserSettings.getBrowserType` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserEngines` instead
 * The API method `UserSettings.getWideScreen` has been removed
+
+### Library updates
+* The tracker proxy (previously in `miscproxy-hide-piwik-url/`) has been moved to a separate repository: [https://github.com/piwik/tracker-proxy](https://github.com/piwik/tracker-proxy).
 
 ## Piwik 2.9.1
 

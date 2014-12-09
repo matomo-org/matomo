@@ -139,7 +139,7 @@ class RankingQueryTest extends \PHPUnit_Framework_TestCase
      */
     private function checkQuery($rankingQuery, $innerQuerySql, $expected)
     {
-        $query = $rankingQuery->generateQuery($innerQuerySql);
+        $query = $rankingQuery->generateRankingQuery($innerQuerySql);
 
         $queryNoWhitespace = preg_replace("/\s+/", "", $query);
         $expectedNoWhitespace = preg_replace("/\s+/", "", $expected);

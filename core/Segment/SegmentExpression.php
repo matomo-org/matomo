@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik;
+namespace Piwik\Segment;
 
 use Exception;
 
@@ -44,6 +44,11 @@ class SegmentExpression
     {
         $this->string = $string;
         $this->tree = $this->parseTree();
+    }
+
+    public function isEmpty()
+    {
+        return count($this->tree) == 0;
     }
 
     protected $joins = array();
@@ -337,7 +342,7 @@ class SegmentExpression
      */
     public function getSql()
     {
-        if (count($this->tree) == 0) {
+        if ($this->isEmpty()) {
             throw new Exception("Invalid segment, please specify a valid segment.");
         }
         $sql = '';

@@ -10,7 +10,7 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/EP.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/EP.gif</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 9.0</label>
@@ -22,7 +22,7 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 	<row>
 		<label>RockMelt 0.9</label>
@@ -34,7 +34,7 @@
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
 		<label>Android Browser</label>
@@ -46,7 +46,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/AN.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/AN.gif</logo>
 	</row>
 	<row>
 		<label>Chrome 19.0</label>
@@ -58,7 +58,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
 		<label>Chrome 20.0</label>
@@ -70,7 +70,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
 		<label>Chrome 37.0</label>
@@ -82,7 +82,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
 		<label>Firefox 6.0</label>
@@ -94,7 +94,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -106,7 +106,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
 	</row>
 	<row>
 		<label>Chrome 11.0</label>
@@ -118,7 +118,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
 		<label>Chrome Mobile 39.0</label>
@@ -130,7 +130,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/CM.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CM.gif</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 6.0</label>
@@ -142,7 +142,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 8.0</label>
@@ -154,6 +154,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 </result>

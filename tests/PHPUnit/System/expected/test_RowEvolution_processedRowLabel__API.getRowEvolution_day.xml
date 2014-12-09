@@ -49,7 +49,7 @@
 		<metrics>
 			<nb_visits_0>
 				<name>Firefox (Visits)</name>
-				<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
+				<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
 				<min>0</min>
 				<max>1</max>
 			</nb_visits_0>
@@ -58,7 +58,7 @@
 			</nb_visits_1>
 			<nb_visits_2>
 				<name>Opera (Visits)</name>
-				<logo>plugins/UserSettings/images/browsers/OP.gif</logo>
+				<logo>plugins/DevicesDetection/images/browsers/OP.gif</logo>
 				<min>0</min>
 				<max>1</max>
 				<change>-100%</change>

@@ -4,11 +4,12 @@
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
 	<totalSearches>0</totalSearches>
-	<totalPageViews>0</totalPageViews>
+	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
 		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
+	<hasLatLong>0</hasLatLong>
 	<searches>
 	</searches>
 	<continents>
@@ -42,6 +43,8 @@
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>
+	
+	
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
@@ -94,12 +97,12 @@
 			<deviceType>Desktop</deviceType>
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemCode>WXP</operatingSystemCode>
-			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 			<browser>Firefox 3.0</browser>
 			<browserName>Firefox</browserName>
-			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
 			<events>0</events>
@@ -208,12 +211,12 @@
 			<deviceType>Desktop</deviceType>
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemCode>WXP</operatingSystemCode>
-			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 			<browser>Firefox 3.0</browser>
 			<browserName>Firefox</browserName>
-			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
 			<events>0</events>
@@ -263,6 +266,4 @@
 		</row>
 	</lastVisits>
 	<userId>0</userId>
-	
-	
 </result>

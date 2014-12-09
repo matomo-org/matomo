@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit\Translate;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\UnnecassaryWhitespaces;
@@ -214,11 +215,13 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 
     public function getTranslationPathTemporaryTestData()
     {
+        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
+
         return array(
-            array('de', null, PIWIK_INCLUDE_PATH . '/tmp/de.json'),
-            array('te', null, PIWIK_INCLUDE_PATH . '/tmp/te.json'),
-            array('de', 'CoreHome', PIWIK_INCLUDE_PATH . '/tmp/plugins/CoreHome/lang/de.json'),
-            array('pt-br', 'Actions', PIWIK_INCLUDE_PATH . '/tmp/plugins/Actions/lang/pt-br.json'),
+            array('de', null, $tmpPath . '/de.json'),
+            array('te', null, $tmpPath . '/te.json'),
+            array('de', 'CoreHome', $tmpPath . '/plugins/CoreHome/lang/de.json'),
+            array('pt-br', 'Actions', $tmpPath . '/plugins/Actions/lang/pt-br.json'),
         );
     }
 
