@@ -758,12 +758,18 @@ class Fixture extends \PHPUnit_Framework_Assert
             . '--url="' . self::getRootUrl() . 'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
         ;
 
-        foreach ($options as $name => $value) {
-            $cmd .= $name;
-            if ($value !== false) {
-                $cmd .= '="' . $value . '"';
+        foreach ($options as $name => $values) {
+            if (!is_array($values)) {
+                $values = array($values);
             }
-            $cmd .= ' ';
+
+            foreach ($values as $value) {
+                $cmd .= $name;
+                if ($value !== false) {
+                    $cmd .= '="' . $value . '"';
+                }
+                $cmd .= ' ';
+            }
         }
 
         $cmd .= '"' . $logFile . '" 2>&1';

@@ -73,6 +73,18 @@
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
+		<label>Chrome 37.0</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+	</row>
+	<row>
 		<label>Firefox 6.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
@@ -109,12 +121,36 @@
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
+		<label>Chrome Mobile 39.0</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>2</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<logo>plugins/DevicesDetection/images/browsers/CM.gif</logo>
+	</row>
+	<row>
 		<label>Internet Explorer 6.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+	</row>
+	<row>
+		<label>Internet Explorer 8.0</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>242</sum_visit_length>
+		<bounce_count>0</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
