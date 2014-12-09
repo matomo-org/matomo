@@ -43,11 +43,9 @@ class ExceptionHtmlFormatter extends Formatter
         $html .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\"><br />\n";
         $html .= str_replace("\n", "<br />\n", $trace);
         $html .= "</div>";
-        $html .= "</div>";
+        $html .= "</div>\n";
 
-        $record['message'] = $html;
-
-        return $record;
+        return $html;
     }
 
     private function contextContainsException($record)

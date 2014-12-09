@@ -19,12 +19,12 @@ class DatabaseHandler extends AbstractProcessingHandler
 {
     protected function write(array $record)
     {
-        $record = $record['formatted'];
-
         $sql = "INSERT INTO " . Common::prefixTable('logger_message')
             . " (tag, timestamp, level, message)"
             . " VALUES (?, ?, ?, ?)";
 
-        Db::query($sql, array($record['extra']['class'], $record['datetime']->format('Y-m-d H:i:s'), $record['level_name'], (string) $record['message']));
+        $message = trim($record['formatted']);
+
+        Db::query($sql, array($record['extra']['class'], $record['datetime']->format('Y-m-d H:i:s'), $record['level_name'], $message));
     }
 }

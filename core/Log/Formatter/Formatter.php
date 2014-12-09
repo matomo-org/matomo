@@ -53,7 +53,7 @@ abstract class Formatter implements FormatterInterface
     protected function next(array $record)
     {
         if (! $this->next) {
-            return $record;
+            throw new \RuntimeException('No next formatter to call');
         }
 
         return $this->next->format($record);

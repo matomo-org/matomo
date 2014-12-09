@@ -39,7 +39,7 @@ return array(
 
         $classes = array(
             'file'     => 'Piwik\Log\Handler\FileHandler',
-            'screen'   => 'Piwik\Log\Handler\StdOutHandler',
+            'screen'   => 'log.handlers.stdout',
             'database' => 'Piwik\Log\Handler\DatabaseHandler',
         );
 
@@ -70,8 +70,8 @@ return array(
     'Piwik\Log\Handler\DatabaseHandler' => DI\object()
         ->constructor(DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionTextFormatter')),
-    'Piwik\Log\Handler\StdOutHandler' => DI\object()
-        ->constructor(DI\link('log.level'))
+    'log.handlers.stdout' => DI\object('Monolog\Handler\StreamHandler')
+        ->constructor('php://output', DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionHtmlFormatter')),
     'log.level' => DI\factory(function (ContainerInterface $c) {
         if ($c->get('log.disabled')) {

@@ -33,7 +33,7 @@ class FileHandler extends AbstractProcessingHandler
 
     protected function write(array $record)
     {
-        $message = str_replace("\n", "\n  ", $record['formatted']['message']) . "\n";
+        $message = str_replace("\n", "\n  ", trim($record['formatted'])) . "\n";
 
         if (!@file_put_contents($this->logToFilePath, $message, FILE_APPEND)
             && !defined('PIWIK_TEST_MODE')

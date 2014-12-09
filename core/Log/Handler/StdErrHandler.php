@@ -36,7 +36,7 @@ class StdErrHandler extends AbstractProcessingHandler
 
     protected function write(array $record)
     {
-        $message = $record['formatted']['message'] . "\n";
+        $message = $record['formatted'];
 
         // Do not log on stderr during tests (prevent display of errors in CI output)
         if (! defined('PIWIK_TEST_MODE')) {

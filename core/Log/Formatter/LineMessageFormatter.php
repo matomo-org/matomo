@@ -33,13 +33,15 @@ class LineMessageFormatter extends Formatter
 
         $message = $this->prefixMessageWithRequestId($record);
 
-        $record['message'] = str_replace(
+        $message = str_replace(
             array('%tag%', '%message%', '%datetime%', '%level%'),
             array($class, $message, $date, $record['level_name']),
             $this->logMessageFormat
         );
 
-        return $this->next($record);
+        $message .= "\n";
+
+        return $message;
     }
 
     private function prefixMessageWithRequestId(array $record)
