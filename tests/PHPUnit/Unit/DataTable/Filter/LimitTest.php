@@ -12,6 +12,9 @@ use Piwik\DataTable\Filter\Limit;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -39,9 +42,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testNormal()
     {
         $offset = 2;
@@ -55,9 +56,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testLimitLessThanCountShouldReturnCountLimit()
     {
         $offset = 2;
@@ -71,9 +70,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testLimitIsCountShouldNotDeleteAnything()
     {
         $offset = 0;
@@ -88,9 +85,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testLimitGreaterThanCountShouldReturnCountUntilCount()
     {
         $offset = 5;
@@ -105,9 +100,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testLimitIsNullShouldReturnCountIsOffset()
     {
         $offset = 1;
@@ -120,9 +113,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testOffsetJustBeforeSummaryRowShouldJustReturnSummaryRow()
     {
         $offset = 9;
@@ -136,9 +127,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testOffsetJustBeforeSummaryRowWithBigLimitShouldJustReturnSummaryRow()
     {
         $offset = 9;
@@ -152,9 +141,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testOffsetBeforeSummaryRowShouldJustReturnRowAndSummaryRow()
     {
         $offset = 8;
@@ -168,9 +155,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testOffsetGreaterThanCountShouldReturnEmptyTable()
     {
         $offset = 10;
@@ -182,9 +167,7 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testLimitIsZeroShouldReturnEmptyTable()
     {
         $offset = 0;

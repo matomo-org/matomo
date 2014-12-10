@@ -12,7 +12,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
- * @group Core
+ * @group DataTableTest
  */
 class RowTest extends \PHPUnit_Framework_TestCase
 {

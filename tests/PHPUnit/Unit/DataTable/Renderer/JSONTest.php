@@ -14,6 +14,9 @@ use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -93,9 +96,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONTest1()
     {
         $dataTable = $this->_getDataTableTest();
@@ -108,9 +109,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONTest2()
     {
         $dataTable = $this->_getDataTableSimpleTest();
@@ -121,9 +120,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowTest();
@@ -133,9 +130,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONTest4()
     {
         $dataTable = $this->_getDataTableEmpty();
@@ -145,9 +140,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONTest5()
     {
         $dataTable = $this->_getDataTableSimpleOneZeroRowTest();
@@ -157,9 +150,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONTest6()
     {
         $dataTable = $this->_getDataTableSimpleOneFalseRowTest();
@@ -274,9 +265,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONArrayTest1()
     {
         $dataTable = $this->_getDataTableMapTest();
@@ -288,9 +277,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONMapTest2()
     {
         $dataTable = $this->_getDataTableSimpleMapTest();
@@ -303,9 +290,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONMapTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowMapTest();
@@ -317,9 +302,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONMapIsMadeOfMapTest1()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
@@ -330,9 +313,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONMapIsMadeOfMapTest2()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
@@ -345,9 +326,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testJSONMapIsMadeOfMapTest3()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
@@ -359,9 +338,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray1()
     {
         $data = array();
@@ -373,9 +350,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray2()
     {
         $data = array('a', 'b', 'c', array('a' => 'b'), array(1, 2));
@@ -387,9 +362,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray3()
     {
         $data = array('a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g');
@@ -401,9 +374,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray4()
     {
         $data = array('a' => 'b', 'c' => array(1, 2, 3, 4), 'e' => array('f' => 'g', 'h' => 'i', 'j' => 'k'));
@@ -415,9 +386,7 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray5()
     {
         $data = array('a' => 'b');

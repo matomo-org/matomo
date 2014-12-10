@@ -17,7 +17,7 @@ use PHPUnit_Framework_TestCase;
 use Exception;
 
 /**
- * @group Core
+ * @group DataTableTest
  */
 class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 {

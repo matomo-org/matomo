@@ -14,6 +14,9 @@ use Piwik\DataTable\Renderer\Csv;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -93,9 +96,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVTest1()
     {
         $dataTable = $this->_getDataTableTest();
@@ -111,9 +112,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVTest2()
     {
         $dataTable = $this->_getDataTableSimpleTest();
@@ -125,9 +124,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowTest();
@@ -139,9 +136,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVTest5()
     {
         $dataTable = $this->_getDataTableSimpleOneZeroRowTest();
@@ -153,9 +148,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVTest4()
     {
         $dataTable = $this->_getDataTableEmpty();
@@ -167,9 +160,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVTest6()
     {
         $dataTable = $this->_getDataTableSimpleOneFalseRowTest();
@@ -181,9 +172,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVRendererCorrectlyEscapesHeadersAndValues()
     {
         $dataTable = $this->_getDataTableSimpleWithCommasInCells();
@@ -301,9 +290,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVMapTest1()
     {
         $dataTable = $this->_getDataTableMapTest();
@@ -320,9 +307,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVMapTest2()
     {
         $dataTable = $this->_getDataTableSimpleMapTest();
@@ -335,9 +320,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVMapTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowMapTest();
@@ -349,9 +332,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVMapisMadeOfMapTest1()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
@@ -368,9 +349,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVMapIsMadeOfMapTest2()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
@@ -383,9 +362,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testCSVMapIsMadeOfMapTest3()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
@@ -397,9 +374,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray1()
     {
         $data = array();
@@ -412,9 +387,7 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray2()
     {
         $data = array('a', 'b', 'c');
@@ -429,9 +402,7 @@ c';
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray3()
     {
         $data = array('a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g');
@@ -445,9 +416,7 @@ b,d,f,g';
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray4()
     {
         $data = array('a' => 'b');
