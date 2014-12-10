@@ -399,7 +399,7 @@ if (typeof JSON2 !== 'object') {
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
-    userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
+    userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled, sendBeacon,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
@@ -2114,7 +2114,7 @@ if (typeof Piwik !== 'object') {
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
          */
-        function Tracker(trackerUrl, siteId, uuid) {
+        function Tracker(trackerUrl, siteId, _uuid) {
 
             /************************************************************
              * Private members
@@ -2296,7 +2296,7 @@ if (typeof Piwik !== 'object') {
                 domainHash,
 
                 // Visitor UUID
-                visitorUUID = uuid;
+                visitorUUID = _uuid;
 
             /*
              * Set cookie value
@@ -2515,12 +2515,10 @@ if (typeof Piwik !== 'object') {
              * requests
              */
             function sendBeacon(url, bulk) {
-                if (navigator && navigator.sendBeacon) {
-                    return ( navigator.sendBeacon(url, bulk) );
-                } else {
-                    // navigator.sendBeacon not supported
-                    return false;
+                if (navigatorAlias && navigatorAlias.sendBeacon) {
+                    return ( navigatorAlias.sendBeacon(url, bulk) );
                 }
+                return false;   // navigator.sendBeacon not supported
             }
 
             /*
