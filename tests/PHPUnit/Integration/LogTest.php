@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Error;
@@ -35,12 +36,12 @@ class LogTest extends IntegrationTestCase
         'screen' => '<div style=\'word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;\'>
         <strong>There is an error. Please report the message
         and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).</strong><br /><br/>
-        <em>dummy error message</em> in <strong>LogTest.php</strong> on line <strong>170</strong>
+        <em>dummy error message</em> in <strong>LogTest.php</strong> on line <strong>174</strong>
 <br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
 dummy backtrace</div></div>',
-        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(170): dummy error message
+        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(174): dummy error message
   dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(170): dummy error message
+        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(174): dummy error message
 dummy backtrace'
     );
 
@@ -79,7 +80,10 @@ dummy backtrace'
     {
         parent::setUp();
 
-        StaticContainer::reset();
+        // Create the container in the normal environment (because in tests logging is disabled)
+        $containerFactory = new ContainerFactory();
+        $container = $containerFactory->create();
+        StaticContainer::set($container);
         Log::unsetInstance();
 
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
