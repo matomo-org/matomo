@@ -1114,10 +1114,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $aSerializedDataTable = array();
         foreach ($this->rows as $row) {
             $subTable = $row->getSubtable();
-            if (!$subTable) {
-                // Not sure if this code is needed
-                $row->removeSubtable();
-            } else {
+            if ($subTable) {
                 $depth++;
                 $aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
                 $depth--;
