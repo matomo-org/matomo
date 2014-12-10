@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Tests\Unit\Log\Processor;
+
 use Piwik\Log\Processor\SprintfProcessor;
 
 /**
