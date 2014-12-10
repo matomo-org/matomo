@@ -8,36 +8,23 @@
 
 namespace Piwik\Log\Handler;
 
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use Piwik\Filechecks;
 
 /**
  * Writes log to file.
+ *
+ * Extends StreamHandler to be able to have a custom exception message.
  */
-class FileHandler extends AbstractProcessingHandler
+class FileHandler extends StreamHandler
 {
-    /**
-     * Path to the file to log to.
-     *
-     * @var string
-     */
-    private $logToFilePath;
-
-    public function __construct($logToFilePath, $level = Logger::DEBUG)
-    {
-        $this->logToFilePath = $logToFilePath;
-
-        parent::__construct($level);
-    }
-
     protected function write(array $record)
     {
-        if (!@file_put_contents($this->logToFilePath, $record['formatted'], FILE_APPEND)
-            && !defined('PIWIK_TEST_MODE')
-        ) {
+        try {
+            parent::write($record);
+        } catch (\UnexpectedValueException $e) {
             throw new \Exception(
-                Filechecks::getErrorMessageMissingPermissions($this->logToFilePath)
+                Filechecks::getErrorMessageMissingPermissions($this->url)
             );
         }
     }
