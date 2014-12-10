@@ -15,19 +15,19 @@ use Piwik\Common;
  */
 class RequestIdProcessor
 {
+    private $currentRequestKey;
+
     public function __invoke(array $record)
     {
-        static $currentRequestKey;
-
         if (Common::isPhpCliMode()) {
             return $record;
         }
 
-        if (empty($currentRequestKey)) {
-            $currentRequestKey = substr(Common::generateUniqId(), 0, 5);
+        if (empty($this->currentRequestKey)) {
+            $this->currentRequestKey = substr(Common::generateUniqId(), 0, 5);
         }
 
-        $record['extra']['request_id'] = $currentRequestKey;
+        $record['extra']['request_id'] = $this->currentRequestKey;
 
         return $record;
     }
