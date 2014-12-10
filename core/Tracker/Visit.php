@@ -631,15 +631,6 @@ class Visit implements VisitInterface
             return true;
         }
 
-        // if we should create a new visit when the referrer changes, check if referrer changed
-        if ($this->createNewVisitWhenWebsiteReferrerChanges
-            && $visitor->isReferrerInformationDifferent()
-        ) {
-            Common::printDebug("Existing visit detected, but creating new visit because referrer information is different than last action");
-
-            return true;
-        }
-
         return !$visitor->isVisitorKnown();
     }
 }
