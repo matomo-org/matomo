@@ -1118,6 +1118,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $depth++;
                 $aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
                 $depth--;
+            } else {
+                $row->removeSubtable();
             }
         }
         // we load the current Id of the DataTable
