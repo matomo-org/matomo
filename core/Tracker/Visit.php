@@ -152,11 +152,7 @@ class Visit implements VisitInterface
 
         $this->visitorInfo = $visitor->getVisitorInfo();
 
-        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
-
-        if (!$isLastActionInTheSameVisit) {
-            Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
-        }
+        $isNewVisit = $this->isVisitNew($visitor, $action);
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -165,9 +161,7 @@ class Visit implements VisitInterface
         // )
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
-        if ($visitor->isVisitorKnown()
-            && $isLastActionInTheSameVisit
-        ) {
+        if (!$isNewVisit) {
             $idReferrerActionUrl  = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
 
@@ -203,9 +197,7 @@ class Visit implements VisitInterface
         // - the visitor has the Piwik cookie but the last action was performed more than 30 min ago @see isLastActionInTheSameVisit()
         // - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
         // - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
-        if (!$visitor->isVisitorKnown()
-            || !$isLastActionInTheSameVisit
-        ) {
+        if ($isNewVisit) {
             $this->handleNewVisit($visitor, $action, $visitIsConverted);
             if (!is_null($action)) {
                 $action->record($visitor, 0, 0);
@@ -550,6 +542,23 @@ class Visit implements VisitInterface
         return $valuesToUpdate;
     }
 
+    private function triggerPredicateHookOnDimensions($dimensions, $hook, Visitor $visitor, Action $action = null, $returnFirstTrue = true)
+    {
+        $result = $returnFirstTrue ? false : array();
+        foreach ($dimensions as $dimension) {
+            $value = $dimension->$hook($this->request, $visitor, $action);
+
+            if ($returnFirstTrue) {
+                if ($value) {
+                    return true;
+                }
+            } else {
+                $result[] = $value;
+            }
+        }
+        return $result;
+    }
+
     protected function getAllVisitDimensions()
     {
         $dimensions = VisitDimension::getAllDimensions();
@@ -597,5 +606,40 @@ class Visit implements VisitInterface
     protected function insertNewVisit($visit)
     {
         return $this->getModel()->createVisit($visit);
+    }
+
+    /**
+     * Determines if the tracker if the current action should be treated as the start of a new visit or
+     * an action in an existing visit.
+     *
+     * @param Visitor $visitor The current visit/visitor information.
+     * @param Action|null $action The current action being tracked.
+     * @return bool
+     */
+    private function isVisitNew(Visitor $visitor, Action $action = null)
+    {
+        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
+
+        if (!$isLastActionInTheSameVisit) {
+            Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
+
+            return true;
+        }
+
+        $shouldForceNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(), 'shouldForceNewVisit', $visitor, $action);
+        if ($shouldForceNewVisit) {
+            return true;
+        }
+
+        // if we should create a new visit when the referrer changes, check if referrer changed
+        if ($this->createNewVisitWhenWebsiteReferrerChanges
+            && $visitor->isReferrerInformationDifferent()
+        ) {
+            Common::printDebug("Existing visit detected, but creating new visit because referrer information is different than last action");
+
+            return true;
+        }
+
+        return !$visitor->isVisitorKnown();
     }
 }

@@ -15,6 +15,9 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 use Piwik\Translate;
 
 /**
@@ -164,6 +167,25 @@ abstract class Dimension
         $dimensionName = $matches[2];
 
         return $pluginName . '.' . $dimensionName;
+    }
+
+    /**
+     * This hook is executed by the tracker when determining if an action is the start of a new visit
+     * or part of an existing one. Derived classes can use it to force new visits based on dimension
+     * data.
+     *
+     * For example, the Campaign dimension in the Referrers plugin will force a new visit if the
+     * campaign information for the current action is different from the last.
+     *
+     * @param Request $request The current tracker request information.
+     * @param Visitor $visitor The information for the currently recognized visitor.
+     * @param Action|null $action The current action information (if any).
+     * @return bool Return true to force a visit, false if otherwise.
+     * @api
+     */
+    public function shouldForceNewVisit(Request $request, Visitor $visitor, Action $action = null)
+    {
+        return false;
     }
 
     /**
