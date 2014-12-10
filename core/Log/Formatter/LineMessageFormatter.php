@@ -9,7 +9,7 @@
 namespace Piwik\Log\Formatter;
 
 /**
- * Formats a log message into a single line of text.
+ * Formats a log message into a line of text.
  */
 class LineMessageFormatter extends Formatter
 {
@@ -38,6 +38,8 @@ class LineMessageFormatter extends Formatter
             array($class, $message, $date, $record['level_name']),
             $this->logMessageFormat
         );
+
+        $message = str_replace("\n", "\n  ", $message);
 
         $message .= "\n";
 

@@ -42,7 +42,7 @@ dummy backtrace</div></div>',
         'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(174): dummy error message
   dummy backtrace',
         'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(174): dummy error message
-dummy backtrace'
+  dummy backtrace'
     );
 
     public static $expectedErrorOutput = array(
@@ -55,7 +55,7 @@ dummy backtrace</div></div>',
         'file' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace',
         'database' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
-dummy backtrace'
+  dummy backtrace'
     );
 
     private $screenOutput;
