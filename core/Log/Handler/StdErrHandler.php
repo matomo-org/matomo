@@ -36,17 +36,12 @@ class StdErrHandler extends AbstractProcessingHandler
 
     protected function write(array $record)
     {
-        $message = $record['formatted'];
-
-        // Do not log on stderr during tests (prevent display of errors in CI output)
-        if (! defined('PIWIK_TEST_MODE')) {
-            $this->writeToStdErr($message);
-        }
+        $this->writeToStdErr($record['formatted']);
 
         // This is the result of an old hack, I guess to force the error message to be displayed in case of errors
         // TODO we should get rid of it somehow
         if (! $this->isLoggingToStdOut) {
-            echo $message;
+            echo $record['formatted'];
         }
     }
 
