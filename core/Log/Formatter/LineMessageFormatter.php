@@ -21,6 +21,9 @@ class LineMessageFormatter extends Formatter
      */
     private $logMessageFormat;
 
+    /**
+     * @param string $logMessageFormat
+     */
     public function __construct($logMessageFormat)
     {
         $this->logMessageFormat = $logMessageFormat;

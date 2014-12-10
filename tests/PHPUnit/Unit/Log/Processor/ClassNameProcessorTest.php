@@ -21,7 +21,9 @@ class ClassNameProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_append_classname_to_extra()
     {
-        $result = $this->process(array(
+        $processor = new ClassNameProcessor();
+
+        $result = $processor(array(
             'extra' => array(
                 'foo' => 'bar',
             ),
@@ -35,11 +37,5 @@ class ClassNameProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $result);
-    }
-
-    private function process($record)
-    {
-        $processor = new ClassNameProcessor();
-        return $processor($record);
     }
 }
