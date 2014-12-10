@@ -120,14 +120,10 @@ class Console extends Renderer
                 . $row->getIdSubDataTable() . "]<br />\n";
 
             if (!is_null($row->getIdSubDataTable())) {
-                if ($row->isSubtableLoaded()) {
+                $subTable = $row->getSubtable();
+                if ($subTable) {
                     $depth++;
-                    $output .= $this->renderTable(
-                        Manager::getInstance()->getTable(
-                            $row->getIdSubDataTable()
-                        ),
-                        $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                    );
+                    $output .= $this->renderTable($subTable, $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
                     $depth--;
                 } else {
                     $output .= "-- Sub DataTable not loaded<br />\n";

@@ -47,9 +47,8 @@ class DataTableSummaryRow extends Row
      */
     public function recalculate()
     {
-        $id = $this->getIdSubDataTable();
-        if ($id !== null) {
-            $subTable = Manager::getInstance()->getTable($id);
+        $subTable = $this->getSubtable();
+        if ($subTable) {
             $this->sumTable($subTable);
         }
     }
