@@ -65,8 +65,8 @@ class ReplaceSummaryRowLabel extends BaseFilter
 
         // recurse
         foreach ($rows as $row) {
-            if ($row->isSubtableLoaded()) {
-                $subTable = Manager::getInstance()->getTable($row->getIdSubDataTable());
+            $subTable = $row->getSubtable();
+            if ($subTable) {
                 $this->filter($subTable);
             }
         }
