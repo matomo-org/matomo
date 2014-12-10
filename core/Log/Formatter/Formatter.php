@@ -13,8 +13,7 @@ use Monolog\Formatter\FormatterInterface;
 /**
  * Formats a log message.
  *
- * Follows the Chain of responsibility design pattern, so don't forget to call `$this->next(...)`
- * at the end of the `format()` method.
+ * Follows the Chain of responsibility design pattern.
  */
 abstract class Formatter implements FormatterInterface
 {

@@ -66,10 +66,12 @@ return array(
     ),
     'Piwik\Log\Handler\FileHandler' => DI\object()
         ->constructor(DI\link('log.file.filename'), DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionTextFormatter')),
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter'))
+        ->method('pushProcessor', DI\link('Piwik\Log\Processor\ExceptionToTextProcessor')),
     'Piwik\Log\Handler\DatabaseHandler' => DI\object()
         ->constructor(DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionTextFormatter')),
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter'))
+        ->method('pushProcessor', DI\link('Piwik\Log\Processor\ExceptionToTextProcessor')),
     'log.handlers.stdout' => DI\object('Monolog\Handler\StreamHandler')
         ->constructor('php://output', DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionHtmlFormatter')),
@@ -121,8 +123,6 @@ return array(
 
         return $logPath;
     }),
-    'Piwik\Log\Formatter\ExceptionTextFormatter' => DI\object()
-        ->constructor(DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'Piwik\Log\Formatter\ExceptionHtmlFormatter' => DI\object()
         ->constructor(DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'Piwik\Log\Formatter\LineMessageFormatter' => DI\object()

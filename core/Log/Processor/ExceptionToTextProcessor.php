@@ -6,20 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log\Formatter;
+namespace Piwik\Log\Processor;
 
 use Piwik\Error;
 use Piwik\Log;
 
 /**
- * Formats a log message containing an exception object into a textual string.
+ * Process a log record containing an exception to generate a textual message.
  */
-class ExceptionTextFormatter extends Formatter
+class ExceptionToTextProcessor
 {
-    public function format(array $record)
+    public function __invoke(array $record)
     {
         if (! $this->contextContainsException($record)) {
-            return $this->next($record);
+            return $record;
         }
 
         /** @var \Exception $exception */
@@ -33,7 +33,7 @@ class ExceptionTextFormatter extends Formatter
             $this->getStackTrace($exception)
         );
 
-        return $this->next($record);
+        return $record;
     }
 
     private function contextContainsException($record)
