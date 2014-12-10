@@ -32,7 +32,7 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
-        StaticContainer::loadCliConfig();
+        StaticContainer::setEnvironment('cli');
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)

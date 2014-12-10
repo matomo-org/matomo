@@ -64,7 +64,7 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
     if (Piwik\Common::isPhpCliMode()) {
         // We can run the archive in CLI with `php-cgi` so we have to configure the container/logger
         // just like for CLI
-        StaticContainer::loadCliConfig();
+        StaticContainer::setEnvironment('cli');
         /** @var ConsoleHandler $consoleLogHandler */
         $consoleLogHandler = StaticContainer::getContainer()->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
         $consoleLogHandler->setOutput(new ConsoleOutput(OutputInterface::VERBOSITY_VERBOSE));

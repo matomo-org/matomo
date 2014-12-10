@@ -28,11 +28,11 @@ class StaticContainer
     private static $container;
 
     /**
-     * Should we load the CLI config.
+     * Optional environment config to load.
      *
      * @var bool
      */
-    private static $cli = false;
+    private static $environment;
 
     /**
      * @return Container
@@ -73,20 +73,25 @@ class StaticContainer
         // Global config
         $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
 
-        if (self::$cli) {
-            $builder->addDefinitions(PIWIK_USER_PATH . '/config/cli.php');
-        }
-
         // User config
         if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
             $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
         }
 
+        // Environment config
+        if (self::$environment) {
+            $builder->addDefinitions(sprintf(
+                '%s/config/environment/%s.php',
+                PIWIK_USER_PATH,
+                self::$environment
+            ));
+        }
+
         return $builder->build();
     }
 
-    public static function loadCliConfig()
+    public static function setEnvironment($environment)
     {
-        self::$cli = true;
+        self::$environment = $environment;
     }
 }
