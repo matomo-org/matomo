@@ -12,6 +12,7 @@ use Piwik\Log\Processor\ClassNameProcessor;
 
 /**
  * @group Core
+ * @group Log
  * @covers \Piwik\Log\Processor\ClassNameProcessor
  */
 class ClassNameProcessorTest extends \PHPUnit_Framework_TestCase

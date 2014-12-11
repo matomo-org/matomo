@@ -4,7 +4,6 @@ use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Common;
 use Piwik\Log;
-use Piwik\Log\Handler\StdErrHandler;
 
 return array(
 
@@ -27,54 +26,38 @@ return array(
     // Log
     'Psr\Log\LoggerInterface' => DI\object('Monolog\Logger')
         ->constructor('piwik', DI\link('log.handlers'), DI\link('log.processors')),
-    'Piwik\Log' => DI\object()
-        ->constructor(DI\link('Psr\Log\LoggerInterface')),
     'log.handlers' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('old_config.log.log_writers')) {
             $writerNames = $c->get('old_config.log.log_writers');
-        }
-        if (empty($writerNames)) {
+        } else {
             return array();
         }
-
         $classes = array(
             'file'     => 'Piwik\Log\Handler\FileHandler',
-            'screen'   => 'log.handlers.stdout',
             'database' => 'Piwik\Log\Handler\DatabaseHandler',
         );
-
         $writerNames = array_map('trim', $writerNames);
         $writers = array();
         foreach ($writerNames as $writerName) {
             if (isset($classes[$writerName])) {
-                $class = $classes[$writerName];
-                $writers[$writerName] = $c->get($class);
+                $writers[$writerName] = $c->get($classes[$writerName]);
             }
         }
-
-        // Always add the stderr handler
-        $isLoggingToStdOut = isset($writers['screen']);
-        $writers['stderr'] = new StdErrHandler($c->get('Piwik\Log\Formatter\ExceptionHtmlFormatter'), $isLoggingToStdOut);
-
         return array_values($writers);
     }),
     'log.processors' => array(
         DI\link('Piwik\Log\Processor\ClassNameProcessor'),
         DI\link('Piwik\Log\Processor\RequestIdProcessor'),
+        DI\link('Piwik\Log\Processor\ExceptionToTextProcessor'),
         DI\link('Piwik\Log\Processor\SprintfProcessor'),
         DI\link('Monolog\Processor\PsrLogMessageProcessor'),
     ),
     'Piwik\Log\Handler\FileHandler' => DI\object()
         ->constructor(DI\link('log.file.filename'), DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter'))
-        ->method('pushProcessor', DI\link('Piwik\Log\Processor\ExceptionToTextProcessor')),
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'Piwik\Log\Handler\DatabaseHandler' => DI\object()
         ->constructor(DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter'))
-        ->method('pushProcessor', DI\link('Piwik\Log\Processor\ExceptionToTextProcessor')),
-    'log.handlers.stdout' => DI\object('Monolog\Handler\StreamHandler')
-        ->constructor('php://output', DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Log\Formatter\ExceptionHtmlFormatter')),
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'log.level' => DI\factory(function (ContainerInterface $c) {
         if ($c->get('log.disabled')) {
             return Log::getMonologLevel(Log::NONE);
@@ -123,8 +106,6 @@ return array(
 
         return $logPath;
     }),
-    'Piwik\Log\Formatter\ExceptionHtmlFormatter' => DI\object()
-        ->constructor(DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'Piwik\Log\Formatter\LineMessageFormatter' => DI\object()
         ->constructor(DI\link('log.format')),
     'log.format' => DI\factory(function (ContainerInterface $c) {

@@ -12,6 +12,7 @@ use Piwik\Log\Processor\SprintfProcessor;
 
 /**
  * @group Core
+ * @group Log
  * @covers \Piwik\Log\Processor\SprintfProcessor
  */
 class SprintfProcessorTest extends \PHPUnit_Framework_TestCase

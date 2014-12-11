@@ -8,10 +8,12 @@
 
 namespace Piwik\Log\Formatter;
 
+use Monolog\Formatter\FormatterInterface;
+
 /**
- * Formats a log message into a line of text.
+ * Formats a log message into a line of text using our custom Piwik log format.
  */
-class LineMessageFormatter extends Formatter
+class LineMessageFormatter implements FormatterInterface
 {
     /**
      * The log message format string that turns a tag name, date-time and message into
@@ -47,6 +49,15 @@ class LineMessageFormatter extends Formatter
         $message .= "\n";
 
         return $message;
+    }
+
+    public function formatBatch(array $records)
+    {
+        foreach ($records as $key => $record) {
+            $records[$key] = $this->format($record);
+        }
+
+        return $records;
     }
 
     private function prefixMessageWithRequestId(array $record)

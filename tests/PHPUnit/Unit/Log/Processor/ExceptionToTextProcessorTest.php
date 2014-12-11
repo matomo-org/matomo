@@ -12,6 +12,8 @@ use Piwik\Log;
 use Piwik\Log\Processor\ExceptionToTextProcessor;
 
 /**
+ * @group Core
+ * @group Log
  * @covers \Piwik\Log\Processor\ExceptionToTextProcessor
  */
 class ExceptionToTextProcessorTest extends \PHPUnit_Framework_TestCase
@@ -46,7 +48,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit_Framework_TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => __FILE__ . "(39): Hello world\n[stack trace]",
+            'message' => __FILE__ . "(41): Hello world\n[stack trace]",
             'context' => array(
                 'exception' => $exception,
             ),
