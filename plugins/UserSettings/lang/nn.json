@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Konfigurasjon",
-        "ColumnResolution": "Oppløysing",
-        "Configurations": "Konfigurasjonar",
         "Language_aa": "afar",
         "Language_ab": "abkhasisk",
         "Language_ae": "avestisk",
@@ -190,10 +187,7 @@
         "LanguageCode": "Språkkode",
         "PluginDescription": "Rapporter diverse vitjarinnstillingar: Nettlesar, Nettlesarfamilie, operativsystem, oppløysing og globale innstillingar.",
         "PluginDetectionDoesNotWorkInIE": "Merk: Registrering av innstikk virkar ikkje i Internet Explorer. Denne rapporten er berre basert på andre nettlesarar enn IE.",
-        "Resolutions": "Oppløysingar",
         "VisitorSettings": "Vitjarinnstillingar",
-        "WidgetGlobalVisitors": "Global vitjarkonfigurasjon",
-        "WidgetPlugins": "Liste over innstikk",
-        "WidgetResolutions": "Skjermoppløysing"
+        "WidgetPlugins": "Liste over innstikk"
     }
 }

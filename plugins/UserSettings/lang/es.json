@@ -3,9 +3,6 @@
         "BrowserLanguage": "Idioma de Navegador",
         "BrowserWithNoPluginsEnabled": "%1$s sin complementos habilitados",
         "BrowserWithPluginsEnabled": "%1$s con los complementos %2$s habilitados",
-        "ColumnConfiguration": "Configuración",
-        "ColumnResolution": "Resoluciones",
-        "Configurations": "Configuración",
         "Language_aa": "Lejos",
         "Language_ab": "Abjasia",
         "Language_ae": "Avéstico",
@@ -193,12 +190,8 @@
         "LanguageCode": "Código de idioma",
         "PluginDescription": "Reporta varias configuraciones de usuario: Navegador, Familia del Navegador, Sistema Operativo, Plugins, Resolución, Configuración General.",
         "PluginDetectionDoesNotWorkInIE": "Nota: la detección de Plugins no funciona con Internet Explorer. Este reporte solo funciona con navegadores no-IE.",
-        "Resolutions": "Resoluciones",
         "VisitorSettings": "Configuración de visitantes",
-        "WidgetGlobalVisitors": "Configuración global de visitantes",
-        "WidgetGlobalVisitorsDocumentation": "Este informe muestra las más usuales configuraciones que poseen sus visitantes. Una configuración es una combinación de un sistema operativo, un tipo de navegador de internet y una resolución de pantalla.",
         "WidgetPlugins": "Lista de Plugins",
-        "WidgetPluginsDocumentation": "Este informe muestra que extensiones del navegador sus visitantes han habilitado. Esta información puede ser importante sea para elegir el método eficiente de enviar su contenido.",
-        "WidgetResolutions": "Resoluciones de pantalla"
+        "WidgetPluginsDocumentation": "Este informe muestra que extensiones del navegador sus visitantes han habilitado. Esta información puede ser importante sea para elegir el método eficiente de enviar su contenido."
     }
 }

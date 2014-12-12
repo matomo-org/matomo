@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Конфігурація",
-        "ColumnResolution": "Роздільна здатність",
-        "Configurations": "Конфігурації",
         "Language_aa": "афарська",
         "Language_ab": "абхазька",
         "Language_ae": "авестійська",
@@ -190,10 +187,7 @@
         "LanguageCode": "Код мови",
         "PluginDescription": "Повідомляє різні налаштуванян користовувача: веб-оглядач, родина веб-оглядача, операційна система, плагіни, роздільна здатність, глобальні налаштування.",
         "PluginDetectionDoesNotWorkInIE": "Примітка: Визначення плагінів не працює в Internet Explorer. Цей звіт базується лише на не-IE веб-оглядачах.",
-        "Resolutions": "Роздільні здатності",
         "VisitorSettings": "Налаштування відвідувача",
-        "WidgetGlobalVisitors": "Загальна конфігурація відвідувачів",
-        "WidgetPlugins": "Список плагінів",
-        "WidgetResolutions": "Роздільні здатності"
+        "WidgetPlugins": "Список плагінів"
     }
 }

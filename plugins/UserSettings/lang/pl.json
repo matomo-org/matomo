@@ -1,9 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Język przeglądarki",
-        "ColumnConfiguration": "Konfiguracja",
-        "ColumnResolution": "Rozdzielczość",
-        "Configurations": "Konfiguracje",
         "Language_aa": "afar",
         "Language_ab": "abchaski",
         "Language_ae": "awestyjski",
@@ -191,10 +188,7 @@
         "LanguageCode": "Kod języka",
         "PluginDescription": "Raporty rozmaitych konfiguracji użytkownika: przeglądarki, rodziny przeglądarek, systemów operacyjnych, wtyczek, rozdzielczości, ogólnej konfiguracji.",
         "PluginDetectionDoesNotWorkInIE": "Uwaga: wykrywanie wtyczek nie działa w przypadku Internet Explorera. Raport ten pokaże tylko wyniki w oparciu o badanie innych przeglądarek, nie opartych na silniku IE.",
-        "Resolutions": "Rozdzielczość",
         "VisitorSettings": "Konfiguracje użytkownika",
-        "WidgetGlobalVisitors": "Ogólna konfiguracja odwiedzających",
-        "WidgetPlugins": "Lista wtyczek",
-        "WidgetResolutions": "Rozdzielczość ekranu"
+        "WidgetPlugins": "Lista wtyczek"
     }
 }

@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Konfigurācija",
-        "ColumnResolution": "Ekrāna izšķirtspēja",
-        "Configurations": "Konfigurācijas",
         "Language_aa": "afāru",
         "Language_ab": "abhāzu",
         "Language_ae": "avesta",
@@ -190,12 +187,8 @@
         "LanguageCode": "Valodas kods",
         "PluginDescription": "Apskata dažādus lietotāju iestatījumus: pārlūku, pārlūku ģimeni, operētājsistēmu, spraudņus, ekrāna izšķirtspēju, globālos iestatījumus.",
         "PluginDetectionDoesNotWorkInIE": "Piezīme: spraudņu noteikšana nedarbojas Internet Explorer pārlūkā. Šī atskaite ir bāzēta tikai uz ne-IE pārlūkiem.",
-        "Resolutions": "Ekrāna izšķirtspējas",
         "VisitorSettings": "Apmeklētāju iestatījumi",
-        "WidgetGlobalVisitors": "Globālā apmeklētāju konfigurācija",
-        "WidgetGlobalVisitorsDocumentation": "Šajā atskaitē redzamas visbiežāk izmantotās apmeklētāju konfigurācijas. Konfigurācija ir operētājsistēmas, pārlūka tipa un ekrāna izšķirtspējas kombinācija.",
         "WidgetPlugins": "Spraudņu saraksts",
-        "WidgetPluginsDocumentation": "Šajā atskaitē ir redzami pārlūku spraudņi, kuri bija ieslēgti apmeklētāju pārlūkos. Šī informācija ir svarīga, lai izvēlētos vislabāko veidu kā piegādāt saturu apmeklētājiem.",
-        "WidgetResolutions": "Ekrāna izšķirtspējas"
+        "WidgetPluginsDocumentation": "Šajā atskaitē ir redzami pārlūku spraudņi, kuri bija ieslēgti apmeklētāju pārlūkos. Šī informācija ir svarīga, lai izvēlētos vislabāko veidu kā piegādāt saturu apmeklētājiem."
     }
 }

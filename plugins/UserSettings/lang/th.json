@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "การตั้งค่า",
-        "ColumnResolution": "ความละเอียด",
-        "Configurations": "การกำหนดค่า",
         "Language_aa": "อะฟาร์",
         "Language_ab": "อับคาซ",
         "Language_ae": "อเวสตะ",
@@ -190,10 +187,7 @@
         "LanguageCode": "รหัสภาษา",
         "PluginDescription": "รายงานการตั้งค่าผู้ใช้ต่างๆ: เบราว์เซอร์, ตระกูลเบราว์เซอร์,ระบบปฏิบัติการ, ปลั๊กอิน, การแก้ไขและการตั้งค่าส่วนกลาง",
         "PluginDetectionDoesNotWorkInIE": "หมายเหตุ: ตรวจสอบปลั๊กอินไม่ทำงานใน Internet Explorer รายงานนี้จะอิงตามเฉพาะเบราว์เซอร์ที่ไม่ใช่ IE",
-        "Resolutions": "ความละเอียด",
         "VisitorSettings": "การตั้งค่าของผู้เข้าชม",
-        "WidgetGlobalVisitors": "การตั้งค่าผู้เข้าชมโดยรวม",
-        "WidgetPlugins": "รายการปลั้กอิน",
-        "WidgetResolutions": "ความละเอียดจอภาพ"
+        "WidgetPlugins": "รายการปลั้กอิน"
     }
 }

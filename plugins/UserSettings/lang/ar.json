@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "الإعداد",
-        "ColumnResolution": "الكثافة النقطية",
-        "Configurations": "الإعدادات",
         "Language_aa": "الأفارية",
         "Language_ab": "الأبخازية",
         "Language_ae": "الأفستية",
@@ -189,10 +186,7 @@
         "LanguageCode": "كود اللغة",
         "PluginDescription": "تقارير عن إعدادات المستخدمين المختلفة: المتصفح، عائلة المتصفح، نظام التشغيل، الإضافات البرمجية، كثافة الشاشة النقطية، الإعدادات العامة.",
         "PluginDetectionDoesNotWorkInIE": "ملاحظة: اكتشاف الإضافات البرمجية لا تعمل في متصفح إنترنت إكسبلورر. هذه الخاصية ترتكز للمتصفحات من العائلات الأخرى غير إنترنت إكسبلورر.",
-        "Resolutions": "الكثافات النقطية",
         "VisitorSettings": "إعدادات الزوار",
-        "WidgetGlobalVisitors": "الإعدادات العامة للزوار",
-        "WidgetPlugins": "قائمة الإضافات",
-        "WidgetResolutions": "كثافات الشاشة النقطية"
+        "WidgetPlugins": "قائمة الإضافات"
     }
 }

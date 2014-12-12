@@ -3,9 +3,6 @@
         "BrowserLanguage": "Jezik brskalnika",
         "BrowserWithNoPluginsEnabled": "%1$s brez omogočenih vtičnikov",
         "BrowserWithPluginsEnabled": "%1$s z omogočenimi vtičniki %2$s",
-        "ColumnConfiguration": "Nastavitev",
-        "ColumnResolution": "Resolucija",
-        "Configurations": "Nastavitve",
         "Language_aa": "afarščina",
         "Language_ab": "abhaščina",
         "Language_ae": "avestijščina",
@@ -191,9 +188,7 @@
         "Language_zh": "kitajščina",
         "Language_zu": "zulujščina",
         "LanguageCode": "Šifra jezika",
-        "Resolutions": "Resolucije",
         "VisitorSettings": "Nastavitve obiskovalcev",
-        "WidgetPlugins": "Seznam Vtičnikov",
-        "WidgetResolutions": "Resolucija zaslona"
+        "WidgetPlugins": "Seznam Vtičnikov"
     }
 }

@@ -3,9 +3,6 @@
         "BrowserLanguage": "Webbläsarspråk",
         "BrowserWithNoPluginsEnabled": "%1$s med inga plugins är aktiverad",
         "BrowserWithPluginsEnabled": "%1$s med plugins %2$s är aktiverad",
-        "ColumnConfiguration": "Konfiguration",
-        "ColumnResolution": "Skärmupplösning",
-        "Configurations": "Konfiguration",
         "Language_aa": "Afar",
         "Language_ab": "Abchaziska",
         "Language_ae": "Avestiska",
@@ -193,12 +190,8 @@
         "LanguageCode": "Språkkod",
         "PluginDescription": "Rapporterar olika användarinställningar: Webbläsare, Webbläsarfamilj, operativsystem, Plugins, upplösning, Globala inställningar.",
         "PluginDetectionDoesNotWorkInIE": "Notering: Plugins upptäckt fungerar inte i Internet Explorer. Denna rapport är endast baserad på icke-IE webbläsare.",
-        "Resolutions": "Skärmupplösning",
         "VisitorSettings": "Besökarinställningar",
-        "WidgetGlobalVisitors": "Global besökarkonfiguration",
-        "WidgetGlobalVisitorsDocumentation": "Denna rapport visar de vanligaste övergripande konfigurationer som besökarna hade. En konfiguration är en kombination av ett operativsystem, en webbläsare och en skärmupplösning.",
         "WidgetPlugins": "Lista över plugins",
-        "WidgetPluginsDocumentation": "Denna rapport visar vilka plugins i webbläsaren som besökarna hade aktiverat. Denna information kan vara viktig för att välja rätt sätt att leverera ditt innehåll.",
-        "WidgetResolutions": "Skärmupplösning"
+        "WidgetPluginsDocumentation": "Denna rapport visar vilka plugins i webbläsaren som besökarna hade aktiverat. Denna information kan vara viktig för att välja rätt sätt att leverera ditt innehåll."
     }
 }
