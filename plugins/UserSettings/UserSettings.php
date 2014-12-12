@@ -53,7 +53,7 @@ class UserSettings extends \Piwik\Plugin
             $action = $movedMethods[$action];
         }
 
-        if ($module == 'UserSettings' && $action == 'getResolution') {
+        if ($module == 'UserSettings' && ($action == 'getResolution' || $action == 'getConfiguration')) {
             $module = 'Resolution';
         }
     }

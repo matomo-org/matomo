@@ -13,7 +13,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Updater;
 use Piwik\Updates;
 
-class Updates_2_10_0_b6 extends Updates
+class Updates_2_10_0_b7 extends Updates
 {
 
     static function getSql()
