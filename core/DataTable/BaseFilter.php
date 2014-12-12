@@ -73,8 +73,8 @@ abstract class BaseFilter
         if (!$this->enableRecursive) {
             return;
         }
-        if ($row->isSubtableLoaded()) {
-            $subTable = Manager::getInstance()->getTable($row->getIdSubDataTable());
+        $subTable = $row->getSubtable();
+        if ($subTable) {
             $this->filter($subTable);
         }
     }

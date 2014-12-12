@@ -22,6 +22,12 @@ If you wish to track all requests the following command would be used:
 
     python /path/to/piwik/misc/log-analytics/import_logs.py --url=http://mysite/piwik/ --idsite=1234 --recorders=4 --enable-http-errors --enable-http-redirects --enable-static --enable-bots access.log 
 
+### Format Specific Details
+
+* If you are importing Netscaler log files, make sure to specify the **--iis-time-taken-secs** option. Netscaler stores
+  the time-taken field in seconds while most other formats use milliseconds. Using this option will ensure that the
+  log importer interprets the field correctly.
+
 ## How to import your logs automatically every day?
 
 You must first make sure your logs are automatically rotated every day. The most

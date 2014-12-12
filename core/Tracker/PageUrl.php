@@ -256,13 +256,18 @@ class PageUrl
      */
     public static function reencodeParameters(&$queryParameters, $encoding = false)
     {
-        // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
-        // encode to UTF-8.
-        if (false !== $encoding
-            && 'utf-8' != strtolower($encoding)
-            && function_exists('mb_check_encoding')
-        ) {
-            $queryParameters = PageUrl::reencodeParametersArray($queryParameters, $encoding);
+        if (function_exists('mb_check_encoding')) {
+            // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
+            // encode to UTF-8.
+            if (strtolower($encoding) != 'utf-8'
+                && $encoding != false
+            ) {
+                Common::printDebug("Encoding page URL query parameters to $encoding.");
+
+                $queryParameters = PageUrl::reencodeParametersArray($queryParameters, $encoding);
+            }
+        } else {
+            Common::printDebug("Page charset supplied in tracking request, but mbstring extension is not available.");
         }
 
         return $queryParameters;
@@ -349,5 +354,15 @@ class PageUrl
 
         return array();
     }
-}
 
+    public static function urldecodeValidUtf8($value)
+    {
+        $value = urldecode($value);
+        if (function_exists('mb_check_encoding')
+            && !@mb_check_encoding($value, 'utf-8')
+        ) {
+            return urlencode($value);
+        }
+        return $value;
+    }
+}

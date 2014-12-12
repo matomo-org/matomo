@@ -2,22 +2,22 @@
 <result>
 	<row>
 		<label>Direct Entry</label>
-		<nb_visits>25</nb_visits>
-		<nb_actions>28</nb_actions>
+		<nb_visits>29</nb_visits>
+		<nb_actions>34</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>23</bounce_count>
+		<sum_visit_length>550</sum_visit_length>
+		<bounce_count>25</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>23</nb_conversions>
-				<nb_visits_converted>23</nb_visits_converted>
-				<revenue>115</revenue>
+				<nb_conversions>27</nb_conversions>
+				<nb_visits_converted>27</nb_visits_converted>
+				<revenue>135</revenue>
 			</row>
 		</goals>
-		<nb_conversions>23</nb_conversions>
-		<revenue>115</revenue>
-		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_conversions>27</nb_conversions>
+		<revenue>135</revenue>
+		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Websites</label>

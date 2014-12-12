@@ -317,7 +317,11 @@ class Row implements \ArrayAccess, \IteratorAggregate
     public function getSubtable()
     {
         if ($this->isSubtableLoaded()) {
-            return Manager::getInstance()->getTable($this->getIdSubDataTable());
+            try {
+                return Manager::getInstance()->getTable($this->getIdSubDataTable());
+            } catch(TableNotFoundException $e) {
+                // edge case
+            }
         }
         return false;
     }

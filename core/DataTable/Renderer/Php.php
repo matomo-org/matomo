@@ -206,10 +206,11 @@ class Php extends Renderer
                 $newRow['issummaryrow'] = true;
             }
 
+            $subTable = $row->getSubtable();
             if ($this->isRenderSubtables()
-                && $row->isSubtableLoaded()
+                && $subTable
             ) {
-                $subTable = $this->renderTable(Manager::getInstance()->getTable($row->getIdSubDataTable()));
+                $subTable = $this->renderTable($subTable);
                 $newRow['subtable'] = $subTable;
                 if ($this->hideIdSubDatatable === false
                     && isset($newRow['metadata']['idsubdatatable_in_db'])

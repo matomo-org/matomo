@@ -374,7 +374,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 68); // 5 blobs for 5 days
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 69); // 5 blobs for 5 days
     }
 
     /**
@@ -574,7 +574,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 70); // 1 segmented blob + 5 day blobs
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 71); // 1 segmented blob + 5 day blobs
     }
 
     // --- utility functions follow ---
@@ -720,15 +720,15 @@ class PrivacyManagerTest extends SystemTestCase
 
         // one metric for jan & one for feb
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][0])),
-            array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 1, 100));
+            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 1, $janDate1, 100));
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][1])),
-            array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 1, 200));
+            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 1, $febDate1, 200));
 
         // add garbage reports
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][0])),
-            array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 10, 'blobval'));
+            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 10, $janDate1, 'blobval'));
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][1])),
-            array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 20, 'blobval'));
+            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 20, $febDate1, 'blobval'));
     }
 
     protected function _checkNoDataChanges()

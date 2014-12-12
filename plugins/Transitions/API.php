@@ -523,8 +523,8 @@ class API extends \Piwik\Plugin\API
             if ($visits) {
                 // load details (i.e. subtables)
                 $details = array();
-                if ($idSubTable = $row->getIdSubDataTable()) {
-                    $subTable = Manager::getInstance()->getTable($idSubTable);
+                $subTable = $row->getSubtable();
+                if ($subTable) {
                     foreach ($subTable->getRows() as $subRow) {
                         $details[] = array(
                             'label'     => $subRow->getColumn('label'),
