@@ -542,21 +542,14 @@ class Visit implements VisitInterface
         return $valuesToUpdate;
     }
 
-    private function triggerPredicateHookOnDimensions($dimensions, $hook, Visitor $visitor, Action $action = null, $returnFirstTrue = true)
+    private function triggerPredicateHookOnDimensions($dimensions, $hook, Visitor $visitor, Action $action = null)
     {
-        $result = $returnFirstTrue ? false : array();
         foreach ($dimensions as $dimension) {
-            $value = $dimension->$hook($this->request, $visitor, $action);
-
-            if ($returnFirstTrue) {
-                if ($value) {
-                    return true;
-                }
-            } else {
-                $result[] = $value;
+            if ($dimension->$hook($this->request, $visitor, $action)) {
+                return true;
             }
         }
-        return $result;
+        return false;
     }
 
     protected function getAllVisitDimensions()

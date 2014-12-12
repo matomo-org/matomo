@@ -27,7 +27,7 @@ class Campaign extends Base
 
     public function __construct()
     {
-        $this->createNewVisitWhenCampaignChanges = TrackerConfig::getConfigValue('tracker_create_new_visit_when_campaign_changes') == 1;
+        $this->createNewVisitWhenCampaignChanges = TrackerConfig::getConfigValue('create_new_visit_when_campaign_changes') == 1;
     }
 
     public function getName()

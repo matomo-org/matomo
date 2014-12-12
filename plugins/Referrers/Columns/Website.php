@@ -27,7 +27,7 @@ class Website extends Base
 
     public function __construct()
     {
-        $this->createNewVisitWhenWebsiteReferrerChanges = TrackerConfig::getConfigValue('tracker_create_new_visit_when_website_referrer_changes') == 1;
+        $this->createNewVisitWhenWebsiteReferrerChanges = TrackerConfig::getConfigValue('create_new_visit_when_website_referrer_changes') == 1;
     }
 
     public function getName()

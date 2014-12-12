@@ -37,7 +37,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
     private function setPiwikEnviornmentOverrides()
     {
         $configOverride = $this->getTestEnvironment()->configOverride;
-        $configOverride['Tracker']['tracker_create_new_visit_when_website_referrer_changes'] = 1;
+        $configOverride['Tracker']['create_new_visit_when_website_referrer_changes'] = 1;
         $this->getTestEnvironment()->configOverride = $configOverride;
         $this->getTestEnvironment()->save();
     }

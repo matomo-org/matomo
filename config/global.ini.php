@@ -586,15 +586,15 @@ campaign_var_name = "pk_cpn,pk_campaign,piwik_campaign,utm_campaign,utm_source,u
 ; Includes by default the GA style campaign keyword parameter utm_term
 campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,utm_term"
 
-; if set to 1, actions that contain different campaign information from the last action in the current visit will
+; if set to 1, actions that contain different campaign information from the visitor's in progress visit will
 ; be treated as the start of a new visit. This will include situations when campaign information was absent before,
-; but is present now (or vice versa).
-tracker_create_new_visit_when_campaign_changes = 1
+; but is present now.
+create_new_visit_when_campaign_changes = 1
 
-; if set to 1, actions that contain different website referrer information from the last action in the current visit
+; if set to 1, actions that contain different website referrer information from the visitor's in progress visit
 ; will be treatedas the start of a new visit. This will include situations when website referrer information was
-; absent before, but is present now (or vice versa).
-tracker_create_new_visit_when_website_referrer_changes = 0
+; absent before, but is present now.
+create_new_visit_when_website_referrer_changes = 0
 
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
