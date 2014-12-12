@@ -35,10 +35,7 @@ class ReferrerName extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $referrerUrl = $request->getParam('urlref');
-        $currentUrl  = $request->getParam('url');
-
-        $information = $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
+        $information = $this->getReferrerInformationFromRequest($request);
 
         if (!empty($information['referer_name'])) {
 

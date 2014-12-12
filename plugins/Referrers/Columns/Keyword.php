@@ -41,10 +41,7 @@ class Keyword extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $referrerUrl = $request->getParam('urlref');
-        $currentUrl  = $request->getParam('url');
-
-        $information = $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
+        $information = $this->getReferrerInformationFromRequest($request);
 
         if (!empty($information['referer_keyword'])) {
             return substr($information['referer_keyword'], 0, 255);
