@@ -9,13 +9,18 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Access;
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Date;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Visitor;
 
 /**
  * @group Core
@@ -248,6 +253,86 @@ class VisitTest extends IntegrationTestCase
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $userAgent);
         }
+    }
+
+    public function test_isVisitNew_ReturnsFalse_IfLastActionTimestampIsWithinVisitTimeLength_AndNoDimensionForcesVisit_AndVisitorKnown()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction(
+            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true);
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertFalse($result);
+    }
+
+    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampIsNotWithinVisitTimeLength_AndNoDimensionForcesVisit_AndVisitorNotKnown()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction($lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 09:12:45');
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertTrue($result);
+    }
+
+    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampIsWithinVisitTimeLength_AndDimensionForcesVisit()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, true));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction($lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45');
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertTrue($result);
+    }
+
+    public  function test_isVisitNew_ReturnsTrue_IfDimensionForcesVisit_AndVisitorKnown()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, true));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction($lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45');
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertTrue($result);
+    }
+
+    private function makeVisitorAndAction($lastActionTimestamp, $currentActionTime, $isVisitorKnown = false)
+    {
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
+
+        $request = new Request(array('idsite' => $idsite));
+        $request->setCurrentTimestamp(Date::factory($currentActionTime)->getTimestamp());
+
+        $visit = new Visit();
+        $visit->setRequest($request);
+
+        $visitor = new Visitor($request, 'configid', array('visit_last_action_time' => Date::factory($lastActionTimestamp)->getTimestamp()));
+        $visitor->setIsVisitorKnown($isVisitorKnown);
+
+        $action = new ActionPageview($request);
+
+        return array($visit, $visitor, $action);
+    }
+
+    private function setDimensionsWithOnNewVisit($dimensionOnNewVisitResults)
+    {
+        $dimensions = array();
+        foreach ($dimensionOnNewVisitResults as $onNewVisitResult) {
+            $dim = $this->getMock('Piwik\\Plugin\\Dimension', array('shouldForceNewVisit', 'getColumnName'));
+            $dim->expects($this->any())->method('shouldForceNewVisit')->will($this->returnValue($onNewVisitResult));
+            $dimensions[] = $dim;
+        }
+
+        $cache = new PluginAwareStaticCache('VisitDimensions');
+        $cache->set($dimensions);
     }
 }
 

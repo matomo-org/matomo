@@ -616,7 +616,7 @@ class Visit implements VisitInterface
      * @param Action|null $action The current action being tracked.
      * @return bool
      */
-    private function isVisitNew(Visitor $visitor, Action $action = null)
+    public function isVisitNew(Visitor $visitor, Action $action = null)
     {
         $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
 

@@ -407,7 +407,7 @@ abstract class Base extends VisitDimension
         }
     }
 
-    protected function hasReferrerInformationChanged(Visitor $visitor, $information)
+    protected function isReferrerInformationNew(Visitor $visitor, $information)
     {
         foreach (array('referer_keyword', 'referer_name', 'referer_type') as $infoName) {
             if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
@@ -422,9 +422,8 @@ abstract class Base extends VisitDimension
         return Common::mb_strtolower($visitor->getVisitorColumn($infoName)) != $information[$infoName];
     }
 
-    protected function doesLastOrCurrentActionHaveSameReferrer(Visitor $visitor, $currentInformation, $referrerType)
+    protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
     {
-        return $visitor->getVisitorColumn('referer_type') == $referrerType
-        || $currentInformation['referer_type'] == $referrerType;
+        return $visitor->getVisitorColumn('referer_type') == $referrerType;
     }
 }

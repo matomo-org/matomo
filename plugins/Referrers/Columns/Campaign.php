@@ -52,8 +52,8 @@ class Campaign extends Base
 
         $information = $this->getReferrerInformationFromRequest($request);
 
-        if ($this->doesLastOrCurrentActionHaveSameReferrer($visitor, $information, Common::REFERRER_TYPE_CAMPAIGN)
-            && $this->hasReferrerInformationChanged($visitor, $information)
+        if ($information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && $this->isReferrerInformationNew($visitor, $information)
         ) {
             Common::printDebug("Existing visit detected, but creating new visit because campaign information is different than last action.");
 
