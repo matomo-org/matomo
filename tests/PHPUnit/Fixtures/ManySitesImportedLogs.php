@@ -246,7 +246,7 @@ class ManySitesImportedLogs extends Fixture
 
         $opts = array('--idsite'           => $this->idSite,
                       '--token-auth'       => self::getTokenAuth(),
-                      '--iis-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host', 'TimeTakenMS=time-taken'),
+                      '--w3c-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host', 'TimeTakenMS=time-taken'),
                       '--enable-http-errors'        => false,
                       '--enable-http-redirects'     => false);
 
@@ -259,12 +259,12 @@ class ManySitesImportedLogs extends Fixture
 
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth(),
-                      '--iis-map-field'             => array(),
+                      '--w3c-map-field'             => array(),
                       '--enable-http-redirects'     => false);
 
         $output = self::executeLogImporter($logFile, $opts);
 
-        // make sure warning about --iis-time-taken-secs appears in importer output
-        self::assertContains("WARNING: netscaler log file being parsed without --iis-time-taken-secs option.", implode("\n", $output));
+        // make sure warning about --w3c-time-taken-secs appears in importer output
+        self::assertContains("WARNING: netscaler log file being parsed without --w3c-time-taken-secs option.", implode("\n", $output));
     }
 }

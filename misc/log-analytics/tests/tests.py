@@ -27,7 +27,10 @@ def test_format_detection():
         import_logs.config = Config()
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
-        assert(format.name == format_name)
+        if format_name == 'iis':
+            assert(format.name == 'w3c_extended')
+        else:
+            assert(format.name == format_name)
 
     def _test_junk(format_name):
         tmp_path = add_junk_to_file('logs/%s.log' % format_name)
@@ -36,9 +39,15 @@ def test_format_detection():
         import_logs.config = Config()
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
-        assert(format.name == format_name)
+        if format_name == 'iis':
+            assert(format.name == 'w3c_extended')
+        else:
+            assert(format.name == format_name)
 
     for format_name in import_logs.FORMATS.iterkeys():
+        if format_name == 'w3c_extended': # tested by iis and netscaler log files
+            continue
+
         f = functools.partial(_test, format_name)
         f.description = 'Testing autodetection of format ' + format_name
         yield f
@@ -67,8 +76,8 @@ class Options(object):
     included_paths = []
     enable_http_errors = False
     download_extensions = 'doc,pdf'
-    custom_iis_fields = {}
-    iis_time_taken_in_secs = False
+    custom_w3c_fields = {}
+    w3c_time_taken_in_secs = False
 
 class Config(object):
     """Mock configuration."""
@@ -188,7 +197,7 @@ def test_replay_tracking_arguments():
 def parse_log_file_line(format_name, file_):
     format = import_logs.FORMATS[format_name]
 
-    import_logs.config.options.custom_iis_fields = {}
+    import_logs.config.options.custom_w3c_fields = {}
 
     file = open(file_)
     match = format.check_format(file)
@@ -280,6 +289,9 @@ def test_format_parsing():
         _test(format_name, tmp_path)
 
     for format_name in import_logs.FORMATS.iterkeys():
+        if format_name == 'w3c_extended': # tested by IIS and netscaler logs
+            continue
+
         f = functools.partial(_test, format_name, 'logs/' + format_name + '.log')
         f.description = 'Testing parsing of format "%s"' % format_name
         yield f
@@ -299,7 +311,7 @@ def test_iis_custom_format():
     file_ = 'logs/iis_custom.log'
 
     # have to override previous globals override for this test
-    import_logs.config.options.custom_iis_fields = {
+    import_logs.config.options.custom_w3c_fields = {
         'date-local': 'date',
         'time-local': 'time',
         'cs(Host)': 'cs-host',
@@ -373,19 +385,19 @@ def test_iis_custom_format():
     assert hits[2]['user_agent'] == u'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36'
 
 def test_netscaler_parsing():
-    """test parsing of netscaler logs (which are similar to IIS logs)"""
+    """test parsing of netscaler logs (which use extended W3C log format)"""
 
     file_ = 'logs/netscaler.log'
 
     # have to override previous globals override for this test
-    import_logs.config.options.custom_iis_fields = {}
+    import_logs.config.options.custom_w3c_fields = {}
     Recorder.recorders = []
     import_logs.parser = import_logs.Parser()
     import_logs.config.format = None
     import_logs.config.options.enable_http_redirects = True
     import_logs.config.options.enable_http_errors = True
     import_logs.config.options.replay_tracking = False
-    import_logs.config.options.iis_time_taken_in_secs = True
+    import_logs.config.options.w3c_time_taken_in_secs = True
     import_logs.parser.parse(file_)
 
     hits = [hit.__dict__ for hit in Recorder.recorders]

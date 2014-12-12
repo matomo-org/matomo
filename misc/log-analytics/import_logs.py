@@ -187,7 +187,9 @@ class RegexFormat(BaseFormat):
     def get_all(self,):
         return self.matched.groupdict()
 
-class IisFormat(RegexFormat):
+class W3cExtendedFormat(RegexFormat):
+
+    FIELDS_LINE_PREFIX = '#Fields: '
 
     fields = {
         'date': '(?P<date>^\d+[-\d+]+',
@@ -205,37 +207,46 @@ class IisFormat(RegexFormat):
     }
 
     def __init__(self):
-        super(IisFormat, self).__init__('iis', None, '%Y-%m-%d %H:%M:%S')
+        super(W3cExtendedFormat, self).__init__('w3c_extended', None, '%Y-%m-%d %H:%M:%S')
 
     def check_format(self, file):
-        header_lines = [file.readline() for i in xrange(3)]
+        # collect all header lines and the first line of the logfile
+        header_lines = []
+        while True:
+            line = file.readline()
 
-        if not header_lines[0].startswith('#'):
+            if line.startswith('#'):
+                header_lines.append(line)
+            else:
+                break
+        first_line = line
+        fields_line = next((line for line in header_lines if line.startswith(W3cExtendedFormat.FIELDS_LINE_PREFIX)), None)
+
+        if not header_lines or not fields_line:
             file.seek(0)
             return
 
         # Parse the 4th 'Fields: ' line to create the regex to use
         full_regex = []
-        line = file.readline()
 
-        expected_fields = IisFormat.fields.copy() # turn custom field mapping into field => regex mapping
-        for mapped_field_name, field_name in config.options.custom_iis_fields.iteritems():
-            expected_fields[mapped_field_name] = IisFormat.fields[field_name]
+        expected_fields = W3cExtendedFormat.fields.copy() # turn custom field mapping into field => regex mapping
+        for mapped_field_name, field_name in config.options.custom_w3c_fields.iteritems():
+            expected_fields[mapped_field_name] = W3cExtendedFormat.fields[field_name]
             del expected_fields[field_name]
 
-        # if the --iis-time-taken-secs option is used, make sure the time-taken field is interpreted as seconds
-        if config.options.iis_time_taken_in_secs:
+        # if the --w3c-time-taken-secs option is used, make sure the time-taken field is interpreted as seconds
+        if config.options.w3c_time_taken_in_secs:
             expected_fields['time-taken'] = '(?P<generation_time_secs>\S+)'
         else:
             # check if we're importing netscaler logs and if so, issue a warning
             if 'netscaler' in header_lines[1].lower():
-                logging.info("WARNING: netscaler log file being parsed without --iis-time-taken-secs option. Netscaler"
+                logging.info("WARNING: netscaler log file being parsed without --w3c-time-taken-secs option. Netscaler"
                              " stores second values in the time-taken field. If your logfile does this, the aforementioned"
                              " option must be used in order to get accurate generation times.")
 
         # Skip the 'Fields: ' prefix.
-        line = line[9:]
-        for field in line.split():
+        fields_line = fields_line[9:]
+        for field in fields_line.split():
             try:
                 regex = expected_fields[field]
             except KeyError:
@@ -243,10 +254,9 @@ class IisFormat(RegexFormat):
             full_regex.append(regex)
         self.regex = re.compile(' '.join(full_regex))
 
-        start_pos = file.tell()
-        nextline = file.readline()
+        start_pos = file.tell() - len(first_line)
         file.seek(start_pos)
-        return self.check_format_line(nextline)
+        return self.check_format_line(first_line)
 
 _HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
 _COMMON_LOG_FORMAT = (
@@ -270,7 +280,8 @@ FORMATS = {
     'common_vhost': RegexFormat('common_vhost', _HOST_PREFIX + _COMMON_LOG_FORMAT),
     'ncsa_extended': RegexFormat('ncsa_extended', _NCSA_EXTENDED_LOG_FORMAT),
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
-    'iis': IisFormat(),
+    'w3c_extended': W3cExtendedFormat(),
+    'iis': W3cExtendedFormat(), # for backwards compatibility TODO test
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
     'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
     'nginx_json': JsonFormat('nginx_json'),
@@ -504,34 +515,35 @@ class Configuration(object):
             help="By default Piwik tracks as Downloads the most popular file extensions. If you set this parameter (format: pdf,doc,...) then files with an extension found in the list will be imported as Downloads, other file extensions downloads will be skipped."
         )
         option_parser.add_option(
-            '--iis-map-field', action='callback', callback=self._set_iis_field_map, type='string',
-            help="Map a custom log entry field in your IIS log to a default one. Use this option to load custom IIS log "
-                 "files such as those from the Advanced Logging IIS module. Used as, eg, --iis-map-field my-date=date. "
-                 "Recognized default fields include: %s" % (', '.join(IisFormat.fields.keys()))
+            '--w3c-map-field', action='callback', callback=self._set_w3c_field_map, type='string',
+            help="Map a custom log entry field in your W3C log to a default one. Use this option to load custom log "
+                 "files that use the W3C extended log format such as those from the Advanced Logging W3C module. Used "
+                 "as, eg, --w3c-map-field my-date=date. Recognized default fields include: %s"
+                     % (', '.join(W3cExtendedFormat.fields.keys()))
         )
         option_parser.add_option(
-            '--iis-time-taken-secs', action='store_true', default=False, dest='iis_time_taken_in_secs',
-            help="If set, interprets the time-taken IIS log field as a number of seconds. This must be set for importing"
+            '--w3c-time-taken-secs', action='store_true', default=False, dest='w3c_time_taken_in_secs',
+            help="If set, interprets the time-taken W3C log field as a number of seconds. This must be set for importing"
                  " netscaler logs."
         )
         return option_parser
 
-    def _set_iis_field_map(self, option, opt_str, value, parser):
+    def _set_w3c_field_map(self, option, opt_str, value, parser):
         parts = value.split('=')
 
         if len(parts) != 2:
-            fatal_error("Invalid --iis-map-field option: '%s'" % value)
+            fatal_error("Invalid --w3c-map-field option: '%s'" % value)
 
         custom_name, default_name = parts
 
-        if default_name not in IisFormat.fields:
-            fatal_error("custom IIS field mapping error: don't know how to parse and use the '%' field" % default_name)
+        if default_name not in W3cExtendedFormat.fields:
+            fatal_error("custom W3C field mapping error: don't know how to parse and use the '%' field" % default_name)
             return
 
-        if not hasattr(parser.values, 'custom_iis_fields'):
-            parser.values.custom_iis_fields = {}
+        if not hasattr(parser.values, 'custom_w3c_fields'):
+            parser.values.custom_w3c_fields = {}
 
-        parser.values.custom_iis_fields[custom_name] = default_name
+        parser.values.custom_w3c_fields[custom_name] = default_name
 
     def _parse_args(self, option_parser):
         """
@@ -546,8 +558,8 @@ class Configuration(object):
             print(option_parser.format_help())
             sys.exit(1)
 
-        if not hasattr(self.options, 'custom_iis_fields'):
-            self.options.custom_iis_fields = {}
+        if not hasattr(self.options, 'custom_w3c_fields'):
+            self.options.custom_w3c_fields = {}
 
         # Configure logging before calling logging.{debug,info}.
         logging.basicConfig(
@@ -1549,7 +1561,7 @@ class Parser(object):
 
         format = False
 
-        # check the format using the file (for formats like the IIS one)
+        # check the format using the file (for formats like the W3cExtendedFormat one)
         format = Parser.check_format(file)
 
         # check the format using the first N lines (to avoid irregular ones)
@@ -1663,7 +1675,7 @@ class Parser(object):
             except BaseFormatException:
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
 
-            # IIS detaults to - when there is no query string, but we want empty string
+            # W3cExtendedFormat detaults to - when there is no query string, but we want empty string
             if hit.query_string == '-':
                 hit.query_string = ''
 
@@ -1690,7 +1702,7 @@ class Parser(object):
             try:
                 hit.length = int(format.get('length'))
             except (ValueError, BaseFormatException):
-                # Some lines or formats don't have a length (e.g. 304 redirects, IIS logs)
+                # Some lines or formats don't have a length (e.g. 304 redirects, W3C logs)
                 hit.length = 0
 
             try:
