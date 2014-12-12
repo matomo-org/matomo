@@ -259,7 +259,7 @@ class PageUrl
         if (function_exists('mb_check_encoding')) {
             // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
             // encode to UTF-8.
-            if ($encoding != 'utf-8'
+            if (strtolower($encoding) != 'utf-8'
                 && $encoding != false
             ) {
                 Common::printDebug("Encoding page URL query parameters to $encoding.");
