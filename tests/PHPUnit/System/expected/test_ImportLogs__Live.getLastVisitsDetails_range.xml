@@ -1883,6 +1883,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -1894,7 +1895,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>11:55:13</visitLocalTime>
@@ -1986,6 +1986,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -1997,7 +1998,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:30:00</visitLocalTime>
@@ -2106,6 +2106,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2117,7 +2118,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:00:00</visitLocalTime>
@@ -2209,6 +2209,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2220,7 +2221,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:00:00</visitLocalTime>
