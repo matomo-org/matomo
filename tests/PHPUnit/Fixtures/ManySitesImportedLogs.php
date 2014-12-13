@@ -262,9 +262,6 @@ class ManySitesImportedLogs extends Fixture
                       '--w3c-map-field'             => array(),
                       '--enable-http-redirects'     => false);
 
-        $output = self::executeLogImporter($logFile, $opts);
-
-        // make sure warning about --w3c-time-taken-secs appears in importer output
-        self::assertContains("WARNING: netscaler log file being parsed without --w3c-time-taken-secs option.", implode("\n", $output));
+        return self::executeLogImporter($logFile, $opts);
     }
 }

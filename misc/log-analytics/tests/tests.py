@@ -22,30 +22,31 @@ def tearDownModule():
         os.remove('tmp.log')
 
 def test_format_detection():
-    def _test(format_name):
-        file = open('logs/%s.log' % format_name)
+    def _test(format_name, log_file = None):
+        if log_file is None:
+            log_file = 'logs/%s.log' % format_name
+
+        file = open(log_file)
         import_logs.config = Config()
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
-        if format_name == 'iis':
-            assert(format.name == 'w3c_extended')
-        else:
-            assert(format.name == format_name)
+        assert(format.name == format_name)
 
-    def _test_junk(format_name):
-        tmp_path = add_junk_to_file('logs/%s.log' % format_name)
+    def _test_junk(format_name, log_file = None):
+        if log_file is None:
+            log_file = 'logs/%s.log' % format_name
+        
+        tmp_path = add_junk_to_file(log_file)
 
         file = open(tmp_path)
         import_logs.config = Config()
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
-        if format_name == 'iis':
-            assert(format.name == 'w3c_extended')
-        else:
-            assert(format.name == format_name)
+        assert(format.name == format_name)
 
     for format_name in import_logs.FORMATS.iterkeys():
-        if format_name == 'w3c_extended': # tested by iis and netscaler log files
+        # w3c extended tested by iis and netscaler log files; amazon cloudfront tested later
+        if format_name == 'w3c_extended' or format_name == 'amazon_cloudfront':
             continue
 
         f = functools.partial(_test, format_name)
@@ -55,6 +56,23 @@ def test_format_detection():
         f = functools.partial(_test_junk, format_name)
         f.description = 'Testing autodetection of format ' + format_name + ' w/ garbage at end of line'
         yield f
+
+    # add tests for amazon cloudfront (normal web + rtmp)
+    f = functools.partial(_test, 'w3c_extended', 'logs/amazon_cloudfront_web.log')
+    f.description = 'Testing autodetection of amazon cloudfront (web) logs.'
+    yield f
+
+    f = functools.partial(_test_junk, 'w3c_extended', 'logs/amazon_cloudfront_web.log')
+    f.description = 'Testing autodetection of amazon cloudfront (web) logs w/ garbage at end of line'
+    yield f
+
+    f = functools.partial(_test, 'amazon_cloudfront', 'logs/amazon_cloudfront_rtmp.log')
+    f.description = 'Testing autodetection of amazon cloudfront (rtmp) logs.'
+    yield f
+
+    f = functools.partial(_test_junk, 'amazon_cloudfront', 'logs/amazon_cloudfront_rtmp.log')
+    f.description = 'Testing autodetection of amazon cloudfront (rtmp) logs w/ garbage at end of line.'
+    yield f
 
 class Options(object):
     """Mock config options necessary to run checkers from Parser class."""
@@ -77,7 +95,7 @@ class Options(object):
     enable_http_errors = False
     download_extensions = 'doc,pdf'
     custom_w3c_fields = {}
-    w3c_time_taken_in_secs = False
+    w3c_time_taken_in_millisecs = False
 
 class Config(object):
     """Mock configuration."""
@@ -242,7 +260,8 @@ def check_iis_groups(groups):
     assert groups['host'] == 'example.com'
 
     expected_hit_properties = ['date', 'path', 'query_string', 'ip', 'referrer', 'user_agent',
-                               'status', 'length', 'host', 'userid', 'generation_time_milli']
+                               'status', 'length', 'host', 'userid', 'generation_time_milli',
+                               '__win32_status']
 
     for property_name in groups.keys():
         assert property_name in expected_hit_properties
@@ -289,7 +308,8 @@ def test_format_parsing():
         _test(format_name, tmp_path)
 
     for format_name in import_logs.FORMATS.iterkeys():
-        if format_name == 'w3c_extended': # tested by IIS and netscaler logs
+        # w3c extended tested by IIS and netscaler logs; amazon cloudfront tested individually
+        if format_name == 'w3c_extended' or format_name == 'amazon_cloudfront':
             continue
 
         f = functools.partial(_test, format_name, 'logs/' + format_name + '.log')
@@ -303,7 +323,6 @@ def test_format_parsing():
     f = functools.partial(_test, 'common', 'logs/ncsa_extended.log')
     f.description = 'Testing parsing of format "common" with ncsa_extended log'
     yield f
-
 
 def test_iis_custom_format():
     """test IIS custom format name parsing."""
@@ -323,6 +342,7 @@ def test_iis_custom_format():
     import_logs.config.options.enable_http_redirects = True
     import_logs.config.options.enable_http_errors = True
     import_logs.config.options.replay_tracking = False
+    # import_logs.config.options.w3c_time_taken_in_millisecs = True test that even w/o this, we get the right format
     import_logs.parser.parse(file_)
 
     hits = [hit.__dict__ for hit in Recorder.recorders]
@@ -397,7 +417,7 @@ def test_netscaler_parsing():
     import_logs.config.options.enable_http_redirects = True
     import_logs.config.options.enable_http_errors = True
     import_logs.config.options.replay_tracking = False
-    import_logs.config.options.w3c_time_taken_in_secs = True
+    import_logs.config.options.w3c_time_taken_in_millisecs = False
     import_logs.parser.parse(file_)
 
     hits = [hit.__dict__ for hit in Recorder.recorders]
@@ -421,3 +441,114 @@ def test_netscaler_parsing():
     assert hits[0]['is_robot'] == False
     assert hits[0]['full_path'] == u'/Citrix/XenApp/Wan/auth/login.jsp'
     assert hits[0]['user_agent'] == u'Mozilla/4.0+(compatible;+MSIE+7.0;+Windows+NT+5.1;+Trident/4.0;+.NET+CLR+1.1.4322;+.NET+CLR+2.0.50727;+.NET+CLR+3.0.04506.648;+.NET+CLR+3.5.21022)'
+
+def test_amazon_cloudfront_web_parsing():
+    """test parsing of amazon cloudfront logs (which use extended W3C log format)"""
+
+    file_ = 'logs/amazon_cloudfront_web.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_w3c_fields = {}
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.config.options.w3c_time_taken_in_millisecs = False
+    import_logs.parser.parse(file_)
+
+    hits = [hit.__dict__ for hit in Recorder.recorders]
+
+    import_logs.logging.debug(hits)
+
+    assert hits[0]['status'] == u'200'
+    assert hits[0]['userid'] == None
+    assert hits[0]['is_error'] == False
+    assert hits[0]['extension'] == u'html'
+    assert hits[0]['is_download'] == False
+    assert hits[0]['referrer'] == u'www.displaymyfiles.com'
+    assert hits[0]['args'] == {}
+    assert hits[0]['generation_time_milli'] == 1.0
+    assert hits[0]['host'] == 'foo'
+    assert hits[0]['filename'] == 'logs/amazon_cloudfront_web.log'
+    assert hits[0]['is_redirect'] == False
+    assert hits[0]['date'] == datetime.datetime(2014, 5, 23, 1, 13, 11)
+    assert hits[0]['lineno'] == 2
+    assert hits[0]['ip'] == u'192.0.2.10'
+    assert hits[0]['query_string'] == ''
+    assert hits[0]['path'] == u'/view/my/file.html'
+    assert hits[0]['is_robot'] == False
+    assert hits[0]['full_path'] == u'/view/my/file.html'
+    assert hits[0]['user_agent'] == u'Mozilla/4.0%20(compatible;%20MSIE%205.0b1;%20Mac_PowerPC)'
+
+    assert len(hits) == 1
+
+def test_amazon_cloudfront_rtmp_parsing():
+    """test parsing of amazon cloudfront rtmp logs (which use extended W3C log format w/ custom fields for event info)"""
+
+    file_ = 'logs/amazon_cloudfront_rtmp.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_w3c_fields = {}
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.config.options.w3c_time_taken_in_millisecs = False
+    import_logs.parser.parse(file_)
+
+    hits = [hit.__dict__ for hit in Recorder.recorders]
+
+    import_logs.logging.debug(hits)
+
+    assert hits[0]['is_download'] == False
+    assert hits[0]['ip'] == u'192.0.2.147'
+    assert hits[0]['is_redirect'] == False
+    assert hits[0]['filename'] == 'logs/amazon_cloudfront_rtmp.log'
+    assert hits[0]['event_category'] == 'cloudfront_rtmp'
+    assert hits[0]['event_action'] == u'connect'
+    assert hits[0]['lineno'] == 2
+    assert hits[0]['status'] == '200'
+    assert hits[0]['is_error'] == False
+    assert hits[0]['event_name'] == u'-'
+    assert hits[0]['args'] == {}
+    assert hits[0]['host'] == 'foo'
+    assert hits[0]['date'] == datetime.datetime(2010, 3, 12, 23, 51, 20)
+    assert hits[0]['path'] == u'/shqshne4jdp4b6.cloudfront.net/cfx/st\u200b'
+    assert hits[0]['extension'] == u'net/cfx/st\u200b'
+    assert hits[0]['referrer'] == ''
+    assert hits[0]['userid'] == None
+    assert hits[0]['user_agent'] == u'LNX%2010,0,32,18'
+    assert hits[0]['generation_time_milli'] == 0
+    assert hits[0]['query_string'] == u'key=value'
+    assert hits[0]['is_robot'] == False
+    assert hits[0]['full_path'] == u'/shqshne4jdp4b6.cloudfront.net/cfx/st\u200b'
+
+    assert hits[1]['is_download'] == False
+    assert hits[1]['ip'] == u'192.0.2.222'
+    assert hits[1]['is_redirect'] == False
+    assert hits[1]['filename'] == 'logs/amazon_cloudfront_rtmp.log'
+    assert hits[1]['event_category'] == 'cloudfront_rtmp'
+    assert hits[1]['event_action'] == u'play'
+    assert hits[1]['lineno'] == 3
+    assert hits[1]['status'] == '200'
+    assert hits[1]['is_error'] == False
+    assert hits[1]['event_name'] == u'myvideo'
+    assert hits[1]['args'] == {}
+    assert hits[1]['host'] == 'foo'
+    assert hits[1]['date'] == datetime.datetime(2010, 3, 12, 23, 51, 21)
+    assert hits[1]['path'] == u'/shqshne4jdp4b6.cloudfront.net/cfx/st\u200b'
+    assert hits[1]['extension'] == u'net/cfx/st\u200b'
+    assert hits[1]['referrer'] == ''
+    assert hits[1]['userid'] == None
+    assert hits[1]['length'] == 3914
+    assert hits[1]['user_agent'] == u'LNX%2010,0,32,18'
+    assert hits[1]['generation_time_milli'] == 0
+    assert hits[1]['query_string'] == u'key=value'
+    assert hits[1]['is_robot'] == False
+    assert hits[1]['full_path'] == u'/shqshne4jdp4b6.cloudfront.net/cfx/st\u200b'
+
+    assert len(hits) == 2
