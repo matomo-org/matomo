@@ -3,9 +3,6 @@
         "BrowserLanguage": "浏览器语言",
         "BrowserWithNoPluginsEnabled": "%1$s 没有启用插件",
         "BrowserWithPluginsEnabled": "%1$s 启用插件%2$s",
-        "ColumnConfiguration": "客户端配置",
-        "ColumnResolution": "分辨率",
-        "Configurations": "客户端配置",
         "Language_aa": "阿法文",
         "Language_ab": "阿布哈西亚文",
         "Language_ae": "阿维斯塔文",
@@ -193,12 +190,8 @@
         "LanguageCode": "语言代码",
         "PluginDescription": "用户环境报表: 浏览器、浏览器种类、操作系统、插件、分辨率、全局参数。",
         "PluginDetectionDoesNotWorkInIE": "注意: 插件检查无法在 Internet Explorer 上运行。这个报表仅提供非 IE 浏览器。",
-        "Resolutions": "分辨率",
         "VisitorSettings": "访客设置",
-        "WidgetGlobalVisitors": "访客设置",
-        "WidgetGlobalVisitorsDocumentation": "本报表显示您的访客最常用的系统配置。系统配置是操作系统、浏览器类型及显示器分辨率的组合。",
         "WidgetPlugins": "浏览器插件清单",
-        "WidgetPluginsDocumentation": "本报表显示访客使用的浏览器插件，这可能对如何发布您的内容很重要。",
-        "WidgetResolutions": "画面分辨率"
+        "WidgetPluginsDocumentation": "本报表显示访客使用的浏览器插件，这可能对如何发布您的内容很重要。"
     }
 }

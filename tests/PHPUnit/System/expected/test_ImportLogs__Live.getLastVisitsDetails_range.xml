@@ -84,6 +84,7 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1366x768</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -95,7 +96,6 @@
 		<location>Raleigh, North Carolina, United States</location>
 		<latitude>35.771999</latitude>
 		<longitude>-78.639000</longitude>
-		<resolution>1366x768</resolution>
 		<plugins>pdf, flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -220,6 +220,7 @@
 		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1536x864</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -231,7 +232,6 @@
 		<location>Lake Forest, California, United States</location>
 		<latitude>33.645000</latitude>
 		<longitude>-117.679001</longitude>
-		<resolution>1536x864</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:33:27</visitLocalTime>
@@ -331,6 +331,7 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1920x1200</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Germany</country>
@@ -342,7 +343,6 @@
 		<location>Germany</location>
 		<latitude>51</latitude>
 		<longitude>9</longitude>
-		<resolution>1920x1200</resolution>
 		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -475,6 +475,7 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<resolution>2880x1800</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -486,7 +487,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<resolution>2880x1800</resolution>
 		<plugins>pdf, flash, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
@@ -588,6 +588,7 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1920x1080</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Belgium</country>
@@ -599,7 +600,6 @@
 		<location>Maaseik, Limburg, Belgium</location>
 		<latitude>51.099998</latitude>
 		<longitude>5.800000</longitude>
-		<resolution>1920x1080</resolution>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -712,6 +712,7 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<resolution>1360x768</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -723,7 +724,6 @@
 		<location>San Francisco, California, United States</location>
 		<latitude>37.792000</latitude>
 		<longitude>-122.408997</longitude>
-		<resolution>1360x768</resolution>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -843,6 +843,7 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<resolution>2560x1440</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -854,7 +855,6 @@
 		<location>Nihon'odori, Kanagawa, Japan</location>
 		<latitude>35.450001</latitude>
 		<longitude>139.649994</longitude>
-		<resolution>2560x1440</resolution>
 		<plugins>pdf, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
@@ -963,6 +963,7 @@
 		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>360x640</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Germany</country>
@@ -974,7 +975,6 @@
 		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
 		<latitude>50.766998</latitude>
 		<longitude>6.833000</longitude>
-		<resolution>360x640</resolution>
 		<plugins>flash</plugins>
 		<pluginsIcons>
 			<row>
@@ -1075,6 +1075,7 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>2560x1440</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Germany</country>
@@ -1086,7 +1087,6 @@
 		<location>Mainz, Rheinland-Pfalz, Germany</location>
 		<latitude>50</latitude>
 		<longitude>8.271000</longitude>
-		<resolution>2560x1440</resolution>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1242,6 +1242,7 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<resolution>1920x1080</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
@@ -1253,7 +1254,6 @@
 		<location>Moscow, Moscow City, Russian Federation</location>
 		<latitude>55.751999</latitude>
 		<longitude>37.616001</longitude>
-		<resolution>1920x1080</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1358,6 +1358,7 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1366x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Turkey</country>
@@ -1369,7 +1370,6 @@
 		<location>Esentepe, Rize, Turkey</location>
 		<latitude>40.979000</latitude>
 		<longitude>40.415001</longitude>
-		<resolution>1366x768</resolution>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1482,6 +1482,7 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1920x1080</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Belgium</country>
@@ -1493,7 +1494,6 @@
 		<location>Maaseik, Limburg, Belgium</location>
 		<latitude>51.099998</latitude>
 		<longitude>5.800000</longitude>
-		<resolution>1920x1080</resolution>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1764,6 +1764,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -1775,7 +1776,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:10:38</visitLocalTime>
@@ -1883,6 +1883,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -1894,7 +1895,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>11:55:13</visitLocalTime>
@@ -1986,6 +1986,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -1997,7 +1998,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:30:00</visitLocalTime>
@@ -2106,6 +2106,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2117,7 +2118,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:00:00</visitLocalTime>
@@ -2209,6 +2209,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2220,7 +2221,6 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:00:00</visitLocalTime>
@@ -2323,6 +2323,7 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1024x768</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -2334,7 +2335,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2438,6 +2438,7 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1280x800</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -2449,7 +2450,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>1280x800</resolution>
 		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
 		<pluginsIcons>
 			<row>
@@ -2569,6 +2569,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -2580,7 +2581,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:15:41</visitLocalTime>
@@ -2692,6 +2692,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -2703,7 +2704,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>19:12:40</visitLocalTime>
@@ -2822,6 +2822,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -2833,7 +2834,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>18:10:38</visitLocalTime>
@@ -2928,6 +2928,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2939,7 +2940,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:48:08</visitLocalTime>
@@ -3034,6 +3034,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -3045,7 +3046,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:48:07</visitLocalTime>
@@ -3130,6 +3130,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Oceania</continent>
 		<continentCode>oce</continentCode>
 		<country>Australia</country>
@@ -3141,7 +3142,6 @@
 		<location>Australia</location>
 		<latitude>-27</latitude>
 		<longitude>133</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>17:46:03</visitLocalTime>
@@ -3236,6 +3236,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -3247,7 +3248,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>16:11:30</visitLocalTime>
@@ -3342,6 +3342,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -3353,7 +3354,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>16:10:38</visitLocalTime>
@@ -3444,6 +3444,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -3455,7 +3456,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>15:31:05</visitLocalTime>
@@ -3546,6 +3546,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -3557,7 +3558,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:49:46</visitLocalTime>
@@ -3648,6 +3648,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>South America</continent>
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
@@ -3659,7 +3660,6 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:22:08</visitLocalTime>
@@ -3750,6 +3750,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>South America</continent>
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
@@ -3761,7 +3762,6 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:21:28</visitLocalTime>
@@ -3852,6 +3852,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>South America</continent>
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
@@ -3863,7 +3864,6 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:21:03</visitLocalTime>
@@ -3954,6 +3954,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -3965,7 +3966,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:01:17</visitLocalTime>
@@ -4056,6 +4056,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4067,7 +4068,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>19:59:50</visitLocalTime>
@@ -4158,6 +4158,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -4169,7 +4170,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>18:03:40</visitLocalTime>
@@ -4260,6 +4260,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -4271,7 +4272,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>21:00:42</visitLocalTime>
@@ -4362,6 +4362,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -4373,7 +4374,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>20:56:45</visitLocalTime>
@@ -4464,6 +4464,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -4475,7 +4476,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:49:48</visitLocalTime>
@@ -4566,6 +4566,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -4577,7 +4578,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:48:20</visitLocalTime>
@@ -4668,6 +4668,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -4679,7 +4680,6 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>13:48:07</visitLocalTime>
@@ -4770,6 +4770,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4781,7 +4782,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:12:03</visitLocalTime>
@@ -4872,6 +4872,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4883,7 +4884,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:11:56</visitLocalTime>
@@ -4974,6 +4974,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4985,7 +4986,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:11:30</visitLocalTime>
@@ -5076,6 +5076,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -5087,7 +5088,6 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>08:10:38</visitLocalTime>

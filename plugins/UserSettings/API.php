@@ -39,17 +39,20 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\Resolution\API} for new implementation.
+     */
     public function getResolution($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::RESOLUTION_RECORD_NAME, $idSite, $period, $date, $segment);
-        return $dataTable;
+        return \Piwik\Plugins\Resolution\API::getInstance()->getResolution($idSite, $period, $date, $segment);
     }
 
+    /**
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\Resolution\API} for new implementation.
+     */
     public function getConfiguration($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::CONFIGURATION_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getConfigurationLabel'));
-        return $dataTable;
+        return \Piwik\Plugins\Resolution\API::getInstance()->getConfiguration($idSite, $period, $date, $segment);
     }
 
     protected function getDevicesDetectorApi()

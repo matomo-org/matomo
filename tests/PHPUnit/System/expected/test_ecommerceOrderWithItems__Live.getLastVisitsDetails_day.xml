@@ -177,6 +177,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1024x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Poland</country>
@@ -188,7 +189,6 @@
 		<location>Poland</location>
 		<latitude />
 		<longitude />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -505,6 +505,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1024x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Poland</country>
@@ -516,7 +517,6 @@
 		<location>Poland</location>
 		<latitude />
 		<longitude />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -719,6 +719,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>1024x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -730,7 +731,6 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>

@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Formësim",
-        "ColumnResolution": "Qartësi",
-        "Configurations": "Formësime",
         "Language_af": "Afrikanisht",
         "Language_am": "Amharike",
         "Language_ar": "Arabisht",
@@ -107,12 +104,8 @@
         "LanguageCode": "Kod Gjuhe",
         "PluginDescription": "Raporton Rregullime të ndryshme të Përdoruesit: Shfletues, Familje Shfletuesi, Sistem Operativ, Shtojca, Qartësi, Rregullime Globale.",
         "PluginDetectionDoesNotWorkInIE": "Shënim: Zbulimi i shtojcave nuk funksionon nën Internet Explorer. Ky raport mund të kihet vetëm nën shfletuesa jo-IE.",
-        "Resolutions": "Qartësi",
         "VisitorSettings": "Rregullimet për Vizitor",
-        "WidgetGlobalVisitors": "Formësime globale vizitorësh",
-        "WidgetGlobalVisitorsDocumentation": "Ky raport shfaq formësimet e përgjithshme më të rëndomta të përdorura nga vizitorët tuaj. Formësimi përmban të dhënat për sistemin operativ, llojin e shfletuesit dhe qartësinë e ekranit.",
         "WidgetPlugins": "Listë e Shtojcave",
-        "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj.",
-        "WidgetResolutions": "Qartësi ekrani"
+        "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj."
     }
 }

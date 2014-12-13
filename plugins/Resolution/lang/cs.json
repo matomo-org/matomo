@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Konfigurace",
+        "ColumnResolution": "Rozlišení",
+        "Configurations": "Nastavení",
+        "Resolutions": "Rozlišení",
+        "WidgetGlobalVisitors": "Hlavní nastavení návštěvníků",
+        "WidgetGlobalVisitorsDocumentation": "Toto hlášení zobrazuje nejčastější konfigurace, které vaši návštěvníci měli. Konfigurace je kombinace operačního systému, prohlížeče a rozlišení.",
+        "WidgetResolutions": "Rozlišení obrazovky"
+    }
+}

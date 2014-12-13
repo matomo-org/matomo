@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Konfigurazioa",
-        "ColumnResolution": "Bereizmena",
-        "Configurations": "Konfigurazioak",
         "Language_ab": "abkhazera",
         "Language_af": "afrikaans",
         "Language_ak": "Akanera",
@@ -149,10 +146,7 @@
         "Language_zh": "txinera",
         "Language_zu": "zuluera",
         "LanguageCode": "Hizkuntza-kodea",
-        "Resolutions": "Bereizmenak",
         "VisitorSettings": "Bisitariaren ezarpenak",
-        "WidgetGlobalVisitors": "Bisitarien konfigurazioa",
-        "WidgetPlugins": "Pluginen zerrenda",
-        "WidgetResolutions": "Pantailaren bereizmenak"
+        "WidgetPlugins": "Pluginen zerrenda"
     }
 }

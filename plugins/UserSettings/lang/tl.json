@@ -3,9 +3,6 @@
         "BrowserLanguage": "wika ng browser",
         "BrowserWithNoPluginsEnabled": "%1$s na may plugins na hindi pinapagana",
         "BrowserWithPluginsEnabled": "%1$s na may mga plugin %2$s na naka-enable",
-        "ColumnConfiguration": "Configuration",
-        "ColumnResolution": "Resolusyon",
-        "Configurations": "Configurations",
         "Language_aa": "Afar",
         "Language_ab": "Abkhazian",
         "Language_ae": "Avestan",
@@ -192,12 +189,8 @@
         "LanguageCode": "wika ng code",
         "PluginDescription": "Ulat para sa ibat-ibang mga Setting ng user: Browser Pamilya ng browser Operating System Plugins Resolution Pang-kalahatang settings.",
         "PluginDetectionDoesNotWorkInIE": "Tandaan: Ang pagtingin ng Plugin ay hindi gumagana sa Internet Explorer. Ang ulat na ito ay batay lamang sa mga browser na hindi-IE.",
-        "Resolutions": "Mga Resolution",
         "VisitorSettings": "Mga Setting ng bisita",
-        "WidgetGlobalVisitors": "Configuration ng bisita",
-        "WidgetGlobalVisitorsDocumentation": "Ang ulat na ito ay nagpapakita ng karaniwang pangkalahatang configuration na meron ang iyong bisita. Ang configuration ay binubuo ng operating system uri ng mga browser at screen resolution.",
         "WidgetPlugins": "Browser Plugins",
-        "WidgetPluginsDocumentation": "Ang ulat na ito ay ipinapakita kung anong browser plugis ang gumagana sa iyong bisita. Ang impormasyon na ito may maaring mahalaga sa pagpili kung paanu ihahatid ang nilalaman nito.",
-        "WidgetResolutions": "Screen Resolution"
+        "WidgetPluginsDocumentation": "Ang ulat na ito ay ipinapakita kung anong browser plugis ang gumagana sa iyong bisita. Ang impormasyon na ito may maaring mahalaga sa pagpili kung paanu ihahatid ang nilalaman nito."
     }
 }

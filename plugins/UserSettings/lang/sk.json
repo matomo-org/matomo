@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Konfigurácia",
-        "ColumnResolution": "Rozlíšenie",
-        "Configurations": "Konfigurácia",
         "Language_aa": "afarčina",
         "Language_ab": "abcházština",
         "Language_ae": "avestčina",
@@ -190,10 +187,7 @@
         "LanguageCode": "Kód jazyka",
         "PluginDescription": "Rôzne reporty užívateľského nastavenia: Prehliadač, Rodina prehliadača, Operačný systém, Pluginy, Rozlíšenie, Globálne nastavenia.",
         "PluginDetectionDoesNotWorkInIE": "Poznámka: Plugin detekcia nefunguje v Internet Exploreri. Táto správa je založená len na non-IE prehliadačov.",
-        "Resolutions": "Rozlíšenie",
         "VisitorSettings": "Nastavenia návštevníkov",
-        "WidgetGlobalVisitors": "Globálne konfigurácie návštevníkov",
-        "WidgetPlugins": "Zoznam modulov",
-        "WidgetResolutions": "Rozlíšenie obrazovky"
+        "WidgetPlugins": "Zoznam modulov"
     }
 }

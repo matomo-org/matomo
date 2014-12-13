@@ -26,12 +26,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 {
     const LANGUAGE_RECORD_NAME = 'UserSettings_language';
     const PLUGIN_RECORD_NAME = 'UserSettings_plugin';
-    const RESOLUTION_RECORD_NAME = 'UserSettings_resolution';
-    const CONFIGURATION_RECORD_NAME = 'UserSettings_configuration';
 
     const LANGUAGE_DIMENSION = "log_visit.location_browser_lang";
-    const RESOLUTION_DIMENSION = "log_visit.config_resolution";
-    const CONFIGURATION_DIMENSION = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
 
     /**
      * Daily archive of User Settings report. Processes reports for Visits by Resolution,
@@ -39,8 +35,6 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     public function aggregateDayReport()
     {
-        $this->aggregateByConfiguration();
-        $this->aggregateByResolution();
         $this->aggregateByPlugin();
         $this->aggregateByLanguage();
     }
@@ -51,28 +45,10 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         $dataTableRecords = array(
-            self::CONFIGURATION_RECORD_NAME,
-            self::RESOLUTION_RECORD_NAME,
             self::PLUGIN_RECORD_NAME,
             self::LANGUAGE_RECORD_NAME,
         );
         $this->getProcessor()->aggregateDataTableRecords($dataTableRecords, $this->maximumRows);
-    }
-
-    protected function aggregateByConfiguration()
-    {
-        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::CONFIGURATION_DIMENSION)->asDataTable();
-        $this->insertTable(self::CONFIGURATION_RECORD_NAME, $metrics);
-    }
-
-    protected function aggregateByResolution()
-    {
-        $table = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::RESOLUTION_DIMENSION)->asDataTable();
-        $table->filter('ColumnCallbackDeleteRow', array('label', function ($value) {
-            return strlen($value) <= 5;
-        }));
-        $this->insertTable(self::RESOLUTION_RECORD_NAME, $table);
-        return $table;
     }
 
     protected function aggregateByPlugin()

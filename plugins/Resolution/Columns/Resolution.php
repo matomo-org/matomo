@@ -6,11 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\UserSettings\Columns;
+namespace Piwik\Plugins\Resolution\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\UserSettings\Segment;
+use Piwik\Plugins\Resolution\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -24,7 +24,7 @@ class Resolution extends VisitDimension
     {
         $segment = new Segment();
         $segment->setSegment('resolution');
-        $segment->setName('UserSettings_ColumnResolution');
+        $segment->setName('Resolution_ColumnResolution');
         $segment->setAcceptedValues('1280x1024, 800x600, etc.');
         $this->addSegment($segment);
     }
@@ -48,6 +48,6 @@ class Resolution extends VisitDimension
 
     public function getName()
     {
-        return Piwik::translate('UserSettings_ColumnResolution');
+        return Piwik::translate('Resolution_ColumnResolution');
     }
 }

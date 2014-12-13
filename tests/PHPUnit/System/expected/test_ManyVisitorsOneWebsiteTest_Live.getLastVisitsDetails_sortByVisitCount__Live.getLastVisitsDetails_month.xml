@@ -97,7 +97,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -135,6 +134,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -220,7 +220,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -258,6 +257,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -374,7 +374,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -412,6 +411,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -511,7 +511,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -549,6 +548,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -634,7 +634,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -672,6 +671,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -757,7 +757,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -795,6 +794,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -870,7 +870,6 @@
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -908,6 +907,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />

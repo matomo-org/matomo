@@ -34,7 +34,7 @@
                 {% if visitData.operatingSystemIcon is defined %}<img src="{{ visitData.operatingSystemIcon }}"/>{% endif %}{% if visitData.operatingSystem is defined %}<span>{{ visitData.operatingSystem }}</span>{% endif %}
             </div>
         </li>
-        {% if visitData.resolution is defined %}<li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}
+        {% if visitData.resolution is defined %}<li><span>{{ 'Resolution_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}
         {% if visitData.userId is not empty %}<li><span>{{ 'General_UserId'|translate }}</span><strong>{{ visitData.userId|raw }}</strong></li>{% endif %}
         {% if visitReferralSummary is defined %}
         {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}

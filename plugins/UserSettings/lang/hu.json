@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Konfiguráció",
-        "ColumnResolution": "Felbontás",
-        "Configurations": "Konfigurációk",
         "Language_aa": "afar",
         "Language_ab": "abház",
         "Language_ae": "avesztán",
@@ -190,10 +187,7 @@
         "LanguageCode": "Nyelvi kód",
         "PluginDescription": "Jelentéseket készít a látogatóknál észlelt beállításokról és rendszerkörnyezetről mint például: böngésző típusa, böngészőcsaládok, operációs rendszer, böngésző bővítmények, képernyőfelbontás, globális beállítások.",
         "PluginDetectionDoesNotWorkInIE": "A böngészők bővítményeinek detektálása nem működik az Internet Exlporernél, így ez a jelentés csak a nem Internet Explorert használó látogatók adatait jeleníti meg.",
-        "Resolutions": "Képernyőfelbontások",
         "VisitorSettings": "Látogatók adatai",
-        "WidgetGlobalVisitors": "Globális látogatói beállítások",
-        "WidgetPlugins": "Bővítmények listája",
-        "WidgetResolutions": "Képernyőfelbontások"
+        "WidgetPlugins": "Bővítmények listája"
     }
 }

@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Pengaturan",
+        "ColumnResolution": "Resolusi",
+        "Configurations": "Pengaturan",
+        "Resolutions": "Resolusi",
+        "WidgetGlobalVisitors": "Pengaturan pengunjung umum",
+        "WidgetGlobalVisitorsDocumentation": "Laporan ini menunjukkan pengaturan paling umum yang pengunjung miliki. Subuah pengaturan terdiri atas sistem operasi, jenis peramban, dan resolusi layar.",
+        "WidgetResolutions": "Resolusi layar"
+    }
+}

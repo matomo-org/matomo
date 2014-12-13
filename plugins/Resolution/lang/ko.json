@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "구성",
+        "ColumnResolution": "해상도",
+        "Configurations": "구성",
+        "Resolutions": "해상도",
+        "WidgetGlobalVisitors": "글로벌 방문자 구성",
+        "WidgetGlobalVisitorsDocumentation": "방문자의 가장 일반적인 사용 환경에 대한 보고서입니다. 운영 체제, 브라우저 종류와 화면 해상도의 조합으로 표시합니다.",
+        "WidgetResolutions": "스크린 해상도"
+    }
+}

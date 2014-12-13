@@ -3,9 +3,6 @@
         "BrowserLanguage": "Browsersprache",
         "BrowserWithNoPluginsEnabled": "%1$s mit keinen aktivierten Plugins",
         "BrowserWithPluginsEnabled": "%1$s mit den Plugins %2$s aktiviert",
-        "ColumnConfiguration": "Konfiguration",
-        "ColumnResolution": "Auflösung",
-        "Configurations": "Konfigurationen",
         "Language_aa": "Afar",
         "Language_ab": "Abchasisch",
         "Language_ae": "Avestisch",
@@ -193,12 +190,8 @@
         "LanguageCode": "Sprach-Code",
         "PluginDescription": "Bericht über verschiedene Benutzereinstellungen: Browser, Browserfamilie, Betriebssystem, Plugins, Auflösung, Allgemeine Einstellungen.",
         "PluginDetectionDoesNotWorkInIE": "Hinweis: Die Erkennung von Plugins funktioniert nicht im Internet Explorer. Diese Statistik beruht nur auf Nicht-IE Browsern.",
-        "Resolutions": "Auflösungen",
         "VisitorSettings": "Besuchereinstellungen",
-        "WidgetGlobalVisitors": "Globale Besucherkonfiguration",
-        "WidgetGlobalVisitorsDocumentation": "Dieser Bericht zeigt Ihnen die häufigsten Gesamtkonfigurationen der Besucher. Eine Konfiguration ist die Kombination aus Betriebssystem, Browsertyp und Bildschirmauflösung.",
         "WidgetPlugins": "Liste der Plugins",
-        "WidgetPluginsDocumentation": "Dieser Bericht zeigt Ihnen, welche Plugins Ihre Besucher in Ihren Browser aktiviert haben. Diese Informationen kann Ihnen dabei helfen, die beste Art zu finden, Ihre Inhalte auszuliefern.",
-        "WidgetResolutions": "Bildschirmauflösungen"
+        "WidgetPluginsDocumentation": "Dieser Bericht zeigt Ihnen, welche Plugins Ihre Besucher in Ihren Browser aktiviert haben. Diese Informationen kann Ihnen dabei helfen, die beste Art zu finden, Ihre Inhalte auszuliefern."
     }
 }
