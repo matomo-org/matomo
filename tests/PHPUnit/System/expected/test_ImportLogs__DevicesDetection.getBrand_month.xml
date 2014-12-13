@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>28</nb_visits>
-		<nb_actions>32</nb_actions>
+		<nb_visits>31</nb_visits>
+		<nb_actions>35</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>548</sum_visit_length>
-		<bounce_count>25</bounce_count>
-		<nb_visits_converted>26</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>27</sum_daily_nb_uniq_visitors>
+		<bounce_count>28</bounce_count>
+		<nb_visits_converted>27</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>30</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/brand/Unknown.ico</logo>
 	</row>

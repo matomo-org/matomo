@@ -342,7 +342,7 @@ def test_iis_custom_format():
     import_logs.config.options.enable_http_redirects = True
     import_logs.config.options.enable_http_errors = True
     import_logs.config.options.replay_tracking = False
-    # import_logs.config.options.w3c_time_taken_in_millisecs = True test that even w/o this, we get the right format
+    # import_logs.config.options.w3c_time_taken_in_millisecs = True test that even w/o this, we get the right values
     import_logs.parser.parse(file_)
 
     hits = [hit.__dict__ for hit in Recorder.recorders]

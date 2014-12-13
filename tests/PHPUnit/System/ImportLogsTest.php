@@ -20,6 +20,7 @@ use Piwik\Tests\Fixtures\ManySitesImportedLogs;
  */
 class ImportLogsTest extends SystemTestCase
 {
+    /** @var ManySitesImportedLogs */
     public static $fixture = null; // initialized below class definition
 
     /**
@@ -105,3 +106,5 @@ class ImportLogsTest extends SystemTestCase
 ImportLogsTest::$fixture = new ManySitesImportedLogs();
 ImportLogsTest::$fixture->includeIisWithCustom = true;
 ImportLogsTest::$fixture->includeNetscaler = true;
+ImportLogsTest::$fixture->includeCloudfront = true;
+ImportLogsTest::$fixture->includeCloudfrontRtmp = true;

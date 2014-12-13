@@ -254,8 +254,6 @@ class W3cExtendedFormat(RegexFormat):
                 regex = '\S+'
             full_regex.append(regex)
         full_regex = '\s+'.join(full_regex)
-        logging.debug(full_regex)
-        logging.debug(first_line)
         self.regex = re.compile(full_regex)
 
         file.seek(0)
@@ -1392,8 +1390,15 @@ class Recorder(object):
 			)
 
         if hit.generation_time_milli > 0:
-            args['gt_ms'] = hit.generation_time_milli
-        logging.debug(args)
+            args['gt_ms'] = int(hit.generation_time_milli)
+
+        if hit.event_category and hit.event_action:
+            args['e_c'] = hit.event_category
+            args['e_a'] = hit.event_action
+
+            if hit.event_name:
+                args['e_n'] = hit.event_name
+
         return args
 
     def _record_hits(self, hits):
@@ -1583,7 +1588,7 @@ class Parser(object):
                 else:
                     match = candidate_format.check_format(lineOrFile)
             except Exception, e:
-                logging.debug(str(e))
+                logging.debug('Error in format checking: %s', str(e))
                 pass
 
             if match:
@@ -1790,9 +1795,14 @@ class Parser(object):
 
             # add event info
             try:
+                hit.event_category = hit.event_action = hit.event_name = None
+
                 hit.event_category = format.get('event_category')
                 hit.event_action = format.get('event_action')
+
                 hit.event_name = format.get('event_name')
+                if hit.event_name == '-':
+                    hit.event_name = None
             except:
                 pass
 
