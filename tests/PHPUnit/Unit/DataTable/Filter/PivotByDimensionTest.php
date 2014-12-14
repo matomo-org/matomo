@@ -17,7 +17,7 @@ use PHPUnit_Framework_TestCase;
 use Exception;
 
 /**
- * @group Core
+ * @group DataTableTest
  */
 class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 {
@@ -90,13 +90,13 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'UserSettings.UserSettings_WidgetGlobalVisitors'
+     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.Resolution_WidgetGlobalVisitors'
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
-        $this->loadPlugins('Referrers', 'UserSettings');
+        $this->loadPlugins('Referrers', 'Resolution');
 
-        new PivotByDimension(new DataTable(), "UserSettings.GetConfiguration", "Referrers.Keyword", "nb_visits");
+        new PivotByDimension(new DataTable(), "Resolution.GetConfiguration", "Referrers.Keyword", "nb_visits");
     }
 
     /**

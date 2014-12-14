@@ -47,7 +47,11 @@ class TestsRun extends ConsoleCommand
         $command = '../../vendor/phpunit/phpunit/phpunit';
 
         if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
-            $output->writeln('<comment>Did you know? You can run tests faster by disabling xdebug</comment>');
+            $message = 'Did you know? You can run tests faster by disabling xdebug';
+            if($this->isXdebugCodeCoverageEnabled()) {
+                $message .= ' (if you need xdebug, speed up tests by setting xdebug.coverage_enable=0)</comment>';
+            }
+            $output->writeln('<comment>' . $message .'</comment>');
         }
 
         // force xdebug usage for coverage options
@@ -253,6 +257,11 @@ class TestsRun extends ConsoleCommand
     private function isXdebugLoaded()
     {
         return extension_loaded('xdebug');
+    }
+
+    private function isXdebugCodeCoverageEnabled()
+    {
+        return (bool)ini_get('xdebug.coverage_enable');
     }
 
     private function fixPathToTestFileOrDirectory($testFile)

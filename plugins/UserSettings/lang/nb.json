@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Konfigurasjon",
-        "ColumnResolution": "Oppløsning",
-        "Configurations": "Konfigurasjon",
         "Language_aa": "afar",
         "Language_ab": "abkhasisk",
         "Language_ae": "avestisk",
@@ -189,10 +186,7 @@
         "Language_zu": "zulu",
         "LanguageCode": "Språkkode",
         "PluginDescription": "Rapporterer forskjellige brukerinnstillinger: Nettleser, nettleserfamilie, operativsystem, tillegg, oppløsning, globale innstillinger.",
-        "Resolutions": "Oppløsninger",
         "VisitorSettings": "Besøkendes innstillinger",
-        "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
-        "WidgetPlugins": "Liste over tillegg",
-        "WidgetResolutions": "Skjermoppløsninger"
+        "WidgetPlugins": "Liste over tillegg"
     }
 }

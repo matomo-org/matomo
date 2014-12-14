@@ -1,6 +1,7 @@
 # vim: et sw=4 ts=4:
 import functools
 import os
+import datetime
 
 import import_logs
 
@@ -23,19 +24,30 @@ def tearDownModule():
 def test_format_detection():
     def _test(format_name):
         file = open('logs/%s.log' % format_name)
+        import_logs.config = Config()
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
-        assert(format.name == format_name)
+        if format_name == 'iis':
+            assert(format.name == 'w3c_extended')
+        else:
+            assert(format.name == format_name)
 
     def _test_junk(format_name):
         tmp_path = add_junk_to_file('logs/%s.log' % format_name)
 
         file = open(tmp_path)
+        import_logs.config = Config()
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
-        assert(format.name == format_name)
+        if format_name == 'iis':
+            assert(format.name == 'w3c_extended')
+        else:
+            assert(format.name == format_name)
 
     for format_name in import_logs.FORMATS.iterkeys():
+        if format_name == 'w3c_extended': # tested by iis and netscaler log files
+            continue
+
         f = functools.partial(_test, format_name)
         f.description = 'Testing autodetection of format ' + format_name
         yield f
@@ -64,6 +76,8 @@ class Options(object):
     included_paths = []
     enable_http_errors = False
     download_extensions = 'doc,pdf'
+    custom_w3c_fields = {}
+    w3c_time_taken_in_secs = False
 
 class Config(object):
     """Mock configuration."""
@@ -183,6 +197,8 @@ def test_replay_tracking_arguments():
 def parse_log_file_line(format_name, file_):
     format = import_logs.FORMATS[format_name]
 
+    import_logs.config.options.custom_w3c_fields = {}
+
     file = open(file_)
     match = format.check_format(file)
     file.close()
@@ -226,7 +242,8 @@ def check_iis_groups(groups):
     assert groups['host'] == 'example.com'
 
     expected_hit_properties = ['date', 'path', 'query_string', 'ip', 'referrer', 'user_agent',
-    						   'status', 'length', 'host']
+                               'status', 'length', 'host', 'userid', 'generation_time_milli']
+
     for property_name in groups.keys():
         assert property_name in expected_hit_properties
 
@@ -272,15 +289,135 @@ def test_format_parsing():
         _test(format_name, tmp_path)
 
     for format_name in import_logs.FORMATS.iterkeys():
+        if format_name == 'w3c_extended': # tested by IIS and netscaler logs
+            continue
+
         f = functools.partial(_test, format_name, 'logs/' + format_name + '.log')
         f.description = 'Testing parsing of format "%s"' % format_name
         yield f
 
         f = functools.partial(_test_with_junk, format_name, 'logs/' + format_name + '.log')
-        f.description = 'Testing parsin of format "%s" with junk appended to path' % format_name
+        f.description = 'Testing parsing of format "%s" with junk appended to path' % format_name
         yield f
 
     f = functools.partial(_test, 'common', 'logs/ncsa_extended.log')
     f.description = 'Testing parsing of format "common" with ncsa_extended log'
     yield f
 
+
+def test_iis_custom_format():
+    """test IIS custom format name parsing."""
+
+    file_ = 'logs/iis_custom.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_w3c_fields = {
+        'date-local': 'date',
+        'time-local': 'time',
+        'cs(Host)': 'cs-host',
+        'TimeTakenMS': 'time-taken'
+    }
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.parser.parse(file_)
+
+    hits = [hit.__dict__ for hit in Recorder.recorders]
+
+    assert hits[0]['status'] == '200'
+    assert hits[0]['is_error'] == False
+    assert hits[0]['extension'] == u'/products/theproduct'
+    assert hits[0]['is_download'] == False
+    assert hits[0]['referrer'] == u'"http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en"'
+    assert hits[0]['args'] == {}
+    assert hits[0]['generation_time_milli'] == 109
+    assert hits[0]['host'] == 'foo'
+    assert hits[0]['filename'] == 'logs/iis_custom.log'
+    assert hits[0]['is_redirect'] == False
+    assert hits[0]['date'] == datetime.datetime(2012, 8, 15, 17, 0)
+    assert hits[0]['lineno'] == 4
+    assert hits[0]['ip'] == u'70.95.0.0'
+    assert hits[0]['query_string'] == ''
+    assert hits[0]['path'] == u'/Products/theProduct'
+    assert hits[0]['is_robot'] == False
+    assert hits[0]['full_path'] == u'/Products/theProduct'
+    assert hits[0]['user_agent'] == u'Mozilla/5.0 (Linux; Android 4.4.4; SM-G900V Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.59 Mobile Safari/537.36'
+
+    assert hits[1]['status'] == u'301'
+    assert hits[1]['is_error'] == False
+    assert hits[1]['extension'] == u'/topic/hw43061'
+    assert hits[1]['is_download'] == False
+    assert hits[1]['referrer'] == ''
+    assert hits[1]['args'] == {}
+    assert hits[1]['generation_time_milli'] == 0
+    assert hits[1]['host'] == 'foo'
+    assert hits[1]['filename'] == 'logs/iis_custom.log'
+    assert hits[1]['is_redirect'] == True
+    assert hits[1]['date'] == datetime.datetime(2012, 8, 15, 17, 0)
+    assert hits[1]['lineno'] == 5
+    assert hits[1]['ip'] == '70.95.32.0'
+    assert hits[1]['query_string'] == ''
+    assert hits[1]['path'] == u'/Topic/hw43061'
+    assert hits[1]['is_robot'] == False
+    assert hits[1]['full_path'] == u'/Topic/hw43061'
+    assert hits[1]['user_agent'] == u'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36'
+
+    assert hits[2]['status'] == u'404'
+    assert hits[2]['is_error'] == True
+    assert hits[2]['extension'] == u'/hello/world/6,681965'
+    assert hits[2]['is_download'] == False
+    assert hits[2]['referrer'] == ''
+    assert hits[2]['args'] == {}
+    assert hits[2]['generation_time_milli'] == 359
+    assert hits[2]['host'] == 'foo'
+    assert hits[2]['filename'] == 'logs/iis_custom.log'
+    assert hits[2]['is_redirect'] == False
+    assert hits[2]['date'] == datetime.datetime(2012, 8, 15, 17, 0)
+    assert hits[2]['lineno'] == 6
+    assert hits[2]['ip'] == u'173.5.0.0'
+    assert hits[2]['query_string'] == ''
+    assert hits[2]['path'] == u'/hello/world/6,681965'
+    assert hits[2]['is_robot'] == False
+    assert hits[2]['full_path'] == u'/hello/world/6,681965'
+    assert hits[2]['user_agent'] == u'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36'
+
+def test_netscaler_parsing():
+    """test parsing of netscaler logs (which use extended W3C log format)"""
+
+    file_ = 'logs/netscaler.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_w3c_fields = {}
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.config.options.w3c_time_taken_in_secs = True
+    import_logs.parser.parse(file_)
+
+    hits = [hit.__dict__ for hit in Recorder.recorders]
+
+    assert hits[0]['status'] == u'302'
+    assert hits[0]['userid'] == None
+    assert hits[0]['is_error'] == False
+    assert hits[0]['extension'] == u'jsp'
+    assert hits[0]['is_download'] == False
+    assert hits[0]['referrer'] == ''
+    assert hits[0]['args'] == {}
+    assert hits[0]['generation_time_milli'] == 1000
+    assert hits[0]['host'] == 'foo'
+    assert hits[0]['filename'] == 'logs/netscaler.log'
+    assert hits[0]['is_redirect'] == True
+    assert hits[0]['date'] == datetime.datetime(2012, 8, 16, 11, 55, 13)
+    assert hits[0]['lineno'] == 4
+    assert hits[0]['ip'] == u'172.20.1.0'
+    assert hits[0]['query_string'] == ''
+    assert hits[0]['path'] == u'/Citrix/XenApp/Wan/auth/login.jsp'
+    assert hits[0]['is_robot'] == False
+    assert hits[0]['full_path'] == u'/Citrix/XenApp/Wan/auth/login.jsp'
+    assert hits[0]['user_agent'] == u'Mozilla/4.0+(compatible;+MSIE+7.0;+Windows+NT+5.1;+Trident/4.0;+.NET+CLR+1.1.4322;+.NET+CLR+2.0.50727;+.NET+CLR+3.0.04506.648;+.NET+CLR+3.5.21022)'

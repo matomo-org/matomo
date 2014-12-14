@@ -96,7 +96,7 @@ class Segment
 
     /**
      * Set (overwrite) the segment display name. This name will be visible in the API and the UI. It should be a
-     * translation key such as 'Actions_ColumnEntryPageTitle' or 'UserSettings_ColumnResolution'.
+     * translation key such as 'Actions_ColumnEntryPageTitle' or 'Resolution_ColumnResolution'.
      * @param string $name
      * @api
      */

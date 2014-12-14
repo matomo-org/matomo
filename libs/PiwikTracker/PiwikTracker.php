@@ -160,22 +160,28 @@ class PiwikTracker
      */
     function __construct($idSite, $apiUrl = '')
     {
+        $this->ecommerceItems = array();
+        $this->attributionInfo = false;
+        $this->eventCustomVar = false;
+        $this->forcedDatetime = false;
+        $this->forcedNewVisit = false;
+        $this->generationTime = false;
+        $this->pageCustomVar = false;
+        $this->customData = false;
+        $this->hasCookies = false;
+        $this->token_auth = false;
         $this->userAgent = false;
+        $this->country = false;
+        $this->region = false;
+        $this->city = false;
+        $this->lat = false;
+        $this->long = false;
+        $this->width = false;
+        $this->height = false;
+        $this->plugins = false;
         $this->localHour = false;
         $this->localMinute = false;
         $this->localSecond = false;
-        $this->hasCookies = false;
-        $this->plugins = false;
-        $this->pageCustomVar = false;
-        $this->eventCustomVar = false;
-        $this->customData = false;
-        $this->forcedDatetime = false;
-        $this->forcedNewVisit = false;
-        $this->token_auth = false;
-        $this->attributionInfo = false;
-        $this->ecommerceLastOrderTimestamp = false;
-        $this->ecommerceItems = array();
-        $this->generationTime = false;
 
         $this->idSite = $idSite;
         $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
@@ -212,7 +218,7 @@ class PiwikTracker
         $this->visitCount = 0;
         $this->currentVisitTs = false;
         $this->lastVisitTs = false;
-        $this->lastEcommerceOrderTs = false;
+        $this->ecommerceLastOrderTimestamp = false;
 
         // Allow debug while blocking the request
         $this->requestTimeout = 600;
@@ -529,6 +535,8 @@ class PiwikTracker
 
     /**
      * Get cookie name with prefix and domain hash
+     * @param string $cookieName
+     * @return string
      */
     protected function getCookieName($cookieName) {
         // NOTE: If the cookie name is changed, we must also update the method in piwik.js with the same name.
@@ -553,8 +561,8 @@ class PiwikTracker
      *
      * @param string $category The Event Category (Videos, Music, Games...)
      * @param string $action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
-     * @param string $name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
-     * @param float $value (optional) The Event's value
+     * @param string|bool $name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+     * @param float|bool $value (optional) The Event's value
      * @return mixed Response string or true if using bulk requests.
      */
     public function doTrackEvent($category, $action, $name = false, $value = false)
@@ -568,7 +576,7 @@ class PiwikTracker
      *
      * @param string $contentName The name of the content. For instance 'Ad Foo Bar'
      * @param string $contentPiece The actual content. For instance the path to an image, video, audio, any text
-     * @param string|false $contentTarget (optional) The target of the content. For instance the URL of a landing page.
+     * @param string|bool $contentTarget (optional) The target of the content. For instance the URL of a landing page.
      * @return mixed Response string or true if using bulk requests.
      */
     public function doTrackContentImpression($contentName, $contentPiece = 'Unknown', $contentTarget = false)
@@ -584,7 +592,7 @@ class PiwikTracker
      * @param string $interaction The name of the interaction with the content. For instance a 'click'
      * @param string $contentName The name of the content. For instance 'Ad Foo Bar'
      * @param string $contentPiece The actual content. For instance the path to an image, video, audio, any text
-     * @param string|false $contentTarget (optional) The target the content leading to when an interaction occurs. For instance the URL of a landing page.
+     * @param string|bool $contentTarget (optional) The target the content leading to when an interaction occurs. For instance the URL of a landing page.
      * @return mixed Response string or true if using bulk requests.
      */
     public function doTrackContentInteraction($interaction, $contentName, $contentPiece = 'Unknown', $contentTarget = false)
@@ -891,9 +899,10 @@ class PiwikTracker
      * @see doTrackEvent()
      * @param string $category The Event Category (Videos, Music, Games...)
      * @param string $action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
-     * @param string $name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
-     * @param float $value (optional) The Event's value
+     * @param string|bool $name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+     * @param float|bool $value (optional) The Event's value
      * @return string URL to piwik.php with all parameters set to track the pageview
+     * @throws
      */
     public function getUrlTrackEvent($category, $action, $name = false, $value = false)
     {
@@ -1199,7 +1208,7 @@ class PiwikTracker
         $this->currentVisitTs = $parts[3];
         $this->lastVisitTs = $parts[4];
         if(isset($parts[5])) {
-            $this->lastEcommerceOrderTs = $parts[5];
+            $this->ecommerceLastOrderTimestamp = $parts[5];
         }
         return true;
     }
@@ -1496,14 +1505,13 @@ class PiwikTracker
             '&_idts=' . $this->createTs .
             '&_idvc=' . $this->visitCount .
             (!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) .
-            (!empty($this->lastEcommerceOrderTs) ? '&_ects=' . $this->lastEcommerceOrderTs : '' ) .
+            (!empty($this->ecommerceLastOrderTimestamp) ? '&_ects=' . urlencode($this->ecommerceLastOrderTimestamp) : '') .
 
             // These parameters are set by the JS, but optional when using API
             (!empty($this->plugins) ? $this->plugins : '') .
             (($this->localHour !== false && $this->localMinute !== false && $this->localSecond !== false) ? '&h=' . $this->localHour . '&m=' . $this->localMinute . '&s=' . $this->localSecond : '') .
             (!empty($this->width) && !empty($this->height) ? '&res=' . $this->width . 'x' . $this->height : '') .
             (!empty($this->hasCookies) ? '&cookie=' . $this->hasCookies : '') .
-            (!empty($this->ecommerceLastOrderTimestamp) ? '&_ects=' . urlencode($this->ecommerceLastOrderTimestamp) : '') .
 
             // Various important attributes
             (!empty($this->customData) ? '&data=' . $this->customData : '') .
@@ -1694,7 +1702,7 @@ class PiwikTracker
 
         // Set the 'id' cookie
         $visitCount = $this->visitCount + 1;
-        $cookieValue = $this->getVisitorId() . '.' . $this->createTs . '.' . $visitCount . '.' . $this->currentTs . '.' . $this->lastVisitTs . '.' . $this->lastEcommerceOrderTs;
+        $cookieValue = $this->getVisitorId() . '.' . $this->createTs . '.' . $visitCount . '.' . $this->currentTs . '.' . $this->lastVisitTs . '.' . $this->ecommerceLastOrderTimestamp;
         $this->setCookie('id', $cookieValue, $this->configVisitorCookieTimeout);
 
         // Set the 'cvar' cookie

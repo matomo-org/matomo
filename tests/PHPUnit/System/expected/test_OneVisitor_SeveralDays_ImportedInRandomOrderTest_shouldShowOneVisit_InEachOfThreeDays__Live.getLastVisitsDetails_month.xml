@@ -48,12 +48,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WVI.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<events>0</events>
@@ -68,6 +68,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -79,7 +80,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>10:00:00</visitLocalTime>
@@ -139,12 +139,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WVI.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<events>0</events>
@@ -159,6 +159,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -170,7 +171,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>11:00:00</visitLocalTime>
@@ -230,12 +230,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WVI.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<events>0</events>
@@ -250,6 +250,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -261,7 +262,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>12:00:00</visitLocalTime>

@@ -14,6 +14,9 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Timer;
 
+/**
+ * @group DataTableTest
+ */
 class DataTableTest extends \PHPUnit_Framework_TestCase
 {
     /**

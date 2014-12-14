@@ -27,6 +27,8 @@ class ManySitesImportedLogs extends Fixture
     public $segments = null; // should be array mapping segment name => segment definition
 
     public $addSegments = false;
+    public $includeIisWithCustom = false;
+    public $includeNetscaler = false;
 
     public static function createAccessInstance()
     {
@@ -111,6 +113,14 @@ class ManySitesImportedLogs extends Fixture
         $this->logVisitsWithAllEnabled();
         $this->replayLogFile();
         $this->logCustomFormat();
+
+        if ($this->includeIisWithCustom) {
+            $this->logIisWithCustomFormat();
+        }
+
+        if ($this->includeNetscaler) {
+            $this->logNetscaler();
+        }
     }
 
     private function setupSegments()
@@ -228,5 +238,33 @@ class ManySitesImportedLogs extends Fixture
                           . '\"\S+ (?P<path>.*?) \S+\" (?P<generation_time_micro>\S+)');
 
         self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logIisWithCustomFormat()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_custom_iis.log';
+
+        $opts = array('--idsite'           => $this->idSite,
+                      '--token-auth'       => self::getTokenAuth(),
+                      '--w3c-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host', 'TimeTakenMS=time-taken'),
+                      '--enable-http-errors'        => false,
+                      '--enable-http-redirects'     => false);
+
+        self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logNetscaler()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_netscaler.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth(),
+                      '--w3c-map-field'             => array(),
+                      '--enable-http-redirects'     => false);
+
+        $output = self::executeLogImporter($logFile, $opts);
+
+        // make sure warning about --w3c-time-taken-secs appears in importer output
+        self::assertContains("WARNING: netscaler log file being parsed without --w3c-time-taken-secs option.", implode("\n", $output));
     }
 }

@@ -186,11 +186,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -298,11 +298,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>ie</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browserName>Internet Explorer 6.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -405,11 +405,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -526,11 +526,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -636,11 +636,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -734,11 +734,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -838,11 +838,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
 		<browserFamily>ie</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browserName>Internet Explorer 9.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -926,11 +926,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -1030,11 +1030,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>Android Browser </browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/AN.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<deviceType>Smartphone</deviceType>
@@ -1128,11 +1128,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Mac OS</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>RockMelt 0.9</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<deviceType>Desktop</deviceType>

@@ -1,0 +1,6 @@
+#Version: 1.0
+#Software: Netscaler Web Logging(NSWL)
+#Date: 2014-02-18 11:55:13
+#Fields: date time c-ip cs-username sc-servicename s-ip s-port cs-method cs-uri-stem cs-uri-query sc-status cs-bytes sc-bytes time-taken cs-version cs(User-Agent) cs(Cookie) cs(Referer)
+2012-08-16 11:55:13 172.20.1.0 - HTTP 192.168.6.254 8080 GET /Citrix/XenApp/Wan/auth/login.jsp - 302 247 355 0 HTTP/1.1 Mozilla/4.0+(compatible;+MSIE+7.0;+Windows+NT+5.1;+Trident/4.0;+.NET+CLR+1.1.4322;+.NET+CLR+2.0.50727;+.NET+CLR+3.0.04506.648;+.NET+CLR+3.5.21022) - -
+2012-08-16 11:59:13 172.20.1.0 - HTTP 192.168.6.254 8080 GET /Citrix/XenApp/Wan/auth/silentDetection.jsp - 200 310 5609 0 HTTP/1.1 Mozilla/4.0+(compatible;+MSIE+7.0;+Windows+NT+5.1;+Trident/4.0;+.NET+CLR+1.1.4322;+.NET+CLR+2.0.50727;+.NET+CLR+3.0.04506.648;+.NET+CLR+3.5.21022) JSESSIONID=7BBF2F11B80261B27D23010421412323 -

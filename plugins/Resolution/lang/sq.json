@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Formësim",
+        "ColumnResolution": "Qartësi",
+        "Configurations": "Formësime",
+        "Resolutions": "Qartësi",
+        "WidgetGlobalVisitors": "Formësime globale vizitorësh",
+        "WidgetGlobalVisitorsDocumentation": "Ky raport shfaq formësimet e përgjithshme më të rëndomta të përdorura nga vizitorët tuaj. Formësimi përmban të dhënat për sistemin operativ, llojin e shfletuesit dhe qartësinë e ekranit.",
+        "WidgetResolutions": "Qartësi ekrani"
+    }
+}

@@ -56,7 +56,6 @@
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -71,12 +70,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Safari</browser>
 		<browserName>Safari</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/SF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -94,6 +93,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -202,7 +202,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -217,12 +216,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -240,6 +239,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -325,7 +325,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -340,12 +339,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -363,6 +362,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -462,7 +462,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -477,12 +476,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -500,6 +499,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -585,7 +585,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -600,12 +599,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -623,6 +622,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -739,7 +739,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -754,12 +753,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -777,6 +776,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -862,7 +862,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -877,12 +876,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -900,6 +899,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -999,7 +999,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1014,12 +1013,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -1037,6 +1036,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -1122,7 +1122,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1137,12 +1136,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -1160,6 +1159,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -1276,7 +1276,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1291,12 +1290,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -1314,6 +1313,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>awesomeisp.com</provider>
 		<providerName>Awesomeisp</providerName>
 		<providerUrl>http://www.awesomeisp.com/</providerUrl>
@@ -1399,7 +1399,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1414,12 +1413,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -1437,6 +1436,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>awesomeisp.com</provider>
 		<providerName>Awesomeisp</providerName>
 		<providerUrl>http://www.awesomeisp.com/</providerUrl>
@@ -1536,7 +1536,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1551,12 +1550,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -1574,6 +1573,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -1673,7 +1673,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1688,12 +1687,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -1711,6 +1710,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -1788,7 +1788,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1803,12 +1802,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -1826,6 +1825,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -1911,7 +1911,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -1926,12 +1925,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -1949,6 +1948,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -2065,7 +2065,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2080,12 +2079,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -2103,6 +2102,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>comcast.net</provider>
 		<providerName>Comcast</providerName>
 		<providerUrl>http://www.comcast.net/</providerUrl>
@@ -2219,7 +2219,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2234,12 +2233,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -2257,6 +2256,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -2334,7 +2334,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2349,12 +2348,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -2372,6 +2371,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>comcast.net</provider>
 		<providerName>Comcast</providerName>
 		<providerUrl>http://www.comcast.net/</providerUrl>
@@ -2457,7 +2457,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2472,12 +2471,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -2495,6 +2494,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -2594,7 +2594,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2609,12 +2608,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -2632,6 +2631,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -2731,7 +2731,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2746,12 +2745,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -2769,6 +2768,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -2868,7 +2868,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -2883,12 +2882,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -2906,6 +2905,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -2997,7 +2997,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3012,12 +3011,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -3035,6 +3034,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -3120,7 +3120,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3135,12 +3134,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -3158,6 +3157,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -3243,7 +3243,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3258,12 +3257,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -3281,6 +3280,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -3366,7 +3366,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3381,12 +3380,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -3404,6 +3403,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -3489,7 +3489,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3504,12 +3503,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -3527,6 +3526,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -3643,7 +3643,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3658,12 +3657,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -3681,6 +3680,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -3797,7 +3797,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3812,12 +3811,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -3835,6 +3834,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -3951,7 +3951,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -3966,12 +3965,12 @@
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -3989,6 +3988,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -4097,7 +4097,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -4112,12 +4111,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -4135,6 +4134,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -4220,7 +4220,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -4235,12 +4234,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -4258,6 +4257,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -4343,7 +4343,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -4358,12 +4357,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -4381,6 +4380,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -4466,7 +4466,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -4481,12 +4480,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -4504,6 +4503,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
@@ -4589,7 +4589,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -4604,12 +4603,12 @@
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -4627,6 +4626,7 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<resolution>1024x768</resolution>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />

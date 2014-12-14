@@ -192,7 +192,7 @@
 	<row>
 		<category>Visitor Settings</category>
 		<name>Screen Resolution</name>
-		<module>UserSettings</module>
+		<module>Resolution</module>
 		<action>getResolution</action>
 		<dimension>Resolution</dimension>
 		<metrics>
@@ -213,9 +213,9 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getResolution&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getResolution&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>UserSettings_getResolution</uniqueId>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Resolution&amp;apiAction=getResolution&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Resolution&amp;apiAction=getResolution&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Resolution_getResolution</uniqueId>
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -240,7 +240,7 @@
 	<row>
 		<category>Visitor Settings</category>
 		<name>Visitor Configuration</name>
-		<module>UserSettings</module>
+		<module>Resolution</module>
 		<action>getConfiguration</action>
 		<dimension>Configuration</dimension>
 		<documentation>This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.</documentation>
@@ -262,9 +262,9 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getConfiguration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getConfiguration&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>UserSettings_getConfiguration</uniqueId>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Resolution&amp;apiAction=getConfiguration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Resolution&amp;apiAction=getConfiguration&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Resolution_getConfiguration</uniqueId>
 	</row>
 	<row>
 		<category>Visitor Settings</category>

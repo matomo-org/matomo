@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "კონფიგურაცია",
-        "ColumnResolution": "რეზოლუცია",
-        "Configurations": "გონფიგურაციები",
         "Language_aa": "აფარი",
         "Language_ab": "აფხაზური",
         "Language_ae": "ავესტა",
@@ -163,10 +160,7 @@
         "LanguageCode": "ენის კოდი",
         "PluginDescription": "იძლევა ანგარიშს მომხმარებლის სხვადასხვა პარამეტრებზე: ბრაუზერები, ბრაუზერის ოჯახი, ოპერაციული სისტემა, პლაგინები, რეზოლუცია, გლობალური პარამეტრები.",
         "PluginDetectionDoesNotWorkInIE": "შენიშვნა: პლაგინების ამოცნობა არ ხდება ინტერნეტ ექსპლორერში. ეს რეპორტი მუშაოაბს მხოლოდ არა–IE ბრაუზერებზე.",
-        "Resolutions": "რეზოლუციები",
         "VisitorSettings": "ვიზიტორის პარამეტრები",
-        "WidgetGlobalVisitors": "ვიზიტორების გლობალური კონფიგურაცია",
-        "WidgetPlugins": "პლაგინების სია",
-        "WidgetResolutions": "ეკრანის რეზოლუვიები"
+        "WidgetPlugins": "პლაგინების სია"
     }
 }

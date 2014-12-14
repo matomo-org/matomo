@@ -43,7 +43,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
 
         $apiToCall = array('Actions.getPageUrls',
                            'VisitsSummary.get',
-                           'UserSettings.getResolution',
+                           'Resolution.getResolution',
                            'VisitFrequency.get',
                            'VisitTime.getVisitInformationPerServerTime');
 
@@ -109,14 +109,14 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         $tests = array(
             // TODO Implement fix, then remove the +3 below
             'archive_blob_2010_12'    => ( ($expectedActionsBlobs+3) /*Actions*/
-                                            + 4 /* UserSettings */
+                                            + 2 /* Resolution */
                                             + 2 /* VisitTime */) * 3,
 
             /**
              *  In Each "Period=range" Archive, we expect following non zero numeric entries:
              *                 5 metrics + 1 flag  // VisitsSummary
              *               + 2 metrics + 1 flag // Actions
-             *               + 1 flag // UserSettings
+             *               + 1 flag // Resolution
              *               + 1 flag // VisitTime
              *               = 11
              *

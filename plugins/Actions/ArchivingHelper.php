@@ -198,9 +198,9 @@ class ArchivingHelper
             if (($idSubtable = $row->getIdSubDataTable()) !== null
                 || $id === DataTable::ID_SUMMARY_ROW
             ) {
-                if ($idSubtable !== null) {
-                    $subtable = Manager::getInstance()->getTable($idSubtable);
-                    self::deleteInvalidSummedColumnsFromDataTable($subtable);
+                $subTable = $row->getSubtable();
+                if ($subTable) {
+                    self::deleteInvalidSummedColumnsFromDataTable($subTable);
                 }
 
                 if ($row instanceof DataTableSummaryRow) {

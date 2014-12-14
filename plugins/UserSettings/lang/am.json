@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "ውቅረት",
-        "ColumnResolution": "ጥራት",
-        "Configurations": "ውቅረቶች",
         "Language_aa": "አፋርኛ",
         "Language_ab": "አብሐዚኛ",
         "Language_af": "አፍሪካንስኛ",
@@ -158,10 +155,7 @@
         "Language_zh": "ቻይንኛ",
         "Language_zu": "ዙሉኛ",
         "LanguageCode": "የቋንቋ ኮድ",
-        "Resolutions": "ጥራቶች",
         "VisitorSettings": "የጎበኚዎች ቅንብሮች",
-        "WidgetGlobalVisitors": "የሁሉም ጎብኚዎች ውቅረት",
-        "WidgetPlugins": "የተሰኪዎች ዝርዝር",
-        "WidgetResolutions": "የማያ ጥራቶች"
+        "WidgetPlugins": "የተሰኪዎች ዝርዝር"
     }
 }

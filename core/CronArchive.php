@@ -426,10 +426,10 @@ class CronArchive
 
         if ($this->archiveAndRespectTTL) {
             Option::clearCachedOption($this->lastRunKey($idSite, "periods"));
-            $lastTimestampWebsiteProcessedPeriods = Option::get($this->lastRunKey($idSite, "periods"));
+            $lastTimestampWebsiteProcessedPeriods = $this->getPeriodLastProcessedTimestamp($idSite);
 
             Option::clearCachedOption($this->lastRunKey($idSite, "day"));
-            $lastTimestampWebsiteProcessedDay = Option::get($this->lastRunKey($idSite, "day"));
+            $lastTimestampWebsiteProcessedDay = $this->getDayLastProcessedTimestamp($idSite);
         }
 
         $this->updateIdSitesInvalidatedOldReports();
@@ -872,7 +872,7 @@ class CronArchive
     {
         $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
         $this->processPeriodsMaximumEverySeconds = $this->getDelayBetweenPeriodsArchives();
-        $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
+        $this->lastSuccessRunTimestamp = $this->getLastSuccessRunTimestamp();
         $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
         $this->shouldArchiveOnlySpecificPeriods = $this->getPeriodsToProcess();
 
@@ -1362,5 +1362,40 @@ class CronArchive
         }
 
         return self::MAX_CONCURRENT_API_REQUESTS;
+    }
+
+    /**
+     * @param $idSite
+     * @return false|string
+     */
+    private function getPeriodLastProcessedTimestamp($idSite)
+    {
+        $timestamp = Option::get($this->lastRunKey($idSite, "periods"));
+        return $this->sanitiseTimestamp($timestamp);
+    }
+
+    /**
+     * @param $idSite
+     * @return false|string
+     */
+    private function getDayLastProcessedTimestamp($idSite)
+    {
+        $timestamp = Option::get($this->lastRunKey($idSite, "day"));
+        return $this->sanitiseTimestamp($timestamp);
+    }
+
+    /**
+     * @return false|string
+     */
+    private function getLastSuccessRunTimestamp()
+    {
+        $timestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
+        return $this->sanitiseTimestamp($timestamp);
+    }
+
+    private function sanitiseTimestamp($timestamp)
+    {
+        $now = time();
+        return ($timestamp < $now) ? $timestamp : $now;
     }
 }

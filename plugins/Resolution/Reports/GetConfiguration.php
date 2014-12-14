@@ -6,11 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\UserSettings\Reports;
+namespace Piwik\Plugins\Resolution\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\UserSettings\Columns\Configuration;
+use Piwik\Plugins\Resolution\Columns\Configuration;
 
 class GetConfiguration extends Base
 {
@@ -18,15 +18,15 @@ class GetConfiguration extends Base
     {
         parent::init();
         $this->dimension     = new Configuration();
-        $this->name          = Piwik::translate('UserSettings_WidgetGlobalVisitors');
-        $this->documentation = Piwik::translate('UserSettings_WidgetGlobalVisitorsDocumentation', '<br />');
+        $this->name          = Piwik::translate('Resolution_WidgetGlobalVisitors');
+        $this->documentation = Piwik::translate('Resolution_WidgetGlobalVisitorsDocumentation', '<br />');
         $this->order = 7;
-        $this->widgetTitle  = 'UserSettings_WidgetGlobalVisitors';
+        $this->widgetTitle  = 'Resolution_WidgetGlobalVisitors';
     }
 
     public function configureView(ViewDataTable $view)
     {
-        $this->getBasicUserSettingsDisplayProperties($view);
+        $this->getBasicResolutionDisplayProperties($view);
 
         $view->config->addTranslation('label', $this->dimension->getName());
 

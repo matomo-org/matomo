@@ -356,10 +356,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         if ($this->enableRecursiveSort === true) {
             foreach ($this->getRows() as $row) {
-                if (($idSubtable = $row->getIdSubDataTable()) !== null) {
-                    $table = Manager::getInstance()->getTable($idSubtable);
-                    $table->enableRecursiveSort();
-                    $table->sort($functionCallback, $columnSortedBy);
+
+                $subTable = $row->getSubtable();
+                if ($subTable) {
+                    $subTable->enableRecursiveSort();
+                    $subTable->sort($functionCallback, $columnSortedBy);
                 }
             }
         }
@@ -868,8 +869,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $totalCount = 0;
         foreach ($this->rows as $row) {
-            if (($idSubTable = $row->getIdSubDataTable()) !== null) {
-                $subTable = Manager::getInstance()->getTable($idSubTable);
+            $subTable = $row->getSubtable();
+            if ($subTable) {
                 $count = $subTable->getRowsCountRecursive();
                 $totalCount += $count;
             }
@@ -907,8 +908,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $row->renameColumn($oldName, $newName);
 
             if ($doRenameColumnsOfSubTables) {
-                if (($idSubDataTable = $row->getIdSubDataTable()) !== null) {
-                    Manager::getInstance()->getTable($idSubDataTable)->renameColumn($oldName, $newName);
+                $subTable = $row->getSubtable();
+                if ($subTable) {
+                    $subTable->renameColumn($oldName, $newName);
                 }
             }
         }
@@ -929,8 +931,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             foreach ($names as $name) {
                 $row->deleteColumn($name);
             }
-            if (($idSubDataTable = $row->getIdSubDataTable()) !== null) {
-                Manager::getInstance()->getTable($idSubDataTable)->deleteColumns($names, $deleteRecursiveInSubtables);
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $subTable->deleteColumns($names, $deleteRecursiveInSubtables);
             }
         }
         if (!is_null($this->summaryRow)) {
@@ -1110,20 +1113,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // but returns all serialized tables and subtable in an array of 1 dimension
         $aSerializedDataTable = array();
         foreach ($this->rows as $row) {
-            if (($idSubTable = $row->getIdSubDataTable()) !== null) {
-                $subTable = null;
-                try {
-                    $subTable = Manager::getInstance()->getTable($idSubTable);
-                } catch(TableNotFoundException $e) {
-                    // This occurs is an unknown & random data issue. Catch Exception and remove subtable from the row.
-                    $row->removeSubtable();
-                    // Go to next row
-                    continue;
-                }
-
+            $subTable = $row->getSubtable();
+            if ($subTable) {
                 $depth++;
                 $aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
                 $depth--;
+            } else {
+                $row->removeSubtable();
             }
         }
         // we load the current Id of the DataTable
@@ -1616,8 +1612,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // we simply add it (cloning the subtable)
                 // if the row has the subtable already
                 // then we have to recursively sum the subtables
-                if (($idSubTable = $row->getIdSubDataTable()) !== null) {
-                    $subTable = Manager::getInstance()->getTable($idSubTable);
+                $subTable = $row->getSubtable();
+                if ($subTable) {
                     $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
                         = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
                     $rowFound->sumSubtable($subTable);

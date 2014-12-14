@@ -180,14 +180,19 @@ class ActionSiteSearch extends Action
         if (is_array($actionName)) {
             $actionName = reset($actionName);
         }
-        $actionName = trim(urldecode($actionName));
+
+        $actionName = PageUrl::urldecodeValidUtf8($actionName);
+        $actionName = trim($actionName);
         if (empty($actionName)) {
             return false;
         }
+
         if (is_array($categoryName)) {
             $categoryName = reset($categoryName);
         }
-        $categoryName = trim(urldecode($categoryName));
+        $categoryName = PageUrl::urldecodeValidUtf8($categoryName);
+        $categoryName = trim($categoryName);
+
         return array($url, $actionName, $categoryName, $count);
     }
 

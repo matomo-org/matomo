@@ -14,6 +14,9 @@ use Piwik\DataTable\Renderer\Xml;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -93,9 +96,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLTest1()
     {
         $dataTable = $this->_getDataTableTest();
@@ -152,9 +153,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLTest2()
     {
         $dataTable = $this->_getDataTableSimpleTest();
@@ -172,9 +171,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowTest();
@@ -185,9 +182,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLTest4()
     {
         $dataTable = $this->_getDataTableEmpty();
@@ -198,9 +193,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLTest5()
     {
         $dataTable = $this->_getDataTableSimpleOneZeroRowTest();
@@ -211,9 +204,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLTest6()
     {
         $dataTable = $this->_getDataTableSimpleOneFalseRowTest();
@@ -224,9 +215,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLRendererSuccessfullyRendersWhenSimpleDataTableColumnsHaveInvalidXmlCharacters()
     {
         $dataTable = $this->_getDataTableSimpleWithInvalidChars();
@@ -241,9 +230,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLRendererSuccessfullyRendersWhenDataTableColumnsHaveInvalidXmlCharacters()
     {
         $dataTable = $this->_getDataTableWithInvalidChars();
@@ -365,9 +352,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLMapTest1()
     {
         $dataTable = $this->_getDataTableMapTest();
@@ -412,9 +397,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLArrayIsMadeOfMapTest1()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
@@ -463,9 +446,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLMapTest2()
     {
         $dataTable = $this->_getDataTableSimpleMapTest();
@@ -487,9 +468,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLArrayIsMadeOfMapTest2()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
@@ -513,9 +492,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLMapTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowMapTest();
@@ -532,9 +509,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testXMLArrayIsMadeOfMapTest3()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
@@ -552,9 +527,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray1()
     {
         $data = array();
@@ -567,9 +540,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray2()
     {
         $data = array("firstElement",
@@ -592,9 +563,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray3()
     {
         $data = array('a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g');
@@ -614,9 +583,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray4()
     {
         $data = array('c' => array(1, 2, 3, 4), 'e' => array('f' => 'g', 'h' => 'i', 'j' => 'k'));

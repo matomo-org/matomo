@@ -7,6 +7,9 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
 {
     public function setUp()

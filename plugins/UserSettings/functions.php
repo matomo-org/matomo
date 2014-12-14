@@ -20,23 +20,6 @@ function getPluginsLogo($oldLabel)
     return 'plugins/UserSettings/images/plugins/' . $oldLabel . '.gif';
 }
 
-function getConfigurationLabel($str)
-{
-    if (strpos($str, ';') === false) {
-        return $str;
-    }
-    $values = explode(";", $str);
-
-    $os = \Piwik\Plugins\DevicesDetection\getOsFullName($values[0]);
-    $name = $values[1];
-    $browser = \Piwik\Plugins\DevicesDetection\getBrowserName($name);
-    if ($browser === false) {
-        $browser = Piwik::translate('General_Unknown');
-    }
-    $resolution = $values[2];
-    return $os . " / " . $browser . " / " . $resolution;
-}
-
 /**
  * Returns the given language code to translated language name
  *

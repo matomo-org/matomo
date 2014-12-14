@@ -12,11 +12,12 @@ use Piwik\DataTable\Filter\Truncate;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
+
     public function testUnrelatedDataTableNotFiltered()
     {
         // remark: this unit test would become invalid and would need to be rewritten if
@@ -38,9 +39,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         $filter->filter($dataTableBeingFiltered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testForInfiniteRecursion()
     {
         $dataTableBeingFiltered = new DataTable();
@@ -62,9 +61,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         $filter->filter($dataTableBeingFiltered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testOffsetIsCountSummaryRowShouldBeTheRow()
     {
         $table = $this->getDataTableCount5();
@@ -74,9 +71,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Row::isEqual($table->getLastRow(), $this->getRow4()));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testOffsetIsLessThanCountSummaryRowShouldBeTheSum()
     {
         $table = $this->getDataTableCount5();
@@ -89,9 +84,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array_keys($table->getLastRow()->getColumns()), array_keys($expectedRow->getColumns()));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testOffsetIsMoreThanCountShouldNotTruncate()
     {
         $table = $this->getDataTableCount5();
@@ -101,9 +94,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Row::isEqual($table->getLastRow(), $this->getRow4()));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testWhenThereIsAlreadyASummaryRowShouldReplaceTheSummaryRow()
     {
         $table = $this->getDataTableCount5();
@@ -116,9 +107,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Row::isEqual($table->getLastRow(), $expectedRow));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testSumTablesWithSummaryRowShouldSumTheSummaryRow()
     {
         // row0, row1, row2, rowSummary1
@@ -142,9 +131,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(DataTable::isEqual($expectedTable, $table1));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testAddOneTableWithSummaryRow()
     {
         // row0, row1, row2, rowSummary1
@@ -169,9 +156,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * @group Core
-     */
+
     public function testWhenRowsInRandomOrderButSortSpecifiedShouldComputeSummaryRowAfterSort()
     {
         $table = new DataTable;

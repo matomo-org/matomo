@@ -12,11 +12,12 @@ use Piwik\DataTable\Filter\RangeCheck;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Filter_RangeCheckTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
+
     public function testRangeCheckNormalDataTable()
     {
         $table = new DataTable();
@@ -34,9 +35,7 @@ class DataTable_Filter_RangeCheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrder, $table->getColumn('count'));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRangeCheckNormalDataTableNonIntegerValues()
     {
         $table = new DataTable();

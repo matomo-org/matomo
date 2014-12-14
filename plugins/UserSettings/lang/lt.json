@@ -1,8 +1,5 @@
 {
     "UserSettings": {
-        "ColumnConfiguration": "Konfigūracija",
-        "ColumnResolution": "Ekrano raiška",
-        "Configurations": "Konfigūracijos",
         "Language_aa": "afarų",
         "Language_ab": "abchazų",
         "Language_ae": "avestų",
@@ -190,10 +187,7 @@
         "LanguageCode": "Kalbos kodas",
         "PluginDescription": "Parodo įvairius lankytojo nustatymus: naršyklę, naršyklės šeimą, operacinę sistemą, papildinius, ekrano raišką, skiriamąją gebą, globalius nustatymus.",
         "PluginDetectionDoesNotWorkInIE": "Pastaba: papildinio aptikimas neveikia Internet Explorer naršyklėje. Ši ataskaita bus sugeneruota tik kitose naršyklėse.",
-        "Resolutions": "Ekranų raiškos",
         "VisitorSettings": "Lankytojų nustatymai",
-        "WidgetGlobalVisitors": "Bendri lankytojų nustatymai",
-        "WidgetPlugins": "Papildinių sąrašas",
-        "WidgetResolutions": "Ekrano raiška"
+        "WidgetPlugins": "Papildinių sąrašas"
     }
 }

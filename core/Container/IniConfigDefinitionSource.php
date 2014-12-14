@@ -9,16 +9,14 @@
 namespace Piwik\Container;
 
 use DI\Definition\Exception\DefinitionException;
-use DI\Definition\MergeableDefinition;
 use DI\Definition\Source\ChainableDefinitionSource;
-use DI\Definition\Source\DefinitionSource;
 use DI\Definition\ValueDefinition;
 use Piwik\Config;
 
 /**
  * Import the old INI config into PHP-DI.
  */
-class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinitionSource
+class IniConfigDefinitionSource extends ChainableDefinitionSource
 {
     /**
      * @var Config
@@ -31,11 +29,6 @@ class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinition
     private $prefix;
 
     /**
-     * @var DefinitionSource
-     */
-    private $chainedSource;
-
-    /**
      * @param Config $config
      * @param string $prefix Prefix for the container entries.
      */
@@ -45,15 +38,10 @@ class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinition
         $this->prefix = $prefix;
     }
 
-    public function getDefinition($name, MergeableDefinition $parentDefinition = null)
+    protected function findDefinition($name)
     {
-        // INI only contains values, so no definition merging here
-        if ($parentDefinition) {
-            return $this->notFound($name, $parentDefinition);
-        }
-
         if (strpos($name, $this->prefix) !== 0) {
-            return $this->notFound($name, $parentDefinition);
+            return null;
         }
 
         list($sectionName, $configKey) = $this->parseEntryName($name);
@@ -65,15 +53,10 @@ class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinition
         }
 
         if (! array_key_exists($configKey, $section)) {
-            return $this->notFound($name, $parentDefinition);
+            return null;
         }
 
         return new ValueDefinition($name, $section[$configKey]);
-    }
-
-    public function chain(DefinitionSource $source)
-    {
-        $this->chainedSource = $source;
     }
 
     private function parseEntryName($name)
@@ -101,14 +84,5 @@ class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinition
         }
 
         return $section;
-    }
-
-    private function notFound($name, $parentDefinition)
-    {
-        if ($this->chainedSource) {
-            return $this->chainedSource->getDefinition($name, $parentDefinition);
-        }
-
-        return null;
     }
 }

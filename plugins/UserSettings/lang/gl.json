@@ -1,6 +1,5 @@
 {
     "UserSettings": {
-        "Configurations": "Configuracións",
         "Language_ab": "abkhazo",
         "Language_af": "Afrikaans",
         "Language_ak": "Akán",
@@ -148,9 +147,6 @@
         "Language_zh": "Chinés",
         "Language_zu": "Zulú",
         "LanguageCode": "Código de idioma",
-        "Resolutions": "Resolucións",
-        "WidgetGlobalVisitors": "Configuración global de visitantes",
-        "WidgetPlugins": "Lista de plugins",
-        "WidgetResolutions": "Resolucións de pantalla"
+        "WidgetPlugins": "Lista de plugins"
     }
 }

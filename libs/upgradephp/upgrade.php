@@ -633,8 +633,8 @@ function _readfile($filename, $byteStart, $byteEnd, $useIncludePath = false, $co
         for ($pos = $byteStart; $pos < $byteEnd && !feof($handle); $pos = ftell($handle)) {
 			echo fread($handle, min(8192, $byteEnd - $pos));
 
-			ob_flush();
-			flush();
+			@ob_flush();
+			@flush();
 		}
 
 		fclose($handle);
