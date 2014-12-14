@@ -14,8 +14,6 @@ use Piwik\Config;
 use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Error;
-use Piwik\ExceptionHandler;
 use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -32,19 +30,11 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = array(
-        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(132): dummy error message
-  dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(132): dummy error message
-  dummy backtrace'
-    );
+    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\LogTest] LogTest.php(122): dummy error message
+  dummy backtrace';
 
-    public static $expectedErrorOutput = array(
-        'file' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
-  dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
-  dummy backtrace'
-    );
+    public static $expectedErrorOutput = '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+  dummy backtrace';
 
     public function setUp()
     {
@@ -119,7 +109,7 @@ class LogTest extends IntegrationTestCase
         $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
 
-        $this->checkBackend($backend, self::$expectedErrorOutput[$backend], $formatMessage = false, $tag = __CLASS__);
+        $this->checkBackend($backend, self::$expectedErrorOutput, $formatMessage = false, $tag = __CLASS__);
     }
 
     /**
@@ -132,7 +122,7 @@ class LogTest extends IntegrationTestCase
         $exception = new Exception("dummy error message");
         Log::error($exception);
 
-        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend], $formatMessage = false, $tag = __CLASS__);
+        $this->checkBackend($backend, self::$expectedExceptionOutput, $formatMessage = false, $tag = __CLASS__);
     }
 
     /**
