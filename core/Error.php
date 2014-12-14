@@ -94,7 +94,7 @@ class Error
             case E_DEPRECATED:
             case E_USER_DEPRECATED:
             default:
-                Log::info(self::createLogMessage($errno, $errstr, $errfile, $errline));
+                Log::warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
                 break;
         }
     }

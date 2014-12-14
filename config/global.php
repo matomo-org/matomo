@@ -34,6 +34,7 @@ return array(
         }
         $classes = array(
             'file'     => 'Piwik\Log\Handler\FileHandler',
+            'screen'   => 'Piwik\Log\Handler\WebNotificationHandler',
             'database' => 'Piwik\Log\Handler\DatabaseHandler',
         );
         $writerNames = array_map('trim', $writerNames);
@@ -56,6 +57,9 @@ return array(
         ->constructor(DI\link('log.file.filename'), DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'Piwik\Log\Handler\DatabaseHandler' => DI\object()
+        ->constructor(DI\link('log.level'))
+        ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
+    'Piwik\Log\Handler\WebNotificationHandler' => DI\object()
         ->constructor(DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'log.level' => DI\factory(function (ContainerInterface $c) {
