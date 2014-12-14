@@ -25,5 +25,12 @@ if (!Piwik\Common::isPhpCliMode()) {
     exit;
 }
 
+if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
+    require_once PIWIK_INCLUDE_PATH . '/core/Error.php';
+    \Piwik\Error::setErrorHandler();
+    require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
+    \Piwik\ExceptionHandler::setUp();
+}
+
 $console = new Piwik\Console();
 $console->run();

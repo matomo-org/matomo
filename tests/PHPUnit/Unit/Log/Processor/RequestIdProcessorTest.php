@@ -13,6 +13,7 @@ use Piwik\Log\Processor\RequestIdProcessor;
 
 /**
  * @group Core
+ * @group Log
  * @covers \Piwik\Log\Processor\RequestIdProcessor
  */
 class RequestIdProcessorTest extends \PHPUnit_Framework_TestCase

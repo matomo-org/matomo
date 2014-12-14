@@ -11,6 +11,11 @@ namespace Piwik\Tests\Unit\Log\Formatter;
 use DateTime;
 use Piwik\Log\Formatter\LineMessageFormatter;
 
+/**
+ * @group Core
+ * @group Log
+ * @covers \Piwik\Log\Formatter\LineMessageFormatter
+ */
 class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
 {
     /**

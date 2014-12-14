@@ -4,11 +4,11 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik;
 
-require_once PIWIK_INCLUDE_PATH . '/core/Log.php';
+use Piwik\Exception\ErrorException;
 
 /**
  * Piwik's error handler function.
@@ -71,9 +71,6 @@ class Error
             return;
         }
 
-        $error = new \ErrorException($errstr, 0, $errno, $errfile, $errline);
-        Log::error($error);
-
         switch ($errno) {
             case E_ERROR:
             case E_PARSE:
@@ -82,7 +79,10 @@ class Error
             case E_COMPILE_ERROR:
             case E_COMPILE_WARNING:
             case E_USER_ERROR:
-                exit;
+                // Convert the error to an exception with an HTML message
+                $e = new \Exception();
+                $message = self::getHtmlMessage($errno, $errstr, $errfile, $errline, $e->getTraceAsString());
+                throw new ErrorException($message, 0, $errno, $errfile, $errline);
                 break;
 
             case E_WARNING:
@@ -94,8 +94,37 @@ class Error
             case E_DEPRECATED:
             case E_USER_DEPRECATED:
             default:
-                // do not exit
+                Log::warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
                 break;
         }
+    }
+
+    private static function createLogMessage($errno, $errstr, $errfile, $errline)
+    {
+        return sprintf(
+            "%s(%d): %s - %s",
+            $errfile,
+            $errline,
+            Error::getErrNoString($errno),
+            $errstr
+        );
+    }
+
+    private static function getHtmlMessage($errno, $errstr, $errfile, $errline, $trace)
+    {
+        $trace = Log::$debugBacktraceForTests ?: $trace;
+
+        $message = Error::getErrNoString($errno) . ' - ' . $errstr;
+
+        $html = "<strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
+        and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).</strong><br /><br/>
+        ";
+        $html .= "<strong>{$message}</strong> in <em>{$errfile}</em>";
+        $html .= " on line {$errline}<br />";
+        $html .= "<br />Backtrace:<div style=\"font-family:Courier;font-size:10pt\"><br />\n";
+        $html .= str_replace("\n", "<br />\n", $trace);
+        $html .= "</div>";
+
+        return $html;
     }
 }

@@ -39,10 +39,6 @@ if (PIWIK_ENABLE_DISPATCH) {
             echo $response;
         }
     } catch (Exception $ex) {
-        $response = $controller->getErrorResponse($ex);
-
-        echo $response;
-
-        exit(1);
+        ExceptionHandler::dieWithHtmlErrorPage($ex);
     }
 }
