@@ -78,8 +78,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Tracker' => 'record_statistics'), '1');
         $this->_checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
         $this->_checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
-        // logging messages are disabled
-        $this->_checkEqual(array('log' => 'log_level'), 'ERROR');
+        $this->_checkEqual(array('log' => 'log_level'), 'WARNING');
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
