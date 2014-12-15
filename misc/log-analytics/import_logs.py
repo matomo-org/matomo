@@ -203,7 +203,7 @@ class W3cExtendedFormat(RegexFormat):
         'sc-bytes': '(?P<length>\S+)',
         'cs-host': '(?P<host>\S+)',
         'cs-username': '(?P<userid>\S+)',
-        'time-taken': '(?P<generation_time_milli>\d+)'
+        'time-taken': '(?P<generation_time_secs>[.\d]+)'
     }
 
     def __init__(self):
@@ -226,23 +226,21 @@ class W3cExtendedFormat(RegexFormat):
             file.seek(0)
             return
 
+        # store the header lines for a later check for IIS
+        self.header_lines = header_lines
+
         # Parse the 4th 'Fields: ' line to create the regex to use
         full_regex = []
 
-        expected_fields = W3cExtendedFormat.fields.copy() # turn custom field mapping into field => regex mapping
-        for mapped_field_name, field_name in config.options.custom_w3c_fields.iteritems():
-            expected_fields[mapped_field_name] = W3cExtendedFormat.fields[field_name]
-            del expected_fields[field_name]
+        expected_fields = type(self).fields.copy() # turn custom field mapping into field => regex mapping
 
-        # if the --w3c-time-taken-secs option is used, make sure the time-taken field is interpreted as seconds
-        if config.options.w3c_time_taken_in_secs:
-            expected_fields['time-taken'] = '(?P<generation_time_secs>\S+)'
-        else:
-            # check if we're importing netscaler logs and if so, issue a warning
-            if 'netscaler' in header_lines[1].lower():
-                logging.info("WARNING: netscaler log file being parsed without --w3c-time-taken-secs option. Netscaler"
-                             " stores second values in the time-taken field. If your logfile does this, the aforementioned"
-                             " option must be used in order to get accurate generation times.")
+        # if the --w3c-time-taken-millisecs option is used, make sure the time-taken field is interpreted as milliseconds
+        if config.options.w3c_time_taken_in_millisecs:
+            expected_fields['time-taken'] = '(?P<generation_time_milli>[\d.]+)'
+
+        for mapped_field_name, field_name in config.options.custom_w3c_fields.iteritems():
+            expected_fields[mapped_field_name] = type(self).fields[field_name]
+            del expected_fields[field_name]
 
         # Skip the 'Fields: ' prefix.
         fields_line = fields_line[9:]
@@ -252,11 +250,62 @@ class W3cExtendedFormat(RegexFormat):
             except KeyError:
                 regex = '\S+'
             full_regex.append(regex)
-        self.regex = re.compile(' '.join(full_regex))
+        full_regex = '\s+'.join(full_regex)
+        self.regex = re.compile(full_regex)
 
-        start_pos = file.tell() - len(first_line)
-        file.seek(start_pos)
+        file.seek(0)
         return self.check_format_line(first_line)
+
+    def check_for_iis_option(self):
+        if not config.options.w3c_time_taken_in_millisecs and self._is_time_taken_milli() and self._is_iis():
+            logging.info("WARNING: IIS log file being parsed without --w3c-time-taken-milli option. IIS"
+                         " stores millisecond values in the time-taken field. If your logfile does this, the aforementioned"
+                         " option must be used in order to get accurate generation times.")
+
+    def _is_iis(self):
+        return len([line for line in self.header_lines if 'internet information services' in line.lower() or 'iis' in line.lower()]) > 0
+
+    def _is_time_taken_milli(self):
+        return 'generation_time_milli' not in self.regex.pattern
+
+class IisFormat(W3cExtendedFormat):
+
+    fields = W3cExtendedFormat.fields.copy()
+    fields.update({
+        'time-taken': '(?P<generation_time_milli>[.\d]+)',
+        'sc-win32-status': '(?P<__win32_status>\S+)' # this group is useless for log importing, but capturing it
+                                                     # will ensure we always select IIS for the format instead of
+                                                     # W3C logs when detecting the format. This way there will be
+                                                     # less accidental importing of IIS logs w/o --w3c-time-taken-milli.
+    })
+
+    def __init__(self):
+        super(IisFormat, self).__init__()
+
+        self.name = 'iis'
+
+class AmazonCloudFrontFormat(W3cExtendedFormat):
+
+    fields = W3cExtendedFormat.fields.copy()
+    fields.update({
+        'x-event': '(?P<event_action>\S+)',
+        'x-sname': '(?P<event_name>\S+)',
+        'cs-uri-stem': '(?:rtmp:/)?(?P<path>/\S*)',
+        'c-user-agent': '(?P<user_agent>".*?"|\S+)'
+    })
+
+    def __init__(self):
+        super(AmazonCloudFrontFormat, self).__init__()
+
+        self.name = 'amazon_cloudfront'
+
+    def get(self, key):
+        if key == 'event_category' and 'event_category' not in self.matched.groupdict():
+            return 'cloudfront_rtmp'
+        elif key == 'status' and 'status' not in self.matched.groupdict():
+            return '200'
+        else:
+            return super(AmazonCloudFrontFormat, self).get(key)
 
 _HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
 _COMMON_LOG_FORMAT = (
@@ -281,7 +330,8 @@ FORMATS = {
     'ncsa_extended': RegexFormat('ncsa_extended', _NCSA_EXTENDED_LOG_FORMAT),
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
     'w3c_extended': W3cExtendedFormat(),
-    'iis': W3cExtendedFormat(), # for backwards compatibility TODO test
+    'amazon_cloudfront': AmazonCloudFrontFormat(),
+    'iis': IisFormat(),
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
     'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
     'nginx_json': JsonFormat('nginx_json'),
@@ -518,13 +568,15 @@ class Configuration(object):
             '--w3c-map-field', action='callback', callback=self._set_w3c_field_map, type='string',
             help="Map a custom log entry field in your W3C log to a default one. Use this option to load custom log "
                  "files that use the W3C extended log format such as those from the Advanced Logging W3C module. Used "
-                 "as, eg, --w3c-map-field my-date=date. Recognized default fields include: %s"
+                 "as, eg, --w3c-map-field my-date=date. Recognized default fields include: %s\n\n"
+                 "Formats that extend the W3C extended log format (like the cloudfront RTMP log format) may define more "
+                 "fields that can be mapped."
                      % (', '.join(W3cExtendedFormat.fields.keys()))
         )
         option_parser.add_option(
-            '--w3c-time-taken-secs', action='store_true', default=False, dest='w3c_time_taken_in_secs',
-            help="If set, interprets the time-taken W3C log field as a number of seconds. This must be set for importing"
-                 " netscaler logs."
+            '--w3c-time-taken-millisecs', action='store_true', default=False, dest='w3c_time_taken_in_millisecs',
+            help="If set, interprets the time-taken W3C log field as a number of milliseconds. This must be set for importing"
+                 " IIS logs."
         )
         return option_parser
 
@@ -535,10 +587,6 @@ class Configuration(object):
             fatal_error("Invalid --w3c-map-field option: '%s'" % value)
 
         custom_name, default_name = parts
-
-        if default_name not in W3cExtendedFormat.fields:
-            fatal_error("custom W3C field mapping error: don't know how to parse and use the '%' field" % default_name)
-            return
 
         if not hasattr(parser.values, 'custom_w3c_fields'):
             parser.values.custom_w3c_fields = {}
@@ -557,9 +605,6 @@ class Configuration(object):
         if not self.filenames:
             print(option_parser.format_help())
             sys.exit(1)
-
-        if not hasattr(self.options, 'custom_w3c_fields'):
-            self.options.custom_w3c_fields = {}
 
         # Configure logging before calling logging.{debug,info}.
         logging.basicConfig(
@@ -597,6 +642,15 @@ class Configuration(object):
                 fatal_error('invalid log format: %s' % self.options.log_format_name)
         else:
             self.format = None
+
+        if not hasattr(self.options, 'custom_w3c_fields'):
+            self.options.custom_w3c_fields = {}
+        elif self.format is not None:
+            # validate custom field mappings
+            for custom_name, default_name in self.options.custom_w3c_fields.iteritems():
+                if default_name not in type(format).fields:
+                    fatal_error("custom W3C field mapping error: don't know how to parse and use the '%' field" % default_name)
+                    return
 
         if not self.options.piwik_url:
             fatal_error('no URL given for Piwik')
@@ -1342,7 +1396,15 @@ class Recorder(object):
 			)
 
         if hit.generation_time_milli > 0:
-            args['gt_ms'] = hit.generation_time_milli
+            args['gt_ms'] = int(hit.generation_time_milli)
+
+        if hit.event_category and hit.event_action:
+            args['e_c'] = hit.event_category
+            args['e_a'] = hit.event_action
+
+            if hit.event_name:
+                args['e_n'] = hit.event_name
+
         return args
 
     def _record_hits(self, hits):
@@ -1531,7 +1593,8 @@ class Parser(object):
                     match = candidate_format.check_format_line(lineOrFile)
                 else:
                     match = candidate_format.check_format(lineOrFile)
-            except:
+            except Exception, e:
+                logging.debug('Error in format checking: %s', str(e))
                 pass
 
             if match:
@@ -1549,6 +1612,11 @@ class Parser(object):
 
             else:
                 logging.debug('Format %s does not match', name)
+
+        # if the format is W3cExtendedFormat, check if the logs are from IIS and if so, issue a warning if the
+        # --w3c-time-taken-milli option isn't set
+        if isinstance(format, W3cExtendedFormat):
+            format.check_for_iis_option()
 
         return format
 
@@ -1583,6 +1651,7 @@ class Parser(object):
             pass
 
         if not format:
+            raise RuntimeError('sdfjlsd')
             fatal_error("cannot automatically determine the log format using the first %d lines of the log file. " % limit +
                         "\nMaybe try specifying the format with the --log-format-name command line argument." )
             return
@@ -1706,13 +1775,13 @@ class Parser(object):
                 hit.length = 0
 
             try:
-                hit.generation_time_milli = int(format.get('generation_time_milli'))
+                hit.generation_time_milli = float(format.get('generation_time_milli'))
             except BaseFormatException:
                 try:
-                    hit.generation_time_milli = int(format.get('generation_time_micro')) / 1000
+                    hit.generation_time_milli = float(format.get('generation_time_micro')) / 1000
                 except BaseFormatException:
                     try:
-                        hit.generation_time_milli = int(format.get('generation_time_secs')) * 1000
+                        hit.generation_time_milli = float(format.get('generation_time_secs')) * 1000
                     except BaseFormatException:
                         hit.generation_time_milli = 0
 
@@ -1732,6 +1801,19 @@ class Parser(object):
                 userid = format.get('userid')
                 if userid != '-':
                     hit.args['uid'] = userid
+            except:
+                pass
+
+            # add event info
+            try:
+                hit.event_category = hit.event_action = hit.event_name = None
+
+                hit.event_category = format.get('event_category')
+                hit.event_action = format.get('event_action')
+
+                hit.event_name = format.get('event_name')
+                if hit.event_name == '-':
+                    hit.event_name = None
             except:
                 pass
 

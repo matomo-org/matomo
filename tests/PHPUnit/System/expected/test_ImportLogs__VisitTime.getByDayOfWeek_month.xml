@@ -23,13 +23,13 @@
 	</row>
 	<row>
 		<label>Thursday</label>
-		<nb_visits>10</nb_visits>
-		<nb_uniq_visitors>10</nb_uniq_visitors>
-		<nb_actions>11</nb_actions>
+		<nb_visits>11</nb_visits>
+		<nb_uniq_visitors>11</nb_uniq_visitors>
+		<nb_actions>12</nb_actions>
 		<nb_users>0</nb_users>
 		<sum_visit_length>242</sum_visit_length>
-		<bounce_count>9</bounce_count>
-		<nb_visits_converted>10</nb_visits_converted>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>11</nb_visits_converted>
 		<day_of_week>4</day_of_week>
 	</row>
 	<row>
@@ -56,7 +56,13 @@
 	</row>
 	<row>
 		<label>Sunday</label>
-		<nb_visits>0</nb_visits>
+		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
 		<day_of_week>7</day_of_week>
 	</row>
 </result>

@@ -29,6 +29,8 @@ class ManySitesImportedLogs extends Fixture
     public $addSegments = false;
     public $includeIisWithCustom = false;
     public $includeNetscaler = false;
+    public $includeCloudfront = false;
+    public $includeCloudfrontRtmp = false;
 
     public static function createAccessInstance()
     {
@@ -120,6 +122,14 @@ class ManySitesImportedLogs extends Fixture
 
         if ($this->includeNetscaler) {
             $this->logNetscaler();
+        }
+
+        if ($this->includeCloudfront) {
+            $this->logCloudfront();
+        }
+
+        if ($this->includeCloudfrontRtmp) {
+            $this->logCloudfrontRtmp();
         }
     }
 
@@ -262,9 +272,26 @@ class ManySitesImportedLogs extends Fixture
                       '--w3c-map-field'             => array(),
                       '--enable-http-redirects'     => false);
 
-        $output = self::executeLogImporter($logFile, $opts);
+        return self::executeLogImporter($logFile, $opts);
+    }
 
-        // make sure warning about --w3c-time-taken-secs appears in importer output
-        self::assertContains("WARNING: netscaler log file being parsed without --w3c-time-taken-secs option.", implode("\n", $output));
+    private function logCloudfront()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_cloudfront.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logCloudfrontRtmp()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_cloudfront_rtmp.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
     }
 }
