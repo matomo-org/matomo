@@ -236,8 +236,8 @@ abstract class Base extends VisitDimension
         if (!empty($this->referrerHost)) {
             // is the referrer host the current host?
             if (isset($this->currentUrlParse['host'])) {
-                $currentHost = mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
-                if ($currentHost == mb_strtolower($this->referrerHost, 'UTF-8')) {
+                $currentHost = Common::mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
+                if ($currentHost == Common::mb_strtolower($this->referrerHost, 'UTF-8')) {
                     $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                     return true;
                 }

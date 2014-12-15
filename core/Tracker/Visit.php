@@ -422,7 +422,7 @@ class Visit implements VisitInterface
 
     private static function toCanonicalHost($host)
     {
-        $hostLower = mb_strtolower($host, 'UTF-8');
+        $hostLower = Common::mb_strtolower($host, 'UTF-8');
         return str_replace('www.', '', $hostLower);
     }
 

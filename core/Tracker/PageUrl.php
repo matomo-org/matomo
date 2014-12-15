@@ -157,7 +157,7 @@ class PageUrl
         }
 
         if (!empty($parsedUrl['host'])) {
-            $parsedUrl['host'] = mb_strtolower($parsedUrl['host'], 'UTF-8');
+            $parsedUrl['host'] = Common::mb_strtolower($parsedUrl['host'], 'UTF-8');
         }
 
         if (!empty($parsedUrl['fragment'])) {
@@ -219,7 +219,8 @@ class PageUrl
     {
         if (is_string($value)) {
             $decoded = urldecode($value);
-            if (@mb_check_encoding($decoded, $encoding)) {
+            if (function_exists('mb_check_encoding')
+                && @mb_check_encoding($decoded, $encoding)) {
                 $value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
             }
         }
