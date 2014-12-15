@@ -129,6 +129,9 @@ class SystemCheck
         }
 
         if (   !empty($infos['missing_desired_extensions'])
+            || !empty($infos['missing_desired_functions'])
+            || !empty($infos['missing_settings'])
+            || !$infos['pagespeed_module_disabled_ok']
             || !$infos['gd_ok']
             || !$infos['memory_ok']
             || !empty($infos['integrityErrorMessages'])
