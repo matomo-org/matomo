@@ -399,6 +399,8 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
+        Updater::throwIfPiwikVersionIsOlderThanDBSchema();
+
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         // ensure the current Piwik URL is known for later use
