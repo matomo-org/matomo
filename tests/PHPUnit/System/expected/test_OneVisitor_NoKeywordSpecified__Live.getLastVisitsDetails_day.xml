@@ -23,8 +23,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -38,8 +36,27 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>search</referrerType>
+		<referrerTypeName>Moteurs de recherche</referrerTypeName>
+		<referrerName>Google</referrerName>
+		<referrerKeyword>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</referrerKeyword>
+		<referrerKeywordPosition>4</referrerKeywordPosition>
+		<referrerUrl>http://www.google.com.vn/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</referrerUrl>
+		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
+		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
 		<deviceType>Inconnu</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
@@ -52,18 +69,6 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
-		<provider>Inconnu</provider>
-		<providerName>Inconnu</providerName>
-		<providerUrl />
-		<referrerType>search</referrerType>
-		<referrerTypeName>Moteurs de recherche</referrerTypeName>
-		<referrerName>Google</referrerName>
-		<referrerKeyword>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</referrerKeyword>
-		<referrerKeywordPosition>4</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com.vn/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</referrerUrl>
-		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>1024x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -75,20 +80,15 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Inconnu</provider>
+		<providerName>Inconnu</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>1024x768</resolution>
 		
 		
 		
@@ -128,8 +128,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -143,8 +141,27 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>1084</visitDuration>
 		<visitDurationPretty>18 min 4s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>search</referrerType>
+		<referrerTypeName>Moteurs de recherche</referrerTypeName>
+		<referrerName>Google</referrerName>
+		<referrerKeyword>Mot-clé indéfini</referrerKeyword>
+		<referrerKeywordPosition>1</referrerKeywordPosition>
+		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
+		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
+		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
 		<deviceType>Inconnu</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
@@ -157,18 +174,6 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
-		<provider>Inconnu</provider>
-		<providerName>Inconnu</providerName>
-		<providerUrl />
-		<referrerType>search</referrerType>
-		<referrerTypeName>Moteurs de recherche</referrerTypeName>
-		<referrerName>Google</referrerName>
-		<referrerKeyword>Mot-clé indéfini</referrerKeyword>
-		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
-		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>1024x768</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -180,20 +185,15 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Inconnu</provider>
+		<providerName>Inconnu</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>1024x768</resolution>
 		
 		
 		
