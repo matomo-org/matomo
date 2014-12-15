@@ -277,6 +277,16 @@ def check_s3_groups(groups):
     assert groups['referrer'] == '-'
     assert groups['user_agent'] == 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11'
 
+def check_cdn_groups(groups):
+    assert groups['date'] == '2014-10-21	10:29:55'
+    assert groups['length'] == '370'
+    assert groups['ip'] == '1.2.3.4'
+    assert groups['host'] == 'www.example.com'
+    assert groups['path'] == '/index'
+    assert groups['status'] == '200'
+    assert groups['referrer'] == 'http://www.referrer.com/'
+    assert groups['user_agent'] == 'Mozilla/5.0%2520(Windows%2520NT%25205.1;%2520rv:33.0)%2520Gecko/20100101%2520Firefox/33.0'
+
 def check_nginx_json_groups(groups):
     assert groups['host'] == 'www.piwik.org'
     assert groups['status'] == '200'
