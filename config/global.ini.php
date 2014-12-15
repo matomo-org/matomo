@@ -675,6 +675,7 @@ username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
 
 [Plugins]
+; list of plugins (in order they will be loaded) that are activated by default in the Piwik platform
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome

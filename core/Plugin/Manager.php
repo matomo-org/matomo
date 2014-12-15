@@ -207,6 +207,7 @@ class Manager extends Singleton
      */
     private function updatePluginsConfig($pluginsToLoad)
     {
+        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
         $section = PiwikConfig::getInstance()->Plugins;
         $section['Plugins'] = $pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
@@ -636,12 +637,7 @@ class Manager extends Singleton
      */
     public function isPluginBundledWithCore($name)
     {
-        // Reading the plugins from the global.ini.php config file
-        $pluginsBundledWithPiwik = PiwikConfig::getInstance()->getFromGlobalConfig('Plugins');
-        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
-
-        return (!empty($pluginsBundledWithPiwik)
-                    && in_array($name, $pluginsBundledWithPiwik))
+        return $this->isPluginEnabledByDefault($name)
                 || in_array($name, $this->getCorePluginsDisabledByDefault())
                 || $name == self::DEFAULT_THEME;
     }
@@ -670,8 +666,7 @@ class Manager extends Singleton
      */
     public function loadPlugins(array $pluginsToLoad)
     {
-        $pluginsToLoad = array_unique($pluginsToLoad);
-        $this->pluginsToLoad = $pluginsToLoad;
+        $this->pluginsToLoad = $this->makePluginsToLoad($pluginsToLoad);
         $this->reloadActivatedPlugins();
     }
 
@@ -856,12 +851,6 @@ class Manager extends Singleton
      */
     private function reloadActivatedPlugins()
     {
-        if ($this->doLoadAlwaysActivatedPlugins) {
-            $this->pluginsToLoad = array_merge($this->pluginsToLoad, $this->pluginToAlwaysActivate);
-        }
-
-        $this->pluginsToLoad = array_unique($this->pluginsToLoad);
-
         $pluginsToPostPendingEventsTo = array();
         foreach ($this->pluginsToLoad as $pluginName) {
             if (!$this->isPluginLoaded($pluginName)
@@ -1370,6 +1359,65 @@ class Manager extends Singleton
                 $this->unloadPlugin($plugin);
             }
         }
+    }
+
+    /**
+     * Reading the plugins from the global.ini.php config file
+     *
+     * @return array
+     */
+    protected function getPluginsFromGlobalIniConfigFile()
+    {
+        $pluginsBundledWithPiwik = PiwikConfig::getInstance()->getFromGlobalConfig('Plugins');
+        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
+        return $pluginsBundledWithPiwik;
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    protected function isPluginEnabledByDefault($name)
+    {
+        $pluginsBundledWithPiwik = $this->getPluginsFromGlobalIniConfigFile();
+
+        if(empty($pluginsBundledWithPiwik)) {
+            return false;
+        }
+        return in_array($name, $pluginsBundledWithPiwik);
+    }
+
+    /**
+     * @param array $pluginsToLoad
+     * @return array
+     */
+    private function makePluginsToLoad(array $pluginsToLoad)
+    {
+        $pluginsToLoad = array_unique($pluginsToLoad);
+        if ($this->doLoadAlwaysActivatedPlugins) {
+            $pluginsToLoad = array_merge($pluginsToLoad, $this->pluginToAlwaysActivate);
+        }
+        $pluginsToLoad = array_unique($pluginsToLoad);
+        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
+        return $pluginsToLoad;
+    }
+
+    private function sortPluginsSameOrderAsGlobalConfig(array $plugins)
+    {
+        $global = $this->getPluginsFromGlobalIniConfigFile();
+        $global = array_values($global);
+        $plugins = array_values($plugins);
+
+        $defaultPluginsLoadedFirst = array_intersect($global, $plugins);
+
+        $otherPluginsToLoadAfterDefaultPlugins = array_diff($plugins, $defaultPluginsLoadedFirst);
+
+        // sort by name to have a predictable order for those extra plugins
+        sort($otherPluginsToLoadAfterDefaultPlugins);
+
+        $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
+
+        return $sorted;
     }
 }
 
