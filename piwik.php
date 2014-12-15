@@ -67,10 +67,14 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 
-Tracker::loadTrackerEnvironment();
-
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
+
+try {
+    Tracker::loadTrackerEnvironment();
+} catch (Exception $e) {
+    // eg. Piwik is not installed yet
+}
 
 $tracker    = new Tracker();
 $requestSet = new RequestSet();
