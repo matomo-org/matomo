@@ -11,6 +11,7 @@ namespace Piwik\Tests\Framework\TestCase;
 use Piwik\Cache\StaticCache;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -87,6 +88,8 @@ abstract class IntegrationTestCase extends SystemTestCase
     public function tearDown()
     {
         StaticCache::clearAll();
+
+        DbHelper::truncateAllTables();
 
         self::$fixture->clearInMemoryCaches();
 
