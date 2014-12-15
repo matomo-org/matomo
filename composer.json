@@ -15,7 +15,7 @@
     "support": {
         "forum": "http://forum.piwik.org/",
         "issues": "https://github.com/piwik/piwik/issues",
-        "wiki": "http://dev.piwik.org/",
+        "wiki": "https://github.com/piwik/piwik/wiki",
         "source": "https://github.com/piwik/piwik"
     },
     "autoload": {
