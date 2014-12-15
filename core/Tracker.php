@@ -62,7 +62,12 @@ class Tracker
     public static function loadTrackerEnvironment()
     {
         SettingsServer::setIsTrackerApiRequest();
-        $GLOBALS['PIWIK_TRACKER_DEBUG'] = (bool) TrackerConfig::getConfigValue('debug');
+        try {
+            $debug = (bool)TrackerConfig::getConfigValue('debug');
+        } catch(Exception $e) {
+            $debug = false;
+        }
+        $GLOBALS['PIWIK_TRACKER_DEBUG'] = $debug;
         PluginManager::getInstance()->loadTrackerPlugins();
     }
 
