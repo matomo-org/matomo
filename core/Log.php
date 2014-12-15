@@ -161,9 +161,6 @@ class Log extends Singleton
     /**
      * Logs a message using the ERROR log level.
      *
-     * _Note: Messages logged with the ERROR level are always logged to the screen in addition
-     * to configured writers._
-     *
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
      * @api
