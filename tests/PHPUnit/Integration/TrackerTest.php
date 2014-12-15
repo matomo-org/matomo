@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -66,7 +67,10 @@ class TrackerTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        $this->tracker->disconnectDatabase();
+        $this->restoreConfigFile();
+        if($this->tracker) {
+            $this->tracker->disconnectDatabase();
+        }
         EventDispatcher::getInstance()->clearObservers('Tracker.makeNewVisitObject');
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
@@ -126,11 +130,38 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_loadTrackerEnvironment_shouldEnableTrackerMode()
     {
+        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+
         $this->assertFalse(SettingsServer::isTrackerApiRequest());
 
         Tracker::loadTrackerEnvironment();
 
         $this->assertTrue(SettingsServer::isTrackerApiRequest());
+    }
+
+    public function test_loadTrackerEnvironment_shouldNotThrow_whenConfigNotFound()
+    {
+        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+
+        $this->assertFalse(SettingsServer::isTrackerApiRequest());
+
+        $this->assertTrue(Config::getInstance()->existsLocalConfig());
+
+        $this->removeConfigFile();
+        Config::getInstance()->clear();
+
+        $this->assertFalse(Config::getInstance()->existsLocalConfig());
+
+        Tracker::loadTrackerEnvironment();
+
+        $this->assertTrue(SettingsServer::isTrackerApiRequest());
+    }
+
+    protected function restoreConfigFile()
+    {
+        $backupConfig = $this->getLocalConfigPathMoved();
+        $localConfig = $this->getLocalConfigPath();
+        @shell_exec("mv $backupConfig $localConfig 2> /dev/null");
     }
 
     public function test_isDatabaseConnected_shouldReturnFalse_IfNotConnected()
@@ -316,6 +347,33 @@ class TrackerTest extends IntegrationTestCase
     private function buildRequest($params)
     {
         return new Request($params);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLocalConfigPath()
+    {
+        return PIWIK_USER_PATH . "/config/config.ini.php ";
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLocalConfigPathMoved()
+    {
+        return PIWIK_USER_PATH . "/config/tmp-config.ini.php";
+    }
+
+    /**
+     * @return array
+     */
+    protected function removeConfigFile()
+    {
+        $localConfig = $this->getLocalConfigPath();
+        $backupConfig = $this->getLocalConfigPathMoved();
+        shell_exec("mv $localConfig $backupConfig");
+        return array($localConfig, $backupConfig);
     }
 
 }
