@@ -16,7 +16,6 @@ use Piwik\Site;
 use Piwik\TaskScheduler;
 
 /**
- * @hideExceptForSuperUser
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -25,23 +24,12 @@ class API extends \Piwik\Plugin\API
      * Will run all scheduled tasks due to run at this time.
      *
      * @return array
+     * @hideExceptForSuperUser
      */
     public function runScheduledTasks()
     {
         Piwik::checkUserHasSuperUserAccess();
         return TaskScheduler::runTasks();
-    }
-
-    /**
-     * Return true if plugin is activated, false otherwise
-     *
-     * @param string $pluginName
-     * @return bool
-     */
-    public function isPluginActivated($pluginName)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
     }
 
     /**
@@ -64,6 +52,7 @@ class API extends \Piwik\Plugin\API
      *                      other periods reports processed..
      * @throws Exception
      * @return array
+     * @hideExceptForSuperUser
      */
     public function invalidateArchivedReports($idSites, $dates, $period = false)
     {

@@ -47,7 +47,6 @@ class SitesManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-coreadmin.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/edit-trigger.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/scroll.directive.js";
