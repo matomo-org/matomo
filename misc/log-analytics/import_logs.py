@@ -226,20 +226,17 @@ class W3cExtendedFormat(RegexFormat):
             file.seek(0)
             return
 
+        # store the header lines for a later check for IIS
+        self.header_lines = header_lines
+
         # Parse the 4th 'Fields: ' line to create the regex to use
         full_regex = []
 
         expected_fields = type(self).fields.copy() # turn custom field mapping into field => regex mapping
 
-        # if the --w3c-time-taken-millisecs option is used, make sure the time-taken field is interpreted as seconds
+        # if the --w3c-time-taken-millisecs option is used, make sure the time-taken field is interpreted as milliseconds
         if config.options.w3c_time_taken_in_millisecs:
             expected_fields['time-taken'] = '(?P<generation_time_milli>[\d.]+)'
-        else:
-            # check if we're importing IIS logs and if so, issue a warning TODO: should be done after correct format found so only one warning made
-            if 'generation_time_milli' not in expected_fields['time-taken'] and self._is_iis(header_lines):
-                logging.info("WARNING: IIS log file being parsed without --w3c-time-taken-milli option. IIS"
-                             " stores millisecond values in the time-taken field. If your logfile does this, the aforementioned"
-                             " option must be used in order to get accurate generation times.")
 
         for mapped_field_name, field_name in config.options.custom_w3c_fields.iteritems():
             expected_fields[mapped_field_name] = type(self).fields[field_name]
@@ -259,8 +256,17 @@ class W3cExtendedFormat(RegexFormat):
         file.seek(0)
         return self.check_format_line(first_line)
 
-    def _is_iis(self, header_lines):
-        return len([line for line in header_lines if 'internet information services' in line.lower() or 'iis' in line.lower()]) > 0
+    def check_for_iis_option(self):
+        if not config.options.w3c_time_taken_in_millisecs and self._is_time_taken_milli() and self._is_iis():
+            logging.info("WARNING: IIS log file being parsed without --w3c-time-taken-milli option. IIS"
+                         " stores millisecond values in the time-taken field. If your logfile does this, the aforementioned"
+                         " option must be used in order to get accurate generation times.")
+
+    def _is_iis(self):
+        return len([line for line in self.header_lines if 'internet information services' in line.lower() or 'iis' in line.lower()]) > 0
+
+    def _is_time_taken_milli(self):
+        return 'generation_time_milli' not in self.regex.pattern
 
 class IisFormat(W3cExtendedFormat):
 
@@ -1606,6 +1612,11 @@ class Parser(object):
 
             else:
                 logging.debug('Format %s does not match', name)
+
+        # if the format is W3cExtendedFormat, check if the logs are from IIS and if so, issue a warning if the
+        # --w3c-time-taken-milli option isn't set
+        if isinstance(format, W3cExtendedFormat):
+            format.check_for_iis_option()
 
         return format
 

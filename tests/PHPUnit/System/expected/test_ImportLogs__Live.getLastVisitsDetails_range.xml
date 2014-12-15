@@ -1867,6 +1867,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -1878,7 +1879,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>01:13:11</visitLocalTime>
@@ -2660,6 +2660,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -2671,7 +2672,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>23:51:21</visitLocalTime>
@@ -2753,6 +2753,7 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -2764,7 +2765,6 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
 		<visitLocalTime>23:51:20</visitLocalTime>
