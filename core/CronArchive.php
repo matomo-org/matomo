@@ -251,7 +251,7 @@ class CronArchive
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
 
         if (!empty($this->shouldArchiveOnlySpecificPeriods)) {
-            $this->log("- Will process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
+            $this->log("- Will only process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
         }
 
         $websitesIds = $this->initWebsiteIds();
@@ -525,8 +525,11 @@ class CronArchive
                 continue;
             }
 
-            $success = $this->archiveVisitsAndSegments($idSite, $period, $lastTimestampWebsiteProcessedPeriods)
-                && $success;
+            $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessedPeriods);
+
+            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, $period, $date);
+
+            $success = $periodArchiveWasSuccessful && $success;
         }
         // Record succesful run of this website's periods archiving
         if ($success) {
@@ -683,7 +686,8 @@ class CronArchive
 
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
-        $this->archiveVisitsAndSegments($idSite, "day", $processDaysSince);
+
+        $this->archiveVisitsAndSegments($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince));
         $this->logArchivedWebsite($idSite, "day", $date, $visitsLastDays, $visitsToday, $timerWebsite);
 
         return true;
@@ -706,17 +710,16 @@ class CronArchive
      * Requests are triggered using cURL multi handle
      *
      * @param $idSite int
-     * @param $period
-     * @param $lastTimestampWebsiteProcessed
+     * @param $period string
+     * @param $date string
      * @return bool True on success, false if some request failed
      */
-    private function archiveVisitsAndSegments($idSite, $period, $lastTimestampWebsiteProcessed)
+    private function archiveVisitsAndSegments($idSite, $period, $date)
     {
         $timer = new Timer();
 
         $url  = $this->piwikUrl;
 
-        $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed);
         $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
 
         $url .= self::APPEND_TO_API_REQUEST;
