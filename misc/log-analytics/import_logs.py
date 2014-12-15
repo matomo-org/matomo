@@ -1651,7 +1651,6 @@ class Parser(object):
             pass
 
         if not format:
-            raise RuntimeError('sdfjlsd')
             fatal_error("cannot automatically determine the log format using the first %d lines of the log file. " % limit +
                         "\nMaybe try specifying the format with the --log-format-name command line argument." )
             return
