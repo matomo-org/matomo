@@ -232,7 +232,7 @@ class Site
     protected function get($name)
     {
         if (!isset(self::$infoSites[$this->id][$name])) {
-            throw new Exception('The requested website id = ' . (int)$this->id . ' (or its property ' . $name . ') couldn\'t be found');
+            throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$this->id . ' (or its property ' . $name . ') couldn\'t be found');
         }
         return self::$infoSites[$this->id][$name];
     }
