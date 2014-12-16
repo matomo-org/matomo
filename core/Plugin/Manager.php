@@ -203,7 +203,7 @@ class Manager extends Singleton
     /**
      * Update Plugins config
      *
-     * @param array $plugins Plugins
+     * @param array $pluginsToLoad Plugins
      */
     private function updatePluginsConfig($pluginsToLoad)
     {
@@ -1405,6 +1405,9 @@ class Manager extends Singleton
     private function sortPluginsSameOrderAsGlobalConfig(array $plugins)
     {
         $global = $this->getPluginsFromGlobalIniConfigFile();
+        if(empty($global)) {
+            return $plugins;
+        }
         $global = array_values($global);
         $plugins = array_values($plugins);
 

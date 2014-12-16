@@ -38,13 +38,6 @@ class Updates_2_10_0_b7 extends Updates
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
-
-        $pluginManager = \Piwik\Plugin\Manager::getInstance();
-
-        try {
-            $pluginManager->activatePlugin('Resolution');
-        } catch(\Exception $e) {
-        }
     }
 
 }
