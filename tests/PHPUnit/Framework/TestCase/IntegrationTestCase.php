@@ -11,7 +11,9 @@ namespace Piwik\Tests\Framework\TestCase;
 use Piwik\Cache\StaticCache;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Db\DbException;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will
@@ -87,6 +89,12 @@ abstract class IntegrationTestCase extends SystemTestCase
     public function tearDown()
     {
         StaticCache::clearAll();
+
+        try {
+            DbHelper::truncateAllTables();
+        } catch(DbException $e) {
+            // this may fail eg. when there is no DB connection, in test_loadTrackerEnvironment_shouldNotThrow_whenConfigNotFound
+        }
 
         self::$fixture->clearInMemoryCaches();
 
