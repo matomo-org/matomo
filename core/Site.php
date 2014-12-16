@@ -231,8 +231,11 @@ class Site
      */
     protected function get($name)
     {
+        if (!isset(self::$infoSites[$this->id])) {
+            throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$this->id . ' couldn\'t be found');
+        }
         if (!isset(self::$infoSites[$this->id][$name])) {
-            throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$this->id . ' (or its property ' . $name . ') couldn\'t be found');
+            throw new Exception("The property $name could not be found on the website ID " . (int)$this->id);
         }
         return self::$infoSites[$this->id][$name];
     }
