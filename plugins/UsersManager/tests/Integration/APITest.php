@@ -69,4 +69,43 @@ class APITest extends IntegrationTestCase
         $this->assertFalse($eventTriggered, 'UsersManager.removeSiteAccess event was triggered but should not');
     }
 
+    public function test_getAllUsersPreferences_isEmpty_whenNoPreference()
+    {
+        $preferences = $this->api->getAllUsersPreferences(array('preferenceName'));
+        $this->assertEmpty($preferences);
+    }
+
+    public function test_getAllUsersPreferences_isEmpty_whenNoPreferenceAndMultipleRequested()
+    {
+        $preferences = $this->api->getAllUsersPreferences(array('preferenceName', 'otherOne'));
+        $this->assertEmpty($preferences);
+    }
+
+    public function test_getAllUsersPreferences_shouldGetMultiplePreferences()
+    {
+        $user2 = 'userLogin2';
+        $user3 = 'userLogin3';
+        $this->api->addUser($user2, 'password', 'userlogin2@password.de');
+        $this->api->setUserPreference($user2, 'myPreferenceName', 'valueForUser2');
+        $this->api->setUserPreference($user2, 'Random_NOT_REQUESTED', 'Random_NOT_REQUESTED');
+
+        $this->api->addUser($user3, 'password', 'userlogin3@password.de');
+        $this->api->setUserPreference($user3, 'myPreferenceName', 'valueForUser3');
+        $this->api->setUserPreference($user3, 'otherPreferenceHere', 'otherPreferenceVALUE');
+        $this->api->setUserPreference($user3, 'Random_NOT_REQUESTED', 'Random_NOT_REQUESTED');
+
+        $expected = array(
+            $user2 => array(
+                'myPreferenceName' => 'valueForUser2'
+            ),
+            $user3 => array(
+                'myPreferenceName' => 'valueForUser3',
+                'otherPreferenceHere' => 'otherPreferenceVALUE',
+            ),
+        );
+        $result = $this->api->getAllUsersPreferences(array('myPreferenceName', 'otherPreferenceHere', 'randomDoesNotExist'));
+
+        $this->assertSame($expected, $result);
+    }
+
 }
