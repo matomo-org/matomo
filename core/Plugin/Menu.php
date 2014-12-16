@@ -195,7 +195,7 @@ class Menu
             $defaultDate = $userPreferences->getDefaultDate();
         }
         if (empty($defaultPeriod)) {
-            $defaultPeriod = $userPreferences->getDefaultPeriod();
+            $defaultPeriod = $userPreferences->getDefaultPeriod($defaultDate);
         }
         return array(
             'idSite' => $websiteId,
