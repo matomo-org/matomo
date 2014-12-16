@@ -12,10 +12,13 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\UserPreferences;
 
 /**
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
@@ -502,7 +505,14 @@ class CronArchive
             return false;
         }
 
-        $shouldProceed = $this->processArchiveDays($idSite, $lastTimestampWebsiteProcessedDay, $shouldArchivePeriods, $timerWebsite);
+        try {
+            $shouldProceed = $this->processArchiveDays($idSite, $lastTimestampWebsiteProcessedDay, $shouldArchivePeriods, $timerWebsite);
+        } catch(UnexpectedWebsiteFoundException $e) {
+            // this website was deleted in the meantime
+            $shouldProceed = false;
+            $this->log("Skipped website id $idSite, got: UnexpectedWebsiteFoundException, " . $timerWebsite->__toString());
+        }
+
         if (!$shouldProceed) {
             return false;
         }
@@ -516,21 +526,8 @@ class CronArchive
             return false;
         }
 
-        $success = true;
-        foreach (array('week', 'month', 'year') as $period) {
+        $success = $this->processArchiveForPeriods($idSite, $lastTimestampWebsiteProcessedPeriods);
 
-            if (!$this->shouldProcessPeriod($period)) {
-                // if any period was skipped, we do not mark the Periods archiving as successful
-                $success = false;
-                continue;
-            }
-
-            $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessedPeriods);
-
-            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, $period, $date);
-
-            $success = $periodArchiveWasSuccessful && $success;
-        }
         // Record succesful run of this website's periods archiving
         if ($success) {
             Option::set($this->lastRunKey($idSite, "periods"), time());
@@ -555,6 +552,37 @@ class CronArchive
             . " done]");
 
         return true;
+    }
+
+    /**
+     * @param $idSite
+     * @param $lastTimestampWebsiteProcessedPeriods
+     * @return bool
+     */
+    private function processArchiveForPeriods($idSite, $lastTimestampWebsiteProcessedPeriods)
+    {
+        $success = true;
+
+        foreach (array('week', 'month', 'year') as $period) {
+
+            if (!$this->shouldProcessPeriod($period)) {
+                // if any period was skipped, we do not mark the Periods archiving as successful
+                $success = false;
+                continue;
+            }
+
+            $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessedPeriods);
+            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, $period, $date);
+            $success = $periodArchiveWasSuccessful && $success;
+        }
+
+        // period=range
+        $customDateRangesToPreProcessForSite = $this->getCustomDateRangeToPreProcess($idSite);
+        foreach ($customDateRangesToPreProcessForSite as $dateRange) {
+            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, 'range', $dateRange);
+            $success = $periodArchiveWasSuccessful && $success;
+        }
+        return $success;
     }
 
     /**
@@ -756,6 +784,12 @@ class CronArchive
                 $stats = @unserialize($content);
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
+                }
+
+                if($period == 'range') {
+                    // range returns one dataset (the sum of data between the two dates),
+                    // whereas other periods return lastN which is N datasets in an array. Here we make our period=range dataset look like others:
+                    $stats = array($stats);
                 }
 
                 $visitsInLastPeriods = $this->getVisitsFromApiResponse($stats);
@@ -1282,7 +1316,7 @@ class CronArchive
      */
     private function logArchivedWebsite($idSite, $period, $date, $visitsInLastPeriods, $visitsToday, Timer $timer)
     {
-        if (substr($date, 0, 4) === 'last') {
+        if (strpos($date, 'last') === 0 || strpos($date, 'previous') === 0) {
             $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
             $thisPeriod = $period == "day" ? "today" : "this " . $period;
             $visitsInLastPeriod = (int)$visitsToday . " visits " . $thisPeriod . ", ";
@@ -1362,7 +1396,8 @@ class CronArchive
             $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
         }
         if (empty($lastTimestampWebsiteProcessed)) {
-            $lastTimestampWebsiteProcessed = strtotime(\Piwik\Site::getCreationDateFor($idSite));
+            $creationDateFor = \Piwik\Site::getCreationDateFor($idSite);
+            $lastTimestampWebsiteProcessed = strtotime($creationDateFor);
         }
 
         // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
@@ -1424,4 +1459,58 @@ class CronArchive
         $now = time();
         return ($timestamp < $now) ? $timestamp : $now;
     }
+
+    /**
+     * @param $idSite
+     * @return array of date strings
+     */
+    private function getCustomDateRangeToPreProcess($idSite)
+    {
+        static $cache = null;
+        if(is_null($cache)) {
+            $cache = $this->loadCustomDateRangeToPreProcess();
+        }
+        if(empty($cache[$idSite])) {
+            return array();
+        }
+        $dates = array_unique($cache[$idSite]);
+        return $dates;
+    }
+
+    /**
+     * @return array
+     */
+    private function loadCustomDateRangeToPreProcess()
+    {
+        $customDateRangesToProcessForSites = array();
+        // For all users who have selected this website to load by default,
+        // we load the default period/date that will be loaded for this user
+        // and make sure it's pre-archived
+        $userPreferences = APIUsersManager::getInstance()->getAllUsersPreferences(array(APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE, APIUsersManager::PREFERENCE_DEFAULT_REPORT));
+        foreach ($userPreferences as $userLogin => $userPreferences) {
+
+            $defaultDate = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE];
+            $preference = new UserPreferences();
+            $period = $preference->getDefaultPeriod($defaultDate);
+            if ($period != 'range') {
+                continue;
+            }
+
+            $defaultReport = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT];
+            if (is_numeric($defaultReport)) {
+                // If user selected one particular website ID
+                $idSites = array($defaultReport);
+            } else {
+                // If user selected "All websites"  or some other random value, we pre-process all websites that he has access to
+                $idSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess($userLogin);
+            }
+
+            foreach ($idSites as $idSite) {
+                $customDateRangesToProcessForSites[$idSite][] = $defaultDate;
+            }
+        }
+
+        return $customDateRangesToProcessForSites;
+    }
+
 }
