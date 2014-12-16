@@ -9,8 +9,7 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Cache\PersistentCache;
-use Piwik\CacheFile;
+use Piwik\Cache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
@@ -119,10 +118,11 @@ class Manager extends Singleton
      */
     public function loadTrackerPlugins()
     {
-        $cache = new PersistentCache('PluginsTracker');
+        $cacheId = 'PluginsTracker';
+        $cache = Cache::getEagerCache();
 
-        if ($cache->has()) {
-            $pluginsTracker = $cache->get();
+        if ($cache->contains($cacheId)) {
+            $pluginsTracker = $cache->fetch($cacheId);
         } else {
 
             $this->unloadPlugins();
@@ -137,7 +137,7 @@ class Manager extends Singleton
             }
 
             if (!empty($pluginsTracker)) {
-                $cache->set($pluginsTracker);
+                $cache->save($cacheId, $pluginsTracker);
             }
         }
 
@@ -697,7 +697,6 @@ class Manager extends Singleton
             $language = Translate::getLanguageToLoad();
         }
 
-        $cache    = new CacheFile('tracker', 43200); // ttl=12hours
         $cacheKey = 'PluginTranslations';
 
         if (!empty($language)) {
@@ -709,11 +708,12 @@ class Manager extends Singleton
             $cacheKey .= '-' . md5(implode('', $this->getLoadedPluginsName()));
         }
 
-        $translations = $cache->get($cacheKey);
+        $cache = Cache::getLazyCache();
+        $translations = $cache->fetch($cacheKey);
 
         if (!empty($translations) &&
             is_array($translations) &&
-            !Development::isEnabled()) {
+            !Development::isEnabled()) { // TODO remove this one here once we have environments in DI
 
             Translate::mergeTranslationArray($translations);
             return;
@@ -734,7 +734,7 @@ class Manager extends Singleton
             }
         }
 
-        $cache->set($cacheKey, $translations);
+        $cache->save($cacheKey, $translations, 43200); // ttl=12hours
     }
 
     /**

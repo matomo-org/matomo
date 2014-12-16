@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Cache as PiwikCache;
 use Exception;
 
 /**
@@ -17,9 +18,18 @@ use Exception;
  *
  * Static caching speeds up multiple detections in one request, which is the case when sending bulk requests
  */
-class DeviceDetectorCache extends CacheFile implements \DeviceDetector\Cache\CacheInterface
+class DeviceDetectorCache implements \DeviceDetector\Cache\CacheInterface
 {
     protected static $staticCache = array();
+
+    private $cache;
+    private $ttl;
+
+    public function __construct($ttl = 300)
+    {
+        $this->ttl   = (int) $ttl;
+        $this->cache = PiwikCache::getLazyCache();
+    }
 
     /**
      * Function to fetch a cache entry
@@ -33,13 +43,11 @@ class DeviceDetectorCache extends CacheFile implements \DeviceDetector\Cache\Cac
             return false;
         }
 
-        $id = $this->cleanupId($id);
-
         if (array_key_exists($id, self::$staticCache)) {
             return self::$staticCache[$id];
         }
 
-        return parent::get($id);
+        return $this->cache->fetch($id);
     }
 
     /**
@@ -56,10 +64,9 @@ class DeviceDetectorCache extends CacheFile implements \DeviceDetector\Cache\Cac
             return false;
         }
 
-        $id = $this->cleanupId($id);
-
         self::$staticCache[$id] = $content;
 
-        return parent::set($id, $content);
+        return $this->cache->save($id, $content, $this->ttl);
     }
+
 }

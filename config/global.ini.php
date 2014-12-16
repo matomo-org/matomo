@@ -78,6 +78,31 @@ log_only_when_debug_parameter = 0
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/piwik.log
 
+[Cache]
+; available backends are 'file', 'array', 'null', 'redis', 'chained'
+; 'array' will cache data only during one request
+; 'null' will not cache anything at all
+; 'file' will cache on the filesystem
+; 'redis' will cache on a Redis server, use this if you are running Piwik with multiple servers. Further configuration in [RedisCache] is needed
+; 'chained' will chain multiple cache backends. Further configuration in [ChainedCache] is needed
+backend = chained
+
+[ChainedCache]
+; The chained cache will always try to read from the fastest backend first (the first listed one) to avoid requesting
+; the same cache entry from the slowest backend multiple times in one request.
+backends[] = array
+backends[] = file
+
+[RedisCache]
+; Redis server configuration.
+host = "127.0.0.1"
+port = 6379
+timeout = 0.0
+password = ""
+database = 14
+; In case you are using queued tracking: Make sure to configure a different database! Otherwise queued requests might
+; be flushed
+
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process

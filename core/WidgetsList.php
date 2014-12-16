@@ -8,7 +8,7 @@
  */
 namespace Piwik;
 
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
 
@@ -63,9 +63,11 @@ class WidgetsList extends Singleton
      */
     public static function get()
     {
-        $cache = self::getCacheForCompleteList();
-        if (!self::$listCacheToBeInvalidated && $cache->has()) {
-            return $cache->get();
+        $cache   = self::getCacheForCompleteList();
+        $cacheId = self::getCacheId();
+
+        if (!self::$listCacheToBeInvalidated && $cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
         self::addWidgets();
@@ -83,7 +85,7 @@ class WidgetsList extends Singleton
             $widgets[$category] = $v;
         }
 
-        $cache->set($widgets);
+        $cache->save($cacheId, $widgets);
         self::$listCacheToBeInvalidated = false;
 
         return $widgets;
@@ -270,11 +272,16 @@ class WidgetsList extends Singleton
     {
         self::$widgets    = array();
         self::$hookCalled = false;
-        self::getCacheForCompleteList()->clear();
+        self::getCacheForCompleteList()->delete(self::getCacheId());
+    }
+
+    private static function getCacheId()
+    {
+        return CacheId::pluginAware('WidgetsList');
     }
 
     private static function getCacheForCompleteList()
     {
-        return new PluginAwareStaticCache('WidgetsList');
+        return PiwikCache::getTransientCache();
     }
 }

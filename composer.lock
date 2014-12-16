@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "92499fc432a629fefcd5c1b912e44d9c",
+    "hash": "993a7439f15dd4d11b2684f6e35b944d",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -431,6 +431,53 @@
                 "enum"
             ],
             "time": "2013-11-11 18:29:08"
+        },
+        {
+            "name": "piwik/cache",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/component-cache.git",
+                "reference": "1cbe0012f703b5462e87520ebcf76bdca89026e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/component-cache/zipball/1cbe0012f703b5462e87520ebcf76bdca89026e8",
+                "reference": "1cbe0012f703b5462e87520ebcf76bdca89026e8",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "~1.3",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Piwik\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "The Piwik Team",
+                    "email": "hello@piwik.org",
+                    "homepage": "http://piwik.org/the-piwik-team/"
+                }
+            ],
+            "description": "PHP caching library based on Doctrine cache",
+            "keywords": [
+                "array",
+                "cache",
+                "file",
+                "redis"
+            ],
+            "time": "2014-12-16 01:47:11"
         },
         {
             "name": "piwik/decompress",

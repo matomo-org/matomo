@@ -8,8 +8,8 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
-use Piwik\Cache\StaticCache;
-use Piwik\CacheFile;
+use Piwik\Cache\Backend\File;
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -224,7 +224,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         FakeAccess::$superUserLogin = 'superUserLogin';
 
         SettingsPiwik::$cachedKnownSegmentsToArchive = null;
-        CacheFile::$invalidateOpCacheBeforeRead = true;
+        File::$invalidateOpCacheBeforeRead = true;
 
         if ($this->configureComponents) {
             IPAnonymizer::deactivate();
@@ -244,7 +244,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->getTestEnvironment()->executeSetupTestEnvHook();
         Piwik_TestingEnvironment::addSendMailHook();
 
-        StaticCache::clearAll();
+        PiwikCache::getTransientCache()->flushAll();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
@@ -304,6 +304,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
+        PiwikCache::getTransientCache()->flushAll();
+        PiwikCache::getEagerCache()->flushAll();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();

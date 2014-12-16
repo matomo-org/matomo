@@ -9,10 +9,10 @@
  */
 namespace Piwik\Plugins\LanguagesManager;
 
-use Piwik\Cache\PersistentCache;
 use Piwik\Db;
 use Piwik\Filesystem;
 use Piwik\Piwik;
+use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
@@ -272,10 +272,11 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $cache = new PersistentCache('availableLanguages');
+        $cacheId = 'availableLanguages';
+        $cache = PiwikCache::getEagerCache();
 
-        if ($cache->has()) {
-            $languagesInfo = $cache->get();
+        if ($cache->contains($cacheId)) {
+            $languagesInfo = $cache->fetch($cacheId);
         } else {
             $filenames = $this->getAvailableLanguages();
             $languagesInfo = array();
@@ -289,7 +290,7 @@ class API extends \Piwik\Plugin\API
                 );
             }
 
-            $cache->set($languagesInfo);
+            $cache->save($cacheId, $languagesInfo);
         }
 
         $this->availableLanguageNames = $languagesInfo;
