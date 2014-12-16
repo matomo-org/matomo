@@ -1006,7 +1006,7 @@ class CronArchive
         }
 
         if (!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
-            $this->logFatalErrorUrlExpected();
+            $this->logFatalErrorUrlExpected($piwikUrl);
         }
 
         // ensure there is a trailing slash
@@ -1215,10 +1215,11 @@ class CronArchive
         return true;
     }
 
-    private function logFatalErrorUrlExpected()
+    private function logFatalErrorUrlExpected($piwikUrl = false)
     {
-        $this->logFatalError("./console core:archive expects the argument 'url' to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
-            . "\n--help for more information");
+        $this->logFatalError("./console core:archive expects the argument 'url' to be set to your Piwik URL, for example: --url=http://example.org/piwik/"
+            . ($piwikUrl ? "\n '$piwikUrl' supplied" : "")
+            . "\nuse --help for more information");
     }
 
     private function getVisitsLastPeriodFromApiResponse($stats)
