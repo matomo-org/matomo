@@ -131,7 +131,7 @@ class Plugin
         $this->pluginName = $pluginName;
 
         $cacheId = 'Plugin' . $pluginName . 'Metadata';
-        $cache = Cache::getEagerCache($cacheId);
+        $cache = Cache::getEagerCache();
 
         if ($cache->contains($cacheId)) {
             $this->pluginInformation = $cache->fetch($cacheId);

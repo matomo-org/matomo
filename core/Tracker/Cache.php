@@ -66,7 +66,7 @@ class Cache
         }
 
         $cache = self::getCache();
-        $cacheId = (int) $idSite;
+        $cacheId = $idSite;
         $cacheContent = $cache->fetch($cacheId);
 
         if (false !== $cacheContent) {
