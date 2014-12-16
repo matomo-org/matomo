@@ -528,6 +528,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function restoreDbTables($tables)
     {
+        $db = Db::fetchOne("SELECT DATABASE()");
+        if (empty($db)) {
+            Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
+        }
+
         DbHelper::truncateAllTables();
 
         // insert data
