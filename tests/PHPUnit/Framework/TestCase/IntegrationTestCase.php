@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Db\DbException;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will
@@ -89,7 +90,11 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         StaticCache::clearAll();
 
-        DbHelper::truncateAllTables();
+        try {
+            DbHelper::truncateAllTables();
+        } catch(DbException $e) {
+            // this may fail eg. when there is no DB connection, in test_loadTrackerEnvironment_shouldNotThrow_whenConfigNotFound
+        }
 
         self::$fixture->clearInMemoryCaches();
 
