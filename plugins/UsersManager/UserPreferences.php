@@ -116,8 +116,4 @@ class UserPreferences
         return $defaultPeriod;
     }
 
-    public function getAllUsersPreferences()
-    {
-
-    }
 }

@@ -87,12 +87,12 @@ class APITest extends IntegrationTestCase
         $user3 = 'userLogin3';
         $this->api->addUser($user2, 'password', 'userlogin2@password.de');
         $this->api->setUserPreference($user2, 'myPreferenceName', 'valueForUser2');
-        $this->api->setUserPreference($user2, 'Random_NOT_REQUESTED', 'Random_NOT_REQUESTED');
+        $this->api->setUserPreference($user2, 'RandomNOTREQUESTED', 'RandomNOTREQUESTED');
 
         $this->api->addUser($user3, 'password', 'userlogin3@password.de');
         $this->api->setUserPreference($user3, 'myPreferenceName', 'valueForUser3');
         $this->api->setUserPreference($user3, 'otherPreferenceHere', 'otherPreferenceVALUE');
-        $this->api->setUserPreference($user3, 'Random_NOT_REQUESTED', 'Random_NOT_REQUESTED');
+        $this->api->setUserPreference($user3, 'RandomNOTREQUESTED', 'RandomNOTREQUESTED');
 
         $expected = array(
             $user2 => array(
@@ -106,6 +106,33 @@ class APITest extends IntegrationTestCase
         $result = $this->api->getAllUsersPreferences(array('myPreferenceName', 'otherPreferenceHere', 'randomDoesNotExist'));
 
         $this->assertSame($expected, $result);
+    }
+
+    public function test_getAllUsersPreferences_whenLoginContainsUnderscore()
+    {
+        $user2 = 'user_Login2';
+        $this->api->addUser($user2, 'password', 'userlogin2@password.de');
+        $this->api->setUserPreference($user2, 'myPreferenceName', 'valueForUser2');
+        $this->api->setUserPreference($user2, 'RandomNOTREQUESTED', 'RandomNOTREQUESTED');
+
+        $expected = array(
+            $user2 => array(
+                'myPreferenceName' => 'valueForUser2'
+            ),
+        );
+        $result = $this->api->getAllUsersPreferences(array('myPreferenceName', 'otherPreferenceHere', 'randomDoesNotExist'));
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_setUserPreference_throws_whenPreferenceNameContainsUnderscore()
+    {
+        $user2 = 'userLogin2';
+        $this->api->addUser($user2, 'password', 'userlogin2@password.de');
+        $this->api->setUserPreference($user2, 'ohOH_myPreferenceName', 'valueForUser2');
     }
 
 }

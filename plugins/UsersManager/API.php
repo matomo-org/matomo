@@ -125,9 +125,9 @@ class API extends \Piwik\Plugin\API
             $preferences = Option::getLike($optionNameMatchAllUsers);
 
             foreach($preferences as $optionName => $optionValue) {
-                $optionName = explode(self::OPTION_NAME_PREFERENCE_SEPARATOR, $optionName);
-                $userName = $optionName[0];
-                $preference = $optionName[1];
+                $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
+                $userName = substr($optionName, 0, $lastUnderscore);
+                $preference = substr($optionName, $lastUnderscore + 1);
                 $userPreferences[$userName][$preference] = $optionValue;
             }
         }
@@ -136,6 +136,9 @@ class API extends \Piwik\Plugin\API
 
     private function getPreferenceId($login, $preference)
     {
+        if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+            throw new Exception("Preference name cannot contain underscores.");
+        }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
 
