@@ -394,7 +394,8 @@ class CronArchive
     public function logFatalError($m)
     {
         $this->logError($m);
-        exit(1);
+
+        throw new Exception($m);
     }
 
     public function runScheduledTasks()
