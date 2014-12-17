@@ -638,7 +638,7 @@ bulk_requests_use_transaction = 1
 ; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
 ; All Visits with a Referrer URL host set to one of these will be excluded.
 ; If you find new spam entries in Referrers>Websites, please report them here: https://github.com/piwik/piwik/issues/5099
-referrer_urls_spam = "semalt.com,buttons-for-website.com"
+referrer_urls_spam = "semalt.com,buttons-for-website.com,7makemoneyonline.com"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
