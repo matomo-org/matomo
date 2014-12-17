@@ -20,15 +20,15 @@ use Psr\Log\LoggerInterface;
  * the name of the current class is used.
  *
  * You can log messages using one of the public static functions (eg, 'error', 'warning',
- * 'info', etc.). Messages logged with the **error** level will **always** be logged to
- * the screen, regardless of whether the [log] log_writer config option includes the
- * screen writer.
+ * 'info', etc.).
  *
  * Currently, Piwik supports the following logging backends:
  *
  * - **screen**: logging to the screen
  * - **file**: logging to a file
  * - **database**: logging to Piwik's MySQL database
+ *
+ * Messages logged in the console will always be logged to the console output.
  *
  * ### Logging configuration
  *
@@ -44,57 +44,11 @@ use Psr\Log\LoggerInterface;
  *                or **VERBOSE**. Log entries made with a log level that is as or more
  *                severe than the current log level will be outputted. Others will be
  *                ignored. The default level is **WARN**.
- * - `log_only_when_cli`: 0 or 1. If 1, logging is only enabled when Piwik is executed
- *                        in the command line (for example, by the core:archive command
- *                        script). Default: 0.
- * - `log_only_when_debug_parameter`: 0 or 1. If 1, logging is only enabled when the
- *                                    `debug` query parameter is 1. Default: 0.
  * - `logger_file_path`: For the file log writer, specifies the path to the log file
  *                       to log to or a path to a directory to store logs in. If a
  *                       directory, the file name is piwik.log. Can be relative to
  *                       Piwik's root dir or an absolute path. Defaults to **tmp/logs**.
  *
- * ### Custom message formatting
- *
- * If you'd like to format log messages differently for different backends, you can
- * implement a new `Piwik\Log\Formatter\Formatter`.
- *
- * If you don't care about the backend when formatting an object, implement a `__toString()`
- * in the custom class.
- *
- * ### Custom log writers
- *
- * New logging backends can be added via the {@hook Log.getAvailableWriters}` event. A log
- * writer is just a callback that accepts log entry information (such as the message,
- * level, etc.), so any backend could conceivably be used (including existing PSR3
- * backends).
- *
- * ### Examples
- *
- * **Basic logging**
- *
- *     Log::error("This log message will end up on the screen and in a file.")
- *     Log::verbose("This log message uses %s params, but %s will only be called if the"
- *                . " configured log level includes %s.", "sprintf", "sprintf", "verbose");
- *
- * **Logging objects**
- *
- *     class MyDebugInfo
- *     {
- *         // ...
- *
- *         public function __toString()
- *         {
- *             return // ...
- *         }
- *     }
- *
- *     try {
- *         $myThirdPartyServiceClient->doSomething();
- *     } catch (Exception $unexpectedError) {
- *         $debugInfo = new MyDebugInfo($unexpectedError, $myThirdPartyServiceClient);
- *         Log::debug($debugInfo);
- *     }
  *
  * @deprecated Inject and use Psr\Log\LoggerInterface instead of this class.
  * @see \Psr\Log\LoggerInterface

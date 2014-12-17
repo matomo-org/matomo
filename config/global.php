@@ -2,7 +2,6 @@
 
 use Interop\Container\ContainerInterface;
 use Monolog\Logger;
-use Piwik\Common;
 use Piwik\Log;
 use Piwik\Cache\Eager;
 use Piwik\SettingsServer;
@@ -117,9 +116,6 @@ return array(
         ->constructor(DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'log.level' => DI\factory(function (ContainerInterface $c) {
-        if ($c->get('log.disabled')) {
-            return Log::getMonologLevel(Log::NONE);
-        }
         if ($c->has('old_config.log.log_level')) {
             $level = strtoupper($c->get('old_config.log.log_level'));
             if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
@@ -127,17 +123,6 @@ return array(
             }
         }
         return Logger::WARNING;
-    }),
-    'log.disabled' => DI\factory(function (ContainerInterface $c) {
-        $logOnlyCli = $c->has('old_config.log.log_only_when_cli') ? $c->get('old_config.log.log_only_when_cli') : false;
-        if ($logOnlyCli && !Common::isPhpCliMode()) {
-            return true;
-        }
-        $logOnlyWhenDebugParameter = $c->has('old_config.log.log_only_when_debug_parameter') ? $c->get('old_config.log.log_only_when_debug_parameter') : false;
-        if ($logOnlyWhenDebugParameter && !isset($_REQUEST['debug'])) {
-            return true;
-        }
-        return false;
     }),
     'log.file.filename' => DI\factory(function (ContainerInterface $c) {
         $logPath = $c->get('old_config.log.logger_file_path');
