@@ -39,7 +39,11 @@ class CacheIdTest extends IntegrationTestCase
     {
         $result = CacheId::pluginAware('myrandomkey');
 
-        // if this test fails most likely there is a new plugin loaded and you simple have to update the cache id.
-        $this->assertEquals('myrandomkey-8f88a1dea9163e86178e69a1293ec084-en', $result);
+        $parts = explode('-', $result);
+
+        $this->assertCount(3, $parts);
+        $this->assertEquals('myrandomkey', $parts[0]);
+        $this->assertEquals(32, strlen($parts[1]), $parts[1] . ' is not a MD5 hash');
+        $this->assertEquals('en', $parts[2]);
     }
 }
