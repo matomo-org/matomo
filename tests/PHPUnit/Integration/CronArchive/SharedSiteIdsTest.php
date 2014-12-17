@@ -26,11 +26,20 @@ class SharedSiteIdsTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        if (! SharedSiteIds::isSupported()) {
+            $this->markTestSkipped('Not supported on this platform');
+            return;
+        }
+
         $this->sharedSiteIds = new SharedSiteIds(array(1,2,5,9));
     }
 
     public function tearDown()
     {
+        if (! SharedSiteIds::isSupported()) {
+            return;
+        }
+
         $siteIdsToCleanup = new SharedSiteIds(array());
         $siteIdsToCleanup->setSiteIdsToArchive(array());
 
