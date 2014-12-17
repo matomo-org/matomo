@@ -43,7 +43,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         $ua = new OperatingSystem($_SERVER['HTTP_USER_AGENT']);
-        $ua->setCache(new DeviceDetectorCache('tracker', 86400));
+        $ua->setCache(new DeviceDetectorCache(86400));
         $parsedOS = $ua->parse();
 
         if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {

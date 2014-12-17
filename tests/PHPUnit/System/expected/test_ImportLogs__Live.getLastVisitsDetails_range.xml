@@ -40,8 +40,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -55,27 +53,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows 8.1</operatingSystem>
-		<operatingSystemCode>W81</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/W81.gif</operatingSystemIcon>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 33.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>blog.comperiosearch.com</referrerName>
@@ -84,18 +63,6 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1366x768</resolution>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>North Carolina</region>
-		<regionCode>NC</regionCode>
-		<city>Raleigh</city>
-		<location>Raleigh, North Carolina, United States</location>
-		<latitude>35.771999</latitude>
-		<longitude>-78.639000</longitude>
 		<plugins>pdf, flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -111,9 +78,42 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 8.1</operatingSystem>
+		<operatingSystemCode>W81</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/W81.gif</operatingSystemIcon>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>North Carolina</region>
+		<regionCode>NC</regionCode>
+		<city>Raleigh</city>
+		<location>Raleigh, North Carolina, United States</location>
+		<latitude>35.771999</latitude>
+		<longitude>-78.639000</longitude>
 		<visitLocalTime>20:34:49</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>1366x768</resolution>
 		
 		
 		
@@ -176,8 +176,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>2</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -191,12 +189,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>81</visitDuration>
 		<visitDurationPretty>1 min 21s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>2</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -209,18 +213,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>1536x864</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -232,11 +224,19 @@
 		<location>Lake Forest, California, United States</location>
 		<latitude>33.645000</latitude>
 		<longitude>-117.679001</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>17:33:27</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>181</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>1536x864</resolution>
 		
 		
 		
@@ -283,8 +283,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -298,31 +296,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>Demo language</customVariableName2>
-				<customVariableValue2>English</customVariableValue2>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 34.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>34.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -331,18 +306,6 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1920x1200</resolution>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Germany</country>
-		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Germany</location>
-		<latitude>51</latitude>
-		<longitude>9</longitude>
 		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -366,9 +329,46 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 34.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>34.0</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Germany</country>
+		<countryCode>de</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Germany</location>
+		<latitude>51</latitude>
+		<longitude>9</longitude>
 		<visitLocalTime>01:34:37</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>4</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Demo language</customVariableName2>
+				<customVariableValue2>English</customVariableValue2>
+			</row>
+		</customVariables>
+		<resolution>1920x1200</resolution>
 		
 		
 		
@@ -431,8 +431,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>2</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -446,27 +444,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>34</visitDuration>
 		<visitDurationPretty>34s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Safari 7.0</browser>
-		<browserName>Safari</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
-		<browserCode>SF</browserCode>
-		<browserVersion>7.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>2</actions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -475,18 +454,6 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>2880x1800</resolution>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>United States</location>
-		<latitude>38</latitude>
-		<longitude>-97</longitude>
 		<plugins>pdf, flash, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
@@ -506,9 +473,42 @@
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Safari 7.0</browser>
+		<browserName>Safari</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
+		<browserCode>SF</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>United States</location>
+		<latitude>38</latitude>
+		<longitude>-97</longitude>
 		<visitLocalTime>19:34:01</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>6</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>2880x1800</resolution>
 		
 		
 		
@@ -544,8 +544,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -559,27 +557,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 33.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>musicforeveryoneradio.be</referrerName>
@@ -588,18 +567,6 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1920x1080</resolution>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Belgium</country>
-		<countryCode>be</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
-		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
-		<latitude>51.099998</latitude>
-		<longitude>5.800000</longitude>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -619,9 +586,42 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Belgium</country>
+		<countryCode>be</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
+		<region>Limburg</region>
+		<regionCode>05</regionCode>
+		<city>Maaseik</city>
+		<location>Maaseik, Limburg, Belgium</location>
+		<latitude>51.099998</latitude>
+		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:24</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>1920x1080</resolution>
 		
 		
 		
@@ -668,8 +668,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -683,27 +681,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 33.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -712,18 +691,6 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>1360x768</resolution>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>San Francisco</city>
-		<location>San Francisco, California, United States</location>
-		<latitude>37.792000</latitude>
-		<longitude>-122.408997</longitude>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -751,9 +718,42 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>San Francisco</city>
+		<location>San Francisco, California, United States</location>
+		<latitude>37.792000</latitude>
+		<longitude>-122.408997</longitude>
 		<visitLocalTime>17:33:58</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>1360x768</resolution>
 		
 		
 		
@@ -799,8 +799,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -814,27 +812,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Safari 7.0</browser>
-		<browserName>Safari</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
-		<browserCode>SF</browserCode>
-		<browserVersion>7.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -843,18 +822,6 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>2560x1440</resolution>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region>Kanagawa</region>
-		<regionCode>19</regionCode>
-		<city>Nihon'odori</city>
-		<location>Nihon'odori, Kanagawa, Japan</location>
-		<latitude>35.450001</latitude>
-		<longitude>139.649994</longitude>
 		<plugins>pdf, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
@@ -870,9 +837,42 @@
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Safari 7.0</browser>
+		<browserName>Safari</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
+		<browserCode>SF</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region>Kanagawa</region>
+		<regionCode>19</regionCode>
+		<city>Nihon'odori</city>
+		<location>Nihon'odori, Kanagawa, Japan</location>
+		<latitude>35.450001</latitude>
+		<longitude>139.649994</longitude>
 		<visitLocalTime>09:33:50</visitLocalTime>
 		<visitLocalHour>9</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>2560x1440</resolution>
 		
 		
 		
@@ -919,8 +919,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -934,12 +932,23 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>website</referrerType>
+		<referrerTypeName>Websites</referrerTypeName>
+		<referrerName>berndjung.com</referrerName>
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins>flash</plugins>
+		<pluginsIcons>
 			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
-		</customVariables>
+		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -952,18 +961,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>berndjung.com</referrerName>
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>360x640</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Germany</country>
@@ -975,16 +972,19 @@
 		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
 		<latitude>50.766998</latitude>
 		<longitude>6.833000</longitude>
-		<plugins>flash</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-		</pluginsIcons>
 		<visitLocalTime>01:33:31</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>360x640</resolution>
 		
 		
 		
@@ -1031,8 +1031,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -1046,27 +1044,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 27.0</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>27.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>forum.golem.de</referrerName>
@@ -1075,18 +1054,6 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>2560x1440</resolution>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Germany</country>
-		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
-		<region>Rheinland-Pfalz</region>
-		<regionCode>08</regionCode>
-		<city>Mainz</city>
-		<location>Mainz, Rheinland-Pfalz, Germany</location>
-		<latitude>50</latitude>
-		<longitude>8.271000</longitude>
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1114,9 +1081,42 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 27.0</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>27.0</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Germany</country>
+		<countryCode>de</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<region>Rheinland-Pfalz</region>
+		<regionCode>08</regionCode>
+		<city>Mainz</city>
+		<location>Mainz, Rheinland-Pfalz, Germany</location>
+		<latitude>50</latitude>
+		<longitude>8.271000</longitude>
 		<visitLocalTime>01:33:13</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>3</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>2560x1440</resolution>
 		
 		
 		
@@ -1198,8 +1198,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>3</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -1213,12 +1211,27 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>10</visitDuration>
 		<visitDurationPretty>10s</visitDurationPretty>
-		<customVariables>
+		<searches>0</searches>
+		<actions>3</actions>
+		<referrerType>search</referrerType>
+		<referrerTypeName>Search Engines</referrerTypeName>
+		<referrerName>Google</referrerName>
+		<referrerKeyword>Keyword not defined</referrerKeyword>
+		<referrerKeywordPosition>1</referrerKeywordPosition>
+		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
+		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
+		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
 			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
-		</customVariables>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemCode>WI8</operatingSystemCode>
@@ -1231,18 +1244,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>search</referrerType>
-		<referrerTypeName>Search Engines</referrerTypeName>
-		<referrerName>Google</referrerName>
-		<referrerKeyword>Keyword not defined</referrerKeyword>
-		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
-		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<resolution>1920x1080</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
@@ -1254,20 +1255,19 @@
 		<location>Moscow, Moscow City, Russian Federation</location>
 		<latitude>55.751999</latitude>
 		<longitude>37.616001</longitude>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<visitLocalTime>04:28:18</visitLocalTime>
 		<visitLocalHour>4</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>1920x1080</resolution>
 		
 		
 		
@@ -1314,8 +1314,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -1329,27 +1327,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 33.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1358,18 +1337,6 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1366x768</resolution>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Turkey</country>
-		<countryCode>tr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/tr.png</countryFlag>
-		<region>Rize</region>
-		<regionCode>53</regionCode>
-		<city>Esentepe</city>
-		<location>Esentepe, Rize, Turkey</location>
-		<latitude>40.979000</latitude>
-		<longitude>40.415001</longitude>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1389,9 +1356,42 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Turkey</country>
+		<countryCode>tr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/tr.png</countryFlag>
+		<region>Rize</region>
+		<regionCode>53</regionCode>
+		<city>Esentepe</city>
+		<location>Esentepe, Rize, Turkey</location>
+		<latitude>40.979000</latitude>
+		<longitude>40.415001</longitude>
 		<visitLocalTime>02:32:21</visitLocalTime>
 		<visitLocalHour>2</visitLocalHour>
 		<daysSinceLastVisit>8</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>1366x768</resolution>
 		
 		
 		
@@ -1438,8 +1438,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -1453,27 +1451,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Domain landed</customVariableName1>
-				<customVariableValue1>piwik.org</customVariableValue1>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
-		<browserFamily>Blink</browserFamily>
-		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
-		<browser>Chrome 33.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>33.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>musicforeveryoneradio.be</referrerName>
@@ -1482,18 +1461,6 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1920x1080</resolution>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Belgium</country>
-		<countryCode>be</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
-		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
-		<latitude>51.099998</latitude>
-		<longitude>5.800000</longitude>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
@@ -1513,9 +1480,42 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 33.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Belgium</country>
+		<countryCode>be</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
+		<region>Limburg</region>
+		<regionCode>05</regionCode>
+		<city>Maaseik</city>
+		<location>Maaseik, Limburg, Belgium</location>
+		<latitude>51.099998</latitude>
+		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:18</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>1920x1080</resolution>
 		
 		
 		
@@ -1724,8 +1724,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>10</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -1739,8 +1737,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>54</visitDuration>
 		<visitDurationPretty>54s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>10</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
@@ -1753,18 +1761,6 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -1776,11 +1772,118 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>46</idVisit>
+		<visitIp>192.0.2.10</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>64</goalPageId>
+				
+				<url>http://piwik.net/view/my/file.html</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/view/my/file.html</url>
+				<pageTitle />
+				<pageIdAction>64</pageIdAction>
+				
+				<pageId>64</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<generationTime>0.001s</generationTime>
+				<icon />
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Mac</operatingSystem>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<browserFamily />
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>01:13:11</visitLocalTime>
+		<visitLocalHour>1</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -1843,8 +1946,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>2</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -1858,8 +1959,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>242</visitDuration>
 		<visitDurationPretty>4 min 2s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>2</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
@@ -1872,18 +1983,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -1895,11 +1994,15 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>11:55:13</visitLocalTime>
 		<visitLocalHour>11</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -1946,8 +2049,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId>user2</userId>
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -1961,8 +2062,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>1</visitDuration>
 		<visitDurationPretty>1s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -1975,18 +2086,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>37.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -1998,11 +2097,15 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>17:30:00</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2066,8 +2169,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>2</actions>
 		<userId>user1</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -2081,8 +2182,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>2</visitDuration>
 		<visitDurationPretty>2s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>2</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -2095,18 +2206,6 @@
 		<browserCode>CM</browserCode>
 		<browserVersion>39.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2118,11 +2217,15 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>17:00:00</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2169,8 +2272,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -2184,8 +2285,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2198,18 +2309,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>37.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2221,11 +2320,15 @@
 		<location>United States</location>
 		<latitude>38</latitude>
 		<longitude>-97</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>17:00:00</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2279,8 +2382,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -2294,12 +2395,27 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>website</referrerType>
+		<referrerTypeName>Websites</referrerTypeName>
+		<referrerName>piwik.org</referrerName>
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
 			<row>
-				<customVariableName5>VisitorType</customVariableName5>
-				<customVariableValue5>NewLoggedOut</customVariableValue5>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
-		</customVariables>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
@@ -2312,18 +2428,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>piwik.org</referrerName>
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>1024x768</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -2335,20 +2439,19 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+		<resolution>1024x768</resolution>
 		
 		
 		
@@ -2394,8 +2497,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
@@ -2409,27 +2510,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName3>Forum status</customVariableName3>
-				<customVariableValue3>Anonymous</customVariableValue3>
-			</row>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Chrome 11.0</browser>
-		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>CH</browserCode>
-		<browserVersion>11.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>sn110w.snt110.mail.live.com</referrerName>
@@ -2438,18 +2520,6 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<resolution>1280x800</resolution>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
 		<pluginsIcons>
 			<row>
@@ -2477,9 +2547,229 @@
 				<pluginName>gears</pluginName>
 			</row>
 		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Chrome 11.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>11.0</browserVersion>
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>08:00:47</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>444</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName3>Forum status</customVariableName3>
+				<customVariableValue3>Anonymous</customVariableValue3>
+			</row>
+		</customVariables>
+		<resolution>1280x800</resolution>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>48</idVisit>
+		<visitIp>192.0.2.222</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
+				<pageIdAction>65</pageIdAction>
+				
+				<pageId>66</pageId>
+				<eventCategory>cloudfront_rtmp</eventCategory>
+				<eventAction>play</eventAction>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<eventName>myvideo</eventName>
+				<icon>plugins/Morpheus/images/event.png</icon>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
+		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily />
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
+		<events>1</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>23:51:21</visitLocalTime>
+		<visitLocalHour>23</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>47</idVisit>
+		<visitIp>192.0.2.147</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
+				<pageIdAction>65</pageIdAction>
+				
+				<pageId>65</pageId>
+				<eventCategory>cloudfront_rtmp</eventCategory>
+				<eventAction>connect</eventAction>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<icon>plugins/Morpheus/images/event.png</icon>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
+		<deviceType>Unknown</deviceType>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily />
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
+		<events>1</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>23:51:20</visitLocalTime>
+		<visitLocalHour>23</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2525,8 +2815,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -2540,12 +2828,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2558,18 +2852,6 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -2581,11 +2863,19 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>20:15:41</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2648,8 +2938,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>2</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -2663,12 +2951,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>182</visitDuration>
 		<visitDurationPretty>3 min 2s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>2</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2681,18 +2975,6 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -2704,11 +2986,19 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>19:12:40</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2778,8 +3068,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>3</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -2793,12 +3081,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>123</visitDuration>
 		<visitDurationPretty>2 min 3s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>3</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2811,18 +3105,6 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -2834,11 +3116,19 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>18:10:38</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2884,8 +3174,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -2899,12 +3187,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Bot</customVariableName1>
-				<customVariableValue1>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
@@ -2917,18 +3211,6 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -2940,11 +3222,19 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>17:48:08</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Bot</customVariableName1>
+				<customVariableValue1>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -2990,8 +3280,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3005,12 +3293,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -3023,18 +3317,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -3046,11 +3328,19 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>17:48:07</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3086,8 +3376,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3101,12 +3389,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Apache-HttpClient/4.2.1 (java 1.5)</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
@@ -3119,18 +3413,6 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Oceania</continent>
 		<continentCode>oce</continentCode>
 		<country>Australia</country>
@@ -3142,11 +3424,19 @@
 		<location>Australia</location>
 		<latitude>-27</latitude>
 		<longitude>133</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>17:46:03</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Apache-HttpClient/4.2.1 (java 1.5)</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3192,8 +3482,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3207,12 +3495,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -3225,18 +3519,6 @@
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -3248,11 +3530,19 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>16:11:30</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3298,8 +3588,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3313,12 +3601,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
-			</row>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -3331,18 +3625,6 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -3354,11 +3636,19 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>16:10:38</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3404,8 +3694,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3419,8 +3707,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -3433,18 +3731,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -3456,11 +3742,15 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>15:31:05</visitLocalTime>
 		<visitLocalHour>15</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3506,8 +3796,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3521,8 +3809,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -3535,18 +3833,6 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -3558,11 +3844,15 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>13:49:46</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3608,8 +3898,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3623,8 +3911,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -3637,18 +3935,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>20.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>South America</continent>
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
@@ -3660,11 +3946,15 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>20:22:08</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3710,8 +4000,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3725,8 +4013,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -3739,18 +4037,6 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>South America</continent>
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
@@ -3762,11 +4048,15 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>20:21:28</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3812,8 +4102,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3827,8 +4115,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -3841,18 +4139,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>South America</continent>
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
@@ -3864,11 +4150,15 @@
 		<location>Brazil</location>
 		<latitude>-10</latitude>
 		<longitude>-55</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>20:21:03</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -3914,8 +4204,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -3929,8 +4217,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -3943,18 +4241,6 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -3966,11 +4252,15 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>20:01:17</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4016,8 +4306,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4031,8 +4319,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -4045,18 +4343,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4068,11 +4354,15 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>19:59:50</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4118,8 +4408,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4133,8 +4421,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -4147,18 +4445,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -4170,11 +4456,15 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>18:03:40</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4220,8 +4510,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4235,8 +4523,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -4249,18 +4547,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -4272,11 +4558,15 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>21:00:42</visitLocalTime>
 		<visitLocalHour>21</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4322,8 +4612,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4337,8 +4625,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4351,18 +4649,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -4374,11 +4660,15 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>20:56:45</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4424,8 +4714,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4439,8 +4727,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4453,18 +4751,6 @@
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -4476,11 +4762,15 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>13:49:48</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4526,8 +4816,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4541,8 +4829,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4555,18 +4853,6 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -4578,11 +4864,15 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>13:48:20</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4628,8 +4918,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4643,8 +4931,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -4657,18 +4955,6 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
@@ -4680,11 +4966,15 @@
 		<location>Ashburn, Virginia, United States</location>
 		<latitude>39.043999</latitude>
 		<longitude>-77.487999</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>13:48:07</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4730,8 +5020,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4745,8 +5033,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4759,18 +5057,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4782,11 +5068,15 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>08:12:03</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4832,8 +5122,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4847,8 +5135,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4861,18 +5159,6 @@
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4884,11 +5170,15 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>08:11:56</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -4934,8 +5224,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -4949,8 +5237,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -4963,18 +5261,6 @@
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -4986,11 +5272,15 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>08:11:30</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		
@@ -5036,8 +5326,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -5051,8 +5339,18 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins />
+		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -5065,18 +5363,6 @@
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>unknown</resolution>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
@@ -5088,11 +5374,15 @@
 		<location>Japan</location>
 		<latitude>36</latitude>
 		<longitude>138</longitude>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
 		
 		
 		

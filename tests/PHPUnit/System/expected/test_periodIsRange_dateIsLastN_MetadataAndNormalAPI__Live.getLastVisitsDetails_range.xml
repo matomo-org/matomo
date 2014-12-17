@@ -23,8 +23,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -38,16 +36,27 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
 			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
 			</row>
-		</customVariables>
+		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
@@ -60,18 +69,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>1111x222</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -83,20 +80,23 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
+		<resolution>1111x222</resolution>
 		
 		
 		
@@ -136,8 +136,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -151,16 +149,27 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>361</visitDuration>
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
-		<customVariables>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
 			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
 			</row>
-		</customVariables>
+		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
@@ -173,18 +182,6 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<resolution>1111x222</resolution>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
@@ -196,20 +193,23 @@
 		<location>France</location>
 		<latitude />
 		<longitude />
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
+		<resolution>1111x222</resolution>
 		
 		
 		
@@ -305,8 +305,6 @@
 		
 		
 		
-		<searches>0</searches>
-		<actions>3</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -320,6 +318,56 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>364</visitDuration>
 		<visitDurationPretty>6 min 4s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>3</actions>
+		<referrerType>search</referrerType>
+		<referrerTypeName>Search Engines</referrerTypeName>
+		<referrerName>Google</referrerName>
+		<referrerKeyword>this keyword should be ranked</referrerKeyword>
+		<referrerKeywordPosition>1</referrerKeywordPosition>
+		<referrerUrl>http://www.google.com/search?q=this+keyword+should+be+ranked</referrerUrl>
+		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
+		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		<deviceType>Desktop</deviceType>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
@@ -334,55 +382,7 @@
 				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</customVariableValue3>
 			</row>
 		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		<referrerType>search</referrerType>
-		<referrerTypeName>Search Engines</referrerTypeName>
-		<referrerName>Google</referrerName>
-		<referrerKeyword>this keyword should be ranked</referrerKeyword>
-		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/search?q=this+keyword+should+be+ranked</referrerUrl>
-		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<resolution>1111x222</resolution>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
 		
 		
 		

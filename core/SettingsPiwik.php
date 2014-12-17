@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Cache as PiwikCache;
 
 /**
  * Contains helper methods that can be used to get common Piwik settings.
@@ -18,6 +19,7 @@ use Piwik\Container\StaticContainer;
 class SettingsPiwik
 {
     const OPTION_PIWIK_URL = 'piwikUrl';
+
     /**
      * Get salt from [General] section
      *
@@ -43,56 +45,54 @@ class SettingsPiwik
     }
 
     /**
-     * @see getKnownSegmentsToArchive
-     *
-     * @var array
-     */
-    public static $cachedKnownSegmentsToArchive = null;
-
-    /**
      * Returns every stored segment to pre-process for each site during cron archiving.
      *
      * @return array The list of stored segments that apply to all sites.
      */
     public static function getKnownSegmentsToArchive()
     {
-        if (self::$cachedKnownSegmentsToArchive === null) {
-            $segments = Config::getInstance()->Segments;
-            $segmentsToProcess = isset($segments['Segments']) ? $segments['Segments'] : array();
-
-            /**
-             * Triggered during the cron archiving process to collect segments that
-             * should be pre-processed for all websites. The archiving process will be launched
-             * for each of these segments when archiving data.
-             *
-             * This event can be used to add segments to be pre-processed. If your plugin depends
-             * on data from a specific segment, this event could be used to provide enhanced
-             * performance.
-             *
-             * _Note: If you just want to add a segment that is managed by the user, use the
-             * SegmentEditor API._
-             *
-             * **Example**
-             *
-             *     Piwik::addAction('Segments.getKnownSegmentsToArchiveAllSites', function (&$segments) {
-             *         $segments[] = 'country=jp;city=Tokyo';
-             *     });
-             *
-             * @param array &$segmentsToProcess List of segment definitions, eg,
-             *
-             *                                      array(
-             *                                          'browserCode=ff;resolution=800x600',
-             *                                          'country=jp;city=Tokyo'
-             *                                      )
-             *
-             *                                  Add segments to this array in your event handler.
-             */
-            Piwik::postEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
-
-            self::$cachedKnownSegmentsToArchive = array_unique($segmentsToProcess);
+        $cacheId = 'KnownSegmentsToArchive';
+        $cache   = PiwikCache::getTransientCache();
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
-        return self::$cachedKnownSegmentsToArchive;
+        $segments = Config::getInstance()->Segments;
+        $segmentsToProcess = isset($segments['Segments']) ? $segments['Segments'] : array();
+
+        /**
+         * Triggered during the cron archiving process to collect segments that
+         * should be pre-processed for all websites. The archiving process will be launched
+         * for each of these segments when archiving data.
+         *
+         * This event can be used to add segments to be pre-processed. If your plugin depends
+         * on data from a specific segment, this event could be used to provide enhanced
+         * performance.
+         *
+         * _Note: If you just want to add a segment that is managed by the user, use the
+         * SegmentEditor API._
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Segments.getKnownSegmentsToArchiveAllSites', function (&$segments) {
+         *         $segments[] = 'country=jp;city=Tokyo';
+         *     });
+         *
+         * @param array &$segmentsToProcess List of segment definitions, eg,
+         *
+         *                                      array(
+         *                                          'browserCode=ff;resolution=800x600',
+         *                                          'country=jp;city=Tokyo'
+         *                                      )
+         *
+         *                                  Add segments to this array in your event handler.
+         */
+        Piwik::postEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
+
+        $segmentsToProcess = array_unique($segmentsToProcess);
+
+        $cache->save($cacheId, $segmentsToProcess);
+        return $segmentsToProcess;
     }
 
     /**
@@ -104,8 +104,13 @@ class SettingsPiwik
      */
     public static function getKnownSegmentsToArchiveForSite($idSite)
     {
-        $segments = array();
+        $cacheId = 'KnownSegmentsToArchiveForSite' . $idSite;
+        $cache   = PiwikCache::getTransientCache();
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
+        }
 
+        $segments = array();
         /**
          * Triggered during the cron archiving process to collect segments that
          * should be pre-processed for one specific site. The archiving process will be launched
@@ -133,6 +138,11 @@ class SettingsPiwik
          * @param int $idSite The ID of the site to get segments for.
          */
         Piwik::postEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
+
+        $segments = array_unique($segments);
+
+        $cache->save($cacheId, $segments);
+
         return $segments;
     }
 

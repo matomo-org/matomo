@@ -31,7 +31,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Registry;
 use Piwik\SettingsPiwik;
 use Piwik\Site;

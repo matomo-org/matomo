@@ -15,8 +15,8 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:22:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId />
+		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>2</idVisit>
@@ -44,8 +44,8 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:28:33</lastActionDateTime>
-		<actions>2</actions>
 		<userId />
+		<actions>2</actions>
 	</row>
 	<row>
 		<idVisit>3</idVisit>
@@ -84,8 +84,8 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:28:33</lastActionDateTime>
-		<actions>3</actions>
 		<userId>email@example.com</userId>
+		<actions>3</actions>
 	</row>
 	<row>
 		<idVisit>4</idVisit>
@@ -102,8 +102,8 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:34:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId>new-email@example.com</userId>
+		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>5</idVisit>
@@ -157,8 +157,8 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:40:33</lastActionDateTime>
-		<actions>2</actions>
 		<userId>new-email@example.com</userId>
+		<actions>2</actions>
 	</row>
 	<row>
 		<idVisit>6</idVisit>
@@ -175,8 +175,8 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId />
+		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>7</idVisit>
@@ -193,8 +193,8 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:22:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId>email@example.com</userId>
+		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>8</idVisit>
@@ -211,7 +211,7 @@
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:46:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId>new-user-id@one-weeklater</userId>
+		<actions>1</actions>
 	</row>
 </result>

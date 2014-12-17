@@ -28,7 +28,7 @@ class DeviceDetectorFactory
 
         $deviceDetector = new DeviceDetector($userAgent);
         $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
+        $deviceDetector->setCache(new DeviceDetectorCache(86400));
         $deviceDetector->parse();
 
         self::$deviceDetectorInstances[$userAgent] = $deviceDetector;

@@ -516,6 +516,18 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Return true if plugin is activated, false otherwise
+     *
+     * @param string $pluginName
+     * @return bool
+     */
+    public function isPluginActivated($pluginName)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+    }
+
+    /**
      * Given a segment, will return a list of the most used values for this particular segment.
      * @param $segmentName
      * @param $idSite

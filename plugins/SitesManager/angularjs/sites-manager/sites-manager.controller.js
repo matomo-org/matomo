@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerController', SitesManagerController);
 
-    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'coreAdminAPI', 'sitesManagerAPI', 'piwik', 'sitesManagerApiHelper'];
+    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'piwik', 'sitesManagerApiHelper'];
 
-    function SitesManagerController($scope, $filter, coreAPI, coreAdminAPI, sitesManagerAPI, piwik, sitesManagerApiHelper) {
+    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, piwik, sitesManagerApiHelper) {
 
         var translate = $filter('translate');
 
@@ -139,7 +139,7 @@
 
         var initCustomVariablesActivated = function() {
 
-            coreAdminAPI.isPluginActivated(
+            coreAPI.isPluginActivated(
 
                 function (customVariablesActivated) {
                     $scope.customVariablesActivated = customVariablesActivated;

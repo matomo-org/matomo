@@ -10,11 +10,12 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
-use Piwik\Cache\LanguageAwareStaticCache;
+use Piwik\CacheId;
 use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\Menu\MenuReporting;
 use Piwik\Metrics;
+use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -735,9 +736,10 @@ class Report
     public static function getAllReports()
     {
         $reports = self::getAllReportClasses();
-        $cache   = new LanguageAwareStaticCache('Reports' . implode('', $reports));
+        $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
+        $cache   = PiwikCache::getTransientCache();
 
-        if (!$cache->has()) {
+        if (!$cache->contains($cacheId)) {
             $instances = array();
 
             foreach ($reports as $report) {
@@ -746,10 +748,10 @@ class Report
 
             usort($instances, array('self', 'sort'));
 
-            $cache->set($instances);
+            $cache->save($cacheId, $instances);
         }
 
-        return $cache->get();
+        return $cache->fetch($cacheId);
     }
 
     /**
@@ -785,10 +787,10 @@ class Report
 
         foreach ($metricsToTranslate as $metric) {
             if ($metric instanceof Metric) {
-                $metricName = $metric->getName();
+                $metricName  = $metric->getName();
                 $translation = $metric->getTranslatedName();
             } else {
-                $metricName = $metric;
+                $metricName  = $metric;
                 $translation = @$translations[$metric];
             }
 

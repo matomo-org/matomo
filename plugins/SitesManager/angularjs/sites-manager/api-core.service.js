@@ -13,11 +13,16 @@
     function CoreAPIFactory(api) {
 
         return {
-            getIpFromHeader: getIpFromHeader()
+            getIpFromHeader: getIpFromHeader(),
+            isPluginActivated: isPluginActivated()
         };
 
         function getIpFromHeader() {
             return api.fetchApi('API.getIpFromHeader', api.valueAdaptor);
+        }
+
+        function isPluginActivated() {
+            return api.fetchApi('API.isPluginActivated', api.valueAdaptor);
         }
     }
 

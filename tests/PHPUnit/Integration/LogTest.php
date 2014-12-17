@@ -57,7 +57,7 @@ class LogTest extends IntegrationTestCase
     {
         parent::tearDown();
 
-        StaticContainer::reset();
+        StaticContainer::clearContainer();
         Log::unsetInstance();
 
         @unlink(self::getLogFileLocation());

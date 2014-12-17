@@ -478,13 +478,13 @@ Device brand
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,5,16,80%,3.2,00:22:49,20%
 
-Device model
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
-
 Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Firefox 3.6,5,16,80%,3.2,00:22:49,20%
+
+Device model
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,5,16,80%,3.2,00:22:49,20%
 
 Operating System families
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

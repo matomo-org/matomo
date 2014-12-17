@@ -420,6 +420,9 @@ class API extends \Piwik\Plugin\API
                         $rowData = $rows[0]->getColumns(); // associative Array
 
                         foreach ($ordinateColumns as $column) {
+                            if(empty($rowData[$column])) {
+                                continue;
+                            }
                             $ordinateValue = $rowData[$column];
                             $parsedOrdinateValue = $this->parseOrdinateValue($ordinateValue);
 

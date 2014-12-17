@@ -43,7 +43,7 @@ class StaticContainer
         return self::$container;
     }
 
-    public static function reset()
+    public static function clearContainer()
     {
         self::$container = null;
     }

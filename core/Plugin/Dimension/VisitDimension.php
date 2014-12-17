@@ -8,7 +8,8 @@
  */
 namespace Piwik\Plugin\Dimension;
 
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\CacheId;
+use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Db;
@@ -294,9 +295,10 @@ abstract class VisitDimension extends Dimension
      */
     public static function getAllDimensions()
     {
-        $cache = new PluginAwareStaticCache('VisitDimensions');
+        $cacheId = CacheId::pluginAware('VisitDimensions');
+        $cache   = PiwikCache::getTransientCache();
 
-        if (!$cache->has()) {
+        if (!$cache->contains($cacheId)) {
 
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
@@ -309,10 +311,10 @@ abstract class VisitDimension extends Dimension
 
             usort($instances, array('self', 'sortByRequiredFields'));
 
-            $cache->set($instances);
+            $cache->save($cacheId, $instances);
         }
 
-        return $cache->get();
+        return $cache->fetch($cacheId);
     }
 
     /**

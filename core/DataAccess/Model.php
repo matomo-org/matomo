@@ -37,6 +37,9 @@ class Model
         // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
         Db::get()->query('SET SQL_BIG_SELECTS=1');
 
+        $idSites = array_values($idSites);
+        $idSitesString = Common::getSqlStringFieldsArray($idSites);
+
         $query = 'SELECT t1.idarchive FROM `' . $archiveTable . '` t1
                   INNER JOIN `' . $archiveTable . '` t2
                       ON t1.name    = t2.name
@@ -45,13 +48,13 @@ class Model
                       AND t1.date2  = t2.date2
                       AND t1.period = t2.period
                   WHERE t1.value = ' . ArchiveWriter::DONE_INVALIDATED . '
-                  AND t1.idsite IN (' . implode(",", $idSites) . ')
+                  AND t1.idsite IN (' . $idSitesString . ')
                   AND t2.value IN(' . ArchiveWriter::DONE_OK . ', ' . ArchiveWriter::DONE_OK_TEMPORARY . ')
                   AND t1.ts_archived < t2.ts_archived
                   AND t1.name LIKE \'done%\'
         ';
 
-        $result = Db::fetchAll($query);
+        $result = Db::fetchAll($query, $idSites);
 
         $archiveIds = array_map(
             function ($elm) {
@@ -80,6 +83,10 @@ class Model
         }
         $sql = implode(" OR ", $sql);
 
+        $idSites = array_values($idSites);
+        $sqlSites = " AND idsite IN (" . Common::getSqlStringFieldsArray($idSites) . ")";
+        $bind = array_merge($bind, $idSites);
+
         $sqlPeriod = "";
         if ($periodId) {
             $sqlPeriod = " AND period = ? ";
@@ -89,7 +96,7 @@ class Model
         $query = "UPDATE $archiveTable " .
             " SET value = " . ArchiveWriter::DONE_INVALIDATED .
             " WHERE ( $sql ) " .
-            " AND idsite IN (" . implode(",", $idSites) . ")" .
+            $sqlSites .
             $sqlPeriod;
         Db::query($query, $bind);
     }
@@ -122,12 +129,13 @@ class Model
 
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
-        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+        $idsToDelete = array_values($idsToDelete);
+        $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
-        Db::query(sprintf($query, $numericTable));
+        Db::query(sprintf($query, $numericTable), $idsToDelete);
 
         try {
-            Db::query(sprintf($query, $blobTable));
+            Db::query(sprintf($query, $blobTable), $idsToDelete);
         } catch (Exception $e) {
             // Individual blob tables could be missing
         }

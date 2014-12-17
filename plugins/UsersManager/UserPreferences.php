@@ -39,6 +39,7 @@ class UserPreferences
 
         return false;
     }
+
     /**
      * Returns default site ID that Piwik should load.
      *
@@ -91,27 +92,28 @@ class UserPreferences
     /**
      * Returns default period type for Piwik reports.
      *
+     * @param $defaultDate string the default date string from which the default period will be guessed
      * @return string `'day'`, `'week'`, `'month'`, `'year'` or `'range'`
      * @api
      */
-    public function getDefaultPeriod()
+    public function getDefaultPeriod($defaultDate)
     {
-        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
-
-        if ($userSettingsDate === false) {
-            return Config::getInstance()->General['default_period'];
+        $defaultPeriod = Config::getInstance()->General['default_period'];
+        if ($defaultDate === false) {
+            return $defaultPeriod;
         }
 
-        if (in_array($userSettingsDate, array('today', 'yesterday'))) {
+        if (in_array($defaultDate, array('today', 'yesterday'))) {
             return 'day';
         }
 
-        if (strpos($userSettingsDate, 'last') === 0
-            || strpos($userSettingsDate, 'previous') === 0
+        if (strpos($defaultDate, 'last') === 0
+            || strpos($defaultDate, 'previous') === 0
         ) {
             return 'range';
         }
 
-        return $userSettingsDate;
+        return $defaultPeriod;
     }
+
 }

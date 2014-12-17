@@ -9,8 +9,7 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Cache\PersistentCache;
-use Piwik\CacheFile;
+use Piwik\Cache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
@@ -119,10 +118,11 @@ class Manager extends Singleton
      */
     public function loadTrackerPlugins()
     {
-        $cache = new PersistentCache('PluginsTracker');
+        $cacheId = 'PluginsTracker';
+        $cache = Cache::getEagerCache();
 
-        if ($cache->has()) {
-            $pluginsTracker = $cache->get();
+        if ($cache->contains($cacheId)) {
+            $pluginsTracker = $cache->fetch($cacheId);
         } else {
 
             $this->unloadPlugins();
@@ -137,7 +137,7 @@ class Manager extends Singleton
             }
 
             if (!empty($pluginsTracker)) {
-                $cache->set($pluginsTracker);
+                $cache->save($cacheId, $pluginsTracker);
             }
         }
 
@@ -203,10 +203,11 @@ class Manager extends Singleton
     /**
      * Update Plugins config
      *
-     * @param array $plugins Plugins
+     * @param array $pluginsToLoad Plugins
      */
     private function updatePluginsConfig($pluginsToLoad)
     {
+        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
         $section = PiwikConfig::getInstance()->Plugins;
         $section['Plugins'] = $pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
@@ -636,12 +637,7 @@ class Manager extends Singleton
      */
     public function isPluginBundledWithCore($name)
     {
-        // Reading the plugins from the global.ini.php config file
-        $pluginsBundledWithPiwik = PiwikConfig::getInstance()->getFromGlobalConfig('Plugins');
-        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
-
-        return (!empty($pluginsBundledWithPiwik)
-                    && in_array($name, $pluginsBundledWithPiwik))
+        return $this->isPluginEnabledByDefault($name)
                 || in_array($name, $this->getCorePluginsDisabledByDefault())
                 || $name == self::DEFAULT_THEME;
     }
@@ -670,8 +666,7 @@ class Manager extends Singleton
      */
     public function loadPlugins(array $pluginsToLoad)
     {
-        $pluginsToLoad = array_unique($pluginsToLoad);
-        $this->pluginsToLoad = $pluginsToLoad;
+        $this->pluginsToLoad = $this->makePluginsToLoad($pluginsToLoad);
         $this->reloadActivatedPlugins();
     }
 
@@ -702,7 +697,6 @@ class Manager extends Singleton
             $language = Translate::getLanguageToLoad();
         }
 
-        $cache    = new CacheFile('tracker', 43200); // ttl=12hours
         $cacheKey = 'PluginTranslations';
 
         if (!empty($language)) {
@@ -714,11 +708,12 @@ class Manager extends Singleton
             $cacheKey .= '-' . md5(implode('', $this->getLoadedPluginsName()));
         }
 
-        $translations = $cache->get($cacheKey);
+        $cache = Cache::getLazyCache();
+        $translations = $cache->fetch($cacheKey);
 
         if (!empty($translations) &&
             is_array($translations) &&
-            !Development::isEnabled()) {
+            !Development::isEnabled()) { // TODO remove this one here once we have environments in DI
 
             Translate::mergeTranslationArray($translations);
             return;
@@ -739,7 +734,7 @@ class Manager extends Singleton
             }
         }
 
-        $cache->set($cacheKey, $translations);
+        $cache->save($cacheKey, $translations, 43200); // ttl=12hours
     }
 
     /**
@@ -856,12 +851,6 @@ class Manager extends Singleton
      */
     private function reloadActivatedPlugins()
     {
-        if ($this->doLoadAlwaysActivatedPlugins) {
-            $this->pluginsToLoad = array_merge($this->pluginsToLoad, $this->pluginToAlwaysActivate);
-        }
-
-        $this->pluginsToLoad = array_unique($this->pluginsToLoad);
-
         $pluginsToPostPendingEventsTo = array();
         foreach ($this->pluginsToLoad as $pluginName) {
             if (!$this->isPluginLoaded($pluginName)
@@ -1370,6 +1359,68 @@ class Manager extends Singleton
                 $this->unloadPlugin($plugin);
             }
         }
+    }
+
+    /**
+     * Reading the plugins from the global.ini.php config file
+     *
+     * @return array
+     */
+    protected function getPluginsFromGlobalIniConfigFile()
+    {
+        $pluginsBundledWithPiwik = PiwikConfig::getInstance()->getFromGlobalConfig('Plugins');
+        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
+        return $pluginsBundledWithPiwik;
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    protected function isPluginEnabledByDefault($name)
+    {
+        $pluginsBundledWithPiwik = $this->getPluginsFromGlobalIniConfigFile();
+
+        if(empty($pluginsBundledWithPiwik)) {
+            return false;
+        }
+        return in_array($name, $pluginsBundledWithPiwik);
+    }
+
+    /**
+     * @param array $pluginsToLoad
+     * @return array
+     */
+    private function makePluginsToLoad(array $pluginsToLoad)
+    {
+        $pluginsToLoad = array_unique($pluginsToLoad);
+        if ($this->doLoadAlwaysActivatedPlugins) {
+            $pluginsToLoad = array_merge($pluginsToLoad, $this->pluginToAlwaysActivate);
+        }
+        $pluginsToLoad = array_unique($pluginsToLoad);
+        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
+        return $pluginsToLoad;
+    }
+
+    private function sortPluginsSameOrderAsGlobalConfig(array $plugins)
+    {
+        $global = $this->getPluginsFromGlobalIniConfigFile();
+        if(empty($global)) {
+            return $plugins;
+        }
+        $global = array_values($global);
+        $plugins = array_values($plugins);
+
+        $defaultPluginsLoadedFirst = array_intersect($global, $plugins);
+
+        $otherPluginsToLoadAfterDefaultPlugins = array_diff($plugins, $defaultPluginsLoadedFirst);
+
+        // sort by name to have a predictable order for those extra plugins
+        sort($otherPluginsToLoadAfterDefaultPlugins);
+
+        $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
+
+        return $sorted;
     }
 }
 

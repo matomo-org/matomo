@@ -32,6 +32,8 @@ use Piwik\Tracker\Cache;
  */
 class API extends \Piwik\Plugin\API
 {
+    const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
+
     /**
      * @var Model
      */
@@ -107,9 +109,37 @@ class API extends \Piwik\Plugin\API
         return $this->getDefaultUserPreference($preferenceName, $userLogin);
     }
 
+    /**
+     * Returns an array of Preferences
+     * @param $preferenceNames array of preference names
+     * @return array
+     * @ignore
+     */
+    public function getAllUsersPreferences(array $preferenceNames)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $userPreferences = array();
+        foreach($preferenceNames as $preferenceName) {
+            $optionNameMatchAllUsers = $this->getPreferenceId('%', $preferenceName);
+            $preferences = Option::getLike($optionNameMatchAllUsers);
+
+            foreach($preferences as $optionName => $optionValue) {
+                $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
+                $userName = substr($optionName, 0, $lastUnderscore);
+                $preference = substr($optionName, $lastUnderscore + 1);
+                $userPreferences[$userName][$preference] = $optionValue;
+            }
+        }
+        return $userPreferences;
+    }
+
     private function getPreferenceId($login, $preference)
     {
-        return $login . '_' . $preference;
+        if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+            throw new Exception("Preference name cannot contain underscores.");
+        }
+        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
 
     private function getDefaultUserPreference($preferenceName, $login)

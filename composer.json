@@ -15,7 +15,7 @@
     "support": {
         "forum": "http://forum.piwik.org/",
         "issues": "https://github.com/piwik/piwik/issues",
-        "wiki": "http://dev.piwik.org/",
+        "wiki": "https://github.com/piwik/piwik/wiki",
         "source": "https://github.com/piwik/piwik"
     },
     "autoload": {
@@ -46,6 +46,7 @@
         "piwik/decompress": "~0.1.1",
         "piwik/network": "~0.1.0",
         "mnapoli/php-di": "5.0.x-dev",
+        "piwik/cache": "~0.2",
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",
         "symfony/monolog-bridge": "~2.5"

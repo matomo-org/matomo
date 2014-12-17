@@ -154,9 +154,9 @@ class ArchiveSelector
 
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
-                              WHERE %s
+                              WHERE idsite IN (" . Common::getSqlStringFieldsArray($siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $isSkipAggregationOfSubTables) . "
-                                AND idsite IN (" . implode(',', $siteIds) . ")
+                                AND %s
                            GROUP BY idsite, date1, date2";
 
         $monthToPeriods = array();
@@ -171,7 +171,7 @@ class ArchiveSelector
         foreach ($monthToPeriods as $table => $periods) {
             $firstPeriod = reset($periods);
 
-            $bind = array();
+            $bind = array_values($siteIds);
 
             if ($firstPeriod instanceof Range) {
                 $dateCondition = "period = ? AND date1 = ? AND date2 = ?";

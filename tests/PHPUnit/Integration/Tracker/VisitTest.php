@@ -9,7 +9,8 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Access;
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Date;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Manager;
@@ -156,8 +157,11 @@ class VisitTest extends IntegrationTestCase
             'http://semalt.com' => true,
             'http://semalt.com/random/sub/page' => true,
             'http://semalt.com/out/of/here?mate' => true,
+            'http://buttons-for-website.com/out/of/here?mate' => true,
+            'https://buttons-for-website.com' => true,
             'http://valid.domain/' => false,
             'http://valid.domain/page' => false,
+            'https://valid.domain/page' => false,
         );
         API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
@@ -331,8 +335,8 @@ class VisitTest extends IntegrationTestCase
             $dimensions[] = $dim;
         }
 
-        $cache = new PluginAwareStaticCache('VisitDimensions');
-        $cache->set($dimensions);
+        $cache = Cache::getTransientCache();
+        $cache->save(CacheId::pluginAware('VisitDimensions'), $dimensions);
     }
 }
 
