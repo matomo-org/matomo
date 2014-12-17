@@ -136,13 +136,13 @@ class ArchiveInvalidator {
     {
         // If using the feature "Delete logs older than N days"...
         $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
-        $logsAreDeletedBeforeThisDate = $purgeDataSettings['delete_logs_schedule_lowest_interval'];
+        $logsDeletedWhenOlderThanDays = $purgeDataSettings['delete_logs_older_than'];
         $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];
 
         if ($logsDeleteEnabled
-            && $logsAreDeletedBeforeThisDate
+            && $logsDeletedWhenOlderThanDays
         ) {
-            $this->minimumDateWithLogs = Date::factory('today')->subDay($logsAreDeletedBeforeThisDate);
+            $this->minimumDateWithLogs = Date::factory('today')->subDay($logsDeletedWhenOlderThanDays);
         }
     }
 
