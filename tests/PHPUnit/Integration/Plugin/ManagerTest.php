@@ -8,10 +8,10 @@
 
 namespace Piwik\Tests\Integration\Plugin;
 
-use Piwik\Cache\PersistentCache;
 use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Settings\Storage;
+use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 
 /**
@@ -20,6 +20,8 @@ use Piwik\Tests\Integration\Settings\IntegrationTestCase;
  */
 class ManagerTest extends IntegrationTestCase
 {
+    private $trackerCacheId = 'PluginsTracker';
+
     /**
      * @var Plugin\Manager
      */
@@ -43,18 +45,18 @@ class ManagerTest extends IntegrationTestCase
     public function test_loadTrackerPlugins_shouldCacheListOfPlugins()
     {
         $cache = $this->getCacheForTrackerPlugins();
-        $this->assertFalse($cache->has());
+        $this->assertFalse($cache->contains($this->trackerCacheId));
 
         $pluginsToLoad = $this->manager->loadTrackerPlugins();
 
-        $this->assertTrue($cache->has());
-        $this->assertEquals($pluginsToLoad, $cache->get());
+        $this->assertTrue($cache->contains($this->trackerCacheId));
+        $this->assertEquals($pluginsToLoad, $cache->fetch($this->trackerCacheId));
     }
 
     public function test_loadTrackerPlugins_shouldBeAbleToLoadPluginsCorrectWhenItIsCached()
     {
         $pluginsToLoad = array('CoreHome', 'UserSettings', 'Login', 'CoreAdminHome');
-        $this->getCacheForTrackerPlugins()->set($pluginsToLoad);
+        $this->getCacheForTrackerPlugins()->save($this->trackerCacheId, $pluginsToLoad);
 
         $pluginsToLoad = $this->manager->loadTrackerPlugins();
 
@@ -65,7 +67,7 @@ class ManagerTest extends IntegrationTestCase
     public function test_loadTrackerPlugins_shouldUnloadAllPlugins_IfThereAreNoneToLoad()
     {
         $pluginsToLoad = array();
-        $this->getCacheForTrackerPlugins()->set($pluginsToLoad);
+        $this->getCacheForTrackerPlugins()->save($this->trackerCacheId, $pluginsToLoad);
 
         $pluginsToLoad = $this->manager->loadTrackerPlugins();
 
@@ -75,7 +77,7 @@ class ManagerTest extends IntegrationTestCase
 
     private function getCacheForTrackerPlugins()
     {
-        return new PersistentCache('PluginsTracker');
+        return PiwikCache::getEagerCache();
     }
 
     private function assertOnlyTrackerPluginsAreLoaded($expectedPluginNamesLoaded)

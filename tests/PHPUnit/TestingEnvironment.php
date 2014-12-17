@@ -145,7 +145,7 @@ class Piwik_TestingEnvironment
             $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
         ));
 
-        \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+        \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
 
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
