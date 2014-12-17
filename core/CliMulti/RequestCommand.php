@@ -26,7 +26,7 @@ class RequestCommand extends ConsoleCommand
     {
         $this->setName('climulti:request');
         $this->setDescription('Parses and executes the given query. See Piwik\CliMulti. Intended only for system usage.');
-        $this->addArgument('url-query', null, InputOption::VALUE_REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
+        $this->addArgument('url-query', InputArgument::REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
