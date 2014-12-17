@@ -434,16 +434,16 @@
         },
         {
             "name": "piwik/cache",
-            "version": "0.2.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-cache.git",
-                "reference": "1cbe0012f703b5462e87520ebcf76bdca89026e8"
+                "reference": "e6205408641cbf16b5043e0092e4414e3a4330ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-cache/zipball/1cbe0012f703b5462e87520ebcf76bdca89026e8",
-                "reference": "1cbe0012f703b5462e87520ebcf76bdca89026e8",
+                "url": "https://api.github.com/repos/piwik/component-cache/zipball/e6205408641cbf16b5043e0092e4414e3a4330ff",
+                "reference": "e6205408641cbf16b5043e0092e4414e3a4330ff",
                 "shasum": ""
             },
             "require": {
@@ -477,7 +477,7 @@
                 "file",
                 "redis"
             ],
-            "time": "2014-12-16 01:47:11"
+            "time": "2014-12-17 22:49:09"
         },
         {
             "name": "piwik/decompress",
