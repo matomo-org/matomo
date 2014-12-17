@@ -223,7 +223,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         FakeAccess::$superUserLogin = 'superUserLogin';
 
-        SettingsPiwik::$cachedKnownSegmentsToArchive = null;
         File::$invalidateOpCacheBeforeRead = true;
 
         if ($this->configureComponents) {
