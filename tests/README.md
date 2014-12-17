@@ -128,9 +128,13 @@ We also have an OmniFixture that includes all other Fixtures. OmniFixture is use
 Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql.gz) whenever you make any change to any fixture. 
 For instance use:
 
-    ./console tests:setup-fixture OmniFixture --sqldump=OmniFixture-dump.sql` and then gzip. 
+    ./console tests:setup-fixture OmniFixture --sqldump=OmniFixture-dump.sql
+     
+and then gzip. 
 
-Keeping the OmniFixture up to date makes it easier to see which tests fail after each small fixture change. If we don't update the OmniFixture then we end up with many failed screenshots tests which makes it hard to see whether those changes are expected or not.
+Keeping the OmniFixture up to date makes it easier to see which tests fail after each small fixture change. 
+
+If we don't update the OmniFixture then we end up with many failed screenshots tests which makes it hard to see whether those changes are expected or not.
 
 ### Scheduled Reports Tests
 
