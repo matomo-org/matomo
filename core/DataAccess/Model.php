@@ -37,6 +37,7 @@ class Model
         // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
         Db::get()->query('SET SQL_BIG_SELECTS=1');
 
+        $idSites = array_values($idSites);
         $idSitesString = Common::getSqlStringFieldsArray($idSites);
 
         $query = 'SELECT t1.idarchive FROM `' . $archiveTable . '` t1
@@ -82,7 +83,7 @@ class Model
         }
         $sql = implode(" OR ", $sql);
 
-
+        $idSites = array_values($idSites);
         $sqlSites = " AND idsite IN (" . Common::getSqlStringFieldsArray($idSites) . ")";
         $bind = array_merge($bind, $idSites);
 
@@ -128,6 +129,7 @@ class Model
 
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
+        $idsToDelete = array_values($idsToDelete);
         $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
         Db::query(sprintf($query, $numericTable), $idsToDelete);

@@ -171,7 +171,7 @@ class ArchiveSelector
         foreach ($monthToPeriods as $table => $periods) {
             $firstPeriod = reset($periods);
 
-            $bind = $siteIds;
+            $bind = array_values($siteIds);
 
             if ($firstPeriod instanceof Range) {
                 $dateCondition = "period = ? AND date1 = ? AND date2 = ?";
