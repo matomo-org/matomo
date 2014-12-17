@@ -250,6 +250,10 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
                 var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
 
                 element.each(function (index, node) {
+                    if (!$(node).is(':visible')) {
+                        return;
+                    }
+
                     var rect = $(node).offset();
                     rect.width = $(node).outerWidth();
                     rect.height = $(node).outerHeight();
