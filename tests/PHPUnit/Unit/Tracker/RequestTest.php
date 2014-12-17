@@ -132,6 +132,8 @@ class RequestTest extends UnitTestCase
         $this->assertCount(1, $request->getParams());
 
         $this->assertTrue($request->isEmptyRequest());
+
+        unset($_SERVER['HTTP_REFERER']);
     }
 
     public function test_isEmptyRequest_ShouldReturnFalse_InCaseAtLEastOneParamIssSet()
