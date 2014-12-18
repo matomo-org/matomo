@@ -77,12 +77,9 @@ class GetExitPageUrls extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        // link to the page, not just the report, but only if not a widget
-        $widget = Common::getRequestVar('widget', false);
-
         $view->config->self_url = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
-            'action' => $widget === false ? 'indexExitPageUrls' : 'getExitPageUrls'
+            'action' => 'getExitPageUrls',
         ));
 
         $view->config->addTranslations(array('label' => $this->dimension->getName()));
