@@ -12,7 +12,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\UrlHelper;
 use Spyc;
 
-class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
+class UrlHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testIsUrl

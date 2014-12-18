@@ -23,7 +23,6 @@ require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 
 /**
  * @group Core
- * @group Core_LogTest
  */
 class LogTest extends IntegrationTestCase
 {

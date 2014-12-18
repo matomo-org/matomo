@@ -14,7 +14,6 @@ use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group Core
- * @group Core_UpdaterTest
  */
 class UpdaterTest extends IntegrationTestCase
 {

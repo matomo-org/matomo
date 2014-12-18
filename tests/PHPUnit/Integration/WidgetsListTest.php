@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * @group Core
  */
-class Core_WidgetsListTest extends IntegrationTestCase
+class WidgetsListTest extends IntegrationTestCase
 {
     public function testGet()
     {

@@ -12,13 +12,10 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
 
 /**
- * Class Core_CliMultiTest
- *
  * @group Core
- * @group Core_CliMultiTest
  * @group CliMulti
  */
-class Core_CliMultiTest extends SystemTestCase
+class CliMultiTest extends SystemTestCase
 {
     /**
      * @var \Piwik\CliMulti
