@@ -33,3 +33,6 @@
 [submodule "plugins/QueuedTracking"]
 	path = plugins/QueuedTracking
 	url = https://github.com/piwik/plugin-QueuedTracking.git
+[submodule "libs/PiwikTracker"]
+	path = libs/PiwikTracker
+	url = https://github.com/piwik/piwik-php-tracker.git
