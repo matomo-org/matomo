@@ -7,6 +7,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
 * os and browser icons are now located in the DevicesDetection plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
+* The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
 
 ### Deprecations
 * Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
@@ -19,6 +20,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getResolution` is deprecated and will be removed from May 1st 2015. Use `Resolution.getResolution` instead
 * The API method `UserSettings.getConfiguration` is deprecated and will be removed from May 1st 2015. Use `Resolution.getConfiguration` instead
 * The API method `UserSettings.getWideScreen` has been removed
+* `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
 
 ### Library updates
 * The tracker proxy (previously in `miscproxy-hide-piwik-url/`) has been moved to a separate repository: [https://github.com/piwik/tracker-proxy](https://github.com/piwik/tracker-proxy).
@@ -33,14 +35,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### New commands
 * `core:plugin list` lists all plugins currently activated in Piwik.
-
-## Piwik 2.10.0
-
-### Breaking Changes
-* The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
-
-### Deprecations
-* `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
 
 ## Piwik 2.9.0
 
