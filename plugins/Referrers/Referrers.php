@@ -28,9 +28,17 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Insights.addReportToOverview' => 'addReportToInsightsOverview',
-            'Live.getAllVisitorDetails'    => 'extendVisitorDetails'
+            'Insights.addReportToOverview'      => 'addReportToInsightsOverview',
+            'Live.getAllVisitorDetails'         => 'extendVisitorDetails',
+            'Request.getRenamedModuleAndAction' => 'renameDeprecatedModuleAndAction',
         );
+    }
+
+    public function renameDeprecatedModuleAndAction(&$module, &$action)
+    {
+        if($module == 'Referers') {
+            $module = 'Referrers';
+        }
     }
 
     public function extendVisitorDetails(&$visitor, $details)

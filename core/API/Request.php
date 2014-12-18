@@ -135,6 +135,7 @@ class Request
     {
         $this->request = self::getRequestArrayFromString($request, $defaultRequest);
         $this->sanitizeRequest();
+        $this->renameModuleAndActionInRequest();
     }
 
     /**
@@ -142,19 +143,23 @@ class Request
      * we rewrite to correct renamed plugin: Referrers
      *
      * @param $module
-     * @return string
+     * @param $action
+     * @return array( $module, $action )
      * @ignore
      */
-    public static function renameModule($module)
+    public static function getRenamedModuleAndAction($module, $action)
     {
-        $moduleToRedirect = array(
-            'Referers'   => 'Referrers',
-            'PDFReports' => 'ScheduledReports',
-        );
-        if (isset($moduleToRedirect[$module])) {
-            return $moduleToRedirect[$module];
-        }
-        return $module;
+        /**
+         * This event is posted in the Request dispatcher and can be used
+         * to overwrite the Module and Action to dispatch.
+         * This is useful when some Controller methods or API methods have been renamed or moved to another plugin.
+         *
+         * @param $module string
+         * @param $action string
+         */
+        Piwik::postEvent('Request.getRenamedModuleAndAction', array(&$module, &$action));
+
+        return array($module, $action);
     }
 
     /**
@@ -213,7 +218,7 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
-            $module = $this->renameModule($module);
+            list($module, $method) = $this->getRenamedModuleAndAction($module, $method);
 
             if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
                 throw new PluginDeactivatedException($module);
@@ -411,5 +416,16 @@ class Request
             }
         }
         return $segmentRaw;
+    }
+
+    private function renameModuleAndActionInRequest()
+    {
+        if (empty($this->request['apiModule'])) {
+            return;
+        }
+        if (empty($this->request['apiAction'])) {
+            $this->request['apiAction'] = null;
+        }
+        list($this->request['apiModule'], $this->request['apiAction']) = $this->getRenamedModuleAndAction($this->request['apiModule'], $this->request['apiAction']);
     }
 }

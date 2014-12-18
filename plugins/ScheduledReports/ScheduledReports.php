@@ -94,7 +94,15 @@ class ScheduledReports extends \Piwik\Plugin
             'SegmentEditor.deactivate'                  => 'segmentDeactivation',
             'SegmentEditor.update'                      => 'segmentUpdated',
             'Translate.getClientSideTranslationKeys'    => 'getClientSideTranslationKeys',
+            'Request.getRenamedModuleAndAction'         => 'renameDeprecatedModuleAndAction',
         );
+    }
+
+    public function renameDeprecatedModuleAndAction(&$module, &$action)
+    {
+        if($module == 'PDFReports') {
+            $module = 'ScheduledReports';
+        }
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
