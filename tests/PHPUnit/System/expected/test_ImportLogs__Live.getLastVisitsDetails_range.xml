@@ -2184,12 +2184,12 @@
 		<visitDurationPretty>2s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
+		<referrerType>website</referrerType>
+		<referrerTypeName>Websites</referrerTypeName>
+		<referrerName>example.com</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
-		<referrerUrl />
+		<referrerUrl>http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<plugins />
