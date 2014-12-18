@@ -157,6 +157,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
         foreach($files as $file) {
+            // skip files in these folders
+            if (strpos($file, '/libs/') !== false) {
+                continue;
+            }
+
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
 
@@ -251,7 +256,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 strpos($file, '/tests/') !== false ||
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
-                strpos($file, '/libs/bower_components') !== false ||
+                strpos($file, '/libs/') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false
             ) {
@@ -259,7 +264,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip|eot|woff|svg)$/', $file)) {
                 continue;
             }
 
@@ -312,6 +317,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $errors = array();
         foreach ($files as $file) {
+            // skip files in these folders
+            if (strpos($file, '/libs/') !== false) {
+                continue;
+            }
+
             $function = "imagecreatefrom" . $format;
             if (!function_exists($function)) {
                 throw new \Exception("Unexpected error: $function function does not exist!");
