@@ -55,7 +55,7 @@ namespace Piwik\Tests\Unit\Columns
     /**
      * @group Core
      */
-    class Core_DimensionTest extends \PHPUnit_Framework_TestCase
+    class ColumnDimensionTest extends \PHPUnit_Framework_TestCase
     {
         /**
          * @var FakeActionDimension

@@ -13,7 +13,7 @@ use Piwik\Metrics;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 
-class Core_MetricsTest extends \PHPUnit_Framework_TestCase
+class MetricsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Core

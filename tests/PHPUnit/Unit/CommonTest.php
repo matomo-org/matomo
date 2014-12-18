@@ -16,9 +16,8 @@ use Piwik\Filesystem;
 /**
  * @backupGlobals enabled
  * @group Common
- * @group Core_CommonTest
  */
-class Core_CommonTest extends PHPUnit_Framework_TestCase
+class CommonTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testSanitizeInputValues

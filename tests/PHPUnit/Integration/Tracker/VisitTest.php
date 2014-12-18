@@ -191,6 +191,10 @@ class VisitTest extends IntegrationTestCase
             '66.249.85.36' => true,
             '66.249.91.150' => true,
             '64.233.172.1' => true,
+            '64.233.172.200' => true,
+            '66.249.88.216' => true,
+            '66.249.83.204' => true,
+            '64.233.172.6' => true,
 
             // ddos bot
             '1.202.218.8' => true,
@@ -198,6 +202,9 @@ class VisitTest extends IntegrationTestCase
             // Not bots
             '66.248.91.150' => false,
             '66.250.91.150' => false,
+            // almost google range but not google
+            '66.249.2.1' => false,
+            '66.249.60.1' => false,
         );
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");

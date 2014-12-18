@@ -63,12 +63,9 @@ class GetPageTitles extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        // link to the page, not just the report, but only if not a widget
-        $widget = Common::getRequestVar('widget', false);
-
         $view->config->self_url = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => $this->module,
-            'action' => $widget === false ? 'indexPageTitles' : 'getPageTitles'
+            'action' => 'getPageTitles',
         ));
 
         $view->config->title = $this->name;
