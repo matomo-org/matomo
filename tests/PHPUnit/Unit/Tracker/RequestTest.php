@@ -132,6 +132,8 @@ class RequestTest extends UnitTestCase
         $this->assertCount(1, $request->getParams());
 
         $this->assertTrue($request->isEmptyRequest());
+
+        unset($_SERVER['HTTP_REFERER']);
     }
 
     public function test_isEmptyRequest_ShouldReturnFalse_InCaseAtLEastOneParamIssSet()
@@ -464,9 +466,16 @@ class RequestTest extends UnitTestCase
 
     public function test_getBrowserLanguage_ShouldReturnADefaultLanguageInCaseNoneIsSet()
     {
+        $envLanguage = getenv('LANG');
+        putenv('LANG=en');
+
         $lang = $this->request->getBrowserLanguage();
         $this->assertNotEmpty($lang);
         $this->assertTrue(2 <= strlen($lang) && strlen($lang) <= 10);
+
+        if ($envLanguage !== false) {
+            putenv('LANG=' . $envLanguage);
+        }
     }
 
     public function test_makeThirdPartyCookie_ShouldReturnAnInstanceOfCookie()

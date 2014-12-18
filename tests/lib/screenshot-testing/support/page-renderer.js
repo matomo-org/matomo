@@ -250,7 +250,15 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
                 var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
 
                 element.each(function (index, node) {
-                    var rect = node.getBoundingClientRect();
+                    if (!$(node).is(':visible')) {
+                        return;
+                    }
+
+                    var rect = $(node).offset();
+                    rect.width = $(node).outerWidth();
+                    rect.height = $(node).outerHeight();
+                    rect.right = rect.left + rect.width;
+                    rect.bottom = rect.top + rect.height;
 
                     if (isInvalidBoundingRect(rect)) {
                         // element is not visible

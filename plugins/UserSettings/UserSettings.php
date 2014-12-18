@@ -25,7 +25,7 @@ class UserSettings extends \Piwik\Plugin
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
-            'Request.dispatch'                     => 'mapDeprecatedActions'
+            'Request.getRenamedModuleAndAction'    => 'renameDeprecatedModuleAndAction',
         );
     }
 
@@ -35,9 +35,8 @@ class UserSettings extends \Piwik\Plugin
      * @deprecated since 2.10.0 and will be removed from May 1st 2015
      * @param $module
      * @param $action
-     * @param $parameters
      */
-    public function mapDeprecatedActions(&$module, &$action, &$parameters)
+    public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
         $movedMethods = array(
             'getBrowser' => 'getBrowsers',

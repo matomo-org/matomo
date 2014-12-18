@@ -1751,6 +1751,9 @@ class Parser(object):
 
             try:
                 hit.referrer = format.get('referrer')
+
+                if hit.referrer.startswith('"'):
+                    hit.referrer = hit.referrer[1:-1]
             except BaseFormatException:
                 hit.referrer = ''
             if hit.referrer == '-':
@@ -1789,6 +1792,9 @@ class Parser(object):
             else:
                 try:
                     hit.host = format.get('host').lower().strip('.')
+
+                    if hit.host.startswith('"'):
+                        hit.host = hit.host[1:-1]
                 except BaseFormatException:
                     # Some formats have no host.
                     pass

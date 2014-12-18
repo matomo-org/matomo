@@ -5,9 +5,8 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 2.10.0
 
 ### Breaking Changes
-* Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
-* os and browser icons are now located in the DevicesDetection plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
 * API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
+* os and browser icons are now located in the DevicesDetection plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
 * The following events have been removed:
   * `Log.formatFileMessage`
   * `Log.formatDatabaseMessage`
@@ -17,6 +16,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The INI options `log_only_when_cli` and `log_only_when_debug_parameter` have been removed
 
 ### Deprecations
+* Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
 * The API method `UserSettings.getBrowserVersion` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserVersions` instead
 * The API method `UserSettings.getBrowser` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowsers` instead
 * The API method `UserSettings.getOSFamily` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getOsFamilies` instead

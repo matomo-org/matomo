@@ -283,7 +283,8 @@ class Controller extends Plugin\ControllerAdmin
 
                 $suffix = Piwik::translate('CorePluginsAdmin_PluginNotWorkingAlternative');
                 // If the plugin has been renamed, we do not show message to ask user to update plugin
-                if ($pluginName != Request::renameModule($pluginName)) {
+                list($pluginNameRenamed, $methodName) = Request::getRenamedModuleAndAction($pluginName, 'index');
+                if ($pluginName != $pluginNameRenamed) {
                     $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
                 }
 
