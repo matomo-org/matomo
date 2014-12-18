@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\Filesystem;
