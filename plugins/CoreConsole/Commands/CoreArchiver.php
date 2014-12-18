@@ -39,7 +39,7 @@ class CoreArchiver extends ConsoleCommand
             Log::getInstance()->setLogLevel(Log::VERBOSE);
         }
 
-        $archiver = $this->makeArchiver($url, $input);
+        $archiver = self::makeArchiver($url, $input);
 
         try {
             $archiver->main();
