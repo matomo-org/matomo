@@ -276,7 +276,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
 
         // Tests deflate compression has been used
         $deflateFileLocation = $this->getCompressedFileLocation() . ".deflate";
-        $this->assertTrue(file_exists($deflateFileLocation));
+        $this->assertFileExists($deflateFileLocation);
 
         // Tests gzdeflate has been used for IE compatibility
         $this->assertEquals(gzinflate(file_get_contents($deflateFileLocation)), file_get_contents(TEST_FILE_LOCATION));
@@ -310,7 +310,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
 
         // Tests gzip compression has been used
         $gzipFileLocation = $this->getCompressedFileLocation() . ".gz";
-        $this->assertTrue(file_exists($gzipFileLocation));
+        $this->assertFileExists($gzipFileLocation);
 
         $this->removeCompressedFiles();
     }

@@ -60,6 +60,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomByteRange($method)
     {
+        if ($method == 'fopen') {
+            return; // not supported w/ this method
+        }
+
         $result = Http::sendHttpRequestBy(
             $method,
             Fixture::getRootUrl() . '/piwik.js',
@@ -74,12 +78,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             $getExtendedInfo = true
         );
 
-        if ($method != 'fopen') {
-            $this->assertEquals(206, $result['status']);
-            $this->assertTrue(isset($result['headers']['Content-Range']));
-            $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
-            $this->assertTrue( in_array($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript')));
-        }
+        $this->assertEquals(206, $result['status']);
+        $this->assertTrue(isset($result['headers']['Content-Range']));
+        $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
+        $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript')));
     }
 
     /**
@@ -111,6 +113,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(isset($result['headers']['Content-Length']), "Content-Length header not set!");
         $this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
-        $this->assertEquals('application/zip', $result['headers']['Content-Type']);
+        $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed')));
     }
 }
