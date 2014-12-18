@@ -20,13 +20,10 @@ if (!Common::isPhpCliMode()) {
     try {
         Piwik::checkUserHasSuperUserAccess();
     } catch (Exception $e) {
-        Log::error('[error] You must be logged in as Super User to run this script. Please login in to Piwik and refresh this page.');
+        Log::error('You must be logged in as Super User to run this script. Please login in to Piwik and refresh this page.');
         exit;
     }
 }
-
-Log::getInstance()->setLogLevel(Log::VERBOSE);
-Log::getInstance()->addLogWriter('screen');
 
 if (!Common::isPhpCliMode()) {
     // the 'start' query param will be supplied by the AJAX requests, so if it's not there, the
@@ -105,7 +102,7 @@ $displayNotes = $start == 0;
 $provider = new Pecl();
 if (!$provider->isAvailable()) {
     if ($displayNotes) {
-        Log::info("[note] The GeoIP PECL extension is not installed.");
+        Log::info("The GeoIP PECL extension is not installed.");
     }
 
     $provider = null;
@@ -113,10 +110,10 @@ if (!$provider->isAvailable()) {
     $workingOrError = $provider->isWorking();
     if ($workingOrError !== true) {
         if ($displayNotes) {
-            Log::info("[note] The GeoIP PECL extension is broken: $workingOrError");
+            Log::info("The GeoIP PECL extension is broken: $workingOrError");
         }
         if (Common::isPhpCliMode()) {
-            Log::info("[note] Make sure your command line PHP is configured to use the PECL extension.");
+            Log::info("Make sure your command line PHP is configured to use the PECL extension.");
         }
         $provider = null;
     }
@@ -125,20 +122,20 @@ if (!$provider->isAvailable()) {
 // use php api if pecl extension cannot be used
 if (is_null($provider)) {
     if ($displayNotes) {
-        Log::info("[note] Falling back to PHP API. This may become too slow for you. If so, you can read this link on how to install the PECL extension: http://piwik.org/faq/how-to/#faq_164");
+        Log::info("Falling back to PHP API. This may become too slow for you. If so, you can read this link on how to install the PECL extension: http://piwik.org/faq/how-to/#faq_164");
     }
 
     $provider = new Php();
     if (!$provider->isAvailable()) {
         if ($displayNotes) {
-            Log::info("[note] The GeoIP PHP API is not available. This means you do not have a GeoIP location database in your ./misc directory. The database must be named either GeoIP.dat or GeoIPCity.dat based on the type of database it is.");
+            Log::info("The GeoIP PHP API is not available. This means you do not have a GeoIP location database in your ./misc directory. The database must be named either GeoIP.dat or GeoIPCity.dat based on the type of database it is.");
         }
         $provider = null;
     } else {
         $workingOrError = $provider->isWorking();
         if ($workingOrError !== true) {
             if ($displayNotes) {
-                Log::info("[note] The GeoIP PHP API is broken: $workingOrError");
+                Log::info("The GeoIP PHP API is broken: $workingOrError");
             }
             $provider = null;
         }
@@ -146,12 +143,12 @@ if (is_null($provider)) {
 }
 
 if (is_null($provider)) {
-    geoipUpdateError("\n[error] There is no location provider that can be used with this script. Only the GeoIP PECL module or the GeoIP PHP API can be used at present. Please install and configure one of these first.");
+    geoipUpdateError("There is no location provider that can be used with this script. Only the GeoIP PECL module or the GeoIP PHP API can be used at present. Please install and configure one of these first.");
 }
 
 $info = $provider->getInfo();
 if ($displayNotes) {
-    Log::info("[note] Found working provider: {$info['id']}");
+    Log::info("Found working provider: {$info['id']}");
 }
 
 // perform update
@@ -162,7 +159,7 @@ $logVisitFieldsToUpdate = array('location_country'   => LocationProvider::COUNTR
                                 'location_longitude' => LocationProvider::LONGITUDE_KEY);
 
 if ($displayNotes) {
-    Log::info("\n$count rows to process in " . Common::prefixTable('log_visit')
+    Log::info("$count rows to process in " . Common::prefixTable('log_visit')
         . " and " . Common::prefixTable('log_conversion') . "...");
 }
 flush();
@@ -230,6 +227,5 @@ for (; $start < $end; $start += $limit) {
 }
 if ($start >= $count) {
     Log::info("100% done!");
-    Log::info("");
-    Log::info("[note] Now that you've geolocated your old visits, you need to force your reports to be re-processed. See this FAQ entry: http://piwik.org/faq/how-to/#faq_59");
+    Log::info("Now that you've geolocated your old visits, you need to force your reports to be re-processed. See this FAQ entry: http://piwik.org/faq/how-to/#faq_59");
 }
