@@ -13,7 +13,7 @@ use Piwik\Exception\ErrorException;
 /**
  * Piwik's error handler function.
  */
-class Error
+class ErrorHandler
 {
     /**
      * Returns a string description of a PHP error number.
@@ -61,7 +61,7 @@ class Error
 
     public static function setErrorHandler()
     {
-        set_error_handler(array('Piwik\Error', 'errorHandler'));
+        set_error_handler(array('Piwik\ErrorHandler', 'errorHandler'));
     }
 
     public static function errorHandler($errno, $errstr, $errfile, $errline)
@@ -105,7 +105,7 @@ class Error
             "%s(%d): %s - %s - Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . " - Please report this message in the Piwik forums: http://forum.piwik.org (please do a search first as it might have been reported already)",
             $errfile,
             $errline,
-            Error::getErrNoString($errno),
+            ErrorHandler::getErrNoString($errno),
             $errstr
         );
     }
@@ -114,7 +114,7 @@ class Error
     {
         $trace = Log::$debugBacktraceForTests ?: $trace;
 
-        $message = Error::getErrNoString($errno) . ' - ' . $errstr;
+        $message = ErrorHandler::getErrNoString($errno) . ' - ' . $errstr;
 
         $html = "<strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
         and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).</strong><br /><br/>

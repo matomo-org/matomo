@@ -8,7 +8,7 @@
 
 namespace Piwik\Log\Processor;
 
-use Piwik\Error;
+use Piwik\ErrorHandler;
 use Piwik\Log;
 
 /**
@@ -45,7 +45,7 @@ class ExceptionToTextProcessor
     private function getMessage(\Exception $exception)
     {
         if ($exception instanceof \ErrorException) {
-            return Error::getErrNoString($exception->getSeverity()) . ' - ' . $exception->getMessage();
+            return ErrorHandler::getErrNoString($exception->getSeverity()) . ' - ' . $exception->getMessage();
         }
 
         return $exception->getMessage();
