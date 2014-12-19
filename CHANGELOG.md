@@ -26,8 +26,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getBrowserType` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserEngines` instead
 * The API method `UserSettings.getResolution` is deprecated and will be removed from May 1st 2015. Use `Resolution.getResolution` instead
 * The API method `UserSettings.getConfiguration` is deprecated and will be removed from May 1st 2015. Use `Resolution.getConfiguration` instead
-* The API method `UserSettings.getWideScreen` has been removed
-* The API method `UserSettings.getWideScreen` is deprecated and will be removed from May 1st 2015. Use `UserSettings.getScreenType` instead
+* The API method `UserSettings.getWideScreen` has been removed. Use `UserSettings.getScreenType` instead.
 * `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
 * The method `Piwik\Log::setLogLevel()` has been deprecated
 * The method `Piwik\Log::getLogLevel()` has been deprecated

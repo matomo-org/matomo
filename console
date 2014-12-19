@@ -26,9 +26,7 @@ if (!Piwik\Common::isPhpCliMode()) {
 }
 
 if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
-    require_once PIWIK_INCLUDE_PATH . '/core/Error.php';
-    \Piwik\ErrorHandler::setErrorHandler();
-    require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
+    \Piwik\ErrorHandler::registerErrorHandler();
     \Piwik\ExceptionHandler::setUp();
 }
 

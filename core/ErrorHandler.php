@@ -59,7 +59,7 @@ class ErrorHandler
         }
     }
 
-    public static function setErrorHandler()
+    public static function registerErrorHandler()
     {
         set_error_handler(array('Piwik\ErrorHandler', 'errorHandler'));
     }

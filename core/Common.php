@@ -1237,7 +1237,7 @@ class Common
      * @todo This method is weird, it's debugging statements but seem to only work for the tracker, maybe it
      * should be moved elsewhere
      */
-    public static function printDebug($info = '')
+    public static function  printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
 
