@@ -76,7 +76,7 @@ class Tracker
         \Piwik\FrontController::createConfigObject();
 
         if ($this->isDebugModeEnabled()) {
-            Error::setErrorHandler();
+            ErrorHandler::registerErrorHandler();
             ExceptionHandler::setUp();
 
             Common::printDebug("Debug enabled - Input parameters: ");

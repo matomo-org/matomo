@@ -9,9 +9,6 @@
 namespace Piwik\Container;
 
 use DI\Container;
-use DI\ContainerBuilder;
-use Doctrine\Common\Cache\ArrayCache;
-use Piwik\Config;
 
 /**
  * This class provides a static access to the container.
@@ -26,6 +23,13 @@ class StaticContainer
      * @var Container
      */
     private static $container;
+
+    /**
+     * Optional environment config to load.
+     *
+     * @var bool
+     */
+    private static $environment;
 
     /**
      * @return Container
@@ -45,32 +49,26 @@ class StaticContainer
     }
 
     /**
+     * Only use this in tests.
+     *
+     * @param Container $container
+     */
+    public static function set(Container $container)
+    {
+        self::$container = $container;
+    }
+
+    /**
      * @link http://php-di.org/doc/container-configuration.html
      */
     private static function createContainer()
     {
-        if (!class_exists('DI\ContainerBuilder')) {
-            throw new \Exception('DI\ContainerBuilder could not be found, maybe you are using Piwik from git and need to update Composer: php composer.phar update');
-        }
+        $containerFactory = new ContainerFactory(self::$environment);
+        return $containerFactory->create();
+    }
 
-        $builder = new ContainerBuilder();
-
-        $builder->useAnnotations(false);
-
-        // TODO set a better cache
-        $builder->setDefinitionCache(new ArrayCache());
-
-        // Old global INI config
-        $builder->addDefinitions(new IniConfigDefinitionSource(Config::getInstance()));
-
-        // Global config
-        $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
-
-        // User config
-        if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
-            $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
-        }
-
-        return $builder->build();
+    public static function setEnvironment($environment)
+    {
+        self::$environment = $environment;
     }
 }

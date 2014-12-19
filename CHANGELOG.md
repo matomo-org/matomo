@@ -8,6 +8,13 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
 * os and browser icons are now located in the DevicesDetection plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
 * The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
+* The following events have been removed:
+  * `Log.formatFileMessage`
+  * `Log.formatDatabaseMessage`
+  * `Log.formatScreenMessage`
+  * These events where very specific events for an internal need (logging exceptions) and have been replaced by a more extensible solution.
+* The event `Log.getAvailableWriters` has been removed: to add custom log backends, you now need to configure Monolog handlers
+* The INI options `log_only_when_cli` and `log_only_when_debug_parameter` have been removed
 
 ### Deprecations
 * Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
@@ -19,8 +26,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getBrowserType` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserEngines` instead
 * The API method `UserSettings.getResolution` is deprecated and will be removed from May 1st 2015. Use `Resolution.getResolution` instead
 * The API method `UserSettings.getConfiguration` is deprecated and will be removed from May 1st 2015. Use `Resolution.getConfiguration` instead
-* The API method `UserSettings.getWideScreen` has been removed
+* The API method `UserSettings.getWideScreen` has been removed. Use `UserSettings.getScreenType` instead.
 * `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
+* The method `Piwik\Log::setLogLevel()` has been deprecated
+* The method `Piwik\Log::getLogLevel()` has been deprecated
 
 ### Library updates
 * The tracker proxy (previously in `miscproxy-hide-piwik-url/`) has been moved to a separate repository: [https://github.com/piwik/tracker-proxy](https://github.com/piwik/tracker-proxy).

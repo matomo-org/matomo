@@ -9,6 +9,11 @@
  * @package Piwik
  */
 
+use Piwik\Container\StaticContainer;
+use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 }
@@ -55,6 +60,16 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
 
     $console->run();
 } else { // if running via web request, use CronArchive directly
+
+    if (Piwik\Common::isPhpCliMode()) {
+        // We can run the archive in CLI with `php-cgi` so we have to configure the container/logger
+        // just like for CLI
+        StaticContainer::setEnvironment('cli');
+        /** @var ConsoleHandler $consoleLogHandler */
+        $consoleLogHandler = StaticContainer::getContainer()->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
+        $consoleLogHandler->setOutput(new ConsoleOutput(OutputInterface::VERBOSITY_VERBOSE));
+    }
+
     $archiver = new Piwik\CronArchive();
 
     if (!Piwik\Common::isPhpCliMode()) {

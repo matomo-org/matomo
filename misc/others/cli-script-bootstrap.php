@@ -4,10 +4,13 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
-use Piwik\Config;
+
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
+use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 error_reporting(E_ALL | E_NOTICE);
 
@@ -34,5 +37,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);
 
-Config::getInstance()->log['string_message_format'] = "%message%";
+if (Piwik\Common::isPhpCliMode()) {
+    StaticContainer::setEnvironment('cli');
+    /** @var ConsoleHandler $consoleLogHandler */
+    $consoleLogHandler = StaticContainer::getContainer()->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
+    $consoleLogHandler->setOutput(new ConsoleOutput());
+}
+
 FrontController::getInstance()->init();

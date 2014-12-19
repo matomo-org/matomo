@@ -46,7 +46,10 @@
         "piwik/decompress": "~0.1.1",
         "piwik/network": "~0.1.0",
         "mnapoli/php-di": "5.0.x-dev",
-        "piwik/cache": "~0.2"
+        "piwik/cache": "~0.2",
+        "psr/log": "~1.0",
+        "monolog/monolog": "~1.11",
+        "symfony/monolog-bridge": "~2.5"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",

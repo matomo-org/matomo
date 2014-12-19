@@ -11,10 +11,9 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Error;
-use Piwik\ExceptionHandler;
 use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -23,6 +22,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 
 /**
  * @group Core
+ * @group Log
  */
 class LogTest extends IntegrationTestCase
 {
@@ -30,67 +30,38 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = array(
-        'screen' => 'dummy error message<br />
- <br />
- --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
-        'file' => '[Piwik\Tests\Integration\LogTest] LogTest.php(161): dummy error message
-  dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] LogTest.php(161): dummy error message
-dummy backtrace'
-    );
+    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\LogTest] LogTest.php(122): dummy error message
+  dummy backtrace';
 
-    public static $expectedErrorOutput = array(
-        'screen' => '<div style=\'word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;\'>
-        <strong>There is an error. Please report the message (Piwik 2.0)
-        and full backtrace in the <a href=\'?module=Proxy&action=redirect&url=http://forum.piwik.org\' target=\'_blank\'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
-        Unknown error (102):</strong> <em>dummy error string</em> in <strong>dummyerrorfile.php</strong> on line <strong>145</strong>
-<br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
-dummy backtrace</div><br />
- </pre></div><br />',
-        'file' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
-  dummy backtrace',
-        'database' => '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
-dummy backtrace'
-    );
-
-    private $screenOutput;
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-
-        Error::setErrorHandler();
-        ExceptionHandler::setUp();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        restore_error_handler();
-        restore_exception_handler();
-
-        parent::tearDownAfterClass();
-    }
+    public static $expectedErrorOutput = '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+  dummy backtrace';
 
     public function setUp()
     {
         parent::setUp();
 
+        // Create the container in the normal environment (because in tests logging is disabled)
+        $containerFactory = new ContainerFactory();
+        $container = $containerFactory->create();
+        StaticContainer::set($container);
+        Log::unsetInstance();
+
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
         Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
         Config::getInstance()->log['log_level'] = Log::INFO;
         @unlink(self::getLogFileLocation());
-        Log::unsetInstance();
-        Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
+        Log::$debugBacktraceForTests = "dummy backtrace";
     }
 
     public function tearDown()
     {
         parent::tearDown();
 
+        StaticContainer::clearContainer();
         Log::unsetInstance();
+
         @unlink(self::getLogFileLocation());
-        Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = null;
+        Log::$debugBacktraceForTests = null;
     }
 
     /**
@@ -98,9 +69,10 @@ dummy backtrace'
      */
     public function getBackendsToTest()
     {
-        return array(array('screen'),
-                     array('file'),
-                     array('database'));
+        return array(
+            'file'     => array('file'),
+            'database' => array('database'),
+        );
     }
 
     /**
@@ -110,10 +82,7 @@ dummy backtrace'
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        ob_start();
         Log::warning(self::TESTMESSAGE);
-        $this->screenOutput = ob_get_contents();
-        ob_end_clean();
 
         $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = __CLASS__);
     }
@@ -125,10 +94,7 @@ dummy backtrace'
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        ob_start();
         Log::warning(self::TESTMESSAGE, " subst ");
-        $this->screenOutput = ob_get_contents();
-        ob_end_clean();
 
         $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = __CLASS__);
     }
@@ -140,14 +106,10 @@ dummy backtrace'
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        ob_start();
-        $error = new Error(102, "dummy error string", "dummyerrorfile.php", 145, "dummy backtrace");
+        $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
-        $this->screenOutput = ob_get_contents();
-        ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedErrorOutput[$backend], $formatMessage = false, $tag = __CLASS__);
-        $this->checkBackend('screen', self::$expectedErrorOutput['screen']); // errors should always written to the screen
+        $this->checkBackend($backend, self::$expectedErrorOutput, $formatMessage = false, $tag = __CLASS__);
     }
 
     /**
@@ -157,14 +119,10 @@ dummy backtrace'
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        ob_start();
         $exception = new Exception("dummy error message");
         Log::error($exception);
-        $this->screenOutput = ob_get_contents();
-        ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend], $formatMessage = false, $tag = __CLASS__);
-        $this->checkBackend('screen', self::$expectedExceptionOutput['screen']); // errors should always written to the screen
+        $this->checkBackend($backend, self::$expectedExceptionOutput, $formatMessage = false, $tag = __CLASS__);
     }
 
     /**
@@ -174,10 +132,7 @@ dummy backtrace'
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        ob_start();
         TestLoggingUtility::doLog(self::TESTMESSAGE);
-        $this->screenOutput = ob_get_contents();
-        ob_end_clean();
 
         $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
     }
@@ -190,10 +145,7 @@ dummy backtrace'
         Config::getInstance()->log['log_writers'] = array($backend);
         Config::getInstance()->log['log_level'] = 'ERROR';
 
-        ob_start();
         Log::info(self::TESTMESSAGE);
-        $this->screenOutput = ob_get_contents();
-        ob_end_clean();
 
         $this->checkNoMessagesLogged($backend);
     }
@@ -205,10 +157,7 @@ dummy backtrace'
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        ob_start();
         TestLoggingUtility::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
-        $this->screenOutput = ob_get_contents();
-        ob_end_clean();
 
         $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
     }
@@ -219,20 +168,7 @@ dummy backtrace'
             $expectedMessage = sprintf(self::STRING_MESSAGE_FORMAT_SPRINTF, $tag, $expectedMessage);
         }
 
-        // remove version number from message
-        $expectedMessage = str_replace("(Piwik 2.0)", "", $expectedMessage);
-        $this->screenOutput = str_replace("(Piwik ". \Piwik\Version::VERSION.")", "", $this->screenOutput);
-
-        if ($backend == 'screen') {
-            if ($formatMessage
-                && !Common::isPhpCliMode()) {
-                $expectedMessage = '<pre>' . $expectedMessage . '</pre>';
-            }
-
-            $this->screenOutput = $this->removePathsFromBacktrace($this->screenOutput);
-
-            $this->assertEquals($expectedMessage . "\n", $this->screenOutput, "unexpected output: ".$this->screenOutput);
-        } else if ($backend == 'file') {
+        if ($backend == 'file') {
             $this->assertTrue(file_exists(self::getLogFileLocation()));
 
             $fileContents = file_get_contents(self::getLogFileLocation());
@@ -258,9 +194,7 @@ dummy backtrace'
 
     private function checkNoMessagesLogged($backend)
     {
-        if ($backend == 'screen') {
-            $this->assertEmpty($this->screenOutput, "Output not empty: ".$this->screenOutput);
-        } else if ($backend == 'file') {
+        if ($backend == 'file') {
             $this->assertFalse(file_exists(self::getLogFileLocation()));
         } else if ($backend == 'database') {
             $this->assertEquals(0, Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('logger_message')));

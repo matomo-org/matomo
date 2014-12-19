@@ -1,5 +1,7 @@
 <?php
 
+use Piwik\Container\StaticContainer;
+
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
 
@@ -43,6 +45,9 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 if (getenv('PIWIK_USE_XHPROF') == 1) {
     \Piwik\Profiler::setupProfilerXHProf();
 }
+
+// setup container for tests
+StaticContainer::setEnvironment('test');
 
 // require test fixtures
 $fixturesToLoad = array(
