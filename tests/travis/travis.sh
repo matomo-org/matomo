@@ -17,11 +17,6 @@ then
         echo "    [ plugin name = $PLUGIN_NAME ]"
     fi
 
-    if [ -n "$PHPUNIT_EXTRA_OPTIONS" ]
-    then
-        PHPUNIT_EXTRA_OPTIONS=""
-    fi
-
     if [ "$TEST_SUITE" = "AngularJSTests" ]
     then
         ./../angularjs/scripts/travis.sh
