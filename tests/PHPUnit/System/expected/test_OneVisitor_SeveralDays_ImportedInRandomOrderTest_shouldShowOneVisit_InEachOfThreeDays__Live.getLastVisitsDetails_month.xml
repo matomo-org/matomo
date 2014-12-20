@@ -51,8 +51,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
@@ -85,6 +83,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<serverTimestamp>1365328800</serverTimestamp>
 		<serverTimePretty>10:00:00</serverTimePretty>
 		<serverDatePretty>Sun 7 Apr</serverDatePretty>
@@ -142,8 +142,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
@@ -176,6 +174,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<serverTimestamp>1365246000</serverTimestamp>
 		<serverTimePretty>11:00:00</serverTimePretty>
 		<serverDatePretty>Sat 6 Apr</serverDatePretty>
@@ -233,8 +233,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemCode>WVI</operatingSystemCode>
@@ -267,6 +265,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<serverTimestamp>1365163200</serverTimestamp>
 		<serverTimePretty>12:00:00</serverTimePretty>
 		<serverDatePretty>Fri 5 Apr</serverDatePretty>
