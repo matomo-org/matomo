@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\UserSettings\Columns;
+namespace Piwik\Plugins\DevicePlugins\Columns;
 
 use Piwik\Common;
 use Piwik\Plugin\Dimension\VisitDimension;

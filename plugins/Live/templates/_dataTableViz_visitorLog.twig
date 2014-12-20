@@ -31,9 +31,9 @@
         {% if visitor.getColumn('countryFlag') %}<img src="{{ visitor.getColumn('countryFlag') }}" title="{{ visitor.getColumn('location') }}, Provider {{ visitor.getColumn('providerName') }}"/>{% endif %}
         &nbsp;
         {% if visitor.getColumn('plugins') %}
-            {% if visitor.getColumn('browserIcon') %}<img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitor.getColumn('browserName'),visitor.getColumn('plugins')) }}"/>{% endif %}
+            {% if visitor.getColumn('browserIcon') %}<img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'DevicePlugins_BrowserWithPluginsEnabled'|translate(visitor.getColumn('browserName'),visitor.getColumn('plugins')) }}"/>{% endif %}
         {% else %}
-            {% if visitor.getColumn('browserIcon') %}<img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'UserSettings_BrowserWithNoPluginsEnabled'|translate(visitor.getColumn('browserName')) }}"/>{% endif %}
+            {% if visitor.getColumn('browserIcon') %}<img src="{{ visitor.getColumn('browserIcon') }}" title="{{ 'DevicePlugins_BrowserWithNoPluginsEnabled'|translate(visitor.getColumn('browserName')) }}"/>{% endif %}
         {% endif %}
         {% if visitor.getColumn('operatingSystemIcon') %}&nbsp;
         <img src="{{ visitor.getColumn('operatingSystemIcon') }}"

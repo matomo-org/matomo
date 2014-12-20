@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\UserSettings\Columns;
+namespace Piwik\Plugins\DevicePlugins\Columns;
 
 use Piwik\Common;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -14,9 +14,9 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
-class PluginGears extends VisitDimension
+class PluginQuickTime extends VisitDimension
 {
-    protected $columnName = 'config_gears';
+    protected $columnName = 'config_quicktime';
     protected $columnType = 'TINYINT(1) NOT NULL';
 
     /**
@@ -27,6 +27,6 @@ class PluginGears extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        return Common::getRequestVar('gears', 0, 'int', $request->getParams());
+        return Common::getRequestVar('qt', 0, 'int', $request->getParams());
     }
 }
