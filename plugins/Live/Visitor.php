@@ -360,6 +360,10 @@ class Visitor implements VisitorInterface
 
         usort($actions, array('static', 'sortByServerTime'));
 
+        foreach ($actions as &$action) {
+            unset($action['idlink_va']);
+        }
+
         $visitorDetailsArray['actionDetails'] = $actions;
         foreach ($visitorDetailsArray['actionDetails'] as &$details) {
             switch ($details['type']) {
@@ -415,10 +419,19 @@ class Visitor implements VisitorInterface
     {
         $ta = strtotime($a['serverTimePretty']);
         $tb = strtotime($b['serverTimePretty']);
-        return $ta < $tb
-            ? -1
-            : ($ta == $tb
-                ? 0
-                : 1);
+
+        if ($ta < $tb) {
+            return -1;
+        }
+
+        if ($ta == $tb) {
+            if ($a['idlink_va'] > $b['idlink_va']) {
+               return 1;
+            }
+
+            return -1;
+        }
+
+        return 1;
     }
 }

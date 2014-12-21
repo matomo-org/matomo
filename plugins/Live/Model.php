@@ -48,6 +48,7 @@ class Model
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
 					log_action.idaction AS pageIdAction,
+					log_link_visit_action.idlink_va,
 					log_link_visit_action.server_time as serverTimePretty,
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
 					log_link_visit_action.idlink_va AS pageId,
@@ -86,6 +87,7 @@ class Model
 						goal.name as goalName,
 						goal.idgoal as goalId,
 						goal.revenue as revenue,
+						log_conversion.idlink_va,
 						log_conversion.idlink_va as goalPageId,
 						log_conversion.server_time as serverTimePretty,
 						log_conversion.url as url
@@ -123,7 +125,8 @@ class Model
 						" . LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
 						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
 						items as items,
-						log_conversion.server_time as serverTimePretty
+						log_conversion.server_time as serverTimePretty,
+						log_conversion.idlink_va
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
 					WHERE idvisit = ?
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "

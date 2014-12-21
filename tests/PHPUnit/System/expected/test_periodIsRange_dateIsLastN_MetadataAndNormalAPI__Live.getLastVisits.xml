@@ -256,6 +256,27 @@
 			<row>
 				<type>action</type>
 				<url>http://example.org/user/profile</url>
+				<pageTitle>Profile page</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>2</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName4>Status user</customVariablePageName4>
+						<customVariablePageValue4>Loggedin</customVariablePageValue4>
+					</row>
+					<row>
+						<customVariablePageName5>Status user</customVariablePageName5>
+						<customVariablePageValue5>looking at &quot;profile page&quot;</customVariablePageValue5>
+					</row>
+				</customVariables>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page for user *_)%</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
@@ -274,27 +295,6 @@
 						<customVariablePageValue4>looking at &quot;profile page&quot;</customVariablePageValue4>
 					</row>
 				</customVariables>
-				<icon />
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://example.org/user/profile</url>
-				<pageTitle>Profile page</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				
-				<pageId>2</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName4>Status user</customVariablePageName4>
-						<customVariablePageValue4>Loggedin</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Status user</customVariablePageName5>
-						<customVariablePageValue5>looking at &quot;profile page&quot;</customVariablePageValue5>
-					</row>
-				</customVariables>
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
 			</row>
 		</actionDetails>
