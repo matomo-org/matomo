@@ -3,15 +3,7 @@
 {% block content %}
 <h2>{{ 'Installation_Welcome'|translate }}</h2>
 
-{% if newInstall %}
-    {{ 'Installation_WelcomeHelp'|translate(totalNumberOfSteps)|raw }}
-{% else %}
-    <p>{{ 'Installation_ConfigurationHelp'|translate }}</p>
-    <br/>
-    <div class="error">
-        {{ errorMessage }}
-    </div>
-{% endif %}
+{{ 'Installation_WelcomeHelp'|translate(totalNumberOfSteps)|raw }}
 
 <script type="text/javascript">
     <!--
