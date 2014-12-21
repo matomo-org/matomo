@@ -754,6 +754,7 @@ Plugins[] = Contents
 Plugins[] = TestRunner
 Plugins[] = BulkTracking
 Plugins[] = Resolution
+Plugins[] = DevicePlugins
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

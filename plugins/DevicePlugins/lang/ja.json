@@ -1,0 +1,9 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s のプラグインが有効ではありません",
+        "BrowserWithPluginsEnabled": "%1$s のプラグイン %2$s は有効",
+        "PluginDetectionDoesNotWorkInIE": "注意： Internet Explorer ではプラグインの検出が動作しません。 このリポートは、非 IE ブラウザのみに基づきます。",
+        "WidgetPlugins": "プラグイン一覧",
+        "WidgetPluginsDocumentation": "ビジターが利用しているブラウザのプラグインについてのリポートです。コンテンツの最適な表示方法を選択するために重要な情報です。"
+    }
+}

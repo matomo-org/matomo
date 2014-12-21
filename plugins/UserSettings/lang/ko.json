@@ -187,9 +187,6 @@
         "Language_zu": "줄루어",
         "LanguageCode": "언어 코드",
         "PluginDescription": "각종 사용자 설정 (브라우저, 브라우저 페밀리, 운영 시스템, 플러그인, 해상도, 일반 설정)를 보고합니다.",
-        "PluginDetectionDoesNotWorkInIE": "참고: Internet Explorer에서는 플러그인 검색이 작동하지 않습니다. 이 보고서는 IE 브라우저가 아닌것에 기반합니다.",
-        "VisitorSettings": "방문자 설정",
-        "WidgetPlugins": "플러그인 목록",
-        "WidgetPluginsDocumentation": "방문자가 사용하는 브라우저의 플러그인에 대한 보고서입니다. 컨텐츠에 대한 최적의 표시 방법을 선택하는 데 중요한 정보입니다."
+        "VisitorSettings": "방문자 설정"
     }
 }

@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Langage du navigateur",
-        "BrowserWithNoPluginsEnabled": "%1$s avec aucun plugin activé",
-        "BrowserWithPluginsEnabled": "%1$s avec les plugins %2$s activés",
         "Language_aa": "Afar",
         "Language_ab": "Abkhaze",
         "Language_ae": "Avestique",
@@ -189,9 +187,6 @@
         "Language_zu": "Zoulou",
         "LanguageCode": "Code langue",
         "PluginDescription": "Effectue des rapports variés sur les paramètres utilisateurs: navigateur, famille du navigateur, système d'exploitation, plugins, résolution, paramètres généraux.",
-        "PluginDetectionDoesNotWorkInIE": "Note : La détection des plugins ne fonctionne pas avec Internet Explorer. Ce rapport est basé sur les autres navigateurs.",
-        "VisitorSettings": "Paramètres visiteur",
-        "WidgetPlugins": "Liste de Plugins",
-        "WidgetPluginsDocumentation": "Ce rapport montre quels plugins du navigateur vos visiteurs ont activés. Cette information peut être importante pour choisir le bon moyen de délivrer le contenu."
+        "VisitorSettings": "Paramètres visiteur"
     }
 }

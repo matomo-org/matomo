@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "ब्राउज़र की भाषा",
-        "BrowserWithNoPluginsEnabled": "%1$s के साथ प्लगइन सक्रिय नहीं",
-        "BrowserWithPluginsEnabled": "प्लगिन %2$s से %1$s सक्षम",
         "Language_aa": "अफ़ार",
         "Language_ab": "अब्खाज़ियन्",
         "Language_ae": "अवेस्तन",
@@ -189,7 +187,6 @@
         "Language_zu": "ज़ुलू",
         "LanguageCode": "भाषा कोड",
         "PluginDescription": "विभिन्न उपयोगकर्ता सेटिंग्स की रिपोर्ट: ब्राउज़र, ब्राउज़र परिवार, आपरेटिंग सिस्टम, प्लगइन्स, संकल्प, वैश्विक सेटिंग्स.",
-        "PluginDetectionDoesNotWorkInIE": "नोट: प्लगइन्स का पता लगाने इंटरनेट एक्सप्लोरर में काम नहीं करता है. यह रिपोर्ट केवल गैर आईई ब्राउज़रों पर आधारित है.",
         "VisitorSettings": "आगंतुक सेटिंग्स"
     }
 }

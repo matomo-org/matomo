@@ -63,21 +63,6 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>pdf, flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemCode>W81</operatingSystemCode>
@@ -114,6 +99,21 @@
 			</row>
 		</customVariables>
 		<resolution>1366x768</resolution>
+		<plugins>pdf, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -199,8 +199,6 @@
 		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -237,6 +235,8 @@
 			</row>
 		</customVariables>
 		<resolution>1536x864</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -306,29 +306,6 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/quicktime.gif</pluginIcon>
-				<pluginName>quicktime</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/silverlight.gif</pluginIcon>
-				<pluginName>silverlight</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -369,6 +346,29 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1200</resolution>
+		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginName>quicktime</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginName>silverlight</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -454,25 +454,6 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<plugins>pdf, flash, java, quicktime</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/quicktime.gif</pluginIcon>
-				<pluginName>quicktime</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -509,6 +490,25 @@
 			</row>
 		</customVariables>
 		<resolution>2880x1800</resolution>
+		<plugins>pdf, flash, java, quicktime</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginName>quicktime</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -567,25 +567,6 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>pdf, flash, java, silverlight</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/silverlight.gif</pluginIcon>
-				<pluginName>silverlight</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -622,6 +603,25 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
+		<plugins>pdf, flash, java, silverlight</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginName>silverlight</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -691,33 +691,6 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/quicktime.gif</pluginIcon>
-				<pluginName>quicktime</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/windowsmedia.gif</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/silverlight.gif</pluginIcon>
-				<pluginName>silverlight</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -754,6 +727,33 @@
 			</row>
 		</customVariables>
 		<resolution>1360x768</resolution>
+		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginName>quicktime</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.gif</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginName>silverlight</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -822,21 +822,6 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<plugins>pdf, java, quicktime</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/quicktime.gif</pluginIcon>
-				<pluginName>quicktime</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -873,6 +858,21 @@
 			</row>
 		</customVariables>
 		<resolution>2560x1440</resolution>
+		<plugins>pdf, java, quicktime</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginName>quicktime</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -942,13 +942,6 @@
 		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>flash</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -985,6 +978,13 @@
 			</row>
 		</customVariables>
 		<resolution>360x640</resolution>
+		<plugins>flash</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -1054,33 +1054,6 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/quicktime.gif</pluginIcon>
-				<pluginName>quicktime</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/windowsmedia.gif</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/silverlight.gif</pluginIcon>
-				<pluginName>silverlight</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -1117,6 +1090,33 @@
 			</row>
 		</customVariables>
 		<resolution>2560x1440</resolution>
+		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginName>quicktime</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.gif</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginName>silverlight</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -1221,17 +1221,6 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemCode>WI8</operatingSystemCode>
@@ -1268,6 +1257,17 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -1337,25 +1337,6 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>pdf, flash, java, silverlight</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/silverlight.gif</pluginIcon>
-				<pluginName>silverlight</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -1392,6 +1373,25 @@
 			</row>
 		</customVariables>
 		<resolution>1366x768</resolution>
+		<plugins>pdf, flash, java, silverlight</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginName>silverlight</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -1461,25 +1461,6 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>pdf, flash, java, silverlight</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/silverlight.gif</pluginIcon>
-				<pluginName>silverlight</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -1516,6 +1497,25 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
+		<plugins>pdf, flash, java, silverlight</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginName>silverlight</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -1747,8 +1747,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
@@ -1781,6 +1779,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -1850,8 +1850,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -1884,6 +1882,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -1969,8 +1969,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
@@ -2003,6 +2001,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -2072,8 +2072,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2106,6 +2104,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -2192,8 +2192,6 @@
 		<referrerUrl>http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -2226,6 +2224,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -2295,8 +2295,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2329,6 +2327,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -2405,17 +2405,6 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
@@ -2452,6 +2441,17 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -2520,33 +2520,6 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/director.gif</pluginIcon>
-				<pluginName>director</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/windowsmedia.gif</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/gears.gif</pluginIcon>
-				<pluginName>gears</pluginName>
-			</row>
-		</pluginsIcons>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
@@ -2583,6 +2556,33 @@
 			</row>
 		</customVariables>
 		<resolution>1280x800</resolution>
+		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/director.gif</pluginIcon>
+				<pluginName>director</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.gif</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/gears.gif</pluginIcon>
+				<pluginName>gears</pluginName>
+			</row>
+		</pluginsIcons>
 		
 		
 		
@@ -2643,8 +2643,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
@@ -2677,6 +2675,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -2736,8 +2736,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
@@ -2770,6 +2768,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -2838,8 +2838,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2876,6 +2874,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -2961,8 +2961,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -2999,6 +2997,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3091,8 +3091,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -3129,6 +3127,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3197,8 +3197,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemCode>BOT</operatingSystemCode>
@@ -3235,6 +3233,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3303,8 +3303,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -3341,6 +3339,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3399,8 +3399,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
@@ -3437,6 +3435,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3505,8 +3505,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -3543,6 +3541,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3611,8 +3611,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -3649,6 +3647,8 @@
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3717,8 +3717,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -3751,6 +3749,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3819,8 +3819,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -3853,6 +3851,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -3921,8 +3921,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -3955,6 +3953,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4023,8 +4023,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4057,6 +4055,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4125,8 +4125,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -4159,6 +4157,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4227,8 +4227,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4261,6 +4259,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4329,8 +4329,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -4363,6 +4361,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4431,8 +4431,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -4465,6 +4463,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4533,8 +4533,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -4567,6 +4565,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4635,8 +4635,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4669,6 +4667,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4737,8 +4737,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4771,6 +4769,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4839,8 +4839,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -4873,6 +4871,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -4941,8 +4941,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemCode>WI7</operatingSystemCode>
@@ -4975,6 +4973,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -5043,8 +5043,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -5077,6 +5075,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -5145,8 +5145,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemCode>LIN</operatingSystemCode>
@@ -5179,6 +5177,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -5247,8 +5247,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Smartphone</deviceType>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemCode>AND</operatingSystemCode>
@@ -5281,6 +5279,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		
@@ -5349,8 +5349,6 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<plugins />
-		<pluginsIcons />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemCode>MAC</operatingSystemCode>
@@ -5383,6 +5381,8 @@
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		

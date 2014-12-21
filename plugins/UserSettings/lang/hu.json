@@ -186,8 +186,6 @@
         "Language_zu": "zulu",
         "LanguageCode": "Nyelvi kód",
         "PluginDescription": "Jelentéseket készít a látogatóknál észlelt beállításokról és rendszerkörnyezetről mint például: böngésző típusa, böngészőcsaládok, operációs rendszer, böngésző bővítmények, képernyőfelbontás, globális beállítások.",
-        "PluginDetectionDoesNotWorkInIE": "A böngészők bővítményeinek detektálása nem működik az Internet Exlporernél, így ez a jelentés csak a nem Internet Explorert használó látogatók adatait jeleníti meg.",
-        "VisitorSettings": "Látogatók adatai",
-        "WidgetPlugins": "Bővítmények listája"
+        "VisitorSettings": "Látogatók adatai"
     }
 }

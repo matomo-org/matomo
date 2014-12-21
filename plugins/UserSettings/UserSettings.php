@@ -24,7 +24,6 @@ class UserSettings extends \Piwik\Plugin
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
             'Request.getRenamedModuleAndAction'    => 'renameDeprecatedModuleAndAction',
         );
     }
@@ -55,14 +54,10 @@ class UserSettings extends \Piwik\Plugin
         if ($module == 'UserSettings' && ($action == 'getResolution' || $action == 'getConfiguration')) {
             $module = 'Resolution';
         }
-    }
 
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['plugins']                  = $instance->getPlugins();
-        $visitor['pluginsIcons']             = $instance->getPluginIcons();
+        if ($module == 'UserSettings' && $action == 'getPlugin') {
+            $module = 'DevicePlugins';
+        }
     }
 
     public function addMetricTranslations(&$translations)

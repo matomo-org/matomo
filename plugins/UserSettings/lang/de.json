@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Browsersprache",
-        "BrowserWithNoPluginsEnabled": "%1$s mit keinen aktivierten Plugins",
-        "BrowserWithPluginsEnabled": "%1$s mit den Plugins %2$s aktiviert",
         "Language_aa": "Afar",
         "Language_ab": "Abchasisch",
         "Language_ae": "Avestisch",
@@ -189,9 +187,6 @@
         "Language_zu": "IsiZulu",
         "LanguageCode": "Sprach-Code",
         "PluginDescription": "Bericht über verschiedene Benutzereinstellungen: Browser, Browserfamilie, Betriebssystem, Plugins, Auflösung, Allgemeine Einstellungen.",
-        "PluginDetectionDoesNotWorkInIE": "Hinweis: Die Erkennung von Plugins funktioniert nicht im Internet Explorer. Diese Statistik beruht nur auf Nicht-IE Browsern.",
-        "VisitorSettings": "Besuchereinstellungen",
-        "WidgetPlugins": "Liste der Plugins",
-        "WidgetPluginsDocumentation": "Dieser Bericht zeigt Ihnen, welche Plugins Ihre Besucher in Ihren Browser aktiviert haben. Diese Informationen kann Ihnen dabei helfen, die beste Art zu finden, Ihre Inhalte auszuliefern."
+        "VisitorSettings": "Besuchereinstellungen"
     }
 }

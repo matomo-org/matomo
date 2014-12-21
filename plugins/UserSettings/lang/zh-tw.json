@@ -187,8 +187,6 @@
         "Language_zu": "祖鲁文",
         "LanguageCode": "語系代碼",
         "PluginDescription": "各個用戶設定報表：瀏覽器、瀏覽器家族、作業系統、外掛、解析度、全域設定。",
-        "PluginDetectionDoesNotWorkInIE": "注意：外掛偵測無法在 Internet Explorer 上運作。這個報告僅提供非 IE 瀏覽器。",
-        "VisitorSettings": "造訪者設定值",
-        "WidgetPlugins": "瀏覽器外掛清單"
+        "VisitorSettings": "造訪者設定值"
     }
 }

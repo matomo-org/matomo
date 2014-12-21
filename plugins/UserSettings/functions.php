@@ -12,14 +12,6 @@ namespace Piwik\Plugins\UserSettings;
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
 
-function getPluginsLogo($oldLabel)
-{
-    if ($oldLabel == Piwik::translate('General_Others')) {
-        return false;
-    }
-    return 'plugins/UserSettings/images/plugins/' . $oldLabel . '.gif';
-}
-
 /**
  * Returns the given language code to translated language name
  *

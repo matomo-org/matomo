@@ -103,9 +103,6 @@
         "Language_zu": "Zulu",
         "LanguageCode": "Kod Gjuhe",
         "PluginDescription": "Raporton Rregullime të ndryshme të Përdoruesit: Shfletues, Familje Shfletuesi, Sistem Operativ, Shtojca, Qartësi, Rregullime Globale.",
-        "PluginDetectionDoesNotWorkInIE": "Shënim: Zbulimi i shtojcave nuk funksionon nën Internet Explorer. Ky raport mund të kihet vetëm nën shfletuesa jo-IE.",
-        "VisitorSettings": "Rregullimet për Vizitor",
-        "WidgetPlugins": "Listë e Shtojcave",
-        "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj."
+        "VisitorSettings": "Rregullimet për Vizitor"
     }
 }

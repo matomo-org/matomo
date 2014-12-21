@@ -146,7 +146,6 @@
         "Language_yo": "ioruba",
         "Language_zh": "Chinés",
         "Language_zu": "Zulú",
-        "LanguageCode": "Código de idioma",
-        "WidgetPlugins": "Lista de plugins"
+        "LanguageCode": "Código de idioma"
     }
 }

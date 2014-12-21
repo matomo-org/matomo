@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Browser sprog",
-        "BrowserWithNoPluginsEnabled": "%1$s med ingen aktiverede udvidelsesmoduler",
-        "BrowserWithPluginsEnabled": "%1$s med udvidelsesmoduler %2$s aktiveret",
         "Language_aa": "Afar",
         "Language_ab": "Abkhasisk",
         "Language_ae": "Avestisk",
@@ -189,9 +187,6 @@
         "Language_zu": "Zulu",
         "LanguageCode": "Sprogkode",
         "PluginDescription": "Rapporter brugerindstillinger: browser, browsertype, operativsystem, udvidelsesmoduler, opløsning, globale indstillinger.",
-        "PluginDetectionDoesNotWorkInIE": "Note: Udvidelsesmodul detektering virker ikke i Internet Explorer. Rapport viser kun ikke-IE browsere.",
-        "VisitorSettings": "Besøgendes indstillinger",
-        "WidgetPlugins": "Udvidelsesmoduler",
-        "WidgetPluginsDocumentation": "Rapporten viser, hvilke browserudvidelser de besøgende havde aktiveret. Oplysningerne kan være vigtigt for at vælge den rigtige måde at levere indholdet på."
+        "VisitorSettings": "Besøgendes indstillinger"
     }
 }

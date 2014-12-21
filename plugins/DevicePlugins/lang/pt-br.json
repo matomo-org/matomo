@@ -1,0 +1,9 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s sem plugins ativados",
+        "BrowserWithPluginsEnabled": "%1$s com os plugins %2$s ativados",
+        "PluginDetectionDoesNotWorkInIE": "Nota: a detecção de plugins não funciona no Internet Explorer. Esse relatório é baseado apenas em navegadores não IE.",
+        "WidgetPlugins": "Lista de Plugins",
+        "WidgetPluginsDocumentation": "Este relatório mostra quais plugins de navegador seus visitantes tinham ativado. Esta informação pode ser importante para escolher o caminho certo para levar o seu conteúdo."
+    }
+}
