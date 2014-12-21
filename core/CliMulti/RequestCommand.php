@@ -10,6 +10,7 @@ namespace Piwik\CliMulti;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Log;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -92,5 +93,6 @@ class RequestCommand extends ConsoleCommand
     {
         $container = StaticContainer::getContainer();
         $container->set('Psr\Log\LoggerInterface', new NullLogger());
+        Log::unsetInstance();
     }
 }
