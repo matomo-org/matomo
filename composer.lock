@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "27a92c6a859979be2d9fb4df337c8655",
+    "hash": "f02ab2d393f7883b41d47def753a3088",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -269,12 +269,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/PHP-DI.git",
-                "reference": "4676e15f7f014185864fd5f8f0b3cdbd678067d0"
+                "reference": "d7f54f3c1b3523493eb5f4b5ca38bcfd74d96169"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/4676e15f7f014185864fd5f8f0b3cdbd678067d0",
-                "reference": "4676e15f7f014185864fd5f8f0b3cdbd678067d0",
+                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/d7f54f3c1b3523493eb5f4b5ca38bcfd74d96169",
+                "reference": "d7f54f3c1b3523493eb5f4b5ca38bcfd74d96169",
                 "shasum": ""
             },
             "require": {
@@ -317,7 +317,7 @@
                 "dependency injection",
                 "di"
             ],
-            "time": "2014-12-17 04:49:43"
+            "time": "2014-12-11 22:24:18"
         },
         {
             "name": "mnapoli/phpdocreader",
@@ -1954,6 +1954,59 @@
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
             "time": "2014-10-01 15:43:05"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "version": "v2.6.1",
+            "target-dir": "Symfony/Component/VarDumper",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "8f3ee04faeca3b8418229b2efbfc8b2b8625b8aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/8f3ee04faeca3b8418229b2efbfc8b2b8625b8aa",
+                "reference": "8f3ee04faeca3b8418229b2efbfc8b2b8625b8aa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-symfony_debug": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Resources/functions/dump.php"
+                ],
+                "psr-0": {
+                    "Symfony\\Component\\VarDumper\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                }
+            ],
+            "description": "Symfony mechanism for exploring and dumping PHP variables",
+            "homepage": "http://symfony.com",
+            "keywords": [
+                "debug",
+                "dump"
+            ],
+            "time": "2014-11-18 10:08:24"
         },
         {
             "name": "symfony/yaml",

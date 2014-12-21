@@ -16,6 +16,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The event `Log.getAvailableWriters` has been removed: to add custom log backends, you now need to configure Monolog handlers
 * The INI options `log_only_when_cli` and `log_only_when_debug_parameter` have been removed
 
+### Library updates
+* We added the `symfony/var-dumper` library allowing you to better print any arbitrary PHP variable via `dump($var1, $var2, ...)`.
+
 ### Deprecations
 * Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
 * The API method `UserSettings.getBrowserVersion` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserVersions` instead
