@@ -66,6 +66,7 @@
         "SystemCheckGzcompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzcompress.",
         "SystemCheckGzuncompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzuncompress.",
         "SystemCheckIconvHelp": "Potrzebujesz skonfigurować i przebudować środowisko PHP, z włączonym wsparciem dla \"iconv\", --with-iconv.",
+        "SystemCheckJsonHelp": "Rozszeżenie php5-json jest wymagane by Piwik był w stanie czytać i zapisywać dane typu JSON.",
         "SystemCheckMailHelp": "Informacje zwrotne i wiadomości o utraconych hasłach nie będą mogły zostać wysłane przy pomocy funkcji mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Rozszerzenie mbstring jest wymagane do obsługi znaków wielobajtowych w interfejsie użytkownika i API odpowiedzi. Ponadto należy sprawdzić, mbstring.func_overload jest ustawiony na \"0\" w pliku php.ini.",

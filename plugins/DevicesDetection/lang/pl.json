@@ -1,5 +1,7 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Silnik przeglądarki",
+        "BrowserEngines": "Silniki przeglądarek",
         "BrowserFamily": "Rodzina przeglądarek",
         "Browsers": "Przeglądarki",
         "BrowserVersion": "Wersja przeglądarki",

@@ -1,4 +1,7 @@
 {
+    "DoNotTrack": {
+        "PluginDescription": "Ignoruj wizyty z nagłówkami X-Do-Not-Track lub DNT (Do Not Track)."
+    },
     "General": {
         "AbandonedCarts": "Porzucone transakcje",
         "AboutPiwikX": "O Piwik %s",
@@ -225,6 +228,8 @@
         "Matches": "Pasuje",
         "MediumToHighTrafficItIsRecommendedTo": "Dla serwisów o średnim natężeniu ruchu, zaleca się przetwarzanie raportowania dziennego najwyżej do pół godziny (%s sekund) lub co godzinę (%s sekund).",
         "Metadata": "Metadata",
+        "Metric": "Metryka",
+        "Metrics": "Metryki",
         "MetricsToPlot": "Dane do porównania",
         "MinutesSeconds": "%1$s min %2$ss",
         "Mobile": "Przenośny",
@@ -435,12 +440,14 @@
         "AddPiwikDemo": "Dodaj Piwik Demo",
         "Advanced": "Zaawansowane",
         "AnonymousAccess": "Dostęp anonimowy",
+        "ChooseMetric": "Wybierz metrykę",
         "ChooseReport": "Wybierz raport",
         "ChooseSegment": "Wybierz segment",
         "ConfirmRemoveAccount": "Czy chcesz usunąć to konto?",
         "DefaultReportDate": "Data raportu",
         "EmailUs": "Wyślij nam wiadomośc email",
         "EnableGraphsLabel": "Wyświetlanie wykresów",
+        "HowtoDeleteAnAccount": "Naciśnij i przytrzymaj by usunac konto.",
         "IgnoreSslError": "Ignoruj błąd SSL",
         "LastUpdated": "Ostatnia aktualizacja: %s",
         "LoadingReport": "Ładowanie %s",
@@ -459,6 +466,7 @@
         "NoVisitorsShort": "Brak odwiedzających",
         "NoWebsiteFound": "Nie znaleziono strony",
         "NoWebsitesShort": "Brak stron",
+        "PossibleSslError": "Możliwy błąd certyfikatu SSL",
         "RatingDontRemindMe": "Nie przypominaj mi",
         "RatingNotNow": "Nie teraz",
         "Reloading": "Przeładowanie...",

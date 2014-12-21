@@ -1,6 +1,8 @@
 {
     "UserCountry": {
+        "AssumingNonApache": "Nie można znaleźć funkcji apache_get_modules co oznacza serwer nie będący typu Apache.",
         "CannotListContent": "Błąd wyświetlenia zawartości %1$s: %2$s",
+        "CannotLocalizeLocalIP": "Adres IP %s jest adresem lokalnym i nie można go poddać geolokacji.",
         "CannotUnzipDatFile": "Błąd rozpakowania pliki dat w %1$s: %2$s",
         "City": "Miasto",
         "CityAndCountry": "%1$s, %2$s",
@@ -294,6 +296,9 @@
         "FromDifferentCities": "różne miasta",
         "GeoIPDatabases": "Baza danych GeoIP",
         "Geolocation": "Geolokalizacja",
+        "GeolocationPageDesc": "Na tej stronie można zmienić sposób wykrywania lokalizacji odwiedzających stosowany przez Piwik'a.",
+        "getCityDocumentation": "Raport ten pokazuje miasta, w których przebywali odwiedzający gdy whcodzili na stronę.",
+        "getContinentDocumentation": "Raport then pokazuje kraje, w których byli odwiedzający gdzy oglądali strony.",
         "getCountryDocumentation": "Ten raport pokazuje, w którym kraju był odwiedzający kiedy wchodził na twoją stronę.",
         "getRegionDocumentation": "Ten raport pokazuje,w którym regionie był odwiedzający kiedy wchodził na twoją stronę.",
         "HowToInstallApacheModule": "W jaki sposób zainstaluję moduł GeoIP dla Apache?",
@@ -301,6 +306,7 @@
         "HowToInstallGeoIpPecl": "W jaki sposób zainstaluję rozszerzenie GeoIP PECL?",
         "HowToInstallNginxModule": "W jaki sposób zainstaluję moduł GeoIP dla Nginx?",
         "HowToSetupGeoIP": "Jak ustawić dokładną geolokalizację z GeoIP?",
+        "HttpServerModule": "Moduł Serwera HTTP",
         "ISPDatabase": "Baza danych dostawców internetowych",
         "IWantToDownloadFreeGeoIP": "Chcę ściągnąć darmową bazę GeoIP...",
         "Latitude": "Szerokość",

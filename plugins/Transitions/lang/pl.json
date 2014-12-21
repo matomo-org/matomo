@@ -1,6 +1,8 @@
 {
     "Transitions": {
+        "DirectEntries": "Wejścia Bezpośrednie",
         "ExitsInline": "%s wyjść",
+        "FromCampaigns": "Z Kampanii",
         "FromPreviousSiteSearches": "Z wyszukiwarki wewnętrznej",
         "FromSearchEngines": "Z wyszukiwarek",
         "FromWebsites": "Ze stron",
