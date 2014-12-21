@@ -9,12 +9,13 @@
 namespace Piwik\CliMulti;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -31,6 +32,8 @@ class RequestCommand extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->disableLogging();
+
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
@@ -81,4 +84,13 @@ class RequestCommand extends ConsoleCommand
         }
     }
 
+    /**
+     * We need to disable logging for this command because the command output is the HTTP output of
+     * the HTTP request we are simulating here (so we don't want logs to mess it up).
+     */
+    private function disableLogging()
+    {
+        $container = StaticContainer::getContainer();
+        $container->set('Psr\Log\LoggerInterface', new NullLogger());
+    }
 }
