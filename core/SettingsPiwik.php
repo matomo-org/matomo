@@ -329,7 +329,12 @@ class SettingsPiwik
         // this will match when Piwik is installed and favicon has been customised
         $expectedString = 'misc/user/';
 
-        $expectedStringNotFound = strpos($fetched, $expectedString) === false && strpos($fetched, $expectedStringAlt) === false;
+        // see checkPiwikIsNotInstalled()
+        $expectedStringAlreadyInstalled = 'piwik-is-already-installed';
+
+        $expectedStringNotFound = strpos($fetched, $expectedString) === false
+                                && strpos($fetched, $expectedStringAlt) === false
+                                && strpos($fetched, $expectedStringAlreadyInstalled) === false;
 
         $hasError = false !== strpos($fetched, PAGE_TITLE_WHEN_ERROR);
 
