@@ -10,8 +10,10 @@ namespace Piwik;
 
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeApi;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -159,6 +161,11 @@ class Archive
      * @var Parameters
      */
     private $params;
+
+    /**
+     * \Piwik\Cache\Cache
+     */
+    private static $cache;
 
     /**
      * @param Parameters $params
@@ -480,6 +487,32 @@ class Archive
         return $recordName . "_" . $id;
     }
 
+    private function invalidatedReportsIfNeeded()
+    {
+        if (is_null(self::$cache)) {
+            self::$cache = Cache::getTransientCache();
+        }
+
+        $id = 'Archive.RememberedReportsInvalidated';
+
+        if (self::$cache->contains($id)) {
+            return;
+        }
+
+        self::$cache->save($id, 1);
+
+        $invalidator  = new ArchiveInvalidator();
+        $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        foreach ($sitesPerDays as $date => $siteIds) {
+            if (!empty($siteIds)) {
+                // an advanced version would only invalidate siteIds for $this->params->getIdSites() but would make
+                // everything way more complex eg the cache above and which siteIds we pass here...
+                CoreAdminHomeApi::getInstance()->invalidateArchivedReports($siteIds, $date);
+            }
+        }
+    }
+
     /**
      * Queries archive tables for data and returns the result.
      * @param array|string $archiveNames
@@ -489,6 +522,8 @@ class Archive
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
+        $this->invalidatedReportsIfNeeded();
+
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
         }
