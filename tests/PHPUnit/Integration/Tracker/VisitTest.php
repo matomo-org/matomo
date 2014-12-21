@@ -11,10 +11,12 @@ namespace Piwik\Tests\Integration\Tracker;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\CacheId;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\Date;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
@@ -37,7 +39,8 @@ class VisitTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Manager::getInstance()->loadPlugins(array('SitesManager'));
+        Manager::getInstance()->loadTrackerPlugins();
+        Manager::getInstance()->loadPlugin('SitesManager');
     }
 
     /**
@@ -280,6 +283,93 @@ class VisitTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldRemember_IfRequestWasDoneLongAgo()
+    {
+        $currentActionTime = '2012-01-02 08:12:45';
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array('2012-01-02' => array($idsite));
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldNotRemember_IfRequestWasDoneJustAtStartOfTheDay()
+    {
+        $currentActionTime = Date::today()->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array();
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldRemember_IfRequestWasDoneAt11PMTheDayBefore()
+    {
+        $currentActionTime = Date::today()->subHour(1)->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array(
+            substr($currentActionTime, 0, 10) => array($idsite)
+        );
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_shouldConsiderWebsitesTimezone()
+    {
+        $timezone1 = 'UTC+4';
+        $timezone2 = 'UTC+6';
+
+        $currentActionTime1 = Date::today()->setTimezone($timezone1)->getDatetime();
+        $currentActionTime2 = Date::today()->setTimezone($timezone2)->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/', $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = 'UTC+5');
+
+        $expectedRemembered = array(
+            substr($currentActionTime1, 0, 10) => array($idsite)
+        );
+
+        // if website timezone was von considered both would be today (expected = array())
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime1, array());
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime2, $expectedRemembered);
+    }
+
+    private function assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $requestDate, $expectedRemeberedArchivedReports)
+    {
+        /** @var Visit $visit */
+        list($visit) = $this->prepareVisitWithRequest(array(
+            'idsite' => $idsite,
+            'rec' => 1,
+            'cip' => '156.146.156.146',
+            'token_auth' => Fixture::getTokenAuth()
+        ), $requestDate);
+
+        $visit->handle();
+
+        $archive = new ArchiveInvalidator();
+        $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        $this->assertSame($expectedRemeberedArchivedReports, $remembered);
+    }
+
+    private function prepareVisitWithRequest($requestParams, $requestDate)
+    {
+        $request = new Request($requestParams);
+        $request->setCurrentTimestamp(Date::factory($requestDate)->getTimestamp());
+
+        $visit = new Visit();
+        $visit->setRequest($request);
+
+        $visit->handle();
+
+        return array($visit, $request);
+    }
+
     public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampIsNotWithinVisitTimeLength_AndNoDimensionForcesVisit_AndVisitorNotKnown()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
@@ -304,7 +394,7 @@ class VisitTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public  function test_isVisitNew_ReturnsTrue_IfDimensionForcesVisit_AndVisitorKnown()
+    public function test_isVisitNew_ReturnsTrue_IfDimensionForcesVisit_AndVisitorKnown()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, true));
 
@@ -320,11 +410,7 @@ class VisitTest extends IntegrationTestCase
     {
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
 
-        $request = new Request(array('idsite' => $idsite));
-        $request->setCurrentTimestamp(Date::factory($currentActionTime)->getTimestamp());
-
-        $visit = new Visit();
-        $visit->setRequest($request);
+        list($visit, $request) = $this->prepareVisitWithRequest(array('idsite' => $idsite), $currentActionTime);
 
         $visitor = new Visitor($request, 'configid', array('visit_last_action_time' => Date::factory($lastActionTimestamp)->getTimestamp()));
         $visitor->setIsVisitorKnown($isVisitorKnown);

@@ -133,7 +133,12 @@ class Site
     public static function setSitesFromArray($sites)
     {
         foreach ($sites as $site) {
-            self::setSite($site['idsite'], $site);
+            $idSite = null;
+            if (!empty($site['idsite'])) {
+                $idSite = $site['idsite'];
+            }
+
+            self::setSite($idSite, $site);
         }
     }
 

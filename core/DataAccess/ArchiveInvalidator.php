@@ -9,9 +9,9 @@
 
 namespace Piwik\DataAccess;
 
-
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Period\Week;
@@ -32,6 +32,73 @@ class ArchiveInvalidator {
     private $minimumDateWithLogs = false;
     private $invalidDates = array();
 
+    private $rememberArchivedReportIdStart = 'report_to_invalidate_';
+
+    public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
+    {
+        $key   = $this->buildRememberArchivedReportId($idSite, $date->toString());
+        $value = Option::get($key);
+
+        // we do not really have to get the value first. we could simply always try to call set() and it would update or
+        // insert the record if needed but we do not want to lock the table (especially since there are still some
+        // MyISAM installations)
+
+        if (false === $value) {
+            Option::set($key, '1');
+        }
+    }
+
+    public function getRememberedArchivedReportsThatShouldBeInvalidated()
+    {
+        $reports = Option::getLike($this->rememberArchivedReportIdStart . '%_%');
+
+        $sitesPerDay = array();
+
+        foreach ($reports as $report => $value) {
+            $report = str_replace($this->rememberArchivedReportIdStart, '', $report);
+            $report = explode('_', $report);
+            $siteId = (int) $report[0];
+            $date   = $report[1];
+
+            if (empty($sitesPerDay[$date])) {
+                $sitesPerDay[$date] = array();
+            }
+
+            $sitesPerDay[$date][] = $siteId;
+        }
+
+        return $sitesPerDay;
+    }
+
+    private function buildRememberArchivedReportId($idSite, $date)
+    {
+        $id  = $this->buildRememberArchivedReportIdForSite($idSite);
+        $id .= '_' . trim($date);
+
+        return $id;
+    }
+
+    private function buildRememberArchivedReportIdForSite($idSite)
+    {
+        return $this->rememberArchivedReportIdStart . (int) $idSite;
+    }
+
+    public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
+    {
+        $id = $this->buildRememberArchivedReportIdForSite($idSite) . '_%';
+        Option::deleteLike($id);
+    }
+
+    /**
+     * @internal
+     */
+    public function forgetRememberedArchivedReportsToInvalidate($idSite, Date $date)
+    {
+        $id = $this->buildRememberArchivedReportId($idSite, $date->toString());
+
+        Option::delete($id);
+    }
+
     /**
      * @param $idSites array
      * @param $dates string
@@ -51,6 +118,12 @@ class ArchiveInvalidator {
         $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
 
         $this->persistInvalidatedArchives($idSites, $datesByMonth);
+
+        foreach ($idSites as $idSite) {
+            foreach ($datesToInvalidate as $date) {
+                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+            }
+        }
 
         return $this->makeOutputLogs();
     }
@@ -105,7 +178,7 @@ class ArchiveInvalidator {
     /**
      * Ensure the specified dates are valid.
      * Store invalid date so we can log them
-     * @param $dates string
+     * @param array $dates
      * @return Date[]
      */
     private function getDatesToInvalidateFromString($dates)
@@ -129,6 +202,7 @@ class ArchiveInvalidator {
                 $this->invalidDates[] = $theDate;
             }
         }
+
         return $toInvalidate;
     }
 
