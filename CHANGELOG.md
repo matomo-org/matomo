@@ -6,7 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
-* os and browser icons are now located in the DevicesDetection plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
+* os, browser and browser plugin icons are now located in the DevicesDetection and DevicePlugins plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
 * The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
 * The following events have been removed:
   * `Log.formatFileMessage`
@@ -29,6 +29,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getBrowserType` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserEngines` instead
 * The API method `UserSettings.getResolution` is deprecated and will be removed from May 1st 2015. Use `Resolution.getResolution` instead
 * The API method `UserSettings.getConfiguration` is deprecated and will be removed from May 1st 2015. Use `Resolution.getConfiguration` instead
+* The API method `UserSettings.getPlugin` is deprecated and will be removed from May 1st 2015. Use `DevicePlugins.getPlugin` instead
 * The API method `UserSettings.getWideScreen` has been removed. Use `UserSettings.getScreenType` instead.
 * `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
 * The method `Piwik\Log::setLogLevel()` has been deprecated
