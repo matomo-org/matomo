@@ -13,7 +13,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
-use Piwik\Menu\MenuMain;
 use Piwik\Menu\MenuReporting;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
