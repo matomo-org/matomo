@@ -186,8 +186,6 @@
         "Language_zu": "súlú",
         "LanguageCode": "Kóði tungumáls",
         "PluginDescription": "Gefur skýrslu um ýmsar stillingar gesta:Vafra, Vafrafjölskyldu, Stýrikerfi, Íbætur, Skjáupplausn, altækar stillingar.",
-        "PluginDetectionDoesNotWorkInIE": "Ath: uppgötvun á íbótum virkar ekki með Internet Explorer. Þessi skýrsla er aðeins unnin út frá öðrum vöfrum en IE.",
-        "VisitorSettings": "Stillingar gesta",
-        "WidgetPlugins": "Listi yfir íbætur"
+        "VisitorSettings": "Stillingar gesta"
     }
 }

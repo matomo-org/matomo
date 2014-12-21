@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "Uwaga: wykrywanie wtyczek nie działa w przypadku Internet Explorera. Raport ten pokaże tylko wyniki w oparciu o badanie innych przeglądarek, nie opartych na silniku IE.",
+        "WidgetPlugins": "Lista wtyczek"
+    }
+}

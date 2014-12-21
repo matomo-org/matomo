@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Ngôn ngữ trình duyệt",
-        "BrowserWithNoPluginsEnabled": "%1$s không có plugin nào được kích hoạt",
-        "BrowserWithPluginsEnabled": "%1$s với plugin %2$s đã kích hoạt",
         "Language_aa": "Tiếng Afar",
         "Language_ab": "Tiếng Abkhazia",
         "Language_ae": "Tiếng Avestan",
@@ -189,9 +187,6 @@
         "Language_zu": "Tiếng Zulu",
         "LanguageCode": "Mã ngôn ngữ",
         "PluginDescription": "Cài đặt báo cáo người dùng khác nhau: trình duyệt, họ trình duyệt, Hệ điều hành, Plugin, Độ phân giải, Cài đặt tổng quát.",
-        "PluginDetectionDoesNotWorkInIE": "Chú ý: Các Plugin phát hiện không làm việc trên Internet Explorer. Báo cáo này chỉ dựa trên trình duyệt không phải IE.",
-        "VisitorSettings": "Thiết lập khách truy cập",
-        "WidgetPlugins": "Các Plugin trình duyệt",
-        "WidgetPluginsDocumentation": "Báo cáo này cho thấy các plugin trình duyệt mà khách truy cập của bạn đã kích hoạt. Thông tin này có thể là quan trọng cho việc lựa chọn cách đúng để cung cấp nội dung của bạn."
+        "VisitorSettings": "Thiết lập khách truy cập"
     }
 }

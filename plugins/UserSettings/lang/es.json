@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Idioma de Navegador",
-        "BrowserWithNoPluginsEnabled": "%1$s sin complementos habilitados",
-        "BrowserWithPluginsEnabled": "%1$s con los complementos %2$s habilitados",
         "Language_aa": "Lejos",
         "Language_ab": "Abjasia",
         "Language_ae": "Avéstico",
@@ -189,9 +187,6 @@
         "Language_zu": "Zulú",
         "LanguageCode": "Código de idioma",
         "PluginDescription": "Reporta varias configuraciones de usuario: Navegador, Familia del Navegador, Sistema Operativo, Plugins, Resolución, Configuración General.",
-        "PluginDetectionDoesNotWorkInIE": "Nota: la detección de Plugins no funciona con Internet Explorer. Este reporte solo funciona con navegadores no-IE.",
-        "VisitorSettings": "Configuración de visitantes",
-        "WidgetPlugins": "Lista de Plugins",
-        "WidgetPluginsDocumentation": "Este informe muestra que extensiones del navegador sus visitantes han habilitado. Esta información puede ser importante sea para elegir el método eficiente de enviar su contenido."
+        "VisitorSettings": "Configuración de visitantes"
     }
 }

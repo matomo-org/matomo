@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Bahasa Peramban",
-        "BrowserWithNoPluginsEnabled": "%1$s dengan tanpa pengaya diaktifkan",
-        "BrowserWithPluginsEnabled": "%1$s dengan %2$s pengaya diaktifkan",
         "Language_aa": "Afar",
         "Language_ab": "Abkhaz",
         "Language_ae": "Avestan",
@@ -189,9 +187,6 @@
         "Language_zu": "Zulu",
         "LanguageCode": "Kode Bahasa",
         "PluginDescription": "Laporan Pengaturan Pengguna: Peramban, Keluarga Peramban, Sistem Operasi, Pengaya, Resolusi Layar, Pengaturan Umum.",
-        "PluginDetectionDoesNotWorkInIE": "Catatan: Pendeteksian pengaya tidak bekerja di Internet Explorer. Laporan ini hanya berdasarkan pada peramban bukan-IE.",
-        "VisitorSettings": "Pengaturan Pengunjung",
-        "WidgetPlugins": "Daftar Pengaya",
-        "WidgetPluginsDocumentation": "Laporan ini menunjukkan pengaya peramban yang diaktifkan oleh pengunjung. Informasi yang tersedia kemungkinan penting untuk memilih cara terbaik untuk menyampaikan konten Anda."
+        "VisitorSettings": "Pengaturan Pengunjung"
     }
 }

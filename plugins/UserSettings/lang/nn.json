@@ -186,8 +186,6 @@
         "Language_zu": "zulu",
         "LanguageCode": "Språkkode",
         "PluginDescription": "Rapporter diverse vitjarinnstillingar: Nettlesar, Nettlesarfamilie, operativsystem, oppløysing og globale innstillingar.",
-        "PluginDetectionDoesNotWorkInIE": "Merk: Registrering av innstikk virkar ikkje i Internet Explorer. Denne rapporten er berre basert på andre nettlesarar enn IE.",
-        "VisitorSettings": "Vitjarinnstillingar",
-        "WidgetPlugins": "Liste over innstikk"
+        "VisitorSettings": "Vitjarinnstillingar"
     }
 }

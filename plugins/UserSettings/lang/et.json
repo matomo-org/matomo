@@ -186,8 +186,6 @@
         "Language_zh": "hiina",
         "Language_zu": "suulu",
         "LanguageCode": "Keele kood",
-        "PluginDetectionDoesNotWorkInIE": "Märge: Lisatarkvara tuvastamine ei tööta Internet Exploreriga külastajatel. See raport kuvab andmeid mitte-IE veebisirvikute kohta.",
-        "VisitorSettings": "Külastajate seaded",
-        "WidgetPlugins": "Sirviku lisatarkvarad"
+        "VisitorSettings": "Külastajate seaded"
     }
 }

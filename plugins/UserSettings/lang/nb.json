@@ -186,7 +186,6 @@
         "Language_zu": "zulu",
         "LanguageCode": "Språkkode",
         "PluginDescription": "Rapporterer forskjellige brukerinnstillinger: Nettleser, nettleserfamilie, operativsystem, tillegg, oppløsning, globale innstillinger.",
-        "VisitorSettings": "Besøkendes innstillinger",
-        "WidgetPlugins": "Liste over tillegg"
+        "VisitorSettings": "Besøkendes innstillinger"
     }
 }

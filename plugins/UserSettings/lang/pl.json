@@ -187,8 +187,6 @@
         "Language_zu": "zulu",
         "LanguageCode": "Kod języka",
         "PluginDescription": "Raporty rozmaitych konfiguracji użytkownika: przeglądarki, rodziny przeglądarek, systemów operacyjnych, wtyczek, rozdzielczości, ogólnej konfiguracji.",
-        "PluginDetectionDoesNotWorkInIE": "Uwaga: wykrywanie wtyczek nie działa w przypadku Internet Explorera. Raport ten pokaże tylko wyniki w oparciu o badanie innych przeglądarek, nie opartych na silniku IE.",
-        "VisitorSettings": "Konfiguracje użytkownika",
-        "WidgetPlugins": "Lista wtyczek"
+        "VisitorSettings": "Konfiguracje użytkownika"
     }
 }

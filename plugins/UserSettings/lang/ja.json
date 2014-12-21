@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "ブラウザの言語",
-        "BrowserWithNoPluginsEnabled": "%1$s のプラグインが有効ではありません",
-        "BrowserWithPluginsEnabled": "%1$s のプラグイン %2$s は有効",
         "Language_aa": "アファル語",
         "Language_ab": "アブハズ語",
         "Language_ae": "アヴェスタ語",
@@ -189,9 +187,6 @@
         "Language_zu": "ズールー語",
         "LanguageCode": "言語コード",
         "PluginDescription": "各種ユーザー設定（ブラウザ、ブラウザファミリー、オペレーティングシステム、プラグイン、解像度、全般設定）をリポートします。",
-        "PluginDetectionDoesNotWorkInIE": "注意： Internet Explorer ではプラグインの検出が動作しません。 このリポートは、非 IE ブラウザのみに基づきます。",
-        "VisitorSettings": "ビジターの環境",
-        "WidgetPlugins": "プラグイン一覧",
-        "WidgetPluginsDocumentation": "ビジターが利用しているブラウザのプラグインについてのリポートです。コンテンツの最適な表示方法を選択するために重要な情報です。"
+        "VisitorSettings": "ビジターの環境"
     }
 }

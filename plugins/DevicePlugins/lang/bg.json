@@ -1,0 +1,9 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s без активни добавки",
+        "BrowserWithPluginsEnabled": "%1$s с добавки %2$s активиран",
+        "PluginDetectionDoesNotWorkInIE": "Забележка: Засичането на добавки не работи при Internet Explorer. Този доклад е базиран само на браузъри, различни от IE.",
+        "WidgetPlugins": "Добавки",
+        "WidgetPluginsDocumentation": "Този отчет показва каква добавка на браузъра са използвали вашите посетители. Тази информация може да е важна, за да изберете правилния начин за доставяне на вашето съдържание."
+    }
+}

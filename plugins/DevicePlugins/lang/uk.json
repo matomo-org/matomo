@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "Примітка: Визначення плагінів не працює в Internet Explorer. Цей звіт базується лише на не-IE веб-оглядачах.",
+        "WidgetPlugins": "Список плагінів"
+    }
+}

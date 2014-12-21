@@ -1,8 +1,6 @@
 {
     "UserSettings": {
         "BrowserLanguage": "Selaimen kieli",
-        "BrowserWithNoPluginsEnabled": "%1$s ilman liitännäisiä aktivoitu",
-        "BrowserWithPluginsEnabled": "%1$s liitännäisillä %2$s on aktivoitu",
         "Language_aa": "afar",
         "Language_ab": "abkhazian",
         "Language_ae": "avestan",
@@ -189,9 +187,6 @@
         "Language_zu": "zulu",
         "LanguageCode": "Kielikoodi",
         "PluginDescription": "Raportit käyttäjien asetuksista: selain, selaimen perhe, käyttöjärjestelmä, lisäosat, resoluutio, yleiset asetukset.",
-        "PluginDetectionDoesNotWorkInIE": "Huom: lisäosien tunnistus ei toimi Internet Explorerissa. Tämä raportti perustuu vain ei-IE-selaimiin.",
-        "VisitorSettings": "Kävijöiden asetukset",
-        "WidgetPlugins": "Lista lisäosista",
-        "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainlisäosia vierailijoillasi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään vierailijoille."
+        "VisitorSettings": "Kävijöiden asetukset"
     }
 }

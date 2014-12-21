@@ -186,8 +186,6 @@
         "Language_zu": "zuluština",
         "LanguageCode": "Kód jazyka",
         "PluginDescription": "Rôzne reporty užívateľského nastavenia: Prehliadač, Rodina prehliadača, Operačný systém, Pluginy, Rozlíšenie, Globálne nastavenia.",
-        "PluginDetectionDoesNotWorkInIE": "Poznámka: Plugin detekcia nefunguje v Internet Exploreri. Táto správa je založená len na non-IE prehliadačov.",
-        "VisitorSettings": "Nastavenia návštevníkov",
-        "WidgetPlugins": "Zoznam modulov"
+        "VisitorSettings": "Nastavenia návštevníkov"
     }
 }

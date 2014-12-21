@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "หมายเหตุ: ตรวจสอบปลั๊กอินไม่ทำงานใน Internet Explorer รายงานนี้จะอิงตามเฉพาะเบราว์เซอร์ที่ไม่ใช่ IE",
+        "WidgetPlugins": "รายการปลั้กอิน"
+    }
+}
