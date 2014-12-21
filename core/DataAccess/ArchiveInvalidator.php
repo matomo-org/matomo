@@ -15,6 +15,8 @@ use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Period\Week;
+use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
+use Piwik\Site;
 
 /**
  * Marks archives as Invalidated by setting the done flag to a special value (see Model->updateArchiveAsInvalidated)
@@ -112,7 +114,7 @@ class ArchiveInvalidator {
         $datesToInvalidate = $this->getDatesToInvalidateFromString($dates);
         $minDate = $this->getMinimumDateToInvalidate($datesToInvalidate);
 
-        \Piwik\Plugins\SitesManager\API::getInstance()->updateSiteCreatedTime($idSites, $minDate);
+        $this->updateSiteCreatedTime($idSites, $minDate);
 
         $datesByMonth = $this->getDatesByYearMonth($datesToInvalidate);
         $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
@@ -126,6 +128,15 @@ class ArchiveInvalidator {
         }
 
         return $this->makeOutputLogs();
+    }
+
+    private function updateSiteCreatedTime($idSites, Date $minDate)
+    {
+        $idSites    = Site::getIdSitesFromIdSitesString($idSites);
+        $minDateSql = $minDate->subDay(1)->getDatetime();
+
+        $model = new SitesManagerModel();
+        $model->updateSiteCreatedTime($idSites, $minDateSql);
     }
 
     /**
