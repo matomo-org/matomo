@@ -162,7 +162,7 @@ class Archive
     private $params;
 
     /**
-     * \Piwik\Cache\Cache
+     * @var \Piwik\Cache\Cache
      */
     private static $cache;
 
