@@ -14,7 +14,6 @@ use Piwik\Log;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,7 +32,9 @@ class RequestCommand extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->disableLogging();
+        $this->recreateContainerWithWebEnvironment();
+
+        Log::info('test');
 
         $this->initHostAndQueryString($input);
 
@@ -86,13 +87,15 @@ class RequestCommand extends ConsoleCommand
     }
 
     /**
-     * We need to disable logging for this command because the command output is the HTTP output of
-     * the HTTP request we are simulating here (so we don't want logs to mess it up).
+     * We will be simulating an HTTP request here (by including index.php).
+     *
+     * To avoid weird side-effects (e.g. the logging output messing up the HTTP response on the CLI output)
+     * we need to recreate the container with the default environment instead of the CLI environment.
      */
-    private function disableLogging()
+    private function recreateContainerWithWebEnvironment()
     {
-        $container = StaticContainer::getContainer();
-        $container->set('Psr\Log\LoggerInterface', new NullLogger());
+        StaticContainer::setEnvironment(null);
+        StaticContainer::clearContainer();
         Log::unsetInstance();
     }
 }

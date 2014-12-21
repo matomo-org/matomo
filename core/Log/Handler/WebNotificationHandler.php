@@ -13,6 +13,7 @@ use Monolog\Logger;
 use Piwik\Common;
 use Piwik\Notification;
 use Piwik\Notification\Manager;
+use Zend_Session_Exception;
 
 /**
  * Writes log messages into HTML notification box.
@@ -40,6 +41,11 @@ class WebNotificationHandler extends AbstractProcessingHandler
 
         $notification = new Notification($message);
         $notification->context = $context;
-        Manager::notify(Common::getRandomString(), $notification);
+        try {
+            Manager::notify(Common::getRandomString(), $notification);
+        } catch (Zend_Session_Exception $e) {
+            // Can happen if this handler is enabled in CLI
+            // Silently ignore the error.
+        }
     }
 }

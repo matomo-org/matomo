@@ -67,6 +67,11 @@ class StaticContainer
         return $containerFactory->create();
     }
 
+    /**
+     * Set the application environment (cli, test, …) or null for the default one.
+     *
+     * @param string|null $environment
+     */
     public static function setEnvironment($environment)
     {
         self::$environment = $environment;
