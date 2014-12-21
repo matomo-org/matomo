@@ -17,7 +17,11 @@
                 $('p.nextStep').show();
             },
             error: function (req) {
-                $('p.nextStep a').attr('href', $('p.nextStep a').attr('href') + '&trackerStatus=' + req.status);
+                var href = $('p.nextStep a').attr('href');
+                if(href.indexOf('trackerStatus=0') === -1) {
+                    href += (href.indexOf('?') === -1 ? '?' : '&') + 'trackerStatus=' + req.status;
+                }
+                $('p.nextStep a').attr('href', href);
             }
         });
     });
