@@ -34,8 +34,6 @@ class RequestCommand extends ConsoleCommand
     {
         $this->recreateContainerWithWebEnvironment();
 
-        Log::info('test');
-
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
