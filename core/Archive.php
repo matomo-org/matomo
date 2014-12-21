@@ -13,7 +13,6 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeApi;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -505,12 +504,21 @@ class Archive
         $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         foreach ($sitesPerDays as $date => $siteIds) {
-            if (!empty($siteIds)) {
+            if (empty($siteIds)) {
+                continue;
+            }
+
+            try {
                 // an advanced version would only invalidate siteIds for $this->params->getIdSites() but would make
                 // everything way more complex eg the cache above and which siteIds we pass here...
-                CoreAdminHomeApi::getInstance()->invalidateArchivedReports($siteIds, $date);
+                $invalidator->markArchivesAsInvalidated($siteIds, $date, false);
+            } catch (\Exception $e) {
+                Site::clearCache();
+                throw $e;
             }
         }
+
+        Site::clearCache();
     }
 
     /**
