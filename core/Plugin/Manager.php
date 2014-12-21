@@ -430,7 +430,7 @@ class Manager extends Singleton
      */
     public function installLoadedPlugins()
     {
-        Log::verbose("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
+        Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
         $messages = array();
         foreach ($this->getLoadedPlugins() as $plugin) {
             try {

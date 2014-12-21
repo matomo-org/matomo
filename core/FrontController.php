@@ -229,7 +229,7 @@ class FrontController extends Singleton
                 Profiler::printQueryCount();
             }
         } catch (Exception $e) {
-            Log::verbose($e);
+            Log::debug($e);
         }
     }
 

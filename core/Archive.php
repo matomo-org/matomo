@@ -599,14 +599,14 @@ class Archive
                 // we already know there are no stats for this period
                 // we add one day to make sure we don't miss the day of the website creation
                 if ($twoDaysAfterPeriod->isEarlier($site->getCreationDate())) {
-                    Log::verbose("Archive site %s, %s (%s) skipped, archive is before the website was created.",
+                    Log::debug("Archive site %s, %s (%s) skipped, archive is before the website was created.",
                         $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
                 }
 
                 // if the starting date is in the future we know there is no visiidsite = ?t
                 if ($twoDaysBeforePeriod->isLater($today)) {
-                    Log::verbose("Archive site %s, %s (%s) skipped, archive is after today.",
+                    Log::debug("Archive site %s, %s (%s) skipped, archive is after today.",
                         $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
                 }

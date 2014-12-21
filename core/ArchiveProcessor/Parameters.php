@@ -180,7 +180,7 @@ class Parameters
         if ($isTemporary) {
             $temporary = 'temporary archive';
         }
-        Log::verbose(
+        Log::debug(
             "%s archive, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
             $this->getPeriod()->getLabel(),
             $this->getSite()->getId(),

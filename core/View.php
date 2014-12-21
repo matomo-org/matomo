@@ -232,7 +232,7 @@ class View implements ViewInterface
             $user = APIUsersManager::getInstance()->getUser($this->userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
-            Log::verbose($e);
+            Log::debug($e);
 
             // can fail, for example at installation (no plugin loaded yet)
         }
