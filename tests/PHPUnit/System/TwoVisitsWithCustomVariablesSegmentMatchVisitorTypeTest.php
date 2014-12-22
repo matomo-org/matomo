@@ -8,6 +8,8 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
@@ -88,9 +90,9 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             'archive_blob_2009_12'    => 28,
             // 7 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
-            // 3 done flag (referrers, CustomVar, VisitsSummary),
+            // 6 done flag (referrers, CustomVar, VisitsSummary), 3 for period = 1 and 3 for period = 2
             // X * 2 segments
-            'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
+            'archive_numeric_2009_12' => (6 + 2 + 3 + 3) * 2,
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
@@ -98,7 +100,8 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
 
             if($expectedRows != $countBlobs) {
                 $output = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC");
-                var_export('This is debug output from ' . __CLASS__ . ' in case of an error: ' . $output);
+                var_export('This is debug output from ' . __CLASS__ . ' in case of an error: ');
+                var_export($output);
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }
