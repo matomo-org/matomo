@@ -24,9 +24,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 ignore_user_abort(true);
 set_time_limit(0);
 
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-\Piwik\Loader::init();
-
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);
 

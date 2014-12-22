@@ -8,7 +8,7 @@
  * @package Piwik
  */
 
-if(!defined('PIWIK_DOCUMENT_ROOT')) {
+if (!defined('PIWIK_DOCUMENT_ROOT')) {
     define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 }
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
@@ -19,9 +19,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
-
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-\Piwik\Loader::init();
 
 if (!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
     define('PIWIK_PRINT_ERROR_BACKTRACE', false);

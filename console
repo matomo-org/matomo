@@ -14,9 +14,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-Piwik\Loader::init();
-
 Piwik\Translate::loadEnglishTranslation();
 
 if (!Piwik\Common::isPhpCliMode()) {

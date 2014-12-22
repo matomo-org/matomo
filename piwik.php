@@ -29,13 +29,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 @ignore_user_abort(true);
 
-if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
-    $vendorDirectory = PIWIK_INCLUDE_PATH . '/vendor';
-} else {
-    $vendorDirectory = PIWIK_INCLUDE_PATH . '/../..';
-}
-require_once $vendorDirectory . '/autoload.php';
-
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Controller.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/ControllerAdmin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Singleton.php';

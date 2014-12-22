@@ -18,8 +18,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
 
-require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
-
 if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
     define('PIWIK_INCLUDE_SEARCH_PATH', get_include_path()
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor/bin'
@@ -31,9 +29,7 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 @ini_set('memory_limit', -1);
 
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-
-\Piwik\Loader::init();
+require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
