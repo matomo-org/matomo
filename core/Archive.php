@@ -486,19 +486,43 @@ class Archive
         return $recordName . "_" . $id;
     }
 
-    private function invalidatedReportsIfNeeded()
+    private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
     {
         if (is_null(self::$cache)) {
             self::$cache = Cache::getTransientCache();
         }
 
-        $id = 'Archive.RememberedReportsInvalidated';
+        $id = 'Archive.SiteIdsOfRememberedReportsInvalidated';
 
-        if (self::$cache->contains($id)) {
-            return;
+        if (!self::$cache->contains($id)) {
+            self::$cache->save($id, array());
         }
 
-        self::$cache->save($id, 1);
+        $siteIdsAlreadyHandled = self::$cache->fetch($id);
+        $siteIdsRequested      = $this->params->getIdSites();
+
+        foreach ($siteIdsRequested as $index => $siteIdRequested) {
+            $siteIdRequested = (int) $siteIdRequested;
+
+            if (in_array($siteIdRequested, $siteIdsAlreadyHandled)) {
+                unset($siteIdsRequested[$index]); // was already handled previously, do not do it again
+            } else {
+                $siteIdsAlreadyHandled[] = $siteIdRequested; // we will handle this id this time
+            }
+        }
+
+        self::$cache->save($id, $siteIdsAlreadyHandled);
+
+        return $siteIdsRequested;
+    }
+
+    private function invalidatedReportsIfNeeded()
+    {
+        $siteIdsRequested = $this->getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet();
+
+        if (empty($siteIdsRequested)) {
+            return; // all requested site ids were already handled
+        }
 
         $invalidator  = new ArchiveInvalidator();
         $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
@@ -508,10 +532,14 @@ class Archive
                 continue;
             }
 
+            $siteIdsToActuallyInvalidate = array_intersect($siteIds, $siteIdsRequested);
+
+            if (empty($siteIdsToActuallyInvalidate)) {
+                continue; // all site ids that should be handled are already handled
+            }
+
             try {
-                // an advanced version would only invalidate siteIds for $this->params->getIdSites() but would make
-                // everything way more complex eg the cache above and which siteIds we pass here...
-                $invalidator->markArchivesAsInvalidated($siteIds, $date, false);
+                $invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, $date, false);
             } catch (\Exception $e) {
                 Site::clearCache();
                 throw $e;

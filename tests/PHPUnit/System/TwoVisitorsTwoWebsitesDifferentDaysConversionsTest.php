@@ -163,13 +163,14 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         );
 
         $cache = Cache::getTransientCache();
-        $this->assertTrue($cache->contains('Archive.RememberedReportsInvalidated'));
+        $this->assertEquals(array(self::$fixture->idSite1, self::$fixture->idSite2),
+                            $cache->fetch('Archive.SiteIdsOfRememberedReportsInvalidated'));
 
         $invalidator = new ArchiveInvalidator();
 
         self::$fixture->trackVisits();
 
-        // trackVisits should remember archived reports as invalid
+        // trackVisits should remember to invalidate archived reports
         $this->assertNotEmpty($invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
 
         // although there were new tracked visists it doesn'T change as the report invalidation is cached and was
@@ -186,16 +187,17 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         );
 
         // make sure the caching in archive::get() worked and they are still to be invalidated
-        $this->assertNotEmpty($invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
+        $this->assertCount(10, $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
 
-        // now we force to actually invalidate archived reports again and then archive will be rebuilt
-        $cache->delete('Archive.RememberedReportsInvalidated');
+        // now we force to actually invalidate archived reports again and then archive will be rebuilt for requsted siteId = 1
+        $cache->delete('Archive.SiteIdsOfRememberedReportsInvalidated');
 
         $archive = Archive::build($idSite1, 'range', $dateTimeRange);
         $result = $archive->getNumeric($columns);
 
-        // archive::get() should have invalidated them now as we cleared the lock / cache before
-        $this->assertEmpty($invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
+        // archive::get() should have invalidated siteId 1 and siteId 2 should be still to be done
+        $expectedArchiveReportsLeft = array('2010-01-04' => array(2));
+        $this->assertEquals($expectedArchiveReportsLeft, $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
 
         $this->assertEquals(
             array(
