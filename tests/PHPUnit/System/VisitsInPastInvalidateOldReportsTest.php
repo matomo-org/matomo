@@ -22,6 +22,9 @@ use Exception;
  */
 class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
 {
+    /**
+     * @var TwoSitesVisitsInPast
+     */
     public static $fixture = null; // initialized below class definition
 
     /**
