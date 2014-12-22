@@ -12,6 +12,7 @@ use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Url;
 use Piwik\UrlHelper;
 use \Exception;
 
@@ -151,6 +152,9 @@ class Collection
         if (empty($requestUrls)
             || $approximateCountApiToCall > $countUrls
         ) {
+            $requestUrls = array_map(function ($params) {
+                return is_string($params) ? $params : Url::getQueryStringFromParameters($params);
+            }, $requestUrls);
             throw new Exception("Only generated $countUrls API calls to test but was expecting more for this test.\n" .
                     "Want to test APIs: " . implode(", ", $this->apiToCall) . ")\n" .
                     "But only generated these URLs: \n" . implode("\n", $requestUrls) . ")\n"
