@@ -11,6 +11,9 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -218,6 +221,8 @@ class Visit implements VisitInterface
         }
         unset($this->goalManager);
         unset($action);
+
+        $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
     }
 
     /**
@@ -625,5 +630,24 @@ class Visit implements VisitInterface
         }
 
         return !$visitor->isVisitorKnown();
+    }
+
+    private function markArchivedReportsAsInvalidIfArchiveAlreadyFinished()
+    {
+        $idSite = (int) $this->request->getIdSite();
+        $time   = $this->request->getCurrentTimestamp();
+
+        try {
+            $site = Cache::getCacheWebsiteAttributes($idSite);
+        } catch (UnexpectedWebsiteFoundException $e) {
+            return;
+        }
+
+        $date = Date::factory((int) $time, $site['timezone']);
+
+        if (!$date->isToday()) { // we don't have to handle in case date is in future as it is not allowed by tracker
+            $invalidReport = new ArchiveInvalidator();
+            $invalidReport->rememberToInvalidateArchivedReportsLater($idSite, $date);
+        }
     }
 }

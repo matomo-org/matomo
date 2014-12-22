@@ -1443,26 +1443,6 @@ class Recorder(object):
 
         return response['message']
 
-    @staticmethod
-    def invalidate_reports():
-        if config.options.dry_run or not stats.dates_recorded:
-            return
-
-        if config.options.invalidate_dates is not None:
-            dates = [date for date in config.options.invalidate_dates.split(',') if date]
-        else:
-            dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
-        if dates:
-            print '\nPurging Piwik archives for dates: ' + ' '.join(dates)
-            result = piwik.call_api(
-                'CoreAdminHome.invalidateArchivedReports',
-                dates=','.join(dates),
-                idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
-            )
-            print('\nTo re-process these reports with your newly imported data, execute the following command: \n'
-                  '$ /path/to/piwik/console core:archive --url=http://example/piwik --force-all-websites --force-all-periods=315576000 --force-date-last-n=1000'
-                  '\nReference: http://piwik.org/docs/setup-auto-archiving/ ')
-
 class Hit(object):
     """
     It's a simple container.
@@ -1899,10 +1879,6 @@ def main():
     if config.options.show_progress:
         stats.stop_monitor()
 
-    try:
-        Recorder.invalidate_reports()
-    except Piwik.Error, e:
-        pass
     stats.print_summary()
 
 def fatal_error(error, filename=None, lineno=None):

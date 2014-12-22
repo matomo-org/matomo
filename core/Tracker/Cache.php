@@ -60,7 +60,7 @@ class Cache
             return array();
         }
 
-        $idSite = (int)$idSite;
+        $idSite = (int) $idSite;
         if ($idSite <= 0) {
             return array();
         }

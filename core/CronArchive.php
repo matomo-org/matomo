@@ -12,10 +12,12 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\DataAccess\InvalidatedReports;
+use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
@@ -84,6 +86,8 @@ class CronArchive
 
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
+
+    private $apiToInvalidateArchivedReport;
 
     const NO_ERROR = "no error";
 
@@ -255,6 +259,8 @@ class CronArchive
         if (!empty($this->shouldArchiveOnlySpecificPeriods)) {
             $this->log("- Will only process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
         }
+
+        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
         $websitesIds = $this->initWebsiteIds();
         $this->filterWebsiteIds($websitesIds);
@@ -952,6 +958,40 @@ class CronArchive
     }
 
     /**
+     * @internal
+     */
+    public function setApiToInvalidateArchivedReport($api)
+    {
+        $this->apiToInvalidateArchivedReport = $api;
+    }
+
+    private function getApiToInvalidateArchivedReport()
+    {
+        if ($this->apiToInvalidateArchivedReport) {
+            return $this->apiToInvalidateArchivedReport;
+        }
+
+        return CoreAdminHomeAPI::getInstance();
+    }
+    
+    public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain()
+    {
+        $invalidator  = new ArchiveInvalidator();
+        $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        foreach ($sitesPerDays as $date => $siteIds) {
+            $listSiteIds = implode(',', $siteIds);
+
+            try {
+                $this->log('Will invalidate archived reports for ' . $date . ' for following siteIds: ' . $listSiteIds);
+                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIds, $date);
+            } catch (Exception $e) {
+                $this->log('Failed to invalidate archived reports: ' . $e->getMessage());
+            }
+        }
+    }
+
+    /**
      *  Returns the list of sites to loop over and archive.
      *  @return array
      */
@@ -998,7 +1038,7 @@ class CronArchive
         return in_array($token_auth, $this->validTokenAuths);
     }
 
-    private function initPiwikHost($piwikUrl = false)
+    protected function initPiwikHost($piwikUrl = false)
     {
         // If core:archive command run as a web cron, we use the current hostname+path
         if (empty($piwikUrl)) {
@@ -1150,7 +1190,7 @@ class CronArchive
     /**
      *  Test that the specified piwik URL is a valid Piwik endpoint.
      */
-    private function checkPiwikUrlIsValid()
+    protected function checkPiwikUrlIsValid()
     {
         $response = $this->request("?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1");
         $responseUnserialized = @unserialize($response);

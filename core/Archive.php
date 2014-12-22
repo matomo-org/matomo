@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Factory as PeriodFactory;
 
@@ -159,6 +160,11 @@ class Archive
      * @var Parameters
      */
     private $params;
+
+    /**
+     * @var \Piwik\Cache\Cache
+     */
+    private static $cache;
 
     /**
      * @param Parameters $params
@@ -480,6 +486,69 @@ class Archive
         return $recordName . "_" . $id;
     }
 
+    private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
+    {
+        if (is_null(self::$cache)) {
+            self::$cache = Cache::getTransientCache();
+        }
+
+        $id = 'Archive.SiteIdsOfRememberedReportsInvalidated';
+
+        if (!self::$cache->contains($id)) {
+            self::$cache->save($id, array());
+        }
+
+        $siteIdsAlreadyHandled = self::$cache->fetch($id);
+        $siteIdsRequested      = $this->params->getIdSites();
+
+        foreach ($siteIdsRequested as $index => $siteIdRequested) {
+            $siteIdRequested = (int) $siteIdRequested;
+
+            if (in_array($siteIdRequested, $siteIdsAlreadyHandled)) {
+                unset($siteIdsRequested[$index]); // was already handled previously, do not do it again
+            } else {
+                $siteIdsAlreadyHandled[] = $siteIdRequested; // we will handle this id this time
+            }
+        }
+
+        self::$cache->save($id, $siteIdsAlreadyHandled);
+
+        return $siteIdsRequested;
+    }
+
+    private function invalidatedReportsIfNeeded()
+    {
+        $siteIdsRequested = $this->getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet();
+
+        if (empty($siteIdsRequested)) {
+            return; // all requested site ids were already handled
+        }
+
+        $invalidator  = new ArchiveInvalidator();
+        $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        foreach ($sitesPerDays as $date => $siteIds) {
+            if (empty($siteIds)) {
+                continue;
+            }
+
+            $siteIdsToActuallyInvalidate = array_intersect($siteIds, $siteIdsRequested);
+
+            if (empty($siteIdsToActuallyInvalidate)) {
+                continue; // all site ids that should be handled are already handled
+            }
+
+            try {
+                $invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, $date, false);
+            } catch (\Exception $e) {
+                Site::clearCache();
+                throw $e;
+            }
+        }
+
+        Site::clearCache();
+    }
+
     /**
      * Queries archive tables for data and returns the result.
      * @param array|string $archiveNames
@@ -489,6 +558,8 @@ class Archive
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
+        $this->invalidatedReportsIfNeeded();
+
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
         }

@@ -46,6 +46,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     protected $missingExpectedFiles = array();
     protected $comparisonFailures = array();
 
+    /**
+     * @var Fixture
+     */
     public static $fixture;
 
     public static function setUpBeforeClass()

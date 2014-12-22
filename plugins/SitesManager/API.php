@@ -182,6 +182,7 @@ class API extends \Piwik\Plugin\API
         $site = $this->getModel()->getSiteFromId($idSite);
 
         Site::setSitesFromArray(array($site));
+
         return $site;
     }
 
@@ -598,9 +599,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->getModel()->deleteSite($idSite);
-
-        // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
-        Cache::deleteCacheWebsiteAttributes($idSite);
 
         /**
          * Triggered after a site has been deleted.
