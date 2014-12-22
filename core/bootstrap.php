@@ -1,6 +1,8 @@
 <?php
 /**
  * Bootstraps the Piwik application.
+ *
+ * This file cannot be a class because it needs to be compatible with PHP 4.
  */
 
 if (!defined('PIWIK_USER_PATH')) {
@@ -12,7 +14,7 @@ error_reporting(E_ALL | E_NOTICE);
 @ini_set('xdebug.show_exception_trace', 0);
 @ini_set('magic_quotes_runtime', 0);
 
-// NOTE: the code above must be PHP4 compatible
+// NOTE: the code above must be PHP 4 compatible
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 session_cache_limiter('nocache');
