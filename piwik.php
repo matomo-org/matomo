@@ -18,21 +18,14 @@ use Piwik\Tracker\Handler;
 if (!defined('PIWIK_DOCUMENT_ROOT')) {
     define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 }
-
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
-}
-
-error_reporting(E_ALL | E_NOTICE);
-@ini_set('xdebug.show_exception_trace', 0);
-@ini_set('magic_quotes_runtime', 0);
-
-if (!defined('PIWIK_USER_PATH')) {
-    define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
 }
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
+
+require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 @ignore_user_abort(true);
 
@@ -45,11 +38,6 @@ require_once $vendorDirectory . '/autoload.php';
 
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Controller.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/ControllerAdmin.php';
-
-\Piwik\Plugin\ControllerAdmin::disableEacceleratorIfEnabled();
-
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Singleton.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Manager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin.php';
@@ -66,9 +54,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
-
-session_cache_limiter('nocache');
-@date_default_timezone_set('UTC');
 
 Tracker::loadTrackerEnvironment();
 
