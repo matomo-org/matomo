@@ -474,6 +474,10 @@ api_service_url = http://api.piwik.org
 ; eg. $period=range&date=previous10 becomes $period=day&date=previous10. Use this setting to override the $period value.
 graphs_default_period_to_plot_when_period_range = day
 
+; When the ImageGraph plugin is activated, enabling this option causes the image graphs to show the evolution
+; within the selected period instead of the evolution across the last n periods.
+graphs_show_evolution_within_selected_period = 0
+
 ; The Overlay plugin shows the Top X following pages, Top X downloads and Top X outlinks which followed
 ; a view of the current page. The value X can be set here.
 overlay_following_pages_limit = 300

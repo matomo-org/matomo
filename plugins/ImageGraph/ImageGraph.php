@@ -16,6 +16,7 @@ use Piwik\Period\Range;
 use Piwik\Site;
 use Piwik\TaskScheduler;
 use Piwik\Url;
+use Piwik\Period\Factory as PeriodFactory;
 
 class ImageGraph extends \Piwik\Plugin
 {
@@ -88,16 +89,27 @@ class ImageGraph extends \Piwik\Plugin
 
             $piwikSite = new Site($idSite);
             if ($periodForSinglePeriodGraph == 'range') {
+                // for period=range, show the configured sub-periods
                 $periodForMultiplePeriodGraph = Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
-            } else {
-                $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
-                $dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
-                    $periodForSinglePeriodGraph,
-                    'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
-                    $dateForSinglePeriodGraph,
-                    $piwikSite
-                );
+            } else if ($info['period'] == 'day' || !Config::getInstance()->General['graphs_show_evolution_within_selected_period']) {
+                // for period=day, always show the last n days
+                // if graphs_show_evolution_within_selected_period=false, show the last n periods
+				$periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
+				$dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
+					$periodForSinglePeriodGraph,
+					'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
+					$dateForSinglePeriodGraph,
+					$piwikSite
+				);
+			} else {
+                // if graphs_show_evolution_within_selected_period=true, show the days withing the period
+                // (except if the period is day, see above)
+				$periodForMultiplePeriodGraph = 'day';
+				$period = PeriodFactory::build($info['period'], $info['date']);
+				$start = $period->getDateStart()->toString();
+				$end = $period->getDateEnd()->toString();
+				$dateForMultiplePeriodGraph = $start . ',' . $end;
             }
         }
 
