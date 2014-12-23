@@ -107,6 +107,7 @@ before_script:
 
   # configure mysql
   - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" # Travis default
+  - mysql -e "SET GLOBAL wait_timeout = 3600" # try to avoid mysql has gone away errors
 
   - mysql -e "SELECT @@sql_mode;"
   - mysql -e "SHOW GLOBAL VARIABLES;"
