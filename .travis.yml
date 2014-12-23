@@ -88,6 +88,8 @@ install:
   - git checkout master -- ./tests/travis ./plugins/TestRunner || true
 
 before_script:
+  - ./tests/travis/install_mysql_5.6.sh
+
   - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
     else
