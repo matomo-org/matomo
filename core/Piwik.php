@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
@@ -16,6 +17,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Session;
 use Piwik\Tracker;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -738,20 +740,10 @@ class Piwik
      */
     public static function translate($translationId, $args = array())
     {
-        if (!is_array($args)) {
-            $args = array($args);
-        }
+        /** @var Translator $translator */
+        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
 
-        if (strpos($translationId, "_") !== false) {
-            list($plugin, $key) = explode("_", $translationId, 2);
-            if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
-                $translationId = $GLOBALS['Piwik_translations'][$plugin][$key];
-            }
-        }
-        if (count($args) == 0) {
-            return $translationId;
-        }
-        return vsprintf($translationId, $args);
+        return $translator->translate($translationId, $args);
     }
 
     /**
