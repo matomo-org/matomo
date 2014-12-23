@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit\Translate\Filter;
 
 use Piwik\Translate\Filter\ByBaseTranslations;
 
+/**
+ * @group Translation
+ */
 class ByBaseTranslationsTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()

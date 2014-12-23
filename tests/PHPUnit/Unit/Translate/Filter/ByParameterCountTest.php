@@ -11,7 +11,7 @@ namespace Piwik\Tests\Unit\Translate\Filter;
 use Piwik\Translate\Filter\ByParameterCount;
 
 /**
- * @group ByParameterCountTest
+ * @group Translation
  */
 class ByParameterCountTest extends \PHPUnit_Framework_TestCase
 {

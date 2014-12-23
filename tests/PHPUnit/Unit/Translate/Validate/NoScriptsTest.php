@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit\Translate\Validate;
 
 use Piwik\Translate\Validate\NoScripts;
 
+/**
+ * @group Translation
+ */
 class NoScriptsTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestDataValid()

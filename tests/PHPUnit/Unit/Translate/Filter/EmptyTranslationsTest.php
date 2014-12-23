@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit\Translate\Filter;
 
 use Piwik\Translate\Filter\EmptyTranslations;
 
+/**
+ * @group Translation
+ */
 class EmptyTranslationsTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()

@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit\Translate\Validate;
 
 use Piwik\Translate\Validate\CoreTranslations;
 
+/**
+ * @group Translation
+ */
 class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()

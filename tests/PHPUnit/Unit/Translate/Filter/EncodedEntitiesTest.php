@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit\Translate\Filter;
 
 use Piwik\Translate\Filter\EncodedEntities;
 
+/**
+ * @group Translation
+ */
 class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()

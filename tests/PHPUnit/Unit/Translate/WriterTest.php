@@ -16,6 +16,9 @@ use Piwik\Translate\Validate\CoreTranslations;
 use Piwik\Translate\Validate\NoScripts;
 use Piwik\Translate\Writer;
 
+/**
+ * @group Translation
+ */
 class WriterTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
