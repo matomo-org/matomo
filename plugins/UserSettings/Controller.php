@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Resolution\Reports\GetConfiguration;
 use Piwik\Plugins\UserSettings\Reports\GetLanguage;
 use Piwik\Plugins\DevicePlugins\Reports\GetPlugin;
@@ -23,9 +24,17 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@UserSettings/index');
 
-        $view->dataTablePlugin = $this->renderReport(new GetPlugin());
-        $view->dataTableResolution = $this->renderReport(new GetResolution());
-        $view->dataTableConfiguration = $this->renderReport(new GetConfiguration());
+        $isDeviceDetectionEnabled = PluginManager::getInstance()->isPluginLoaded('DevicesDetection');
+        if ($isDeviceDetectionEnabled) {
+            $view->dataTablePlugin = $this->renderReport(new GetPlugin());
+        }
+
+        $isResolutionEnabled = PluginManager::getInstance()->isPluginLoaded('Resolution');
+        if ($isResolutionEnabled) {
+            $view->dataTableResolution = $this->renderReport(new GetResolution());
+            $view->dataTableConfiguration = $this->renderReport(new GetConfiguration());
+        }
+
         $view->dataTableBrowserLanguage = $this->renderReport(new GetLanguage());
 
         return $view->render();
