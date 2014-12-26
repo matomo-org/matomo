@@ -344,8 +344,8 @@ class Translator
 
                 $this->loadPluginTranslations($pluginName, $language);
 
-                if (isset($GLOBALS['Piwik_translations'][$pluginName])) {
-                    $translations[$pluginName] = $GLOBALS['Piwik_translations'][$pluginName];
+                if (isset($this->translations[$pluginName])) {
+                    $translations[$pluginName] = $this->translations[$pluginName];
                 }
             }
         }
@@ -425,5 +425,15 @@ class Translator
         }
 
         return $translations;
+    }
+
+    /**
+     * Returns all the translation messages loaded.
+     *
+     * @return array
+     */
+    public function getAllTranslations()
+    {
+        return $this->translations;
     }
 }
