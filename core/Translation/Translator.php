@@ -355,27 +355,23 @@ class Translator
     /**
      * Load translation
      *
-     * @param Plugin $plugin
-     * @param string $langCode
+     * @param Plugin|string $plugin
+     * @param string $language
      * @throws \Exception
      * @return bool whether the translation was found and loaded
      */
-    public function loadPluginTranslations($plugin, $langCode)
+    public function loadPluginTranslations($plugin, $language)
     {
         // we are in Tracker mode if Loader is not (yet) loaded
         if (SettingsServer::isTrackerApiRequest()) {
             return false;
         }
 
-        if (is_string($plugin)) {
-            $pluginName = $plugin;
-        } else {
-            $pluginName = $plugin->getPluginName();
-        }
+        $pluginName = ($plugin instanceof Plugin) ? $plugin->getPluginName() : $plugin;
 
         $path = Manager::getPluginsDirectory() . $pluginName . '/lang/%s.json';
 
-        $defaultLangPath = sprintf($path, $langCode);
+        $defaultLangPath = sprintf($path, $language);
         $defaultEnglishLangPath = sprintf($path, 'en');
 
         $translationsLoaded = false;
@@ -391,7 +387,7 @@ class Translator
         }
 
         // merge in specific language translations (to overwrite english defaults)
-        if (!empty($langCode) &&
+        if (!empty($language) &&
             $defaultEnglishLangPath != $defaultLangPath &&
             file_exists($defaultLangPath)) {
 
