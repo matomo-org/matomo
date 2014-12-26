@@ -11,11 +11,10 @@ namespace Piwik\Plugin;
 
 use Piwik\Cache;
 use Piwik\Columns\Dimension;
-use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -26,8 +25,8 @@ use Piwik\Singleton;
 use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translate;
+use Piwik\Translation\Translator;
 use Piwik\Updater;
-use Piwik\SettingsServer;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -572,6 +571,9 @@ class Manager extends Singleton
     {
         $language = Translate::getLanguageToLoad();
 
+        /** @var Translator $translator */
+        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+
         $plugins = array();
 
         $listPlugins = array_merge(
@@ -594,7 +596,7 @@ class Manager extends Singleton
                     'uninstallable'   => true,
                 );
             } else {
-                $this->loadTranslation($pluginName, $language);
+                $translator->loadPluginTranslations($pluginName, $language);
                 $this->loadPlugin($pluginName);
                 $info = array(
                     'activated'       => $this->isPluginActivated($pluginName),
@@ -605,7 +607,7 @@ class Manager extends Singleton
 
             $plugins[$pluginName] = $info;
         }
-        $this->loadPluginTranslations();
+        $translator->loadPluginsTranslations();
 
         $loadedPlugins = $this->getLoadedPlugins();
         foreach ($loadedPlugins as $oPlugin) {
@@ -684,57 +686,6 @@ class Manager extends Singleton
     public function doNotLoadAlwaysActivatedPlugins()
     {
         $this->doLoadAlwaysActivatedPlugins = false;
-    }
-
-    /**
-     * Load translations for loaded plugins
-     *
-     * @param bool|string $language Optional language code
-     */
-    public function loadPluginTranslations($language = false)
-    {
-        if (empty($language)) {
-            $language = Translate::getLanguageToLoad();
-        }
-
-        $cacheKey = 'PluginTranslations';
-
-        if (!empty($language)) {
-            $cacheKey .= '-' . trim($language);
-        }
-
-        if (!empty($this->loadedPlugins)) {
-            // makes sure to create a translation in case loaded plugins change (ie Tests vs Tracker vs UI etc)
-            $cacheKey .= '-' . md5(implode('', $this->getLoadedPluginsName()));
-        }
-
-        $cache = Cache::getLazyCache();
-        $translations = $cache->fetch($cacheKey);
-
-        if (!empty($translations) &&
-            is_array($translations) &&
-            !Development::isEnabled()) { // TODO remove this one here once we have environments in DI
-
-            Translate::mergeTranslationArray($translations);
-            return;
-        }
-
-        $translations = array();
-        $pluginNames  = self::getAllPluginsNames();
-
-        foreach ($pluginNames as $pluginName) {
-            if ($this->isPluginLoaded($pluginName) ||
-                $this->isPluginBundledWithCore($pluginName)) {
-
-                $this->loadTranslation($pluginName, $language);
-
-                if (isset($GLOBALS['Piwik_translations'][$pluginName])) {
-                    $translations[$pluginName] = $GLOBALS['Piwik_translations'][$pluginName];
-                }
-            }
-        }
-
-        $cache->save($cacheKey, $translations, 43200); // ttl=12hours
     }
 
     /**
@@ -1028,60 +979,6 @@ class Manager extends Singleton
     }
 
     /**
-     * Load translation
-     *
-     * @param Plugin $plugin
-     * @param string $langCode
-     * @throws \Exception
-     * @return bool whether the translation was found and loaded
-     */
-    private function loadTranslation($plugin, $langCode)
-    {
-        // we are in Tracker mode if Loader is not (yet) loaded
-        if (SettingsServer::isTrackerApiRequest()) {
-            return false;
-        }
-
-        if (is_string($plugin)) {
-            $pluginName = $plugin;
-        } else {
-            $pluginName = $plugin->getPluginName();
-        }
-
-        $path = self::getPluginsDirectory() . $pluginName . '/lang/%s.json';
-
-        $defaultLangPath = sprintf($path, $langCode);
-        $defaultEnglishLangPath = sprintf($path, 'en');
-
-        $translationsLoaded = false;
-
-        // merge in english translations as default first
-        if (file_exists($defaultEnglishLangPath)) {
-            $translations = $this->getTranslationsFromFile($defaultEnglishLangPath);
-            $translationsLoaded = true;
-            if (isset($translations[$pluginName])) {
-                // only merge translations of plugin - prevents overwritten strings
-                Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
-            }
-        }
-
-        // merge in specific language translations (to overwrite english defaults)
-        if (!empty($langCode) &&
-            $defaultEnglishLangPath != $defaultLangPath &&
-            file_exists($defaultLangPath)) {
-
-            $translations = $this->getTranslationsFromFile($defaultLangPath);
-            $translationsLoaded = true;
-            if (isset($translations[$pluginName])) {
-                // only merge translations of plugin - prevents overwritten strings
-                Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
-            }
-        }
-
-        return $translationsLoaded;
-    }
-
-    /**
      * Return names of all installed plugins.
      *
      * @return array
@@ -1206,27 +1103,6 @@ class Manager extends Singleton
             unset($pluginsEnabled[$key]);
         }
         $this->updatePluginsConfig($pluginsEnabled);
-    }
-
-    /**
-     * @param  string $pathToTranslationFile
-     * @throws \Exception
-     * @return mixed
-     */
-    private function getTranslationsFromFile($pathToTranslationFile)
-    {
-        $data         = file_get_contents($pathToTranslationFile);
-        $translations = json_decode($data, true);
-
-        if (is_null($translations) && Common::hasJsonErrorOccurred()) {
-            $jsonError = Common::getLastJsonError();
-
-            $message = sprintf('Not able to load translation file %s: %s', $pathToTranslationFile, $jsonError);
-
-            throw new \Exception($message);
-        }
-
-        return $translations;
     }
 
     /**

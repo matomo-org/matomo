@@ -19,6 +19,7 @@ use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
 use Piwik\Session;
+use Piwik\Translation\Translator;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -331,7 +332,9 @@ class FrontController extends Singleton
         $this->handleProfiler();
         $this->handleSSLRedirection();
 
-        Plugin\Manager::getInstance()->loadPluginTranslations('en');
+        /** @var Translator $translator */
+        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator->loadPluginsTranslations('en');
         Plugin\Manager::getInstance()->loadActivatedPlugins();
 
         if ($exceptionToThrow) {

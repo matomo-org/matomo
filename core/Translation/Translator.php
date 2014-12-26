@@ -9,11 +9,15 @@
 namespace Piwik\Translation;
 
 use Exception;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugin\Manager;
+use Piwik\SettingsServer;
 
 /**
  * Translates messages.
@@ -96,7 +100,7 @@ class Translator
         $this->unloadEnglishTranslation();
         $this->loadEnglishTranslation();
         $this->loadCoreTranslation($language);
-        Manager::getInstance()->loadPluginTranslations($language);
+        $this->loadPluginsTranslations($language);
     }
 
     /**
@@ -294,5 +298,132 @@ class Translator
         }
 
         return null;
+    }
+
+    /**
+     * Load translations for loaded plugins
+     *
+     * @param bool|string $language Optional language code
+     */
+    public function loadPluginsTranslations($language = false)
+    {
+        if (empty($language)) {
+            $language = self::getLanguageToLoad();
+        }
+
+        $pluginManager = Manager::getInstance();
+
+        $cacheKey = 'PluginTranslations';
+
+        if (!empty($language)) {
+            $cacheKey .= '-' . trim($language);
+        }
+
+        if (!empty($this->loadedPlugins)) {
+            // makes sure to create a translation in case loaded plugins change (ie Tests vs Tracker vs UI etc)
+            $cacheKey .= '-' . md5(implode('', $pluginManager->getLoadedPluginsName()));
+        }
+
+        $cache = Cache::getLazyCache();
+        $translations = $cache->fetch($cacheKey);
+
+        if (!empty($translations) &&
+            is_array($translations) &&
+            !Development::isEnabled()) { // TODO remove this one here once we have environments in DI
+
+            self::mergeTranslationArray($translations);
+            return;
+        }
+
+        $translations = array();
+        $pluginNames  = Manager::getAllPluginsNames();
+
+        foreach ($pluginNames as $pluginName) {
+            if ($pluginManager->isPluginLoaded($pluginName) ||
+                $pluginManager->isPluginBundledWithCore($pluginName)) {
+
+                $this->loadPluginTranslations($pluginName, $language);
+
+                if (isset($GLOBALS['Piwik_translations'][$pluginName])) {
+                    $translations[$pluginName] = $GLOBALS['Piwik_translations'][$pluginName];
+                }
+            }
+        }
+
+        $cache->save($cacheKey, $translations, 43200); // ttl=12hours
+    }
+    /**
+     * Load translation
+     *
+     * @param Plugin $plugin
+     * @param string $langCode
+     * @throws \Exception
+     * @return bool whether the translation was found and loaded
+     */
+    public function loadPluginTranslations($plugin, $langCode)
+    {
+        // we are in Tracker mode if Loader is not (yet) loaded
+        if (SettingsServer::isTrackerApiRequest()) {
+            return false;
+        }
+
+        if (is_string($plugin)) {
+            $pluginName = $plugin;
+        } else {
+            $pluginName = $plugin->getPluginName();
+        }
+
+        $path = Manager::getPluginsDirectory() . $pluginName . '/lang/%s.json';
+
+        $defaultLangPath = sprintf($path, $langCode);
+        $defaultEnglishLangPath = sprintf($path, 'en');
+
+        $translationsLoaded = false;
+
+        // merge in english translations as default first
+        if (file_exists($defaultEnglishLangPath)) {
+            $translations = $this->getTranslationsFromFile($defaultEnglishLangPath);
+            $translationsLoaded = true;
+            if (isset($translations[$pluginName])) {
+                // only merge translations of plugin - prevents overwritten strings
+                $this->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+            }
+        }
+
+        // merge in specific language translations (to overwrite english defaults)
+        if (!empty($langCode) &&
+            $defaultEnglishLangPath != $defaultLangPath &&
+            file_exists($defaultLangPath)) {
+
+            $translations = $this->getTranslationsFromFile($defaultLangPath);
+            $translationsLoaded = true;
+            if (isset($translations[$pluginName])) {
+                // only merge translations of plugin - prevents overwritten strings
+                $this->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+            }
+        }
+
+        return $translationsLoaded;
+    }
+
+    /**
+     * @param string $pathToTranslationFile
+     * @throws \Exception
+     * @return mixed
+     */
+    private function getTranslationsFromFile($pathToTranslationFile)
+    {
+        $data         = file_get_contents($pathToTranslationFile);
+        $translations = json_decode($data, true);
+
+        if (is_null($translations) && Common::hasJsonErrorOccurred()) {
+            $jsonError = Common::getLastJsonError();
+
+            $message = sprintf('Not able to load translation file %s: %s', $pathToTranslationFile, $jsonError);
+
+            throw new \Exception($message);
+        }
+
+        return $translations;
     }
 }
