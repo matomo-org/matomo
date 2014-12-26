@@ -308,7 +308,7 @@ class Translator
     public function loadPluginsTranslations($language = false)
     {
         if (empty($language)) {
-            $language = self::getLanguageToLoad();
+            $language = $this->getLanguageToLoad();
         }
 
         $pluginManager = Manager::getInstance();
@@ -331,7 +331,7 @@ class Translator
             is_array($translations) &&
             !Development::isEnabled()) { // TODO remove this one here once we have environments in DI
 
-            self::mergeTranslationArray($translations);
+            $this->mergeTranslationArray($translations);
             return;
         }
 
