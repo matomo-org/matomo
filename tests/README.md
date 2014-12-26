@@ -50,8 +50,8 @@ To execute the tests:
 
 3. 	Run the tests
 
-	$ cd /path/to/piwik
-	$ ./console tests:run --testsuite unit
+    $ cd /path/to/piwik
+    $ ./console tests:run --testsuite unit
     $ ./console tests:run --testsuite integration
     $ ./console tests:run --testsuite system
 
