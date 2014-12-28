@@ -29,8 +29,6 @@ use Piwik\View;
  */
 abstract class ControllerAdmin extends Controller
 {
-    private static $isEacceleratorUsed = false;
-
     private static function notifyWhenTrackingStatisticsDisabled()
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
@@ -105,27 +103,10 @@ abstract class ControllerAdmin extends Controller
         }
     }
 
-    /**
-     * See https://github.com/piwik/piwik/issues/4439#comment:8 and https://github.com/eaccelerator/eaccelerator/issues/12
-     *
-     * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling
-     * it automatically. At this point it looks like Eaccelerator is no longer under development and the bug has not
-     * been fixed within a year.
-     */
-    public static function disableEacceleratorIfEnabled()
-    {
-        $isEacceleratorUsed = ini_get('eaccelerator.enable');
-
-        if (!empty($isEacceleratorUsed)) {
-            self::$isEacceleratorUsed = true;
-
-            @ini_set('eaccelerator.enable', 0);
-        }
-    }
-
     private static function notifyIfEAcceleratorIsUsed()
     {
-        if (!self::$isEacceleratorUsed) {
+        $isEacceleratorUsed = ini_get('eaccelerator.enable');
+        if (empty($isEacceleratorUsed)) {
             return;
         }
         $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.

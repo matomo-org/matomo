@@ -27,8 +27,14 @@ define('PIWIK_DOCUMENT_ROOT', '..');
 define('PIWIK_USER_PATH', '..');
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-\Piwik\Loader::init();
+
+// Composer autoloader
+if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
+    $path = PIWIK_INCLUDE_PATH . '/vendor/autoload.php'; // Piwik is the main project
+} else {
+    $path = PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
+}
+require $path;
 
 $file = '../piwik.js';
 
