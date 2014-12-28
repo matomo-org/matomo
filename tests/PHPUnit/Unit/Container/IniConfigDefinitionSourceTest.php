@@ -44,10 +44,10 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
         $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
 
         /** @var ValueDefinition $definition */
-        $definition = $definitionSource->getDefinition('old_config.foo');
+        $definition = $definitionSource->getDefinition('ini.foo');
 
         $this->assertTrue($definition instanceof ValueDefinition);
-        $this->assertEquals('old_config.foo', $definition->getName());
+        $this->assertEquals('ini.foo', $definition->getName());
         $this->assertSame(array(), $definition->getValue());
     }
 
@@ -58,7 +58,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     {
         $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
 
-        $this->assertNull($definitionSource->getDefinition('old_config.foo.bar'));
+        $this->assertNull($definitionSource->getDefinition('ini.foo.bar'));
     }
 
     /**
@@ -68,7 +68,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     {
         $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
 
-        $this->assertNull($definitionSource->getDefinition('old_config.General.foo'));
+        $this->assertNull($definitionSource->getDefinition('ini.General.foo'));
     }
 
     /**
@@ -85,10 +85,10 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
         $definitionSource = new IniConfigDefinitionSource($config);
 
         /** @var ValueDefinition $definition */
-        $definition = $definitionSource->getDefinition('old_config.General');
+        $definition = $definitionSource->getDefinition('ini.General');
 
         $this->assertTrue($definition instanceof ValueDefinition);
-        $this->assertEquals('old_config.General', $definition->getName());
+        $this->assertEquals('ini.General', $definition->getName());
         $this->assertInternalType('array', $definition->getValue());
         $this->assertEquals(array('foo' => 'bar'), $definition->getValue());
     }
@@ -107,10 +107,10 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
         $definitionSource = new IniConfigDefinitionSource($config);
 
         /** @var ValueDefinition $definition */
-        $definition = $definitionSource->getDefinition('old_config.General.foo');
+        $definition = $definitionSource->getDefinition('ini.General.foo');
 
         $this->assertTrue($definition instanceof ValueDefinition);
-        $this->assertEquals('old_config.General.foo', $definition->getName());
+        $this->assertEquals('ini.General.foo', $definition->getName());
         $this->assertEquals('bar', $definition->getValue());
     }
 

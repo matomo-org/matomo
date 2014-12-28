@@ -14,8 +14,8 @@ return array(
         $root = $c->get('path.root');
 
         // TODO remove that special case and instead have plugins override 'path.tmp' to add the instance id
-        if ($c->has('old_config.General.instance_id')) {
-            $instanceId = $c->get('old_config.General.instance_id');
+        if ($c->has('ini.General.instance_id')) {
+            $instanceId = $c->get('ini.General.instance_id');
             $instanceId = $instanceId ? '/' . $instanceId : '';
         } else {
             $instanceId = '';
@@ -36,7 +36,7 @@ return array(
         } elseif (\Piwik\Development::isEnabled()) {
             $backend = 'null';
         } else {
-            $backend = $c->get('old_config.Cache.backend');
+            $backend = $c->get('ini.Cache.backend');
         }
 
         return $backend;
@@ -80,8 +80,8 @@ return array(
     'Psr\Log\LoggerInterface' => DI\object('Monolog\Logger')
         ->constructor('piwik', DI\link('log.handlers'), DI\link('log.processors')),
     'log.handlers' => DI\factory(function (ContainerInterface $c) {
-        if ($c->has('old_config.log.log_writers')) {
-            $writerNames = $c->get('old_config.log.log_writers');
+        if ($c->has('ini.log.log_writers')) {
+            $writerNames = $c->get('ini.log.log_writers');
         } else {
             return array();
         }
@@ -116,8 +116,8 @@ return array(
         ->constructor(DI\link('log.level'))
         ->method('setFormatter', DI\link('Piwik\Log\Formatter\LineMessageFormatter')),
     'log.level' => DI\factory(function (ContainerInterface $c) {
-        if ($c->has('old_config.log.log_level')) {
-            $level = strtoupper($c->get('old_config.log.log_level'));
+        if ($c->has('ini.log.log_level')) {
+            $level = strtoupper($c->get('ini.log.log_level'));
             if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
                 return Log::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
             }
@@ -125,7 +125,7 @@ return array(
         return Logger::WARNING;
     }),
     'log.file.filename' => DI\factory(function (ContainerInterface $c) {
-        $logPath = $c->get('old_config.log.logger_file_path');
+        $logPath = $c->get('ini.log.logger_file_path');
 
         // Absolute path
         if (strpos($logPath, '/') === 0) {
@@ -152,8 +152,8 @@ return array(
     'Piwik\Log\Formatter\LineMessageFormatter' => DI\object()
         ->constructor(DI\link('log.format')),
     'log.format' => DI\factory(function (ContainerInterface $c) {
-        if ($c->has('old_config.log.string_message_format')) {
-            return $c->get('old_config.log.string_message_format');
+        if ($c->has('ini.log.string_message_format')) {
+            return $c->get('ini.log.string_message_format');
         }
         return '%level% %tag%[%datetime%] %message%';
     }),
