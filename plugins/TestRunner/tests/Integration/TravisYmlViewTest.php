@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\TestRunner\tests\Integration;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Piwik\Plugins\TestRunner\TravisYmlView;
+use Piwik\Plugins\TestRunner\TravisYml\Parser;
+use Piwik\Plugins\TestRunner\TravisYml\TravisYmlView;
 use Piwik\Plugin\Manager as PluginManager;
 use PHPUnit_Framework_TestCase;
 use Spyc; // DeviceDectector requires Spyc
@@ -29,9 +29,15 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
     public function testViewGeneratesCorrectLookingYAML()
     {
         $view = new TravisYmlView();
+        $view->setGenerationMode('plugin');
         $view->setPlugin('ExamplePlugin');
         $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml \'arg1\' arg2');
+        $view->setPathToCustomTravisStepsFiles(PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin/tests/travis');
+        $view->setTestsToRun(array(
+            array('name' => "PluginTests", 'vars' => "MYSQL_ADAPTER=PDO_MYSQL"),
+            array('name' => "PluginTests", 'vars' => "MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable")
+        ));
         $output = $view->render();
 
         $yaml = Spyc::YAMLLoadString($output);
@@ -58,10 +64,16 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
     public function testViewPreservesCommentsAndEnvVarsIfExistingYml()
     {
         $view = new TravisYmlView();
+        $view->setGenerationMode('plugin');
         $view->setPlugin('ExamplePlugin');
         $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml arg1 arg2');
-        $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/TestRunner/tests/resources/test.travis.yml');
+        $view->setPathToCustomTravisStepsFiles(PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin/tests/travis');
+
+        $parser = new Parser();
+        $existingSections = $parser->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/TestRunner/tests/resources/test.travis.yml');
+        $view->setExistingSections($existingSections);
+
         $output = $view->render();
 
         $yaml = Spyc::YAMLLoadString($output);
@@ -88,8 +100,13 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
     public function testViewGeneratesCorrectLookingYAMLForCore()
     {
         $view = new TravisYmlView();
+        $view->setGenerationMode('core');
+
         // no setPlugin call here signifies generating for core
-        $view->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/.travis.yml');
+        $parser = new Parser();
+        $existingSections = $parser->processExistingTravisYml(PIWIK_INCLUDE_PATH . '/plugins/TestRunner/tests/resources/test.travis.yml');
+        $view->setExistingSections($existingSections);
+
         $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml \'arg1\' arg2');
         $output = $view->render();
@@ -107,6 +124,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
     public function testViewGeneratesCorrectLookingYAMLWhenCustomPhpVersionsUsed()
     {
         $view = new TravisYmlView();
+        $view->setGenerationMode('plugin');
         $view->setPlugin('ExamplePlugin');
         $view->setPhpVersions(array('5.4', '5.6', 'hhvm'));
         $view->setGenerateYmlCommand('./console generate:travis-yml arg1 arg2');
