@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Db;
+use Piwik\Intl\Locale;
 use Piwik\Piwik;
 use Piwik\Translate;
 use Piwik\Translation\Translator;
@@ -108,9 +109,7 @@ class LanguagesManager extends \Piwik\Plugin
         }
 
         $locale = $translator->translate('General_Locale');
-        $localeVariant = str_replace('UTF-8', 'UTF8', $locale);
-        setlocale(LC_ALL, $locale, $localeVariant);
-        setlocale(LC_CTYPE, '');
+        Locale::setLocale($locale);
     }
 
     public function deleteUserLanguage($userLogin)

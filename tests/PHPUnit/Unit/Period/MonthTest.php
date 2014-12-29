@@ -10,9 +10,8 @@ namespace Piwik\Tests\Unit\Period;
 
 use Piwik\Date;
 use Piwik\Period\Month;
-use Piwik\Translate;
 
-class Period_MonthTest extends \PHPUnit_Framework_TestCase
+class MonthTest extends BasePeriodTest
 {
     /**
      * testing december
@@ -271,8 +270,6 @@ class Period_MonthTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        $this->loadEnglishTranslation();
-
         $month = new Month(Date::factory('2024-10-09'));
         $shouldBe = 'Oct 2024';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
@@ -283,8 +280,6 @@ class Period_MonthTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        $this->loadEnglishTranslation();
-
         $month = new Month(Date::factory('2024-10-09'));
         $shouldBe = '2024, October';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
@@ -295,15 +290,9 @@ class Period_MonthTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        $this->loadEnglishTranslation();
-
         $month = new Month(Date::factory('2024-10-09'));
         $shouldBe = '2024-10';
         $this->assertEquals($shouldBe, $month->getPrettyString());
     }
 
-    private function loadEnglishTranslation()
-    {
-        Translate::reloadLanguage('en');
-    }
 }

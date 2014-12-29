@@ -178,6 +178,16 @@ class Translator
     }
 
     /**
+     * Should be used by tests only, and this method should eventually be removed.
+     */
+    public function reset()
+    {
+        $this->currentLanguage = $this->getDefaultLanguage();
+        $this->directories = array();
+        $this->translations = array();
+    }
+
+    /**
      * @param string $translation
      * @return null|string
      */

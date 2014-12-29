@@ -10,9 +10,8 @@ namespace Piwik\Tests\Unit\Period;
 
 use Piwik\Date;
 use Piwik\Period\Year;
-use Piwik\Translate;
 
-class Period_YearTest extends \PHPUnit_Framework_TestCase
+class YearTest extends BasePeriodTest
 {
     /**
      * test normal case
@@ -70,7 +69,6 @@ class Period_YearTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedShortString());
@@ -81,7 +79,6 @@ class Period_YearTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedLongString());
@@ -92,7 +89,6 @@ class Period_YearTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getPrettyString());

@@ -31,10 +31,12 @@ class Translate
 
     public static function loadEnglishTranslation()
     {
+        self::loadCoreTranslation();
     }
 
     public static function unloadEnglishTranslation()
     {
+        self::getTranslator()->reset();
     }
 
     public static function reloadLanguage($language = false)
@@ -49,6 +51,7 @@ class Translate
      */
     public static function loadCoreTranslation($language = false)
     {
+        self::getTranslator()->addDirectory(PIWIK_INCLUDE_PATH . '/lang');
     }
 
     public static function mergeTranslationArray($translation)
@@ -67,7 +70,7 @@ class Translate
     /** Reset the cached language to load. Used in tests. */
     public static function reset()
     {
-        self::getTranslator()->setCurrentLanguage(null);
+        self::getTranslator()->reset();
     }
 
     /**

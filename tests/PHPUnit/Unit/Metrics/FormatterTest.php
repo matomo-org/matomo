@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Unit\Metrics;
 
+use Piwik\Intl\Locale;
 use Piwik\Metrics\Formatter;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -50,8 +51,6 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Formatter();
 
-        setlocale(LC_ALL, null);
-
         Translate::loadEnglishTranslation();
         $this->setSiteManagerApiMock();
     }
@@ -60,8 +59,6 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     {
         Translate::unloadEnglishTranslation();
         $this->unsetSiteManagerApiMock();
-
-        setlocale(LC_ALL, null);
     }
 
     /**
@@ -83,6 +80,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals($expected, $this->formatter->getPrettyNumber($number, 2));
+        Locale::setDefaultLocale();
     }
 
     /**
