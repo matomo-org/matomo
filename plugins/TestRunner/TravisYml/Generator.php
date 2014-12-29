@@ -72,7 +72,7 @@ abstract class Generator
             $writePath = $this->getTravisYmlOutputPath();
         }
 
-        if (!is_writable($writePath)) {
+        if (!is_writable(dirname($writePath))) {
             throw new Exception("Cannot write to '$writePath'!");
         }
 
