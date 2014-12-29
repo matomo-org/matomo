@@ -73,7 +73,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/dialogtoggler/ngdialog.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
     }
