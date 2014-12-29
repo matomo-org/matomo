@@ -1,8 +1,14 @@
-cd #!/bin/bash
+#!/bin/bash
 
-if [ "$PLUGIN_NAME" != "" ]; then
-    cd $PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME
+if [ "$REPO_ROOT_DIR" == "" ]; then
+    if [ "$PLUGIN_NAME" != "" ]; then
+        REPO_ROOT_DIR="$PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME"
+    else
+        REPO_ROOT_DIR="$PIWIK_ROOT_DIR"
+    fi
 fi
+
+cd $REPO_ROOT_DIR
 
 LATEST_COMMIT_HASH=`git rev-parse $TRAVIS_BRANCH`
 CURRENT_COMMIT_HASH=`git rev-parse HEAD`
@@ -33,9 +39,7 @@ if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"; then
     exit 1
 fi
 
-if [ "$PLUGIN_NAME" != "" ]; then
-    cd $PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME
-fi
+cd $REPO_ROOT_DIR
 
 echo "Diffing generated with existing (located at `pwd`/.travis.yml)..."
 
