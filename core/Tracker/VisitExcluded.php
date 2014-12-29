@@ -271,6 +271,7 @@ class VisitExcluded
         $referrerUrl = $this->request->getParam('urlref');
 
         foreach($spamHosts as $spamHost) {
+            $spamHost = trim($spamHost);
             if ( strpos($referrerUrl, $spamHost) !== false) {
                 Common::printDebug('Referrer URL is a known spam: ' . $spamHost);
                 return true;
