@@ -642,6 +642,9 @@ class Visit implements VisitInterface
         } catch (UnexpectedWebsiteFoundException $e) {
             return;
         }
+        if(!isset($site['timezone'])) {
+            return;
+        }
 
         $date = Date::factory((int) $time, $site['timezone']);
 
