@@ -29,8 +29,8 @@ services:
 {% if existingEnv|default is empty -%}
 env:
   global:
-    - PLUGIN_NAME={{ pluginName|raw }}
-{% if generationMode == 'core' %}
+{% if pluginName|default is not empty %}    - PLUGIN_NAME={{ pluginName|raw }}
+{% endif %}{% if generationMode == 'core' %}
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
 {% else %}
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
