@@ -57,7 +57,11 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
         grep ".travis.yml file is out of date" <<< "$LAST_COMMIT_MESSAGE" > /dev/null
         LAST_COMMIT_IS_NOT_UPDATE=$?
 
-        if [ "$LAST_COMMIT_MESSAGE" == "" ] || [ "$LAST_COMMIT_IS_NOT_UPDATE" -eq "0" ]; then
+        LAST_COMMIT_TIMESTAMP=$(git log -1 HEAD --pretty=format:%ct)
+        LAST_COMMIT_TIME_FROM_NOW=$(expr $(date +%s) - $LAST_COMMIT_TIMESTAMP)
+        LAST_COMMIT_WITHIN_HOUR=$(expr $LAST_COMMIT_TIME_FROM_NOW '<=' 3600)
+
+        if [ "$LAST_COMMIT_MESSAGE" == "" ] || [[ "$LAST_COMMIT_IS_NOT_UPDATE" -eq "0" && "$LAST_COMMIT_WITHIN_HOUR" -ne "0" ]]; then
             echo "Last commit message was '$LAST_COMMIT_MESSAGE', possible recursion or error in auto-update, aborting."
         else
 
