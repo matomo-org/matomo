@@ -33,7 +33,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
              ->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'The plugin for whom a .travis.yml file should be generated.')
              ->addOption('core', null, InputOption::VALUE_NONE, 'Supplied when generating the .travis.yml file for Piwik core.'
                                                           . ' Should only be used by core developers.')
-             ->addOption('piwik-tests-plugins', null, InputOption::VALUE_NONE, 'Supplied when generating the .travis.yml file for the '
+             ->addOption('piwik-tests-plugins', null, InputOption::VALUE_REQUIRED, 'Supplied when generating the .travis.yml file for the '
                                                           . 'piwik-tests-plugins repository. Should only be used by core developers.')
              ->addOption('artifacts-pass', null, InputOption::VALUE_REQUIRED,
                 "Password to the Piwik build artifacts server. Will be encrypted in the .travis.yml file.")
@@ -69,9 +69,9 @@ class GenerateTravisYmlFile extends ConsoleCommand
             return new PluginTravisYmlGenerator($targetPlugin, $allOptions);
         }
 
-        $isPiwikTestsPlugin = $input->getOption('piwik-tests-plugins');
-        if ($isPiwikTestsPlugin) {
-            return new PiwikTestsPluginsTravisYmlGenerator($allOptions);
+        $piwikTestsPluginPath = $input->getOption('piwik-tests-plugins');
+        if ($piwikTestsPluginPath) {
+            return new PiwikTestsPluginsTravisYmlGenerator($piwikTestsPluginPath, $allOptions);
         }
 
         throw new Exception("Neither --plugin option, --core option or --piwik-tests-plugins specified; don't know what type"

@@ -12,6 +12,22 @@ use Piwik\Plugins\TestRunner\TravisYml\Generator;
 
 class PiwikTestsPluginsTravisYmlGenerator extends Generator
 {
+    /**
+     * @var string
+     */
+    private $repoPath;
+
+    /**
+     * @param string $repoPath
+     * @param string[] $options
+     */
+    public function __construct($repoPath, $options)
+    {
+        parent::__construct($options);
+
+        $this->repoPath = $repoPath;
+    }
+
     protected function configureView()
     {
         parent::configureView();
@@ -24,13 +40,7 @@ class PiwikTestsPluginsTravisYmlGenerator extends Generator
 
     public function getTravisYmlOutputPath()
     {
-        $dumpPath = @$this->options['dump'];
-        if (empty($dumpPath)) {
-            throw new Exception("--dump option must be used when generating a .travis.yml for the piwik-tests-plugins repo."
-                              . " Set it to the path to the repo's .travis.yml.");
-        }
-
-        return $dumpPath;
+        return $this->repoPath . '/.travis.yml';
     }
 
     private function getTestsRepoPath()
@@ -41,7 +51,7 @@ class PiwikTestsPluginsTravisYmlGenerator extends Generator
     protected function getOptionsForSelfReferentialCommand()
     {
         $options = parent::getOptionsForSelfReferentialCommand();
-        $options['dump'] = '../.travis.yml'; // make sure --dump is used correctly when executed in travis-ci
+        $options['piwik-tests-plugins'] = '..'; // make sure --piwik-tests-plugins is used correctly when executed in travis-ci
         return $options;
     }
 }
