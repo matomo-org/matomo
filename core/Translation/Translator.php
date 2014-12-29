@@ -8,16 +8,10 @@
 
 namespace Piwik\Translation;
 
-use Exception;
-use Piwik\Cache;
-use Piwik\Common;
 use Piwik\Config;
-use Piwik\Development;
-use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugin\Manager;
-use Piwik\SettingsServer;
+use Piwik\Translation\Loader\LoaderInterface;
 
 /**
  * Translates messages.
@@ -27,27 +21,51 @@ use Piwik\SettingsServer;
 class Translator
 {
     /**
-     * Contains the translated messages.
+     * Contains the translated messages, indexed by the language name.
      *
      * @var array
      */
     private $translations = array();
 
     /**
-     * @var string|null
+     * @var string
      */
-    private $languageToLoad;
+    private $currentLanguage;
 
     /**
-     * @var bool
+     * @var string
      */
-    private $loadedLanguage = false;
+    private $fallback = 'en';
+
+    /**
+     * Directories containing the translations to load.
+     *
+     * @var string[]
+     */
+    private $directories = array();
+
+    /**
+     * @var LoaderInterface
+     */
+    private $loader;
+
+    public function __construct(LoaderInterface $loader, array $directories = null)
+    {
+        $this->loader = $loader;
+        $this->currentLanguage = $this->getDefaultLanguage();
+
+        if ($directories === null) {
+            // TODO should be moved out of this class
+            $directories = array(PIWIK_INCLUDE_PATH . '/lang');
+        }
+        $this->directories = $directories;
+    }
 
     /**
      * Returns an internationalized string using a translation ID. If a translation
      * cannot be found for the ID, the ID is returned.
      *
-     * @param string $translationId Translation ID, eg, `'General_Date'`.
+     * @param string $translationId Translation ID, eg, `General_Date`.
      * @param array|string|int $args `sprintf` arguments to be applied to the internationalized
      *                               string.
      * @return string The translated string or `$translationId`.
@@ -55,16 +73,13 @@ class Translator
      */
     public function translate($translationId, $args = array())
     {
-        if (!is_array($args)) {
-            $args = array($args);
-        }
+        $args = is_array($args) ? $args : array($args);
 
         if (strpos($translationId, "_") !== false) {
             list($plugin, $key) = explode("_", $translationId, 2);
-            if (isset($this->translations[$plugin]) && isset($this->translations[$plugin][$key])) {
-                $translationId = $this->translations[$plugin][$key];
-            }
+            $translationId = $this->getTranslation($translationId, $this->currentLanguage, $plugin, $key);
         }
+
         if (count($args) == 0) {
             return $translationId;
         }
@@ -72,145 +87,25 @@ class Translator
     }
 
     /**
-     * Clean a string that may contain HTML special chars, single/double quotes, HTML entities, leading/trailing whitespace
-     *
-     * @param string $s
      * @return string
      */
-    public function clean($s)
+    public function getCurrentLanguage()
     {
-        return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
-    }
-
-    public function loadEnglishTranslation()
-    {
-        $this->loadCoreTranslationFile('en');
-    }
-
-    public function unloadEnglishTranslation()
-    {
-        $this->translations = array();
-    }
-
-    public function reloadLanguage($language = false)
-    {
-        if (empty($language)) {
-            $language = $this->getLanguageToLoad();
-        }
-        $this->unloadEnglishTranslation();
-        $this->loadEnglishTranslation();
-        $this->loadCoreTranslation($language);
-        $this->loadPluginsTranslations($language);
+        return $this->currentLanguage;
     }
 
     /**
-     * Reads the specified code translation file in memory.
-     *
-     * @param bool|string $language 2 letter language code. If not specified, will detect current user translation, or load default translation.
-     * @return void
+     * @param string $language
      */
-    public function loadCoreTranslation($language = false)
+    public function setCurrentLanguage($language)
     {
-        if (empty($language)) {
-            $language = $this->getLanguageToLoad();
-        }
-        if ($this->loadedLanguage == $language) {
-            return;
-        }
-        $this->loadCoreTranslationFile($language);
-    }
-
-    private function loadCoreTranslationFile($language)
-    {
-        if (empty($language)) {
-            return;
-        }
-
-        $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.json';
-        if (!Filesystem::isValidFilename($language) || !is_readable($path)) {
-            throw new Exception(Piwik::translate('General_ExceptionLanguageFileNotFound', array($language)));
-        }
-        $data = file_get_contents($path);
-        $translations = json_decode($data, true);
-        $this->mergeTranslationArray($translations);
-        $this->setLocale();
-        $this->loadedLanguage = $language;
-    }
-
-    public function mergeTranslationArray($translation)
-    {
-        if (empty($translation)) {
-            return;
-        }
-        // we could check that no string overlap here
-        $this->translations = array_replace_recursive($this->translations, $translation);
+        $this->currentLanguage = $language;
     }
 
     /**
-     * @return string the language filename prefix, eg 'en' for english
-     * @throws exception if the language set is not a valid filename
+     * @return string The default configured language.
      */
-    public function getLanguageToLoad()
-    {
-        if (is_null($this->languageToLoad)) {
-            $lang = Common::getRequestVar('language', '', 'string');
-
-            /**
-             * Triggered when the current user's language is requested.
-             *
-             * By default the current language is determined by the **language** query
-             * parameter. Plugins can override this logic by subscribing to this event.
-             *
-             * **Example**
-             *
-             *     public function getLanguage(&$lang)
-             *     {
-             *         $client = new My3rdPartyAPIClient();
-             *         $thirdPartyLang = $client->getLanguageForUser(Piwik::getCurrentUserLogin());
-             *
-             *         if (!empty($thirdPartyLang)) {
-             *             $lang = $thirdPartyLang;
-             *         }
-             *     }
-             *
-             * @param string &$lang The language that should be used for the current user. Will be
-             *                      initialized to the value of the **language** query parameter.
-             */
-            Piwik::postEvent('User.getLanguage', array(&$lang));
-
-            $this->languageToLoad = $lang;
-        }
-
-        return $this->languageToLoad;
-    }
-
-    /**
-     * Reset the cached language to load. Used in tests.
-     */
-    public function reset()
-    {
-        $this->languageToLoad = null;
-    }
-
-    private function isALanguageLoaded()
-    {
-        return !empty($this->translations);
-    }
-
-    /**
-     * Either the name of the currently loaded language such as 'en' or 'de' or null if no language is loaded at all.
-     * @return bool|string
-     */
-    public function getLanguageLoaded()
-    {
-        if (!$this->isALanguageLoaded()) {
-            return null;
-        }
-
-        return $this->loadedLanguage;
-    }
-
-    public function getLanguageDefault()
+    public function getDefaultLanguage()
     {
         return Config::getInstance()->General['default_language'];
     }
@@ -220,12 +115,10 @@ class Translator
      */
     public function getJavascriptTranslations()
     {
-        $translations = & $this->translations;
-
         $clientSideTranslations = array();
-        foreach ($this->getClientSideTranslationKeys() as $key) {
-            list($plugin, $stringName) = explode("_", $key, 2);
-            $clientSideTranslations[$key] = $translations[$plugin][$stringName];
+        foreach ($this->getClientSideTranslationKeys() as $id) {
+            list($plugin, $key) = explode('_', $id, 2);
+            $clientSideTranslations[$id] = $this->getTranslation($id, $this->currentLanguage, $plugin, $key);
         }
 
         $js = 'var translations = ' . json_encode($clientSideTranslations) . ';';
@@ -268,16 +161,20 @@ class Translator
     }
 
     /**
-     * Set locale
+     * Add a directory containing translations.
      *
-     * @see http://php.net/setlocale
+     * @param string $directory
      */
-    private function setLocale()
+    public function addDirectory($directory)
     {
-        $locale = $this->translations['General']['Locale'];
-        $locale_variant = str_replace('UTF-8', 'UTF8', $locale);
-        setlocale(LC_ALL, $locale, $locale_variant);
-        setlocale(LC_CTYPE, '');
+        if (isset($this->directories[$directory])) {
+            return;
+        }
+        // index by name to avoid duplicates
+        $this->directories[$directory] = $directory;
+
+        // clear currently loaded translations to force reloading them
+        $this->translations = array();
     }
 
     /**
@@ -286,11 +183,7 @@ class Translator
      */
     public function findTranslationKeyForTranslation($translation)
     {
-        if (empty($this->translations)) {
-            return null;
-        }
-
-        foreach ($this->translations as $key => $translations) {
+        foreach ($this->getAllTranslations() as $key => $translations) {
             $possibleKey = array_search($translation, $translations);
             if (!empty($possibleKey)) {
                 return $key . '_' . $possibleKey;
@@ -301,135 +194,45 @@ class Translator
     }
 
     /**
-     * Load translations for loaded plugins
-     *
-     * @param bool|string $language Optional language code
-     */
-    public function loadPluginsTranslations($language = false)
-    {
-        if (empty($language)) {
-            $language = $this->getLanguageToLoad();
-        }
-
-        $pluginManager = Manager::getInstance();
-
-        $cacheKey = 'PluginTranslations';
-
-        if (!empty($language)) {
-            $cacheKey .= '-' . trim($language);
-        }
-
-        if (!empty($this->loadedPlugins)) {
-            // makes sure to create a translation in case loaded plugins change (ie Tests vs Tracker vs UI etc)
-            $cacheKey .= '-' . md5(implode('', $pluginManager->getLoadedPluginsName()));
-        }
-
-        $cache = Cache::getLazyCache();
-        $translations = $cache->fetch($cacheKey);
-
-        if (!empty($translations) &&
-            is_array($translations) &&
-            !Development::isEnabled()) { // TODO remove this one here once we have environments in DI
-
-            $this->mergeTranslationArray($translations);
-            return;
-        }
-
-        $translations = array();
-        $pluginNames  = Manager::getAllPluginsNames();
-
-        foreach ($pluginNames as $pluginName) {
-            if ($pluginManager->isPluginLoaded($pluginName) ||
-                $pluginManager->isPluginBundledWithCore($pluginName)) {
-
-                $this->loadPluginTranslations($pluginName, $language);
-
-                if (isset($this->translations[$pluginName])) {
-                    $translations[$pluginName] = $this->translations[$pluginName];
-                }
-            }
-        }
-
-        $cache->save($cacheKey, $translations, 43200); // ttl=12hours
-    }
-    /**
-     * Load translation
-     *
-     * @param Plugin|string $plugin
-     * @param string $language
-     * @throws \Exception
-     * @return bool whether the translation was found and loaded
-     */
-    public function loadPluginTranslations($plugin, $language)
-    {
-        // we are in Tracker mode if Loader is not (yet) loaded
-        if (SettingsServer::isTrackerApiRequest()) {
-            return false;
-        }
-
-        $pluginName = ($plugin instanceof Plugin) ? $plugin->getPluginName() : $plugin;
-
-        $path = Manager::getPluginsDirectory() . $pluginName . '/lang/%s.json';
-
-        $defaultLangPath = sprintf($path, $language);
-        $defaultEnglishLangPath = sprintf($path, 'en');
-
-        $translationsLoaded = false;
-
-        // merge in english translations as default first
-        if (file_exists($defaultEnglishLangPath)) {
-            $translations = $this->getTranslationsFromFile($defaultEnglishLangPath);
-            $translationsLoaded = true;
-            if (isset($translations[$pluginName])) {
-                // only merge translations of plugin - prevents overwritten strings
-                $this->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
-            }
-        }
-
-        // merge in specific language translations (to overwrite english defaults)
-        if (!empty($language) &&
-            $defaultEnglishLangPath != $defaultLangPath &&
-            file_exists($defaultLangPath)) {
-
-            $translations = $this->getTranslationsFromFile($defaultLangPath);
-            $translationsLoaded = true;
-            if (isset($translations[$pluginName])) {
-                // only merge translations of plugin - prevents overwritten strings
-                $this->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
-            }
-        }
-
-        return $translationsLoaded;
-    }
-
-    /**
-     * @param string $pathToTranslationFile
-     * @throws \Exception
-     * @return mixed
-     */
-    private function getTranslationsFromFile($pathToTranslationFile)
-    {
-        $data         = file_get_contents($pathToTranslationFile);
-        $translations = json_decode($data, true);
-
-        if (is_null($translations) && Common::hasJsonErrorOccurred()) {
-            $jsonError = Common::getLastJsonError();
-
-            $message = sprintf('Not able to load translation file %s: %s', $pathToTranslationFile, $jsonError);
-
-            throw new \Exception($message);
-        }
-
-        return $translations;
-    }
-
-    /**
      * Returns all the translation messages loaded.
      *
      * @return array
      */
     public function getAllTranslations()
     {
-        return $this->translations;
+        $this->loadTranslations($this->currentLanguage);
+
+        if (!isset($this->translations[$this->currentLanguage])) {
+            return array();
+        }
+
+        return $this->translations[$this->currentLanguage];
+    }
+
+    private function getTranslation($id, $lang, $plugin, $key)
+    {
+        $this->loadTranslations($lang);
+
+        if (isset($this->translations[$lang][$plugin])
+            && isset($this->translations[$lang][$plugin][$key])
+        ) {
+            return $this->translations[$lang][$plugin][$key];
+        }
+
+        // fallback
+        if ($lang !== $this->fallback) {
+            return $this->getTranslation($id, $this->fallback, $plugin, $key);
+        }
+
+        return $id;
+    }
+
+    private function loadTranslations($language)
+    {
+        if (empty($language) || isset($this->translations[$language])) {
+            return;
+        }
+
+        $this->translations[$language] = $this->loader->load($language, $this->directories);
     }
 }

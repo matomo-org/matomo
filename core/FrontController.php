@@ -324,17 +324,13 @@ class FrontController extends Singleton
             $tmpPath . '/templates_c/',
         );
 
-        Translate::loadEnglishTranslation();
-
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
 
         $this->handleMaintenanceMode();
         $this->handleProfiler();
         $this->handleSSLRedirection();
 
-        /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
-        $translator->loadPluginsTranslations('en');
+        Plugin\Manager::getInstance()->loadPluginTranslations();
         Plugin\Manager::getInstance()->loadActivatedPlugins();
 
         if ($exceptionToThrow) {

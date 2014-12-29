@@ -26,22 +26,19 @@ class Translate
      */
     public static function clean($s)
     {
-        return self::getTranslator()->clean($s);
+        return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
     }
 
     public static function loadEnglishTranslation()
     {
-        self::getTranslator()->loadEnglishTranslation();
     }
 
     public static function unloadEnglishTranslation()
     {
-        self::getTranslator()->unloadEnglishTranslation();
     }
 
     public static function reloadLanguage($language = false)
     {
-        self::getTranslator()->reloadLanguage($language);
     }
 
     /**
@@ -52,12 +49,10 @@ class Translate
      */
     public static function loadCoreTranslation($language = false)
     {
-        self::getTranslator()->loadCoreTranslation($language);
     }
 
     public static function mergeTranslationArray($translation)
     {
-        self::getTranslator()->mergeTranslationArray($translation);
     }
 
     /**
@@ -66,13 +61,13 @@ class Translate
      */
     public static function getLanguageToLoad()
     {
-        return self::getTranslator()->getLanguageToLoad();
+        return self::getTranslator()->getCurrentLanguage();
     }
 
     /** Reset the cached language to load. Used in tests. */
     public static function reset()
     {
-        self::getTranslator()->reset();
+        self::getTranslator()->setCurrentLanguage(null);
     }
 
     /**
@@ -81,12 +76,12 @@ class Translate
      */
     public static function getLanguageLoaded()
     {
-        return self::getTranslator()->getLanguageLoaded();
+        return self::getTranslator()->getCurrentLanguage();
     }
 
     public static function getLanguageDefault()
     {
-        return self::getTranslator()->getLanguageDefault();
+        return self::getTranslator()->getDefaultLanguage();
     }
 
     /**

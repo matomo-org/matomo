@@ -2,6 +2,11 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here. 
 
+## Piwik 2.11.0
+
+### Breaking Changes
+* The event `User.getLanguage` has been removed.
+
 ## Piwik 2.10.0
 
 ### Breaking Changes

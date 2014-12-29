@@ -52,7 +52,7 @@ class CompareKeys extends TranslationBase
 
         /** @var Translator $translator */
         $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
-        $translator->reloadLanguage('en');
+        $translator->setCurrentLanguage('en');
         $availableTranslations = $translator->getAllTranslations();
 
         $categories = array_unique(array_merge(array_keys($englishFromOTrance), array_keys($availableTranslations)));

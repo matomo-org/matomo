@@ -158,4 +158,7 @@ return array(
         return '%level% %tag%[%datetime%] %message%';
     }),
 
+    'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
+        ->constructor(DI\link('Piwik\Translation\Loader\JsonFileLoader')),
+
 );

@@ -569,8 +569,6 @@ class Manager extends Singleton
      */
     public function loadAllPluginsAndGetTheirInfo()
     {
-        $language = Translate::getLanguageToLoad();
-
         /** @var Translator $translator */
         $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
 
@@ -596,7 +594,7 @@ class Manager extends Singleton
                     'uninstallable'   => true,
                 );
             } else {
-                $translator->loadPluginTranslations($pluginName, $language);
+                $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
                 $this->loadPlugin($pluginName);
                 $info = array(
                     'activated'       => $this->isPluginActivated($pluginName),
@@ -607,7 +605,6 @@ class Manager extends Singleton
 
             $plugins[$pluginName] = $info;
         }
-        $translator->loadPluginsTranslations();
 
         $loadedPlugins = $this->getLoadedPlugins();
         foreach ($loadedPlugins as $oPlugin) {
@@ -1297,6 +1294,15 @@ class Manager extends Singleton
         $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
 
         return $sorted;
+    }
+
+    public function loadPluginTranslations()
+    {
+        /** @var Translator $translator */
+        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        foreach ($this->getAllPluginsNames() as $pluginName) {
+            $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
+        }
     }
 }
 
