@@ -107,7 +107,7 @@ Try again.";
         exit(1);
     }
 
-    $url = Fixture::getRootUrl() . 'index.php?module=TestRunner&action=check';
+    $url = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=TestRunner&action=check';
     $response = Http::sendHttpRequestBy('curl', $url, 2);
 
     if ($response !== 'OK') {
