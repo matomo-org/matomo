@@ -19,7 +19,6 @@ use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
 use Piwik\Session;
-use Piwik\Translation\Translator;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
