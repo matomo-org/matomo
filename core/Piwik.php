@@ -735,15 +735,16 @@ class Piwik
      * @param string $translationId Translation ID, eg, `'General_Date'`.
      * @param array|string|int $args `sprintf` arguments to be applied to the internationalized
      *                               string.
+     * @param string|null $language Optionally force the language.
      * @return string The translated string or `$translationId`.
      * @api
      */
-    public static function translate($translationId, $args = array())
+    public static function translate($translationId, $args = array(), $language = null)
     {
         /** @var Translator $translator */
         $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
 
-        return $translator->translate($translationId, $args);
+        return $translator->translate($translationId, $args, $language);
     }
 
     /**

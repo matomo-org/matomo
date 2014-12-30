@@ -51,13 +51,13 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Formatter();
 
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
         $this->unsetSiteManagerApiMock();
     }
 

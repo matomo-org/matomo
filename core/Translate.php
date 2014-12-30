@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugin\Manager;
 use Piwik\Translation\Translator;
 
 /**
@@ -29,16 +30,25 @@ class Translate
         return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
     }
 
+    /**
+     * @deprecated
+     */
     public static function loadEnglishTranslation()
     {
-        self::loadCoreTranslation();
+        self::loadAllTranslations();
     }
 
+    /**
+     * @deprecated
+     */
     public static function unloadEnglishTranslation()
     {
-        self::getTranslator()->reset();
+        self::reset();
     }
 
+    /**
+     * @deprecated
+     */
     public static function reloadLanguage($language = false)
     {
     }
@@ -54,6 +64,9 @@ class Translate
         self::getTranslator()->addDirectory(PIWIK_INCLUDE_PATH . '/lang');
     }
 
+    /**
+     * @deprecated
+     */
     public static function mergeTranslationArray($translation)
     {
     }
@@ -106,5 +119,11 @@ class Translate
     private static function getTranslator()
     {
         return StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+    }
+
+    public static function loadAllTranslations()
+    {
+        self::loadCoreTranslation();
+        Manager::getInstance()->loadPluginTranslations();
     }
 }

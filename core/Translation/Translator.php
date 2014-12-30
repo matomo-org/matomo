@@ -68,16 +68,19 @@ class Translator
      * @param string $translationId Translation ID, eg, `General_Date`.
      * @param array|string|int $args `sprintf` arguments to be applied to the internationalized
      *                               string.
+     * @param string|null $language Optionally force the language.
      * @return string The translated string or `$translationId`.
      * @api
      */
-    public function translate($translationId, $args = array())
+    public function translate($translationId, $args = array(), $language = null)
     {
         $args = is_array($args) ? $args : array($args);
 
         if (strpos($translationId, "_") !== false) {
             list($plugin, $key) = explode("_", $translationId, 2);
-            $translationId = $this->getTranslation($translationId, $this->currentLanguage, $plugin, $key);
+            $language = is_string($language) ? $language : $this->currentLanguage;
+
+            $translationId = $this->getTranslation($translationId, $language, $plugin, $key);
         }
 
         if (count($args) == 0) {

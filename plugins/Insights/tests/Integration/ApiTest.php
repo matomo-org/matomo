@@ -41,8 +41,15 @@ class ApiTest extends SystemTestCase
 
         PiwikCache::flushAll();
 
-        Translate::reloadLanguage('en');
+        Translate::loadAllTranslations();
         $this->api = API::getInstance();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        Translate::reset();
     }
 
     /**

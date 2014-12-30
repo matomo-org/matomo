@@ -7,6 +7,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * The event `User.getLanguage` has been removed.
 
+### Deprecations
+* The `Piwik\Translate` class has been deprecated in favor of `Piwik\Translation\Translator`.
+
 ## Piwik 2.10.0
 
 ### Breaking Changes

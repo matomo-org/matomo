@@ -442,7 +442,6 @@ class FrontController extends Singleton
         }
         SettingsServer::raiseMemoryLimitIfNecessary();
 
-        Translate::reloadLanguage();
         \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
 
         /**

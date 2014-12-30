@@ -116,7 +116,6 @@ class ReportTest extends IntegrationTestCase
     {
         WidgetsList::getInstance()->_reset();
         MenuReporting::getInstance()->unsetInstance();
-        Translate::unloadEnglishTranslation();
         unset($_GET['idSite']);
         parent::tearDown();
     }
@@ -157,14 +156,16 @@ class ReportTest extends IntegrationTestCase
 
     public function test_getWidgetTitle_shouldReturnTranslatedTitleIfSet()
     {
-        $this->loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->assertEquals('Page Titles Following a Site Search', $this->advancedReport->getWidgetTitle());
+        Translate::reset();
     }
 
     public function test_getCategory_shouldReturnTranslatedCategory()
     {
-        $this->loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->assertEquals('Goals', $this->advancedReport->getCategory());
+        Translate::reset();
     }
 
     public function test_configureWidget_shouldNotAddAWidgetIfNoWidgetTitleIsSet()
@@ -538,10 +539,5 @@ class ReportTest extends IntegrationTestCase
     private function unloadAllPlugins()
     {
         PluginManager::getInstance()->unloadPlugins();
-    }
-
-    private function loadEnglishTranslation()
-    {
-        Translate::reloadLanguage('en');
     }
 }

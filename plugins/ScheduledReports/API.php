@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ScheduledReports;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
@@ -23,6 +24,7 @@ use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\Translate;
+use Piwik\Translation\Translator;
 
 /**
  * The ScheduledReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -270,7 +272,9 @@ class API extends \Piwik\Plugin\API
             $language = Translate::getLanguageDefault();
         }
 
-        Translate::reloadLanguage($language);
+        /** @var Translator $translator */
+        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator->setCurrentLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
         $report = reset($reports);

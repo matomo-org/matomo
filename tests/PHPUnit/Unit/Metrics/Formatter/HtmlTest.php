@@ -35,13 +35,13 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Html();
 
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
         $this->unsetSiteManagerApiMock();
     }
 

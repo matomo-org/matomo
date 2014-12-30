@@ -8,9 +8,7 @@
 
 namespace Piwik\Tests\Unit\Period;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Translate;
-use Piwik\Translation\Translator;
 
 abstract class BasePeriodTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,10 +16,7 @@ abstract class BasePeriodTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Translate::loadCoreTranslation();
-        /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
-        $translator->addDirectory(PIWIK_INCLUDE_PATH . '/plugins/CoreHome/lang');
+        Translate::loadAllTranslations();
     }
 
     public function tearDown()
