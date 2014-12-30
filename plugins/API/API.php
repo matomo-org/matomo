@@ -323,9 +323,11 @@ class API extends \Piwik\Plugin\API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
-        $translator->setCurrentLanguage($language);
+        if ($language) {
+            /** @var Translator $translator */
+            $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+            $translator->setCurrentLanguage($language);
+        }
 
         $reporter = new ProcessedReport();
         $metadata = $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);

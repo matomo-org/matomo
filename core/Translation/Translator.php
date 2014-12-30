@@ -102,6 +102,10 @@ class Translator
      */
     public function setCurrentLanguage($language)
     {
+        if (!$language) {
+            $language = $this->getDefaultLanguage();
+        }
+
         $this->currentLanguage = $language;
     }
 
