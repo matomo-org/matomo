@@ -7,12 +7,10 @@
  *
  */
 
-namespace Piwik\Translate\Validate;
+namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Validate;
 
 use Piwik\Common;
 
-/**
- */
 class CoreTranslations extends ValidateAbstract
 {
     /**

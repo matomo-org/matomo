@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Translate\Validate;
+namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Validate;
 
-use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 
 /**
- * @group Translation
+ * @group LanguagesManager
  */
 class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
 {

@@ -6,21 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\LanguagesManager\tests;
+namespace Piwik\Plugins\LanguagesManager\Test\Integration;
 
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\API;
-use Piwik\Translate\Filter\ByParameterCount;
-use Piwik\Translate\Filter\EmptyTranslations;
-use Piwik\Translate\Filter\EncodedEntities;
-use Piwik\Translate\Filter\UnnecassaryWhitespaces;
-use Piwik\Translate\Validate\CoreTranslations;
-use Piwik\Translate\Validate\NoScripts;
-use Piwik\Translate\Writer;
 use \Exception;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByParameterCount;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EmptyTranslations;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespaces;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/LanguagesManager/API.php';
 
+/**
+ * @group LanguagesManager
+ */
 class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()

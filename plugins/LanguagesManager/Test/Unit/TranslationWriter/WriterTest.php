@@ -6,18 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Translate;
+namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Translate\Filter\ByBaseTranslations;
-use Piwik\Translate\Filter\ByParameterCount;
-use Piwik\Translate\Filter\UnnecassaryWhitespaces;
-use Piwik\Translate\Validate\CoreTranslations;
-use Piwik\Translate\Validate\NoScripts;
-use Piwik\Translate\Writer;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByBaseTranslations;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByParameterCount;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespaces;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
 
 /**
- * @group Translation
+ * @group LanguagesManager
  */
 class WriterTest extends \PHPUnit_Framework_TestCase
 {

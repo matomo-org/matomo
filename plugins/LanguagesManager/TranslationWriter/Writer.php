@@ -4,21 +4,19 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
- *
  */
-namespace Piwik\Translate;
+
+namespace Piwik\Plugins\LanguagesManager\TranslationWriter;
 
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Piwik;
-use Piwik\Translate\Filter\FilterAbstract;
-use Piwik\Translate\Validate\ValidateAbstract;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\FilterAbstract;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\ValidateAbstract;
 
 /**
- * Writes clean translations to file
- *
+ * Writes translations to file.
  */
 class Writer
 {
@@ -30,7 +28,7 @@ class Writer
     protected $language = '';
 
     /**
-     * Name of a plugin (if set in contructor)
+     * Name of a plugin (if set in constructor)
      *
      * @var string|null
      */

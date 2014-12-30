@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Translate\Filter;
+namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
 
-use Piwik\Translate\Filter\EmptyTranslations;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EmptyTranslations;
 
 /**
- * @group Translation
+ * @group LanguagesManager
  */
 class EmptyTranslationsTest extends \PHPUnit_Framework_TestCase
 {

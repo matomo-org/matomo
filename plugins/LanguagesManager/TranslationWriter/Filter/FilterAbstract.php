@@ -7,10 +7,8 @@
  *
  */
 
-namespace Piwik\Translate\Filter;
+namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Filter;
 
-/**
- */
 abstract class FilterAbstract
 {
     protected $filteredData = array();

@@ -7,12 +7,10 @@
  *
  */
 
-namespace Piwik\Translate\Filter;
+namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Filter;
 
 use Piwik\Translate;
 
-/**
- */
 class EncodedEntities extends FilterAbstract
 {
     /**

@@ -7,10 +7,8 @@
  *
  */
 
-namespace Piwik\Translate\Filter;
+namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Filter;
 
-/**
- */
 class ByParameterCount extends FilterAbstract
 {
     protected $baseTranslations = array();

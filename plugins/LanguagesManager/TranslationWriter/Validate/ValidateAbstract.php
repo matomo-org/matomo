@@ -7,10 +7,8 @@
  *
  */
 
-namespace Piwik\Translate\Validate;
+namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Validate;
 
-/**
- */
 abstract class ValidateAbstract
 {
     protected $message = null;

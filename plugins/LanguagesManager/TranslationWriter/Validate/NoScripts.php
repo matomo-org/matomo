@@ -7,10 +7,8 @@
  *
  */
 
-namespace Piwik\Translate\Validate;
+namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Validate;
 
-/**
- */
 class NoScripts extends ValidateAbstract
 {
     /**
