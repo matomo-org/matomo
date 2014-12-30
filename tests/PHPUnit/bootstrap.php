@@ -1,6 +1,8 @@
 <?php
 
 use Piwik\Container\StaticContainer;
+use Piwik\Http;
+use Piwik\Tests\Framework\Fixture;
 
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
@@ -104,7 +106,15 @@ remote_addr = \"127.0.0.1\"
 Try again.";
         exit(1);
     }
-    $baseUrl = \Piwik\Tests\Framework\Fixture::getRootUrl();
 
-    \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl, $acceptInvalidSSLCertificates = true);
+    $url = Fixture::getRootUrl() . 'index.php?module=TestRunner&action=check';
+    $response = Http::sendHttpRequestBy('curl', $url, 2);
+
+    if ($response !== 'OK') {
+        throw new Exception(sprintf(
+            "Piwik should be running at %s but this URL returned an unexpected response: '%s'",
+            Fixture::getRootUrl(),
+            $response
+        ));
+    }
 }
