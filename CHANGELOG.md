@@ -5,11 +5,12 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 2.11.0
 
 ### Deprecations
-* The following methods of `Piwik\Common` have been deprecated in favor of the new `Piwik\Intl` component:
-  * `getContinentsList()`: use `RegionDataProvider::getContinentList()`
-  * `getCountriesList()`: use `RegionDataProvider::getCountryList()`
-  * `getLanguagesList()`: use `LanguageDataProvider::getLanguageList()`
-  * `getLanguageToCountryList()`: use `LanguageDataProvider::getLanguageToCountryList()`
+* The following methods have been deprecated in favor of the new `Piwik\Intl` component:
+  * `Piwik\Common::getContinentsList()`: use `RegionDataProvider::getContinentList()` instead
+  * `Piwik\Common::getCountriesList()`: use `RegionDataProvider::getCountryList()` instead
+  * `Piwik\Common::getLanguagesList()`: use `LanguageDataProvider::getLanguageList()` instead
+  * `Piwik\Common::getLanguageToCountryList()`: use `LanguageDataProvider::getLanguageToCountryList()` instead
+  * `Piwik\Metrics\Formatter::getCurrencyList()`: use `CurrencyDataProvider::getCurrencyList()` instead
 
 ## Piwik 2.11.0
 

@@ -189,7 +189,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         include "DataFiles/SearchEngines.php";
         include "DataFiles/Socials.php";
-        include "DataFiles/Currencies.php";
         include "DataFiles/Providers.php";
 
         if (!$this->isFixtureSetUp()) {
