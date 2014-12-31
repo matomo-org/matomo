@@ -9,6 +9,9 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\LanguageDataProvider;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache as TrackerCache;
@@ -750,13 +753,15 @@ class Common
      * @see core/DataFiles/Countries.php
      *
      * @return array  Array of 3 letter continent codes
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()
      */
     public static function getContinentsList()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-
-        $continentsList = $GLOBALS['Piwik_ContinentList'];
-        return $continentsList;
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        return $dataProvider->getContinentList();
     }
 
     /**
@@ -766,19 +771,15 @@ class Common
      *
      * @param bool $includeInternalCodes
      * @return array  Array of (2 letter ISO codes => 3 letter continent code)
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()
      */
     public static function getCountriesList($includeInternalCodes = false)
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-
-        $countriesList = $GLOBALS['Piwik_CountryList'];
-        $extras = $GLOBALS['Piwik_CountryList_Extras'];
-
-        if ($includeInternalCodes) {
-            return array_merge($countriesList, $extras);
-        }
-
-        return $countriesList;
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        return $dataProvider->getCountryList($includeInternalCodes);
     }
 
     /**
@@ -789,13 +790,15 @@ class Common
      * @return array Array of two letter ISO codes mapped with their associated language names (in English). E.g.
      *               `array('en' => 'English', 'ja' => 'Japanese')`.
      * @api
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageList()
      */
     public static function getLanguagesList()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
-
-        $languagesList = $GLOBALS['Piwik_LanguageList'];
-        return $languagesList;
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        return $dataProvider->getLanguageList();
     }
 
     /**
@@ -806,13 +809,15 @@ class Common
      * @return array Array of two letter ISO language codes mapped with two letter ISO country codes:
      *               `array('fr' => 'fr') // French => France`
      * @api
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()
      */
     public static function getLanguageToCountryList()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
-
-        $languagesList = $GLOBALS['Piwik_LanguageToCountry'];
-        return $languagesList;
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        return $dataProvider->getLanguageToCountryList();
     }
 
     /**
