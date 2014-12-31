@@ -24,8 +24,7 @@ class LanguageDataProvider
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
 
-        $languagesList = $GLOBALS['Piwik_LanguageList'];
-        return $languagesList;
+        return $GLOBALS['Piwik_LanguageList'];
     }
 
     /**
@@ -39,7 +38,6 @@ class LanguageDataProvider
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
 
-        $languagesList = $GLOBALS['Piwik_LanguageToCountry'];
-        return $languagesList;
+        return $GLOBALS['Piwik_LanguageToCountry'];
     }
 }
