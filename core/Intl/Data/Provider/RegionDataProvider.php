@@ -21,7 +21,7 @@ class RegionDataProvider
      */
     public function getContinentList()
     {
-        require PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+        require __DIR__ . '/../Resources/Countries.php';
 
         return $GLOBALS['Piwik_ContinentList'];
     }
@@ -35,7 +35,7 @@ class RegionDataProvider
      */
     public static function getCountryList($includeInternalCodes = false)
     {
-        require PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+        require __DIR__ . '/../Resources/Countries.php';
 
         $countriesList = $GLOBALS['Piwik_CountryList'];
         $extras = $GLOBALS['Piwik_CountryList_Extras'];

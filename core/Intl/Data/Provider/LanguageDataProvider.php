@@ -22,7 +22,7 @@ class LanguageDataProvider
      */
     public static function getLanguageList()
     {
-        require PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
+        require __DIR__ . '/../Resources/Languages.php';
 
         return $GLOBALS['Piwik_LanguageList'];
     }
@@ -36,7 +36,7 @@ class LanguageDataProvider
      */
     public static function getLanguageToCountryList()
     {
-        require PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
+        require __DIR__ . '/../Resources/LanguageToCountry.php';
 
         return $GLOBALS['Piwik_LanguageToCountry'];
     }
