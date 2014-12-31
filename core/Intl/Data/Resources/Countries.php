@@ -309,18 +309,3 @@ if (!isset($GLOBALS['Piwik_CountryList'])) {
         'cat' => 'eur',
     );
 }
-
-if (!isset($GLOBALS['Piwik_ContinentList'])) {
-    // Primary reference: ISO 3166-1 alpha-2
-    $GLOBALS['Piwik_ContinentList'] = array(
-        'unk', // unknown
-        'amn', // North America
-        'amc', // Central America
-        'ams', // South America
-        'eur', // Europe
-        'afr', // Africa
-        'asi', // Asia
-        'oce', // Oceania
-        'ant', // Antarctica
-    );
-}

@@ -13,6 +13,9 @@ namespace Piwik\Intl\Data\Provider;
  */
 class LanguageDataProvider
 {
+    private $languageList;
+    private $languageToCountryList;
+
     /**
      * Returns the list of valid language codes.
      *
@@ -20,11 +23,13 @@ class LanguageDataProvider
      *                  E.g. `array('en' => 'English', 'ja' => 'Japanese')`.
      * @api
      */
-    public static function getLanguageList()
+    public function getLanguageList()
     {
-        require __DIR__ . '/../Resources/Languages.php';
+        if ($this->languageList === null) {
+            $this->languageList = require __DIR__ . '/../Resources/Languages.php';
+        }
 
-        return $GLOBALS['Piwik_LanguageList'];
+        return $this->languageList;
     }
 
     /**
@@ -34,10 +39,12 @@ class LanguageDataProvider
      *                  E.g. `array('fr' => 'fr') // French => France`.
      * @api
      */
-    public static function getLanguageToCountryList()
+    public function getLanguageToCountryList()
     {
-        require __DIR__ . '/../Resources/LanguageToCountry.php';
+        if ($this->languageToCountryList === null) {
+            $this->languageToCountryList = require __DIR__ . '/../Resources/LanguageToCountry.php';
+        }
 
-        return $GLOBALS['Piwik_LanguageToCountry'];
+        return $this->languageToCountryList;
     }
 }

@@ -13,6 +13,8 @@ namespace Piwik\Intl\Data\Provider;
  */
 class RegionDataProvider
 {
+    private $continentList;
+
     /**
      * Returns the list of continent codes.
      *
@@ -21,9 +23,11 @@ class RegionDataProvider
      */
     public function getContinentList()
     {
-        require __DIR__ . '/../Resources/Countries.php';
+        if ($this->continentList === null) {
+            $this->continentList = require __DIR__ . '/../Resources/continents.php';
+        }
 
-        return $GLOBALS['Piwik_ContinentList'];
+        return $this->continentList;
     }
 
     /**
@@ -33,7 +37,7 @@ class RegionDataProvider
      * @return string[] Array of 2 letter country ISO codes => 3 letter continent code
      * @api
      */
-    public static function getCountryList($includeInternalCodes = false)
+    public function getCountryList($includeInternalCodes = false)
     {
         require __DIR__ . '/../Resources/Countries.php';
 
