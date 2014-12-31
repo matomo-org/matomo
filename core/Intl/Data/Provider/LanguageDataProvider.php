@@ -26,7 +26,7 @@ class LanguageDataProvider
     public function getLanguageList()
     {
         if ($this->languageList === null) {
-            $this->languageList = require __DIR__ . '/../Resources/Languages.php';
+            $this->languageList = require __DIR__ . '/../Resources/languages_.php';
         }
 
         return $this->languageList;
@@ -42,7 +42,7 @@ class LanguageDataProvider
     public function getLanguageToCountryList()
     {
         if ($this->languageToCountryList === null) {
-            $this->languageToCountryList = require __DIR__ . '/../Resources/LanguageToCountry.php';
+            $this->languageToCountryList = require __DIR__ . '/../Resources/languages-to-countries.php';
         }
 
         return $this->languageToCountryList;

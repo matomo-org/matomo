@@ -42,7 +42,7 @@ class RegionDataProvider
     public function getCountryList($includeInternalCodes = false)
     {
         if ($this->countryList === null) {
-            $this->countryList = require __DIR__ . '/../Resources/Countries.php';
+            $this->countryList = require __DIR__ . '/../Resources/countries_.php';
         }
         if ($this->countryExtraList === null) {
             $this->countryExtraList = require __DIR__ . '/../Resources/countries-extra.php';
