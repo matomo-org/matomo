@@ -26,7 +26,7 @@ class LanguageDataProvider
     public function getLanguageList()
     {
         if ($this->languageList === null) {
-            $this->languageList = require __DIR__ . '/../Resources/languages_.php';
+            $this->languageList = require __DIR__ . '/../Resources/languages.php';
         }
 
         return $this->languageList;
