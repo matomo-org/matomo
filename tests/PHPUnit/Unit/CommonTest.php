@@ -359,8 +359,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $expected)
     {
-        include 'DataFiles/LanguageToCountry.php';
-
         $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, true));
         $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, false));
     }
@@ -385,8 +383,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractCountryCodeFromBrowserLanguageInfer($browserLanguage, $validCountries, $expected, $expectedInfer)
     {
-        include "DataFiles/LanguageToCountry.php";
-
         // do not infer country from language
         $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess = false));
 

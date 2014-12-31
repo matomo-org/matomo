@@ -21,13 +21,6 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
  */
 class WriterTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
-        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-    }
-
     /**
      * @group Core
      *

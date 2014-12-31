@@ -193,7 +193,6 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
     private function includeDataFilesForSearchEngineTest()
     {
         include "DataFiles/SearchEngines.php";
-        include "DataFiles/Countries.php";
     }
 
     /**
