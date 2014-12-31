@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuUser;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -22,10 +22,10 @@ class Menu extends \Piwik\Plugin\Menu
         }
     }
 
-    public function configureUserMenu(MenuUser $menu)
+    public function configureTopMenu(MenuTop $menu)
     {
         if (!Piwik::isUserIsAnonymous()) {
-            $menu->addItem('', 'General_Settings', $this->urlForAction('userSettings'), 0);
+            $menu->addItem('General_Settings', null, $this->urlForAction('userSettings'), 30);
         }
     }
 }
