@@ -14,6 +14,8 @@ namespace Piwik\Intl\Data\Provider;
 class RegionDataProvider
 {
     private $continentList;
+    private $countryList;
+    private $countryExtraList;
 
     /**
      * Returns the list of continent codes.
@@ -39,15 +41,17 @@ class RegionDataProvider
      */
     public function getCountryList($includeInternalCodes = false)
     {
-        require __DIR__ . '/../Resources/Countries.php';
-
-        $countriesList = $GLOBALS['Piwik_CountryList'];
-        $extras = $GLOBALS['Piwik_CountryList_Extras'];
-
-        if ($includeInternalCodes) {
-            return array_merge($countriesList, $extras);
+        if ($this->countryList === null) {
+            $this->countryList = require __DIR__ . '/../Resources/Countries.php';
+        }
+        if ($this->countryExtraList === null) {
+            $this->countryExtraList = require __DIR__ . '/../Resources/countries-extra.php';
         }
 
-        return $countriesList;
+        if ($includeInternalCodes) {
+            return array_merge($this->countryList, $this->countryExtraList);
+        }
+
+        return $this->countryList;
     }
 }
