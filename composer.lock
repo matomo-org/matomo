@@ -582,16 +582,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "2.7",
+            "version": "2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "a76f214f01054d102352b9e4045491460c19d78a"
+                "reference": "228a3b3ea17b67305a972b4e00c25f0926d3e016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/a76f214f01054d102352b9e4045491460c19d78a",
-                "reference": "a76f214f01054d102352b9e4045491460c19d78a",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/228a3b3ea17b67305a972b4e00c25f0926d3e016",
+                "reference": "228a3b3ea17b67305a972b4e00c25f0926d3e016",
                 "shasum": ""
             },
             "require": {
@@ -625,7 +625,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2014-11-25 21:41:24"
+            "time": "2015-01-01 16:13:46"
         },
         {
             "name": "piwik/network",
@@ -2116,7 +2116,6 @@
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
-    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.3"
     },
