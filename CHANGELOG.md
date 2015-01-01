@@ -18,6 +18,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Library updates
 * We added the `symfony/var-dumper` library allowing you to better print any arbitrary PHP variable via `dump($var1, $var2, ...)`.
+* Piwik now uses [Monolog](https://github.com/Seldaek/monolog) as a logger.
 
 ### Deprecations
 * Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
