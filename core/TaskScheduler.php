@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Scheduler\Timetable;
 
 // When set to true, all scheduled tasks will be triggered in all requests (careful!)
 //define('DEBUG_FORCE_SCHEDULED_TASKS', true);
@@ -35,7 +36,7 @@ use Piwik\Plugin\Manager as PluginManager;
  *             'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
  *             'clearAllCacheEntries',
  *             null,
- *             ScheduledTime::factory('daily'),
+ *             Schedule::factory('daily'),
  *             ScheduledTask::LOWEST_PRIORITY
  *         );
  *     }
@@ -61,7 +62,7 @@ class TaskScheduler extends Singleton
 
     public function __construct()
     {
-        $this->timetable = new ScheduledTaskTimetable();
+        $this->timetable = new Timetable();
     }
 
     /**

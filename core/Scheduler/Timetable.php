@@ -7,12 +7,16 @@
  *
  */
 
-namespace Piwik;
+namespace Piwik\Scheduler;
+
+use Piwik\Option;
+use Piwik\ScheduledTask;
+use Piwik\Date;
 
 /**
  * This data structure holds the scheduled times for each active scheduled task.
  */
-class ScheduledTaskTimetable
+class Timetable
 {
     const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
 

@@ -21,9 +21,9 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\ScheduledTask;
-use Piwik\ScheduledTaskTimetable;
-use Piwik\ScheduledTime\Monthly;
-use Piwik\ScheduledTime\Weekly;
+use Piwik\Scheduler\Timetable;
+use Piwik\Scheduler\Schedule\Monthly;
+use Piwik\Scheduler\Schedule\Weekly;
 use Piwik\TaskScheduler;
 use Piwik\Unzip;
 
@@ -636,12 +636,12 @@ class GeoIPAutoUpdater extends ScheduledTask
     {
         $task = new GeoIPAutoUpdater();
 
-        $timetable = new ScheduledTaskTimetable();
+        $timetable = new Timetable();
         return $timetable->getScheduledTaskTime($task->getName());
     }
 
     /**
-     * See {@link Piwik\ScheduledTime::getRescheduledTime()}.
+     * See {@link Piwik\Scheduler\Schedule\Schedule::getRescheduledTime()}.
      */
     public function getRescheduledTime()
     {

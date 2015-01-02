@@ -6,15 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\ScheduledTime;
+namespace Piwik\Tests\Unit\Scheduler\Schedule;
 
 use Exception;
-use Piwik\ScheduledTime\Weekly;
+use Piwik\Scheduler\Schedule\Weekly;
 
 /**
- * @group Core
+ * @group Scheduler
  */
-class ScheduledTime_WeeklyTest extends \PHPUnit_Framework_TestCase
+class WeeklyTest extends \PHPUnit_Framework_TestCase
 {
     public static $_JANUARY_01_1971_09_10_00; // initialized below class declaration
     public static $_JANUARY_04_1971_00_00_00;
@@ -178,11 +178,11 @@ class ScheduledTime_WeeklyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $currentTime
-     * @return \Piwik\ScheduledTime\Weekly
+     * @return Weekly
      */
     private function getWeeklyMock($currentTime)
     {
-        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
+        $mock = $this->getMock('Piwik\Scheduler\Schedule\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue($currentTime));
@@ -190,10 +190,10 @@ class ScheduledTime_WeeklyTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-ScheduledTime_WeeklyTest::$_JANUARY_01_1971_09_10_00 = mktime(9, 10, 00, 1, 1, 1971);
-ScheduledTime_WeeklyTest::$_JANUARY_04_1971_00_00_00 = mktime(0, 00, 00, 1, 4, 1971);
-ScheduledTime_WeeklyTest::$_JANUARY_04_1971_09_00_00 = mktime(9, 00, 00, 1, 4, 1971);
-ScheduledTime_WeeklyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
-ScheduledTime_WeeklyTest::$_JANUARY_11_1971_00_00_00 = mktime(0, 00, 00, 1, 11, 1971);
-ScheduledTime_WeeklyTest::$_JANUARY_15_1971_00_00_00 = mktime(0, 00, 00, 1, 15, 1971);
-ScheduledTime_WeeklyTest::$_JANUARY_08_1971_00_00_00 = mktime(0, 00, 00, 1, 8, 1971);
+WeeklyTest::$_JANUARY_01_1971_09_10_00 = mktime(9, 10, 00, 1, 1, 1971);
+WeeklyTest::$_JANUARY_04_1971_00_00_00 = mktime(0, 00, 00, 1, 4, 1971);
+WeeklyTest::$_JANUARY_04_1971_09_00_00 = mktime(9, 00, 00, 1, 4, 1971);
+WeeklyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
+WeeklyTest::$_JANUARY_11_1971_00_00_00 = mktime(0, 00, 00, 1, 11, 1971);
+WeeklyTest::$_JANUARY_15_1971_00_00_00 = mktime(0, 00, 00, 1, 15, 1971);
+WeeklyTest::$_JANUARY_08_1971_00_00_00 = mktime(0, 00, 00, 1, 8, 1971);

@@ -11,13 +11,17 @@ namespace Piwik\Tests\Unit;
 use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTaskTimetable;
+use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Scheduler\Task;
+use Piwik\Scheduler\Timetable;
 use Piwik\TaskScheduler;
 use Piwik\Tests\Framework\Mock\PiwikOption;
 use ReflectionMethod;
 use ReflectionProperty;
 
+/**
+ * @group Scheduler
+ */
 class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
 {
     private static function getTestTimetable()
@@ -54,14 +58,13 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
      * @dataProvider getTimetableFromOptionValueTestCases
      */
     public function testGetTimetableFromOptionValue($expectedTimetable, $option)
     {
         self::stubPiwikOption($option);
 
-        $timetable = new ScheduledTaskTimetable();
+        $timetable = new Timetable();
         $this->assertEquals($expectedTimetable, $timetable->getTimetable());
     }
 
@@ -80,13 +83,11 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider taskHasBeenScheduledOnceTestCases
      */
     public function testTaskHasBeenScheduledOnce($expectedDecision, $taskName, $timetable)
     {
-        $timetableObj = new ScheduledTaskTimetable();
+        $timetableObj = new Timetable();
         $timetableObj->setTimetable($timetable);
         $this->assertEquals($expectedDecision, $timetableObj->taskHasBeenScheduledOnce($taskName));
     }
@@ -106,7 +107,6 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
      * @dataProvider getScheduledTimeForMethodTestCases
      */
     public function testGetScheduledTimeForMethod($expectedTime, $className, $methodName, $methodParameter, $timetable)
@@ -139,15 +139,13 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider taskShouldBeExecutedTestCases
      */
     public function testTaskShouldBeExecuted($expectedDecision, $taskName, $timetable)
     {
         self::stubPiwikOption(serialize($timetable));
 
-        $timetable = new ScheduledTaskTimetable();
+        $timetable = new Timetable();
         $this->assertEquals($expectedDecision, $timetable->shouldExecuteTask($taskName));
     }
 
@@ -164,8 +162,6 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider executeTaskTestCases
      */
     public function testExecuteTask($methodName, $parameterValue)
@@ -179,27 +175,25 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($executeTask->invoke(
             new TaskScheduler(),
-            new ScheduledTask ($mock, $methodName, $parameterValue, \Piwik\ScheduledTime::factory('daily'))
+            new Task($mock, $methodName, $parameterValue, Schedule::factory('daily'))
         ));
     }
 
     /**
-     * @group Core
-     *
      * Dataprovider for testRunTasks
      */
     public function testRunTasksTestCases()
     {
         $systemTime = time();
 
-        $dailySchedule = $this->getMock('\Piwik\ScheduledTime\Daily', array('getTime'));
+        $dailySchedule = $this->getMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
         $dailySchedule->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue($systemTime));
 
-        $scheduledTaskOne = new ScheduledTask ($this, 'scheduledTaskOne', null, $dailySchedule);
-        $scheduledTaskTwo = new ScheduledTask ($this, 'scheduledTaskTwo', 1, $dailySchedule);
-        $scheduledTaskThree = new ScheduledTask ($this, 'scheduledTaskThree', null, $dailySchedule);
+        $scheduledTaskOne = new Task($this, 'scheduledTaskOne', null, $dailySchedule);
+        $scheduledTaskTwo = new Task($this, 'scheduledTaskTwo', 1, $dailySchedule);
+        $scheduledTaskThree = new Task($this, 'scheduledTaskThree', null, $dailySchedule);
 
         $caseOneExpectedTable = array(
             'Piwik\Tests\Unit\TaskSchedulerTest.scheduledTaskOne'   => $scheduledTaskOne->getRescheduledTime(),
@@ -277,8 +271,6 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
     } // nothing to do
 
     /**
-     * @group Core
-     *
      * @dataProvider testRunTasksTestCases
      */
     public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
@@ -310,7 +302,7 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedExecutedTasks, $executedTasks);
 
         // assert the timetable is correctly updated
-        $timetable = new ScheduledTaskTimetable();
+        $timetable = new Timetable();
         $this->assertEquals($expectedTimetable, $timetable->getTimetable());
 
         // restore loaded plugins & piwik options
@@ -331,7 +323,7 @@ class TaskSchedulerTest extends \PHPUnit_Framework_TestCase
 
     private static function getReflectedPiwikOptionInstance()
     {
-        $piwikOptionInstance = new ReflectionProperty('\Piwik\Option', 'instance');
+        $piwikOptionInstance = new ReflectionProperty('Piwik\Option', 'instance');
         $piwikOptionInstance->setAccessible(true);
         return $piwikOptionInstance;
     }

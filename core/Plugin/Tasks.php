@@ -10,7 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Development;
 use Piwik\ScheduledTask;
-use Piwik\ScheduledTime;
+use Piwik\Scheduler\Schedule\Schedule;
 
 /**
  * Base class for all Tasks declarations.
@@ -60,7 +60,7 @@ class Tasks
      *                                       For instance '$param1###$param2###$param3'
      * @param int $priority                  Can be any constant such as self::LOW_PRIORITY
      *
-     * @return ScheduledTime
+     * @return Schedule
      * @api
      */
     protected function hourly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
@@ -109,13 +109,13 @@ class Tasks
      * @param string|object $objectOrClassName
      * @param string $methodName
      * @param null|string $methodParameter
-     * @param string|ScheduledTime $time
+     * @param string|Schedule $time
      * @param int $priority
      *
-     * @return ScheduledTime
+     * @return \Piwik\Scheduler\Schedule\Schedule
      *
      * @throws \Exception If a wrong time format is given. Needs to be either a string such as 'daily', 'weekly', ...
-     *                    or an instance of {@link Piwik\ScheduledTime}
+     *                    or an instance of {@link Piwik\Scheduler\Schedule\Schedule}
      *
      * @api
      */
@@ -124,11 +124,11 @@ class Tasks
         $this->checkIsValidTask($objectOrClassName, $methodName);
 
         if (is_string($time)) {
-            $time = ScheduledTime::factory($time);
+            $time = Schedule::factory($time);
         }
 
-        if (!($time instanceof ScheduledTime)) {
-            throw new \Exception('$time should be an instance of ScheduledTime');
+        if (!($time instanceof Schedule)) {
+            throw new \Exception('$time should be an instance of Schedule');
         }
 
         $this->scheduleTask(new ScheduledTask($objectOrClassName, $methodName, $methodParameter, $time, $priority));
