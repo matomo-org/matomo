@@ -1,6 +1,9 @@
 {
     "Contents": {
         "ContentName": "Nombre del contenido",
+        "ContentPiece": "Pieza de Contenido",
+        "Contents": "Contenidos",
+        "Impressions": "Impresiones",
         "Interactions": "Interacciones"
     }
 }

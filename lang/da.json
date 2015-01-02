@@ -149,6 +149,8 @@
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Brugeren skal være enten en superbruger eller brugeren '%s' selv.",
         "ExceptionConfigurationFileNotFound": "Konfigurationsfilen (%s) blev ikke fundet.",
         "ExceptionDatabaseVersion": "%1$s version er %2$s, men Piwik behøver mindst version %3$s.",
+        "ExceptionDatabaseVersionNewerThanCodebase": "Piwik kodebase kører den gamle version %1$s, og Piwik databasen er allerede blevet opgraderet til den nyere version %2$s.",
+        "ExceptionDatabaseVersionNewerThanCodebaseWait": "Måske er Piwik administratoren i øjeblikket ved at færdigbehandle opgraderingsprocessen. Prøv igen om et par minutter.",
         "ExceptionFileIntegrity": "Integritetstjek mislykkedes: %s",
         "ExceptionFilesizeMismatch": "Fil størrelse passer ikke: %1$s (forventet længde: %2$s, fundet: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "%1$s klient version er %2$s, som er uforenelig med server version %3$s.",
