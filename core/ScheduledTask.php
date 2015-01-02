@@ -18,6 +18,9 @@ use Piwik\Scheduler\Task;
  * See the {@link TaskScheduler} docs to learn more about scheduled tasks.
  *
  * @api
+ *
+ * @deprecated Use Piwik\Scheduler\Task instead
+ * @see \Piwik\Scheduler\Task
  */
 class ScheduledTask extends Task
 {

@@ -52,7 +52,7 @@ class Task
 
     /**
      * The scheduled time policy
-     * @var \Piwik\Scheduler\Schedule\Schedule
+     * @var Schedule
      */
     private $scheduledTime;
 
