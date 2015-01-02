@@ -250,12 +250,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
         $deleteDataInfos = array();
-        $taskScheduler = new TaskScheduler();
         $deleteDataInfos["config"] = PrivacyManager::getPurgeDataSettings();
         $deleteDataInfos["deleteTables"] =
             "<br/>" . implode(", ", LogDataPurger::getDeleteTableLogTables());
 
-        $scheduleTimetable = $taskScheduler->getScheduledTimeForMethod("PrivacyManager", "deleteLogTables");
+        $scheduleTimetable = TaskScheduler::getScheduledTimeForMethod("PrivacyManager", "deleteLogTables");
 
         $optionTable = Option::get(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 
