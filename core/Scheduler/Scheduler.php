@@ -15,25 +15,24 @@ use Piwik\Timer;
  * Schedules task execution.
  *
  * A scheduled task is a callback that should be executed every so often (such as daily,
- * weekly, monthly, etc.). They are registered in the **Scheduler** through the
- * {@hook TaskScheduler.getScheduledTasks} event.
+ * weekly, monthly, etc.). They are registered by extending {@link \Piwik\Plugin\Tasks}.
  *
- * Tasks are executed when the cron core:archive command is executed.
+ * Tasks are executed when the `core:archive` command is executed.
  *
  * ### Examples
  *
  * **Scheduling a task**
  *
- *     // event handler for Scheduler.getScheduledTasks event
- *     public function getScheduledTasks(&$tasks)
+ *     class Tasks extends \Piwik\Plugin\Tasks
  *     {
- *         $tasks[] = new Task(
- *             'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
- *             'clearAllCacheEntries',
- *             null,
- *             Schedule::factory('daily'),
- *             Task::LOWEST_PRIORITY
- *         );
+ *         public function schedule()
+ *         {
+ *             $this->hourly('myTask');  // myTask() will be executed once every hour
+ *         }
+ *         public function myTask()
+ *         {
+ *             // do something
+ *         }
  *     }
  *
  * **Executing all pending tasks**
