@@ -12,14 +12,15 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
-use Piwik\TaskScheduler;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
@@ -161,12 +162,14 @@ class API extends \Piwik\Plugin\API
         if ($allWebsitesRequested) {
             // First clear cache
             Site::clearCache();
+            /** @var Scheduler $scheduler */
+            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
             // Then, warm the cache with only the data we should have access to
             if (Piwik::hasUserSuperUserAccess()
                 // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
                 // This means this function would return ALL websites in all cases.
                 // Instead, we make sure that only the right set of data is returned
-                && !TaskScheduler::isTaskBeingExecuted()
+                && !$scheduler->isRunning()
             ) {
                 APISitesManager::getInstance()->getAllSites();
             } else {

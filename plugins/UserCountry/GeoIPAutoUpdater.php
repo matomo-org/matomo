@@ -12,6 +12,7 @@ require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker 
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Http;
 use Piwik\Log;
@@ -21,10 +22,10 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\ScheduledTask;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Timetable;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Weekly;
-use Piwik\TaskScheduler;
 use Piwik\Unzip;
 
 /**
@@ -346,7 +347,10 @@ class GeoIPAutoUpdater extends ScheduledTask
 
             Option::set(self::SCHEDULE_PERIOD_OPTION_NAME, $period);
 
-            TaskScheduler::rescheduleTask(new GeoIPAutoUpdater());
+            /** @var Scheduler $scheduler */
+            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+
+            $scheduler->rescheduleTask(new GeoIPAutoUpdater());
         }
     }
 

@@ -11,10 +11,11 @@ namespace Piwik\Plugins\ImageGraph;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
-use Piwik\TaskScheduler;
 use Piwik\Url;
 use Piwik\Period\Factory as PeriodFactory;
 
@@ -149,7 +150,10 @@ class ImageGraph extends \Piwik\Plugin
                 $parameters['idSubtable'] = $idSubtable;
             }
 
-            if (!empty($_GET['_restrictSitesToLogin']) && TaskScheduler::isTaskBeingExecuted()) {
+            /** @var Scheduler $scheduler */
+            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+
+            if (!empty($_GET['_restrictSitesToLogin']) && $scheduler->isRunning()) {
                 $parameters['_restrictSitesToLogin'] = $_GET['_restrictSitesToLogin'];
             }
 
