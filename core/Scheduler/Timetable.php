@@ -10,7 +10,6 @@
 namespace Piwik\Scheduler;
 
 use Piwik\Option;
-use Piwik\ScheduledTask;
 use Piwik\Date;
 
 /**
@@ -40,6 +39,9 @@ class Timetable
         $this->timetable = $timetable;
     }
 
+    /**
+     * @param Task[] $activeTasks
+     */
     public function removeInactiveTasks($activeTasks)
     {
         $activeTaskNames = array();
@@ -97,7 +99,7 @@ class Timetable
         return !$this->taskHasBeenScheduledOnce($taskName) || $this->shouldExecuteTask($taskName);
     }
 
-    public function rescheduleTask($task)
+    public function rescheduleTask(Task $task)
     {
         // update the scheduled time
         $this->timetable[$task->getName()] = $task->getRescheduledTime();
@@ -111,7 +113,7 @@ class Timetable
 
     public function getScheduledTimeForMethod($className, $methodName, $methodParameter = null)
     {
-        $taskName = ScheduledTask::getTaskName($className, $methodName, $methodParameter);
+        $taskName = Task::getTaskName($className, $methodName, $methodParameter);
 
         return $this->taskHasBeenScheduledOnce($taskName) ? $this->timetable[$taskName] : false;
     }
