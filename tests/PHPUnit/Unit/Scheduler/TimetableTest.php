@@ -18,13 +18,10 @@ use ReflectionProperty;
  */
 class TimetableTest extends \PHPUnit_Framework_TestCase
 {
-    private static function getTestTimetable()
-    {
-        return array(
-            'CoreAdminHome.purgeOutdatedArchives' => 1355529607,
-            'PrivacyManager.deleteReportData_1'   => 1322229607,
-        );
-    }
+    private $timetable = array(
+        'CoreAdminHome.purgeOutdatedArchives' => 1355529607,
+        'PrivacyManager.deleteReportData_1'   => 1322229607,
+    );
 
     /**
      * Dataprovider for testGetTimetableFromOptionValue
@@ -69,12 +66,10 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
      */
     public function taskHasBeenScheduledOnceTestCases()
     {
-        $timetable = self::getTestTimetable();
-
         return array(
-            array(true, 'CoreAdminHome.purgeOutdatedArchives', $timetable),
-            array(true, 'PrivacyManager.deleteReportData_1', $timetable),
-            array(false, 'ScheduledReports.weeklySchedule"', $timetable)
+            array(true, 'CoreAdminHome.purgeOutdatedArchives', $this->timetable),
+            array(true, 'PrivacyManager.deleteReportData_1', $this->timetable),
+            array(false, 'ScheduledReports.weeklySchedule"', $this->timetable)
         );
     }
 
@@ -83,9 +78,13 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
      */
     public function testTaskHasBeenScheduledOnce($expectedDecision, $taskName, $timetable)
     {
+        self::stubPiwikOption(false);
+
         $timetableObj = new Timetable();
         $timetableObj->setTimetable($timetable);
         $this->assertEquals($expectedDecision, $timetableObj->taskHasBeenScheduledOnce($taskName));
+
+        self::resetPiwikOption();
     }
 
     /**
@@ -93,7 +92,7 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
      */
     public function getScheduledTimeForMethodTestCases()
     {
-        $timetable = serialize(self::getTestTimetable());
+        $timetable = serialize($this->timetable);
 
         return array(
             array(1355529607, 'CoreAdminHome', 'purgeOutdatedArchives', null, $timetable),
@@ -107,7 +106,7 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
      */
     public function taskShouldBeExecutedTestCases()
     {
-        $timetable = self::getTestTimetable();
+        $timetable = $this->timetable;
 
         // set a date in the future (should not run)
         $timetable['CoreAdminHome.purgeOutdatedArchives'] = time() + 60000;
