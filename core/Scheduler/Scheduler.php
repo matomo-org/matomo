@@ -50,7 +50,7 @@ class Scheduler
      * Is the scheduler running any task.
      * @var bool
      */
-    private $isRunning = false;
+    private $isRunningTask = false;
 
     /**
      * @var Timetable
@@ -108,9 +108,9 @@ class Scheduler
                 }
 
                 if ($shouldExecuteTask) {
-                    $this->isRunning = true;
+                    $this->isRunningTask = true;
                     $message = $this->executeTask($task);
-                    $this->isRunning = false;
+                    $this->isRunningTask = false;
 
                     $executionResults[] = array('task' => $taskName, 'output' => $message);
                 }
@@ -139,9 +139,9 @@ class Scheduler
      *
      * @return bool
      */
-    public function isRunning()
+    public function isRunningTask()
     {
-        return $this->isRunning;
+        return $this->isRunningTask;
     }
 
     /**

@@ -93,7 +93,7 @@ class TaskScheduler
      */
     public static function isTaskBeingExecuted()
     {
-        return self::getInstance()->isRunning();
+        return self::getInstance()->isRunningTask();
     }
 
     /**

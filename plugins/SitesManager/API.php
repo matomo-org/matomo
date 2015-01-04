@@ -355,7 +355,7 @@ class API extends \Piwik\Plugin\API
         /** @var Scheduler $scheduler */
         $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
-        if (Piwik::hasUserSuperUserAccess() && !$scheduler->isRunning()) {
+        if (Piwik::hasUserSuperUserAccess() && !$scheduler->isRunningTask()) {
             return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
 
@@ -364,7 +364,7 @@ class API extends \Piwik\Plugin\API
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
             && (Piwik::hasUserSuperUserAccessOrIsTheUser($_restrictSitesToLogin)
-                || $scheduler->isRunning())
+                || $scheduler->isRunningTask())
         ) {
 
             if (Piwik::hasTheUserSuperUserAccess($_restrictSitesToLogin)) {

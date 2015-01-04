@@ -153,7 +153,7 @@ class ImageGraph extends \Piwik\Plugin
             /** @var Scheduler $scheduler */
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
-            if (!empty($_GET['_restrictSitesToLogin']) && $scheduler->isRunning()) {
+            if (!empty($_GET['_restrictSitesToLogin']) && $scheduler->isRunningTask()) {
                 $parameters['_restrictSitesToLogin'] = $_GET['_restrictSitesToLogin'];
             }
 
