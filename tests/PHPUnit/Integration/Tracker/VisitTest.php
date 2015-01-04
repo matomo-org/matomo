@@ -162,6 +162,7 @@ class VisitTest extends IntegrationTestCase
             'http://semalt.com/out/of/here?mate' => true,
             'http://buttons-for-website.com/out/of/here?mate' => true,
             'https://buttons-for-website.com' => true,
+            'https://make-money-online.7makemoneyonline.com' => true,
             'https://7makemoneyonline.com' => true,
             'http://valid.domain/' => false,
             'http://valid.domain/page' => false,
