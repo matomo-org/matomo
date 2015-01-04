@@ -80,7 +80,11 @@ class Timetable
     {
         $forceTaskExecution = (defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS);
 
-        return $forceTaskExecution || ($this->taskHasBeenScheduledOnce($taskName) && time() >= $this->timetable[$taskName]);
+        if ($forceTaskExecution) {
+            return true;
+        }
+
+        return $this->taskHasBeenScheduledOnce($taskName) && time() >= $this->timetable[$taskName];
     }
 
     /**
