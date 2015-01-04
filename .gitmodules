@@ -1,34 +1,34 @@
 [submodule "plugins/PleineLune"]
-	path = plugins/PleineLune
-	url = https://github.com/piwik/theme-PleineLune.git
-	branch = master
+    path = plugins/PleineLune
+    url = https://github.com/piwik/theme-PleineLune.git
+    branch = master
 [submodule "plugins/SecurityInfo"]
-	path = plugins/SecurityInfo
-	url = https://github.com/piwik/plugin-SecurityInfo.git
-	branch = master
+    path = plugins/SecurityInfo
+    url = https://github.com/piwik/plugin-SecurityInfo.git
+    branch = master
 [submodule "plugins/TreemapVisualization"]
-	path = plugins/TreemapVisualization
-	url = https://github.com/piwik/plugin-TreemapVisualization.git
-	branch = master
+    path = plugins/TreemapVisualization
+    url = https://github.com/piwik/plugin-TreemapVisualization.git
+    branch = master
 [submodule "plugins/VisitorGenerator"]
-	path = plugins/VisitorGenerator
-	url = https://github.com/piwik/plugin-VisitorGenerator.git
-	branch = master
+    path = plugins/VisitorGenerator
+    url = https://github.com/piwik/plugin-VisitorGenerator.git
+    branch = master
 [submodule "tests/PHPUnit/UI"]
-	path = tests/PHPUnit/UI
-	url = https://github.com/piwik/piwik-ui-tests.git
-	branch = master
+    path = tests/PHPUnit/UI
+    url = https://github.com/piwik/piwik-ui-tests.git
+    branch = master
 [submodule "plugins/CustomAlerts"]
-	path = plugins/CustomAlerts
-	url = https://github.com/piwik/plugin-CustomAlerts.git
-	branch = master
+    path = plugins/CustomAlerts
+    url = https://github.com/piwik/plugin-CustomAlerts.git
+    branch = master
 [submodule "plugins/TasksTimetable"]
-	path = plugins/TasksTimetable
-	url = https://github.com/piwik/plugin-TasksTimetable.git
+    path = plugins/TasksTimetable
+    url = https://github.com/piwik/plugin-TasksTimetable.git
     branch = master
 [submodule "plugins/LoginHttpAuth"]
-	path = plugins/LoginHttpAuth
-	url = https://github.com/piwik/plugin-LoginHttpAuth.git
+    path = plugins/LoginHttpAuth
+    url = https://github.com/piwik/plugin-LoginHttpAuth.git
     branch = master
 
 # Note: when you add a submodule that SHOULD be left in the packaged release such as the few submodules below,
@@ -36,8 +36,11 @@
 #       https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh
 
 [submodule "plugins/QueuedTracking"]
-	path = plugins/QueuedTracking
-	url = https://github.com/piwik/plugin-QueuedTracking.git
+    path = plugins/QueuedTracking
+    url = https://github.com/piwik/plugin-QueuedTracking.git
+    branch = master
+
 [submodule "libs/PiwikTracker"]
-	path = libs/PiwikTracker
-	url = https://github.com/piwik/piwik-php-tracker.git
+    path = libs/PiwikTracker
+    url = https://github.com/piwik/piwik-php-tracker.git
+    branch = master
