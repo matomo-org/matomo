@@ -405,7 +405,7 @@ class Report
      * default metric translation for this metric using the {@hook Metrics.getDefaultMetricTranslations} event. If you
      * want to overwrite any default metric translation you should overwrite this method, call this parent method to
      * get all default translations and overwrite any custom metric translations.
-     * @return array
+     * @return array|mixed
      * @api
      */
     public function getProcessedMetrics()
