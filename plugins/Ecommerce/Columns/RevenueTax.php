@@ -6,16 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Goals\Columns;
+namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
-class RevenueDiscount extends BaseConversion
+class RevenueTax extends BaseConversion
 {
-    protected $columnName = 'revenue_discount';
+    protected $columnName = 'revenue_tax';
     protected $columnType = 'float default NULL';
 
     /**
@@ -28,6 +28,6 @@ class RevenueDiscount extends BaseConversion
      */
     public function onEcommerceOrderConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
     {
-        return $this->roundRevenueIfNeeded($request->getParam('ec_dt'));
+        return $this->roundRevenueIfNeeded($request->getParam('ec_tx'));
     }
 }

@@ -13,7 +13,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\View;
@@ -439,11 +438,11 @@ class Controller extends \Piwik\Plugin\Controller
             }
 
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_ProductSKU', 'Goals.getItemsSku', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_ProductSKU', 'Ecommerce.getItemsSku', $ecommerceCustomParams);
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_ProductName', 'Goals.getItemsName', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_ProductName', 'Ecommerce.getItemsName', $ecommerceCustomParams);
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_ProductCategory', 'Ecommerce.getItemsCategory', $ecommerceCustomParams);
         }
 
         if ($conversions > 0) {

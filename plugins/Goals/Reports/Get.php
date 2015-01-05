@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Goals\Reports;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 
-class Get extends BaseGoal
+class Get extends Base
 {
     protected function init()
     {

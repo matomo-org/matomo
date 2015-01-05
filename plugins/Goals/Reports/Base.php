@@ -12,7 +12,7 @@ use Piwik\Common;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Goals;
 
-abstract class BaseGoal extends \Piwik\Plugin\Report
+abstract class Base extends \Piwik\Plugin\Report
 {
     protected $orderGoal = 50;
 
