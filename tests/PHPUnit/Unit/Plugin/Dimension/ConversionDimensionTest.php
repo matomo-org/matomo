@@ -147,7 +147,7 @@ class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getAllDimensions_shouldLoadAllDimensionsButOnlyIfLoadedPlugins()
     {
-        Manager::getInstance()->loadPlugins(array('Goals', 'ExampleTracker'));
+        Manager::getInstance()->loadPlugins(array('Goals', 'Ecommerce', 'ExampleTracker'));
 
         $dimensions = ConversionDimension::getAllDimensions();
 
