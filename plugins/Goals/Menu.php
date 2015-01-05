@@ -12,11 +12,8 @@ use Piwik\Common;
 use Piwik\Menu\Group;
 use Piwik\Menu\MenuReporting;
 use Piwik\Piwik;
-use Piwik\Site;
 use Piwik\Translate;
 
-/**
- */
 class Menu extends \Piwik\Plugin\Menu
 {
 
@@ -24,35 +21,23 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $goals  = API::getInstance()->getGoals($idSite);
-        $mainGoalMenu = $this->getGoalCategoryName($idSite);
-
-        $site = new Site($idSite);
+        $mainGoalMenu = 'Goals_Goals';
 
         if (count($goals) == 0) {
-            $action = $site->isEcommerceEnabled() ? 'ecommerceReport' : 'addNewGoal';
+            $action = 'addNewGoal';
             $url    = $this->urlForAction($action, array(
-                'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null
-            )));
+                'idGoal' => null
+            ));
 
             $menu->addItem($mainGoalMenu, '', $url, 25);
-
-            if ($site->isEcommerceEnabled()) {
-                $menu->addItem($mainGoalMenu, 'Goals_Ecommerce', $this->urlForAction('ecommerceReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER)), 1);
-            }
-
             $menu->addItem($mainGoalMenu, 'Goals_AddNewGoal', $this->urlForAction('addNewGoal'));
 
         } else {
 
-            $action = $site->isEcommerceEnabled() ? 'ecommerceReport' : 'index';
-            $url    = $this->urlForAction($action, array('idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)));
+            $action = 'index';
+            $url    = $this->urlForAction($action, array('idGoal' => null));
 
             $menu->addItem($mainGoalMenu, '', $url, 25);
-
-            if ($site->isEcommerceEnabled()) {
-                $menu->addItem($mainGoalMenu, 'Goals_Ecommerce', $this->urlForAction('ecommerceReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER)), 1);
-            }
-
             $menu->addItem($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), 2);
 
             $group = new Group();
@@ -72,11 +57,11 @@ class Menu extends \Piwik\Plugin\Menu
                 $menu->addGroup($mainGoalMenu, 'Goals_ChooseGoal', $group, $orderId = 50, $tooltip = false);
             }
         }
+
+        if (0 !== count($goals) && Piwik::isUserHasAdminAccess($idSite)) {
+            $menu->addItem($mainGoalMenu, 'Goals_GoalsManagement', $this->urlForAction('manage'), 1);
+        }
+
     }
 
-    private function getGoalCategoryName($idSite)
-    {
-        $site = new Site($idSite);
-        return $site->isEcommerceEnabled() ? 'Goals_EcommerceAndGoalsMenu' : 'Goals_Goals';
-    }
 }

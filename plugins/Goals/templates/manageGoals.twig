@@ -1,0 +1,29 @@
+<div class="clear"></div>
+<h2 piwik-enriched-headline>{{ 'Goals_GoalsManagement'|translate }}</h2>
+
+<div class="entityList">
+    <ul class='listCircle'>
+        <li>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}</li>
+        <li>
+            {% if not ecommerceEnabled %}
+                {% set websiteManageText %}
+                <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
+                {% endset %}
+                {% set ecommerceReportText %}
+                <a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
+                {% endset %}
+                {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
+            {% else %}
+                {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate('<a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">',"</a>")|raw }}
+            {% endif %}
+        </li>
+    </ul>
+</div>
+<br/>
+
+<div class="entityList">
+    <a onclick='' name='linkAddNewGoal'>{{ 'Goals_CreateNewGOal'|translate }}</a>
+</div>
+<br/>
+
+{% include "@Goals/_addEditGoal.twig" %}
