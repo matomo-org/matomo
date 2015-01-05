@@ -850,6 +850,7 @@ class CronArchive
         } else {
             $message .= "Response was '$response'";
         }
+
         $this->logError($message);
         return false;
     }

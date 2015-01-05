@@ -371,7 +371,7 @@ class Configuration(object):
         )
         option_parser.add_option(
             '--url', dest='piwik_url',
-            help="REQUIRED Piwik base URL, eg. http://example.com/piwik/ or http://analytics.example.net",
+            help="REQUIRED Your Piwik server URL, eg. http://example.com/piwik/ or http://analytics.example.net",
         )
         option_parser.add_option(
             '--dry-run', dest='dry_run',
