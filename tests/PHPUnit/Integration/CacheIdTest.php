@@ -20,12 +20,12 @@ class CacheIdTest extends IntegrationTestCase
 {
     public function setUp()
     {
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
     }
 
     public function test_languageAware_shouldAppendTheLoadedLanguage()

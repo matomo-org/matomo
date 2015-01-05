@@ -164,7 +164,7 @@ class WidgetsListTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
 
@@ -175,5 +175,7 @@ class WidgetsListTest extends IntegrationTestCase
 
         $this->assertTrue(WidgetsList::isDefined('Actions', 'getPageUrls'));
         $this->assertFalse(WidgetsList::isDefined('Actions', 'inValiD'));
+
+        Translate::reset();
     }
 }

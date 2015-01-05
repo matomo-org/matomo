@@ -12,6 +12,7 @@ use DI\Container;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
 use Piwik\Config;
+use Piwik\Development;
 
 /**
  * Creates a configured DI container.
@@ -54,6 +55,11 @@ class ContainerFactory
 
         // Global config
         $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
+
+        // Development config
+        if (Development::isEnabled()) {
+            $builder->addDefinitions(PIWIK_USER_PATH . '/config/environment/dev.php');
+        }
 
         // User config
         if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {

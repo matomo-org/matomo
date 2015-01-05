@@ -12,7 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
@@ -24,6 +24,7 @@ use Piwik\Translate;
 use Piwik\Log;
 use PHPUnit_Framework_TestCase;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Translation\Translator;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -492,8 +493,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     {
         if ($this->lastLanguage != $langId) {
             $_GET['language'] = $langId;
-            Translate::reset();
-            Translate::reloadLanguage($langId);
+            /** @var Translator $translator */
+            $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+            $translator->setCurrentLanguage($langId);
         }
 
         $this->lastLanguage = $langId;

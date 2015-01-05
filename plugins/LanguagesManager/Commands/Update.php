@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugins\LanguagesManager\API;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,6 +33,7 @@ class Update extends TranslationBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
 
         $command = $this->getApplication()->find('translations:fetch');
@@ -60,6 +63,7 @@ class Update extends TranslationBase
             $output->writeln("(!) Non interactive mode: New languages will be skipped");
         }
 
+        /** @var ProgressHelper $progress */
         $progress = $this->getHelperSet()->get('progress');
 
         $progress->start($output, count($files));

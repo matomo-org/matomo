@@ -14,8 +14,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
-Piwik\Translate::loadEnglishTranslation();
-
 if (!Piwik\Common::isPhpCliMode()) {
     exit;
 }

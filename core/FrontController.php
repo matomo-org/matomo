@@ -325,15 +325,13 @@ class FrontController extends Singleton
             $tmpPath . '/templates_c/',
         );
 
-        Translate::loadEnglishTranslation();
-
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
 
         $this->handleMaintenanceMode();
         $this->handleProfiler();
         $this->handleSSLRedirection();
 
-        Plugin\Manager::getInstance()->loadPluginTranslations('en');
+        Plugin\Manager::getInstance()->loadPluginTranslations();
         Plugin\Manager::getInstance()->loadActivatedPlugins();
 
         if ($exceptionToThrow) {
@@ -445,7 +443,6 @@ class FrontController extends Singleton
         }
         SettingsServer::raiseMemoryLimitIfNecessary();
 
-        Translate::reloadLanguage();
         \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
 
         /**

@@ -78,10 +78,6 @@ class ScheduledTasksRunner
             // Scheduled tasks assume Super User is running
             Piwik::setUserHasSuperUserAccess();
 
-            // While each plugins should ensure that necessary languages are loaded,
-            // we ensure English translations at least are loaded
-            Translate::loadEnglishTranslation();
-
             ob_start();
             CronArchive::$url = SettingsPiwik::getPiwikUrl();
             $cronArchive = new CronArchive();

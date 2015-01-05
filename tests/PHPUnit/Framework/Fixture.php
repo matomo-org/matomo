@@ -217,7 +217,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         // Make sure translations are loaded to check messages in English
         if ($this->loadTranslations) {
-            Translate::reloadLanguage('en');
+            Translate::loadAllTranslations();
             APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
@@ -314,7 +314,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
 
         Config::unsetInstance();
 

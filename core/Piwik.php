@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
@@ -16,6 +17,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Session;
 use Piwik\Tracker;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -733,25 +735,16 @@ class Piwik
      * @param string $translationId Translation ID, eg, `'General_Date'`.
      * @param array|string|int $args `sprintf` arguments to be applied to the internationalized
      *                               string.
+     * @param string|null $language Optionally force the language.
      * @return string The translated string or `$translationId`.
      * @api
      */
-    public static function translate($translationId, $args = array())
+    public static function translate($translationId, $args = array(), $language = null)
     {
-        if (!is_array($args)) {
-            $args = array($args);
-        }
+        /** @var Translator $translator */
+        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
 
-        if (strpos($translationId, "_") !== false) {
-            list($plugin, $key) = explode("_", $translationId, 2);
-            if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
-                $translationId = $GLOBALS['Piwik_translations'][$plugin][$key];
-            }
-        }
-        if (count($args) == 0) {
-            return $translationId;
-        }
-        return vsprintf($translationId, $args);
+        return $translator->translate($translationId, $args, $language);
     }
 
     /**

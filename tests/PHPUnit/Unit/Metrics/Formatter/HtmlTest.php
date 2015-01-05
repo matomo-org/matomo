@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Unit\Metrics\Formatter;
 
+use Piwik\Intl\Locale;
 use Piwik\Metrics\Formatter\Html;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -34,18 +35,14 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Html();
 
-        setlocale(LC_ALL, null);
-
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
         $this->unsetSiteManagerApiMock();
-
-        setlocale(LC_ALL, null);
     }
 
     public function test_getPrettyTimeFromSeconds_DefaultsToShowingSentences_AndUsesNonBreakingSpaces()
