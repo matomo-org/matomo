@@ -110,11 +110,14 @@ Try again.";
     $url = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=TestRunner&action=check';
     $response = Http::sendHttpRequestBy('curl', $url, 2);
 
-    if ($response !== 'OK') {
-        throw new Exception(sprintf(
-            "Piwik should be running at %s but this URL returned an unexpected response: '%s'",
-            Fixture::getRootUrl(),
-            $response
-        ));
+    // The SQL error is for Travis...
+    if ($response === 'OK' || strpos($response, 'Base table or view not found: 1146 Table &#039;piwik_tests.option&#039; doesn&#039;t exist') !== false) {
+        return;
     }
+
+    throw new Exception(sprintf(
+        "Piwik should be running at %s but this URL returned an unexpected response: '%s'",
+        Fixture::getRootUrl(),
+        $response
+    ));
 }
