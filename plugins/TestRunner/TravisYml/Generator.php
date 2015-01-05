@@ -113,7 +113,7 @@ abstract class Generator
 
     protected function travisEncrypt($data)
     {
-        $this->logger->info("Encrypting \"{data}\"...", $data);
+        $this->logger->info("Encrypting \"{data}\"...", array('data' => $data));
 
         $command = "travis encrypt \"$data\"";
 
