@@ -73,6 +73,8 @@ class Tracker
 
     private function init()
     {
+        $this->handleFatalErrors();
+
         \Piwik\FrontController::createConfigObject();
 
         if ($this->isDebugModeEnabled()) {
@@ -292,4 +294,13 @@ class Tracker
         }
     }
 
+    private function handleFatalErrors()
+    {
+        register_shutdown_function(function () {
+            $lastError = error_get_last();
+            if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+                Common::sendResponseCode(500);
+            }
+        });
+    }
 }

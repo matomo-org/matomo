@@ -253,6 +253,8 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+            Common::sendResponseCode(500);
+
             $controller = FrontController::getInstance();
             $controller->init();
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));

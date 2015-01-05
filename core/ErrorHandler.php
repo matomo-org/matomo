@@ -79,6 +79,7 @@ class ErrorHandler
             case E_COMPILE_ERROR:
             case E_COMPILE_WARNING:
             case E_USER_ERROR:
+                Common::sendResponseCode(500);
                 // Convert the error to an exception with an HTML message
                 $e = new \Exception();
                 $message = self::getHtmlMessage($errno, $errstr, $errfile, $errline, $e->getTraceAsString());
