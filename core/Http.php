@@ -99,7 +99,7 @@ class Http
      *
      * @param string $method
      * @param string $aUrl
-     * @param int $timeout
+     * @param int $timeout in seconds
      * @param string $userAgent
      * @param string $destinationPath
      * @param resource $file
