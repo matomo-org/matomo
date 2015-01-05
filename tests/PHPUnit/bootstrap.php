@@ -111,7 +111,7 @@ Try again.";
     $response = Http::sendHttpRequestBy('curl', $url, 2);
 
     // The SQL error is for Travis...
-    if ($response === 'OK' || strpos($response, 'Base table or view not found: 1146 Table &#039;piwik_tests.option&#039; doesn&#039;t exist') !== false) {
+    if ($response === 'OK' || strpos($response, 'Table &#039;piwik_tests.option&#039; doesn&#039;t exist') !== false) {
         return;
     }
 
