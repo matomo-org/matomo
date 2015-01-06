@@ -68,11 +68,7 @@ class DataTablePostProcessor
         $this->apiMethod = $apiMethod;
         $this->request = $request;
 
-        foreach (Report::getAllReports() as $report) {
-            if ($apiMethod === $report->getAction() && $apiModule === $report->getModule()) {
-                $this->report = $report;
-            }
-        }
+        $this->report = Report::factory($apiModule, $apiMethod);
         $this->apiInconsistencies = new Inconsistencies();
         $this->formatter = new Formatter();
     }

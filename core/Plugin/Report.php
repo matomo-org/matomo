@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Columns\Dimension;
 use Piwik\DataTable;
@@ -723,7 +724,38 @@ class Report
      */
     public static function factory($module, $action)
     {
-        return ComponentFactory::factory($module, ucfirst($action), __CLASS__);
+        $listApiToReport = self::getMapOfModuleActionsToReport();
+        $api = $module . '.' . $action;
+
+        if (!array_key_exists($api, $listApiToReport)) {
+            return null;
+        }
+
+        $klassName = $listApiToReport[$api];
+
+        return new $klassName;
+    }
+
+    private static function getMapOfModuleActionsToReport()
+    {
+        $cacheId = 'ReportFactoryMap';
+
+        $cache = Cache::getEagerCache();
+        if ($cache->contains($cacheId)) {
+            $mapApiToReport = $cache->fetch($cacheId);
+        } else {
+            $reports = self::getAllReports();
+
+            $mapApiToReport = array();
+            foreach ($reports as $report) {
+                $key = $report->getModule() . '.' . $report->getAction();
+                $mapApiToReport[$key] = get_class($report);
+            }
+
+            $cache->save($cacheId, $mapApiToReport);
+        }
+
+        return $mapApiToReport;
     }
 
     /**

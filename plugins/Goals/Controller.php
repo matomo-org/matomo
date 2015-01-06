@@ -438,11 +438,11 @@ class Controller extends \Piwik\Plugin\Controller
             }
 
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_ProductSKU', 'Ecommerce.getItemsSku', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_ProductSKU', 'Goals.getItemsSku', $ecommerceCustomParams);
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_ProductName', 'Ecommerce.getItemsName', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_ProductName', 'Goals.getItemsName', $ecommerceCustomParams);
             $goalReportsByDimension->addReport(
-                'Goals_EcommerceReports', 'Goals_ProductCategory', 'Ecommerce.getItemsCategory', $ecommerceCustomParams);
+                'Goals_EcommerceReports', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
         }
 
         if ($conversions > 0) {
