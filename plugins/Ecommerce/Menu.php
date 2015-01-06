@@ -13,7 +13,7 @@ use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use Piwik\Site;
-use Piwik\Translate;
+use Piwik\Url;
 
 /**
  */
@@ -31,18 +31,30 @@ class Menu extends \Piwik\Plugin\Menu
             $ecommerceUrl    = $this->urlForAction('ecommerceReport', $ecommerceParams);
 
             $menu->addItem('Goals_Ecommerce', '', $ecommerceUrl, 24);
-            $menu->addItem('Goals_Ecommerce', 'Goals_EcommerceOverview', $ecommerceUrl, 1);
+            $menu->addItem('Goals_Ecommerce', 'General_Overview', $ecommerceUrl, 1);
             $menu->addItem('Goals_Ecommerce', 'Goals_EcommerceLog', $this->urlForAction('getEcommerceLog'), 2);
             $menu->addItem('Goals_Ecommerce', 'Ecommerce_Sales', $this->urlForAction('sales', $ecommerceParams), 3);
         }
 
     }
+
+    /*
     public function configureUserMenu(MenuUser $menu)
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addManageItem('Goals_GoalsManagement', $this->urlForAction('manage'), 15);
+
+            $url = "index.php"
+                . Url::getCurrentQueryStringWithParametersModified(array(
+                    'module' => 'CoreHome',
+                    'action' => ''
+                ))
+                . "#"
+                . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Ecommerce', 'action' => 'manage'));
+
+            $menu->addManageItem('Goals_GoalsManagement', $url, 15);
         }
     }
+    */
 }

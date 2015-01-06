@@ -22,7 +22,7 @@ class Widgets extends \Piwik\Plugin\Widgets
 
         $site = new Site($idSite);
         if ($site->isEcommerceEnabled()) {
-            $this->addWidget('Goals_EcommerceOverview', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
+            $this->addWidget('General_Overview', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
             $this->addWidget('Goals_EcommerceLog', 'getEcommerceLog');
         }
     }

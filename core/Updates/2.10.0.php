@@ -24,9 +24,9 @@ class Updates_2_10_0 extends Updates
 
     static function getSql()
     {
-        $sqls = array('# ATTENTION: This update script will execute some more SQL queries than that below as it is necessary to rebuilt some archives #' => false);
+        $sqls = array();
 
-        // update dashboard to use new widgets
+        // update dashboard to use new ecommerce widgets, they were moved from goals plugin to ecommerce
         $oldWidgets = array(
             array('module' => 'Goals', 'action' => 'getEcommerceLog',  'params' => array()),
             array('module' => 'Goals', 'action' => 'widgetGoalReport', 'params' => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER)),
