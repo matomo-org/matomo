@@ -738,7 +738,7 @@ class Report
 
     private static function getMapOfModuleActionsToReport()
     {
-        $cacheId = 'ReportFactoryMap';
+        $cacheId = CacheId::pluginAware('ReportFactoryMap');
 
         $cache = Cache::getEagerCache();
         if ($cache->contains($cacheId)) {
