@@ -725,7 +725,7 @@ class Report
     public static function factory($module, $action)
     {
         $listApiToReport = self::getMapOfModuleActionsToReport();
-        $api = $module . '.' . $action;
+        $api = $module . '.' . ucfirst($action);
 
         if (!array_key_exists($api, $listApiToReport)) {
             return null;
@@ -748,7 +748,7 @@ class Report
 
             $mapApiToReport = array();
             foreach ($reports as $report) {
-                $key = $report->getModule() . '.' . $report->getAction();
+                $key = $report->getModule() . '.' . ucfirst($report->getAction());
                 $mapApiToReport[$key] = get_class($report);
             }
 
