@@ -24,18 +24,22 @@ class Controller extends \Piwik\Plugins\Goals\Controller
 
         $view = $this->getGoalReportView($idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
         $view->displayFullReport = false;
-        $view->showHeadline = true;
+        $view->headline = Piwik::translate('Goals_EcommerceOverview');
         return $view->render();
     }
 
     public function getEcommerceLog($fetch = false)
     {
+        $view = new View('@Ecommerce/ecommerceLog');
+        $this->setGeneralVariablesView($view);
+
         $saveGET = $_GET;
         $_GET['segment'] = urlencode('visitEcommerceStatus!=none');
         $_GET['widget'] = 1;
-        $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
+        $view->ecommerceLog = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
         $_GET = $saveGET;
-        return $output;
+
+        return $view->render();
     }
 
     public function index()

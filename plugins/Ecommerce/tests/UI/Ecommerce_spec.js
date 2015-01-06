@@ -1,7 +1,7 @@
 /*!
  * Piwik - free/libre analytics platform
  *
- * GoalsTable screenshot tests.
+ * Screenshot integration tests.
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,47 +10,49 @@
 describe("Ecommerce", function () {
     this.timeout(0);
 
-    var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
-            + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
+    var generalParams = 'idSite=1&period=year&date=2012-08-09',
+        urlBase = 'module=CoreHome&action=index&' + generalParams;
 
-    it("should load when the goals icon is clicked", function (done) {
-        expect.screenshot('initial').to.be.capture(function (page) {
-            page.load(url);
-            page.click('.tableIconsGroup a[data-footer-icon-id=tableGoals]');
+    before(function (done) {
+        testEnvironment.queryParamOverride = {
+            forceNowValue: testEnvironment.forcedNowTimestamp,
+            visitorId: testEnvironment.forcedIdVisitor,
+            realtimeWindow: 'false'
+        };
+        testEnvironment.save();
+
+        testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 3, urls: []}, done);
+    });
+
+    beforeEach(function () {
+        delete testEnvironment.configOverride;
+        testEnvironment.testUseRegularAuth = 0;
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.testUseRegularAuth = 0;
+        testEnvironment.save();
+    });
+
+    // goals pages
+    it('should load ecommerce overview', function (done) {
+        expect.screenshot('ecommerce_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=ecommerceReport&idGoal=ecommerceOrder");
         }, done);
     });
 
-    it("should show columns for all goals when idGoal is 0", function (done) {
-        expect.screenshot('goals_table_full').to.be.capture(function (page) {
-            var url = page.getCurrentUrl().replace(/viewDataTable=[^&]*/, "viewDataTable=tableGoals") + "&idGoal=0";
-            page.load(url);
+    it('should load ecommerce log', function (done) {
+        expect.screenshot('ecommerce_log').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load( "?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=getEcommerceLog");
         }, done);
     });
 
-    it("should show columns for a single goal when idGoal is 1", function (done) {
-        expect.screenshot('goals_table_single').to.be.capture(function (page) {
-            page.load(page.getCurrentUrl().replace(/idGoal=[^&]*/, "idGoal=1"));
+    it('should load ecommerce products', function (done) {
+        expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=ecommerceProducts&idGoal=ecommerceOrder");
         }, done);
     });
 
-    it("should show an ecommerce view when idGoal is ecommerceOrder", function (done) {
-        expect.screenshot('goals_table_ecommerce').to.be.capture(function (page) {
-            page.load(page.getCurrentUrl().replace(/idGoal=[^&]*/, "idGoal=ecommerceOrder"));
-        }, done);
-    });
-
-    it("should show a special view when idGoal is ecommerceOrder and viewDataTable is ecommerceOrder", function (done) {
-        expect.screenshot('goals_table_ecommerce_view').to.be.capture(function (page) {
-            var url = page.getCurrentUrl().replace(/moduleToWidgetize=[^&]*/, "moduleToWidgetize=Ecommerce")
-                                          .replace(/actionToWidgetize=[^&]*/, "actionToWidgetize=getItemsSku")
-                                          .replace(/viewDataTable=[^&]*/, "viewDataTable=ecommerceOrder");
-            page.load(url);
-        }, done);
-    });
-
-    it("should show abandoned carts data when the abandoned carts link is clicked", function (done) {
-        expect.screenshot('goals_table_abandoned_carts').to.be.capture(function (page) {
-            page.click('.tableIconsGroup a[data-footer-icon-id=ecommerceAbandonedCart]');
-        }, done);
-    });
 });
