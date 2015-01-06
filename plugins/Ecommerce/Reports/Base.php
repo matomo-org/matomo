@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Site;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
+use Piwik\WidgetsList;
 
 abstract class Base extends Report
 {
@@ -97,6 +98,17 @@ abstract class Base extends Report
         $rendered  = $view->render();
 
         return $rendered;
+    }
+
+    public function configureWidget(WidgetsList $widget)
+    {
+        if ($this->widgetTitle) {
+            $params = array();
+            if (!empty($this->widgetParams) && is_array($this->widgetParams)) {
+                $params = $this->widgetParams;
+            }
+            $widget->add($this->category, $this->widgetTitle, 'Ecommerce', $this->action, $params);
+        }
     }
 
 }
