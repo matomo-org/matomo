@@ -110,7 +110,7 @@ class PageUrl
     public static function shouldRemoveURLFragmentFor($idSite)
     {
         $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
-        return !$websiteAttributes['keep_url_fragment'];
+        return empty($websiteAttributes['keep_url_fragment']);
     }
 
     /**
