@@ -22,7 +22,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if (Piwik::hasUserSuperUserAccess()) {
-            $menu->addSettingsItem('UsersManager_MenuAnonymousUserSettings', $this->urlForAction('anonymousSettings'), $order = 2);
+            $menu->addSettingsItem('UsersManager_MenuAnonymousUserSettings', $this->urlForAction('anonymousSettings'), $order = 8);
         }
     }
 
