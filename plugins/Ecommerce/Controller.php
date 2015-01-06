@@ -47,12 +47,12 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         return $this->ecommerceReport();
     }
 
-    public function ecommerceProducts()
+    public function sales()
     {
         $viewOverview = $this->getGoalReportView(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
         $reportsByDimension = $viewOverview->goalReportsByDimension;
 
-        $view = new View('@Ecommerce/ecommerceProducts');
+        $view = new View('@Ecommerce/sales');
         $this->setGeneralVariablesView($view);
 
         $view->goalReportsByDimension = $reportsByDimension;

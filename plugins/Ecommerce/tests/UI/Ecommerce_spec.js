@@ -50,8 +50,8 @@ describe("Ecommerce", function () {
     });
 
     it('should load ecommerce products', function (done) {
-        expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=ecommerceProducts&idGoal=ecommerceOrder");
+        expect.screenshot('ecommerce_sales').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=sales&idGoal=ecommerceOrder");
         }, done);
     });
 
