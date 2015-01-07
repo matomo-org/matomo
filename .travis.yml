@@ -111,14 +111,15 @@ before_script:
   - mysql -e "SET GLOBAL wait_timeout = 3600" # try to avoid mysql has gone away errors
 
   - mysql -e "SELECT @@sql_mode;"
-  - mysql -e "SHOW GLOBAL VARIABLES;"
+  # - mysql -e "SHOW GLOBAL VARIABLES;"
+
 
   # Start UI tests
   - ./tests/travis/initiate_ui_tests.sh
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   # - travis_retry composer self-update
 
-  - travis_retry composer install
+  - travis_retry composer install -q
 
   # print out more debugging info
   - uname -a
