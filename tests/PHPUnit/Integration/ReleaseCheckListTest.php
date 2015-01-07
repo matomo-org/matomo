@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Config;
 use Piwik\Filesystem;
+use Piwik\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker;
 use RecursiveDirectoryIterator;
@@ -26,7 +27,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
+        $iniReader = new IniReader();
+        $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
     }
