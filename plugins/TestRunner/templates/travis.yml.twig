@@ -90,9 +90,6 @@ install:
   - git clone -q https://github.com/piwik/piwik.git piwik
   - cd piwik
   - git fetch -q --all
-  - ./tests/travis/checkout_test_against_branch.sh
-  - git submodule init -q
-  - git submodule update -q || true
 {% else %}
   - git fetch -q
 {% endif %}
@@ -100,6 +97,10 @@ install:
   # move plugin contents to folder in the plugins subdirectory
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
+
+  - ./tests/travis/checkout_test_against_branch.sh
+  - git submodule init -q
+  - git submodule update -q || true
 
   # copy .coveralls.yml if none exists
   - if [ ! -f ../coveralls.yml ];
