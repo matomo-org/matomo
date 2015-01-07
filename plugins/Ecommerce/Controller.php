@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Ecommerce;
 
 use Exception;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
@@ -28,18 +29,25 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         return $view->render();
     }
 
-    public function getEcommerceLog($fetch = false)
+    public function ecommerceLogReport($fetch = false)
     {
         $view = new View('@Ecommerce/ecommerceLog');
         $this->setGeneralVariablesView($view);
 
+        $view->ecommerceLog = $this->getEcommerceLog($fetch);
+
+        return $view->render();
+    }
+
+    public function getEcommerceLog($fetch = false)
+    {
         $saveGET = $_GET;
         $_GET['segment'] = urlencode('visitEcommerceStatus!=none');
         $_GET['widget'] = 1;
-        $view->ecommerceLog = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
-        $_GET = $saveGET;
+        $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
+        $_GET   = $saveGET;
 
-        return $view->render();
+        return $output;
     }
 
     public function index()
