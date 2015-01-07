@@ -11,7 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker;
-use Piwik\Tracker\Cache;
+use Piwik\Tracker\Cache as TrackerCache;
 
 /**
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
@@ -1211,7 +1211,7 @@ class Common
      */
     public static function getCurrentLocationProviderId()
     {
-        $cache = Cache::getCacheGeneral();
+        $cache = TrackerCache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
             ? DefaultProvider::ID
             : $cache['currentLocationProviderId'];
