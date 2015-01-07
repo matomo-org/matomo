@@ -119,7 +119,7 @@ before_script:
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   # - travis_retry composer self-update
 
-  - travis_retry composer install -q
+  - travis_retry composer install
 
   # print out more debugging info
   - uname -a
