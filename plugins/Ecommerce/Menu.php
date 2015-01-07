@@ -37,24 +37,4 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
     }
-
-    /*
-    public function configureUserMenu(MenuUser $menu)
-    {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-
-        if (Piwik::isUserHasAdminAccess($idSite)) {
-
-            $url = "index.php"
-                . Url::getCurrentQueryStringWithParametersModified(array(
-                    'module' => 'CoreHome',
-                    'action' => ''
-                ))
-                . "#"
-                . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Ecommerce', 'action' => 'manage'));
-
-            $menu->addManageItem('Goals_GoalsManagement', $url, 15);
-        }
-    }
-    */
 }

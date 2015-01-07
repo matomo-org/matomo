@@ -11,34 +11,34 @@ namespace Piwik\Plugins\Goals;
 use Piwik\Common;
 use Piwik\Menu\Group;
 use Piwik\Menu\MenuReporting;
+use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use Piwik\Translate;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
+        $idSite = $this->getIdSite();
         $goals  = API::getInstance()->getGoals($idSite);
         $mainGoalMenu = 'Goals_Goals';
 
-        if (count($goals) == 0) {
-            $action = 'addNewGoal';
-            $url    = $this->urlForAction($action, array(
-                'idGoal' => null
-            ));
+        $linkToAddNewGoal = $this->urlForAction('addNewGoal', array(
+            'idGoal' => null
+        ));
 
-            $menu->addItem($mainGoalMenu, '', $url, 25);
-            $menu->addItem($mainGoalMenu, 'Goals_AddNewGoal', $this->urlForAction('addNewGoal'));
+        $order = 1;
+
+        if (count($goals) == 0) {
+
+            $menu->addItem($mainGoalMenu, '', $linkToAddNewGoal, 25);
 
         } else {
 
-            $action = 'index';
-            $url    = $this->urlForAction($action, array('idGoal' => null));
+            $url = $this->urlForAction('index', array('idGoal' => null));
 
             $menu->addItem($mainGoalMenu, '', $url, 25);
-            $menu->addItem($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), 2);
+            $menu->addItem($mainGoalMenu, 'General_Overview', $url, ++$order);
 
             $group = new Group();
             foreach ($goals as $goal) {
@@ -46,22 +46,36 @@ class Menu extends \Piwik\Plugin\Menu
                 $params      = $this->urlForAction('goalReport', array('idGoal' => $goal['idgoal']));
                 $tooltip     = sprintf('%s (id = %d)', $subMenuName, $goal['idgoal']);
 
-                if (count($goals) <= 3) {
-                    $menu->addItem($mainGoalMenu, $subMenuName, $params, 50, $tooltip);
-                } else {
+                if (count($goals) > 3) {
                     $group->add($subMenuName, $params, $tooltip);
+                } else {
+                    $menu->addItem($mainGoalMenu, $subMenuName, $params, ++$order, $tooltip);
                 }
             }
 
             if (count($goals) > 3) {
-                $menu->addGroup($mainGoalMenu, 'Goals_ChooseGoal', $group, $orderId = 50, $tooltip = false);
+                $menu->addGroup($mainGoalMenu, 'Goals_ChooseGoal', $group, ++$order, $tooltip = false);
             }
+
         }
 
-        if (0 !== count($goals) && Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addItem($mainGoalMenu, 'Goals_GoalsManagement', $this->urlForAction('manage'), 1);
+        $menu->addItem($mainGoalMenu, 'Goals_AddNewGoal', $linkToAddNewGoal, ++$order);
+    }
+
+    public function configureUserMenu(MenuUser $menu)
+    {
+        $idSite = $this->getIdSite();
+
+        if (Piwik::isUserHasAdminAccess($idSite)) {
+            $menu->addManageItem('Goals_Goals', $this->urlForAction('manage'), 1);
         }
 
+    }
+
+    private function getIdSite()
+    {
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+        return $idSite;
     }
 
 }

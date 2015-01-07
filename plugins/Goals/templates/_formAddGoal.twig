@@ -1,4 +1,11 @@
 <div class='entityAddContainer' style="display:none;">
+    {% if onlyShowAddNewGoal is not defined %}
+        <div class='entityCancel'>
+            {{ 'Goals_CancelAndReturnToGoals'|translate("<a class='entityCancelLink'>","</a>")|raw }}
+        </div>
+        <div class='clear'></div>
+    {% endif %}
+
     <form>
         <table class="dataTable entityTable">
             <thead>
@@ -103,4 +110,5 @@
         <input type="hidden" name="goalIdUpdate" value=""/>
         <input type="submit" value="" name="submit" id="goal_submit" class="submit"/>
     </form>
+
 </div>

@@ -24,7 +24,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
 
         $view = $this->getGoalReportView($idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
         $view->displayFullReport = false;
-        $view->headline = Piwik::translate('Goals_EcommerceOverview');
+        $view->headline = Piwik::translate('General_EvolutionOverPeriod');
         return $view->render();
     }
 
