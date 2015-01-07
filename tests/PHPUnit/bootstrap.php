@@ -120,7 +120,7 @@ Try again.";
 
     throw new Exception(sprintf(
         "Piwik should be running at %s but this URL returned an unexpected response: '%s'",
-        Fixture::getRootUrl(),
+        $url,
         $response
     ));
 }
