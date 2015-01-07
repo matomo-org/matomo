@@ -2,7 +2,6 @@
     data-graph-id="{{ nameGraphEvolutionReferrers }}">{{ 'General_EvolutionOverPeriod'|translate }}</h2>
 {{ graphEvolutionReferrers|raw }}
 
-<br/>
 <h2 piwik-enriched-headline>{{ 'Referrers_Type'|translate }}</h2>
 
 <div id='leftcolumn'>
@@ -48,15 +47,7 @@
 
 <div style="clear:both;"/>
 
-<div style="padding-left:12px;">
-    <br/>
-
-    <strong>{{ 'General_MoreDetails'|translate }}&nbsp;
-        <a href="#" class="section-toggler-link" data-section-id="distinctReferrersByType">({{ 'General_Show'|translate }})</a>
-    </strong>
-</div>
-
-<div id="distinctReferrersByType" style="display:none;">
+<div id="distinctReferrersByType">
     <div id='leftcolumn'>
         <div class="sparkline" style="padding-left: 12px;">{{ sparkline(urlSparklineDistinctSearchEngines) }}
             <strong>{{ numberDistinctSearchEngines }}</strong> {{ 'Referrers_DistinctSearchEngines'|translate }}
@@ -96,15 +87,5 @@
     <a href="javascript:broadcast.propagateAjax('module=Referrers&action=indexWebsites')">{{ 'Referrers_SubmenuWebsites'|translate }}</a>,
     <a href="javascript:broadcast.propagateAjax('module=Referrers&action=indexCampaigns')">{{ 'Referrers_Campaigns'|translate }}</a>.
 </div>
-
-<h2 piwik-enriched-headline>{{ 'Referrers_DetailsByReferrerType'|translate }}</h2>
-{{ dataTableReferrerType|raw }}
-
-<div style="clear:both;"></div>
-
-{% if totalVisits > 0 %}
-    <h2 piwik-enriched-headline>{{ 'Referrers_ReferrersOverview'|translate }}</h2>
-    {{ referrersReportsByDimension|raw }}
-{% endif %}
 
 {% include "_sparklineFooter.twig" %}

@@ -14,6 +14,7 @@ use Piwik\DataTable\Map;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\Reports\GetAll;
 use Piwik\Plugins\Referrers\Reports\GetKeywords;
 use Piwik\Plugins\Referrers\Reports\GetReferrerType;
 use Piwik\Plugins\Referrers\Reports\GetSearchEngines;
@@ -33,9 +34,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->graphEvolutionReferrers = $this->getEvolutionGraph(Common::REFERRER_TYPE_DIRECT_ENTRY, array(), array('nb_visits'));
         $view->nameGraphEvolutionReferrers = 'Referrers.getEvolutionGraph';
-
-        // building the referrers summary report
-        $view->dataTableReferrerType = $this->renderReport(new GetReferrerType());
 
         $nameValues = $this->getReferrersVisitorsByType();
 
@@ -88,46 +86,35 @@ class Controller extends \Piwik\Plugin\Controller
         $view->urlSparklineDistinctWebsites = $this->getUrlSparkline('getLastDistinctWebsitesGraph');
         $view->urlSparklineDistinctCampaigns = $this->getUrlSparkline('getLastDistinctCampaignsGraph');
 
-        $view->totalVisits = $totalVisits;
-        $view->referrersReportsByDimension = $this->getReferrersReportsByDimensionView($totalVisits);
-
         return $view->render();
     }
 
-    /**
-     * Returns HTML for the Referrers Overview page that categorizes Referrer reports
-     * & allows the user to switch between them.
-     *
-     * @param int $visits The number of visits for this period & site. If <= 0, the
-     *                    reports are not shown, since they will have no data.getReferrersReportsByDimensionView
-     * @return string The report viewer HTML.
-     */
-    private function getReferrersReportsByDimensionView($visits)
+    public function allReferrers()
     {
-        $result = '';
+        $view = new View('@Referrers/allReferrers');
 
-        // only display the reports by dimension view if there are visits
-        if ($visits > 0) {
-            $referrersReportsByDimension = new View\ReportsByDimension('Referrers');
+        // building the referrers summary report
+        $view->dataTableReferrerType = $this->renderReport(new GetReferrerType());
 
-            $referrersReportsByDimension->addReport(
-                'Referrers_ViewAllReferrers', 'Referrers_WidgetGetAll', 'Referrers.getAll');
+        $nameValues = $this->getReferrersVisitorsByType();
 
-            $byTypeCategory = Piwik::translate('Referrers_ViewReferrersBy', Piwik::translate('Live_GoalType'));
-            $referrersReportsByDimension->addReport(
-                $byTypeCategory, 'Referrers_Keywords', 'Referrers.getKeywords');
-            $referrersReportsByDimension->addReport($byTypeCategory, 'SitesManager_Sites', 'Referrers.getWebsites');
-            $referrersReportsByDimension->addReport($byTypeCategory, 'Referrers_Campaigns', 'Referrers.getCampaigns');
+        $totalVisits = array_sum($nameValues);
+        foreach ($nameValues as $name => $value) {
+            $view->$name = $value;
 
-            $bySourceCategory = Piwik::translate('Referrers_ViewReferrersBy', Piwik::translate('General_Source'));
-            $referrersReportsByDimension->addReport($bySourceCategory, 'Referrers_Socials', 'Referrers.getSocials');
-            $referrersReportsByDimension->addReport(
-                $bySourceCategory, 'Referrers_SearchEngines', 'Referrers.getSearchEngines');
-
-            $result = $referrersReportsByDimension->render();
+            // calculate percent of total, if there were any visits
+            if ($value != 0
+                && $totalVisits != 0
+            ) {
+                $percentName = $name . 'Percent';
+                $view->$percentName = round(($value / $totalVisits) * 100, 0);
+            }
         }
 
-        return $result;
+        $view->totalVisits = $totalVisits;
+        $view->referrersReportsByDimension = $this->renderReport(new GetAll());
+
+        return $view->render();
     }
 
     public function getSearchEnginesAndKeywords()
@@ -246,7 +233,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->documentation = Piwik::translate('Referrers_EvolutionDocumentation') . '<br />'
             . Piwik::translate('General_BrokenDownReportDocumentation') . '<br />'
             . Piwik::translate('Referrers_EvolutionDocumentationMoreInfo', '&quot;'
-                . Piwik::translate('Referrers_DetailsByReferrerType') . '&quot;');
+                . Piwik::translate('Referrers_ReferrerTypes') . '&quot;');
 
         return $this->renderView($view);
     }
