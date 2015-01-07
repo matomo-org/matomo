@@ -46,6 +46,10 @@ class TestsRun extends ConsoleCommand
 
         $command = '../../vendor/phpunit/phpunit/phpunit';
 
+        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+            $command = 'php -dzend.enable_gc=0 ' . $command;
+        }
+
         if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
             $message = 'Did you know? You can run tests faster by disabling xdebug';
             if($this->isXdebugCodeCoverageEnabled()) {
