@@ -69,18 +69,6 @@ Segmentation = (function($) {
             this.currentSegmentStr = segmentStr;
         };
 
-        segmentation.prototype.shortenSegmentName = function(name, length){
-
-            if(typeof length === "undefined") length = 18;
-            if(typeof name === "undefined") name = "";
-            var i;
-
-            if(name.length > length) {
-                return name.slice(0, length).trim() + "...";
-            }
-            return name;
-        };
-
         segmentation.prototype.markCurrentSegment = function(){
             var current = this.getSegment();
 
@@ -223,8 +211,7 @@ Segmentation = (function($) {
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
-                                + injClass +' title="'+segment.name+'"><span class="segname">'
-                                + self.shortenSegmentName(segment.name)+'</span>';
+                                +injClass+' title="'+segment.name+'"><span class="segname">'+segment.name+'</span>';
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
@@ -258,7 +245,7 @@ Segmentation = (function($) {
             for(var i = 0; i < self.availableSegments.length; i++)
             {
                 segment = self.availableSegments[i];
-                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+segment.name+'">'+self.shortenSegmentName(segment.name)+'</option>';
+                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+segment.name+'">'+segment.name+'</option>';
                 segmentsDropdown.append(newOption);
             }
             $(html).find(".segment-content > h3").after(getInitialStateRowsHtml()).show();
@@ -334,7 +321,7 @@ Segmentation = (function($) {
             $(self.form).find(".segment-content > h3 > span").text(segment.name);
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
-            $(self.form).find('.available_segments a.dropList').text(self.shortenSegmentName(segment.name));
+            $(self.form).find('.available_segments a.dropList').text(segment.name);
 
             if(segment.definition != ""){
                 revokeInitialStateRows();
