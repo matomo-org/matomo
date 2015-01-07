@@ -14,4 +14,4 @@ if [ "$TEST_AGAINST_PIWIK_BRANCH" == "" ]; then
 fi
 
 echo "Testing against '$TEST_AGAINST_PIWIK_BRANCH'"
-git checkout "$TEST_AGAINST_PIWIK_BRANCH" -q
+git checkout "$TEST_AGAINST_PIWIK_BRANCH"
