@@ -20,6 +20,7 @@
         $scope.date = piwik.broadcast.getValueFromUrl('date');
         $scope.url  = piwik.piwik_url;
         $scope.period = piwik.period;
+        $scope.currentIdSite = piwik.broadcast.getValueFromUrl('idSite');
 
         $scope.sortBy = function (metric) {
 
