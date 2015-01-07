@@ -104,7 +104,7 @@ install:
 
   # copy .coveralls.yml if none exists
   - if [ ! -f ../coveralls.yml ];
-    then cp .coveralls.yml ../coveralls.yml;
+    then cp .coveralls.yml ../coveralls.yml || true;
     fi
 {% endif %}
 
