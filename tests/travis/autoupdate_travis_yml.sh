@@ -25,6 +25,12 @@ if [ "$LATEST_COMMIT_HASH" != "$CURRENT_COMMIT_HASH" ]; then
     exit;
 fi
 
+# if the generate:travis-yml command doesn't exist for some reason, abort auto-update w/o failing build
+if ! bash -c "$PIWIK_ROOT_DIR/console help generate:travis-yml" > /dev/null; then
+    echo "The generate:travis-yml command does not exist in this Piwik, aborting auto-update."
+    exit;
+fi
+
 # check if .travis.yml is out of date. if github token is supplied we will try to auto-update,
 # otherwise we just print a message and exit.
 if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"; then
