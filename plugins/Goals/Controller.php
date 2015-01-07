@@ -438,7 +438,7 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        if ($conversions > 0) {
+        if ($conversions > 0 || $ecommerce) {
             // for non-Goals reports, we show the goals table
             $customParams = $ecommerceCustomParams + array('documentationForGoalsPage' => '1');
 
@@ -449,7 +449,12 @@ class Controller extends \Piwik\Plugin\Controller
 
             $allReports = Goals::getReportsWithGoalMetrics();
             foreach ($allReports as $category => $reports) {
-                $categoryText = Piwik::translate('Goals_ViewGoalsBy', $category);
+                if ($ecommerce) {
+                    $categoryText = Piwik::translate('Ecommerce_ViewSalesBy', $category);
+                } else {
+                    $categoryText = Piwik::translate('Goals_ViewGoalsBy', $category);
+                }
+
                 foreach ($reports as $report) {
                     if (empty($report['viewDataTable'])
                         && empty($report['abandonedCarts'])

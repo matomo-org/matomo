@@ -58,10 +58,17 @@ class Controller extends \Piwik\Plugins\Goals\Controller
     public function products()
     {
         $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
-        $conversions = $goal['nb_conversions'];
+        $conversions = 0;
+        if (!empty($goal['nb_conversions'])) {
+            $conversions = $goal['nb_conversions'];
+        }
 
         $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
-        $cartNbConversions = $goal['nb_conversions'];
+
+        $cartNbConversions = 0;
+        if (!empty($goal) && array_key_exists('nb_conversions', $goal)) {
+            $cartNbConversions = $goal['nb_conversions'];
+        }
 
         $preloadAbandonedCart = $cartNbConversions !== false && $conversions == 0;
 
