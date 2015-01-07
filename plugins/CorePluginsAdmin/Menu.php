@@ -45,15 +45,15 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if ($hasSuperUserAcess) {
-            $menu->addPlatformItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
+            $menu->addManageItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
                                    $this->urlForAction('plugins', array('activated' => '')),
-                                   $order = 1);
-            $menu->addPlatformItem(Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
+                                   $order = 4);
+            $menu->addManageItem(Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
                                    $this->urlForAction('themes', array('activated' => '')),
-                                   $order = 3);
+                                   $order = 5);
         }
 
-        if ($this->isAllowedToSeeMarketPlace()) {
+        if (Piwik::hasUserSuperUserAccess() && CorePluginsAdmin::isMarketplaceEnabled()) {
             $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
                                    $this->urlForAction('browsePlugins', array('activated' => '')),
                                    $order = 5);

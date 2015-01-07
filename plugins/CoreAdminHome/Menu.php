@@ -33,7 +33,7 @@ class Menu extends \Piwik\Plugin\Menu
                                    $order = 6);
             $menu->addManageItem('CoreAdminHome_TrackingCode',
                                  $this->urlForAction('trackingCodeGenerator'),
-                                 $order = 4);
+                                 $order = 10);
         }
 
         if (SettingsManager::hasPluginsSettingsForCurrentUser()) {
