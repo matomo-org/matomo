@@ -13,6 +13,7 @@ use Piwik\Menu\Group;
 use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Translate;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -64,17 +65,18 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        $idSite = $this->getIdSite();
+        $userPreferences = new UserPreferences();
+        $idSite = $this->getIdSite($userPreferences->getDefaultWebsiteId());
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addManageItem('Goals_Goals', $this->urlForAction('manage'), 1);
+            $menu->addManageItem('Goals_Goals', $this->urlForAction('manage', array('idSite' => $idSite)), 1);
         }
 
     }
 
-    private function getIdSite()
+    private function getIdSite($default = null)
     {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', $default, 'int');
         return $idSite;
     }
 
