@@ -83,10 +83,10 @@ before_install:
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
 
 install:
-  - git fetch
+  - git fetch -q
 
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master -- ./tests/travis ./plugins/TestRunner || true
+  - git checkout master -q -- ./tests/travis ./plugins/TestRunner || true
 
 before_script:
   - ./tests/travis/install_mysql_5.6.sh

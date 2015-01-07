@@ -87,9 +87,9 @@ install:
 {% endif %}
 {% if generationMode != 'core' %}
   # checkout piwik in the current directory
-  - git clone https://github.com/piwik/piwik.git piwik
+  - git clone -q https://github.com/piwik/piwik.git piwik
   - cd piwik
-  - git fetch --all
+  - git fetch -q --all
   - | 
     if [ "$TEST_AGAINST_PIWIK_BRANCH" == "" ]; then
         if [ "$TEST_AGAINST_CORE" == "latest_stable" ]; then
@@ -100,11 +100,11 @@ install:
         fi
     fi
   - echo "Testing against '$TEST_AGAINST_PIWIK_BRANCH'"
-  - git checkout "$TEST_AGAINST_PIWIK_BRANCH"
-  - git submodule init
-  - git submodule update || true
+  - git checkout "$TEST_AGAINST_PIWIK_BRANCH" -q
+  - git submodule init -q
+  - git submodule update -q || true
 {% else %}
-  - git fetch
+  - git fetch -q
 {% endif %}
 {% if generationMode == 'plugin' %}
   # move plugin contents to folder in the plugins subdirectory
@@ -118,7 +118,7 @@ install:
 {% endif %}
 
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master -- ./tests/travis ./plugins/TestRunner || true
+  - git checkout master -q -- ./tests/travis ./plugins/TestRunner || true
 {% if generationMode == 'plugin' %}
   # clone dependent repos
   - ./tests/travis/checkout_dependent_plugins.sh
