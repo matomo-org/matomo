@@ -90,17 +90,7 @@ install:
   - git clone -q https://github.com/piwik/piwik.git piwik
   - cd piwik
   - git fetch -q --all
-  - | 
-    if [ "$TEST_AGAINST_PIWIK_BRANCH" == "" ]; then
-        if [ "$TEST_AGAINST_CORE" == "latest_stable" ]; then
-            export TEST_AGAINST_PIWIK_BRANCH=$(git describe --tags `git rev-list --tags --max-count=1`)
-            export TEST_AGAINST_PIWIK_BRANCH=`echo $TEST_AGAINST_PIWIK_BRANCH | tr -d ' ' | tr -d '\n'`
-        else
-            export TEST_AGAINST_PIWIK_BRANCH=master
-        fi
-    fi
-  - echo "Testing against '$TEST_AGAINST_PIWIK_BRANCH'"
-  - git checkout "$TEST_AGAINST_PIWIK_BRANCH" -q
+  - ./tests/travis/checkout_test_against_branch.sh
   - git submodule init -q
   - git submodule update -q || true
 {% else %}
