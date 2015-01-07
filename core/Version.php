@@ -20,5 +20,5 @@ final class Version
      * The current Piwik version.
      * @var string
      */
-    const VERSION = '2.10.0';
+    const VERSION = '2.11.0-b1';
 }
