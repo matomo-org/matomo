@@ -17,9 +17,9 @@ use Piwik\Updates;
 use Piwik\Plugins\Dashboard\Model AS DashboardModel;
 
 /**
- * Update for version 2.10.0.
+ * Update for version 2.11.0-b2.
  */
-class Updates_2_10_0 extends Updates
+class Updates_2_11_0_b2 extends Updates
 {
 
     static function getSql()
