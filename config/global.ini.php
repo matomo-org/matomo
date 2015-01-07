@@ -722,6 +722,7 @@ Plugins[] = Referrers
 Plugins[] = UserSettings
 Plugins[] = DevicesDetection
 Plugins[] = Goals
+Plugins[] = Ecommerce
 Plugins[] = SEO
 Plugins[] = Events
 Plugins[] = UserCountry

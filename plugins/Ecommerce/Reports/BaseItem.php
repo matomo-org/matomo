@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Goals\Reports;
+namespace Piwik\Plugins\Ecommerce\Reports;
 
 use Piwik\Common;
 use Piwik\Metrics\Formatter;
@@ -19,7 +19,7 @@ use Piwik\Plugins\Goals\Columns\Metrics\AveragePrice;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageQuantity;
 use Piwik\Plugins\Goals\Columns\Metrics\ProductConversionRate;
 
-abstract class BaseEcommerceItem extends BaseEcommerce
+abstract class BaseItem extends Base
 {
     protected function init()
     {
@@ -37,8 +37,8 @@ abstract class BaseEcommerceItem extends BaseEcommerce
     public function getMetrics()
     {
         $metrics = parent::getMetrics();
-        $metrics['revenue']         = Piwik::translate('General_ProductRevenue');
-        $metrics['orders']          = Piwik::translate('General_UniquePurchases');
+        $metrics['revenue'] = Piwik::translate('General_ProductRevenue');
+        $metrics['orders']  = Piwik::translate('General_UniquePurchases');
         return $metrics;
     }
 

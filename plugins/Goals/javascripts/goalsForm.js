@@ -9,14 +9,15 @@ function showAddNewGoal() {
     hideForms();
     $(".entityAddContainer").show();
     showCancel();
+    hideCreateGoal();
     piwikHelper.lazyScrollTo(".entityContainer", 400);
     return false;
 }
 
 function showEditGoals() {
     hideForms();
+    showCreateGoal();
     $("#entityEditContainer").show();
-    showCancel();
     piwikHelper.lazyScrollTo(".entityContainer", 400);
     return false;
 }
@@ -31,7 +32,16 @@ function showCancel() {
     $('.entityCancelLink').click(function () {
         hideForms();
         $(".entityCancel").hide();
+        showEditGoals();
     });
+}
+
+function showCreateGoal() {
+    $("a[name=linkAddNewGoal]").show();
+}
+
+function hideCreateGoal() {
+    $("a[name=linkAddNewGoal]").hide();
 }
 
 function onMatchAttributeChange(matchAttribute)
@@ -173,7 +183,9 @@ function ajaxAddGoal() {
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(parameters, 'get');
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
-    ajaxRequest.setCallback(function () { location.reload(); });
+    ajaxRequest.setCallback(function () {
+        location.reload();
+    });
     ajaxRequest.send(true);
 }
 

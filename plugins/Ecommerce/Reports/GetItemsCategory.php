@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Goals\Reports;
+namespace Piwik\Plugins\Ecommerce\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\Columns\ProductCategory;
+use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
 
-class GetItemsCategory extends BaseEcommerceItem
+class GetItemsCategory extends BaseItem
 {
     protected function init()
     {
