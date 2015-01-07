@@ -124,6 +124,7 @@ before_script:
   # print out more debugging info
   - uname -a
   - date
+  # - php -i
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_tests;'
 

@@ -47,5 +47,3 @@ chmod a+rw ./plugins/*/tests/System/processed
 # install phpredis
 echo 'extension="redis.so"' > ./tmp/redis.ini
 phpenv config-add ./tmp/redis.ini
-
-php -i
