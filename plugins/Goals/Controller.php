@@ -436,13 +436,6 @@ class Controller extends \Piwik\Plugin\Controller
             } else {
                 $ecommerceCustomParams['abandonedCarts'] = '0';
             }
-
-            $goalReportsByDimension->addReport(
-                'Goals_Products', 'Goals_ProductSKU', 'Goals.getItemsSku', $ecommerceCustomParams);
-            $goalReportsByDimension->addReport(
-                'Goals_Products', 'Goals_ProductName', 'Goals.getItemsName', $ecommerceCustomParams);
-            $goalReportsByDimension->addReport(
-                'Goals_Products', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
         }
 
         if ($conversions > 0) {

@@ -55,6 +55,39 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         return $this->ecommerceReport();
     }
 
+    public function products()
+    {
+        $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
+        $conversions = $goal['nb_conversions'];
+
+        $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
+        $cartNbConversions = $goal['nb_conversions'];
+
+        $preloadAbandonedCart = $cartNbConversions !== false && $conversions == 0;
+
+        $goalReportsByDimension = new View\ReportsByDimension('Goals');
+
+        $ecommerceCustomParams = array();
+        if ($preloadAbandonedCart) {
+            $ecommerceCustomParams['abandonedCarts'] = '1';
+        } else {
+            $ecommerceCustomParams['abandonedCarts'] = '0';
+        }
+
+        $goalReportsByDimension->addReport(
+            'Goals_Products', 'Goals_ProductSKU', 'Goals.getItemsSku', $ecommerceCustomParams);
+        $goalReportsByDimension->addReport(
+            'Goals_Products', 'Goals_ProductName', 'Goals.getItemsName', $ecommerceCustomParams);
+        $goalReportsByDimension->addReport(
+            'Goals_Products', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
+
+        $view = new View('@Ecommerce/products');
+        $this->setGeneralVariablesView($view);
+
+        $view->productsByDimension = $goalReportsByDimension->render();
+        return $view->render();
+    }
+
     public function sales()
     {
         $viewOverview = $this->getGoalReportView(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
