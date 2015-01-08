@@ -631,16 +631,16 @@
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-ini.git",
-                "reference": "6c95b8886871bec86e7d648e913b4dc88b4166a6"
+                "reference": "2230c365f1cf09bb97f451fb3053092be32da5ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-ini/zipball/6c95b8886871bec86e7d648e913b4dc88b4166a6",
-                "reference": "6c95b8886871bec86e7d648e913b4dc88b4166a6",
+                "url": "https://api.github.com/repos/piwik/component-ini/zipball/2230c365f1cf09bb97f451fb3053092be32da5ad",
+                "reference": "2230c365f1cf09bb97f451fb3053092be32da5ad",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2015-01-07 22:10:24"
+            "time": "2015-01-08 04:07:36"
         },
         {
             "name": "piwik/network",
