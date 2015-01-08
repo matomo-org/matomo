@@ -653,11 +653,6 @@ a.metric_category {
   content: ".";
 }
 
-.available_segments a.dropdown {
-  background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
-  padding: 0 17px 0 0 !important;
-}
-
 .notification {
   float: left;
 }
@@ -740,6 +735,7 @@ a.metric_category {
 }
 
 .segmentationTitle,
+.segment-element .segment-nav a.dropdown,
 .segname {
   max-width: 160px;
   overflow: hidden;
@@ -753,6 +749,7 @@ a.metric_category {
   white-space: normal; /* restore default */
 }
 
+.segment-element .segment-nav a.dropdown,
 .segname {
 	display: inline-block;
 }
@@ -763,7 +760,10 @@ a.metric_category {
   background: none !important;
 }
 
-.available_segments a.dropdown:after,
+.segment-element .segment-nav a.dropdown {
+  background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
+}
+
 .segment-element .segment-top a.dropdown:after {
   content: " \25BC";
   font-size: 0px;
