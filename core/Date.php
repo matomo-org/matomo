@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
@@ -609,15 +610,16 @@ class Date
      */
     public function getLocalized($template)
     {
+        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
         $day = $this->toString('j');
         $dayOfWeek = $this->toString('N');
         $monthOfYear = $this->toString('n');
         $patternToValue = array(
             "%day%"        => $day,
-            "%shortMonth%" => Piwik::translate('General_ShortMonth_' . $monthOfYear),
-            "%longMonth%"  => Piwik::translate('General_LongMonth_' . $monthOfYear),
-            "%shortDay%"   => Piwik::translate('General_ShortDay_' . $dayOfWeek),
-            "%longDay%"    => Piwik::translate('General_LongDay_' . $dayOfWeek),
+            "%shortMonth%" => $translator->translate('General_ShortMonth_' . $monthOfYear),
+            "%longMonth%"  => $translator->translate('General_LongMonth_' . $monthOfYear),
+            "%shortDay%"   => $translator->translate('General_ShortDay_' . $dayOfWeek),
+            "%longDay%"    => $translator->translate('General_LongDay_' . $dayOfWeek),
             "%longYear%"   => $this->toString('Y'),
             "%shortYear%"  => $this->toString('y'),
             "%time%"       => $this->toString('H:i:s')
