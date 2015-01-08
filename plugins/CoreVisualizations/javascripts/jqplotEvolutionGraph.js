@@ -93,6 +93,7 @@
                         if (url && -1 === url.indexOf('#')) {
                             var module = broadcast.getValueFromHash('module');
                             var action = broadcast.getValueFromHash('action');
+                            var idGoal = broadcast.getValueFromHash('idGoal');
                             var idSite = broadcast.getValueFromUrl('idSite', url);
                             var period = broadcast.getValueFromUrl('period', url);
                             var date   = broadcast.getValueFromUrl('date', url);
@@ -102,6 +103,10 @@
 
                                 if (idSite) {
                                     url += '&idSite=' + idSite;
+                                }
+
+                                if (idGoal) {
+                                    url += '&idGoal=' + idGoal;
                                 }
 
                                 if (period) {
