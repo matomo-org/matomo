@@ -33,6 +33,12 @@ var walk = function (dir, pattern, result) {
     return result;
 };
 
+var isCorePlugin = function (pathToPlugin) {
+    // if the plugin is a .git checkout, it's not part of core
+    var gitDir = path.join(pathToPlugin, '.git');
+    return !fs.exists(gitDir);
+};
+
 var Application = function () {
     this.runner = null;
 
@@ -59,6 +65,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("                            builds artifacts server. For use with travis build.");
     console.log("  --screenshot-repo:        Specifies the github repository that contains the expected screenshots");
     console.log("                            to link to in the diffviewer. For use with travis build.");
+    console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
 
     phantom.exit(0);
 };
@@ -93,6 +100,12 @@ Application.prototype.loadTestModules = function () {
 
     // load all UI tests we can find
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
+
+    if (options.core) {
+        plugins = plugins.filter(function (path) {
+            return isCorePlugin(path);
+        });
+    }
 
     plugins.forEach(function (pluginPath) {
         walk(path.join(pluginPath, 'Test'), /_spec\.js$/, modulePaths);
