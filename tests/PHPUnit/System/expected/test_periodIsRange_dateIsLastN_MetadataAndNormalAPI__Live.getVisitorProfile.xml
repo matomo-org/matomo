@@ -60,6 +60,7 @@
 					
 					<pageId>5</pageId>
 					<icon>plugins/Morpheus/images/link.gif</icon>
+					
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
@@ -165,6 +166,7 @@
 					
 					<url>http://example.org/homepage</url>
 					<icon>plugins/Morpheus/images/goal.png</icon>
+					
 				</row>
 				<row>
 					<type>action</type>
@@ -174,6 +176,7 @@
 					
 					<pageId>4</pageId>
 					<icon />
+					
 				</row>
 			</actionDetails>
 			<goalConversions>1</goalConversions>

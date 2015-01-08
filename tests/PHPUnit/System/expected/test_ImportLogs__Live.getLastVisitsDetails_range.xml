@@ -15,6 +15,7 @@
 				
 				<url>http://piwik.org/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -31,6 +32,7 @@
 				</customVariables>
 				<generationTime>0.29s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -142,6 +144,7 @@
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -152,6 +155,7 @@
 				
 				<url>http://piwik.org/changelog/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -167,6 +171,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -258,6 +263,7 @@
 				
 				<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -274,6 +280,7 @@
 				</customVariables>
 				<generationTime>0.41s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -397,6 +404,7 @@
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -407,6 +415,7 @@
 				
 				<url>http://piwik.org/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -422,6 +431,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -535,6 +545,7 @@
 					</row>
 				</customVariables>
 				<icon>plugins/Morpheus/images/link.gif</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -643,6 +654,7 @@
 				
 				<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -659,6 +671,7 @@
 				</customVariables>
 				<generationTime>0.39s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -775,6 +788,7 @@
 				
 				<url>https://piwik.org/log-analytics/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -790,6 +804,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -894,6 +909,7 @@
 				
 				<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -910,6 +926,7 @@
 				</customVariables>
 				<generationTime>0.12s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1006,6 +1023,7 @@
 				
 				<url>http://piwik.org/log-analytics/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1022,6 +1040,7 @@
 				</customVariables>
 				<generationTime>0.15s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1146,6 +1165,7 @@
 				<timeSpent>2</timeSpent>
 				<timeSpentPretty>2s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1156,6 +1176,7 @@
 				
 				<url>http://piwik.org/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1174,6 +1195,7 @@
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>download</type>
@@ -1189,6 +1211,7 @@
 					</row>
 				</customVariables>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1289,6 +1312,7 @@
 				
 				<url>http://piwik.org/docs/installation/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1305,6 +1329,7 @@
 				</customVariables>
 				<generationTime>0.13s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1413,6 +1438,7 @@
 				
 				<url>http://piwik.org/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1429,6 +1455,7 @@
 				</customVariables>
 				<generationTime>0.06s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1545,6 +1572,7 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1555,6 +1583,7 @@
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1573,6 +1602,7 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1591,6 +1621,7 @@
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1609,6 +1640,7 @@
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1627,6 +1659,7 @@
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1645,6 +1678,7 @@
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1663,6 +1697,7 @@
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1681,6 +1716,7 @@
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1699,6 +1735,7 @@
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1715,6 +1752,7 @@
 				</customVariables>
 				<generationTime>0.34s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1802,6 +1840,7 @@
 				
 				<url>http://piwik.net/view/my/file.html</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1818,6 +1857,7 @@
 				</customVariables>
 				<generationTime>0.001s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1912,6 +1952,7 @@
 				<timeSpent>240</timeSpent>
 				<timeSpentPretty>4 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1922,6 +1963,7 @@
 				
 				<url>http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1937,6 +1979,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2024,6 +2067,7 @@
 				
 				<url>http://piwik.net/hello/from/another/world/6,681965</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2040,6 +2084,7 @@
 				</customVariables>
 				<generationTime>0.36s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2135,6 +2180,7 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -2145,6 +2191,7 @@
 				
 				<url>http://piwik.net/Products/theProduct</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2160,6 +2207,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2247,6 +2295,7 @@
 				
 				<url>http://piwik.net/hello/world/6,681965</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2263,6 +2312,7 @@
 				</customVariables>
 				<generationTime>0.36s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2350,6 +2400,7 @@
 				
 				<url>http://example.org/index.htm</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2373,6 +2424,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2473,6 +2525,7 @@
 				
 				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2488,6 +2541,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2611,6 +2665,7 @@
 				</customVariables>
 				<eventName>myvideo</eventName>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -2704,6 +2759,7 @@
 					</row>
 				</customVariables>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -2791,6 +2847,7 @@
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2806,6 +2863,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2904,6 +2962,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -2914,6 +2973,7 @@
 				
 				<url>http://piwik.net/moved-permanently</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2929,6 +2989,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3027,6 +3088,7 @@
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				
 			</row>
 			<row>
 				<type>download</type>
@@ -3044,6 +3106,7 @@
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				
 			</row>
 			<row>
 				<type>download</type>
@@ -3059,6 +3122,7 @@
 					</row>
 				</customVariables>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3150,6 +3214,7 @@
 				
 				<url>http://piwik.net/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3165,6 +3230,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3256,6 +3322,7 @@
 				
 				<url>http://piwik.net/to-an-error</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3271,6 +3338,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3367,6 +3435,7 @@
 					</row>
 				</customVariables>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3458,6 +3527,7 @@
 				
 				<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3473,6 +3543,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3564,6 +3635,7 @@
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3579,6 +3651,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3670,6 +3743,7 @@
 				
 				<url>http://piwik.net/hosting/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3685,6 +3759,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3772,6 +3847,7 @@
 				
 				<url>http://piwik.net/faq/how-to-install/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3787,6 +3863,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3874,6 +3951,7 @@
 				
 				<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3889,6 +3967,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3976,6 +4055,7 @@
 				
 				<url>http://piwik.net/intranet-analytics/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3991,6 +4071,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4078,6 +4159,7 @@
 				
 				<url>http://piwik.net/docs/manage-websites/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4093,6 +4175,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4180,6 +4263,7 @@
 				
 				<url>http://piwik.net/faq/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4195,6 +4279,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4282,6 +4367,7 @@
 				
 				<url>http://piwik.net/faq/how-to/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4297,6 +4383,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4384,6 +4471,7 @@
 				
 				<url>http://piwik.net/newsletter/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4399,6 +4487,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4486,6 +4575,7 @@
 				
 				<url>http://piwik.net/docs/manage-users/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4501,6 +4591,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4588,6 +4679,7 @@
 				
 				<url>http://piwik.net/docs/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4603,6 +4695,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4690,6 +4783,7 @@
 				
 				<url>http://piwik.net/translations/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4705,6 +4799,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4792,6 +4887,7 @@
 				
 				<url>http://piwik.net/download/counter/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4807,6 +4903,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4894,6 +4991,7 @@
 				
 				<url>http://piwik.net/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4909,6 +5007,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4996,6 +5095,7 @@
 				
 				<url>http://piwik.net/docs/manage-websites/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -5011,6 +5111,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -5098,6 +5199,7 @@
 				
 				<url>http://piwik.net/blog/category/community/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -5113,6 +5215,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -5200,6 +5303,7 @@
 				
 				<url>http://piwik.net/faq/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -5215,6 +5319,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -5302,6 +5407,7 @@
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -5317,6 +5423,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>

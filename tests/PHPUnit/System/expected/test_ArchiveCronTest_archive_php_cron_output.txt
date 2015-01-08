@@ -10,50 +10,57 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 
 
-INFO CoreConsole[2014-12-15 06:44:17] ---------------------------
-INFO CoreConsole[2014-12-15 06:44:17] INIT
-INFO CoreConsole[2014-12-15 06:44:17] Piwik is installed at: http://localhost/tests/PHPUnit/proxy/index.php
-INFO CoreConsole[2014-12-15 06:44:17] Running Piwik 2.10.0-b7 as Super User
-INFO CoreConsole[2014-12-15 06:44:18] ---------------------------
-INFO CoreConsole[2014-12-15 06:44:18] NOTES
-INFO CoreConsole[2014-12-15 06:44:18] - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
-INFO CoreConsole[2014-12-15 06:44:18] See the doc at: http://piwik.org/docs/setup-auto-archiving/
-INFO CoreConsole[2014-12-15 06:44:18] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
-INFO CoreConsole[2014-12-15 06:44:18] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
-INFO CoreConsole[2014-12-15 06:44:18] - Will process 0 websites with new visits since 7 days 0 hours
-INFO CoreConsole[2014-12-15 06:44:18] - Will process 2 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2
-INFO CoreConsole[2014-12-15 06:44:18] ---------------------------
-INFO CoreConsole[2014-12-15 06:44:18] START
-INFO CoreConsole[2014-12-15 06:44:18] Starting Piwik reports archiving...
-INFO CoreConsole[2014-12-15 06:44:19] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-INFO CoreConsole[2014-12-15 06:44:21] Archived website id = 1, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 3.188s
-INFO CoreConsole[2014-12-15 06:44:21] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-INFO CoreConsole[2014-12-15 06:44:37] Archived website id = 1, period = week, 40 visits in last last260 weeks, 0 visits this week, Time elapsed: 16.493s
-INFO CoreConsole[2014-12-15 06:44:37] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-INFO CoreConsole[2014-12-15 06:44:47] Archived website id = 1, period = month, 40 visits in last last52 months, 0 visits this month, Time elapsed: 9.627s
-INFO CoreConsole[2014-12-15 06:44:47] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
-INFO CoreConsole[2014-12-15 06:44:49] Archived website id = 1, period = year, 40 visits in last last7 years, 12 visits this year, Time elapsed: 1.944s
-INFO CoreConsole[2014-12-15 06:44:49] Archived website id = 1, 8 API requests, Time elapsed: 31.255s [1/2 done]
-INFO CoreConsole[2014-12-15 06:44:51] Archived website id = 2, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 1.553s
-INFO CoreConsole[2014-12-15 06:45:02] Archived website id = 2, period = week, 1 visits in last last260 weeks, 0 visits this week, Time elapsed: 11.828s
-INFO CoreConsole[2014-12-15 06:45:08] Archived website id = 2, period = month, 1 visits in last last52 months, 0 visits this month, Time elapsed: 5.630s
-INFO CoreConsole[2014-12-15 06:45:09] Archived website id = 2, period = year, 1 visits in last last7 years, 0 visits this year, Time elapsed: 1.185s
-INFO CoreConsole[2014-12-15 06:45:09] Archived website id = 2, 4 API requests, Time elapsed: 20.199s [2/2 done]
-INFO CoreConsole[2014-12-15 06:45:09] Done archiving!
-INFO CoreConsole[2014-12-15 06:45:09] ---------------------------
-INFO CoreConsole[2014-12-15 06:45:09] SUMMARY
-INFO CoreConsole[2014-12-15 06:45:09] Total visits for today across archived websites: 0
-INFO CoreConsole[2014-12-15 06:45:09] Archived today's reports for 2 websites
-INFO CoreConsole[2014-12-15 06:45:09] Archived week/month/year for 2 websites
-INFO CoreConsole[2014-12-15 06:45:09] Skipped 0 websites: no new visit since the last script execution
-INFO CoreConsole[2014-12-15 06:45:09] Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
-INFO CoreConsole[2014-12-15 06:45:09] Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
-INFO CoreConsole[2014-12-15 06:45:09] Total API requests: 12
-INFO CoreConsole[2014-12-15 06:45:09] done: 2/2 100%, 0 vtoday, 2 wtoday, 2 wperiods, 12 req, 51589 ms, no error
-INFO CoreConsole[2014-12-15 06:45:09] Time elapsed: 51.589s
-INFO CoreConsole[2014-12-15 06:45:09] ---------------------------
-INFO CoreConsole[2014-12-15 06:45:09] SCHEDULED TASKS
-INFO CoreConsole[2014-12-15 06:45:09] Starting Scheduled tasks...
-INFO CoreConsole[2014-12-15 06:45:10] No task to run
-INFO CoreConsole[2014-12-15 06:45:10] done
-INFO CoreConsole[2014-12-15 06:45:10] ---------------------------
+INFO CoreConsole[2015-01-08 05:28:51] ---------------------------
+INFO CoreConsole[2015-01-08 05:28:51] INIT
+INFO CoreConsole[2015-01-08 05:28:51] Piwik is installed at: http://localhost/tests/PHPUnit/proxy/index.php
+INFO CoreConsole[2015-01-08 05:28:51] Running Piwik 2.11.0-b2 as Super User
+INFO CoreConsole[2015-01-08 05:28:52] ---------------------------
+INFO CoreConsole[2015-01-08 05:28:52] NOTES
+INFO CoreConsole[2015-01-08 05:28:52] - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
+INFO CoreConsole[2015-01-08 05:28:52]   See the doc at: http://piwik.org/docs/setup-auto-archiving/
+INFO CoreConsole[2015-01-08 05:28:52] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
+INFO CoreConsole[2015-01-08 05:28:52] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
+INFO CoreConsole[2015-01-08 05:28:52] Will invalidate archived reports for 2012-08-09 for following siteIds: 1
+INFO CoreConsole[2015-01-08 05:28:52] Will invalidate archived reports for 2012-08-10 for following siteIds: 1
+INFO CoreConsole[2015-01-08 05:28:52] Will invalidate archived reports for 2012-08-11 for following siteIds: 1
+INFO CoreConsole[2015-01-08 05:28:52] Will invalidate archived reports for 2012-08-15 for following siteIds: 1,2
+INFO CoreConsole[2015-01-08 05:28:52] Will invalidate archived reports for 2012-09-30 for following siteIds: 1
+INFO CoreConsole[2015-01-08 05:28:52] Will invalidate archived reports for 2014-03-12 for following siteIds: 1
+INFO CoreConsole[2015-01-08 05:28:52] Will invalidate archived reports for 2014-03-13 for following siteIds: 1
+INFO CoreConsole[2015-01-08 05:28:52] - Will process 0 websites with new visits since 7 days 0 hours
+INFO CoreConsole[2015-01-08 05:28:52] - Will process 2 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2
+INFO CoreConsole[2015-01-08 05:28:52] ---------------------------
+INFO CoreConsole[2015-01-08 05:28:52] START
+INFO CoreConsole[2015-01-08 05:28:52] Starting Piwik reports archiving...
+INFO CoreConsole[2015-01-08 05:28:54] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
+INFO CoreConsole[2015-01-08 05:28:55] Archived website id = 1, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 3.114s
+INFO CoreConsole[2015-01-08 05:28:55] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
+INFO CoreConsole[2015-01-08 05:29:10] Archived website id = 1, period = week, 40 visits in last last260 weeks, 0 visits this week, Time elapsed: 14.316s
+INFO CoreConsole[2015-01-08 05:29:10] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
+INFO CoreConsole[2015-01-08 05:29:18] Archived website id = 1, period = month, 40 visits in last last52 months, 0 visits this month, Time elapsed: 8.078s
+INFO CoreConsole[2015-01-08 05:29:18] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
+INFO CoreConsole[2015-01-08 05:29:19] Archived website id = 1, period = year, 40 visits in last last7 years, 0 visits this year, Time elapsed: 1.687s
+INFO CoreConsole[2015-01-08 05:29:19] Archived website id = 1, 8 API requests, Time elapsed: 27.201s [1/2 done]
+INFO CoreConsole[2015-01-08 05:29:21] Archived website id = 2, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 1.436s
+INFO CoreConsole[2015-01-08 05:29:32] Archived website id = 2, period = week, 1 visits in last last260 weeks, 0 visits this week, Time elapsed: 11.012s
+INFO CoreConsole[2015-01-08 05:29:37] Archived website id = 2, period = month, 1 visits in last last52 months, 0 visits this month, Time elapsed: 4.998s
+INFO CoreConsole[2015-01-08 05:29:38] Archived website id = 2, period = year, 1 visits in last last7 years, 0 visits this year, Time elapsed: 1.067s
+INFO CoreConsole[2015-01-08 05:29:38] Archived website id = 2, 4 API requests, Time elapsed: 18.516s [2/2 done]
+INFO CoreConsole[2015-01-08 05:29:38] Done archiving!
+INFO CoreConsole[2015-01-08 05:29:38] ---------------------------
+INFO CoreConsole[2015-01-08 05:29:38] SUMMARY
+INFO CoreConsole[2015-01-08 05:29:38] Total visits for today across archived websites: 0
+INFO CoreConsole[2015-01-08 05:29:38] Archived today's reports for 2 websites
+INFO CoreConsole[2015-01-08 05:29:38] Archived week/month/year for 2 websites
+INFO CoreConsole[2015-01-08 05:29:38] Skipped 0 websites: no new visit since the last script execution
+INFO CoreConsole[2015-01-08 05:29:38] Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
+INFO CoreConsole[2015-01-08 05:29:38] Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
+INFO CoreConsole[2015-01-08 05:29:38] Total API requests: 12
+INFO CoreConsole[2015-01-08 05:29:38] done: 2/2 100%, 0 vtoday, 2 wtoday, 2 wperiods, 12 req, 45849 ms, no error
+INFO CoreConsole[2015-01-08 05:29:38] Time elapsed: 45.849s
+INFO CoreConsole[2015-01-08 05:29:38] ---------------------------
+INFO CoreConsole[2015-01-08 05:29:38] SCHEDULED TASKS
+INFO CoreConsole[2015-01-08 05:29:38] Starting Scheduled tasks...
+INFO CoreConsole[2015-01-08 05:29:38]  No task to run
+INFO CoreConsole[2015-01-08 05:29:38] done
+INFO CoreConsole[2015-01-08 05:29:38] ---------------------------

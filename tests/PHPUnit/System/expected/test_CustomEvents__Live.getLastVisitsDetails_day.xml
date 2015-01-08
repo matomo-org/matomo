@@ -15,6 +15,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -115,6 +116,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -218,6 +220,7 @@
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -231,6 +234,7 @@
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -244,6 +248,7 @@
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -257,6 +262,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -271,6 +277,7 @@
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -283,6 +290,7 @@
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
 				<eventValue>9.66</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -383,6 +391,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -485,6 +494,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -495,6 +505,7 @@
 				
 				<url>http://example.org/webradio</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -514,6 +525,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -533,6 +545,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -552,6 +565,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -571,6 +585,7 @@
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -590,6 +605,7 @@
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -610,6 +626,7 @@
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -630,6 +647,7 @@
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -642,6 +660,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -655,6 +674,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -668,6 +688,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -681,6 +702,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -694,6 +716,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -707,6 +730,7 @@
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -718,6 +742,7 @@
 				<eventAction>play25%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -818,6 +843,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -914,6 +940,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1013,6 +1040,7 @@
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1026,6 +1054,7 @@
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1039,6 +1068,7 @@
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1052,6 +1082,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1066,6 +1097,7 @@
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1078,6 +1110,7 @@
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
 				<eventValue>9.66</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1174,6 +1207,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1272,6 +1306,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1282,6 +1317,7 @@
 				
 				<url>http://example.org/webradio</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1301,6 +1337,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1320,6 +1357,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1339,6 +1377,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1358,6 +1397,7 @@
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1377,6 +1417,7 @@
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1397,6 +1438,7 @@
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1417,6 +1459,7 @@
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1429,6 +1472,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1442,6 +1486,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1455,6 +1500,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1468,6 +1514,7 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1481,6 +1528,7 @@
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1494,6 +1542,7 @@
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1505,6 +1554,7 @@
 				<eventAction>play25%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
