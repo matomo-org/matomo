@@ -105,7 +105,6 @@ class Date
      */
     public static function factory($dateString, $timezone = null)
     {
-        $invalidDateException = new Exception(Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
         if ($dateString instanceof self) {
             $dateString = $dateString->toString();
         }
@@ -126,7 +125,7 @@ class Date
                 ($dateString = strtotime($dateString)) === false
             )
         ) {
-            throw $invalidDateException;
+            throw self::getInvalidDateFormatException($dateString);
         } else {
             $date = new Date($dateString);
         }
@@ -134,7 +133,7 @@ class Date
         // can't be doing web analytics before the 1st website
         // Tue, 06 Aug 1991 00:00:00 GMT
         if ($timestamp < 681436800) {
-            throw $invalidDateException;
+            throw self::getInvalidDateFormatException($dateString);
         }
         if (empty($timezone)) {
             return $date;
@@ -763,5 +762,11 @@ class Date
     public static function secondsToDays($secs)
     {
         return $secs / self::NUM_SECONDS_IN_DAY;
+    }
+
+    private static function getInvalidDateFormatException($dateString)
+    {
+        $message = Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime"));
+        return new Exception($message . ": $dateString");
     }
 }
