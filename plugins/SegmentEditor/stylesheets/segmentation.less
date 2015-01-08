@@ -739,7 +739,19 @@ a.metric_category {
   width: 160px;
 }
 
-.available_segments a.dropdown,
+.segmentationTitle,
+.segname {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.segname {
+	display: inline-block;
+}
+
+.segment-element .segment-nav a.dropdown,
 .segment-element .segment-top a.dropdown {
   padding: 0 17px 0 0;
   background: none !important;
