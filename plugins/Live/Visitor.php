@@ -398,6 +398,7 @@ class Visitor implements VisitorInterface
             // Convert datetimes to the site timezone
             $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
             $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat') . ' %time%');
+            $details['timestamp'] = $dateTimeVisit->getTimestamp();
         }
         $visitorDetailsArray['goalConversions'] = count($goalDetails);
         return $visitorDetailsArray;
