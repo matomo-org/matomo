@@ -833,6 +833,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         try {
             DbHelper::dropDatabase($dbName);
         } catch (Exception $e) {
+            printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
         }
     }
 
