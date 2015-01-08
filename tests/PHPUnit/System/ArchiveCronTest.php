@@ -65,7 +65,11 @@ class ArchiveCronTest extends SystemTestCase
                                      'date'       => '2012-08-09',
                                      'periods'    => array('day', 'year'),
                                      'segment'    => $segment,
-                                     'testSuffix' => '_preArchivedSegment'));
+                                     'testSuffix' => '_preArchivedSegment',
+                                     'otherRequestParameters' => array(
+                                        'hideColumns' => 'latitude,longitude'
+                                     ))
+            );
         }
 
         return $results;
