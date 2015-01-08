@@ -160,8 +160,7 @@ class API extends \Piwik\Plugin\API
             'name'           => 'General_UserId',
             'segment'        => 'userId',
             'acceptedValues' => 'any non empty unique string identifying the user (such as an email address or a username).',
-            'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilterValue' => array('Piwik\Common', 'convertUserIdToVisitorIdBin'),
+            'sqlSegment'     => 'log_visit.user_id',
             'sqlFilter'      => array($this, 'checkSegmentMatchTypeIsValidForUser'),
             'permission'     => $isAuthenticatedWithViewAccess,
 
