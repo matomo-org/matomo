@@ -19,7 +19,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (!Piwik::isUserIsAnonymous()) {
             $module = $this->getLoginModule();
-            $menu->addItem('General_Logout', null, array('module' => $module, 'action' => 'logout'), 999);
+            $menu->addItem('General_Logout', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 999);
         }
     }
 
