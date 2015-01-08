@@ -830,7 +830,10 @@ class Fixture extends \PHPUnit_Framework_Assert
             throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }
 
-        DbHelper::dropDatabase($dbName);
+        try {
+            DbHelper::dropDatabase($dbName);
+        } catch (Exception $e) {
+        }
     }
 
     public function log($message)
