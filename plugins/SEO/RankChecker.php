@@ -173,7 +173,7 @@ class RankChecker
         }
 
         if ($maxAge) {
-            return $this->formatter->getPrettyTimeFromSeconds(time() - $maxAge);
+            return $this->formatter->getPrettyTimeFromSeconds(time() - $maxAge, true);
         }
         return false;
     }
