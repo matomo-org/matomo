@@ -18,7 +18,11 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
             $menu->addManageItem('UsersManager_MenuUsers', $this->urlForAction('index'), $order = 2);
-            $menu->addManageItem('UsersManager_MenuUserSettings', $this->urlForAction('userSettings'), $order = 3);
+            $menu->addSettingsItem('UsersManager_MenuPersonal', $this->urlForAction('userSettings'), $order = 1);
+        }
+
+        if (Piwik::hasUserSuperUserAccess() && API::getInstance()->getSitesAccessFromUser('anonymous')) {
+            $menu->addSettingsItem('UsersManager_AnonymousUser', $this->urlForAction('anonymousSettings'), $order = 20);
         }
     }
 

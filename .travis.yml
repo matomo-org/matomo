@@ -83,10 +83,10 @@ before_install:
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
 
 install:
-  - git fetch
+  - git fetch -q
 
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master -- ./tests/travis ./plugins/TestRunner || true
+  - git checkout master -q -- ./tests/travis ./plugins/TestRunner || true
 
 before_script:
   - ./tests/travis/install_mysql_5.6.sh
@@ -111,7 +111,8 @@ before_script:
   - mysql -e "SET GLOBAL wait_timeout = 3600" # try to avoid mysql has gone away errors
 
   - mysql -e "SELECT @@sql_mode;"
-  - mysql -e "SHOW GLOBAL VARIABLES;"
+  # - mysql -e "SHOW GLOBAL VARIABLES;"
+
 
   # Start UI tests
   - ./tests/travis/initiate_ui_tests.sh
@@ -123,13 +124,14 @@ before_script:
   # print out more debugging info
   - uname -a
   - date
+  # - php -i
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_tests;'
 
   # Make sure we use Python 2.6
   - travis_retry sudo add-apt-repository ppa:fkrull/deadsnakes -y
-  - travis_retry sudo apt-get update
-  - travis_retry sudo apt-get install python2.6 python2.6-dev -y --force-yes
+  - travis_retry sudo apt-get update > /dev/null
+  - travis_retry sudo apt-get install python2.6 python2.6-dev -y --force-yes > /dev/null
 
   # Log Analytics works with Python 2.6 or 2.7 but we want to test on 2.6
   - python2.6 --version

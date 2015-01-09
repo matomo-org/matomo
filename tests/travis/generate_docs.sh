@@ -25,7 +25,7 @@ phpdoc -f libs/PiwikTracker/PiwikTracker.php --title="PiwikTracker" -t docs/Piwi
 
 # Install lftp
 echo "Installing lftp"
-sudo apt-get install lftp
+sudo apt-get install lftp > /dev/null
 
 # Upload generated docs via FTP
 echo "Upload generated docs"

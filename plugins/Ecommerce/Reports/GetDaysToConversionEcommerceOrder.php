@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Goals\Reports;
+namespace Piwik\Plugins\Ecommerce\Reports;
 
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\DaysToConversion;
 
-class GetDaysToConversionEcommerceOrder extends BaseEcommerce
+class GetDaysToConversionEcommerceOrder extends Base
 {
     protected function init()
     {

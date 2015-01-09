@@ -21,9 +21,9 @@ travis_wait() {
   } || return 1
 
   if [ $result -eq 0 ]; then
-echo -e "\n${GREEN}The command \"$TRAVIS_CMD\" exited with $result.${RESET}"
+echo -e "\n${GREEN}The command \"${TRAVIS_CMD}\" exited with $result.${RESET}"
   else
-echo -e "\n${RED}The command \"$TRAVIS_CMD\" exited with $result.${RESET}"
+echo -e "\n${RED}The command \"${TRAVIS_CMD}\" exited with $result.${RESET}"
   fi
 
 echo -e "\n${GREEN}Log:${RESET}\n"

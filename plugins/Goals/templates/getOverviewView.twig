@@ -43,8 +43,4 @@
     </h2>
     {{ goalReportsByDimension|raw }}
     {% endif %}
-
-    {% if userCanEditGoals %}
-        {% include "@Goals/_addEditGoal.twig" %}
-    {% endif %}
 {% endif %}

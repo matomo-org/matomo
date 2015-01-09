@@ -6,17 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Goals\Reports;
+namespace Piwik\Plugins\Ecommerce\Reports;
 
+use Piwik\API\Proxy;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Site;
+use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
+use Piwik\WidgetsList;
 
-abstract class BaseEcommerce extends Report
+abstract class Base extends Report
 {
     protected function init()
     {
+        $this->module   = 'Goals';
         $this->category = 'Goals_Ecommerce';
     }
 
@@ -70,4 +74,5 @@ abstract class BaseEcommerce extends Report
 
         return $site->isEcommerceEnabled();
     }
+
 }

@@ -1,16 +1,4 @@
 <div id="topRightBar">
-    {% for label,menu in topMenu %}
-        {% if menu._html is defined %}
-            {{ menu._html|raw }}
-        {% elseif (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
-            <span class="topBarElem topBarElemActive"><strong>{{ label|translate }}</strong></span>
-        {% else %}
-            <span class="topBarElem" {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}>
-                <a id="topmenu-{{ menu._url.module|lower }}" href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ label|translate }}</a>
-            </span>
-        {% endif %}
-        |
-    {% endfor %}
 
     {% set helloAlias %}
     {% if userAlias is not empty %}
@@ -19,6 +7,19 @@
         {{ userLogin|raw }}
     {% endif %}
     {% endset %}
+
+    {% macro topMenuItem(label, menu, currentModule, currentAction) %}
+
+        {% if menu._html is defined %}
+            {{ menu._html|raw }}
+        {% elseif (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
+            <span class="topBarElem topBarElemActive"><strong>{{ label|translate }}</strong></span>
+        {% else %}
+            <span class="topBarElem" {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}>
+            <a id="topmenu-{{ menu._url.module|lower }}" href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ label|translate }}</a>
+        </span>
+        {% endif %}
+    {% endmacro %}
 
     {% macro userMenuItem(label, menu, currentModule, currentAction) %}
 
@@ -29,6 +30,11 @@
                 >{{ label|translate }}</a>
 
     {% endmacro %}
+
+    {% for label,menu in topMenu if menu._order >= 0 and menu._order <= 500 %}
+        {{ _self.topMenuItem(label, menu, currentModule, currentAction) }}
+        |
+    {% endfor %}
 
     <span class="topBarElem">
         <div id="userMenu"
@@ -57,11 +63,9 @@
         </div>
     </span>
 
-    | <span class="topBarElem">
-        {% if userLogin == 'anonymous' %}
-            <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a>
-        {% else %}
-            <a href='index.php?module={{ loginModule }}&amp;action=logout'>{{ 'General_Logout'|translate }}</a>
-        {% endif %}
-    </span>
+    {% for label,menu in topMenu if menu._order >= 501 %}
+        |
+        {{ _self.topMenuItem(label, menu, currentModule, currentAction) }}
+    {% endfor %}
+
 </div>

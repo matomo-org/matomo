@@ -13,7 +13,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Goals\Columns\VisitsUntilConversion;
 use Piwik\Plugins\Goals\Archiver;
 
-class GetVisitsUntilConversion extends BaseGoal
+class GetVisitsUntilConversion extends Base
 {
     protected function init()
     {

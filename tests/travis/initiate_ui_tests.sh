@@ -16,8 +16,8 @@ COMMIT_MESSAGE=$(git log "$TRAVIS_COMMIT" -1 --pretty=%B)
 cd tests/PHPUnit/UI
 
 UI_BRANCH="master"
-git checkout $UI_BRANCH
-git pull --rebase origin $UI_BRANCH
+git checkout $UI_BRANCH -q
+git pull --rebase origin $UI_BRANCH -q
 
 echo "$TRAVIS_COMMIT
 $TRAVIS_BRANCH" > piwik_commit.txt

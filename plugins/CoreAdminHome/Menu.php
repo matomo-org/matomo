@@ -10,6 +10,8 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
+use Piwik\Menu\MenuTop;
+use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use Piwik\Settings\Manager as SettingsManager;
 
@@ -26,18 +28,25 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addDiagnosticItem(null, "", $order = 10);
             $menu->addDevelopmentItem(null, "", $order = 15);
 
-            $menu->addSettingsItem('CoreAdminHome_MenuGeneralSettings',
+            $menu->addSettingsItem('General_General',
                                    $this->urlForAction('generalSettings'),
                                    $order = 6);
             $menu->addManageItem('CoreAdminHome_TrackingCode',
                                  $this->urlForAction('trackingCodeGenerator'),
-                                 $order = 4);
+                                 $order = 10);
         }
 
         if (SettingsManager::hasPluginsSettingsForCurrentUser()) {
-            $menu->addSettingsItem('CoreAdminHome_PluginSettings',
+            $menu->addSettingsItem('General_Plugins',
                                    $this->urlForAction('pluginSettings'),
                                    $order = 7);
+        }
+    }
+
+    public function configureTopMenu(MenuTop $menu)
+    {
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            $menu->addItem('CoreAdminHome_Administration', null, $this->urlForAction('generalSettings'), 10);
         }
     }
 

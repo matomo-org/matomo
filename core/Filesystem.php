@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\Tracker\Cache;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Cache as PiwikCache;
 
 /**
@@ -27,7 +27,7 @@ class Filesystem
     {
         AssetManager::getInstance()->removeMergedAssets($pluginName);
         View::clearCompiledTemplates();
-        Cache::deleteTrackerCache();
+        TrackerCache::deleteTrackerCache();
         PiwikCache::flushAll();
         self::clearPhpCaches();
     }

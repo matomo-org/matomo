@@ -243,8 +243,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = LanguagesManager::getLanguageCodeForCurrentUser();
         $view->ignoreCookieSet = IgnoreCookie::isIgnoreCookieFound();
-        $this->initViewAnonymousUserSettings($view);
         $view->piwikHost = Url::getCurrentHost();
+        $this->setBasicVariablesView($view);
+
+        return $view->render();
+    }
+
+    /**
+     * The "Anonymous Settings" admin UI screen view
+     */
+    public function anonymousSettings()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $view = new View('@UsersManager/anonymousSettings');
+
+        $view->availableDefaultDates = $this->getDefaultDates();
+
+        $this->initViewAnonymousUserSettings($view);
         $this->setBasicVariablesView($view);
 
         return $view->render();

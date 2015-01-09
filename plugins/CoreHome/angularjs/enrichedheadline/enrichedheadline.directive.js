@@ -18,7 +18,7 @@
  * -> shows help icon and links to external url
  *
  * <h2 piwik-enriched-headline>All Websites Dashboard
- *     <div class="inlineHelp>My <strong>inline help</strong></div>
+ *     <div class="inlineHelp">My <strong>inline help</strong></div>
  * </h2>
  * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
  */

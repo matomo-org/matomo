@@ -26,6 +26,7 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
+				
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -40,6 +41,7 @@
 				<itemDetails>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -167,6 +169,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -196,6 +199,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -219,6 +223,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -249,6 +254,7 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>

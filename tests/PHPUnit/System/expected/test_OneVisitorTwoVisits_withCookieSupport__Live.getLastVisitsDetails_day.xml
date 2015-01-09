@@ -15,6 +15,7 @@
 				
 				<url>http://example.org/store/purchase.htm</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -25,6 +26,7 @@
 				<pageId>9</pageId>
 				<generationTime>0.13s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -123,6 +125,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -135,6 +138,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>outlink</type>
@@ -146,6 +150,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
+				
 			</row>
 			<row>
 				<type>download</type>
@@ -157,6 +162,7 @@
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				
 			</row>
 			<row>
 				<type>outlink</type>
@@ -168,6 +174,7 @@
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
+				
 			</row>
 			<row>
 				<type>outlink</type>
@@ -179,6 +186,7 @@
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -189,6 +197,7 @@
 				
 				<url>http://example.org/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -201,6 +210,7 @@
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -211,6 +221,7 @@
 				<pageId>8</pageId>
 				<generationTime>0.02s</generationTime>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>

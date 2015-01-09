@@ -147,7 +147,7 @@ class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_getAllDimensions_shouldLoadAllDimensionsButOnlyIfLoadedPlugins()
     {
-        Manager::getInstance()->loadPlugins(array('Goals', 'ExampleTracker'));
+        Manager::getInstance()->loadPlugins(array('Goals', 'Ecommerce', 'ExampleTracker'));
 
         $dimensions = ConversionDimension::getAllDimensions();
 
@@ -155,7 +155,7 @@ class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
 
         foreach ($dimensions as $dimension) {
             $this->assertInstanceOf('\Piwik\Plugin\Dimension\ConversionDimension', $dimension);
-            $this->assertRegExp('/Piwik.Plugins.(ExampleTracker|Goals).Columns/', get_class($dimension));
+            $this->assertRegExp('/Piwik.Plugins.(ExampleTracker|Ecommerce|Goals).Columns/', get_class($dimension));
         }
     }
 }

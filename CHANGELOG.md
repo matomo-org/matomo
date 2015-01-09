@@ -13,7 +13,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 2.10.0
 
 ### Breaking Changes
-* API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
+* API responses containing visitor information will no longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
 * os, browser and browser plugin icons are now located in the DevicesDetection and DevicePlugins plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
 * The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
 * The following events have been removed:
