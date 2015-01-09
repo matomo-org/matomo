@@ -54,7 +54,7 @@ then
         fi
     elif [ "$TEST_SUITE" = "AllTests" ]
     then
-        travis_wait ./../../console tests:run --options="--colors"
+        travis_wait ./../../console tests:run --options="--colors --testdox"
     else
         if [ -n "$PLUGIN_NAME" ]
         then
