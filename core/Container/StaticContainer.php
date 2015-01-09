@@ -76,4 +76,16 @@ class StaticContainer
     {
         self::$environment = $environment;
     }
+
+    /**
+     * Proxy to Container::get()
+     *
+     * @param string $name Container entry name.
+     * @return mixed
+     * @throws \DI\NotFoundException
+     */
+    public static function get($name)
+    {
+        return self::getContainer()->get($name);
+    }
 }

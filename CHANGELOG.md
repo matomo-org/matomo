@@ -1,6 +1,16 @@
 # Piwik Platform Changelog
 
-This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here. 
+This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
+
+## Piwik 2.11.0
+
+### Deprecations
+* The following methods have been deprecated in favor of the new `Piwik\Intl` component:
+  * `Piwik\Common::getContinentsList()`: use `RegionDataProvider::getContinentList()` instead
+  * `Piwik\Common::getCountriesList()`: use `RegionDataProvider::getCountryList()` instead
+  * `Piwik\Common::getLanguagesList()`: use `LanguageDataProvider::getLanguageList()` instead
+  * `Piwik\Common::getLanguageToCountryList()`: use `LanguageDataProvider::getLanguageToCountryList()` instead
+  * `Piwik\Metrics\Formatter::getCurrencyList()`: use `CurrencyDataProvider::getCurrencyList()` instead
 
 ## Piwik 2.11.0
 

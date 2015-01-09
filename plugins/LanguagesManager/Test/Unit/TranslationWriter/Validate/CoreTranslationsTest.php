@@ -15,12 +15,6 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
  */
 class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
-        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-    }
-
     public function getFilterTestDataValid()
     {
         return array(

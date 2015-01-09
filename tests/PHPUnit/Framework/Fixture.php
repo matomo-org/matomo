@@ -189,10 +189,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         include "DataFiles/SearchEngines.php";
         include "DataFiles/Socials.php";
-        include "DataFiles/Languages.php";
-        include "DataFiles/Countries.php";
-        include "DataFiles/Currencies.php";
-        include "DataFiles/LanguageToCountry.php";
         include "DataFiles/Providers.php";
 
         if (!$this->isFixtureSetUp()) {
@@ -834,7 +830,11 @@ class Fixture extends \PHPUnit_Framework_Assert
             throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }
 
-        DbHelper::dropDatabase($dbName);
+        try {
+            DbHelper::dropDatabase($dbName);
+        } catch (Exception $e) {
+            printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
+        }
     }
 
     public function log($message)

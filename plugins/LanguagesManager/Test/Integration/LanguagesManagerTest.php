@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Integration;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Plugins\LanguagesManager\API;
 use \Exception;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByParameterCount;
@@ -19,19 +21,11 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/LanguagesManager/API.php';
-
 /**
  * @group LanguagesManager
  */
 class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
-    }
-
     function getTestDataForLanguageFiles()
     {
         // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
@@ -140,6 +134,11 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
     function testGetLanguageNamesInEnglish()
     {
         $languages = API::getInstance()->getAvailableLanguages();
+
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        $languagesReference = $dataProvider->getLanguageList();
+
         foreach ($languages as $language) {
             $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$language.json");
             $translations = json_decode($data, true);
@@ -150,10 +149,10 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
             }
 
             $languageCode = substr($language, 0, 2);
-            $this->assertTrue(isset($GLOBALS['Piwik_LanguageList'][$languageCode]));
-            $names = $GLOBALS['Piwik_LanguageList'][$languageCode];
+            $this->assertTrue(isset($languagesReference[$languageCode]));
+            $names = $languagesReference[$languageCode];
 
-            if (isset($GLOBALS['Piwik_LanguageList'][$language])) {
+            if (isset($languagesReference[$language])) {
                 if (is_array($names)) {
                     $this->assertTrue(in_array($name, $names), "$language: failed because $name not a known language name");
                 } else {
