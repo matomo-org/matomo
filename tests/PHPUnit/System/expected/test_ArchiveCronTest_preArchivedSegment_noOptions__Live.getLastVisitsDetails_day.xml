@@ -83,8 +83,6 @@
 		<regionCode />
 		<city />
 		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>21:00:42</visitLocalTime>
 		<visitLocalHour>21</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -185,8 +183,6 @@
 		<regionCode />
 		<city />
 		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>20:56:45</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -287,8 +283,6 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
 		<visitLocalTime>13:49:48</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -389,8 +383,6 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
 		<visitLocalTime>13:48:20</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -491,8 +483,6 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
 		<visitLocalTime>13:48:07</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -593,8 +583,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>08:12:03</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -695,8 +683,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>08:11:56</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -797,8 +783,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>08:11:30</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -899,8 +883,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>

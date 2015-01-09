@@ -246,8 +246,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -356,8 +354,6 @@
 		<regionCode />
 		<city />
 		<location>Unknown</location>
-		<latitude />
-		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -471,8 +467,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>20:15:41</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -594,8 +588,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>19:12:40</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -724,8 +716,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>18:10:38</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -830,8 +820,6 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
 		<visitLocalTime>17:48:08</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -936,8 +924,6 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.043999</latitude>
-		<longitude>-77.487999</longitude>
 		<visitLocalTime>17:48:07</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1032,8 +1018,6 @@
 		<regionCode />
 		<city />
 		<location>Australia</location>
-		<latitude>-27</latitude>
-		<longitude>133</longitude>
 		<visitLocalTime>17:46:03</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1138,8 +1122,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>16:11:30</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1244,8 +1226,6 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<latitude>36</latitude>
-		<longitude>138</longitude>
 		<visitLocalTime>16:10:38</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
