@@ -2,6 +2,7 @@
     "Insights": {
         "DayComparedToPreviousDay": "forrige dag",
         "DayComparedToPreviousWeek": "samme dag i forrige uke",
+        "DayComparedToPreviousYear": "samme dag i foregående år",
         "MonthComparedToPreviousMonth": "forrige måned",
         "WeekComparedToPreviousWeek": "forrige uke",
         "YearComparedToPreviousYear": "forrige år"

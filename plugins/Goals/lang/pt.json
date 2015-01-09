@@ -55,7 +55,6 @@
         "GoalIsTriggeredWhen": "Objectivo é atingido quando",
         "GoalName": "Nome do Objectivo",
         "Goals": "Objectivos",
-        "GoalsManagement": "Gerir objectivos",
         "GoalsOverview": "Vista geral dos Objectivos",
         "GoalsOverviewDocumentation": "Esta é uma visão geral das suas conversões de objectivos. Inicialmente, o gráfico mostra a soma de todas as conversões. %s Abaixo do gráfico, você pode ver relatórios de conversão para cada um dos seus objetivos. Os gráficos Sparkline podem ser ampliadas clicando sobre eles.",
         "GoalX": "Objectivo %s",

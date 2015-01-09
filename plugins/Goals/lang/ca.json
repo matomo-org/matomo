@@ -55,7 +55,6 @@
         "GoalIsTriggeredWhen": "S'asoleix l'objectiu quan",
         "GoalName": "Nom de l'objectiu",
         "Goals": "Objectius",
-        "GoalsManagement": "Gestió d'objectius",
         "GoalsOverview": "Vista general d'objectius",
         "GoalsOverviewDocumentation": "Això es una vista global de les conversions dels vostres objectius. Inicialment el gràfic mostra la suma de totes les conversions. %s Davalla del gràfic, podeu veure els informes de conversions per cada un dels vostres objectius. Els minigràfics es pot ampliar fent clic sobre ells.",
         "GoalX": "Objectiu %s",
