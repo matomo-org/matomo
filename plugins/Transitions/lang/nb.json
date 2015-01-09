@@ -1,6 +1,7 @@
 {
     "Transitions": {
         "FromCampaigns": "Fra kampanjer",
+        "FromPreviousPages": "Fra interne sider",
         "FromPreviousPagesInline": "%s fra interne sider",
         "FromPreviousSiteSearches": "Fra interne søk",
         "FromPreviousSiteSearchesInline": "%s fra interne søk",

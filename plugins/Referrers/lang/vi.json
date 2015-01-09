@@ -9,7 +9,6 @@
         "ColumnSocial": "Mạng xã hội",
         "ColumnWebsite": "Địa chỉ trang web",
         "ColumnWebsitePage": "Trang web",
-        "DetailsByReferrerType": "Chi tiết bởi kiểu Referrer",
         "DirectEntry": "Nhập trực tiếp",
         "DirectEntryDocumentation": "Một du khách đã nhập vào URL trong trình duyệt của mình và bắt đầu trình duyệt trên trang web của bạn - người đó đã vào trang web một cách trực tiếp.",
         "Distinct": "Các Referrer riêng biệt bởi kiểu Referrer",

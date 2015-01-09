@@ -55,7 +55,6 @@
         "GoalIsTriggeredWhen": "Objektivi vihet në punë kur",
         "GoalName": "Emër Objektivi",
         "Goals": "Objektiva",
-        "GoalsManagement": "Administrim objektivash",
         "GoalsOverview": "Përmbledhje objektivash",
         "GoalsOverviewDocumentation": "Kjo është një përmbledhje e shndërrimeve tuaja për objektivat. Fillimisht, grafiku tregon shumën e krejt shndërrimeve. %s Nën grafik, mund të shihni raporte shndërrimesh për secilin prej objektivave tuaj. Grafikët vijëzorë mund të zmadhohen duke klikuar mbi ta.",
         "GoalX": "Objektiv %s",

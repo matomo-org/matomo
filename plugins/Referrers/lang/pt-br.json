@@ -9,7 +9,6 @@
         "ColumnSocial": "Rede social",
         "ColumnWebsite": "Website",
         "ColumnWebsitePage": "Página da Web",
-        "DetailsByReferrerType": "Detalhes por tipo de encaminhador",
         "DirectEntry": "Entrada Direta",
         "DirectEntryDocumentation": "Um visitante entrou a URL no seu navegador e começou a navegar em seu site - ele entrou no site diretamente.",
         "Distinct": "Encaminhadores distintos por tipo de encaminhador",

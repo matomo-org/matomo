@@ -9,7 +9,6 @@
         "ColumnSocial": "ソーシャルネットワーク",
         "ColumnWebsite": "ウェブサイト",
         "ColumnWebsitePage": "ウェブサイトページ",
-        "DetailsByReferrerType": "参照元タイプごとの詳細",
         "DirectEntry": "直接アクセス",
         "DirectEntryDocumentation": "ブラウザにURLを入力して、ウェブサイトの閲覧を開始したビジター - 直接ウェブサイトを見に来た。",
         "Distinct": "参照元タイプごとの個別参照元",
