@@ -1516,10 +1516,10 @@ class CronArchive
                 continue;
             }
 
-            $defaultReport = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT];
-            if (is_numeric($defaultReport)) {
+            if (isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
+                && is_numeric($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])) {
                 // If user selected one particular website ID
-                $idSites = array($defaultReport);
+                $idSites = array($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]);
             } else {
                 // If user selected "All websites"  or some other random value, we pre-process all websites that he has access to
                 $idSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess($userLogin);

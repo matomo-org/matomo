@@ -34,10 +34,6 @@ class ArchiveCronTest extends SystemTestCase
     {
         $results = array();
 
-        // First, API calls for Segmented reports
-        // Disabling these tests as they randomly fail... This could actually be a bug.
-        // FIXME - I have failed finding the cause for these test to randomly fail
-        // eg.
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
             $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                           'date'       => '2012-08-09',
@@ -49,7 +45,6 @@ class ArchiveCronTest extends SystemTestCase
         }
 
         // API Call Without segments
-        // TODO uncomment week and year period
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
                                                       'periods' => array('day', 'month', 'year',  'week')));
@@ -64,16 +59,17 @@ class ArchiveCronTest extends SystemTestCase
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
         foreach($segments as $segment) {
-            // TODO debugging travis
-            continue;
-
             // Test with a pre-processed segment
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
                                      'date'       => '2012-08-09',
                                      'periods'    => array('day', 'year'),
                                      'segment'    => $segment,
-                                     'testSuffix' => '_preArchivedSegment'));
+                                     'testSuffix' => '_preArchivedSegment',
+                                     'otherRequestParameters' => array(
+                                        'hideColumns' => 'latitude,longitude'
+                                     ))
+            );
         }
 
         return $results;
