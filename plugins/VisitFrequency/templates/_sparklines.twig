@@ -1,3 +1,4 @@
+<div id="leftcolumn">
 <div class="sparkline">
     {{ sparkline(urlSparklineNbVisitsReturning) }}
     {{ 'VisitFrequency_ReturnVisits'|translate("<strong>"~nbVisitsReturning~"</strong>")|raw }}
@@ -10,6 +11,7 @@
     {{ sparkline(urlSparklineActionsPerVisitReturning) }}
     {{ 'VisitFrequency_ReturnAvgActions'|translate("<strong>"~nbActionsPerVisitReturning~"</strong>")|raw }}
 </div>
+    </div><div id="rightcolumn">
 <div class="sparkline">
     {{ sparkline(urlSparklineAvgVisitDurationReturning) }}
     {% set avgVisitDurationReturning=avgVisitDurationReturning|sumtime %}
@@ -20,3 +22,5 @@
     {{ 'VisitFrequency_ReturnBounceRate'|translate("<strong>"~bounceRateReturning~"</strong>")|raw }}
 </div>
 {% include "_sparklineFooter.twig" %}
+</div>
+<div style="clear:both"></div>
