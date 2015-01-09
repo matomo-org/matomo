@@ -108,7 +108,11 @@ before_script:
 
   # configure mysql
   - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" # Travis default
-  - mysql -e "SET GLOBAL wait_timeout = 3600" # try to avoid mysql has gone away errors
+  # try to avoid mysql has gone away errors
+  - mysql -e "SET GLOBAL wait_timeout = 36000;"
+  - mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
+  - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
+  - mysql -e "SHOW VARIABLES LIKE 'wait_timeout';"
 
   - mysql -e "SELECT @@sql_mode;"
   # - mysql -e "SHOW GLOBAL VARIABLES;"
