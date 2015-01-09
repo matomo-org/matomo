@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\EventDispatcher;
+use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -822,7 +823,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->log("Dropping database '$dbName'...");
 
-        $config = _parse_ini_file(PIWIK_INCLUDE_PATH . '/config/config.ini.php', true);
+        $iniReader = new IniReader();
+        $config = $iniReader->readFile(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
         $originalDbName = $config['database']['dbname'];
         if ($dbName == $originalDbName
             && $dbName != 'piwik_tests'

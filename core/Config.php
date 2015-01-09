@@ -10,6 +10,9 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Ini\IniReader;
+use Piwik\Ini\IniReadingException;
+use Piwik\Ini\IniWriter;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -64,13 +67,22 @@ class Config extends Singleton
     protected $isTest = false;
 
     /**
-     * Constructor
+     * @var IniReader
      */
+    private $iniReader;
+
+    /**
+     * @var IniWriter
+     */
+    private $iniWriter;
+
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
         $this->pathGlobal = $pathGlobal ?: self::getGlobalConfigPath();
         $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
         $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
+        $this->iniReader = new IniReader();
+        $this->iniWriter = new IniWriter();
     }
 
     /**
@@ -317,20 +329,33 @@ class Config extends Singleton
             throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
         }
 
-        $this->configGlobal = _parse_ini_file($this->pathGlobal, true);
-
-        if (empty($this->configGlobal) && $reportError) {
-            throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
+        try {
+            $this->configGlobal = $this->iniReader->readFile($this->pathGlobal);
+        } catch (IniReadingException $e) {
+            if ($reportError) {
+                throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
+            }
         }
 
-        $this->configCommon = _parse_ini_file($this->pathCommon, true);
+        try {
+            if (file_exists($this->pathCommon)) {
+                $this->configCommon = $this->iniReader->readFile($this->pathCommon);
+            } else {
+                $this->configCommon = false;
+            }
+        } catch (IniReadingException $e) {
+            $this->configCommon = false;
+        }
 
         // Check config.ini.php last
         $this->checkLocalConfigFound();
 
-        $this->configLocal = _parse_ini_file($this->pathLocal, true);
-        if (empty($this->configLocal) && $reportError) {
-            throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
+        try {
+            $this->configLocal = $this->iniReader->readFile($this->pathLocal);
+        } catch (IniReadingException $e) {
+            if ($reportError) {
+                throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
+            }
         }
     }
 
@@ -365,8 +390,10 @@ class Config extends Singleton
                 $value = $this->decodeValues($value);
             }
             return $values;
+        } elseif (is_string($values)) {
+            return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
         }
-        return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
+        return $values;
     }
 
     /**
@@ -381,11 +408,9 @@ class Config extends Singleton
             foreach ($values as &$value) {
                 $value = $this->encodeValues($value);
             }
-        } else {
-            if (is_float($values)) {
-                $values = Common::forceDotAsSeparatorForDecimalPoint($values);
-            }
-
+        } elseif (is_float($values)) {
+            $values = Common::forceDotAsSeparatorForDecimalPoint($values);
+        } elseif (is_string($values)) {
             $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
             $values = str_replace('$', '&#36;', $values);
         }
@@ -556,12 +581,11 @@ class Config extends Singleton
     {
         $dirty = false;
 
-        $output = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
-        $output .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
-
         if (!$configCache) {
             return false;
         }
+
+        $configToWrite = array();
 
         // If there is a common.config.ini.php, this will ensure config.ini.php does not duplicate its values
         if (!empty($configCommon)) {
@@ -605,38 +629,13 @@ class Config extends Singleton
                 $dirty = true;
             }
 
-            // no point in writing empty sections, so skip if the cached section is empty
-            if (empty($config)) {
-                continue;
-            }
-
-            $output .= "[$section]\n";
-
-            foreach ($config as $name => $value) {
-                $value = $this->encodeValues($value);
-
-                if (is_numeric($name)) {
-                    $name = $section;
-                    $value = array($value);
-                }
-
-                if (is_array($value)) {
-                    foreach ($value as $currentValue) {
-                        $output .= $name . "[] = \"$currentValue\"\n";
-                    }
-                } else {
-                    if (!is_numeric($value)) {
-                        $value = "\"$value\"";
-                    }
-                    $output .= $name . ' = ' . $value . "\n";
-                }
-            }
-
-            $output .= "\n";
+            $configToWrite[$section] = array_map(array($this, 'encodeValues'), $config);
         }
 
         if ($dirty) {
-            return $output;
+            $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
+            $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
+            return $this->iniWriter->writeToString($configToWrite, $header);
         }
         return false;
     }
