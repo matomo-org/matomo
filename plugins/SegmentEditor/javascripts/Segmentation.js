@@ -196,7 +196,6 @@ Segmentation = (function($) {
         var getListHtml = function() {
             var html = self.editorTemplate.find("> .listHtml").clone();
             var segment, injClass;
-
             var listHtml = '<li data-idsegment="" ' +
                             (self.currentSegmentStr == "" ? " class='segmentSelected' " : "")
                             + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
@@ -207,7 +206,12 @@ Segmentation = (function($) {
                 {
                     segment = self.availableSegments[i];
                     injClass = "";
-                    if( segment.definition == self.currentSegmentStr){
+                    var checkSelected = segment.definition;
+                    if(!$.browser.mozilla) {
+                        checkSelected = encodeURIComponent(checkSelected);
+                    }
+                    
+                    if( checkSelected == self.currentSegmentStr){
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
