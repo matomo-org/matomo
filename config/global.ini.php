@@ -67,14 +67,6 @@ log_writers[] = screen
 ; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
 log_level = WARN
 
-; if set to 1, only requests done in CLI mode (eg. the ./console core:archive cron run) will be logged
-; NOTE: log_only_when_debug_parameter will also be checked for
-log_only_when_cli = 0
-
-; if set to 1, only requests with "&debug" parameter will be logged
-; NOTE: log_only_when_cli will also be checked for
-log_only_when_debug_parameter = 0
-
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/piwik.log
 
