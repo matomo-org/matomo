@@ -21,6 +21,10 @@ sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" ./tests/PHPUnit/config.ini.travis.php > .
 echo "Adjusting phpunit.xml"
 cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 
+if grep "@REQUEST_URI@" ./tests/PHPUnit/phpunit.xml > /dev/null; then
+    sed -i 's/@REQUEST_URI@/\//g' ./tests/PHPUnit/phpunit.xml
+fi
+
 if [ -n "$PLUGIN_NAME" ];
 then
       sed -n '/<filter>/{p;:a;N;/<\/filter>/!ba;s/.*\n/<whitelist addUncoveredFilesFromWhitelist=\"true\">\n<directory suffix=\".php\">..\/..\/plugins\/'$PLUGIN_NAME'<\/directory>\n<exclude>\n<directory suffix=\".php\">..\/..\/plugins\/'$PLUGIN_NAME'\/tests<\/directory>\n<directory suffix=\".php\">..\/..\/plugins\/'$PLUGIN_NAME'\/Test<\/directory>\n<directory suffix=\".php\">..\/..\/plugins\/'$PLUGIN_NAME'\/Updates<\/directory>\n<\/exclude>\n<\/whitelist>\n/};p' ./tests/PHPUnit/phpunit.xml > ./tests/PHPUnit/phpunit.xml.new && mv ./tests/PHPUnit/phpunit.xml.new ./tests/PHPUnit/phpunit.xml
