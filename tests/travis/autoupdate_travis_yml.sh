@@ -8,6 +8,9 @@ if [ "$REPO_ROOT_DIR" == "" ]; then
     fi
 fi
 
+# remove the command from CoreConsole if it exists
+rm $PIWIK_ROOT_DIR/plugins/CoreConsole/Commands/GenerateTravisYmlFile.php || true
+
 cd $REPO_ROOT_DIR
 
 LATEST_COMMIT_HASH=`git rev-parse $TRAVIS_BRANCH`
