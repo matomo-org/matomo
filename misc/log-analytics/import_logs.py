@@ -1231,7 +1231,7 @@ class DynamicResolver(object):
     def check_format(self, format):
         if config.options.replay_tracking:
             pass
-        elif 'host' not in format.regex.groupindex and not config.options.log_hostname:
+        elif format.regex is not None and 'host' not in format.regex.groupindex and not config.options.log_hostname:
             fatal_error(
                 "the selected log format doesn't include the hostname: you must "
                 "specify the Piwik site ID with the --idsite argument"

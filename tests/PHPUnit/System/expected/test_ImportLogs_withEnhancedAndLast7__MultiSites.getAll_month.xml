@@ -3,11 +3,11 @@
 	<result date="2012-08">
 		<row>
 			<label>Piwik test</label>
-			<nb_visits>34</nb_visits>
-			<nb_actions>39</nb_actions>
-			<nb_pageviews>33</nb_pageviews>
-			<revenue>150</revenue>
-			<nb_conversions>30</nb_conversions>
+			<nb_visits>35</nb_visits>
+			<nb_actions>40</nb_actions>
+			<nb_pageviews>34</nb_pageviews>
+			<revenue>155</revenue>
+			<nb_conversions>31</nb_conversions>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
@@ -43,10 +43,10 @@
 			<revenue>5</revenue>
 			<nb_conversions>1</nb_conversions>
 			<visits_evolution>-97.1%</visits_evolution>
-			<actions_evolution>-74.4%</actions_evolution>
-			<pageviews_evolution>-69.7%</pageviews_evolution>
-			<revenue_evolution>-96.7%</revenue_evolution>
-			<nb_conversions_evolution>-96.7%</nb_conversions_evolution>
+			<actions_evolution>-75%</actions_evolution>
+			<pageviews_evolution>-70.6%</pageviews_evolution>
+			<revenue_evolution>-96.8%</revenue_evolution>
+			<nb_conversions_evolution>-96.8%</nb_conversions_evolution>
 			<group />
 			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>

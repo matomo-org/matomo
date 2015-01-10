@@ -31,6 +31,7 @@ class ManySitesImportedLogs extends Fixture
     public $includeNetscaler = false;
     public $includeCloudfront = false;
     public $includeCloudfrontRtmp = false;
+    public $includeNginxJson = false;
 
     public static function createAccessInstance()
     {
@@ -130,6 +131,10 @@ class ManySitesImportedLogs extends Fixture
 
         if ($this->includeCloudfrontRtmp) {
             $this->logCloudfrontRtmp();
+        }
+
+        if ($this->includeNginxJson) {
+            $this->logNginxJsonLog();
         }
     }
 
@@ -291,6 +296,15 @@ class ManySitesImportedLogs extends Fixture
 
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logNginxJsonLog()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_nginx_json.log';
+
+        $opts = array('--token-auth' => self::getTokenAuth());
 
         return self::executeLogImporter($logFile, $opts);
     }

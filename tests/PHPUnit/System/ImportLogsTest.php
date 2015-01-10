@@ -108,3 +108,4 @@ ImportLogsTest::$fixture->includeIisWithCustom = true;
 ImportLogsTest::$fixture->includeNetscaler = true;
 ImportLogsTest::$fixture->includeCloudfront = true;
 ImportLogsTest::$fixture->includeCloudfrontRtmp = true;
+ImportLogsTest::$fixture->includeNginxJson = true;
