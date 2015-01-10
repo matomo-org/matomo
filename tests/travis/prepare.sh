@@ -41,8 +41,9 @@ mkdir ./tmp/sessions
 mkdir ./tmp/templates_c
 mkdir ./tmp/tcpdf
 mkdir ./tmp/climulti
-chmod a+rw ./tests/lib/geoip-files
-chmod a+rw ./plugins/*/tests/System/processed
+chmod a+rw ./tests/lib/geoip-files || true
+chmod a+rw ./plugins/*/tests/System/processed || true
+chmod a+rw ./plugins/*/tests/Integration/processed || true
 
 # install phpredis
 echo 'extension="redis.so"' > ./tmp/redis.ini
