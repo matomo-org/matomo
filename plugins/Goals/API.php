@@ -360,7 +360,11 @@ class API extends \Piwik\Plugin\API
         }, $columnsToGet);
         $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
 
-        $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
+        if (count($columnsToGet) > 0) {
+            $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
+        } else {
+            $newNameMapping = array();
+        }
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
         // TODO: this should be in Goals/Get.php but it depends on idGoal parameter which isn't always in _GET (ie,
