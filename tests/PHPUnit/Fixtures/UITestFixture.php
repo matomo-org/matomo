@@ -54,6 +54,10 @@ class UITestFixture extends SqlDump
         DbHelper::createAnonymousUser();
         UsersManagerAPI::getInstance()->setSuperUserAccess('superUserLogin', true);
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
+
+        // create non super user
+        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
+        UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
