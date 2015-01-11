@@ -4,6 +4,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ## Piwik 2.11.0
 
+### Breaking Changes
+* The event `User.getLanguage` has been removed.
+
 ### Deprecations
 * The following methods have been deprecated in favor of the new `Piwik\Intl` component:
   * `Piwik\Common::getContinentsList()`: use `RegionDataProvider::getContinentList()` instead
@@ -11,14 +14,8 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `Piwik\Common::getLanguagesList()`: use `LanguageDataProvider::getLanguageList()` instead
   * `Piwik\Common::getLanguageToCountryList()`: use `LanguageDataProvider::getLanguageToCountryList()` instead
   * `Piwik\Metrics\Formatter::getCurrencyList()`: use `CurrencyDataProvider::getCurrencyList()` instead
-
-## Piwik 2.11.0
-
-### Breaking Changes
-* The event `User.getLanguage` has been removed.
-
-### Deprecations
 * The `Piwik\Translate` class has been deprecated in favor of `Piwik\Translation\Translator`.
+* The `core:plugin` console has been deprecated in favor of the new `plugin:list`, `plugin:activate` and `plugin:deactivate` commands
 
 ## Piwik 2.10.0
 
