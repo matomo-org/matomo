@@ -34,7 +34,7 @@ return array(
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) { // todo replace this with isTest() instead of isCli()
             $backend = 'file';
         } elseif (\Piwik\Development::isEnabled()) {
-            $backend = 'null';
+            $backend = 'array';
         } else {
             $backend = $c->get('ini.Cache.backend');
         }
