@@ -21,6 +21,10 @@ var PageRenderer = function (baseUrl) {
 
     this.defaultWaitTime = 1000;
     this._isLoading = false;
+
+    if (this.baseUrl.substring(-1) != '/') {
+        this.baseUrl = this.baseUrl + '/';
+    }
 };
 
 PageRenderer.prototype._recreateWebPage = function () {
@@ -164,7 +168,7 @@ PageRenderer.prototype._reload = function (callback) {
 
 PageRenderer.prototype._load = function (url, callback) {
     if (url.indexOf("://") === -1) {
-        url = path.join(this.baseUrl, url);
+        url = this.baseUrl + url;
     }
 
     this._recreateWebPage(); // calling open a second time never calls the callback
@@ -188,6 +192,10 @@ PageRenderer.prototype._getPosition = function (selector) {
         if (!offset
             || !element.length
         ) {
+            // TODO: this should get captured and outputted as part of the web page logs failure info, but
+            //       at the moment it doesn't
+            console.log("ERROR: Cannot find element '" + selector + "'.");
+
             return null;
         }
 
@@ -196,10 +204,6 @@ PageRenderer.prototype._getPosition = function (selector) {
             y: offset.top + element.height() / 2
         };
     }, selector);
-
-    if (!pos) {
-        throw new Error("Cannot find element " + selector);
-    }
 
     return pos;
 };
@@ -319,7 +323,7 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             var previousClipRect = self.webpage.clipRect;
 
             if (outputPath) {
-                setClipRect(self.webpage, selector)
+                setClipRect(self.webpage, selector);
 
                 self._setCorrectViewportSize();
                 self.webpage.render(outputPath);
