@@ -12,7 +12,6 @@
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Piwik\Container\StaticContainer;
-use Piwik\Log\WebCronArchiveLogger;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
