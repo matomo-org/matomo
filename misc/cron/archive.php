@@ -10,6 +10,7 @@
  */
 
 use Piwik\Container\StaticContainer;
+use Piwik\Log\WebCronArchiveLogger;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -66,6 +67,9 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
         /** @var ConsoleHandler $consoleLogHandler */
         $consoleLogHandler = StaticContainer::getContainer()->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
         $consoleLogHandler->setOutput(new ConsoleOutput(OutputInterface::VERBOSITY_VERBOSE));
+    } else {
+        // HTTP request: logs needs to be dumped on stdout
+        StaticContainer::getContainer()->set('Psr\Log\LoggerInterface', new WebCronArchiveLogger);
     }
 
     $archiver = new Piwik\CronArchive();
