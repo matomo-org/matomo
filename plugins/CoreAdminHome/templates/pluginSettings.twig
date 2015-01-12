@@ -6,6 +6,12 @@
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
 
+    {% if mode == 'user' %}
+        <h2 piwik-enriched-headline>{{ 'CoreAdminHome_PersonalPluginSettings'|translate }}</h2>
+    {% else %}
+        <h2 piwik-enriched-headline>{{ 'CoreAdminHome_SystemPluginSettings'|translate }}</h2>
+    {% endif %}
+
     <p>
         {{ 'CoreAdminHome_PluginSettingsIntro'|translate }}
         {% for pluginName, settings in pluginsSettings %}

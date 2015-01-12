@@ -479,7 +479,7 @@ class Controller extends Plugin\ControllerAdmin
 
     private function getPluginNamesHavingSettingsForCurrentUser()
     {
-        return array_keys(SettingsManager::getPluginSettingsForCurrentUser());
+        return SettingsManager::getPluginNamesHavingSystemSettings();
     }
 
     private function tryToRepairPiwik()

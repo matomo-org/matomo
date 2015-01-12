@@ -138,6 +138,9 @@
     .header {
       margin-top: 0px;
       margin-bottom: 15px;
+      h3 {
+        font-size: 16px;
+      }
     }
 
     .description {
@@ -145,17 +148,21 @@
     }
     .install {
       float: right;
+      margin-top: 3px;
     }
     .update {
       .install
     }
     h3 .more {
-      color: @theme-color-text;
-    }
-    .more {
       font-weight: bold;
       text-decoration: none;
-      color: @theme-color-link;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .more {
+      text-decoration: underline;
+      color: @theme-color-text;
     }
     .content {
       margin-bottom: 46px;
@@ -236,9 +243,6 @@
   }
 
   .sort {
-    a {
-      color: @theme-color-link;
-    }
     .active {
       font-weight: bold;
     }

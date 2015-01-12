@@ -129,7 +129,7 @@ class Manager
         return false;
     }
 
-    private static function getPluginNamesHavingSystemSettings()
+    public static function getPluginNamesHavingSystemSettings()
     {
         $settings = static::getPluginSettingsForCurrentUser();
         $plugins  = array();

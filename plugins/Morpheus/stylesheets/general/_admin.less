@@ -95,20 +95,39 @@
     color: @theme-color-link;
 }
 
+.admin .adminTable a {
+  color: @theme-color-text;
+  text-decoration: underline;
+}
+
+.admin .adminTable .ui-inline-help a {
+  color: @theme-color-link;
+  text-decoration: none;
+}
+
 .addRowSite,
 .addrow {
     cursor: pointer;
 }
 
+.addrow:hover {
+  text-decoration: underline;
+}
+
 .addrow {
-    margin-top: 10px;
+    margin-top: 16px;
 }
 
 .addRowSite {
     display: inline-block;
     margin: 5px 0;
+    text-decoration: none !important;
     &:before {
         content: url(plugins/Morpheus/images/add.png) !important;
+    }
+
+    &:hover {
+      text-decoration: underline !important;
     }
 }
 

@@ -42,22 +42,20 @@
         <a href='{{ linkTo({'module':'API','action':'listAllAPI'}) }}' rel='noreferrer' target='_blank'>API page</a>) in the widget URL.
     </p>
 
-    <h2>Widgetize the all websites dashboard</h2>
+    <h2>Widgetize dashboards</h2>
     <p>You can also display the full Piwik dashboard in your application or website in an IFRAME
         (<a href='' rel='noreferrer' target='_blank' id='linkDashboardUrl'>see example</a>).
         The date parameter can be set to a specific calendar date, "today", or "yesterday". The period parameter can be set to "day", "week", "month", or
         "year".
         The language parameter can be set to the language code of a translation, such as language=fr.
         For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
-    </p>
-
-    <p>
-        <strong>&rsaquo; Widgetize the all websites dashboard in an IFRAME</strong> (<a href='' rel='noreferrer' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
+        <br />
+        You can also widgetize the all websites dashboard in an IFRAME (<a href='' rel='noreferrer' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
         <span id='exportAllWebsitesDashboard'></span>
     </p>
 
-    <h2>Widgetize a report</h2>
-    <p><strong>&rsaquo; Select a report, and copy paste in your page the embed code below the widget:</strong>
+    <h2>Widgetize reports</h2>
+    <p>Select a report, and copy paste in your page the embed code below the widget:
 
     <div class="top_controls">
         {% include "@CoreHome/_periodSelect.twig" %}

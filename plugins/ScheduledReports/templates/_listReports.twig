@@ -58,7 +58,7 @@
                         <br/>
                     {% endfor %}
                     {# send now link #}
-                    <a href="#" idreport="{{ report.idreport }}" name="linkSendNow" class="link_but" style="margin-top:3px;">
+                    <a href="#" idreport="{{ report.idreport }}" name="linkSendNow" class="link_but withIcon" style="margin-top:3px;">
                         <img border=0 src='{{ reportTypes[report.type] }}'/>
                         {{ 'ScheduledReports_SendReportNow'|translate }}
                     </a>
@@ -71,21 +71,21 @@
                             'outputType':downloadOutputType, 'language':language,
                             'format': (report.format in ['html', 'csv']) ? report.format : false
                        }) }}"
-                   rel="noreferrer"  target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but">
+                   rel="noreferrer"  target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0"/>
                     {{ 'General_Download'|translate }}
                 </a>
             </td>
             <td>
                 {# edit link #}
-                <a href='#' name="linkEditReport" id="{{ report.idreport }}" class="link_but">
+                <a href='#' name="linkEditReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
                     {{ 'General_Edit'|translate }}
                 </a>
             </td>
             <td>
                 {# delete link #}
-                <a href='#' name="linkDeleteReport" id="{{ report.idreport }}" class="link_but">
+                <a href='#' name="linkDeleteReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
                     {{ 'General_Delete'|translate }}
                 </a>
