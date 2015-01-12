@@ -210,26 +210,42 @@ class W3cExtendedFormat(RegexFormat):
         super(W3cExtendedFormat, self).__init__('w3c_extended', None, '%Y-%m-%d %H:%M:%S')
 
     def check_format(self, file):
-        # collect all header lines and the first line of the logfile
+        self.create_regex(file)
+
+        # if we couldn't create a regex, this file does not follow the W3C extended log file format
+        if not self.regex:
+            file.seek(0)
+            return
+
+        first_line = file.readline()
+
+        file.seek(0)
+        return self.check_format_line(first_line)
+
+    def create_regex(self, file):
+        # collect all header lines up until the Fields: line
+        fields_line = None
         header_lines = []
-        while True:
+
+        # if we're reading from stdin, we can't seek, so don't read any more than the Fields line
+        while fields_line is None:
             line = file.readline()
 
-            if line.startswith('#'):
-                header_lines.append(line)
-            else:
+            if not line.startswith('#'):
                 break
-        first_line = line
-        fields_line = next((line for line in header_lines if line.startswith(W3cExtendedFormat.FIELDS_LINE_PREFIX)), None)
+
+            if line.startswith(W3cExtendedFormat.FIELDS_LINE_PREFIX):
+                fields_line = line
+            else:
+                header_lines.append(line)
 
         if not header_lines or not fields_line:
-            file.seek(0)
             return
 
         # store the header lines for a later check for IIS
         self.header_lines = header_lines
 
-        # Parse the 4th 'Fields: ' line to create the regex to use
+        # Parse the 'Fields: ' line to create the regex to use
         full_regex = []
 
         expected_fields = type(self).fields.copy() # turn custom field mapping into field => regex mapping
@@ -252,9 +268,6 @@ class W3cExtendedFormat(RegexFormat):
             full_regex.append(regex)
         full_regex = '\s+'.join(full_regex)
         self.regex = re.compile(full_regex)
-
-        file.seek(0)
-        return self.check_format_line(first_line)
 
     def check_for_iis_option(self):
         if not config.options.w3c_time_taken_in_millisecs and self._is_time_taken_milli() and self._is_iis():
@@ -1669,6 +1682,9 @@ class Parser(object):
         if config.format:
             # The format was explicitely specified.
             format = config.format
+
+            if isinstance(format, W3cExtendedFormat):
+                format.create_regex(file)
         else:
             # If the file is empty, don't bother.
             data = file.read(100)

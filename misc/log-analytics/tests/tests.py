@@ -351,7 +351,7 @@ def test_iis_custom_format():
     assert hits[0]['is_error'] == False
     assert hits[0]['extension'] == u'/products/theproduct'
     assert hits[0]['is_download'] == False
-    assert hits[0]['referrer'] == u'"http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en"'
+    assert hits[0]['referrer'] == u'http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en'
     assert hits[0]['args'] == {}
     assert hits[0]['generation_time_milli'] == 109
     assert hits[0]['host'] == 'foo'
@@ -513,7 +513,7 @@ def test_amazon_cloudfront_rtmp_parsing():
     assert hits[0]['lineno'] == 2
     assert hits[0]['status'] == '200'
     assert hits[0]['is_error'] == False
-    assert hits[0]['event_name'] == u'-'
+    assert hits[0]['event_name'] == None
     assert hits[0]['args'] == {}
     assert hits[0]['host'] == 'foo'
     assert hits[0]['date'] == datetime.datetime(2010, 3, 12, 23, 51, 20)
