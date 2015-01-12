@@ -149,7 +149,7 @@ class SystemCheck
      */
     protected static function getDirectoriesShouldBeWritable()
     {
-        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
+        $tmpPath = StaticContainer::get('path.tmp');
 
         $directoriesToCheck = array(
             $tmpPath,

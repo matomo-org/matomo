@@ -65,7 +65,7 @@ class CacheTest extends IntegrationTestCase
         $cache->save('test', 'mycontent'); // make sure something was changed, otherwise it won't save anything
 
         /** @var \Piwik\Cache\Backend $backend */
-        $backend = StaticContainer::getContainer()->get('Piwik\Cache\Backend');
+        $backend = StaticContainer::get('Piwik\Cache\Backend');
         $this->assertFalse($backend->doContains($storageId));
 
         Piwik::postEvent('Request.dispatch.end'); // should trigger save

@@ -229,7 +229,7 @@ abstract class StaticGraph extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $filename;
+        $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);

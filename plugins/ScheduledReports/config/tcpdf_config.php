@@ -15,7 +15,7 @@ use Piwik\Container\StaticContainer;
 
 define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/libs/tcpdf/');
 
-$pathTmpTCPDF = StaticContainer::getContainer()->get('path.tmp') . '/tcpdf/';
+$pathTmpTCPDF = StaticContainer::get('path.tmp') . '/tcpdf/';
 
 define('K_PATH_CACHE', $pathTmpTCPDF);
 define('K_PATH_IMAGES', $pathTmpTCPDF);

@@ -164,7 +164,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function oneClick_Download()
     {
-        $path = StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_EXTRACT_LATEST_VERSION;
+        $path = StaticContainer::get('path.tmp') . self::PATH_TO_EXTRACT_LATEST_VERSION;
         $this->pathPiwikZip = $path . 'latest.zip';
 
         Filechecks::dieIfDirectoriesNotWritable(array($path));
@@ -177,7 +177,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function oneClick_Unpack()
     {
-        $pathExtracted = StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_EXTRACT_LATEST_VERSION;
+        $pathExtracted = StaticContainer::get('path.tmp') . self::PATH_TO_EXTRACT_LATEST_VERSION;
 
         $this->pathRootExtractedPiwik = $pathExtracted . 'piwik';
 

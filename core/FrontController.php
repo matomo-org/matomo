@@ -314,7 +314,7 @@ class FrontController extends Singleton
 
         $exceptionToThrow = self::createConfigObject();
 
-        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
+        $tmpPath = StaticContainer::get('path.tmp');
 
         $directoriesToCheck = array(
             $tmpPath,

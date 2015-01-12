@@ -570,7 +570,7 @@ class Manager extends Singleton
     public function loadAllPluginsAndGetTheirInfo()
     {
         /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         $plugins = array();
 
@@ -1299,7 +1299,7 @@ class Manager extends Singleton
     public function loadPluginTranslations()
     {
         /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
         foreach ($this->getAllPluginsNames() as $pluginName) {
             $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
         }

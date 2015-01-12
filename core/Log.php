@@ -91,7 +91,7 @@ class Log extends Singleton
     public static function getInstance()
     {
         if (self::$instance === null) {
-            self::$instance = StaticContainer::getContainer()->get(__CLASS__);
+            self::$instance = StaticContainer::get(__CLASS__);
         }
         return self::$instance;
     }

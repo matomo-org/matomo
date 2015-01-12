@@ -416,7 +416,7 @@ class Filesystem
      */
     private static function getChmodForPath($path)
     {
-        $pathIsTmp = StaticContainer::getContainer()->get('path.tmp');
+        $pathIsTmp = StaticContainer::get('path.tmp');
         if (strpos($path, $pathIsTmp) === 0) {
             // tmp/* folder
             return 0750;

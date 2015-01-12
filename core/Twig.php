@@ -65,7 +65,7 @@ class Twig
         $chainLoader = new Twig_Loader_Chain($loaders);
 
         // Create new Twig Environment and set cache dir
-        $templatesCompiledPath = StaticContainer::getContainer()->get('path.tmp') . '/templates_c';
+        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
 
         $this->twig = new Twig_Environment($chainLoader,
             array(

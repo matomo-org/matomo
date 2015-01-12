@@ -742,7 +742,7 @@ class Piwik
     public static function translate($translationId, $args = array(), $language = null)
     {
         /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         return $translator->translate($translationId, $args, $language);
     }

@@ -156,7 +156,7 @@ class Console extends Application
     private function initLoggerOutput(OutputInterface $output)
     {
         /** @var ConsoleHandler $consoleLogHandler */
-        $consoleLogHandler = StaticContainer::getContainer()->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
+        $consoleLogHandler = StaticContainer::get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
         $consoleLogHandler->setOutput($output);
     }
 

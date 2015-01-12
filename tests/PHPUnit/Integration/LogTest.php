@@ -214,6 +214,6 @@ class LogTest extends IntegrationTestCase
 
     public static function getLogFileLocation()
     {
-        return StaticContainer::getContainer()->get('path.tmp') . '/logs/piwik.test.log';
+        return StaticContainer::get('path.tmp') . '/logs/piwik.test.log';
     }
 }

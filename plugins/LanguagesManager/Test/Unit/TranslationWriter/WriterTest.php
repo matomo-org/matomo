@@ -211,7 +211,7 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 
     public function getTranslationPathTemporaryTestData()
     {
-        $tmpPath = StaticContainer::getContainer()->get('path.tmp');
+        $tmpPath = StaticContainer::get('path.tmp');
 
         return array(
             array('de', null, $tmpPath . '/de.json'),

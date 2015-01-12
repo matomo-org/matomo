@@ -253,7 +253,7 @@ class AssetManager extends Singleton
      */
     public function getAssetDirectory()
     {
-        $mergedFileDirectory = StaticContainer::getContainer()->get('path.tmp') . '/assets';
+        $mergedFileDirectory = StaticContainer::get('path.tmp') . '/assets';
 
         if (!is_dir($mergedFileDirectory)) {
             Filesystem::mkdir($mergedFileDirectory);

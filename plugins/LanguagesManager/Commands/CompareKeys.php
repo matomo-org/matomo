@@ -51,7 +51,7 @@ class CompareKeys extends TranslationBase
         $englishFromOTrance = json_decode(file_get_contents($englishFromOTrance), true);
 
         /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
         $translator->setCurrentLanguage('en');
         $availableTranslations = $translator->getAllTranslations();
 

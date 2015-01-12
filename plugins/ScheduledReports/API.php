@@ -273,7 +273,7 @@ class API extends \Piwik\Plugin\API
         }
 
         /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
         $translator->setCurrentLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);

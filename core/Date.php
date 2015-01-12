@@ -609,7 +609,7 @@ class Date
      */
     public function getLocalized($template)
     {
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
         $day = $this->toString('j');
         $dayOfWeek = $this->toString('N');
         $monthOfYear = $this->toString('n');

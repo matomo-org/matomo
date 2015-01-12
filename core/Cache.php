@@ -24,7 +24,7 @@ class Cache
      */
     public static function getLazyCache()
     {
-        return StaticContainer::getContainer()->get('Piwik\Cache\Lazy');
+        return StaticContainer::get('Piwik\Cache\Lazy');
     }
 
     /**
@@ -35,7 +35,7 @@ class Cache
      */
     public static function getTransientCache()
     {
-        return StaticContainer::getContainer()->get('Piwik\Cache\Transient');
+        return StaticContainer::get('Piwik\Cache\Transient');
     }
 
     /**
@@ -53,7 +53,7 @@ class Cache
      */
     public static function getEagerCache()
     {
-        return StaticContainer::getContainer()->get('Piwik\Cache\Eager');
+        return StaticContainer::get('Piwik\Cache\Eager');
     }
 
     public static function flushAll()
@@ -84,7 +84,7 @@ class Cache
         switch ($type) {
             case 'file':
 
-                $options = array('directory' => StaticContainer::getContainer()->get('path.cache'));
+                $options = array('directory' => StaticContainer::get('path.cache'));
                 break;
 
             case 'chained':

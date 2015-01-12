@@ -25,7 +25,7 @@ class FetchFromOTrance extends TranslationBase
 
     protected function configure()
     {
-        $path = StaticContainer::getContainer()->get('path.tmp') . self::DOWNLOAD_PATH;
+        $path = StaticContainer::get('path.tmp') . self::DOWNLOAD_PATH;
 
         $this->setName('translations:fetch')
              ->setDescription('Fetches translations files from oTrance to ' . $path)
@@ -171,7 +171,7 @@ class FetchFromOTrance extends TranslationBase
 
     public static function getDownloadPath()
     {
-        $path = StaticContainer::getContainer()->get('path.tmp') . self::DOWNLOAD_PATH;
+        $path = StaticContainer::get('path.tmp') . self::DOWNLOAD_PATH;
 
         if (!is_dir($path)) {
             mkdir($path);

@@ -494,7 +494,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         if ($this->lastLanguage != $langId) {
             $_GET['language'] = $langId;
             /** @var Translator $translator */
-            $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+            $translator = StaticContainer::get('Piwik\Translation\Translator');
             $translator->setCurrentLanguage($langId);
         }
 

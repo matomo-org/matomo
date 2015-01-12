@@ -95,7 +95,7 @@ class LanguagesManager extends \Piwik\Plugin
     public function initLanguage()
     {
         /** @var Translator $translator */
-        $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         $language = Common::getRequestVar('language', '', 'string');
         if (empty($language)) {

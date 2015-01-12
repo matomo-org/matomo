@@ -40,7 +40,7 @@ abstract class Generator
     public function __construct($options)
     {
         $this->options = $options;
-        $this->logger = StaticContainer::getContainer()->get('Psr\Log\LoggerInterface');
+        $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
 
         $this->view = new TravisYmlView();
     }

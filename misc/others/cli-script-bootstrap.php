@@ -30,7 +30,7 @@ define('PIWIK_ENABLE_DISPATCH', false);
 if (Piwik\Common::isPhpCliMode()) {
     StaticContainer::setEnvironment('cli');
     /** @var ConsoleHandler $consoleLogHandler */
-    $consoleLogHandler = StaticContainer::getContainer()->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
+    $consoleLogHandler = StaticContainer::get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
     $consoleLogHandler->setOutput(new ConsoleOutput());
 }
 

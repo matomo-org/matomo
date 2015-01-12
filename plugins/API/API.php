@@ -325,7 +325,7 @@ class API extends \Piwik\Plugin\API
     {
         if ($language) {
             /** @var Translator $translator */
-            $translator = StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+            $translator = StaticContainer::get('Piwik\Translation\Translator');
             $translator->setCurrentLanguage($language);
         }
 

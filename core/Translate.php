@@ -118,7 +118,7 @@ class Translate
      */
     private static function getTranslator()
     {
-        return StaticContainer::getContainer()->get('Piwik\Translation\Translator');
+        return StaticContainer::get('Piwik\Translation\Translator');
     }
 
     public static function loadAllTranslations()

@@ -57,7 +57,7 @@ class BatchInsert
      */
     public static function tableInsertBatch($tableName, $fields, $values, $throwException = false)
     {
-        $filePath = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
+        $filePath = StaticContainer::get('path.tmp') . '/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
 
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
