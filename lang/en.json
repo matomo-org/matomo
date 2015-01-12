@@ -430,6 +430,7 @@
         "VisitorIP": "Visitor IP",
         "Visitors": "Visitors",
         "VisitsWith": "Visits with %s",
+        "VisitorSettings": "Visitor Settings",
         "VisitType": "Visitor type",
         "VisitTypeExample": "For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain %s",
         "Warning": "Warning",

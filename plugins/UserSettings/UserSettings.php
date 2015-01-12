@@ -55,6 +55,10 @@ class UserSettings extends \Piwik\Plugin
             $module = 'Resolution';
         }
 
+        if ($module == 'UserSettings' && ($action == 'getLanguage' || $action == 'getLanguageCode')) {
+            $module = 'UserLanguage';
+        }
+
         if ($module == 'UserSettings' && $action == 'getPlugin') {
             $module = 'DevicePlugins';
         }
