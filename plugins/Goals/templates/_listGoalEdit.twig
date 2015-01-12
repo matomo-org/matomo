@@ -1,4 +1,4 @@
-<div id='entityEditContainer' style="display:none;">
+<div id='entityEditContainer' class="managegoals" style="display:none;">
     <table class="dataTable entityTable">
         <thead>
         <tr>
@@ -49,7 +49,7 @@
 
     {% if onlyShowAddNewGoal is not defined %}
         <br/>
-        <a onclick='' name='linkAddNewGoal'>&rsaquo; {{ 'Goals_CreateNewGOal'|translate }}</a>
+        <div name="linkAddNewGoal" class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'Goals_CreateNewGOal'|translate }}</div>
         <br/>
         <br/>
 

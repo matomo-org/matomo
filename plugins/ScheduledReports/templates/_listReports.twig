@@ -12,7 +12,7 @@
         </tr>
         </thead>
 
-        {% if userLogin == 'anonymous' %}
+    {% if userLogin == 'anonymous' %}
         <tr>
             <td colspan='7'>
                 <br/>
@@ -21,18 +21,14 @@
                 <br/><br/>
             </td>
         </tr>
-    </table>
     {% elseif reports is empty %}
-    <tr>
-        <td colspan='7'>
-            <br/>
-            {{ 'ScheduledReports_ThereIsNoReportToManage'|translate(siteName)|raw }}.
-            <br/><br/>
-            <a onclick='' id='linkAddReport'>&rsaquo; {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</a>
-            <br/><br/>
-        </td>
-    </tr>
-    </table>
+        <tr>
+            <td colspan='7'>
+                <br/>
+                {{ 'ScheduledReports_ThereIsNoReportToManage'|translate(siteName)|raw }}.
+                <br/><br/>
+            </td>
+        </tr>
     {% else %}
     {% for report in reports %}
         <tr>
@@ -96,12 +92,14 @@
             </td>
         </tr>
     {% endfor %}
+    {% endif %}
+
     </table>
     {% if userLogin != 'anonymous' %}
         <br/>
-        <a onclick='' id='linkAddReport'>&rsaquo; {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</a>
+        <div id='linkAddReport' class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</div>
         <br/>
         <br/>
     {% endif %}
-    {% endif %}
+
 </div>

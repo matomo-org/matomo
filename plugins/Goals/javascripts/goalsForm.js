@@ -37,11 +37,11 @@ function showCancel() {
 }
 
 function showCreateGoal() {
-    $("a[name=linkAddNewGoal]").show();
+    $("div[name=linkAddNewGoal]").show();
 }
 
 function hideCreateGoal() {
-    $("a[name=linkAddNewGoal]").hide();
+    $("div[name=linkAddNewGoal]").hide();
 }
 
 function onMatchAttributeChange(matchAttribute)
@@ -128,7 +128,7 @@ function bindGoalForm() {
         return false;
     });
 
-    $('a[name=linkAddNewGoal]').click(function () {
+    $('div[name=linkAddNewGoal]').click(function () {
         initAndShowAddGoalForm();
         piwikHelper.lazyScrollTo('#goal_name');
     });

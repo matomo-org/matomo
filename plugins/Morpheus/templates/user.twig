@@ -24,8 +24,8 @@
     <!--[if (gte IE 9)|!(IE)]><!-->
     <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'admin') }}"><!--<![endif]-->
 
-    {% set topMenuModule = 'CoreAdminHome' %}
-    {% set topMenuAction = 'generalSettings' %}
+    {% set topMenuModule = 'UsersManager' %}
+    {% set topMenuAction = 'userSettings' %}
 
     {% include "_iframeBuster.twig" %}
     {% include "@CoreHome/_javaScriptDisabled.twig" %}
@@ -35,25 +35,22 @@
 
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
-            {{ postEvent("Template.beforeContent", "admin", currentModule) }}
+            {{ postEvent("Template.beforeContent", "user", currentModule) }}
 
             <div id="container">
 
                 {% if showMenu is not defined or showMenu %}
-                    {% include "@CoreAdminHome/_menu.twig" %}
+                    {% include "@CoreHome/_userMenu.twig" %}
                 {% endif %}
 
-                <div id="content" class="admin">
+                <div id="content" class="admin user">
 
-                    {% include "@CoreHome/_headerMessage.twig" %}
                     {% include "@CoreHome/_notifications.twig" %}
 
                     <div class="ui-confirm" id="alert">
                         <h2></h2>
                         <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
                     </div>
-
-                    {% include "@CoreHome/_warningInvalidHost.twig" %}
 
                     {% block content %}
                     {% endblock %}

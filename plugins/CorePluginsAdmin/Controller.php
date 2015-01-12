@@ -205,6 +205,13 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
+    public function userBrowsePlugins()
+    {
+        $view = $this->createBrowsePluginsOrThemesView('browsePlugins', $themesOnly = false);
+        $view->mode = 'user';
+        return $view->render();
+    }
+
     private function createPluginsOrThemesView($template, $themesOnly)
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -395,7 +402,7 @@ class Controller extends Plugin\ControllerAdmin
             }
 
             $message = Piwik::translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
-            if (SettingsManager::hasPluginSettingsForCurrentUser($pluginName)) {
+            if (SettingsManager::hasSystemPluginSettingsForCurrentUser($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'pluginSettings')),
                     $pluginName);

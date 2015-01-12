@@ -53,11 +53,11 @@ class Menu extends \Piwik\Plugin\Menu
                                    $order = 5);
         }
 
-        if (Piwik::hasUserSuperUserAccess() && CorePluginsAdmin::isMarketplaceEnabled()) {
-            $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   $this->urlForAction('browsePlugins', array('activated' => '')),
-                                   $order = 5);
 
+        if (Piwik::hasUserSuperUserAccess() && CorePluginsAdmin::isMarketplaceEnabled()) {
+            $menu->addManageItem('CorePluginsAdmin_Marketplace',
+                $this->urlForAction('browsePlugins', array('activated' => '')),
+                $order = 12);
         }
     }
 
@@ -73,7 +73,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if ($this->isAllowedToSeeMarketPlace()) {
             $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   $this->urlForAction('browsePlugins', array('activated' => '')),
+                                   $this->urlForAction('userBrowsePlugins', array('activated' => '')),
                                    $order = 5);
         }
     }

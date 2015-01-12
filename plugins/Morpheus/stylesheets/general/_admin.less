@@ -5,6 +5,9 @@
         background-image: none;
         padding-left: 0;
         border-top: 0;
+        > li:first-child span {
+          border-bottom: 3px solid @theme-color-brand;
+        }
         > li {
             padding-bottom: 0px;
             > span {
@@ -15,10 +18,12 @@
                 padding: 12px 15px;
             }
             ul {
+                background-color: @theme-color-menu-contrast-background;
+
                 li {
                     a {
                         color: @theme-color-text-lighter !important;
-                        padding: 0.6em 1.1em;
+                        padding: 0.8em 1.1em;
                         &:hover {
                             color: @theme-color-text;
                             text-decoration: none;

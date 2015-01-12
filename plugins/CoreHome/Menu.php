@@ -12,23 +12,34 @@ use Piwik\Db;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureUserMenu(MenuUser $menu)
+    public function configureTopMenu(MenuTop $menu)
     {
-        if (!Piwik::isUserIsAnonymous()) {
-            $module = $this->getLoginModule();
+        $login = Piwik::getCurrentUserLogin();
+        $user  = APIUsersManager::getInstance()->getUser($login);
+
+        if (!empty($user['alias'])) {
+            $login = $user['alias'];
+        }
+
+        $menu->addItem($login, null, array('module' => 'UsersManager', 'action' => 'userSettings'), 998);
+
+        $module = $this->getLoginModule();
+        if (Piwik::isUserIsAnonymous()) {
+            $menu->addItem('Login_LogIn', null, array('module' => $module), 999);
+        } else {
             $menu->addItem('General_Logout', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 999);
         }
     }
 
-    public function configureTopMenu(MenuTop $menu)
+    public function configureUserMenu(MenuUser $menu)
     {
-        if (Piwik::isUserIsAnonymous()) {
-            $module = $this->getLoginModule();
-            $menu->addItem('Login_LogIn', null, array('module' => $module), 999);
-        }
+        $menu->addPersonalItem(null, array(), 1, false);
+        $menu->addManageItem(null, array(), 2, false);
+        $menu->addPlatformItem(null, array(), 3, false);
     }
 
     private function getLoginModule()

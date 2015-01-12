@@ -263,7 +263,7 @@ $(document).ready(function () {
         }
     );
 
-    $('.addrow').click(function () {
+    $('.user .addrow').click(function () {
         piwikHelper.hideAjaxError();
         $(this).toggle();
 

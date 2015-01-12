@@ -22,6 +22,11 @@
         <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
     {% endif %}
 
+
+    {% if isMarketplaceEnabled %}
+        <br />
+        {{ 'CorePluginsAdmin_FindMorePluginsViaMarketplace'|translate('<a href="' ~ linkTo({'action': 'browsePlugins'}) ~'">', '</a>')|raw }}
+    {% endif %}
     </p>
 
     {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}

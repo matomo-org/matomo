@@ -31,14 +31,11 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addSettingsItem('General_General',
                                    $this->urlForAction('generalSettings'),
                                    $order = 6);
-            $menu->addManageItem('CoreAdminHome_TrackingCode',
-                                 $this->urlForAction('trackingCodeGenerator'),
-                                 $order = 10);
         }
 
-        if (SettingsManager::hasPluginsSettingsForCurrentUser()) {
+        if (Piwik::hasUserSuperUserAccess() && SettingsManager::hasSystemPluginsSettingsForCurrentUser()) {
             $menu->addSettingsItem('General_Plugins',
-                                   $this->urlForAction('pluginSettings'),
+                                   $this->urlForAction('adminPluginSettings'),
                                    $order = 7);
         }
     }
@@ -47,6 +44,19 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
             $menu->addItem('CoreAdminHome_Administration', null, $this->urlForAction('generalSettings'), 10);
+        }
+    }
+
+    public function configureUserMenu(MenuUser $menu)
+    {
+        $menu->addManageItem('CoreAdminHome_TrackingCode',
+            $this->urlForAction('trackingCodeGenerator'),
+            $order = 10);
+
+        if (SettingsManager::hasUserPluginsSettingsForCurrentUser()) {
+            $menu->addPersonalItem('CoreAdminHome_PluginSettings',
+                $this->urlForAction('userPluginSettings'),
+                $order = 15);
         }
     }
 
