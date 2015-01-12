@@ -21,8 +21,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\ScheduledTask;
 use Piwik\Scheduler\Scheduler;
+use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Weekly;
@@ -32,7 +32,7 @@ use Piwik\Unzip;
  * Used to automatically update installed GeoIP databases, and manages the updater's
  * scheduled task.
  */
-class GeoIPAutoUpdater extends ScheduledTask
+class GeoIPAutoUpdater extends Task
 {
     const SCHEDULE_PERIOD_MONTHLY = 'month';
     const SCHEDULE_PERIOD_WEEKLY = 'week';
@@ -79,7 +79,7 @@ class GeoIPAutoUpdater extends ScheduledTask
                 break;
         }
 
-        parent::__construct($this, 'update', null, $schedulePeriod, ScheduledTask::LOWEST_PRIORITY);
+        parent::__construct($this, 'update', null, $schedulePeriod, Task::LOWEST_PRIORITY);
     }
 
     /**

@@ -15,9 +15,9 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\Menu;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\ScheduledTask;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Scheduler\Task;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -385,10 +385,10 @@ class ApiTest extends IntegrationTestCase
         $scheduleTask4->setTimezone('UTC-6.5');
 
         $expectedTasks = array(
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
         );
 
         $pdfReportPlugin = new Tasks();
