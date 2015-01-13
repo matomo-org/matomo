@@ -10,6 +10,7 @@ namespace Piwik\AssetManager\UIAsset;
 
 use Exception;
 use Piwik\AssetManager\UIAsset;
+use Piwik\Filesystem;
 
 class OnDiskUIAsset extends UIAsset
 {
@@ -58,12 +59,18 @@ class OnDiskUIAsset extends UIAsset
     {
         if ($this->exists()) {
 
-            if (!unlink($this->getAbsoluteLocation()))
+            try {
+                Filesystem::remove($this->getAbsoluteLocation());
+            } catch (Exception $e) {
                 throw new Exception("Unable to delete merged file : " . $this->getAbsoluteLocation() . ". Please delete the file and refresh");
+            }
 
             // try to remove compressed version of the merged file.
-            @unlink($this->getAbsoluteLocation() . ".deflate");
-            @unlink($this->getAbsoluteLocation() . ".gz");
+            try {
+                Filesystem::remove($this->getAbsoluteLocation() . ".deflate");
+                Filesystem::remove($this->getAbsoluteLocation() . ".gz");
+            } catch (Exception $e) {
+            }
         }
     }
 

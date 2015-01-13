@@ -411,6 +411,25 @@ class Filesystem
     }
 
     /**
+     * Remove a file.
+     *
+     * @param string $file
+     */
+    public static function remove($file)
+    {
+        if (!file_exists($file)) {
+            return;
+        }
+
+        $result = @unlink($file);
+
+        // Testing if the file still exist avoids race conditions
+        if (!$result && file_exists($file)) {
+            throw new \RuntimeException('Unable to delete file ' . $file);
+        }
+    }
+
+    /**
      * @param $path
      * @return int
      */
