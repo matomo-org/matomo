@@ -116,6 +116,7 @@ class Html extends ReportRenderer
         $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
         $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
         $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
+        $view->assign("reportTableHeaderTextTransform", ReportRenderer::TABLE_HEADER_TEXT_TRANSFORM);
         $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
         $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
         $view->assign("currentPath", SettingsPiwik::getPiwikUrl());
