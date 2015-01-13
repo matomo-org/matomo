@@ -25,7 +25,7 @@
         <table style="border-collapse:collapse; margin-left: 5px;">
             <thead style="background-color: rgb({{ tableHeaderBgColor }}); color: rgb({{ tableHeaderTextColor }}); font-size: {{ reportTableHeaderTextSize }}pt; text-transform: {{ reportTableHeaderTextTransform }}">
             {% for columnName in reportColumns %}
-                <th style="padding: 6px 0;">
+                <th style="font-weight: {{ reportTableHeaderTextWeight }}; padding: 6px 0;">
                     &nbsp;{{ columnName }}&nbsp;&nbsp;
                 </th>
             {% endfor %}
