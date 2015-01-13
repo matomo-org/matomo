@@ -99,6 +99,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/morpheus.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
@@ -107,7 +108,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/menu.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/menu_init.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/user_layout.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/calendar.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
