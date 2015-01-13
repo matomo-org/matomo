@@ -75,7 +75,7 @@ class Pdf extends ReportRenderer
     private $reportColumns;
     private $reportRowsMetadata;
     private $currentPage = 0;
-    private $reportFont = ReportRenderer::DEFAULT_REPORT_FONT;
+    private $reportFont = ReportRenderer::DEFAULT_REPORT_FONT_FAMILY;
     private $TCPDF;
     private $orientation = self::PORTRAIT;
 
@@ -115,7 +115,7 @@ class Pdf extends ReportRenderer
 
             case 'en':
             default:
-                $reportFont = ReportRenderer::DEFAULT_REPORT_FONT;
+                $reportFont = ReportRenderer::DEFAULT_REPORT_FONT_FAMILY;
                 break;
         }
         $this->reportFont = $reportFont;
