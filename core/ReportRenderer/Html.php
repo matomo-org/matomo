@@ -107,6 +107,7 @@ class Html extends ReportRenderer
 
     private function assignCommonParameters(View $view)
     {
+        $view->assign("reportFontFamily", ReportRenderer::DEFAULT_REPORT_FONT_FAMILY);
         $view->assign("reportTitleTextColor", ReportRenderer::REPORT_TITLE_TEXT_COLOR);
         $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
         $view->assign("reportTextColor", ReportRenderer::REPORT_TEXT_COLOR);
