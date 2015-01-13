@@ -47,7 +47,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function generalSettings()
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
         $view = new View('@CoreAdminHome/generalSettings');
 
         if (Piwik::hasUserSuperUserAccess()) {

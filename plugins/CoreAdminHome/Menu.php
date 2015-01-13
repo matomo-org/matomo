@@ -28,9 +28,11 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addDiagnosticItem(null, "", $order = 10);
             $menu->addDevelopmentItem(null, "", $order = 15);
 
-            $menu->addSettingsItem('General_General',
-                                   $this->urlForAction('generalSettings'),
-                                   $order = 6);
+            if (Piwik::hasUserSuperUserAccess()) {
+                $menu->addSettingsItem('General_General',
+                    $this->urlForAction('generalSettings'),
+                    $order = 6);
+            }
         }
 
         if (Piwik::hasUserSuperUserAccess() && SettingsManager::hasSystemPluginsSettingsForCurrentUser()) {
@@ -43,7 +45,13 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureTopMenu(MenuTop $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addItem('CoreAdminHome_Administration', null, $this->urlForAction('generalSettings'), 10);
+            $url = $this->urlForModuleAction('PrivacyManager', 'privacySettings');
+
+            if (Piwik::hasUserSuperUserAccess()) {
+                $url = $this->urlForAction('generalSettings');
+            }
+
+            $menu->addItem('CoreAdminHome_Administration', null, $url, 10);
         }
     }
 
