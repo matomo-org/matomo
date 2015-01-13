@@ -45,7 +45,7 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureTopMenu(MenuTop $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $url = $this->urlForModuleAction('PrivacyManager', 'privacySettings');
+            $url = $this->urlForModuleAction('SitesManager', 'index');
 
             if (Piwik::hasUserSuperUserAccess()) {
                 $url = $this->urlForAction('generalSettings');
