@@ -115,6 +115,7 @@ class Html extends ReportRenderer
         $view->assign("tableHeaderTextColor", ReportRenderer::TABLE_HEADER_TEXT_COLOR);
         $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
         $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
+        $view->assign("reportTableHeaderTextWeight", self::TABLE_HEADER_TEXT_WEIGHT);
         $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
         $view->assign("reportTableHeaderTextTransform", ReportRenderer::TABLE_HEADER_TEXT_TRANSFORM);
         $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);

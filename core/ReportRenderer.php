@@ -29,6 +29,7 @@ abstract class ReportRenderer extends BaseFactory
     const TABLE_HEADER_BG_COLOR = "228,226,215";
     const TABLE_HEADER_TEXT_COLOR = "37,87,146";
     const TABLE_HEADER_TEXT_TRANSFORM = "uppercase";
+    const TABLE_HEADER_TEXT_WEIGHT = "normal";
     const TABLE_CELL_BORDER_COLOR = "231,231,231";
     const TABLE_BG_COLOR = "249,250,250";
 
