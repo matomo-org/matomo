@@ -98,9 +98,12 @@ class UserPreferences
      */
     public function getDefaultPeriod($defaultDate)
     {
-        $defaultPeriod = Config::getInstance()->General['default_period'];
-        if ($defaultDate === false) {
-            return $defaultPeriod;
+        if (empty($defaultDate)) {
+            $defaultDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
+        }
+
+        if (empty($defaultDate)) {
+            return $this->getSystemDefaultPeriod();
         }
 
         if (in_array($defaultDate, array('today', 'yesterday'))) {
@@ -113,7 +116,12 @@ class UserPreferences
             return 'range';
         }
 
-        return $defaultPeriod;
+        return $defaultDate;
+    }
+
+    private function getSystemDefaultPeriod()
+    {
+        return Config::getInstance()->General['default_period'];
     }
 
 }
