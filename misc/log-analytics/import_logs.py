@@ -223,11 +223,13 @@ class W3cExtendedFormat(RegexFormat):
         return self.check_format_line(first_line)
 
     def create_regex(self, file):
-        # collect all header lines up until the Fields: line
         fields_line = None
-        header_lines = []
+        if config.options.w3c_fields:
+            fields_line = config.options.w3c_fields
 
+        # collect all header lines up until the Fields: line
         # if we're reading from stdin, we can't seek, so don't read any more than the Fields line
+        header_lines = []
         while fields_line is None:
             line = file.readline()
 
@@ -239,7 +241,7 @@ class W3cExtendedFormat(RegexFormat):
             else:
                 header_lines.append(line)
 
-        if not header_lines or not fields_line:
+        if not fields_line:
             return
 
         # store the header lines for a later check for IIS
@@ -590,6 +592,14 @@ class Configuration(object):
             '--w3c-time-taken-millisecs', action='store_true', default=False, dest='w3c_time_taken_in_millisecs',
             help="If set, interprets the time-taken W3C log field as a number of milliseconds. This must be set for importing"
                  " IIS logs."
+        )
+        option_parser.add_option(
+            '--w3c-fields', dest='w3c_fields', default=None,
+            help="Specify the '#Fields:' line for a log file in the W3C Extended log file format. Use this option if "
+                 "your log file doesn't contain the '#Fields:' line which is required for parsing. This option must be used"
+                 "in conjuction with --log-format-name=w3c_extended.\n"
+                 "\n"
+                 "Example: --w3c-fields='#Fields: date time c-ip ...'"
         )
         return option_parser
 
@@ -1685,6 +1695,12 @@ class Parser(object):
 
             if isinstance(format, W3cExtendedFormat):
                 format.create_regex(file)
+
+                if format.regex is None:
+                    return fatal_error(
+                        "File is not in the correct format, is there a '#Fields:' line? "
+                        "If not, use the --w3c-fields option."
+                    )
         else:
             # If the file is empty, don't bother.
             data = file.read(100)
