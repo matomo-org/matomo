@@ -2,7 +2,7 @@ body#simple  {
 	background: #eee;
 }
 #contentsimple {
-	background: #fff;
+	background: @theme-color-background-base;
 	color: #000;
 	font-family: Arial, Georgia, "Times New Roman", Times, serif;
 	padding: 1em 2em;
