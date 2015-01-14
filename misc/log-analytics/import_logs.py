@@ -596,9 +596,8 @@ class Configuration(object):
         option_parser.add_option(
             '--w3c-fields', dest='w3c_fields', default=None,
             help="Specify the '#Fields:' line for a log file in the W3C Extended log file format. Use this option if "
-                 "your log file doesn't contain the '#Fields:' line which is required for parsing. This option must be used"
+                 "your log file doesn't contain the '#Fields:' line which is required for parsing. This option must be used "
                  "in conjuction with --log-format-name=w3c_extended.\n"
-                 "\n"
                  "Example: --w3c-fields='#Fields: date time c-ip ...'"
         )
         return option_parser
