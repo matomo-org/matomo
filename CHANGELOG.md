@@ -6,6 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * The event `User.getLanguage` has been removed.
+* The following deprecated event has been removed: `TaskScheduler.getScheduledTasks`
 
 ### Deprecations
 * The following methods have been deprecated in favor of the new `Piwik\Intl` component:
@@ -16,6 +17,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `Piwik\Metrics\Formatter::getCurrencyList()`: use `CurrencyDataProvider::getCurrencyList()` instead
 * The `Piwik\Translate` class has been deprecated in favor of `Piwik\Translation\Translator`.
 * The `core:plugin` console has been deprecated in favor of the new `plugin:list`, `plugin:activate` and `plugin:deactivate` commands
+* The following classes have been deprecated:
+  * `Piwik\TaskScheduler`: use `Piwik\Scheduler\Scheduler` instead
+  * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
 
 ## Piwik 2.10.0
 

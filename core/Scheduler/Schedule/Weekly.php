@@ -6,18 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\ScheduledTime;
+
+namespace Piwik\Scheduler\Schedule;
 
 use Exception;
-use Piwik\ScheduledTime;
 
 /**
  * Weekly class is used to schedule tasks every week.
  *
- * @see ScheduledTask
- *
+ * @see \Piwik\Scheduler\Task
  */
-class Weekly extends ScheduledTime
+class Weekly extends Schedule
 {
     /**
      * @see ScheduledTime::getRescheduledTime

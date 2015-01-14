@@ -15,9 +15,9 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\Menu;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime\Monthly;
-use Piwik\ScheduledTime;
+use Piwik\Scheduler\Schedule\Monthly;
+use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Scheduler\Task;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -61,7 +61,7 @@ class ApiTest extends IntegrationTestCase
             'idsite'      => $this->idSite,
             'description' => 'test description"',
             'type'        => 'email',
-            'period'      => ScheduledTime::PERIOD_DAY,
+            'period'      => Schedule::PERIOD_DAY,
             'hour'        => '4',
             'format'      => 'pdf',
             'reports'     => array('UserCountry_getCountry'),
@@ -75,7 +75,7 @@ class ApiTest extends IntegrationTestCase
 
         $dataWebsiteTwo = $data;
         $dataWebsiteTwo['idsite'] = 2;
-        $dataWebsiteTwo['period'] = ScheduledTime::PERIOD_MONTH;
+        $dataWebsiteTwo['period'] = Schedule::PERIOD_MONTH;
 
         self::addReport($dataWebsiteTwo);
 
@@ -278,7 +278,7 @@ class ApiTest extends IntegrationTestCase
         APIScheduledReports::getInstance()->addReport(
             1,
             '',
-            ScheduledTime::PERIOD_DAY,
+            Schedule::PERIOD_DAY,
             0,
             MobileMessaging::MOBILE_TYPE,
             MobileMessaging::SMS_FORMAT,
@@ -352,7 +352,7 @@ class ApiTest extends IntegrationTestCase
         // test no exception is raised when a scheduled report is set to never send
         $report6 = self::getMonthlyEmailReportData($this->idSite);
         $report6['idreport'] = 6;
-        $report6['period'] = ScheduledTime::PERIOD_NEVER;
+        $report6['period'] = Schedule::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
         $stubbedAPIScheduledReports = $this->getMock('\\Piwik\\Plugins\\ScheduledReports\\API', array('getReports', 'getInstance'), $arguments = array(), $mockClassName = '', $callOriginalConstructor = false);
@@ -368,7 +368,7 @@ class ApiTest extends IntegrationTestCase
         ));
 
         // expected tasks
-        $scheduleTask1 = ScheduledTime::factory('daily');
+        $scheduleTask1 = Schedule::factory('daily');
         $scheduleTask1->setHour(0); // paris is UTC-1, period ends at 23h UTC
         $scheduleTask1->setTimezone('Europe/Paris');
 
@@ -385,10 +385,10 @@ class ApiTest extends IntegrationTestCase
         $scheduleTask4->setTimezone('UTC-6.5');
 
         $expectedTasks = array(
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
         );
 
         $pdfReportPlugin = new Tasks();
@@ -457,7 +457,7 @@ class ApiTest extends IntegrationTestCase
         return array(
             'idsite'      => $idSite,
             'description' => 'test description"',
-            'period'      => ScheduledTime::PERIOD_DAY,
+            'period'      => Schedule::PERIOD_DAY,
             'hour'        => '7',
             'type'        => 'email',
             'format'      => 'pdf',
@@ -476,7 +476,7 @@ class ApiTest extends IntegrationTestCase
         return array(
             'idsite'      => $idSite,
             'description' => 'very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. ',
-            'period'      => ScheduledTime::PERIOD_MONTH,
+            'period'      => Schedule::PERIOD_MONTH,
             'hour'        => '0',
             'type'        => 'email',
             'format'      => 'pdf',

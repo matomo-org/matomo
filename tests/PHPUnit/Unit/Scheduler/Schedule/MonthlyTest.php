@@ -6,14 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\ScheduledTime;
+namespace Piwik\Tests\Unit\Scheduler\Schedule;
 
-use Piwik\ScheduledTime\Monthly;
+use Piwik\Scheduler\Schedule\Monthly;
 
 /**
- * @group Core
+ * @group Scheduler
  */
-class ScheduledTime_MonthlyTest extends \PHPUnit_Framework_TestCase
+class MonthlyTest extends \PHPUnit_Framework_TestCase
 {
     public static $_JANUARY_01_1971_09_00_00; // initialized below class definition
     public static $_JANUARY_02_1971_09_00_00;
@@ -267,11 +267,11 @@ class ScheduledTime_MonthlyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $currentTime
-     * @return \Piwik\ScheduledTime\Monthly
+     * @return Monthly
      */
     private function getMonthlyMock($currentTime)
     {
-        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
+        $mock = $this->getMock('Piwik\Scheduler\Schedule\Monthly', array('getTime'));
         $mock->expects($this->any())
              ->method('getTime')
              ->will($this->returnValue($currentTime));
@@ -280,12 +280,12 @@ class ScheduledTime_MonthlyTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-ScheduledTime_MonthlyTest::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
-ScheduledTime_MonthlyTest::$_JANUARY_02_1971_09_00_00 = mktime(9, 00, 00, 1, 2, 1971);
-ScheduledTime_MonthlyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
-ScheduledTime_MonthlyTest::$_JANUARY_15_1971_09_00_00 = mktime(9, 00, 00, 1, 15, 1971);
-ScheduledTime_MonthlyTest::$_FEBRUARY_01_1971_00_00_00 = mktime(0, 00, 00, 2, 1, 1971);
-ScheduledTime_MonthlyTest::$_FEBRUARY_02_1971_00_00_00 = mktime(0, 00, 00, 2, 2, 1971);
-ScheduledTime_MonthlyTest::$_FEBRUARY_03_1971_09_00_00 = mktime(0, 00, 00, 2, 3, 1971);
-ScheduledTime_MonthlyTest::$_FEBRUARY_21_1971_09_00_00 = mktime(0, 00, 00, 2, 21, 1971);
-ScheduledTime_MonthlyTest::$_FEBRUARY_28_1971_00_00_00 = mktime(0, 00, 00, 2, 28, 1971);
+MonthlyTest::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
+MonthlyTest::$_JANUARY_02_1971_09_00_00 = mktime(9, 00, 00, 1, 2, 1971);
+MonthlyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
+MonthlyTest::$_JANUARY_15_1971_09_00_00 = mktime(9, 00, 00, 1, 15, 1971);
+MonthlyTest::$_FEBRUARY_01_1971_00_00_00 = mktime(0, 00, 00, 2, 1, 1971);
+MonthlyTest::$_FEBRUARY_02_1971_00_00_00 = mktime(0, 00, 00, 2, 2, 1971);
+MonthlyTest::$_FEBRUARY_03_1971_09_00_00 = mktime(0, 00, 00, 2, 3, 1971);
+MonthlyTest::$_FEBRUARY_21_1971_09_00_00 = mktime(0, 00, 00, 2, 21, 1971);
+MonthlyTest::$_FEBRUARY_28_1971_00_00_00 = mktime(0, 00, 00, 2, 28, 1971);
