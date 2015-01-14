@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Integration;
+namespace Piwik\Tests\Integration\Log;
 
 use Exception;
 use Piwik\Common;
@@ -30,10 +30,10 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\LogTest] LogTest.php(122): dummy error message
+    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\Log\LogTest] LogTest.php(122): dummy error message
   dummy backtrace';
 
-    public static $expectedErrorOutput = '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+    public static $expectedErrorOutput = '[Piwik\Tests\Integration\Log\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace';
 
     public function setUp()
