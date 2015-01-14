@@ -405,6 +405,33 @@ class Visit implements VisitInterface
             && ($lastActionTime > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
     }
 
+    /**
+     * Returns true if the last action was not today.
+     * @param Visitor $visitor
+     * @return bool
+     */
+    private function wasLastActionNotToday(Visitor $visitor)
+    {
+        $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
+
+        if (empty($lastActionTime)) {
+            return false;
+        }
+
+        $idSite   = $this->request->getIdSite();
+        $timezone = $this->getTimezoneForSite($idSite);
+
+        if (empty($timezone)) {
+            throw new UnexpectedWebsiteFoundException('An unexpected website was found, check idSite in the request');
+        }
+
+        $date = Date::factory((int) $lastActionTime, $timezone);
+        $now  = $this->request->getCurrentTimestamp();
+        $now  = Date::factory((int) $now, $timezone);
+
+        return $date->toString() !== $now->toString();
+    }
+
     // is the referrer host any of the registered URLs for this website?
     public static function isHostKnownAliasHost($urlHost, $idSite)
     {
@@ -616,6 +643,10 @@ class Visit implements VisitInterface
      */
     public function isVisitNew(Visitor $visitor, Action $action = null)
     {
+        if (!$visitor->isVisitorKnown()) {
+            return true;
+        }
+
         $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
 
         if (!$isLastActionInTheSameVisit) {
@@ -624,12 +655,17 @@ class Visit implements VisitInterface
             return true;
         }
 
+        $wasLastActionYesterday = $this->wasLastActionNotToday($visitor);
+        if ($wasLastActionYesterday) {
+            return true;
+        }
+
         $shouldForceNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(), 'shouldForceNewVisit', $visitor, $action);
         if ($shouldForceNewVisit) {
             return true;
         }
 
-        return !$visitor->isVisitorKnown();
+        return false;
     }
 
     private function markArchivedReportsAsInvalidIfArchiveAlreadyFinished()
@@ -637,20 +673,30 @@ class Visit implements VisitInterface
         $idSite = (int) $this->request->getIdSite();
         $time   = $this->request->getCurrentTimestamp();
 
+        $timezone = $this->getTimezoneForSite($idSite);
+
+        if (!isset($timezone)) {
+            return;
+        }
+
+        $date = Date::factory((int) $time, $timezone);
+
+        if (!$date->isToday()) { // we don't have to handle in case date is in future as it is not allowed by tracker
+            $invalidReport = new ArchiveInvalidator();
+            $invalidReport->rememberToInvalidateArchivedReportsLater($idSite, $date);
+        }
+    }
+
+    private function getTimezoneForSite($idSite)
+    {
         try {
             $site = Cache::getCacheWebsiteAttributes($idSite);
         } catch (UnexpectedWebsiteFoundException $e) {
             return;
         }
-        if(!isset($site['timezone'])) {
-            return;
-        }
 
-        $date = Date::factory((int) $time, $site['timezone']);
-
-        if (!$date->isToday()) { // we don't have to handle in case date is in future as it is not allowed by tracker
-            $invalidReport = new ArchiveInvalidator();
-            $invalidReport->rememberToInvalidateArchivedReportsLater($idSite, $date);
+        if (!empty($site['timezone'])) {
+            return $site['timezone'];
         }
     }
 }
