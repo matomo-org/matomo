@@ -23,11 +23,11 @@ use Piwik\BaseFactory;
  */
 abstract class ReportRenderer extends BaseFactory
 {
-    const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
-    const REPORT_TEXT_COLOR = "68,68,68";
-    const REPORT_TITLE_TEXT_COLOR = "126,115,99";
-    const TABLE_HEADER_BG_COLOR = "228,226,215";
-    const TABLE_HEADER_TEXT_COLOR = "37,87,146";
+    const DEFAULT_REPORT_FONT_FAMILY = 'Verdana, sans-serif';
+    const REPORT_TEXT_COLOR = "13,13,13";
+    const REPORT_TITLE_TEXT_COLOR = "13,13,13";
+    const TABLE_HEADER_BG_COLOR = "255,255,255";
+    const TABLE_HEADER_TEXT_COLOR = "13,13,13";
     const TABLE_HEADER_TEXT_TRANSFORM = "uppercase";
     const TABLE_HEADER_TEXT_WEIGHT = "normal";
     const TABLE_CELL_BORDER_COLOR = "231,231,231";
