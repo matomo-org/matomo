@@ -284,6 +284,24 @@ class VisitTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
+    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampWasYesterday()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+
+        // test same day
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction(
+            $lastActionTime = '2012-01-01 23:59:58', $thisActionTime = '2012-01-01 23:59:59', $isVisitorKnown = true);
+        $result = $visit->isVisitNew($visitor, $action);
+        $this->assertFalse($result);
+
+        // test different day
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction(
+        $lastActionTime = '2012-01-01 23:59:58', $thisActionTime = '2012-01-02 00:00:01', $isVisitorKnown = true);
+        $result = $visit->isVisitNew($visitor, $action);
+        $this->assertTrue($result);
+    }
+
     public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldRemember_IfRequestWasDoneLongAgo()
     {
         $currentActionTime = '2012-01-02 08:12:45';
