@@ -61,7 +61,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
             array(Version::VERSION, false, $this->never(), false), // shouldNotSend_IfNoUpdateAvailable
             array('33.0.0', '33.0.0', $this->never(), '33.0.0'),   // shouldNotSend_IfAlreadyNotified
             array('31.0.0', '33.0.0', $this->never(), '33.0.0'),   // shouldNotSend_IfAlreadyNotifiedAboutLaterRelease
-            array('3333.3333.3333-beta10', '31.0.0', $this->never(), '31.0.0'),  // shouldNotSend_IfLatestVersionIsNotVersionLike,
+            array('3333.3333.3333-bbeta10', '31.0.0', $this->never(), '31.0.0'),  // shouldNotSend_IfLatestVersionIsNotVersionLike,
             array('33.0.0', false,    $this->once(), '33.0.0'),    // shouldSend_IfUpdateAvailableAndNeverSentAnyBefore
             array('33.0.0', '31.0.0', $this->once(), '33.0.0'),    // shouldSend_IfUpdateAvailable
         );
@@ -69,24 +69,47 @@ class UpdateCommunicationTest extends IntegrationTestCase
 
     public function test_sendNotifications_shouldSentCorrectEmail()
     {
-        $this->setLatestVersion('33.0.0');
-
-        $subject = 'CoreUpdater_NotificationSubjectAvailableCoreUpdate';
         $message = 'ScheduledReports_EmailHello
 
 CoreUpdater_ThereIsNewVersionAvailableForUpdate
 
 CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
+index.php?module=CoreUpdater&action=newVersionAvailable
 
+CoreUpdater_ViewVersionChangelog
+http://piwik.org/changelog/piwik-33-0-0/
+
+CoreUpdater_FeedbackRequest
+http://piwik.org/contact/';
+
+        $this->assertEmailForVersion('33.0.0', $message);
+    }
+
+    public function test_sendNotifications_shouldNotIncludeChangelogIfNotMajorVersionUpdate()
+    {
+        $message = 'ScheduledReports_EmailHello
+
+CoreUpdater_ThereIsNewVersionAvailableForUpdate
+
+CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 index.php?module=CoreUpdater&action=newVersionAvailable
 
 CoreUpdater_FeedbackRequest
 http://piwik.org/contact/';
 
+        $this->assertEmailForVersion('33.0.0-b1', $message);
+    }
+
+    private function assertEmailForVersion($version, $expectedMessage)
+    {
+        $this->setLatestVersion($version);
+
+        $subject = 'CoreUpdater_NotificationSubjectAvailableCoreUpdate';
+
         $mock = $this->getCommunicationMock(array('sendEmailNotification'));
         $mock->expects($this->once())
-                   ->method('sendEmailNotification')
-                   ->with($this->equalTo($subject), $this->equalTo($message));
+            ->method('sendEmailNotification')
+            ->with($this->equalTo($subject), $this->equalTo($expectedMessage));
         $mock->sendNotificationIfUpdateAvailable();
     }
 

@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\TestRunner\TravisYml;
 
 use Exception;
-use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TestRunner\Commands\GenerateTravisYmlFile;
 use Psr\Log\LoggerInterface;
 
@@ -25,7 +24,7 @@ abstract class Generator
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    private $logger;
 
     /**
      * @var TravisYmlView
@@ -40,7 +39,9 @@ abstract class Generator
     public function __construct($options)
     {
         $this->options = $options;
-        $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        if (class_exists('\Piwik\Container\StaticContainer')) {
+            $this->logger = \Piwik\Container\StaticContainer::getContainer()->get('Psr\Log\LoggerInterface');
+        }
 
         $this->view = new TravisYmlView();
     }
@@ -99,13 +100,13 @@ abstract class Generator
 
         $outputYmlPath = $this->getTravisYmlOutputPath();
         if (file_exists($outputYmlPath)) {
-            $this->logger->info("Found existing YAML file at {path}.", array('path' => $outputYmlPath));
+            $this->log('info', "Found existing YAML file at {path}.", array('path' => $outputYmlPath));
 
             $parser = new Parser();
             $existingSections = $parser->processExistingTravisYml($outputYmlPath);
             $this->view->setExistingSections($existingSections);
         } else {
-            $this->logger->info("Could not find existing YAML file at {path}, generating a new one.", array('path' => $outputYmlPath));
+            $this->log('info', "Could not find existing YAML file at {path}, generating a new one.", array('path' => $outputYmlPath));
         }
 
         $this->setExtraEnvironmentVariables();
@@ -113,7 +114,7 @@ abstract class Generator
 
     protected function travisEncrypt($data)
     {
-        $this->logger->info("Encrypting \"{data}\"...", array('data' => $data));
+        $this->log('info', "Encrypting \"{data}\"...", array('data' => $data));
 
         $command = "travis encrypt \"$data\"";
 
@@ -171,7 +172,7 @@ abstract class Generator
     private function setExtraEnvironmentVariables()
     {
         if (!empty($this->view->existingEnv)) {
-            $this->logger->info("Existing .yml file found, ignoring global variables specified on command line.");
+            $this->log('info', "Existing .yml file found, ignoring global variables specified on command line.");
             return;
         }
 
@@ -197,5 +198,12 @@ abstract class Generator
         unset($options['artifacts-pass']);
         unset($options['dump']);
         return $options;
+    }
+
+    protected function log($level, $message, $params = array())
+    {
+        if ($this->logger) {
+            $this->logger->$level($message, $params);
+        }
     }
 }

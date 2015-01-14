@@ -31,7 +31,8 @@ class Login extends \Piwik\Plugin
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
-            'AssetManager.getJavaScriptFiles'  => 'getJsFiles'
+            'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles'
         );
         return $hooks;
     }
@@ -39,6 +40,12 @@ class Login extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Login/javascripts/login.js";
+    }
+
+   public function getStylesheetFiles(&$stylesheetFiles)
+    {
+        $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
     }
 
     /**

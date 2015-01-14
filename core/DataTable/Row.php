@@ -224,11 +224,15 @@ class Row implements \ArrayAccess, \IteratorAggregate
 
     private function isColumnValueCallable($name)
     {
+        if (! is_callable($name)) {
+            return false;
+        }
+
         if (is_object($name) && ($name instanceof \Closure)) {
             return true;
         }
 
-        return is_array($name) && array_key_exists(0, $name) && is_object($name[0]) && is_callable($name);
+        return is_array($name) && isset($name[0]) && is_object($name[0]);
     }
 
     private function resolveCallableColumn($columnName)
