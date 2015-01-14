@@ -657,6 +657,8 @@ class Visit implements VisitInterface
 
         $wasLastActionYesterday = $this->wasLastActionNotToday($visitor);
         if ($wasLastActionYesterday) {
+            Common::printDebug("Visitor detected, but last action was yesterday...");
+
             return true;
         }
 
