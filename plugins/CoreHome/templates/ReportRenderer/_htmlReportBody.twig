@@ -41,10 +41,10 @@
                 {% else %}
                     {% set rowMetadata=null %}
                 {% endif %}
-                <tr style="{{ cycle(cycleValues, cycleIndex) }}">
+                <tr style="{{ cycle(cycleValues, cycleIndex) }};line-height: 22px;">
                     {% set cycleIndex=cycleIndex+1 %}
                     {% for columnId, columnName in reportColumns %}
-                        <td style="font-size: {{ reportTableRowTextSize }}pt; {% if columnId == 'label' %}border-right: 1px solid rgb({{ tableCellBorderColor }}); {%  else %}border-left: 1px solid rgb({{ tableCellBorderColor }}); {% endif %} padding: 5px 0 5px 5px;">
+                        <td style="font-size: {{ reportTableRowTextSize }}; {% if columnId == 'label' %}border-right: 1px solid rgb({{ tableCellBorderColor }}); {%  else %}border-left: 1px solid rgb({{ tableCellBorderColor }}); {% endif %} padding: 5px 0 5px 5px;">
                             {% if columnId == 'label' %}
                                 {% if rowMetrics[columnId] is defined %}
                                     {% if rowMetadata.logo is defined %}
