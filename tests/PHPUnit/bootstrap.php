@@ -111,7 +111,7 @@ Try again.";
     }
 
     $url = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=TestRunner&action=check';
-    $response = Http::sendHttpRequestBy('curl', $url, 2);
+    $response = Http::sendHttpRequestBy('curl', $url, 5);
 
     if ($response === 'OK'
         // The SQL error is for Travis...
