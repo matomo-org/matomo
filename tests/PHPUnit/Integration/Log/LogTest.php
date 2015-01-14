@@ -164,6 +164,21 @@ class LogTest extends IntegrationTestCase
         $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag);
     }
 
+    /**
+     * The database logs requests at DEBUG level, so we check that there is no recursive
+     * loop (logger insert in databases, which logs the query, ...)
+     * @link https://github.com/piwik/piwik/issues/7017
+     */
+    public function testNoInfiniteLoopWhenLoggingToDatabase()
+    {
+        Config::getInstance()->log['log_writers'] = array('database');
+        Config::getInstance()->log['log_level'] = 'DEBUG';
+
+        Log::info(self::TESTMESSAGE);
+
+        $this->checkBackend('database', self::TESTMESSAGE, $formatMessage = true, $tag = __CLASS__);
+    }
+
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)
     {
         if ($formatMessage) {
@@ -178,6 +193,9 @@ class LogTest extends IntegrationTestCase
 
             $this->assertEquals($expectedMessage . "\n", $fileContents);
         } else if ($backend == 'database') {
+            $queryLog = Db::isQueryLogEnabled();
+            Db::enableQueryLog(false);
+
             $count = Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('logger_message'));
             $this->assertEquals(1, $count);
 
@@ -191,6 +209,8 @@ class LogTest extends IntegrationTestCase
             } else {
                 $this->assertEquals($tag, $tagInDb);
             }
+
+            Db::enableQueryLog($queryLog);
         }
     }
 
