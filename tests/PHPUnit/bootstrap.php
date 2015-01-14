@@ -113,8 +113,12 @@ Try again.";
     $url = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=TestRunner&action=check';
     $response = Http::sendHttpRequestBy('curl', $url, 2);
 
-    // The SQL error is for Travis...
-    if ($response === 'OK' || strpos($response, 'Table &#039;piwik_tests.option&#039; doesn&#039;t exist') !== false) {
+    if ($response === 'OK'
+        // The SQL error is for Travis...
+        || strpos($response, 'Table &#039;piwik_tests.option&#039; doesn&#039;t exist') !== false
+        || strpos($response, 'Table &#039;piwik_tests.piwiktests_option&#039; doesn&#039;t exist') !== false
+    ) {
+
         return;
     }
 
