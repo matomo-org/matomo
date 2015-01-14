@@ -16,7 +16,8 @@
 
         {% if properties.show_search %}
             <span class="dataTableSearchPattern">
-                <input type="text" class="searchInput" length="15" />
+		<label for="widgetSearch_{{ properties.report_id }}" style="display:none;"> {{ 'General_Search'|translate }} for {{ visualization.config.translations.label }}</label>
+                <input id="widgetSearch_{{ properties.report_id }}" type="text" class="searchInput" length="15" />
                 <input type="submit" value="{{ 'General_Search'|translate }}" />
             </span>
         {% endif %}
