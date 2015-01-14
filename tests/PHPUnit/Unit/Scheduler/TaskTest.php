@@ -6,19 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit;
+namespace Piwik\Tests\Unit\Scheduler;
 
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
-use Piwik\ScheduledTask;
+use Piwik\Scheduler\Task;
 
-class ScheduledTaskTest extends \PHPUnit_Framework_TestCase
+/**
+ * @group Scheduler
+ */
+class TaskTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
     public function testGetClassName()
     {
-        $scheduledTask = new ScheduledTask(new ScheduledReports(), null, null, null);
+        $scheduledTask = new Task(new ScheduledReports(), null, null, null);
         $this->assertEquals('Piwik\Plugins\ScheduledReports\ScheduledReports', $scheduledTask->getClassName());
     }
 
@@ -36,12 +36,10 @@ class ScheduledTaskTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getTaskNameTestCases
      */
     public function testGetTaskName($expectedTaskName, $className, $methodName, $methodParameter)
     {
-        $this->assertEquals($expectedTaskName, ScheduledTask::getTaskName($className, $methodName, $methodParameter));
+        $this->assertEquals($expectedTaskName, Task::getTaskName($className, $methodName, $methodParameter));
     }
 }

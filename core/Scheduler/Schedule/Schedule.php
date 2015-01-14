@@ -7,21 +7,18 @@
  *
  */
 
-namespace Piwik;
+namespace Piwik\Scheduler\Schedule;
 
 use Exception;
-use Piwik\ScheduledTime\Daily;
-use Piwik\ScheduledTime\Hourly;
-use Piwik\ScheduledTime\Monthly;
-use Piwik\ScheduledTime\Weekly;
+use Piwik\Date;
 
 /**
  * Describes the interval on which a scheduled task is executed. Use the {@link factory()} method
- * to create ScheduledTime instances.
+ * to create Schedule instances.
  *
- * @see \Piwik\ScheduledTask
+ * @see \Piwik\Scheduler\Task
  */
-abstract class ScheduledTime
+abstract class Schedule
 {
     const PERIOD_NEVER = 'never';
     const PERIOD_DAY = 'day';
@@ -95,7 +92,7 @@ abstract class ScheduledTime
      * Sets the day of the period to execute the scheduled task. Not a valid operation for all period types.
      *
      * @abstract
-     * @param  int $_day a number describing the day to set. Its meaning depends on the ScheduledTime's period type.
+     * @param  int $_day a number describing the day to set. Its meaning depends on the Schedule's period type.
      * @throws Exception if method not supported by subclass or parameter _day is invalid
      */
     abstract public function setDay($_day);
@@ -179,7 +176,7 @@ abstract class ScheduledTime
     }
 
     /**
-     * Returns a new ScheduledTime instance using a string description of the scheduled period type
+     * Returns a new Schedule instance using a string description of the scheduled period type
      * and a string description of the day within the period to execute the task on.
      *
      * @param string $periodType The scheduled period type. Can be `'hourly'`, `'daily'`, `'weekly'`, or `'monthly'`.
@@ -192,6 +189,7 @@ abstract class ScheduledTime
      *                                    If `'monthly'` is supplied for `$periodType`, this can be a numeric
      *                                    day in the month or a day in one week of the month. For example,
      *                                    `12`, `23`, `'first sunday'` or `'fourth tuesday'`.
+     * @return Hourly|Daily|Weekly|Monthly
      * @throws Exception
      * @api
      */

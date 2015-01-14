@@ -6,12 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\ScheduledTime;
+namespace Piwik\Tests\Unit\Scheduler\Schedule;
 
 use Exception;
-use Piwik\ScheduledTime\Hourly;
+use Piwik\Scheduler\Schedule\Hourly;
 
-class ScheduledTime_HourlyTest extends \PHPUnit_Framework_TestCase
+/**
+ * @group Scheduler
+ */
+class HourlyTest extends \PHPUnit_Framework_TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
     private static $_JANUARY_01_1971_09_10_00;
@@ -70,7 +73,7 @@ class ScheduledTime_HourlyTest extends \PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Friday January 1 1971 10:00:00 GMT
          */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Hourly', array('getTime'));
+        $mock = $this->getMock('Piwik\Scheduler\Schedule\Hourly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_01_1971_09_00_00));
@@ -85,7 +88,7 @@ class ScheduledTime_HourlyTest extends \PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Friday January 1 1971 10:00:00 GMT
          */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Hourly', array('getTime'));
+        $mock = $this->getMock('Piwik\Scheduler\Schedule\Hourly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));

@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\ScheduledTime;
+namespace Piwik\Tests\Unit\Scheduler\Schedule;
+
 use Exception;
-use Piwik\ScheduledTime;
+use Piwik\Scheduler\Schedule\Daily;
+use Piwik\Scheduler\Schedule\Schedule;
 
 /**
- * @group Core
+ * @group Scheduler
  */
-class ScheduledTime_DailyTest extends \PHPUnit_Framework_TestCase
+class DailyTest extends \PHPUnit_Framework_TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
     private static $_JANUARY_01_1971_09_10_00;
@@ -37,7 +39,7 @@ class ScheduledTime_DailyTest extends \PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeDailyNegative()
     {
         try {
-            $dailySchedule = ScheduledTime::factory('daily');
+            $dailySchedule = Schedule::factory('daily');
             $dailySchedule->setHour(-1);
 
         } catch (Exception $e) {
@@ -52,7 +54,7 @@ class ScheduledTime_DailyTest extends \PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeDailyOver24()
     {
         try {
-            $dailySchedule = ScheduledTime::factory('daily');
+            $dailySchedule = Schedule::factory('daily');
             $dailySchedule->setHour(25);
         } catch (Exception $e) {
             return;
@@ -66,7 +68,7 @@ class ScheduledTime_DailyTest extends \PHPUnit_Framework_TestCase
     public function testSetDayScheduledTimeDaily()
     {
         try {
-            $dailySchedule = ScheduledTime::factory('daily');
+            $dailySchedule = Schedule::factory('daily');
             $dailySchedule->setDay(1);
         } catch (Exception $e) {
             return;
@@ -161,11 +163,11 @@ class ScheduledTime_DailyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param  $currentTime
-     * @return \Piwik\ScheduledTime\Daily
+     * @return Daily
      */
     private function getDailyMock($currentTime)
     {
-        $mock = $this->getMock('\Piwik\ScheduledTime\Daily', array('getTime'));
+        $mock = $this->getMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue($currentTime));
