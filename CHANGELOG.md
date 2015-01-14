@@ -16,6 +16,8 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `Piwik\Metrics\Formatter::getCurrencyList()`: use `CurrencyDataProvider::getCurrencyList()` instead
 * The `Piwik\Translate` class has been deprecated in favor of `Piwik\Translation\Translator`.
 * The `core:plugin` console has been deprecated in favor of the new `plugin:list`, `plugin:activate` and `plugin:deactivate` commands
+* The API method `UserSettings.getLanguage` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguage` instead
+* The API method `UserSettings.getLanguageCode` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguageCode` instead
 
 ## Piwik 2.10.0
 

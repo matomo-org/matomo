@@ -828,7 +828,7 @@ class Archive
     /**
      * Returns the name of the plugin that archives a given report.
      *
-     * @param string $report Archive data name, eg, `'nb_visits'`, `'UserSettings_...'`, etc.
+     * @param string $report Archive data name, eg, `'nb_visits'`, `'DevicesDetection_...'`, etc.
      * @return string Plugin name.
      * @throws \Exception If a plugin cannot be found or if the plugin for the report isn't
      *                    activated.

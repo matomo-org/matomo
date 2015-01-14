@@ -711,7 +711,7 @@ class Manager extends Singleton
      *
      *     array(
      *         'UserCountry' => Plugin $pluginObject,
-     *         'UserSettings' => Plugin $pluginObject,
+     *         'UserLanguage' => Plugin $pluginObject,
      *     );
      *
      * @return Plugin[]
@@ -745,7 +745,7 @@ class Manager extends Singleton
      *
      *     array(
      *         'UserCountry' => Plugin $pluginObject,
-     *         'UserSettings' => Plugin $pluginObject,
+     *         'UserLanguage' => Plugin $pluginObject,
      *     );
      *
      * @return Plugin[]
@@ -768,7 +768,7 @@ class Manager extends Singleton
      *
      *     array(
      *         'UserCountry'
-     *         'UserSettings'
+     *         'UserLanguage'
      *     );
      *
      * @return string[]

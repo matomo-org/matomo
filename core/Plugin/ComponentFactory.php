@@ -24,7 +24,7 @@ class ComponentFactory
      * associated subdirectory.
      *
      * @param string $pluginName The name of the plugin the component is expected to belong to,
-     *                           eg, `'UserSettings'`.
+     *                           eg, `'DevicesDetection'`.
      * @param string $componentClassSimpleName The component's class name w/o namespace, eg,
      *                                         `"GetKeywords"`.
      * @param string $componentTypeClass The fully qualified class name of the component type, eg,
@@ -70,7 +70,7 @@ class ComponentFactory
      * @param string $componentTypeClass The fully qualified class name of the component type, eg,
      *                                   `"Piwik\Plugin\Report"`.
      * @param string $pluginName|false The name of the plugin the component is expected to belong to,
-     *                                 eg, `'UserSettings'`.
+     *                                 eg, `'DevicesDetection'`.
      * @param callback $predicate
      * @return mixed The component that satisfies $predicate or null if not found.
      */

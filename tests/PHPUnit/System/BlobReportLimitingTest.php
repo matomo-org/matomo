@@ -37,7 +37,7 @@ class BlobReportLimitingTest extends SystemTestCase
             'CustomVariables.getCustomVariables',
             'Referrers.getReferrerType', 'Referrers.getKeywords', 'Referrers.getSearchEngines',
             'Referrers.getWebsites', 'Referrers.getAll', /* TODO 'Referrers.getCampaigns', */
-            'UserSettings.getResolution', 'UserSettings.getConfiguration', 'DevicesDetection.getOsVersions',
+            'Resolution.getResolution', 'Resolution.getConfiguration', 'DevicesDetection.getOsVersions',
             'DevicesDetection.getBrowserVersions',
             'UserCountry.getRegion', 'UserCountry.getCity',
         );

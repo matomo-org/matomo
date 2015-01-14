@@ -415,7 +415,7 @@ class Proxy extends Singleton
     }
 
     /**
-     * Includes the class API by looking up plugins/UserSettings/API.php
+     * Includes the class API by looking up plugins/xxx/API.php
      *
      * @param string $fileName api class name eg. "API"
      * @throws Exception
