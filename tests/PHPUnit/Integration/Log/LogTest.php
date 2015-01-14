@@ -15,10 +15,8 @@ use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
-use Piwik\Plugins\TestPlugin\TestLoggingUtility;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-
-require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
+use Piwik\Tests\Integration\Log\Fixture\LoggerWrapper;
 
 /**
  * @group Core
@@ -30,7 +28,7 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\Log\LogTest] LogTest.php(122): dummy error message
+    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\Log\LogTest] LogTest.php(120): dummy error message
   dummy backtrace';
 
     public static $expectedErrorOutput = '[Piwik\Tests\Integration\Log\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
@@ -132,9 +130,11 @@ class LogTest extends IntegrationTestCase
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        TestLoggingUtility::doLog(self::TESTMESSAGE);
+        LoggerWrapper::doLog(self::TESTMESSAGE);
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
+        $tag = 'Piwik\Tests\Integration\Log\Fixture\LoggerWrapper';
+
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag);
     }
 
     /**
@@ -157,9 +157,11 @@ class LogTest extends IntegrationTestCase
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        TestLoggingUtility::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
+        LoggerWrapper::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
+        $tag = 'Piwik\Tests\Integration\Log\Fixture\LoggerWrapper';
+
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag);
     }
 
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)
