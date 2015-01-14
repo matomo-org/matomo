@@ -45,7 +45,6 @@ class Login extends \Piwik\Plugin
    public function getStylesheetFiles(&$stylesheetFiles)
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
-        $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
     }
 
     /**
