@@ -23,7 +23,7 @@ use Piwik\BaseFactory;
  */
 abstract class ReportRenderer extends BaseFactory
 {
-    const DEFAULT_REPORT_FONT_FAMILY = 'Verdana, sans-serif';
+    const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
     const REPORT_TEXT_COLOR = "13,13,13";
     const REPORT_TITLE_TEXT_COLOR = "13,13,13";
     const TABLE_HEADER_BG_COLOR = "255,255,255";
