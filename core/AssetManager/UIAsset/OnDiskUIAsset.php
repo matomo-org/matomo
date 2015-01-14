@@ -66,11 +66,8 @@ class OnDiskUIAsset extends UIAsset
             }
 
             // try to remove compressed version of the merged file.
-            try {
-                Filesystem::remove($this->getAbsoluteLocation() . ".deflate");
-                Filesystem::remove($this->getAbsoluteLocation() . ".gz");
-            } catch (Exception $e) {
-            }
+            Filesystem::remove($this->getAbsoluteLocation() . ".deflate", true);
+            Filesystem::remove($this->getAbsoluteLocation() . ".gz", true);
         }
     }
 

@@ -414,8 +414,9 @@ class Filesystem
      * Remove a file.
      *
      * @param string $file
+     * @param bool $silenceErrors If true, no exception will be thrown in case removing fails.
      */
-    public static function remove($file)
+    public static function remove($file, $silenceErrors = false)
     {
         if (!file_exists($file)) {
             return;
@@ -425,7 +426,11 @@ class Filesystem
 
         // Testing if the file still exist avoids race conditions
         if (!$result && file_exists($file)) {
-            throw new \RuntimeException('Unable to delete file ' . $file);
+            if ($silenceErrors) {
+                Log::warning('Failed to delete file ' . $file);
+            } else {
+                throw new \RuntimeException('Unable to delete file ' . $file);
+            }
         }
     }
 
