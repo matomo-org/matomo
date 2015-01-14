@@ -66,18 +66,18 @@
 	</row>
 	<row>
 		<lastActionDateTime>2010-01-04 00:01:00</lastActionDateTime>
-		<visitConverted>1</visitConverted>
-		<actions>2</actions>
+		<visitConverted>0</visitConverted>
+		<actions>1</actions>
 		<referrerType>website</referrerType>
 		<referrerName>referrer.com</referrerName>
 		<events>0</events>
 	</row>
 	<row>
-		<lastActionDateTime>2010-01-03 12:22:33</lastActionDateTime>
+		<lastActionDateTime>2010-01-03 23:55:00</lastActionDateTime>
 		<visitConverted>1</visitConverted>
 		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerName />
+		<referrerType>website</referrerType>
+		<referrerName>referrer.com</referrerName>
 		<events>0</events>
 	</row>
 </result>
