@@ -25,6 +25,8 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Settings\Manager as SettingsManager;
+use Piwik\Settings\SystemSetting;
+use Piwik\Settings\UserSetting;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
@@ -45,7 +47,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function generalSettings()
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
         $view = new View('@CoreAdminHome/generalSettings');
 
         if (Piwik::hasUserSuperUserAccess()) {
@@ -69,7 +71,53 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    public function pluginSettings()
+    public function adminPluginSettings()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $settings = $this->getPluginSettings();
+
+        $vars = array(
+            'nonce'                      => Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE),
+            'pluginsSettings'            => $this->getSettingsByType($settings, 'admin'),
+            'firstSuperUserSettingNames' => $this->getFirstSuperUserSettingNames($settings),
+            'mode' => 'admin'
+        );
+
+        return $this->renderTemplate('pluginSettings', $vars);
+    }
+
+    /**
+     * @param \Piwik\Plugin\Settings[] $pluginsSettings
+     * @return array   array([pluginName] => [])
+     */
+    private function getSettingsByType($pluginsSettings, $mode)
+    {
+        $byType = array();
+
+        foreach ($pluginsSettings as $pluginName => $pluginSettings) {
+            $settings = array();
+
+            foreach ($pluginSettings->getSettingsForCurrentUser() as $setting) {
+                if ('admin' === $mode && $setting instanceof SystemSetting) {
+                    $settings[] = $setting;
+                } elseif ('user' === $mode && $setting instanceof UserSetting) {
+                    $settings[] = $setting;
+                }
+            }
+
+            if (!empty($settings)) {
+                $byType[$pluginName] = array(
+                    'introduction' => $pluginSettings->getIntroduction(),
+                    'settings' => $settings
+                );
+            }
+        }
+
+        return $byType;
+    }
+
+    public function userPluginSettings()
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -77,8 +125,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $vars = array(
             'nonce'                      => Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE),
-            'pluginSettings'             => $settings,
-            'firstSuperUserSettingNames' => $this->getFirstSuperUserSettingNames($settings)
+            'pluginsSettings'            => $this->getSettingsByType($settings, 'user'),
+            'firstSuperUserSettingNames' => $this->getFirstSuperUserSettingNames($settings),
+            'mode' => 'user'
         );
 
         return $this->renderTemplate('pluginSettings', $vars);

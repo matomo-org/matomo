@@ -14,7 +14,7 @@
         "Settings_CredentialProvided": "Your %s SMS API account is correctly configured!",
         "Settings_DeleteAccountConfirm": "Are you sure you want to delete this SMS account?",
         "Settings_InvalidActivationCode": "Code entered was not valid, please try again.",
-        "Settings_LetUsersManageAPICredential": "Allow users to manage their own SMS API credentials",
+        "Settings_LetUsersManageAPICredential": "Allow users to manage their own SMS provider",
         "Settings_LetUsersManageAPICredential_No_Help": "All users are able to receive SMS Reports and will use your account's credits.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Each user will be able to setup their own SMS API Account and will not use your credit.",
         "Settings_ManagePhoneNumbers": "Manage Phone Numbers",

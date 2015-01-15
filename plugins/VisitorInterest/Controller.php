@@ -18,11 +18,26 @@ class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
+        $byDimension = new View\ReportsByDimension('VisitorInterest');
+
+        $reportsToAdd = array(
+            new GetNumberOfVisitsPerVisitDuration(),
+            new GetNumberOfVisitsPerPage(),
+            new GetNumberOfVisitsByVisitCount(),
+            new GetNumberOfVisitsByDaysSinceLast()
+        );
+
+        foreach ($reportsToAdd as $report) {
+            /** @var \Piwik\Plugin\Report $report */
+            $byDimension->addReport(
+                $report->getCategory(),
+                $report->getWidgetTitle(),
+                $report->getModule() . '.' . $report->getAction(),
+                array());
+        }
+
         $view = new View('@VisitorInterest/index');
-        $view->dataTableNumberOfVisitsPerVisitDuration = $this->renderReport(new GetNumberOfVisitsPerVisitDuration());
-        $view->dataTableNumberOfVisitsPerPage = $this->renderReport(new GetNumberOfVisitsPerPage());
-        $view->dataTableNumberOfVisitsByVisitNum = $this->renderReport(new GetNumberOfVisitsByVisitCount());
-        $view->dataTableNumberOfVisitsByDaysSinceLast = $this->renderReport(new GetNumberOfVisitsByDaysSinceLast());
+        $view->reports = $byDimension->render();
         return $view->render();
     }
 }

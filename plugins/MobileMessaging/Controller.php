@@ -32,10 +32,33 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function index()
     {
-        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSuperUserAccess();
 
         $view = new View('@MobileMessaging/index');
+        $this->setManageVariables($view);
 
+        return $view->render();
+    }
+
+    /*
+     * Mobile Messaging Settings tab :
+     *  - set delegated management
+     *  - provide & validate SMS API credential
+     *  - add & activate phone numbers
+     *  - check remaining credits
+     */
+    public function userSettings()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $view = new View('@MobileMessaging/userSettings');
+        $this->setManageVariables($view);
+
+        return $view->render();
+    }
+
+    private function setManageVariables(View $view)
+    {
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
         $mobileMessagingAPI = API::getInstance();
@@ -43,6 +66,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->credentialSupplied = $mobileMessagingAPI->areSMSAPICredentialProvided();
         $view->accountManagedByCurrentUser = $view->isSuperUser || $view->delegatedManagement;
         $view->strHelpAddPhone = Piwik::translate('MobileMessaging_Settings_PhoneNumbers_HelpAdd', array(Piwik::translate('General_Settings'), Piwik::translate('MobileMessaging_SettingsMenu')));
+        $view->creditLeft = 0;
+        $view->provider = '';
         if ($view->credentialSupplied && $view->accountManagedByCurrentUser) {
             $view->provider = $mobileMessagingAPI->getSMSProvider();
             $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
@@ -72,7 +97,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->phoneNumbers = $mobileMessagingAPI->getPhoneNumbers();
 
         $this->setBasicVariablesView($view);
-
-        return $view->render();
     }
 }

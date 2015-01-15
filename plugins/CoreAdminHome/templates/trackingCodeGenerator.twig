@@ -1,4 +1,4 @@
-{% extends 'admin.twig' %}
+{% extends 'user.twig' %}
 
 {% block head %}
     {{ parent() }}
@@ -13,7 +13,7 @@
     feature-name="{{ 'CoreAdminHome_TrackingCode'|translate }}"
     help-url="http://piwik.org/docs/tracking-api/">{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
 
-<div id="js-code-options" class="adminTable">
+<div id="js-code-options">
 
     <p>
         {{ 'CoreAdminHome_JSTrackingIntro1'|translate }}
@@ -201,7 +201,7 @@
 
 <h2 id="image-tracking-link">{{ 'CoreAdminHome_ImageTracking'|translate }}</h2>
 
-<div id="image-tracking-code-options" class="adminTable">
+<div id="image-tracking-code-options">
 
     <p>
         {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<em>&lt;noscript&gt;&lt;/noscript&gt;</em>")|raw }}

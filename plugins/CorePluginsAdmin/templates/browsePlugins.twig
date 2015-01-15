@@ -1,4 +1,4 @@
-{% extends 'admin.twig' %}
+{% extends mode is defined and mode == 'user' ? "user.twig" : "admin.twig" %}
 {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% block content %}

@@ -28,17 +28,16 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addDiagnosticItem(null, "", $order = 10);
             $menu->addDevelopmentItem(null, "", $order = 15);
 
-            $menu->addSettingsItem('General_General',
-                                   $this->urlForAction('generalSettings'),
-                                   $order = 6);
-            $menu->addManageItem('CoreAdminHome_TrackingCode',
-                                 $this->urlForAction('trackingCodeGenerator'),
-                                 $order = 10);
+            if (Piwik::hasUserSuperUserAccess()) {
+                $menu->addSettingsItem('General_General',
+                    $this->urlForAction('generalSettings'),
+                    $order = 6);
+            }
         }
 
-        if (SettingsManager::hasPluginsSettingsForCurrentUser()) {
+        if (Piwik::hasUserSuperUserAccess() && SettingsManager::hasSystemPluginsSettingsForCurrentUser()) {
             $menu->addSettingsItem('General_Plugins',
-                                   $this->urlForAction('pluginSettings'),
+                                   $this->urlForAction('adminPluginSettings'),
                                    $order = 7);
         }
     }
@@ -46,7 +45,26 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureTopMenu(MenuTop $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addItem('CoreAdminHome_Administration', null, $this->urlForAction('generalSettings'), 10);
+            $url = $this->urlForModuleAction('SitesManager', 'index');
+
+            if (Piwik::hasUserSuperUserAccess()) {
+                $url = $this->urlForAction('generalSettings');
+            }
+
+            $menu->addItem('CoreAdminHome_Administration', null, $url, 10);
+        }
+    }
+
+    public function configureUserMenu(MenuUser $menu)
+    {
+        $menu->addManageItem('CoreAdminHome_TrackingCode',
+            $this->urlForAction('trackingCodeGenerator'),
+            $order = 10);
+
+        if (SettingsManager::hasUserPluginsSettingsForCurrentUser()) {
+            $menu->addPersonalItem('CoreAdminHome_PluginSettings',
+                $this->urlForAction('userPluginSettings'),
+                $order = 15);
         }
     }
 

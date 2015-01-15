@@ -1,11 +1,11 @@
-{% extends 'dashboard.twig' %}
+{% extends 'user.twig' %}
 
 {% set test_piwikUrl='http://demo.piwik.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
 
 {% block content %}
 
-    <div id="feedback-faq" class="admin centerLargeDiv">
+    <div id="feedback-faq" class="admin">
         <h2 piwik-enriched-headline
             feature-name="{{ 'General_Help'|translate }}"
             >{{ 'General_AboutPiwikX'|translate(piwikVersion) }}</h2>
