@@ -51,6 +51,7 @@
         "ShortMonthFormat": "%shortMonth% %longYear%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Show the JavaScript code to insert",
+	"SkipToContent": "Skip to content",
         "SubscribeAndBecomePiwikSupporter": "Proceed to a secure credit card payment page (Paypal) to become a Piwik Supporter!",
         "SupportPiwik": "Support Piwik!",
         "TableNoData": "No data for this table.",
