@@ -136,6 +136,16 @@
   transition: opacity 300ms ease-out 10ms;
 }
 
+/* for screen readers */
+.Menu--dashboard a span.hidden {
+  height: 1px;
+  width: 1px;
+  position: absolute;
+  overflow: hidden;
+  top: -10px;
+}
+
+
 .Menu--dashboard > .Menu-tabList > li li:hover > a,
 .Menu--dashboard > .Menu-tabList > li li.sfHover > a {
     color: @theme-color-link;
@@ -164,12 +174,4 @@
   .Menu--dashboard > ul.Menu-tabList > li.sfActive.sfHover > a {
     border-bottom: 0;
   }
-}
-
-a span {
-  height: 1px;
-  width: 1px;
-  position: absolute;
-  overflow: hidden;
-  top: -10px;
 }

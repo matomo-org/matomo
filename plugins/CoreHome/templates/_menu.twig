@@ -43,7 +43,7 @@
             <li id="{% if level2._url is defined %}{{ _self.getId(level2._url) }}{% endif %}">
                 <a {% if level2._url is defined %}href="#{{ _self.getFirstUrl(level2._url) }}"{% endif %}
                    onclick="return piwikMenu.onItemClick(this);">{{ level1|translate }}
-                   <span>
+                   <span class="hidden">
                      {{ 'CoreHome_Menu'|translate }}
                    </span>
                 </a>
