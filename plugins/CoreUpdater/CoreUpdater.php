@@ -15,7 +15,6 @@ use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Columns\Updater as ColumnsUpdater;
-use Piwik\ScheduledTime;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;

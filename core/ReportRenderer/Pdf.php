@@ -328,7 +328,7 @@ class Pdf extends ReportRenderer
         $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
         $this->TCPDF->SetFont('');
 
-        $fill = false;
+        $fill = true;
         $url = false;
         $leftSpacesBeforeLogo = str_repeat(' ', $this->leftSpacesBeforeLogo);
 
@@ -494,12 +494,13 @@ class Pdf extends ReportRenderer
         $posX = $initPosX;
         foreach ($this->reportColumns as $columnName) {
             $columnName = $this->formatText($columnName);
+
             //Label column
             if ($countColumns == 0) {
-                $this->TCPDF->MultiCell($this->labelCellWidth, $maxCellHeight, $columnName, 1, 'C', true);
+                $this->TCPDF->MultiCell($this->labelCellWidth, $maxCellHeight, $columnName, $border = 0, $align = 'L', true);
                 $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
             } else {
-                $this->TCPDF->MultiCell($this->cellWidth, $maxCellHeight, $columnName, 1, 'C', true);
+                $this->TCPDF->MultiCell($this->cellWidth, $maxCellHeight, $columnName, $border = 0, $align = 'L', true);
                 $this->TCPDF->SetXY($posX + $this->cellWidth, $posY);
             }
             $countColumns++;

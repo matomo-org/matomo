@@ -40,7 +40,7 @@ abstract class Generator
     {
         $this->options = $options;
         if (class_exists('\Piwik\Container\StaticContainer')) {
-            $this->logger = \Piwik\Container\StaticContainer::get('Psr\Log\LoggerInterface');
+            $this->logger = \Piwik\Container\StaticContainer::getContainer()->get('Psr\Log\LoggerInterface');
         }
 
         $this->view = new TravisYmlView();

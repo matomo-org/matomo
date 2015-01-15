@@ -22,9 +22,9 @@ class Html extends ReportRenderer
     const IMAGE_GRAPH_WIDTH = 700;
     const IMAGE_GRAPH_HEIGHT = 200;
 
-    const REPORT_TITLE_TEXT_SIZE = 11;
+    const REPORT_TITLE_TEXT_SIZE = 24;
     const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
-    const REPORT_TABLE_ROW_TEXT_SIZE = 11;
+    const REPORT_TABLE_ROW_TEXT_SIZE = '13px';
     const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
     const HTML_CONTENT_TYPE = 'text/html';
