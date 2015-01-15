@@ -1,4 +1,4 @@
-{% extends 'admin.twig' %}
+{% extends mode == 'user' ? "user.twig" : "admin.twig" %}
 
 {% block content %}
 
@@ -6,37 +6,35 @@
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
 
+    {% if mode == 'user' %}
+        <h2 piwik-enriched-headline>{{ 'CoreAdminHome_PersonalPluginSettings'|translate }}</h2>
+    {% else %}
+        <h2 piwik-enriched-headline>{{ 'CoreAdminHome_SystemPluginSettings'|translate }}</h2>
+    {% endif %}
+
     <p>
         {{ 'CoreAdminHome_PluginSettingsIntro'|translate }}
-        {% for pluginName, settings in pluginSettings %}
+        {% for pluginName, settings in pluginsSettings %}
             <a href="#{{ pluginName|e('html_attr') }}">{{ pluginName }}</a>{% if not loop.last %}, {% endif %}
         {% endfor %}
     </p>
 
     <input type="hidden" name="setpluginsettingsnonce" value="{{ nonce }}">
 
-    {% for pluginName, settings in pluginSettings %}
+    {% for pluginName, pluginSettings in pluginsSettings %}
 
         <h2 id="{{ pluginName|e('html_attr') }}">{{ pluginName }}</h2>
 
-        {% if settings.getIntroduction %}
+        {% if pluginSettings.introduction %}
             <p class="pluginIntroduction">
-                {{ settings.getIntroduction }}
+                {{ pluginSettings.introduction }}
             </p>
         {% endif %}
 
         <table class="adminTable" id="pluginSettings" data-pluginname="{{ pluginName|e('html_attr') }}">
 
-        {% for name, setting in settings.getSettingsForCurrentUser %}
+        {% for name, setting in pluginSettings.settings %}
             {% set settingValue = setting.getValue %}
-
-            {% if pluginName in firstSuperUserSettingNames|keys and name == firstSuperUserSettingNames[pluginName] %}
-                <tr>
-                    <td colspan="3">
-                        <h3 class="superUserSettings">{{ 'MobileMessaging_Settings_SuperAdmin'|translate }}</h3>
-                    </td>
-                </tr>
-            {% endif %}
 
             {% if setting.introduction %}
                 <tr>

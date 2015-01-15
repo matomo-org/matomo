@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Integration;
+namespace Piwik\Tests\Integration\Log;
 
 use Exception;
 use Piwik\Common;
@@ -15,10 +15,8 @@ use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
-use Piwik\Plugins\TestPlugin\TestLoggingUtility;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-
-require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
+use Piwik\Tests\Integration\Log\Fixture\LoggerWrapper;
 
 /**
  * @group Core
@@ -30,10 +28,10 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\LogTest] LogTest.php(122): dummy error message
+    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\Log\LogTest] LogTest.php(120): dummy error message
   dummy backtrace';
 
-    public static $expectedErrorOutput = '[Piwik\Tests\Integration\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+    public static $expectedErrorOutput = '[Piwik\Tests\Integration\Log\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace';
 
     public function setUp()
@@ -132,9 +130,11 @@ class LogTest extends IntegrationTestCase
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        TestLoggingUtility::doLog(self::TESTMESSAGE);
+        LoggerWrapper::doLog(self::TESTMESSAGE);
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
+        $tag = 'Piwik\Tests\Integration\Log\Fixture\LoggerWrapper';
+
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag);
     }
 
     /**
@@ -157,9 +157,26 @@ class LogTest extends IntegrationTestCase
     {
         Config::getInstance()->log['log_writers'] = array($backend);
 
-        TestLoggingUtility::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
+        LoggerWrapper::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
+        $tag = 'Piwik\Tests\Integration\Log\Fixture\LoggerWrapper';
+
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag);
+    }
+
+    /**
+     * The database logs requests at DEBUG level, so we check that there is no recursive
+     * loop (logger insert in databases, which logs the query, ...)
+     * @link https://github.com/piwik/piwik/issues/7017
+     */
+    public function testNoInfiniteLoopWhenLoggingToDatabase()
+    {
+        Config::getInstance()->log['log_writers'] = array('database');
+        Config::getInstance()->log['log_level'] = 'DEBUG';
+
+        Log::info(self::TESTMESSAGE);
+
+        $this->checkBackend('database', self::TESTMESSAGE, $formatMessage = true, $tag = __CLASS__);
     }
 
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)
@@ -176,6 +193,9 @@ class LogTest extends IntegrationTestCase
 
             $this->assertEquals($expectedMessage . "\n", $fileContents);
         } else if ($backend == 'database') {
+            $queryLog = Db::isQueryLogEnabled();
+            Db::enableQueryLog(false);
+
             $count = Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('logger_message'));
             $this->assertEquals(1, $count);
 
@@ -189,6 +209,8 @@ class LogTest extends IntegrationTestCase
             } else {
                 $this->assertEquals($tag, $tagInDb);
             }
+
+            Db::enableQueryLog($queryLog);
         }
     }
 

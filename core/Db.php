@@ -35,6 +35,8 @@ class Db
 {
     private static $connection = null;
 
+    private static $logQueries = true;
+
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
@@ -710,7 +712,27 @@ class Db
 
     private static function logSql($functionName, $sql, $parameters = array())
     {
+        if (self::$logQueries === false) {
+            return;
+        }
+
         // NOTE: at the moment we don't log parameters in order to avoid sensitive information leaks
         Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
+    }
+
+    /**
+     * @param bool $enable
+     */
+    public static function enableQueryLog($enable)
+    {
+        self::$logQueries = $enable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function isQueryLogEnabled()
+    {
+        return self::$logQueries;
     }
 }

@@ -66,7 +66,7 @@ function formSetEditReport(idReport) {
 
 function getReportAjaxRequest(idReport, defaultApiMethod) {
     var parameters = {};
-    piwikHelper.lazyScrollTo(".centerLargeDiv>h2", 400);
+    piwikHelper.lazyScrollTo(".emailReports>h2", 400);
     parameters.module = 'API';
     parameters.method = defaultApiMethod;
     if (idReport == 0) {

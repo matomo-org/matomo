@@ -17,7 +17,7 @@
         "EmailSchedule": "Email Schedule",
         "EvolutionGraph": "Show Historical Graphs for the top %s values",
         "FrontPage": "Front Page",
-        "ManageEmailReports": "Manage Email Reports",
+        "PersonalEmailReports": "Personal Email Reports",
         "MonthlyScheduleHelp": "Monthly schedule: report will be sent the first day of each month.",
         "MustBeLoggedIn": "You must be logged in to create and schedule custom reports.",
         "NoRecipients": "This report has no recipients",
