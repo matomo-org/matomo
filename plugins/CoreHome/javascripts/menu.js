@@ -34,7 +34,7 @@ menu.prototype =
         menu.prototype.resetTimer = setTimeout(function() {
             $('.Menu-tabList > .sfHover', this.menuNode).removeClass('sfHover');
             $('.Menu-tabList > .sfActive', this.menuNode).addClass('sfHover');
-            menu.prototype.adaptSubMenuHeight();
+            menu.prototype.adaptSubMenuHeight(plugins/Morpheus/javascripts/morpheus.js);
         }, 2000);
     },
 
@@ -48,6 +48,7 @@ menu.prototype =
         this.menuNode = $('.Menu--dashboard');
 
         this.menuNode.find("li:has(ul),li#Searchmenu").hover(this.overMainLI, this.outMainLI);
+        this.menuNode.find("li:has(ul),li#Searchmenu").focusin(this.overMainLI);
 
         // add id to all li menu to support menu identification.
         // for all sub menu we want to have a unique id based on their module and action
