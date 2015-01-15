@@ -28,6 +28,7 @@
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Make a difference: %1$sDonate now%2$s to fund Piwik 2.0!",
         "MakeOneTimeDonation": "Make a one time donation, instead.",
+        "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "You are logged in as '%s' but it seems you don't have any permission set in Piwik. %s Ask your Piwik administrator (click to email)%s to give you 'view' access to a website.",
         "OnlyForSuperUserAccess": "This widget is only displayed to users having Super User access.",
         "PageOf": "%1$s of %2$s",
