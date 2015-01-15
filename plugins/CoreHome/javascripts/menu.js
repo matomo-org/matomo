@@ -34,7 +34,7 @@ menu.prototype =
         menu.prototype.resetTimer = setTimeout(function() {
             $('.Menu-tabList > .sfHover', this.menuNode).removeClass('sfHover');
             $('.Menu-tabList > .sfActive', this.menuNode).addClass('sfHover');
-            menu.prototype.adaptSubMenuHeight(plugins/Morpheus/javascripts/morpheus.js);
+            menu.prototype.adaptSubMenuHeight();
         }, 2000);
     },
 
