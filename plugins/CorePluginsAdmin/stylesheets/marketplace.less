@@ -84,7 +84,7 @@
     float: left;
     border: 1px solid #dadada;
     padding: 15px;
-    background-color: #F6F5F3;
+    background-color: #f2f2f2;
     margin-right: 14px;
     margin-bottom: 15px;
     position: relative;
@@ -138,6 +138,9 @@
     .header {
       margin-top: 0px;
       margin-bottom: 15px;
+      h3 {
+        font-size: 16px;
+      }
     }
 
     .description {
@@ -145,17 +148,21 @@
     }
     .install {
       float: right;
+      margin-top: 3px;
     }
     .update {
       .install
     }
     h3 .more {
-      color: @theme-color-text;
-    }
-    .more {
       font-weight: bold;
       text-decoration: none;
-      color: @theme-color-link;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .more {
+      text-decoration: underline;
+      color: @theme-color-text;
     }
     .content {
       margin-bottom: 46px;
@@ -229,16 +236,12 @@
 
 .pluginslistActionBar {
   min-width: 650px;
-  max-width: 980px;
 
   form {
     display: inline;
   }
 
   .sort {
-    a {
-      color: @theme-color-link;
-    }
     .active {
       font-weight: bold;
     }

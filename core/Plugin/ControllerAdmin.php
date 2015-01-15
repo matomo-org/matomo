@@ -148,7 +148,6 @@ abstract class ControllerAdmin extends Controller
      * - **statisticsNotRecorded** - Set to true if the `[Tracker] record_statistics` INI
      *                               config is `0`. If not `0`, this variable will not be defined.
      * - **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
-     * - **currentAdminMenuName** - The currently selected admin menu name.
      * - **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
      *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
      * - **isSuperUser** - Whether the current user is a superuser or not.
@@ -170,7 +169,6 @@ abstract class ControllerAdmin extends Controller
 
         $view->topMenu  = MenuTop::getInstance()->getMenu();
         $view->userMenu = MenuUser::getInstance()->getMenu();
-        $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
         $enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];

@@ -1,4 +1,4 @@
-<div id='entityEditContainer' style="display:none;">
+<div id='entityEditContainer' class="managegoals" style="display:none;">
     <table class="dataTable entityTable">
         <thead>
         <tr>
@@ -31,13 +31,13 @@
                     </td>
                     <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
                     <td>
-                        <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but">
+                        <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but withIcon">
                             <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
                             {{ 'General_Edit'|translate }}
                         </a>
                     </td>
                     <td>
-                        <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but">
+                        <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but withIcon">
                             <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
                             {{ 'General_Delete'|translate }}
                         </a>
@@ -49,7 +49,7 @@
 
     {% if onlyShowAddNewGoal is not defined %}
         <br/>
-        <a onclick='' name='linkAddNewGoal'>&rsaquo; {{ 'Goals_CreateNewGOal'|translate }}</a>
+        <div name="linkAddNewGoal" class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'Goals_CreateNewGOal'|translate }}</div>
         <br/>
         <br/>
 
