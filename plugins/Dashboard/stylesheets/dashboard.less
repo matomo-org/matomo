@@ -128,12 +128,19 @@ h3.widgetName {
   text-shadow: none;
 }
 
+.widgetNameOffScreen {
+  overflow: hidden;
+  width:1px;
+  height:1px;
+}
+
 // Overriding some dataTable css for better dashboard display
 .widget .dataTableWrapper {
   width: 100% !important;
 }
 
 .widgetTop .button {
+  line-height: 0px;
   cursor: pointer;
   float: right;
   margin: 6px 6px 0 0;
