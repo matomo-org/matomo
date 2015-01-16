@@ -188,6 +188,26 @@ class Formatter
         return $prettyMoney;
     }
 
+    public function getPrettyBytes($bytes)
+    {
+        $units = array(
+            'B' => 1,
+            'KB' => 1024,
+            'MB' => pow(1024, 2),
+            'GB' => pow(1024, 3),
+            'TB' => pow(1024, 4),
+        );
+
+        $prettyBytes = '';
+        foreach ($units as $unit => $factor) {
+            if ($bytes > $factor) {
+                $prettyBytes = round($bytes / $factor, 2) . $unit;
+            }
+        }
+
+        return $prettyBytes;
+    }
+
     /**
      * Returns a percent string from a quotient value. Forces the use of a '.'
      * decimal place.
