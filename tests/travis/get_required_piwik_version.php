@@ -7,6 +7,8 @@
  */
 
 // tiny script to get plugin version from plugin.json from a bash script
+require_once __DIR__ . '/../../core/Version.php';
+
 $pluginName = $argv[1];
 $pluginJsonPath = __DIR__ . "/../../plugins/$pluginName/plugin.json";
 
@@ -20,6 +22,7 @@ if (empty($minimumRequiredPiwik)) {
 } else {
     if (!preg_match("/^[^0-9]*(.*)/", $minimumRequiredPiwik, $matches)
         || empty($matches[1])
+        || version_compare($matches[1], \Piwik\Version::VERSION) > 0
     ) {
         $minimumRequiredPiwik = "master";
     } else {
