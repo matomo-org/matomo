@@ -256,3 +256,8 @@ input {
     color: red;
     font-weight: bold;
 }
+
+#feedback {
+    margin-bottom:30px;
+    display: inline-block;
+}
