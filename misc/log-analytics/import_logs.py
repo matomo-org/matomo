@@ -1427,6 +1427,9 @@ class Recorder(object):
             if hit.event_name:
                 args['e_n'] = hit.event_name
 
+        if hit.length:
+            args['bw_bytes'] = hit.length
+
         return args
 
     def _record_hits(self, hits):
