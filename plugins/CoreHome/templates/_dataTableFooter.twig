@@ -16,7 +16,8 @@
 
         {% if properties.show_search %}
             <span class="dataTableSearchPattern">
-                <input type="text" class="searchInput" length="15" />
+		<label for="widgetSearch_{{ properties.report_id }}" style="display:none;"> {{ 'General_Search'|translate }} {{ visualization.config.translations.label|default('') }}</label>
+                <input id="widgetSearch_{{ properties.report_id }}" type="text" class="searchInput" length="15" />
                 <input type="submit" value="{{ 'General_Search'|translate }}" />
             </span>
         {% endif %}
@@ -81,7 +82,7 @@
 
             </div>
             <div class="limitSelection {% if not properties.show_pagination_control and not properties.show_limit_control %} hidden{% endif %}"
-                 title="{{ 'General_RowsToDisplay'|translate }}"></div>
+                 title="{{ 'General_RowsToDisplay'|translate }}" alt="{{ 'General_RowsToDisplay'|translate }}"></div>
             <div class="tableConfiguration">
                 <a class="tableConfigurationIcon" href="#"></a>
                 <ul>

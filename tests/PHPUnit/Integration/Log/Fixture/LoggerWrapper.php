@@ -6,11 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\TestPlugin;
+namespace Piwik\Tests\Integration\Log\Fixture;
 
 use Piwik\Log;
 
-class TestLoggingUtility
+class LoggerWrapper
 {
     public static function doLog($message)
     {

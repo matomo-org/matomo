@@ -1,30 +1,26 @@
-{% extends 'dashboard.twig' %}
+{% extends 'user.twig' %}
 
 {% block content %}
 
+    <h2 piwik-enriched-headline>
+        <div class="inlineHelp">{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
+
+            {% if not ecommerceEnabled %}
+                <br /><br/>
+                {% set websiteManageText %}
+                <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
+                {% endset %}
+                {% set ecommerceReportText %}
+                <a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
+                {% endset %}
+                {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
+            {% endif %}</div>
+        {{ 'Goals_ManageGoals'|translate }}
+    </h2>
+
     {% include "@CoreHome/_siteSelectHeader.twig" %}
 
-    <div class="centerLargeDiv">
-
-        <h2 piwik-enriched-headline>
-            <div class="inlineHelp">{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
-
-                {% if not ecommerceEnabled %}
-                    <br /><br/>
-                    {% set websiteManageText %}
-                    <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
-                    {% endset %}
-                    {% set ecommerceReportText %}
-                    <a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
-                    {% endset %}
-                    {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
-                {% endif %}</div>
-            {{ 'Goals_ManageGoals'|translate }}
-        </h2>
-
-        {% include "@Goals/_addEditGoal.twig" %}
-
-    </div>
+    {% include "@Goals/_addEditGoal.twig" %}
 
     <style type="text/css">
         .entityAddContainer {

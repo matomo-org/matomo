@@ -335,16 +335,5 @@
     </p>
     {% endif %}
 {% endif %}
-<h2>{{ 'CoreAdminHome_OptOutForYourVisitors'|translate }}</h2>
-
-<p>{{ 'CoreAdminHome_OptOutExplanation'|translate }}
-    {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
-    {% set iframeOptOut %}
-        <iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>
-    {% endset %}
-    <code>{{ iframeOptOut|escape }}</code>
-    <br/>
-    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' rel='noreferrer' target='_blank'>","</a>")|raw }}
-</p>
 
 {% endblock %}

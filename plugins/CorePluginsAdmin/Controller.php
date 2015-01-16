@@ -205,6 +205,13 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
+    public function userBrowsePlugins()
+    {
+        $view = $this->createBrowsePluginsOrThemesView('browsePlugins', $themesOnly = false);
+        $view->mode = 'user';
+        return $view->render();
+    }
+
     private function createPluginsOrThemesView($template, $themesOnly)
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -232,7 +239,10 @@ class Controller extends Plugin\ControllerAdmin
             try {
                 $marketplace = new Marketplace();
                 $view->marketplacePluginNames = $marketplace->getAvailablePluginNames($themesOnly);
-                $view->pluginsHavingUpdate    = $marketplace->getPluginsHavingUpdate($themesOnly);
+
+                $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate(true);
+                $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate(false);
+                $view->pluginsHavingUpdate    = $pluginsHavingUpdate + $themesHavingUpdate;
             } catch(Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
             }
@@ -395,7 +405,7 @@ class Controller extends Plugin\ControllerAdmin
             }
 
             $message = Piwik::translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
-            if (SettingsManager::hasPluginSettingsForCurrentUser($pluginName)) {
+            if (SettingsManager::hasSystemPluginSettingsForCurrentUser($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'pluginSettings')),
                     $pluginName);
@@ -472,7 +482,7 @@ class Controller extends Plugin\ControllerAdmin
 
     private function getPluginNamesHavingSettingsForCurrentUser()
     {
-        return array_keys(SettingsManager::getPluginSettingsForCurrentUser());
+        return SettingsManager::getPluginNamesHavingSystemSettings();
     }
 
     private function tryToRepairPiwik()

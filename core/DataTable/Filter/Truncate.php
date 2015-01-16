@@ -85,6 +85,9 @@ class Truncate extends BaseFilter
         }
     }
 
+    /**
+     * @param DataTable $table
+     */
     private function addSummaryRow($table)
     {
         $table->filter('Sort', array($this->columnToSortByBeforeTruncating, 'desc'));

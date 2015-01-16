@@ -38,6 +38,11 @@ class ImportLogsTest extends SystemTestCase
                                'date'    => '2012-08-09',
                                'periods' => 'month')),
 
+            array('Referrers.getNumberOfDistinctWebsites', array('idSite'  => self::$fixture->idSite,
+                                                                 'date'    => '2012-08-09',
+                                                                 'setDateLastN' => true,
+                                                                 'periods' => 'day')),
+
             array('MultiSites.getAll', array('idSite'   => self::$fixture->idSite,
                                              'date'     => '2012-08-09',
                                              'periods'  => array('month'),

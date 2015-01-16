@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2012-08-09" />
+	<result date="2012-08-10" />
+	<result date="2012-08-11" />
+	<result date="2012-08-12" />
+	<result date="2012-08-13">1</result>
+	<result date="2012-08-14" />
+	<result date="2012-08-15">3</result>
+</results>

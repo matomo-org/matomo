@@ -25,7 +25,6 @@ class Menu extends \Piwik\Plugin\Menu
         $isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
 
         $pluginsUpdateMessage = '';
-        $themesUpdateMessage  = '';
 
         if ($hasSuperUserAcess && $isMarketplaceEnabled) {
             $marketplace = new Marketplace();
@@ -33,10 +32,7 @@ class Menu extends \Piwik\Plugin\Menu
             $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate($themesOnly = true);
 
             if (!empty($pluginsHavingUpdate)) {
-                $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));
-            }
-            if (!empty($themesHavingUpdate)) {
-                $themesUpdateMessage = sprintf(' (%d)', count($themesHavingUpdate));
+                $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate) + count($themesHavingUpdate));
             }
         }
 
@@ -48,16 +44,13 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addManageItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
                                    $this->urlForAction('plugins', array('activated' => '')),
                                    $order = 4);
-            $menu->addManageItem(Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
-                                   $this->urlForAction('themes', array('activated' => '')),
-                                   $order = 5);
         }
 
-        if (Piwik::hasUserSuperUserAccess() && CorePluginsAdmin::isMarketplaceEnabled()) {
-            $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   $this->urlForAction('browsePlugins', array('activated' => '')),
-                                   $order = 5);
 
+        if (Piwik::hasUserSuperUserAccess() && CorePluginsAdmin::isMarketplaceEnabled()) {
+            $menu->addManageItem('CorePluginsAdmin_Marketplace',
+                $this->urlForAction('browsePlugins', array('activated' => '')),
+                $order = 12);
         }
     }
 
@@ -73,7 +66,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if ($this->isAllowedToSeeMarketPlace()) {
             $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   $this->urlForAction('browsePlugins', array('activated' => '')),
+                                   $this->urlForAction('userBrowsePlugins', array('activated' => '')),
                                    $order = 5);
         }
     }
