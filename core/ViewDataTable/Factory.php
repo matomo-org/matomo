@@ -95,7 +95,9 @@ class Factory
             $controllerAction = $apiAction;
         }
 
-        $defaultViewType = self::getDefaultViewTypeForReport($apiAction);
+        $report = self::getReport($apiAction);
+
+        $defaultViewType = self::getDefaultViewTypeForReport($report);
 
         $isWidget = Common::getRequestVar('widget', '0', 'string');
 
@@ -106,7 +108,7 @@ class Factory
             $params = Manager::getViewDataTableParameters($login, $controllerAction);
         }
 
-        if (!self::isDefaultViewTypeForReportFixed($apiAction)) {
+        if (!self::isDefaultViewTypeForReportFixed($report)) {
             $savedViewDataTable = false;
             if (!empty($params['viewDataTable'])) {
                 $savedViewDataTable = $params['viewDataTable'];
@@ -157,13 +159,22 @@ class Factory
     }
 
     /**
-     * Returns the default viewDataTable ID to use when determining which visualization to use.
+     * Return the report object for the given apiAction
+     * @param $apiAction
+     * @return null|Report
      */
-    private static function getDefaultViewTypeForReport($apiAction)
+    private static function getReport($apiAction)
     {
         list($module, $action) = explode('.', $apiAction);
         $report = Report::factory($module, $action);
+        return $report;
+    }
 
+    /**
+     * Returns the default viewDataTable ID to use when determining which visualization to use.
+     */
+    private static function getDefaultViewTypeForReport($report)
+    {
         if (!empty($report) && $report->isEnabled()) {
             return $report->getDefaultTypeViewDataTable();
         }
@@ -175,11 +186,8 @@ class Factory
     /**
      * Returns if the default viewDataTable ID to use is fixed.
      */
-    private static function isDefaultViewTypeForReportFixed($apiAction)
+    private static function isDefaultViewTypeForReportFixed($report)
     {
-        list($module, $action) = explode('.', $apiAction);
-        $report = Report::factory($module, $action);
-
         if (!empty($report) && $report->isEnabled()) {
             return $report->isDefaultTypeFixed();
         }
