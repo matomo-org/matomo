@@ -7,6 +7,10 @@
   height: 30px; /* Hack to not push the dashboard widget below */
 }
 
+table.dataTable tr td .sites_autocomplete a {
+  width: auto;
+}
+
 .sites_selector_in_dashboard {
   margin-top:10px;
 }
@@ -35,7 +39,7 @@
   float: left;
   position: relative;
   z-index: 19;
-  background: #fff url(plugins/Morpheus/images/sites_selection.png) repeat-x 0 0;
+  background: @theme-color-background-base url(plugins/Morpheus/images/sites_selection.png) repeat-x 0 0;
   border: 1px solid #d4d4d4;
   color: #255792;
   border-radius: 4px;
@@ -51,6 +55,10 @@
   height:1.4em;
   padding-top: 9px;
   padding-bottom: 9px;
+}
+
+#content.admin .adminTable .sites_autocomplete a {
+  text-decoration: none;
 }
 
 .sites_autocomplete .custom_select_ul_list li a,

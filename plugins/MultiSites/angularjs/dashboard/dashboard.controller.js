@@ -18,6 +18,7 @@
         $scope.evolutionSelector = 'visits_evolution';
         $scope.hasSuperUserAccess = piwik.hasSuperUserAccess;
         $scope.date = piwik.broadcast.getValueFromUrl('date');
+        $scope.idSite = piwik.broadcast.getValueFromUrl('idSite');
         $scope.url  = piwik.piwik_url;
         $scope.period = piwik.period;
 

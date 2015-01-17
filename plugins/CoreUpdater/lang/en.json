@@ -56,6 +56,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "You can update to version %s automatically or download the package and install it manually:",
         "YouCouldManuallyExecuteSqlQueries": "If you are not able to use the command line updater and if Piwik fails to upgrade (due to a timeout of the database, a browser timeout, or any other issue), you could manually execute the SQL queries to update Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik is unable to overwrite your current installation. You can either fix the directory\/file permissions, or download the package and install version %s manually:",
-        "YourDatabaseIsOutOfDate": "Your Piwik database is out-of-date, and must be upgraded before you can continue."
+        "YourDatabaseIsOutOfDate": "Your Piwik database is out-of-date, and must be upgraded before you can continue.",
+        "ViewVersionChangelog": "View the changelog for this version:"
     }
 }

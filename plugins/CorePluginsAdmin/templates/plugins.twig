@@ -3,7 +3,7 @@
 {% import '@CorePluginsAdmin/macros.twig' as plugins %}
 
 {% block content %}
-<div style="max-width:980px;">
+<div>
 
     {% if pluginsHavingUpdate|length %}
         <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
@@ -22,6 +22,11 @@
         <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
     {% endif %}
 
+
+    {% if isMarketplaceEnabled %}
+        <br />
+        {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}
+    {% endif %}
     </p>
 
     {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}

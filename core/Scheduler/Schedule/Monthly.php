@@ -6,18 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\ScheduledTime;
+
+namespace Piwik\Scheduler\Schedule;
 
 use Exception;
-use Piwik\ScheduledTime;
 
 /**
  * Monthly class is used to schedule tasks every month.
  *
- * @see ScheduledTask
- *
+ * @see \Piwik\Scheduler\Task
  */
-class Monthly extends ScheduledTime
+class Monthly extends Schedule
 {
     /**
      * List of available week number strings used in setDayOfWeekFromString.
@@ -50,7 +49,7 @@ class Monthly extends ScheduledTime
         if (isset(self::$weekNumberStringToInt[$weekNumberString])) {
             $week = self::$weekNumberStringToInt[$weekNumberString];
         } else {
-            throw new Exception("Invalid week describer in ScheduledTime\\Monthly::setDayOfWeekFromString: '$weekNumberString'. "
+            throw new Exception("Invalid week describer in Schedule\\Monthly::setDayOfWeekFromString: '$weekNumberString'. "
                               . "Supported values are 'first', 'second', 'third', 'fourth'.");
         }
 

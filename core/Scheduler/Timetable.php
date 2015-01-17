@@ -7,12 +7,15 @@
  *
  */
 
-namespace Piwik;
+namespace Piwik\Scheduler;
+
+use Piwik\Option;
+use Piwik\Date;
 
 /**
  * This data structure holds the scheduled times for each active scheduled task.
  */
-class ScheduledTaskTimetable
+class Timetable
 {
     const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
 
@@ -36,6 +39,9 @@ class ScheduledTaskTimetable
         $this->timetable = $timetable;
     }
 
+    /**
+     * @param Task[] $activeTasks
+     */
     public function removeInactiveTasks($activeTasks)
     {
         $activeTaskNames = array();
@@ -74,7 +80,11 @@ class ScheduledTaskTimetable
     {
         $forceTaskExecution = (defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS);
 
-        return $forceTaskExecution || ($this->taskHasBeenScheduledOnce($taskName) && time() >= $this->timetable[$taskName]);
+        if ($forceTaskExecution) {
+            return true;
+        }
+
+        return $this->taskHasBeenScheduledOnce($taskName) && time() >= $this->timetable[$taskName];
     }
 
     /**
@@ -93,7 +103,7 @@ class ScheduledTaskTimetable
         return !$this->taskHasBeenScheduledOnce($taskName) || $this->shouldExecuteTask($taskName);
     }
 
-    public function rescheduleTask($task)
+    public function rescheduleTask(Task $task)
     {
         // update the scheduled time
         $this->timetable[$task->getName()] = $task->getRescheduledTime();
@@ -107,7 +117,7 @@ class ScheduledTaskTimetable
 
     public function getScheduledTimeForMethod($className, $methodName, $methodParameter = null)
     {
-        $taskName = ScheduledTask::getTaskName($className, $methodName, $methodParameter);
+        $taskName = Task::getTaskName($className, $methodName, $methodParameter);
 
         return $this->taskHasBeenScheduledOnce($taskName) ? $this->timetable[$taskName] : false;
     }

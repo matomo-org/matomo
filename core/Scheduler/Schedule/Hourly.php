@@ -6,18 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\ScheduledTime;
+
+namespace Piwik\Scheduler\Schedule;
 
 use Exception;
-use Piwik\ScheduledTime;
 
 /**
  * Hourly class is used to schedule tasks every hour.
  *
- * @see ScheduledTask
- *
+ * @see \Piwik\Scheduler\Task
  */
-class Hourly extends ScheduledTime
+class Hourly extends Schedule
 {
     /**
      * @see ScheduledTime::getRescheduledTime

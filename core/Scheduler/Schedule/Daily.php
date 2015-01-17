@@ -6,17 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\ScheduledTime;
+
+namespace Piwik\Scheduler\Schedule;
 
 use Exception;
-use Piwik\ScheduledTime;
 
 /**
  * Daily class is used to schedule tasks every day.
  *
- * @see ScheduledTask
+ * @see \Piwik\Scheduler\Task
  */
-class Daily extends ScheduledTime
+class Daily extends Schedule
 {
     /**
      * @see ScheduledTime::getRescheduledTime

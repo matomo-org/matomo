@@ -19,12 +19,21 @@ class DatabaseHandler extends AbstractProcessingHandler
 {
     protected function write(array $record)
     {
-        $sql = "INSERT INTO " . Common::prefixTable('logger_message')
-            . " (tag, timestamp, level, message)"
-            . " VALUES (?, ?, ?, ?)";
+        $sql = sprintf(
+            'INSERT INTO %s (tag, timestamp, level, message) VALUES (?, ?, ?, ?)',
+            Common::prefixTable('logger_message')
+        );
 
-        $message = trim($record['formatted']);
+        $queryLog = Db::isQueryLogEnabled();
+        Db::enableQueryLog(false);
 
-        Db::query($sql, array($record['extra']['class'], $record['datetime']->format('Y-m-d H:i:s'), $record['level_name'], $message));
+        Db::query($sql, array(
+            $record['extra']['class'],
+            $record['datetime']->format('Y-m-d H:i:s'),
+            $record['level_name'],
+            trim($record['formatted'])
+        ));
+
+        Db::enableQueryLog($queryLog);
     }
 }

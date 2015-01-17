@@ -50,7 +50,7 @@
         <div id="detailInstall">
             {% set nextButton %}
             <p class="nextStep">
-                <a class="submit" href="{{ linkTo({'action':nextModuleName, 'token_auth':null, 'method':null }) }}">{{ 'General_Next'|translate }} &raquo;</a>
+                <a style="margin-top: -5px;" class="submit" href="{{ linkTo({'action':nextModuleName, 'token_auth':null, 'method':null }) }}">{{ 'General_Next'|translate }} &raquo;</a>
             </p>
             {%  endset %}
             {% if showNextStepAtTop is defined and showNextStepAtTop %}
@@ -67,7 +67,7 @@
         <br/>
         <br/>
 
-        <h3>{{ 'Installation_InstallationStatus'|translate }}</h3>
+        <h4>{{ 'Installation_InstallationStatus'|translate }}</h4>
 
         <div id="progressbar" data-progress="{{ percentDone }}"></div>
         {{ 'Installation_PercentDone'|translate(percentDone) }}

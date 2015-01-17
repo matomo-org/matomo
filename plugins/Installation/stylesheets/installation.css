@@ -3,7 +3,7 @@ div.both {
 }
 
 body {
-    background-color: #FFFBF9;
+    background-color: #fff;
     text-align: center;
     font-family: Arial, Georgia, "Times New Roman", Times, serif;
     font-size: 17px;
@@ -41,17 +41,24 @@ p {
 }
 
 h2 {
-    font-size: 20px;
-    color: #666666;
+    font-size: 24px;
+    font-family: Verdana, sans-serif;
+    color: #0d0d0d;
     border-bottom: 1px solid #DADADA;
     padding: 0 0 7px;
+    font-weight: normal;
+    margin-bottom: 15px;
 }
 
 h3 {
     margin-top: 10px;
-    font-size: 17px;
-    color: #3F5163;
+    font-family: Verdana, sans-serif;
+    color: #0d0d0d;
+    font-weight: normal;
+    font-size: 20px;
 }
+
+
 
 code {
     font-size: 80%;
@@ -124,7 +131,8 @@ code {
     font-size: 90%;
     line-height: 1.4em;
     width: 860px;
-    border: 1px solid #7A5A3F;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 1px 1px rgba(204,204,204,0.5);
     margin: auto;
     background: #FFFFFF;
     padding: 0.2em 2em 2em 2em;
@@ -170,7 +178,7 @@ p.nextStep a {
 }
 
 td {
-    border: 1px solid rgb(198, 205, 216);
+    background-color: #f2f2f2;
     border-top-color: #FFF;
     color: #444;
     padding: 0.5em 0.5em 0.5em 0.8em;
@@ -247,4 +255,9 @@ input {
 .err {
     color: red;
     font-weight: bold;
+}
+
+#feedback {
+    margin-bottom:30px;
+    display: inline-block;
 }

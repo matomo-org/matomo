@@ -23,7 +23,15 @@
     <![endif]-->
     <!--[if (gte IE 9)|!(IE)]><!-->
     <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'admin') }}"><!--<![endif]-->
-    {% set isAdminLayout = true %}
+
+    {% if isSuperUser %}
+        {% set topMenuModule = 'CoreAdminHome' %}
+        {% set topMenuAction = 'generalSettings' %}
+    {% else %}
+        {% set topMenuModule = 'SitesManager' %}
+        {% set topMenuAction = 'index' %}
+    {% endif %}
+
     {% include "_iframeBuster.twig" %}
     {% include "@CoreHome/_javaScriptDisabled.twig" %}
 

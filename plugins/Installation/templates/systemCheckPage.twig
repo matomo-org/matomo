@@ -3,7 +3,7 @@
 {% block content %}
 {% if isSuperUser %}
     <h2 piwik-enriched-headline>{{ 'Installation_SystemCheck'|translate }}</h2>
-    <p style="margin-left:1em;">
+    <p style="margin-left:0.2em;">
         {% if infos.has_errors %}
             <img src="plugins/Morpheus/images/error.png"/>
             {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }} {{ 'Installation_SeeBelowForMoreInfo'|translate }}

@@ -42,9 +42,12 @@
         {% for level1,level2 in menu %}
             <li id="{% if level2._url is defined %}{{ _self.getId(level2._url) }}{% endif %}">
                 <a {% if level2._url is defined %}href="#{{ _self.getFirstUrl(level2._url) }}"{% endif %}
-                   onclick="return piwikMenu.onItemClick(this);">{{ level1|translate }}</a>
+                   onclick="return piwikMenu.onItemClick(this);">{{ level1|translate }}
+                   <span class="hidden">
+                     {{ 'CoreHome_Menu'|translate }}
+                   </span>
+                </a>
                 <ul>
-
                 {% for name,urlParameters in level2 %}
                     {% if urlParameters._url is defined and urlParameters._url is not iterable %}
                         {{ _self.groupedItem(name,urlParameters._url) }}

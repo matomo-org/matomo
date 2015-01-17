@@ -67,8 +67,8 @@ class Sort extends BaseFilter
     /**
      * Sorting method used for sorting numbers
      *
-     * @param number $a
-     * @param number $b
+     * @param Row $a
+     * @param Row $b
      * @return int
      */
     public function numberSort($a, $b)

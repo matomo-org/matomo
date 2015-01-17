@@ -36,7 +36,7 @@ fi
 
 # check if .travis.yml is out of date. if github token is supplied we will try to auto-update,
 # otherwise we just print a message and exit.
-if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"; then
+if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND -v --dump=./generated.travis.yml"; then
     echo "generate:travis-yml failed!"
 
     # if building for 'latest_stable' ignore the error and continue build

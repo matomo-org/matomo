@@ -10,7 +10,9 @@ namespace Piwik\CliMulti;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Db;
 use Piwik\Log;
+use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -39,6 +41,8 @@ class RequestCommand extends ConsoleCommand
         if ($this->isTestModeEnabled()) {
             Config::getInstance()->setTestEnvironment();
             $indexFile = '/tests/PHPUnit/proxy/';
+
+            $this->resetDatabase();
         } else {
             $indexFile = '/';
         }
@@ -95,5 +99,11 @@ class RequestCommand extends ConsoleCommand
         StaticContainer::setEnvironment(null);
         StaticContainer::clearContainer();
         Log::unsetInstance();
+    }
+
+    private function resetDatabase()
+    {
+        Option::clearCache();
+        Db::destroyDatabaseObject();
     }
 }
