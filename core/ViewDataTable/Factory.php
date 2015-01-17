@@ -106,27 +106,31 @@ class Factory
             $params = Manager::getViewDataTableParameters($login, $controllerAction);
         }
 
-        $savedViewDataTable = false;
-        if (!empty($params['viewDataTable'])) {
-            $savedViewDataTable = $params['viewDataTable'];
-        }
+        if (!self::isDefaultViewTypeForReportFixed($apiAction)) {
+            $savedViewDataTable = false;
+            if (!empty($params['viewDataTable'])) {
+                $savedViewDataTable = $params['viewDataTable'];
+            }
 
-        // order of default viewDataTables' priority is: function specified default, saved default, configured default for report
-        //   function specified default is preferred
-        // -> force default == true : defaultType ?: saved ?: defaultView
-        // -> force default == false : saved ?: defaultType ?: defaultView
-        if ($forceDefault) {
-            $defaultType = $defaultType ?: $savedViewDataTable ?: $defaultViewType;
+            // order of default viewDataTables' priority is: function specified default, saved default, configured default for report
+            //   function specified default is preferred
+            // -> force default == true : defaultType ?: saved ?: defaultView
+            // -> force default == false : saved ?: defaultType ?: defaultView
+            if ($forceDefault) {
+                $defaultType = $defaultType ?: $savedViewDataTable ?: $defaultViewType;
+            } else {
+                $defaultType = $savedViewDataTable ?: $defaultType ?: $defaultViewType;
+            }
+
+            $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
+
+            // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
+            // therefore do not pass this as a default value to getRequestVar()
+            if ('' === $type) {
+                $type = $defaultType ?: HtmlTable::ID;
+            }
         } else {
-            $defaultType = $savedViewDataTable ?: $defaultType ?: $defaultViewType;
-        }
-
-        $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
-
-        // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
-        // therefore do not pass this as a default value to getRequestVar()
-        if ('' === $type) {
-            $type = $defaultType ?: HtmlTable::ID;
+            $type = $defaultViewType;
         }
 
         $params['viewDataTable'] = $type;
@@ -166,6 +170,21 @@ class Factory
 
         $defaultViewTypes = self::getDefaultTypeViewDataTable();
         return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : false;
+    }
+
+    /**
+     * Returns if the default viewDataTable ID to use is fixed.
+     */
+    private static function isDefaultViewTypeForReportFixed($apiAction)
+    {
+        list($module, $action) = explode('.', $apiAction);
+        $report = Report::factory($module, $action);
+
+        if (!empty($report) && $report->isEnabled()) {
+            return $report->isDefaultTypeFixed();
+        }
+
+        return false;
     }
 
     /**

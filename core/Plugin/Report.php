@@ -312,11 +312,8 @@ class Report
 
         $apiAction = $apiProxy->buildApiActionName($this->module, $this->action);
 
-        if ($this->isDefaultTypeFixed()) {
-            $view = ViewDataTableFactory::build($this->getDefaultTypeViewDataTable(), $apiAction, $this->module . '.' . $this->action, true);
-        } else {
-            $view = ViewDataTableFactory::build(null, $apiAction, $this->module . '.' . $this->action);
-        }
+        $view = ViewDataTableFactory::build(null, $apiAction, $this->module . '.' . $this->action);
+
         $rendered  = $view->render();
 
         return $rendered;
