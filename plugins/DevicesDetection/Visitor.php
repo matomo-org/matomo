@@ -31,7 +31,7 @@ class Visitor
 
     public function getOperatingSystem()
     {
-        return getOsFullName($this->details['config_os']);
+        return getOsFullName($this->details['config_os'] . ";" . $this->details['config_os_version']);
     }
 
     public function getOperatingSystemIcon()

@@ -240,6 +240,19 @@ function _mapLegacyOsShortCodes($shortCode)
         'DSI' => 'NDS', // Nintendo DSi => Nintendo Mobile
         'PSV' => 'PSP', // PlayStation Vita => PlayStation Portable
         'MAE' => 'SMG', // Maemo => MeeGo
+        'W10' => 'WIN',
+        'W2K' => 'WIN',
+        'W31' => 'WIN',
+        'WI7' => 'WIN',
+        'WI8' => 'WIN',
+        'W81' => 'WIN',
+        'W95' => 'WIN',
+        'W98' => 'WIN',
+        'WME' => 'WIN',
+        'WNT' => 'WIN',
+        'WS3' => 'WIN',
+        'WVI' => 'WIN',
+        'WXP' => 'WIN',
         //'VMS' => '', // OpenVMS => ??
     );
     return array_key_exists($shortCode, $legacyShortCodes) ? $legacyShortCodes[$shortCode] : $shortCode;
