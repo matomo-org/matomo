@@ -97,7 +97,7 @@ class Factory
 
         $report = self::getReport($apiAction);
 
-        $defaultViewType = self::getDefaultViewTypeForReport($report);
+        $defaultViewType = self::getDefaultViewTypeForReport($report, $apiAction);
 
         $isWidget = Common::getRequestVar('widget', '0', 'string');
 
@@ -172,8 +172,13 @@ class Factory
 
     /**
      * Returns the default viewDataTable ID to use when determining which visualization to use.
+     *
+     * @param Report $report
+     * @param string $apiAction
+     *
+     * @return bool|string
      */
-    private static function getDefaultViewTypeForReport($report)
+    private static function getDefaultViewTypeForReport($report, $apiAction)
     {
         if (!empty($report) && $report->isEnabled()) {
             return $report->getDefaultTypeViewDataTable();
@@ -185,11 +190,14 @@ class Factory
 
     /**
      * Returns if the default viewDataTable ID to use is fixed.
+     *
+     * @param Report $report
+     * @return bool
      */
     private static function isDefaultViewTypeForReportFixed($report)
     {
         if (!empty($report) && $report->isEnabled()) {
-            return $report->isDefaultTypeFixed();
+            return $report->alwaysUseDefaultViewDataTable();
         }
 
         return false;

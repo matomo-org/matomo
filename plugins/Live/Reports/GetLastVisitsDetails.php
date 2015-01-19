@@ -27,7 +27,7 @@ class GetLastVisitsDetails extends Base
         return VisitorLog::ID;
     }
 
-    public function isDefaultTypeFixed()
+    public function alwaysUseDefaultViewDataTable()
     {
         return true;
     }

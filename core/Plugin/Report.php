@@ -271,11 +271,11 @@ class Report
     }
 
     /**
-     * Returns if the default viewDataTable type is fixed. e.g. the type won't be changeable through config or url params.
+     * Returns if the default viewDataTable type should always be used. e.g. the type won't be changeable through config or url params.
      * Defaults to false
      * @return bool
      */
-    public function isDefaultTypeFixed()
+    public function alwaysUseDefaultViewDataTable ()
     {
         return false;
     }
