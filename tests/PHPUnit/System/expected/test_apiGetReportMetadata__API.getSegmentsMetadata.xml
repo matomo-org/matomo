@@ -148,7 +148,7 @@
 		<category>Visit</category>
 		<name>Operating system</name>
 		<segment>operatingSystemCode</segment>
-		<acceptedValues>WXP, WI7, MAC, LIN, AND, IPD, etc.</acceptedValues>
+		<acceptedValues>WIN, MAC, LIN, AND, IPD, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

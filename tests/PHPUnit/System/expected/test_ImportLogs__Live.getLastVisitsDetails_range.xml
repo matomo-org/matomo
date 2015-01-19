@@ -67,8 +67,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8.1</operatingSystem>
-		<operatingSystemCode>W81</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/W81.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
@@ -206,8 +206,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 8.0</browser>
@@ -315,8 +315,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 34.0</browser>
@@ -580,8 +580,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
@@ -1075,8 +1075,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
@@ -1246,8 +1246,8 @@
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 8</operatingSystem>
-		<operatingSystemCode>WI8</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI8.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
@@ -1364,8 +1364,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
@@ -1490,8 +1490,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
@@ -2459,8 +2459,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 6.0</browser>
@@ -2576,8 +2576,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 11.0</browser>
@@ -2710,8 +2710,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 39.0</browser>
@@ -3478,8 +3478,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
@@ -3899,8 +3899,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 20.0</browser>
@@ -4107,8 +4107,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 20.0</browser>
@@ -4315,8 +4315,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
@@ -4523,8 +4523,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
@@ -4627,8 +4627,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
@@ -5147,8 +5147,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>

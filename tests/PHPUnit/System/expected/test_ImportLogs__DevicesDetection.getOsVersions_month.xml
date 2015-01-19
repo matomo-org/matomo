@@ -22,7 +22,7 @@
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/os/WI7.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>
 	<row>
 		<label>Mac 10.6</label>
@@ -58,7 +58,7 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/os/WXP.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>
 	<row>
 		<label>Android 2.3</label>

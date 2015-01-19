@@ -50,8 +50,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -151,8 +151,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -325,8 +325,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -426,8 +426,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -777,8 +777,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -878,8 +878,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -975,8 +975,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -1145,8 +1145,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -1242,8 +1242,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
@@ -1589,8 +1589,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WXP.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>

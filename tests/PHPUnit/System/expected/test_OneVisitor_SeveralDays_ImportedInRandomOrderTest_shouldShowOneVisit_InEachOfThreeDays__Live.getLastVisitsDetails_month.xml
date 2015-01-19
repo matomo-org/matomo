@@ -54,8 +54,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WVI.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
@@ -146,8 +146,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WVI.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
@@ -238,8 +238,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WVI.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>

@@ -464,8 +464,8 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
