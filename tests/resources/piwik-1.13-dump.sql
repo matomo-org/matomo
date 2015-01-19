@@ -479,7 +479,7 @@ CREATE TABLE `log_visit` (
 
 LOCK TABLES `log_visit` WRITE;
 /*!40000 ALTER TABLE `log_visit` DISABLE KEYS */;
-INSERT INTO `log_visit` VALUES (1,1,'��n�5','12:34:06',0,1,0,0,0,'2012-03-06 11:22:33','2012-03-06 11:49:33',9,8,2,1,7,0,1621,1,0,3,'referer.com','http://referer.com/page.htm?param=valuewith some spaces','','|hQ�C^','WIN','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'�','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,'��n�5','12:34:06',1,2,0,0,0,'2012-03-06 12:22:33','2012-03-06 12:22:33',11,10,11,10,1,0,0,1,0,2,'Yahoo!','http://search.yahoo.com/search?p=purchase','purchase','|hQ�C^','WIN','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'�','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `log_visit` VALUES (1,1,'��n�5','12:34:06',0,1,0,0,0,'2012-03-06 11:22:33','2012-03-06 11:49:33',9,8,2,1,7,0,1621,1,0,3,'referer.com','http://referer.com/page.htm?param=valuewith some spaces','','|hQ�C^','WXP','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'�','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,'��n�5','12:34:06',1,2,0,0,0,'2012-03-06 12:22:33','2012-03-06 12:22:33',11,10,11,10,1,0,0,1,0,2,'Yahoo!','http://search.yahoo.com/search?p=purchase','purchase','|hQ�C^','WXP','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'�','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `log_visit` ENABLE KEYS */;
 UNLOCK TABLES;
 
