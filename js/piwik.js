@@ -2916,7 +2916,7 @@ if (typeof Piwik !== 'object') {
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
-                    (configUserId.length ? '&uid=' + encodeWrapper(configUserId) : '') +
+                    ((configUserId+'').length ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount +
                     '&_idn=' + newVisitor + // currently unused
                     (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
