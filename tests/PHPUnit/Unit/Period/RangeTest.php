@@ -1318,4 +1318,24 @@ class RangeTest extends BasePeriodTest
         $range = new Range($period, 'last' . $lastN);
         $this->assertEquals($expectedLastN, $range->getNumberOfSubperiods());
     }
+
+    /**
+     * @group Core
+     */
+    public function testLastWithoutNumber()
+    {
+        $range = new Range('day', 'last');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testPreviousWithoutNumber()
+    {
+        $range = new Range('day', 'previous');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+    }
 }
