@@ -27,6 +27,11 @@ class GetLastVisitsDetails extends Base
         return VisitorLog::ID;
     }
 
+    public function alwaysUseDefaultViewDataTable()
+    {
+        return true;
+    }
+
     public function configureReportingMenu(MenuReporting $menu)
     {
         if ($this->isEnabled()) {
