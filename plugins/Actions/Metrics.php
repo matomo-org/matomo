@@ -21,22 +21,6 @@ use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
  */
 class Metrics
 {
-    const DOWNLOADS_RECORD_NAME = 'Actions_downloads';
-    const OUTLINKS_RECORD_NAME = 'Actions_outlink';
-    const PAGE_TITLES_RECORD_NAME = 'Actions_actions';
-    const SITE_SEARCH_RECORD_NAME = 'Actions_sitesearch';
-    const PAGE_URLS_RECORD_NAME = 'Actions_actions_url';
-
-    const METRIC_PAGEVIEWS_RECORD_NAME = 'Actions_nb_pageviews';
-    const METRIC_UNIQ_PAGEVIEWS_RECORD_NAME = 'Actions_nb_uniq_pageviews';
-    const METRIC_SUM_TIME_RECORD_NAME = 'Actions_sum_time_generation';
-    const METRIC_HITS_TIMED_RECORD_NAME = 'Actions_nb_hits_with_time_generation';
-    const METRIC_DOWNLOADS_RECORD_NAME = 'Actions_nb_downloads';
-    const METRIC_UNIQ_DOWNLOADS_RECORD_NAME = 'Actions_nb_uniq_downloads';
-    const METRIC_OUTLINKS_RECORD_NAME = 'Actions_nb_outlinks';
-    const METRIC_UNIQ_OUTLINKS_RECORD_NAME = 'Actions_nb_uniq_outlinks';
-    const METRIC_SEARCHES_RECORD_NAME = 'Actions_nb_searches';
-    const METRIC_KEYWORDS_RECORD_NAME = 'Actions_nb_keywords';
 
     public static $actionTypes = array(
         Action::TYPE_PAGE_URL,
