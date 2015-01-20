@@ -69,6 +69,8 @@
             {{ sparkline(urlSparklineMaxActions)|raw }}
             {{ 'VisitsSummary_MaxNbActions'|translate("<strong>"~maxActions~"</strong>")|raw }}
     </div>
+    
+    {{ postEvent('Template.VisitsSummaryOverviewSparklines') }}
 </div>
 <div style="clear:both;"></div>
 

@@ -134,10 +134,15 @@ class Formatter
         }
 
         $units = array('B', 'K', 'M', 'G', 'T');
+        $numUnits = count($units) - 1;
 
         $currentUnit = null;
         foreach ($units as $idx => $currentUnit) {
-            if ($size >= 1024 && $unit != $currentUnit && $idx != count($units) - 1) {
+            if ($unit && $unit !== $currentUnit) {
+                $size = $size / 1024;
+            } elseif ($unit && $unit === $currentUnit) {
+                break;
+            } elseif ($size >= 1024 && $idx != $numUnits) {
                 $size = $size / 1024;
             } else {
                 break;
