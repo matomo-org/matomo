@@ -182,11 +182,15 @@ class Range extends Period
                 }
             }
 
-            $lastN = $this->getMaxN($lastN);
+            if ($lastN != '') {
+                $lastN = $this->getMaxN($lastN);
 
-            // last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
-            $lastN--;
-            $lastN = abs($lastN);
+                // last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
+                $lastN--;
+                $lastN = abs($lastN);
+            } else {
+                $lastN = 0;
+            }
 
             $startDate = $endDate->addPeriod(-1 * $lastN, $period);
 
