@@ -1173,17 +1173,51 @@ class RangeTest extends BasePeriodTest
         $this->assertEquals($expectedLastN, $range->getNumberOfSubperiods());
     }
 
-    public function testLastWithoutNumber()
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testLastWithoutNumber_shouldBehaveLikeLast1()
     {
         $range = new Range('day', 'last');
+        $expected = new Range('day', 'last1');
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
     }
 
-    public function testPreviousWithoutNumber()
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testPreviousWithoutNumber_shouldBehaveLikePrevious1()
     {
         $range = new Range('day', 'previous');
+        $expected = new Range('day', 'previous1');
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
+    }
+
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testLast0_shouldBehaveLikeLast1()
+    {
+        $range = new Range('day', 'last0');
+        $expected = new Range('day', 'last1');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
+    }
+
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testPrevious0_shouldBehaveLikePrevious1()
+    {
+        $range = new Range('day', 'previous0');
+        $expected = new Range('day', 'previous1');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
     }
 }

@@ -182,13 +182,11 @@ class Range extends Period
                 }
             }
 
-            if ($lastN != '') {
-                $lastN = $this->getMaxN($lastN);
+            $lastN = $this->getMaxN($lastN);
 
-                // last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
-                $lastN--;
-                $lastN = abs($lastN);
-            } else {
+            // last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
+            $lastN--;
+            if ($lastN < 0) {
                 $lastN = 0;
             }
 
