@@ -1,4 +1,4 @@
-{% extends 'layout.twig' %}
+{% extends '@Morpheus/layout.twig' %}
 
 {% block head %}
     {{ parent() }}
@@ -79,7 +79,7 @@
                     <p class="message">{{ infoMessage|raw }}</p>
                 {% endif %}
             </div>
-            <form {{ form_data.attributes|raw }}>
+            <form {{ form_data.attributes|raw }} ng-non-bindable>
                 <h1>{{ 'Login_LogIn'|translate }}</h1>
                 <fieldset class="inputs">
                     <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20"
@@ -99,7 +99,7 @@
                            tabindex="100"/>
                 </fieldset>
             </form>
-            <form id="reset_form" style="display:none;">
+            <form id="reset_form" style="display:none;" ng-non-bindable>
                 <fieldset class="inputs">
                     <input type="text" name="form_login" id="reset_form_login" class="input" value="" size="20"
                            tabindex="10"
