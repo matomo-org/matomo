@@ -1,62 +1,40 @@
-<!DOCTYPE html>
-<html id="ng-app" ng-app="piwikApp">
-    <head>
-{% block head %}
-            <meta charset="utf-8">
-			<meta http-equiv="x-ua-compatible" content="IE=EDGE,chrome=1" >
-            <title>{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}</title>
-            <meta name="generator" content="Piwik - free/libre analytics platform"/>
-            <link rel="shortcut icon" href="{{ customFavicon|default('plugins/CoreHome/images/favicon.ico') }}"/>
+{% extends 'layout.twig' %}
 
-{% include "@CoreHome/_favicon.twig" %}
-{% include "_jsGlobalVariables.twig" %}
-{% include "_piwikTag.twig" %}
-{% include "_jsCssIncludes.twig" %}
+{% block pageTitle %}{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}{% endblock %}
 
-            <!--[if IE]>
-            <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/ieonly.css"/>
-            <![endif]-->
-        {% endblock %}
-    </head>
-    <!--[if lt IE 9 ]>
-    <body ng-app="app" class="old-ie {{ postEvent('Template.bodyClass', 'admin') }}">
-    <![endif]-->
-    <!--[if (gte IE 9)|!(IE)]><!-->
-    <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'admin') }}"><!--<![endif]-->
+{% set bodyClass = postEvent('Template.bodyClass', 'admin') %}
 
+{% block body %}
     {% set topMenuModule = 'UsersManager' %}
     {% set topMenuAction = 'userSettings' %}
+    {{ parent() }}
+{% endblock %}
 
-    {% include "_iframeBuster.twig" %}
-    {% include "@CoreHome/_javaScriptDisabled.twig" %}
+{% block root %}
+    {% include "@CoreHome/_topScreen.twig" %}
 
-        <div id="root">
-            {% include "@CoreHome/_topScreen.twig" %}
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
+    {{ postEvent("Template.beforeContent", "user", currentModule) }}
 
-            {% import 'ajaxMacros.twig' as ajax %}
-            {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
-            {{ postEvent("Template.beforeContent", "user", currentModule) }}
+    <div id="container">
 
-            <div id="container">
+        {% if showMenu is not defined or showMenu %}
+            {% include "@CoreHome/_userMenu.twig" %}
+        {% endif %}
 
-                {% if showMenu is not defined or showMenu %}
-                    {% include "@CoreHome/_userMenu.twig" %}
-                {% endif %}
+        <div id="content" class="admin user">
 
-                <div id="content" class="admin user">
+            {% include "@CoreHome/_notifications.twig" %}
 
-                    {% include "@CoreHome/_notifications.twig" %}
-
-                    <div class="ui-confirm" id="alert">
-                        <h2></h2>
-                        <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
-                    </div>
-
-                    {% block content %}
-                    {% endblock %}
-
-                </div>
+            <div class="ui-confirm" id="alert">
+                <h2></h2>
+                <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
             </div>
+
+            {% block content %}
+            {% endblock %}
+
         </div>
-    </body>
-</html>
+    </div>
+{% endblock %}
