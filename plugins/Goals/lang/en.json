@@ -36,6 +36,7 @@
         "ConversionsOverviewBy": "Conversions overview by type of visit",
         "CreateNewGOal": "Create a new Goal",
         "DaysToConv": "Days to Conversion",
+        "Details": "Goal details",
         "DefaultGoalConvertedOncePerVisit": "(default) Goal can only be converted once per visit",
         "DefaultRevenue": "Goal default revenue is",
         "DefaultRevenueHelp": "For example, a Contact Form submitted by a visitor may be worth $10 on average. Piwik will help you understand how well your visitors segments are performing.",

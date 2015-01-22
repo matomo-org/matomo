@@ -189,12 +189,17 @@ function ajaxAddGoal() {
     ajaxRequest.send(true);
 }
 
+function editGoal(goalId)
+{
+    var goal = piwik.goals[goalId];
+    initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
+    showAddNewGoal();
+}
+
 function bindListGoalEdit() {
     $('a[name=linkEditGoal]').click(function () {
         var goalId = $(this).attr('id');
-        var goal = piwik.goals[goalId];
-        initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
-        showAddNewGoal();
+        editGoal(goalId);
         return false;
     });
 
