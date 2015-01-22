@@ -606,6 +606,12 @@ class Configuration(object):
             "changed General.action_title_category_delimiter in your Piwik configuration, you need to set this "
             "option to the same value in order to get a pretty page titles report."
         )
+        option_parser.add_option(
+            '--dump-log-regex', dest='dump_log_regex', action='store_true', default=False,
+            help="Prints out the regex string used to parse log lines and exists. Can be useful for using formats "
+                 "in newer versions of the script in older versions of the script. The output regex can be used with "
+                 "the --log-format-regex option."
+        )
         return option_parser
 
     def _set_w3c_field_map(self, option, opt_str, value, parser):
@@ -1731,6 +1737,15 @@ class Parser(object):
                 )
         # Make sure the format is compatible with the resolver.
         resolver.check_format(format)
+
+        if config.options.dump_log_regex:
+            logging.info("Using format '%s'." % format.name)
+            if format.regex:
+                logging.info("Regex being used: %s" % format.regex.pattern)
+            else:
+                logging.info("Format %s does not use a regex to parse log lines." % format.name)
+            logging.info("--dump-log-regex option used, aborting log import.")
+            os._exit(0)
 
         hits = []
         for lineno, line in enumerate(file):
