@@ -558,7 +558,6 @@ class Archive
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
-        $this->invalidatedReportsIfNeeded();
 
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
@@ -657,6 +656,8 @@ class Archive
      */
     private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
+        $this->invalidatedReportsIfNeeded();
+
         $today = Date::today();
 
         foreach ($this->params->getPeriods() as $period) {

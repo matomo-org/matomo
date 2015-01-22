@@ -600,6 +600,18 @@ class Configuration(object):
                  "in conjuction with --log-format-name=w3c_extended.\n"
                  "Example: --w3c-fields='#Fields: date time c-ip ...'"
         )
+        option_parser.add_option(
+            '--title-category-delimiter', dest='title_category_delimiter', default='/',
+            help="If --enable-http-errors is used, errors are shown in the page titles report. If you have "
+            "changed General.action_title_category_delimiter in your Piwik configuration, you need to set this "
+            "option to the same value in order to get a pretty page titles report."
+        )
+        option_parser.add_option(
+            '--dump-log-regex', dest='dump_log_regex', action='store_true', default=False,
+            help="Prints out the regex string used to parse log lines and exists. Can be useful for using formats "
+                 "in newer versions of the script in older versions of the script. The output regex can be used with "
+                 "the --log-format-regex option."
+        )
         return option_parser
 
     def _set_w3c_field_map(self, option, opt_str, value, parser):
@@ -1411,10 +1423,14 @@ class Recorder(object):
             args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
 
         if hit.is_error or hit.is_redirect:
-			args['action_name'] = '%s/URL = %s%s' % (
+			args['action_name'] = '%s%sURL = %s%s' % (
 				hit.status,
+				config.options.title_category_delimiter,
 				urllib.quote(args['url'], ''),
-				("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
+				("%sFrom = %s" % ( 
+					config.options.title_category_delimiter,
+					urllib.quote(args['urlref'], '')
+				) if args['urlref'] != ''  else '')
 			)
 
         if hit.generation_time_milli > 0:
@@ -1426,6 +1442,9 @@ class Recorder(object):
 
             if hit.event_name:
                 args['e_n'] = hit.event_name
+
+        if hit.length:
+            args['bw_bytes'] = hit.length
 
         return args
 
@@ -1718,6 +1737,15 @@ class Parser(object):
                 )
         # Make sure the format is compatible with the resolver.
         resolver.check_format(format)
+
+        if config.options.dump_log_regex:
+            logging.info("Using format '%s'." % format.name)
+            if format.regex:
+                logging.info("Regex being used: %s" % format.regex.pattern)
+            else:
+                logging.info("Format %s does not use a regex to parse log lines." % format.name)
+            logging.info("--dump-log-regex option used, aborting log import.")
+            os._exit(0)
 
         hits = []
         for lineno, line in enumerate(file):

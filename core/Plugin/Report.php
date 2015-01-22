@@ -271,6 +271,16 @@ class Report
     }
 
     /**
+     * Returns if the default viewDataTable type should always be used. e.g. the type won't be changeable through config or url params.
+     * Defaults to false
+     * @return bool
+     */
+    public function alwaysUseDefaultViewDataTable ()
+    {
+        return false;
+    }
+
+    /**
      * Here you can configure how your report should be displayed and which capabilities your report has. For instance
      * whether your report supports a "search" or not. EG `$view->config->show_search = false`. You can also change the
      * default request config. For instance you can change how many rows are displayed by default:
@@ -302,7 +312,8 @@ class Report
 
         $apiAction = $apiProxy->buildApiActionName($this->module, $this->action);
 
-        $view      = ViewDataTableFactory::build(null, $apiAction, $this->module . '.' . $this->action);
+        $view = ViewDataTableFactory::build(null, $apiAction, $this->module . '.' . $this->action);
+
         $rendered  = $view->render();
 
         return $rendered;
