@@ -558,7 +558,7 @@ class Archive
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
-        $this->invalidatedReportsIfNeeded();
+        // $this->invalidatedReportsIfNeeded();
 
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
@@ -862,6 +862,7 @@ class Archive
      */
     private function prepareArchive(array $archiveGroups, Site $site, Period $period)
     {
+        $this->invalidatedReportsIfNeeded();
         $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment(), $this->params->isSkipAggregationOfSubTables());
         $archiveLoader = new ArchiveProcessor\Loader($parameters);
 
