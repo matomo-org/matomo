@@ -134,7 +134,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $result = $archive->getNumeric($columns);
         $this->assertEquals(
             array(
-                'nb_visits' => 4,
+                'nb_visits' => 5,
                 'Goal_nb_conversions' => 6
             ),
             $result
@@ -155,7 +155,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $result = $archive->getNumeric($columns);
         $this->assertEquals(
             array(
-                'nb_visits' => 4,
+                'nb_visits' => 5,
                 'Goal_nb_conversions' => 6,
                 'nb_actions' => 13
             ),
