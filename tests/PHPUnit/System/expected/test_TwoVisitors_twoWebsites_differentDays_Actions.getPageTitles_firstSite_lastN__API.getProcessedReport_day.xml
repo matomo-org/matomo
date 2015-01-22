@@ -49,7 +49,7 @@
 				<nb_hits>2</nb_hits>
 				<bounce_rate>100%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
-				<exit_rate>50%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.14s</avg_time_generation>
 			</row>
 		</result>
@@ -213,10 +213,10 @@
 		<nb_visits>18</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_hits>18</nb_hits>
-		<entry_bounce_count>1</entry_bounce_count>
-		<entry_nb_visits>6</entry_nb_visits>
-		<entry_nb_actions>26</entry_nb_actions>
-		<exit_nb_visits>1</exit_nb_visits>
-		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<entry_bounce_count>2</entry_bounce_count>
+		<entry_nb_visits>7</entry_nb_visits>
+		<entry_nb_actions>27</entry_nb_actions>
+		<exit_nb_visits>2</exit_nb_visits>
+		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 	</reportTotal>
 </result>
