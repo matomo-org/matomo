@@ -179,7 +179,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $result = $archive->getNumeric($columns);
         $this->assertEquals(
             array(
-                'nb_visits' => 4,
+                'nb_visits' => 5,
                 'Goal_nb_conversions' => 6,
                 'nb_actions' => 13 // actions should remain the same as nothing was reports are still marked as already processed
             ),
@@ -201,8 +201,8 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 
         $this->assertEquals(
             array(
-                'nb_visits' => 4,
-                'Goal_nb_conversions' => 6,
+                'nb_visits' => 6,
+                'Goal_nb_conversions' => 7,
                 'nb_actions' => 26 // now actions should be increased as the reports were invalidated
             ),
             $result
