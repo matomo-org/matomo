@@ -1,6 +1,6 @@
 {
   "name": "angular-cookies",
-  "version": "",
+  "version": "1.2.28",
   "description": "AngularJS module for cookies",
   "main": "angular-cookies.js",
   "scripts": {

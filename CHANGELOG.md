@@ -20,6 +20,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The following classes have been deprecated:
   * `Piwik\TaskScheduler`: use `Piwik\Scheduler\Scheduler` instead
   * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
+  
+### Library updates
+* Updated AngularJS from 1.2.26 to 1.2.28
 
 ## Piwik 2.10.0
 

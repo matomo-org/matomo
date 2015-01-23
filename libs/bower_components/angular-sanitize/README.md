@@ -1,12 +1,35 @@
-# bower-angular-sanitize
+# packaged angular-sanitize
 
-This repo is for distribution on `bower`. The source for this module is in the
+This repo is for distribution on `npm` and `bower`. The source for this module is in the
 [main AngularJS repo](https://github.com/angular/angular.js/tree/master/src/ngSanitize).
 Please file issues and pull requests against that repo.
 
 ## Install
 
-Install with `bower`:
+You can install this package either with `npm` or with `bower`.
+
+### npm
+
+```shell
+npm install angular-sanitize
+```
+
+Add a `<script>` to your `index.html`:
+
+```html
+<script src="/node_modules/angular-sanitize/angular-sanitize.js"></script>
+```
+
+Then add `ngSanitize` as a dependency for your app:
+
+```javascript
+angular.module('myApp', ['ngSanitize']);
+```
+
+Note that this package is not in CommonJS format, so doing `require('angular-sanitize')` will
+return `undefined`.
+
+### bower
 
 ```shell
 bower install angular-sanitize
@@ -18,7 +41,7 @@ Add a `<script>` to your `index.html`:
 <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
 ```
 
-And add `ngSanitize` as a dependency for your app:
+Then add `ngSanitize` as a dependency for your app:
 
 ```javascript
 angular.module('myApp', ['ngSanitize']);
