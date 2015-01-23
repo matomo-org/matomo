@@ -163,6 +163,12 @@ class Controller extends \Piwik\Plugin\Controller
         $goals = $this->goals;
         $view->goals = $goals;
 
+        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+        $view->idGoal = 0;
+        if ($idGoal && array_key_exists($idGoal, $goals)) {
+            $view->idGoal = $idGoal;
+        }
+
         // unsanitize goal names and other text data (not done in API so as not to break
         // any other code/cause security issues)
 

@@ -21,6 +21,10 @@ class Piwik_LocalTracker extends PiwikTracker
 {
     protected function sendRequest($url, $method = 'GET', $data = null, $force = false)
     {
+        if ($this->DEBUG_APPEND_URL) {
+            $url .= $this->DEBUG_APPEND_URL;
+        }
+
         // if doing a bulk request, store the url
         if ($this->doBulkRequests && !$force) {
             $this->storedTrackingActions[] = $url;

@@ -94,13 +94,13 @@ install:
   - git fetch -q
 {% endif %}
 {% if generationMode == 'plugin' %}
-  # move plugin contents to folder in the plugins subdirectory
-  - rm -rf plugins/$PLUGIN_NAME
-  - mv ../$PLUGIN_NAME plugins
-
   - ./tests/travis/checkout_test_against_branch.sh
   - git submodule init -q
   - git submodule update -q || true
+
+  # move plugin contents to folder in the plugins subdirectory
+  - rm -rf plugins/$PLUGIN_NAME
+  - mv ../$PLUGIN_NAME plugins
 
   # copy .coveralls.yml if none exists
   - if [ ! -f ../coveralls.yml ];

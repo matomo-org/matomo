@@ -61,6 +61,22 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $value);
     }
 
+    public function test_getPrettySizeFromBytes_InFixedUnitThatIsHigherThanBestUnit()
+    {
+        $expected = '0.001465&nbsp;M';
+        $value = $this->formatter->getPrettySizeFromBytes(1536, 'M', 6);
+
+        $this->assertEquals($expected, $value);
+    }
+
+    public function test_getPrettySizeFromBytes_InUnitThatIsLowerThanBestUnit()
+    {
+        $expected = '1536&nbsp;B';
+        $value = $this->formatter->getPrettySizeFromBytes(1536, 'B');
+
+        $this->assertEquals($expected, $value);
+    }
+
     public function test_getPrettyMoney_UsesNonBreakingSpaces()
     {
         $expected = '1&nbsp;€';

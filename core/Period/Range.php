@@ -186,7 +186,9 @@ class Range extends Period
 
             // last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
             $lastN--;
-            $lastN = abs($lastN);
+            if ($lastN < 0) {
+                $lastN = 0;
+            }
 
             $startDate = $endDate->addPeriod(-1 * $lastN, $period);
 
