@@ -22,6 +22,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
 * The API method `UserSettings.getLanguage` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguage` instead
 * The API method `UserSettings.getLanguageCode` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguageCode` instead
+  
+### Library updates
+* Updated AngularJS from 1.2.26 to 1.2.28
 
 ## Piwik 2.10.0
 

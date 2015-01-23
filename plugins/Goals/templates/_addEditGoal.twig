@@ -45,9 +45,15 @@
     {% if onlyShowAddNewGoal is not defined %}
         piwik.goals = {{ goalsJSON|raw }};
         bindListGoalEdit();
-        showEditGoals();
+
+        {% if idGoal %}
+            editGoal({{ idGoal|e('js') }});
+        {% else %}
+            showEditGoals();
+        {% endif %}
     {% else %}
         initAndShowAddGoalForm();
     {% endif %}
+
 
 </script>
