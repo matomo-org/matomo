@@ -227,8 +227,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
@@ -335,8 +337,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 6.0</browser>
@@ -447,9 +451,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
@@ -568,9 +574,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
@@ -696,9 +704,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
@@ -801,8 +811,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Bot</operatingSystem>
-		<operatingSystemCode>BOT</operatingSystemCode>
+		<operatingSystemName>Bot</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemCode>BOT</operatingSystemCode>
+		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
@@ -905,8 +917,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
@@ -999,8 +1013,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Unknown</deviceType>
 		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
@@ -1102,9 +1118,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Smartphone</deviceType>
-		<operatingSystem>Android</operatingSystem>
-		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystem>Android 2.3</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>2.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
@@ -1206,9 +1224,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
