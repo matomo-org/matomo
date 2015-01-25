@@ -485,7 +485,7 @@ class ScheduledReports extends \Piwik\Plugin
             $additionalEMails = $parameters[self::ADDITIONAL_EMAILS_PARAMETER];
             $recipients = array_merge($recipients, $additionalEMails);
         }
-        $recipients = array_filter($recipients);
+        $recipients = array_values(array_filter($recipients));
     }
 
     public static function template_reportParametersScheduledReports(&$out)
@@ -602,7 +602,7 @@ class ScheduledReports extends \Piwik\Plugin
                 throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
             }
         }
-        $additionalEmails = array_filter($additionalEmails);
+        $additionalEmails = array_values(array_filter($additionalEmails));
         return $additionalEmails;
     }
 
