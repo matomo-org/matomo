@@ -651,7 +651,7 @@ tracking_requests_require_authentication = 1
 ; for which all reports should be Archived during the cron execution
 ; All segment values MUST be URL encoded.
 ;Segments[]="visitorType==new"
-;Segments[]="visitorType==returning"
+;Segments[]="visitorType==returning,visitorType==returningCustomer"
 
 ; If you define Custom Variables for your visitor, for example set the visit type
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
