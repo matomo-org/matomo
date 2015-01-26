@@ -399,7 +399,7 @@ if (typeof JSON2 !== 'object') {
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
-    userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
+    userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled, sendBeacon,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
@@ -425,7 +425,7 @@ if (typeof JSON2 !== 'object') {
     setConversionAttributionFirstReferrer,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack,
-    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
+    addListener, enableLinkTracking, enableBeacon, enableJSErrorTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
@@ -2114,7 +2114,7 @@ if (typeof Piwik !== 'object') {
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
          */
-        function Tracker(trackerUrl, siteId, uuid) {
+        function Tracker(trackerUrl, siteId, _uuid) {
 
             /************************************************************
              * Private members
@@ -2135,6 +2135,8 @@ if (typeof Piwik !== 'object') {
                 configReferrerUrl = locationArray[2],
 
                 enableJSErrorTracking = false,
+
+                configUseBeacon = false,
 
                 defaultRequestMethod = 'GET',
 
@@ -2294,7 +2296,7 @@ if (typeof Piwik !== 'object') {
                 domainHash,
 
                 // Visitor UUID
-                visitorUUID = uuid;
+                visitorUUID = _uuid;
 
             /*
              * Set cookie value
@@ -2421,7 +2423,7 @@ if (typeof Piwik !== 'object') {
             function getImage(request, callback) {
                 var image = new Image(1, 1);
 
-                image.onload = function () {
+                image.onerror = image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(); }
                 };
@@ -2505,6 +2507,19 @@ if (typeof Piwik !== 'object') {
 
                 callback();
             }
+          
+            /*
+             * Send bulk requests with navigator.sendBeacon
+             * This was implemented as bulk requests only as sendBeacon send data with text/plain
+             * content type and the server side already has logic to php://input read an array of
+             * requests
+             */
+            function sendBeacon(url, bulk) {
+                if (navigatorAlias && navigatorAlias.sendBeacon) {
+                    return ( navigatorAlias.sendBeacon(url, bulk) );
+                }
+                return false;   // navigator.sendBeacon not supported
+            }
 
             /*
              * Send request
@@ -2513,13 +2528,16 @@ if (typeof Piwik !== 'object') {
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        if (configRequestMethod === 'POST') {
-                            sendXmlHttpRequest(request, callback);
+                        if (configUseBeacon && sendBeacon(configTrackerUrl, '{"requests":["?' + request + '"]}'))  {
+                            if (typeof callback === 'function') { callback(); }
                         } else {
-                            getImage(request, callback);
+                            if (configRequestMethod === 'POST') {
+                                sendXmlHttpRequest(request, callback);
+                            } else {
+                                getImage(request, callback);
+                            }
+                            setExpireDateTime(delay);
                         }
-
-                        setExpireDateTime(delay);
                     });
                 }
             }
@@ -2545,8 +2563,10 @@ if (typeof Piwik !== 'object') {
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
 
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    sendXmlHttpRequest(bulk, null, false);
-                    setExpireDateTime(delay);
+                    if (!configUseBeacon || !sendBeacon(configTrackerUrl, bulk)) {
+                        sendXmlHttpRequest(bulk, null, false);
+                        setExpireDateTime(delay);
+                    }
                 });
             }
 
@@ -4655,6 +4675,16 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Enable tracking by navigator.sendBeacon
+                 * 
+                 * If enabled and supported, the tracker will use navigator.sendBeacon
+                 * to send data to the server.
+                 */
+                enableBeacon: function() {
+                    configUseBeacon = true;
+                },
+
+                /**
                  * Enable tracking of uncatched JavaScript errors
                  *
                  * If enabled, uncaught JavaScript Errors will be tracked as an event by defining a
@@ -5147,7 +5177,7 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1, enableLinkTracking: 1};
+        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1, disableCookies: 1, enableLinkTracking: 1, enableBeacon: 1};
         var methodName;
 
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
