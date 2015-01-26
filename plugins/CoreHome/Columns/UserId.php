@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Cache;
+use Piwik\Period\Range;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 use Piwik\Tracker\Request;
@@ -58,21 +60,43 @@ class UserId extends VisitDimension
             $period = 'month';
         }
 
+        if (Range::isMultiplePeriod($date, $period)) {
+            $period = 'range';
+        }
+
         foreach ($idSites as $idSite) {
-            $result = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, false, 'nb_users');
-
-            if (!$result->getRowsCount()) {
-                continue;
-            }
-
-            $numUsers = $result->getFirstRow()->getColumn('nb_users');
-
-            if (!empty($numUsers)) {
+            if ($this->isUsedInSiteCached($idSite, $period, $date)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function isUsedInSiteCached($idSite, $period, $date)
+    {
+        $cache = Cache::getTransientCache();
+        $key   = sprintf('%d.%s.%s', $idSite, $period, $date);
+
+        if (!$cache->contains($key)) {
+            $result = $this->isUsedInSite($idSite, $period, $date);
+            $cache->save($key, $result);
+        }
+
+        return $cache->fetch($key);
+    }
+
+    private function isUsedInSite($idSite, $period, $date)
+    {
+        $result = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, false, 'nb_users');
+
+        if (!$result->getRowsCount()) {
+            return false;
+        }
+
+        $numUsers = $result->getFirstRow()->getColumn('nb_users');
+
+        return !empty($numUsers);
     }
 
 }
