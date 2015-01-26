@@ -56,7 +56,7 @@ class Get extends \Piwik\Plugin\Report
                     unset($this->metrics[$key]);
                     $this->metrics = array_values($this->metrics);
                 }
-            };
+            }
         }
 
         parent::configureReportMetadata($availableReports, $infos);
