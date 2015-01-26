@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -49,6 +50,29 @@ class UserId extends VisitDimension
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         return $request->getForcedUserId();
+    }
+
+    public function isUsedInAtLeastOneSite($idSites, $period, $date)
+    {
+        if ($period === 'day' || $period === 'week') {
+            $period = 'month';
+        }
+
+        foreach ($idSites as $idSite) {
+            $result = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, false, 'nb_users');
+
+            if (!$result->getRowsCount()) {
+                continue;
+            }
+
+            $numUsers = $result->getFirstRow()->getColumn('nb_users');
+
+            if (!empty($numUsers)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

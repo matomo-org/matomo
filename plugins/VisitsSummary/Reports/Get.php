@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
 use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
 use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
+use Piwik\Plugins\CoreHome\Columns\UserId;
 
 class Get extends \Piwik\Plugin\Report
 {
@@ -37,6 +38,28 @@ class Get extends \Piwik\Plugin\Report
 //								'sum_visit_length',
 //								'nb_visits_converted',
         $this->order = 1;
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        if (!empty($infos['idSites']) && !empty($infos['period']) && !empty($infos['date'])) {
+            $userId = new UserId();
+            $isUserIdUsed = $userId->isUsedInAtLeastOneSite($infos['idSites'], $infos['period'], $infos['date']);
+
+            if (!$isUserIdUsed) {
+                $key = array_search('nb_users', $this->metrics);
+                if (false !== $key) {
+                    unset($this->metrics[$key]);
+                    $this->metrics = array_values($this->metrics);
+                }
+            };
+        }
+
+        parent::configureReportMetadata($availableReports, $infos);
     }
 
     public function getMetrics()
