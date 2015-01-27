@@ -183,6 +183,12 @@ enable_browser_archiving_triggering = 1
 ; so you can disable these special queries here:
 enable_sql_optimize_queries = 1
 
+; By default Piwik is purging complete date range archives to free spaces after deleting some data.
+; If you are pre-processing custom ranges using CLI task to make them easily available in UI,
+; you can prevent this action from happening by setting this parameter to 1
+disable_complete_ranges_purging = 0
+
+
 ; MySQL minimum required version
 ; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1

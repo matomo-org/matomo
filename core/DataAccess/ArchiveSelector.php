@@ -12,6 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
@@ -302,7 +303,10 @@ class ArchiveSelector
         if (!empty($idArchivesToDelete)) {
             self::deleteArchiveIds($dateStart, $idArchivesToDelete);
         }
-        self::deleteArchivesWithPeriodRange($dateStart);
+
+        if(!Config::getInstance()->General['disable_complete_ranges_purging']){
+            self::deleteArchivesWithPeriodRange($dateStart);
+        }
 
         Log::debug("Purging temporary archives: done [ purged archives older than %s in %s ] [Deleted IDs: %s]",
             $purgeArchivesOlderThan, $dateStart->toString("Y-m"), implode(',', $idArchivesToDelete));
