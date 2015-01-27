@@ -36,7 +36,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if (Piwik::hasUserSuperUserAccess() && SettingsManager::hasSystemPluginsSettingsForCurrentUser()) {
-            $menu->addSettingsItem('General_Plugins',
+            $menu->addSettingsItem('CoreAdminHome_PluginSettings',
                                    $this->urlForAction('adminPluginSettings'),
                                    $order = 7);
         }
