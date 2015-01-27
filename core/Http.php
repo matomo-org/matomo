@@ -47,7 +47,7 @@ class Http
 
     protected static function isCurlEnabled()
     {
-        return function_exists('curl_init');
+        return function_exists('curl_init') && function_exists('curl_exec');
     }
 
     /**
