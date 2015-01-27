@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Cache;
+use Piwik\DataTable;
+use Piwik\DataTable\Map;
 use Piwik\Period\Range;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
@@ -60,8 +62,8 @@ class UserId extends VisitDimension
             $period = 'month';
         }
 
-        if (Range::isMultiplePeriod($date, $period)) {
-            $period = 'range';
+        if ($period === 'range') {
+            $period = 'day';
         }
 
         foreach ($idSites as $idSite) {
@@ -94,7 +96,12 @@ class UserId extends VisitDimension
             return false;
         }
 
-        $numUsers = $result->getFirstRow()->getColumn('nb_users');
+        if ($result instanceof Map) {
+            $result = $result->mergeChildren();
+        }
+
+        $numUsers = $result->getColumn('nb_users');
+        $numUsers = array_sum($numUsers);
 
         return !empty($numUsers);
     }

@@ -46,16 +46,14 @@ class Get extends \Piwik\Plugin\Report
             return;
         }
 
-        if (!empty($infos['idSites']) && !empty($infos['period']) && !empty($infos['date'])) {
+        $usersKey = array_search('nb_users', $this->metrics);
+        if ($usersKey !== false && !empty($infos['idSites']) && !empty($infos['period']) && !empty($infos['date'])) {
             $userId = new UserId();
             $isUserIdUsed = $userId->isUsedInAtLeastOneSite($infos['idSites'], $infos['period'], $infos['date']);
 
             if (!$isUserIdUsed) {
-                $key = array_search('nb_users', $this->metrics);
-                if (false !== $key) {
-                    unset($this->metrics[$key]);
-                    $this->metrics = array_values($this->metrics);
-                }
+                unset($this->metrics[$usersKey]);
+                $this->metrics = array_values($this->metrics);
             }
         }
 
@@ -66,7 +64,7 @@ class Get extends \Piwik\Plugin\Report
     {
         $metrics = parent::getMetrics();
 
-        $metrics['max_actions']      = Piwik::translate('General_ColumnMaxActions');
+        $metrics['max_actions'] = Piwik::translate('General_ColumnMaxActions');
 
         return $metrics;
     }
