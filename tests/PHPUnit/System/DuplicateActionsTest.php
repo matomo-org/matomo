@@ -47,7 +47,7 @@ class DuplicateActionsTest extends SystemTestCase
     /**
      * @dataProvider getApiForTesting
      */
-    public function testApi($api, $params)
+    public function test_PiwikApiWorks_WhenDuplicateActionsExistInDb($api, $params)
     {
         $this->runApiTests($api, $params);
     }
