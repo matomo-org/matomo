@@ -10,6 +10,7 @@ namespace Piwik\DataAccess;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
@@ -104,12 +105,13 @@ class ArchivePurger
     {
         $numericTable = ArchiveTableCreator::getNumericTable($date);
         $blobTable    = ArchiveTableCreator::getBlobTable($date);
-        $yesterday    = Date::factory('yesterday')->getDateTime();
+        $daysRangesValid = Config::getInstance()->General['purge_date_range_archives_after_X_days'];
+        $pastDate    = Date::factory('today')->subDay($daysRangesValid)->getDateTime();
 
-        self::getModel()->deleteArchivesWithPeriod($numericTable, $blobTable, Piwik::$idPeriods['range'], $yesterday);
+        self::getModel()->deleteArchivesWithPeriod($numericTable, $blobTable, Piwik::$idPeriods['range'], $pastDate);
 
         Log::debug("Purging Custom Range archives: done [ purged archives older than %s from %s / blob ]",
-            $yesterday, $numericTable);
+            $pastDate, $numericTable);
     }
 
     /**
