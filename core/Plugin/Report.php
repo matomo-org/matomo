@@ -535,6 +535,14 @@ class Report
 
         if (!empty($this->dimension)) {
             $report['dimension'] = $this->dimension->getName();
+
+            $segments = $this->dimension->getSegments();
+            if (!empty($segments)) {
+                $report['segments'] = array();
+                foreach ($segments as $segment) {
+                    $report['segments'][] = $segment->getSegment();
+                }
+            }
         }
 
         if (!empty($this->documentation)) {
